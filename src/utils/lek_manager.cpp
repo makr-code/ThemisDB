@@ -251,9 +251,8 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
         auto old_db_key = dbKey(old_date);
         auto new_db_key = dbKey(new_date);
         std::string blob;
-        auto res = db_->get(old_db_key, &blob);
-        if (!res.ok()) return false;
-        db_->put(new_db_key, blob);
+        if (!db_->get(old_db_key, blob)) return false;
+        if (!db_->put(new_db_key, blob)) return false;
 
         // Update in-memory cache
         {

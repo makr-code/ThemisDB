@@ -65,7 +65,7 @@ public:
 
     class OtelSpanAdapter : public ISpan {
     public:
-        explicit OtelSpanAdapter(themis::Tracer::Span&& span)
+        explicit OtelSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
         void setAttribute(const std::string& key, const std::string& value) override {
@@ -162,7 +162,7 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         // Spans are exported asynchronously; shutdown/restart would be
         // destructive.  A best-effort flush is performed via the OTLP
         // exporter's internal queue drain – no public API available here,

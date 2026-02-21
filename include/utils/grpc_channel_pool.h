@@ -178,8 +178,8 @@ public:
     /**
      * @brief Perform a lightweight health-check ping on a target.
      *
-     * Checks the gRPC channel state.  Does NOT send an actual RPC;
-     * instead it calls `GetState(/*try_to_connect=*/true)` on a pooled
+    * Checks the gRPC channel state. Does NOT send an actual RPC;
+    * instead it calls GetState(true) on a pooled
      * channel to prompt a connection attempt and returns true when the
      * channel reaches READY or IDLE state within `timeout`.
      *

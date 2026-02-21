@@ -723,6 +723,9 @@ function(themis_build_modular)
             message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
         endif()
     endif()
+    if(TARGET CURL::libcurl)
+        list(APPEND _themis_base_deps CURL::libcurl)
+    endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}

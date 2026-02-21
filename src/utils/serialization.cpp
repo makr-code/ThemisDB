@@ -23,7 +23,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "utils/serialization.h"
+#include "utils/serialization.h"
 #include "utils/safe_cast.h"
 #include <cstring>
 

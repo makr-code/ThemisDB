@@ -23,7 +23,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 #include <cstdint>
 #include <vector>

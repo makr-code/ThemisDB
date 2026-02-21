@@ -28,6 +28,7 @@
 #include "metadata/index_recommender.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <set>
 
 namespace themis {
 

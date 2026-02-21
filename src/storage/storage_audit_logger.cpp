@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cerrno>
+#include <cstddef>
 #include <cstring>
 #include <ctime>
 #include <filesystem>
@@ -39,12 +40,37 @@
 #include <iomanip>
 
 #include <fcntl.h>
+#if defined(_WIN32)
+#include <io.h>
+#ifndef O_CLOEXEC
+#define O_CLOEXEC 0
+#endif
+#else
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 namespace themis {
 
 namespace fs = std::filesystem;
+
+#if defined(_WIN32)
+using themis_ssize_t = std::ptrdiff_t;
+static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
+static int themis_close_fd(int fd) { return _close(fd); }
+static int themis_fsync_fd(int fd) { return _commit(fd); }
+static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
+    return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
+}
+#else
+using themis_ssize_t = ssize_t;
+static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
+static int themis_close_fd(int fd) { return ::close(fd); }
+static int themis_fsync_fd(int fd) { return ::fsync(fd); }
+static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
+    return ::write(fd, data, len);
+}
+#endif
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -89,8 +115,8 @@ StorageAuditLogger::StorageAuditLogger(const Config& cfg) : config_(cfg) {}
 
 StorageAuditLogger::~StorageAuditLogger() {
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        themis_fsync_fd(fd_);
+        themis_close_fd(fd_);
         fd_ = -1;
     }
 }
@@ -99,16 +125,16 @@ StorageAuditLogger::~StorageAuditLogger() {
 Result<std::unique_ptr<StorageAuditLogger>>
 StorageAuditLogger::open(const Config& config) {
     if (config.dir.empty()) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return Err<std::unique_ptr<StorageAuditLogger>>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
             "StorageAuditLogger: config.dir must not be empty");
     }
 
     std::error_code ec;
     fs::create_directories(config.dir, ec);
     if (ec) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return Err<std::unique_ptr<StorageAuditLogger>>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
             "StorageAuditLogger: cannot create directory: " + ec.message());
     }
 
@@ -117,12 +143,12 @@ StorageAuditLogger::open(const Config& config) {
 
     auto res = logger->openOrCreate();
     if (!res.has_value()) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return Err<std::unique_ptr<StorageAuditLogger>>(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
             "StorageAuditLogger: open failed: " + res.error().message());
     }
 
-    return logger;
+    return Ok(std::move(logger));
 }
 
 Result<void> StorageAuditLogger::openOrCreate() {
@@ -146,9 +172,9 @@ Result<void> StorageAuditLogger::openOrCreate() {
     segment_bytes_  = 0;
 
     std::string path = (fs::path(config_.dir) / segmentName(new_id)).string();
-    fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
+    fd_ = themis_open_fd(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
     if (fd_ < 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        std::string("StorageAuditLogger: open failed: ") +
                        std::strerror(errno));
     }
@@ -209,9 +235,9 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     oss << '\n';
 
     std::string line = oss.str();
-    ssize_t written = ::write(fd_, line.data(), line.size());
+    themis_ssize_t written = themis_write_fd(fd_, line.data(), line.size());
     if (written < 0 || static_cast<size_t>(written) != line.size()) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        std::string("StorageAuditLogger: write failed: ") +
                        std::strerror(errno));
     }
@@ -225,8 +251,8 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
     if (segment_bytes_ < config_.max_file_bytes) return OkVoid();
 
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        themis_fsync_fd(fd_);
+        themis_close_fd(fd_);
         fd_ = -1;
     }
 
@@ -236,9 +262,9 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
     segment_bytes_ = 0;
 
     std::string path = (fs::path(config_.dir) / segmentName(new_id)).string();
-    fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
+    fd_ = themis_open_fd(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
     if (fd_ < 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        std::string("StorageAuditLogger: rotate open failed: ") +
                        std::strerror(errno));
     }
@@ -247,7 +273,7 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
 
 void StorageAuditLogger::syncIfRequired() {
     if (config_.sync_on_write && fd_ >= 0) {
-        ::fsync(fd_);
+        themis_fsync_fd(fd_);
     }
 }
 
@@ -267,8 +293,8 @@ size_t StorageAuditLogger::segmentCount() const {
 
 Result<void> StorageAuditLogger::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (fd_ >= 0 && ::fsync(fd_) != 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
+    if (fd_ >= 0 && themis_fsync_fd(fd_) != 0) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        std::string("StorageAuditLogger: fsync failed: ") +
                        std::strerror(errno));
     }

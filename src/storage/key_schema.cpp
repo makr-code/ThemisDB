@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "storage/key_schema.h"
+#include "storage/key_schema.h"
 #include <sstream>
 
 namespace themis {

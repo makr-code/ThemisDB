@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "utils/normalizer.h"
+#include "utils/normalizer.h"
 // Secondary index implementation
 
 #include "index/secondary_index.h"

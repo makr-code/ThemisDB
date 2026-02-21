@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "storage/base_entity.h"
+#include "storage/base_entity.h"
 #include "utils/serialization.h"
 #include "utils/logger.h"
 #include "utils/geo/ewkb.h"

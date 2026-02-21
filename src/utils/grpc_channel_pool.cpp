@@ -288,7 +288,11 @@ void GrpcChannelPool::warmup(
             
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
-} // closing warmup
+        } catch (const std::exception&) {
+            // Continue best-effort warmup on individual channel creation failures.
+        }
+    }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Phase 6: Circuit Breaker & Health Check
