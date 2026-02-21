@@ -36,6 +36,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         
         # End-to-end training pipeline orchestrator (Phase 7)
         ../src/training/training_pipeline.cpp
+
+        # Automated Quality & Diversity data selection pipeline
+        ../src/training/lora_data_selection.cpp
     )
     
     # =========================================================================

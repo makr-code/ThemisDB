@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Vector ANN index implementation
+// Vector ANN index implementation
 
 #include "index/vector_index.h"
 #include "index/advanced_vector_index.h"

@@ -1,5 +1,7 @@
 # Time Series Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Production-ready time series storage with Gorilla compression, continuous aggregation, retention policies, and an auto-batching buffer for single-point inserts.
 
@@ -33,6 +35,29 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [ ] Prometheus remote-write endpoint compatibility
 - [ ] InfluxDB line protocol ingestion compatibility
 - [ ] Time series forecasting (ARIMA, Holt-Winters) as built-in functions
+
+## Implementation Phases
+
+### Phase 1: Core Storage & Compression (Status: Completed ✅)
+- [x] TSStore – optimized RocksDB-backed time series storage engine
+- [x] Gorilla compression (XOR delta encoding) for 10–20× space reduction
+- [x] TSAutoBuffer – automatic batching for single-point inserts with configurable flush interval
+- [x] Continuous aggregation engine for real-time downsampling
+- [x] Time-based retention policy enforcement with background compaction
+- [x] Configurable compression strategy registry
+
+### Phase 2: Incremental Aggregation & Downsampling (Status: In Progress 🚧)
+- [~] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
+- [~] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
+- [ ] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
+- [ ] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
+
+### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)
+- [ ] SIMD Gorilla decoder (AVX2) for accelerated bulk decompression
+- [ ] Chunk-level encryption at rest with per-series key derivation
+- [ ] Parquet export bridge for analytical pipeline integration
+- [ ] Columnar storage layout for analytical scan queries
+- [ ] Prometheus remote-write endpoint compatibility
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

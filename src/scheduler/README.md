@@ -4,6 +4,18 @@
 
 The Scheduler module provides ThemisDB's task scheduling and automation implementation. It enables cron-like periodic execution of AQL queries and custom functions for data processing, maintenance, backup, retention, and analytics workflows. The module includes a generic task scheduler and a specialized hybrid retention manager for time-series data lifecycle management.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `scheduler.cpp` | Task scheduling engine with thread pool |
+| `job_queue.cpp` | Priority-based job queue management |
+| `cron_parser.cpp` | Cron expression parsing (planned) |
+
+## Current Delivery Status
+
+**Maturity:** 🔴 Alpha — Task and job scheduling infrastructure operational; production scheduling with cron expressions and priorities in progress.
+
 ## Scope
 
 **In Scope:**

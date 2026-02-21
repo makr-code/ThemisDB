@@ -24,6 +24,7 @@
  */
 
 #include "search/faceted_search.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <unordered_set>

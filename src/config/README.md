@@ -4,6 +4,15 @@
 
 The Config module provides backward-compatible configuration path resolution for ThemisDB. It maps legacy flat-file config paths to their new hierarchical directory structure, enabling a seamless migration window where both old and new paths are supported simultaneously. It includes LRU caching for resolved paths, structured deprecation metadata, and a typed exception hierarchy for config-related errors.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
+| `lru_cache.h` | LRU cache with TTL for resolved path results |
+| `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
+| `config_errors.h` | Typed exception hierarchy for config-related errors |
+
 ## Scope
 
 **In Scope:**

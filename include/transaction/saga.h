@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 #include <functional>
 #include <vector>

@@ -4,6 +4,19 @@
 
 The Transaction module provides ThemisDB's ACID-compliant transaction management system with support for distributed transactions, MVCC (Multi-Version Concurrency Control), deadlock detection, and Git-like versioning capabilities. Built on RocksDB's native transaction support, it delivers atomic multi-layer updates across relational tables, graph edges, secondary indexes, and vector embeddings with configurable isolation levels and the SAGA pattern for long-running distributed transactions.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `transaction_manager.cpp` | SAGA coordinator and ACID transaction lifecycle |
+| `saga_log.cpp` | SAGA execution log for distributed transaction tracking |
+| `compensation_registry.cpp` | Compensating action registry for SAGA rollback |
+| `two_phase_commit.cpp` | Two-Phase Commit (2PC) protocol implementation |
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — SAGA pattern and 2PC distributed transactions operational; advanced conflict resolution in progress.
+
 ## Scope
 
 **In Scope:**

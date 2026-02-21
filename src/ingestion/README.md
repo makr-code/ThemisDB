@@ -4,6 +4,15 @@
 
 The Ingestion module is ThemisDB's data intake layer. It provides a unified pipeline for pulling documents from heterogeneous external sources — local filesystems, HuggingFace datasets, and generic REST APIs — normalizing them, and writing them into the database. It supports parallel multi-source ingestion, configurable retry with exponential back-off, token-bucket rate limiting, incremental checkpointing, a quarantine queue for bad records, and Prometheus metrics export.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `ingestion_manager.cpp` | Orchestrates all ingestion sources; IngestionBuilder and IngestionAdminApi |
+| `api_connector.cpp` | Generic REST API connector with retry and rate limiting |
+| `filesystem_ingester.cpp` | Directory walker for local filesystem ingestion |
+| `huggingface_connector.cpp` | HuggingFace dataset connector |
+
 ## Scope
 
 **In Scope:**

@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # Voice Module Roadmap
 
 ## Current Status
@@ -32,6 +34,41 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [ ] Voice session playback and search in stored transcripts
 
 ### Long-term (6-12 months)
+- [ ] Multi-language TTS (German, French, Spanish voices)
+- [ ] Emotion / sentiment detection from voice tone
+- [ ] Voice biometric authentication (speaker verification)
+- [ ] Real-time meeting transcription with action-item extraction
+- [ ] Integration with telephony systems (SIP / WebRTC)
+
+## Implementation Phases
+
+### Phase 1: Voice Pipeline & Session Management (Status: Completed ✅)
+- [x] `VoiceAssistant` – central coordinator for all voice interaction
+- [x] STT processing via Whisper AI (speaker diarization, timestamps)
+- [x] LLM integration via `EmbeddedLLM` / `LlamaWrapper` (intent recognition, query generation, response generation)
+- [x] TTS synthesis with audio format output
+- [x] Voice command processing pipeline (audio → STT → LLM → TTS → audio)
+- [x] Session state and conversation history management
+- [x] Context-aware conversational AI
+- [x] Phone call recording and transcription
+- [x] Meeting protocol generation
+- [x] Voice-based database query interface
+- [x] Storage and retrieval of voice session data
+- [x] Key point and summary extraction
+
+### Phase 2: Streaming STT & Wake-Word Detection (Status: In Progress 🚧)
+- [~] Real-time streaming STT (word-by-word transcription as audio arrives)
+- [~] Wake-word detection for hands-free activation
+- [~] Multi-speaker diarization improvements
+
+### Phase 3: Voice Macros & Browser Streaming (Status: Planned 📋)
+- [ ] Voice command macros (user-defined shortcuts to AQL queries)
+- [ ] Language detection and automatic locale switching
+- [ ] Noise suppression preprocessing (RNNoise integration)
+- [ ] WebSocket audio streaming endpoint for browser clients
+- [ ] Voice session playback and search in stored transcripts
+
+### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Planned 📋)
 - [ ] Multi-language TTS (German, French, Spanish voices)
 - [ ] Emotion / sentiment detection from voice tone
 - [ ] Voice biometric authentication (speaker verification)

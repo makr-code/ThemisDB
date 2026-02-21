@@ -1,5 +1,7 @@
 # Metadata Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Production-ready schema introspection layer with thread-safe caching, information schema views, and statistics collection.
 
@@ -36,6 +38,33 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [ ] Auto-generated OpenAPI schema from stored documents
 - [ ] Integration with external data catalogs (Apache Atlas, DataHub)
 - [ ] Column lineage and data provenance tracking
+
+## Implementation Phases
+
+### Phase 1: Schema Introspection & Catalog (Status: Completed ✅)
+- [x] SchemaManager: automatic table discovery via RocksDB key scanning (`metadata/schema_manager.cpp`)
+- [x] Property type detection from stored entities
+- [x] Index metadata collection from IndexManager
+- [x] Relationship discovery (graph edges and foreign keys)
+- [x] Thread-safe metadata cache with configurable TTL (default 60 s)
+- [x] SystemCatalog: table, column, index, and statistics metadata persistence (`metadata/system_catalog.cpp`)
+- [x] INFORMATION_SCHEMA views: tables, columns, indexes, statistics
+- [x] StatisticsCollector: cardinality, selectivity, and data distribution
+- [x] Schema version tracking and change history
+- [x] Lazy loading, incremental updates, and AQL integration
+
+### Phase 2: Live Schema Changes & Adaptive Caching (Status: In Progress 🚧)
+- [~] Schema diff and migration script generation (Target: Q2 2026)
+- [~] Real-time schema change notifications via changefeeds (Target: Q2 2026)
+- [ ] Adaptive TTL based on table mutation rate (Target: Q3 2026)
+
+### Phase 3: Distributed Catalog & Lineage (Status: Planned 📋)
+- [ ] Column-level statistics histograms for improved query planning
+- [ ] Distributed metadata catalog across shards
+- [ ] Schema registry with forward/backward compatibility enforcement
+- [ ] Cross-collection relationship graph (ER diagram export)
+- [ ] Column lineage and data provenance tracking
+- [ ] Integration with external data catalogs (Apache Atlas, DataHub)
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%
