@@ -24,13 +24,13 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ## In Progress 🚧
 - [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #1421)
-- [ ] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026)
-- [ ] Incremental view maintenance for materialized CTEs (Target: Q3 2026)
+- [I] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (Issue: #1430)
+- [I] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Query result type annotations for client SDK code generation
+- [I] Query result type annotations for client SDK code generation (Issue: #1432)
 - [ ] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [ ] Parallel scan for large collection full-table queries
