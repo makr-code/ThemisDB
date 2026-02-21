@@ -33,6 +33,7 @@
  */
 
 #include "query/functions/function_registry.h"
+#include "index/secondary_index.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cctype>
@@ -206,19 +207,19 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
 // Function Implementations
 // ============================================================================
 
-// FULLTEXT - Full-text search with scoring
+// FULLTEXT - Full-text search with BM25 scoring
 class FulltextFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return {
             "FULLTEXT",
             "Fulltext",
-            "Performs full-text search on a collection field (requires fulltext index)",
+            "Performs full-text BM25-scored search on a collection field (requires fulltext index)",
             {
                 {"collection", ArgType::STRING, true, nullptr, "Collection name"},
                 {"field", ArgType::STRING, true, nullptr, "Field name to search"},
                 {"query", ArgType::STRING, true, nullptr, "Search query"},
-                {"options", ArgType::OBJECT, false, json::object(), "Search options"}
+                {"options", ArgType::OBJECT, false, json::object(), "Search options (limit)"}
             },
             ArgType::ARRAY,
             false, false,  // not deterministic (depends on index state), not aggregate
@@ -229,18 +230,40 @@ public:
             {CostComplexity::LINEAR, 10.0, 0.1, true, false, "fulltext"}
         };
     }
-    
-    json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        // TODO: Wire to SecondaryIndexManager->scanFulltext()
-        // For now, return empty array with a note
-        json result = json::array();
-        json note;
-        note["_note"] = "FULLTEXT function requires integration with SecondaryIndexManager";
-        note["_collection"] = args[0];
-        note["_field"] = args[1];
-        note["_query"] = args[2];
-        result.push_back(note);
-        return result;
+
+    json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
+        if (args.size() < 3) return json::array();
+        const auto collection = args[0].get<std::string>();
+        const auto field      = args[1].get<std::string>();
+        const auto query      = args[2].get<std::string>();
+        size_t limit = 1000;
+        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
+            const auto& lv = args[3]["limit"];
+            if (lv.is_number_integer()) {
+                int raw = lv.get<int>();
+                if (raw > 0) limit = static_cast<size_t>(raw);
+            }
+        }
+
+        auto* idx = ctx.getSecondaryIndexManager();
+        if (!idx) {
+            // No index manager available — return empty with informational note
+            json result = json::array();
+            result.push_back({{"_note", "FULLTEXT: no SecondaryIndexManager in context"},
+                              {"_collection", collection}, {"_field", field}, {"_query", query}});
+            return result;
+        }
+
+        auto [st, results] = idx->scanFulltextWithScores(collection, field, query, limit);
+        json out = json::array();
+        if (!st.ok) {
+            out.push_back({{"_error", st.message}, {"_collection", collection},
+                           {"_field", field}, {"_query", query}});
+            return out;
+        }
+        for (const auto& r : results)
+            out.push_back({{"_key", r.pk}, {"_score", r.score}});
+        return out;
     }
 };
 
@@ -251,12 +274,12 @@ public:
         return {
             "PHRASE",
             "Fulltext",
-            "Searches for exact phrase matches in a collection field",
+            "Searches for exact phrase matches in a collection field (requires fulltext index)",
             {
                 {"collection", ArgType::STRING, true, nullptr, "Collection name"},
                 {"field", ArgType::STRING, true, nullptr, "Field name to search"},
                 {"phrase", ArgType::STRING, true, nullptr, "Phrase to search for"},
-                {"options", ArgType::OBJECT, false, json::object(), "Search options (limit, etc.)"}
+                {"options", ArgType::OBJECT, false, json::object(), "Search options (limit)"}
             },
             ArgType::ARRAY,
             false, false,
@@ -267,17 +290,39 @@ public:
             {CostComplexity::LINEAR, 15.0, 0.2, true, false, "fulltext"}
         };
     }
-    
-    json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        // TODO: Wire to SecondaryIndexManager->scanFulltextPhrase()
-        json result = json::array();
-        json note;
-        note["_note"] = "PHRASE function requires integration with SecondaryIndexManager";
-        note["_collection"] = args[0];
-        note["_field"] = args[1];
-        note["_phrase"] = args[2];
-        result.push_back(note);
-        return result;
+
+    json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
+        if (args.size() < 3) return json::array();
+        const auto collection = args[0].get<std::string>();
+        const auto field      = args[1].get<std::string>();
+        const auto phrase     = args[2].get<std::string>();
+        size_t limit = 1000;
+        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
+            const auto& lv = args[3]["limit"];
+            if (lv.is_number_integer()) {
+                int raw = lv.get<int>();
+                if (raw > 0) limit = static_cast<size_t>(raw);
+            }
+        }
+
+        auto* idx = ctx.getSecondaryIndexManager();
+        if (!idx) {
+            json result = json::array();
+            result.push_back({{"_note", "PHRASE: no SecondaryIndexManager in context"},
+                              {"_collection", collection}, {"_field", field}, {"_phrase", phrase}});
+            return result;
+        }
+
+        auto [st, results] = idx->scanFulltextPhrase(collection, field, phrase, limit);
+        json out = json::array();
+        if (!st.ok) {
+            out.push_back({{"_error", st.message}, {"_collection", collection},
+                           {"_field", field}, {"_phrase", phrase}});
+            return out;
+        }
+        for (const auto& r : results)
+            out.push_back({{"_key", r.pk}, {"_score", r.score}});
+        return out;
     }
 };
 
@@ -288,13 +333,13 @@ public:
         return {
             "FUZZY",
             "Fulltext",
-            "Performs fuzzy search using Levenshtein distance",
+            "Performs fuzzy search using Levenshtein distance (requires fulltext index)",
             {
                 {"collection", ArgType::STRING, true, nullptr, "Collection name"},
                 {"field", ArgType::STRING, true, nullptr, "Field name to search"},
                 {"query", ArgType::STRING, true, nullptr, "Search query"},
                 {"maxDistance", ArgType::INTEGER, false, 2, "Maximum Levenshtein distance"},
-                {"limit", ArgType::INTEGER, false, 100, "Result limit"}
+                {"limit", ArgType::INTEGER, false, 1000, "Result limit"}
             },
             ArgType::ARRAY,
             false, false,
@@ -305,18 +350,42 @@ public:
             {CostComplexity::LINEAR, 20.0, 0.3, true, false, "fulltext"}
         };
     }
-    
-    json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        // TODO: Wire to SecondaryIndexManager->scanFulltextFuzzy()
-        json result = json::array();
-        json note;
-        note["_note"] = "FUZZY function requires integration with SecondaryIndexManager";
-        note["_collection"] = args[0];
-        note["_field"] = args[1];
-        note["_query"] = args[2];
-        note["_maxDistance"] = args.size() > 3 ? args[3] : json(2);
-        result.push_back(note);
-        return result;
+
+    json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
+        if (args.size() < 3) return json::array();
+        const auto collection = args[0].get<std::string>();
+        const auto field      = args[1].get<std::string>();
+        const auto query      = args[2].get<std::string>();
+        int maxDistance = 2;
+        if (args.size() > 3 && args[3].is_number_integer()) {
+            maxDistance = args[3].get<int>();
+            if (maxDistance < 0) maxDistance = 0;
+        }
+        size_t limit = 1000;
+        if (args.size() > 4 && args[4].is_number_integer()) {
+            int raw = args[4].get<int>();
+            if (raw > 0) limit = static_cast<size_t>(raw);
+        }
+
+        auto* idx = ctx.getSecondaryIndexManager();
+        if (!idx) {
+            json result = json::array();
+            result.push_back({{"_note", "FUZZY: no SecondaryIndexManager in context"},
+                              {"_collection", collection}, {"_field", field}, {"_query", query},
+                              {"_maxDistance", maxDistance}});
+            return result;
+        }
+
+        auto [st, results] = idx->scanFulltextFuzzy(collection, field, query, maxDistance, limit);
+        json out = json::array();
+        if (!st.ok) {
+            out.push_back({{"_error", st.message}, {"_collection", collection},
+                           {"_field", field}, {"_query", query}});
+            return out;
+        }
+        for (const auto& r : results)
+            out.push_back({{"_key", r.pk}, {"_score", r.score}});
+        return out;
     }
 };
 

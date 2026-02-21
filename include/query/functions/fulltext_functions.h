@@ -45,9 +45,9 @@ class FunctionRegistry;
  * @brief Register all fulltext search functions with the function registry
  * 
  * Registers the following functions:
- * - FULLTEXT: Full-text search with scoring (placeholder, awaits SecondaryIndexManager integration)
- * - PHRASE: Exact phrase matching (placeholder, awaits SecondaryIndexManager integration)
- * - FUZZY: Fuzzy matching with Levenshtein distance (placeholder, awaits SecondaryIndexManager integration)
+ * - FULLTEXT: BM25-scored full-text search (wired to SecondaryIndexManager::scanFulltextWithScores)
+ * - PHRASE:   Exact phrase matching (wired to SecondaryIndexManager::scanFulltextPhrase)
+ * - FUZZY:    Fuzzy matching with Levenshtein distance (wired to SecondaryIndexManager::scanFulltextFuzzy)
  * - NGRAM_MATCH: N-gram similarity calculation (fully implemented)
  * - TOKENS: Text tokenization (fully implemented)
  * - SOUNDEX: Soundex phonetic encoding (fully implemented)

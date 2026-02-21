@@ -34,6 +34,10 @@
 #include "query/aql_parser.h"
 
 namespace themis {
+    class SecondaryIndexManager;
+}
+
+namespace themis {
 namespace query {
 
 /**
@@ -56,6 +60,12 @@ namespace query {
 class LetEvaluator {
 public:
     LetEvaluator() = default;
+
+    /// Wire a SecondaryIndexManager so that FULLTEXT/PHRASE/FUZZY AQL functions
+    /// can call through to the real index.  Caller retains ownership.
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) {
+        secondary_idx_mgr_ = mgr;
+    }
 
     /**
      * @brief Evaluiert einen LET-Node und speichert das Binding
@@ -107,6 +117,9 @@ public:
 private:
     // Variable bindings: Variable Name → JSON Value
     std::unordered_map<std::string, nlohmann::json> bindings_;
+
+    // Optional secondary index manager for FULLTEXT/PHRASE/FUZZY AQL functions
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 
     // Helper: Evaluiert Field Access (z.B. doc.age, doc.address.city)
     nlohmann::json evaluateFieldAccess(

@@ -430,6 +430,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& [varName, varValue] : bindings_) {
                 ctx.setVariable(varName, varValue);
             }
+
+            // Wire secondary index manager if available (enables FULLTEXT/PHRASE/FUZZY)
+            if (secondary_idx_mgr_) {
+                ctx.setSecondaryIndexManager(secondary_idx_mgr_);
+            }
             
             // Call the function through registry
             return registry.call(funcName, evaluatedArgs, ctx);
