@@ -46,6 +46,8 @@
 #include <condition_variable>
 #include <chrono>
 #include <memory>
+#include <string>
+#include <sys/types.h>  // ssize_t
 
 namespace themis {
 
@@ -62,6 +64,10 @@ struct TSAutoBufferConfig {
     
     // Memory management
     size_t max_memory_bytes = 100 * 1024 * 1024;  // 100 MB max buffer memory
+    size_t max_memory_per_metric_bytes = 0;        // 0 = unlimited; per-metric memory cap
+
+    // Deduplication
+    bool enable_dedup = false;                // Deduplicate points with identical timestamp
     
     // Performance tuning
     bool async_flush = true;                  // Flush in background thread
@@ -84,6 +90,8 @@ struct TSAutoBufferStats {
     std::atomic<uint64_t> size_triggered_flush{0};
     std::atomic<uint64_t> time_triggered_flush{0};
     std::atomic<uint64_t> buffer_overflow_count{0};
+    std::atomic<uint64_t> dedup_dropped_count{0};         // Points dropped by deduplication
+    std::atomic<uint64_t> memory_limit_rejected_count{0}; // Points rejected due to per-metric limit
     
     size_t current_buffer_size{0};
     size_t current_buffer_memory{0};
@@ -101,6 +109,8 @@ struct TSAutoBufferStats {
         , size_triggered_flush(other.size_triggered_flush.load())
         , time_triggered_flush(other.time_triggered_flush.load())
         , buffer_overflow_count(other.buffer_overflow_count.load())
+        , dedup_dropped_count(other.dedup_dropped_count.load())
+        , memory_limit_rejected_count(other.memory_limit_rejected_count.load())
         , current_buffer_size(other.current_buffer_size)
         , current_buffer_memory(other.current_buffer_memory)
         , last_flush_time(other.last_flush_time) {}
@@ -115,6 +125,8 @@ struct TSAutoBufferStats {
             size_triggered_flush.store(other.size_triggered_flush.load());
             time_triggered_flush.store(other.time_triggered_flush.load());
             buffer_overflow_count.store(other.buffer_overflow_count.load());
+            dedup_dropped_count.store(other.dedup_dropped_count.load());
+            memory_limit_rejected_count.store(other.memory_limit_rejected_count.load());
             current_buffer_size = other.current_buffer_size;
             current_buffer_memory = other.current_buffer_memory;
             last_flush_time = other.last_flush_time;
@@ -213,6 +225,36 @@ public:
      * @brief Check if buffer is running
      */
     bool isRunning() const { return running_.load(); }
+
+    // ========== WAL Persistence ==========
+
+    /**
+     * Persist the current in-memory buffer state to a WAL file.
+     * This allows crash-recovery: unflushed points can be replayed after restart.
+     *
+     * @param wal_path  File path where the WAL snapshot is written
+     * @return Number of points persisted (0 if buffer is empty)
+     */
+    size_t persistToWAL(const std::string& wal_path);
+
+    /**
+     * Restore buffer state from a previously written WAL file.
+     * Points are re-enqueued into the buffer; the caller must call flush()
+     * or start() to replay them to TSStore.
+     *
+     * @param wal_path  File path of the WAL snapshot to restore
+     * @return Number of points restored (-1 on error)
+     */
+    ssize_t restoreFromWAL(const std::string& wal_path);
+
+    /**
+     * Delete a WAL file (call after a successful flush to avoid replaying
+     * already-flushed data on next startup).
+     *
+     * @param wal_path  File to remove
+     * @return true if file was deleted (or did not exist)
+     */
+    static bool removeWAL(const std::string& wal_path);
 
 private:
     // Per-metric:entity buffer
