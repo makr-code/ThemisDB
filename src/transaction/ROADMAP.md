@@ -22,9 +22,9 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Changefeed integration for CDC
 
 ## In Progress 🚧
-- [ ] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026)
-- [ ] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026)
-- [ ] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026)
+- [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
+- [I] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
+- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #1441)
 
 ## Planned Features 📋
 

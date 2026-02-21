@@ -26,9 +26,9 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Throughput: 50K–200K req/sec; p50 < 5 ms, p99 < 50 ms
 
 ## In Progress 🚧
-- [ ] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026)
-- [ ] GraphQL endpoint for schema-driven API access (Target: Q2 2026)
-- [ ] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026)
+- [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
+- [I] GraphQL endpoint for schema-driven API access (Target: Q2 2026) (Issue: #1437)
+- [I] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026) (Issue: #1438)
 
 ## Planned Features 📋
 

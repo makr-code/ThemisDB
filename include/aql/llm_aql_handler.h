@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-02-21 13:56:32                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-21 14:07:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
     • 5ec52ecf5  2026-02-21  feat(aql): Batch NL-to-AQL translation for offline worklo... ║
     • bd6a94514  2026-02-21  [aql] Multi-turn conversation context for iterative AQL q... ║
-    • afade9ae9  2026-02-21  [aql] Interactive AQL query builder, validator, template ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
@@ -148,9 +149,23 @@ public:
     // Natural Language to AQL Translation
     /**
      * @brief Translate natural language query to AQL
-     * @param nl_query Natural language query (e.g., "Find all users in Seattle")
-     * @param schema_context Optional database schema context for better translation
+     *
+     * Uses the configured LLM to convert @p nl_query to an executable AQL
+     * statement.  Both @p nl_query and @p schema_context are sanitized before
+     * being embedded in the LLM prompt: prompt injection attempts (instruction
+     * override phrases, persona hijacking, system-block markers) are rejected
+     * with @c LLMException(PROMPT_INJECTION).  After the LLM response is cleaned
+     * up (markdown fences stripped, whitespace trimmed), the generated AQL is
+     * validated with @c AQLSyntaxHighlighter::annotateErrors().  Structural issues
+     * are logged as warnings but do not prevent the result from being returned.
+     *
+     * @param nl_query        Natural language query (e.g., "Find all users in Seattle").
+     *                        Maximum length: @c ValidationLimits::MAX_NL_QUERY_LENGTH.
+     * @param schema_context  Optional database schema context for better translation.
+     *                        Maximum length: @c ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH.
      * @return Generated AQL query as string
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
      * @throws std::runtime_error if translation fails
      */
     std::string translateNLToAQL(
@@ -222,6 +237,25 @@ public:
         const std::unordered_map<std::string, std::string>& options = {}
     );
 
+    // AQL Syntax Highlighting
+    /**
+     * @brief Highlight AQL code blocks inside an LLM response and annotate errors.
+     *
+     * Scans @p llm_response for every @c ```aql … ``` block, applies ANSI
+     * colour highlighting (if @p use_ansi is @c true) to the AQL inside, and
+     * collects structural error annotations (unbalanced brackets, missing IN,
+     * unterminated strings).
+     *
+     * @param llm_response  Raw text returned by an LLM.
+     * @param use_ansi      When @c true (default) ANSI escape sequences are
+     *                      embedded.  Pass @c false for plain-text output.
+     * @return              Struct containing the highlighted text and any
+     *                      AQL syntax errors found.
+     */
+    HighlightedResponse formatLLMResponse(
+        const std::string& llm_response,
+        bool use_ansi = true
+    ) const;
     // =========================================================================
     // Confidence scoring
     // =========================================================================
