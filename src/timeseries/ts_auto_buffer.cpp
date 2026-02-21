@@ -2,6 +2,9 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 
@@ -317,6 +320,83 @@ void TSAutoBuffer::setConfig(const TSAutoBufferConfig& config) {
     THEMIS_INFO("TSAutoBuffer config updated: max_points={}, flush_interval={}ms",
                 config_.max_points_per_buffer,
                 config_.flush_interval.count());
+}
+
+// ========== WAL Persistence ==========
+
+size_t TSAutoBuffer::persistToWAL(const std::string& wal_path) {
+    std::lock_guard<std::mutex> lock(buffers_mutex_);
+
+    // Serialize all buffered points as newline-delimited JSON
+    std::ofstream ofs(wal_path, std::ios::trunc);
+    if (!ofs.is_open()) {
+        THEMIS_ERROR("TSAutoBuffer::persistToWAL: cannot open '{}'", wal_path);
+        return 0;
+    }
+
+    size_t count = 0;
+    for (const auto& [key, buf] : buffers_) {
+        for (const auto& pt : buf.points) {
+            nlohmann::json entry;
+            entry["metric"]        = pt.metric;
+            entry["entity"]        = pt.entity;
+            entry["timestamp_ms"]  = pt.timestamp_ms;
+            entry["value"]         = pt.value;
+            entry["tags"]          = pt.tags;
+            entry["metadata"]      = pt.metadata;
+            ofs << entry.dump() << "\n";
+            ++count;
+        }
+    }
+    THEMIS_INFO("TSAutoBuffer::persistToWAL: wrote {} points to '{}'", count, wal_path);
+    return count;
+}
+
+ssize_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
+    std::ifstream ifs(wal_path);
+    if (!ifs.is_open()) {
+        THEMIS_WARN("TSAutoBuffer::restoreFromWAL: file '{}' not found", wal_path);
+        return -1;
+    }
+
+    std::vector<TSStore::DataPoint> restored;
+    std::string line;
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+        try {
+            auto j = nlohmann::json::parse(line);
+            TSStore::DataPoint pt;
+            pt.metric       = j.at("metric").get<std::string>();
+            pt.entity       = j.at("entity").get<std::string>();
+            pt.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
+            pt.value        = j.at("value").get<double>();
+            if (j.contains("tags"))     pt.tags     = j["tags"];
+            if (j.contains("metadata")) pt.metadata = j["metadata"];
+            restored.push_back(std::move(pt));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("TSAutoBuffer::restoreFromWAL: skipping malformed line: {}", e.what());
+        }
+    }
+
+    // Re-enqueue into buffers (bypassing dedup / memory checks intentionally)
+    {
+        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        for (auto& pt : restored) {
+            auto key = makeBufferKey(pt.metric, pt.entity);
+            buffers_[key].add(pt);
+        }
+    }
+
+    THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
+                restored.size(), wal_path);
+    return static_cast<ssize_t>(restored.size());
+}
+
+bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
+    if (wal_path.empty()) return true;
+    // Return true if file doesn't exist (already gone = success)
+    if (!std::filesystem::exists(wal_path)) return true;
+    return std::filesystem::remove(wal_path);
 }
 
 } // namespace themis

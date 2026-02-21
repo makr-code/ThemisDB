@@ -1,8 +1,113 @@
 #include "timeseries/continuous_agg.h"
 #include "timeseries/tsstore.h"
 #include <sstream>
+#include <algorithm>
 
 namespace themis {
+
+// ============================================================
+// Multi-Shard helpers
+// ============================================================
+
+AggShardResult mergeShardResults(const std::vector<AggShardResult>& shards) {
+    AggShardResult merged;
+    if (shards.empty()) return merged;
+
+    merged.min   = std::numeric_limits<double>::max();
+    merged.max   = std::numeric_limits<double>::lowest();
+    merged.valid = false;
+
+    bool fields_initialized = false;
+    for (const auto& s : shards) {
+        if (!s.valid) continue;
+        if (!fields_initialized) {
+            // Initialize metadata fields from first valid shard
+            merged.metric  = s.metric;
+            merged.entity  = s.entity;
+            merged.from_ms = s.from_ms;
+            merged.to_ms   = s.to_ms;
+            fields_initialized = true;
+        }
+        merged.valid  = true;
+        merged.sum   += s.sum;
+        merged.count += s.count;
+        if (s.min < merged.min) merged.min = s.min;
+        if (s.max > merged.max) merged.max = s.max;
+        if (s.from_ms < merged.from_ms) merged.from_ms = s.from_ms;
+        if (s.to_ms   > merged.to_ms)   merged.to_ms   = s.to_ms;
+    }
+    if (!merged.valid) {
+        merged.min = 0.0;
+        merged.max = 0.0;
+    }
+    return merged;
+}
+
+// ============================================================
+// DistributedAggregateCoordinator
+// ============================================================
+
+DistributedAggregateCoordinator::DistributedAggregateCoordinator(
+    TSStore* local_store,
+    int shard_count,
+    ShardQueryFn shard_query)
+    : local_store_(local_store)
+    , shard_count_(shard_count > 0 ? shard_count : 1)
+    , shard_query_(std::move(shard_query)) {}
+
+AggShardResult DistributedAggregateCoordinator::refreshAggregate(
+    const AggConfig& cfg,
+    int64_t from_ms,
+    int64_t to_ms) {
+
+    if (!shard_query_ || shard_count_ <= 1) {
+        // Single-node: compute locally
+        ContinuousAggregateManager mgr(local_store_);
+        mgr.refresh(cfg, from_ms, to_ms);
+
+        // Gather the result from store
+        TSStore::QueryOptions qopt;
+        qopt.metric          = ContinuousAggregateManager::derivedMetricName(cfg.metric, cfg.window.size);
+        qopt.entity          = cfg.entity.value_or("");
+        qopt.from_timestamp_ms = from_ms;
+        qopt.to_timestamp_ms   = to_ms;
+        qopt.limit           = 1000000;
+
+        AggShardResult result;
+        result.metric  = cfg.metric;
+        result.entity  = cfg.entity.value_or("");
+        result.from_ms = from_ms;
+        result.to_ms   = to_ms;
+
+        if (local_store_) {
+            auto pts = local_store_->query(qopt);
+            if (pts.has_value() && !pts->empty()) {
+                result.valid = true;
+                result.min = std::numeric_limits<double>::max();
+                result.max = std::numeric_limits<double>::lowest();
+                for (const auto& p : *pts) {
+                    result.sum   += p.value;
+                    result.count += 1;
+                    if (p.value < result.min) result.min = p.value;
+                    if (p.value > result.max) result.max = p.value;
+                }
+            }
+        }
+        return result;
+    }
+
+    // Multi-shard: fan-out
+    std::vector<AggShardResult> partial_results;
+    partial_results.reserve(shard_count_);
+    for (int s = 0; s < shard_count_; ++s) {
+        partial_results.push_back(shard_query_(s, cfg, from_ms, to_ms));
+    }
+    return mergeShardResults(partial_results);
+}
+
+// ============================================================
+// ContinuousAggregateManager
+// ============================================================
 
 std::string ContinuousAggregateManager::derivedMetricName(const std::string& base, std::chrono::milliseconds win) {
     std::ostringstream oss;

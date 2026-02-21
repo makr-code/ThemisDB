@@ -374,3 +374,110 @@ TEST_F(ContinuousAggFixture, SchedulerGetStatsAfterRefresh) {
     auto stats = sched.getStats();
     EXPECT_EQ(stats.registered_aggregates, 1u);
 }
+
+// ===== Multi-Shard / Distributed Aggregation =====
+
+TEST_F(ContinuousAggFixture, MergeShardResultsEmpty) {
+    auto r = mergeShardResults({});
+    EXPECT_FALSE(r.valid);
+    EXPECT_EQ(r.count, 0u);
+}
+
+TEST_F(ContinuousAggFixture, MergeShardResultsSingleValid) {
+    AggShardResult s;
+    s.valid = true;
+    s.sum   = 100.0;
+    s.min   = 10.0;
+    s.max   = 20.0;
+    s.count = 5;
+    auto r = mergeShardResults({s});
+    EXPECT_TRUE(r.valid);
+    EXPECT_DOUBLE_EQ(r.sum, 100.0);
+    EXPECT_DOUBLE_EQ(r.min, 10.0);
+    EXPECT_DOUBLE_EQ(r.max, 20.0);
+    EXPECT_EQ(r.count, 5u);
+}
+
+TEST_F(ContinuousAggFixture, MergeShardResultsMultiple) {
+    AggShardResult s1, s2;
+    s1.valid = true; s1.sum = 60.0;  s1.min = 1.0; s1.max = 10.0; s1.count = 3;
+    s2.valid = true; s2.sum = 40.0;  s2.min = 5.0; s2.max = 20.0; s2.count = 2;
+    auto r = mergeShardResults({s1, s2});
+    EXPECT_TRUE(r.valid);
+    EXPECT_DOUBLE_EQ(r.sum, 100.0);
+    EXPECT_DOUBLE_EQ(r.min, 1.0);   // min across shards
+    EXPECT_DOUBLE_EQ(r.max, 20.0);  // max across shards
+    EXPECT_EQ(r.count, 5u);
+    EXPECT_NEAR(r.avg(), 20.0, 0.001);
+}
+
+TEST_F(ContinuousAggFixture, MergeShardResultsSkipsInvalid) {
+    AggShardResult s1, s2;
+    s1.valid = true;  s1.sum = 50.0; s1.count = 5; s1.min = 1.0; s1.max = 10.0;
+    s2.valid = false; // invalid shard, skipped
+    auto r = mergeShardResults({s1, s2});
+    EXPECT_TRUE(r.valid);
+    EXPECT_EQ(r.count, 5u);
+}
+
+TEST_F(ContinuousAggFixture, MergeShardResultsAllInvalid) {
+    AggShardResult s1, s2;
+    s1.valid = false;
+    s2.valid = false;
+    auto r = mergeShardResults({s1, s2});
+    EXPECT_FALSE(r.valid);
+}
+
+TEST_F(ContinuousAggFixture, DistributedCoordinatorSingleShard) {
+    insertPoints("net", "s11", 6, 0.0, 1.0, 10000);
+
+    DistributedAggregateCoordinator coord(store.get(), 1);
+    EXPECT_EQ(coord.shardCount(), 1);
+
+    AggConfig cfg;
+    cfg.metric      = "net";
+    cfg.entity      = std::string("s11");
+    cfg.window.size = std::chrono::minutes(1);
+    EXPECT_NO_THROW(coord.refreshAggregate(cfg, base_ms, base_ms + 60000));
+}
+
+TEST_F(ContinuousAggFixture, DistributedCoordinatorMultiShard) {
+    // Simulate 2 shards via callback
+    DistributedAggregateCoordinator coord(
+        store.get(), 2,
+        [&](int shard_id, const AggConfig& cfg, int64_t from_ms, int64_t to_ms) -> AggShardResult {
+            AggShardResult r;
+            r.metric  = cfg.metric;
+            r.from_ms = from_ms;
+            r.to_ms   = to_ms;
+            r.valid   = true;
+            r.count   = 3;
+            r.sum     = shard_id == 0 ? 30.0 : 60.0;
+            r.min     = shard_id == 0 ? 5.0  : 10.0;
+            r.max     = shard_id == 0 ? 15.0 : 25.0;
+            return r;
+        });
+
+    AggConfig cfg;
+    cfg.metric      = "cpu11";
+    cfg.entity      = std::string("srv");
+    cfg.window.size = std::chrono::minutes(1);
+    auto result = coord.refreshAggregate(cfg, base_ms, base_ms + 60000);
+    EXPECT_TRUE(result.valid);
+    EXPECT_EQ(result.count, 6u);        // 3 + 3
+    EXPECT_DOUBLE_EQ(result.sum, 90.0); // 30 + 60
+    EXPECT_DOUBLE_EQ(result.min, 5.0);  // min across shards
+    EXPECT_DOUBLE_EQ(result.max, 25.0); // max across shards
+}
+
+TEST_F(ContinuousAggFixture, AggShardResultAvg) {
+    AggShardResult r;
+    r.sum = 100.0; r.count = 4;
+    EXPECT_NEAR(r.avg(), 25.0, 0.001);
+}
+
+TEST_F(ContinuousAggFixture, AggShardResultAvgZeroCount) {
+    AggShardResult r;
+    r.sum = 0.0; r.count = 0;
+    EXPECT_DOUBLE_EQ(r.avg(), 0.0);  // no division by zero
+}

@@ -228,6 +228,21 @@ size_t TSQueryOptimizer::cacheSize() const {
     return plan_cache_.size();
 }
 
+// ========== Index-Aware Query Planning ==========
+
+void TSQueryOptimizer::registerIndexHint(IndexHint hint) {
+    std::lock_guard<std::mutex> lock(index_mutex_);
+    index_hints_[hint.metric] = std::move(hint);
+}
+
+std::optional<TSQueryOptimizer::IndexHint> TSQueryOptimizer::getIndexHint(
+    const std::string& metric) const {
+    std::lock_guard<std::mutex> lock(index_mutex_);
+    auto it = index_hints_.find(metric);
+    if (it == index_hints_.end()) return std::nullopt;
+    return it->second;
+}
+
 std::string TSQueryOptimizer::buildCacheKey(
     const std::string& metric,
     const std::optional<std::string>& entity,

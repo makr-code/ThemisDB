@@ -150,6 +150,40 @@ public:
      */
     uint64_t cacheMisses() const { return cache_misses_.load(); }
 
+    // ========== Index-Aware Query Planning ==========
+
+    /**
+     * @brief Known index type hints for a metric.
+     *
+     * When the caller knows that a particular index is available for a metric,
+     * it can register the hint so the optimizer can factor index access cost
+     * into the query plan.
+     */
+    enum class IndexType {
+        None,        ///< No secondary index
+        TimeRange,   ///< RocksDB column-family per time-chunk (Hypertable)
+        Bloom,       ///< Bloom filter on entity/tag fields
+        Inverted     ///< Full inverted index on tags
+    };
+
+    struct IndexHint {
+        std::string metric;
+        IndexType   type = IndexType::None;
+        double      selectivity = 1.0; ///< Estimated fraction of rows selected (0.0 – 1.0)
+    };
+
+    /**
+     * Register an index hint for a metric.
+     * When the optimizer builds a plan for this metric, it considers the
+     * registered index to estimate the effective scan cost.
+     */
+    void registerIndexHint(IndexHint hint);
+
+    /**
+     * Retrieve the registered index hint for a metric (if any).
+     */
+    std::optional<IndexHint> getIndexHint(const std::string& metric) const;
+
 private:
     TSStore* store_;
     
@@ -161,6 +195,10 @@ private:
     std::unordered_map<std::string, QueryPlan> plan_cache_;
     mutable std::atomic<uint64_t> cache_hits_{0};
     mutable std::atomic<uint64_t> cache_misses_{0};
+
+    // Index hints registry
+    mutable std::mutex index_mutex_;
+    std::unordered_map<std::string, IndexHint> index_hints_;
 
     // Helpers
     std::string buildCacheKey(const std::string& metric,

@@ -11,8 +11,9 @@
 namespace themis {
 namespace {
 
+namespace fs = std::filesystem;
+
 static std::string makeAutoBuffAdvTempPath(const std::string& tag) {
-    namespace fs = std::filesystem;
     auto ns = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     return (fs::temp_directory_path() / ("themis_abadv_" + tag + "_" + std::to_string(ns))).string();
 }
@@ -182,6 +183,86 @@ TEST_F(TSAutoBufferAdvFixture, DedupStatsDefaultZero) {
     TSAutoBuffer buf(tsstore.get(), cfg);
     EXPECT_EQ(buf.getStats().dedup_dropped_count.load(), 0u);
     EXPECT_EQ(buf.getStats().memory_limit_rejected_count.load(), 0u);
+}
+
+// ===== WAL Persistence =====
+
+TEST_F(TSAutoBufferAdvFixture, PersistEmptyBufferWritesZeroPoints) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    std::string wal = (fs::temp_directory_path() / "test_wal_empty.jsonl").string();
+    size_t count = buf.persistToWAL(wal);
+    EXPECT_EQ(count, 0u);
+    TSAutoBuffer::removeWAL(wal);
+}
+
+TEST_F(TSAutoBufferAdvFixture, PersistAndRestoreRoundtrip) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+
+    buf.add(makePoint("cpu", "s9", 1.0, 1700000000000LL));
+    buf.add(makePoint("cpu", "s9", 2.0, 1700000001000LL));
+    buf.add(makePoint("cpu", "s9", 3.0, 1700000002000LL));
+    ASSERT_EQ(buf.getStats().points_buffered.load(), 3u);
+
+    std::string wal = (fs::temp_directory_path() / "test_wal_round.jsonl").string();
+    size_t persisted = buf.persistToWAL(wal);
+    EXPECT_EQ(persisted, 3u);
+
+    // Restore into a fresh buffer
+    TSAutoBuffer buf2(tsstore.get(), cfg);
+    ssize_t restored = buf2.restoreFromWAL(wal);
+    EXPECT_EQ(restored, 3);
+
+    TSAutoBuffer::removeWAL(wal);
+}
+
+TEST_F(TSAutoBufferAdvFixture, RestoreFromMissingFileReturnsMinusOne) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    ssize_t r = buf.restoreFromWAL("/nonexistent/path/wal.jsonl");
+    EXPECT_EQ(r, -1);
+}
+
+TEST_F(TSAutoBufferAdvFixture, RemoveWALReturnsTrueForMissing) {
+    EXPECT_TRUE(TSAutoBuffer::removeWAL("/nonexistent/wal_test_gone.jsonl"));
+}
+
+TEST_F(TSAutoBufferAdvFixture, RemoveWALDeletesFile) {
+    std::string wal = (fs::temp_directory_path() / "test_wal_del.jsonl").string();
+    { std::ofstream f(wal); f << "test"; }
+    EXPECT_TRUE(fs::exists(wal));
+    EXPECT_TRUE(TSAutoBuffer::removeWAL(wal));
+    EXPECT_FALSE(fs::exists(wal));
+}
+
+TEST_F(TSAutoBufferAdvFixture, PersistMultipleMetrics) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+
+    buf.add(makePoint("cpu", "s10", 1.0, 1700000000000LL));
+    buf.add(makePoint("mem", "s10", 2.0, 1700000000000LL));
+
+    std::string wal = (fs::temp_directory_path() / "test_wal_multi.jsonl").string();
+    size_t persisted = buf.persistToWAL(wal);
+    EXPECT_EQ(persisted, 2u);
+    TSAutoBuffer::removeWAL(wal);
+}
+
+TEST_F(TSAutoBufferAdvFixture, RestoreFromEmptyFileReturnsZero) {
+    std::string wal = (fs::temp_directory_path() / "test_wal_empty2.jsonl").string();
+    { std::ofstream f(wal); /* empty */ }
+
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    ssize_t r = buf.restoreFromWAL(wal);
+    EXPECT_EQ(r, 0);
+    TSAutoBuffer::removeWAL(wal);
 }
 
 }  // namespace

@@ -302,3 +302,64 @@ TEST_F(QueryOptimizerFixture, DifferentMetricsHaveSeparateCacheEntries) {
     EXPECT_EQ(opt.cacheSize(), 2u);
     EXPECT_EQ(opt.cacheMisses(), 2u);
 }
+
+// ===== Index-Aware Query Planning =====
+
+TEST_F(QueryOptimizerFixture, GetIndexHintReturnsNulloptIfNone) {
+    TSQueryOptimizer opt(store.get());
+    EXPECT_FALSE(opt.getIndexHint("no_index_metric").has_value());
+}
+
+TEST_F(QueryOptimizerFixture, RegisterIndexHintAndRetrieve) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::IndexHint hint;
+    hint.metric      = "cpu14";
+    hint.type        = TSQueryOptimizer::IndexType::TimeRange;
+    hint.selectivity = 0.1;
+    opt.registerIndexHint(hint);
+
+    auto got = opt.getIndexHint("cpu14");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->type, TSQueryOptimizer::IndexType::TimeRange);
+    EXPECT_NEAR(got->selectivity, 0.1, 1e-9);
+}
+
+TEST_F(QueryOptimizerFixture, RegisterBloomIndexHint) {
+    TSQueryOptimizer opt(store.get());
+    opt.registerIndexHint({"mem4", TSQueryOptimizer::IndexType::Bloom, 0.5});
+    auto got = opt.getIndexHint("mem4");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->type, TSQueryOptimizer::IndexType::Bloom);
+}
+
+TEST_F(QueryOptimizerFixture, RegisterInvertedIndexHint) {
+    TSQueryOptimizer opt(store.get());
+    opt.registerIndexHint({"disk4", TSQueryOptimizer::IndexType::Inverted, 0.2});
+    auto got = opt.getIndexHint("disk4");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->type, TSQueryOptimizer::IndexType::Inverted);
+}
+
+TEST_F(QueryOptimizerFixture, IndexHintOverwrite) {
+    TSQueryOptimizer opt(store.get());
+    opt.registerIndexHint({"cpu15", TSQueryOptimizer::IndexType::Bloom, 0.8});
+    opt.registerIndexHint({"cpu15", TSQueryOptimizer::IndexType::TimeRange, 0.3});
+    auto got = opt.getIndexHint("cpu15");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->type, TSQueryOptimizer::IndexType::TimeRange); // overwritten
+    EXPECT_NEAR(got->selectivity, 0.3, 1e-9);
+}
+
+TEST_F(QueryOptimizerFixture, IndexHintNoneType) {
+    TSQueryOptimizer opt(store.get());
+    opt.registerIndexHint({"cpu16", TSQueryOptimizer::IndexType::None, 1.0});
+    auto got = opt.getIndexHint("cpu16");
+    ASSERT_TRUE(got.has_value());
+    EXPECT_EQ(got->type, TSQueryOptimizer::IndexType::None);
+}
+
+TEST_F(QueryOptimizerFixture, IndexHintDoesNotAffectOtherMetrics) {
+    TSQueryOptimizer opt(store.get());
+    opt.registerIndexHint({"indexed_metric", TSQueryOptimizer::IndexType::TimeRange, 0.1});
+    EXPECT_FALSE(opt.getIndexHint("other_metric").has_value());
+}
