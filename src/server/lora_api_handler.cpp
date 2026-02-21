@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.cpp                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-21 11:01:34                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     1145                                           ║
+    • Total Lines:     1324                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -113,9 +113,15 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     } else if (target == "/api/v1/llm/lora/adapters" && method == http::verb::get) {
         return handleListAdapters(req);
     } else if (target.starts_with("/api/v1/llm/lora/adapters/") && method == http::verb::get) {
-        // Check if it's a status or get request
+        // Check if it's a status, provenance, audit, or snapshots request
         if (target.ends_with("/status")) {
             return handleAdapterStatus(req);
+        } else if (target.ends_with("/provenance")) {
+            return handleGetProvenance(req);
+        } else if (target.ends_with("/audit")) {
+            return handleGetAuditLog(req);
+        } else if (target.ends_with("/snapshots")) {
+            return handleListSnapshots(req);
         } else {
             return handleGetAdapter(req);
         }
@@ -130,6 +136,13 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
         return handleLoadAdapter(req);
     } else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/unload") && method == http::verb::post) {
         return handleUnloadAdapter(req);
+    }
+
+    // Provenance POST endpoints
+    else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/provenance") && method == http::verb::post) {
+        return handleAttachProvenance(req);
+    } else if (target.starts_with("/api/v1/llm/lora/adapters/") && target.ends_with("/verify") && method == http::verb::post) {
+        return handleVerifyAuditChain(req);
     }
     
     // Inference endpoint
@@ -1140,6 +1153,172 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
             e.what()
         );
     }
+}
+
+// ============================================================================
+// Provenance, Snapshots, and Audit Log endpoints
+// ============================================================================
+
+namespace {
+    constexpr std::string_view kAdaptersPrefix = "/api/v1/llm/lora/adapters/";
+} // namespace
+
+// GET /api/v1/llm/lora/adapters/{id}/provenance
+http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
+    const http::request<http::string_body>& req) {
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    auto prov_opt = orchestrator_->getProvenanceRecord(adapter_id);
+    if (!prov_opt) {
+        return createErrorResponse(http::status::not_found,
+                                   "Provenance record not found for adapter: " + adapter_id);
+    }
+
+    return createJsonResponse(prov_opt->toJSON());
+}
+
+// POST /api/v1/llm/lora/adapters/{id}/provenance
+http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
+    const http::request<http::string_body>& req) {
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    auto body_opt = parseRequestBody(req);
+    if (!body_opt) {
+        return createErrorResponse(http::status::bad_request, "Invalid or missing JSON body");
+    }
+
+    try {
+        const auto record = llm::lora::LoRAProvenanceRecord::fromJSON(*body_opt);
+        const bool ok = orchestrator_->attachProvenance(adapter_id, record);
+        if (!ok) {
+            return createErrorResponse(http::status::not_found,
+                                       "Adapter not found: " + adapter_id);
+        }
+        return createJsonResponse(json{{"adapter_id", adapter_id}, {"status", "provenance_attached"}},
+                                  http::status::created);
+    } catch (const json::exception& e) {
+        return createErrorResponse(http::status::bad_request, "JSON parsing error", e.what());
+    }
+}
+
+// GET /api/v1/llm/lora/adapters/{id}/audit
+http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
+    const http::request<http::string_body>& req) {
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/audit";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const auto entries = orchestrator_->getInferenceAuditLog(adapter_id);
+    json arr = json::array();
+    for (const auto& e : entries) {
+        arr.push_back(e.toJSON());
+    }
+    return createJsonResponse(json{
+        {"adapter_id", adapter_id},
+        {"count",      entries.size()},
+        {"entries",    arr}
+    });
+}
+
+// GET /api/v1/llm/lora/adapters/{id}/snapshots
+http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
+    const http::request<http::string_body>& req) {
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/snapshots";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const auto snaps = orchestrator_->listAdapterSnapshots(adapter_id);
+    json arr = json::array();
+    for (const auto& s : snaps) {
+        arr.push_back(s.toJSON());
+    }
+    return createJsonResponse(json{
+        {"adapter_id", adapter_id},
+        {"count",      snaps.size()},
+        {"snapshots",  arr}
+    });
+}
+
+// POST /api/v1/llm/lora/adapters/{id}/verify
+http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
+    const http::request<http::string_body>& req) {
+
+    if (!orchestrator_) {
+        return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
+    }
+
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/verify";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
+    if (adapter_id.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing adapter_id");
+    }
+
+    const bool intact = orchestrator_->verifyAuditChain(adapter_id);
+    const http::status status = intact ? http::status::ok : http::status::conflict;
+
+    return createJsonResponse(json{
+        {"adapter_id",  adapter_id},
+        {"chain_valid", intact},
+        {"message",     intact ? "Merkle audit chain is intact"
+                                : "Merkle audit chain verification FAILED — possible tampering"}
+    }, status);
 }
 
 } // namespace themis::server

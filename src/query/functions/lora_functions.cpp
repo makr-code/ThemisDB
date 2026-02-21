@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_functions.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-21 11:01:15                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     739                                            ║
+    • Total Lines:     943                                            ║
     • Open Issues:     TODOs: 2, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -721,6 +721,206 @@ nlohmann::json LoraLineageFunction::execute(
 }
 
 // ============================================================================
+// LORA_PROVENANCE Implementation
+// ============================================================================
+
+FunctionSignature LoraProvenanceFunction::signature() const {
+    return FunctionSignature{
+        .name = "LORA_PROVENANCE",
+        .category = "LoRA",
+        .description = "Retrieve the cryptographic provenance record for a LoRA adapter",
+        .arguments = {
+            ArgSpec{"adapter_id", ArgType::STRING, true, nullptr, "Adapter identifier"}
+        },
+        .return_type = ArgType::OBJECT,
+        .is_deterministic = true,
+        .is_aggregate = false,
+        .examples = {
+            "LORA_PROVENANCE('legal-lora-v2')"
+        },
+        .cost = FunctionCost{
+            .complexity = CostComplexity::CONSTANT,
+            .base_cost = 1.0,
+            .per_element_cost = 0.0,
+            .can_use_index = true,
+            .is_parallelizable = true
+        }
+    };
+}
+
+nlohmann::json LoraProvenanceFunction::execute(
+    const std::vector<nlohmann::json>& args,
+    const FunctionContext& /*context*/
+) const {
+    try {
+        const std::string adapter_id = args[0].get<std::string>();
+        auto orchestrator = getLoRAOrchestrator();
+        auto prov_opt = orchestrator->getProvenanceRecord(adapter_id);
+        if (!prov_opt) {
+            return nullptr;
+        }
+        return prov_opt->toJSON();
+    } catch (const std::exception&) {
+        return nullptr;
+    }
+}
+
+// ============================================================================
+// LORA_AUDIT_LOG Implementation
+// ============================================================================
+
+FunctionSignature LoraAuditLogFunction::signature() const {
+    return FunctionSignature{
+        .name = "LORA_AUDIT_LOG",
+        .category = "LoRA",
+        .description = "Retrieve the Merkle-chained inference audit log for a LoRA adapter",
+        .arguments = {
+            ArgSpec{"adapter_id", ArgType::STRING,  true,  nullptr, "Adapter identifier"},
+            ArgSpec{"limit",      ArgType::INTEGER, false, 100,     "Maximum number of entries to return"}
+        },
+        .return_type = ArgType::ARRAY,
+        .is_deterministic = true,
+        .is_aggregate = false,
+        .examples = {
+            "LORA_AUDIT_LOG('legal-lora-v2', 100)"
+        },
+        .cost = FunctionCost{
+            .complexity = CostComplexity::LINEAR,
+            .base_cost = 5.0,
+            .per_element_cost = 0.5,
+            .can_use_index = false,
+            .is_parallelizable = false
+        }
+    };
+}
+
+nlohmann::json LoraAuditLogFunction::execute(
+    const std::vector<nlohmann::json>& args,
+    const FunctionContext& /*context*/
+) const {
+    try {
+        const std::string adapter_id = args[0].get<std::string>();
+        const int limit = (args.size() > 1) ? std::max(0, args[1].get<int>()) : 100;
+
+        auto orchestrator = getLoRAOrchestrator();
+        const auto entries = orchestrator->getInferenceAuditLog(adapter_id);
+
+        json result = json::array();
+        int count = 0;
+        for (const auto& e : entries) {
+            if (count >= limit) break;
+            result.push_back(e.toJSON());
+            ++count;
+        }
+        return result;
+    } catch (const std::exception&) {
+        return json::array();
+    }
+}
+
+// ============================================================================
+// LORA_SNAPSHOTS Implementation
+// ============================================================================
+
+FunctionSignature LoraSnapshotsFunction::signature() const {
+    return FunctionSignature{
+        .name = "LORA_SNAPSHOTS",
+        .category = "LoRA",
+        .description = "List all MVCC snapshots for a LoRA adapter (oldest first)",
+        .arguments = {
+            ArgSpec{"adapter_id", ArgType::STRING, true, nullptr, "Adapter identifier"}
+        },
+        .return_type = ArgType::ARRAY,
+        .is_deterministic = true,
+        .is_aggregate = false,
+        .examples = {
+            "LORA_SNAPSHOTS('legal-lora-v2')"
+        },
+        .cost = FunctionCost{
+            .complexity = CostComplexity::LINEAR,
+            .base_cost = 2.0,
+            .per_element_cost = 0.5,
+            .can_use_index = false,
+            .is_parallelizable = true
+        }
+    };
+}
+
+nlohmann::json LoraSnapshotsFunction::execute(
+    const std::vector<nlohmann::json>& args,
+    const FunctionContext& /*context*/
+) const {
+    try {
+        const std::string adapter_id = args[0].get<std::string>();
+        auto orchestrator = getLoRAOrchestrator();
+        const auto snaps = orchestrator->listAdapterSnapshots(adapter_id);
+
+        json result = json::array();
+        for (const auto& s : snaps) {
+            result.push_back(s.toJSON());
+        }
+        return result;
+    } catch (const std::exception&) {
+        return json::array();
+    }
+}
+
+// ============================================================================
+// LORA_VERIFY_CHAIN Implementation
+// ============================================================================
+
+FunctionSignature LoraVerifyChainFunction::signature() const {
+    return FunctionSignature{
+        .name = "LORA_VERIFY_CHAIN",
+        .category = "LoRA",
+        .description = "Verify the integrity of the Merkle audit chain for a LoRA adapter",
+        .arguments = {
+            ArgSpec{"adapter_id", ArgType::STRING, true, nullptr, "Adapter identifier"}
+        },
+        .return_type = ArgType::OBJECT,
+        .is_deterministic = false,   // result depends on the live audit log state
+        .is_aggregate = false,
+        .examples = {
+            "LORA_VERIFY_CHAIN('legal-lora-v2')"
+        },
+        .cost = FunctionCost{
+            .complexity = CostComplexity::LINEAR,
+            .base_cost = 10.0,
+            .per_element_cost = 1.0,
+            .can_use_index = false,
+            .is_parallelizable = false
+        }
+    };
+}
+
+nlohmann::json LoraVerifyChainFunction::execute(
+    const std::vector<nlohmann::json>& args,
+    const FunctionContext& /*context*/
+) const {
+    try {
+        const std::string adapter_id = args[0].get<std::string>();
+        auto orchestrator = getLoRAOrchestrator();
+
+        const auto entries     = orchestrator->getInferenceAuditLog(adapter_id);
+        const bool chain_valid = orchestrator->verifyAuditChain(adapter_id);
+
+        return json{
+            {"chain_valid",  chain_valid},
+            {"entry_count",  entries.size()},
+            {"message",      chain_valid
+                                 ? "Merkle audit chain is intact"
+                                 : "Merkle audit chain verification FAILED — possible tampering"}
+        };
+    } catch (const std::exception& e) {
+        return json{
+            {"chain_valid", false},
+            {"entry_count", 0},
+            {"message",     std::string("Verification error: ") + e.what()}
+        };
+    }
+}
+
+// ============================================================================
 // Registration
 // ============================================================================
 
@@ -732,6 +932,10 @@ void registerLoRAFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<LoraStatsFunction>());
     registry.registerFunction(std::make_unique<LoraRecommendFunction>());
     registry.registerFunction(std::make_unique<LoraLineageFunction>());
+    registry.registerFunction(std::make_unique<LoraProvenanceFunction>());
+    registry.registerFunction(std::make_unique<LoraAuditLogFunction>());
+    registry.registerFunction(std::make_unique<LoraSnapshotsFunction>());
+    registry.registerFunction(std::make_unique<LoraVerifyChainFunction>());
 }
 
 } // namespace functions

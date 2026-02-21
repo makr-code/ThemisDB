@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_aql_functions.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-21 11:03:41                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     522                                            ║
+    • Total Lines:     638                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7d467f118  2026-01-24  Remove columnar storage and optimization issue templates ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -519,4 +519,120 @@ TEST_F(LoRAFunctionsTest, RecommendAndQuery) {
 // Main
 // ============================================================================
 
+// ============================================================================
+// Provenance AQL Function Tests
+// ============================================================================
+
+TEST_F(LoRAFunctionsTest, LoraProvenance_SignatureIsCorrect) {
+    LoraProvenanceFunction fn;
+    auto sig = fn.signature();
+    EXPECT_EQ(sig.name,        "LORA_PROVENANCE");
+    EXPECT_EQ(sig.category,    "LoRA");
+    EXPECT_EQ(sig.return_type, ArgType::OBJECT);
+    ASSERT_EQ(sig.arguments.size(), 1u);
+    EXPECT_EQ(sig.arguments[0].name, "adapter_id");
+    EXPECT_TRUE(sig.arguments[0].required);
+}
+
+TEST_F(LoRAFunctionsTest, LoraProvenance_UnknownAdapterReturnsNull) {
+    std::vector<json> args;
+    args.push_back("no-such-adapter");
+
+    auto result = registry_->call("LORA_PROVENANCE", args, context_);
+    EXPECT_TRUE(result.is_null());
+}
+
+TEST_F(LoRAFunctionsTest, LoraProvenance_IsRegistered) {
+    EXPECT_TRUE(registry_->hasFunction("LORA_PROVENANCE"));
+}
+
+// ============================================================================
+
+TEST_F(LoRAFunctionsTest, LoraAuditLog_SignatureIsCorrect) {
+    LoraAuditLogFunction fn;
+    auto sig = fn.signature();
+    EXPECT_EQ(sig.name,        "LORA_AUDIT_LOG");
+    EXPECT_EQ(sig.category,    "LoRA");
+    EXPECT_EQ(sig.return_type, ArgType::ARRAY);
+    ASSERT_EQ(sig.arguments.size(), 2u);
+    EXPECT_EQ(sig.arguments[0].name, "adapter_id");
+    EXPECT_TRUE(sig.arguments[0].required);
+    EXPECT_EQ(sig.arguments[1].name, "limit");
+    EXPECT_FALSE(sig.arguments[1].required);
+}
+
+TEST_F(LoRAFunctionsTest, LoraAuditLog_EmptyLogReturnsArray) {
+    std::vector<json> args;
+    args.push_back("empty-adapter");
+    args.push_back(50);
+
+    auto result = registry_->call("LORA_AUDIT_LOG", args, context_);
+    ASSERT_TRUE(result.is_array());
+}
+
+TEST_F(LoRAFunctionsTest, LoraAuditLog_IsRegistered) {
+    EXPECT_TRUE(registry_->hasFunction("LORA_AUDIT_LOG"));
+}
+
+// ============================================================================
+
+TEST_F(LoRAFunctionsTest, LoraSnapshots_SignatureIsCorrect) {
+    LoraSnapshotsFunction fn;
+    auto sig = fn.signature();
+    EXPECT_EQ(sig.name,        "LORA_SNAPSHOTS");
+    EXPECT_EQ(sig.category,    "LoRA");
+    EXPECT_EQ(sig.return_type, ArgType::ARRAY);
+    ASSERT_EQ(sig.arguments.size(), 1u);
+    EXPECT_EQ(sig.arguments[0].name, "adapter_id");
+}
+
+TEST_F(LoRAFunctionsTest, LoraSnapshots_NoSnapshotsReturnsEmptyArray) {
+    std::vector<json> args;
+    args.push_back("no-snap-adapter");
+
+    auto result = registry_->call("LORA_SNAPSHOTS", args, context_);
+    ASSERT_TRUE(result.is_array());
+    EXPECT_TRUE(result.empty());
+}
+
+TEST_F(LoRAFunctionsTest, LoraSnapshots_IsRegistered) {
+    EXPECT_TRUE(registry_->hasFunction("LORA_SNAPSHOTS"));
+}
+
+// ============================================================================
+
+TEST_F(LoRAFunctionsTest, LoraVerifyChain_SignatureIsCorrect) {
+    LoraVerifyChainFunction fn;
+    auto sig = fn.signature();
+    EXPECT_EQ(sig.name,        "LORA_VERIFY_CHAIN");
+    EXPECT_EQ(sig.category,    "LoRA");
+    EXPECT_EQ(sig.return_type, ArgType::OBJECT);
+    ASSERT_EQ(sig.arguments.size(), 1u);
+    EXPECT_EQ(sig.arguments[0].name, "adapter_id");
+    EXPECT_FALSE(sig.is_deterministic);  // depends on live state
+}
+
+TEST_F(LoRAFunctionsTest, LoraVerifyChain_EmptyChainIsValid) {
+    std::vector<json> args;
+    args.push_back("empty-audit-adapter");
+
+    auto result = registry_->call("LORA_VERIFY_CHAIN", args, context_);
+    ASSERT_TRUE(result.is_object());
+    ASSERT_TRUE(result.contains("chain_valid"));
+    EXPECT_TRUE(result["chain_valid"].get<bool>());
+    ASSERT_TRUE(result.contains("entry_count"));
+    EXPECT_EQ(result["entry_count"].get<int>(), 0);
+    ASSERT_TRUE(result.contains("message"));
+}
+
+TEST_F(LoRAFunctionsTest, LoraVerifyChain_IsRegistered) {
+    EXPECT_TRUE(registry_->hasFunction("LORA_VERIFY_CHAIN"));
+}
+
+TEST_F(LoRAFunctionsTest, AllProvenanceFunctionsRegistered) {
+    EXPECT_TRUE(registry_->hasFunction("LORA_PROVENANCE"));
+    EXPECT_TRUE(registry_->hasFunction("LORA_AUDIT_LOG"));
+    EXPECT_TRUE(registry_->hasFunction("LORA_SNAPSHOTS"));
+    EXPECT_TRUE(registry_->hasFunction("LORA_VERIFY_CHAIN"));
+}
 

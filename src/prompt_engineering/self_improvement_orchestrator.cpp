@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            self_improvement_orchestrator.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-21 11:01:14                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     628                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     669                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,6 +34,7 @@
 #include "prompt_engineering/prompt_optimizer.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "prompt_engineering/prompt_evaluator.h"
+#include "prompt_engineering/feedback_collector.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <random>
@@ -118,37 +119,49 @@ SelfImprovementOrchestrator::SelfImprovementOrchestrator(
 }
 
 std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    std::vector<OptimizationResult> results;
-    
-    if (!tracker_) {
-        THEMIS_ERROR("PromptPerformanceTracker not available");
-        return results;
-    }
-    
-    // Get all tracked prompts
-    auto all_metrics = tracker_->getAllMetrics();
-    
-    THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
-    
-    for (const auto& metrics : all_metrics) {
-        // Check if this prompt should be optimized
-        if (shouldOptimize(metrics.prompt_id)) {
+    // Collect candidate prompt IDs and their test cases while holding the lock.
+    // The actual optimization is run without the lock to avoid holding it during
+    // a potentially long-running operation.
+    std::vector<std::pair<std::string, std::vector<TestCase>>> candidates;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        if (!tracker_) {
+            THEMIS_ERROR("PromptPerformanceTracker not available");
+            return {};
+        }
+
+        auto all_metrics = tracker_->getAllMetrics();
+        THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
+
+        for (const auto& metrics : all_metrics) {
+            if (!shouldOptimize(metrics.prompt_id)) {
+                continue;
+            }
+
             THEMIS_INFO("Triggering optimization for prompt: {}", metrics.prompt_id);
-            
-            // For auto-optimization, we need to create test cases
-            // In production, these would come from historical successful queries
-            // For now, we'll skip prompts without test cases
-            // This is a hook for future integration
-            
-            THEMIS_DEBUG("Auto-optimization requires test cases - skipping {}", metrics.prompt_id);
-            
-            // Record that we attempted optimization
-            last_optimization_[metrics.prompt_id] = std::chrono::system_clock::now();
+
+            // Build synthetic test cases from historical positive-feedback entries.
+            auto test_cases = buildTestCasesFromFeedback(metrics.prompt_id, 50);
+
+            if (test_cases.empty()) {
+                THEMIS_DEBUG("No feedback-derived test cases for '{}' – deferring",
+                             metrics.prompt_id);
+                last_optimization_[metrics.prompt_id] = std::chrono::system_clock::now();
+                continue;
+            }
+
+            candidates.emplace_back(metrics.prompt_id, std::move(test_cases));
         }
     }
-    
+
+    // Run each optimization without holding the mutex.
+    std::vector<OptimizationResult> results;
+    results.reserve(candidates.size());
+    for (auto& [prompt_id, test_cases] : candidates) {
+        results.push_back(optimizePrompt(prompt_id, test_cases));
+    }
     return results;
 }
 
@@ -200,36 +213,45 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
         
         optimizer_->setConfig(opt_config);
         
-        // Create evaluation function using the evaluator
+        // Create evaluation function using the PromptEvaluator when available.
         // 
-        // NOTE: This is a placeholder evaluation function for demonstration.
-        // In production, this should:
-        // 1. Actually execute the prompt with LLM
-        // 2. Compare LLM output against expected results
-        // 3. Use PromptEvaluator to compute proper metrics
-        // 
-        // Example production implementation:
-        //   auto eval_fn = [this, &llm](const std::string& prompt, const std::vector<TestCase>& cases) {
-        //       std::vector<std::string> outputs;
-        //       std::vector<std::string> expected;
-        //       for (const auto& tc : cases) {
-        //           outputs.push_back(llm->generate(prompt + tc.input));
-        //           expected.push_back(tc.expected_output);
-        //       }
-        //       return evaluator_->evaluateBatch(outputs, expected).overall_score;
-        //   };
+        // Note: A truly accurate evaluation requires executing the prompt through an
+        // LLM and scoring the LLM output against expected results.  Callers that have
+        // LLM access should supply a custom eval_fn to optimizer_->optimize().
+        // When no LLM is available (the default), we fall back to structural similarity
+        // between (prompt + input) and expected_output, which serves as a proxy for
+        // how well the prompt template incorporates the expected content patterns.
         //
-        auto eval_fn = [this, &test_cases](const std::string& prompt, 
-                                           const std::vector<TestCase>& cases) -> double {
-            // PLACEHOLDER: Heuristic-based scoring for testing
-            // TODO: Replace with actual LLM execution and evaluation
-            double score = 0.5; // Base score
-            
-            // These are arbitrary heuristics for testing purposes only
-            if (prompt.find("Task") != std::string::npos) score += 0.2;
-            if (prompt.find("Example") != std::string::npos) score += 0.2;
+        // The "\n" separator between prompt and input is a neutral token boundary
+        // that ensures the tokeniser treats them as separate segments without merging
+        // words across the join; it is not a formatting requirement.
+        auto eval_fn = [this](const std::string& prompt,
+                              const std::vector<TestCase>& cases) -> double {
+            // Guard: evaluateBatch() returns 0.0 for empty inputs, which would
+            // mislead the optimizer into thinking the prompt is worthless.
+            if (evaluator_ && !cases.empty()) {
+                std::vector<std::string> prompt_with_inputs;
+                std::vector<std::string> expected;
+                prompt_with_inputs.reserve(cases.size());
+                expected.reserve(cases.size());
+                for (const auto& tc : cases) {
+                    // Combine prompt template with the test input as a single
+                    // representation; newline acts as a neutral token boundary.
+                    prompt_with_inputs.push_back(prompt + "\n" + tc.input);
+                    expected.push_back(tc.expected_output);
+                }
+                return evaluator_->evaluateBatch(prompt_with_inputs, expected).overall_score;
+            }
+
+            // Structural heuristic fallback when no evaluator is available
+            double score = 0.3;
+            if (prompt.find("Task") != std::string::npos ||
+                prompt.find("task") != std::string::npos) score += 0.15;
+            if (prompt.find("Example") != std::string::npos ||
+                prompt.find("example") != std::string::npos) score += 0.15;
             if (prompt.length() > 100) score += 0.1;
-            
+            if (prompt.find("Format") != std::string::npos ||
+                prompt.find("Output") != std::string::npos) score += 0.1;
             return std::min(1.0, score);
         };
         
@@ -544,15 +566,14 @@ bool SelfImprovementOrchestrator::canReoptimize(const std::string& prompt_id) co
 }
 
 void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
-    // Simplified statistical analysis using z-test for proportions
-    // In production, use a proper statistical library
+    // Two-proportion z-test for A/B test significance
     
     // Calculate pooled proportion
     double p_pooled = (test.score_a * test.samples_a + test.score_b * test.samples_b) /
                       (test.samples_a + test.samples_b);
     
     // Calculate standard error
-    double se = std::sqrt(p_pooled * (1 - p_pooled) * 
+    double se = std::sqrt(p_pooled * (1.0 - p_pooled) * 
                          (1.0 / test.samples_a + 1.0 / test.samples_b));
     
     // Avoid division by zero
@@ -564,34 +585,20 @@ void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
     
     // Calculate z-score
     double z = (test.score_b - test.score_a) / se;
-    
-    // Calculate p-value using approximation of cumulative distribution function
-    // Note: This is a simplified approximation. For production use, integrate
-    // a proper statistical library like Boost.Math for accurate CDF calculation.
-    // 
-    // Current implementation uses a rough approximation:
-    // - For |z| < 1.96: moderate evidence (p ~0.05)
-    // - For |z| > 2.58: strong evidence (p < 0.01)
-    // 
-    // TODO: Replace with proper normal CDF implementation
     double abs_z = std::abs(z);
-    if (abs_z >= 2.58) {
-        test.p_value = 0.01;  // Strong significance
-    } else if (abs_z >= 1.96) {
-        test.p_value = 0.05;  // Moderate significance
-    } else if (abs_z >= 1.64) {
-        test.p_value = 0.10;  // Weak significance
-    } else {
-        // Linear interpolation for z between 0 and 1.64
-        test.p_value = 1.0 - (abs_z / 1.64) * 0.9;
-    }
+
+    // Compute one-tailed p-value using the standard normal CDF
+    // P(Z > |z|) = 1 - Phi(|z|) via the complementary error function:
+    //   Phi(x) = 0.5 * erfc(-x / sqrt(2))
+    //   P(Z > abs_z) = 0.5 * erfc(abs_z / sqrt(2))
+    double p_one_tailed = 0.5 * std::erfc(abs_z / std::sqrt(2.0));
+
+    // Two-tailed p-value
+    test.p_value = 2.0 * p_one_tailed;
     
-    // Two-tailed test
-    // (Already handled by using absolute value above)
-    
-    // Check significance
+    // Check significance (one-tailed: version B is better)
     double alpha = 1.0 - config_.ab_test_confidence;
-    test.is_significant = (test.p_value < alpha) && (test.score_b > test.score_a);
+    test.is_significant = (p_one_tailed < alpha) && (test.score_b > test.score_a);
 }
 
 void SelfImprovementOrchestrator::deployOptimizedVersion(
@@ -622,6 +629,40 @@ void SelfImprovementOrchestrator::deployOptimizedVersion(
     manager_->createTemplate(updated_template);
     
     THEMIS_INFO("Deployed optimized version for prompt: {}", prompt_id);
+}
+
+std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
+    const std::string& prompt_id,
+    size_t max_cases
+) const {
+    // Note: caller may hold mutex_; FeedbackCollector has its own lock.
+    if (!feedback_collector_) {
+        return {};
+    }
+
+    // Pull positive feedback entries – these represent successful query/response
+    // pairs that can serve as reference examples for evaluation.
+    auto positive = feedback_collector_->getFeedback(
+        prompt_id,
+        max_cases,
+        FeedbackType::USER_POSITIVE
+    );
+
+    std::vector<TestCase> test_cases;
+    test_cases.reserve(positive.size());
+
+    for (const auto& entry : positive) {
+        if (entry.query.empty()) continue;
+
+        TestCase tc;
+        tc.input           = entry.query;
+        tc.expected_output = entry.response;  // Best known response for this query
+        test_cases.push_back(std::move(tc));
+    }
+
+    THEMIS_DEBUG("Built {} synthetic test cases from feedback for prompt '{}'",
+                 test_cases.size(), prompt_id);
+    return test_cases;
 }
 
 } // namespace prompt_engineering

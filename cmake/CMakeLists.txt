@@ -1346,6 +1346,14 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/fulltext_functions.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
+    ../src/prompt_engineering/feedback_collector.cpp
+    ../src/prompt_engineering/prompt_evaluator.cpp
+    ../src/prompt_engineering/meta_prompt_generator.cpp
+    ../src/prompt_engineering/prompt_optimizer.cpp
+    ../src/prompt_engineering/prompt_performance_tracker.cpp
+    ../src/prompt_engineering/prompt_version_control.cpp
+    ../src/prompt_engineering/self_improvement_orchestrator.cpp
+    ../src/prompt_engineering/prompt_engineering_integration.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -1493,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     
