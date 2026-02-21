@@ -145,6 +145,54 @@ public:
          * transaction is not active.
          */
         Status popSavePoint();
+
+        // ── Named savepoints (partial rollback) ──────────────────────────────
+
+        /**
+         * @brief Create a named savepoint at the current write position.
+         *
+         * Named savepoints allow rolling back to a specific, labelled point
+         * rather than relying on LIFO stack ordering.  Multiple savepoints
+         * may be active simultaneously; each name must be unique within the
+         * transaction.
+         *
+         * @param name  Non-empty identifier for the savepoint.
+         * @return      Error if the transaction is not active or the name is
+         *              already in use.
+         */
+        Status createSavepoint(std::string_view name);
+
+        /**
+         * @brief Rollback all writes made after the named savepoint.
+         *
+         * The named savepoint and any savepoints created after it are all
+         * removed.  An error is returned if no savepoint with @p name exists
+         * or the transaction is not active.
+         *
+         * @param name  Name of the target savepoint.
+         */
+        Status rollbackToSavepoint(std::string_view name);
+
+        /**
+         * @brief Discard the named savepoint (and any newer ones) without
+         *        rolling back any writes.
+         *
+         * Equivalent to SQL "RELEASE SAVEPOINT".  Returns an error if no
+         * savepoint with @p name exists or the transaction is not active.
+         *
+         * @param name  Name of the savepoint to release.
+         */
+        Status releaseSavepoint(std::string_view name);
+
+        /**
+         * @brief Return the names of all active savepoints in creation order.
+         */
+        std::vector<std::string> getSavepoints() const;
+
+        /**
+         * @brief Return true if a savepoint with the given name exists.
+         */
+        bool hasSavepoint(std::string_view name) const;
         
         // SAGA support
         Saga& getSaga() { return *saga_; }
@@ -161,6 +209,7 @@ public:
         std::unique_ptr<class RocksDBWrapper::TransactionWrapper> mvcc_txn_; // MVCC Transaction
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
+        std::vector<std::string> savepoint_names_; // named savepoints in creation order
     };
 
     // Session-based transaction management

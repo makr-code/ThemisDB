@@ -20,11 +20,11 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] MergeEngine – conflict-aware branch merge
 - [x] SnapshotManager – named snapshots/tags for PITR
 - [x] Changefeed integration for CDC
+- [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
 
 ## In Progress 🚧
 - [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [I] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
-- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #1441)
 
 ## Planned Features 📋
 
@@ -62,7 +62,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
 - [~] Serializable isolation level (full SSI via predicate locking)
 - [~] Two-phase commit (2PC) coordinator for cross-shard transactions
-- [~] Transaction savepoints (partial rollback within a transaction)
+- [x] Transaction savepoints (partial rollback within a transaction)
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking

@@ -621,7 +621,8 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
     : id_(other.id_), db_(other.db_), secIdx_(other.secIdx_), graphIdx_(other.graphIdx_), 
       vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
       mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
-      finished_(other.finished_.load(std::memory_order_acquire)) {
+      finished_(other.finished_.load(std::memory_order_acquire)),
+      savepoint_names_(std::move(other.savepoint_names_)) {
     other.finished_.store(true, std::memory_order_release);
 }
 
@@ -635,6 +636,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
+        savepoint_names_ = std::move(other.savepoint_names_);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
         other.finished_.store(true, std::memory_order_release);
     }
@@ -911,6 +913,83 @@ TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
         return Status::Error("popSavePoint: no savepoint to pop");
     }
     return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::createSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("createSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("createSavepoint: no active transaction");
+    }
+    if (name.empty()) {
+        return Status::Error("createSavepoint: savepoint name must not be empty");
+    }
+    std::string sname(name);
+    for (const auto& s : savepoint_names_) {
+        if (s == sname) {
+            return Status::Error("createSavepoint: savepoint '" + sname + "' already exists");
+        }
+    }
+    mvcc_txn_->setSavePoint();
+    savepoint_names_.push_back(std::move(sname));
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("rollbackToSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("rollbackToSavepoint: no active transaction");
+    }
+    std::string sname(name);
+    auto it = std::find(savepoint_names_.begin(), savepoint_names_.end(), sname);
+    if (it == savepoint_names_.end()) {
+        return Status::Error("rollbackToSavepoint: no savepoint named '" + sname + "'");
+    }
+    // Pop all anonymous savepoints above the target (collapse their write deltas
+    // into the target's delta so that the subsequent rollback undoes them all).
+    size_t num_above = static_cast<size_t>(savepoint_names_.end() - it) - 1;
+    for (size_t i = 0; i < num_above; ++i) {
+        mvcc_txn_->popSavePoint();
+    }
+    // Rollback to (and pop) the target savepoint itself.
+    if (!mvcc_txn_->rollbackToSavePoint()) {
+        return Status::Error("rollbackToSavepoint: rollback failed for '" + sname + "'");
+    }
+    savepoint_names_.erase(it, savepoint_names_.end());
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::releaseSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("releaseSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("releaseSavepoint: no active transaction");
+    }
+    std::string sname(name);
+    auto it = std::find(savepoint_names_.begin(), savepoint_names_.end(), sname);
+    if (it == savepoint_names_.end()) {
+        return Status::Error("releaseSavepoint: no savepoint named '" + sname + "'");
+    }
+    // Pop the target savepoint and every savepoint above it (writes are preserved).
+    size_t num_to_pop = static_cast<size_t>(savepoint_names_.end() - it);
+    for (size_t i = 0; i < num_to_pop; ++i) {
+        mvcc_txn_->popSavePoint();
+    }
+    savepoint_names_.erase(it, savepoint_names_.end());
+    return Status::OK();
+}
+
+std::vector<std::string> TransactionManager::Transaction::getSavepoints() const {
+    return savepoint_names_;
+}
+
+bool TransactionManager::Transaction::hasSavepoint(std::string_view name) const {
+    std::string sname(name);
+    return std::find(savepoint_names_.begin(), savepoint_names_.end(), sname) != savepoint_names_.end();
 }
 
 } // namespace themis
