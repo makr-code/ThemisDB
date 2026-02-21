@@ -35,6 +35,7 @@
 #include "sharding/circuit_breaker.h"
 #include "sharding/prometheus_metrics.h"
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <boost/beast/http.hpp>
@@ -259,6 +260,7 @@ private:
     
     // Circuit breakers per backend
     std::unordered_map<std::string, std::shared_ptr<sharding::CircuitBreaker>> circuit_breakers_;
+    mutable std::mutex circuit_breakers_mutex_;
     
     // Registered handlers
     std::unordered_map<std::string, 

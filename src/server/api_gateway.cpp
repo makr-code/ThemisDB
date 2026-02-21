@@ -30,6 +30,7 @@
 #include "sharding/urn.h"
 #include <chrono>
 #include <ctime>
+#include <mutex>
 #include <sstream>
 #include <spdlog/spdlog.h>
 
@@ -536,6 +537,7 @@ bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
     const std::string& backend_id
 ) {
+    std::lock_guard<std::mutex> lock(circuit_breakers_mutex_);
     auto it = circuit_breakers_.find(backend_id);
     if (it != circuit_breakers_.end()) {
         return it->second;
@@ -631,8 +633,18 @@ http::response<http::string_body> APIGateway::executeScatterGather(
     }
     
     try {
-        // Parse request body as query
-        nlohmann::json req_body = nlohmann::json::parse(req.body());
+        // Parse request body as query — body is required for scatter-gather
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                    "Request body with 'query' field required for scatter-gather", req);
+        }
+        nlohmann::json req_body;
+        try {
+            req_body = nlohmann::json::parse(req.body());
+        } catch (const nlohmann::json::parse_error&) {
+            return makeErrorResponse(http::status::bad_request,
+                                    "Request body must be valid JSON", req);
+        }
         std::string query = req_body.value("query", "");
         
         if (query.empty()) {
@@ -767,8 +779,12 @@ void APIGateway::addDeprecationHeaders(
         return;
     }
     
-    // Extract endpoint path
+    // Extract endpoint path — strip query string so ?page=1 doesn't break lookup
     std::string endpoint = std::string(req.target());
+    auto qpos = endpoint.find('?');
+    if (qpos != std::string::npos) {
+        endpoint = endpoint.substr(0, qpos);
+    }
     
     // Check if endpoint is deprecated
     auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);

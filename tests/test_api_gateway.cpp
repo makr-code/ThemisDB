@@ -335,3 +335,41 @@ TEST_F(APIGatewayTest, ShardRouteWithInvalidUrnFallsBackToLocal) {
     EXPECT_TRUE(local_called);
 }
 
+
+/**
+ * @brief Regression test: deprecation headers must fire even when the request
+ *        contains a query string (e.g. /api/v1/old-endpoint?page=1).
+ *
+ * Bug: addDeprecationHeaders() used req.target() directly without stripping '?...',
+ * so the deprecation registry lookup returned nullopt for requests with query params.
+ */
+TEST_F(APIGatewayTest, DeprecationHeadersWithQueryString) {
+    namespace http = boost::beast::http;
+
+    APIDeprecationInfo info;
+    info.deprecated_in = APIVersion{1, 0, 0};
+    info.removed_in = APIVersion{2, 0, 0};
+    info.deprecation_date = std::chrono::system_clock::now();
+    info.removal_date = std::chrono::system_clock::now() + std::chrono::hours(24 * 365);
+    info.migration_guide_url = "https://docs.themisdb.com/migration/v1-to-v2";
+    gateway_->registerDeprecation("/api/v1/old-endpoint", info);
+
+    // Request with query parameters — must still match the registered path
+    http::request<http::string_body> req{http::verb::get,
+        "/api/v1/old-endpoint?page=2&limit=50", 11};
+    req.set(http::field::host, "localhost");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    EXPECT_NE(response.find(APIHeaders::DEPRECATION_WARNING), response.end())
+        << "Deprecation header must be present even when path has query parameters";
+    EXPECT_NE(response.find(APIHeaders::SUNSET), response.end())
+        << "Sunset header must be present even when path has query parameters";
+}

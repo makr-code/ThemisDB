@@ -306,9 +306,10 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
             {"disabled_count", modules_disabled.size()}
         };
 
-        // Add API versioning information (supported versions, deprecation policy)
+        // Add API versioning information (supported versions, deprecation policy).
+        // Use a static instance to avoid re-constructing (and re-logging) on every request.
         {
-            APIVersionManager version_mgr;
+            static const APIVersionManager version_mgr;
             auto current = version_mgr.getCurrentVersion();
             auto minimum = version_mgr.getMinimumVersion();
 
