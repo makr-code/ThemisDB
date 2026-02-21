@@ -250,7 +250,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_rag_ethics\\.cpp$"
     ".*test_resource_limits_comprehensive\\.cpp$"
     ".*test_secret_manager_comprehensive\\.cpp$"
-    ".*test_two_phase_commit\\.cpp$"
     ".*test_policy_change_auditing\\.cpp$"
     ".*test_workload_driven_cache\\.cpp$"
     ".*test_gpu_alerts\\.cpp$"

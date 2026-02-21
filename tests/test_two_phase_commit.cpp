@@ -435,3 +435,268 @@ TEST_F(TwoPhaseCommitParticipantTest, HealthCheckReturnsHealthy) {
     auto info = participant_->onHealthCheck();
     EXPECT_TRUE(info.is_healthy);
 }
+
+// =============================================================================
+// TwoPhaseCommitCoordinator tests
+// =============================================================================
+
+#include "sharding/two_phase_commit_coordinator.h"
+
+using namespace themis::sharding;
+
+// Helper: build a TwoPhaseCommitParticipant with no-op callbacks (no WAL)
+static std::unique_ptr<TwoPhaseCommitParticipant>
+makeParticipant(const std::string& id) {
+    TwoPhaseCommitParticipant::Config cfg;
+    cfg.wal_directory   = "";
+    cfg.sync_wal_writes = false;
+    return std::make_unique<TwoPhaseCommitParticipant>(id, cfg);
+}
+
+class TwoPhaseCommitCoordinatorTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        TwoPhaseCommitCoordinator::Config cfg;
+        cfg.wal_directory   = "";
+        cfg.sync_wal_writes = false;
+
+        coord_ = std::make_unique<TwoPhaseCommitCoordinator>("coord-test", cfg);
+
+        p1_ = makeParticipant("shard-1");
+        p2_ = makeParticipant("shard-2");
+        p3_ = makeParticipant("shard-3");
+
+        coord_->registerParticipant("shard-1", p1_.get());
+        coord_->registerParticipant("shard-2", p2_.get());
+        coord_->registerParticipant("shard-3", p3_.get());
+    }
+
+    void TearDown() override {
+        coord_.reset();
+        p1_.reset(); p2_.reset(); p3_.reset();
+    }
+
+    std::unique_ptr<TwoPhaseCommitCoordinator> coord_;
+    std::unique_ptr<TwoPhaseCommitParticipant> p1_, p2_, p3_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Basic registration
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, RegisterParticipantsAndCount) {
+    EXPECT_EQ(coord_->participantCount(), 3u);
+
+    EXPECT_TRUE(coord_->unregisterParticipant("shard-3"));
+    EXPECT_EQ(coord_->participantCount(), 2u);
+
+    // Unregistering again returns false
+    EXPECT_FALSE(coord_->unregisterParticipant("shard-3"));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Happy-path commit across all shards
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, SuccessfulCommitAllShards) {
+    const std::string txn = "coord-txn-001";
+
+    nlohmann::json ops1 = nlohmann::json::array();
+    ops1.push_back({{"type", "insert"}, {"key", "k1"}, {"value", "v1"}});
+
+    nlohmann::json ops2 = nlohmann::json::array();
+    ops2.push_back({{"type", "insert"}, {"key", "k2"}, {"value", "v2"}});
+
+    auto outcome = coord_->commit(txn, {
+        {"shard-1", ops1},
+        {"shard-2", ops2}
+    });
+
+    EXPECT_TRUE(outcome.committed());
+    EXPECT_EQ(outcome.transaction_id, txn);
+
+    // Both participants should be COMMITTED
+    EXPECT_EQ(p1_->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(p2_->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+    // shard-3 was not involved
+    EXPECT_EQ(p3_->getTransactionState(txn), std::nullopt);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Single participant votes ABORT → all abort
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, OneAbortVoteAbortsAllShards) {
+    const std::string txn = "coord-txn-002";
+
+    // Participant that always votes ABORT
+    TwoPhaseCommitParticipant::Config cfg;
+    cfg.wal_directory = "";
+    auto aborter = std::make_unique<TwoPhaseCommitParticipant>(
+        "shard-abort",
+        cfg,
+        /*validate*/ [](const std::string&, const nlohmann::json&) { return false; },
+        nullptr,
+        nullptr
+    );
+    coord_->registerParticipant("shard-abort", aborter.get());
+
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "x"}});
+
+    auto outcome = coord_->commit(txn, {
+        {"shard-1",     ops},
+        {"shard-abort", ops}
+    });
+
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ABORTED);
+
+    EXPECT_EQ(p1_->getTransactionState(txn),      ParticipantTxnState::ABORTED);
+    EXPECT_EQ(aborter->getTransactionState(txn),  ParticipantTxnState::ABORTED);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Empty ops_per_shard
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, EmptyOpsMapReturnsAborted) {
+    auto outcome = coord_->commit("coord-txn-empty", {});
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ABORTED);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Unknown shard returns ERROR
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, UnknownShardReturnsError) {
+    nlohmann::json ops = nlohmann::json::array();
+    auto outcome = coord_->commit("coord-txn-unknown-shard", {
+        {"shard-does-not-exist", ops}
+    });
+    EXPECT_EQ(outcome.result, CoordinatorTxnResult::ERROR);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Idempotent re-commit of completed transaction
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, RecommittingCompletedTxnIsIdempotent) {
+    const std::string txn = "coord-txn-idem";
+    nlohmann::json ops    = nlohmann::json::array();
+    ops.push_back({{"key", "y"}});
+
+    auto o1 = coord_->commit(txn, {{"shard-1", ops}});
+    EXPECT_TRUE(o1.committed());
+
+    // Second call with same txn_id → must return COMMITTED idempotently
+    auto o2 = coord_->commit(txn, {{"shard-1", ops}});
+    EXPECT_TRUE(o2.committed());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Coordinator state tracking
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, TransactionStateAfterCommit) {
+    const std::string txn = "coord-txn-state";
+    nlohmann::json ops    = nlohmann::json::array();
+    ops.push_back({{"key", "z"}});
+
+    coord_->commit(txn, {{"shard-1", ops}});
+
+    auto state = coord_->getTransactionState(txn);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, CoordinatorTxnState::COMPLETED);
+}
+
+TEST_F(TwoPhaseCommitCoordinatorTest, UnknownTransactionStateIsNullopt) {
+    EXPECT_EQ(coord_->getTransactionState("does-not-exist"), std::nullopt);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Statistics
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, StatisticsAreAccurate) {
+    nlohmann::json ops = nlohmann::json::array();
+    ops.push_back({{"key", "a"}});
+
+    coord_->commit("stat-txn-1", {{"shard-1", ops}});
+    coord_->commit("stat-txn-2", {{"shard-2", ops}});
+
+    // Force an abort
+    TwoPhaseCommitParticipant::Config cfg;
+    cfg.wal_directory = "";
+    auto aborter = std::make_unique<TwoPhaseCommitParticipant>(
+        "shard-stat-abort", cfg,
+        [](const std::string&, const nlohmann::json&) { return false; },
+        nullptr, nullptr
+    );
+    coord_->registerParticipant("shard-stat-abort", aborter.get());
+    coord_->commit("stat-txn-3", {{"shard-stat-abort", ops}});
+
+    auto stats = coord_->getStatistics();
+    EXPECT_EQ(stats["total_transactions"].get<uint64_t>(), 3u);
+    EXPECT_EQ(stats["total_commits"].get<uint64_t>(),      2u);
+    EXPECT_EQ(stats["total_aborts"].get<uint64_t>(),       1u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Multi-shard atomicity: all three shards must reach same decision
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, AllShardsReachSameDecision) {
+    const std::string txn = "coord-txn-atomicity";
+    nlohmann::json ops    = nlohmann::json::array();
+    ops.push_back({{"key", "multi"}});
+
+    auto outcome = coord_->commit(txn, {
+        {"shard-1", ops},
+        {"shard-2", ops},
+        {"shard-3", ops}
+    });
+
+    EXPECT_TRUE(outcome.committed());
+
+    EXPECT_EQ(p1_->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(p2_->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+    EXPECT_EQ(p3_->getTransactionState(txn), ParticipantTxnState::COMMITTED);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Concurrent coordinator transactions
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, ConcurrentCoordinatorTransactionsAreSafe) {
+    // Use separate participants per transaction to avoid conflicting state
+    constexpr int N = 10;
+    std::atomic<int> commits{0}, aborts{0};
+
+    // Create N independent participants so each thread operates independently
+    std::vector<std::unique_ptr<TwoPhaseCommitParticipant>> parts(N);
+    for (int i = 0; i < N; ++i) {
+        parts[i] = makeParticipant("shard-cc-" + std::to_string(i));
+        coord_->registerParticipant("shard-cc-" + std::to_string(i), parts[i].get());
+    }
+
+    std::vector<std::thread> threads;
+    for (int i = 0; i < N; ++i) {
+        threads.emplace_back([this, i, &commits, &aborts]() {
+            const std::string txn     = "cc-txn-" + std::to_string(i);
+            const std::string shard   = "shard-cc-" + std::to_string(i);
+            nlohmann::json ops        = nlohmann::json::array();
+            ops.push_back({{"key", txn}});
+
+            auto outcome = coord_->commit(txn, {{shard, ops}});
+            if (outcome.committed()) ++commits;
+            else                    ++aborts;
+        });
+    }
+
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(commits.load() + aborts.load(), N);
+
+    auto stats = coord_->getStatistics();
+    EXPECT_EQ(stats["total_transactions"].get<uint64_t>(), static_cast<uint64_t>(N));
+}
