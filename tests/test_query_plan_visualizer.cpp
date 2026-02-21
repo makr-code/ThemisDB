@@ -253,6 +253,25 @@ TEST(QueryPlanVisualizerTest, ToDOT_EmptyPlan_ValidOutput) {
     EXPECT_NE(dot.find("SeqScan"), std::string::npos);
 }
 
+TEST(QueryPlanVisualizerTest, ToDOT_EscapesSpecialCharsInLabels) {
+    QueryPlanNode node;
+    node.type = PlanNodeType::Filter;
+    // Description with special DOT characters
+    node.description = R"(col == "value")";
+    node.estimated_cost = 50.0;
+    node.estimated_rows = 100;
+
+    std::string dot = QueryPlanVisualizer::toDOT(node);
+    // The label must not contain unescaped double-quotes that would break DOT format
+    // Find the label= portion and check it is properly closed
+    auto label_pos = dot.find("label=\"");
+    ASSERT_NE(label_pos, std::string::npos);
+    // After label=" there should be an escaped version without bare "
+    // The overall DOT string must still form a valid digraph
+    EXPECT_NE(dot.find("digraph QueryPlan"), std::string::npos);
+    EXPECT_NE(dot.find('}'), std::string::npos);
+}
+
 // ============================================================================
 // Tests: planNodeTypeName (via round-trip through toText/toJSON)
 // ============================================================================

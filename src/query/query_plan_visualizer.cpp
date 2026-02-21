@@ -215,6 +215,17 @@ nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analy
 // DOT rendering (Graphviz)
 // ============================================================================
 
+// Escape double-quotes and backslashes in a DOT label string.
+static std::string dotEscape(const std::string& s) {
+    std::string result;
+    result.reserve(s.size());
+    for (char c : s) {
+        if (c == '"' || c == '\\') result += '\\';
+        result += c;
+    }
+    return result;
+}
+
 void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
                                      std::string& nodes_out, std::string& edges_out) {
     int my_id = id_counter++;
@@ -231,12 +242,12 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
     label << planNodeTypeName(node.type);
     if (!node.description.empty() &&
         node.description != planNodeTypeName(node.type)) {
-        label << "\\n" << node.description;
+        label << "\\n" << dotEscape(node.description);
     }
     label << "\\ncost=" << static_cast<long long>(node.estimated_cost)
           << " rows=" << node.estimated_rows;
     if (node.index_name.has_value()) {
-        label << "\\nidx=" << *node.index_name;
+        label << "\\nidx=" << dotEscape(*node.index_name);
     }
 
     nodes_out += "  n" + std::to_string(my_id) + " [label=\"" + label.str()
