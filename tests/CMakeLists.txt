@@ -256,6 +256,7 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_collector_scaling.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_llm_provider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_auto_optimize.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
 )
 
 # Ensure legal training tests link even when the feature is disabled in themis_core

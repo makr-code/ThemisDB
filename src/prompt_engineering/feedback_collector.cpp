@@ -763,56 +763,119 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     const std::vector<FeedbackEntry>& entries,
     size_t min_occurrences
 ) const {
-    // Simple pattern extraction based on query keywords
-    // In production, use more sophisticated NLP techniques
-    
+    if (entries.empty()) return {};
+
+    // --- Step 1: tokenise and normalise ---
+    // Common English stop words that carry no discriminative signal.
+    static const std::unordered_set<std::string> STOP_WORDS = {
+        "a","an","the","and","or","but","in","on","at","to","for","of","with",
+        "by","from","up","about","into","through","during","before","after",
+        "is","are","was","were","be","been","being","have","has","had","do",
+        "does","did","will","would","could","should","may","might","shall",
+        "that","this","these","those","it","its","i","you","he","she","we",
+        "they","what","which","who","how","when","where","why","not","no",
+        "can","as","if","so","than","then","there","also","just","more","all"
+    };
+
+    auto tokenise = [&](const std::string& text) {
+        std::vector<std::string> tokens;
+        std::string cur;
+        for (unsigned char c : text) {
+            if (std::isalnum(c)) {
+                cur += static_cast<char>(std::tolower(c));
+            } else if (!cur.empty()) {
+                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+                    tokens.push_back(cur);
+                }
+                cur.clear();
+            }
+        }
+        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+            tokens.push_back(cur);
+        }
+        return tokens;
+    };
+
+    // --- Step 2: compute TF-IDF-style term frequency per document and DF ---
+    // document = one FeedbackEntry.query
+    const size_t num_docs = entries.size();
+
+    // document_frequency[term] = number of documents containing the term
+    std::unordered_map<std::string, size_t> document_frequency;
+    // per_entry_tokens[i] = token list for entries[i]
+    std::vector<std::vector<std::string>> per_entry_tokens(num_docs);
+
+    for (size_t i = 0; i < num_docs; ++i) {
+        auto tokens = tokenise(entries[i].query);
+        per_entry_tokens[i] = tokens;
+        // Count document frequency (each token counted once per document)
+        std::unordered_set<std::string> seen(tokens.begin(), tokens.end());
+        for (const auto& t : seen) {
+            document_frequency[t]++;
+        }
+    }
+
+    // --- Step 3: for each entry compute its most discriminative keyword ---
+    // Score = TF * log(N / DF + 1).  The keyword with the highest score
+    // becomes the representative for the pattern.
+    auto best_keyword = [&](size_t entry_idx) -> std::string {
+        const auto& tokens = per_entry_tokens[entry_idx];
+        if (tokens.empty()) return "[empty]";
+
+        // TF: raw count within this query
+        std::unordered_map<std::string, size_t> tf;
+        for (const auto& t : tokens) tf[t]++;
+
+        std::string best_term;
+        double best_score = -1.0;
+        for (const auto& [term, count] : tf) {
+            double tfidf = static_cast<double>(count)
+                         * std::log(static_cast<double>(num_docs + 1)
+                                    / static_cast<double>(document_frequency[term] + 1));
+            if (tfidf > best_score) {
+                best_score = tfidf;
+                best_term  = term;
+            }
+        }
+        return best_term.empty() ? "[empty]" : best_term;
+    };
+
+    // --- Step 4: group entries by their best keyword (pattern) ---
     std::unordered_map<std::string, FailedQueryPattern> patterns;
-    
-    for (const auto& entry : entries) {
-        // Extract first few words as a simple pattern
-        std::string pattern;
-        std::istringstream iss(entry.query);
-        std::string word;
-        int word_count = 0;
-        while (iss >> word && word_count < 3) {
-            if (word_count > 0) pattern += " ";
-            pattern += word;
-            word_count++;
-        }
-        
-        if (pattern.empty()) {
-            pattern = "[empty]";
-        }
-        
-        auto& p = patterns[pattern];
-        p.pattern = pattern;
+    for (size_t i = 0; i < num_docs; ++i) {
+        const auto& entry = entries[i];
+        std::string key   = best_keyword(i);
+
+        auto& p = patterns[key];
+        p.pattern = key;
         p.occurrences++;
-        
+
         if (p.examples.size() < 5) {
             p.examples.push_back(entry.query);
         }
-        
-        // Track primary type and severity
+
+        // Incremental average severity; most-common type wins
         if (p.occurrences == 1) {
             p.primary_type = entry.type;
             p.avg_severity = entry.severity;
         } else {
-            p.avg_severity = (p.avg_severity * (p.occurrences - 1) + entry.severity) / p.occurrences;
+            p.avg_severity = (p.avg_severity * (p.occurrences - 1) + entry.severity)
+                           / p.occurrences;
         }
     }
-    
-    // Filter by minimum occurrences
+
+    // --- Step 5: filter by min_occurrences and sort ---
     std::vector<FailedQueryPattern> result;
-    for (const auto& [pattern_str, pattern] : patterns) {
-        if (pattern.occurrences >= min_occurrences) {
-            result.push_back(pattern);
+    result.reserve(patterns.size());
+    for (const auto& [key, pat] : patterns) {
+        if (pat.occurrences >= min_occurrences) {
+            result.push_back(pat);
         }
     }
-    
-    // Sort by occurrences (descending)
+
     std::sort(result.begin(), result.end(),
               [](const auto& a, const auto& b) { return a.occurrences > b.occurrences; });
-    
+
     return result;
 }
 
