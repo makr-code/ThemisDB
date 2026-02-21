@@ -466,6 +466,7 @@ TransactionManager::Stats TransactionManager::getStats() const {
     stats.total_begun = total_begun_.load(std::memory_order_relaxed);
     stats.total_committed = total_committed_.load(std::memory_order_relaxed);
     stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+    stats.total_timed_out = total_timed_out_.load(std::memory_order_relaxed);
     stats.active_count = active_transactions_.size();
     
     // Calculate average and max duration
@@ -505,6 +506,7 @@ TransactionManager::Stats TransactionManager::getStatsLockFree() const {
         stats.total_begun = total_begun_.load(std::memory_order_relaxed);
         stats.total_committed = total_committed_.load(std::memory_order_relaxed);
         stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+        stats.total_timed_out = total_timed_out_.load(std::memory_order_relaxed);
         
         // For map sizes, we need a quick lock (cannot be done lock-free)
         // This is acceptable as the lock is held very briefly

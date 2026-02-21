@@ -197,19 +197,26 @@ TEST_F(TransactionTimeoutTest, GetTimeoutCount_InitiallyZero) {
 }
 
 TEST_F(TransactionTimeoutTest, GetTimeoutCount_IncrementsOnAutoRollback) {
-    // Short timeout so we can trigger auto-rollback manually
+    // Set a very short deadlock-detector interval so the background monitor fires quickly
+    mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
+
+    // Short transaction timeout so the transaction expires immediately
     mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
     auto txn_id = mgr_->beginTransaction();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5)); // let it expire
 
     // Directly verify the transaction is timed out
     auto txn = mgr_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr);
     EXPECT_TRUE(txn->isTimedOut());
 
-    // Commit must fail (timed out)
-    auto st = mgr_->commitTransaction(txn_id);
-    EXPECT_FALSE(st.ok);
+    // Wait long enough for the background monitor to run (10 ms interval + margin)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    // The monitor should have auto-rolled back the transaction and incremented the counter
+    EXPECT_GE(mgr_->getTimeoutCount(), 1u);
+    // The transaction must have been moved out of active
+    EXPECT_EQ(mgr_->getTransaction(txn_id), nullptr);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -228,4 +235,31 @@ TEST_F(TransactionTimeoutTest, LongTimeout_CommitSucceeds) {
     txn.setTimeout(std::chrono::hours(1));
     auto st = txn.commit();
     EXPECT_TRUE(st.ok);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stats struct includes total_timed_out
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TransactionTimeoutTest, GetStats_InitialTimedOutIsZero) {
+    auto stats = mgr_->getStats();
+    EXPECT_EQ(stats.total_timed_out, 0u);
+}
+
+TEST_F(TransactionTimeoutTest, GetStatsLockFree_InitialTimedOutIsZero) {
+    auto stats = mgr_->getStatsLockFree();
+    EXPECT_EQ(stats.total_timed_out, 0u);
+}
+
+TEST_F(TransactionTimeoutTest, GetStats_TimedOutAppearsAfterAutoRollback) {
+    mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    mgr_->beginTransaction();
+    // Sleep long enough for the transaction to expire and the background monitor to run
+    std::this_thread::sleep_for(std::chrono::milliseconds(105));
+    auto stats = mgr_->getStats();
+    EXPECT_GE(stats.total_timed_out, 1u);
+    EXPECT_GE(stats.total_aborted, 1u);
+    // timed_out is a subset of aborted
+    EXPECT_LE(stats.total_timed_out, stats.total_aborted);
 }

@@ -297,6 +297,7 @@ public:
         uint64_t total_begun;
         uint64_t total_committed;
         uint64_t total_aborted;
+        uint64_t total_timed_out; ///< subset of total_aborted: auto-rolled-back due to timeout
         uint64_t active_count;
         uint64_t avg_duration_ms;
         uint64_t max_duration_ms;
