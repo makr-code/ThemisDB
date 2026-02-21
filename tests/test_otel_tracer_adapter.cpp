@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_otel_tracer_adapter.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 19:00:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     358                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
+    • 3e76a7f7e  2026-02-21  feat(core): add OpenTelemetry tracer adapter tests, Scope... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_otel_tracer_adapter.cpp
  * @brief Unit tests for OpenTelemetryTracerAdapter (core/concerns)
