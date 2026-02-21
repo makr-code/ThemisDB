@@ -159,6 +159,14 @@ public:
      */
     void setCustomQuery(const std::string& query_name, const std::string& aql_query);
 
+    /**
+     * @brief Get AQL query template by name (Phase 6)
+     * @param query_name Built-in name ("find_provisions", "find_case_law",
+     *                   "find_similar", "update_context", "fetch_all") or custom name
+     * @return AQL query template string, or empty string if not found
+     */
+    std::string getQueryTemplate(const std::string& query_name) const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
