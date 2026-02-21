@@ -19,7 +19,7 @@
 - [x] Lazy initialization for optional components
 
 ## In Progress 🚧
-- [I] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
+- [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
@@ -76,7 +76,6 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- OpenTelemetry adapter not yet implemented; tracing is a no-op by default
 - Prometheus adapter not yet implemented; metrics are in-memory only
 - Context propagation across async/thread boundaries requires manual passing
 - Feature flags are not yet a first-class concern in the DI system

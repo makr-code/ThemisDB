@@ -249,6 +249,11 @@ public:
     /// @brief Return a raw pointer to the underlying ISpan (may be null for no-op).
     ITracer::ISpan* span() { return span_.get(); }
 
+    /// @brief End the span and release it (idempotent – safe to call after end()).
+    ~ScopedSpan() {
+        if (span_) span_->end();
+    }
+
 private:
     std::unique_ptr<ITracer::ISpan> span_;
 };

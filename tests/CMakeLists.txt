@@ -1201,6 +1201,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
     message(STATUS "  Tracing Production: Baggage, SamplingStrategy, W3C propagation")
 endif()
 
+# Phase 2 – OpenTelemetry tracer adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
+    message(STATUS "Adding OtelTracerAdapter unit tests (Phase 2)")
+    add_executable(test_otel_tracer_adapter test_otel_tracer_adapter.cpp)
+    target_link_libraries(test_otel_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_otel_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelTracerAdapterTests COMMAND test_otel_tracer_adapter)
+    set_tests_properties(OtelTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;otel;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
+endif()
+
 # Phase 2 – Sampling strategy unit tests (replaces stub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "Adding Sampling Strategy tests (Phase 2)")
