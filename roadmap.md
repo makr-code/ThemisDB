@@ -209,12 +209,19 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 ### 3.3 Health Checks & Status Endpoints
 
 **Tasks:**
-- [ ] Implement backend health check API
-- [ ] Add readiness/liveness probes
+- [x] Implement backend health check API (`BackendHealthStatus` struct + `getHealthStatus()` in `IComputeBackend`)
+- [x] Add readiness/liveness probes (`ready`, `alive`, `healthy` fields in `BackendHealthStatus`)
 - [ ] Create backend status dashboard
-- [ ] Monitor driver version compatibility
+- [x] Monitor driver version compatibility (`driverInfo` field populated from Vulkan API version)
 - [ ] Track backend availability over time
 - [ ] Add alerting for backend failures
+
+**Completed:**
+- `BackendHealthStatus` struct with `status`/`healthy`/`ready`/`alive` fields and builder helpers
+- Default `getHealthStatus()` in `IComputeBackend` (all existing backends inherit it for free)
+- `VulkanVectorBackend::getHealthStatus()` — reports initialized state, pipeline readiness,
+  device memory, and driver API version
+- New test: `tests/test_vulkan_health.cpp`
 
 **Success Criteria:**
 - Health endpoints return accurate backend status

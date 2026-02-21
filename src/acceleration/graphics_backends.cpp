@@ -715,6 +715,66 @@ void VulkanVectorBackend::shutdown() {
 #endif
 }
 
+BackendHealthStatus VulkanVectorBackend::getHealthStatus() const {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (!initialized_ || !impl_) {
+        // Check if Vulkan ICD is reachable at all
+        if (!isAvailable()) {
+            return BackendHealthStatus::makeUnhealthy(
+                "Vulkan ICD not available on this system");
+        }
+        // Available but not yet initialised (or failed init)
+        const auto& err = getLastError();
+        if (!err.isSuccess()) {
+            return BackendHealthStatus::makeDegraded(
+                "Vulkan initialization failed: " + err.message);
+        }
+        BackendHealthStatus s;
+        s.status  = "degraded";
+        s.alive   = true;
+        s.healthy = false;
+        s.ready   = false;
+        s.message = "Vulkan backend not initialized";
+        s.issues.push_back("Call initialize() before use");
+        return s;
+    }
+
+    BackendHealthStatus s = BackendHealthStatus::makeHealthy(
+        std::string(impl_->deviceProps.deviceName));
+
+    s.alive = true;
+    s.ready = (impl_->l2Pipeline != VK_NULL_HANDLE &&
+               impl_->cosinePipeline != VK_NULL_HANDLE);
+
+    if (!s.ready) {
+        s.status  = "degraded";
+        s.healthy = false;
+        s.message = "Vulkan backend initialized but compute pipelines not loaded";
+        s.issues.push_back("Compile SPIR-V shaders: glslc shader.comp -o shader.spv");
+    }
+
+    // Report memory snapshot
+    for (uint32_t i = 0; i < impl_->memoryProps.memoryHeapCount; ++i) {
+        if (impl_->memoryProps.memoryHeaps[i].flags &
+            VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
+            s.memoryAvailableBytes =
+                static_cast<size_t>(impl_->memoryProps.memoryHeaps[i].size);
+            break;
+        }
+    }
+
+    s.driverInfo = std::string("Vulkan API ")
+        + std::to_string(VK_API_VERSION_MAJOR(impl_->deviceProps.apiVersion)) + "."
+        + std::to_string(VK_API_VERSION_MINOR(impl_->deviceProps.apiVersion)) + "."
+        + std::to_string(VK_API_VERSION_PATCH(impl_->deviceProps.apiVersion));
+
+    return s;
+#else
+    return BackendHealthStatus::makeUnhealthy(
+        "Vulkan support not compiled in (build with THEMIS_ENABLE_VULKAN=ON)");
+#endif
+}
+
 std::vector<float> VulkanVectorBackend::computeDistances(
     const float* queries,
     size_t numQueries,

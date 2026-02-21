@@ -85,6 +85,7 @@ public:
     BackendCapabilities getCapabilities() const override;
     bool initialize() override;
     void shutdown() override;
+    BackendHealthStatus getHealthStatus() const override;
     
     std::vector<float> computeDistances(
         const float* queries,
