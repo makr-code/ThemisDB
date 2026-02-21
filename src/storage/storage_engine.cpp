@@ -1,10 +1,12 @@
 #include "storage/storage_engine.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstdlib>
+#include <chrono>
 
 namespace themis {
 
@@ -250,9 +252,19 @@ Result<void> StorageEngine::open(const std::string& db_path) {
     }
     
     db_path_ = db_path;
+
+    // Open the underlying RocksDB instance.
+    RocksDBWrapper::Config cfg;
+    cfg.db_path    = db_path;
+    cfg.enable_wal = true;
+    rocksdb_ = std::make_shared<RocksDBWrapper>(cfg);
+    if (!rocksdb_->open()) {
+        rocksdb_.reset();
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Failed to open RocksDB at: " + db_path);
+    }
+
     is_open_ = true;
-    
-    // Real implementation would initialize RocksDB here
     return OkVoid();
 }
 
@@ -261,10 +273,27 @@ void StorageEngine::close() {
         return; // Already closed
     }
     
+    if (rocksdb_) {
+        rocksdb_->close();
+        rocksdb_.reset();
+    }
+
     is_open_ = false;
-    
-    // Real implementation would close RocksDB here
 }
+
+// ── Helper: update a min/max atomic (relaxed, best-effort) ──────────────────
+namespace {
+void atomicUpdateMin(std::atomic<uint64_t>& m, uint64_t v) {
+    uint64_t cur = m.load(std::memory_order_relaxed);
+    while (v < cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
+        ;
+}
+void atomicUpdateMax(std::atomic<uint64_t>& m, uint64_t v) {
+    uint64_t cur = m.load(std::memory_order_relaxed);
+    while (v > cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
+        ;
+}
+} // anonymous namespace
 
 Result<void> StorageEngine::put(const std::string& key, const std::string& value) {
     TracedSpan span("StorageEngine.put");
@@ -273,11 +302,28 @@ Result<void> StorageEngine::put(const std::string& key, const std::string& value
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_put_errors_.fetch_add(1, std::memory_order_relaxed);
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "Storage engine not open");
     }
-    
-    // Real implementation would write to RocksDB here
+
+    auto t0 = std::chrono::steady_clock::now();
+    bool ok = rocksdb_->put(key, value);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (!ok) {
+        io_put_errors_.fetch_add(1, std::memory_order_relaxed);
+        span.setStatus(false, "RocksDB put failed");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "Failed to write key: " + key);
+    }
+    io_put_ops_.fetch_add(1, std::memory_order_relaxed);
+    io_put_latency_.fetch_add(us, std::memory_order_relaxed);
+    atomicUpdateMin(io_put_min_, us);
+    atomicUpdateMax(io_put_max_, us);
+
     span.setStatus(true);
     return OkVoid();
 }
@@ -288,12 +334,28 @@ Result<std::string> StorageEngine::get(const std::string& key) {
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_get_errors_.fetch_add(1, std::memory_order_relaxed);
         return Err<std::string>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                                 "Storage engine not open");
     }
-    
-    // Real implementation would read from RocksDB here
-    // For now, return key not found
+
+    auto t0 = std::chrono::steady_clock::now();
+    std::string out;
+    bool found = rocksdb_->get(key, out);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (found) {
+        io_get_ops_.fetch_add(1, std::memory_order_relaxed);
+        io_get_latency_.fetch_add(us, std::memory_order_relaxed);
+        atomicUpdateMin(io_get_min_, us);
+        atomicUpdateMax(io_get_max_, us);
+        span.setStatus(true);
+        return Ok(std::move(out));
+    }
+
+    io_get_errors_.fetch_add(1, std::memory_order_relaxed);
     span.setStatus(false, "Key not found");
     return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                             fmt::format("Key '{}' not found", key));
@@ -305,13 +367,161 @@ Result<void> StorageEngine::del(const std::string& key) {
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_del_errors_.fetch_add(1, std::memory_order_relaxed);
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "Storage engine not open");
     }
-    
-    // Real implementation would delete from RocksDB here
+
+    auto t0 = std::chrono::steady_clock::now();
+    bool ok = rocksdb_->del(key);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (!ok) {
+        io_del_errors_.fetch_add(1, std::memory_order_relaxed);
+        span.setStatus(false, "RocksDB del failed");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "Failed to delete key: " + key);
+    }
+    io_del_ops_.fetch_add(1, std::memory_order_relaxed);
+    io_del_latency_.fetch_add(us, std::memory_order_relaxed);
+    atomicUpdateMin(io_del_min_, us);
+    atomicUpdateMax(io_del_max_, us);
+
     span.setStatus(true);
     return OkVoid();
+}
+
+StorageEngine::IOMetrics StorageEngine::ioMetrics() const {
+    IOMetrics m;
+    m.put_ops            = io_put_ops_.load(std::memory_order_relaxed);
+    m.put_errors         = io_put_errors_.load(std::memory_order_relaxed);
+    m.put_latency_us     = io_put_latency_.load(std::memory_order_relaxed);
+    m.put_latency_min_us = io_put_min_.load(std::memory_order_relaxed);
+    m.put_latency_max_us = io_put_max_.load(std::memory_order_relaxed);
+
+    m.get_ops            = io_get_ops_.load(std::memory_order_relaxed);
+    m.get_errors         = io_get_errors_.load(std::memory_order_relaxed);
+    m.get_latency_us     = io_get_latency_.load(std::memory_order_relaxed);
+    m.get_latency_min_us = io_get_min_.load(std::memory_order_relaxed);
+    m.get_latency_max_us = io_get_max_.load(std::memory_order_relaxed);
+
+    m.del_ops            = io_del_ops_.load(std::memory_order_relaxed);
+    m.del_errors         = io_del_errors_.load(std::memory_order_relaxed);
+    m.del_latency_us     = io_del_latency_.load(std::memory_order_relaxed);
+    m.del_latency_min_us = io_del_min_.load(std::memory_order_relaxed);
+    m.del_latency_max_us = io_del_max_.load(std::memory_order_relaxed);
+    return m;
+}
+
+void StorageEngine::resetIOMetrics() {
+    io_put_ops_.store(0, std::memory_order_relaxed);
+    io_put_errors_.store(0, std::memory_order_relaxed);
+    io_put_latency_.store(0, std::memory_order_relaxed);
+    io_put_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_put_max_.store(0, std::memory_order_relaxed);
+
+    io_get_ops_.store(0, std::memory_order_relaxed);
+    io_get_errors_.store(0, std::memory_order_relaxed);
+    io_get_latency_.store(0, std::memory_order_relaxed);
+    io_get_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_get_max_.store(0, std::memory_order_relaxed);
+
+    io_del_ops_.store(0, std::memory_order_relaxed);
+    io_del_errors_.store(0, std::memory_order_relaxed);
+    io_del_latency_.store(0, std::memory_order_relaxed);
+    io_del_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_del_max_.store(0, std::memory_order_relaxed);
+}
+
+Result<void> StorageEngine::scanRange(
+    std::string_view start_key,
+    std::string_view end_key,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanRange(start_key, end_key,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    return OkVoid();
+}
+
+Result<void> StorageEngine::scanPrefix(
+    std::string_view prefix,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanPrefix(prefix,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    return OkVoid();
+}
+
+Result<void> StorageEngine::scanPredicate(
+    std::string_view start_key,
+    std::string_view end_key,
+    std::function<bool(std::string_view, std::string_view)> predicate,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanRange(start_key, end_key,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            if (!predicate(k, v)) return true; // skip, but continue
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    return OkVoid();
+}
+
+StorageEngine::ScanCounters StorageEngine::scanCounters() const {
+    ScanCounters c;
+    c.scan_calls    = sc_calls_.load(std::memory_order_relaxed);
+    c.keys_examined = sc_examined_.load(std::memory_order_relaxed);
+    c.keys_returned = sc_returned_.load(std::memory_order_relaxed);
+    c.early_stops   = sc_early_stops_.load(std::memory_order_relaxed);
+    return c;
+}
+
+void StorageEngine::resetScanCounters() {
+    sc_calls_.store(0, std::memory_order_relaxed);
+    sc_examined_.store(0, std::memory_order_relaxed);
+    sc_returned_.store(0, std::memory_order_relaxed);
+    sc_early_stops_.store(0, std::memory_order_relaxed);
 }
 
 bool StorageEngine::apply_filter(const std::string& filter_expr, const void* context) {
