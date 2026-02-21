@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vault_signing_provider.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:34:53                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:37:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     139                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     146                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
     • 7d7ce00ef  2026-02-09  Harden HSM stub provider, VaultSigningProvider, and PKCS#... ║
-    • 1212c3919  2025-11-18  fix: Windows MSVC build compatibility - namespace qualifi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

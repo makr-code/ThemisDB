@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vram_allocator.cpp                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:07                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:41:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     630                                            ║
+    • Total Lines:     637                                            ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
     • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
-    • 4ecae3db3  2026-01-30  [WIP] Fix null-check validation for GPU allocations (#958) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

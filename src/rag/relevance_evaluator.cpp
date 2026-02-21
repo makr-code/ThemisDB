@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            relevance_evaluator.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:59                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     384                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     391                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 5d480af8c  2026-02-20  RAG module: replace all stubs with real implementations; ... ║
     • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
-    • f9dd47f4a  2026-01-19  Implement RAG Judge Phases 2-4: Multi-Dimension Evaluatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

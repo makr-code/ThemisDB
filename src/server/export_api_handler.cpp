@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:40:16                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     309                                            ║
+    • Total Lines:     316                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 11fe04caa  2026-01-22  Error Handling Migration: Phase 1-2 Verification + Phase ... ║
     • 90ce07ef4  2025-12-14  docs: Add Docker deployment guide and update changelog fo... ║
-    • 933488c79  2025-11-21  Add VCC-Clara HTTP export API for thematic and temporal J... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ValueConverters.cs                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:36:44                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:39:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   22.0/100                                       ║
-    • Total Lines:     426                                            ║
+    • Total Lines:     433                                            ║
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 496889596  2025-12-15  Address code review feedback: fix DataContext, logging, a... ║
     • 33b1a6af7  2025-12-15  Add documentation and fix StringToVisibilityConverter logic ║
-    • b2a02ddec  2025-12-15  Add ERM/ERD and Query Editor infrastructure: models, serv... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

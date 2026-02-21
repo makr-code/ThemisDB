@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:47                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   77.0/100                                       ║
-    • Total Lines:     660                                            ║
+    • Total Lines:     667                                            ║
     • Open Issues:     TODOs: 3, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
     • 6bf6c3a0f  2026-02-07  Implement v1.5.x roadmap: Query Optimizer production inte... ║
-    • 01fde7581  2026-01-24  Enhance benchmarks and query execution error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

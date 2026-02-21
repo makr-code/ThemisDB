@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mqtt_session.h                                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:35:00                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:37:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     279                                            ║
+    • Total Lines:     286                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • b1854b7a7  2026-01-03  Fix critical thread-safety and signal handling issues ║
     • 056279282  2025-12-18  Add MQTT enhancements: WebSocket transport, rate limiting... ║
-    • 385a6db77  2025-12-18  Upgrade MQTT from base to production-ready with QoS 2, MQ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

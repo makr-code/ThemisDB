@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:46                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     4347                                           ║
+    • Total Lines:     4354                                           ║
     • Open Issues:     TODOs: 1, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ad82b76f1  2026-02-21  feat(metadata): production-ready metadata module – statis... ║
     • a4cb10902  2026-02-20  Add RocksDB manifest and options files for configuration ║
-    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

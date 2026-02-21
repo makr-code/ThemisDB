@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            TasksRightSidebarViewModel.cs                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:36:58                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:39:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     326                                            ║
+    • Total Lines:     331                                            ║
     • Open Issues:     TODOs: 5, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • a89e05f8c  2026-01-06  Add Tasks tab to right sidebar with drag&drop, search, an... ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_parser.cpp                                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:42                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
-    • Total Lines:     1108                                           ║
+    • Total Lines:     1115                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 4c61f2086  2026-01-22  Phase 3: Migrate TSStore, PluginManager, IndexManager, an... ║
     • 4589d8af7  2025-12-28  Refactor AQL JSON Serialization and Update RocksDB Integr... ║
-    • 99234dc76  2025-11-30  feat: Enterprise Scalability + Repository Cleanup ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

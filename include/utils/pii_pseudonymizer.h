@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_pseudonymizer.h                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:35:54                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:38:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     129                                            ║
+    • Total Lines:     136                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 45680cf99  2025-11-08  Add encryption, audit, and graph features with tests ║
     • 4c030cf92  2025-11-06  Add AQL FULLTEXT integration and geo scaffolding ║
-    • 76bc0a930  2025-11-02  feat(pii): add audit logging for PII reveal/erase operati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
