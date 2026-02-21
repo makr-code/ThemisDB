@@ -395,3 +395,48 @@ TEST(KernelInvocationInterfaces, ANNDispatch_DistanceLauncherFor_RoutesCorrectly
 
     backend.shutdown();
 }
+
+// =============================================================================
+// CUDA backend dispatch table structure (GPU not required to test structure)
+// =============================================================================
+
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+
+TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_L2AndTopKNonNull) {
+    CUDAVectorBackend backend;
+    // Skip if CUDA hardware is unavailable; only test dispatch table population
+    if (!backend.isAvailable()) {
+        GTEST_SKIP() << "CUDA backend not available";
+    }
+    ANNKernelDispatch d = backend.populateANNDispatch();
+    EXPECT_NE(d.launchL2Distance, nullptr);
+    EXPECT_NE(d.launchCosine,     nullptr);
+    EXPECT_NE(d.launchTopK,       nullptr);
+}
+
+TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
+    CUDAGeoBackend backend;
+    if (!backend.isAvailable()) {
+        GTEST_SKIP() << "CUDA backend not available";
+    }
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+    EXPECT_NE(d.launchDistance,    nullptr);
+    EXPECT_NE(d.launchContainment, nullptr);
+}
+
+TEST(KernelInvocationInterfaces, CUDAVectorBackend_DispatchReturnsValidStructure) {
+    // Verifies the method exists and returns a well-formed struct (even without GPU).
+    CUDAVectorBackend backend;
+    ANNKernelDispatch d = backend.populateANNDispatch();
+    (void)d; // Structural / compilation check
+}
+
+TEST(KernelInvocationInterfaces, CUDAGeoBackend_DispatchReturnsValidStructure) {
+    // Verifies the method exists and returns a well-formed struct (even without GPU).
+    CUDAGeoBackend backend;
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+    (void)d; // Structural / compilation check
+}
+
+#endif // THEMIS_ENABLE_CUDA

@@ -71,6 +71,9 @@ public:
         bool useL2 = true
     ) override;
 
+    // Frozen kernel dispatch — wires CUDA launchers to the interface contract
+    ANNKernelDispatch populateANNDispatch() const override;
+
 private:
     bool initialized_ = false;
     
@@ -146,6 +149,9 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) override;
+
+    // Frozen kernel dispatch — wires CUDA geo launchers to the interface contract
+    GeoKernelDispatch populateGeoDispatch() const override;
 
 private:
     bool initialized_ = false;
