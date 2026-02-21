@@ -1592,5 +1592,9 @@ json ErrorRegistry::toJSON() const {
     return result;
 }
 
+std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
+    return getError(code).solution;
+}
+
 } // namespace errors
 } // namespace themis

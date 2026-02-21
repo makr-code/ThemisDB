@@ -223,7 +223,32 @@ public:
     std::vector<ErrorMetadata> getErrorsByCategory(const std::string& category) const;
     std::vector<ErrorMetadata> searchErrors(const std::string& query) const;
     std::vector<std::string> getAllCategories() const;
-    
+
+    /**
+     * @brief Get the recovery hint (solution) for a given error code.
+     *
+     * Convenience shorthand for `getError(code).solution`.
+     * Returns an empty string for unknown error codes.
+     */
+    std::string getRecoveryHint(ErrorCode code) const;
+
+    /**
+     * @brief Format an error message using its template and the provided args.
+     *
+     * Safe wrapper around fmt::vformat.  Falls back to the raw template if
+     * formatting fails (e.g., mismatched argument count).
+     */
+    template<typename... Args>
+    std::string formatError(ErrorCode code, Args&&... args) const {
+        auto metadata = getError(code);
+        try {
+            return fmt::vformat(metadata.message_template,
+                                fmt::make_format_args(args...));
+        } catch (...) {
+            return metadata.message_template;
+        }
+    }
+
     json toJSON() const;
     
 private:

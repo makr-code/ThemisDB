@@ -281,10 +281,103 @@ void GrpcChannelPool::warmup(
             
             total_channels_.fetch_add(1);
             channels_created_.fetch_add(1);
-        } catch (const std::exception&) {
-            // Stop warmup on first failure to avoid cascading errors
-            break;
+} // closing warmup
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 6: Circuit Breaker & Health Check
+// ─────────────────────────────────────────────────────────────────────────────
+
+GrpcChannelPool::CircuitState GrpcChannelPool::getCircuitState(
+    const std::string& target) const {
+    std::lock_guard<std::mutex> lk(cb_mutex_);
+    auto it = circuit_breakers_.find(target);
+    if (it == circuit_breakers_.end()) return CircuitState::CLOSED;
+
+    auto& cb = it->second;
+    // Auto-transition OPEN → HALF_OPEN after the open timeout
+    if (cb.state == CircuitState::OPEN) {
+        auto elapsed = std::chrono::steady_clock::now() - cb.tripped_at;
+        if (elapsed >= CB_OPEN_TIMEOUT) {
+            // Transition happens on next read; we return HALF_OPEN here
+            return CircuitState::HALF_OPEN;
         }
+    }
+    return cb.state;
+}
+
+void GrpcChannelPool::reportSuccess(const std::string& target) {
+    std::lock_guard<std::mutex> lk(cb_mutex_);
+    auto& cb = circuit_breakers_[target];
+
+    if (cb.state == CircuitState::HALF_OPEN) {
+        ++cb.success_count;
+        if (cb.success_count >= CB_SUCCESS_THRESHOLD) {
+            cb.state         = CircuitState::CLOSED;
+            cb.failure_count = 0;
+            cb.success_count = 0;
+        }
+    } else if (cb.state == CircuitState::CLOSED) {
+        // Reset consecutive failure counter on success
+        cb.failure_count = 0;
+    }
+}
+
+void GrpcChannelPool::reportFailure(const std::string& target) {
+    std::lock_guard<std::mutex> lk(cb_mutex_);
+    auto& cb = circuit_breakers_[target];
+
+    if (cb.state == CircuitState::OPEN) return; // Already tripped
+
+    ++cb.failure_count;
+    if (cb.state == CircuitState::HALF_OPEN || cb.failure_count >= CB_FAILURE_THRESHOLD) {
+        cb.state         = CircuitState::OPEN;
+        cb.tripped_at    = std::chrono::steady_clock::now();
+        cb.success_count = 0;
+    }
+}
+
+bool GrpcChannelPool::healthCheck(const std::string& target,
+                                   std::chrono::milliseconds timeout) {
+    // Don't health-check a tripped circuit
+    if (getCircuitState(target) == CircuitState::OPEN) {
+        return false;
+    }
+
+    try {
+        auto pool = getOrCreateTargetPool(target);
+        std::unique_lock<std::mutex> lock(pool->mutex);
+
+        std::shared_ptr<grpc::Channel> ch;
+
+        // Prefer an existing channel for the probe
+        if (!pool->available.empty()) {
+            auto pooled = pool->available.front();
+            ch = pooled->channel;
+        } else if (!pool->all_channels.empty()) {
+            ch = pool->all_channels.begin()->first;
+        } else {
+            // Create a temporary probe channel
+            lock.unlock();
+            ch = createChannel(target, nullptr);
+            lock.lock();
+        }
+
+        if (!ch) return false;
+
+        // Trigger a connection attempt and wait up to `timeout`
+        auto state = ch->GetState(/*try_to_connect=*/true);
+        if (state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE) {
+            return true;
+        }
+
+        auto deadline = std::chrono::system_clock::now() + timeout;
+        if (ch->WaitForStateChange(state, deadline)) {
+            state = ch->GetState(false);
+            return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
+        }
+        return false;
+    } catch (const std::exception&) {
+        return false;
     }
 }
 

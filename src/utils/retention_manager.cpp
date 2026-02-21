@@ -357,4 +357,78 @@ void RetentionManager::logAction(const RetentionAction& action) {
     }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 4: Async Background Job & Compliance Metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+void RetentionManager::startBackgroundJob(
+    std::chrono::seconds interval,
+    std::function<std::vector<std::pair<std::string,
+        std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
+    std::function<bool(const std::string&)> archive_handler,
+    std::function<bool(const std::string&)> purge_handler) {
+
+    if (bg_running_.exchange(true)) {
+        // Already running
+        return;
+    }
+
+    {
+        std::lock_guard<std::mutex> lk(bg_mutex_);
+        bg_stop_ = false;
+    }
+
+    bg_thread_ = std::thread([this, interval,
+                               ep = std::move(entity_provider),
+                               ah = std::move(archive_handler),
+                               ph = std::move(purge_handler)]() {
+        while (true) {
+            // Wait for the interval or until stopped
+            std::unique_lock<std::mutex> lk(bg_mutex_);
+            bool stopped = bg_cv_.wait_for(lk, interval, [this]{ return bg_stop_; });
+            if (stopped) break;
+            lk.unlock();
+
+            try {
+                auto stats = runRetentionCheck(ep, ah, ph);
+
+                std::lock_guard<std::mutex> mlk(metrics_mutex_);
+                compliance_metrics_.entities_archived   += stats.archived_count;
+                compliance_metrics_.entities_purged     += stats.purged_count;
+                compliance_metrics_.policies_active      = policies_.size();
+                compliance_metrics_.last_run             = std::chrono::system_clock::now();
+                compliance_metrics_.last_run_success     = true;
+            } catch (const std::exception& e) {
+                spdlog::error("RetentionManager background job error: {}", e.what());
+                std::lock_guard<std::mutex> mlk(metrics_mutex_);
+                compliance_metrics_.last_run_success = false;
+            }
+        }
+        bg_running_.store(false);
+    });
+}
+
+void RetentionManager::stopBackgroundJob() {
+    {
+        std::lock_guard<std::mutex> lk(bg_mutex_);
+        bg_stop_ = true;
+    }
+    bg_cv_.notify_all();
+    if (bg_thread_.joinable()) {
+        bg_thread_.join();
+    }
+    bg_running_.store(false);
+}
+
+bool RetentionManager::isBackgroundJobRunning() const {
+    return bg_running_.load();
+}
+
+RetentionManager::ComplianceMetrics RetentionManager::getComplianceMetrics() const {
+    std::lock_guard<std::mutex> lk(metrics_mutex_);
+    auto m = compliance_metrics_;
+    m.policies_active = policies_.size();
+    return m;
+}
+
 } // namespace vcc
