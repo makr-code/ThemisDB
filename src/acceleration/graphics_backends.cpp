@@ -30,6 +30,8 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <stdexcept>
+#include <cstring>
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
@@ -38,15 +40,460 @@
 namespace themis {
 namespace acceleration {
 
-// Define the implementation class for Vulkan (stub)
+// ============================================================================
+// VulkanVectorBackend::VulkanVectorBackendImpl — full Vulkan compute pipeline
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+
 class VulkanVectorBackend::VulkanVectorBackendImpl {
 public:
-    VulkanVectorBackendImpl() = default;
-    ~VulkanVectorBackendImpl() = default;
-    
-    // Stub methods - would contain actual Vulkan implementation
-    bool initialized_ = false;
+    // Vulkan handles
+    VkInstance instance = VK_NULL_HANDLE;
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+    VkDevice device = VK_NULL_HANDLE;
+    VkQueue computeQueue = VK_NULL_HANDLE;
+    uint32_t computeQueueFamilyIndex = 0;
+
+    VkCommandPool commandPool = VK_NULL_HANDLE;
+    VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
+
+    // Compute pipelines (L2 squared distance and cosine distance)
+    VkPipeline l2Pipeline = VK_NULL_HANDLE;
+    VkPipeline cosinePipeline = VK_NULL_HANDLE;
+    VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
+    VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
+
+    VkShaderModule l2ShaderModule = VK_NULL_HANDLE;
+    VkShaderModule cosineShaderModule = VK_NULL_HANDLE;
+
+    VkPhysicalDeviceProperties deviceProps{};
+    VkPhysicalDeviceMemoryProperties memoryProps{};
+
+    // ---- Buffer helper ------------------------------------------------
+    struct BufMem {
+        VkBuffer buffer = VK_NULL_HANDLE;
+        VkDeviceMemory memory = VK_NULL_HANDLE;
+        VkDeviceSize size = 0;
+    };
+
+    BufMem createBuffer(VkDeviceSize sz, VkBufferUsageFlags usage,
+                        VkMemoryPropertyFlags props) {
+        BufMem bm;
+        bm.size = sz;
+
+        VkBufferCreateInfo bi{};
+        bi.sType       = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bi.size        = sz;
+        bi.usage       = usage;
+        bi.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        if (vkCreateBuffer(device, &bi, nullptr, &bm.buffer) != VK_SUCCESS)
+            throw std::runtime_error("vkCreateBuffer failed");
+
+        VkMemoryRequirements mr;
+        vkGetBufferMemoryRequirements(device, bm.buffer, &mr);
+
+        VkMemoryAllocateInfo ai{};
+        ai.sType           = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        ai.allocationSize  = mr.size;
+        ai.memoryTypeIndex = findMemoryType(mr.memoryTypeBits, props);
+        if (vkAllocateMemory(device, &ai, nullptr, &bm.memory) != VK_SUCCESS) {
+            vkDestroyBuffer(device, bm.buffer, nullptr);
+            throw std::runtime_error("vkAllocateMemory failed");
+        }
+        vkBindBufferMemory(device, bm.buffer, bm.memory, 0);
+        return bm;
+    }
+
+    void destroyBuffer(BufMem& bm) {
+        if (bm.buffer != VK_NULL_HANDLE) {
+            vkDestroyBuffer(device, bm.buffer, nullptr);
+            bm.buffer = VK_NULL_HANDLE;
+        }
+        if (bm.memory != VK_NULL_HANDLE) {
+            vkFreeMemory(device, bm.memory, nullptr);
+            bm.memory = VK_NULL_HANDLE;
+        }
+    }
+
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags flags) {
+        for (uint32_t i = 0; i < memoryProps.memoryTypeCount; ++i) {
+            if ((typeFilter & (1u << i)) &&
+                (memoryProps.memoryTypes[i].propertyFlags & flags) == flags)
+                return i;
+        }
+        throw std::runtime_error("findMemoryType: no suitable type");
+    }
+
+    // ---- Shader module ------------------------------------------------
+    VkShaderModule createShaderModule(const std::vector<uint32_t>& spv) {
+        VkShaderModuleCreateInfo ci{};
+        ci.sType    = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+        ci.codeSize = spv.size() * sizeof(uint32_t);
+        ci.pCode    = spv.data();
+        VkShaderModule mod;
+        if (vkCreateShaderModule(device, &ci, nullptr, &mod) != VK_SUCCESS)
+            throw std::runtime_error("vkCreateShaderModule failed");
+        return mod;
+    }
+
+    static std::vector<uint32_t> loadSPIRV(const std::string& path) {
+        std::ifstream f(path, std::ios::ate | std::ios::binary);
+        if (!f.is_open())
+            throw std::runtime_error("Cannot open SPIR-V: " + path);
+        size_t sz = static_cast<size_t>(f.tellg());
+        std::vector<uint32_t> buf(sz / sizeof(uint32_t));
+        f.seekg(0);
+        f.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(sz));
+        return buf;
+    }
+
+    // ---- Lifecycle ----------------------------------------------------
+    bool createInstance() {
+        VkApplicationInfo appInfo{};
+        appInfo.sType            = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+        appInfo.pApplicationName = "ThemisDB";
+        appInfo.apiVersion       = VK_API_VERSION_1_2;
+
+        VkInstanceCreateInfo ci{};
+        ci.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        ci.pApplicationInfo = &appInfo;
+        return vkCreateInstance(&ci, nullptr, &instance) == VK_SUCCESS;
+    }
+
+    bool selectPhysicalDevice() {
+        uint32_t count = 0;
+        vkEnumeratePhysicalDevices(instance, &count, nullptr);
+        if (count == 0) return false;
+
+        std::vector<VkPhysicalDevice> devs(count);
+        vkEnumeratePhysicalDevices(instance, &count, devs.data());
+
+        // Prefer discrete GPU, fall back to first device
+        physicalDevice = devs[0];
+        vkGetPhysicalDeviceProperties(devs[0], &deviceProps);
+        for (const auto& d : devs) {
+            VkPhysicalDeviceProperties p;
+            vkGetPhysicalDeviceProperties(d, &p);
+            if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+                physicalDevice = d;
+                deviceProps    = p;
+                break;
+            }
+        }
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProps);
+
+        // Find compute queue family
+        uint32_t qfCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &qfCount, nullptr);
+        std::vector<VkQueueFamilyProperties> qfProps(qfCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &qfCount, qfProps.data());
+        for (uint32_t i = 0; i < qfCount; ++i) {
+            if (qfProps[i].queueFlags & VK_QUEUE_COMPUTE_BIT) {
+                computeQueueFamilyIndex = i;
+                return true;
+            }
+        }
+        return false; // no compute queue found
+    }
+
+    bool createLogicalDevice() {
+        float priority = 1.0f;
+        VkDeviceQueueCreateInfo qci{};
+        qci.sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+        qci.queueFamilyIndex = computeQueueFamilyIndex;
+        qci.queueCount       = 1;
+        qci.pQueuePriorities = &priority;
+
+        VkPhysicalDeviceFeatures features{};
+        VkDeviceCreateInfo dci{};
+        dci.sType                = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+        dci.pQueueCreateInfos    = &qci;
+        dci.queueCreateInfoCount = 1;
+        dci.pEnabledFeatures     = &features;
+        if (vkCreateDevice(physicalDevice, &dci, nullptr, &device) != VK_SUCCESS)
+            return false;
+
+        vkGetDeviceQueue(device, computeQueueFamilyIndex, 0, &computeQueue);
+
+        VkCommandPoolCreateInfo pci{};
+        pci.sType            = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+        pci.queueFamilyIndex = computeQueueFamilyIndex;
+        pci.flags            = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+        if (vkCreateCommandPool(device, &pci, nullptr, &commandPool) != VK_SUCCESS)
+            return false;
+
+        VkDescriptorPoolSize dps{};
+        dps.type            = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        dps.descriptorCount = 300; // 3 bindings × up to 100 concurrent sets
+
+        VkDescriptorPoolCreateInfo dpci{};
+        dpci.sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        dpci.poolSizeCount = 1;
+        dpci.pPoolSizes    = &dps;
+        dpci.maxSets       = 100;
+        dpci.flags         = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+        return vkCreateDescriptorPool(device, &dpci, nullptr, &descriptorPool) == VK_SUCCESS;
+    }
+
+    bool createComputePipelines(const std::string& shaderDir) {
+        // Descriptor set layout: 3 storage buffers (query, vector, output)
+        VkDescriptorSetLayoutBinding bindings[3]{};
+        for (uint32_t i = 0; i < 3; ++i) {
+            bindings[i].binding         = i;
+            bindings[i].descriptorType  = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+            bindings[i].descriptorCount = 1;
+            bindings[i].stageFlags      = VK_SHADER_STAGE_COMPUTE_BIT;
+        }
+        VkDescriptorSetLayoutCreateInfo dslci{};
+        dslci.sType        = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        dslci.bindingCount = 3;
+        dslci.pBindings    = bindings;
+        if (vkCreateDescriptorSetLayout(device, &dslci, nullptr, &descriptorSetLayout) != VK_SUCCESS)
+            return false;
+
+        // Push constants: numQueries, numVectors, dim (3 × uint32)
+        VkPushConstantRange pcr{};
+        pcr.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+        pcr.offset     = 0;
+        pcr.size       = sizeof(uint32_t) * 3;
+
+        VkPipelineLayoutCreateInfo plci{};
+        plci.sType                  = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        plci.setLayoutCount         = 1;
+        plci.pSetLayouts            = &descriptorSetLayout;
+        plci.pushConstantRangeCount = 1;
+        plci.pPushConstantRanges    = &pcr;
+        if (vkCreatePipelineLayout(device, &plci, nullptr, &pipelineLayout) != VK_SUCCESS)
+            return false;
+
+        // Load pre-compiled SPIR-V shaders
+        try {
+            auto l2spv  = loadSPIRV(shaderDir + "/l2_distance.comp.spv");
+            auto cosSpv = loadSPIRV(shaderDir + "/cosine_distance.comp.spv");
+            l2ShaderModule     = createShaderModule(l2spv);
+            cosineShaderModule = createShaderModule(cosSpv);
+        } catch (const std::exception& e) {
+            std::cerr << "[Vulkan] Shader load failed: " << e.what()
+                      << " – compile with: glslc shader.comp -o shader.spv" << std::endl;
+            return false;
+        }
+
+        auto makePipeline = [&](VkShaderModule mod, VkPipeline& out) -> bool {
+            VkPipelineShaderStageCreateInfo ssi{};
+            ssi.sType  = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+            ssi.stage  = VK_SHADER_STAGE_COMPUTE_BIT;
+            ssi.module = mod;
+            ssi.pName  = "main";
+
+            VkComputePipelineCreateInfo pci{};
+            pci.sType  = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+            pci.stage  = ssi;
+            pci.layout = pipelineLayout;
+            return vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pci, nullptr, &out) == VK_SUCCESS;
+        };
+
+        return makePipeline(l2ShaderModule, l2Pipeline) &&
+               makePipeline(cosineShaderModule, cosinePipeline);
+    }
+
+    // ---- Compute dispatch ---------------------------------------------
+    std::vector<float> dispatch(const float* queries, uint32_t nq,
+                                const float* vectors, uint32_t nv,
+                                uint32_t dim, bool useL2) {
+        const VkDeviceSize qSize  = static_cast<VkDeviceSize>(nq) * dim * sizeof(float);
+        const VkDeviceSize vSize  = static_cast<VkDeviceSize>(nv) * dim * sizeof(float);
+        const VkDeviceSize outSz  = static_cast<VkDeviceSize>(nq) * nv * sizeof(float);
+
+        const VkBufferUsageFlags devUsage =
+            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT |
+            VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        const VkMemoryPropertyFlags devProps = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        const VkMemoryPropertyFlags hostProps =
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+
+        // Staging buffers (CPU-visible)
+        auto stagQ   = createBuffer(qSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
+        auto stagV   = createBuffer(vSize,  VK_BUFFER_USAGE_TRANSFER_SRC_BIT, hostProps);
+        auto stagOut = createBuffer(outSz,  VK_BUFFER_USAGE_TRANSFER_DST_BIT, hostProps);
+
+        // Device-local buffers (GPU)
+        auto devQ   = createBuffer(qSize,  devUsage, devProps);
+        auto devV   = createBuffer(vSize,  devUsage, devProps);
+        auto devOut = createBuffer(outSz,  devUsage, devProps);
+
+        // Copy host data into staging
+        auto copyToStaging = [&](BufMem& bm, const void* src, VkDeviceSize sz) {
+            void* ptr;
+            vkMapMemory(device, bm.memory, 0, sz, 0, &ptr);
+            std::memcpy(ptr, src, sz);
+            vkUnmapMemory(device, bm.memory);
+        };
+        copyToStaging(stagQ, queries, qSize);
+        copyToStaging(stagV, vectors, vSize);
+
+        // Allocate and record command buffer
+        VkCommandBufferAllocateInfo cbai{};
+        cbai.sType              = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+        cbai.commandPool        = commandPool;
+        cbai.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+        cbai.commandBufferCount = 1;
+        VkCommandBuffer cb;
+        vkAllocateCommandBuffers(device, &cbai, &cb);
+
+        VkCommandBufferBeginInfo cbbi{};
+        cbbi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+        cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        vkBeginCommandBuffer(cb, &cbbi);
+
+        // Transfer: staging → device
+        auto recordCopy = [&](BufMem& src, BufMem& dst, VkDeviceSize sz) {
+            VkBufferCopy region{0, 0, sz};
+            vkCmdCopyBuffer(cb, src.buffer, dst.buffer, 1, &region);
+        };
+        recordCopy(stagQ, devQ, qSize);
+        recordCopy(stagV, devV, vSize);
+
+        // Pipeline barrier: transfer write → compute read
+        VkMemoryBarrier mb{};
+        mb.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+        mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        mb.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        vkCmdPipelineBarrier(cb,
+            VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+            0, 1, &mb, 0, nullptr, 0, nullptr);
+
+        // Descriptor set for this dispatch
+        VkDescriptorSetAllocateInfo dsai{};
+        dsai.sType              = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        dsai.descriptorPool     = descriptorPool;
+        dsai.descriptorSetCount = 1;
+        dsai.pSetLayouts        = &descriptorSetLayout;
+        VkDescriptorSet ds;
+        vkAllocateDescriptorSets(device, &dsai, &ds);
+
+        auto makeDescBufInfo = [](VkBuffer buf, VkDeviceSize sz) {
+            VkDescriptorBufferInfo dbi{};
+            dbi.buffer = buf;
+            dbi.offset = 0;
+            dbi.range  = sz;
+            return dbi;
+        };
+        VkDescriptorBufferInfo dbi[3] = {
+            makeDescBufInfo(devQ.buffer,   qSize),
+            makeDescBufInfo(devV.buffer,   vSize),
+            makeDescBufInfo(devOut.buffer, outSz)
+        };
+        VkWriteDescriptorSet writes[3]{};
+        for (uint32_t i = 0; i < 3; ++i) {
+            writes[i].sType           = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            writes[i].dstSet          = ds;
+            writes[i].dstBinding      = i;
+            writes[i].descriptorCount = 1;
+            writes[i].descriptorType  = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+            writes[i].pBufferInfo     = &dbi[i];
+        }
+        vkUpdateDescriptorSets(device, 3, writes, 0, nullptr);
+
+        // Bind pipeline and dispatch
+        VkPipeline pipeline = useL2 ? l2Pipeline : cosinePipeline;
+        vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
+        vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE,
+                                pipelineLayout, 0, 1, &ds, 0, nullptr);
+
+        uint32_t pc[3] = {nq, nv, dim};
+        vkCmdPushConstants(cb, pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
+                           0, sizeof(pc), pc);
+
+        // Dispatch: one thread per (vector, query) pair
+        // Shader uses local_size_x=16, local_size_y=16
+        constexpr uint32_t LOCAL = 16;
+        uint32_t gx = (nv + LOCAL - 1) / LOCAL;
+        uint32_t gy = (nq + LOCAL - 1) / LOCAL;
+        vkCmdDispatch(cb, gx, gy, 1);
+
+        // Barrier: compute write → transfer read
+        mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+        mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+        vkCmdPipelineBarrier(cb,
+            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+            0, 1, &mb, 0, nullptr, 0, nullptr);
+
+        // Copy results: device → staging
+        VkBufferCopy outRegion{0, 0, outSz};
+        vkCmdCopyBuffer(cb, devOut.buffer, stagOut.buffer, 1, &outRegion);
+
+        vkEndCommandBuffer(cb);
+
+        // Submit and wait
+        VkFenceCreateInfo fci{};
+        fci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        VkFence fence;
+        vkCreateFence(device, &fci, nullptr, &fence);
+
+        VkSubmitInfo si{};
+        si.sType              = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        si.commandBufferCount = 1;
+        si.pCommandBuffers    = &cb;
+        vkQueueSubmit(computeQueue, 1, &si, fence);
+        vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
+
+        // Read results
+        std::vector<float> results(static_cast<size_t>(nq) * nv);
+        {
+            void* ptr;
+            vkMapMemory(device, stagOut.memory, 0, outSz, 0, &ptr);
+            std::memcpy(results.data(), ptr, outSz);
+            vkUnmapMemory(device, stagOut.memory);
+        }
+
+        // Cleanup per-dispatch resources
+        vkDestroyFence(device, fence, nullptr);
+        vkFreeCommandBuffers(device, commandPool, 1, &cb);
+        vkFreeDescriptorSets(device, descriptorPool, 1, &ds);
+
+        destroyBuffer(stagQ);
+        destroyBuffer(stagV);
+        destroyBuffer(stagOut);
+        destroyBuffer(devQ);
+        destroyBuffer(devV);
+        destroyBuffer(devOut);
+
+        return results;
+    }
+
+    // ---- Cleanup ------------------------------------------------------
+    void cleanup() {
+        if (device == VK_NULL_HANDLE) return;
+        vkDeviceWaitIdle(device);
+
+        if (l2Pipeline != VK_NULL_HANDLE)      vkDestroyPipeline(device, l2Pipeline, nullptr);
+        if (cosinePipeline != VK_NULL_HANDLE)  vkDestroyPipeline(device, cosinePipeline, nullptr);
+        if (pipelineLayout != VK_NULL_HANDLE)  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        if (descriptorSetLayout != VK_NULL_HANDLE)
+            vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
+        if (l2ShaderModule != VK_NULL_HANDLE)     vkDestroyShaderModule(device, l2ShaderModule, nullptr);
+        if (cosineShaderModule != VK_NULL_HANDLE) vkDestroyShaderModule(device, cosineShaderModule, nullptr);
+        if (descriptorPool != VK_NULL_HANDLE)  vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+        if (commandPool != VK_NULL_HANDLE)     vkDestroyCommandPool(device, commandPool, nullptr);
+
+        vkDestroyDevice(device, nullptr);
+        device = VK_NULL_HANDLE;
+
+        if (instance != VK_NULL_HANDLE) {
+            vkDestroyInstance(instance, nullptr);
+            instance = VK_NULL_HANDLE;
+        }
+    }
 };
+
+#else // !THEMIS_ENABLE_VULKAN
+
+class VulkanVectorBackend::VulkanVectorBackendImpl {
+    // Empty placeholder when Vulkan is not compiled in
+};
+
+#endif // THEMIS_ENABLE_VULKAN
 
 // ============================================================================
 // DirectX Vector Backend Stub
@@ -120,10 +567,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 }
 
 // ============================================================================
-// Vulkan Vector Backend Implementation
+// VulkanVectorBackend — public interface implementation
 // ============================================================================
 
-VulkanVectorBackend::VulkanVectorBackend() : initialized_(false) {}
+VulkanVectorBackend::VulkanVectorBackend()
+    : initialized_(false), impl_(std::make_unique<VulkanVectorBackendImpl>()) {}
 
 VulkanVectorBackend::~VulkanVectorBackend() {
     shutdown();
@@ -131,9 +579,20 @@ VulkanVectorBackend::~VulkanVectorBackend() {
 
 bool VulkanVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
-    // Check if Vulkan is available
-    // Would try to create a Vulkan instance
-    return false; // Currently stub - requires full Vulkan loader
+    // Probe Vulkan availability by attempting a minimal instance creation
+    VkApplicationInfo appInfo{};
+    appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.apiVersion = VK_API_VERSION_1_0;
+    VkInstanceCreateInfo ci{};
+    ci.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    ci.pApplicationInfo = &appInfo;
+    VkInstance probe = VK_NULL_HANDLE;
+    VkResult result = vkCreateInstance(&ci, nullptr, &probe);
+    if (result == VK_SUCCESS) {
+        vkDestroyInstance(probe, nullptr);
+        return true;
+    }
+    return false;
 #else
     return false;
 #endif
@@ -142,16 +601,26 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
 BackendCapabilities VulkanVectorBackend::getCapabilities() const {
     BackendCapabilities caps;
 #ifdef THEMIS_ENABLE_VULKAN
-    caps.supportsVectorOps = true;
+    caps.supportsVectorOps     = true;
     caps.supportsBatchProcessing = true;
-    caps.supportsAsync = true;
-    caps.deviceName = "Vulkan Compute";
-    
-    if (isAvailable()) {
-        // Query actual device properties
-        // VkPhysicalDeviceProperties props;
-        // vkGetPhysicalDeviceProperties(physicalDevice, &props);
-        // caps.deviceName = std::string(props.deviceName);
+    caps.supportsAsync         = true;
+
+    if (initialized_ && impl_ && impl_->device != VK_NULL_HANDLE) {
+        caps.deviceName    = std::string(impl_->deviceProps.deviceName);
+        caps.computeUnits  = static_cast<int>(
+            impl_->deviceProps.limits.maxComputeWorkGroupCount[0]);
+        // Report device-local heap size
+        for (uint32_t i = 0; i < impl_->memoryProps.memoryHeapCount; ++i) {
+            if (impl_->memoryProps.memoryHeaps[i].flags &
+                VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
+                caps.maxMemoryBytes = impl_->memoryProps.memoryHeaps[i].size;
+                break;
+            }
+        }
+    } else {
+        caps.deviceName   = "Vulkan Compute";
+        caps.computeUnits = 1;
+        caps.maxMemoryBytes = 0;
     }
 #endif
     return caps;
@@ -159,16 +628,49 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
 
 bool VulkanVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
-    std::cout << "Vulkan Backend: Initialization (stub)..." << std::endl;
-    
-    // Full Vulkan initialization would be done here via VulkanVectorBackendImpl
-    // For now, this is a stub that requires the full implementation to be linked
-    
-    // When Vulkan SDK is available, the full implementation in vulkan_backend_full.cpp
-    // would be used via the impl_ pointer
-    
-    initialized_ = false;  // Stub: not fully implemented without Vulkan SDK
-    return false;
+    if (initialized_) return true;
+
+    if (!impl_) impl_ = std::make_unique<VulkanVectorBackendImpl>();
+
+    if (!impl_->createInstance()) {
+        std::cerr << "[Vulkan] vkCreateInstance failed – no Vulkan ICD?" << std::endl;
+        return false;
+    }
+    if (!impl_->selectPhysicalDevice()) {
+        std::cerr << "[Vulkan] No suitable physical device found" << std::endl;
+        impl_->cleanup();
+        return false;
+    }
+    if (!impl_->createLogicalDevice()) {
+        std::cerr << "[Vulkan] vkCreateDevice failed" << std::endl;
+        impl_->cleanup();
+        return false;
+    }
+
+    // Attempt to find compiled shaders in common locations
+    const std::vector<std::string> shaderDirs = {
+        "shaders/vector_index",
+        "../shaders/vector_index",
+        "./shaders",
+    };
+    bool pipelinesCreated = false;
+    for (const auto& dir : shaderDirs) {
+        if (impl_->createComputePipelines(dir)) {
+            pipelinesCreated = true;
+            break;
+        }
+    }
+    if (!pipelinesCreated) {
+        std::cerr << "[Vulkan] Compute pipelines unavailable – "
+                     "compile shaders with: glslc shader.comp -o shader.spv" << std::endl;
+        impl_->cleanup();
+        return false;
+    }
+
+    std::cout << "[Vulkan] Initialized: " << impl_->deviceProps.deviceName << std::endl;
+    initialized_ = true;
+    clearError();
+    return true;
 #else
     return false;
 #endif
@@ -176,10 +678,8 @@ bool VulkanVectorBackend::initialize() {
 
 void VulkanVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (initialized_) {
-        // Cleanup Vulkan resources
-        // if (device_) vkDestroyDevice((VkDevice)device_, nullptr);
-        // if (instance_) vkDestroyInstance((VkInstance)instance_, nullptr);
+    if (initialized_ && impl_) {
+        impl_->cleanup();
         initialized_ = false;
     }
 #endif
@@ -194,27 +694,21 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     bool useL2
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (!initialized_) {
-        std::cerr << "Vulkan backend not initialized" << std::endl;
+    if (!initialized_ || !impl_) {
+        std::cerr << "[Vulkan] computeDistances: backend not initialized" << std::endl;
         return {};
     }
-    
-    // Full implementation would:
-    // 1. Create staging buffers (CPU-visible)
-    // 2. Create device buffers (GPU-only)
-    // 3. Copy data to staging buffers
-    // 4. Create command buffer
-    // 5. Bind compute pipeline (L2 or Cosine shader)
-    // 6. Bind descriptor sets (buffers)
-    // 7. Dispatch compute shader
-    // 8. Copy results back
-    // 9. Wait for completion
-    
-    std::vector<float> distances;
-    // distances.resize(numQueries * numVectors);
-    
-    std::cerr << "Vulkan computeDistances: Not fully implemented" << std::endl;
-    return distances;
+    try {
+        return impl_->dispatch(queries,
+                               static_cast<uint32_t>(numQueries),
+                               vectors,
+                               static_cast<uint32_t>(numVectors),
+                               static_cast<uint32_t>(dim),
+                               useL2);
+    } catch (const std::exception& e) {
+        std::cerr << "[Vulkan] computeDistances error: " << e.what() << std::endl;
+        return {};
+    }
 #else
     return {};
 #endif
@@ -230,19 +724,42 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     bool useL2
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
-    if (!initialized_) {
-        std::cerr << "Vulkan backend not initialized" << std::endl;
+    if (!initialized_ || !impl_) {
+        std::cerr << "[Vulkan] batchKnnSearch: backend not initialized" << std::endl;
         return {};
     }
-    
-    // Full implementation would:
-    // 1. Compute distances using compute shader
-    // 2. Use another compute shader for top-k selection
-    // 3. Or use CPU for top-k selection
-    
-    std::vector<std::vector<std::pair<uint32_t, float>>> results;
-    
-    std::cerr << "Vulkan batchKnnSearch: Not fully implemented" << std::endl;
+
+    // Compute all pairwise distances on the GPU
+    std::vector<float> distances;
+    try {
+        distances = impl_->dispatch(queries,
+                                    static_cast<uint32_t>(numQueries),
+                                    vectors,
+                                    static_cast<uint32_t>(numVectors),
+                                    static_cast<uint32_t>(dim),
+                                    useL2);
+    } catch (const std::exception& e) {
+        std::cerr << "[Vulkan] batchKnnSearch dispatch error: " << e.what() << std::endl;
+        return {};
+    }
+
+    // CPU top-k selection from the distance matrix
+    std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
+    const size_t actualK = std::min(k, numVectors);
+    for (size_t q = 0; q < numQueries; ++q) {
+        const float* row = distances.data() + q * numVectors;
+        std::vector<std::pair<float, uint32_t>> row_pairs(numVectors);
+        for (size_t v = 0; v < numVectors; ++v)
+            row_pairs[v] = {row[v], static_cast<uint32_t>(v)};
+
+        std::partial_sort(row_pairs.begin(),
+                          row_pairs.begin() + static_cast<std::ptrdiff_t>(actualK),
+                          row_pairs.end());
+
+        results[q].resize(actualK);
+        for (size_t i = 0; i < actualK; ++i)
+            results[q][i] = {row_pairs[i].second, row_pairs[i].first};
+    }
     return results;
 #else
     return {};
