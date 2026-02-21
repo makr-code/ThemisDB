@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lek_manager.cpp                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:29                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 11:02:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     265                                            ║
+    • Total Lines:     271                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3089438e7  2026-02-21  Add RocksDB option files and manifest for caching ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -244,9 +251,8 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
         auto old_db_key = dbKey(old_date);
         auto new_db_key = dbKey(new_date);
         std::string blob;
-        auto res = db_->get(old_db_key, &blob);
-        if (!res.ok()) return false;
-        db_->put(new_db_key, blob);
+        if (!db_->get(old_db_key, blob)) return false;
+        if (!db_->put(new_db_key, blob)) return false;
 
         // Update in-memory cache
         {

@@ -45,6 +45,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Benefits**: Improved organization, better discoverability, scalability, backward compatibility
 
 ### Added
+- **Search Module v1.5.0 — 7 new search components** 🔍
+  - **`QueryExpander`** (`include/search/query_expander.h`): Synonym expansion with
+    configurable max_expansions; Levenshtein-based spelling correction against a
+    user-supplied vocabulary; alternative query generation; zero-result relaxation
+    (drops last token).  Tests: `tests/test_query_expander.cpp` (28 tests).
+  - **`FuzzyMatcher`** (`include/search/fuzzy_matcher.h`): Levenshtein, Soundex,
+    Metaphone, and N-gram (Dice-coefficient) similarity; public static utilities for
+    direct use; wraps `SecondaryIndexManager::scanFulltextFuzzy`.  Tests:
+    `tests/test_fuzzy_matcher.cpp` (24 tests).
+  - **`FacetedSearch`** (`include/search/faceted_search.h`): Per-field value-count
+    facets (`computeFacet`), multi-column batch facets (`computeFacets`), numeric
+    range-bucket facets (`computeRangeFacet`), and drill-down filter intersection
+    (`applyFacetFilters`).  Tests: `tests/test_faceted_search.cpp` (20 tests).
+  - **`SearchAnalytics`** (`include/search/search_analytics.h`): Thread-safe query
+    event log (circular eviction at `Config::max_events`); `computeMetrics()` returns
+    average/p95/p99 latency, zero-result rate, and top-20 queries.  Tests:
+    `tests/test_search_analytics.cpp` (26 tests).
+  - **`AutocompleteEngine`** (`include/search/autocomplete.h`): Prefix-index
+    suggestions via `SecondaryIndexManager::scanKeysRange`; popular-query
+    suggestions via `SearchAnalytics`; combined, deduplicated, score-ranked output.
+    Tests: `tests/test_autocomplete.cpp` (18 tests).
+  - **`LearningToRank`** (`include/search/learning_to_rank.h`): Dot-product linear
+    re-ranker over a 6-dimensional `RankingFeatures` vector; online pairwise
+    gradient-descent training from `ClickEvent` data; deterministic A/B variant
+    routing via `selectVariant()` / `rerankWithVariant()`.  Tests:
+    `tests/test_learning_to_rank.cpp` (28 tests).
+  - **`MultiModalSearch`** (`include/search/multi_modal_search.h`): Accepts
+    `ModalQuery` components (TEXT / IMAGE / AUDIO / CUSTOM), dispatches to
+    `SecondaryIndexManager` or `VectorIndexManager`, fuses via weighted RRF.
+    `searchTextAndImage()` convenience method.  Tests:
+    `tests/test_multi_modal_search.cpp` (18 tests).
+
+- **Search Module v1.4.0 — HybridSearch production hardening** 🔍
+  - **Configurable vector metric**: `Config::vector_metric` (COSINE / DOT / L2) —
+    was hardcoded to COSINE; DOT and L2 now correctly convert distance to similarity.
+  - **Strict config validation**: constructor throws `std::invalid_argument` on
+    k == 0, rrf_k ≤ 0, negative weights, k > max_k, k_bm25/k_vector > max_candidates,
+    empty default_table / default_column.
+  - **Resource limits**: `Config::max_k` and `Config::max_candidates` bound
+    unbounded index scans (default 10,000 each).
+  - **Score normalization edge cases**: range == 0 now yields 1.0 for positive
+    scores, 0.0 for zero scores.
+  - **Linear-combination pre-normalization**: BM25 and vector scores are always
+    normalized to [0,1] before weighting, eliminating scale incompatibility.
+  - **`SearchStats`**: appended to every `search()` return; exposes `bm25_ok`,
+    `vector_ok`, `partial_result`, `bm25_count`, `vector_count`.
+  - **Exception safety**: `search()` catches all backend and fusion exceptions,
+    logs via `THEMIS_ERROR`, and returns empty/partial results rather than throwing.
+  - **Thread-safety and exception-safety documentation** added to header.
+  - **`normalizeScores` promoted to `public static`** for direct testability.
+  - **Tests**: `test_hybrid_search.cpp` (35+ tests), `test_rrf_fusion.cpp` (20 tests),
+    `test_score_normalization.cpp` (15 tests), `test_hybrid_search_integration.cpp`
+    (18 integration tests).
+  - **Benchmark**: `benchmarks/benchmark_hybrid_search.cpp`.
+
 - **Shard Repair / Anti-Entropy Engine** 🔧 (`include/sharding/shard_repair_engine.h`)
   - **Background anti-entropy scan**: periodic `checkDocumentHealth()` across all shards; degraded documents are automatically queued for recovery
   - **Repair worker thread**: drains job queue via `RedundancyStrategy::recoverDocument()` (RAID-5/6 + Mirror modes)

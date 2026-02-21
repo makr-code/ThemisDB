@@ -3,17 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_security_integration_example.cpp               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:23                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 10:56:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   61.0/100                                       ║
-    • Total Lines:     191                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 9                             ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   56.0/100                                       ║
+    • Total Lines:     198                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
+  Revision History:                                                   ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

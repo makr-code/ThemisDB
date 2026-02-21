@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            field_encryption.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 11:01:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     701                                            ║
+    • Total Lines:     708                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3599448bd  2026-01-21  Implement cascade deletion for graph edges on node remova... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -19,6 +26,7 @@
 
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
@@ -373,6 +381,13 @@ EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::
 }
 
 EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, const std::string& key_id) {
+    // Runtime license gate: field-level encryption is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance()
+            .isFeatureAllowed("field_encryption", license_error)) {
+        throw std::runtime_error("Field encryption unavailable: " + license_error);
+    }
+
     auto start_time = std::chrono::high_resolution_clock::now();
     
     try {

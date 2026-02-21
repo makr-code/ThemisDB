@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            license_info.cpp                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:29                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 11:02:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     713                                            ║
+    • Total Lines:     720                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b6c51ef3e  2026-02-20  Themis Core Framework – Production Readiness (All 7 Phase... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +32,7 @@
 
 #include "themis/license_info.h"
 #include "utils/openssl_deleter.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <iomanip>
 #include <ctime>
@@ -614,13 +622,72 @@ private:
         }
 
         if (http_code == 200) {
+            // Parse JSON response body from the license server.
+            // The server returns a JSON object whose fields map 1:1 to LicenseData.
+            // All fields are optional in the parse — if the server omits one,
+            // we fall back to the corresponding value from the embedded license.
+            //
+            // Field name conventions used by each backend:
+            //   FastAPI license-server   WordPress plugin
+            //   ────────────────────     ────────────────
+            //   expiry_date              end_date
+            //   issued_date              start_date
+            //   (both send "edition" and "organization")
+            LicenseData refreshed = license;  // start with embedded as baseline
+            try {
+                auto j = nlohmann::json::parse(response_body);
+                if (j.contains("license_key")    && j["license_key"].is_string())
+                    refreshed.license_key     = j["license_key"].get<std::string>();
+                if (j.contains("edition")        && j["edition"].is_string())
+                    refreshed.edition         = j["edition"].get<std::string>();
+                if (j.contains("tier")           && j["tier"].is_string())
+                    refreshed.edition         = j["tier"].get<std::string>();  // alias
+                if (j.contains("organization")   && j["organization"].is_string())
+                    refreshed.organization_name = j["organization"].get<std::string>();
+                // Accept "expiry_date" (FastAPI server) or "end_date" (WordPress plugin).
+                if (j.contains("expiry_date")    && j["expiry_date"].is_string())
+                    refreshed.expiry_date     = j["expiry_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("end_date")  && j["end_date"].is_string())
+                    refreshed.expiry_date     = j["end_date"].get<std::string>().substr(0, 10);
+                // Accept "issued_date" (FastAPI server) or "start_date" (WordPress plugin).
+                if (j.contains("issued_date")    && j["issued_date"].is_string())
+                    refreshed.issued_date     = j["issued_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("start_date") && j["start_date"].is_string())
+                    refreshed.issued_date     = j["start_date"].get<std::string>().substr(0, 10);
+                if (j.contains("status")         && j["status"].is_string())
+                    result.status             = j["status"].get<std::string>();
+                else
+                    result.status = "active";
+                // Populate LicenseData.signature from the server's HMAC so the
+                // cached license carries the server-signed proof.
+                if (j.contains("signature")      && j["signature"].is_string())
+                    refreshed.signature       = j["signature"].get<std::string>();
+                // Top-level limits (FastAPI server sends max_nodes at top level, not nested).
+                // Parsed first so that a nested "limits" object (WordPress plugin / future)
+                // can override individual values — nested takes priority.
+                if (j.contains("max_nodes")      && j["max_nodes"].is_number_integer())
+                    refreshed.max_nodes      = j["max_nodes"].get<int>();
+                if (j.contains("max_cores")      && j["max_cores"].is_number_integer())
+                    refreshed.max_cores      = j["max_cores"].get<int>();
+                if (j.contains("max_storage_tb") && j["max_storage_tb"].is_number_integer())
+                    refreshed.max_storage_tb = j["max_storage_tb"].get<int>();
+                if (j.contains("limits") && j["limits"].is_object()) {
+                    const auto& lim = j["limits"];
+                    if (lim.contains("max_nodes")      && lim["max_nodes"].is_number_integer())
+                        refreshed.max_nodes      = lim["max_nodes"].get<int>();
+                    if (lim.contains("max_cores")      && lim["max_cores"].is_number_integer())
+                        refreshed.max_cores      = lim["max_cores"].get<int>();
+                    if (lim.contains("max_storage_tb") && lim["max_storage_tb"].is_number_integer())
+                        refreshed.max_storage_tb = lim["max_storage_tb"].get<int>();
+                }
+            } catch (const nlohmann::json::exception&) {
+                // Malformed JSON response — keep the embedded baseline.
+                result.status = "active";
+            }
             result.success = true;
-            result.status  = "active";
-            // A real implementation would parse the JSON response body
-            // and populate result.refreshed_license.
-            result.refreshed_license = license;
+            result.refreshed_license = refreshed;
             std::lock_guard<std::mutex> lock(cache_mutex_);
-            cached_license_  = license;
+            cached_license_  = refreshed;
             last_check_time_ = std::chrono::steady_clock::now();
         } else if (http_code == 402) {
             result.success       = false;
