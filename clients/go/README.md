@@ -12,6 +12,7 @@ Official Go client library for [ThemisDB](https://github.com/makr-code/ThemisDB)
 - ✅ **Multiple Isolation Levels** - READ_COMMITTED, SNAPSHOT
 - ✅ **CRUD Operations** - Get, Put, Delete with type-safe interfaces
 - ✅ **AQL Query Support** - Execute complex queries
+- ✅ **AQL Query Templates** - Fluent builder and pre-built templates for common AQL patterns 🆕
 - ✅ **Context Support** - Full context.Context integration for cancellation and timeouts
 - ✅ **Concurrent-Safe** - Thread-safe transaction and client operations
 - ✅ **Idiomatic Go** - Follows Go best practices and conventions
@@ -224,6 +225,76 @@ func queryUsers(client *themisdb.Client) error {
     return nil
 }
 ```
+
+### AQL Query Templates
+
+The client ships with a fluent `AQLQueryBuilder` and a set of ready-to-use template functions so you never have to write raw query strings by hand.
+
+#### Fluent Builder
+
+```go
+import themisdb "github.com/makr-code/ThemisDB/clients/go"
+
+// Build a query with the fluent API
+query := themisdb.NewAQLQuery().
+    For("u", "users").
+    Filter("u.age > 18").
+    Sort("u.name", themisdb.SortAsc).
+    Limit(0, 10).
+    Return("u").
+    Build()
+
+var users []map[string]interface{}
+client.Query(ctx, query, &users)
+```
+
+#### Pre-built Templates
+
+```go
+// Simple collection query
+q := themisdb.SimpleQueryTemplate("orders", "o", "o.status == 'open'", "o.created_at", themisdb.SortDesc, 50)
+
+// Join two collections
+q = themisdb.JoinQueryTemplate(
+    "users", "u",
+    "orders", "o",
+    "o.user_id == u._key",
+    "{ user: u.name, total: o.total }",
+)
+
+// Graph traversal
+q = themisdb.GraphTraversalTemplate("v", 1, 3, themisdb.TraversalOutbound, "'users/alice'", "friends", "v.name")
+
+// Aggregation with COLLECT / AGGREGATE
+q = themisdb.AggregationTemplate(
+    "orders", "o",
+    "o.status == 'completed'",
+    "city = o.city",
+    "revenue = SUM(o.amount)",
+    "revenue", themisdb.SortDesc,
+    "{ city, revenue }",
+)
+
+// Vector similarity search
+q = themisdb.VectorSearchTemplate("documents", "doc", "SIMILARITY(doc.embedding, @qv, 10)", "doc")
+
+// DML helpers
+ins := themisdb.InsertTemplate("{ name: @name, age: @age }", "users")
+upd := themisdb.UpdateTemplate("@key", "users", "{ status: @status }")
+del := themisdb.DeleteTemplate("{ _key: @key }", "users")
+ups := themisdb.UpsertTemplate("{ email: @email }", "{ email: @email, name: @name }", "{ name: @name }", "users")
+
+// Offset-based pagination
+q = themisdb.PaginatedQueryTemplate("products", "p", "p.active == true", "p.price", themisdb.SortAsc, 20, 10)
+
+// LLM statements
+llmQ  := themisdb.LLMInferTemplate("Explain ACID transactions", "llama-2-7b", "{ max_tokens: 200 }")
+ragQ  := themisdb.LLMRagTemplate("What are key features?", "docs", 5, "technical-docs")
+embQ  := themisdb.LLMEmbedTemplate("ThemisDB is a multi-model database", "all-minilm")
+```
+
+See the full API reference: [`aql_templates.go`](aql_templates.go)  
+See the detailed documentation: [AQL Query Templates Guide](../../docs/en/aql/aql_query_templates.md)
 
 ### Context and Timeouts
 
