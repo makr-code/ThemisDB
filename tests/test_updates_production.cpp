@@ -615,3 +615,69 @@ TEST(StateMachineRegressionTest, ThrowingCallback_DoesNotPropagateException) {
     EXPECT_NO_THROW(sm.transition(UpdateState::DOWNLOADING, "1.0.0"));
     EXPECT_EQ(sm.currentState(), UpdateState::DOWNLOADING);
 }
+
+// ============================================================================
+// Thread-safety: callbacks must not deadlock when accessing state machine
+// ============================================================================
+
+TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentState_NoDeadlock) {
+    UpdateStateMachine sm;
+    UpdateState observed_state = UpdateState::IDLE;
+
+    sm.addStateChangeCallback([&](UpdateState, UpdateState /*to*/, const std::string&) {
+        // currentState() must NOT deadlock (it uses atomic, not mutex)
+        observed_state = sm.currentState();
+    });
+
+    sm.transition(UpdateState::DOWNLOADING, "1.0.0");
+    EXPECT_EQ(observed_state, UpdateState::DOWNLOADING);
+}
+
+TEST(StateMachineThreadSafetyTest, Callback_CanCallCurrentVersion_NoDeadlock) {
+    UpdateStateMachine sm;
+    std::string observed_version;
+
+    sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
+        // currentVersion() acquires mutex_ – must NOT deadlock after fix
+        observed_version = sm.currentVersion();
+    });
+
+    sm.transition(UpdateState::DOWNLOADING, "2.5.0");
+    EXPECT_EQ(observed_version, "2.5.0");
+}
+
+TEST(StateMachineThreadSafetyTest, Reset_FiresCallbacks) {
+    UpdateStateMachine sm;
+
+    // Reach FAILED state
+    sm.transition(UpdateState::DOWNLOADING, "1.0.0");
+    sm.transition(UpdateState::FAILED,      "1.0.0", "error");
+
+    int reset_cb_count = 0;
+    UpdateState reset_to_state = UpdateState::DOWNLOADING;  // sentinel
+
+    sm.addStateChangeCallback([&](UpdateState /*from*/, UpdateState to, const std::string&) {
+        ++reset_cb_count;
+        reset_to_state = to;
+    });
+
+    sm.reset();
+
+    EXPECT_EQ(reset_cb_count, 1);
+    EXPECT_EQ(reset_to_state, UpdateState::IDLE);
+    EXPECT_EQ(sm.currentState(), UpdateState::IDLE);
+}
+
+TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlock) {
+    UpdateStateMachine sm;
+    sm.transition(UpdateState::DOWNLOADING, "3.0.0");
+    sm.transition(UpdateState::FAILED,      "3.0.0");
+
+    std::string version_at_reset;
+    sm.addStateChangeCallback([&](UpdateState, UpdateState, const std::string&) {
+        version_at_reset = sm.currentVersion();
+    });
+
+    EXPECT_NO_THROW(sm.reset());
+    EXPECT_EQ(sm.currentState(), UpdateState::IDLE);
+}

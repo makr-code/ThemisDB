@@ -141,75 +141,101 @@ bool UpdateStateMachine::isValidTransition(UpdateState from, UpdateState to) con
 bool UpdateStateMachine::transition(UpdateState to,
                                     const std::string& version,
                                     const std::string& message) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Collect callbacks and state under the lock, then invoke them outside it.
+    // This prevents a deadlock when a callback calls currentState() or
+    // currentVersion() (both of which also acquire mutex_).
+    std::vector<StateChangeCallback> callbacks_copy;
+    UpdateState from;
+    std::string notify_version;
 
-    UpdateState from = state_.load(std::memory_order_relaxed);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
 
-    if (!isValidTransition(from, to)) {
-        LOG_WARN("UpdateStateMachine: invalid transition {} -> {} (version={})",
-                 stateToString(from), stateToString(to), version);
-        return false;
-    }
+        from = state_.load(std::memory_order_relaxed);
 
-    // Update version for new downloads; keep existing version for subsequent transitions
-    if (to == UpdateState::DOWNLOADING && !version.empty()) {
-        current_version_ = version;
-    } else if (version.empty()) {
-        // keep current_version_
-    } else {
-        current_version_ = version;
-    }
+        if (!isValidTransition(from, to)) {
+            LOG_WARN("UpdateStateMachine: invalid transition {} -> {} (version={})",
+                     stateToString(from), stateToString(to), version);
+            return false;
+        }
 
-    state_.store(to, std::memory_order_release);
+        // Update version for new downloads; keep existing version for subsequent transitions
+        if (to == UpdateState::DOWNLOADING && !version.empty()) {
+            current_version_ = version;
+        } else if (!version.empty()) {
+            current_version_ = version;
+        }
+        // else: keep current_version_
 
-    UpdateTransactionEntry entry{from, to, current_version_, message,
-                                 std::chrono::system_clock::now()};
-    transaction_log_.push_back(entry);
+        state_.store(to, std::memory_order_release);
 
-    if (!log_path_.empty()) {
-        appendLogEntry(entry);
-    }
+        UpdateTransactionEntry entry{from, to, current_version_, message,
+                                     std::chrono::system_clock::now()};
+        transaction_log_.push_back(entry);
 
-    LOG_INFO("UpdateStateMachine: {} -> {} (version={}, msg={})",
-             stateToString(from), stateToString(to), current_version_, message);
+        if (!log_path_.empty()) {
+            appendLogEntry(entry);
+        }
 
-    for (auto& cb : callbacks_) {
+        LOG_INFO("UpdateStateMachine: {} -> {} (version={}, msg={})",
+                 stateToString(from), stateToString(to), current_version_, message);
+
+        // Clear in-flight flag and version only when reaching IDLE
+        if (to == UpdateState::IDLE) {
+            has_inflight_update_ = false;
+            current_version_.clear();
+        }
+
+        notify_version   = current_version_;
+        callbacks_copy   = callbacks_;  // shallow copy of function wrappers
+    }  // lock released here
+
+    for (auto& cb : callbacks_copy) {
         try {
-            cb(from, to, current_version_);
+            cb(from, to, notify_version);
         } catch (...) {
             // Never let callbacks crash the state machine
         }
-    }
-
-    // Clear in-flight flag and version only when reaching IDLE (clean success/rollback finish)
-    if (to == UpdateState::IDLE) {
-        has_inflight_update_ = false;
-        current_version_.clear();
     }
 
     return true;
 }
 
 void UpdateStateMachine::reset() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<StateChangeCallback> callbacks_copy;
+    UpdateState from;
 
-    UpdateState from = state_.load(std::memory_order_relaxed);
-    if (from != UpdateState::FAILED) {
-        LOG_WARN("UpdateStateMachine::reset() called while not in FAILED state");
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        from = state_.load(std::memory_order_relaxed);
+        if (from != UpdateState::FAILED) {
+            LOG_WARN("UpdateStateMachine::reset() called while not in FAILED state");
+        }
+
+        state_.store(UpdateState::IDLE, std::memory_order_release);
+        current_version_.clear();
+        has_inflight_update_ = false;
+
+        UpdateTransactionEntry entry{from, UpdateState::IDLE, "",
+                                     "manual reset", std::chrono::system_clock::now()};
+        transaction_log_.push_back(entry);
+        if (!log_path_.empty()) {
+            appendLogEntry(entry);
+        }
+
+        LOG_INFO("UpdateStateMachine: reset from {} to IDLE", stateToString(from));
+
+        callbacks_copy = callbacks_;
+    }  // lock released here
+
+    for (auto& cb : callbacks_copy) {
+        try {
+            cb(from, UpdateState::IDLE, "");
+        } catch (...) {
+            // Never let callbacks crash
+        }
     }
-
-    state_.store(UpdateState::IDLE, std::memory_order_release);
-    current_version_.clear();
-    has_inflight_update_ = false;
-
-    UpdateTransactionEntry entry{from, UpdateState::IDLE, "",
-                                 "manual reset", std::chrono::system_clock::now()};
-    transaction_log_.push_back(entry);
-    if (!log_path_.empty()) {
-        appendLogEntry(entry);
-    }
-
-    LOG_INFO("UpdateStateMachine: reset from {} to IDLE", stateToString(from));
 }
 
 void UpdateStateMachine::addStateChangeCallback(StateChangeCallback cb) {
