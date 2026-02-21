@@ -338,7 +338,7 @@ private:
     RocksDBWrapper& db_;
     VectorIndex* vector_index_;
     GraphIndex* graph_index_;
-    ProcessMining process_mining_;
+    mutable ProcessMining process_mining_;
     
     // Cache for frequent patterns
     mutable std::map<std::string, std::vector<SimilarityResult>> pattern_cache_;

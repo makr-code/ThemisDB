@@ -260,6 +260,7 @@ set(THEMIS_QUERY_SOURCES
     # Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
+    ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/diff_engine.cpp
     ../src/analytics/cep_engine.cpp
