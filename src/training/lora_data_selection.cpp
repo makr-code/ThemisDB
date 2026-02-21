@@ -166,9 +166,13 @@ static double computeTTR(const std::string& text) {
     return static_cast<double>(types.size()) / static_cast<double>(tokens);
 }
 
-// Compute BM25 domain relevance score for one sample
+// Compute BM25 domain relevance score for one sample.
+// When @p domain_hint is non-empty and exists in @p domain_keywords, only
+// that domain's keywords are used (targeted scoring).  Otherwise, scores
+// are aggregated across all domains (fallback / multi-domain behaviour).
 static double computeDomainRelevance(const std::string& text,
-                                      const DomainKeywords& domain_keywords) {
+                                      const DomainKeywords& domain_keywords,
+                                      const std::string& domain_hint = "") {
     if (domain_keywords.empty()) return 0.5; // neutral when no keywords configured
 
     std::string lower = text;
@@ -177,7 +181,7 @@ static double computeDomainRelevance(const std::string& text,
     double total_score = 0.0;
     size_t total_keywords = 0;
 
-    for (const auto& [domain, keywords] : domain_keywords) {
+    auto scoreDomain = [&](const std::vector<std::string>& keywords) {
         for (const auto& kw : keywords) {
             std::string lkw = kw;
             std::transform(lkw.begin(), lkw.end(), lkw.begin(), ::tolower);
@@ -192,6 +196,20 @@ static double computeDomainRelevance(const std::string& text,
             total_score += static_cast<double>(count) / (static_cast<double>(count) + k1);
             ++total_keywords;
         }
+    };
+
+    if (!domain_hint.empty()) {
+        auto it = domain_keywords.find(domain_hint);
+        if (it != domain_keywords.end()) {
+            scoreDomain(it->second);
+            if (total_keywords == 0) return 0.5;
+            return std::min(1.0, total_score / static_cast<double>(total_keywords));
+        }
+        // Domain hint not found – fall through to aggregate scoring below
+    }
+
+    for (const auto& [domain, keywords] : domain_keywords) {
+        scoreDomain(keywords);
     }
     if (total_keywords == 0) return 0.5;
     return std::min(1.0, total_score / static_cast<double>(total_keywords));
@@ -437,8 +455,9 @@ public:
         for (auto& s : samples) {
             double perplexity_score = detail::computePerplexityScore(s.text);
             double ttr_score        = detail::computeTTR(s.text);
+            // Pass the sample's declared domain so targeted keywords are used
             double domain_score     = detail::computeDomainRelevance(
-                                          s.text, config_.domain_keywords);
+                                          s.text, config_.domain_keywords, s.domain);
 
             // Weighted combination (weights sum to 1.0 after normalisation)
             double w_sum = config_.perplexity_weight +
@@ -556,6 +575,9 @@ public:
                 result.audit_entry.filtered_by_cluster = s2.size() - s3.size();
                 for (const auto& s : result.selected_samples) {
                     result.audit_entry.selected_ids.push_back(s.id);
+                    if (!s.domain.empty()) {
+                        result.audit_entry.domain_distribution[s.domain]++;
+                    }
                 }
             }
 
@@ -903,6 +925,19 @@ std::string SelectionAuditEntry::toJSONL() const {
     }
     ids_arr += ']';
 
+    // Build domain_distribution JSON object
+    std::string domain_obj = "{";
+    bool first_domain = true;
+    for (const auto& [dom, cnt] : domain_distribution) {
+        if (!first_domain) domain_obj += ',';
+        first_domain = false;
+        domain_obj += '"';
+        domain_obj += jsonEscape(dom);
+        domain_obj += "\":";
+        domain_obj += std::to_string(cnt);
+    }
+    domain_obj += '}';
+
     std::ostringstream oss;
     oss << '{'
         << "\"pipeline_version\":\"" << jsonEscape(pipeline_version) << "\","
@@ -913,6 +948,7 @@ std::string SelectionAuditEntry::toJSONL() const {
         << "\"filtered_by_quality\":"<< filtered_by_quality          << ","
         << "\"filtered_by_dedup\":"  << filtered_by_dedup            << ","
         << "\"filtered_by_cluster\":"<< filtered_by_cluster          << ","
+        << "\"domain_distribution\":" << domain_obj                  << ","
         << "\"selected_ids\":"       << ids_arr
         << '}';
     return oss.str();

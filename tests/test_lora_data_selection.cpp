@@ -1314,3 +1314,144 @@ TEST(PerformanceBenchmarkTest, FiveThousandSamplesUnderFiveMinutes) {
         << "Pipeline ran " << elapsed_s << " s for 5000 samples (limit: 300 s)";
     EXPECT_LT(result.elapsed_seconds, 300.0);
 }
+
+// ============================================================================
+// DataSample.domain field + domain-aware BM25 scoring
+// ============================================================================
+
+TEST(DomainFieldTest, SampleDomainFieldDefaultsEmpty) {
+    DataSample s("id1", "some text");
+    EXPECT_TRUE(s.domain.empty());
+}
+
+TEST(DomainFieldTest, SampleDomainFieldCanBeSet) {
+    DataSample s("id1", "Vertrag und Klausel");
+    s.domain = "legal";
+    EXPECT_EQ(s.domain, "legal");
+}
+
+TEST(DomainFieldTest, DomainAwareBM25_HigherScoreWithMatchingDomain) {
+    // Set up a pipeline with legal + medical domain keywords
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 1;
+    cfg.required_language = "";
+    cfg.target_samples    = 10;
+    cfg.domain_keywords["legal"]   = {"Vertrag", "Klausel"};
+    cfg.domain_keywords["medical"] = {"Diagnose", "Therapie"};
+    // Equal weights
+    cfg.perplexity_weight       = 0.0;
+    cfg.diversity_weight        = 0.0;
+    cfg.domain_relevance_weight = 1.0;
+
+    DataSelectionPipeline pipeline(cfg);
+
+    // One sample with a "legal" domain tag that contains legal keywords
+    DataSample legal_sample("legal_1", "Vertrag und Klausel vereinbaren");
+    legal_sample.domain = "legal";
+
+    // Same text but tagged as "medical" – should score lower because
+    // "Vertrag" / "Klausel" are not in the medical keyword list
+    DataSample mismatch_sample("medical_1", "Vertrag und Klausel vereinbaren");
+    mismatch_sample.domain = "medical";
+
+    std::vector<DataSample> input = {legal_sample, mismatch_sample};
+    auto result = pipeline.run(input);
+
+    ASSERT_TRUE(result.success);
+    // Find scored versions in the result
+    double legal_quality = 0.0, medical_quality = 0.0;
+    for (const auto& s : result.selected_samples) {
+        if (s.id == "legal_1")   legal_quality   = s.quality_score;
+        if (s.id == "medical_1") medical_quality = s.quality_score;
+    }
+    // The legal-tagged sample must score higher than the mismatched one
+    EXPECT_GT(legal_quality, medical_quality)
+        << "legal_quality=" << legal_quality
+        << " medical_quality=" << medical_quality;
+}
+
+TEST(DomainFieldTest, UnknownDomainFallsBackToAggregate) {
+    // When the sample's domain tag is not in domain_keywords, the pipeline
+    // should fall back to scoring against all domains (aggregate behaviour).
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 1;
+    cfg.required_language = "";
+    cfg.target_samples    = 10;
+    cfg.domain_keywords["legal"] = {"Vertrag", "Klausel"};
+
+    DataSelectionPipeline pipeline(cfg);
+
+    DataSample s("x", "Vertrag Klausel Vertrag");
+    s.domain = "unknown_domain";  // not in domain_keywords
+
+    std::vector<DataSample> input = {s};
+    auto result = pipeline.run(input);
+    ASSERT_TRUE(result.success);
+    // Should still succeed (fallback to aggregate) and not crash
+}
+
+// ============================================================================
+// SelectionAuditEntry – domain_distribution
+// ============================================================================
+
+TEST(AuditEntryTest, DomainDistribution_PopulatedFromSelectedSamples) {
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 1;
+    cfg.required_language = "";
+    cfg.target_samples    = 20;
+    cfg.audit             = true;
+    cfg.audit_log_path    = "";  // no file I/O
+    // Configure domain keywords so domain-aware scoring is exercised
+    cfg.domain_keywords["legal"]   = {"Vertrag", "Klausel", "Haftung"};
+    cfg.domain_keywords["medical"] = {"Diagnose", "Therapie", "Medikament"};
+
+    DataSelectionPipeline pipeline(cfg);
+
+    std::vector<DataSample> input;
+    for (int i = 0; i < 5; ++i) {
+        DataSample s("leg_" + std::to_string(i),
+                     "Vertrag Klausel Haftung Verwaltungsakt Verpflichtung "
+                     "Ermessen eIDAS rechtlich");
+        s.domain = "legal";
+        input.push_back(s);
+    }
+    for (int i = 0; i < 3; ++i) {
+        DataSample s("med_" + std::to_string(i),
+                     "Diagnose Therapie Medikament Befund klinisch medizinisch "
+                     "Patient Behandlung");
+        s.domain = "medical";
+        input.push_back(s);
+    }
+
+    auto result = pipeline.run(input);
+    ASSERT_TRUE(result.success);
+
+    // The domain_distribution must have entries for every non-empty domain
+    // present in the selected set.
+    for (const auto& s : result.selected_samples) {
+        if (!s.domain.empty()) {
+            EXPECT_GT(result.audit_entry.domain_distribution.count(s.domain), 0u)
+                << "Domain '" << s.domain << "' missing from domain_distribution";
+        }
+    }
+    // At least one domain was captured
+    EXPECT_FALSE(result.audit_entry.domain_distribution.empty());
+}
+
+TEST(AuditEntryTest, ToJSONL_ContainsDomainDistribution) {
+    SelectionAuditEntry entry;
+    entry.domain_distribution["legal"]   = 42;
+    entry.domain_distribution["medical"] = 17;
+
+    std::string jsonl = entry.toJSONL();
+    EXPECT_NE(jsonl.find("\"domain_distribution\""), std::string::npos);
+    EXPECT_NE(jsonl.find("\"legal\":42"),             std::string::npos);
+    EXPECT_NE(jsonl.find("\"medical\":17"),           std::string::npos);
+}
+
+TEST(AuditEntryTest, ToJSONL_EmptyDomainDistributionIsEmptyObject) {
+    SelectionAuditEntry entry;
+    // No domains set – should serialize as {}
+    std::string jsonl = entry.toJSONL();
+    EXPECT_NE(jsonl.find("\"domain_distribution\":{}"), std::string::npos);
+}

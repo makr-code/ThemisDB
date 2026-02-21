@@ -113,6 +113,10 @@ struct DataSample {
     std::string id;       ///< Unique document / sample identifier
     std::string text;     ///< Full text content (input + output concatenated or separate)
     std::string language; ///< Detected language (ISO 639-1)
+    /// Optional domain tag (e.g. "legal", "medical", "tech").
+    /// When set, BM25 domain relevance scoring uses only the keywords for
+    /// this domain instead of aggregating across all domains.
+    std::string domain;
 
     // Computed scores (filled during pipeline stages)
     double quality_score    = 0.0;  ///< Combined quality score [0..1]
@@ -144,6 +148,9 @@ struct SelectionAuditEntry {
     size_t filtered_by_dedup   = 0;
     size_t filtered_by_cluster = 0;
     std::vector<std::string> selected_ids; ///< IDs of selected samples
+    /// Number of selected samples per declared domain.
+    /// Empty when no samples carry a domain tag.
+    std::map<std::string, size_t> domain_distribution;
 
     SelectionAuditEntry() : timestamp(std::chrono::system_clock::now()) {}
 
