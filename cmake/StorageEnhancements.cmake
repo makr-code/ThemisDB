@@ -29,6 +29,15 @@ list(APPEND THEMIS_CORE_SOURCES
     # Storage Engine with Dependency Injection (Phase 2)
     ../src/storage/storage_engine.cpp
     
+    # WAL (Write-Ahead Log) for crash recovery and durability
+    ../src/storage/wal_storage.cpp
+    
+    # Compaction and Garbage-Collection manager
+    ../src/storage/compaction_manager.cpp
+
+    # Storage Audit Logger (append-only, rotating audit trail)
+    ../src/storage/storage_audit_logger.cpp
+
     # Index Maintenance Automation (Phase 4)
     ../src/storage/index_maintenance.cpp
     

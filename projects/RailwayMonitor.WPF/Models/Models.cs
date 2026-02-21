@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            Models.cs                                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:36:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     165                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e17be1f75  2025-12-14  Fix implementation gaps: Add missing DI registrations, co... ║
+    • e9ba1330c  2025-12-14  Move RailwayMonitor.WPF from clients to projects directory ║
+    • c533c2ae8  2025-12-14  Complete WPF implementation with Services, Models, ViewMo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 namespace RailwayMonitor.WPF.Models;
 
 /// <summary>

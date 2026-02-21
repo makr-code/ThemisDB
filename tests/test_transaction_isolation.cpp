@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_transaction_isolation.cpp                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:46:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     566                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 99234dc76  2025-11-30  feat: Enterprise Scalability + Repository Cleanup ║
+    • 740bbc6e1  2025-11-24  feat: Add QNAP runtime Dockerfile and build scripts for T... ║
+    • ea50e3104  2025-11-23  Add QNAP Docker support and update benchmarks/tests ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #if 0  // Temporär deaktiviert: API-Drift (getEntity, scan nicht verfügbar)
 // Test: Transaction Isolation Levels
 // Validates ACID isolation guarantees including dirty reads, phantom reads, etc.

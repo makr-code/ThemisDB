@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            buffer_api_handler.cpp                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     450                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e526b0016  2026-01-23  Fix: replace lock_guard with unique_lock for better mutex... ║
+    • 7ad863b20  2026-01-17  Refactor BufferAPIHandler and related components ║
+    • f00768f1e  2025-12-15  Add HTTP REST API integration and benchmarks for AutoBuff... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/buffer_api_handler.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/ts_auto_buffer.h"

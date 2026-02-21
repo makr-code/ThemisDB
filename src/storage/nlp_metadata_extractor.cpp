@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            nlp_metadata_extractor.cpp                         ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     380                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 526448d5f  2026-01-18  Refactor LoRA Orchestrator and NLP Metadata Extractor for... ║
+    • c2830e1d8  2026-01-11  Add NLP Text Analyzer with Full Pipeline Integration: Que... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file nlp_metadata_extractor.cpp
  * @brief Implementation of NLP-based metadata extraction

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cache_api_handler.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     207                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 86839235d  2026-01-13  Add documentation archival system and new issue templates ║
+    • 852fe3894  2026-01-12  [REFACTOR] Extract Cache Operations into CacheApiHandler ... ║
+    • 612b5bf41  2026-01-12  Refactor http_server.cpp: Complete foundation with struct... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/cache_api_handler.h"
 #include "cache/semantic_cache.h"
 #include "server/auth_middleware.h"

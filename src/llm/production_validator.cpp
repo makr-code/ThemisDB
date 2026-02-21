@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            production_validator.cpp                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   13.0/100                                       ║
+    • Total Lines:     1017                                           ║
+    • Open Issues:     TODOs: 27, Stubs: 2                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 5d480af8c  2026-02-20  RAG module: replace all stubs with real implementations; ... ║
+    • b3d2d7389  2026-01-16  Remove simulation code from LLM subsystem (#551) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/production_validator.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -583,8 +609,15 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
             statm >> pages;   // first field is VmSize in pages
             // second field is VmRSS
             statm >> pages;
-            stats.memory_mb = (pages * static_cast<size_t>(
-                static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)))) / (1024UL * 1024UL);
+#ifdef _WIN32
+            SYSTEM_INFO sys_info;
+            GetSystemInfo(&sys_info);
+            const size_t page_size = static_cast<size_t>(sys_info.dwPageSize);
+#else
+            const size_t page_size = static_cast<size_t>(
+                static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)));
+#endif
+            stats.memory_mb = (pages * page_size) / (1024UL * 1024UL);
         }
     }
 

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            moral_analyzer.h                                   ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     599                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 4cbbb3abd  2026-02-01  Implement philosophy recommender with LLM semantic analys... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "index/property_graph.h"
@@ -435,11 +461,13 @@ public:
      * 
      * @param decision The ethical decision to store
      * @param scenario_embedding Optional embedding vector for similarity search
+     * @param user_id Identity of the actor storing the decision (used in audit log)
      * @return Status indicating success or failure
      */
     Status storeDecision(
         const EthicalDecision& decision,
-        const std::vector<float>& scenario_embedding = {}
+        const std::vector<float>& scenario_embedding = {},
+        const std::string& user_id = "ethics_system"
     );
     
     /**

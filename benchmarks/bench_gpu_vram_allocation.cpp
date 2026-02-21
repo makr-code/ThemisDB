@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_gpu_vram_allocation.cpp                      ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:30:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     450                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 4587cdfcf  2026-02-02  Implement vLLM-inspired GPU VRAM allocation for LLM infer... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <benchmark/benchmark.h>
 #include "llm/adaptive_vram_allocator.h"
 #include "llm/multi_gpu_memory_coordinator.h"

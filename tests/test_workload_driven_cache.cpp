@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_workload_driven_cache.cpp                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:46:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     297                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c75c2fd15  2026-02-13  Refactor test files to remove main function definitions a... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • ca44511ba  2026-02-07  Add dynamic cache routing, injectable clock abstraction, ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/paged_kv_cache_manager.h"
 #include <memory>

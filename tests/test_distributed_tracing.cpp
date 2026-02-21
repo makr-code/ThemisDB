@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_distributed_tracing.cpp                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:42:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     444                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e1ba78e5d  2026-02-20  observability: production-ready Alertmanager, W3C TraceCo... ║
+    • 01fde7581  2026-01-24  Enhance benchmarks and query execution error handling ║
+    • 890b56782  2026-01-24  Distributed Tracing: Complete instrumentation of critical... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
@@ -270,5 +296,156 @@ TEST_F(DistributedTracingTest, SpanAttributeTypes) {
     span.setAttribute("bool.true", true);
     span.setAttribute("bool.false", false);
     
+    span.end();
+}
+
+// ============================================================================
+// W3C TraceContext propagation tests
+// ============================================================================
+
+/**
+ * Test that a valid traceparent header creates a span (no crash / no-op fallback)
+ */
+TEST_F(DistributedTracingTest, W3CTraceparentHeaderAccepted) {
+    std::map<std::string, std::string> headers{
+        {"traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that a missing traceparent header falls back to a regular root span
+ */
+TEST_F(DistributedTracingTest, W3CNoTraceparentFallsBack) {
+    std::map<std::string, std::string> headers{{"X-Request-ID", "req-1234"}};
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that an empty header map falls back to a regular root span
+ */
+TEST_F(DistributedTracingTest, W3CEmptyHeadersFallsBack) {
+    std::map<std::string, std::string> headers;
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that a malformed traceparent is ignored and a root span is still created
+ */
+TEST_F(DistributedTracingTest, W3CMalformedTraceparentIgnored) {
+    std::map<std::string, std::string> headers{
+        {"traceparent", "not-a-valid-traceparent"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that traceparent and tracestate headers are both accepted
+ */
+TEST_F(DistributedTracingTest, W3CTracestatePassedThrough) {
+    std::map<std::string, std::string> headers{
+        {"traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"},
+        {"tracestate",  "vendor1=value1,vendor2=value2"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test case-insensitive header lookup (HTTP headers are case-insensitive)
+ */
+TEST_F(DistributedTracingTest, W3CCaseInsensitiveHeaderLookup) {
+    // Both upper-case variants should work
+    std::map<std::string, std::string> headers_upper{
+        {"Traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"}
+    };
+    std::map<std::string, std::string> headers_mixed{
+        {"TRACEPARENT", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    {
+        auto s1 = Tracer::startSpanFromHeaders("req.upper", headers_upper);
+        EXPECT_TRUE(s1.isValid());
+        s1.end();
+    }
+    {
+        auto s2 = Tracer::startSpanFromHeaders("req.allcaps", headers_mixed);
+        EXPECT_TRUE(s2.isValid());
+        s2.end();
+    }
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 2);
+}
+
+/**
+ * Test that all-zeros trace-id in traceparent is rejected (invalid per W3C spec)
+ */
+TEST_F(DistributedTracingTest, W3CAllZeroTraceIdRejected) {
+    // All-zeros trace-id is explicitly invalid per W3C TraceContext specification
+    std::map<std::string, std::string> headers{
+        {"traceparent", "00-00000000000000000000000000000000-00f067aa0ba902b7-01"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    // Should fall back to a new root span (not a child of the invalid context)
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that all-zeros parent-id in traceparent is rejected (invalid per W3C spec)
+ */
+TEST_F(DistributedTracingTest, W3CAllZeroParentIdRejected) {
+    // All-zeros parent-id is explicitly invalid per W3C TraceContext specification
+    std::map<std::string, std::string> headers{
+        {"traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-0000000000000000-01"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid());
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
+    span.end();
+}
+
+/**
+ * Test that a traceparent that is too short is rejected
+ */
+TEST_F(DistributedTracingTest, W3CShortTraceparentRejected) {
+    std::map<std::string, std::string> headers{
+        // Only 54 chars (one short of required 55)
+        {"traceparent", "00-4bf92f3577b34da6a3ce929d0e0e473-00f067aa0ba902b7-01"}
+    };
+
+    int64_t before = Tracer::getTotalSpans();
+    auto span = Tracer::startSpanFromHeaders("http_request", headers);
+    EXPECT_TRUE(span.isValid()); // falls back to root span
+    EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
     span.end();
 }

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_metrics_client.cpp                            ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     373                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • a9e8324f5  2026-02-20  Quality Control enhancements: Factory patterns, Continuou... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file http_metrics_client.cpp
  * @brief Implementation of HTTP Metrics Client
@@ -5,7 +30,7 @@
 
 #include "rag/http_metrics_client.h"
 #include "utils/logger.h"
-#include <cpp-httplib/httplib.h>
+#include <httplib.h>
 #include <nlohmann/json.hpp>
 #include <thread>
 
@@ -33,10 +58,7 @@ struct HTTPMetricsClient::Impl {
             http_client->set_compress(true);
         }
         
-        // Disable SSL verification if requested (for development)
-        if (!config.verify_ssl) {
-            http_client->enable_server_certificate_verification(false);
-        }
+        (void)config;
     }
 };
 
@@ -49,7 +71,7 @@ HTTPMetricsClient::HTTPMetricsClient(const HTTPMetricsClientConfig& config)
     
     impl_ = std::make_unique<Impl>(config_.endpoint_url, config_);
     
-    THEMIS_LOG_INFO("HTTP Metrics Client initialized: {}", config_.endpoint_url);
+    THEMIS_INFO("HTTP Metrics Client initialized: {}", config_.endpoint_url);
 }
 
 HTTPMetricsClient::~HTTPMetricsClient() = default;
@@ -70,7 +92,7 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     
     // Split into batches if needed
     if (metrics.size() > static_cast<size_t>(config_.max_batch_size)) {
-        THEMIS_LOG_WARN("Batch size {} exceeds max {}, splitting", metrics.size(), config_.max_batch_size);
+        THEMIS_WARN("Batch size {} exceeds max {}, splitting", metrics.size(), config_.max_batch_size);
         
         HTTPResponse last_response;
         for (size_t i = 0; i < metrics.size(); i += config_.max_batch_size) {
@@ -141,7 +163,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         case HTTPMethod::PUT:
             result = impl_->http_client->Put(path.c_str(), http_headers, body, "application/json");
             break;
-        case HTTPMethod::DELETE:
+        case HTTPMethod::DELETE_:
             result = impl_->http_client->Delete(path.c_str(), http_headers);
             break;
         default:
@@ -172,7 +194,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         if (!response.success && retry_count < config_.max_retries) {
             // Retry with exponential backoff
             int backoff_ms = config_.retry_backoff_ms * (1 << retry_count);
-            THEMIS_LOG_WARN("Request failed with status {}, retrying in {}ms (attempt {}/{})",
+            THEMIS_WARN("Request failed with status {}, retrying in {}ms (attempt {}/{})",
                           result->status, backoff_ms, retry_count + 1, config_.max_retries);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
@@ -186,11 +208,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         }
         
         if (response.success) {
-            THEMIS_LOG_DEBUG("HTTP {} {} succeeded with status {}", 
+            THEMIS_DEBUG("HTTP {} {} succeeded with status {}", 
                            method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
         } else {
             response.error_message = "HTTP " + std::to_string(result->status);
-            THEMIS_LOG_ERROR("HTTP {} {} failed with status {}", 
+            THEMIS_ERROR("HTTP {} {} failed with status {}", 
                            method == HTTPMethod::POST ? "POST" : "GET", path, result->status);
         }
     } else {
@@ -200,7 +222,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         
         if (retry_count < config_.max_retries) {
             int backoff_ms = config_.retry_backoff_ms * (1 << retry_count);
-            THEMIS_LOG_WARN("Request failed: {}, retrying in {}ms (attempt {}/{})",
+            THEMIS_WARN("Request failed: {}, retrying in {}ms (attempt {}/{})",
                           response.error_message, backoff_ms, retry_count + 1, config_.max_retries);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
@@ -213,7 +235,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             return requestWithRetry(method, path, body, headers, retry_count + 1);
         }
         
-        THEMIS_LOG_ERROR("HTTP {} {} failed: {}", 
+        THEMIS_ERROR("HTTP {} {} failed: {}", 
                        method == HTTPMethod::POST ? "POST" : "GET", path, response.error_message);
     }
     
@@ -224,7 +246,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             case HTTPMethod::GET: method_str = "GET"; break;
             case HTTPMethod::POST: method_str = "POST"; break;
             case HTTPMethod::PUT: method_str = "PUT"; break;
-            case HTTPMethod::DELETE: method_str = "DELETE"; break;
+            case HTTPMethod::DELETE_: method_str = "DELETE"; break;
         }
         request_callback_(method_str, path, response.status_code, latency.count());
     }

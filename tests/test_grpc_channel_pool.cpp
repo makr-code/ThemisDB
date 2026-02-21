@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_grpc_channel_pool.cpp                         ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:43:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     215                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c75c2fd15  2026-02-13  Refactor test files to remove main function definitions a... ║
+    • 8d86e45fc  2026-01-24  Performance: Connection pooling, adaptive batching, HNSW ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "utils/grpc_channel_pool.h"
 #include <thread>
@@ -105,4 +131,92 @@ TEST_F(GrpcChannelPoolTest, ClearPool) {
     pool->clear();
     
     EXPECT_EQ(pool->getStats().total_channels, 0);
+}
+
+
+// ============================================================================
+// Phase 6: Circuit Breaker
+// ============================================================================
+
+class GrpcCircuitBreakerTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        GrpcChannelPool::Config config;
+        config.max_channels_per_target = 5;
+        pool = std::make_unique<GrpcChannelPool>(config);
+    }
+    std::unique_ptr<GrpcChannelPool> pool;
+};
+
+TEST_F(GrpcCircuitBreakerTest, InitialStateIsClosed) {
+    EXPECT_EQ(pool->getCircuitState("localhost:50051"),
+              GrpcChannelPool::CircuitState::CLOSED);
+}
+
+TEST_F(GrpcCircuitBreakerTest, FailuresTrip) {
+    std::string target = "localhost:50061";
+    // Report enough failures to trip the circuit
+    for (int i = 0; i < 5; ++i) {
+        pool->reportFailure(target);
+    }
+    EXPECT_EQ(pool->getCircuitState(target),
+              GrpcChannelPool::CircuitState::OPEN);
+}
+
+TEST_F(GrpcCircuitBreakerTest, SuccessResetsFailureCount) {
+    std::string target = "localhost:50062";
+    // Report some failures (but not enough to trip)
+    for (int i = 0; i < 3; ++i) {
+        pool->reportFailure(target);
+    }
+    // A success should reset
+    pool->reportSuccess(target);
+    // Circuit should still be closed
+    EXPECT_EQ(pool->getCircuitState(target),
+              GrpcChannelPool::CircuitState::CLOSED);
+}
+
+TEST_F(GrpcCircuitBreakerTest, DifferentTargetsAreIndependent) {
+    std::string target1 = "localhost:50063";
+    std::string target2 = "localhost:50064";
+
+    for (int i = 0; i < 5; ++i) {
+        pool->reportFailure(target1);
+    }
+
+    EXPECT_EQ(pool->getCircuitState(target1), GrpcChannelPool::CircuitState::OPEN);
+    EXPECT_EQ(pool->getCircuitState(target2), GrpcChannelPool::CircuitState::CLOSED);
+}
+
+TEST_F(GrpcCircuitBreakerTest, ReportFailureOnOpenIsNoop) {
+    std::string target = "localhost:50065";
+    for (int i = 0; i < 5; ++i) {
+        pool->reportFailure(target);
+    }
+    // Already OPEN – further failures should not change state
+    for (int i = 0; i < 10; ++i) {
+        pool->reportFailure(target);
+    }
+    EXPECT_EQ(pool->getCircuitState(target), GrpcChannelPool::CircuitState::OPEN);
+}
+
+// ============================================================================
+// Phase 6: Health Check Ping
+// ============================================================================
+
+TEST_F(GrpcCircuitBreakerTest, HealthCheckReturnsFalseForUnreachable) {
+    // Non-routable IP – should time out quickly
+    bool ok = pool->healthCheck("192.0.2.1:9999",
+                                std::chrono::milliseconds(100));
+    EXPECT_FALSE(ok);
+}
+
+TEST_F(GrpcCircuitBreakerTest, HealthCheckReturnsFalseForOpenCircuit) {
+    std::string target = "localhost:50066";
+    for (int i = 0; i < 5; ++i) {
+        pool->reportFailure(target);
+    }
+    // Circuit is OPEN – healthCheck should immediately return false
+    bool ok = pool->healthCheck(target, std::chrono::milliseconds(100));
+    EXPECT_FALSE(ok);
 }

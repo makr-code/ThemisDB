@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            multi_lora_manager.cpp                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   24.0/100                                       ║
+    • Total Lines:     3109                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 9342d11bd  2026-02-13  Add RocksDB options files and CMake wrappers for VS2022 e... ║
+    • 5150323a3  2026-02-12  Remove unused variable warnings: Replace pragma directive... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/multi_lora_manager.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
@@ -1689,20 +1715,36 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
 
 bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
     // Already locked by caller
-    
-    // TODO: In production, check actual GPU health
-    // cudaError_t err = cudaSetDevice(gpu_id);
-    // if (err != cudaSuccess) return false;
-    //
-    // cudaDeviceProp prop;
-    // err = cudaGetDeviceProperties(&prop, gpu_id);
-    // return err == cudaSuccess;
-    
-    // Simulation: all GPUs are healthy
-    return config_.multi_gpu.enabled && 
-           std::find(config_.multi_gpu.devices.begin(), 
-                    config_.multi_gpu.devices.end(), 
-                    gpu_id) != config_.multi_gpu.devices.end();
+
+    // Verify the GPU is in the configured device list first.
+    if (!config_.multi_gpu.enabled ||
+        std::find(config_.multi_gpu.devices.begin(),
+                  config_.multi_gpu.devices.end(),
+                  gpu_id) == config_.multi_gpu.devices.end()) {
+        return false;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Real CUDA health check: attempt to select the device and query a
+    // lightweight attribute.  cudaDeviceGetAttribute exercises the driver
+    // enough to surface a lost/unreachable device without copying the full
+    // cudaDeviceProp structure.
+    cudaError_t err = cudaSetDevice(gpu_id);
+    if (err != cudaSuccess) {
+        spdlog::warn("isGPUHealthy: cudaSetDevice({}) failed: {}", gpu_id, cudaGetErrorString(err));
+        return false;
+    }
+    int max_threads = 0;
+    err = cudaDeviceGetAttribute(&max_threads, cudaDevAttrMaxThreadsPerBlock, gpu_id);
+    if (err != cudaSuccess) {
+        spdlog::warn("isGPUHealthy: cudaDeviceGetAttribute({}) failed: {}", gpu_id, cudaGetErrorString(err));
+        return false;
+    }
+    return true;
+#else
+    // Non-CUDA build: presence in the configured device list is sufficient.
+    return true;
+#endif
 }
 
 std::vector<int> MultiLoRAManager::getAvailableGPUs() const {

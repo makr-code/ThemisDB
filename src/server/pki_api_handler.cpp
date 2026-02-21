@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pki_api_handler.cpp                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     437                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 1212c3919  2025-11-18  fix: Windows MSVC build compatibility - namespace qualifi... ║
+    • 244e56430  2025-11-17  Add merge conflict report for feature/complete-database-c... ║
+    • daa80be5f  2025-11-17  feat(pki): Integrate HSM and TSA into PKI API for eIDAS-c... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/pki_api_handler.h"
 #include "utils/logger.h"
 #include <openssl/sha.h>

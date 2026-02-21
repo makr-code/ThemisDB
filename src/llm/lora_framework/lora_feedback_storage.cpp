@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_feedback_storage.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     477                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 10d6fc4a6  2026-01-25  feat(build): Add missing cmake configurations for Voice A... ║
+    • ea8a13f05  2026-01-15  Add SVG flowchart for observability and regex tests for M... ║
+    • 2d90acb6a  2026-01-15  Add build scripts and documentation generation tools ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/lora_feedback_storage.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"

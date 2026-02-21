@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_api_handler.h                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     194                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ad82b76f1  2026-02-21  feat(metadata): production-ready metadata module – statis... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 8bf786ff9  2026-02-10  Implement autonomous prompt engineering system with domai... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 #include "server/auth_middleware.h"
 
@@ -18,6 +44,8 @@ class SemanticCache;
 class FieldEncryption;
 class KeyProvider;
 class AuthMiddleware;
+class IndexRecommender;
+class StatisticsCollector;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -112,6 +140,27 @@ public:
      */
     http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Inject a StatisticsCollector for cardinality-based predicate ordering.
+     *
+     * When set, every local QueryEngine created by this handler receives the
+     * collector so that equality predicates are sorted by selectivity before
+     * execution.  The pointer is non-owning; the caller manages lifetime.
+     */
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
+
+    /**
+     * @brief Inject an IndexRecommender for access-pattern recording.
+     *
+     * When set, every successful AQL translation records the accessed columns
+     * in the recommender so that `GET /api/v1/metadata/index_recommendations`
+     * can suggest beneficial indexes.
+     *
+     * The pointer is non-owning; the caller manages the lifetime.
+     * Pass nullptr to disable recording.
+     */
+    void setIndexRecommender(IndexRecommender* rec) noexcept { index_recommender_ = rec; }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
@@ -124,6 +173,8 @@ private:
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
+    IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
+    StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(

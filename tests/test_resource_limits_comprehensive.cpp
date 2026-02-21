@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_resource_limits_comprehensive.cpp             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:45:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     317                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_resource_limits_comprehensive.cpp
  * @brief Tests for resource limits in PolicyEngine, JWTKeyRotationManager, and SecretManager
@@ -134,7 +159,7 @@ TEST_F(PolicyEngineLimitTest, LimitErrorMessageContainsCount) {
 
 class JWTKeyRotationLimitTest : public ::testing::Test {
 protected:
-    JWTConfig jwt_cfg_;
+    JWTValidatorConfig jwt_cfg_;
     JWTValidator validator_{jwt_cfg_};
     TokenBlacklist blacklist_;
 };

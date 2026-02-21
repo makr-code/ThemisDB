@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_graph_traversal.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:30:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     718                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 235d2ca7f  2026-02-10  Refactor tests and update dependencies   ║
+    • 398a9edb8  2026-01-24  Error Handling: Complete migration to consistent Result<T... ║
+    • 6b46f6d0b  2026-01-18  Implement General Graph Traversal (Non-Shortest Path) wit... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Benchmark: Graph Traversal Performance
 // Measures BFS/DFS and graph traversal algorithm performance
 

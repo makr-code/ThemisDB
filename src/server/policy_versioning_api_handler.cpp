@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            policy_versioning_api_handler.cpp                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     344                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • d519d8ee4  2026-02-10  Harden ACL enforcement with scope-based authorization acr... ║
+    • b5959447b  2026-02-06  Implement GAP-004 Phase 5: Enterprise Policy Features wit... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/policy_versioning_api_handler.h"
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"

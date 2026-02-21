@@ -1,3 +1,29 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            fix_cmake_paths.py                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:37:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     70                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 91d69765a  2026-01-14  Refactor repository structure: clean root directory and a... ║
+    • 038fc5edd  2026-01-10  Add TCO Calculator Tool with HTML, CSS, and PowerShell Sc... ║
+    • cdf7690b2  2026-01-10  Remove test outputs, temp files, and sensitive business d... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 import re
 

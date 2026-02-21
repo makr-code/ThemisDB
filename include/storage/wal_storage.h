@@ -1,0 +1,193 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wal_storage.h                                      ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 08:35:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     188                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 59e02ab03  2026-02-21  feat(storage): Production-readiness – WAL, Snapshot, Comp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
+#pragma once
+
+#include "utils/expected.h"
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <string_view>
+#include <vector>
+
+namespace themis {
+
+/**
+ * @brief Write-Ahead Log (WAL) for storage durability and crash recovery.
+ *
+ * WALStorage provides a persistent, append-only log that records every
+ * mutation before it is applied to the primary store.  On startup the log
+ * is replayed to recover any writes that were not yet flushed.
+ *
+ * ## Log entry format (binary, little-endian)
+ *
+ *   [4 bytes] magic marker  (0xDBAB1234)
+ *   [8 bytes] sequence number (monotonically increasing)
+ *   [1 byte]  entry type    (PUT=1, DELETE=2, CHECKPOINT=3)
+ *   [4 bytes] key length
+ *   [N bytes] key data
+ *   [4 bytes] value length  (0 for DELETE and CHECKPOINT)
+ *   [M bytes] value data
+ *   [4 bytes] CRC32 checksum over all preceding bytes in this entry
+ *
+ * ## Log rotation
+ *
+ * When the active log file exceeds @c rotation_threshold_bytes, a new log
+ * segment is created (e.g. wal_000001.log, wal_000002.log …).  After a
+ * successful checkpoint the old segments may be deleted.
+ *
+ * ## Thread safety
+ *
+ * All public methods are thread-safe.
+ */
+class WALStorage {
+public:
+    /** Logical type of a WAL entry. */
+    enum class EntryType : uint8_t {
+        PUT        = 1,   ///< Key-value write
+        DEL        = 2,   ///< Key deletion
+        CHECKPOINT = 3,   ///< Flush-point marker
+    };
+
+    /** A single recovered WAL entry. */
+    struct Entry {
+        uint64_t    sequence;
+        EntryType   type;
+        std::string key;
+        std::string value;   // empty for DEL / CHECKPOINT
+    };
+
+    /** Configuration options. */
+    struct Config {
+        std::string dir;                              ///< Directory for WAL segment files
+        uint64_t    rotation_threshold_bytes = 64 * 1024 * 1024; ///< Rotate at 64 MiB
+        bool        fsync_on_write = true;            ///< fsync every entry (max durability)
+    };
+
+    /**
+     * @brief Callback type for recovery replay.
+     *
+     * Called once per WAL entry during open().  Return @c false to abort
+     * replay early (e.g. on an unrecoverable application error).
+     */
+    using RecoveryCallback = std::function<bool(const Entry&)>;
+
+    /**
+     * @brief Open (or create) the WAL in the given directory.
+     *
+     * On first open, an empty WAL is created.
+     * On subsequent opens, existing segments are replayed via @p on_recover.
+     *
+     * @param config  WAL configuration (directory, rotation threshold, fsync).
+     * @param on_recover  Callback invoked for each recovered entry; may be null.
+     * @return Result<std::unique_ptr<WALStorage>> on success, Error on failure.
+     */
+    static Result<std::unique_ptr<WALStorage>> open(
+        const Config& config,
+        RecoveryCallback on_recover = nullptr
+    );
+
+    ~WALStorage();
+
+    // Not copyable or movable after construction.
+    WALStorage(const WALStorage&) = delete;
+    WALStorage& operator=(const WALStorage&) = delete;
+
+    // ── Write operations ──────────────────────────────────────────────────
+
+    /**
+     * @brief Append a PUT entry.
+     *
+     * @return The sequence number assigned to this entry.
+     */
+    Result<uint64_t> appendPut(std::string_view key, std::string_view value);
+
+    /**
+     * @brief Append a DELETE entry.
+     *
+     * @return The sequence number assigned to this entry.
+     */
+    Result<uint64_t> appendDelete(std::string_view key);
+
+    /**
+     * @brief Write a CHECKPOINT entry and optionally delete old segments.
+     *
+     * After a successful checkpoint the primary store is guaranteed to
+     * contain all mutations up to the returned sequence number.
+     * Old WAL segments whose highest sequence number is ≤ the checkpoint
+     * sequence may be safely removed.
+     *
+     * @param delete_old_segments  If true, remove fully-checkpointed segments.
+     * @return The sequence number of the checkpoint entry.
+     */
+    Result<uint64_t> checkpoint(bool delete_old_segments = true);
+
+    // ── Accessors ─────────────────────────────────────────────────────────
+
+    /** Return the sequence number of the last written entry. */
+    uint64_t lastSequence() const;
+
+    /** Return the number of WAL segment files currently on disk. */
+    size_t segmentCount() const;
+
+    /** Flush buffered I/O to the OS (but not necessarily to disk). */
+    Result<void> flush();
+
+    // ── Key encoding helpers (public for testing) ─────────────────────────
+
+    /** Build the file name for a WAL segment. */
+    static std::string segmentName(uint64_t segment_id);
+
+    /** Parse the segment ID from a WAL segment file name (returns 0 on error). */
+    static uint64_t parseSegmentId(const std::string& filename);
+
+private:
+    explicit WALStorage(const Config& cfg);
+
+    Result<void> openOrCreate(RecoveryCallback& on_recover);
+    Result<void> replaySegment(const std::string& path, RecoveryCallback& cb);
+    Result<void> rotateIfNeeded();
+    Result<void> openNewSegment();
+    Result<uint64_t> appendEntry(EntryType type,
+                                  std::string_view key,
+                                  std::string_view value);
+    void syncIfRequired();
+
+    Config                config_;
+    mutable std::mutex    mutex_;
+    int                   fd_{-1};            // current segment file descriptor
+    uint64_t              current_segment_{0};// index of current segment file
+    uint64_t              segment_bytes_{0};  // bytes written to current segment
+    uint64_t              next_seq_{1};       // next sequence number to assign
+
+    // Track segment IDs present on disk for cleanup
+    std::vector<uint64_t> segments_;
+};
+
+} // namespace themis

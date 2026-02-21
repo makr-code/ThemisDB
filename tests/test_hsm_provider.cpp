@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_hsm_provider.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:43:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   36.0/100                                       ║
+    • Total Lines:     431                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 17                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 538d028ac  2026-02-03  FIND-002: HSM stub provider security enforcement (#1037) ║
+    • e395121e6  2025-11-20  chore: sync lokale Aenderungen vor Rebase ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "security/hsm_provider.h"
 #include <filesystem>

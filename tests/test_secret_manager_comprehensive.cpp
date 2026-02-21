@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_secret_manager_comprehensive.cpp              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:45:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     407                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_secret_manager_comprehensive.cpp
  * @brief Comprehensive tests for the SecretManager class.
@@ -21,8 +46,8 @@ using namespace themis::security;
 // ─────────────────────────────────────────────────────────────────────────────
 static SecretManager::RotationPolicy shortGracePolicy() {
     SecretManager::RotationPolicy p;
-    p.max_age                      = std::chrono::milliseconds(50);
-    p.retiring_grace_period        = std::chrono::milliseconds(50);
+    p.max_age                      = std::chrono::seconds(0);
+    p.retiring_grace_period        = std::chrono::seconds(0);
     p.auto_revoke_expired_retiring = true;
     return p;
 }
@@ -292,7 +317,7 @@ TEST(SecretManager, CheckAndRevokeAutoRevokesExpiredRetiring) {
 TEST(SecretManager, CheckAndRevokeNoOpWhenPolicyDisabled) {
     SecretManager::RotationPolicy policy;
     policy.auto_revoke_expired_retiring = false;
-    policy.retiring_grace_period        = std::chrono::milliseconds(1);
+    policy.retiring_grace_period        = std::chrono::seconds(0);
     SecretManager sm(policy);
     sm.storeSecret("k", "v1");
     sm.rotateSecret("k", "v2");

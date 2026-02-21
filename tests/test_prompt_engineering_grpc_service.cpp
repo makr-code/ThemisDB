@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_prompt_engineering_grpc_service.cpp           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:45:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     236                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 831094d0a  2026-02-11  Add ThemisDB Wiki Integration plugin and documentation im... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 2bf8de830  2026-02-10  Align HTTP and gRPC APIs for prompt engineering operation... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_prompt_engineering_grpc_service.cpp
  * @brief Unit tests for PromptEngineeringGrpcService

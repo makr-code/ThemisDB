@@ -1,4 +1,30 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            build_info.cpp                                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     1015                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b6c51ef3e  2026-02-20  Themis Core Framework – Production Readiness (All 7 Phase... ║
+    • d66369dc5  2026-01-16  feat: Add ThemisDB Static Initialization Crash Analyzer ║
+    • 9246150b9  2026-01-07  Fix compile-time flag detection in build_info.cpp ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB Build Information Implementation
  * ==========================================
  * Collects and formats compile-time configuration information.
@@ -9,6 +35,21 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <fstream>
+#include <map>
+
+// Platform headers for executable path
+#if defined(__linux__)
+#  include <unistd.h>
+#elif defined(_WIN32)
+#  include <windows.h>
+#endif
+
+// ── Optional SHA-256 for binary_hash (OpenSSL) ──────────────────────────────
+#if __has_include(<openssl/sha.h>)
+#  include <openssl/evp.h>
+#  define THEMIS_HAVE_OPENSSL_SHA 1
+#endif
 
 namespace themis {
 namespace build_info {
@@ -817,6 +858,164 @@ std::vector<std::string> getDisabledModules() {
         }
     }
     return result;
+}
+
+// ============================================================================
+// BUILD REPRODUCIBILITY IMPLEMENTATION
+// ============================================================================
+
+// Compile-time defaults injected by cmake/CMakeLists.txt
+#ifndef THEMIS_GIT_COMMIT
+#define THEMIS_GIT_COMMIT "unknown"
+#endif
+
+#ifndef THEMIS_GIT_COMMIT_DATE
+#define THEMIS_GIT_COMMIT_DATE "unknown"
+#endif
+
+#ifndef THEMIS_GIT_BRANCH
+#define THEMIS_GIT_BRANCH "unknown"
+#endif
+
+#ifndef THEMIS_GIT_DIRTY
+#define THEMIS_GIT_DIRTY 0
+#endif
+
+#ifndef THEMIS_BUILD_HOST
+#define THEMIS_BUILD_HOST "unknown"
+#endif
+
+#ifndef THEMIS_BUILD_USER
+#define THEMIS_BUILD_USER "unknown"
+#endif
+
+// ── Helper: SHA-256 hash of the running executable ─────────────────────────
+static std::string computeExecutableHash() {
+#ifdef THEMIS_HAVE_OPENSSL_SHA
+    // Determine path to own executable
+    std::string exe_path;
+#if defined(__linux__)
+    char buf[4096] = {};
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (len > 0) exe_path.assign(buf, static_cast<size_t>(len));
+#elif defined(_WIN32)
+    char buf[MAX_PATH] = {};
+    DWORD len = GetModuleFileNameA(nullptr, buf, sizeof(buf));
+    if (len > 0) exe_path.assign(buf, len);
+#endif
+    if (exe_path.empty()) return "(unavailable)";
+
+    std::ifstream f(exe_path, std::ios::binary);
+    if (!f) return "(read-error)";
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) return "(ctx-error)";
+    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
+
+    char chunk[65536];
+    while (f.read(chunk, sizeof(chunk)))
+        EVP_DigestUpdate(ctx, chunk, static_cast<size_t>(f.gcount()));
+    if (f.gcount() > 0)
+        EVP_DigestUpdate(ctx, chunk, static_cast<size_t>(f.gcount()));
+
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int  dlen = 0;
+    EVP_DigestFinal_ex(ctx, digest, &dlen);
+    EVP_MD_CTX_free(ctx);
+
+    std::ostringstream hex;
+    hex << std::hex << std::setfill('0');
+    for (unsigned int i = 0; i < dlen; ++i)
+        hex << std::setw(2) << static_cast<unsigned>(digest[i]);
+    return hex.str();
+#else
+    return "(openssl-not-available)";
+#endif
+}
+
+ReproducibilityInfo getReproducibilityInfo() {
+    ReproducibilityInfo info;
+
+    info.git_commit      = THEMIS_GIT_COMMIT;
+    info.git_commit_date = THEMIS_GIT_COMMIT_DATE;
+    info.git_branch      = THEMIS_GIT_BRANCH;
+    info.git_dirty       = (THEMIS_GIT_DIRTY != 0);
+    info.build_host      = THEMIS_BUILD_HOST;
+    info.build_user      = THEMIS_BUILD_USER;
+
+    // Toolchain string: "Compiler/version"
+    const auto cfg = getBuildConfiguration();
+    info.toolchain = cfg.compiler + "/" + cfg.compiler_version;
+
+    // Key vcpkg / system dependency versions embedded via CMake
+#ifdef THEMIS_DEP_ROCKSDB_VERSION
+    info.dependencies["rocksdb"] = THEMIS_DEP_ROCKSDB_VERSION;
+#endif
+#ifdef THEMIS_DEP_OPENSSL_VERSION
+    info.dependencies["openssl"] = THEMIS_DEP_OPENSSL_VERSION;
+#endif
+#ifdef THEMIS_DEP_BOOST_VERSION
+    info.dependencies["boost"] = THEMIS_DEP_BOOST_VERSION;
+#endif
+
+    info.binary_hash = computeExecutableHash();
+
+    return info;
+}
+
+bool exportBuildManifest(const std::string& output_path) {
+    const auto repro = getReproducibilityInfo();
+    const auto cfg   = getBuildConfiguration();
+
+    std::ofstream out(output_path);
+    if (!out) return false;
+
+    // Simple hand-written JSON (avoids adding nlohmann/json as a mandatory dep)
+    out << "{\n";
+    out << "  \"schema_version\": \"1\",\n";
+    out << "  \"git_commit\": \"" << repro.git_commit << "\",\n";
+    out << "  \"git_commit_date\": \"" << repro.git_commit_date << "\",\n";
+    out << "  \"git_branch\": \"" << repro.git_branch << "\",\n";
+    out << "  \"git_dirty\": " << (repro.git_dirty ? "true" : "false") << ",\n";
+    out << "  \"build_host\": \"" << repro.build_host << "\",\n";
+    out << "  \"build_user\": \"" << repro.build_user << "\",\n";
+    out << "  \"build_type\": \"" << cfg.build_type << "\",\n";
+    out << "  \"build_timestamp\": \"" << cfg.build_timestamp << "\",\n";
+    out << "  \"toolchain\": \"" << repro.toolchain << "\",\n";
+    out << "  \"edition\": \"" << cfg.edition_type << "\",\n";
+    out << "  \"binary_hash\": \"" << repro.binary_hash << "\",\n";
+    out << "  \"dependencies\": {\n";
+    bool first_dep = true;
+    for (const auto& [name, ver] : repro.dependencies) {
+        if (!first_dep) out << ",\n";
+        out << "    \"" << name << "\": \"" << ver << "\"";
+        first_dep = false;
+    }
+    out << "\n  }\n";
+    out << "}\n";
+
+    return out.good();
+}
+
+bool verifyBuildManifest(const std::string& manifest_path) {
+    std::ifstream in(manifest_path);
+    if (!in) return false;
+
+    std::string content((std::istreambuf_iterator<char>(in)),
+                         std::istreambuf_iterator<char>());
+
+    const auto repro = getReproducibilityInfo();
+
+    // Minimal verification: check git_commit field matches embedded value
+    auto containsField = [&](const std::string& key, const std::string& value) -> bool {
+        const std::string needle = "\"" + key + "\": \"" + value + "\"";
+        return content.find(needle) != std::string::npos;
+    };
+
+    bool commit_ok    = containsField("git_commit", repro.git_commit);
+    bool toolchain_ok = containsField("toolchain",  repro.toolchain);
+
+    return commit_ok && toolchain_ok;
 }
 
 } // namespace build_info

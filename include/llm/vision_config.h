@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vision_config.h                                    ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     348                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • ea2e59ae9  2026-02-12  Add const-correctness to interfaces and eliminate unneces... ║
+    • c86200477  2026-01-19  Production-grade Vision/Multi-Modal Support: API Versioni... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -74,6 +100,7 @@ struct VisionResourceLimits {
     std::chrono::seconds max_inference_time; ///< Max inference time
     std::chrono::seconds max_model_load_time; ///< Max model load time
     std::chrono::seconds request_timeout;     ///< Request timeout
+    int cpu_inference_threads = 4;       ///< CPU threads for image encoding (clip_image_encode)
 };
 
 /**

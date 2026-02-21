@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_model_storage.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     993                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
+    • 407ba29aa  2026-01-19  Implement native model loading from ThemisDB blob storage... ║
+    • c7a9e2b5c  2026-01-17  Update LLM integration and model storage logic ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llm_model_storage.h"
 #include "storage/base_entity.h"
 #include "storage/security_signature_manager.h"

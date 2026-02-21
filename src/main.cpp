@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            main.cpp                                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     434                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 40f642a5d  2026-02-10  Add CLI argument parsing to main.cpp entrypoint (#1153) ║
+    • 01fde7581  2026-01-24  Enhance benchmarks and query execution error handling ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 #ifdef THEMIS_ENABLE_MIMALLOC
     // Use C++ new/delete override to avoid macro rewrites of aligned_alloc/free

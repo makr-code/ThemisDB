@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_policy_engine_comprehensive.cpp               ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:45:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     537                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_policy_engine_comprehensive.cpp
  * @brief Comprehensive tests for the PolicyEngine security component
@@ -26,12 +51,12 @@ using themis::PolicyEngine;
 namespace {
 
 // Helper to create a PolicyEngine with a single allow policy
-PolicyEngine makeEngineWithPolicy(const std::string& id,
-                                   const std::string& subject,
-                                   const std::string& action,
-                                   const std::string& resource,
-                                   bool effect_allow = true) {
-    PolicyEngine pe;
+void addPolicyToEngine(PolicyEngine& pe,
+                       const std::string& id,
+                       const std::string& subject,
+                       const std::string& action,
+                       const std::string& resource,
+                       bool effect_allow = true) {
     PolicyEngine::Policy p;
     p.id = id;
     p.name = "Test policy";
@@ -40,7 +65,6 @@ PolicyEngine makeEngineWithPolicy(const std::string& id,
     p.resources.push_back(resource);
     p.effect_allow = effect_allow;
     pe.addPolicy(p);
-    return pe;
 }
 
 } // anonymous namespace
@@ -166,21 +190,24 @@ TEST(PolicyEngineAuthTest, NoPolicies_DefaultAllow) {
 }
 
 TEST(PolicyEngineAuthTest, AllowPolicy_MatchingRequest_Allowed) {
-    auto pe = makeEngineWithPolicy("allow-read", "alice", "read", "/data");
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "allow-read", "alice", "read", "/data");
     auto d = pe.authorize("alice", "read", "/data/users");
     EXPECT_TRUE(d.allowed);
     EXPECT_EQ(d.policy_id, "allow-read");
 }
 
 TEST(PolicyEngineAuthTest, DenyPolicy_MatchingRequest_Denied) {
-    auto pe = makeEngineWithPolicy("deny-delete", "bob", "delete", "/data", false);
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "deny-delete", "bob", "delete", "/data", false);
     auto d = pe.authorize("bob", "delete", "/data/anything");
     EXPECT_FALSE(d.allowed);
     EXPECT_EQ(d.policy_id, "deny-delete");
 }
 
 TEST(PolicyEngineAuthTest, NoMatch_DefaultDeny) {
-    auto pe = makeEngineWithPolicy("allow-read", "alice", "read", "/data");
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "allow-read", "alice", "read", "/data");
     // Different user, different action, different resource
     auto d = pe.authorize("eve", "delete", "/secrets");
     EXPECT_FALSE(d.allowed);
@@ -402,7 +429,8 @@ TEST(PolicyEngineManagementTest, SetPolicies_ReplacesAll) {
 // ============================================================================
 
 TEST(PolicyEngineMetricsTest, AllowIncreasesAllowTotal) {
-    auto pe = makeEngineWithPolicy("allow", "*", "read", "/");
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "allow", "*", "read", "/");
     pe.authorize("user", "read", "/data");
     pe.authorize("other", "read", "/api");
 
@@ -413,7 +441,8 @@ TEST(PolicyEngineMetricsTest, AllowIncreasesAllowTotal) {
 }
 
 TEST(PolicyEngineMetricsTest, DenyIncreasesDenyTotal) {
-    auto pe = makeEngineWithPolicy("deny", "user", "delete", "/", false);
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "deny", "user", "delete", "/", false);
     pe.authorize("user", "delete", "/data");
 
     const auto& m = pe.getMetrics();
@@ -423,7 +452,8 @@ TEST(PolicyEngineMetricsTest, DenyIncreasesDenyTotal) {
 }
 
 TEST(PolicyEngineMetricsTest, NoMatchIncreasesDenyTotal) {
-    auto pe = makeEngineWithPolicy("allow-specific", "alice", "read", "/data");
+    PolicyEngine pe;
+    addPolicyToEngine(pe, "allow-specific", "alice", "read", "/data");
     pe.authorize("bob", "delete", "/other");  // no match
 
     const auto& m = pe.getMetrics();

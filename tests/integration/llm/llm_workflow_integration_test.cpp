@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_workflow_integration_test.cpp                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     389                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 430a41be1  2026-01-24  Implement real integration and E2E tests for core workflo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file llm_workflow_integration_test.cpp
  * @brief Integration test for LLM workflows
@@ -19,7 +44,6 @@
 #include "../test_data_generator.h"
 #include "llm/llamacpp_inference_engine.h"
 #include "llm/model_metadata_cache.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <gtest/gtest.h>
 #include <filesystem>
@@ -223,7 +247,7 @@ TEST_F(LLMWorkflowIntegrationTest, LoRAAdapterSwitching) {
     }
     
     // Step 4: Test adapter switching logic
-    // In real implementation, this would use LoRAAdapterManager
+    // In real implementation, this would use MultiLoRAManager
     std::string current_adapter = "adapter_1";
     EXPECT_EQ(current_adapter, "adapter_1");
     

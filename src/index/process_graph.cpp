@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            process_graph.cpp                                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     1990                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c7fa618c9  2026-01-13  Remove outdated GitHub issue templates   ║
+    • a0fc4283a  2026-01-12  Implement 8 process mining features for business process ... ║
+    • 06d111e13  2025-12-09  Fix critical cppcheck errors: uninitialized variables and... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Process Graph Manager Implementation
 // Supports BPMN, EPK, and advanced process modeling patterns
 

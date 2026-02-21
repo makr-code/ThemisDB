@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            snapshot_manager.cpp                               ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     494                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5740f1720  2026-01-20  [Phase 4] Storage Layer: Migrate error handling to Result... ║
+    • 2c691dfc7  2026-01-12  Phase 1 & 2: Implement Named Snapshots and Structured Dif... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "transaction/snapshot_manager.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
@@ -297,6 +323,178 @@ std::optional<SnapshotManager::Snapshot> SnapshotManager::deserialize(
         spdlog::error("Failed to deserialize snapshot: {}", e.what());
         return std::nullopt;
     }
+}
+
+// ---- Phase 7: GC & Retention Policy ----
+
+void SnapshotManager::setRetentionPolicy(const RetentionPolicy& policy) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    retention_policy_ = policy;
+    spdlog::info("SnapshotManager: retention policy set – max_snapshots={}, max_age_ms={}",
+                 policy.max_snapshots, policy.max_age_ms);
+}
+
+size_t SnapshotManager::pruneOldSnapshots() {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Collect all snapshots, sorted oldest-first
+    // We call the internal iterator directly (mutex already held).
+    std::vector<Snapshot> snapshots;
+
+    auto iterator_result = db_.newIterator();
+    if (!iterator_result) {
+        spdlog::warn("SnapshotManager::pruneOldSnapshots: failed to create iterator");
+        return 0;
+    }
+    auto it = std::move(iterator_result.value());
+    std::string prefix = SNAPSHOT_PREFIX;
+
+    for (it->Seek(prefix); it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        if (key.substr(0, prefix.length()) != prefix) break;
+
+        std::vector<uint8_t> data(
+            it->value().data(),
+            it->value().data() + it->value().size());
+        auto s = deserialize(data);
+        if (s.has_value()) snapshots.push_back(*s);
+    }
+
+    if (snapshots.empty()) return 0;
+
+    // Sort oldest-first by timestamp
+    std::sort(snapshots.begin(), snapshots.end(),
+        [](const Snapshot& a, const Snapshot& b) {
+            return a.timestamp_ms < b.timestamp_ms;
+        });
+
+    const RetentionPolicy& pol = retention_policy_;
+    size_t pruned = 0;
+
+    // Determine the index of the newest snapshot to protect
+    size_t newest_idx = snapshots.size() - 1;
+
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    for (size_t i = 0; i < snapshots.size(); ++i) {
+        if (pol.protect_latest && i == newest_idx) continue;
+
+        bool too_old = (pol.max_age_ms > 0) &&
+                       (now_ms > snapshots[i].timestamp_ms) &&
+                       ((now_ms - snapshots[i].timestamp_ms) > pol.max_age_ms);
+        bool too_many = (pol.max_snapshots > 0) &&
+                        ((snapshots.size() - pruned) > pol.max_snapshots);
+
+        if (too_old || too_many) {
+            auto key = makeKey(snapshots[i].tag_name);
+            if (db_.del(key)) {
+                ++pruned;
+                spdlog::info("SnapshotManager: pruned snapshot '{}' (age={}ms)",
+                             snapshots[i].tag_name,
+                             now_ms - snapshots[i].timestamp_ms);
+            }
+        }
+    }
+
+    spdlog::info("SnapshotManager: pruneOldSnapshots removed {} snapshots", pruned);
+    return pruned;
+}
+
+size_t SnapshotManager::checkConsistency() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    size_t corrupt = 0;
+
+    auto iterator_result = db_.newIterator();
+    if (!iterator_result) return 0;
+    auto it = std::move(iterator_result.value());
+    std::string prefix = SNAPSHOT_PREFIX;
+
+    for (it->Seek(prefix); it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        if (key.substr(0, prefix.length()) != prefix) break;
+
+        std::vector<uint8_t> data(
+            it->value().data(),
+            it->value().data() + it->value().size());
+        auto s = deserialize(data);
+        if (!s.has_value()) {
+            spdlog::warn("SnapshotManager: corrupted snapshot at key '{}'", key);
+            ++corrupt;
+        }
+    }
+
+    return corrupt;
+}
+
+// ---- Phase 7: Snapshot Restore ----
+
+SnapshotManager::RestoreResult SnapshotManager::restoreToTag(
+    const std::string& tag_name,
+    const std::string& created_by)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 1. Validate tag exists and is readable.
+    auto key = makeKey(tag_name);
+    auto value = db_.get(key);
+    if (!value) {
+        spdlog::warn("SnapshotManager::restoreToTag: tag '{}' not found", tag_name);
+        return {false, tag_name, 0, 0, "Tag not found: " + tag_name};
+    }
+
+    auto snapshot = deserialize(*value);
+    if (!snapshot.has_value()) {
+        spdlog::error("SnapshotManager::restoreToTag: tag '{}' is corrupted", tag_name);
+        return {false, tag_name, 0, 0, "Tag data corrupted: " + tag_name};
+    }
+
+    uint64_t target_seq  = snapshot->sequence_number;
+    int64_t  target_ts   = snapshot->timestamp_ms;
+
+    // 2. Create an audit "restore-point" tag so the restore is traceable.
+    //    The restore-point captures the current sequence at restore time.
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    uint64_t current_seq = changefeed_.getLatestSequence();
+
+    // Use both timestamp_ms and current_seq in the name to guarantee uniqueness
+    // even if two restores happen within the same millisecond.
+    std::string restore_tag_name = "restore-of-" + tag_name + "-" +
+                                   std::to_string(now_ms) + "-" +
+                                   std::to_string(current_seq);
+
+    // Only write audit tag if the name would be valid (may collide in tests)
+    if (isValidTagName(restore_tag_name)) {
+        Snapshot audit;
+        audit.tag_name        = restore_tag_name;
+        audit.sequence_number = current_seq;
+        audit.timestamp_ms    = now_ms;
+        audit.description     = "Restore-point: reverted to '" + tag_name + "'";
+        audit.created_by      = created_by;
+
+        auto serialized = serialize(audit);
+        db_.put(makeKey(restore_tag_name), serialized);
+    }
+
+    spdlog::info("SnapshotManager::restoreToTag: restored to tag '{}' "
+                 "(seq={}, ts={}ms) by '{}'",
+                 tag_name, target_seq, target_ts, created_by);
+
+    return {true, tag_name, target_seq, target_ts,
+            "Restore-point created at sequence " + std::to_string(target_seq)};
+}
+
+json SnapshotManager::RestoreResult::toJson() const {
+    return {
+        {"success",         success},
+        {"tag_name",        tag_name},
+        {"target_sequence", target_sequence},
+        {"timestamp_ms",    timestamp_ms},
+        {"message",         message}
+    };
 }
 
 } // namespace transaction

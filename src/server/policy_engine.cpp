@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            policy_engine.cpp                                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     389                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+    • 090c5dc95  2025-11-02  feat: Add YAML configuration support for policies and ser... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/policy_engine.h"
 #include "utils/audit_logger.h"
 #include <ctime>
@@ -119,7 +145,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         try {
             auto mtime = std::filesystem::last_write_time(path);
             last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-                std::chrono::file_clock::to_sys(mtime));
+                mtime - decltype(mtime)::clock::now() + std::chrono::system_clock::now());
         } catch (...) {
             last_loaded_mtime_ = std::chrono::system_clock::now();
         }
@@ -165,7 +191,7 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     try {
         auto ft = std::filesystem::last_write_time(path);
         current_mtime = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-            std::chrono::file_clock::to_sys(ft));
+            ft - decltype(ft)::clock::now() + std::chrono::system_clock::now());
     } catch (const std::exception& e) {
         if (err) *err = std::string("stat failed: ") + e.what();
         return false;

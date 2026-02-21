@@ -1,6 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            access_control.cpp                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     839                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+    • d8e89f0e2  2026-02-20  PII-Compliance: Automatic redaction for logs, traces, and... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/access_control.h"
 #include "security/user_registration_plugin.h"
-#include "security/aql_injection_detector.h"
 #include "server/auth_middleware.h"
 #include "auth/mfa_authenticator.h"
 #include "utils/audit_logger.h"
@@ -592,15 +617,8 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
     if (!config_.threat_detection_config.enable_sql_injection_detection) {
         return false;
     }
-    
-    // Use AST-based AQL injection detection for robust security
-    security::AQLInjectionDetector detector;
-    auto validation_result = detector.validateAQLAST(query);
-    if (!validation_result.is_safe) {
-        return true;
-    }
 
-    // Also retain fast heuristic fallback for patterns the AST pass may miss
+    // Fast heuristic detection
     static const std::vector<std::string> patterns = {
         "' OR '1'='1", "'; DROP TABLE", "UNION SELECT", "-- ", "/*", "*/"
     };

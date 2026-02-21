@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_content_fulltext_index.cpp                    ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:42:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     356                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c75c2fd15  2026-02-13  Refactor test files to remove main function definitions a... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 9457cd5e6  2026-02-02  Add automatic fulltext indexing for ingested documents (#... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ============================================================================
 // ThemisDB - Content Automatic Fulltext Index Tests
 // Tests for: Automatic fulltext index creation on document ingestion

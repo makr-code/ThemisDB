@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vector_api_handler.cpp                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     678                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 384031ece  2026-01-13  Refactor monitoring and query API handlers to use updated... ║
+    • 86839235d  2026-01-13  Add documentation archival system and new issue templates ║
+    • 9138728df  2026-01-13  Refactor vector operations into VectorApiHandler (#459) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/vector_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            quality_control_factory.h                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     187                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • a9e8324f5  2026-02-20  Quality Control enhancements: Factory patterns, Continuou... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file quality_control_factory.h
  * @brief Factory for creating fully-wired quality control instances
@@ -9,6 +34,7 @@
 #pragma once
 
 #include "rag/quality_control_pipeline.h"
+#include "rag/continuous_learning_client.h"
 #include "rag/llm_judge_client.h"
 #include "rag/geval_evaluator.h"
 #include "rag/nli_faithfulness_verifier.h"

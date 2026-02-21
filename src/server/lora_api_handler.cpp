@@ -1,7 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_api_handler.cpp                               ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     1138                                           ║
+    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 235d2ca7f  2026-02-10  Refactor tests and update dependencies   ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"

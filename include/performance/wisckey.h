@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wisckey.h                                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     136                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 5048e1053  2026-02-07  Eliminate lock overlapping through lock-free data structu... ║
+    • 37a877b92  2026-01-31  [WIP] Implement garbage collection for ValueLog in WiscKe... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // WiscKey: Separation of Keys and Values for LSM Trees
 // Paper: "WiscKey: Separating Keys from Values in SSD-conscious Storage" (FAST'16)
 // Authors: Lanyue Lu et al., University of Wisconsin-Madison

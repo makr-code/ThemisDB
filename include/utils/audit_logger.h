@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            audit_logger.h                                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     400                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 73b1edb94  2026-02-20  Importer module: production readiness, observability & fe... ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,6 +31,7 @@
 #include <vector>
 #include <fstream>
 #include <mutex>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 #include "security/encryption.h"
@@ -236,6 +263,71 @@ public:
      * @return Number of entries purged
      */
     size_t purgeOldEntries(std::chrono::system_clock::time_point older_than);
+
+    // -----------------------------------------------------------------------
+    // Phase 3 – Audit Search & Compliance Reporting
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Search criteria for audit log queries.
+     */
+    struct SearchQuery {
+        /// Only return entries at or after this timestamp (optional).
+        std::optional<std::chrono::system_clock::time_point> from;
+        /// Only return entries before this timestamp (optional).
+        std::optional<std::chrono::system_clock::time_point> to;
+        /// Filter by user_id field (empty = any).
+        std::string user_id;
+        /// Filter by action/event type keyword (empty = any).
+        std::string action;
+        /// Filter by resource field prefix (empty = any).
+        std::string resource_prefix;
+        /// Maximum number of results to return (0 = unlimited).
+        size_t max_results = 0;
+    };
+
+    /**
+     * @brief Search audit log entries matching the given criteria.
+     *
+     * Reads the log file sequentially and returns every plaintext record
+     * that satisfies all specified filters.  Encrypted entries are included
+     * as-is (payload.type == "ciphertext") without attempting decryption.
+     *
+     * @param query  Search parameters.
+     * @return       Matching entries in chronological order.
+     */
+    std::vector<AuditLogEntry> searchEntries(const SearchQuery& query) const;
+
+    /**
+     * @brief Compliance report for a given time window.
+     */
+    struct ComplianceReport {
+        std::chrono::system_clock::time_point from;
+        std::chrono::system_clock::time_point to;
+        uint64_t total_events = 0;
+        uint64_t security_events = 0;
+        uint64_t data_access_events = 0;
+        uint64_t authentication_events = 0;
+        uint64_t key_management_events = 0;
+        uint64_t pii_events = 0;
+        bool chain_intact = false;
+        nlohmann::json event_counts_by_type;   ///< map<string, int>
+        nlohmann::json top_users;              ///< map<user_id, count>
+    };
+
+    /**
+     * @brief Generate a compliance report for the specified time window.
+     *
+     * Aggregates event counts, identifies top users, and verifies chain
+     * integrity across the window.
+     *
+     * @param from  Start of the reporting period.
+     * @param to    End of the reporting period.
+     * @return      Populated ComplianceReport.
+     */
+    ComplianceReport generateComplianceReport(
+        std::chrono::system_clock::time_point from,
+        std::chrono::system_clock::time_point to);
     
     /**
      * @brief Get the configured log file path
@@ -274,7 +366,7 @@ private:
     std::shared_ptr<VCCPKIClient> pki_;
     AuditLoggerConfig cfg_;
 
-    std::mutex file_mu_;
+    mutable std::mutex file_mu_;
     
     // Hash chain state (for tamper-proofing)
     std::string last_hash_;

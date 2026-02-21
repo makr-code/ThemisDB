@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            base_model_adapter.cpp                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     736                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c7a9e2b5c  2026-01-17  Update LLM integration and model storage logic ║
+    • d8349ea9e  2026-01-17  [LoRA] Implement Real Token Embeddings Extraction from GG... ║
+    • 13820a00a  2026-01-16  Integrate LoRA Training with llama.cpp Base Models - Comp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/base_model_adapter.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>

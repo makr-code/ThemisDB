@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            dostoevsky.h                                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     135                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e18ac8e08  2025-12-24  Fix code review issues - improve safety and documentation ║
+    • 9f6d6bcab  2025-12-24  Add Phase 2 infrastructure and implementations ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Dostoevsky: Better Space-Time Trade-offs for LSM Trees
 // Paper: "Dostoevsky: Better Space-Time Trade-Offs for LSM-Trees via Adaptive Removal of Superfluous Merging" (SIGMOD'18)
 // Authors: Niv Dayan, Stratos Idreos (Harvard)

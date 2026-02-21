@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_provider.cpp                                   ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     215                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 29                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 7d7ce00ef  2026-02-09  Harden HSM stub provider, VaultSigningProvider, and PKCS#... ║
+    • 538d028ac  2026-02-03  FIND-002: HSM stub provider security enforcement (#1037) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Clean minimal stub implementation of HSMProvider.
 // Provides deterministic, nicht-kryptographische Operationen fuer Developer-Fallback.
 // Wird nur eingebaut, wenn THEMIS_ENABLE_HSM_REAL NICHT definiert ist.

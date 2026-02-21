@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ERDViewModel.cs                                    ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:36:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     342                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8c92adc5e  2025-12-16  Restructure DocumentManager features into modular folders ║
+    • 1621fc8fe  2025-12-15  Fix remaining code review issues: replace Console.WriteLi... ║
+    • b2a02ddec  2025-12-15  Add ERM/ERD and Query Editor infrastructure: models, serv... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.Application.Common.Interfaces;
 using Themis.DocumentManager.Features.Graph.Services;

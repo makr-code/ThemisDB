@@ -1,9 +1,40 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tracing.h                                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:58                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     392                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e1ba78e5d  2026-02-20  observability: production-ready Alertmanager, W3C TraceCo... ║
+    • 01fde7581  2026-01-24  Enhance benchmarks and query execution error handling ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
+#include <map>
 #include <memory>
 #include <optional>
 #include <chrono>
+#include <atomic>
+#include <unordered_map>
+#include <mutex>
+#include <functional>
 
 #ifdef THEMIS_ENABLE_TRACING
 #include <opentelemetry/trace/provider.h>
@@ -13,6 +44,110 @@ namespace otel = opentelemetry;
 #endif
 
 namespace themis {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SamplingStrategy – controls which spans are recorded
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Strategy for sampling traces.
+ *
+ * Three built-in strategies are provided:
+ *  - ALWAYS_ON  (default)  – every span is recorded.
+ *  - ALWAYS_OFF            – no spans are recorded (useful for benchmarks).
+ *  - PROBABILITY           – each span is independently sampled with the
+ *                            configured probability in [0.0, 1.0].
+ *  - PARENT_BASED          – follow the sampling decision of the parent span;
+ *                            falls back to PROBABILITY for root spans.
+ */
+class SamplingStrategy {
+public:
+    enum class Type {
+        ALWAYS_ON,
+        ALWAYS_OFF,
+        PROBABILITY,
+        PARENT_BASED,
+    };
+
+    /// Construct with the given strategy type.
+    explicit SamplingStrategy(Type type = Type::ALWAYS_ON, double probability = 1.0)
+        : type_(type), probability_(probability) {}
+
+    static SamplingStrategy alwaysOn()  { return SamplingStrategy(Type::ALWAYS_ON);  }
+    static SamplingStrategy alwaysOff() { return SamplingStrategy(Type::ALWAYS_OFF); }
+    static SamplingStrategy probability(double p) {
+        return SamplingStrategy(Type::PROBABILITY, p);
+    }
+    static SamplingStrategy parentBased(double root_probability = 1.0) {
+        return SamplingStrategy(Type::PARENT_BASED, root_probability);
+    }
+
+    /// Returns true if a new span with the given parent-sampled flag should be recorded.
+    bool shouldSample(bool parent_sampled = true) const;
+
+    Type   type()        const { return type_; }
+    double probability() const { return probability_; }
+
+private:
+    Type   type_;
+    double probability_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Baggage – key/value metadata propagated across service boundaries
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief W3C Baggage – arbitrary key/value pairs propagated with every span.
+ *
+ * Baggage items are thread-local by default; call Baggage::set() /
+ * Baggage::get() to access the current thread's baggage store.
+ *
+ * The serialised form follows the W3C Baggage header specification:
+ *   key=value[,key=value]*
+ *
+ * Usage:
+ *   Baggage::set("tenant-id", "acme");
+ *   std::string tid = Baggage::get("tenant-id");
+ *   auto headers    = Baggage::inject();          // {"baggage": "tenant-id=acme"}
+ *   Baggage::extract(incomingHeaders);            // populate from inbound request
+ */
+class Baggage {
+public:
+    using BaggageMap = std::unordered_map<std::string, std::string>;
+
+    /// Set a single baggage item in the current thread's store.
+    static void set(const std::string& key, const std::string& value);
+
+    /// Get a single baggage item; returns empty string if not present.
+    static std::string get(const std::string& key);
+
+    /// Remove a baggage item from the current thread's store.
+    static void remove(const std::string& key);
+
+    /// Clear all baggage items for the current thread.
+    static void clear();
+
+    /// Return all baggage items for the current thread.
+    static BaggageMap getAll();
+
+    /// Serialize to a W3C Baggage header value string.
+    static std::string serialize();
+
+    /// Inject baggage into an outgoing header map.
+    static void inject(std::map<std::string, std::string>& headers);
+
+    /// Extract baggage from an incoming header map and merge into the
+    /// current thread's store.
+    static void extract(const std::map<std::string, std::string>& headers);
+
+private:
+    static thread_local BaggageMap thread_baggage_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tracer
+// ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * Tracer wrapper for OpenTelemetry distributed tracing
@@ -111,6 +246,30 @@ public:
      * Start a new span as a child of the given parent span
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
+
+    /**
+     * Start a new root span using W3C TraceContext headers for context propagation.
+     *
+     * Extracts the `traceparent` (and optionally `tracestate`) header from the
+     * provided header map and creates a span that is a child of the upstream trace
+     * context.  This enables distributed tracing across service boundaries: callers
+     * (API gateways, service meshes, SDKs) can propagate their trace IDs into
+     * ThemisDB so that all internal spans appear in the same distributed trace.
+     *
+     * Format of `traceparent` (W3C Trace Context Level 1):
+     *   version-traceid-parentid-flags
+     *   e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+     *
+     * When THEMIS_ENABLE_TRACING is not defined, this falls back to startSpan()
+     * and records the raw `traceparent` value as an attribute for log correlation.
+     *
+     * @param name       Span name
+     * @param headers    HTTP request headers (case-insensitive key lookup)
+     * @return Span      A new span, possibly linked to the upstream trace
+     */
+    static Span startSpanFromHeaders(
+        const std::string& name,
+        const std::map<std::string, std::string>& headers);
     
     /**
      * Get total number of spans created (for metrics)
@@ -121,6 +280,33 @@ public:
      * Get active span count (for metrics)
      */
     static int64_t getActiveSpans();
+
+    /**
+     * Configure the sampling strategy used for new root spans.
+     * This takes effect for all spans created after this call.
+     */
+    static void setSamplingStrategy(const SamplingStrategy& strategy);
+
+    /**
+     * Get the current sampling strategy.
+     */
+    static SamplingStrategy getSamplingStrategy();
+
+    /**
+     * Get the trace-ID of the most recently started span on this thread
+     * as a 32-character hex string, or an empty string when tracing is
+     * disabled / no span is active.
+     *
+     * Primarily intended for injecting the trace-ID into structured log
+     * messages to correlate logs with traces.
+     */
+    static std::string getCurrentTraceId();
+
+    /**
+     * Get the span-ID of the most recently started span on this thread
+     * as a 16-character hex string, or empty string when unavailable.
+     */
+    static std::string getCurrentSpanId();
     
 private:
 #ifdef THEMIS_ENABLE_TRACING
@@ -130,6 +316,8 @@ private:
     static bool initialized_;
     static std::atomic<int64_t> total_spans_;
     static std::atomic<int64_t> active_spans_;
+    static SamplingStrategy sampling_strategy_;
+    static std::mutex sampling_mu_;
 };
 
 /**

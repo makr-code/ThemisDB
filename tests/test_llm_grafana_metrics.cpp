@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_llm_grafana_metrics.cpp                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:44:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     524                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 4                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • d89b7f0d5  2026-02-20  feat(llm): Q1 production-readiness — observability, safet... ║
+    • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/llama_wrapper.h"
 #include "llm/grafana_metrics.h"
@@ -453,4 +479,53 @@ TEST_F(MetricsServerHTTPTest, UnknownPath_Returns404) {
     auto res = cli.Get("/does_not_exist");
     ASSERT_NE(res, nullptr);
     EXPECT_EQ(res->status, 404);
+}
+
+// ─── Admin Sessions endpoint tests (Q4 Admin/DX) ───────────────────────────
+
+TEST_F(MetricsServerHTTPTest, AdminSessions_NoCallback_ReturnsEmptyArray) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/admin/sessions");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, "[]");
+}
+
+TEST_F(MetricsServerHTTPTest, AdminSessions_WithCallback_ReturnsCallbackJSON) {
+    const std::string expected =
+        R"([{"session_id":"s1","model_id":"llama-3b","state":"running"}])";
+    server->setSessionListCallback([&]() { return expected; });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/admin/sessions");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, expected);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminSessionsURL_ContainsAdminSessionsPath) {
+    EXPECT_NE(server->getAdminSessionsURL().find("/admin/sessions"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminDeleteSession_NoCallback_ReturnsNotImplemented) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Delete("/admin/sessions/some-session-id");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("not_implemented"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWithId) {
+    std::string captured_id;
+    server->setSessionDeleteCallback([&](const std::string& id) {
+        captured_id = id;
+        return R"({"status":"deleted","session_id":")" + id + "\"}";
+    });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Delete("/admin/sessions/my-session-uuid");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(captured_id, "my-session-uuid");
+    EXPECT_NE(res->body.find("deleted"), std::string::npos);
 }

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pki_key_provider.cpp                               ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     685                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 1e83f6bd5  2026-01-16  Integrate PKIKeyProvider for LoRA Adapter Encryption (#568) ║
+    • 1212c3919  2025-11-18  fix: Windows MSVC build compatibility - namespace qualifi... ║
+    • 45680cf99  2025-11-08  Add encryption, audit, and graph features with tests ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/pki_key_provider.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/hkdf_helper.h"

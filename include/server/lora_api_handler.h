@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_api_handler.h                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     191                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 41d30e5ae  2026-02-08  Implement cross-shard LoRA transfer via shared WAL transp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <boost/beast.hpp>
@@ -13,7 +39,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 class LoRAOrchestrator;
-class LoRAAdapterManager;
 class LoRAStorageService;
 class LoRATrainingService;
 }

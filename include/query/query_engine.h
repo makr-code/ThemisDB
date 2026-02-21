@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_engine.h                                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     765                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ad82b76f1  2026-02-21  feat(metadata): production-ready metadata module – statis... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • ce7781536  2026-02-05  GAP-002: Migrate QueryEngine error handling to Result<T> ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 ﻿#pragma once
 
 #include <string>
@@ -18,6 +44,9 @@ namespace themis {
 
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
+
+// Forward declaration for StatisticsCollector (avoid including the header)
+class StatisticsCollector;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
 // using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;  // IQueryEngine not defined
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
@@ -328,6 +357,18 @@ public:
      * @param storage Storage engine instance
      */
     void setStorage(IStorageEnginePtr storage);
+
+    /**
+     * @brief Inject a StatisticsCollector for cardinality-based query optimisation.
+     *
+     * When set, executeAndKeys() and executeAndKeysWithFallback() use the
+     * per-column cardinality/selectivity data stored in the collector to order
+     * equality predicates from most-to-least selective before execution.
+     *
+     * The pointer is non-owning; the caller manages the lifetime.
+     * Pass nullptr to disable statistics-based optimisation.
+     */
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
     
     /**
      * @brief Provide expression evaluator for Storage and Index to use
@@ -626,6 +667,7 @@ private:
     GraphIndexManager* graphIdx_ = nullptr;
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
+    StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
     
     // New interface-based dependencies (used with DI constructors)
     // When these are set, they take precedence over legacy pointers

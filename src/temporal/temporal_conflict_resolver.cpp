@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            temporal_conflict_resolver.cpp                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     324                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 308ab7d2f  2026-02-20  feat(temporal): SQL:2011 Temporal Module – Production Rea... ║
+    • 2e9db3528  2025-12-17  Address code review feedback: implement HLC operators, fi... ║
+    • 5bac9d4b0  2025-12-17  Fix HLC comparison operators to use only operator< and op... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Temporal Conflict Resolver Implementation
  * 
@@ -174,9 +200,32 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // TODO: Implement CRDT merge logic
-    // For now, fallback to Last-Write-Wins
-    return resolveLastWriteWins(local, remote);
+    // LWW-Register per field: for each field, keep the value from the
+    // snapshot with the higher HLC timestamp (Last-Write-Wins per field).
+    // For fields present only in one snapshot the single value is kept.
+    // This is the standard LWW-Element-Register CRDT strategy.
+
+    const TemporalSnapshot& newer =
+        (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older =
+        (local.hlc < remote.hlc) ? local : remote;
+
+    // Start with the older snapshot's fields as the baseline
+    nlohmann::json merged = older.data;
+
+    // Override/add with all fields from the newer snapshot
+    if (newer.data.is_object() && older.data.is_object()) {
+        for (auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        // Non-object payloads: the newer value wins outright
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
@@ -200,6 +249,54 @@ void TemporalConflictResolver::resolveManually(const std::string& conflict_id, c
         unresolved_conflicts_.erase(it);
         manual_resolutions_.fetch_add(1, std::memory_order_relaxed);
     }
+}
+
+std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ConflictRecord> result = conflict_history_;
+    // Append unresolved conflicts so callers see the complete picture
+    for (const auto& [id, record] : unresolved_conflicts_) {
+        result.push_back(record);
+    }
+    return result;
+}
+
+nlohmann::json TemporalConflictResolver::exportAuditLog() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    nlohmann::json log = nlohmann::json::array();
+
+    auto policyName = [](ConflictPolicy p) -> std::string {
+        switch (p) {
+            case ConflictPolicy::LAST_WRITE_WINS:  return "LWW";
+            case ConflictPolicy::FIRST_WRITE_WINS: return "FWW";
+            case ConflictPolicy::NODE_PRIORITY:    return "NODE_PRIORITY";
+            case ConflictPolicy::MANUAL:           return "MANUAL";
+            case ConflictPolicy::CRDT_MERGE:       return "CRDT_MERGE";
+        }
+        return "UNKNOWN";
+    };
+
+    auto appendEntry = [&](const ConflictRecord& r) {
+        auto detected_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               r.detected_at.time_since_epoch())
+                               .count();
+        log.push_back({
+            {"conflict_id",    r.conflict_id},
+            {"entity_id",      r.entity_id},
+            {"winner",         r.winner},
+            {"policy",         policyName(r.resolution_policy)},
+            {"resolved",       r.resolved},
+            {"detected_at_ms", detected_ms}
+        });
+    };
+
+    for (const auto& r : conflict_history_) {
+        appendEntry(r);
+    }
+    for (const auto& [id, r] : unresolved_conflicts_) {
+        appendEntry(r);
+    }
+    return log;
 }
 
 nlohmann::json TemporalConflictResolver::getStatistics() const {

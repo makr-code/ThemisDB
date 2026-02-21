@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ml_model_manager.cpp                               ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   73.0/100                                       ║
+    • Total Lines:     1690                                           ║
+    • Open Issues:     TODOs: 8, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5d480af8c  2026-02-20  RAG module: replace all stubs with real implementations; ... ║
+    • 7d467f118  2026-01-24  Remove columnar storage and optimization issue templates ║
+    • dc415c458  2026-01-23  Refactor error handling and return types across multiple ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/ml_model_manager.h"
 #include "utils/logger.h"
 #include <sstream>

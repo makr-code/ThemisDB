@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_jwt_token_revocation_integration.cpp          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:43:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     338                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_jwt_token_revocation_integration.cpp
  * @brief Integration tests for JTI-based per-token revocation in JWTValidator
@@ -80,7 +105,7 @@ struct ECKey {
     ECKey& operator=(const ECKey&) = delete;
 
     std::pair<std::vector<uint8_t>, std::vector<uint8_t>> publicKeyCoords() const {
-        EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
+        const EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
         const EC_POINT* pt = EC_KEY_get0_public_key(ec);
         const EC_GROUP* grp = EC_KEY_get0_group(ec);
         BIGNUM* bx = BN_new(); BIGNUM* by = BN_new();

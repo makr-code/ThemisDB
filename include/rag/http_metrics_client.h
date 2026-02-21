@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_metrics_client.h                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     241                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • a9e8324f5  2026-02-20  Quality Control enhancements: Factory patterns, Continuou... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file http_metrics_client.h
  * @brief HTTP client for uploading quality control metrics
@@ -14,6 +39,8 @@
 #include <functional>
 #include <chrono>
 #include <optional>
+#include <unordered_map>
+#include <mutex>
 
 namespace themis::rag::judge {
 
@@ -24,7 +51,7 @@ enum class HTTPMethod {
     GET,
     POST,
     PUT,
-    DELETE
+    DELETE_
 };
 
 /**
@@ -176,7 +203,7 @@ private:
     std::unique_ptr<Impl> impl_;
     HTTPMetricsClientConfig config_;
     Statistics stats_;
-    std::mutex stats_mutex_;
+    mutable std::mutex stats_mutex_;
     RequestCallback request_callback_;
     
     HTTPResponse requestWithRetry(

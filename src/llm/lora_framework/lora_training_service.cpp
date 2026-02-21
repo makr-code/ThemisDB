@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_training_service.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   88.0/100                                       ║
+    • Total Lines:     2113                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • c6716ede7  2026-02-16  Add ThemisDB Order Request Plugin with shortcodes, AJAX h... ║
+    • bf88ee182  2026-02-15  Refactor CMake presets and update LLM service constructor... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_layers.h"
@@ -1695,11 +1721,10 @@ size_t LoRATrainingService::estimateMemoryUsage(
     // - NF4: ~4 GB (85% reduction)
     // - INT8: ~7 GB (75% reduction)
     
-    // This is a simplified estimation
-    // TODO: In production, parse the model file to get actual parameter count
-    // TODO: Support reading parameter count from model metadata
-    size_t estimated_params = 7'000'000'000;  // 7B parameters as example placeholder
-    
+    // This is a simplified estimation; actual parameter count is auto-detected
+    // from the GGUF header (general.model_size / llama.block_count) below.
+    size_t estimated_params = 7'000'000'000;  // 7B fallback when GGUF detection fails
+
     // Auto-detect parameter count from GGUF model file
     try {
         if (std::filesystem::exists(model_path)) {

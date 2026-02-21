@@ -623,6 +623,10 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "  - Flash Attention: ${LLAMA_FLASH_ATTN}")
         message(STATUS "  - Continuous Batching: ${LLAMA_CONTINUOUS_BATCHING}")
         add_compile_definitions(THEMIS_ENABLE_LLM=1)
+        # Expose the pinned commit hash as a compile-time constant so that
+        # LlamaWrapper can compare it against the runtime llama_build_commit()
+        # value at startup and warn on mismatch (risk mitigation for API drift).
+        add_compile_definitions(THEMIS_LLAMA_CPP_EXPECTED_COMMIT="${LLAMA_CPP_GIT_TAG}")
     else()
         message(FATAL_ERROR "llama.cpp target 'llama' not created after FetchContent")
     endif()

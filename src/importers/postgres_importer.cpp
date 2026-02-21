@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            postgres_importer.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     1435                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 73b1edb94  2026-02-20  Importer module: production readiness, observability & fe... ║
+    • 90ce07ef4  2025-12-14  docs: Add Docker deployment guide and update changelog fo... ║
+    • 592675660  2025-11-21  Implement PostgreSQL importer plugin with pg_dump parser ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "importers/postgres_importer.h"
 #include "utils/logger.h"
 #include <fstream>

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            spatial_api_handler.cpp                            ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:30                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     327                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3055833f6  2026-02-20  GPU geospatial backend: replace stub with real intersecti... ║
+    • 86839235d  2026-01-13  Add documentation archival system and new issue templates ║
+    • 9d76fe3cf  2026-01-13  REFACTOR: Extract spatial operations into SpatialApiHandl... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/spatial_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/spatial_index.h"

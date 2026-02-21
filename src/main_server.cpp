@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            main_server.cpp                                    ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   1.0/100                                        ║
+    • Total Lines:     2220                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 19                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 6ecc84977  2026-02-20  Server Module: Production Hardening (TLS hot-reload, grac... ║
+    • d8e89f0e2  2026-02-20  PII-Compliance: Automatic redaction for logs, traces, and... ║
+    • d64a1865a  2026-02-13  Add CLI tool for LLM model management with Ollama-style p... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 // NOTE: Mimalloc is lazy-loaded after CRT initialization to avoid crashes during
 // static object construction. This prevents exit code -1073741502 (0xC0000142).

@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_anomaly_detection.cpp                         ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     308                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_anomaly_detection.cpp
  * @brief Tests for RateLimiter anomaly detection callback mechanism (issue §1.5)
@@ -19,7 +44,7 @@ using namespace themis::server;
 // ──────────────────────────────────────────────────────────────────────────────
 
 struct CollectedEvents {
-    std::mutex              mtx;
+    mutable std::mutex      mtx;
     std::vector<AnomalyEvent> events;
 
     void clear() {
@@ -70,7 +95,7 @@ TEST_F(RateLimiterAnomalyTest, CallbackFiredOnBlacklist) {
     rl.blacklistIP("1.2.3.4");
 
     ASSERT_EQ(collected.size(), 1u);
-    auto& ev = collected.at(0);
+    auto ev = collected.at(0);
     EXPECT_EQ(ev.type, AnomalyEvent::Type::IP_BLACKLISTED);
     EXPECT_EQ(ev.ip,   "1.2.3.4");
     EXPECT_FALSE(ev.detail.empty());

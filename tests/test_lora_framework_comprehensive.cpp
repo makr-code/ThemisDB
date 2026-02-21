@@ -1,9 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_lora_framework_comprehensive.cpp              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:44:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   83.0/100                                       ║
+    • Total Lines:     1019                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 7d467f118  2026-01-24  Remove columnar storage and optimization issue templates ║
+    • ea8a13f05  2026-01-15  Add SVG flowchart for observability and regex tests for M... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_lora_framework_comprehensive.cpp
  * @brief Comprehensive unit tests for LoRA Framework with complete coverage
  * 
  * This file provides 100% test coverage for the LoRA framework including:
- * - LoRAAdapterManager (lifecycle, caching, hot-swapping, memory management)
+ * - Adapter Management (lifecycle, caching, hot-swapping, memory management — via MultiLoRAManager)
  * - LoRAStorageService (storage backends, versioning, graph operations)
  * - LoRATrainingService (on-the-fly, batch, callbacks, error handling)
  * - MultiLoRAManager (multi-adapter, quantization, multi-GPU support)
@@ -24,7 +50,6 @@
 #include <gtest/gtest.h>
 
 // LoRA Framework headers
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_orchestrator.h"
@@ -288,7 +313,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, StorageService_SpecialCharacters_InID) {
 }
 
 // ============================================================================
-// LoRAAdapterManager Tests - Lifecycle & Caching
+// Adapter Management Tests - Lifecycle & Caching (using MultiLoRAManager)
 // ============================================================================
 
 TEST_F(LoRAFrameworkComprehensiveTest, AdapterManager_LoadUnload_BasicLifecycle) {

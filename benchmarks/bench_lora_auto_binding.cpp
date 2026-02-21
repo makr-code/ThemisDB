@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_lora_auto_binding.cpp                        ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:30:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     534                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 5ef6b5415  2026-01-25  refactor: Update LoRA context handling and improve test a... ║
+    • 36a2d2976  2026-01-19  Implement complete LoRA adapter runtime application with ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_lora_auto_binding.cpp
  * @brief Performance benchmarks for LoRA auto-binding and lifecycle management
@@ -15,7 +41,6 @@
 
 #include <benchmark/benchmark.h>
 #include "llm/multi_lora_manager.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include <chrono>
 #include <string>
 #include <vector>
@@ -37,15 +62,6 @@ MultiLoRAManager::Config createBenchConfig(size_t slots = 8, size_t vram_mb = 51
     cfg.enable_multi_lora_batch = true;
     cfg.lora_ttl = std::chrono::seconds(60);  // 60s TTL for benchmarks
     cfg.enable_lazy_load = true;
-    return cfg;
-}
-
-LoRAAdapterManager::Config createAdapterConfig() {
-    LoRAAdapterManager::Config cfg;
-    cfg.max_cache_size = 10;
-    cfg.max_memory_mb = 1024;
-    cfg.cache_ttl = std::chrono::seconds(60);
-    cfg.enable_auto_unload = true;
     return cfg;
 }
 

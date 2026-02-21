@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saga.h                                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:48                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     167                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 507ce1eb8  2025-10-29  Initial commit: Themis - C++ Database System (formerly VC... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 ﻿#pragma once
 
 #include <functional>
@@ -5,6 +30,7 @@
 #include <string>
 #include <memory>
 #include <chrono>
+#include <thread>
 #include <algorithm>
 #include "storage/rocksdb_wrapper.h"
 
@@ -52,7 +78,13 @@ public:
     
     /// Execute all compensating actions in reverse order
     void compensate();
-    
+
+    /// Execute all compensating actions with retry.
+    /// @param max_retries  Per-step retry attempts on exception (0 = no retry).
+    /// @param backoff_ms   Initial backoff in milliseconds; doubled on each retry.
+    void compensateWithRetry(int max_retries = 3,
+                             std::chrono::milliseconds backoff_ms = std::chrono::milliseconds(50));
+
     /// Clear all steps (called after successful commit)
     void clear();
     
@@ -70,10 +102,26 @@ public:
     
     /// Get duration since first step
     int64_t getDurationMs() const;
-    
+
+    /// SAGA execution metrics.
+    struct Metrics {
+        uint64_t total_steps{0};
+        uint64_t compensated_steps{0};
+        uint64_t failed_compensations{0};  ///< Steps that threw during compensation
+        uint64_t retried_compensations{0}; ///< Steps that succeeded only after retry
+        int64_t  duration_ms{0};
+    };
+
+    /// Return accumulated execution metrics.
+    Metrics getMetrics() const;
+
 private:
     std::vector<Step> steps_;
     bool compensated_ = false;
+
+    // Cumulative metrics
+    uint64_t metrics_failed_{0};
+    uint64_t metrics_retried_{0};
 };
 
 /// SAGA-aware Transaction Operations

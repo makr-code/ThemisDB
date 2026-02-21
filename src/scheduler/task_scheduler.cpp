@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            task_scheduler.cpp                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   80.0/100                                       ║
+    • Total Lines:     1881                                           ║
+    • Open Issues:     TODOs: 9, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 770aaf490  2026-02-20  Scheduler Module: Production Readiness – Core, EventTrigg... ║
+    • 235d2ca7f  2026-02-10  Refactor tests and update dependencies   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scheduler/task_scheduler.h"
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
@@ -45,6 +71,11 @@ static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
 // Helper function to set default audit context
 static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
+    event.user_id = DEFAULT_AUDIT_USER;
+    event.ip_address = DEFAULT_AUDIT_IP;
+}
+
+static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
     event.user_id = DEFAULT_AUDIT_USER;
     event.ip_address = DEFAULT_AUDIT_IP;
 }
@@ -822,6 +853,7 @@ std::string TaskScheduler::exportMetrics() const {
     return out.str();
 }
 
+std::vector<ScheduledTask> TaskScheduler::listTasks() const {
 
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     

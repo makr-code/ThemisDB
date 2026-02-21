@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_api_handler.cpp                              ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     701                                            ║
+    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 61d41553b  2026-01-22  Implement audio download functionality in Voice API with ... ║
+    • 94cd1ee8a  2025-12-30  Address code review feedback and add Python example ║
+    • 09e103a1c  2025-12-30  Add Voice API endpoints and comprehensive documentation ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file voice_api_handler.cpp
  * @brief Voice Assistant API Handler Implementation

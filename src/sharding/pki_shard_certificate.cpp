@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pki_shard_certificate.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     360                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a4ac8c404  2026-01-25  Refactor OpenSSL memory management to RAII pattern (#901) ║
+    • e395121e6  2025-11-20  chore: sync lokale Aenderungen vor Rebase ║
+    • 34a3a4176  2025-11-20  Phase 2 progress: PKI Shard Certificate parser ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/pki_shard_certificate.h"
 #include "utils/openssl_deleter.h"
 #include <fstream>

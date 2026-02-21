@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            branch_manager.cpp                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     749                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • d153a4f5f  2026-02-15  Add test configuration management and YAML integration ║
+    • 8400a4c76  2026-02-12  feat: Enhance ThemisDB with new components and improvements ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "transaction/branch_manager.h"
 #include "transaction/merge_engine.h"
 #include <regex>
@@ -163,7 +189,20 @@ std::optional<BranchManager::Branch> BranchManager::createBranch(
         active_branch_ = branch_name;
         saveActiveBranch(branch_name);
     }
-    
+
+    // Record creation in branch history (outside mutex is fine; appendHistory takes its own)
+    auto now2 = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    BranchHistoryEntry hist;
+    hist.event_type   = "created";
+    hist.branch_name  = branch_name;
+    hist.details      = "Created from parent '" + branch.parent_branch +
+                        "' at seq " + std::to_string(branch.creation_sequence);
+    hist.performed_by = created_by;
+    hist.timestamp_ms = now2;
+    hist.sequence     = branch.creation_sequence;
+    appendHistory(hist);
+
     return branch;
 }
 
@@ -250,11 +289,27 @@ bool BranchManager::switchBranch(const std::string& branch_name) {
         return false;
     }
     
+    std::string previous = active_branch_;
+
     // Update active branch
     active_branch_ = branch_name;
     
     // Persist active branch
-    return saveActiveBranch(branch_name);
+    bool ok = saveActiveBranch(branch_name);
+
+    if (ok) {
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        BranchHistoryEntry hist;
+        hist.event_type   = "switched_to";
+        hist.branch_name  = branch_name;
+        hist.details      = "Switched from '" + previous + "'";
+        hist.performed_by = "system";
+        hist.timestamp_ms = now_ms;
+        hist.sequence     = changefeed_.getLatestSequence();
+        appendHistory(hist);
+    }
+    return ok;
 }
 
 // Get active branch
@@ -554,6 +609,147 @@ bool BranchManager::isBranchMerged(
     // A full implementation would check if all changes in branch_name
     // are also in target_branch via changefeed diff
     return false;
+}
+
+// ---- Phase 5: Branch History ----
+
+json BranchManager::BranchHistoryEntry::toJson() const {
+    return {
+        {"event_type",    event_type},
+        {"branch_name",   branch_name},
+        {"details",       details},
+        {"performed_by",  performed_by},
+        {"timestamp_ms",  timestamp_ms},
+        {"sequence",      sequence}
+    };
+}
+
+BranchManager::BranchHistoryEntry
+BranchManager::BranchHistoryEntry::fromJson(const json& j) {
+    BranchHistoryEntry e;
+    e.event_type   = j.value("event_type",   "");
+    e.branch_name  = j.value("branch_name",  "");
+    e.details      = j.value("details",      "");
+    e.performed_by = j.value("performed_by", "system");
+    e.timestamp_ms = j.value("timestamp_ms", (int64_t)0);
+    e.sequence     = j.value("sequence",     (uint64_t)0);
+    return e;
+}
+
+std::vector<uint8_t>
+BranchManager::serializeHistory(const BranchHistoryEntry& entry) const {
+    auto s = entry.toJson().dump();
+    return {s.begin(), s.end()};
+}
+
+std::optional<BranchManager::BranchHistoryEntry>
+BranchManager::deserializeHistory(const std::vector<uint8_t>& data) const {
+    try {
+        std::string s(data.begin(), data.end());
+        return BranchHistoryEntry::fromJson(json::parse(s));
+    } catch (...) {
+        return std::nullopt;
+    }
+}
+
+void BranchManager::appendHistory(const BranchHistoryEntry& entry) {
+    // Key: "branch_hist:<branch_name>:<timestamp_ms>:<sequence>:<counter>"
+    // A monotonic counter suffix ensures uniqueness even when two events
+    // share the same timestamp_ms and sequence (e.g. rapid operations).
+    static std::atomic<uint64_t> hist_counter{0};
+    uint64_t counter = hist_counter.fetch_add(1, std::memory_order_relaxed);
+
+    std::string key = std::string(BRANCH_HIST_PREFIX) +
+                      entry.branch_name + ":" +
+                      std::to_string(entry.timestamp_ms) + ":" +
+                      std::to_string(entry.sequence) + ":" +
+                      std::to_string(counter);
+
+    auto data = serializeHistory(entry);
+    db_.put(key, data); // best-effort; ignore write errors for audit log
+}
+
+std::vector<BranchManager::BranchHistoryEntry>
+BranchManager::getBranchHistory(const std::string& branch_name,
+                                 size_t limit) const {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    std::vector<BranchHistoryEntry> result;
+    std::string prefix = std::string(BRANCH_HIST_PREFIX) + branch_name + ":";
+
+    auto it_result = db_.newSafeIterator();
+    if (!it_result) return result;
+
+    auto& it = it_result.value();
+    for (it.Seek(prefix); it.Valid(); it.Next()) {
+        std::string key(it.key());
+        if (key.find(prefix) != 0) break;
+
+        std::string vs(it.value());
+        std::vector<uint8_t> data(vs.begin(), vs.end());
+        auto entry = deserializeHistory(data);
+        if (entry.has_value()) {
+            result.push_back(*entry);
+            if (limit > 0 && result.size() >= limit) break;
+        }
+    }
+    return result;
+}
+
+// ---- Phase 5: Branch GC ----
+
+void BranchManager::setBranchGCPolicy(const BranchGCPolicy& policy) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    gc_policy_ = policy;
+}
+
+size_t BranchManager::pruneMergedBranches() {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    size_t pruned = 0;
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    std::vector<Branch> candidates;
+
+    auto it_result = db_.newSafeIterator();
+    if (!it_result) return 0;
+
+    auto& it = it_result.value();
+    for (it.Seek(BRANCH_PREFIX); it.Valid(); it.Next()) {
+        std::string key(it.key());
+        if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) continue;
+
+        std::string vs(it.value());
+        std::vector<uint8_t> data(vs.begin(), vs.end());
+        auto branch = deserialize(data);
+        if (!branch.has_value()) continue;
+
+        // Skip protected names
+        if (gc_policy_.protect_default &&
+            branch->branch_name == std::string(DEFAULT_BRANCH)) continue;
+        // Skip the currently active branch
+        if (branch->branch_name == active_branch_) continue;
+
+        bool age_ok = (gc_policy_.max_age_ms <= 0) ||
+                      (now_ms > branch->creation_timestamp_ms &&
+                       (now_ms - branch->creation_timestamp_ms) > gc_policy_.max_age_ms);
+
+        bool merged_ok = !gc_policy_.only_merged ||
+                         isBranchMerged(branch->branch_name, DEFAULT_BRANCH);
+
+        if (age_ok && merged_ok) {
+            candidates.push_back(*branch);
+        }
+    }
+
+    for (const auto& b : candidates) {
+        if (db_.del(makeKey(b.branch_name))) {
+            ++pruned;
+        }
+    }
+
+    return pruned;
 }
 
 } // namespace transaction

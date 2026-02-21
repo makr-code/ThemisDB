@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_judge_integration.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   62.0/100                                       ║
+    • Total Lines:     204                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
+    • 7cd33a0ff  2026-01-25  Remove hardcoded mock responses from LLM Judge integratio... ║
+    • 55b9f8bf0  2026-01-19  Enhance Knowledge Gap Detector and LLM Integration ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file llm_judge_integration.cpp
  * @brief Implementation of LLM integration for RAG Judge

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_llm_inference_performance.cpp                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:30:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     561                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 10d6fc4a6  2026-01-25  feat(build): Add missing cmake configurations for Voice A... ║
+    • 5ef6b5415  2026-01-25  refactor: Update LoRA context handling and improve test a... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_llm_inference_performance.cpp
  * @brief Real Google Benchmark performance tests for LLM inference and adapters
@@ -18,7 +44,6 @@
 
 #include <benchmark/benchmark.h>
 #include "llm/multi_lora_manager.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/llm_response_cache.h"
 #include <vector>
 #include <string>
@@ -81,15 +106,6 @@ MultiLoRAManager::Config createLoRAConfig(size_t slots = 8, size_t vram_mb = 409
     cfg.enable_multi_lora_batch = true;
     cfg.lora_ttl = std::chrono::seconds(300);
     cfg.enable_lazy_load = true;
-    return cfg;
-}
-
-LoRAAdapterManager::Config createAdapterConfig() {
-    LoRAAdapterManager::Config cfg;
-    cfg.max_cache_size = 20;
-    cfg.max_memory_mb = 8192;
-    cfg.cache_ttl = std::chrono::seconds(600);
-    cfg.enable_auto_unload = true;
     return cfg;
 }
 

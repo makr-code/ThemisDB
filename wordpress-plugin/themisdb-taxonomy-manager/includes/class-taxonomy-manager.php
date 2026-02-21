@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            class-taxonomy-manager.php                         ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:48:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     636                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 26ea8feda  2026-02-17  Implement intelligent taxonomy extraction with TF-IDF sco... ║
+    • 45f85acad  2026-02-11  WordPress Plugin: ThemisDB Taxonomy Manager v1.0.0 (#1203) ║
+    • 831094d0a  2026-02-11  Add ThemisDB Wiki Integration plugin and documentation im... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 <?php
 /**
  * Taxonomy Manager

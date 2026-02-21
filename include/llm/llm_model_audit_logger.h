@@ -1,9 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_model_audit_logger.h                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     367                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • d89b7f0d5  2026-02-20  feat(llm): Q1 production-readiness — observability, safet... ║
+    • 3d10e1f01  2026-01-25  Refactor test cases to improve status variable naming ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "utils/audit_logger.h"
 #include <string>
 #include <chrono>
 #include <memory>
+#include <ostream>
+#include <optional>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -298,6 +327,33 @@ public:
      * @brief Flush logs to disk
      */
     void flush();
+
+    /**
+     * @brief Export audit events as a JSON-lines (JSONL) stream.
+     *
+     * Writes one JSON object per line to @p out_stream.  Each line is a
+     * self-contained JSON object with the following top-level fields:
+     *
+     *   - timestamp_iso8601  (string, UTC)
+     *   - event_type         (string, e.g. "INFERENCE_COMPLETED")
+     *   - model_id           (string)
+     *   - details            (object, event-specific payload)
+     *
+     * The format is compatible with standard SIEM ingestors and data
+     * warehouse batch loaders (e.g., BigQuery, Snowflake, Splunk).
+     *
+     * @param out_stream  Output stream to write lines to.
+     * @param model_id    Optional filter; empty string = all models.
+     * @param start_time  Optional inclusive start of the query window.
+     * @param end_time    Optional exclusive end of the query window.
+     * @return Number of lines written.
+     */
+    size_t exportAnalytics(
+        std::ostream& out_stream,
+        const std::string& model_id = "",
+        std::optional<std::chrono::system_clock::time_point> start_time = std::nullopt,
+        std::optional<std::chrono::system_clock::time_point> end_time = std::nullopt
+    );
 
 private:
     class Impl;

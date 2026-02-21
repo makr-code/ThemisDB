@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            backup_manager.cpp                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   45.0/100                                       ║
+    • Total Lines:     1676                                           ║
+    • Open Issues:     TODOs: 7, Stubs: 7                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 59e02ab03  2026-02-21  feat(storage): Production-readiness – WAL, Snapshot, Comp... ║
+    • 8400a4c76  2026-02-12  feat: Enhance ThemisDB with new components and improvements ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
@@ -1487,42 +1513,171 @@ Result<void> BackupManager::restoreFromCloud(
 
 Result<std::string> BackupManager::createSnapshot(
     const std::string& snapshot_name,
-    const std::string& storage_class) {
-    
-    THEMIS_WARN("createSnapshot is a stub - K8s VolumeSnapshot integration not yet implemented");
-    THEMIS_INFO("Snapshot request: name={}, storage_class={}", 
-                snapshot_name, storage_class);
-    
-    // TODO: Implement Kubernetes VolumeSnapshot creation
-    // - Create VolumeSnapshot resource
-    // - Wait for snapshot to be ready
-    // - Return snapshot handle
-    
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "K8s VolumeSnapshot creation not yet implemented. "
-        "Planned: CSI snapshot integration for cloud providers"
-    ));
+    const std::string& /*storage_class*/) {
+
+    if (!db_wrapper_) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                    "createSnapshot: db_wrapper is null"));
+    }
+
+    namespace fs = std::filesystem;
+
+    // Build snapshot directory: <db_path>/../snapshots/<name>_<YYYYMMDD_HHMMSS>
+    const std::string& db_path = db_wrapper_->getConfig().db_path;
+    std::string ts = getTimestamp();
+    fs::path snap_dir = fs::path(db_path).parent_path() / "snapshots" /
+                        (snapshot_name + "_" + ts);
+
+    std::error_code ec;
+    fs::create_directories(snap_dir.parent_path(), ec);
+    if (ec) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                                    "createSnapshot: cannot create snapshot base dir: " +
+                                    ec.message()));
+    }
+
+    // RocksDB Checkpoint: crash-consistent, quiesce-safe, no writes blocked.
+    if (!db_wrapper_->createCheckpoint(snap_dir.string())) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                    "createSnapshot: createCheckpoint failed for '" +
+                                    snap_dir.string() + "'"));
+    }
+
+    // Write a JSON manifest alongside the snapshot so it can be verified/restored.
+    uint64_t seq = db_wrapper_->getLatestSequenceNumber();
+    nlohmann::json manifest;
+    manifest["snapshot_name"]    = snapshot_name;
+    manifest["created_at"]       = ts;
+    manifest["db_path"]          = db_path;
+    manifest["sequence_number"]  = seq;
+    manifest["format"]           = "rocksdb_checkpoint_v1";
+
+    fs::path manifest_path = snap_dir / "snapshot_manifest.json";
+    {
+        std::ofstream mf(manifest_path);
+        if (!mf.is_open()) {
+            // Checkpoint itself succeeded; manifest write failure is non-fatal but we
+            // return an error so callers know verification may fail later.
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                                        "createSnapshot: cannot write manifest at '" +
+                                        manifest_path.string() + "'"));
+        }
+        mf << manifest.dump(2) << "\n";
+    }
+
+    THEMIS_INFO("Snapshot '{}' created at '{}' (seq={})", snapshot_name,
+                snap_dir.string(), seq);
+    return snap_dir.string();
 }
 
 Result<void> BackupManager::restoreFromSnapshot(
     const std::string& snapshot_id,
-    const std::string& restore_pvc) {
-    
-    THEMIS_WARN("restoreFromSnapshot is a stub - K8s VolumeSnapshot restore not yet implemented");
-    THEMIS_INFO("Restore request: snapshot={}, pvc={}", 
-                snapshot_id, restore_pvc);
-    
-    // TODO: Implement Kubernetes VolumeSnapshot restore
-    // - Create new PVC from VolumeSnapshot
-    // - Attach to pod
-    // - Perform data verification
-    
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "K8s VolumeSnapshot restore not yet implemented. "
-        "Planned: Create PVC from snapshot, automatic pod restart"
-    ));
+    const std::string& /*restore_pvc*/) {
+
+    namespace fs = std::filesystem;
+
+    if (snapshot_id.empty()) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                    "restoreFromSnapshot: snapshot_id must not be empty"));
+    }
+
+    // First verify the snapshot is intact.
+    auto verify = verifySnapshot(snapshot_id);
+    if (!verify) return verify;
+
+    if (!db_wrapper_) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                    "restoreFromSnapshot: db_wrapper is null"));
+    }
+
+    if (!db_wrapper_->restoreFromCheckpoint(snapshot_id)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                    "restoreFromSnapshot: restoreFromCheckpoint failed for '" +
+                                    snapshot_id + "'"));
+    }
+
+    THEMIS_INFO("Database restored from snapshot '{}'", snapshot_id);
+    return OkVoid();
+}
+
+Result<void> BackupManager::verifySnapshot(const std::string& snapshot_dir) {
+    namespace fs = std::filesystem;
+
+    if (!fs::exists(snapshot_dir)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                                    "verifySnapshot: directory not found: '" +
+                                    snapshot_dir + "'"));
+    }
+
+    // Check manifest
+    fs::path manifest_path = fs::path(snapshot_dir) / "snapshot_manifest.json";
+    if (!fs::exists(manifest_path)) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                    "verifySnapshot: manifest not found in '" +
+                                    snapshot_dir + "'"));
+    }
+
+    try {
+        std::ifstream mf(manifest_path);
+        nlohmann::json manifest = nlohmann::json::parse(mf);
+        if (manifest["format"] != "rocksdb_checkpoint_v1") {
+            return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                        "verifySnapshot: unknown snapshot format '" +
+                                        manifest.value("format", "?") + "'"));
+        }
+    } catch (const std::exception& e) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                    std::string("verifySnapshot: manifest parse error: ") +
+                                    e.what()));
+    }
+
+    // Check that a MANIFEST or CURRENT file is present (sign of a valid RocksDB directory)
+    bool has_rocksdb_files =
+        fs::exists(fs::path(snapshot_dir) / "CURRENT") ||
+        fs::exists(fs::path(snapshot_dir) / "MANIFEST-000001");
+    if (!has_rocksdb_files) {
+        // Scan for any MANIFEST-* file
+        for (const auto& entry : fs::directory_iterator(snapshot_dir)) {
+            if (entry.path().filename().string().rfind("MANIFEST", 0) == 0) {
+                has_rocksdb_files = true;
+                break;
+            }
+        }
+    }
+    if (!has_rocksdb_files) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                                    "verifySnapshot: no RocksDB files found in '" +
+                                    snapshot_dir + "'"));
+    }
+
+    THEMIS_INFO("Snapshot verification passed for '{}'", snapshot_dir);
+    return OkVoid();
+}
+
+Result<std::vector<std::string>> BackupManager::listSnapshots() {
+    namespace fs = std::filesystem;
+
+    if (!db_wrapper_) {
+        return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                                    "listSnapshots: db_wrapper is null"));
+    }
+    const std::string& db_path = db_wrapper_->getConfig().db_path;
+    fs::path snap_base = fs::path(db_path).parent_path() / "snapshots";
+
+    std::vector<std::string> result;
+    if (!fs::exists(snap_base)) return result; // no snapshots yet
+
+    std::error_code ec;
+    for (const auto& entry : fs::directory_iterator(snap_base, ec)) {
+        if (entry.is_directory()) {
+            // Only include directories that contain a snapshot manifest
+            if (fs::exists(entry.path() / "snapshot_manifest.json")) {
+                result.push_back(entry.path().string());
+            }
+        }
+    }
+    std::sort(result.begin(), result.end()); // alphabetical = chronological (timestamps in name)
+    return result;
 }
 
 } // namespace themis

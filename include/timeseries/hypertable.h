@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hypertable.h                                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     211                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5f378814d  2026-02-21  TimeSeries Module – Production Readiness Roadmap (All 7 P... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 705306106  2026-01-17  Add systematic source code attribution for algorithms and... ║
+    • 43b57dbd6  2025-12-14  Implement v1.2.0 Phase 3.1: Hypertables for TimescaleDB c... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -94,6 +120,37 @@ public:
         int64_t end_time
     );
     
+    /**
+     * @brief Chunk health status and lifecycle events
+     */
+    enum class ChunkStatus {
+        Active,      ///< Within retention window, being written to
+        Frozen,      ///< Past current interval but within retention window
+        Compressible,///< Older than compress_threshold, not yet compressed
+        Compressed,  ///< Already compressed
+        Expired      ///< Past retention window, ready to drop
+    };
+
+    struct ChunkHealth {
+        std::string chunk_name;
+        ChunkStatus status = ChunkStatus::Active;
+        bool is_healthy = true;
+        size_t row_count = 0;
+        size_t size_bytes = 0;
+        int64_t start_time = 0;
+        int64_t end_time = 0;
+        std::string status_message;
+    };
+
+    /**
+     * @brief Get health and lifecycle status for all chunks
+     *
+     * Returns a health report for each tracked chunk, including
+     * status (Active / Frozen / Compressible / Compressed / Expired)
+     * and diagnostic messages.
+     */
+    std::vector<ChunkHealth> getChunkHealth();
+
     /**
      * @brief Get list of chunks
      */

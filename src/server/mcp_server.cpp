@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mcp_server.cpp                                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:40:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   66.0/100                                       ║
+    • Total Lines:     2233                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
+    • b481fb68f  2026-02-16  Integrate AQL query engine with MCP for multi-model queri... ║
+    • b3e659103  2026-02-12  Reorganize config architecture into hierarchical structur... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_MCP
 
 #include "server/mcp_server.h"

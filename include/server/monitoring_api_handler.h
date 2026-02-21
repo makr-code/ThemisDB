@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            monitoring_api_handler.h                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     301                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e1ba78e5d  2026-02-20  observability: production-ready Alertmanager, W3C TraceCo... ║
+    • f57cc26cc  2026-02-20  feat(core): lifecycle hooks, health/readiness probes, and... ║
+    • 6ecc84977  2026-02-20  Server Module: Production Hardening (TLS hot-reload, grac... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <memory>
@@ -7,6 +33,7 @@
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include "core/concerns/concerns_context.h"
+#include "observability/alertmanager.h"
 
 namespace themis {
 
@@ -46,7 +73,11 @@ namespace server {
  * - GET /stats - Get runtime statistics
  * - GET /api/capabilities - Get server capabilities
  * - GET /metrics - Get Prometheus-compatible metrics
+ * - GET /metrics/html - Lightweight HTML metrics dashboard
  * - GET /config or POST /config - Get/update server configuration
+ * - GET /api/v1/observability/alerts - List active alerts (JSON)
+ * - POST /api/v1/observability/alerts/{id}/silence - Silence an alert
+ * - GET /api/v1/observability/health - Aggregate observability health
  * 
  * Features:
  * - Health monitoring
@@ -54,6 +85,7 @@ namespace server {
  * - Runtime statistics
  * - Prometheus metrics export
  * - Dynamic configuration
+ * - Operator alert management API
  * 
  * Extracted from http_server.cpp (~300 lines) to improve maintainability.
  */
@@ -160,6 +192,15 @@ public:
      * @return HTTP response with metrics in Prometheus format
      */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /metrics/html request (lightweight HTML dashboard)
+     * Renders the current Prometheus metrics as a human-readable HTML page
+     * for quick operator inspection without a dedicated Grafana instance.
+     * @param req HTTP request
+     * @return HTTP response with HTML metrics dashboard
+     */
+    http::response<http::string_body> handleMetricsHtml(const http::request<http::string_body>& req);
     
     /**
      * @brief Handle GET /api/plugins/metrics request
@@ -182,6 +223,40 @@ public:
      */
     http::response<http::string_body> handleSLOStatus(const http::request<http::string_body>& req);
 
+    // -------------------------------------------------------------------------
+    // Operator Observability REST API
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief GET /api/v1/observability/alerts
+     * Returns the list of currently active (firing) alerts as a JSON array.
+     * @param req HTTP request
+     * @return HTTP 200 with JSON array of active alerts
+     */
+    http::response<http::string_body> handleObservabilityAlerts(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief POST /api/v1/observability/alerts/{id}/silence
+     * Silences the named alert for a configurable duration.
+     * Body: { "duration_minutes": <int> }  (default: 60)
+     * @param req HTTP request (path contains alert_id)
+     * @return HTTP 200 on success, 400/404 on error
+     */
+    http::response<http::string_body> handleObservabilityAlertSilence(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief GET /api/v1/observability/health
+     * Returns aggregate observability subsystem health:
+     * Alertmanager status, tracing status, metrics collector stats,
+     * and exporter health counters.
+     * @param req HTTP request
+     * @return HTTP 200 with JSON health document
+     */
+    http::response<http::string_body> handleObservabilityHealth(
+        const http::request<http::string_body>& req);
+
     /**
      * @brief Replace the ConcernsContext used for health/readiness probes.
      *
@@ -191,6 +266,16 @@ public:
      */
     void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
         concerns_ = std::move(concerns);
+    }
+
+    /**
+     * @brief Set the Alertmanager instance used by the Operator REST API.
+     *
+     * Optional: when not set, the observability alert endpoints return empty
+     * lists / a disabled status instead of errors.
+     */
+    void setAlertmanager(std::shared_ptr<observability::DefaultAlertmanager> alertmanager) {
+        alertmanager_ = std::move(alertmanager);
     }
 
 private:
@@ -206,6 +291,7 @@ private:
     const std::atomic<uint64_t>* active_requests_{nullptr};
     const std::atomic<uint64_t>* active_connections_{nullptr};
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
+    std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

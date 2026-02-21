@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rocksdb_wrapper.h                                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     628                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 59e02ab03  2026-02-21  feat(storage): Production-readiness – WAL, Snapshot, Comp... ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 212595428  2026-02-12  Add const-correctness to storage/LLM query methods and do... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 ﻿#pragma once
 
 #include <memory>
@@ -327,6 +353,34 @@ public:
         /// Prepare the transaction (for WritePrepared policy)
         bool prepare();
         
+        // ── Savepoint API ────────────────────────────────────────────────────
+
+        /**
+         * @brief Record a savepoint at the current write position.
+         *
+         * Multiple savepoints may be set; they form a stack (LIFO).
+         * Corresponds to RocksDB Transaction::SetSavePoint().
+         */
+        void setSavePoint();
+
+        /**
+         * @brief Rollback all writes made after the most recent setSavePoint().
+         *
+         * Pops the most recent savepoint from the stack.  Returns true on
+         * success; returns false if there is no outstanding savepoint.
+         */
+        bool rollbackToSavePoint();
+
+        /**
+         * @brief Discard (commit) the most recent savepoint without rolling back.
+         *
+         * The writes since the savepoint become permanent within the transaction.
+         * Returns true on success; false if there is no outstanding savepoint.
+         */
+        bool popSavePoint();
+
+        // ── Accessors ────────────────────────────────────────────────────────
+
         /// Check if transaction is still active
         bool isActive() const { return state_ == State::Active; }
         
@@ -463,6 +517,10 @@ public:
     /// Get current configuration
     const Config& getConfig() const { return config_; }
 
+    /// Get the latest RocksDB sequence number (monotonically increasing with every write).
+    /// Returns 0 if the database is not open.
+    uint64_t getLatestSequenceNumber() const;
+
     // ===== Backup & Recovery (Checkpoints) =====
     /// Create a RocksDB checkpoint (filesystem-level snapshot) at the given directory.
     /// Returns true on success. Directory will be created if it doesn't exist.
@@ -511,6 +569,9 @@ public:
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
+    // Backward-compatible alias used by older tests/adapters
+    rocksdb::TransactionDB* getDB() { return getRawDB(); }
+    const rocksdb::TransactionDB* getDB() const { return getRawDB(); }
 
 private:
     // RAII helper to track active operations and prevent close during operations

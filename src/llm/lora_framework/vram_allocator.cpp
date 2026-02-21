@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vram_allocator.cpp                                 ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   86.0/100                                       ║
+    • Total Lines:     630                                            ║
+    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 4ecae3db3  2026-01-30  [WIP] Fix null-check validation for GPU allocations (#958) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/vram_allocator.h"
 #include "security/vram_secure_clear.h"
 #include <algorithm>
@@ -38,10 +64,36 @@ namespace {
 VRAMAllocator::VRAMAllocator(acceleration::BackendType backend, size_t pool_size_bytes)
     : backend_(backend), pool_size_bytes_(pool_size_bytes) {
     
-    // Auto-detect pool size if not specified (use 80% of available VRAM)
+    // Auto-detect pool size if not specified (use 80% of currently free VRAM).
+    // Using free memory rather than total capacity avoids OOM when other
+    // processes already occupy part of the device.
     if (pool_size_bytes_ == 0) {
-        // TODO: Query backend for available memory
-        pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8GB
+#ifdef THEMIS_ENABLE_CUDA
+        if (backend_ == acceleration::BackendType::CUDA) {
+            size_t free_bytes = 0, total_bytes = 0;
+            if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess && free_bytes > 0) {
+                pool_size_bytes_ = static_cast<size_t>(free_bytes * 0.8);
+                spdlog::info("VRAMAllocator: CUDA free={} MB total={} MB, reserving {} MB (80% of free)",
+                             free_bytes / (1024 * 1024), total_bytes / (1024 * 1024),
+                             pool_size_bytes_ / (1024 * 1024));
+            }
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (backend_ == acceleration::BackendType::HIP) {
+            size_t free_bytes = 0, total_bytes = 0;
+            if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess && free_bytes > 0) {
+                pool_size_bytes_ = static_cast<size_t>(free_bytes * 0.8);
+                spdlog::info("VRAMAllocator: HIP free={} MB total={} MB, reserving {} MB (80% of free)",
+                             free_bytes / (1024 * 1024), total_bytes / (1024 * 1024),
+                             pool_size_bytes_ / (1024 * 1024));
+            }
+        }
+#endif
+        if (pool_size_bytes_ == 0) {
+            pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8 GB fallback
+            spdlog::debug("VRAMAllocator: could not query backend memory, defaulting to 8 GB pool");
+        }
     }
     
     initialized_ = initialize_backend();

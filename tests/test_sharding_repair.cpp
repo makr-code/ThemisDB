@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_sharding_repair.cpp                           ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:46:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     792                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • bbea26a00  2026-02-20  Add Repair/Anti-Entropy Engine for RAID-5/6 and Mirror sh... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Shard Repair Engine Tests
  *
@@ -483,6 +508,11 @@ TEST(PrometheusRepairMetricsTest, RecordRepairScan) {
     std::string out = metrics.getMetrics();
     EXPECT_NE(out.find("themis_shard_repair_scans_total"), std::string::npos);
 }
+
+static std::shared_ptr<ShardRepairEngine> makeMinimalEngine(
+    RedundancyStrategy& strategy,
+    ConsistentHashRing& ring,
+    ShardTopology& topology);
 
 // ============================================================================
 // ShardingMetricsHandler repair integration tests

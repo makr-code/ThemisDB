@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            alertmanager.h                                     ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     207                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e1ba78e5d  2026-02-20  observability: production-ready Alertmanager, W3C TraceCo... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • 481e7a420  2026-02-05  GAP-008: Add Alertmanager integration and backup automati... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,6 +32,9 @@
 #include <chrono>
 #include <memory>
 #include "utils/expected.h"
+
+// Forward declaration to avoid header bloat
+namespace themis { namespace utils { class HTTPClientPool; } }
 
 namespace themis {
 namespace observability {
@@ -58,31 +87,26 @@ struct AlertmanagerConfig {
     int timeout_seconds;            // Request timeout
     bool enabled;                   // Whether alerting is enabled
     std::vector<std::string> receivers;  // Alert receivers (email, slack, pagerduty)
+    int retry_count;                // Number of retries on transient failures (0 = no retry)
+    int retry_delay_ms;             // Delay between retries in milliseconds
     
     AlertmanagerConfig()
         : timeout_seconds(10)
-        , enabled(false) {}
+        , enabled(false)
+        , retry_count(3)
+        , retry_delay_ms(500) {}
 };
 
 /**
- * Alertmanager interface for ThemisDB observability
- * 
+ * Base Alertmanager interface for ThemisDB observability.
+ *
  * Provides integration with Prometheus Alertmanager or compatible systems:
  * - Send alerts for critical system events
  * - Resolve alerts when issues are fixed
- * - Configure alert routing and receivers
- * 
- * Designed for integration with:
- * - Prometheus Alertmanager
- * - Kubernetes monitoring stack
- * - PagerDuty, Slack, email notifications
- * 
- * GAP-008: Base structure for alerting automation (stub implementation)
- * 
- * @note This is a placeholder interface. Full implementation requires:
- *       - HTTP client for Alertmanager API
- *       - Alert rule evaluation engine
- *       - Integration with MetricsCollector
+ * - Silence / acknowledge active alerts
+ *
+ * Production use: instantiate DefaultAlertmanager which implements the
+ * Prometheus Alertmanager v2 HTTP API with retry and auth-token support.
  */
 class Alertmanager {
 public:
@@ -91,28 +115,28 @@ public:
     virtual ~Alertmanager() = default;
     
     /**
-     * Initialize alertmanager with configuration
+     * Initialize alertmanager with configuration.
      * @param config: Alertmanager configuration
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> initialize(const AlertmanagerConfig& config);
     
     /**
-     * Send alert to alertmanager (stub implementation)
+     * Send an alert to the alertmanager backend.
      * @param alert: Alert to send
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> sendAlert(const Alert& alert);
     
     /**
-     * Resolve alert (stub implementation)
+     * Resolve a previously-fired alert.
      * @param alert_id: ID of alert to resolve
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> resolveAlert(const std::string& alert_id);
     
     /**
-     * Silence alert (stub implementation)
+     * Silence an alert for a given duration.
      * @param alert_id: ID of alert to silence
      * @param duration_minutes: Duration to silence for
      * @return Result<void> on success, Error on failure
@@ -120,13 +144,13 @@ public:
     virtual Result<void> silenceAlert(const std::string& alert_id, int duration_minutes);
     
     /**
-     * Get all active alerts (stub implementation)
+     * Get all currently active (firing or silenced) alerts.
      * @return Vector of active alerts
      */
     virtual std::vector<Alert> getActiveAlerts();
     
     /**
-     * Test alertmanager connectivity (stub implementation)
+     * Test connectivity to the alertmanager backend.
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> testConnection();
@@ -155,10 +179,11 @@ protected:
 };
 
 /**
- * Default Alertmanager implementation with stub methods
+ * Default Alertmanager implementation with Prometheus Alertmanager v2 API integration.
  * 
- * This implementation logs alerts but does not actually send them.
- * Full implementation requires HTTP client integration.
+ * When enabled, sends alerts via HTTP POST to the Prometheus Alertmanager REST API
+ * (/api/v2/alerts and /api/v2/silences).  Supports retry-on-failure and connection
+ * health-checks.  When disabled, alerts are logged locally only.
  */
 class DefaultAlertmanager : public Alertmanager {
 public:
@@ -172,6 +197,17 @@ public:
     Result<void> silenceAlert(const std::string& alert_id, int duration_minutes) override;
     std::vector<Alert> getActiveAlerts() override;
     Result<void> testConnection() override;
+
+private:
+    // Lazily-created HTTP client pool (only allocated when enabled)
+    std::shared_ptr<utils::HTTPClientPool> http_pool_;
+
+    // Build the shared client pool if not already initialised
+    void ensureHttpPool();
+
+    // Send a JSON payload to the Alertmanager with retry logic.
+    // Returns the HTTP status code on success or an Error on final failure.
+    Result<int> postWithRetry(const std::string& path, const std::string& json_body);
 };
 
 } // namespace observability

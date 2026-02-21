@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            grafana_metrics.h                                  ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     397                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • d89b7f0d5  2026-02-20  feat(llm): Q1 production-readiness — observability, safet... ║
+    • 95df91615  2026-01-19  Stabilize Extended Context Windows (32K-128K) and RoPE/YA... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -95,7 +121,32 @@ private:
  */
 class LLMMetricsCollector {
 public:
+    /**
+     * @brief Configuration for LLMMetricsCollector.
+     *
+     * All threshold fields accept values in milliseconds and can be tuned
+     * without recompilation:
+     *
+     *  - Distributed / high-latency deployments: raise thresholds (200–500 ms)
+     *  - Local / high-performance deployments: lower thresholds (50–100 ms)
+     *
+     * Additional per-metric thresholds (e.g. first-token latency alert budget)
+     * may be added to this struct in future minor versions without breaking
+     * existing call sites.
+     */
+    struct Config {
+        /**
+         * @brief Minimum wait time (ms) that counts as a lock-contention event.
+         *
+         * Increments `llm_context_lock_contention_total` whenever
+         * `recordContextLockWait()` is called with a value exceeding this.
+         * Default: 100 ms.
+         */
+        double lock_contention_threshold_ms = 100.0;
+    };
+
     explicit LLMMetricsCollector(PrometheusExporter* exporter);
+    LLMMetricsCollector(PrometheusExporter* exporter, const Config& config);
     
     // Inference metrics
     void recordInferenceRequest(const std::string& model_id);
@@ -173,7 +224,8 @@ public:
     
 private:
     PrometheusExporter* exporter_;
-    
+    Config config_;
+
     void initializeMetrics();
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics
 };
@@ -237,6 +289,7 @@ public:
         std::string models_path         = "/models";
         std::string admin_reload_path   = "/admin/models/reload";
         std::string admin_simulate_path = "/admin/prompt/simulate";
+        std::string admin_sessions_path = "/admin/sessions";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -256,6 +309,7 @@ public:
     std::string getModelsURL() const;
     std::string getAdminReloadURL() const;
     std::string getAdminSimulateURL() const;
+    std::string getAdminSessionsURL() const;
 
     /**
      * @brief Register a callback for GET /models.
@@ -291,6 +345,33 @@ public:
     void setSimulateCallback(std::function<std::string(const std::string&)> cb) {
         simulate_cb_ = std::move(cb);
     }
+
+    /**
+     * @brief Register a callback for GET /admin/sessions.
+     *
+     * Should return a JSON array of active inference session objects.
+     * Each session object should include at least: session_id, model_id,
+     * state, queued_at.
+     * nullptr = return "[]".
+     *
+     * @param cb  Callable () -> std::string (JSON array).
+     */
+    void setSessionListCallback(std::function<std::string()> cb) {
+        session_list_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for DELETE /admin/sessions/{id}.
+     *
+     * Invoked with the session_id extracted from the URL path.
+     * Should cancel/remove the named session and return a JSON result.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& session_id) -> std::string.
+     */
+    void setSessionDeleteCallback(std::function<std::string(const std::string&)> cb) {
+        session_delete_cb_ = std::move(cb);
+    }
     
 private:
     ServerConfig config_;
@@ -299,6 +380,8 @@ private:
     std::function<std::string()> model_info_cb_;
     std::function<std::string(const std::string&)> reload_cb_;
     std::function<std::string(const std::string&)> simulate_cb_;
+    std::function<std::string()> session_list_cb_;
+    std::function<std::string(const std::string&)> session_delete_cb_;
 
     // Pimpl: holds httplib::Server and the background listener thread.
     // Defined in grafana_metrics.cpp to keep <httplib.h> out of this header.
@@ -310,6 +393,10 @@ private:
     // POST body is passed separately to keep GET paths clean.
     void handlePost(const std::string& path, const std::string& body,
                     std::string& response);
+    // DELETE handler: path includes the resource prefix (e.g. "/admin/sessions"),
+    // resource_id carries the extracted ID segment (e.g. the session UUID).
+    void handleDelete(const std::string& path, const std::string& resource_id,
+                      std::string& response);
 };
 
 } // namespace monitoring

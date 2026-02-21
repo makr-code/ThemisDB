@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            temporal_conflict_resolver.h                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     156                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 308ab7d2f  2026-02-20  feat(temporal): SQL:2011 Temporal Module – Production Rea... ║
+    • 935b35c6c  2025-12-17  Add temporal conflict resolver implementation and tests ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Temporal Conflict Resolver
  * 
@@ -94,6 +119,19 @@ public:
      */
     void resolveManually(const std::string& conflict_id, const std::string& winner);
     
+    /**
+     * Get the complete conflict history (resolved + unresolved).
+     * Useful for audit, compliance and replay.
+     */
+    std::vector<ConflictRecord> getConflictHistory() const;
+
+    /**
+     * Export the complete conflict history as a JSON array.
+     * Each entry contains: conflict_id, entity_id, winner, policy, resolved,
+     * detected_at_ms.
+     */
+    nlohmann::json exportAuditLog() const;
+
     /**
      * Get conflict statistics
      */

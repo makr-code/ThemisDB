@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            huge_pages.h                                       ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:34:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     265                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bc6e10b61  2026-01-18  Complete Auth Middleware and Huge Pages Test Coverage Exp... ║
+    • c7fa618c9  2026-01-13  Remove outdated GitHub issue templates   ║
+    • de701d7f6  2025-12-24  Implement Phase 1.2: Huge Pages optimization ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB Huge Pages Support
 // Provides support for transparent huge pages (2MB/1GB) for improved TLB performance
 //

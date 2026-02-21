@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
+# When building directly from the cmake/ subdirectory (e.g. cmake -S cmake),
+# THEMIS_ROOT_DIR is not yet set.  Default it to the parent of this file.
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+endif()
+
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
 if(NOT EXISTS "${THEMIS_ROOT_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
@@ -588,8 +594,74 @@ add_compile_definitions(
 )
 
 # ============================================================================
-# LICENSE DATA EMBEDDING (v1.4.0+)
+# BUILD REPRODUCIBILITY – Git commit metadata (v1.7.0+)
 # ============================================================================
+# Capture the current HEAD commit, branch, dirty flag, and build environment
+# so that any binary can be traced back to its exact source revision.
+
+find_package(Git QUIET)
+
+set(_THEMIS_GIT_COMMIT      "unknown")
+set(_THEMIS_GIT_COMMIT_DATE "unknown")
+set(_THEMIS_GIT_BRANCH      "unknown")
+set(_THEMIS_GIT_DIRTY       0)
+
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT_DATE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status --porcelain
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _git_dirty_output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(_git_dirty_output)
+        set(_THEMIS_GIT_DIRTY 1)
+    endif()
+endif()
+
+# Build host / user (best-effort)
+cmake_host_system_information(RESULT _THEMIS_BUILD_HOST QUERY HOSTNAME)
+if(DEFINED ENV{USER})
+    set(_THEMIS_BUILD_USER "$ENV{USER}")
+elseif(DEFINED ENV{USERNAME})
+    set(_THEMIS_BUILD_USER "$ENV{USERNAME}")
+else()
+    set(_THEMIS_BUILD_USER "unknown")
+endif()
+
+message(STATUS "Build reproducibility: commit=${_THEMIS_GIT_COMMIT} branch=${_THEMIS_GIT_BRANCH} dirty=${_THEMIS_GIT_DIRTY}")
+
+add_compile_definitions(
+    "THEMIS_GIT_COMMIT=\"${_THEMIS_GIT_COMMIT}\""
+    "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
+    "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
+    "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
+    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
+    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
+)
+
+
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
 # 
@@ -1189,8 +1261,15 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/batch_write_optimizer.cpp
+    ../src/storage/wal_storage.cpp
+    ../src/storage/compaction_manager.cpp
     
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/index_recommender.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
@@ -1238,6 +1317,8 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/branch_manager.cpp
+    ../src/transaction/lock_manager.cpp
+    ../src/transaction/crash_recovery_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1420,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1579,6 +1661,8 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
     
@@ -2531,7 +2615,6 @@ if(THEMIS_ENABLE_LLM)
         
         # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
-        ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)

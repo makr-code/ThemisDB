@@ -1,7 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_security_validator.cpp                        ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     1131                                           ║
+    • Open Issues:     TODOs: 3, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 1ecfdd606  2026-01-22  Implement cryptographic verification for LoRA signatures ... ║
+    • c7a9e2b5c  2026-01-17  Update LLM integration and model storage logic ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_security_validator.h"
 #include "llm/security/signature_verifier.h"
+#include "llm/llm_model_audit_logger.h"
 #include <spdlog/spdlog.h>
-// #include "security/audit_logger.h"  // Not available, audit logging skipped
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -362,30 +388,45 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         if (!verify_result.is_valid) {
             result.is_valid = false;
             result.error_message = "Cryptographic signature verification failed: " + verify_result.error_message;
-            
-            // TODO: Implement audit logging for security events (tracked in security hardening epic)
-            // Audit log (skipped - audit logger not available)
+
             spdlog::debug("Embedded crypto verification failed for {}", lora_path);
-            
-            spdlog::error("Embedded LoRa cryptographic signature verification failed for {}: {}", 
+            spdlog::error("Embedded LoRa cryptographic signature verification failed for {}: {}",
                      lora_path, verify_result.error_message);
+
+            if (audit_logger_) {
+                audit_logger_->logEvent(
+                    LLMModelAuditEventType::SIGNATURE_FAILED,
+                    lora_path,
+                    {{"error", verify_result.error_message},
+                     {"signer_identity", verify_result.signer_identity}}
+                );
+            }
             return result;
         }
         
         // Cryptographic verification succeeded
         result.is_valid = true;
-        
+
         // Use signer identity from certificate if available, otherwise use fingerprint
         if (!verify_result.signer_identity.empty()) {
             result.signer_identity = verify_result.signer_identity;
         } else {
             result.signer_identity = signer;
         }
-        
+
         result.signature_algorithm = verify_result.algorithm;
-        
-        spdlog::info("Embedded LoRa signature cryptographically verified for {}: signer={}", 
+
+        spdlog::info("Embedded LoRa signature cryptographically verified for {}: signer={}",
                  lora_path, result.signer_identity);
+
+        if (audit_logger_) {
+            audit_logger_->logEvent(
+                LLMModelAuditEventType::SIGNATURE_VERIFIED,
+                lora_path,
+                {{"signer_identity", result.signer_identity},
+                 {"algorithm", result.signature_algorithm}}
+            );
+        }
     } else {
         // Certificate not available - fall back to format validation only
         // This provides basic security but not full cryptographic verification
@@ -575,6 +616,11 @@ bool LoRASecurityValidator::isTrustedSigner(const std::string& cert_fingerprint)
 void LoRASecurityValidator::setConfig(const LoRASecurityConfig& config) {
     config_ = config;
     spdlog::info("LoRASecurityValidator configuration updated");
+}
+
+void LoRASecurityValidator::setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger) {
+    audit_logger_ = logger;
+    spdlog::debug("LoRASecurityValidator: audit logger {}", audit_logger_ ? "attached" : "detached");
 }
 
 // Helper methods

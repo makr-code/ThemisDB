@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_fuzz_security.cpp                             ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:43:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     539                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 8fbe6a439  2026-02-20  security: Production readiness – policy engine, auth, aud... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_fuzz_security.cpp
  * @brief Fuzz-style security tests for critical input-handling paths
@@ -267,7 +292,7 @@ TEST_F(TokenBlacklistFuzzTest, IsRevoked_InjectionJTIs_NeverCrash) {
 
 TEST_F(TokenBlacklistFuzzTest, Revoke_NullByteJTI_Ignored) {
     // JTI containing null byte – should either be ignored or stored safely
-    std::string jti_with_null = "abc\x00def";
+    std::string jti_with_null("abc\0def", 7);
     EXPECT_NO_THROW(bl_.revoke(jti_with_null, future_));
 }
 
