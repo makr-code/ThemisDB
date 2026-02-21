@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.cpp                                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:38                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -252,29 +252,29 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     // instead we emit a loud WARNING so it is visible in logs and CI output.
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_LLAMA_CPP_EXPECTED_COMMIT)
     {
-        // llama_build_commit() is available in llama.cpp since build b3622.
-        // It returns a short commit hash string (e.g. "b7974") or "" if unavailable.
-        const char* runtime_commit = llama_build_commit();
+        // Newer llama.cpp APIs do not expose llama_build_commit().
+        // Use system info string as a best-effort runtime fingerprint.
+        const char* runtime_info = llama_print_system_info();
         const std::string expected_commit = THEMIS_LLAMA_CPP_EXPECTED_COMMIT;
-        const std::string actual_commit   = runtime_commit ? runtime_commit : "";
+        const std::string runtime_info_str = runtime_info ? runtime_info : "";
 
-        if (actual_commit.empty()) {
-            spdlog::warn("LlamaWrapper: llama_build_commit() returned empty string — "
+        if (runtime_info_str.empty()) {
+            spdlog::warn("LlamaWrapper: llama_print_system_info() returned empty string — "
                          "cannot verify runtime version. Expected commit: {}. "
                          "Ensure the linked llama.cpp is built from the correct commit.",
                          expected_commit);
-        } else if (actual_commit != expected_commit) {
+        } else if (runtime_info_str.find(expected_commit) == std::string::npos) {
             spdlog::warn(
-                "LlamaWrapper: llama.cpp version MISMATCH — "
-                "expected commit '{}' but runtime reports '{}'. "
+                "LlamaWrapper: llama.cpp version could not be matched exactly — "
+                "expected commit '{}' was not found in runtime system info '{}'. "
                 "Grammar constraints, LoRA adapters, and token-sampler APIs may behave "
                 "unexpectedly. Update LLAMA_CPP_GIT_TAG in cmake/Dependencies.cmake or "
                 "ensure the correct library is linked. "
                 "See docs/llm/LORA_ADAPTER_MIGRATION.md for upgrade guidance.",
-                expected_commit, actual_commit);
+                expected_commit, runtime_info_str);
         } else {
             spdlog::info("  llama.cpp version: {} (matches expected {})",
-                         actual_commit, expected_commit);
+                         runtime_info_str, expected_commit);
         }
     }
 #endif

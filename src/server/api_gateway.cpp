@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     701                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     835                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -61,6 +61,9 @@ namespace {
 }
 
 namespace themis::server {
+
+// Prefix used to identify entity-by-key paths (for shard routing)
+static constexpr std::string_view kEntitiesPrefix = "/entities/";
 
 APIGateway::APIGateway(
     const Config& config,
@@ -695,6 +698,19 @@ http::response<http::string_body> APIGateway::makeErrorResponse(
     response.prepare_payload();
     response.keep_alive(req.keep_alive());
     
+    return response;
+}
+
+http::response<http::string_body> APIGateway::makeResponse(
+    http::status status,
+    const std::string& body,
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> response{status, req.version()};
+    response.set(http::field::content_type, "application/json");
+    response.body() = body;
+    response.prepare_payload();
+    response.keep_alive(req.keep_alive());
     return response;
 }
 

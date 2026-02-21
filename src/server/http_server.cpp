@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     7963                                           ║
+    • Total Lines:     8308                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -157,6 +157,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/http2_session.h"
 #endif
 
+#ifdef THEMIS_ENABLE_HTTP3
+#include "server/http3_session.h"
+#endif
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
 #endif
@@ -175,6 +179,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "sharding/write_concern.h"
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
+
+#include "api/graphql.h"
+#include "server/api_version.h"
+#include "server/api_version_config.h"
 
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -1146,6 +1154,105 @@ HttpServer::HttpServer(
     THEMIS_INFO("InputValidator initialized with schema dir: {}", schema_dir);
 
     // ----------------------------------------------------------------------------
+    // Request validation middleware (JSON Schema per endpoint)
+    // ----------------------------------------------------------------------------
+    request_validator_ = std::make_unique<RequestValidationMiddleware>();
+
+    // Register JSON Schema Draft-7 for core write endpoints.
+    // Schemas validate required fields, types and basic constraints.
+    // Operators can register additional schemas via getRequestValidator().
+
+    // Validation limits used in endpoint schemas
+    constexpr int MAX_QUERY_LIMIT       = 10000;  // max rows per query request
+    constexpr int MAX_AQL_QUERY_CHARS   = 100000; // max AQL query string length
+
+    // Reusable property definitions
+    const nlohmann::json entity_key_prop   = {{"type", "string"}, {"minLength", 1}, {"maxLength", 512}};
+    const nlohmann::json entity_data_prop  = {{"type", "object"}};
+    const nlohmann::json entity_tags_prop  = {{"type", "array"}};
+    const nlohmann::json entity_ttl_prop   = {{"type", "integer"}, {"minimum", 0}};
+
+    // POST /entities – create entity (key required in body)
+    request_validator_->registerSchema("POST", "/entities", {
+        {"type", "object"},
+        {"required", {"key"}},
+        {"properties", {
+            {"key",  entity_key_prop},
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // PUT /entities/<key> – upsert entity body (key is in the URL path, not in the body)
+    request_validator_->registerSchema("PUT", "/entities/", {
+        {"type", "object"},
+        {"properties", {
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // POST /query – structured query
+    request_validator_->registerSchema("POST", "/query", {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",   {{"type", "string"}, {"minLength", 1}}},
+            {"limit",   {{"type", "integer"}, {"minimum", 1}, {"maximum", MAX_QUERY_LIMIT}}},
+            {"offset",  {{"type", "integer"}, {"minimum", 0}}},
+            {"filters", {{"type", "object"}}},
+            {"sort",    {{"type", "array"}}}
+        }}
+    });
+
+    // AQL query schema (shared by /query/aql and /api/aql)
+    const nlohmann::json aql_schema = {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",    {{"type", "string"}, {"minLength", 1}, {"maxLength", MAX_AQL_QUERY_CHARS}}},
+            {"bindVars", {{"type", "object"}}}
+        }}
+    };
+    // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
+    request_validator_->registerSchema("POST", "/query/aql", aql_schema);
+    request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
+
+    // POST /index/create – create index
+    request_validator_->registerSchema("POST", "/index/create", {
+        {"type", "object"},
+        {"required", {"field"}},
+        {"properties", {
+            {"field",   {{"type", "string"}, {"minLength", 1}, {"maxLength", 256}}},
+            {"type",    {{"type", "string"}}},
+            {"options", {{"type", "object"}}}
+        }}
+    });
+
+    // POST /api/v1/transactions – begin transaction
+    request_validator_->registerSchema("POST", "/api/v1/transactions", {
+        {"type", "object"},
+        {"properties", {
+            {"isolation_level", {{"type", "string"}}},
+            {"timeout_ms",      {{"type", "integer"}, {"minimum", 0}}}
+        }}
+    });
+
+    // DELETE /vector/by-filter – carries a body with filter criteria
+    request_validator_->registerSchema("DELETE", "/vector/by-filter", {
+        {"type", "object"},
+        {"required", {"filter"}},
+        {"properties", {
+            {"filter", {{"type", "object"}}}
+        }}
+    });
+
+    THEMIS_INFO("RequestValidationMiddleware initialized with {} endpoint schemas",
+                request_validator_->schemaCount());
+
+    // ----------------------------------------------------------------------------
     // Input validation limits
     // ----------------------------------------------------------------------------
     if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
@@ -1321,6 +1428,34 @@ void HttpServer::start() {
         }
     }
 
+#ifdef THEMIS_ENABLE_HTTP3
+    // Start HTTP/3 (QUIC) handler on UDP port
+    if (config_.enable_http3) {
+        try {
+            if (!config_.enable_tls) {
+                THEMIS_WARN("HTTP/3 requires TLS; enable_http3 ignored because enable_tls=false");
+            } else {
+                uint16_t h3_port = config_.http3_port != 0 ? config_.http3_port : config_.port;
+                auto* ssl_ctx_raw = Http3Handler::createSslContext(
+                    config_.tls_cert_path, config_.tls_key_path);
+                if (ssl_ctx_raw) {
+                    http3_handler_ = std::make_shared<Http3Handler>(
+                        ioc_, config_.host, h3_port, this,
+                        ssl_ctx_raw,
+                        config_.http3_max_idle_timeout_ms);
+                    http3_handler_->start();
+                    THEMIS_INFO("HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
+                } else {
+                    THEMIS_ERROR("HTTP/3: Failed to create SSL context; HTTP/3 disabled");
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to start HTTP/3 handler: {}; HTTP/3 disabled", e.what());
+            // Non-fatal: HTTP/1.1 and HTTP/2 continue
+        }
+    }
+#endif
+
 #ifdef THEMIS_VERSION_STRING
     THEMIS_INFO("🎉 ThemisDB {} is now READY for operations", THEMIS_VERSION_STRING);
 #else
@@ -1352,6 +1487,19 @@ void HttpServer::stop() {
     // Stop accepting new connections
     beast::error_code ec;
     acceptor_.close(ec);
+
+#ifdef THEMIS_ENABLE_HTTP3
+    // Stop HTTP/3 QUIC handler
+    if (http3_handler_) {
+        try {
+            http3_handler_->stop();
+            http3_handler_.reset();
+            THEMIS_INFO("HTTP/3 handler stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping HTTP/3 handler: {}", e.what());
+        }
+    }
+#endif
 
     // Drain active requests with configurable timeout
     THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
@@ -1689,6 +1837,7 @@ namespace {
         VectorIndexConfigGet,
         VectorIndexConfigPut,
         VectorIndexStatsGet,
+        VectorIndexIncrementalReindexPost,
         // RoPE endpoints
         RopeConfigPost,
         RopeConfigGet,
@@ -1860,6 +2009,10 @@ namespace {
     MvccClockGet,            // GET  /api/v1/mvcc/clock
     MvccStatsGet,            // GET  /api/v1/mvcc/stats
 
+    // GraphQL endpoint
+    GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
+    GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
+
         NotFound
     };
 
@@ -2012,7 +2165,8 @@ namespace {
         if (target == "/vector/index/load" && method == http::verb::post) return Route::VectorIndexLoadPost;
         if (target == "/vector/index/config" && method == http::verb::get) return Route::VectorIndexConfigGet;
         if (target == "/vector/index/config" && method == http::verb::put) return Route::VectorIndexConfigPut;
-    if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/incremental-reindex" && method == http::verb::post) return Route::VectorIndexIncrementalReindexPost;
         // RoPE endpoints - /api/v1/vector-index/{index_name}/rope/*
         if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/config") != std::string::npos) {
             if (method == http::verb::post) return Route::RopeConfigPost;
@@ -2222,6 +2376,12 @@ namespace {
     }
     if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
     if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+
+    // GraphQL endpoint
+    if ((path_only == "/graphql" || path_only == "/api/v1/graphql") &&
+        method == http::verb::post) return Route::GraphQLPost;
+    if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
+        method == http::verb::get) return Route::GraphQLSchemaGet;
 
         return Route::NotFound;
     }
@@ -2466,6 +2626,30 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
     */
+
+    // Request body validation (JSON Schema per endpoint)
+    // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
+    // Safe methods (GET, HEAD) and OPTIONS are always skipped.
+    if (request_validator_ &&
+        method != http::verb::get   &&
+        method != http::verb::head  &&
+        method != http::verb::options) {
+        std::string path_without_query = target;
+        auto query_pos = path_without_query.find('?');
+        if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+
+        auto validation_result = request_validator_->validate(
+            std::string(http::to_string(method)), path_without_query, req.body());
+
+        if (!validation_result.valid) {
+            span.setStatus(false, "validation_error");
+            auto validation_end_time = std::chrono::steady_clock::now();
+            auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
+                validation_end_time - start);
+            recordLatency(validation_duration);
+            return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+        }
+    }
 
     http::response<http::string_body> response;
 
@@ -3141,6 +3325,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
             }
             break;
+        case Route::VectorIndexIncrementalReindexPost:
+            if (vector_api_) {
+                response = vector_api_->handleIncrementalReindex(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
+            break;
         case Route::RopeConfigPost:
             if (rope_api_) {
                 response = rope_api_->handleConfigPost(req);
@@ -3724,6 +3915,115 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable,
                     "MVCC API not available", req);
             }
+            break;
+        }
+
+        case Route::GraphQLPost: {
+            try {
+                // Parse request body as JSON: {"query":"...", "variables":{}, "operationName":"..."}
+                json body_json = json::object();
+                if (!req.body().empty()) {
+                    body_json = json::parse(req.body());
+                }
+                if (!body_json.contains("query") || !body_json["query"].is_string()) {
+                    response = makeErrorResponse(http::status::bad_request,
+                        "GraphQL request must contain a 'query' field", req);
+                    break;
+                }
+                const std::string gql_query = body_json["query"].get<std::string>();
+
+                // Build variables map
+                graphql::ExecutionContext ctx;
+                // Extract optional operationName
+                std::string op_name;
+                if (body_json.contains("operationName") && body_json["operationName"].is_string()) {
+                    op_name = body_json["operationName"].get<std::string>();
+                }
+                // Populate variables from JSON object
+                if (body_json.contains("variables") && body_json["variables"].is_object()) {
+                    for (auto& [k, v] : body_json["variables"].items()) {
+                        if (v.is_string()) {
+                            ctx.variables[k] = graphql::Value::string(v.get<std::string>());
+                        } else if (v.is_number_integer()) {
+                            ctx.variables[k] = graphql::Value::integer(v.get<int64_t>());
+                        } else if (v.is_number_float()) {
+                            ctx.variables[k] = graphql::Value::floating(v.get<double>());
+                        } else if (v.is_boolean()) {
+                            ctx.variables[k] = graphql::Value::boolean(v.get<bool>());
+                        } else {
+                            ctx.variables[k] = graphql::Value::null();
+                        }
+                    }
+                }
+
+                // Parse GraphQL query
+                auto parse_result = graphql::Parser::parse(gql_query);
+                if (!parse_result.success) {
+                    json errors_array = json::array();
+                    for (const auto& pe : parse_result.errors) {
+                        errors_array.push_back({{"message", pe.toString()}});
+                    }
+                    json err_body = {{"errors", errors_array}};
+                    response = makeResponse(http::status::bad_request, err_body.dump(), req);
+                    break;
+                }
+
+                // Execute
+                graphql::Executor executor;
+                auto exec_result = executor.execute(parse_result.document, ctx, op_name);
+
+                // Build response JSON
+                json result_json = json::object();
+                // Serialize graphql::Value to nlohmann::json without std::function overhead
+                // Uses templated Y-combinator so the lambda can call itself directly
+                auto serialize_value = [&](auto& self,
+                        const std::shared_ptr<graphql::Value>& val) -> json {
+                    if (!val || val->isNull()) return json(nullptr);
+                    if (val->isBool())   return json(val->asBool());
+                    if (val->isInt())    return json(val->asInt());
+                    if (val->isFloat())  return json(val->asFloat());
+                    if (val->isString()) return json(val->asString());
+                    if (val->isEnum())   return json(val->asString());
+                    if (val->isList()) {
+                        json arr = json::array();
+                        for (const auto& item : val->asList())
+                            arr.push_back(self(self, item));
+                        return arr;
+                    }
+                    if (val->isObject()) {
+                        json obj = json::object();
+                        for (const auto& [k, v] : val->asObject())
+                            obj[k] = self(self, v);
+                        return obj;
+                    }
+                    return json(nullptr);
+                };
+                if (exec_result.data) {
+                    result_json["data"] = serialize_value(serialize_value, exec_result.data);
+                } else {
+                    result_json["data"] = json(nullptr);
+                }
+                if (exec_result.hasErrors()) {
+                    json errors_array = json::array();
+                    for (const auto& me : exec_result.errors) {
+                        errors_array.push_back({{"message", me.message}, {"extensions", {{"code", me.code}}}});
+                    }
+                    result_json["errors"] = errors_array;
+                }
+                response = makeResponse(http::status::ok, result_json.dump(), req);
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request,
+                    std::string("Invalid JSON in GraphQL request: ") + e.what(), req);
+            }
+            break;
+        }
+
+        case Route::GraphQLSchemaGet: {
+            // Return the GraphQL Schema Definition Language (SDL)
+            auto schema = graphql::ThemisSchemaBuilder::build();
+            std::string sdl = schema.toSDL();
+            response = makeResponse(http::status::ok, sdl, req);
+            response.set(http::field::content_type, "text/plain; charset=utf-8");
             break;
         }
 
@@ -6722,6 +7022,51 @@ void HttpServer::applyGovernanceHeaders(
     res.set("X-Themis-Export", export_perm);
     res.set("X-Themis-Cache", cache_perm);
     res.set("X-Themis-Retention-Days", retention_days);
+
+    // ------------------------------------------------------------------------
+    // API Versioning Headers (RFC 8594 Sunset + custom API-Version)
+    // ------------------------------------------------------------------------
+    {
+        static const APIVersionManager api_version_mgr;
+
+        // Determine requested version from Accept-Version or API-Version request header
+        std::string version_header;
+        auto av_it = req.find(APIHeaders::ACCEPT_VERSION);
+        if (av_it != req.end()) {
+            version_header = std::string(av_it->value());
+        }
+        auto resolved = api_version_mgr.resolveVersion(version_header);
+        // Emit the resolved (actual) API version used
+        res.set(APIHeaders::API_VERSION, resolved.toString());
+
+        // Emit deprecation headers if the endpoint is scheduled for removal
+        auto dep_info = api_version_mgr.getDeprecationInfo(path_only, resolved);
+        if (dep_info.has_value()) {
+            // RFC 8594: Deprecation header (ISO 8601 date of deprecation)
+            {
+                std::time_t dep_t = std::chrono::system_clock::to_time_t(dep_info->deprecation_date);
+                std::tm dep_tm{};
+                portable_gmtime_r_impl(&dep_t, &dep_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &dep_tm);
+                res.set(APIHeaders::DEPRECATION_WARNING, buf);
+            }
+            // RFC 8594: Sunset header (ISO 8601 date of removal)
+            {
+                std::time_t sun_t = std::chrono::system_clock::to_time_t(dep_info->removal_date);
+                std::tm sun_tm{};
+                portable_gmtime_r_impl(&sun_t, &sun_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &sun_tm);
+                res.set(APIHeaders::SUNSET, buf);
+            }
+            // Link to migration guide if available
+            if (!dep_info->migration_guide_url.empty()) {
+                res.set(APIHeaders::LINK,
+                    "<" + dep_info->migration_guide_url + ">; rel=\"deprecation\"");
+            }
+        }
+    }
 
     // ------------------------------------------------------------------------
     // Security Headers (global defaults, safe for JSON APIs)

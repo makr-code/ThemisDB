@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:16                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:22:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     944                                            ║
+    • Total Lines:     967                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 397f3a597  2026-02-21  Refactor header includes and documentation updates across... ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -104,6 +104,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
+#include "server/request_validation_middleware.h"
 #include "server/policy_engine.h"
 #include "server/ranger_adapter.h"
 #include "utils/pii_pseudonymizer.h"
@@ -170,6 +171,10 @@ namespace server {
 
 // Forward declare SSE manager so member can exist without header
 class SseConnectionManager;
+#ifdef THEMIS_ENABLE_HTTP3
+class Http3Handler;
+class Http3Session;
+#endif
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -347,6 +352,14 @@ public:
         return concerns_;
     }
 
+    /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
+    RequestValidationMiddleware* getRequestValidator() {
+        return request_validator_.get();
+    }
+    const RequestValidationMiddleware* getRequestValidator() const {
+        return request_validator_.get();
+    }
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
      * @brief Get WebSocket manager for broadcasting
@@ -358,6 +371,9 @@ public:
     // Friend classes for protocol handlers
     friend class Http2Session;
     friend class WebSocketSession;
+#ifdef THEMIS_ENABLE_HTTP3
+    friend class Http3Session;
+#endif
 
 private:
     // Session class for handling individual connections
@@ -853,6 +869,9 @@ private:
     // Rate Limiter for DoS protection
     std::unique_ptr<RateLimiter> rate_limiter_;
 
+    // Request body validation (JSON Schema per endpoint)
+    std::unique_ptr<RequestValidationMiddleware> request_validator_;
+
     // Input validation & sanitization
     std::unique_ptr<themis::utils::InputValidator> validator_;
 
@@ -861,6 +880,10 @@ private:
     tcp::acceptor acceptor_;
     std::unique_ptr<boost::asio::ssl::context> ssl_ctx_; // SSL context for TLS connections
     mutable std::mutex ssl_ctx_mutex_; // Protects ssl_ctx_ during hot-reload
+
+#ifdef THEMIS_ENABLE_HTTP3
+    std::shared_ptr<Http3Handler> http3_handler_; // HTTP/3 QUIC handler (UDP)
+#endif
     
     // Thread pool
     std::vector<std::thread> threads_;

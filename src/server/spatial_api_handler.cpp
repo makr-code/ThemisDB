@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_api_handler.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:42                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     334                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     415                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,11 +26,13 @@
 
 #include "server/spatial_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/spatial_index.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "geo/spatial_backend.h"
+#include "utils/geo/ewkb.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 
@@ -134,17 +136,96 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
         
-        // TODO: Implement rebuild by scanning all entities in table and re-indexing
-        // For now, return a not-implemented response
-        json response;
-        response["success"] = false;
-        response["table"] = table;
-        response["message"] = "Spatial index rebuild not yet implemented. Use drop + create for now.";
-        response["status_code"] = 501;
-        
-        res.result(http::status::not_implemented);
+        // Rebuild: drop existing index, re-create it, then re-index all entities
+        // Step 1: get geometry column (default "geometry")
+        std::string geometry_column = j.value("geometry_column", "geometry");
+
+        // Step 2: drop and re-create the spatial index
+        auto drop_status = spatial_index_->dropSpatialIndex(table);
+        if (!drop_status.ok) {
+            // Treat "not found" as non-fatal (index may not exist yet)
+            THEMIS_WARN("SpatialRebuild: drop returned: {}", drop_status.message);
+        }
+        auto create_status = spatial_index_->createSpatialIndex(table, geometry_column);
+        if (!create_status.ok) {
+            return makeErrorResponse(http::status::internal_server_error,
+                "Failed to re-create spatial index: " + create_status.message, req);
+        }
+
+        // Step 3: scan all entities stored under prefix "{table}:" and re-insert geometry
+        size_t indexed = 0;
+        size_t skipped = 0;
+        const std::string scan_prefix = table + ":";
+        if (storage_) {
+            storage_->scanPrefix(scan_prefix, [&](std::string_view key, std::string_view value) -> bool {
+                try {
+                    // Deserialize entity and look up geometry field
+                    auto entity = BaseEntity::fromJson(key, value);
+                    auto doc = nlohmann::json::parse(entity.toJson());
+                    if (!doc.contains(geometry_column)) { ++skipped; return true; }
+
+                    // Parse geometry from the field value (GeoJSON object/string or WKT string)
+                    geo::GeometryInfo geom_info;
+                    const auto& geo_val = doc[geometry_column];
+                    bool parse_ok = false;
+                    if (geo_val.is_object()) {
+                        // GeoJSON object: must have "type" and "coordinates" keys
+                        if (geo_val.contains("type") && geo_val.contains("coordinates")) {
+                            try {
+                                geom_info = geo::EWKBParser::parseGeoJSON(geo_val.dump());
+                                parse_ok = true;
+                            } catch (...) {}
+                        }
+                    } else if (geo_val.is_string()) {
+                        const std::string& geo_str = geo_val.get<std::string>();
+                        // Try GeoJSON string: must start with '{' and contain "type" key
+                        if (!geo_str.empty() && geo_str.front() == '{' &&
+                            geo_str.find("\"type\"") != std::string::npos) {
+                            try {
+                                geom_info = geo::EWKBParser::parseGeoJSON(geo_str);
+                                parse_ok = true;
+                            } catch (...) {}
+                        }
+                        if (!parse_ok) {
+                            try {
+                                geom_info = geo::EWKBParser::parseWKT(geo_str);
+                                parse_ok = true;
+                            } catch (...) {}
+                        }
+                    }
+                    if (!parse_ok) {
+                        THEMIS_WARN("SpatialRebuild: skipping key={} – geometry parse failed", key);
+                        ++skipped; return true;
+                    }
+
+                    // Build sidecar and insert
+                    auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+                    // Extract the primary key (strip table prefix from RocksDB key)
+                    std::string_view pk = key;
+                    if (pk.size() > scan_prefix.size()) {
+                        pk = pk.substr(scan_prefix.size());
+                    }
+                    auto ins = spatial_index_->insert(table, pk, sidecar);
+                    if (ins.ok) { ++indexed; } else { ++skipped; }
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("SpatialRebuild: skipping key={} – {}", key, ex.what());
+                    ++skipped;
+                }
+                return true; // continue scan
+            });
+        }
+
+        THEMIS_INFO("SpatialIndexRebuild: table={}, indexed={}, skipped={}", table, indexed, skipped);
+        json response = {
+            {"success", true},
+            {"table",   table},
+            {"indexed", indexed},
+            {"skipped", skipped},
+            {"message", "Spatial index rebuilt successfully"}
+        };
+        res.result(http::status::ok);
         res.body() = response.dump();
-        span.setStatus(false, "not_implemented");
+        span.setStatus(true);
         
     } catch (const json::exception& e) {
         span.setStatus(false, e.what());

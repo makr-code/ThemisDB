@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_api_handler.h                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:17                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:22:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     176                                            ║
+    • Total Lines:     189                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -65,6 +65,7 @@ struct AuthContext {
  * - GET /vector/index/config - Get vector index configuration
  * - PUT /vector/index/config - Update vector index configuration
  * - GET /vector/index/stats - Get vector index statistics
+ * - POST /vector/index/incremental-reindex - Incremental HNSW re-index without full rebuild
  * 
  * Features:
  * - HNSW-based vector similarity search
@@ -149,6 +150,18 @@ public:
      * @return HTTP response with index statistics
      */
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle POST /vector/index/incremental-reindex request
+     * 
+     * Syncs the in-memory HNSW index with current storage without a full rebuild.
+     * Accepts optional JSON body:
+     *   { "rebuild_threshold": 0.20, "vector_field": "embedding" }
+     * 
+     * @param req HTTP request (body optional)
+     * @return HTTP response with IncrementalReindexStats as JSON
+     */
+    http::response<http::string_body> handleIncrementalReindex(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;

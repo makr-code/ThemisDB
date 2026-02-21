@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:36                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9f4b4c45b  2026-02-21  [aql] AQL syntax highlighting, error annotation, and prom... ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -963,6 +963,8 @@ HighlightedResponse LLMAQLHandler::formatLLMResponse(
 ) const {
     AQLSyntaxHighlighter highlighter(use_ansi);
     return highlighter.formatLLMResponse(llm_response);
+}
+
 LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(
     const std::string& nl_query,
     const std::string& schema_context
@@ -980,6 +982,8 @@ LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidenc
         result.confidence.schema_match_score);
 
     return result;
+}
+
 LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
     const std::string& aql_query,
     const std::string& original_intent,

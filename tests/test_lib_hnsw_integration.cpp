@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lib_hnsw_integration.cpp                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:18:03                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     430                                            ║
+    • Total Lines:     575                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -427,4 +427,149 @@ TEST_F(HNSWLibIntegrationTest, DistanceComputationAccuracy) {
         EXPECT_EQ(neighbors[1].second, 1u);
         EXPECT_NEAR(neighbors[1].first, expected_dist, 0.05f);
     }
+}
+
+// ============================================================
+// Tests 13-16: hnswlib behaviours underlying incrementalReindex
+// ============================================================
+
+// Test 13: addPoint with an existing label updates the vector in-place
+// (underpins the "update" path of incrementalReindex)
+TEST_F(HNSWLibIntegrationTest, IncrementalReindex_UpdateVectorInPlace) {
+    hnswlib::L2Space space(dim);
+    hnswlib::HierarchicalNSW<float>* index =
+        new hnswlib::HierarchicalNSW<float>(&space, max_elements, 16, 200);
+
+    // Insert original vector at label 0
+    auto original = generateRandomVector(dim);
+    index->addPoint(original.data(), 0);
+    index->setEf(50);
+
+    // Query should find label 0
+    auto r1 = index->searchKnn(original.data(), 1);
+    ASSERT_EQ(r1.size(), 1u);
+    EXPECT_EQ(r1.top().second, 0u);
+
+    // Overwrite label 0 with a completely different vector
+    auto updated = generateRandomVector(dim);
+    index->addPoint(updated.data(), 0);  // same label – in-place update
+
+    // Querying with the UPDATED vector should still find label 0
+    auto r2 = index->searchKnn(updated.data(), 1);
+    ASSERT_EQ(r2.size(), 1u);
+    EXPECT_EQ(r2.top().second, 0u);
+
+    delete index;
+}
+
+// Test 14: markDelete then re-add with the same label (soft-delete / re-insert path)
+// (underpins adding a vector that was previously deleted back to the index)
+TEST_F(HNSWLibIntegrationTest, IncrementalReindex_ReinsertAfterMarkDelete) {
+    hnswlib::L2Space space(dim);
+    hnswlib::HierarchicalNSW<float>* index =
+        new hnswlib::HierarchicalNSW<float>(&space, max_elements, 16, 200);
+
+    auto vec = generateRandomVector(dim);
+    index->addPoint(vec.data(), 42);
+    index->setEf(50);
+
+    // Soft-delete label 42
+    index->markDelete(42);
+
+    // After deletion the vector should not appear in search results
+    auto r_after_delete = index->searchKnn(vec.data(), 1);
+    bool deleted_visible = false;
+    auto tmp = r_after_delete;
+    while (!tmp.empty()) {
+        if (tmp.top().second == 42u) deleted_visible = true;
+        tmp.pop();
+    }
+    EXPECT_FALSE(deleted_visible) << "Deleted label 42 should not appear in results";
+
+    // Re-insert with the same label (incrementalReindex "new from storage" reuse path)
+    index->addPoint(vec.data(), 42);
+
+    // Should now be visible again
+    auto r_after_reinsert = index->searchKnn(vec.data(), 1);
+    ASSERT_FALSE(r_after_reinsert.empty());
+    EXPECT_EQ(r_after_reinsert.top().second, 42u);
+
+    delete index;
+}
+
+// Test 15: Multiple incremental steps – add, delete, update in sequence
+// (end-to-end simulation of incrementalReindex workflow at the hnswlib level)
+TEST_F(HNSWLibIntegrationTest, IncrementalReindex_AddDeleteUpdateSequence) {
+    hnswlib::L2Space space(dim);
+    int capacity = 200;
+    hnswlib::HierarchicalNSW<float>* index =
+        new hnswlib::HierarchicalNSW<float>(&space, capacity, 16, 200);
+
+    // Populate with 50 vectors (labels 0..49)
+    std::vector<std::vector<float>> vecs(50);
+    for (int i = 0; i < 50; ++i) {
+        vecs[i] = generateRandomVector(dim);
+        index->addPoint(vecs[i].data(), static_cast<size_t>(i));
+    }
+    EXPECT_EQ(index->cur_element_count, 50u);
+
+    index->setEf(50);
+
+    // Step 1 – "delete" labels 10 and 20 (removed from storage)
+    index->markDelete(10);
+    index->markDelete(20);
+
+    // Step 2 – "update" label 5 (vector changed in storage)
+    auto new_vec5 = generateRandomVector(dim);
+    index->addPoint(new_vec5.data(), 5);
+
+    // Step 3 – "add" two new vectors (labels 50 and 51)
+    auto new_50 = generateRandomVector(dim);
+    auto new_51 = generateRandomVector(dim);
+    index->addPoint(new_50.data(), 50);
+    index->addPoint(new_51.data(), 51);
+
+    // Verify: deleted labels absent from results
+    auto r10 = index->searchKnn(vecs[10].data(), 5);
+    bool found_10 = false;
+    auto tmp10 = r10;
+    while (!tmp10.empty()) { if (tmp10.top().second == 10u) found_10 = true; tmp10.pop(); }
+    EXPECT_FALSE(found_10) << "Label 10 should be deleted";
+
+    // Verify: new label 50 is findable
+    auto r50 = index->searchKnn(new_50.data(), 3);
+    bool found_50 = false;
+    auto tmp50 = r50;
+    while (!tmp50.empty()) { if (tmp50.top().second == 50u) found_50 = true; tmp50.pop(); }
+    EXPECT_TRUE(found_50) << "New label 50 should be findable";
+
+    delete index;
+}
+
+// Test 16: resizeIndex required before adding beyond initial capacity
+// (incrementalReindex must handle capacity expansion)
+TEST_F(HNSWLibIntegrationTest, IncrementalReindex_CapacityExpansion) {
+    hnswlib::L2Space space(dim);
+    int initial_cap = 10;
+    hnswlib::HierarchicalNSW<float>* index =
+        new hnswlib::HierarchicalNSW<float>(&space, initial_cap, 16, 200);
+
+    for (int i = 0; i < initial_cap; ++i) {
+        auto v = generateRandomVector(dim);
+        index->addPoint(v.data(), static_cast<size_t>(i));
+    }
+    EXPECT_EQ(index->cur_element_count, static_cast<size_t>(initial_cap));
+
+    // Expand capacity (as incrementalReindex must do when many new vectors arrive)
+    index->resizeIndex(initial_cap * 3);
+    EXPECT_EQ(index->max_elements_, static_cast<size_t>(initial_cap * 3));
+
+    // Now add more vectors
+    for (int i = initial_cap; i < initial_cap * 2; ++i) {
+        auto v = generateRandomVector(dim);
+        index->addPoint(v.data(), static_cast<size_t>(i));
+    }
+    EXPECT_EQ(index->cur_element_count, static_cast<size_t>(initial_cap * 2));
+
+    delete index;
 }

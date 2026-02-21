@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_maintenance.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:43                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     823                                            ║
+    • Total Lines:     903                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include "storage/index_maintenance.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/index_manager.h"
+#include "index/vector_index.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <iomanip>
@@ -818,6 +819,85 @@ FragmentationLevel IndexMaintenanceManager::classifyFragmentation(double percent
     } else {
         return FragmentationLevel::HIGH;
     }
+}
+
+void IndexMaintenanceManager::setVectorIndexManager(
+    std::shared_ptr<VectorIndexManager> vector_index) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    vector_index_manager_ = std::move(vector_index);
+    THEMIS_INFO("IndexMaintenanceManager: VectorIndexManager registered for incremental reindex");
+}
+
+Result<MaintenanceJobStatus> IndexMaintenanceManager::vectorIncrementalReindex(
+    float rebuild_threshold, std::string_view vector_field) {
+
+    std::shared_ptr<VectorIndexManager> vim;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        vim = vector_index_manager_;
+    }
+    if (!vim) {
+        return Err<MaintenanceJobStatus>(
+            errors::ErrorCode::ERR_INDEX_NOT_INITIALIZED,
+            "VectorIndexManager not set – call setVectorIndexManager() first");
+    }
+
+    MaintenanceJobStatus status;
+    status.job_id       = generateJobId();
+    status.index_name   = vim->getObjectName();
+    status.operation    = MaintenanceOperation::VECTOR_INCREMENTAL_REINDEX;
+    status.start_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::system_clock::now().time_since_epoch()).count();
+    status.is_running   = true;
+    status.is_completed = false;
+    status.progress_percentage = 0.0;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        active_jobs_[status.job_id] = status;
+    }
+
+    THEMIS_INFO("vectorIncrementalReindex: starting job {} for index '{}'",
+                status.job_id, status.index_name);
+
+    auto [reindex_status, stats] = vim->incrementalReindex(rebuild_threshold, vector_field);
+
+    status.progress_percentage = 100.0;
+    status.is_completed        = true;
+    status.is_running          = false;
+    status.end_time_ms         = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                      std::chrono::system_clock::now().time_since_epoch()).count();
+    status.duration_ms         = status.end_time_ms - status.start_time_ms;
+
+    if (!reindex_status.ok) {
+        status.error_message = reindex_status.message;
+        status.is_failed     = true;
+        std::lock_guard<std::mutex> lock(mutex_);
+        completed_jobs_[status.job_id] = status;
+        active_jobs_.erase(status.job_id);
+        return Err<MaintenanceJobStatus>(
+            errors::ErrorCode::ERR_INDEX_REBUILD_FAILED, reindex_status.message);
+    }
+
+    // Embed stats summary in the result_summary field (dedicated non-error info field)
+    std::ostringstream msg;
+    msg << "incremental_reindex: added=" << stats.added
+        << " removed="   << stats.removed
+        << " updated="   << stats.updated
+        << " unchanged=" << stats.unchanged
+        << " scanned="   << stats.total_scanned;
+    if (stats.full_rebuild_triggered) msg << " [full rebuild triggered]";
+    status.result_summary = msg.str();
+
+    THEMIS_INFO("vectorIncrementalReindex: job {} completed – {}", status.job_id, status.result_summary);
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        completed_jobs_[status.job_id] = status;
+        active_jobs_.erase(status.job_id);
+    }
+
+    return Ok<MaintenanceJobStatus>(std::move(status));
 }
 
 } // namespace themis

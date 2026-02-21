@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_session.cpp                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:42                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     1869                                           ║
-    • Open Issues:     TODOs: 5, Stubs: 1                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     1933                                           ║
+    • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,9 @@
 #ifdef THEMIS_ENABLE_POSTGRES_WIRE
 
 #include "server/postgres_session.h"
+#include "query/query_engine.h"
+#include "query/aql_parser.h"
+#include "query/aql_translator.h"
 #include <boost/beast/core.hpp>
 #include <algorithm>
 #include <iostream>
@@ -258,8 +261,19 @@ void PostgresSession::handleQuery(const std::string& query) {
     if (upperQuery.find("COPY") == 0) {
         // COPY FROM STDIN or COPY TO STDOUT
         if (upperQuery.find("FROM STDIN") != std::string::npos) {
-            // COPY table FROM STDIN
-            // Send CopyInResponse to start receiving data
+            // COPY table FROM STDIN — extract table name from between COPY and (
+            copyTableName_.clear();
+            {
+                // Original (non-uppercased) query for accurate table name
+                constexpr size_t kCopyPrefixLen = sizeof("COPY ") - 1; // 5 chars
+                std::string q = query;
+                size_t start = kCopyPrefixLen;
+                while (start < q.size() && q[start] == ' ') { ++start; }
+                // Find end: first of '(' (column list), whitespace, or end-of-string
+                size_t end = q.find_first_of(" (", start);
+                if (end == std::string::npos) { end = q.size(); }
+                copyTableName_ = q.substr(start, end - start);
+            }
             copyInProgress_ = true;
             copyBuffer_.clear();
             std::vector<int16_t> formatCodes = {0}; // Text format
@@ -428,11 +442,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                 std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
                 
                 if (upperQuery.find("SELECT") == 0) {
-                    // TODO: Execute via queryEngine_->executeAql(aqlQuery)
-                    // For now, return empty result set with proper structure
-                    // This would be replaced with actual query execution
-                    
-                    // Parse to determine columns
+                    // Execute via AQLParser + QueryEngine
                     QueryInfo info = parseSelectQuery(query);
                     std::vector<FieldDescription> fields;
                     for (const auto& col : info.selectColumns) {
@@ -447,11 +457,65 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                             fields.push_back({colName, 0, 0, 25, -1, -1, 0});
                         }
                     }
-                    
+
+                    // PG protocol: RowDescription MUST precede any DataRow/CommandComplete
                     if (!fields.empty()) {
                         sendRowDescription(fields);
                     }
-                    sendCommandComplete("SELECT 0");
+
+                    // Guard: skip AQL execution if table name could not be determined
+                    if (info.tableName.empty()) {
+                        sendCommandComplete("SELECT 0");
+                        portalData.resultsComplete = true;
+                        return;
+                    }
+
+                    // Build a simple AQL: FOR doc IN <table> [FILTER …] RETURN doc
+                    std::string aql = "FOR doc IN " + info.tableName + " RETURN doc";
+                    if (!info.whereClause.empty()) {
+                        aql = "FOR doc IN " + info.tableName +
+                              " FILTER " + info.whereClause + " RETURN doc";
+                    }
+
+                    size_t row_count = 0;
+                    try {
+                        query::AQLParser parser;
+                        auto parse_res = parser.parse(aql);
+                        if (parse_res.has_value()) {
+                            auto trans = query::AQLTranslator::translate(*parse_res);
+                            if (trans.success) {
+                                auto exec_res = queryEngine_->executeAndEntities(trans.query);
+                                if (exec_res.has_value()) {
+                                    for (const auto& entity : exec_res.value()) {
+                                        // Project columns from entity JSON
+                                        nlohmann::json doc = nlohmann::json::parse(
+                                            entity.toJson());
+                                        std::vector<std::string> row_vals;
+                                        for (const auto& f : fields) {
+                                            if (doc.contains(f.name)) {
+                                                const auto& v = doc[f.name];
+                                                // Return plain string values without extra quotes
+                                                row_vals.push_back(
+                                                    v.is_string() ? v.get<std::string>()
+                                                                  : v.dump());
+                                            } else {
+                                                row_vals.push_back("");
+                                            }
+                                        }
+                                        sendDataRow(row_vals);
+                                        ++row_count;
+                                    }
+                                }
+                            }
+                        }
+                    } catch (const std::exception& ex) {
+                        // Log and fall through – RowDescription already sent; client will
+                        // receive an empty result set with 0 rows
+                        std::cerr << "PostgresSession: SELECT execution error: "
+                                  << ex.what() << "\n";
+                    }
+
+                    sendCommandComplete("SELECT " + std::to_string(row_count));
                     portalData.resultsComplete = true;
                     return;
                 } else {
