@@ -478,3 +478,34 @@ TEST_F(NamedSavepointTest, RollbackToSavepoint_MultipleSagaStepsTrimmed) {
     EXPECT_EQ(before_count, 2);
     EXPECT_EQ(after_count,  0);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bug fix: rollbackToSavepoint partial-state — savepoints_ must stay in sync
+// with the RocksDB stack when rollbackToSavePoint() fails after popSavePoint()
+// calls have already consumed newer savepoints.
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(NamedSavepointTest, RollbackToSavepoint_FailureKeepsSavepointsConsistent) {
+    auto txn = mgr_->begin();
+
+    // Create three savepoints in order: sp1 (oldest), sp2, sp3 (newest)
+    ASSERT_TRUE(txn.createSavepoint("sp1").ok);
+    ASSERT_TRUE(txn.createSavepoint("sp2").ok);
+    ASSERT_TRUE(txn.createSavepoint("sp3").ok);
+
+    EXPECT_EQ(txn.getSavepoints().size(), 3u);
+
+    // rollbackToSavepoint("sp1") internally pops sp3 and sp2 from the RocksDB
+    // stack (popSavePoint × 2) before calling rollbackToSavePoint() to consume
+    // sp1.  After success, savepoints_ must be fully cleared.
+    // The failure branch (where rollbackToSavePoint() returns false and we must
+    // still erase the entries for sp2/sp3) cannot be triggered without mocking
+    // RocksDB internals, so the success path is the observable regression test.
+    EXPECT_TRUE(txn.rollbackToSavepoint("sp1").ok);
+    EXPECT_EQ(txn.getSavepoints().size(), 0u);
+    EXPECT_FALSE(txn.hasSavepoint("sp1"));
+    EXPECT_FALSE(txn.hasSavepoint("sp2"));
+    EXPECT_FALSE(txn.hasSavepoint("sp3"));
+
+    txn.rollback();
+}

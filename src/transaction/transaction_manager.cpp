@@ -742,15 +742,8 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addVector: transaction timed out");
     
-    // Add SAGA compensating action for vector cache
     std::string pk = entity.getPrimaryKey();
-    saga_->addStep("vectorAdd:" + pk, [this, pk]() {
-        auto status = vecIdx_.removeByPk(pk);
-        if (!status.ok) {
-            THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
-        }
-    });
-    
+
     // Store vector entity in MVCC transaction
     std::string vector_key = "vector:" + pk;
     auto serialized = entity.serialize();
@@ -763,6 +756,16 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
     if (!st.ok) {
         return Status::Error(st.message);
     }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed addVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.
+    saga_->addStep("vectorAdd:" + pk, [this, pk]() {
+        auto status = vecIdx_.removeByPk(pk);
+        if (!status.ok) {
+            THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
+        }
+    });
     
     return Status::OK();
 }
@@ -990,6 +993,12 @@ TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(
     }
     // Rollback to (and pop) the target savepoint itself.
     if (!mvcc_txn_->rollbackToSavePoint()) {
+        // The num_above pops above have already been executed — the corresponding
+        // entries in savepoints_ no longer have a backing RocksDB savepoint.
+        // Remove them so that savepoints_ stays in sync with the RocksDB stack,
+        // preventing future rollbackToSavepoint/releaseSavepoint from popping
+        // the wrong number of savepoints.
+        savepoints_.erase(it + 1, savepoints_.end());
         return Status::Error("rollbackToSavepoint: rollback failed for '" + sname + "'");
     }
     // Discard SAGA steps added after the savepoint was created.
