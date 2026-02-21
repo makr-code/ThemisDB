@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_plugin_interface.h                             ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     421                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
+    • 3a5ea7949  2026-01-05  Add grammar-constrained generation infrastructure (Phase ... ║
+    • 6b3fc36c9  2026-01-04  Rename LlamaCppPlugin to LlamaWrapper following rocksdb_w... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

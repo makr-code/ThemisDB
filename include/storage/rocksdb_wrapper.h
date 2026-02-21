@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -13,11 +13,18 @@
     • Total Lines:     628                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 59e02ab03  2026-02-21  feat(storage): Production-readiness – WAL, Snapshot, Comp... ║
+    • cbf6dcdfc  2026-02-20  Enhance modular build and improve code quality ║
+    • 212595428  2026-02-12  Add const-correctness to storage/LLM query methods and do... ║
+╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 #include <memory>
 #include <string>

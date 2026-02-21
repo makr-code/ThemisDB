@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_interface.h                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,12 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     567                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 73b1edb94  2026-02-20  Importer module: production readiness, observability & fe... ║
+    • 592675660  2025-11-21  Implement PostgreSQL importer plugin with pg_dump parser ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

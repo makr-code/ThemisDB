@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            App.xaml.cs                                        ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:36:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   29.0/100                                       ║
     • Total Lines:     497                                            ║
     • Open Issues:     TODOs: 0, Stubs: 13                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a89e05f8c  2026-01-06  Add Tasks tab to right sidebar with drag&drop, search, an... ║
+    • 8a8fc2f70  2025-12-17  Refactor code structure for improved readability and main... ║
+    • 8c92adc5e  2025-12-16  Restructure DocumentManager features into modular folders ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:33:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     187                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f57cc26cc  2026-02-20  feat(core): lifecycle hooks, health/readiness probes, and... ║
+    • 177485abe  2026-02-20  Observability Hardening: Structured Logging, Trace Correl... ║
+    • b8f749780  2026-01-24  Introduce dependency injection for cross-cutting concerns... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,7 +65,7 @@ public:
 
     class OtelSpanAdapter : public ISpan {
     public:
-        explicit OtelSpanAdapter(themis::Tracer::Span&& span)
+        explicit OtelSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
         void setAttribute(const std::string& key, const std::string& value) override {
@@ -155,7 +162,7 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         // Spans are exported asynchronously; shutdown/restart would be
         // destructive.  A best-effort flush is performed via the OTLP
         // exporter's internal queue drain – no public API available here,

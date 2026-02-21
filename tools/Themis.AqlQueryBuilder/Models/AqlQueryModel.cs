@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AqlQueryModel.cs                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:32                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:46:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,12 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 63104cc5c  2025-11-18  Implement Phase 1.5: Advanced Relational Features ║
+    • c846339d3  2025-11-17  Add Themis AQL Visual Query Builder with CMake integration ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

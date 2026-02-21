@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_audit_log.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,11 @@
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     243                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ad82b76f1  2026-02-21  feat(metadata): production-ready metadata module – statis... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -160,17 +165,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getHistory(std::string_view table_
     std::string prefix = tablePrefix(table_name);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value);
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
                 spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read history for '{}': {}", table_name, e.what());
     }
@@ -187,17 +190,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getFullHistory() const {
     std::string prefix = std::string(kKeyPrefix);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value);
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
                 spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read full audit history: {}", e.what());
     }

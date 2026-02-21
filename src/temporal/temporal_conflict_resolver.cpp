@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.cpp                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:29                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   96.0/100                                       ║
     • Total Lines:     324                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 308ab7d2f  2026-02-20  feat(temporal): SQL:2011 Temporal Module – Production Rea... ║
+    • 2e9db3528  2025-12-17  Address code review feedback: implement HLC operators, fi... ║
+    • 5bac9d4b0  2025-12-17  Fix HLC comparison operators to use only operator< and op... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

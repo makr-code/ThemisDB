@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_ingestion_worker.h                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:32:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9342d11bd  2026-02-13  Add RocksDB options files and CMake wrappers for VS2022 e... ║
+    • bb52ef4f5  2026-02-12  Add HuggingFace Dataset Ingestion Plugin with Streaming a... ║
+    • 77ca4cc65  2026-02-12  feat: Plugin-based multi-source ingestion for AsyncIngest... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
