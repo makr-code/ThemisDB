@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cleanup_milestones.py                              ║
-  Version:         1.0.0                                              ║
-  Description:     Milestone cleanup - remove module prefixes         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 13:48:39                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Purpose:                                                            ║
-    Identifies milestones with module-prefixed titles such as         ║
-    "query - Q2 2026" or "core - v1.4.0" and renames them to         ║
-    version-only titles like "Q2 2026" or "v1.4.0".                  ║
-    When multiple module milestones map to the same version,          ║
-    issues are consolidated and duplicates are deleted.               ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     248                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6632e4e56  2026-02-21  Add License Portal and Renewal Reminder classes for ThemisDB ║
+    • 69fdd8887  2026-02-21  feat: milestone cleanup – strip module prefixes, add PS1 ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
 
