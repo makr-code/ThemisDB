@@ -38,7 +38,9 @@
 #include <algorithm>
 #include <cctype>
 #include <sstream>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace query {
@@ -199,6 +201,111 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
     }
     
     return result;
+}
+
+// ============================================================================
+// Snippet / Highlight helpers
+// ============================================================================
+
+/// Collect the unique lower-case tokens from a query string or JSON array.
+std::unordered_set<std::string> queryTermSet(const json& queryArg) {
+    std::unordered_set<std::string> terms;
+    if (queryArg.is_array()) {
+        for (const auto& item : queryArg)
+            if (item.is_string()) {
+                std::string t = item.get<std::string>();
+                std::transform(t.begin(), t.end(), t.begin(),
+                               [](unsigned char c){ return std::tolower(c); });
+                if (!t.empty()) terms.insert(std::move(t));
+            }
+    } else if (queryArg.is_string()) {
+        for (auto& t : tokenize(queryArg.get<std::string>()))
+            if (!t.empty()) terms.insert(std::move(t));
+    }
+    return terms;
+}
+
+/// Apply open/close tag wrapping around every occurrence of any term in
+/// @p text.  The function walks character by character to preserve original
+/// capitalisation and whitespace while performing case-insensitive matching.
+std::string applyHighlight(const std::string& text,
+                           const std::unordered_set<std::string>& terms,
+                           const std::string& openTag,
+                           const std::string& closeTag) {
+    if (terms.empty() || text.empty()) return text;
+
+    // Build a lower-case shadow for scanning
+    std::string lower(text.size(), '\0');
+    std::transform(text.begin(), text.end(), lower.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
+
+    std::string result;
+    result.reserve(text.size() + 64);
+    size_t i = 0;
+
+    while (i < text.size()) {
+        // Skip non-alnum prefix until next word boundary
+        if (!std::isalnum(static_cast<unsigned char>(text[i]))) {
+            result += text[i++];
+            continue;
+        }
+        // Find end of current word (alnum run)
+        size_t end = i;
+        while (end < text.size() &&
+               std::isalnum(static_cast<unsigned char>(text[end]))) ++end;
+
+        std::string word = lower.substr(i, end - i);
+        if (terms.count(word)) {
+            result += openTag;
+            result.append(text, i, end - i);
+            result += closeTag;
+        } else {
+            result.append(text, i, end - i);
+        }
+        i = end;
+    }
+    return result;
+}
+
+/// Find the byte offset of the window of @p windowSize characters that
+/// contains the greatest number of term occurrences.  Returns 0 if no term
+/// is found or the text fits within the window.
+size_t bestSnippetOffset(const std::string& lower,
+                         const std::unordered_set<std::string>& terms,
+                         size_t windowSize) {
+    if (lower.size() <= windowSize) return 0;
+
+    // Collect all match start positions
+    std::vector<size_t> positions;
+    size_t i = 0;
+    while (i < lower.size()) {
+        if (!std::isalnum(static_cast<unsigned char>(lower[i]))) { ++i; continue; }
+        size_t end = i;
+        while (end < lower.size() &&
+               std::isalnum(static_cast<unsigned char>(lower[end]))) ++end;
+        if (terms.count(lower.substr(i, end - i))) positions.push_back(i);
+        i = end;
+    }
+
+    if (positions.empty()) return 0;
+
+    // Sliding-window: maximise term density
+    size_t bestStart = 0, bestCount = 0;
+    size_t lo = 0;
+    for (size_t hi = 0; hi < positions.size(); ++hi) {
+        while (positions[hi] - positions[lo] >= windowSize) ++lo;
+        size_t count = hi - lo + 1;
+        if (count > bestCount) {
+            bestCount = count;
+            // Centre the window around the match cluster if possible
+            size_t mid = (positions[lo] + positions[hi]) / 2;
+            bestStart = mid > windowSize / 2 ? mid - windowSize / 2 : 0;
+        }
+    }
+    // Align bestStart to a word boundary to avoid splitting UTF-8 sequences
+    while (bestStart > 0 &&
+           std::isalnum(static_cast<unsigned char>(lower[bestStart]))) --bestStart;
+    return bestStart;
 }
 
 } // anonymous namespace
@@ -386,6 +493,154 @@ public:
         for (const auto& r : results)
             out.push_back({{"_key", r.pk}, {"_score", r.score}});
         return out;
+    }
+};
+
+// ============================================================================
+// HIGHLIGHT - wrap query terms in the source text with configurable tags
+// ============================================================================
+
+// HIGHLIGHT(text, query [, options])
+//   text    - source string to annotate
+//   query   - search string (tokenised) or JSON array of term strings
+//   options - optional object: {openTag: "<em>", closeTag: "</em>"}
+//
+// Returns: @p text with every occurrence of a query term wrapped in
+//   openTag...closeTag (case-insensitive match, original case preserved).
+//
+// Example:
+//   HIGHLIGHT("Machine Learning is great", "machine learning")
+//   → "<em>Machine</em> <em>Learning</em> is great"
+class HighlightFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "HIGHLIGHT",
+            "Fulltext",
+            "Wraps query terms in source text with configurable HTML/markup tags",
+            {
+                {"text",    ArgType::STRING, true,  nullptr,       "Source text to annotate"},
+                {"query",   ArgType::ANY,    true,  nullptr,       "Query string or array of terms to highlight"},
+                {"options", ArgType::OBJECT, false, json::object(),"Options: {openTag, closeTag}"}
+            },
+            ArgType::STRING,
+            true, false,  // deterministic, not aggregate
+            {
+                "HIGHLIGHT(doc.content, 'machine learning')",
+                "HIGHLIGHT(doc.title, query, {openTag: '<b>', closeTag: '</b>'})"
+            },
+            {CostComplexity::LINEAR, 1.0, 0.01, false, true, ""}
+        };
+    }
+
+    json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
+        if (args.size() < 2) return "";
+        if (!args[0].is_string()) return args[0];
+
+        const std::string text  = args[0].get<std::string>();
+        std::string openTag     = "<em>";
+        std::string closeTag    = "</em>";
+
+        if (args.size() > 2 && args[2].is_object()) {
+            if (args[2].contains("openTag")  && args[2]["openTag"].is_string())
+                openTag  = args[2]["openTag"].get<std::string>();
+            if (args[2].contains("closeTag") && args[2]["closeTag"].is_string())
+                closeTag = args[2]["closeTag"].get<std::string>();
+        }
+
+        auto terms = queryTermSet(args[1]);
+        return applyHighlight(text, terms, openTag, closeTag);
+    }
+};
+
+// ============================================================================
+// FULLTEXT_SNIPPET - extract and highlight a context window
+// ============================================================================
+
+// FULLTEXT_SNIPPET(text, query [, options])
+//   text    - full document text
+//   query   - search string or array of terms
+//   options - optional: {windowSize: 200, openTag: "<em>", closeTag: "</em>",
+//                        separator: "..."}
+//
+// Returns: a short excerpt of @p text (≤ windowSize chars) centred around
+//   the densest cluster of query-term matches, with the matched terms
+//   wrapped in openTag/closeTag.  "..." separators are prepended/appended
+//   when the text is truncated.
+//
+// Example:
+//   FULLTEXT_SNIPPET("...long document...", "neural networks", {windowSize:100})
+//   → "...activating <em>neural</em> <em>networks</em> for training..."
+class FulltextSnippetFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "FULLTEXT_SNIPPET",
+            "Fulltext",
+            "Extracts a highlighted context snippet from text around the best query-term match",
+            {
+                {"text",    ArgType::STRING, true,  nullptr,       "Full document text"},
+                {"query",   ArgType::ANY,    true,  nullptr,       "Query string or array of terms"},
+                {"options", ArgType::OBJECT, false, json::object(),"Options: {windowSize, openTag, closeTag, separator}"}
+            },
+            ArgType::STRING,
+            true, false,
+            {
+                "FULLTEXT_SNIPPET(doc.content, 'machine learning')",
+                "FULLTEXT_SNIPPET(doc.body, 'neural network', {windowSize: 150, openTag: '<mark>', closeTag: '</mark>'})"
+            },
+            {CostComplexity::LINEAR, 2.0, 0.02, false, true, ""}
+        };
+    }
+
+    json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
+        if (args.size() < 2) return "";
+        if (!args[0].is_string()) return "";
+
+        const std::string text  = args[0].get<std::string>();
+        size_t windowSize       = 200;
+        std::string openTag     = "<em>";
+        std::string closeTag    = "</em>";
+        std::string separator   = "...";
+
+        if (args.size() > 2 && args[2].is_object()) {
+            const auto& opts = args[2];
+            if (opts.contains("windowSize") && opts["windowSize"].is_number_integer()) {
+                int raw = opts["windowSize"].get<int>();
+                if (raw > 0) windowSize = static_cast<size_t>(raw);
+            }
+            if (opts.contains("openTag")   && opts["openTag"].is_string())
+                openTag    = opts["openTag"].get<std::string>();
+            if (opts.contains("closeTag")  && opts["closeTag"].is_string())
+                closeTag   = opts["closeTag"].get<std::string>();
+            if (opts.contains("separator") && opts["separator"].is_string())
+                separator  = opts["separator"].get<std::string>();
+        }
+
+        auto terms = queryTermSet(args[1]);
+
+        if (text.size() <= windowSize) {
+            // Text fits — just highlight the whole thing
+            return applyHighlight(text, terms, openTag, closeTag);
+        }
+
+        // Build lower-case shadow for position scanning
+        std::string lower(text.size(), '\0');
+        std::transform(text.begin(), text.end(), lower.begin(),
+                       [](unsigned char c){ return std::tolower(c); });
+
+        size_t start = bestSnippetOffset(lower, terms, windowSize);
+        bool truncLeft  = (start > 0);
+        bool truncRight = (start + windowSize < text.size());
+
+        std::string excerpt = text.substr(start, windowSize);
+
+        std::string highlighted = applyHighlight(excerpt, terms, openTag, closeTag);
+        std::string result;
+        if (truncLeft)  result += separator;
+        result += highlighted;
+        if (truncRight) result += separator;
+        return result;
     }
 };
 
@@ -579,6 +834,8 @@ void registerFulltextFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<FulltextFunction>());
     registry.registerFunction(std::make_unique<PhraseFunction>());
     registry.registerFunction(std::make_unique<FuzzyFunction>());
+    registry.registerFunction(std::make_unique<HighlightFunction>());
+    registry.registerFunction(std::make_unique<FulltextSnippetFunction>());
     registry.registerFunction(std::make_unique<NgramMatchFunction>());
     registry.registerFunction(std::make_unique<TokensFunction>());
     registry.registerFunction(std::make_unique<SoundexFunction>());

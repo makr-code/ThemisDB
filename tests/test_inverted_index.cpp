@@ -2,7 +2,7 @@
 // Copyright (c) 2024-2026 ThemisDB Contributors
 
 // ============================================================================
-// Unit tests for the standalone InvertedIndex class
+// Unit tests for the standalone InvertedIndex class + HIGHLIGHT / FULLTEXT_SNIPPET
 // ============================================================================
 
 #include <gtest/gtest.h>
@@ -12,6 +12,8 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include "query/functions/function_registry.h"
+#include "query/functions/fulltext_functions.h"
 
 using namespace themis;
 
@@ -431,4 +433,151 @@ TEST_F(InvertedIndexTest, MultipleTableColumnIndexes) {
     ASSERT_TRUE(idx_->drop("articles", "title").ok);
     EXPECT_FALSE(idx_->exists("articles", "title"));
     EXPECT_TRUE(idx_->exists("articles", "body"));
+}
+
+// ===========================================================================
+// HIGHLIGHT AQL function (pure-string, no RocksDB required)
+// ===========================================================================
+
+class HighlightFunctionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        themis::query::functions::registerFulltextFunctions(
+            themis::query::functions::FunctionRegistry::instance());
+    }
+
+    themis::query::functions::FunctionContext ctx_;
+};
+
+TEST_F(HighlightFunctionTest, BasicHighlight) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    auto result = reg.call("HIGHLIGHT",
+                           {nlohmann::json("Machine Learning is great"),
+                            nlohmann::json("machine learning")}, ctx_);
+    ASSERT_TRUE(result.is_string());
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("<em>Machine</em>"), std::string::npos);
+    EXPECT_NE(s.find("<em>Learning</em>"), std::string::npos);
+    // Non-matching word is unchanged
+    EXPECT_NE(s.find("is"), std::string::npos);
+}
+
+TEST_F(HighlightFunctionTest, NoMatchReturnsOriginal) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    auto result = reg.call("HIGHLIGHT",
+                           {nlohmann::json("hello world"),
+                            nlohmann::json("python")}, ctx_);
+    EXPECT_EQ(result.get<std::string>(), "hello world");
+}
+
+TEST_F(HighlightFunctionTest, CustomTags) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    nlohmann::json opts = {{"openTag", "<b>"}, {"closeTag", "</b>"}};
+    auto result = reg.call("HIGHLIGHT",
+                           {nlohmann::json("deep learning network"),
+                            nlohmann::json("learning"),
+                            opts}, ctx_);
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("<b>learning</b>"), std::string::npos);
+    EXPECT_EQ(s.find("<em>"), std::string::npos);  // default tag not used
+}
+
+TEST_F(HighlightFunctionTest, ArrayQueryTerms) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    nlohmann::json terms = nlohmann::json::array({"neural", "network"});
+    auto result = reg.call("HIGHLIGHT",
+                           {nlohmann::json("A neural network model"),
+                            terms}, ctx_);
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("<em>neural</em>"), std::string::npos);
+    EXPECT_NE(s.find("<em>network</em>"), std::string::npos);
+}
+
+TEST_F(HighlightFunctionTest, EmptyQueryReturnsOriginal) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    auto result = reg.call("HIGHLIGHT",
+                           {nlohmann::json("hello world"),
+                            nlohmann::json("")}, ctx_);
+    EXPECT_EQ(result.get<std::string>(), "hello world");
+}
+
+// ===========================================================================
+// FULLTEXT_SNIPPET AQL function (pure-string, no RocksDB required)
+// ===========================================================================
+
+class FulltextSnippetFunctionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        themis::query::functions::registerFulltextFunctions(
+            themis::query::functions::FunctionRegistry::instance());
+    }
+
+    themis::query::functions::FunctionContext ctx_;
+};
+
+TEST_F(FulltextSnippetFunctionTest, ShortTextReturnsFull) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    // Text shorter than default windowSize — entire text should come back highlighted
+    auto result = reg.call("FULLTEXT_SNIPPET",
+                           {nlohmann::json("machine learning is great"),
+                            nlohmann::json("machine")}, ctx_);
+    ASSERT_TRUE(result.is_string());
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("<em>machine</em>"), std::string::npos);
+    // No separator when text fits
+    EXPECT_EQ(s.find("..."), std::string::npos);
+}
+
+TEST_F(FulltextSnippetFunctionTest, LongTextTruncated) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    // Build a long document with the keyword buried in the middle
+    std::string longText =
+        std::string(300, 'a') + " " +   // filler before
+        "target keyword here" +
+        " " + std::string(300, 'z');     // filler after
+    nlohmann::json opts = {{"windowSize", 50}};
+    auto result = reg.call("FULLTEXT_SNIPPET",
+                           {nlohmann::json(longText),
+                            nlohmann::json("target"),
+                            opts}, ctx_);
+    ASSERT_TRUE(result.is_string());
+    std::string s = result.get<std::string>();
+    // Snippet must be reasonably short (windowSize + tags + separators)
+    EXPECT_LT(s.size(), static_cast<size_t>(200));
+    // Separator must appear (text was truncated on at least one side)
+    EXPECT_NE(s.find("..."), std::string::npos);
+    // The keyword should be highlighted
+    EXPECT_NE(s.find("<em>target</em>"), std::string::npos);
+}
+
+TEST_F(FulltextSnippetFunctionTest, CustomSeparatorAndTags) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    std::string longText =
+        std::string(200, 'x') + " keyword " + std::string(200, 'y');
+    nlohmann::json opts = {{"windowSize", 40},
+                           {"openTag",    "["},
+                           {"closeTag",   "]"},
+                           {"separator",  "…"}};
+    auto result = reg.call("FULLTEXT_SNIPPET",
+                           {nlohmann::json(longText),
+                            nlohmann::json("keyword"),
+                            opts}, ctx_);
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("[keyword]"), std::string::npos);
+    EXPECT_NE(s.find("…"), std::string::npos);  // custom separator
+    EXPECT_EQ(s.find("..."), std::string::npos); // default separator not used
+}
+
+TEST_F(FulltextSnippetFunctionTest, NoMatchReturnsHead) {
+    auto& reg = themis::query::functions::FunctionRegistry::instance();
+    std::string longText(300, 'q');
+    nlohmann::json opts = {{"windowSize", 50}};
+    auto result = reg.call("FULLTEXT_SNIPPET",
+                           {nlohmann::json(longText),
+                            nlohmann::json("xyz"),
+                            opts}, ctx_);
+    ASSERT_TRUE(result.is_string());
+    // No match — starts at offset 0 (head of text) with trailing separator
+    std::string s = result.get<std::string>();
+    EXPECT_NE(s.find("..."), std::string::npos);
 }
