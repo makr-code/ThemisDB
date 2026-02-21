@@ -20,7 +20,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
-- [?] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
+- [!] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026) (Issue: #2418)
 - [I] Adaptive sampling rate for high-frequency spans (Target: Q3 2026) (Issue: #1963)
 
 ## Planned Features 📋
@@ -37,7 +37,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [I] Anomaly detection on metrics time-series (ML-based) (Issue: #2097)
 - [I] Distributed flame graph generation across nodes (Issue: #2108)
 - [?] Metrics federation across multiple ThemisDB clusters
-- [?] SLO/SLA compliance reporting with burn-rate alerts
+- [I] SLO/SLA compliance reporting with burn-rate alerts (Issue: #2148)
 
 ## Implementation Phases
 

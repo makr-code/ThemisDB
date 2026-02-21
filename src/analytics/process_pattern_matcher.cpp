@@ -289,7 +289,7 @@ ProcessPatternMatcher::getTrace(const std::string& case_id) const {
     cfg.timestamp_field = "timestamp";
 
     auto [st, log] = process_mining_.extractEventLog("events", cfg);
-    if (!st.ok()) {
+    if (!st.ok) {
         return {Status::Error("Failed to extract event log: " + st.message), {}};
     }
 
@@ -331,7 +331,7 @@ ProcessPatternMatcher::findSimilar(
     log_cfg.timestamp_field = "timestamp";
 
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
-    if (!lst.ok()) {
+    if (!lst.ok) {
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 
@@ -553,7 +553,7 @@ ProcessPatternMatcher::hasPattern(
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
     // Fallback: if DB unavailable, compute purely from trace
     double sim = 0.0;
-    if (lst.ok()) {
+    if (lst.ok) {
         PatternMatchConfig cfg;
         cfg.method = SimilarityMethod::HYBRID;
         sim = computeHybridSimilarity(pattern, log, case_id, cfg);
@@ -585,7 +585,7 @@ ProcessPatternMatcher::findPatternsInBatch(
     log_cfg.activity_field  = "activity";
     log_cfg.timestamp_field = "timestamp";
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
-    if (!lst.ok()) {
+    if (!lst.ok) {
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 

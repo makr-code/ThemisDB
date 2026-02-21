@@ -526,7 +526,7 @@ public:
     /**
      * @brief Return a snapshot of all per-algorithm learned cost models.
      */
-    const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>>&
+    const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>>&
         getAlgorithmCostModels() const { return algo_cost_models_; }
 
     // -----------------------------------------------------------------------

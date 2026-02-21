@@ -21,25 +21,25 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
 
 ## In Progress 🚧
-- [?] Full cron expression parsing (v1.5.0) (Target: Q2 2026)
-- [?] Distributed task coordination across nodes (Target: Q2 2026)
-- [?] Task dependency DAG execution (Target: Q3 2026)
+- [I] Full cron expression parsing (v1.5.0) (Target: Q2 2026) (Issue: #2452)
+- [I] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
+- [I] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2120)
-- [?] Task retry policies (max attempts, exponential back-off)
-- [?] Scheduled task output persistence (store results in ThemisDB)
-- [?] Task execution history with searchable audit log
-- [?] Alert on task failure or SLA breach
+- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
+- [!] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
+- [!] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
+- [I] Task execution history with searchable audit log (Issue: #2448)
+- [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
-- [?] Distributed cron leader election (one runner per cluster)
-- [?] Workflow engine (multi-step DAG with conditional branching)
-- [?] Event-triggered tasks (changefeed → task execution)
-- [?] Dynamic task scaling based on queue depth
-- [?] Integration with external schedulers (Kubernetes CronJob, Airflow)
+- [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
+- [!] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+- [!] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
+- [I] Dynamic task scaling based on queue depth (Issue: #2269)
+- [!] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
 ## Implementation Phases
 

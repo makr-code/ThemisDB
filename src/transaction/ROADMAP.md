@@ -24,23 +24,23 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ## In Progress 🚧
 - [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
-- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #1441)
+- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
+- [I] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
 - [x] Transaction timeout with automatic rollback
-- [ ] Bulk transaction API (batch insert/update without per-row overhead)
-- [ ] Transaction explain (show locks acquired, MVCC version chain)
-- [ ] Per-tenant transaction isolation namespace
+- [!] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
+- [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
+- [I] Per-tenant transaction isolation namespace (Issue: #2325)
 
 ### Long-term (6-12 months)
-- [?] Distributed SAGA orchestration across multiple nodes
-- [?] Global transaction manager for multi-region ACID guarantees
-- [?] Calvin protocol for deterministic distributed transactions
-- [?] Time-travel queries against snapshot history
-- [?] Branch merge conflict resolution UI
+- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+- [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
+- [I] Calvin protocol for deterministic distributed transactions (Issue: #2328)
+- [I] Time-travel queries against snapshot history (Issue: #2329)
+- [I] Branch merge conflict resolution UI (Issue: #2478)
 
 ## Implementation Phases
 

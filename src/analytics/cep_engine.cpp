@@ -1381,7 +1381,7 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
                     Alert alert;
                     alert.alert_id = generateId();
                     alert.rule_id = rule_id;
-                    alert.rule_name = state.config.name;
+                    alert.rule_name = state.config.rule_name;
                     alert.timestamp = std::chrono::system_clock::now();
                     alert.match = match;
                     // Determine severity from tags

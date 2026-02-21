@@ -32,6 +32,7 @@
 #include "llm/llama_wrapper.h"
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {

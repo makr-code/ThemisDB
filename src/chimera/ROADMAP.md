@@ -26,10 +26,10 @@
 ### Short-term (Next 3-6 months)
 - [I] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
 - [I] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
-- [!] Weaviate adapter (native vector database) (Issue: #2084)
+- [!] Weaviate adapter (native vector database) (Issue: #2374)
 - [I] Qdrant adapter (native vector database) (Issue: #1646)
-- [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #1647)
-- [I] Adapter capability matrix (which operations each system supports) (Issue: #1648)
+- [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
+- [I] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)

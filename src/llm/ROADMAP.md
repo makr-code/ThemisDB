@@ -21,7 +21,7 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 
 ## In Progress 🚧
 - [I] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
-- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2102)
+- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
 ## Planned Features 📋
@@ -38,7 +38,7 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [I] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [I] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #1937)
+- [!] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 
 ## Implementation Phases
 

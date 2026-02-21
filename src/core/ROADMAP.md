@@ -28,7 +28,7 @@
 ### Short-term (Next 3-6 months)
 - [I] OpenTelemetry trace and span propagation (Issue: #1407)
 - [I] Prometheus-compatible metrics adapter (Issue: #1408)
-- [I] Structured log correlation (trace ID injection into log records) (Issue: #2087)
+- [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
 - [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)

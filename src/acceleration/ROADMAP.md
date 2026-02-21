@@ -74,11 +74,11 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
-- [~] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`)
-- [~] Implement Vulkan compute shaders for cross-platform GPU pipeline
-- [~] Implement runtime device capability detection (`acceleration/device_manager.cpp`)
+- [I] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461)
+- [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
+- [!] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164)
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
-- [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
+- [!] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
