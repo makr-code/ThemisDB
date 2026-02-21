@@ -114,7 +114,10 @@ public:
          * @param timeout  Maximum lifetime; pass 0 to disable the timeout.
          */
         void setTimeout(std::chrono::milliseconds timeout) {
-            timeout_ms_.store(timeout.count(), std::memory_order_relaxed);
+            // Clamp to 0: a negative duration is treated the same as "no timeout".
+            auto ms = timeout.count();
+            timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0u,
+                              std::memory_order_relaxed);
         }
 
         /**

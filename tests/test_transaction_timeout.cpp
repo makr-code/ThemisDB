@@ -101,6 +101,24 @@ TEST_F(TransactionTimeoutTest, ZeroTimeout_AfterSet_IsNotTimedOut) {
     txn.rollback();
 }
 
+TEST_F(TransactionTimeoutTest, NegativeTimeout_TreatedAsDisabled) {
+    // Negative chrono value must be clamped to 0 (disabled), not wrapped to a huge uint64_t
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(-1));
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    EXPECT_FALSE(txn.isTimedOut());
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, NegativeDefaultTimeout_TreatedAsDisabled) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(-500));
+    EXPECT_EQ(mgr_->getDefaultTransactionTimeout().count(), 0);
+    // New transactions must not inherit a phantom timeout
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    txn.rollback();
+}
+
 TEST_F(TransactionTimeoutTest, VeryShortTimeout_IsTimedOut) {
     auto txn = mgr_->begin();
     txn.setTimeout(std::chrono::milliseconds(1));

@@ -1054,9 +1054,11 @@ void TransactionManager::applyDefaultTimeout(Transaction& txn) const {
 }
 
 void TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds timeout) {
-    default_transaction_timeout_ms_.store(
-        static_cast<uint64_t>(timeout.count()), std::memory_order_relaxed);
-    THEMIS_INFO("Default transaction timeout set to {} ms", timeout.count());
+    // Clamp to 0: a negative duration is treated the same as "no timeout".
+    auto ms = timeout.count();
+    default_transaction_timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0u,
+                                          std::memory_order_relaxed);
+    THEMIS_INFO("Default transaction timeout set to {} ms", ms > 0 ? ms : 0);
 }
 
 std::chrono::milliseconds TransactionManager::getDefaultTransactionTimeout() const {
