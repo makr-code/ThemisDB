@@ -19,6 +19,7 @@
 - [x] Lazy initialization for optional components
 - [x] OpenTelemetry tracer adapter with circuit-breaker guarded OTLP export
 - [x] Prometheus metrics adapter — all IMetrics methods forwarded to MetricsCollector
+- [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
 
 ## In Progress 🚧
 - [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
@@ -28,7 +29,7 @@
 ### Short-term (Next 3-6 months)
 - [I] OpenTelemetry trace and span propagation (Issue: #1407)
 - [I] Prometheus-compatible metrics adapter (Issue: #1408)
-- [I] Structured log correlation (trace ID injection into log records) (Issue: #1409)
+- [I] Structured log correlation (trace ID injection into log records) (Issue: #1409) — **completed**
 - [I] Health check interface in ConcernsContext (Issue: #1410)
 - [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
@@ -59,9 +60,9 @@
 - [x] Prometheus metrics adapter (`core/concerns/prometheus_metrics_adapter.h`, all IMetrics methods implemented)
 - [ ] Context propagation across async boundaries (Target: Q3 2026)
 
-### Phase 3: Advanced Concerns & Runtime Flexibility (Status: Planned 📋)
+### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
+- [x] Structured log correlation (trace ID + span ID injection into log records)
 - [ ] Health check interface in ConcernsContext
-- [ ] Structured log correlation (trace ID injection into log records)
 - [ ] Async context propagation (W3C TraceContext standard)
 - [ ] Plugin-based adapter loading (no recompile needed)
 - [ ] Feature flag interface for runtime enable/disable
