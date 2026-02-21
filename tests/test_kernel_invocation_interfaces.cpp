@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_kernel_invocation_interfaces.cpp              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 17:07:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     442                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 9                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Frozen Kernel Invocation Interfaces
 //
 // Validates that the kernel invocation interface types declared in
