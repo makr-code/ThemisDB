@@ -1420,3 +1420,573 @@ TEST(AudioStoragePhase5, StatisticsTracking) {
     EXPECT_EQ(stats.total_records, 2u);
     EXPECT_EQ(stats.hot_records, 2u);
 }
+
+// --- Phase 9, 10 additions ---
+#include <numbers>
+#include "voice/voice_accessibility.h"
+#include "voice/voice_model_cache.h"
+#include "voice/voice_batch_processor.h"
+
+using namespace themis::voice;
+
+// ============================================================
+// Phase 9: Accessibility Tests
+// ============================================================
+
+TEST(AccessibilityPhase9, DefaultConstructor) {
+    VoiceAccessibility acc;
+    auto stats = acc.getStatistics();
+    EXPECT_EQ(stats["exports_completed"], 0);
+    EXPECT_EQ(stats["total_cues_generated"], 0);
+}
+
+TEST(AccessibilityPhase9, GenerateCaptionsBasic) {
+    VoiceAccessibility acc;
+    std::vector<std::pair<int64_t, std::string>> segs = {
+        {0,    "Hello world"},
+        {2000, "How are you"},
+        {5000, "Goodbye"}
+    };
+    auto cues = acc.generateCaptions(segs, "Alice");
+    ASSERT_EQ(cues.size(), 3u);
+    EXPECT_EQ(cues[0].text, "Hello world");
+    EXPECT_EQ(cues[0].speaker, "Alice");
+    EXPECT_EQ(cues[0].sequence, 1);
+    EXPECT_EQ(cues[0].start_ms, 0);
+    EXPECT_EQ(cues[0].end_ms, 2000);
+    EXPECT_EQ(cues[2].end_ms, 8000); // last cue: start + 3000
+}
+
+TEST(AccessibilityPhase9, GenerateCaptionsFromJSON) {
+    VoiceAccessibility acc;
+    nlohmann::json transcript = nlohmann::json::array({
+        {{"text","Good morning"},{"start_ms",0},{"end_ms",1500},{"speaker","Alice"},{"confidence",0.95f}},
+        {{"text","Good morning too"},{"start_ms",1600},{"end_ms",3200},{"speaker","Bob"}}
+    });
+    auto cues = acc.generateCaptionsFromJSON(transcript);
+    ASSERT_EQ(cues.size(), 2u);
+    EXPECT_EQ(cues[0].text, "Good morning");
+    EXPECT_EQ(cues[0].speaker, "Alice");
+    EXPECT_FLOAT_EQ(cues[0].confidence, 0.95f);
+    EXPECT_EQ(cues[1].speaker, "Bob");
+    EXPECT_EQ(cues[1].end_ms, 3200);
+}
+
+TEST(AccessibilityPhase9, ExportAsVTT) {
+    VoiceAccessibility acc;
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 0; c.end_ms = 2000; c.text = "Hello world"; c.speaker = "Alice";
+    cues.push_back(c);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::VTT;
+    auto result = acc.exportTranscript(cues, opts);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.mime_type, "text/vtt");
+    EXPECT_NE(result.content.find("WEBVTT"), std::string::npos);
+    EXPECT_NE(result.content.find("00:00:00.000 --> 00:00:02.000"), std::string::npos);
+    EXPECT_NE(result.content.find("Hello world"), std::string::npos);
+    EXPECT_EQ(result.cue_count, 1u);
+}
+
+TEST(AccessibilityPhase9, ExportAsSRT) {
+    VoiceAccessibility acc;
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 1000; c.end_ms = 4000; c.text = "Testing SRT"; c.speaker = "";
+    cues.push_back(c);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::SRT;
+    auto result = acc.exportTranscript(cues, opts);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.mime_type, "application/x-subrip");
+    EXPECT_NE(result.content.find("00:00:01,000 --> 00:00:04,000"), std::string::npos);
+    EXPECT_NE(result.content.find("Testing SRT"), std::string::npos);
+}
+
+TEST(AccessibilityPhase9, ExportAsPlainText) {
+    VoiceAccessibility acc;
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 5000; c.end_ms = 8000; c.text = "Plain text cue"; c.speaker = "Bob";
+    cues.push_back(c);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::PLAIN_TEXT;
+    opts.include_timestamps = true;
+    opts.include_speaker_info = true;
+    auto result = acc.exportTranscript(cues, opts);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.mime_type, "text/plain");
+    EXPECT_NE(result.content.find("Bob"), std::string::npos);
+    EXPECT_NE(result.content.find("Plain text cue"), std::string::npos);
+    EXPECT_NE(result.content.find("[00:00:05]"), std::string::npos);
+}
+
+TEST(AccessibilityPhase9, ExportAsHTML) {
+    VoiceAccessibility acc;
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 0; c.end_ms = 2000; c.text = "HTML caption"; c.speaker = "Host";
+    cues.push_back(c);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::HTML;
+    opts.language = "en";
+    opts.title = "Test Title";
+    auto result = acc.exportTranscript(cues, opts);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.mime_type, "text/html");
+    EXPECT_NE(result.content.find("<article"), std::string::npos);
+    EXPECT_NE(result.content.find("HTML caption"), std::string::npos);
+    EXPECT_NE(result.content.find("Host"), std::string::npos);
+    EXPECT_NE(result.content.find("lang=\"en\""), std::string::npos);
+}
+
+TEST(AccessibilityPhase9, ExportAsJSONFormat) {
+    VoiceAccessibility acc;
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 100; c.end_ms = 2100; c.text = "JSON cue"; c.speaker = "Eve";
+    cues.push_back(c);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::JSON;
+    opts.language = "fr";
+    auto result = acc.exportTranscript(cues, opts);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.mime_type, "application/json");
+    auto j = nlohmann::json::parse(result.content);
+    EXPECT_EQ(j["language"], "fr");
+    ASSERT_EQ(j["cues"].size(), 1u);
+    EXPECT_EQ(j["cues"][0]["text"], "JSON cue");
+}
+
+TEST(AccessibilityPhase9, CaptionFormatToString) {
+    EXPECT_EQ(captionFormatToString(CaptionFormat::VTT),        "vtt");
+    EXPECT_EQ(captionFormatToString(CaptionFormat::SRT),        "srt");
+    EXPECT_EQ(captionFormatToString(CaptionFormat::PLAIN_TEXT), "plain_text");
+    EXPECT_EQ(captionFormatToString(CaptionFormat::HTML),       "html");
+    EXPECT_EQ(captionFormatToString(CaptionFormat::JSON),       "json");
+}
+
+TEST(AccessibilityPhase9, FormatTimestampVTT) {
+    VoiceAccessibility acc;
+    // 1h 2m 3s 456ms → "01:02:03.456"
+    int64_t ms = (1 * 3600 + 2 * 60 + 3) * 1000 + 456;
+    std::string ts = acc.formatTimestamp(ms, true);
+    EXPECT_EQ(ts, "01:02:03.456");
+}
+
+TEST(AccessibilityPhase9, FormatTimestampSRT) {
+    VoiceAccessibility acc;
+    // 0h 0m 5s 100ms → "00:00:05,100"
+    int64_t ms = 5100;
+    std::string ts = acc.formatTimestamp(ms, false);
+    EXPECT_EQ(ts, "00:00:05,100");
+}
+
+TEST(AccessibilityPhase9, StatisticsTracking) {
+    VoiceAccessibility acc;
+    std::vector<std::pair<int64_t, std::string>> segs = {{0, "One"}, {1000, "Two"}};
+    auto cues = acc.generateCaptions(segs);
+
+    TranscriptExportOptions opts;
+    opts.format = CaptionFormat::VTT;
+    acc.exportTranscript(cues, opts);
+    acc.exportTranscript(cues, opts);
+
+    auto stats = acc.getStatistics();
+    EXPECT_EQ(stats["exports_completed"], 2);
+    EXPECT_EQ(stats["total_cues_generated"], 2); // generated once
+}
+
+TEST(AccessibilityPhase9, SplitLongCues) {
+    CaptionStyle style;
+    style.max_duration_ms = 3000;
+    VoiceAccessibility acc(style);
+
+    std::vector<CaptionCue> cues;
+    CaptionCue c;
+    c.sequence = 1; c.start_ms = 0; c.end_ms = 9000;
+    c.text = "This is a long cue that needs to be split into multiple parts";
+    cues.push_back(c);
+
+    auto split = acc.splitLongCues(cues);
+    EXPECT_GT(split.size(), 1u);
+    // Total span should be preserved
+    EXPECT_EQ(split.back().end_ms, 9000);
+}
+
+TEST(AccessibilityPhase9, MergeSilentGaps) {
+    CaptionStyle style;
+    style.min_duration_ms = 500;
+    VoiceAccessibility acc(style);
+
+    std::vector<CaptionCue> cues;
+    CaptionCue c1; c1.sequence=1; c1.start_ms=0; c1.end_ms=500; c1.text="Part one"; c1.speaker="A";
+    CaptionCue c2; c2.sequence=2; c2.start_ms=600; c2.end_ms=1200; c2.text="Part two"; c2.speaker="A";
+    CaptionCue c3; c3.sequence=3; c3.start_ms=5000; c3.end_ms=6000; c3.text="Later"; c3.speaker="A";
+    cues.push_back(c1); cues.push_back(c2); cues.push_back(c3);
+
+    auto merged = acc.mergeSilentGaps(cues);
+    // c1 and c2 have gap < 500ms → merged
+    ASSERT_EQ(merged.size(), 2u);
+    EXPECT_NE(merged[0].text.find("Part one"), std::string::npos);
+    EXPECT_NE(merged[0].text.find("Part two"), std::string::npos);
+}
+
+// ============================================================
+// Phase 10: Model Cache Tests
+// ============================================================
+
+TEST(ModelCachePhase10, DefaultConstructor) {
+    VoiceModelCache cache;
+    auto stats = cache.getStats();
+    EXPECT_EQ(stats.loaded_models, 0u);
+    EXPECT_EQ(stats.cache_hits, 0u);
+    EXPECT_EQ(stats.cache_misses, 0u);
+}
+
+TEST(ModelCachePhase10, InsertAndRetrieve) {
+    VoiceModelCache cache;
+    CachedModel m;
+    m.model_id   = "test-model";
+    m.model_path = "/models/test.bin";
+    m.model_type = "stt";
+    m.memory_bytes = 1024;
+
+    EXPECT_TRUE(cache.insert(m));
+    EXPECT_TRUE(cache.isCached("test-model"));
+    EXPECT_FALSE(cache.isCached("nonexistent"));
+
+    auto stats = cache.getStats();
+    EXPECT_EQ(stats.loaded_models, 1u);
+    EXPECT_EQ(stats.total_memory_bytes, 1024u);
+}
+
+TEST(ModelCachePhase10, CacheHitMiss) {
+    VoiceModelCache cache;
+    // Miss: no loader registered
+    auto result = cache.get("missing-id", "/path/to/model", "stt");
+    EXPECT_FALSE(result.has_value());
+    auto stats = cache.getStats();
+    EXPECT_EQ(stats.cache_misses, 1u);
+    EXPECT_EQ(stats.cache_hits, 0u);
+
+    // Insert then hit
+    CachedModel m; m.model_id = "hot-model"; m.model_type = "tts"; m.memory_bytes = 512;
+    cache.insert(m);
+    auto res2 = cache.get("hot-model", "", "tts");
+    EXPECT_TRUE(res2.has_value());
+    EXPECT_EQ(cache.getStats().cache_hits, 1u);   // exactly one hit after the insert+get
+    EXPECT_GE(cache.getStats().cache_hits, 1u);
+}
+
+TEST(ModelCachePhase10, EvictLRU) {
+    ModelCacheConfig cfg;
+    cfg.max_models = 2;
+    cfg.max_memory_bytes = 1024 * 1024;
+    VoiceModelCache cache(cfg);
+
+    CachedModel m1; m1.model_id = "m1"; m1.model_type = "stt"; m1.memory_bytes = 100;
+    CachedModel m2; m2.model_id = "m2"; m2.model_type = "stt"; m2.memory_bytes = 100;
+    CachedModel m3; m3.model_id = "m3"; m3.model_type = "stt"; m3.memory_bytes = 100;
+
+    EXPECT_TRUE(cache.insert(m1));
+    EXPECT_TRUE(cache.insert(m2));
+    // Touch m1 to make m2 the LRU
+    cache.get("m1", "", "stt");
+    // Inserting m3 should evict m2 (LRU)
+    EXPECT_TRUE(cache.insert(m3));
+    EXPECT_FALSE(cache.isCached("m2"));
+    EXPECT_TRUE(cache.isCached("m1"));
+    EXPECT_TRUE(cache.isCached("m3"));
+}
+
+TEST(ModelCachePhase10, PinModel) {
+    ModelCacheConfig cfg;
+    cfg.max_models = 2;
+    VoiceModelCache cache(cfg);
+
+    CachedModel m1; m1.model_id = "pinned"; m1.model_type = "llm"; m1.memory_bytes = 100;
+    CachedModel m2; m2.model_id = "m2";     m2.model_type = "stt"; m2.memory_bytes = 100;
+    CachedModel m3; m3.model_id = "m3";     m3.model_type = "stt"; m3.memory_bytes = 100;
+
+    cache.insert(m1);
+    cache.insert(m2);
+    cache.pin("pinned");
+
+    // m3 insert should evict m2, not the pinned model
+    cache.insert(m3);
+    EXPECT_TRUE(cache.isCached("pinned"));
+    EXPECT_TRUE(cache.isCached("m3"));
+    EXPECT_FALSE(cache.isCached("m2"));
+
+    // Unpin and verify
+    EXPECT_TRUE(cache.unpin("pinned"));
+    auto stats = cache.getStats();
+    EXPECT_EQ(stats.pinned_models, 0u);
+}
+
+TEST(ModelCachePhase10, EvictToFree) {
+    VoiceModelCache cache;
+    CachedModel m1; m1.model_id = "big1"; m1.model_type = "llm"; m1.memory_bytes = 500;
+    CachedModel m2; m2.model_id = "big2"; m2.model_type = "llm"; m2.memory_bytes = 500;
+    cache.insert(m1);
+    cache.insert(m2);
+
+    EXPECT_EQ(cache.getStats().total_memory_bytes, 1000u);
+    size_t freed = cache.evictToFree(400);
+    EXPECT_GE(freed, 400u); // At least 400 bytes freed
+    EXPECT_LT(cache.getStats().total_memory_bytes, 1000u);
+}
+
+TEST(ModelCachePhase10, ClearCache) {
+    VoiceModelCache cache;
+    CachedModel m1; m1.model_id = "a"; m1.model_type = "stt"; m1.memory_bytes = 100;
+    CachedModel m2; m2.model_id = "b"; m2.model_type = "tts"; m2.memory_bytes = 200;
+    cache.insert(m1);
+    cache.insert(m2);
+
+    EXPECT_EQ(cache.getStats().loaded_models, 2u);
+    cache.clear();
+    EXPECT_EQ(cache.getStats().loaded_models, 0u);
+    EXPECT_EQ(cache.getStats().total_memory_bytes, 0u);
+    EXPECT_FALSE(cache.isCached("a"));
+    EXPECT_FALSE(cache.isCached("b"));
+}
+
+TEST(ModelCachePhase10, Statistics) {
+    VoiceModelCache cache;
+    CachedModel m; m.model_id = "stat-test"; m.model_type = "embedding"; m.memory_bytes = 256;
+    cache.insert(m);
+
+    // Hit
+    cache.get("stat-test", "", "embedding");
+
+    // Miss
+    cache.get("no-exist", "/path", "stt");
+
+    auto stats = cache.getStats();
+    EXPECT_EQ(stats.loaded_models, 1u);
+    EXPECT_GE(stats.cache_hits, 1u);
+    EXPECT_GE(stats.cache_misses, 1u);
+    EXPECT_GT(stats.hit_rate, 0.0);
+    EXPECT_LT(stats.hit_rate, 1.0);
+}
+
+TEST(ModelCachePhase10, RegisterLoader) {
+    VoiceModelCache cache;
+
+    bool loader_called = false;
+    bool unloader_called = false;
+
+    cache.registerLoader("stub",
+        [&](const std::string&, const nlohmann::json&) -> void* {
+            loader_called = true;
+            return reinterpret_cast<void*>(0xDEAD);
+        },
+        [&](void* h) {
+            EXPECT_EQ(h, reinterpret_cast<void*>(0xDEAD));
+            unloader_called = true;
+        }
+    );
+
+    auto result = cache.get("stub-model", "/stub/path", "stub");
+    EXPECT_TRUE(result.has_value());
+    EXPECT_TRUE(loader_called);
+    EXPECT_EQ(result->handle, reinterpret_cast<void*>(0xDEAD));
+
+    // Evict should call unloader
+    cache.evict("stub-model");
+    EXPECT_TRUE(unloader_called);
+}
+
+TEST(ModelCachePhase10, DetailedStats) {
+    VoiceModelCache cache;
+    CachedModel m; m.model_id = "detail"; m.model_type = "stt"; m.memory_bytes = 100;
+    m.is_pinned = false;
+    cache.insert(m);
+
+    auto detail = cache.getDetailedStats();
+    EXPECT_EQ(detail["loaded_models"], 1);
+    EXPECT_TRUE(detail.contains("models"));
+    EXPECT_EQ(detail["models"].size(), 1u);
+    EXPECT_EQ(detail["models"][0]["model_id"], "detail");
+}
+
+// ============================================================
+// Phase 10: Batch Processor Tests
+// ============================================================
+
+TEST(BatchProcessorPhase10, DefaultConstructor) {
+    VoiceBatchProcessor bp;
+    auto stats = bp.getStatistics();
+    EXPECT_EQ(stats["jobs_submitted"], 0);
+    EXPECT_EQ(stats["items_processed"], 0);
+    EXPECT_EQ(stats["items_failed"], 0);
+}
+
+TEST(BatchProcessorPhase10, ProcessSingleItem) {
+    VoiceBatchProcessor bp;
+    BatchAudioItem item;
+    item.item_id = "item-1";
+    item.audio_data = {0x00, 0x00, 0x10, 0x00, 0x20, 0x00};
+    item.sample_rate = 16000;
+
+    auto result = bp.processItem(item);
+    EXPECT_EQ(result.item_id, "item-1");
+    EXPECT_TRUE(result.success);
+    EXPECT_GE(result.processing_time_ms, 0);
+}
+
+TEST(BatchProcessorPhase10, ProcessBatchSync) {
+    VoiceBatchProcessor bp;
+    std::vector<BatchAudioItem> items;
+    for (int i = 0; i < 5; ++i) {
+        BatchAudioItem item;
+        item.item_id = "item-" + std::to_string(i);
+        item.audio_data = {0x00, 0x01, 0x02, 0x03};
+        items.push_back(item);
+    }
+
+    size_t progress_calls = 0;
+    auto results = bp.processBatchSync(items, [&](const std::string&, size_t, size_t) {
+        ++progress_calls;
+    });
+
+    EXPECT_EQ(results.size(), 5u);
+    for (const auto& r : results) {
+        EXPECT_TRUE(r.success);
+    }
+    EXPECT_GE(progress_calls, 1u);
+}
+
+TEST(BatchProcessorPhase10, ComputeWERPerfect) {
+    VoiceBatchProcessor bp;
+    float wer = bp.computeWER("hello world", "hello world");
+    EXPECT_FLOAT_EQ(wer, 0.0f);
+}
+
+TEST(BatchProcessorPhase10, ComputeWEREmpty) {
+    VoiceBatchProcessor bp;
+    // Empty reference → WER = 0
+    float wer = bp.computeWER("", "something");
+    EXPECT_FLOAT_EQ(wer, 0.0f);
+
+    // Empty hypothesis → all words are deletions
+    float wer2 = bp.computeWER("hello world", "");
+    EXPECT_FLOAT_EQ(wer2, 1.0f);
+}
+
+TEST(BatchProcessorPhase10, ComputeWERPartial) {
+    VoiceBatchProcessor bp;
+    // "hello world test" (3 words) vs "hello world" (2 correct, 1 deletion)
+    float wer = bp.computeWER("hello world test", "hello world");
+    EXPECT_GT(wer, 0.0f);
+    EXPECT_LE(wer, 1.0f);
+}
+
+TEST(BatchProcessorPhase10, ComputeQualityMetrics) {
+    VoiceBatchProcessor bp;
+    // Generate a simple sine-wave-like pattern as PCM int16
+    std::vector<uint8_t> audio;
+    for (int i = 0; i < 1600; ++i) {
+        int16_t sample = static_cast<int16_t>(16000 * std::sin(2.0 * std::numbers::pi * i / 160.0));
+        audio.push_back(static_cast<uint8_t>(sample & 0xFF));
+        audio.push_back(static_cast<uint8_t>((sample >> 8) & 0xFF));
+    }
+
+    auto metrics = bp.computeQualityMetrics(audio, 16000);
+    EXPECT_GT(metrics.rms_energy, 0.0f);
+    EXPECT_GE(metrics.pesq_mos, 1.0f);
+    EXPECT_LE(metrics.pesq_mos, 5.0f);
+    EXPECT_FALSE(metrics.quality_label.empty());
+    EXPECT_GE(metrics.clipping_ratio, 0.0f);
+    EXPECT_LE(metrics.clipping_ratio, 1.0f);
+}
+
+TEST(BatchProcessorPhase10, EstimatePESQ) {
+    VoiceBatchProcessor bp;
+    EXPECT_FLOAT_EQ(bp.estimatePESQ(0.0f),  1.0f);   // SNR 0 → MOS 1.0
+    EXPECT_FLOAT_EQ(bp.estimatePESQ(-10.0f), 1.0f);  // Clamped to 1.0
+    EXPECT_FLOAT_EQ(bp.estimatePESQ(100.0f), 5.0f);  // Clamped to 5.0
+    float pesq_mid = bp.estimatePESQ(28.57f);
+    EXPECT_GE(pesq_mid, 2.9f);
+    EXPECT_LE(pesq_mid, 3.1f);
+}
+
+TEST(BatchProcessorPhase10, RunLoadTest) {
+    VoiceBatchProcessor bp;
+    BatchAudioItem tmpl;
+    tmpl.item_id = "load";
+    tmpl.audio_data = {0x00, 0x80, 0xFF, 0x7F};
+    tmpl.sample_rate = 16000;
+
+    auto summary = bp.runLoadTest(10, tmpl);
+    EXPECT_EQ(summary.total_items, 10u);
+    EXPECT_EQ(summary.status, BatchJobStatus::COMPLETED);
+    EXPECT_EQ(summary.completed_items, 10u);
+    EXPECT_EQ(summary.failed_items, 0u);
+}
+
+TEST(BatchProcessorPhase10, Statistics) {
+    VoiceBatchProcessor bp;
+    BatchAudioItem item;
+    item.item_id = "stat-item";
+    item.audio_data = {0x01, 0x02, 0x03, 0x04};
+
+    bp.submitBatch({item});
+
+    auto stats = bp.getStatistics();
+    EXPECT_GE(stats["jobs_submitted"].get<uint64_t>(), 1u);
+    EXPECT_GE(stats["items_processed"].get<uint64_t>(), 1u);
+}
+
+TEST(BatchProcessorPhase10, BatchJobStatusToString) {
+    EXPECT_EQ(batchJobStatusToString(BatchJobStatus::PENDING),   "pending");
+    EXPECT_EQ(batchJobStatusToString(BatchJobStatus::RUNNING),   "running");
+    EXPECT_EQ(batchJobStatusToString(BatchJobStatus::COMPLETED), "completed");
+    EXPECT_EQ(batchJobStatusToString(BatchJobStatus::FAILED),    "failed");
+}
+
+TEST(BatchProcessorPhase10, GetJobSummary) {
+    VoiceBatchProcessor bp;
+    BatchAudioItem item;
+    item.item_id = "summary-item";
+    item.audio_data = {0xAA, 0xBB};
+
+    std::string job_id = bp.submitBatch({item});
+    auto summary = bp.getJobSummary(job_id);
+
+    EXPECT_EQ(summary.job_id, job_id);
+    EXPECT_EQ(summary.status, BatchJobStatus::COMPLETED);
+    EXPECT_EQ(summary.total_items, 1u);
+    EXPECT_EQ(summary.completed_items, 1u);
+}
+
+TEST(BatchProcessorPhase10, EstimateSNR) {
+    VoiceBatchProcessor bp;
+    // All-zeros should not crash; SNR = 0
+    std::vector<uint8_t> silence(3200, 0x00);
+    float snr = bp.estimateSNR(silence, 16000);
+    EXPECT_FLOAT_EQ(snr, 0.0f);
+
+    // Signal with non-zero samples
+    std::vector<uint8_t> signal;
+    for (int i = 0; i < 3200; i += 2) {
+        int16_t s = static_cast<int16_t>(8000);
+        signal.push_back(s & 0xFF);
+        signal.push_back((s >> 8) & 0xFF);
+    }
+    float snr2 = bp.estimateSNR(signal, 16000);
+    EXPECT_GE(snr2, 0.0f);
+}

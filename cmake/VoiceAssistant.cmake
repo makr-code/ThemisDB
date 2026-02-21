@@ -14,5 +14,8 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_tts_customizer.cpp
         ../src/voice/voice_meeting_support.cpp
         ../src/voice/voice_audio_storage.cpp
+        ../src/voice/voice_accessibility.cpp
+        ../src/voice/voice_model_cache.cpp
+        ../src/voice/voice_batch_processor.cpp
     )
 endif()
