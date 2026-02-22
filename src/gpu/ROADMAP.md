@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, and ROCm/HIP backend parity are implemented. Multi-node GPU coordination and memory defragmentation are still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, and memory defragmentation are implemented. Multi-node GPU coordination is still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -28,7 +28,6 @@
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 
 ## In Progress 🚧
-- [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #2191)
 - [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
 
 ## Planned Features 📋
@@ -69,7 +68,7 @@
 
 ### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
-- [~] GPU memory defragmentation routine (Target: Q2 2026)
+- [x] GPU memory defragmentation routine (Target: Q2 2026)
 - [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
@@ -89,7 +88,6 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
-- GPU memory defragmentation is not yet implemented; long-running instances may fragment VRAM
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is not yet implemented
 - MIG partitioning is not yet supported

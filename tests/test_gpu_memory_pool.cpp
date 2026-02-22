@@ -271,3 +271,143 @@ TEST(GPUMemoryPoolZeroOnFreeTest, MultipleReleases_AccumulatesCount) {
     pool.release(o2);
     EXPECT_EQ(pool.getStats().zeroed_slabs, 2u);
 }
+
+// ===========================================================================
+// Internal fragmentation tracking fix (request_size per slab)
+// ===========================================================================
+
+TEST(GPUMemoryPoolFragTest, Release_DecrementsWastedBytes) {
+    // When a slab is freed, the internal-fragmentation (wasted) bytes it
+    // contributed must be subtracted so fragmentation drops back to 0.
+    const uint64_t slab = 256 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t offset = 0;
+    // Allocate half the slab — wastes slab/2 bytes.
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "frag_test", offset));
+    EXPECT_GT(pool.fragmentation(), 0.0f);
+
+    // After release the pool is empty; fragmentation must be 0.
+    EXPECT_TRUE(pool.release(offset));
+    EXPECT_FLOAT_EQ(pool.fragmentation(), 0.0f);
+}
+
+TEST(GPUMemoryPoolFragTest, ExactSizeRequest_ZeroFragmentation) {
+    const uint64_t slab = 64 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "exact", o));
+    EXPECT_FLOAT_EQ(pool.fragmentation(), 0.0f);
+}
+
+// ===========================================================================
+// Defragmentation tests
+// ===========================================================================
+
+TEST(GPUMemoryPoolDefragTest, NoAction_BelowThreshold) {
+    const uint64_t slab = 256 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    // Allocate exactly a slab — internal fragmentation is zero.
+    uint64_t o = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "full", o));
+
+    // Fragmentation is 0, threshold is 0.05 → defrag should not run.
+    auto result = pool.defragment(0.05f);
+    EXPECT_FALSE(result.ran);
+    EXPECT_EQ(result.slabs_moved, 0u);
+}
+
+TEST(GPUMemoryPoolDefragTest, Runs_WhenFragAboveThreshold) {
+    const uint64_t slab = 256 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    // Allocate slabs with half-size requests — each wastes slab/2 bytes.
+    uint64_t o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "a", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "b", o2));
+
+    const float frag_before = pool.fragmentation();
+    EXPECT_GT(frag_before, 0.0f);
+    // wasted = 2*(slab - slab/2) = slab; total = 4*slab → 0.25
+    EXPECT_NEAR(frag_before, 0.25f, 1e-5f);
+
+    // Threshold of 0.0f runs whenever fragmentation > 0 (true here since
+    // requests are half the slab size).
+    auto result = pool.defragment(0.0f);
+    EXPECT_TRUE(result.ran);
+    EXPECT_FLOAT_EQ(result.frag_before, frag_before);
+    // After defrag with identical allocations, internal frag is unchanged in
+    // value but wasted_bytes_ is freshly calculated from request_size fields.
+    EXPECT_FLOAT_EQ(result.frag_after, frag_before);
+}
+
+TEST(GPUMemoryPoolDefragTest, CompactsOccupiedSlabsToFront) {
+    const uint64_t slab = 64 * 1024;
+    // 4 slabs: allocate 0,1,2 with half-slab requests (creates fragmentation),
+    // free slot 1 → hole at offset slab, then defrag.
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o0 = 0, o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s0", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s1", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s2", o2));
+    ASSERT_TRUE(pool.release(o1));   // free the middle slab
+
+    // Before defrag the occupied slabs are at offsets 0 and 2*slab with a gap.
+    // Fragmentation > 0 because request_size < slab_size.
+    auto result = pool.defragment(0.0f);
+    EXPECT_TRUE(result.ran);
+
+    // After defrag all occupied slabs must start at a contiguous range [0, 2*slab).
+    const auto snap = pool.slabSnapshot();
+    uint64_t max_occupied_offset = 0;
+    size_t occupied_count = 0;
+    for (const auto& s : snap) {
+        if (!s.is_free) {
+            max_occupied_offset = std::max(max_occupied_offset, s.offset);
+            ++occupied_count;
+        }
+    }
+    EXPECT_EQ(occupied_count, 2u);
+    // Two occupied slabs must fit in the first 2*slab bytes.
+    EXPECT_LT(max_occupied_offset, 2 * slab);
+}
+
+TEST(GPUMemoryPoolDefragTest, FreeSlabsRemainUsableAfterDefrag) {
+    const uint64_t slab = 64 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o0 = 0, o1 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "a", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab, "b", o1));
+    pool.release(o0);  // free first slab, creating a hole
+
+    pool.defragment(0.0f);
+
+    // Pool must still have 3 free slabs and accept new allocations.
+    EXPECT_EQ(pool.freeSlabs(), 3u);
+    uint64_t new_off = 0;
+    EXPECT_TRUE(pool.tryAcquire(slab, "new", new_off));
+}
+
+TEST(GPUMemoryPoolDefragTest, FragmentationDropsToZero_WhenAllExact) {
+    const uint64_t slab = 64 * 1024;
+    // Use half-slab requests to create internal fragmentation, then free
+    // all but one and verify defrag recomputes wasted_bytes_ correctly.
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o0 = 0, o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "x0", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "x1", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab,     "x2", o2));  // exact — no waste
+
+    // Release the two half-slab allocations.
+    pool.release(o0);
+    pool.release(o1);
+
+    // Only x2 (exact size) remains; wasted_bytes_ must be 0.
+    pool.defragment(0.0f);
+    EXPECT_FLOAT_EQ(pool.fragmentation(), 0.0f);
+}
