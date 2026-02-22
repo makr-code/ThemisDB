@@ -21,8 +21,8 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ## In Progress 🚧
 - [I] PDF and DOCX binary format ingestion via external converters (Target: Q2 2026) (Issue: #1889)
-- [I] Cursor-based pagination support alongside offset/limit (Target: Q2 2026) (Issue: #1903)
-- [!] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2100)
+- [!] Cursor-based pagination support alongside offset/limit (Target: Q2 2026) (Issue: #2409)
+- [!] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2408)
 
 ## Planned Features 📋
 
@@ -35,7 +35,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ### Long-term (6-12 months)
 - [I] Distributed ingestion coordinator across nodes (Issue: #1897)
-- [I] Change-data-capture (CDC) source for live database streams (Issue: #1907)
+- [!] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [I] Plugin API for third-party source connectors (Issue: #1908)
 - [I] Dynamic source reconfiguration without restart (Issue: #1900)
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)

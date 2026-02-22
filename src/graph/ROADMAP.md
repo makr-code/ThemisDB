@@ -19,15 +19,15 @@
 
 ## In Progress 🚧
 - [I] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
-- [I] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #1834)
-- [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2094)
+- [!] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #2394)
+- [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2386)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-- [I] Subgraph isomorphism queries (pattern matching) (Issue: #1824)
+- [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
