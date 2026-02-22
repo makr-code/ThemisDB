@@ -20,9 +20,9 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Dependency tracking for complex migrations
 - [x] Update scheduling and notification system
 - [x] Delta (binary diff) updates to reduce download size (PR: #2488)
+- [x] Canary rollout mode (update a fraction of nodes first) (PR: #2587)
 
 ## In Progress 🚧
-- [x] Canary rollout mode (update a fraction of nodes first) (Target: Q2 2026) (Issue: #2489)
 - [!] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026) (Issue: #2490)
 
 ## Planned Features 📋

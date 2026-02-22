@@ -190,7 +190,8 @@ TEST_F(PIIDetectorTest, ClassifyFieldName) {
     EXPECT_EQ(detector_.classifyFieldName("ssn"), PIIType::SSN);
     EXPECT_EQ(detector_.classifyFieldName("credit_card"), PIIType::CREDIT_CARD);
     EXPECT_EQ(detector_.classifyFieldName("iban"), PIIType::IBAN);
-    EXPECT_EQ(detector_.classifyFieldName("name"), PIIType::UNKNOWN);
+    // "name" is recognized as PERSON_NAME by the NER engine (active by default)
+    EXPECT_EQ(detector_.classifyFieldName("name"), PIIType::PERSON_NAME);
 }
 
 TEST_F(PIIDetectorTest, RedactionRecommendation) {
