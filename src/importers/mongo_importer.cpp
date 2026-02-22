@@ -150,15 +150,16 @@ ImportStats MongoDBImporter::importData(
     {
         char c = '\0';
         while (peek_file.get(c)) {
-            if (c != ' ' && c != '\t' && c != '\r' && c != '\n' && c != '#') {
-                // Skip comment lines
-                if (c == '#') {
-                    while (peek_file.get(c) && c != '\n') { /* skip */ }
-                    continue;
-                }
-                first_char = c;
-                break;
+            if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+                continue;  // skip whitespace
             }
+            if (c == '#') {
+                // Skip comment line (non-standard but tolerated)
+                while (peek_file.get(c) && c != '\n') { /* discard */ }
+                continue;
+            }
+            first_char = c;
+            break;
         }
     }
     peek_file.close();
@@ -404,6 +405,7 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
             stats.warnings.push_back("Document skipped: line too large at index " +
                                      std::to_string(doc_index));
             stats.failed_records++;
+            doc_index++;  // keep index in sync even when skipping
             if (!options.continue_on_error) return false;
             continue;
         }
@@ -498,6 +500,8 @@ bool MongoDBImporter::importDocument(const json& doc,
                                      const ImportOptions& options,
                                      ImportStats& stats,
                                      size_t doc_index) {
+    auto t0 = std::chrono::steady_clock::now();
+
     if (!doc.is_object()) {
         addError(stats, ImportErrorCode::PARSE_INSERT, ImportErrorSeverity::WARNING,
                  "Document is not a JSON object; skipped",
@@ -554,7 +558,6 @@ bool MongoDBImporter::importDocument(const json& doc,
     emitMetric(options, "themisdb_import_rows_total",
                {{"collection", collection}, {"status", "imported"}}, 1.0);
 
-    auto t0 = std::chrono::steady_clock::now();
     double dur = std::chrono::duration<double>(
         std::chrono::steady_clock::now() - t0).count();
     emitSpan(options, "insert_batch", {{"collection", collection}}, dur);

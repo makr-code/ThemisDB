@@ -1101,3 +1101,114 @@ TEST(MongoEdgeCases, DeepNestedBson) {
     EXPECT_EQ(entity["level1"]["level2"]["_id"].get<std::string>(),
               "deadbeefdeadbeefdeadbeef");
 }
+
+// ===========================================================================
+// Tests: Bug-fix regression tests
+// ===========================================================================
+
+/// Mimic the fixed peek-loop format detection from importData.
+/// Returns '[' if first non-whitespace non-comment char is '[', else '{' (or '\0').
+static char peekFirstChar(const std::string& content) {
+    std::istringstream ss(content);
+    char c = '\0';
+    while (ss.get(c)) {
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        if (c == '#') {
+            while (ss.get(c) && c != '\n') { /* skip comment line */ }
+            continue;
+        }
+        return c;
+    }
+    return '\0';
+}
+
+// Bug 1: Comment-line before '[' must be detected as JSON array, not NDJSON
+TEST(MongoBugFix, CommentBeforeArrayDetectedAsArray) {
+    std::string content = "# exported by mongoexport\n[{\"name\":\"Alice\"}]\n";
+    EXPECT_EQ(peekFirstChar(content), '[');
+}
+
+TEST(MongoBugFix, CommentBeforeObjectDetectedAsNdjson) {
+    std::string content = "# line 1\n# line 2\n{\"name\":\"Alice\"}\n";
+    EXPECT_EQ(peekFirstChar(content), '{');
+}
+
+TEST(MongoBugFix, MultipleCommentLinesBeforeArray) {
+    std::string content = "# comment 1\n# comment 2\n# comment 3\n[{\"a\":1}]\n";
+    EXPECT_EQ(peekFirstChar(content), '[');
+}
+
+TEST(MongoBugFix, WhitespaceOnlyLinesBeforeFirstChar) {
+    std::string content = "\n  \n\t\n[{\"x\":1}]\n";
+    EXPECT_EQ(peekFirstChar(content), '[');
+}
+
+// Bug 2: doc_index must be incremented even when a line is too large
+TEST(MongoBugFix, DocIndexSyncAfterOversizedLine) {
+    // 3 docs: first normal, second oversized, third normal.
+    // The error for the third doc should say "document 3" not "document 2".
+    std::string long_val(200, 'x');  // 200 chars ensures the line exceeds 50 bytes
+    std::string content =
+        R"({"name":"Alice"})" "\n"
+        + ("{\"name\":\"" + long_val + "\"}") + "\n"
+        + R"({"name":"Carol"})";
+
+    ImportOptions opts;
+    opts.max_row_size_bytes = 50;  // 50-byte limit; second line will exceed it
+
+    auto stats = importJsonLines(content, "users", opts);
+    EXPECT_EQ(stats.imported_records, 2u);  // Alice + Carol
+    EXPECT_EQ(stats.failed_records,   1u);  // second oversized line
+
+    // The oversized error should reference document 2, not 1
+    bool found_doc2_error = false;
+    for (const auto& e : stats.structured_errors) {
+        if (e.code == ImportErrorCode::ROW_TOO_LARGE &&
+            e.location.find("document 2") != std::string::npos) {
+            found_doc2_error = true;
+        }
+    }
+    EXPECT_TRUE(found_doc2_error) << "Expected ROW_TOO_LARGE error referencing 'document 2'";
+}
+
+// ===========================================================================
+// Tests: Sample fixture file integration
+// ===========================================================================
+
+TEST(MongoFixture, SampleMongoJsonIsValid) {
+    // Verify the fixture file exists and passes basic format validation
+    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    ASSERT_TRUE(looksLikeMongoExport(path))
+        << "Fixture file must start with a JSON object or array";
+}
+
+TEST(MongoFixture, SampleMongoJsonImportsCorrectly) {
+    std::string path = "tests/fixtures/importers/sample_mongo.json";
+    std::ifstream f(path);
+    if (!f) GTEST_SKIP() << "Fixture not found at " << path;
+
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    ImportOptions opts;
+    auto stats = importJsonLines(content, "users", opts);
+
+    EXPECT_EQ(stats.imported_records, 5u);
+    EXPECT_EQ(stats.failed_records,   0u);
+    EXPECT_EQ(stats.tables_processed, 1u);
+}
+
+TEST(MongoFixture, SampleMongoJsonBsonUnwrap) {
+    // Parse one line from the fixture and verify BSON unwrapping
+    json doc = json::parse(
+        R"({"_id":{"$oid":"507f1f77bcf86cd799439011"},"name":"Alice","score":{"$numberDecimal":"98.50"},"created_at":{"$date":"2024-01-15T08:00:00.000Z"},"active":true})"
+    );
+    json entity = unwrapDocument(doc);
+    entity["_type"] = "users";
+
+    EXPECT_EQ(entity["_id"].get<std::string>(),          "507f1f77bcf86cd799439011");
+    EXPECT_EQ(entity["name"].get<std::string>(),          "Alice");
+    EXPECT_EQ(entity["score"].get<std::string>(),         "98.50");
+    EXPECT_EQ(entity["created_at"].get<std::string>(),    "2024-01-15T08:00:00.000Z");
+    EXPECT_TRUE(entity["active"].get<bool>());
+    EXPECT_EQ(entity["_type"].get<std::string>(),         "users");
+}

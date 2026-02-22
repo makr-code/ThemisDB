@@ -166,7 +166,8 @@ jobs:
             tests/fixtures/importers/sample_pg12.sql \
             tests/fixtures/importers/sample_pg14.sql \
             tests/fixtures/importers/sample_pg15.sql \
-            tests/fixtures/importers/sample_pg16.sql; do
+            tests/fixtures/importers/sample_pg16.sql \
+            tests/fixtures/importers/sample_mongo.json; do
             if [ ! -f "$f" ]; then
               echo "MISSING: $f" >&2
               exit 1
