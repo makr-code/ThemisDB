@@ -22,6 +22,9 @@
 
 #include "network/wire_protocol_server.h"
 #include "network/wire_protocol_helpers.h"
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#  include "network/wire_protocol_websocket.h"
+#endif
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
@@ -280,6 +283,14 @@ void WireProtocolServer::Session::start() {
     }
     
     startTimeout(std::chrono::seconds(server_->config_.request_timeout_sec));
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    if (server_->config_.enable_websocket_upgrade) {
+        asyncDetectProtocol();
+        return;
+    }
+#endif
+
     asyncReadHeader();
 }
 
@@ -346,6 +357,140 @@ void WireProtocolServer::Session::asyncReadHeader() {
             }
         });
 }
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+// ---------------------------------------------------------------------------
+// WebSocket upgrade detection
+// ---------------------------------------------------------------------------
+
+// Step 1: read first 4 bytes to detect "GET " (HTTP) vs binary magic ("TMDB")
+void WireProtocolServer::Session::asyncDetectProtocol() {
+    auto self = shared_from_this();
+    // Reuse the first 4 bytes of header_buffer_ as the peek buffer
+    net::async_read(
+        socket_,
+        net::buffer(header_buffer_.data(), 4),
+        [this, self](const boost::system::error_code& ec, std::size_t bytes_read) {
+            if (ec || bytes_read != 4) {
+                handleError("asyncDetectProtocol", ec);
+                return;
+            }
+
+            // HTTP upgrade requests start with "GET " (0x47 0x45 0x54 0x20)
+            const bool is_http_get =
+                header_buffer_[0] == 'G' &&
+                header_buffer_[1] == 'E' &&
+                header_buffer_[2] == 'T' &&
+                header_buffer_[3] == ' ';
+
+            if (is_http_get) {
+                // Read the rest of the HTTP request and upgrade to WebSocket
+                std::array<uint8_t, 4> first_bytes;
+                std::copy(header_buffer_.begin(), header_buffer_.begin() + 4,
+                          first_bytes.begin());
+                asyncUpgradeToWebSocket(first_bytes);
+            } else {
+                // Binary wire protocol: already have first 4 bytes in header_buffer_,
+                // read the remaining 8 bytes to complete the 12-byte frame header.
+                asyncReadRemainingHeader();
+            }
+        });
+}
+
+// Step 2a (binary): read remaining 8 header bytes after the first 4 were peeked
+void WireProtocolServer::Session::asyncReadRemainingHeader() {
+    auto self = shared_from_this();
+    // header_buffer_[0..3] already filled; read bytes [4..11]
+    net::async_read(
+        socket_,
+        net::buffer(header_buffer_.data() + 4, 8),
+        [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
+            if (!ec) {
+                // Same logic as asyncReadHeader callback
+                uint16_t flags = 0;
+                std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
+                flags = ntohs(flags);
+                current_flags_ = flags;
+
+                uint32_t payload_size = 0;
+                std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
+                payload_size = ntohl(payload_size);
+
+                if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                    sendError(0x0001, "Payload size exceeds maximum allowed");
+                    asyncReadHeader();
+                    return;
+                }
+
+                asyncReadPayload(payload_size);
+            } else {
+                handleError("asyncReadRemainingHeader", ec);
+            }
+        });
+}
+
+// Step 2b (WebSocket): read the complete HTTP request and hand off to WS session
+void WireProtocolServer::Session::asyncUpgradeToWebSocket(
+    const std::array<uint8_t, 4>& first_bytes)
+{
+    // Read the remaining HTTP request lines.
+    // We reuse a Beast flat_buffer to accumulate the data.
+    // The first 4 bytes ("GET ") are pre-pended so Beast can parse the full request.
+    auto self = shared_from_this();
+
+    // Buffer must outlive the async operation – allocate on heap
+    auto buf  = std::make_shared<beast::flat_buffer>();
+    auto req  = std::make_shared<http_ws::request<http_ws::string_body>>();
+
+    // Seed the buffer with the 4 bytes we already consumed from the socket
+    {
+        auto mutable_buf = buf->prepare(4);
+        net::buffer_copy(mutable_buf, net::buffer(first_bytes.data(), 4));
+        buf->commit(4);
+    }
+
+    // Async-read the rest of the HTTP request
+    http_ws::async_read(
+        socket_,
+        *buf,
+        *req,
+        [this, self, buf, req](const boost::system::error_code& ec, std::size_t /*bytes*/) {
+            if (ec) {
+                handleError("asyncUpgradeToWebSocket", ec);
+                return;
+            }
+
+            // Verify this is actually a WebSocket upgrade request
+            if (!websocket::is_upgrade(*req)) {
+                // Not a WebSocket upgrade; reject gracefully
+                http_ws::response<http_ws::string_body> resp{
+                    http_ws::status::bad_request, req->version()};
+                resp.set(http_ws::field::content_type, "text/plain");
+                resp.body() = "ThemisDB wire protocol port: expected WebSocket "
+                              "Upgrade or binary wire-protocol frame\r\n";
+                resp.prepare_payload();
+                http_ws::write(socket_, resp);
+                close();
+                return;
+            }
+
+            // Cancel the connection-level timeout (WebSocket manages its own)
+            cancelTimeout();
+
+            // Create a WebSocket session and transfer ownership of the socket
+            auto ws_session = std::make_shared<WireProtocolWebSocketSession>(
+                std::move(socket_), server_);
+
+            // The binary Session no longer owns the socket; clean up tracking
+            {
+                std::lock_guard<std::mutex> lock(server_->connections_mutex_);
+                server_->active_sessions_.erase(client_ip_);
+            }
+
+            ws_session->run(std::move(*req));
+        });
+}
+#endif // THEMIS_ENABLE_WEBSOCKET
 
 void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {

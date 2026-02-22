@@ -21,7 +21,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Prometheus metrics for connection and request statistics
 
 ## In Progress 🚧
-- [I] WebSocket upgrade support on wire protocol port (Target: Q2 2026) (Issue: #2209)
+- [P] WebSocket upgrade support on wire protocol port (Target: Q2 2026) (Issue: #2209)
 - [I] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962)
 - [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
 
@@ -58,7 +58,11 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Prometheus metrics for connection and request statistics
 
 ### Phase 2: Alternative Transports (Status: In Progress 🚧)
-- [~] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
+- [x] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
+  - Protocol detection: HTTP "GET " prefix vs binary "TMDB" magic on port 8766
+  - `WireProtocolWebSocketSession` (include/network/wire_protocol_websocket.h)
+  - JSON text-frame messages: ping, get, put, delete, query
+  - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
 - [ ] UDP-based fast-path for read-only queries (Target: Q3 2026)
 - [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
@@ -79,7 +83,10 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- WebSocket and UDP transports are not yet implemented.
+- WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
+  dispatched (clients receive a structured error and should use text/JSON frames or
+  the native TCP binary connection).
+- UDP and QUIC transports are not yet implemented.
 - gRPC server is handled by the server module; this module provides only the binary wire protocol.
 - Service mesh integration is a future enhancement.
 
