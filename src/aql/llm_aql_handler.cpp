@@ -391,6 +391,9 @@ std::string LLMAQLHandler::executeInferStreaming(
     const std::string& lora_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+
     try {
         // Input validation (same as executeInfer)
         LLMValidator::validatePrompt(prompt);
@@ -433,16 +436,62 @@ std::string LLMAQLHandler::executeInferStreaming(
         auto response = plugin_mgr.generate(request);
 
         impl_->circuit_breaker_.recordSuccess();
-        spdlog::debug("LLM INFER STREAMING completed: model={}", model_id);
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        size_t input_tokens  = Impl::estimateTokenCount(prompt);
+        size_t output_tokens = Impl::estimateTokenCount(response.text);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+
+        spdlog::debug("LLM INFER STREAMING completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",
+            model_id, latency.count(), input_tokens, output_tokens);
 
         return response.text;
 
     } catch (const LLMException& e) {
         impl_->circuit_breaker_.recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            Impl::estimateTokenCount(prompt),
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+
         spdlog::error("LLM INFER STREAMING failed: model={}, error={}", model_id, e.what());
         throw;
     } catch (const std::exception& e) {
         impl_->circuit_breaker_.recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            Impl::estimateTokenCount(prompt),
+            0,
+            false,
+            "INFERENCE_FAILED"
+        );
+
         throw LLMException(LLMErrorCode::INFERENCE_FAILED,
             std::string("Streaming inference failed: ") + e.what());
     }
@@ -1055,6 +1104,10 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(
 
         return aql_query;
 
+    } catch (const LLMException&) {
+        // Re-throw LLMException (e.g. PROMPT_INJECTION, PROMPT_TOO_LONG) unchanged so
+        // callers can distinguish security-related failures from generic errors.
+        throw;
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("NL to AQL streaming translation failed: ") + e.what()
