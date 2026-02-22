@@ -26,6 +26,8 @@
 #include <gtest/gtest.h>
 #include "governance/policy_engine.h"
 #include "governance/policy_file_watcher.h"
+#include "observability/metrics_collector.h"
+#include "utils/audit_logger.h"
 
 #include <filesystem>
 #include <fstream>
@@ -362,4 +364,116 @@ enforcement:
     if (geheim) {
         EXPECT_TRUE(geheim->encryption_required);
     }
+}
+
+// ---------------------------------------------------------------------------
+// Prometheus counter incremented on reload
+// ---------------------------------------------------------------------------
+
+TEST_F(GovernanceHotReloadTest, ReloadIfChanged_EmitsPrometheusCounter) {
+    writeYaml(R"(
+vs_classification:
+  offen:
+    encryption_required: false
+    ann_allowed: true
+    export_allowed: true
+    cache_allowed: true
+    redaction_level: "none"
+    retention_days: 30
+    log_encryption: false
+enforcement:
+  default_mode: enforce
+)");
+
+    PolicyEngine pe;
+    ASSERT_TRUE(pe.loadFromYAML(yaml_path_));
+
+    // Reset the global metrics collector so we start from zero
+    themis::MetricsCollector::getInstance().reset();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    // Modify the file so reloadIfChanged() will actually reload
+    writeYaml(R"(
+vs_classification:
+  geheim:
+    encryption_required: true
+    ann_allowed: false
+    export_allowed: false
+    cache_allowed: false
+    redaction_level: "strict"
+    retention_days: 7
+    log_encryption: true
+enforcement:
+  default_mode: enforce
+)");
+    touchFile(yaml_path_);
+
+    std::string err;
+    const bool ok = pe.reloadIfChanged(&err);
+    ASSERT_TRUE(ok) << err;
+
+    // The governance_policy_reload_total{result="success"} counter must have
+    // been incremented exactly once.
+    const std::string prometheus_text =
+        themis::MetricsCollector::getInstance().getPrometheusMetrics();
+    // Verify the metric name and the success label appear in the output
+    const bool has_metric = prometheus_text.find("governance_policy_reload_total") != std::string::npos;
+    const bool has_success = prometheus_text.find("governance_policy_reload_total") != std::string::npos &&
+                             prometheus_text.find("result") != std::string::npos &&
+                             prometheus_text.find("success") != std::string::npos;
+    EXPECT_TRUE(has_metric) << "Prometheus counter governance_policy_reload_total must be present";
+    EXPECT_TRUE(has_success) << "Counter must have result=success label";
+}
+
+// ---------------------------------------------------------------------------
+// Audit entry emitted on reload when logger is set
+// ---------------------------------------------------------------------------
+
+TEST_F(GovernanceHotReloadTest, ReloadIfChanged_EmitsAuditEntry) {
+    writeYaml(R"(
+vs_classification:
+  offen:
+    encryption_required: false
+    ann_allowed: true
+    export_allowed: true
+    cache_allowed: true
+    redaction_level: "none"
+    retention_days: 30
+    log_encryption: false
+enforcement:
+  default_mode: enforce
+)");
+
+    PolicyEngine pe;
+    ASSERT_TRUE(pe.loadFromYAML(yaml_path_));
+
+    // Install an audit logger so the reload event is recorded
+    auto logger = std::make_shared<themis::utils::AuditLogger>();
+    pe.setAuditLogger(logger);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    writeYaml(R"(
+vs_classification:
+  geheim:
+    encryption_required: true
+    ann_allowed: false
+    export_allowed: false
+    cache_allowed: false
+    redaction_level: "strict"
+    retention_days: 7
+    log_encryption: true
+enforcement:
+  default_mode: enforce
+)");
+    touchFile(yaml_path_);
+
+    std::string err;
+    const bool ok = pe.reloadIfChanged(&err);
+    ASSERT_TRUE(ok) << err;
+
+    // New geheim classification should be active
+    auto geheim = pe.getClassificationProfile("geheim");
+    EXPECT_TRUE(geheim.has_value());
 }

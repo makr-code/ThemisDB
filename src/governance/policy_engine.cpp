@@ -20,6 +20,7 @@
 #include "governance/policy_engine.h"
 #include "utils/logger.h"
 #include "utils/audit_logger.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <fstream>
@@ -128,10 +129,12 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     // Read state under the lock then release before touching the filesystem
     std::string path;
     std::filesystem::file_time_type last_mtime;
+    std::shared_ptr<themis::utils::AuditLogger> audit_log;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         path       = loaded_yaml_path_;
         last_mtime = last_loaded_mtime_;
+        audit_log  = audit_logger_;
     }
 
     if (path.empty()) {
@@ -144,6 +147,8 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
         current_mtime = std::filesystem::last_write_time(path);
     } catch (const std::exception& e) {
         if (err) *err = std::string("stat failed: ") + e.what();
+        themis::MetricsCollector::getInstance().addCounter(
+            "governance_policy_reload_total", 1, {{"result", "failure"}});
         return false;
     }
 
@@ -151,9 +156,39 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
         return true;  // File unchanged – fast no-op
     }
 
+    // Compute a version identifier from the file mtime for the audit trail.
+    // We use the raw file_clock tick count as an opaque version hash; this is
+    // portable across C++17/20 without requiring clock_cast.
+    const int64_t old_version = static_cast<int64_t>(last_mtime.time_since_epoch().count());
+    const int64_t new_version = static_cast<int64_t>(current_mtime.time_since_epoch().count());
+
     // File has changed – reload atomically
     THEMIS_INFO("PolicyEngine: governance policy file changed, reloading: {}", path);
-    return loadFromYAML(path);
+    const bool ok = loadFromYAML(path);
+
+    // Emit Prometheus counter per spec (governance_policy_reload_total)
+    themis::MetricsCollector::getInstance().addCounter(
+        "governance_policy_reload_total", 1,
+        {{"result", ok ? "success" : "failure"}});
+
+    // Write audit entry with old and new policy version hashes
+    if (audit_log) {
+        nlohmann::json audit_event = {
+            {"event_type",      "policy_reload"},
+            {"file",            path},
+            {"old_version",     old_version},
+            {"new_version",     new_version},
+            {"result",          ok ? "success" : "failure"},
+            {"timestamp",       std::chrono::duration_cast<std::chrono::milliseconds>(
+                                    std::chrono::system_clock::now().time_since_epoch()).count()}
+        };
+        if (!ok && err && !err->empty()) {
+            audit_event["error"] = *err;
+        }
+        audit_log->logEvent(audit_event);
+    }
+
+    return ok;
 }
 
 std::string PolicyEngine::getLoadedFilePath() const {
