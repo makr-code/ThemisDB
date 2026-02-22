@@ -12,6 +12,8 @@ on:
       - 'src/server/import_api_handler.cpp'
       - 'tests/test_postgres_importer*.cpp'
       - 'tests/test_importer_async_api.cpp'
+      - 'tests/test_mysql_importer.cpp'
+      - 'tests/test_mongo_importer.cpp'
       - 'tests/fixtures/importers/**'
       - 'tools/import_cli.cpp'
       - 'docs/importers_roadmap.md'
@@ -25,6 +27,8 @@ on:
       - 'src/server/import_api_handler.cpp'
       - 'tests/test_postgres_importer*.cpp'
       - 'tests/test_importer_async_api.cpp'
+      - 'tests/test_mysql_importer.cpp'
+      - 'tests/test_mongo_importer.cpp'
       - 'tests/fixtures/importers/**'
       - 'tools/import_cli.cpp'
       - 'docs/importers_roadmap.md'
@@ -115,7 +119,7 @@ jobs:
         run: |
           cd build
           ./tests/themis_tests \
-            --gtest_filter="*Importer*:*Import*:*SplitTopLevelCommas*:*FindMatchingParen*:*SpanCallback*:*Pg16Fixture*:*RealDdlSplit*:*FuzzStyle*:*ImportHandle*:*ImportJobRegistry*:*AsyncImport*:*ImportMetrics*:*ImportApiHandler*:*ImportStats*:*SpanOperation*" \
+            --gtest_filter="*Importer*:*Import*:*SplitTopLevelCommas*:*FindMatchingParen*:*SpanCallback*:*Pg16Fixture*:*RealDdlSplit*:*FuzzStyle*:*ImportHandle*:*ImportJobRegistry*:*AsyncImport*:*ImportMetrics*:*ImportApiHandler*:*ImportStats*:*SpanOperation*:*Mongo*:*MongoBson*" \
             --gtest_output="xml:importer_test_results.xml" \
             2>&1 | tee importer_test_output.txt
 
