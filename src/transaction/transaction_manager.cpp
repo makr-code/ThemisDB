@@ -1416,8 +1416,6 @@ void TransactionManager::timeoutExpiredTransactions() {
     }
 }
 
-} // namespace themis
-
 // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
 
 void TransactionManager::enableCrashRecovery(const std::string& wal_path,

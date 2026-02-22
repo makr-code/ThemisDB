@@ -25,6 +25,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <atomic>
 #include <chrono>
 #include <vector>
 #include <memory>
@@ -217,10 +218,20 @@ public:
                                  double duration_ms);
     void recordContextLockWait(const std::string& model_id, double wait_time_ms);
     void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
-    
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    // llm_worker_pool_queue_depth  : gauge   — current pending-task depth
+    // llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+    void recordWorkerPoolQueueDepth(size_t depth);
+    void recordWorkerPoolTasksCompleted(uint64_t total_completed);
+
 private:
     PrometheusExporter* exporter_;
     Config config_;
+
+    // Last absolute value reported by recordWorkerPoolTasksCompleted().
+    // Used to compute the delta for the Prometheus counter increment.
+    std::atomic<uint64_t> last_pool_tasks_completed_{0};
 
     void initializeMetrics();
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics

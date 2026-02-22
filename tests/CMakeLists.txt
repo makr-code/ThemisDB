@@ -102,6 +102,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_real_embeddings\\.cpp$"
         ".*test_adaptive_query_cache\\.cpp$"
         ".*test_streaming_handler\\.cpp$"
+        ".*test_shared_worker_pool\\.cpp$"
     )
 endif()
 
@@ -142,6 +143,12 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_lora_data_selection\\.cpp$"
         ".*test_training_pipeline_e2e\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_WEBSOCKET)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_wire_protocol_websocket\\.cpp$"
     )
 endif()
 

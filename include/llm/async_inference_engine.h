@@ -24,6 +24,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/shared_worker_pool.h"
 #include <thread>
 #include <algorithm>
 #include <vector>
@@ -126,6 +127,24 @@ public:
      */
     AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config);
     AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config);
+
+    /**
+     * @brief Create async inference engine backed by a shared worker pool.
+     *
+     * When @p pool is non-null the engine does NOT start its own worker
+     * threads; instead, each inference request is submitted directly to the
+     * shared pool.  This allows AsyncInferenceEngine and
+     * InferenceEngineEnhanced to share a common set of threads and avoid
+     * competing for CPU cores.
+     *
+     * @param plugin LLM plugin to use for inference.
+     * @param config Engine configuration.
+     * @param pool   Shared thread pool; must outlive this engine.
+     */
+    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config,
+                         std::shared_ptr<SharedWorkerPool> pool);
+    AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config,
+                         std::shared_ptr<SharedWorkerPool> pool);
     
     ~AsyncInferenceEngine();
     
@@ -217,7 +236,10 @@ private:
     Config config_;
     ILLMPlugin* plugin_;
     std::shared_ptr<ILLMPlugin> owned_plugin_;
-    
+
+    // Optional shared worker pool (nullptr → private workers used instead)
+    std::shared_ptr<SharedWorkerPool> shared_pool_;
+
     // Worker threads
     std::vector<std::thread> workers_;
     std::atomic<bool> running_{true};

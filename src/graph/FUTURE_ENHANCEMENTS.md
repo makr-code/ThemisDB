@@ -2,6 +2,65 @@
 
 ## Planned Features
 
+### Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries) ✅ DONE
+**Priority:** High  
+**Target Version:** v1.7.0
+
+Reuse optimization plans across graph queries that share the same query pattern and
+constraints but have different start/target vertex IDs, eliminating redundant
+re-planning work.
+
+**Implemented Features:**
+- ✅ `generateStructuralCacheKey` — builds a cache key from pattern + constraints,
+  omitting vertex IDs, so all structurally identical queries map to the same entry
+- ✅ Two-level cache lookup in all four `optimize*` methods:
+  1. Exact key (`pattern:start:target[:depth][:type]…`) — fastest path for repeated identical queries
+  2. Structural key (`struct:pattern[:depth][:type][:uv][:ue][:par]…`) — fallback for same-shape queries
+- ✅ Structural-to-exact key promotion on hit (avoids repeated structural lookups)
+- ✅ Structural key covers: `max_depth`/depth-hint, `edge_type`, `unique_vertices`,
+  `unique_edges`, `enable_parallel`, count of `forbidden_vertices`, count of `required_vertices`
+- ✅ Cache hit/miss counters exposed via `getQueryMetrics().plan_cache_hits/misses`
+- ✅ Disabled cleanly when `setPlanCachingEnabled(false)` is called
+- ✅ Cleared by `clearPlanCache()` (removes both exact and structural entries)
+
+**API:**
+```cpp
+optimizer.setPlanCachingEnabled(true);  // default
+
+// Cold start: populates exact key "0:A:D" + structural key "struct:0"
+auto plan1 = optimizer.optimizeShortestPath("A", "D", constraints);
+
+// Structural hit: finds "struct:0", promotes plan to exact key "0:B:C"
+auto plan2 = optimizer.optimizeShortestPath("B", "C", constraints);
+
+// plan1 and plan2 are identical (same algorithm, cost, estimates)
+assert(plan1->algorithm           == plan2->algorithm);
+assert(plan1->estimated_cost      == plan2->estimated_cost);
+assert(plan1->estimated_nodes_explored == plan2->estimated_nodes_explored);
+
+// Queries with different constraints get different structural keys — no reuse
+QueryConstraints c1; c1.max_depth = 2;
+QueryConstraints c2; c2.max_depth = 5;
+optimizer.optimizeShortestPath("A", "D", c1);  // stores "struct:0:depth=2"
+optimizer.optimizeShortestPath("B", "C", c2);  // miss — "struct:0:depth=5" not present
+
+// Monitor cache efficiency
+const auto& m = optimizer.getQueryMetrics();
+std::cout << "Cache hits:   " << m.plan_cache_hits.load()   << "\n";
+std::cout << "Cache misses: " << m.plan_cache_misses.load() << "\n";
+```
+
+**Key Design Decisions:**
+- Structural key intentionally excludes `timeout_ms`, `max_results`, `num_threads`,
+  and `graph_id` because these fields affect only execution behaviour, not which
+  algorithm is selected or how costs are estimated.
+- For K_HOP queries, the hop count `k` is included as a depth hint in the structural
+  key, so `k=2` and `k=3` never share a plan.
+- For PATTERN_MATCH queries, both vertex count and edge count are encoded in the key
+  to distinguish patterns of different shapes.
+
+---
+
 ### Parallel Graph Execution ✅ DONE
 **Priority:** High  
 **Target Version:** v1.7.0

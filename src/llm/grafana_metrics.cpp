@@ -467,7 +467,22 @@ void LLMMetricsCollector::initializeMetrics() {
         PrometheusExporter::MetricType::COUNTER,
         {}
     });
-    
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    exporter_->registerMetric({
+        "llm_worker_pool_queue_depth",
+        "Current number of tasks pending in the shared worker pool",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+
+    exporter_->registerMetric({
+        "llm_worker_pool_tasks_completed_total",
+        "Total tasks completed by the shared worker pool since start",
+        PrometheusExporter::MetricType::COUNTER,
+        {}
+    });
+
     // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
     initializeExtendedContextMetrics();
 }
@@ -684,6 +699,50 @@ void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model
     if (!sequential_mode) {
         // Warn about potential thread-safety issues
         exporter_->incrementCounter("llm_lora_concurrent_operations_total", {{"model_id", model_id}});
+    }
+}
+
+// ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
+
+void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
+    exporter_->setGauge("llm_worker_pool_queue_depth",
+                        static_cast<double>(depth));
+}
+
+void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
+    // Compute delta against last reported total and increment the counter.
+    // Uses compare-exchange to avoid losing increments under concurrent callers.
+    //
+    // If total_completed == prev: delta is 0, no-op — intentional (no new completions).
+    // If total_completed < prev:  pool was recreated / counter reset; treat
+    //                             total_completed as a fresh delta from zero.
+    uint64_t prev = last_pool_tasks_completed_.load(std::memory_order_relaxed);
+    while (true) {
+        uint64_t new_val;
+        double   delta;
+        if (total_completed >= prev) {
+            delta   = static_cast<double>(total_completed - prev);
+            new_val = total_completed;
+        } else {
+            // Counter reset detected: treat total_completed as the new delta.
+            spdlog::debug("SharedWorkerPool tasks counter reset detected "
+                          "(prev={}, new={}); recording {} as delta",
+                          prev, total_completed, total_completed);
+            delta   = static_cast<double>(total_completed);
+            new_val = total_completed;
+        }
+
+        if (delta == 0.0) break;  // nothing new to report
+
+        if (last_pool_tasks_completed_.compare_exchange_weak(
+                prev, new_val,
+                std::memory_order_release,
+                std::memory_order_relaxed)) {
+            exporter_->incrementCounter("llm_worker_pool_tasks_completed_total",
+                                        {}, delta);
+            break;
+        }
+        // prev was refreshed by compare_exchange_weak — retry
     }
 }
 

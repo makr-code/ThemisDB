@@ -22,7 +22,8 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Per-request timeout and cancellation propagation (Issue: #2411)
 
 ## In Progress 🚧
-- [I] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
+- [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
+- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
 ## Planned Features 📋
@@ -54,7 +55,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Grammar-constrained generation with runtime API detection
 
 ### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
-- [I] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
+- [x] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
 - [I] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [ ] Unified metrics dashboard for both engines (Target: Q3 2026)

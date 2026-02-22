@@ -379,7 +379,8 @@ TEST(FileSystemIngesterFormatsTest, MdFileIngested) {
 }
 
 TEST(FileSystemIngesterFormatsTest, PdfSkippedWithoutError) {
-    // PDF extraction is not yet implemented; file should be skipped silently
+    // When no external converter is configured, PDF files are silently skipped
+    // (no error recorded, just 0 documents processed).
     auto p = makeTempFile("test_ingestion.pdf", "%PDF-1.4 fake content");
 
     FileSystemIngester ingester;
@@ -387,10 +388,34 @@ TEST(FileSystemIngesterFormatsTest, PdfSkippedWithoutError) {
     cfg.source_id = "pdf_test";
     cfg.type      = SourceType::FILESYSTEM;
     cfg.location  = p.string();
+    // Explicitly disable converter to ensure consistent behaviour in CI
+    cfg.options["pdf_converter"] = "";
     ASSERT_TRUE(ingester.initialize(cfg));
 
     auto stats = ingester.ingest("col", nullptr);
-    // PDF returns empty content → not counted as processed
+    // PDF returns empty content when converter is empty → not counted as processed
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, DocxSkippedWithoutError) {
+    // DOCX with no converter configured is silently skipped.
+    // Build a minimal valid ZIP header (PK\x03\x04) followed by an OOXML marker
+    // so MIME detection identifies it as DOCX.
+    std::string docx_magic = "PK\x03\x04word/document.xml[Content_Types]";
+    auto p = makeTempFile("test_ingestion.docx", docx_magic);
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "docx_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    cfg.options["docx_converter"] = "";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
     EXPECT_EQ(stats.documents_processed, 0u);
     EXPECT_EQ(stats.documents_failed, 0u);
 
@@ -420,7 +445,7 @@ TEST(FileSystemIngesterFormatsTest, MultiFormatDirectory) {
         std::ofstream f(tmp_dir / "e.csv"); f << "a,b\n1,2\n";
     }
     {
-        // PDF should be skipped
+        // PDF with no converter configured should be silently skipped
         std::ofstream f(tmp_dir / "f.pdf"); f << "%PDF fake";
     }
 
@@ -429,15 +454,172 @@ TEST(FileSystemIngesterFormatsTest, MultiFormatDirectory) {
     cfg.source_id = "multi_test";
     cfg.type      = SourceType::FILESYSTEM;
     cfg.location  = tmp_dir.string();
-    cfg.options["recursive"] = "false";
+    cfg.options["recursive"]     = "false";
+    cfg.options["pdf_converter"] = "";   // disable converter in CI
     ASSERT_TRUE(ingester.initialize(cfg));
 
     auto stats = ingester.ingest("col", nullptr);
-    // txt + json + html + xml + csv = 5 processed; pdf = 0 (empty content)
+    // txt + json + html + xml + csv = 5 processed; pdf = 0 (no converter)
     EXPECT_EQ(stats.documents_processed, 5u);
     EXPECT_EQ(stats.documents_failed, 0u);
     EXPECT_GT(stats.bytes_processed, 0u);
     EXPECT_TRUE(stats.errors.empty());
 
     std::filesystem::remove_all(tmp_dir);
+}
+
+// ============================================================================
+// MIME type detection
+// ============================================================================
+
+TEST(BinaryMimeDetectionTest, DetectPdfByMagic) {
+    std::string pdf_header = "%PDF-1.7 rest of file content";
+    EXPECT_EQ(detectBinaryMimeType(pdf_header), BinaryMimeType::PDF);
+}
+
+TEST(BinaryMimeDetectionTest, DetectDocxByMagic) {
+    // Minimal ZIP header (PK\x03\x04) followed by OOXML content-type marker
+    std::string docx_data;
+    docx_data += "PK";
+    docx_data += '\x03';
+    docx_data += '\x04';
+    docx_data += "word/document.xml[Content_Types]";
+    EXPECT_EQ(detectBinaryMimeType(docx_data), BinaryMimeType::DOCX);
+}
+
+TEST(BinaryMimeDetectionTest, UnknownForShortBuffer) {
+    EXPECT_EQ(detectBinaryMimeType(""), BinaryMimeType::UNKNOWN);
+    EXPECT_EQ(detectBinaryMimeType("ABC"), BinaryMimeType::UNKNOWN);
+}
+
+TEST(BinaryMimeDetectionTest, UnknownForPlainText) {
+    EXPECT_EQ(detectBinaryMimeType("Hello world this is text"), BinaryMimeType::UNKNOWN);
+}
+
+TEST(BinaryMimeDetectionTest, UnknownForGenericZip) {
+    // ZIP without OOXML markers should not be detected as DOCX
+    std::string zip;
+    zip += "PK";
+    zip += '\x03';
+    zip += '\x04';
+    zip += "some_other_content_here_no_ooxml_marker_present";
+    EXPECT_EQ(detectBinaryMimeType(zip), BinaryMimeType::UNKNOWN);
+}
+
+// ============================================================================
+// BinaryConverter struct and FileSystemIngester API
+// ============================================================================
+
+TEST(BinaryConverterTest, DefaultValues) {
+    BinaryConverter bc;
+    EXPECT_EQ(bc.pdf_converter, "pdftotext");
+    EXPECT_EQ(bc.docx_converter, "pandoc");
+    EXPECT_TRUE(bc.detect_by_magic);
+}
+
+TEST(BinaryConverterTest, SetBinaryConverterViaApi) {
+    // Verify that setBinaryConverter is accepted and applied via SourceConfig options
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "bc_api_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = std::filesystem::temp_directory_path().string();
+    cfg.options["pdf_converter"]  = "/custom/pdftotext";
+    cfg.options["docx_converter"] = "/custom/pandoc";
+    cfg.options["detect_by_magic"] = "false";
+    EXPECT_TRUE(ingester.initialize(cfg));
+    // Just verify no crash and correct initialization
+}
+
+TEST(BinaryConverterTest, SetBinaryConverterDirectly) {
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "bc_direct_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = std::filesystem::temp_directory_path().string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    BinaryConverter bc;
+    bc.pdf_converter  = "";  // disable
+    bc.docx_converter = "";  // disable
+    bc.detect_by_magic = true;
+    EXPECT_NO_THROW(ingester.setBinaryConverter(bc));
+}
+
+TEST(BinaryConverterTest, PdfWithDisabledConverterSkippedSilently) {
+    std::string pdf_content = "%PDF-1.4 fake pdf data here";
+    auto p = std::filesystem::temp_directory_path() / "bc_test.pdf";
+    {
+        std::ofstream f(p, std::ios::binary);
+        f << pdf_content;
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "bc_pdf_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    cfg.options["pdf_converter"] = "";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // With empty converter: silently skip, no error
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+
+    std::filesystem::remove(p);
+}
+
+TEST(BinaryConverterTest, PdfDetectedByMagicNotExtension) {
+    // Create a file with .bin extension but PDF magic bytes
+    // → should be detected as PDF by magic and skipped (no converter)
+    std::string pdf_magic = "%PDF-1.7 binary file disguised as .bin";
+    auto p = std::filesystem::temp_directory_path() / "disguised.bin";
+    {
+        std::ofstream f(p, std::ios::binary);
+        f << pdf_magic;
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "magic_detect_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    cfg.options["pdf_converter"]  = "";  // no converter → skip silently
+    cfg.options["detect_by_magic"] = "true";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // MIME detection identified it as PDF, no converter → skip silently
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(BinaryConverterTest, MagicDetectionCanBeDisabled) {
+    // With detect_by_magic=false a .bin file with PDF header is treated
+    // as unknown binary and ingested as raw text
+    std::string pdf_magic = "%PDF-1.7 text fallback";
+    auto p = std::filesystem::temp_directory_path() / "no_magic_detect.bin";
+    {
+        std::ofstream f(p, std::ios::binary);
+        f << pdf_magic;
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "no_magic_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    cfg.options["detect_by_magic"] = "false";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // Without magic detection the .bin file falls through to the raw-text path
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
 }
