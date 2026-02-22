@@ -210,6 +210,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/workload_replay.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/utils/geo/ewkb.cpp
