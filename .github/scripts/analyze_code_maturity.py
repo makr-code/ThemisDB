@@ -43,6 +43,13 @@ SUPPORTED_EXTENSIONS: Dict[str, str] = {
 # Maximale Anzahl von Commits in der Revisionshistorie (konfigurierbar via Umgebungsvariable)
 MAX_HISTORY_ENTRIES: int = int(os.getenv('MATURITY_MAX_HISTORY', '5'))
 
+# Bot-Commit-Filterung: Commits von automatisierten Workflow-Runs ausschließen
+EXCLUDE_BOT_COMMITS: bool = os.getenv('EXCLUDE_BOT_COMMITS', 'true').lower() in ('1', 'true', 'yes')
+
+# Muster und Autoren, die als Bot-Commits gelten
+BOT_COMMIT_TITLE_PREFIXES: List[str] = ['🤖 Auto-update:']
+BOT_COMMIT_AUTHORS: List[str] = ['ThemisDB Version Bot']
+
 # Verzeichnisse, die von der Analyse ausgeschlossen werden
 EXCLUDE_DIRS: set = {
     '.git',
@@ -263,6 +270,14 @@ def get_git_author() -> str:
         return 'unknown'
 
 
+def _is_bot_commit(title: str, author: str) -> bool:
+    """Gibt True zurück, wenn der Commit von einem automatisierten Bot stammt."""
+    for prefix in BOT_COMMIT_TITLE_PREFIXES:
+        if title.startswith(prefix):
+            return True
+    return author in BOT_COMMIT_AUTHORS
+
+
 def get_file_commit_history(
     filepath: Path,
     repo_root: Path,
@@ -270,6 +285,8 @@ def get_file_commit_history(
 ) -> List[Dict[str, str]]:
     """
     Extrahiert die letzten Commits für eine Datei aus der Git-Historie.
+    Bot-Commits (z.B. von automatisierten Workflow-Runs) werden bei aktiviertem
+    EXCLUDE_BOT_COMMITS ausgefiltert.
 
     Returns:
         Liste von Dicts mit: {'sha': str, 'date': str, 'title': str, 'author': str}
@@ -284,10 +301,15 @@ def get_file_commit_history(
         if check.returncode != 0:
             return []
 
+        # Wenn Bot-Commits gefiltert werden, mehr Commits anfordern damit
+        # nach dem Filtern genug echte Commits übrig bleiben.
+        # Faktor 3 liefert einen ausreichenden Puffer (z.B. 5 Bot + 5 echte = 10 < 15).
+        fetch_count = max_entries * 3 if EXCLUDE_BOT_COMMITS else max_entries
+
         result = subprocess.run(
             [
                 'git', 'log',
-                f'-{max_entries}',
+                f'-{fetch_count}',
                 '--pretty=format:%h|%ad|%s|%an',
                 '--date=short',
                 '--follow',
@@ -309,14 +331,21 @@ def get_file_commit_history(
             parts = line.split('|', maxsplit=3)
             if len(parts) >= 4:
                 title = parts[2]
+                author = parts[3]
+                # Bot-Commits überspringen wenn Filterung aktiv
+                if EXCLUDE_BOT_COMMITS and _is_bot_commit(title, author):
+                    continue
+                # Titel nach Filterprüfung kürzen (Anzeige im Header)
                 if len(title) > 60:
                     title = title[:57] + '...'
                 history.append({
                     'sha':    parts[0],
                     'date':   parts[1],
                     'title':  title,
-                    'author': parts[3],
+                    'author': author,
                 })
+                if len(history) >= max_entries:
+                    break
 
         return history
     except subprocess.TimeoutExpired:
