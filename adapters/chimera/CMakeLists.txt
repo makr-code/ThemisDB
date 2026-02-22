@@ -63,6 +63,42 @@ if(BUILD_POSTGRESQL_ADAPTER)
 endif()
 
 # ==============================================================================
+# MongoDB Adapter (Optional - requires mongocxx driver)
+# ==============================================================================
+
+option(BUILD_MONGODB_ADAPTER "Build MongoDB adapter" OFF)
+
+if(BUILD_MONGODB_ADAPTER)
+    find_package(libmongocxx CONFIG)
+    find_package(libbsoncxx CONFIG)
+
+    if(libmongocxx_FOUND AND libbsoncxx_FOUND)
+        message(STATUS "MongoDB adapter: enabled")
+        add_library(chimera_mongodb_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/mongodb_adapter.cpp
+        )
+        target_include_directories(chimera_mongodb_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_mongodb_adapter
+            PUBLIC chimera_interface
+            PRIVATE mongo::mongocxx_shared mongo::bsoncxx_shared
+        )
+    else()
+        message(WARNING "mongocxx or bsoncxx not found; MongoDB adapter built without driver (simulation mode)")
+        add_library(chimera_mongodb_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/mongodb_adapter.cpp
+        )
+        target_include_directories(chimera_mongodb_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_mongodb_adapter
+            PUBLIC chimera_interface
+        )
+    endif()
+endif()
+
+# ==============================================================================
 # Weaviate Adapter (Optional - requires HTTP client)
 # ==============================================================================
 
@@ -123,6 +159,7 @@ message(STATUS "CHIMERA Adapters Configuration Summary:")
 message(STATUS "  Interface library: enabled")
 message(STATUS "  ThemisDB adapter: ${BUILD_THEMISDB_ADAPTER}")
 message(STATUS "  PostgreSQL adapter: ${BUILD_POSTGRESQL_ADAPTER}")
+message(STATUS "  MongoDB adapter: ${BUILD_MONGODB_ADAPTER}")
 message(STATUS "  Weaviate adapter: ${BUILD_WEAVIATE_ADAPTER}")
 message(STATUS "  Template adapter: provided")
 message(STATUS "  Tests: ${BUILD_CHIMERA_TESTS}")
