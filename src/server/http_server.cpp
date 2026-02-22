@@ -149,6 +149,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #endif
 #include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
+#include "server/graphql_api_handler.h"
 #include "metadata/schema_manager.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
@@ -178,7 +179,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 
-#include "api/graphql.h"
+// GraphQL types are included via server/graphql_api_handler.h (included in http_server.h)
 #include "server/api_version.h"
 #include "server/api_version_config.h"
 
@@ -1009,6 +1010,10 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
+
+    // Initialize GraphQL API Handler
+    graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
+    THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
 
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
@@ -4028,111 +4033,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::GraphQLPost: {
-            try {
-                // Parse request body as JSON: {"query":"...", "variables":{}, "operationName":"..."}
-                json body_json = json::object();
-                if (!req.body().empty()) {
-                    body_json = json::parse(req.body());
-                }
-                if (!body_json.contains("query") || !body_json["query"].is_string()) {
-                    response = makeErrorResponse(http::status::bad_request,
-                        "GraphQL request must contain a 'query' field", req);
-                    break;
-                }
-                const std::string gql_query = body_json["query"].get<std::string>();
-
-                // Build variables map
-                graphql::ExecutionContext ctx;
-                // Extract optional operationName
-                std::string op_name;
-                if (body_json.contains("operationName") && body_json["operationName"].is_string()) {
-                    op_name = body_json["operationName"].get<std::string>();
-                }
-                // Populate variables from JSON object
-                if (body_json.contains("variables") && body_json["variables"].is_object()) {
-                    for (auto& [k, v] : body_json["variables"].items()) {
-                        if (v.is_string()) {
-                            ctx.variables[k] = graphql::Value::string(v.get<std::string>());
-                        } else if (v.is_number_integer()) {
-                            ctx.variables[k] = graphql::Value::integer(v.get<int64_t>());
-                        } else if (v.is_number_float()) {
-                            ctx.variables[k] = graphql::Value::floating(v.get<double>());
-                        } else if (v.is_boolean()) {
-                            ctx.variables[k] = graphql::Value::boolean(v.get<bool>());
-                        } else {
-                            ctx.variables[k] = graphql::Value::null();
-                        }
-                    }
-                }
-
-                // Parse GraphQL query
-                auto parse_result = graphql::Parser::parse(gql_query);
-                if (!parse_result.success) {
-                    json errors_array = json::array();
-                    for (const auto& pe : parse_result.errors) {
-                        errors_array.push_back({{"message", pe.toString()}});
-                    }
-                    json err_body = {{"errors", errors_array}};
-                    response = makeResponse(http::status::bad_request, err_body.dump(), req);
-                    break;
-                }
-
-                // Execute
-                graphql::Executor executor;
-                auto exec_result = executor.execute(parse_result.document, ctx, op_name);
-
-                // Build response JSON
-                json result_json = json::object();
-                // Serialize graphql::Value to nlohmann::json without std::function overhead
-                // Uses templated Y-combinator so the lambda can call itself directly
-                auto serialize_value = [&](auto& self,
-                        const std::shared_ptr<graphql::Value>& val) -> json {
-                    if (!val || val->isNull()) return json(nullptr);
-                    if (val->isBool())   return json(val->asBool());
-                    if (val->isInt())    return json(val->asInt());
-                    if (val->isFloat())  return json(val->asFloat());
-                    if (val->isString()) return json(val->asString());
-                    if (val->isEnum())   return json(val->asString());
-                    if (val->isList()) {
-                        json arr = json::array();
-                        for (const auto& item : val->asList())
-                            arr.push_back(self(self, item));
-                        return arr;
-                    }
-                    if (val->isObject()) {
-                        json obj = json::object();
-                        for (const auto& [k, v] : val->asObject())
-                            obj[k] = self(self, v);
-                        return obj;
-                    }
-                    return json(nullptr);
-                };
-                if (exec_result.data) {
-                    result_json["data"] = serialize_value(serialize_value, exec_result.data);
-                } else {
-                    result_json["data"] = json(nullptr);
-                }
-                if (exec_result.hasErrors()) {
-                    json errors_array = json::array();
-                    for (const auto& me : exec_result.errors) {
-                        errors_array.push_back({{"message", me.message}, {"extensions", {{"code", me.code}}}});
-                    }
-                    result_json["errors"] = errors_array;
-                }
-                response = makeResponse(http::status::ok, result_json.dump(), req);
-            } catch (const json::exception& e) {
-                response = makeErrorResponse(http::status::bad_request,
-                    std::string("Invalid JSON in GraphQL request: ") + e.what(), req);
-            }
+            response = graphql_api_handler_->handlePost(req);
             break;
         }
 
         case Route::GraphQLSchemaGet: {
-            // Return the GraphQL Schema Definition Language (SDL)
-            auto schema = graphql::ThemisSchemaBuilder::build();
-            std::string sdl = schema.toSDL();
-            response = makeResponse(http::status::ok, sdl, req);
-            response.set(http::field::content_type, "text/plain; charset=utf-8");
+            response = graphql_api_handler_->handleSchemaGet(req);
             break;
         }
 

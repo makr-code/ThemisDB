@@ -631,33 +631,107 @@ def generate_report(
 # Badge-Generierung
 # ---------------------------------------------------------------------------
 
-def generate_badges(root: Path, results: List[Dict[str, Any]]) -> None:
-    """Generiert Shields.io-kompatible JSON-Badge-Dateien in .github/badges/."""
+def count_category(root: Path, dirs: List[str], extensions: List[str]) -> Tuple[int, int]:
+    """
+    Zählt Dateien und Zeilen für eine Kategorie.
+
+    Scannt die angegebenen Verzeichnisse unter root nach Dateien mit den
+    gegebenen Erweiterungen und gibt (file_count, total_lines) zurück.
+    Nicht vorhandene Verzeichnisse werden übersprungen.
+    """
+    file_count  = 0
+    total_lines = 0
+    ext_set     = set(extensions)
+    for dir_name in dirs:
+        dir_path = root / dir_name
+        if not dir_path.is_dir():
+            continue
+        for dirpath, _dirnames, filenames in os.walk(dir_path):
+            for fname in filenames:
+                if Path(fname).suffix.lower() in ext_set:
+                    file_count += 1
+                    try:
+                        total_lines += sum(
+                            1 for _ in (Path(dirpath) / fname).open(
+                                encoding='utf-8', errors='replace'
+                            )
+                        )
+                    except OSError:
+                        pass
+    return file_count, total_lines
+
+
+def _write_badge(
+    badges_dir: Path,
+    filename: str,
+    label: str,
+    message: str,
+    color: str,
+) -> None:
+    """Schreibt eine einzelne Shields.io-Endpoint-JSON-Badge-Datei."""
+    badge = {
+        'schemaVersion': 1,
+        'label':         label,
+        'message':       message,
+        'color':         color,
+    }
+    (badges_dir / filename).write_text(
+        json.dumps(badge, indent=2) + '\n', encoding='utf-8'
+    )
+
+
+def generate_category_badges(root: Path) -> None:
+    """Generiert 10 Shields.io-kompatible JSON-Badge-Dateien in .github/badges/."""
     badges_dir = root / '.github' / 'badges'
     badges_dir.mkdir(parents=True, exist_ok=True)
 
-    total_lines = sum(r.get('total_lines', 0) for r in results)
-    file_count  = len(results)
+    categories = [
+        {
+            'dirs':       ['src', 'include'],
+            'extensions': ['.cpp', '.h', '.hpp', '.c'],
+            'loc_file':   'lines-of-code.json',
+            'fc_file':    'file-count.json',
+            'loc_label':  'Lines of Code (Core)',
+            'fc_label':   'Core Files',
+        },
+        {
+            'dirs':       ['tests'],
+            'extensions': ['.cpp', '.py', '.cs'],
+            'loc_file':   'lines-of-code-tests.json',
+            'fc_file':    'file-count-tests.json',
+            'loc_label':  'Lines of Code (Tests)',
+            'fc_label':   'Test Files',
+        },
+        {
+            'dirs':       ['benchmarks'],
+            'extensions': ['.py', '.cpp'],
+            'loc_file':   'lines-of-code-benchmarks.json',
+            'fc_file':    'file-count-benchmarks.json',
+            'loc_label':  'Lines of Code (Benchmarks)',
+            'fc_label':   'Benchmark Files',
+        },
+        {
+            'dirs':       ['docs', 'compendium'],
+            'extensions': ['.md'],
+            'loc_file':   'lines-of-code-docs.json',
+            'fc_file':    'file-count-docs.json',
+            'loc_label':  'Lines of Code (Docs)',
+            'fc_label':   'Doc Files',
+        },
+        {
+            'dirs':       ['tools', 'scripts', 'projects'],
+            'extensions': ['.py', '.cs', '.php'],
+            'loc_file':   'lines-of-code-tools.json',
+            'fc_file':    'file-count-tools.json',
+            'loc_label':  'Lines of Code (Tools)',
+            'fc_label':   'Tool Files',
+        },
+    ]
 
-    loc_badge = {
-        'schemaVersion': 1,
-        'label':         'lines of code',
-        'message':       f'{total_lines:,}',
-        'color':         'blue',
-    }
-    fc_badge = {
-        'schemaVersion': 1,
-        'label':         'files',
-        'message':       str(file_count),
-        'color':         'green',
-    }
-
-    (badges_dir / 'lines-of-code.json').write_text(
-        json.dumps(loc_badge, indent=2) + '\n', encoding='utf-8'
-    )
-    (badges_dir / 'file-count.json').write_text(
-        json.dumps(fc_badge, indent=2) + '\n', encoding='utf-8'
-    )
+    for cat in categories:
+        file_count, total_lines = count_category(root, cat['dirs'], cat['extensions'])
+        _write_badge(badges_dir, cat['loc_file'], cat['loc_label'], f'{total_lines:,}', 'blue')
+        _write_badge(badges_dir, cat['fc_file'],  cat['fc_label'],  str(file_count),    'green')
 
 
 # ---------------------------------------------------------------------------
@@ -758,7 +832,7 @@ def main() -> int:
     print('✅ Version data saved')
 
     # Shields.io Badge-Dateien generieren
-    generate_badges(root, results)
+    generate_category_badges(root)
     print('✅ Badges updated')
 
     return 0
