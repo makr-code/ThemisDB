@@ -1293,6 +1293,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learned_quantizer.cpp
     ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/workload_replay.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
@@ -1328,6 +1329,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/parallel_traversal.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -1359,6 +1361,7 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/prompt_version_control.cpp
     ../src/prompt_engineering/self_improvement_orchestrator.cpp
     ../src/prompt_engineering/prompt_engineering_integration.cpp
+    ../src/prompt_engineering/prompt_injection_detector.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -1576,6 +1579,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_validator.cpp
     ../src/governance/review_scheduler.cpp
     ../src/governance/policy_review.cpp
+    ../src/governance/policy_file_watcher.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1693,6 +1697,7 @@ set(THEMIS_CORE_SOURCES
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
@@ -1700,6 +1705,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/importers/mysql_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     

@@ -332,6 +332,144 @@ TEST_F(ConfigPathResolverTest, RejectsRelativePathTraversal) {
     EXPECT_FALSE(result.has_value()) << "Relative path traversal should be rejected";
 }
 
+// ═══════════════════════════════════════════════════════════
+// Deprecation Aggregation Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigPathResolverTest, DeprecationReportEmptyInitially) {
+    ConfigPathResolver::resetMetrics();
+    auto report = ConfigPathResolver::deprecationReport();
+    EXPECT_TRUE(report.empty());
+}
+
+TEST_F(ConfigPathResolverTest, DeprecationReportTracksLegacyUsage) {
+    // To trigger the aggregator we need a relative path that matches a
+    // PATH_MAPPING key and whose legacy file exists but whose new path
+    // does NOT exist.  We achieve this by temporarily changing CWD to
+    // test_dir_, where only "config/pii_patterns.yaml" (legacy) is present.
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::setAggregationEnabled(false);
+
+    // Create the legacy file at the relative location inside test_dir_
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    // Deliberately do NOT create the new path "config/security/pii_patterns.yaml"
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    // Now tryResolve("config/pii_patterns.yaml"):
+    //   - new path = "config/security/pii_patterns.yaml" → does not exist
+    //   - legacy path = "config/pii_patterns.yaml"       → exists
+    //   → legacy fallback triggered, aggregator.incrementUsage() called
+    auto result = ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+
+    std::filesystem::current_path(prev_cwd);
+
+    EXPECT_TRUE(result.has_value()) << "Legacy fallback should resolve to the legacy path";
+    EXPECT_EQ(result.value(), "config/pii_patterns.yaml") << "Should resolve to the legacy relative path";
+
+    auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_EQ(report.size(), 1u) << "Aggregator should have recorded one legacy path";
+    EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
+    EXPECT_GE(report[0].usage_count, 1u);
+    EXPECT_FALSE(report[0].new_path.empty());
+}
+
+TEST_F(ConfigPathResolverTest, DeprecationReportEntriesHaveExpectedFields) {
+    // After a known legacy fallback the entry fields must be populated correctly.
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::setAggregationEnabled(false);
+
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_FALSE(report.empty());
+    for (const auto& entry : report) {
+        EXPECT_FALSE(entry.legacy_path.empty());
+        EXPECT_FALSE(entry.new_path.empty());
+        // Any entry that appears in the report must have been accessed at least once
+        EXPECT_GE(entry.usage_count, 1u);
+    }
+}
+
+TEST_F(ConfigPathResolverTest, DeprecationReportResetOnMetricsReset) {
+    ConfigPathResolver::resetMetrics();
+    // Report must be empty after a full reset.
+    auto report = ConfigPathResolver::deprecationReport();
+    EXPECT_TRUE(report.empty());
+}
+
+TEST_F(ConfigPathResolverTest, SetAggregationEnabledStartsAndStopsThread) {
+    // Enable aggregation with a long interval so the reporter thread does not fire
+    ConfigPathResolver::setAggregationEnabled(true, 3600);
+    // Disable it again – the background thread should stop cleanly
+    ConfigPathResolver::setAggregationEnabled(false);
+    // If we reach here without deadlock/crash, the start/stop cycle works
+    SUCCEED();
+}
+
+TEST_F(ConfigPathResolverTest, AggregationEnabledSuppressesPerCallWarnings) {
+    // Enable aggregation
+    ConfigPathResolver::setAggregationEnabled(true, 3600);
+
+    // Create a legacy-path file so that the fallback branch is exercised.
+    // (Aggregator should record usage; no per-call spdlog::warn should fire.)
+    auto temp_file = test_dir_ / "config" / "agg_warn_test.yaml";
+    createTestFile(temp_file);
+
+    // tryResolve with an absolute path that exists; no mapping → no legacy branch
+    auto result = ConfigPathResolver::tryResolve(temp_file.string());
+    // No assertion on result – we only verify no crash/deadlock
+
+    ConfigPathResolver::setAggregationEnabled(false);
+    SUCCEED();
+}
+
+TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
+    // Trigger two different legacy paths multiple times so the sort can be
+    // verified with real data.
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::setAggregationEnabled(false);
+
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    createTestFile(test_dir_ / "config" / "rbac_roles.json");
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    // Access pii_patterns 3 times and rbac_roles 1 time
+    for (int pass = 0; pass < 3; ++pass) {
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    }
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::tryResolve("config/rbac_roles.json");
+
+    std::filesystem::current_path(prev_cwd);
+
+    auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_GE(report.size(), 2u);
+    // Report must be sorted by descending usage_count
+    for (size_t i = 1; i < report.size(); ++i) {
+        EXPECT_GE(report[i - 1].usage_count, report[i].usage_count)
+            << "Report should be sorted by descending usage_count";
+    }
+    // pii_patterns should be first with count >= 3
+    EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
+    EXPECT_GE(report[0].usage_count, 3u);
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

@@ -178,9 +178,58 @@ curl -s http://localhost:8080/api/v1/schema/versions/users | jq .history
 
 ---
 
-## 8. Dry-Run Validation (planned)
+## 8. Generate Migration Script
 
-> **TODO (v1.8.0):** A dry-run flag will be added to the migration endpoint.  Until then, test schema changes in a staging environment before applying to production.
+`SchemaVersionManager::generateMigrationScript()` converts the diff between two versions into executable DDL statements.
+
+```cpp
+#include "metadata/schema_version_manager.h"
+
+SchemaVersionManager svm(db, schema_mgr);
+
+// Generate the script that upgrades "users" from version 1 to version 3
+auto result = svm.generateMigrationScript("users", /*from=*/1, /*to=*/3);
+if (!result.ok) {
+    spdlog::error("Script generation failed: {}", result.error_message);
+} else {
+    // Review, then apply to the target database
+    std::cout << result.value;
+}
+```
+
+Example output:
+```sql
+-- Migration: users from version 1 to version 3
+ALTER TABLE users ADD COLUMN phone VARCHAR;
+ALTER TABLE users DROP COLUMN legacy_id;
+ALTER TABLE users ALTER COLUMN amount TYPE DOUBLE PRECISION;
+ALTER TABLE users ALTER COLUMN email SET NOT NULL;
+```
+
+The method supports both **upgrade** (`from < to`) and **downgrade** (`from > to`) scripts.
+
+---
+
+## 9. Dry-Run Validation
+
+Use `validateMigration()` to check a proposed schema against the current version without persisting anything:
+
+```cpp
+SchemaVersionManager svm(db, schema_mgr);
+
+SchemaManager::TableSchema new_schema = /* ... */;
+auto dry_run = svm.validateMigration("users", new_schema);
+if (!dry_run.ok) {
+    spdlog::error("Validation failed: {}", dry_run.error_message);
+    // e.g. "Migration validation failed: duplicate column 'id'"
+}
+```
+
+Checks performed:
+- Schema name is non-empty
+- At least one column is defined
+- No duplicate column names
+- New schema differs from the currently versioned schema
 
 ---
 
@@ -199,4 +248,4 @@ curl -s http://localhost:8080/api/v1/schema/versions/users | jq .history
 
 - [`include/metadata/schema_version_manager.h`](../../include/metadata/schema_version_manager.h)
 - [`docs/metadata/metadata_roadmap.md`](./metadata_roadmap.md)
-- [`docs/metadata/operations_guide.md`](./operations_guide.md) *(planned)*
+- [`docs/metadata/operations_guide.md`](./operations_guide.md)

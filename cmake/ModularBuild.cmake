@@ -210,6 +210,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/workload_replay.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/utils/geo/ewkb.cpp
@@ -688,6 +689,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
@@ -719,6 +721,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/parallel_traversal.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)

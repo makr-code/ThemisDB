@@ -3,9 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongodb_adapter.hpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-22 08:55:53                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-22 11:29:19                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║
-    • d34adc2bf  2026-02-22  Implement MongoDB vendor adapter for Chimera module ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
