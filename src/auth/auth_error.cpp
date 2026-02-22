@@ -404,6 +404,95 @@ void registerAuthErrors() {
         {},
         {"lockout", "brute-force", "security"}
     });
+
+    // SAML 2.0 errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_INVALID_RESPONSE),
+        "Authentication",
+        "Error",
+        "Invalid SAML response",
+        "SAMLResponse could not be decoded or parsed",
+        "Check IdP configuration and certificate",
+        {},
+        {"saml", "response", "parse"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_INVALID_SIGNATURE),
+        "Authentication",
+        "Error",
+        "Invalid SAML signature",
+        "XML signature verification on SAMLResponse or Assertion failed",
+        "Verify IdP certificate is correctly configured",
+        {},
+        {"saml", "signature", "xml"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_CONDITIONS_FAILED),
+        "Authentication",
+        "Error",
+        "SAML assertion conditions not met",
+        "NotBefore, NotOnOrAfter, or AudienceRestriction condition failed",
+        "Check server clock synchronization and SP entity ID configuration",
+        {},
+        {"saml", "conditions", "assertion"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_MISSING_ASSERTION),
+        "Authentication",
+        "Error",
+        "SAML assertion missing",
+        "No Assertion element found in SAMLResponse",
+        "Check IdP configuration and response format",
+        {},
+        {"saml", "assertion", "missing"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_REPLAY_DETECTED),
+        "Authentication",
+        "Error",
+        "Authentication replay detected",
+        "SAML Assertion ID has already been used",
+        "Do not reuse assertion tokens",
+        {},
+        {"saml", "replay", "security"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_DESTINATION_MISMATCH),
+        "Authentication",
+        "Error",
+        "Invalid SAML response destination",
+        "SubjectConfirmationData Recipient does not match SP ACS URL",
+        "Verify SP Assertion Consumer Service URL configuration",
+        {},
+        {"saml", "destination", "recipient"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_STATUS_FAILURE),
+        "Authentication",
+        "Error",
+        "Authentication failed",
+        "SAML Status is not Success",
+        "Check IdP logs for authentication failure reason",
+        {},
+        {"saml", "status", "failure"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::SAML_ISSUER_MISMATCH),
+        "Authentication",
+        "Error",
+        "Invalid SAML issuer",
+        "Assertion Issuer does not match configured IdP entity ID",
+        "Verify IdP entity ID configuration",
+        {},
+        {"saml", "issuer", "entity-id"}
+    });
 }
 
 } // namespace auth
