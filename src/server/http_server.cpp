@@ -1817,6 +1817,9 @@ namespace {
         ChangefeedStreamSse,
     ChangefeedStatsGet,
     ChangefeedRetentionPost,
+    ChangefeedRetentionGet,
+    ChangefeedRetentionPut,
+    ChangefeedCompactPost,
         // Sprint B
         TimeSeriesPut,
         TimeSeriesQuery,
@@ -2110,6 +2113,9 @@ namespace {
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
+    if (path_only == "/changefeed/retention" && method == http::verb::get) return Route::ChangefeedRetentionGet;
+    if (path_only == "/changefeed/retention" && method == http::verb::put) return Route::ChangefeedRetentionPut;
+    if (path_only == "/changefeed/compact" && method == http::verb::post) return Route::ChangefeedCompactPost;
     
     // Snapshot API endpoints
     if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
@@ -2925,6 +2931,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ChangefeedRetentionPost:
             if (changefeed_api_) {
                 response = changefeed_api_->handleRetention(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionGet:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionPut:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedCompactPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleCompact(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }

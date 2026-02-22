@@ -227,6 +227,14 @@ TEST_F(CDCAdminTest, MultiplePurgeOperations) {
     EXPECT_GE(result2.events_deleted, 0);
 }
 
+TEST_F(CDCAdminTest, PurgeOlderThanNegativeTimestampThrows) {
+    // Negative timestamps must be rejected before casting to uint64_t
+    EXPECT_THROW(
+        admin->purgeOlderThan(-1),
+        CDCException
+    );
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
