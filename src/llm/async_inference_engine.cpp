@@ -18,7 +18,9 @@
  */
 
 #include "llm/async_inference_engine.h"
+#include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
@@ -74,6 +76,43 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
 
+// ─── Shared-pool constructors ─────────────────────────────────────────────────
+
+AsyncInferenceEngine::AsyncInferenceEngine(
+    ILLMPlugin* plugin,
+    const Config& config,
+    std::shared_ptr<SharedWorkerPool> pool
+) : config_(config), plugin_(plugin), shared_pool_(std::move(pool)) {
+    if (!plugin_) {
+        throw std::invalid_argument("Plugin cannot be null");
+    }
+    if (!shared_pool_) {
+        throw std::invalid_argument("SharedWorkerPool cannot be null");
+    }
+    spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
+                 shared_pool_->numThreads());
+    // Private worker threads are NOT started; the shared pool is used instead.
+    // Only the timeout monitor runs locally.
+    timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+}
+
+AsyncInferenceEngine::AsyncInferenceEngine(
+    std::shared_ptr<ILLMPlugin> plugin,
+    const Config& config,
+    std::shared_ptr<SharedWorkerPool> pool
+) : config_(config), plugin_(plugin.get()), owned_plugin_(std::move(plugin)),
+    shared_pool_(std::move(pool)) {
+    if (!plugin_) {
+        throw std::invalid_argument("Plugin cannot be null");
+    }
+    if (!shared_pool_) {
+        throw std::invalid_argument("SharedWorkerPool cannot be null");
+    }
+    spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
+                 shared_pool_->numThreads());
+    timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+}
+
 AsyncInferenceEngine::~AsyncInferenceEngine() {
     shutdown();
 }
@@ -84,11 +123,11 @@ InferenceHandle AsyncInferenceEngine::submit(
     std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
-    
+
     // Create async request
     auto async_req = std::make_shared<AsyncInferenceRequest>();
-    async_req->request = request;
-    async_req->priority = priority;
+    async_req->request    = request;
+    async_req->priority   = priority;
     async_req->request_id = generateRequestId();
     // cancel_token is default-initialised to false in the struct
 
@@ -96,45 +135,80 @@ InferenceHandle AsyncInferenceEngine::submit(
     if (timeout.count() > 0) {
         async_req->deadline = submit_time + timeout;
     }
-    
-    // Create promise/future for result
-    std::promise<InferenceResponse> promise;
-    auto future = promise.get_future().share();
-    
+
+    // Add to tracking for cancellation and timeout monitoring
     {
+        std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+        active_requests_[async_req->request_id] = async_req;
+    }
+
+    std::shared_future<InferenceResponse> future;
+
+    if (shared_pool_) {
+        // ── Shared-pool path: submit directly; no internal queue ─────
+        auto promise = std::make_shared<std::promise<InferenceResponse>>();
+        future = promise->get_future().share();
+
+        bool queued = shared_pool_->submit(
+            [this, async_req, promise, submit_time]() {
+                if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                    promise->set_exception(std::make_exception_ptr(
+                        std::runtime_error("Request cancelled")));
+                    std::lock_guard<std::mutex> lock(tracking_mutex_);
+                    active_requests_.erase(async_req->request_id);
+                    return;
+                }
+                try {
+                    auto response = processRequest(*async_req, submit_time);
+                    stats_.total_completed++;
+                    if (async_req->callback) {
+                        async_req->callback(response);
+                    }
+                    promise->set_value(response);
+                } catch (...) {
+                    promise->set_exception(std::current_exception());
+                }
+                std::lock_guard<std::mutex> lock(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
+            },
+            priority
+        );
+
+        if (!queued) {
+            stats_.total_rejected++;
+            std::lock_guard<std::mutex> lock(tracking_mutex_);
+            active_requests_.erase(async_req->request_id);
+            throw std::runtime_error("SharedWorkerPool queue full, request rejected");
+        }
+        stats_.total_submitted++;
+    } else {
+        // ── Private-worker path (original behaviour) ──────────────────
+        std::promise<InferenceResponse> local_promise;
+        future = local_promise.get_future().share();
+
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        
+
         // Check queue size and handle backpressure
         if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
+                std::lock_guard<std::mutex> tl(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
                 throw std::runtime_error("Request queue full, request rejected");
             }
         }
-        
-        // Add to tracking (for cancellation and timeout monitoring)
-        {
-            std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
-            active_requests_[async_req->request_id] = async_req;
-        }
-        
-        // Enqueue
+
         RequestQueueItem item;
         item.request = async_req;
-        item.promise = std::move(promise);
-        
+        item.promise = std::move(local_promise);
         request_queue_.push(std::move(item));
         stats_.total_submitted++;
+        queue_cv_.notify_one();
     }
-    
-    // Notify one worker
-    queue_cv_.notify_one();
-    
-    spdlog::debug("Submitted inference request {} (priority={}, queue_size={})",
-                  async_req->request_id, priority, request_queue_.size());
-    
-    // Share the cancel token with the handle so InferenceHandle::cancel()
-    // propagates directly to this request.
+
+    spdlog::debug("Submitted inference request {} (priority={}, via_pool={})",
+                  async_req->request_id, priority, (shared_pool_ != nullptr));
+
     return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
@@ -148,49 +222,80 @@ std::string AsyncInferenceEngine::submitAsync(
 
     // Create async request with callback
     auto async_req = std::make_shared<AsyncInferenceRequest>();
-    async_req->request = request;
-    async_req->priority = priority;
+    async_req->request    = request;
+    async_req->priority   = priority;
     async_req->request_id = generateRequestId();
-    async_req->callback = callback;
+    async_req->callback   = callback;
 
     // Set per-request deadline when a positive timeout is given
     if (timeout.count() > 0) {
         async_req->deadline = submit_time + timeout;
     }
-    
-    // Create promise (result delivered via callback)
-    std::promise<InferenceResponse> promise;
-    
+
+    // Track for cancellation and timeout monitoring
     {
+        std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+        active_requests_[async_req->request_id] = async_req;
+    }
+
+    if (shared_pool_) {
+        // ── Shared-pool path ─────────────────────────────────────────
+        bool queued = shared_pool_->submit(
+            [this, async_req, submit_time]() {
+                if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                    std::lock_guard<std::mutex> lock(tracking_mutex_);
+                    active_requests_.erase(async_req->request_id);
+                    return;
+                }
+                try {
+                    auto response = processRequest(*async_req, submit_time);
+                    stats_.total_completed++;
+                    if (async_req->callback) {
+                        async_req->callback(response);
+                    }
+                } catch (const std::exception& e) {
+                    spdlog::error("Async callback request {} failed: {}",
+                                  async_req->request_id, e.what());
+                }
+                std::lock_guard<std::mutex> lock(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
+            },
+            priority
+        );
+
+        if (!queued) {
+            stats_.total_rejected++;
+            std::lock_guard<std::mutex> lock(tracking_mutex_);
+            active_requests_.erase(async_req->request_id);
+            throw std::runtime_error("SharedWorkerPool queue full");
+        }
+        stats_.total_submitted++;
+    } else {
+        // ── Private-worker path (original behaviour) ──────────────────
+        std::promise<InferenceResponse> promise;
+
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        
-        // Check queue size
+
         if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
+                std::lock_guard<std::mutex> tl(tracking_mutex_);
+                active_requests_.erase(async_req->request_id);
                 throw std::runtime_error("Request queue full");
             }
         }
-        
-        // Track and enqueue
-        {
-            std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
-            active_requests_[async_req->request_id] = async_req;
-        }
-        
+
         RequestQueueItem item;
         item.request = async_req;
         item.promise = std::move(promise);
-        
         request_queue_.push(std::move(item));
         stats_.total_submitted++;
+        queue_cv_.notify_one();
     }
-    
-    queue_cv_.notify_one();
-    
-    spdlog::debug("Submitted async inference request {} (callback mode)",
-                  async_req->request_id);
-    
+
+    spdlog::debug("Submitted async inference request {} (callback mode, via_pool={})",
+                  async_req->request_id, (shared_pool_ != nullptr));
+
     return async_req->request_id;
 }
 
@@ -338,8 +443,9 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             }
             
             // Get highest priority request
-            item = std::move(const_cast<RequestQueueItem&>(request_queue_.top()));
-            request_queue_.pop();
+            std::pop_heap(request_queue_.begin(), request_queue_.end());
+            item = std::move(request_queue_.back());
+            request_queue_.pop_back();
         }
         
         auto queue_end_time = std::chrono::steady_clock::now();
@@ -485,15 +591,52 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
             return running_.load();
             
         case Config::BackpressurePolicy::DROP_OLDEST:
-            // Remove lowest priority item
+            // Find the queued request with the lowest priority and drop it
+            // to make room for the incoming (presumably higher-priority) request.
             if (!request_queue_.empty()) {
-                spdlog::warn("Queue full, dropping lowest priority request");
-                // std::priority_queue doesn't support removal
-                // In production, use custom heap or deque
-                // For now, just reject
-                return false;
+                auto min_it = std::min_element(
+                    request_queue_.begin(), request_queue_.end(),
+                    [](const RequestQueueItem& a, const RequestQueueItem& b) {
+                        return a.request->priority < b.request->priority;
+                    });
+
+                spdlog::warn(
+                    "Queue full, dropping lowest-priority request (id={}, priority={})",
+                    min_it->request->request_id, min_it->request->priority);
+
+                // Signal cancel token so any InferenceHandle for this request
+                // is notified that it was dropped.
+                min_it->request->cancel_token->store(true, std::memory_order_release);
+
+                // Fulfil the promise so the caller's future doesn't block.
+                try {
+                    min_it->promise.set_exception(
+                        std::make_exception_ptr(
+                            std::runtime_error("Request dropped: queue full")));
+                } catch (...) {
+                    // Promise may already be satisfied; ignore.
+                }
+
+                // Remove from the active-request tracking map.
+                {
+                    std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+                    active_requests_.erase(min_it->request->request_id);
+                }
+
+                // Erase from vector and restore heap invariant.
+                // We swap with the last element and pop_back, then restore
+                // the heap.  make_heap is O(n) but this path is only taken
+                // when the queue is full, so the amortised overhead is low.
+                if (min_it != request_queue_.end() - 1) {
+                    std::iter_swap(min_it, request_queue_.end() - 1);
+                }
+                request_queue_.pop_back();
+                std::make_heap(request_queue_.begin(), request_queue_.end());
+
+                stats_.total_rejected++;
+                return true;
             }
-            return true;
+            return false;
             
         case Config::BackpressurePolicy::REJECT:
             return false;

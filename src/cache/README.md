@@ -276,3 +276,15 @@ For detailed caching documentation, see:
 - [Semantic Cache Feature Documentation](../../docs/de/features/features_semantic_cache.md)
 - [Cache Invalidation Strategy](../../docs/de/architecture/architecture_cache_invalidation.md)
 - [Core Concerns - Cache Strategies](../../include/core/concerns/CACHE_STRATEGIES_README.md)
+
+## Scientific References
+
+1. Megiddo, N., & Modha, D. S. (2003). **ARC: A Self-Tuning, Low Overhead Replacement Cache**. *Proceedings of the 2nd USENIX Conference on File and Storage Technologies (FAST)*, 115–130. https://www.usenix.org/legacy/events/fast03/tech/full_papers/megiddo/megiddo.pdf
+
+2. Jiang, S., & Zhang, X. (2002). **LIRS: An Efficient Low Inter-Reference Recency Set Replacement Policy to Improve Buffer Cache Performance**. *ACM SIGMETRICS Performance Evaluation Review*, 30(1), 31–42. https://doi.org/10.1145/511399.511340
+
+3. Einziger, G., & Friedman, R. (2014). **TinyLFU: A Highly Efficient Cache Admission Policy**. *Proceedings of the 22nd Euromicro International Conference on Parallel, Distributed, and Network-Based Processing*, 146–153. https://doi.org/10.1109/PDP.2014.34
+
+4. King, W. F. (1971). **Analysis of Demand Paging Algorithms**. *IFIP Congress*, 485–490.
+
+5. Mattson, R. L., Gecsei, J., Slutz, D. R., & Traiger, I. L. (1970). **Evaluation Techniques for Storage Hierarchies**. *IBM Systems Journal*, 9(2), 78–117. https://doi.org/10.1147/sj.92.0078

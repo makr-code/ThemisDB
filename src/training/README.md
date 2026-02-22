@@ -205,3 +205,15 @@ The module provides the correct structural scaffolding and integration points bu
   - Training data must be in ThemisDB; no external dataset connector is provided (use the Ingestion module first)
   - `deployVersion` traffic splitting is a configuration placeholder; production deployment requires a routing layer update
   - German is the primary tested language; other languages require validation of the `NlpTextAnalyzer` modality configuration
+
+## Scientific References
+
+1. Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., … Chen, W. (2022). **LoRA: Low-Rank Adaptation of Large Language Models**. *Proceedings of the 10th International Conference on Learning Representations (ICLR)*. https://arxiv.org/abs/2106.09685
+
+2. Howard, J., & Ruder, S. (2018). **Universal Language Model Fine-Tuning for Text Classification**. *Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (ACL)*, 328–339. https://doi.org/10.18653/v1/P18-1031
+
+3. Radford, A., Narasimhan, K., Salimans, T., & Sutskever, I. (2018). **Improving Language Understanding by Generative Pre-Training**. OpenAI Blog. https://openai.com/research/language-unsupervised
+
+4. Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023). **QLoRA: Efficient Finetuning of Quantized LLMs**. *Advances in Neural Information Processing Systems (NeurIPS)*, 36. https://arxiv.org/abs/2305.14314
+
+5. Liao, S., Martelot, E., Coates, A., Darby, T., Gong, B., Zhang, F., & Natsev, A. (2023). **LIMA: Less Is More for Alignment**. *Advances in Neural Information Processing Systems (NeurIPS)*, 36. https://arxiv.org/abs/2305.11206

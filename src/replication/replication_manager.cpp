@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
+    • Quality Score:   87.0/100                                       ║
     • Total Lines:     3925                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -216,8 +216,16 @@ std::string ReplicationStats::toPrometheusFormat() const {
     
     oss << "# HELP themisdb_network_partitions_detected_total Total network partitions detected\n"
         << "# TYPE themisdb_network_partitions_detected_total counter\n"
-        << "themisdb_network_partitions_detected_total " << network_partitions_detected.load() << "\n";
-    
+        << "themisdb_network_partitions_detected_total " << network_partitions_detected.load() << "\n\n";
+
+    oss << "# HELP themisdb_leader_lease_reads_served_total Lease reads served under valid leader lease\n"
+        << "# TYPE themisdb_leader_lease_reads_served_total counter\n"
+        << "themisdb_leader_lease_reads_served_total " << lease_reads_served.load() << "\n\n";
+
+    oss << "# HELP themisdb_leader_lease_reads_rejected_total Lease reads rejected (no valid lease)\n"
+        << "# TYPE themisdb_leader_lease_reads_rejected_total counter\n"
+        << "themisdb_leader_lease_reads_rejected_total " << lease_reads_rejected.load() << "\n";
+
     return oss.str();
 }
 
@@ -608,6 +616,33 @@ void LeaderElection::grantVote(uint64_t term) {
                     node_id_, term, new_count, cluster, quorum);
         becomeLeader();
     }
+}
+
+// ============================================================================
+// LeaderElection lease management
+// ============================================================================
+
+void LeaderElection::renewLease(uint32_t duration_ms) {
+    if (!isLeader()) {
+        return;
+    }
+    std::lock_guard<std::mutex> lock(lease_mutex_);
+    lease_expires_at_ = std::chrono::steady_clock::now()
+                        + std::chrono::milliseconds(duration_ms);
+    THEMIS_DEBUG("Leader lease renewed for {}ms (node={})", duration_ms, node_id_);
+}
+
+bool LeaderElection::hasValidLease() const {
+    if (!isLeader()) {
+        return false;
+    }
+    std::lock_guard<std::mutex> lock(lease_mutex_);
+    return std::chrono::steady_clock::now() < lease_expires_at_;
+}
+
+std::chrono::steady_clock::time_point LeaderElection::leaseExpiresAt() const {
+    std::lock_guard<std::mutex> lock(lease_mutex_);
+    return lease_expires_at_;
 }
 
 // ============================================================================
@@ -1161,6 +1196,13 @@ void ReplicationManager::heartbeatLoop() {
             }
             // Reset the leader's own heartbeat timer to avoid self-election
             election_->receiveHeartbeat(current_term, node_id_, wal_ ? wal_->getCurrentSequence() : 0);
+
+            // Renew the leader lease so that lease-based reads remain valid.
+            // The lease duration is bounded by election_timeout_min_ms, which
+            // guarantees no follower can become a new leader while the lease holds.
+            if (config_.enable_leader_lease) {
+                election_->renewLease(config_.leader_lease_duration_ms);
+            }
         }
         
         std::this_thread::sleep_for(
@@ -1283,6 +1325,58 @@ bool ReplicationManager::detectNetworkPartition() const {
 
 void ReplicationManager::setReadPreference(ReadPreference preference) {
     config_.default_read_preference = preference;
+}
+
+// ============================================================================
+// Raft leader lease reads (linearizable read-scale-out)
+// ============================================================================
+
+bool ReplicationManager::hasLeaderLease() const {
+    if (!initialized_.load() || !election_) {
+        return false;
+    }
+    return election_->hasValidLease();
+}
+
+ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
+    const std::string& collection,
+    const std::string& document_id) const
+{
+    LeaseReadResult result;
+    result.node_id = node_id_;
+
+    if (!initialized_.load() || !election_) {
+        THEMIS_WARN("leaseRead called on uninitialised ReplicationManager (node={})", node_id_);
+        return result;
+    }
+
+    // Only the Raft leader may serve lease reads.
+    if (!election_->isLeader()) {
+        THEMIS_DEBUG("leaseRead rejected: node {} is not the leader", node_id_);
+        stats_.lease_reads_rejected++;
+        return result;
+    }
+
+    // Check that the leader lease is still valid.
+    if (!config_.enable_leader_lease || !election_->hasValidLease()) {
+        THEMIS_DEBUG("leaseRead rejected: leader lease expired or disabled (node={})", node_id_);
+        stats_.lease_reads_rejected++;
+        return result;
+    }
+
+    // Lease is valid – the leader is guaranteed to be the unique leader for the
+    // remaining lease window, so this read is linearizable without a quorum
+    // round-trip.
+    result.success            = true;
+    result.served_under_lease = true;
+    result.commit_index       = wal_ ? wal_->getCurrentSequence() : 0;
+    stats_.lease_reads_served++;
+
+    THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
+                 collection, document_id, result.commit_index, node_id_);
+    (void)collection;
+    (void)document_id;
+    return result;
 }
 
 void ReplicationManager::healthMonitorLoop() {
@@ -1466,6 +1560,15 @@ bool ReplicationManager::validateConfig() {
         return false;
     }
     
+    if (config_.enable_leader_lease &&
+        config_.leader_lease_duration_ms >= config_.election_timeout_min_ms) {
+        THEMIS_ERROR(
+            "leader_lease_duration_ms ({}) must be strictly less than "
+            "election_timeout_min_ms ({}) to guarantee linearizability",
+            config_.leader_lease_duration_ms, config_.election_timeout_min_ms);
+        return false;
+    }
+
     return true;
 }
 

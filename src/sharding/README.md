@@ -175,3 +175,13 @@ For comprehensive sharding documentation, see:
 ## Quick Start
 
 See usage examples in the architecture documentation above.
+
+## Scientific References
+
+1. Karger, D., Lehman, E., Leighton, T., Panigrahy, R., Levine, M., & Lewin, D. (1997). **Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web**. *Proceedings of the 29th Annual ACM Symposium on Theory of Computing (STOC)*, 654–663. https://doi.org/10.1145/258533.258660
+
+2. DeCandia, G., Hastorun, D., Jampani, M., Kakulapati, G., Lakshman, A., Pilchin, A., … Vogels, W. (2007). **Dynamo: Amazon's Highly Available Key-Value Store**. *Proceedings of SOSP 2007*, 205–220. https://doi.org/10.1145/1294261.1294281
+
+3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
+
+4. Curino, C., Jones, E., Zhang, Y., & Madden, S. (2010). **Schism: A Workload-Driven Approach to Database Replication and Partitioning**. *Proceedings of the VLDB Endowment*, 3(1–2), 48–57. https://doi.org/10.14778/1920841.1920853

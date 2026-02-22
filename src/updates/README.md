@@ -909,3 +909,13 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Storage Module](../storage/README.md) - Underlying storage layer
 - [Security Module](../security/README.md) - Signature verification
 - [Utils Module](../utils/README.md) - Update checker utilities
+
+## Scientific References
+
+1. Fowler, M., & Sadalage, P. J. (2010). **NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence**. Addison-Wesley. ISBN: 978-0-321-82662-6
+
+2. Ambler, S. W., & Sadalage, P. J. (2006). **Refactoring Databases: Evolutionary Database Design**. Addison-Wesley. ISBN: 978-0-321-29353-5
+
+3. Neumann, T., & Weikum, G. (2010). **The RDF-3X Engine for Scalable Management of RDF Data**. *VLDB Journal*, 19(1), 91–113. https://doi.org/10.1007/s00778-009-0165-y
+
+4. Bernstein, P. A., & Goodman, N. (1981). **Concurrency Control in Distributed Database Systems**. *ACM Computing Surveys*, 13(2), 185–221. https://doi.org/10.1145/356842.356846

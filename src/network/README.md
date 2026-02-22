@@ -1080,3 +1080,15 @@ target_include_directories(themis_network
 - [Performance Tuning Guide](../../docs/performance/network-tuning.md)
 - [Boost.Asio Documentation](https://www.boost.org/doc/libs/release/doc/html/boost_asio.html)
 - [Protocol Buffers Wire Format](https://developers.google.com/protocol-buffers/docs/encoding)
+
+## Scientific References
+
+1. Postel, J. (1981). **Transmission Control Protocol**. RFC 793. IETF. https://doi.org/10.17487/RFC0793
+
+2. Rescorla, E. (2018). **The Transport Layer Security (TLS) Protocol Version 1.3**. RFC 8446. IETF. https://doi.org/10.17487/RFC8446
+
+3. Belshe, M., Peon, R., & Thomson, M. (2015). **Hypertext Transfer Protocol Version 2 (HTTP/2)**. RFC 7540. IETF. https://doi.org/10.17487/RFC7540
+
+4. Nygard, M. T. (2018). **Release It!: Design and Deploy Production-Ready Software (2nd ed.)**. Pragmatic Bookshelf. ISBN: 978-1-680-50239-8
+
+5. Harchol-Balter, M. (2013). **Performance Modeling and Design of Computer Systems: Queueing Theory in Action**. Cambridge University Press. https://doi.org/10.1017/CBO9781139226424

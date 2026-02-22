@@ -22,10 +22,15 @@
 #include "utils/error_registry.h"
 #include "utils/http_client_pool.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <thread>
 #include <chrono>
+
+#ifdef ERROR
+#undef ERROR
+#endif
 
 using json = nlohmann::json;
 
@@ -161,7 +166,7 @@ Result<int> DefaultAlertmanager::postWithRetry(const std::string& path,
     // Parse the JSON body once before the retry loop to avoid redundant work.
     const json parsed_body = json::parse(json_body);
 
-    int attempts = std::max(1, config_.retry_count + 1);
+    int attempts = (std::max)(1, config_.retry_count + 1);
     for (int attempt = 1; attempt <= attempts; ++attempt) {
         try {
             auto future = http_pool_->post(url, parsed_body, headers);
@@ -206,7 +211,7 @@ Result<void> DefaultAlertmanager::initialize(const AlertmanagerConfig& config) {
     auto conn = testConnection();
     if (!conn) {
         THEMIS_WARN("Alertmanager connectivity check failed: {}",
-                    conn.error().message);
+                conn.error().message());
     }
 
     return {};
@@ -274,7 +279,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
 
     auto result = postWithRetry("/api/v2/alerts", payload.dump());
     if (!result) {
-        THEMIS_ERROR("Failed to send alert to Alertmanager: {}", result.error().message);
+        THEMIS_ERROR("Failed to send alert to Alertmanager: {}", result.error().message());
         return tl::unexpected(result.error());
     }
 
@@ -324,7 +329,7 @@ Result<void> DefaultAlertmanager::resolveAlert(const std::string& alert_id) {
 
     auto result = postWithRetry("/api/v2/alerts", payload.dump());
     if (!result) {
-        THEMIS_ERROR("Failed to resolve alert in Alertmanager: {}", result.error().message);
+        THEMIS_ERROR("Failed to resolve alert in Alertmanager: {}", result.error().message());
         return tl::unexpected(result.error());
     }
 
@@ -369,7 +374,7 @@ Result<void> DefaultAlertmanager::silenceAlert(const std::string& alert_id,
 
     auto result = postWithRetry("/api/v2/silences", payload.dump());
     if (!result) {
-        THEMIS_ERROR("Failed to silence alert in Alertmanager: {}", result.error().message);
+        THEMIS_ERROR("Failed to silence alert in Alertmanager: {}", result.error().message());
         return tl::unexpected(result.error());
     }
 
