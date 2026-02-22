@@ -232,6 +232,9 @@ struct ReplicationStats {
     std::atomic<uint64_t> manual_failovers{0};
     std::atomic<uint64_t> replica_failures_detected{0};
     std::atomic<uint64_t> network_partitions_detected{0};
+    // Leader lease read counters
+    std::atomic<uint64_t> lease_reads_served{0};
+    std::atomic<uint64_t> lease_reads_rejected{0};
     
     // Prometheus metrics export
     std::string toPrometheusFormat() const;

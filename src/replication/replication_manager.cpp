@@ -216,8 +216,16 @@ std::string ReplicationStats::toPrometheusFormat() const {
     
     oss << "# HELP themisdb_network_partitions_detected_total Total network partitions detected\n"
         << "# TYPE themisdb_network_partitions_detected_total counter\n"
-        << "themisdb_network_partitions_detected_total " << network_partitions_detected.load() << "\n";
-    
+        << "themisdb_network_partitions_detected_total " << network_partitions_detected.load() << "\n\n";
+
+    oss << "# HELP themisdb_leader_lease_reads_served_total Lease reads served under valid leader lease\n"
+        << "# TYPE themisdb_leader_lease_reads_served_total counter\n"
+        << "themisdb_leader_lease_reads_served_total " << lease_reads_served.load() << "\n\n";
+
+    oss << "# HELP themisdb_leader_lease_reads_rejected_total Lease reads rejected (no valid lease)\n"
+        << "# TYPE themisdb_leader_lease_reads_rejected_total counter\n"
+        << "themisdb_leader_lease_reads_rejected_total " << lease_reads_rejected.load() << "\n";
+
     return oss.str();
 }
 
@@ -1345,12 +1353,14 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     // Only the Raft leader may serve lease reads.
     if (!election_->isLeader()) {
         THEMIS_DEBUG("leaseRead rejected: node {} is not the leader", node_id_);
+        stats_.lease_reads_rejected++;
         return result;
     }
 
     // Check that the leader lease is still valid.
     if (!config_.enable_leader_lease || !election_->hasValidLease()) {
         THEMIS_DEBUG("leaseRead rejected: leader lease expired or disabled (node={})", node_id_);
+        stats_.lease_reads_rejected++;
         return result;
     }
 
@@ -1360,6 +1370,7 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     result.success            = true;
     result.served_under_lease = true;
     result.commit_index       = wal_ ? wal_->getCurrentSequence() : 0;
+    stats_.lease_reads_served++;
 
     THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
                  collection, document_id, result.commit_index, node_id_);
@@ -1549,6 +1560,15 @@ bool ReplicationManager::validateConfig() {
         return false;
     }
     
+    if (config_.enable_leader_lease &&
+        config_.leader_lease_duration_ms >= config_.election_timeout_min_ms) {
+        THEMIS_ERROR(
+            "leader_lease_duration_ms ({}) must be strictly less than "
+            "election_timeout_min_ms ({}) to guarantee linearizability",
+            config_.leader_lease_duration_ms, config_.election_timeout_min_ms);
+        return false;
+    }
+
     return true;
 }
 

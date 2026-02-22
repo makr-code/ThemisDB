@@ -119,6 +119,42 @@ TEST_F(ReplicationConfigTest, ElectionTimeoutMinGEMaxFails) {
     EXPECT_FALSE(mgr.initialize());
 }
 
+TEST_F(ReplicationConfigTest, LeaseDurationGEElectionTimeoutFails) {
+    TempWALDir wd("/tmp/themis_repl_cfg_lease_invalid");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_leader_lease       = true;
+    cfg.election_timeout_min_ms   = 3000;
+    cfg.leader_lease_duration_ms  = 3000;  // equal → invalid (must be strictly less)
+
+    ReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.initialize());
+}
+
+TEST_F(ReplicationConfigTest, LeaseDurationLTElectionTimeoutSucceeds) {
+    TempWALDir wd("/tmp/themis_repl_cfg_lease_valid");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_leader_lease       = true;
+    cfg.election_timeout_min_ms   = 3000;
+    cfg.leader_lease_duration_ms  = 2999;  // strictly less → valid
+
+    ReplicationManager mgr(cfg);
+    EXPECT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}
+
+TEST_F(ReplicationConfigTest, LeaseDisabledIgnoresLeaseDuration) {
+    TempWALDir wd("/tmp/themis_repl_cfg_lease_off");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_leader_lease       = false;
+    cfg.election_timeout_min_ms   = 500;
+    // duration >= election_timeout but lease is disabled → should still succeed
+    cfg.leader_lease_duration_ms  = 5000;
+
+    ReplicationManager mgr(cfg);
+    EXPECT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}
+
 TEST_F(ReplicationConfigTest, ValidConfigInitializesSuccessfully) {
     TempWALDir wd("/tmp/themis_repl_cfg_test5");
     ReplicationConfig cfg = makeConfig(wd.path);
@@ -2300,4 +2336,57 @@ TEST(LeaderLeaseTest, DirectLeaseApiRenewAndExpire) {
     }
     // (If the node is not yet a leader due to timing, the test still passes –
     // it just validates the invariant that a non-leader has no valid lease.)
+}
+
+// -------------------------------------------------------------------------
+// 7. Prometheus metrics export includes lease-read counters
+// -------------------------------------------------------------------------
+TEST(LeaderLeaseTest, PrometheusMetricsContainLeaseCounters) {
+    // --- Part A: served counter ---
+    {
+        TempWALDir wd("/tmp/themis_lease_prom_served");
+        ReplicationConfig cfg = makeLeaseConfig(wd.path);
+
+        ReplicationManager mgr(cfg);
+        ASSERT_TRUE(mgr.initialize());
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        ASSERT_EQ(mgr.getRole(), ReplicationRole::LEADER);
+        ASSERT_TRUE(mgr.hasLeaderLease());
+
+        // Serve one lease read → lease_reads_served = 1.
+        auto r = mgr.leaseRead("col", "doc");
+        ASSERT_TRUE(r.success);
+
+        std::string metrics = mgr.exportPrometheusMetrics();
+        EXPECT_NE(metrics.find("themisdb_leader_lease_reads_served_total"), std::string::npos);
+        // Served counter must be exactly 1.
+        EXPECT_NE(metrics.find("themisdb_leader_lease_reads_served_total 1"), std::string::npos);
+
+        mgr.shutdown();
+    }
+
+    // --- Part B: rejected counter ---
+    {
+        TempWALDir wd2("/tmp/themis_lease_prom_rejected");
+        ReplicationConfig cfg2 = makeLeaseConfig(wd2.path);
+        cfg2.enable_leader_lease = false;  // lease disabled → leaseRead always rejects
+
+        ReplicationManager mgr2(cfg2);
+        ASSERT_TRUE(mgr2.initialize());
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        ASSERT_EQ(mgr2.getRole(), ReplicationRole::LEADER);
+
+        // leaseRead rejected (lease disabled) → lease_reads_rejected = 1.
+        auto r2 = mgr2.leaseRead("col", "doc2");
+        EXPECT_FALSE(r2.success);
+
+        std::string metrics2 = mgr2.exportPrometheusMetrics();
+        EXPECT_NE(metrics2.find("themisdb_leader_lease_reads_rejected_total"), std::string::npos);
+        // Rejected counter must be exactly 1.
+        EXPECT_NE(metrics2.find("themisdb_leader_lease_reads_rejected_total 1"), std::string::npos);
+
+        mgr2.shutdown();
+    }
 }
