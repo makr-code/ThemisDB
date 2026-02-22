@@ -401,3 +401,117 @@ TEST(IngestionManagerApiTest, DatabaseSourceStillUnsupported) {
     }
     EXPECT_TRUE(found_error);
 }
+
+// ============================================================================
+// GenericApiConnector – cursor-based pagination
+// ============================================================================
+
+TEST(ApiConnectorCursorTest, InitializeWithCursorModeOption) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id                        = "cursor_api";
+    cfg.type                             = SourceType::API;
+    cfg.location                         = "https://api.example.com/v2/docs";
+    cfg.options["pagination_mode"]       = "cursor";
+    cfg.options["cursor_param"]          = "page_token";
+    cfg.options["cursor_response_field"] = "next_page_token";
+    cfg.options["page_size"]             = "3";
+    EXPECT_TRUE(conn.initialize(cfg));
+}
+
+TEST(ApiConnectorCursorTest, SetPaginationModeApiDoesNotCrash) {
+    GenericApiConnector conn;
+    EXPECT_NO_THROW(conn.setPaginationMode(PaginationMode::CURSOR));
+    EXPECT_NO_THROW(conn.setPaginationMode(PaginationMode::OFFSET));
+}
+
+TEST(ApiConnectorCursorTest, SetCursorResponseFieldDoesNotCrash) {
+    GenericApiConnector conn;
+    EXPECT_NO_THROW(conn.setCursorResponseField("next_page_token"));
+}
+
+TEST(ApiConnectorCursorTest, CursorModeIngestsDocuments) {
+    // Simulated response always returns 3 docs + "next_cursor":"cursor_page2".
+    // Use max_pages=2 to process two pages (6 docs total) before stopping.
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id                        = "cursor_ingest";
+    cfg.type                             = SourceType::API;
+    cfg.location                         = "https://api.example.com/v2/docs";
+    cfg.options["pagination_mode"]       = "cursor";
+    cfg.options["cursor_response_field"] = "next_cursor";
+    cfg.options["page_size"]             = "3";
+    cfg.options["max_pages"]             = "2";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    auto stats = conn.ingest("test_collection", nullptr);
+    EXPECT_EQ(stats.documents_processed, 6u);
+    EXPECT_EQ(stats.documents_failed,    0u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(ApiConnectorCursorTest, CursorModeStopsWhenNoCursorInResponse) {
+    // When cursor_response_field points to a field absent in the response,
+    // the connector must stop after the first page.
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id                        = "cursor_stop";
+    cfg.type                             = SourceType::API;
+    cfg.location                         = "https://api.example.com/v2/docs";
+    cfg.options["pagination_mode"]       = "cursor";
+    // Use a field name that doesn't exist in the simulated body
+    cfg.options["cursor_response_field"] = "nonexistent_cursor_field";
+    cfg.options["page_size"]             = "3";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    auto stats = conn.ingest("test_collection", nullptr);
+    // Should stop after one page (no cursor field found)
+    EXPECT_EQ(stats.documents_processed, 3u);
+    EXPECT_EQ(stats.documents_failed,    0u);
+}
+
+TEST(ApiConnectorCursorTest, CursorModeViaSetPaginationMode) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id            = "cursor_via_setter";
+    cfg.type                 = SourceType::API;
+    cfg.location             = "https://api.example.com/v2/docs";
+    cfg.options["page_size"] = "3";
+    cfg.options["max_pages"] = "1";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    // Override mode and cursor field via setters
+    conn.setPaginationMode(PaginationMode::CURSOR);
+    conn.setCursorResponseField("nonexistent_cursor_field"); // stop after 1 page
+
+    auto stats = conn.ingest("test_collection", nullptr);
+    EXPECT_EQ(stats.documents_processed, 3u);
+    EXPECT_EQ(stats.documents_failed,    0u);
+}
+
+TEST(ApiConnectorCursorTest, CursorModeWithProgressCallback) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id                        = "cursor_cb";
+    cfg.type                             = SourceType::API;
+    cfg.location                         = "https://api.example.com/v2/docs";
+    cfg.options["pagination_mode"]       = "cursor";
+    cfg.options["cursor_response_field"] = "next_cursor";
+    cfg.options["page_size"]             = "3";
+    cfg.options["max_pages"]             = "2";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    size_t cb_calls = 0;
+    auto stats = conn.ingest("col", [&](const std::string&, size_t, size_t,
+                                        const std::string&) { ++cb_calls; });
+    EXPECT_GE(cb_calls, 1u);
+    EXPECT_EQ(stats.documents_processed, 6u);
+}
+
+TEST(ApiConnectorCursorTest, PaginationModeEnumValues) {
+    // Verify PaginationMode enum is usable in switch/comparison
+    PaginationMode m = PaginationMode::OFFSET;
+    EXPECT_NE(m, PaginationMode::CURSOR);
+    m = PaginationMode::CURSOR;
+    EXPECT_EQ(m, PaginationMode::CURSOR);
+}

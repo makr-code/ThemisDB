@@ -45,6 +45,28 @@ enum class SourceType {
 };
 
 /**
+ * @brief Pagination mode for API source connectors
+ *
+ * Controls how the connector advances through pages of results.
+ *
+ * - `OFFSET`: Numeric offset/limit style – each page request carries an
+ *   integer offset that advances by the number of items received.
+ *   Example URL: `?offset=100&limit=50`
+ *
+ * - `CURSOR`: Opaque cursor token style – the first page request carries no
+ *   cursor; each subsequent request uses the cursor token returned in the
+ *   previous response.  Pagination stops when the response contains no cursor.
+ *   Example URL: `?cursor=abc123&limit=50`
+ *
+ * Configured via `SourceConfig::options["pagination_mode"]` with values
+ * `"offset"` (default) or `"cursor"`.
+ */
+enum class PaginationMode {
+    OFFSET,  ///< Numeric offset/limit pagination (default)
+    CURSOR   ///< Opaque cursor-token pagination
+};
+
+/**
  * @brief Structured error codes for ingestion operations
  */
 enum class IngestionErrorCode {
