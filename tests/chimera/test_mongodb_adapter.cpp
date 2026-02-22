@@ -13,6 +13,8 @@
 #include "chimera/database_adapter.hpp"
 #include "chimera/mongodb_adapter.hpp"
 
+#include <chrono>
+
 using namespace chimera;
 
 // ---------------------------------------------------------------------------
@@ -590,4 +592,209 @@ TEST(MongoDBFactoryTest, CapabilitiesViaFactory) {
     ASSERT_NE(adapter, nullptr);
     EXPECT_TRUE(adapter->has_capability(Capability::DOCUMENT_STORE));
     EXPECT_FALSE(adapter->has_capability(Capability::RELATIONAL_QUERIES));
+}
+
+// ---------------------------------------------------------------------------
+// Bug-fix regression: document_matches must handle "id" filter key
+// ---------------------------------------------------------------------------
+
+TEST(MongoDBDocumentMatchesTest, FindByIdFieldInFilter) {
+    MongoDBAdapter adapter;
+    adapter.connect("mongodb://localhost:27017/testdb");
+
+    // Insert two documents with explicit IDs
+    Document d1; d1.id = "alpha"; d1.fields["x"] = Scalar{int64_t{1}};
+    Document d2; d2.id = "beta";  d2.fields["x"] = Scalar{int64_t{2}};
+    adapter.insert_document("id_filter_col", d1);
+    adapter.insert_document("id_filter_col", d2);
+
+    // Filter by id field – must return exactly the matching document
+    std::map<std::string, Scalar> filter;
+    filter["id"] = Scalar{std::string{"alpha"}};
+
+    auto result = adapter.find_documents("id_filter_col", filter);
+    ASSERT_TRUE(result.is_ok());
+    ASSERT_EQ(result.value.value().size(), 1u);
+    EXPECT_EQ(result.value.value()[0].id, "alpha");
+}
+
+TEST(MongoDBDocumentMatchesTest, UpdateByIdFieldFilter) {
+    MongoDBAdapter adapter;
+    adapter.connect("mongodb://localhost:27017/testdb");
+
+    Document d1; d1.id = "upd1"; d1.fields["status"] = Scalar{std::string{"old"}};
+    Document d2; d2.id = "upd2"; d2.fields["status"] = Scalar{std::string{"old"}};
+    adapter.insert_document("upd_col", d1);
+    adapter.insert_document("upd_col", d2);
+
+    std::map<std::string, Scalar> filter;
+    filter["id"] = Scalar{std::string{"upd1"}};
+
+    std::map<std::string, Scalar> updates;
+    updates["status"] = Scalar{std::string{"new"}};
+
+    auto result = adapter.update_documents("upd_col", filter, updates);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.value(), 1u);  // only upd1 updated
+
+    // Verify upd2 is unchanged
+    std::map<std::string, Scalar> filter2;
+    filter2["id"] = Scalar{std::string{"upd2"}};
+    auto check = adapter.find_documents("upd_col", filter2);
+    ASSERT_TRUE(check.is_ok());
+    ASSERT_EQ(check.value.value().size(), 1u);
+    EXPECT_EQ(std::get<std::string>(check.value.value()[0].fields.at("status")), "old");
+}
+
+// ---------------------------------------------------------------------------
+// Security audit: credential handling
+// ---------------------------------------------------------------------------
+
+class MongoDBSecurityTest : public ::testing::Test {
+protected:
+    MongoDBAdapter adapter;
+};
+
+TEST_F(MongoDBSecurityTest, CredentialsNotExposedInSystemInfo) {
+    // Connect with credentials in the URI
+    adapter.connect("mongodb://admin:s3cr3t@localhost:27017/mydb");
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+    const auto& info = result.value.value();
+
+    // Verify password is not exposed through system info fields
+    for (const auto& kv : info.build_info) {
+        EXPECT_EQ(kv.second.find("s3cr3t"), std::string::npos)
+            << "Credential leaked in build_info[" << kv.first << "]";
+    }
+    for (const auto& kv : info.configuration) {
+        if (std::holds_alternative<std::string>(kv.second)) {
+            EXPECT_EQ(std::get<std::string>(kv.second).find("s3cr3t"),
+                      std::string::npos)
+                << "Credential leaked in configuration[" << kv.first << "]";
+        }
+    }
+    // Database name should be present but not the password
+    ASSERT_TRUE(info.configuration.count("database") > 0);
+    EXPECT_EQ(std::get<std::string>(info.configuration.at("database")), "mydb");
+}
+
+TEST_F(MongoDBSecurityTest, CredentialsNotExposedWithoutUserInfo) {
+    // URI without credentials should work normally
+    adapter.connect("mongodb://localhost:27017/cleandb");
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(
+        std::get<std::string>(result.value.value().configuration.at("database")),
+        "cleandb"
+    );
+}
+
+TEST_F(MongoDBSecurityTest, SrvCredentialsNotExposedInSystemInfo) {
+    adapter.connect("mongodb+srv://user:pass@cluster.mongodb.net/proddb");
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+    for (const auto& kv : result.value.value().build_info) {
+        EXPECT_EQ(kv.second.find("pass"), std::string::npos)
+            << "Credential leaked in build_info[" << kv.first << "]";
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Performance / overhead benchmark (uses chrono; no external benchmark lib)
+// ---------------------------------------------------------------------------
+
+class MongoDBPerformanceTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        adapter.connect("mongodb://localhost:27017/perfdb");
+    }
+
+    MongoDBAdapter adapter;
+    static constexpr const char* kCollection = "perf_col";
+
+    static constexpr size_t kDocCount   = 1000;
+    static constexpr size_t kVecDim     = 32;    // small dim for simulation layer
+    static constexpr size_t kVecCount   = 200;
+    static constexpr size_t kSearchK    = 10;
+    static constexpr size_t kSearchRuns = 20;
+
+    // Generous wall-clock limits for in-process simulation in debug CI builds.
+    static constexpr int64_t kBulkDocMs  = 2000;  // kDocCount doc inserts
+    static constexpr int64_t kBulkVecMs  = 2000;  // kVecCount vector inserts (kVecDim-D)
+    static constexpr int64_t kSearchMs   = 2000;  // kSearchRuns searches over kVecCount vectors
+};
+
+TEST_F(MongoDBPerformanceTest, BulkDocumentInsertOverhead) {
+    std::vector<Document> docs;
+    docs.reserve(kDocCount);
+    for (size_t i = 0; i < kDocCount; ++i) {
+        Document doc;
+        doc.id = "pdoc_" + std::to_string(i);
+        doc.fields["idx"]  = Scalar{int64_t(i)};
+        doc.fields["data"] = Scalar{std::string(32, 'x')};
+        docs.push_back(std::move(doc));
+    }
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = adapter.batch_insert_documents(kCollection, docs);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.value(), kDocCount);
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kBulkDocMs)
+        << "Bulk insert of " << kDocCount << " documents took "
+        << elapsed_ms << "ms (limit: " << kBulkDocMs << "ms)";
+}
+
+TEST_F(MongoDBPerformanceTest, BulkVectorInsertOverhead) {
+    std::vector<Vector> vecs;
+    vecs.reserve(kVecCount);
+    for (size_t i = 0; i < kVecCount; ++i) {
+        Vector v;
+        v.data.resize(kVecDim, static_cast<float>(i) / kVecCount);
+        vecs.push_back(std::move(v));
+    }
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = adapter.batch_insert_vectors("perf_vecs", vecs);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.value(), kVecCount);
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kBulkVecMs)
+        << "Bulk insert of " << kVecCount << " vectors (" << kVecDim
+        << "D) took " << elapsed_ms << "ms (limit: " << kBulkVecMs << "ms)";
+}
+
+TEST_F(MongoDBPerformanceTest, VectorSearchOverhead) {
+    // Pre-populate with kVecCount vectors
+    for (size_t i = 0; i < kVecCount; ++i) {
+        Vector v;
+        v.data.resize(kVecDim, static_cast<float>(i) / kVecCount);
+        adapter.insert_vector("search_vecs", v);
+    }
+
+    Vector query;
+    query.data.resize(kVecDim, 0.5f);
+
+    auto t0 = std::chrono::steady_clock::now();
+    for (size_t i = 0; i < kSearchRuns; ++i) {
+        auto result = adapter.search_vectors("search_vecs", query, kSearchK);
+        ASSERT_TRUE(result.is_ok());
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kSearchMs)
+        << kSearchRuns << " vector searches (k=" << kSearchK << ") over "
+        << kVecCount << " vectors took " << elapsed_ms
+        << "ms (limit: " << kSearchMs << "ms)";
 }

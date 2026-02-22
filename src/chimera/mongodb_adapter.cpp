@@ -63,7 +63,7 @@ Result<bool> MongoDBAdapter::connect(
         );
     }
 
-    connection_string_ = connection_string;
+    connection_string_ = mask_credentials(connection_string);
     database_name_ = parse_database_name(connection_string);
     if (database_name_.empty()) {
         database_name_ = "test";
@@ -635,6 +635,37 @@ std::string MongoDBAdapter::parse_database_name(
     return rest;
 }
 
+std::string MongoDBAdapter::mask_credentials(
+    const std::string& connection_string
+) {
+    // Replace user:password@ portion with ***:***@ so the stored string
+    // cannot expose credentials through memory inspection or log leakage.
+    const std::string prefix_plain = "mongodb://";
+    const std::string prefix_srv   = "mongodb+srv://";
+
+    std::string scheme;
+    std::string rest;
+    if (connection_string.rfind(prefix_srv, 0) == 0) {
+        scheme = prefix_srv;
+        rest   = connection_string.substr(prefix_srv.size());
+    } else if (connection_string.rfind(prefix_plain, 0) == 0) {
+        scheme = prefix_plain;
+        rest   = connection_string.substr(prefix_plain.size());
+    } else {
+        // Unknown scheme – return as-is; caller already validated
+        return connection_string;
+    }
+
+    auto at_pos = rest.find('@');
+    if (at_pos == std::string::npos) {
+        // No credentials present
+        return connection_string;
+    }
+
+    // Keep everything after the '@'
+    return scheme + "***:***@" + rest.substr(at_pos + 1);
+}
+
 std::string MongoDBAdapter::generate_document_id() {
     // Simple deterministic ID generation for the simulation layer.
     // Production code would use ObjectId from the mongocxx driver.
@@ -671,6 +702,13 @@ bool MongoDBAdapter::document_matches(
     for (const auto& kv : filter) {
         // Skip internal vector fields
         if (kv.first.rfind("__", 0) == 0) continue;
+
+        // The "id" key matches the document's top-level id field, not fields map
+        if (kv.first == "id") {
+            if (!std::holds_alternative<std::string>(kv.second)) return false;
+            if (doc.id != std::get<std::string>(kv.second)) return false;
+            continue;
+        }
 
         auto it = doc.fields.find(kv.first);
         if (it == doc.fields.end()) return false;

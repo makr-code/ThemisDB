@@ -216,6 +216,12 @@ private:
     // Private helpers
     // -----------------------------------------------------------------------
 
+    /// Mask user credentials inside a MongoDB connection string so that the
+    /// stored string cannot leak passwords (e.g. via core dumps or logs).
+    /// The format mongodb://user:pass@host is transformed to
+    /// mongodb://***:***@host.
+    static std::string mask_credentials(const std::string& connection_string);
+
     /// Parse the database name from a MongoDB connection string.
     static std::string parse_database_name(const std::string& connection_string);
 
