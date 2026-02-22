@@ -433,6 +433,12 @@ Get voice assistant statistics.
     "cache_hits": 1200,
     "avg_latency_ms": 150
   },
+  "wake_word": {
+    "total_chunks_processed": 8400,
+    "total_detections": 12,
+    "registered_wake_words": 3,
+    "buffer_samples": 24000
+  },
   "active_sessions": 5
 }
 ```
@@ -598,6 +604,89 @@ llm:
   n_gpu_layers: 0  # 0 = CPU only
   temperature: 0.7
   top_p: 0.9
+```
+
+### Wake-Word Configuration
+
+Enable hands-free activation so users can trigger the voice pipeline without pressing a button:
+
+```yaml
+voice_commands:
+  wake_word_enabled: true
+  wake_word: "hey themis"                # Primary wake word (kept for backward compat)
+  wake_word_sensitivity: 0.5             # 0.0 = permissive, 1.0 = strict
+  wake_word_buffer_length_ms: 1500       # Rolling audio buffer size (ms)
+  wake_word_cooldown_ms: 1000            # Minimum ms between detections
+  wake_word_vad_min_energy: 0.005        # RMS energy gate (silence suppressor)
+  wake_word_sample_rate: 16000           # Expected PCM sample rate (Hz)
+  wake_words:
+    - id: "hey-themis"
+      phrase: "hey themis"
+    - id: "themis"
+      phrase: "themis"
+    - id: "database"
+      phrase: "database"
+```
+
+**C++ API:**
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_wake_word = true;
+cfg.wake_word_config.sensitivity       = 0.5f;
+cfg.wake_word_config.cooldown_ms       = 1000;
+cfg.wake_word_config.vad_min_energy    = 0.005f;
+cfg.wake_word_config.continuous_listen = true;
+// Override default wake words if needed
+cfg.wake_words = {
+    {"hey-themis", "hey themis"},
+    {"themis",     "themis"}
+};
+
+themis::voice::VoiceAssistant va(cfg);
+
+// Register a callback (optional – called synchronously on detection)
+va.setWakeWordCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    // r.wake_word_id   – which word fired
+    // r.confidence     – score in [0, 1]
+    // r.detection_timestamp_ms – wall-clock ms
+});
+
+// Stream microphone chunks into the detector
+while (capturing) {
+    auto chunk = mic.readChunk();           // 16-bit LE PCM
+    auto result = va.detectWakeWord(chunk);
+    if (result.detected) {
+        // Wake word confirmed – start the voice pipeline
+        va.streamProcessVoiceCommand(recordUtterance(), session_id);
+    }
+}
+```
+
+**How detection works:**
+
+The detector runs a two-stage pipeline on every audio chunk:
+
+1. **VAD gate** – RMS energy is compared against `vad_min_energy`.  Chunks below the
+   threshold are discarded immediately (near-zero CPU cost during silence).
+2. **Keyword scoring** – Each registered phrase is scored using three audio features:
+   phrase-length density, a spectral-centroid proxy (speech vs. broadband noise), and the
+   crest factor (consonant-rich transients).  The best score must exceed `sensitivity` to
+   confirm a detection.  No external model file is required.
+
+**Statistics returned by `/api/v1/voice/stats`:**
+
+```json
+{
+  "wake_word": {
+    "total_chunks_processed": 8400,
+    "total_detections": 12,
+    "registered_wake_words": 3,
+    "buffer_samples": 24000
+  }
+}
 ```
 
 ---

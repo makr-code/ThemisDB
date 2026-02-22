@@ -1724,6 +1724,79 @@ paths:
                     example: 'Cache cleared'
         '500': { $ref: '#/components/responses/InternalError' }
 
+  /api/v1/replication/topology:
+    get:
+      summary: Get live replication topology snapshot
+      operationId: getReplicationTopology
+      tags: [Replication Topology]
+      responses:
+        '200':
+          description: Full replication topology with nodes and WAL-stream edges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_node_id:
+                    type: string
+                    example: primary-1
+                  primary_lsn:
+                    type: integer
+                    format: int64
+                    example: 42000
+                  nodes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        node_id:              { type: string }
+                        role:                 { type: string, enum: [PRIMARY, REPLICA] }
+                        is_primary:           { type: boolean }
+                        health_status:        { type: string, enum: [HEALTHY, FAILED] }
+                        replication_lag_ms:   { type: integer, format: int64 }
+                        replication_lag_bytes: { type: integer, format: int64 }
+                        endpoint:             { type: string }
+                        last_confirmed_lsn:   { type: integer, format: int64 }
+                  edges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        from: { type: string }
+                        to:   { type: string }
+                        type: { type: string, example: WAL_STREAM }
+                  total_nodes:   { type: integer }
+                  replica_count: { type: integer }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/replication/health:
+    get:
+      summary: Get aggregated replication cluster health summary
+      operationId: getReplicationHealth
+      tags: [Replication Topology]
+      responses:
+        '200':
+          description: Cluster health summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_node_id:              { type: string }
+                  has_quorum:                   { type: boolean }
+                  total_nodes:                  { type: integer }
+                  healthy_replicas:             { type: integer }
+                  failed_replicas:              { type: integer }
+                  max_replication_lag_ms:       { type: integer, format: int64 }
+                  max_replication_lag_bytes:    { type: integer, format: int64 }
+                  total_entries_shipped:        { type: integer, format: int64 }
+                  total_bytes_shipped:          { type: integer, format: int64 }
+                  failed_ships:                 { type: integer, format: int64 }
+                  overall_status:
+                    type: string
+                    enum: [HEALTHY, DEGRADED, CRITICAL]
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
   /api/v1/geo/topology:
     get:
       summary: List all shards with region/zone/health metadata

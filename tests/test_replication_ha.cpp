@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     2153                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1121,6 +1121,92 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
               static_cast<uint64_t>(kWriters * kWritesPerThread));
 
     mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TopologySnapshotLocalNodeOnly) {
+    auto cfg = makeMMConfig("topology-node");
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    auto snap = mgr.getTopologySnapshot();
+
+    EXPECT_EQ(snap.local_node_id,    "topology-node");
+    EXPECT_EQ(snap.replication_mode, "MULTI_MASTER");
+    ASSERT_EQ(snap.nodes.size(), 1u) << "Only the local node with no peers";
+    EXPECT_EQ(snap.nodes[0].node_id,  "topology-node");
+    EXPECT_TRUE(snap.nodes[0].is_local);
+    EXPECT_EQ(snap.nodes[0].state,    "ACTIVE");
+    EXPECT_EQ(snap.nodes[0].replication_lag_ms, 0u);
+    EXPECT_TRUE(snap.edges.empty()) << "No edges without peers";
+    EXPECT_EQ(snap.max_lag_ms, 0u);
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TopologySnapshotWithPeer) {
+    MultiMasterReplicationManager mgr(makeMMConfig("node-a"));
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id             = "node-b";
+    peer.endpoint            = "192.168.1.2:9002";
+    peer.datacenter          = "dc1";
+    peer.region              = "eu-west";
+    peer.state               = MMNodeState::ACTIVE;
+    peer.replication_lag_ms  = 42;
+    peer.priority            = 10;
+    peer.is_local_datacenter = true;
+    mgr.addPeer(peer);
+
+    auto snap = mgr.getTopologySnapshot();
+
+    ASSERT_EQ(snap.nodes.size(), 2u) << "Local + one peer";
+
+    // Find local node
+    auto local_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return n.is_local; });
+    ASSERT_NE(local_it, snap.nodes.end());
+    EXPECT_EQ(local_it->node_id, "node-a");
+    EXPECT_EQ(local_it->state,   "ACTIVE");
+
+    // Find peer node
+    auto peer_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return !n.is_local; });
+    ASSERT_NE(peer_it, snap.nodes.end());
+    EXPECT_EQ(peer_it->node_id,            "node-b");
+    EXPECT_EQ(peer_it->endpoint,           "192.168.1.2:9002");
+    EXPECT_EQ(peer_it->replication_lag_ms, 42u);
+    EXPECT_EQ(peer_it->state,              "ACTIVE");
+    EXPECT_FALSE(peer_it->is_local);
+
+    // Bidirectional edges (multi-master)
+    ASSERT_EQ(snap.edges.size(), 2u) << "One edge per direction";
+    bool has_a_to_b = false, has_b_to_a = false;
+    for (const auto& e : snap.edges) {
+        EXPECT_EQ(e.type, "PEER");
+        if (e.from == "node-a" && e.to == "node-b") has_a_to_b = true;
+        if (e.from == "node-b" && e.to == "node-a") has_b_to_a = true;
+    }
+    EXPECT_TRUE(has_a_to_b) << "Edge from local to peer must exist";
+    EXPECT_TRUE(has_b_to_a) << "Reverse edge from peer to local must exist";
+
+    EXPECT_EQ(snap.max_lag_ms, 42u);
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TopologySnapshotReportsOfflineWhenStopped) {
+    auto cfg = makeMMConfig("stopped-node");
+    MultiMasterReplicationManager mgr(cfg);
+    // Do not call start() – manager is in stopped state
+
+    auto snap = mgr.getTopologySnapshot();
+
+    ASSERT_GE(snap.nodes.size(), 1u);
+    auto local_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return n.is_local; });
+    ASSERT_NE(local_it, snap.nodes.end());
+    EXPECT_EQ(local_it->state, "OFFLINE");
 }
 
 // ============================================================================
