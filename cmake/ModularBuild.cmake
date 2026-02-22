@@ -344,6 +344,7 @@ set(THEMIS_SECURITY_SOURCES
     # PII detection
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
