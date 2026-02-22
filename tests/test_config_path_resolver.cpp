@@ -343,53 +343,56 @@ TEST_F(ConfigPathResolverTest, DeprecationReportEmptyInitially) {
 }
 
 TEST_F(ConfigPathResolverTest, DeprecationReportTracksLegacyUsage) {
+    // To trigger the aggregator we need a relative path that matches a
+    // PATH_MAPPING key and whose legacy file exists but whose new path
+    // does NOT exist.  We achieve this by temporarily changing CWD to
+    // test_dir_, where only "config/pii_patterns.yaml" (legacy) is present.
     ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
     ConfigPathResolver::setAggregationEnabled(false);
 
-    // Create a legacy path file that exists on the filesystem
-    auto legacy_dir = test_dir_ / "config";
-    std::filesystem::create_directories(legacy_dir);
-    auto legacy_file = legacy_dir / "pii_patterns.yaml";
-    createTestFile(legacy_file);
+    // Create the legacy file at the relative location inside test_dir_
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    // Deliberately do NOT create the new path "config/security/pii_patterns.yaml"
 
-    // The mapping for "config/pii_patterns.yaml" exists in PATH_MAPPING,
-    // but the new path "config/security/pii_patterns.yaml" does NOT exist on
-    // the test filesystem, so tryResolve should fall back to the legacy path
-    // and record it in the aggregator.
-    auto result = ConfigPathResolver::tryResolve(legacy_file.string());
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
 
-    // The file exists at the absolute path, but the path_mapping maps only the
-    // relative key, so tryResolve may not hit the legacy fallback branch unless
-    // the resolved path is the mapped one. Test the aggregator directly.
-    ConfigPathResolver::resetMetrics();
+    // Now tryResolve("config/pii_patterns.yaml"):
+    //   - new path = "config/security/pii_patterns.yaml" → does not exist
+    //   - legacy path = "config/pii_patterns.yaml"       → exists
+    //   → legacy fallback triggered, aggregator.incrementUsage() called
+    auto result = ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
 
-    // Directly exercise the aggregation path using a relative path
-    // whose new path is different but does not exist on disk.
-    // To do this, we create the legacy file at a path that matches the mapping key.
-    std::filesystem::path rel_legacy = "config/pii_patterns.yaml";
-    // We cannot create a relative path in the test conveniently, so we
-    // verify report fields via the aggregator public API indirectly:
+    std::filesystem::current_path(prev_cwd);
+
+    EXPECT_TRUE(result.has_value()) << "Legacy fallback should resolve to the legacy path";
+    EXPECT_EQ(result.value(), "config/pii_patterns.yaml") << "Should resolve to the legacy relative path";
 
     auto report = ConfigPathResolver::deprecationReport();
-    // Even if empty (because we only called tryResolve with absolute path),
-    // the report type and fields should be accessible.
-    for (const auto& entry : report) {
-        EXPECT_FALSE(entry.legacy_path.empty());
-        EXPECT_GE(entry.usage_count, 1u);
-    }
+    ASSERT_EQ(report.size(), 1u) << "Aggregator should have recorded one legacy path";
+    EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
+    EXPECT_GE(report[0].usage_count, 1u);
+    EXPECT_FALSE(report[0].new_path.empty());
 }
 
 TEST_F(ConfigPathResolverTest, DeprecationReportEntriesHaveExpectedFields) {
+    // After a known legacy fallback the entry fields must be populated correctly.
     ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
     ConfigPathResolver::setAggregationEnabled(false);
 
-    // Manually create a scenario where legacy fallback is triggered by
-    // simulating relative paths inside a temp working-directory-like setup.
-    // We verify the report structure for known mapped paths.
-    auto report = ConfigPathResolver::deprecationReport();
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
 
-    // Report may be empty in a clean state, but if populated the entries
-    // must have valid fields.
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_FALSE(report.empty());
     for (const auto& entry : report) {
         EXPECT_FALSE(entry.legacy_path.empty());
         EXPECT_FALSE(entry.new_path.empty());
@@ -432,16 +435,39 @@ TEST_F(ConfigPathResolverTest, AggregationEnabledSuppressesPerCallWarnings) {
 }
 
 TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
+    // Trigger two different legacy paths multiple times so the sort can be
+    // verified with real data.
     ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
     ConfigPathResolver::setAggregationEnabled(false);
 
-    // The report must be sorted descending by usage_count.
-    // We verify structural invariant on whatever entries exist.
+    std::filesystem::create_directories(test_dir_ / "config");
+    createTestFile(test_dir_ / "config" / "pii_patterns.yaml");
+    createTestFile(test_dir_ / "config" / "rbac_roles.json");
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    // Access pii_patterns 3 times and rbac_roles 1 time
+    for (int pass = 0; pass < 3; ++pass) {
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    }
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::tryResolve("config/rbac_roles.json");
+
+    std::filesystem::current_path(prev_cwd);
+
     auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_GE(report.size(), 2u);
+    // Report must be sorted by descending usage_count
     for (size_t i = 1; i < report.size(); ++i) {
         EXPECT_GE(report[i - 1].usage_count, report[i].usage_count)
             << "Report should be sorted by descending usage_count";
     }
+    // pii_patterns should be first with count >= 3
+    EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
+    EXPECT_GE(report[0].usage_count, 3u);
 }
 
 } // namespace test

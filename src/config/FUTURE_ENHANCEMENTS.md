@@ -49,11 +49,11 @@ This document covers implementation-specific future enhancements for the Config 
 Currently, each call to `resolve()` with a legacy path emits an individual log warning. For high-traffic deployments this floods logs. Replace per-call warnings with a background aggregation thread that batches and periodically reports which legacy paths are still in active use and how frequently.
 
 **Implementation Notes:**
-- `[ ]` Add `DeprecationAggregator` class to `config_path_resolver.cpp`; maintained as a static singleton alongside `metrics_`.
-- `[ ]` `DeprecationAggregator` stores a `std::unordered_map<std::string, uint64_t> usage_counts_` (key = legacy path); updated atomically on each `legacy_fallback` increment.
-- `[ ]` Background reporter thread (or timer via `std::jthread`) fires every `aggregation_interval_s` (default: 300 s); logs a structured summary: `"[CONFIG] Legacy path report: {path: 'config/lora_training_config.yaml', hits: 4821, removal_date: '2026-06-01', guide: 'https://...'}"`.
-- `[ ]` Expose `ConfigPathResolver::deprecationReport()` returning a `std::vector<DeprecationEntry>` for use by admin CLI tooling.
-- `[ ]` Suppressed from per-call log warnings once aggregator is active (controlled by `setCachingEnabled`-style flag `setAggregationEnabled(bool)`).
+- `[x]` Add `DeprecationAggregator` class to `config_path_resolver.cpp`; maintained as a static singleton alongside `metrics_`.
+- `[x]` `DeprecationAggregator` stores a `std::unordered_map<std::string, uint64_t> usage_counts_` (key = legacy path); updated atomically on each `legacy_fallback` increment.
+- `[x]` Background reporter thread (or timer via `std::jthread`) fires every `aggregation_interval_s` (default: 300 s); logs a structured summary: `"[CONFIG] Legacy path report: {path: 'config/lora_training_config.yaml', hits: 4821, removal_date: '2026-06-01', guide: 'https://...'}"`.
+- `[x]` Expose `ConfigPathResolver::deprecationReport()` returning a `std::vector<DeprecationEntry>` for use by admin CLI tooling.
+- `[x]` Suppressed from per-call log warnings once aggregator is active (controlled by `setCachingEnabled`-style flag `setAggregationEnabled(bool)`).
 
 **Performance Targets:**
 - Aggregator map update: single atomic increment, < 50 ns overhead on `resolve()` hot path.
