@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_manager.cpp                                 ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:26                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1136                                           ║
+    • Total Lines:     1129                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

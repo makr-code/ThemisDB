@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:22                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1083                                           ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     1297                                           ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a8e12692a  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
+    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
-    • 9f4b4c45b  2026-02-21  [aql] AQL syntax highlighting, error annotation, and prom... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

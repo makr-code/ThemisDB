@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_context_engine.py                              ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:21:53                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   83.0/100                                       ║
-    • Total Lines:     729                                            ║
+    • Total Lines:     722                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

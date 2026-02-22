@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kernel_invocation_interfaces.cpp              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-22 08:22:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-02-22 08:39:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   70.0/100                                       ║
-    • Total Lines:     468                                            ║
+    • Total Lines:     464                                            ║
     • Open Issues:     TODOs: 0, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

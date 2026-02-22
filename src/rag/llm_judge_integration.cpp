@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_judge_integration.cpp                          ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:28                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   62.0/100                                       ║
-    • Total Lines:     211                                            ║
+    • Total Lines:     204                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

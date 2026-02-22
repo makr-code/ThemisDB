@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pki_shard_certificate.cpp                          ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:31                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     367                                            ║
+    • Total Lines:     360                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

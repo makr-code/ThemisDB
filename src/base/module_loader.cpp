@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.cpp                                  ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:22                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   79.0/100                                       ║
-    • Total Lines:     1109                                           ║
+    • Total Lines:     1102                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:21:59                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     216                                            ║
+    • Total Lines:     266                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            usage_example.cpp                                  ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:21:54                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     256                                            ║
+    • Total Lines:     249                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

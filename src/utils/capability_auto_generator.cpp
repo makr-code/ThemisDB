@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            capability_auto_generator.cpp                      ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:33                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     516                                            ║
+    • Total Lines:     509                                            ║
     • Open Issues:     TODOs: 3, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

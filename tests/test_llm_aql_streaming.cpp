@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_llm_aql_streaming.cpp                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-22 08:39:31                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     283                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a8e12692a  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
+    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_llm_aql_streaming.cpp
  * @brief Unit tests for streaming natural language responses in LLMAQLHandler

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedded_user_registration_plugin.cpp              ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:29                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     568                                            ║
+    • Total Lines:     561                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pitr_grpc_service.cpp                              ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:30                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     162                                            ║
+    • Total Lines:     155                                            ║
     • Open Issues:     TODOs: 1, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

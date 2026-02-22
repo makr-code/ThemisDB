@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lib_hnsw_integration.cpp                      ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:50                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     575                                            ║
+    • Total Lines:     571                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

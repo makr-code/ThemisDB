@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            manifest_database.cpp                              ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:33                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
-    • Total Lines:     493                                            ║
+    • Total Lines:     486                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

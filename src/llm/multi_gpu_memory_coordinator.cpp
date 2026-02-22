@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_gpu_memory_coordinator.cpp                   ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:26                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   77.0/100                                       ║
-    • Total Lines:     608                                            ║
+    • Total Lines:     601                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

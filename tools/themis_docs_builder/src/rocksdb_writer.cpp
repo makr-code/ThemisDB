@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_writer.cpp                                 ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:23:08                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     46                                             ║
+    • Total Lines:     39                                             ║
     • Open Issues:     TODOs: 2, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

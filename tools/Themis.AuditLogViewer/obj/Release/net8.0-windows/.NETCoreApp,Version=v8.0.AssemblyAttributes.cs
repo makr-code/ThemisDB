@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            .NETCoreApp,Version=v8.0.AssemblyAttributes.cs     ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:23:06                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     30                                             ║
+    • Total Lines:     23                                             ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

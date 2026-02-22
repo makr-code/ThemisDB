@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backup_manager.cpp                                 ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:33                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   45.0/100                                       ║
-    • Total Lines:     1683                                           ║
+    • Total Lines:     1676                                           ║
     • Open Issues:     TODOs: 7, Stubs: 7                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║

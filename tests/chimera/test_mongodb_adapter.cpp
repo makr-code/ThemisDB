@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_mongodb_adapter.cpp                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-22 08:39:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     800                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║
+    • d34adc2bf  2026-02-22  Implement MongoDB vendor adapter for Chimera module ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_mongodb_adapter.cpp
  * @brief Unit tests for MongoDBAdapter (CHIMERA Suite)

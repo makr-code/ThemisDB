@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_raii.h                                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-22 08:21:56                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-22 08:38:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            archive_processor.cpp                              ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:22                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   81.0/100                                       ║
-    • Total Lines:     667                                            ║
+    • Total Lines:     660                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

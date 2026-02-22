@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            DsmLocalDataStore.cs                               ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:15                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   38.0/100                                       ║
-    • Total Lines:     364                                            ║
+    • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 0, Stubs: 13                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_kernels.cpp                                 ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:25                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     847                                            ║
+    • Total Lines:     840                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

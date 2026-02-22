@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:22                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     628                                            ║
+    • Total Lines:     790                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • e9805c94b  2026-02-22  Address code review: add warning log for unexpected missi... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

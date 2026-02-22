@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_startup_integration.cpp                   ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:46                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     267                                            ║
+    • Total Lines:     260                                            ║
     • Open Issues:     TODOs: 0, Stubs: 28                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║

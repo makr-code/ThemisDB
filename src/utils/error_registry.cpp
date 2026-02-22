@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.cpp                                 ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:34                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   85.0/100                                       ║
-    • Total Lines:     1607                                           ║
+    • Total Lines:     1600                                           ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

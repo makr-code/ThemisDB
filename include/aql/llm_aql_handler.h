@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:21:59                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
+    • Total Lines:     350                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
     • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.h                           ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:06                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     149                                            ║
+    • Total Lines:     171                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

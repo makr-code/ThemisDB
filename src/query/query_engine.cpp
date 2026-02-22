@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:22:27                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     4379                                           ║
+    • Total Lines:     4376                                           ║
     • Open Issues:     TODOs: 1, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
