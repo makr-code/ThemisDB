@@ -1395,6 +1395,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
     ../src/server/wal_api_handler.cpp
+    ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
     ../src/server/saga_api_handler.cpp
