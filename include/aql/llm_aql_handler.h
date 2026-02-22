@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     300                                            ║
+    • Total Lines:     351                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
+    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
+    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,8 +29,11 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
+#include <functional>
 #include <memory>
+#include <unordered_map>
 #include <vector>
+#include <functional>
 
 namespace themis {
 namespace aql {
@@ -105,6 +106,34 @@ public:
         const std::unordered_map<std::string, std::string>& options = {}
     );
 
+    /**
+     * @brief Streaming version of executeInfer — invokes @p token_callback for each
+     *        generated token as it is produced, enabling real-time output for long
+     *        LLM responses such as AQL explanations.
+     *
+     * The method validates and sanitizes the prompt the same way as executeInfer(),
+     * then delegates to the underlying LLM's streaming interface.  The full
+     * concatenated response is also returned as the function's return value so
+     * callers can use it in either style.
+     *
+     * @param prompt         Input prompt text.
+     * @param token_callback Callable invoked once per generated token with the token
+     *                       string.  Must be thread-safe; it is called from the
+     *                       inference thread.
+     * @param model_id       Optional model identifier (empty = default model).
+     * @param lora_id        Optional LoRA adapter identifier.
+     * @param options        Additional generation options (max_tokens, temperature, …).
+     * @return Full generated text (concatenation of all streamed tokens).
+     * @throws LLMException on validation or inference error.
+     */
+    std::string executeInferStreaming(
+        const std::string& prompt,
+        std::function<void(const std::string& token)> token_callback,
+        const std::string& model_id = "",
+        const std::string& lora_id = "",
+        const std::unordered_map<std::string, std::string>& options = {}
+    );
+
     std::string executeRAG(
         const std::string& query,
         const std::string& collection,
@@ -170,6 +199,29 @@ public:
      */
     std::string translateNLToAQL(
         const std::string& nl_query,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Streaming variant of translateNLToAQL — streams the LLM explanation
+     *        token by token via @p token_callback as the response is generated.
+     *
+     * This is designed for long AQL explanations where users benefit from seeing
+     * progressive output rather than waiting for the full response.  Inputs are
+     * sanitized identically to translateNLToAQL() and the final AQL query is
+     * extracted and returned once generation is complete.
+     *
+     * @param nl_query        Natural language query.
+     * @param token_callback  Called for each token as it is generated.
+     * @param schema_context  Optional database schema context.
+     * @return Extracted AQL query (same as translateNLToAQL would return).
+     * @throws LLMException(PROMPT_INJECTION) if inputs contain injection patterns.
+     * @throws LLMException(PROMPT_TOO_LONG)  if inputs exceed size limits.
+     * @throws std::runtime_error if translation fails.
+     */
+    std::string translateNLToAQLStreaming(
+        const std::string& nl_query,
+        std::function<void(const std::string& token)> token_callback,
         const std::string& schema_context = ""
     );
 
@@ -258,6 +310,61 @@ public:
         const std::string& llm_response,
         bool use_ansi = true
     ) const;
+    // =========================================================================
+    // Streaming natural language explanations
+    // =========================================================================
+
+    /**
+     * @brief Stream a natural language explanation of an AQL query token by token.
+     *
+     * Builds an explanation prompt for @p aql_query and feeds it to the configured
+     * LLM with token-level streaming.  Each generated token is delivered to
+     * @p stream_callback as it becomes available, enabling real-time display of
+     * long explanations without waiting for the full response.
+     *
+     * @p aql_query is sanitized before being embedded in the prompt: prompt
+     * injection attempts are rejected with @c LLMException(PROMPT_INJECTION).
+     * @p schema_context (if non-empty) is sanitized with the same check.
+     *
+     * @param aql_query       The AQL query to explain.
+     *                        Maximum length: @c ValidationLimits::MAX_NL_QUERY_LENGTH.
+     * @param stream_callback Called once per token with the token text.
+     * @param schema_context  Optional database schema context for richer explanations.
+     *                        Maximum length: @c ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH.
+     * @return Full accumulated explanation text (concatenation of all streamed tokens).
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
+     * @throws std::runtime_error if the LLM backend reports an error
+     */
+    std::string streamExplainAQL(
+        const std::string& aql_query,
+        std::function<void(const std::string& token)> stream_callback,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Stream a natural language explanation of an AQL query as SSE events.
+     *
+     * Like @c streamExplainAQL() but formats every token as a Server-Sent Events
+     * (SSE) data frame before passing it to @p stream_callback, making the output
+     * ready to send over an HTTP/SSE connection.
+     *
+     * @param aql_query       The AQL query to explain.
+     * @param stream_callback Called once per token with the SSE-formatted event string.
+     * @param request_id      Optional request identifier embedded in each SSE event.
+     * @param schema_context  Optional database schema context.
+     * @return Full accumulated explanation text.
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
+     * @throws std::runtime_error if the LLM backend reports an error
+     */
+    std::string streamExplainAQLAsSSE(
+        const std::string& aql_query,
+        std::function<void(const std::string& sse_event)> stream_callback,
+        const std::string& request_id = "",
+        const std::string& schema_context = ""
+    );
+
     // =========================================================================
     // Confidence scoring
     // =========================================================================

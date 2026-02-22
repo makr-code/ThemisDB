@@ -2,6 +2,9 @@ name: Importer Module Tests
 
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/importers/**'
       - 'include/importers/**'
@@ -29,11 +32,21 @@ on:
       - '.github/workflows/importer-tests.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   # ---------------------------------------------------------------------------
   # Build & run the self-contained importer test suites (no external DB needed)
   # ---------------------------------------------------------------------------
   importer-unit-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Importer unit tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
 
@@ -120,6 +133,10 @@ jobs:
   # Validate documentation
   # ---------------------------------------------------------------------------
   docs-lint:
+    needs: ci-scope-classifier
+    if: >
+      needs.ci-scope-classifier.outputs.has_code_changes == 'true' ||
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
     name: Lint importer docs
     runs-on: ubuntu-latest
 

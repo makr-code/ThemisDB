@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_dependency_resolver.h                       ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:53                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     325                                            ║
+    • Total Lines:     318                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -213,6 +206,34 @@ public:
         
         const auto& deps = it->second;
         return std::find(deps.begin(), deps.end(), dependency) != deps.end();
+    }
+    
+    /**
+     * @brief Validate that all declared dependencies are registered in the graph
+     * 
+     * Identifies plugins that declare a dependency on a plugin that is not
+     * present in the dependency graph (i.e. not registered with the manager).
+     * Must be called before computeLoadOrder() to distinguish missing-dependency
+     * failures from circular-dependency failures.
+     * 
+     * @param graph Dependency graph
+     * @return Vector of (dependent_plugin, missing_dependency) pairs.
+     *         Empty if all dependencies are satisfied.
+     */
+    static std::vector<std::pair<std::string, std::string>> validateDependencies(
+        const DependencyGraph& graph
+    ) {
+        std::vector<std::pair<std::string, std::string>> missing;
+        
+        for (const auto& [name, deps] : graph.dependencies) {
+            for (const auto& dep : deps) {
+                if (graph.dependencies.find(dep) == graph.dependencies.end()) {
+                    missing.emplace_back(name, dep);
+                }
+            }
+        }
+        
+        return missing;
     }
     
     /**

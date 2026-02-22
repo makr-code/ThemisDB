@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:02                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1083                                           ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     1298                                           ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a8e12692a  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
+    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
+    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -151,6 +149,30 @@ void sanitizePromptInput(
             );
         }
     }
+}
+
+/**
+ * @brief Build the LLM prompt used to generate a natural language explanation of an AQL query.
+ *
+ * @param aql_query      The AQL query to explain (must already be sanitized).
+ * @param schema_context Optional schema description (must already be sanitized).
+ * @return Prompt string ready to send to the LLM.
+ */
+std::string buildAQLExplanationPrompt(
+    const std::string& aql_query,
+    const std::string& schema_context
+) {
+    std::ostringstream prompt;
+    prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+    if (!schema_context.empty()) {
+        prompt << "Database schema context:\n" << schema_context << "\n\n";
+    }
+    prompt << "Explain the following AQL query in clear, concise natural language. "
+           << "Describe what the query does step by step, including any filters, "
+           << "joins, aggregations, or special operations used.\n\n"
+           << "AQL query:\n```\n" << aql_query << "\n```\n\n"
+           << "Explanation:";
+    return prompt.str();
 }
 
 } // anonymous namespace
@@ -381,6 +403,119 @@ std::string LLMAQLHandler::executeInfer(
         // Wrap other exceptions as internal errors (mask details)
         throw LLMException(LLMErrorCode::INFERENCE_FAILED,
             std::string("Inference operation failed: ") + e.what());
+    }
+}
+
+std::string LLMAQLHandler::executeInferStreaming(
+    const std::string& prompt,
+    std::function<void(const std::string& token)> token_callback,
+    const std::string& model_id,
+    const std::string& lora_id,
+    const std::unordered_map<std::string, std::string>& options
+) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+
+    try {
+        // Input validation (same as executeInfer)
+        LLMValidator::validatePrompt(prompt);
+        LLMValidator::validateId(model_id, false);
+        LLMValidator::validateId(lora_id, true);
+
+        // Check circuit breaker
+        if (!impl_->circuit_breaker_.allowRequest()) {
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
+        }
+
+        // Build the inference request
+        llm::InferenceRequest request;
+        request.prompt = prompt;
+        if (!model_id.empty()) {
+            request.model_id = model_id;
+        }
+        if (!lora_id.empty()) {
+            request.lora_adapter_id = lora_id;
+        }
+        if (options.count("max_tokens")) {
+            request.max_tokens = std::stoi(options.at("max_tokens"));
+        }
+        if (options.count("temperature")) {
+            request.temperature = std::stof(options.at("temperature"));
+        }
+        if (options.count("top_p")) {
+            request.top_p = std::stof(options.at("top_p"));
+        }
+
+        // Attach the streaming callback.
+        // token_callback is already held by value; assign directly (no extra move).
+        // Tokens are delivered sequentially by the inference thread, so there is
+        // no concurrent access concern for the caller's accumulator.
+        request.stream_callback = token_callback;
+
+        // Execute via plugin manager (streaming path)
+        auto& plugin_mgr = impl_->getPluginManager();
+        auto response = plugin_mgr.generate(request);
+
+        impl_->circuit_breaker_.recordSuccess();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        size_t input_tokens  = Impl::estimateTokenCount(prompt);
+        size_t output_tokens = Impl::estimateTokenCount(response.text);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+
+        spdlog::debug("LLM INFER STREAMING completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",
+            model_id, latency.count(), input_tokens, output_tokens);
+
+        return response.text;
+
+    } catch (const LLMException& e) {
+        impl_->circuit_breaker_.recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            Impl::estimateTokenCount(prompt),
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+
+        spdlog::error("LLM INFER STREAMING failed: model={}, error={}", model_id, e.what());
+        throw;
+    } catch (const std::exception& e) {
+        impl_->circuit_breaker_.recordFailure();
+
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            Impl::estimateTokenCount(prompt),
+            0,
+            false,
+            "INFERENCE_FAILED"
+        );
+
+        throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+            std::string("Streaming inference failed: ") + e.what());
     }
 }
 
@@ -796,15 +931,18 @@ std::string LLMAQLHandler::translateNLToAQL(
     const std::string& nl_query,
     const std::string& schema_context
 ) {
-    try {
-        // Sanitize inputs before embedding them in the LLM prompt.
-        // Both nl_query and schema_context are injected verbatim into the system/user
-        // prompt, making them potential vectors for prompt injection attacks.
-        sanitizePromptInput(nl_query, "nl_query",
-                            ValidationLimits::MAX_NL_QUERY_LENGTH);
-        sanitizePromptInput(schema_context, "schema_context",
-                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+    // Sanitize inputs before embedding them in the LLM prompt.
+    // Both nl_query and schema_context are injected verbatim into the system/user
+    // prompt, making them potential vectors for prompt injection attacks.
+    // NOTE: Called outside the try/catch so that LLMException(PROMPT_INJECTION)
+    // propagates to the caller with its error code intact (not wrapped by the
+    // generic catch below).
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
+    try {
         // Build system prompt for AQL translation
         std::ostringstream system_prompt;
         system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
@@ -898,6 +1036,110 @@ std::string LLMAQLHandler::translateNLToAQL(
     }
 }
 
+std::string LLMAQLHandler::translateNLToAQLStreaming(
+    const std::string& nl_query,
+    std::function<void(const std::string& token)> token_callback,
+    const std::string& schema_context
+) {
+    try {
+        // Sanitize inputs (same rules as translateNLToAQL)
+        sanitizePromptInput(nl_query, "nl_query",
+                            ValidationLimits::MAX_NL_QUERY_LENGTH);
+        sanitizePromptInput(schema_context, "schema_context",
+                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+        // Build the same prompt used by translateNLToAQL
+        std::ostringstream system_prompt;
+        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+        if (!schema_context.empty()) {
+            system_prompt << "Database schema:\n" << schema_context << "\n\n";
+        } else {
+            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+            system_prompt << "Graph structures use edges to connect nodes.\n\n";
+        }
+
+        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+        system_prompt << "Requirements:\n";
+        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+        system_prompt << "- Optimize for performance\n\n";
+
+        std::ostringstream user_prompt;
+        user_prompt << "Natural language query: " << nl_query << "\n\n";
+        user_prompt << "Generate the corresponding AQL query:";
+
+        // Combine into a single prompt for streaming
+        std::string full_prompt = system_prompt.str() + user_prompt.str();
+
+        // Stream via executeInferStreaming; collect tokens so we can post-process
+        std::string raw_response;
+        auto collecting_callback = [&raw_response, &token_callback](const std::string& token) {
+            raw_response += token;
+            token_callback(token);
+        };
+
+        executeInferStreaming(full_prompt, collecting_callback);
+
+        // Post-process: strip markdown fences and trim (same as translateNLToAQL)
+        std::string aql_query = raw_response;
+
+        size_t start_marker = aql_query.find("```");
+        if (start_marker != std::string::npos) {
+            size_t query_start = aql_query.find('\n', start_marker);
+            if (query_start != std::string::npos) {
+                query_start++;
+                size_t end_marker = aql_query.find("```", query_start);
+                if (end_marker != std::string::npos) {
+                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+                }
+            }
+        }
+
+        auto trim = [](std::string& s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        };
+        trim(aql_query);
+
+        // Validate and log any structural issues
+        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+        auto annotations = validator.annotateErrors(aql_query);
+        if (!annotations.empty()) {
+            constexpr std::size_t MAX_PREVIEW = 100;
+            std::string query_preview = nl_query.size() > MAX_PREVIEW
+                ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                : nl_query;
+            std::ostringstream warn_msg;
+            warn_msg << "translateNLToAQLStreaming produced " << annotations.size()
+                     << " potential syntax issue(s) for query \"" << query_preview << "\":";
+            for (const auto& ann : annotations) {
+                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                         << ": " << ann.message;
+            }
+            spdlog::warn("{}", warn_msg.str());
+        }
+
+        return aql_query;
+
+    } catch (const LLMException&) {
+        // Re-throw LLMException (e.g. PROMPT_INJECTION, PROMPT_TOO_LONG) unchanged so
+        // callers can distinguish security-related failures from generic errors.
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL streaming translation failed: ") + e.what()
+        );
+    }
+}
+
 std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLToAQL(
     const std::vector<BatchNLToAQLRequest>& requests
 ) {
@@ -953,6 +1195,58 @@ std::string LLMAQLHandler::executeChat(
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("LLM CHAT failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQL(
+    const std::string& aql_query,
+    std::function<void(const std::string& token)> stream_callback,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreaming(prompt, std::move(stream_callback));
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation streaming failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQLAsSSE(
+    const std::string& aql_query,
+    std::function<void(const std::string& sse_event)> stream_callback,
+    const std::string& request_id,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreamingSSE(prompt, std::move(stream_callback),
+                                        request_id);
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation SSE streaming failed: ") + e.what()
         );
     }
 }
