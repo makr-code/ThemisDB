@@ -4,6 +4,7 @@
 
 ## Current Status
 v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and InferenceEngineEnhanced serve distinct use cases; shared InferenceHandle extracted to eliminate circular dependencies.
+Per-request timeout and cancellation propagation is fully implemented across both engines via shared atomic cancel tokens and dedicated timeout monitor threads.
 
 ## Completed ✅
 - [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
@@ -18,10 +19,10 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [x] Chain-of-thought storage
 - [x] Conversation history management
 - [x] Grammar-constrained generation with runtime API detection
+- [x] Per-request timeout and cancellation propagation (Issue: #2411)
 
 ## In Progress 🚧
 - [I] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
-- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
 ## Planned Features 📋
@@ -55,7 +56,7 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 ### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
 - [I] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
 - [I] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
-- [ ] Per-request timeout and cancellation propagation (Target: Q2 2026)
+- [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [ ] Unified metrics dashboard for both engines (Target: Q3 2026)
 
 ### Phase 3: Ecosystem & Performance (Status: Planned 📋)
