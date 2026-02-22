@@ -13,7 +13,9 @@
             "test-integration",
             "static-analysis",
             "security-scan",
-            "validate-ai-guardrails"
+            "validate-ai-guardrails",
+            "validate-roadmap",
+            "build-and-test"
           ]
         },
         "enforce_admins": true,
@@ -24,7 +26,11 @@
           "required_approving_review_count": 2,
           "require_last_push_approval": false
         },
-        "restrictions": null,
+        "restrictions": {
+          "users": [],
+          "teams": ["maintainers"]
+        },
+        "require_commit_signatures": true,
         "required_linear_history": false,
         "allow_force_pushes": false,
         "allow_deletions": false,
@@ -43,18 +49,21 @@
             "build-linux-gcc",
             "test-unit",
             "static-analysis",
-            "validate-ai-guardrails"
+            "security-scan",
+            "validate-ai-guardrails",
+            "validate-roadmap"
           ]
         },
         "enforce_admins": false,
         "required_pull_request_reviews": {
           "dismissal_restrictions": {},
-          "dismiss_stale_reviews": true,
-          "require_code_owner_reviews": false,
-          "required_approving_review_count": 1,
+          "dismiss_stale_reviews": false,
+          "require_code_owner_reviews": true,
+          "required_approving_review_count": 2,
           "require_last_push_approval": false
         },
         "restrictions": null,
+        "require_commit_signatures": false,
         "required_linear_history": false,
         "allow_force_pushes": false,
         "allow_deletions": false,
@@ -77,7 +86,9 @@
             "test-performance",
             "static-analysis",
             "security-scan",
-            "validate-ai-guardrails"
+            "validate-ai-guardrails",
+            "validate-roadmap",
+            "build-and-test"
           ]
         },
         "enforce_admins": true,
@@ -88,7 +99,11 @@
           "required_approving_review_count": 2,
           "require_last_push_approval": true
         },
-        "restrictions": null,
+        "restrictions": {
+          "users": [],
+          "teams": ["maintainers"]
+        },
+        "require_commit_signatures": true,
         "required_linear_history": true,
         "allow_force_pushes": false,
         "allow_deletions": false,
@@ -134,17 +149,23 @@
     "build-windows-msvc": "Windows build with MSVC 2022",
     "build-linux-gcc": "Linux build with GCC",
     "build-docker": "Multi-arch Docker build",
+    "build-and-test": "Combined build and test suite",
     "test-unit": "Unit test suite",
     "test-integration": "Integration test suite",
     "test-performance": "Performance/benchmark tests",
     "static-analysis": "Static analysis (clang-tidy, cppcheck)",
     "security-scan": "CodeQL security scanning",
-    "validate-ai-guardrails": "AI-Guardrails validation workflow"
+    "validate-ai-guardrails": "AI-Guardrails validation workflow",
+    "validate-roadmap": "Roadmap structure validation"
   },
   "notes": [
     "Branch protection rules must be configured manually in GitHub UI",
     "This file serves as documentation and reference",
     "Update this file when changing protection rules",
-    "Review protection rules quarterly for effectiveness"
+    "Review protection rules quarterly for effectiveness",
+    "Commit signing (GPG) is required for main and release/* branches",
+    "Roadmap validation (validate-roadmap) is required before merge on all protected branches",
+    "Code owner review is required for main and release/* branches",
+    "Restricted push access on main and release/* to @makr-code/maintainers team"
   ]
 }

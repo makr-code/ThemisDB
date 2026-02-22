@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.h                                 ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-02-22 08:55:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     636                                            ║
+    • Total Lines:     632                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -210,7 +206,6 @@ struct SlidingWindowConfig {
 struct SessionWindowConfig {
     std::chrono::milliseconds gap{30000};
     WatermarkConfig watermark;
-    bool allow_late_data = false;
 };
 
 struct HoppingWindowConfig {
@@ -309,7 +304,8 @@ private:
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
 };
 
@@ -377,7 +373,8 @@ private:
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
@@ -438,6 +435,9 @@ private:
     std::atomic<bool> running_{false};
     std::condition_variable expiry_cv_;
     std::mutex expiry_mutex_;
+
+    // Watermark (monotonically increasing, in microseconds since epoch)
+    std::atomic<int64_t> watermark_us_{0};
 
     std::atomic<uint64_t> windows_opened_{0};
     std::atomic<uint64_t> windows_closed_{0};
@@ -511,7 +511,8 @@ private:
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };

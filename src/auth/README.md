@@ -18,6 +18,7 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 - `kerberos_auth.cpp` — GSSAPI/Kerberos handler
 - `totp_auth.cpp` — TOTP MFA
 - `rbac_enforcer.cpp` — role-based access control
+- `oauth_device_flow.cpp` — OAuth 2.0 device authorization flow (RFC 8628)
 
 ## Current Delivery Status
 
@@ -43,6 +44,7 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
 - **JWT Authentication**: OpenID Connect integration with Keycloak
 - **Kerberos/GSSAPI**: Enterprise SSO for Active Directory environments
 - **Multi-Factor Authentication**: TOTP-based MFA with recovery codes
+- **OAuth 2.0 Device Flow**: Headless device / CLI authentication (RFC 8628)
 - **Signature Verification**: RS256 with JWKS caching
 - **Principal-to-Role Mapping**: Flexible authorization system
 - **Clock Skew Tolerance**: Distributed system friendly
@@ -60,21 +62,21 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
     │ Selection│
     └────┬─────┘
          │
-    ┌────▼──────────────────────────┐
-    │  JWT  │  Kerberos  │   MFA    │
-    └───┬───┴──────┬─────┴────┬─────┘
-        │          │          │
-    ┌───▼──────────▼──────────▼────┐
-    │   Principal Extraction        │
-    └───────────┬───────────────────┘
-                │
-    ┌───────────▼───────────────────┐
-    │   Role Mapping & RBAC         │
-    └───────────┬───────────────────┘
-                │
-    ┌───────────▼───────────────────┐
-    │   Access Control Decision     │
-    └───────────────────────────────┘
+    ┌────▼──────────────────────────────────────────┐
+    │  JWT  │  Kerberos  │   MFA  │  Device Flow    │
+    └───┬───┴──────┬─────┴────┬───┴──────┬──────────┘
+        │          │          │          │
+    ┌───▼──────────▼──────────▼──────────▼──────────┐
+    │            Principal Extraction                 │
+    └───────────────────────┬────────────────────────┘
+                            │
+    ┌───────────────────────▼────────────────────────┐
+    │            Role Mapping & RBAC                  │
+    └───────────────────────┬────────────────────────┘
+                            │
+    ┌───────────────────────▼────────────────────────┐
+    │            Access Control Decision              │
+    └────────────────────────────────────────────────┘
 ```
 
 ## Components
@@ -148,6 +150,25 @@ where:
   T = floor((current_time - T0) / time_step)
   HOTP = HMAC-SHA1(K, T) truncated to 6-8 digits
 ```
+
+### OAuth 2.0 Device Flow (`oauth_device_flow.cpp`)
+
+OAuth 2.0 Device Authorization Grant (RFC 8628) for headless devices, CLI tools, and IoT clients that cannot open a browser.
+
+**Features:**
+- RFC 8628-compliant device authorization flow
+- Automatic polling with `slow_down` backoff
+- `id_token` validation via existing `JWTValidator` (OIDC)
+- Public and confidential client support (optional `client_secret`)
+- TLS certificate verification always enforced
+- High-level `authenticate()` with progress callback for CLI UX
+- Testable via injected HTTP mock (`setHttpPostForTesting`)
+
+**Flow Steps:**
+1. Client calls `requestDeviceCode()` → receives `user_code` and `verification_uri`
+2. User visits `verification_uri` and enters `user_code` on their browser
+3. Client polls `pollForToken()` at `interval` second intervals
+4. On success, `validateIdToken()` returns `JWTClaims`
 
 ## Authentication Flows
 
@@ -278,6 +299,53 @@ where:
     │                                        │
 ```
 
+### 4. OAuth 2.0 Device Authorization Flow (RFC 8628)
+
+```
+┌─────────────┐        ┌─────────────┐        ┌──────────────────┐
+│  CLI/Device │        │  ThemisDB   │        │ Authorization    │
+│  (headless) │        │  (client)   │        │ Server (OAuth AS)│
+└──────┬──────┘        └──────┬──────┘        └────────┬─────────┘
+       │                      │                        │
+       │  1. Login request    │                        │
+       ├─────────────────────►│                        │
+       │                      │                        │
+       │                      │  2. POST /device_auth  │
+       │                      ├───────────────────────►│
+       │                      │                        │
+       │                      │  3. device_code,       │
+       │                      │     user_code,         │
+       │                      │◄───────────────────────┤
+       │                      │     verification_uri   │
+       │                      │                        │
+       │  4. Display user_code│                        │
+       │◄─────────────────────┤                        │
+       │     + verify URL     │                        │
+       │                      │                        │
+       │ [User opens browser, visits URL, enters code] │
+       │                      │                        │
+       │                      │  5. Poll POST /token   │
+       │                      ├───────────────────────►│
+       │                      │  (authorization_pending│
+       │                      │   or slow_down)        │
+       │                      │◄───────────────────────┤
+       │                      │                        │
+       │                      │  6. Poll POST /token   │
+       │                      ├───────────────────────►│
+       │                      │                        │
+       │                      │  7. access_token +     │
+       │                      │◄───────────────────────┤
+       │                      │     id_token           │
+       │                      │                        │
+       │                      │  8. Validate id_token  │
+       │                      │     (JWKS/JWTValidator)│
+       │                      │                        │
+       │  9. JWTClaims (sub,  │                        │
+       │◄─────────────────────┤                        │
+       │     email, roles)    │                        │
+       │                      │                        │
+```
+
 ## Configuration
 
 ### JWT Configuration
@@ -342,6 +410,26 @@ mfa_config.recovery_codes_count = 8;      // 8 recovery codes
 mfa_config.issuer = "ThemisDB Production";
 
 MFAAuthenticator mfa(mfa_config);
+```
+
+### OAuth Device Flow Configuration
+
+```cpp
+#include "auth/oauth_device_flow.h"
+
+using namespace themis::auth;
+
+OAuthDeviceFlow::Config cfg;
+cfg.device_authorization_endpoint = "https://auth.example.com/realms/prod/protocol/openid-connect/auth/device";
+cfg.token_endpoint                 = "https://auth.example.com/realms/prod/protocol/openid-connect/token";
+cfg.client_id                      = "themisdb-cli";
+cfg.client_secret                  = "";                // empty for public clients
+cfg.scopes                         = {"openid", "email", "profile"};
+cfg.jwks_url                       = "https://auth.example.com/realms/prod/protocol/openid-connect/certs";
+cfg.http_timeout_seconds           = 10;
+cfg.max_poll_interval_seconds      = 30;
+
+OAuthDeviceFlow flow(cfg);
 ```
 
 ## Security Features
@@ -715,6 +803,86 @@ int main() {
 }
 ```
 
+### Example 6: OAuth 2.0 Device Flow (CLI Authentication)
+
+```cpp
+#include "auth/oauth_device_flow.h"
+#include <iostream>
+#include <thread>
+
+using namespace themis::auth;
+
+int main() {
+    // Configure device flow (Keycloak example)
+    OAuthDeviceFlow::Config cfg;
+    cfg.device_authorization_endpoint =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/auth/device";
+    cfg.token_endpoint =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/token";
+    cfg.client_id  = "themisdb-cli";
+    cfg.scopes     = {"openid", "email"};
+    cfg.jwks_url   =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/certs";
+
+    OAuthDeviceFlow flow(cfg);
+
+    try {
+        // authenticate() handles the full flow:
+        // 1. Request device code
+        // 2. Show instructions to user
+        // 3. Poll until authorized or expired
+        // 4. Validate id_token and return JWTClaims
+        auto claims = flow.authenticate(
+            [](const OAuthDeviceFlow::DeviceCodeResponse& resp) {
+                std::cout << "\nTo authenticate, visit:\n  "
+                          << resp.verification_uri << "\n\nEnter code: "
+                          << resp.user_code << "\n\nWaiting...\n";
+            }
+        );
+
+        std::cout << "Authenticated as: " << claims.email << std::endl;
+        std::cout << "User ID:          " << claims.sub   << std::endl;
+        for (const auto& role : claims.roles) {
+            std::cout << "Role: " << role << std::endl;
+        }
+
+    } catch (const AuthException& ex) {
+        std::cerr << "Authentication failed: "
+                  << ex.error().publicMessage() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
+```
+
+**Step-by-step (manual polling):**
+
+```cpp
+// Step 1: request device code
+auto resp = flow.requestDeviceCode();
+std::cout << "Visit " << resp.verification_uri
+          << " and enter: " << resp.user_code << std::endl;
+
+// Step 2: poll until authorized
+while (true) {
+    std::this_thread::sleep_for(std::chrono::seconds(resp.interval));
+
+    OAuthDeviceFlow::PollStatus status;
+    auto token = flow.pollForToken(resp.device_code, status);
+
+    if (status == OAuthDeviceFlow::PollStatus::Authorized) {
+        auto claims = flow.validateIdToken(token);
+        std::cout << "Logged in as: " << claims.email << std::endl;
+        break;
+    }
+    if (status == OAuthDeviceFlow::PollStatus::SlowDown) {
+        resp.interval += 5;  // back off per RFC 8628
+    }
+    // AuthorizationPending → keep polling; AccessDenied/ExpiredToken → throws
+}
+```
+
 ## Best Practices
 
 ### 1. JWT Token Management
@@ -825,6 +993,23 @@ int main() {
 - ❌ Ignore KDC/IdP connectivity issues
 - ❌ Crash on authentication failures
 
+### 7. OAuth 2.0 Device Flow
+
+**DO:**
+- ✅ Always set `jwks_url` so `id_token` signatures are verified
+- ✅ Display both `verification_uri` and `user_code` clearly to the user
+- ✅ Respect the `interval` from the server; back off on `slow_down`
+- ✅ Treat the `device_code` as a short-lived secret (don't log it)
+- ✅ Catch `AuthException` and surface `publicMessage()` to the user
+- ✅ Use public-client mode (empty `client_secret`) for CLI tools
+
+**DON'T:**
+- ❌ Log `device_code`, `access_token`, or `refresh_token`
+- ❌ Poll faster than the server-specified `interval`
+- ❌ Disable TLS certificate verification (`SSL_VERIFYPEER`)
+- ❌ Cache access tokens beyond their `expires_in` lifetime
+- ❌ Request broader scopes than needed (principle of least privilege)
+
 ## Testing
 
 ### Unit Tests
@@ -838,6 +1023,7 @@ cmake --build build --target test_auth
 ./build/tests/test_jwt_validator
 ./build/tests/test_mfa_authenticator
 ./build/tests/test_gssapi_authenticator
+./build/tests/test_oauth_device_flow
 ```
 
 ### Integration Tests

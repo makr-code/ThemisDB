@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:08                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8308                                           ║
+    • Total Lines:     8334                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -331,6 +329,25 @@ HttpServer::HttpServer(
         
         // Initialize Cache API Handler
         cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
+    }
+
+    // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
+    // This instance is dedicated to the admin API. Full integration with the query
+    // engine's AdaptiveQueryCache instance (owned by QueryCacheManager) is tracked
+    // as a follow-up task once QueryCacheManager exposes a shared accessor.
+    {
+        AdaptiveQueryCache::Config cache_admin_config;
+        cache_admin_config.l3_db_path = "./themis_admin_cache";
+        cache_admin_config.enable_circuit_breaker = true;
+        cache_admin_config.enable_tenant_isolation = true;
+        try {
+            adaptive_query_cache_ = std::make_shared<AdaptiveQueryCache>(cache_admin_config);
+            cache_admin_api_ = std::make_unique<themis::server::CacheAdminApiHandler>(
+                adaptive_query_cache_, auth_);
+            THEMIS_INFO("Cache Admin API Handler initialized");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache Admin API Handler: {}", e.what());
+        }
     }
     
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
@@ -1803,6 +1820,14 @@ namespace {
         CacheQueryPost,
         CachePutPost,
         CacheStatsGet,
+    // Admin cache endpoints (Phase 3: Admin API)
+    AdminCacheStatsGet,             // GET  /v1/admin/cache/stats
+    AdminCacheEvictKeyDelete,       // DELETE /v1/admin/cache/key/{encoded_key}
+    AdminCacheEvictTenantDelete,    // DELETE /v1/admin/cache/tenant/{tenant_id}
+    AdminCacheCbResetPost,          // POST /v1/admin/cache/circuit-breaker/reset
+    AdminCacheCbStatusGet,          // GET  /v1/admin/cache/circuit-breaker
+    AdminCacheWarmupPost,           // POST /v1/admin/cache/warmup
+    AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -1817,6 +1842,9 @@ namespace {
         ChangefeedStreamSse,
     ChangefeedStatsGet,
     ChangefeedRetentionPost,
+    ChangefeedRetentionGet,
+    ChangefeedRetentionPut,
+    ChangefeedCompactPost,
         // Sprint B
         TimeSeriesPut,
         TimeSeriesQuery,
@@ -2095,6 +2123,14 @@ namespace {
         if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
+    // Admin cache endpoints – order matters: more-specific paths first
+    if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
+    if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
+    if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
+    if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -2110,6 +2146,9 @@ namespace {
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
+    if (path_only == "/changefeed/retention" && method == http::verb::get) return Route::ChangefeedRetentionGet;
+    if (path_only == "/changefeed/retention" && method == http::verb::put) return Route::ChangefeedRetentionPut;
+    if (path_only == "/changefeed/compact" && method == http::verb::post) return Route::ChangefeedCompactPost;
     
     // Snapshot API endpoints
     if (path_only == "/api/v1/snapshots/tags" && method == http::verb::post) return Route::SnapshotsTagsPost;
@@ -2886,6 +2925,55 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
             }
             break;
+        case Route::AdminCacheStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictKeyDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictKey(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictTenantDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictTenant(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbResetPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerReset(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbStatusGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheWarmupPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleWarmup(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheSnapshotPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleSnapshot(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
@@ -2925,6 +3013,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ChangefeedRetentionPost:
             if (changefeed_api_) {
                 response = changefeed_api_->handleRetention(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionGet:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionGet(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedRetentionPut:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleRetentionPut(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedCompactPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleCompact(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }

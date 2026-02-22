@@ -3,22 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:01                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   35.0/100                                       ║
-    • Total Lines:     626                                            ║
+    • Total Lines:     622                                            ║
     • Open Issues:     TODOs: 0, Stubs: 13                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

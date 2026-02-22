@@ -3,28 +3,26 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.cpp                                        ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:02                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1315                                           ║
+    • Total Lines:     1311                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "api/graphql.h"
+#include "api/graphql_cache.h"
+#include "api/graphql_metrics.h"
 #include "utils/error_registry.h"
 #include <cctype>
 #include <sstream>
@@ -43,7 +41,36 @@ Parser::Parser(std::string_view query, const QueryLimits& limits)
     : source_(query), limits_(limits) {}
 
 Parser::Result Parser::parse(std::string_view query) {
-    return parse(query, QueryLimits::defaults());
+    const std::string query_str(query);
+    
+    // Check query plan cache first to avoid re-parsing identical queries.
+    // Only the default-limits path is cached; custom-limits calls bypass the cache.
+    auto& plan_cache = QueryPlanCache::instance();
+    auto cached_plan = plan_cache.get(query_str);
+    if (cached_plan && cached_plan->validation_passed) {
+        Result result;
+        result.success = true;
+        result.document = cached_plan->parsed_document;
+        return result;
+    }
+    
+    const QueryLimits limits = QueryLimits::defaults();
+    Parser parser(query, limits);
+    Result result = parser.parseDocument();
+    
+    // Populate the query plan cache on success
+    if (result.success) {
+        QueryPlanCache::QueryPlan plan;
+        plan.query_hash = query_str;
+        plan.depth = parser.max_depth_reached_;
+        plan.field_count = parser.field_count_;
+        plan.ast_node_count = parser.ast_node_count_;
+        plan.validation_passed = true;
+        plan.parsed_document = result.document;
+        plan_cache.put(query_str, plan);
+    }
+    
+    return result;
 }
 
 Parser::Result Parser::parse(std::string_view query, const QueryLimits& limits) {
@@ -642,6 +669,17 @@ ParseError Parser::convertToParseError(const themis::Error& error) {
 // Executor Implementation
 // ============================================================================
 
+// Compute the maximum nesting depth of a field selection tree.
+static size_t computeSelectionDepth(const std::vector<Field>& selections, size_t current = 1) {
+    size_t max_depth = current;
+    for (const auto& field : selections) {
+        if (!field.selections.empty()) {
+            max_depth = std::max(max_depth, computeSelectionDepth(field.selections, current + 1));
+        }
+    }
+    return max_depth;
+}
+
 Executor::Result Executor::execute(
     const Document& document,
     const ExecutionContext& context,
@@ -659,8 +697,23 @@ Executor::Result Executor::execute(
         return result;
     }
     
+    // Determine operation type string for metrics
+    std::string op_type_str;
+    switch (op->type) {
+        case OperationType::Query:        op_type_str = "Query"; break;
+        case OperationType::Mutation:     op_type_str = "Mutation"; break;
+        case OperationType::Subscription: op_type_str = "Subscription"; break;
+    }
+    
+    // Track execution time and record metrics via RAII.
+    // Compute actual max depth from the selection tree so metrics are accurate.
+    size_t field_count = op->selections.size();
+    size_t depth = op->selections.empty() ? 0u : computeSelectionDepth(op->selections);
+    QueryTimer timer(op_type_str, depth, field_count);
+    
     try {
         result.data = executeOperation(*op, context);
+        timer.setSuccess(true);
     } catch (const std::exception& e) {
         result.addError(
             std::string("Execution error: ") + e.what(),

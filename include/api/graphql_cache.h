@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_cache.h                                    ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     313                                            ║
+    • Total Lines:     306                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,18 +20,21 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include <unordered_map>
 #include <chrono>
 #include <mutex>
 #include <memory>
+#include "api/graphql.h"
 
 namespace themis {
 namespace graphql {
 
 /**
- * @brief Simple LRU cache with time-based expiration
- * 
+ * @brief LRU cache with time-based expiration
+ *
  * Thread-safe cache for storing query plans and results.
+ * Eviction is O(1) using a doubly-linked list to track access order.
  */
 template<typename T>
 class Cache {
@@ -77,17 +73,19 @@ public:
         }
         
         // Check if expired
-        if (it->second.isExpired(ttl_)) {
+        if (it->second.first.isExpired(ttl_)) {
+            lru_order_.erase(it->second.second);
             cache_.erase(it);
             stats_.misses++;
             return nullptr;
         }
         
-        // Update access info
-        it->second.access_count++;
+        // Move to front of LRU list (most recently used)
+        lru_order_.splice(lru_order_.begin(), lru_order_, it->second.second);
+        it->second.first.access_count++;
         
         stats_.hits++;
-        return std::make_shared<T>(it->second.value);
+        return std::make_shared<T>(it->second.first.value);
     }
     
     /**
@@ -98,17 +96,29 @@ public:
     void put(const std::string& key, const T& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         
+        auto it = cache_.find(key);
+        if (it != cache_.end()) {
+            // Update existing entry and move to front
+            it->second.first.value = value;
+            it->second.first.created_at = std::chrono::steady_clock::now();
+            it->second.first.access_count = 1;
+            lru_order_.splice(lru_order_.begin(), lru_order_, it->second.second);
+            return;
+        }
+        
         // Evict if at capacity
-        if (cache_.size() >= max_size_ && cache_.find(key) == cache_.end()) {
+        if (cache_.size() >= max_size_) {
             evictLRU();
         }
+        
+        lru_order_.push_front(key);
         
         CacheEntry entry;
         entry.value = value;
         entry.created_at = std::chrono::steady_clock::now();
         entry.access_count = 1;
         
-        cache_[key] = std::move(entry);
+        cache_[key] = {std::move(entry), lru_order_.begin()};
     }
     
     /**
@@ -116,7 +126,11 @@ public:
      */
     void invalidate(const std::string& key) {
         std::lock_guard<std::mutex> lock(mutex_);
-        cache_.erase(key);
+        auto it = cache_.find(key);
+        if (it != cache_.end()) {
+            lru_order_.erase(it->second.second);
+            cache_.erase(it);
+        }
     }
     
     /**
@@ -125,6 +139,7 @@ public:
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
+        lru_order_.clear();
         stats_ = CacheStats{};
     }
     
@@ -155,26 +170,20 @@ public:
     }
     
 private:
+    // Evict the least recently used entry (back of lru_order_). O(1).
     void evictLRU() {
-        // Find least recently used entry (lowest access count + oldest)
-        if (cache_.empty()) return;
-        
-        auto lru_it = cache_.begin();
-        for (auto it = cache_.begin(); it != cache_.end(); ++it) {
-            if (it->second.access_count < lru_it->second.access_count ||
-                (it->second.access_count == lru_it->second.access_count &&
-                 it->second.created_at < lru_it->second.created_at)) {
-                lru_it = it;
-            }
-        }
-        
-        cache_.erase(lru_it);
+        if (lru_order_.empty()) return;
+        const std::string& lru_key = lru_order_.back();
+        cache_.erase(lru_key);
+        lru_order_.pop_back();
     }
     
     size_t max_size_;
     std::chrono::seconds ttl_;
     mutable std::mutex mutex_;
-    std::unordered_map<std::string, CacheEntry> cache_;
+    // Maps key -> (entry, iterator into lru_order_)
+    std::unordered_map<std::string, std::pair<CacheEntry, typename std::list<std::string>::iterator>> cache_;
+    std::list<std::string> lru_order_;  // Front = most recently used, back = LRU
     CacheStats stats_;
 };
 
@@ -188,13 +197,12 @@ class QueryPlanCache {
 public:
     struct QueryPlan {
         std::string query_hash;
-        size_t depth;
-        size_t field_count;
-        size_t ast_node_count;
-        bool validation_passed;
+        size_t depth = 0;
+        size_t field_count = 0;
+        size_t ast_node_count = 0;
+        bool validation_passed = false;
         
-        // Could store the parsed Document here in the future
-        // Document parsed_document;
+        Document parsed_document;
     };
     
     static QueryPlanCache& instance() {
@@ -206,14 +214,14 @@ public:
      * @brief Get a cached query plan
      */
     std::shared_ptr<QueryPlan> get(const std::string& query) {
-        return cache_.get(computeHash(query));
+        return cache_.get(query);
     }
     
     /**
      * @brief Cache a query plan
      */
     void put(const std::string& query, const QueryPlan& plan) {
-        cache_.put(computeHash(query), plan);
+        cache_.put(query, plan);
     }
     
     /**
@@ -232,12 +240,6 @@ public:
     
 private:
     QueryPlanCache() : cache_(1000, std::chrono::seconds(600)) {}  // 10 minute TTL
-    
-    std::string computeHash(const std::string& query) const {
-        // Simple hash for now - could use a better hash function
-        std::hash<std::string> hasher;
-        return std::to_string(hasher(query));
-    }
     
     Cache<QueryPlan> cache_;
 };
@@ -265,14 +267,14 @@ public:
      * @brief Get a cached response
      */
     std::shared_ptr<CachedResponse> get(const std::string& query) {
-        return cache_.get(computeHash(query));
+        return cache_.get(query);
     }
     
     /**
      * @brief Cache a response
      */
     void put(const std::string& query, const CachedResponse& response) {
-        cache_.put(computeHash(query), response);
+        cache_.put(query, response);
     }
     
     /**
@@ -300,11 +302,6 @@ public:
     
 private:
     ResponseCache() : cache_(500, std::chrono::seconds(60)) {}  // 1 minute TTL for responses
-    
-    std::string computeHash(const std::string& query) const {
-        std::hash<std::string> hasher;
-        return std::to_string(hasher(query));
-    }
     
     Cache<CachedResponse> cache_;
 };
