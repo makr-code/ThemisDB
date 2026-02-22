@@ -330,6 +330,25 @@ HttpServer::HttpServer(
         // Initialize Cache API Handler
         cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
     }
+
+    // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
+    // This instance is dedicated to the admin API. Full integration with the query
+    // engine's AdaptiveQueryCache instance (owned by QueryCacheManager) is tracked
+    // as a follow-up task once QueryCacheManager exposes a shared accessor.
+    {
+        AdaptiveQueryCache::Config cache_admin_config;
+        cache_admin_config.l3_db_path = "./themis_admin_cache";
+        cache_admin_config.enable_circuit_breaker = true;
+        cache_admin_config.enable_tenant_isolation = true;
+        try {
+            adaptive_query_cache_ = std::make_shared<AdaptiveQueryCache>(cache_admin_config);
+            cache_admin_api_ = std::make_unique<themis::server::CacheAdminApiHandler>(
+                adaptive_query_cache_, auth_);
+            THEMIS_INFO("Cache Admin API Handler initialized");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache Admin API Handler: {}", e.what());
+        }
+    }
     
     // Initialize LLM Interaction Store (Sprint A) if feature enabled
     if (config_.feature_llm_store) {
@@ -1801,6 +1820,14 @@ namespace {
         CacheQueryPost,
         CachePutPost,
         CacheStatsGet,
+    // Admin cache endpoints (Phase 3: Admin API)
+    AdminCacheStatsGet,             // GET  /v1/admin/cache/stats
+    AdminCacheEvictKeyDelete,       // DELETE /v1/admin/cache/key/{encoded_key}
+    AdminCacheEvictTenantDelete,    // DELETE /v1/admin/cache/tenant/{tenant_id}
+    AdminCacheCbResetPost,          // POST /v1/admin/cache/circuit-breaker/reset
+    AdminCacheCbStatusGet,          // GET  /v1/admin/cache/circuit-breaker
+    AdminCacheWarmupPost,           // POST /v1/admin/cache/warmup
+    AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2096,6 +2123,14 @@ namespace {
         if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
+    // Admin cache endpoints – order matters: more-specific paths first
+    if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
+    if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
+    if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
+    if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
+    if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -2888,6 +2923,55 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = cache_api_->handleStats(req);
             } else {
                 response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictKeyDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictKey(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheEvictTenantDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleEvictTenant(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbResetPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerReset(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheCbStatusGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleCircuitBreakerStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheWarmupPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleWarmup(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheSnapshotPost:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleSnapshot(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
             break;
         case Route::LlmInteractionPost:
