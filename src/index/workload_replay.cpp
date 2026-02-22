@@ -3,7 +3,6 @@
 
 #include "index/workload_replay.h"
 #include <spdlog/spdlog.h>
-#include <stdexcept>
 
 namespace themis {
 
