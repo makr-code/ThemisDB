@@ -30,6 +30,10 @@ on:
       - '.github/workflows/llm-cpu-fallback-ci.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   llm-cpu-fallback:
     name: LLM Kernel Fusion (CPU Fallback)

@@ -21,25 +21,25 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ## In Progress 🚧
-- [?] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026)
-- [?] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026)
-- [?] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026)
+- [I] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
+- [!] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
+- [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2122)
-- [?] Session token revocation list with real-time invalidation
-- [?] Anomaly detection on authentication patterns (brute-force, credential stuffing)
-- [?] Row-level security policies in AQL execution
-- [?] Secret scanning pre-commit hook for CI pipelines
+- [!] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2458)
+- [I] Session token revocation list with real-time invalidation (Issue: #2286)
+- [!] Anomaly detection on authentication patterns (brute-force, credential stuffing) (Issue: #2459)
+- [!] Row-level security policies in AQL execution (Issue: #2460)
+- [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
 
 ### Long-term (6-12 months)
-- [?] Zero-trust network policy enforcement (per-request identity verification)
-- [?] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
-- [?] Dynamic data masking for PII fields in query results
-- [?] SOC 2 Type II compliance evidence collection
-- [?] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+- [I] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
+- [!] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
+- [I] Dynamic data masking for PII fields in query results (Issue: #2463)
+- [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
+- [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
 
 ## Implementation Phases
 

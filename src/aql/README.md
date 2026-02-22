@@ -434,6 +434,47 @@ aql_query = handler.translateNLToAQL(nl_query, schema_context);
 - Translation typically completes in < 2 seconds (target)
 - Depends on LLM model size and hardware acceleration
 
+### Streaming Natural Language Responses
+
+For long AQL explanations or verbose LLM responses, use the streaming variants to receive tokens progressively as they are generated:
+
+```cpp
+#include "aql/llm_aql_handler.h"
+
+LLMAQLHandler handler;
+
+// Stream NL-to-AQL translation — receive tokens as they arrive
+std::string nl_query = "Find all orders placed in the last 30 days with total > 100";
+std::string aql_result = handler.translateNLToAQLStreaming(
+    nl_query,
+    [](const std::string& token) {
+        // Called for each token as it is generated
+        std::cout << token << std::flush;
+    }
+);
+// aql_result contains the extracted AQL query after generation completes
+
+// Stream with schema context
+std::string schema = "Collection: orders (fields: _id, user_id, total, created_at)";
+aql_result = handler.translateNLToAQLStreaming(
+    nl_query,
+    [](const std::string& token) { std::cout << token << std::flush; },
+    schema
+);
+
+// Stream raw LLM inference (lower-level, no AQL post-processing)
+handler.executeInferStreaming(
+    "Explain the difference between FILTER and LET in AQL.",
+    [](const std::string& token) { std::cout << token << std::flush; }
+);
+```
+
+**Notes:**
+- The callback is invoked sequentially from the inference thread — no concurrent access.
+- The return value of `translateNLToAQLStreaming` is the post-processed AQL query (markdown fences stripped, whitespace trimmed, syntax-validated), identical to what `translateNLToAQL` would return.
+- Both methods apply the same prompt-injection detection as their blocking counterparts.
+- Metrics (latency, token counts) are recorded identically to `executeInfer`.
+
 ### RAG Query Example
 
 ThemisDB's RAG implementation now includes full vector search integration with similarity filtering.
