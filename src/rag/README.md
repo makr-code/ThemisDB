@@ -25,34 +25,38 @@ Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining v
 
 Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system providing intelligent document retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking.
 
-## Implementation Files (19 files, ~7,600 LOC)
+## Implementation Files (20 files, ~7,900 LOC)
 
 ### Core Components
 1. **rag_judge.cpp** - Main orchestrator for multi-dimensional evaluation
 2. **knowledge_gap_detector.cpp** - Three-level gap detection system
 3. **llm_integration.cpp** - Bridge to LLM inference engine
 
+### Streaming Retrieval (Phase 2)
+4. **streaming_retriever.cpp** - Incremental context window filling with token-budget
+   enforcement, relevance-ordered streaming, MMR deduplication, and cancellation support
+
 ### Evaluators
-4. **faithfulness_evaluator.cpp** - Fact-checking against sources
-5. **relevance_evaluator.cpp** - Query-answer alignment
-6. **completeness_evaluator.cpp** - Query aspect coverage
-7. **coherence_evaluator.cpp** - Structure and readability
-8. **bias_detector.cpp** - Ethical compliance checking
+5. **faithfulness_evaluator.cpp** - Fact-checking against sources
+6. **relevance_evaluator.cpp** - Query-answer alignment
+7. **completeness_evaluator.cpp** - Query aspect coverage
+8. **coherence_evaluator.cpp** - Structure and readability
+9. **bias_detector.cpp** - Ethical compliance checking
 
 ### Support Components
-9. **claim_extractor.cpp** - Extract atomic claims from answers
-10. **response_parser.cpp** - Parse LLM evaluation responses
-11. **prompt_templates.cpp** - Template and few-shot management
-12. **judge_config.cpp** - Configuration validation
-13. **rubric_evaluator.cpp** - Custom rubric evaluation
+10. **claim_extractor.cpp** - Extract atomic claims from answers
+11. **response_parser.cpp** - Parse LLM evaluation responses
+12. **prompt_templates.cpp** - Template and few-shot management
+13. **judge_config.cpp** - Configuration validation
+14. **rubric_evaluator.cpp** - Custom rubric evaluation
 
 ### Advanced Components
-14. **judge_ensemble.cpp** - Multi-judge voting strategies
-15. **pairwise_comparator.cpp** - Head-to-head comparisons
-16. **cot_evaluator.cpp** - Chain-of-thought evaluation
-17. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
-18. **llm_judge_integration.cpp** - Judge orchestration
-19. **llm_meta_analyzer.cpp** - Performance meta-analysis
+15. **judge_ensemble.cpp** - Multi-judge voting strategies
+16. **pairwise_comparator.cpp** - Head-to-head comparisons
+17. **cot_evaluator.cpp** - Chain-of-thought evaluation
+18. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
+19. **llm_judge_integration.cpp** - Judge orchestration
+20. **llm_meta_analyzer.cpp** - Performance meta-analysis
 
 ## Performance Characteristics
 
@@ -67,9 +71,65 @@ Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system 
 ```bash
 ./build/tests/test_rag_judge
 ./build/tests/test_knowledge_gap_detector
+./build/tests/test_rag_streaming_retriever
 ./build/tests/test_rag_pipeline_integration
 ./build/benchmarks/bench_rag_evaluation
 ```
+
+## Wissenschaftliche Grundlagen
+
+Die Implementierung basiert auf folgenden peer-reviewten Forschungsarbeiten:
+
+### Retrieval-Augmented Generation (Grundlagen)
+
+1. **Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., … Kiela, D. (2020).**
+   *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.*
+   Advances in Neural Information Processing Systems (NeurIPS), 33, 9459–9474.
+   arXiv: [2005.11401](https://arxiv.org/abs/2005.11401)
+   > Grundlegendes RAG-Framework: Kombination von Dense-Retrieval (DPR) mit Seq2Seq-Generierung.
+   > Direkte Grundlage für das Retrieval → Augmentation → Generation-Muster in `rag_judge.cpp` und `llm_integration.cpp`.
+
+### Streaming- und Inkrementelles Retrieval
+
+2. **Jiang, Z., Xu, F. F., Gao, L., Sun, Z., Liu, Q., Dwivedi-Yu, J., … Neubig, G. (2023).**
+   *Active Retrieval Augmented Generation.*
+   Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP), 7969–7992.
+   arXiv: [2305.06983](https://arxiv.org/abs/2305.06983)
+   > FLARE-Ansatz: Iteratives, vorausschauendes Retrieval statt einmaligem Batch-Abruf.
+   > Motiviert das inkrementelle Füllen des Kontextfensters in `streaming_retriever.cpp`:
+   > Dokumente werden schrittweise hinzugefügt, bis das Token-Budget erschöpft ist.
+
+3. **Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2023).**
+   *Lost in the Middle: How Language Models Use Long Contexts.*
+   Transactions of the Association for Computational Linguistics, 12, 157–173.
+   arXiv: [2307.03172](https://arxiv.org/abs/2307.03172)
+   > Zeigt, dass LLMs relevante Informationen am Anfang und Ende des Kontextfensters besser
+   > verarbeiten als in der Mitte. Begründet die Relevanz-sortierte Reihenfolge
+   > (`sort_by_relevance = true`) in `StreamingRetrieverConfig`: hochrelevante Dokumente werden
+   > zuerst in das Kontextfenster geladen.
+
+### Diversitätsbasierte Dokumentenauswahl (MMR)
+
+4. **Carbonell, J., & Goldstein, J. (1998).**
+   *The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries.*
+   Proceedings of the 21st Annual International ACM SIGIR Conference on Research and Development
+   in Information Retrieval (SIGIR), 335–336.
+   DOI: [10.1145/290941.291025](https://doi.org/10.1145/290941.291025)
+   > Ursprüngliche Formulierung von Maximal Marginal Relevance (MMR): Balance zwischen
+   > Relevanz und Diversität bei der Dokumentauswahl. Direkte Grundlage für die
+   > Jaccard-basierte MMR-Deduplizierung (`enable_mmr_deduplication`,
+   > `mmr_similarity_threshold`) in `StreamingRetriever::Impl::isDuplicate()`.
+
+### In-Context Retrieval und Token-Budget
+
+5. **Ram, O., Levine, Y., Dalmedigos, I., Muhlgay, D., Shashua, A., Leyton-Brown, K., & Shoham, Y. (2023).**
+   *In-Context Retrieval-Augmented Language Models.*
+   Transactions of the Association for Computational Linguistics, 11, 1316–1331.
+   arXiv: [2302.00083](https://arxiv.org/abs/2302.00083)
+   > Untersucht die optimale Nutzung des Kontextfensters für RAG: wie viele Dokumente
+   > eingebettet werden sollen und wie das Token-Budget aufgeteilt wird.
+   > Begründet die `max_context_tokens`-Konfiguration und das Token-Schätzverfahren
+   > (`estimateTokens()`) in `ContextWindowFiller`.
 
 ## See Also
 
@@ -79,4 +139,4 @@ Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system 
 
 ---
 
-*19 files | ~7,600 lines | MIT License*
+*20 files | ~7,900 lines | MIT License*
