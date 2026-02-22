@@ -741,7 +741,22 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                        fmt::format("Plugin not loaded: {}", name));
     }
-    
+
+    // Block unload if other loaded plugins depend on this one.
+    auto dependents = findDependentPlugins(name);
+    if (!dependents.empty()) {
+        std::string dep_list;
+        for (const auto& dep : dependents) {
+            if (!dep_list.empty()) dep_list += ", ";
+            dep_list += dep;
+        }
+        auto error_msg = fmt::format(
+            "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
+            name, dependents.size(), dep_list);
+        THEMIS_ERROR("{}", error_msg);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
+    }
+
     auto& entry = it->second;
     
     // Shutdown plugin
