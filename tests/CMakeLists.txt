@@ -66,6 +66,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_qlora.*\\.cpp$"
         ".*test_quantization\\.cpp$"
         ".*test_rag_judge.*\\.cpp$"
+        ".*test_rag_reranker\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
