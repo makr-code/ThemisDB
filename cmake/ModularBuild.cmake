@@ -688,6 +688,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
