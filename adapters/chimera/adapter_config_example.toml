@@ -60,6 +60,43 @@ application_name = "chimera_benchmark"
 # connection_string = "postgresql://user:pass@localhost:5432/dbname?sslmode=require"
 
 # =============================================================================
+# MongoDB Adapter Configuration
+# =============================================================================
+
+[mongodb]
+host = "localhost"
+port = 27017
+database = "benchmark_db"
+username = "bench_user"
+password = "secure_password"
+
+# Connection pool settings
+pool_size = 20
+timeout_ms = 30000
+
+# TLS/SSL settings
+use_tls = false
+
+# Additional parameters
+[mongodb.parameters]
+# Atlas connection string (overrides host/port when set)
+# connection_string = "mongodb+srv://user:pass@cluster.mongodb.net/benchmark_db"
+
+# Direct wire protocol connection options
+auth_source = "admin"           # Authentication database
+auth_mechanism = "SCRAM-SHA-256"
+
+# Replica set name (required for multi-document transactions)
+# replica_set = "rs0"
+
+# Atlas Vector Search index name used for vector similarity queries
+vector_index_name = "embedding_index"
+
+# Read preference for replica-set deployments
+# Options: primary, primaryPreferred, secondary, secondaryPreferred, nearest
+read_preference = "primary"
+
+# =============================================================================
 # Weaviate Adapter Configuration
 # =============================================================================
 
