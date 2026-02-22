@@ -1183,3 +1183,166 @@ TEST_F(DeltaUpdateEngineTest, ProgressCallback_IsInvoked) {
         EXPECT_LE(p, 100);
     }
 }
+
+// ============================================================================
+// Phase 9 – Security: path traversal prevention
+// ============================================================================
+
+class DeltaPathTraversalTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
+    std::string install_dir_;
+    std::string download_dir_;
+
+    void SetUp() override {
+        auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_dir_      = "/tmp/test_delta_sec_" + std::to_string(ts);
+        install_dir_  = tmp_dir_ + "/install";
+        download_dir_ = tmp_dir_ + "/download";
+        fs::create_directories(install_dir_);
+        fs::create_directories(download_dir_);
+    }
+
+    void TearDown() override {
+        try { fs::remove_all(tmp_dir_); } catch (...) {}
+    }
+
+    static void writeBytes(const std::string& path,
+                           const std::vector<uint8_t>& data) {
+        fs::create_directories(fs::path(path).parent_path());
+        std::ofstream f(path, std::ios::binary);
+        f.write(reinterpret_cast<const char*>(data.data()),
+                static_cast<std::streamsize>(data.size()));
+    }
+};
+
+TEST_F(DeltaPathTraversalTest, DotDotPath_FallsBackAndNeverWritesOutsideSandbox) {
+    // The "sentinel" file that must NOT be overwritten
+    std::string outside_file = tmp_dir_ + "/outside_secret.txt";
+    writeBytes(outside_file, {0xDE, 0xAD, 0xBE, 0xEF});
+
+    // A manifest with a path traversal attempt
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "../outside_secret.txt";   // traversal attempt
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    // Engine-level success but this file must fall back (path rejected)
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_TRUE(result.files_patched.empty());
+
+    // The outside file must be untouched
+    std::ifstream f(outside_file, std::ios::binary);
+    std::vector<uint8_t> content(
+        std::istreambuf_iterator<char>(f),
+        std::istreambuf_iterator<char>());
+    std::vector<uint8_t> expected = {0xDE, 0xAD, 0xBE, 0xEF};
+    EXPECT_EQ(content, expected);
+}
+
+TEST_F(DeltaPathTraversalTest, AbsolutePath_Rejected) {
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "/etc/passwd";  // absolute path
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_TRUE(result.files_patched.empty());
+}
+
+TEST_F(DeltaPathTraversalTest, EmptyPath_Rejected) {
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "";  // empty
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+}
+
+TEST_F(DeltaPathTraversalTest, NormalSubdirPath_Accepted) {
+    // Normal nested path inside install_dir should not be rejected
+    std::string rel_path = "bin/subdir/component";
+    std::vector<uint8_t> base_data(64, 0x01);
+    std::string base_path = install_dir_ + "/" + rel_path;
+    writeBytes(base_path, base_data);
+
+    // No patch present → fallback for a different reason (not path rejection)
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = rel_path;
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    // Should fall back due to missing patch file, NOT due to path rejection
+    EXPECT_TRUE(result.success);
+    // It ended up in fallback (patch missing) but wasn't rejected for the path
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    // The install dir base file should still exist (wasn't touched)
+    EXPECT_TRUE(fs::exists(base_path));
+}
+
+TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
+    // Prove that the security check does NOT block valid nested-path operations.
+    std::string rel_path = "lib/sub/libfoo.so";
+    std::vector<uint8_t> base_data(512);
+    for (size_t i = 0; i < base_data.size(); ++i) base_data[i] = static_cast<uint8_t>(i & 0xFF);
+
+    auto target_data = base_data;
+    target_data[10] = 0xFF;
+    target_data[20] = 0xFE;
+
+    std::string base_path = install_dir_ + "/" + rel_path;
+    writeBytes(base_path, base_data);
+
+    // Generate patch and place it where applyDelta expects it
+    std::string patch_path = download_dir_ + "/" + rel_path + ".patch";
+    {
+        std::string tgt_tmp = tmp_dir_ + "/tgt_sec_tmp.bin";
+        writeBytes(tgt_tmp, target_data);
+        DeltaUpdateEngine gen(install_dir_, download_dir_);
+        ASSERT_TRUE(gen.generatePatch(base_path, tgt_tmp, patch_path,
+                                      PatchAlgorithm::ZSTD_DICT));
+    }
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path        = rel_path;
+    fd.target_size = static_cast<uint64_t>(target_data.size());
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.files_fallback.empty());
+    ASSERT_EQ(result.files_patched.size(), 1u);
+    EXPECT_EQ(result.files_patched[0], rel_path);
+
+    // Verify the installed file matches the target
+    auto installed = readBytes(base_path);
+    EXPECT_EQ(installed, target_data);
+}

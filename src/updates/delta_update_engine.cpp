@@ -46,6 +46,55 @@ namespace updates {
 namespace fs = std::filesystem;
 
 // ============================================================================
+// Security helper: path traversal prevention
+// ============================================================================
+
+/**
+ * @brief Validate a relative file path from an untrusted manifest.
+ *
+ * Rejects paths that:
+ *  - are empty
+ *  - are absolute (start with '/')
+ *  - contain ".." components (directory traversal)
+ *  - contain null bytes
+ *
+ * After constructing the full path we additionally verify it is lexically
+ * contained within the expected base directory using weakly_canonical.
+ *
+ * @param rel_path  Relative path from a FileDelta
+ * @param base_dir  The directory the file must reside within
+ * @return true if safe; false if the path should be rejected
+ */
+static bool isSafePath(const std::string& rel_path, const std::string& base_dir) {
+    if (rel_path.empty()) return false;
+    // Reject absolute paths and null bytes
+    if (rel_path[0] == '/' || rel_path.find('\0') != std::string::npos) return false;
+
+    // Reject any ".." component
+    fs::path p(rel_path);
+    for (const auto& component : p) {
+        if (component == "..") return false;
+    }
+
+    // Final check: the resolved path must be strictly inside base_dir.
+    // We require full_str to begin with base_str followed by '/' to avoid
+    // the prefix-trick attack (e.g. base="/install", full="/installmalicious/f").
+    try {
+        auto full = fs::weakly_canonical(fs::path(base_dir) / p);
+        auto base = fs::weakly_canonical(fs::path(base_dir));
+        auto full_str = full.string();
+        auto base_str = base.string();
+        // Must be strictly longer than base (not equal) and separated by '/'
+        if (full_str.size() <= base_str.size()) return false;
+        if (full_str[base_str.size()] != '/') return false;
+        if (full_str.substr(0, base_str.size()) != base_str) return false;
+    } catch (const std::exception&) {
+        return false;
+    }
+    return true;
+}
+
+// ============================================================================
 // Patch file format
 // ============================================================================
 //
@@ -296,6 +345,13 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         ++idx;
         int pct = static_cast<int>(idx * 100 / (total > 0 ? total : 1));
         reportProgress(pct, "Patching " + fd.path);
+
+        // --- 0. Validate relative path (path traversal prevention) ---
+        if (!isSafePath(fd.path, install_dir_)) {
+            LOG_ERROR("Unsafe path rejected in delta manifest: '{}'", fd.path);
+            result.files_fallback.push_back(fd.path);
+            continue;
+        }
 
         // --- 1. Load base file ---
         std::string base_path = install_dir_ + "/" + fd.path;

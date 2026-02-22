@@ -21,7 +21,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update scheduling and notification system
 
 ## In Progress 🚧
-- [!] Delta (binary diff) updates to reduce download size (Target: Q2 2026) (Issue: #2488)
+- [x] Delta (binary diff) updates to reduce download size (Target: Q2 2026) (Issue: #2488)
 - [!] Canary rollout mode (update a fraction of nodes first) (Target: Q2 2026) (Issue: #2489)
 - [!] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026) (Issue: #2490)
 
@@ -57,7 +57,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update scheduling and notification system
 
 ### Phase 2: Delta Updates & Canary Rollout (Status: In Progress 🚧)
-- [~] Delta (binary diff) updates to reduce download size
+- [x] Delta (binary diff) updates to reduce download size
 - [~] Canary rollout mode (update a fraction of nodes first)
 - [~] Update pre-flight health checks (disk space, memory, dependency versions)
 
