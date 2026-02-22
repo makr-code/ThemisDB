@@ -177,7 +177,7 @@ auto quarantine = admin.listQuarantine();
 - HTTP client implementations are stubs (simulated responses); replace the `apiHttpGet` and `HttpClient` bodies with `libcurl` calls for production
 - The filesystem ingester's binary-file detection relies on heuristics; add MIME type sniffing for more robust filtering
 - Checkpoint files are written locally; for distributed deployments, back checkpoints with a shared storage backend
-- Quarantine retry (`IngestionAdminApi::retryQuarantineItem`) re-runs the entire source; a per-document retry mechanism is a planned enhancement
+- Quarantine retry (`IngestionAdminApi::retryQuarantineItem`) performs per-document retry with exponential back-off when `raw_payload` is populated; falls back to re-running the originating source otherwise
 - Known limitations:
   - `max_pages = 0` means unlimited pages; always set a sensible limit for untrusted APIs
   - Parallel ingestion uses `std::thread`; consider migrating to a work-stealing thread pool for better CPU utilization under high source counts

@@ -152,11 +152,12 @@ struct IngestionError {
  * @brief Retry / back-off configuration for connectors
  */
 struct RetryConfig {
-    int    max_attempts      = 3;     ///< Maximum total attempts (1 = no retry)
-    double initial_delay_ms  = 500.0; ///< First back-off delay (ms)
-    double backoff_factor    = 2.0;   ///< Exponential multiplier per attempt
-    double max_delay_ms      = 30000.0; ///< Cap on per-attempt delay (ms)
-    int    timeout_ms        = 30000; ///< Per-request timeout (ms)
+    int    max_attempts           = 3;     ///< Maximum total attempts (1 = no retry)
+    double initial_delay_ms       = 500.0; ///< First back-off delay (ms)
+    double backoff_factor         = 2.0;   ///< Exponential multiplier per attempt
+    double max_delay_ms           = 30000.0; ///< Cap on per-attempt delay (ms)
+    int    timeout_ms             = 30000; ///< Per-request timeout (ms)
+    int    max_quarantine_retries = 5;     ///< Max per-document quarantine retry attempts
 
     RetryConfig() = default;
 };
@@ -266,8 +267,10 @@ struct QuarantineEntry {
     std::string source_id;         ///< Source that produced this entry
     IngestionErrorCode error_code  = IngestionErrorCode::UNKNOWN_ERROR;
     std::string error_message;     ///< Last error message
-    size_t retry_count = 0;        ///< Number of attempts made
+    size_t retry_count = 0;        ///< Number of retry attempts made
     std::chrono::system_clock::time_point timestamp; ///< When quarantined
+    std::string raw_payload;       ///< Serialized document content (for per-doc retry)
+    bool permanently_failed = false; ///< True when max_quarantine_retries exceeded
 
     QuarantineEntry() : timestamp(std::chrono::system_clock::now()) {}
 };
@@ -485,6 +488,33 @@ public:
      * @brief Clear the entire quarantine list
      */
     void clearQuarantine();
+
+    /**
+     * @brief Update an existing quarantine entry in-place
+     *
+     * Finds the entry whose `item_path` matches `updated.item_path` and
+     * replaces it with the supplied value.  Used by the retry mechanism to
+     * persist incremented retry counts and permanently_failed flags.
+     *
+     * @param updated Entry with the new field values
+     * @return true if a matching entry was found and updated
+     */
+    bool updateQuarantineEntry(const QuarantineEntry& updated);
+
+    /**
+     * @brief Directly inject an entry into the quarantine list
+     *
+     * Allows callers (e.g. external importers, unit tests) to queue a
+     * document for retry without going through a full ingestion run.
+     *
+     * @param entry The entry to add
+     */
+    void addToQuarantine(QuarantineEntry entry);
+
+    /**
+     * @brief Return the current retry / back-off configuration
+     */
+    RetryConfig getRetryConfig() const;
 
     /**
      * @brief Configure per-source rate limiting
@@ -878,15 +908,33 @@ public:
     std::vector<QuarantineEntry> listQuarantine() const;
 
     /**
-     * @brief Re-enqueue a quarantined item for ingestion
+     * @brief Retry a single quarantined item with exponential back-off
      *
-     * Removes the entry from quarantine and schedules a fresh ingestion
-     * run for the originating source.
+     * When the entry has a `raw_payload`, the document is written directly
+     * without re-running the whole source.  On each failed attempt the
+     * back-off delay is doubled (capped at `RetryConfig::max_delay_ms`).
+     * If `retry_count` reaches `RetryConfig::max_quarantine_retries` the
+     * entry is marked `permanently_failed` and excluded from future retries.
+     *
+     * If `raw_payload` is empty (legacy entry) the method falls back to
+     * re-running the originating source from the last checkpoint.
      *
      * @param item_path The quarantined item path/URL
-     * @return true if the item was found in quarantine and the source was re-run
+     * @return true if the item was successfully re-ingested and removed from
+     *         quarantine; false if not found, permanently failed, or all
+     *         retry attempts were exhausted
      */
     bool retryQuarantineItem(const std::string& item_path);
+
+    /**
+     * @brief Retry all quarantined items that are not permanently failed
+     *
+     * Iterates the quarantine list and calls `retryQuarantineItem()` for
+     * every entry whose `permanently_failed` flag is false.
+     *
+     * @return Number of items that were successfully re-ingested
+     */
+    size_t retryAllQuarantine();
 
     /**
      * @brief Dismiss (permanently delete) a quarantined item
