@@ -455,6 +455,10 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
 
                 auto it_latest = latest_seq_per_doc_key.find(ev.key);
                 if (it_latest == latest_seq_per_doc_key.end()) {
+                    // This can happen if the event was added after Phase 1 scan,
+                    // or if Phase 1 failed to parse it.  Conservatively keep it.
+                    THEMIS_WARN("compactByKey: doc key '{}' not found in phase-1 map; "
+                                "retaining event seq={}", ev.key, ev.sequence);
                     result.events_retained++;
                     continue;
                 }
