@@ -207,6 +207,43 @@ TEST_F(PolicyValidationTest, DetectCircularDependencies_NoCircle) {
     EXPECT_TRUE(conflicts.empty());
 }
 
+TEST_F(PolicyValidationTest, DetectCircularDependencies_ThreeWayCycle) {
+    PolicyValidator validator;
+
+    // Three rules that all share the same priority, the same resource/action,
+    // and have contradictory effects: they form a fully-connected conflict
+    // component of size 3 which the implementation reports as a cycle.
+    PolicyRule rule_a = createTestRule("circ_a", "Circ A", {"shared/*"}, {"read"});
+    rule_a.priority = 7;
+    rule_a.require_encryption = true;
+    rule_a.allow_export = false;
+    rule_a.allow_cache = false;
+
+    PolicyRule rule_b = createTestRule("circ_b", "Circ B", {"shared/*"}, {"read"});
+    rule_b.priority = 7;
+    rule_b.require_encryption = false;   // contradicts rule_a
+    rule_b.allow_export = true;
+    rule_b.allow_cache = true;
+
+    PolicyRule rule_c = createTestRule("circ_c", "Circ C", {"shared/*"}, {"read"});
+    rule_c.priority = 7;
+    rule_c.require_encryption = true;
+    rule_c.allow_export = true;          // contradicts rule_a
+    rule_c.allow_cache = false;
+
+    policy_mgr_->addRule(rule_a);
+    policy_mgr_->addRule(rule_b);
+    policy_mgr_->addRule(rule_c);
+
+    auto conflicts = validator.detectCircularDependencies(*policy_mgr_);
+
+    ASSERT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "circular");
+    EXPECT_EQ(conflicts[0].severity, "high");
+    EXPECT_GE(conflicts[0].conflicting_rule_ids.size(), 3u);
+    EXPECT_FALSE(conflicts[0].recommendation.empty());
+}
+
 TEST_F(PolicyValidationTest, DetectConflicts_ComprehensiveCheck) {
     PolicyValidator validator;
     

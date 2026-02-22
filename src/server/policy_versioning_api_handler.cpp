@@ -238,6 +238,44 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
     }
 }
 
+http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!checkAuth(req, "operator")) {
+            return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
+        }
+
+        if (!policy_manager_versioned_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                "PolicyManagerWithVersioning not initialized", req);
+        }
+
+        auto conflicts = policy_manager_versioned_->getActiveConflicts();
+
+        nlohmann::json conflicts_arr = nlohmann::json::array();
+        bool has_critical = false;
+        for (const auto& c : conflicts) {
+            conflicts_arr.push_back(c.toJson());
+            if (!has_critical && (c.severity == "critical" || c.severity == "high")) {
+                has_critical = true;
+            }
+        }
+
+        nlohmann::json response = {
+            {"conflicts", conflicts_arr},
+            {"conflict_count", conflicts.size()},
+            {"has_critical_conflicts", has_critical}
+        };
+
+        return makeResponse(http::status::ok, response.dump(2), req);
+
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Error retrieving active policy conflicts: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 bool PolicyVersioningApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
