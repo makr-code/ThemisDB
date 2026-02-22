@@ -115,3 +115,36 @@ Beim Implementieren aus Roadmap/Future-Enhancement gilt:
 ```
 
 Dieser Detaillierungsgrad ist für produktiven Code erforderlich.
+
+## 8) Research Documentation Policy
+
+```yaml
+research_documentation:
+  policy: "MANDATORY für neue Algorithmen/Designs"
+
+  when_to_document:
+    - "Paper oder wissenschaftliche Quelle als Grundlage"
+    - "Best Practice aus anderen Open-Source Projekten übernommen"
+    - "Stand der Technik recherchiert (z.B. neue GPU-Techniken)"
+    - "Architecture Decision getroffen (z.B. HNSW vs. FAISS)"
+
+  workflow:
+    - "1. Quelle recherchieren → in /docs/research/<typ>/ als .md speichern"
+    - "2. Spezifische Anpassungen für ThemisDB dokumentieren"
+    - "3. Im relevanten Modul-README verlinken (Abschnitt: Wissenschaftliche Grundlagen & Einflüsse)"
+    - "4. In /docs/research/implementation_influence/ eintragen"
+    - "5. Commit-Message: ref(research): Add [Source] to [Module]"
+
+  pr_checklist:
+    - "[ ] Basiert auf wissenschaftlicher Quelle oder Best Practice?"
+    - "[ ] Wenn ja: Research-Datei in /docs/research/ angelegt?"
+    - "[ ] Modul-README mit Influence-Link aktualisiert?"
+    - "[ ] Implementation-Influence-Index aktualisiert?"
+
+  templates:
+    paper: "docs/research/papers/_template_paper.md"
+    best_practice: "docs/research/best_practices/_template_best_practice.md"
+    architecture_decision: "docs/research/architecture_decisions/_template_decision.md"
+
+  guide: "docs/research/RESEARCH_GUIDE.md"
+```
