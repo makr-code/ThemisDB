@@ -1525,6 +1525,8 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp

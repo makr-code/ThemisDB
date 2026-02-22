@@ -101,32 +101,32 @@ public:
         const Config& config = defaultConfig()
     );
     
-    ~HotReloadEngine();
-    
+    virtual ~HotReloadEngine();
+
     /**
      * @brief Download and verify a release
      * @param version Version to download (e.g., "1.2.3")
      * @return Download result
      */
     DownloadResult downloadRelease(const std::string& version);
-    
+
     /**
      * @brief Apply hot-reload (atomic operation)
      * @param version Version to apply
      * @param verify_only Dry-run mode (don't actually apply)
      * @return Reload result
      */
-    ReloadResult applyHotReload(
+    virtual ReloadResult applyHotReload(
         const std::string& version,
         bool verify_only = false
     );
-    
+
     /**
      * @brief Rollback to previous version
      * @param rollback_id Rollback ID from previous reload
      * @return true if successful
      */
-    bool rollback(const std::string& rollback_id);
+    virtual bool rollback(const std::string& rollback_id);
     
     /**
      * @brief Verify release before applying

@@ -80,12 +80,12 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [ ] Persistent memory (Optane) aware storage layout
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (cycle timer accuracy, lock-free buffer correctness)
+- [x] Unit tests coverage > 80%
+- [x] Integration tests (cycle timer accuracy, lock-free buffer correctness)
 - [?] Performance benchmarks (overhead < 1 ns per measurement point)
 - [?] Security audit (timing side-channels via cycle counters)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete
+- [x] API stability guaranteed
 
 ## Known Issues & Limitations
 - SPSC ring buffer requires single-producer/single-consumer discipline; misuse causes data races.
