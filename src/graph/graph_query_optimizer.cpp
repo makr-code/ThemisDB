@@ -59,13 +59,23 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     std::string_view target_vertex,
     const QueryConstraints& constraints) {
     
-    // Check plan cache
+    // Check plan cache: first exact key, then structural key for reuse across
+    // structurally similar queries (same pattern/constraints, different vertices)
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
         auto it = plan_cache_.find(cache_key);
         if (it != plan_cache_.end()) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(it->second);
+        }
+        // Structural key lookup: reuse plan from a previous query with same
+        // constraints but different vertex IDs
+        auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
+        auto it2 = plan_cache_.find(struct_key);
+        if (it2 != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            plan_cache_[cache_key] = it2->second; // promote to exact key for faster future lookup
+            return Ok(it2->second);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -116,10 +126,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     // Generate explanation
     plan.explanation = explainPlan(plan);
     
-    // Cache the plan
+    // Cache the plan under both the exact key and the structural key so that
+    // future queries with the same constraints but different vertex IDs benefit
+    // from structural plan reuse.
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
         plan_cache_[cache_key] = plan;
+        auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
+        plan_cache_.emplace(struct_key, plan); // only insert if not already present
     }
     
     return Ok(plan);
@@ -135,7 +149,19 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     std::string_view start_vertex,
     int k,
     const QueryConstraints& constraints) {
-    
+
+    // Check plan cache (structural key encodes k as depth_hint)
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::K_HOP_NEIGHBORS, constraints, static_cast<size_t>(k));
+        auto it = plan_cache_.find(struct_key);
+        if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            return Ok(it->second);
+        }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
+    }
+
     OptimizationPlan plan;
     plan.pattern = QueryPattern::K_HOP_NEIGHBORS;
     
@@ -155,6 +181,13 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
+
+    // Store under structural key for reuse across different start vertices
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::K_HOP_NEIGHBORS, constraints, static_cast<size_t>(k));
+        plan_cache_.emplace(struct_key, plan);
+    }
     
     return Ok(plan);
 }
@@ -169,7 +202,23 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
     const std::vector<std::string>& pattern_vertices,
     const std::vector<std::pair<std::string, std::string>>& pattern_edges,
     const QueryConstraints& constraints) {
-    
+
+    // Structural key encodes the pattern shape (vertex count / edge count) so
+    // that queries with the same structure but different vertex labels reuse plans.
+    const size_t pattern_depth = pattern_vertices.size();
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::PATTERN_MATCH, constraints, pattern_depth);
+        // Append edge count to distinguish patterns with the same vertex count
+        struct_key += ":pe=" + std::to_string(pattern_edges.size());
+        auto it = plan_cache_.find(struct_key);
+        if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            return Ok(it->second);
+        }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
+    }
+
     OptimizationPlan plan;
     plan.pattern = QueryPattern::PATTERN_MATCH;
     
@@ -177,7 +226,6 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
     plan.algorithm = TraversalAlgorithm::DFS;
     
     // Estimate depth based on pattern size
-    size_t pattern_depth = pattern_vertices.size();
     plan.estimated_cost = estimateCost(TraversalAlgorithm::DFS, pattern_depth, constraints);
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, pattern_depth) * 0.5); // Pruning helps
@@ -189,6 +237,13 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
     plan.enable_parallel = false; // Pattern matching doesn't parallelize well
     
     plan.explanation = explainPlan(plan);
+
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::PATTERN_MATCH, constraints, pattern_depth);
+        struct_key += ":pe=" + std::to_string(pattern_edges.size());
+        plan_cache_.emplace(struct_key, plan);
+    }
     
     return Ok(plan);
 }
@@ -203,7 +258,25 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     std::string_view start_vertex,
     std::string_view target_vertex,
     const QueryConstraints& constraints) {
-    
+
+    // Two-level cache lookup: exact key first, then structural key
+    if (plan_caching_enabled_) {
+        auto cache_key = generatePlanCacheKey(QueryPattern::REACHABILITY, start_vertex, target_vertex, constraints);
+        auto it = plan_cache_.find(cache_key);
+        if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            return Ok(it->second);
+        }
+        auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
+        auto it2 = plan_cache_.find(struct_key);
+        if (it2 != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            plan_cache_[cache_key] = it2->second;
+            return Ok(it2->second);
+        }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
+    }
+
     OptimizationPlan plan;
     plan.pattern = QueryPattern::REACHABILITY;
     
@@ -227,6 +300,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
+
+    // Cache under both exact and structural keys
+    if (plan_caching_enabled_) {
+        auto cache_key = generatePlanCacheKey(QueryPattern::REACHABILITY, start_vertex, target_vertex, constraints);
+        plan_cache_[cache_key] = plan;
+        auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
+        plan_cache_.emplace(struct_key, plan);
+    }
     
     return Ok(plan);
 }
@@ -1313,6 +1394,49 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
         key += ":type=" + constraints.edge_type.value();
     }
     
+    return key;
+}
+
+std::string GraphQueryOptimizer::generateStructuralCacheKey(
+    QueryPattern pattern,
+    const QueryConstraints& constraints,
+    std::optional<size_t> depth_hint) const {
+
+    // Structural key: captures pattern + all constraint parameters that affect
+    // plan selection, but omits specific vertex IDs.  Two queries sharing the
+    // same structural key will receive an identical OptimizationPlan.
+    std::string key = "struct:" + std::to_string(static_cast<int>(pattern));
+
+    if (depth_hint.has_value()) {
+        key += ":depth=" + std::to_string(depth_hint.value());
+    } else if (constraints.max_depth.has_value()) {
+        key += ":depth=" + std::to_string(constraints.max_depth.value());
+    }
+
+    if (constraints.edge_type.has_value()) {
+        key += ":type=" + constraints.edge_type.value();
+    }
+
+    if (constraints.unique_vertices) {
+        key += ":uv";
+    }
+
+    if (constraints.unique_edges) {
+        key += ":ue";
+    }
+
+    if (constraints.enable_parallel) {
+        key += ":par";
+    }
+
+    if (!constraints.forbidden_vertices.empty()) {
+        key += ":fv=" + std::to_string(constraints.forbidden_vertices.size());
+    }
+
+    if (!constraints.required_vertices.empty()) {
+        key += ":rv=" + std::to_string(constraints.required_vertices.size());
+    }
+
     return key;
 }
 
