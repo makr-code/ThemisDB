@@ -34,6 +34,7 @@
 #include "self_improvement_orchestrator.h"
 #include "feedback_collector.h"
 #include "prompt_version_control.h"
+#include "prompt_injection_detector.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -55,6 +56,9 @@ struct IntegrationConfig {
     
     // Feedback collection
     bool enable_feedback_collection = true;
+    
+    // Injection detection
+    bool enable_injection_detection = true;
     
     // Optimization thresholds
     size_t min_executions_before_optimization = 100;
@@ -80,6 +84,8 @@ struct ExecutionContext {
     nlohmann::json context;
     std::string version_id;  // Version used for this execution
     std::chrono::system_clock::time_point start_time;
+    bool injection_detected = false;   // True when a prompt injection attempt was detected
+    float injection_risk_score = 0.0f; // Risk score from PromptInjectionDetector [0,1]
     
     // Serialization
     nlohmann::json toJson() const;
@@ -193,7 +199,8 @@ public:
         std::shared_ptr<PromptPerformanceTracker> tracker,
         std::shared_ptr<SelfImprovementOrchestrator> orchestrator,
         std::shared_ptr<FeedbackCollector> feedback_collector,
-        std::shared_ptr<PromptVersionControl> version_control
+        std::shared_ptr<PromptVersionControl> version_control,
+        std::shared_ptr<PromptInjectionDetector> injection_detector = nullptr
     );
     
     ~PromptEngineeringIntegration();
@@ -244,6 +251,7 @@ private:
     std::shared_ptr<SelfImprovementOrchestrator> orchestrator_;
     std::shared_ptr<FeedbackCollector> feedback_collector_;
     std::shared_ptr<PromptVersionControl> version_control_;
+    std::shared_ptr<PromptInjectionDetector> injection_detector_;
     
     std::unique_ptr<BackgroundOptimizationWorker> background_worker_;
     

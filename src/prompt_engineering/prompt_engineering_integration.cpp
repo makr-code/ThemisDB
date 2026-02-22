@@ -38,6 +38,7 @@ nlohmann::json IntegrationConfig::toJson() const {
         {"auto_commit_on_optimization", auto_commit_on_optimization},
         {"enable_performance_tracking", enable_performance_tracking},
         {"enable_feedback_collection", enable_feedback_collection},
+        {"enable_injection_detection", enable_injection_detection},
         {"min_executions_before_optimization", min_executions_before_optimization},
         {"min_success_rate_for_optimization", min_success_rate_for_optimization},
         {"background_worker_enabled", background_worker_enabled},
@@ -54,6 +55,7 @@ IntegrationConfig IntegrationConfig::fromJson(const nlohmann::json& j) {
     config.auto_commit_on_optimization = j.value("auto_commit_on_optimization", true);
     config.enable_performance_tracking = j.value("enable_performance_tracking", true);
     config.enable_feedback_collection = j.value("enable_feedback_collection", true);
+    config.enable_injection_detection = j.value("enable_injection_detection", true);
     config.min_executions_before_optimization = j.value("min_executions_before_optimization", 100);
     config.min_success_rate_for_optimization = j.value("min_success_rate_for_optimization", 0.7);
     config.background_worker_enabled = j.value("background_worker_enabled", true);
@@ -75,7 +77,9 @@ nlohmann::json ExecutionContext::toJson() const {
         {"enhanced_prompt", enhanced_prompt},
         {"context", context},
         {"version_id", version_id},
-        {"start_time", timestamp}
+        {"start_time", timestamp},
+        {"injection_detected", injection_detected},
+        {"injection_risk_score", injection_risk_score}
     };
 }
 
@@ -87,6 +91,8 @@ ExecutionContext ExecutionContext::fromJson(const nlohmann::json& j) {
     ctx.enhanced_prompt = j.value("enhanced_prompt", "");
     ctx.context = j.value("context", nlohmann::json::object());
     ctx.version_id = j.value("version_id", "");
+    ctx.injection_detected = j.value("injection_detected", false);
+    ctx.injection_risk_score = j.value("injection_risk_score", 0.0f);
     
     if (j.contains("start_time")) {
         auto timestamp = j["start_time"].get<std::time_t>();
@@ -233,14 +239,16 @@ PromptEngineeringIntegration::PromptEngineeringIntegration(
     std::shared_ptr<PromptPerformanceTracker> tracker,
     std::shared_ptr<SelfImprovementOrchestrator> orchestrator,
     std::shared_ptr<FeedbackCollector> feedback_collector,
-    std::shared_ptr<PromptVersionControl> version_control
+    std::shared_ptr<PromptVersionControl> version_control,
+    std::shared_ptr<PromptInjectionDetector> injection_detector
 ) : config_(config),
     manager_(manager),
     optimizer_(optimizer),
     tracker_(tracker),
     orchestrator_(orchestrator),
     feedback_collector_(feedback_collector),
-    version_control_(version_control) {
+    version_control_(version_control),
+    injection_detector_(injection_detector) {
 }
 
 PromptEngineeringIntegration::~PromptEngineeringIntegration() {
@@ -311,6 +319,28 @@ ExecutionContext PromptEngineeringIntegration::beforeExecution(
     
     // Enhance prompt with context
     ctx.enhanced_prompt = enhancePrompt(prompt_id, context);
+    
+    // Detect prompt injection in the prompt text
+    if (config_.enable_injection_detection && injection_detector_) {
+        auto detection = injection_detector_->detect(ctx.enhanced_prompt);
+        if (detection.is_injection) {
+            ctx.injection_detected = true;
+            ctx.injection_risk_score = detection.risk_score;
+            // Sanitize the prompt so downstream processing receives cleaned text
+            ctx.enhanced_prompt = detection.sanitized_text;
+            if (config_.enable_feedback_collection && feedback_collector_) {
+                feedback_collector_->recordFeedback(
+                    ctx.prompt_id,
+                    ctx.original_prompt,
+                    "",
+                    FeedbackType::SECURITY_ISSUE,
+                    "Prompt injection attempt detected (risk_score=" +
+                        std::to_string(detection.risk_score) + ")",
+                    detection.risk_score
+                );
+            }
+        }
+    }
     
     // Get current version
     if (config_.enable_auto_versioning) {
@@ -383,6 +413,24 @@ void PromptEngineeringIntegration::afterExecution(
     // Check if optimization is needed
     if (config_.enable_auto_optimization) {
         checkAndTriggerOptimization(ctx.prompt_id);
+    }
+    
+    // Detect indirect injection in the model response
+    if (config_.enable_injection_detection && injection_detector_) {
+        auto detection = injection_detector_->detectInResponse(response);
+        if (detection.is_injection) {
+            if (config_.enable_feedback_collection && feedback_collector_) {
+                feedback_collector_->recordFeedback(
+                    ctx.prompt_id,
+                    ctx.enhanced_prompt,
+                    response,
+                    FeedbackType::SECURITY_ISSUE,
+                    "Indirect prompt injection detected in model response (risk_score=" +
+                        std::to_string(detection.risk_score) + ")",
+                    detection.risk_score
+                );
+            }
+        }
     }
 }
 
