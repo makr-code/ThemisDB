@@ -3,7 +3,7 @@
 # Scheduler Module Roadmap
 
 ## Current Status
-v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like periodic AQL execution, thread pool, OpenTelemetry tracing, and 3-stage time-series data lifecycle are fully implemented.
+v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron syntax with name aliases (JAN–DEC, MON–SUN), complex list items (ranges and steps within lists), and start/step syntax fully supported. Hybrid retention manager and task scheduler are production-ready.
 
 ## Completed ✅
 - [x] TaskScheduler – periodic task execution with thread pool
@@ -19,9 +19,9 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
   - Stage 2: Adaptive variance-based downsampling (7–365 days)
   - Stage 3: Daily aggregates (>1 year)
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
+- [x] Full cron expression parsing (v1.5.0): wildcards, ranges, lists (with embedded ranges/steps), start/step syntax, month and weekday name aliases (JAN–DEC, MON–SUN), 6-field year constraint, timezone-aware scheduling, @-specials
 
 ## In Progress 🚧
-- [I] Full cron expression parsing (v1.5.0) (Target: Q2 2026) (Issue: #2452)
 - [I] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
 - [I] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
 
@@ -56,7 +56,7 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
 
 ### Phase 2: Full Cron & Distributed Coordination (Status: In Progress 🚧)
-- [~] Full cron expression parsing (v1.5.0)
+- [x] Full cron expression parsing (v1.5.0)
 - [~] Distributed task coordination across nodes
 - [~] Task dependency DAG execution
 
@@ -83,7 +83,6 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- Cron expression parsing supports simple intervals only in v1.x; full cron syntax planned for v1.5.0.
 - Task dependencies and DAG execution are not yet implemented.
 - Distributed coordination is not available; single-node scheduler only.
 
