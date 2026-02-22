@@ -204,10 +204,10 @@ class QueryPlanCache {
 public:
     struct QueryPlan {
         std::string query_hash;
-        size_t depth;
-        size_t field_count;
-        size_t ast_node_count;
-        bool validation_passed;
+        size_t depth = 0;
+        size_t field_count = 0;
+        size_t ast_node_count = 0;
+        bool validation_passed = false;
         
         Document parsed_document;
     };
@@ -221,14 +221,14 @@ public:
      * @brief Get a cached query plan
      */
     std::shared_ptr<QueryPlan> get(const std::string& query) {
-        return cache_.get(computeHash(query));
+        return cache_.get(query);
     }
     
     /**
      * @brief Cache a query plan
      */
     void put(const std::string& query, const QueryPlan& plan) {
-        cache_.put(computeHash(query), plan);
+        cache_.put(query, plan);
     }
     
     /**
@@ -247,12 +247,6 @@ public:
     
 private:
     QueryPlanCache() : cache_(1000, std::chrono::seconds(600)) {}  // 10 minute TTL
-    
-    std::string computeHash(const std::string& query) const {
-        // Simple hash for now - could use a better hash function
-        std::hash<std::string> hasher;
-        return std::to_string(hasher(query));
-    }
     
     Cache<QueryPlan> cache_;
 };
@@ -280,14 +274,14 @@ public:
      * @brief Get a cached response
      */
     std::shared_ptr<CachedResponse> get(const std::string& query) {
-        return cache_.get(computeHash(query));
+        return cache_.get(query);
     }
     
     /**
      * @brief Cache a response
      */
     void put(const std::string& query, const CachedResponse& response) {
-        cache_.put(computeHash(query), response);
+        cache_.put(query, response);
     }
     
     /**
@@ -315,11 +309,6 @@ public:
     
 private:
     ResponseCache() : cache_(500, std::chrono::seconds(60)) {}  // 1 minute TTL for responses
-    
-    std::string computeHash(const std::string& query) const {
-        std::hash<std::string> hasher;
-        return std::to_string(hasher(query));
-    }
     
     Cache<CachedResponse> cache_;
 };

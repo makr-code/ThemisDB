@@ -673,6 +673,17 @@ ParseError Parser::convertToParseError(const themis::Error& error) {
 // Executor Implementation
 // ============================================================================
 
+// Compute the maximum nesting depth of a field selection tree.
+static size_t computeSelectionDepth(const std::vector<Field>& selections, size_t current = 1) {
+    size_t max_depth = current;
+    for (const auto& field : selections) {
+        if (!field.selections.empty()) {
+            max_depth = std::max(max_depth, computeSelectionDepth(field.selections, current + 1));
+        }
+    }
+    return max_depth;
+}
+
 Executor::Result Executor::execute(
     const Document& document,
     const ExecutionContext& context,
@@ -698,10 +709,11 @@ Executor::Result Executor::execute(
         case OperationType::Subscription: op_type_str = "Subscription"; break;
     }
     
-    // Track execution time and record metrics via RAII
+    // Track execution time and record metrics via RAII.
+    // Compute actual max depth from the selection tree so metrics are accurate.
     size_t field_count = op->selections.size();
-    size_t top_level_depth = op->selections.empty() ? 0u : 1u;
-    QueryTimer timer(op_type_str, top_level_depth, field_count);
+    size_t depth = op->selections.empty() ? 0u : computeSelectionDepth(op->selections);
+    QueryTimer timer(op_type_str, depth, field_count);
     
     try {
         result.data = executeOperation(*op, context);

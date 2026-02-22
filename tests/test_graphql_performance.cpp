@@ -228,3 +228,37 @@ TEST(GraphQLExecutorMetrics, MetricsTrackExecutionTime) {
     // Execution time should be recorded (>= 0 ms)
     EXPECT_GE(qm.total_execution_time_ms.load(), 0u);
 }
+
+TEST(GraphQLExecutorMetrics, MetricsTrackActualDepth) {
+    Metrics::instance().reset();
+
+    // Depth-3 query: user (depth 1) → address (depth 2) → city (depth 3)
+    const std::string query = "{ user { address { city } } }";
+    auto parse_result = Parser::parse(query);
+    ASSERT_TRUE(parse_result.success);
+
+    ExecutionContext ctx;
+    Executor executor;
+    executor.execute(parse_result.document, ctx);
+
+    const auto& qm = Metrics::instance().getMetrics("Query");
+    EXPECT_EQ(qm.total_queries.load(), 1u);
+    // Exactly depth 3: user (1) → address (2) → city (3)
+    EXPECT_DOUBLE_EQ(qm.avgQueryDepth(), 3.0);
+}
+
+// ============================================================================
+// QueryPlan default initializer tests (Bug 2 regression)
+// ============================================================================
+
+TEST(GraphQLQueryPlan, DefaultInitializedFieldsAreSafe) {
+    QueryPlanCache::QueryPlan plan;
+    // All numeric/bool fields must be zero/false by default (not garbage)
+    EXPECT_EQ(plan.depth, 0u);
+    EXPECT_EQ(plan.field_count, 0u);
+    EXPECT_EQ(plan.ast_node_count, 0u);
+    EXPECT_FALSE(plan.validation_passed);
+    EXPECT_TRUE(plan.query_hash.empty());
+    // Document must be default-constructed with no operations
+    EXPECT_TRUE(plan.parsed_document.operations.empty());
+}
