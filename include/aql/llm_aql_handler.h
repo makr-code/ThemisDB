@@ -33,6 +33,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <functional>
 
 namespace themis {
 namespace aql {
@@ -105,6 +106,34 @@ public:
         const std::unordered_map<std::string, std::string>& options = {}
     );
 
+    /**
+     * @brief Streaming version of executeInfer — invokes @p token_callback for each
+     *        generated token as it is produced, enabling real-time output for long
+     *        LLM responses such as AQL explanations.
+     *
+     * The method validates and sanitizes the prompt the same way as executeInfer(),
+     * then delegates to the underlying LLM's streaming interface.  The full
+     * concatenated response is also returned as the function's return value so
+     * callers can use it in either style.
+     *
+     * @param prompt         Input prompt text.
+     * @param token_callback Callable invoked once per generated token with the token
+     *                       string.  Must be thread-safe; it is called from the
+     *                       inference thread.
+     * @param model_id       Optional model identifier (empty = default model).
+     * @param lora_id        Optional LoRA adapter identifier.
+     * @param options        Additional generation options (max_tokens, temperature, …).
+     * @return Full generated text (concatenation of all streamed tokens).
+     * @throws LLMException on validation or inference error.
+     */
+    std::string executeInferStreaming(
+        const std::string& prompt,
+        std::function<void(const std::string& token)> token_callback,
+        const std::string& model_id = "",
+        const std::string& lora_id = "",
+        const std::unordered_map<std::string, std::string>& options = {}
+    );
+
     std::string executeRAG(
         const std::string& query,
         const std::string& collection,
@@ -170,6 +199,29 @@ public:
      */
     std::string translateNLToAQL(
         const std::string& nl_query,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Streaming variant of translateNLToAQL — streams the LLM explanation
+     *        token by token via @p token_callback as the response is generated.
+     *
+     * This is designed for long AQL explanations where users benefit from seeing
+     * progressive output rather than waiting for the full response.  Inputs are
+     * sanitized identically to translateNLToAQL() and the final AQL query is
+     * extracted and returned once generation is complete.
+     *
+     * @param nl_query        Natural language query.
+     * @param token_callback  Called for each token as it is generated.
+     * @param schema_context  Optional database schema context.
+     * @return Extracted AQL query (same as translateNLToAQL would return).
+     * @throws LLMException(PROMPT_INJECTION) if inputs contain injection patterns.
+     * @throws LLMException(PROMPT_TOO_LONG)  if inputs exceed size limits.
+     * @throws std::runtime_error if translation fails.
+     */
+    std::string translateNLToAQLStreaming(
+        const std::string& nl_query,
+        std::function<void(const std::string& token)> token_callback,
         const std::string& schema_context = ""
     );
 
