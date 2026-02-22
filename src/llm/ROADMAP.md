@@ -20,7 +20,7 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [x] Grammar-constrained generation with runtime API detection
 
 ## In Progress 🚧
-- [I] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
+- [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
 - [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
