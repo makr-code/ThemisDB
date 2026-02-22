@@ -594,6 +594,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         return result;
     }
     auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
     auto sess = acquireSession();
     if (!sess || sess->pubKey == 0) {
         last_error_ = "No public key available for encryption";
@@ -632,6 +633,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         return result;
     }
     auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
     auto sess = acquireSession();
     if (!sess || sess->privKey == 0) {
         last_error_ = "No private key available for decryption";
