@@ -1707,6 +1707,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
+    ../src/importers/mongo_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     

@@ -15,6 +15,26 @@ Data import plugins for ThemisDB.
 
 Import data from PostgreSQL `pg_dump` (plain SQL format) files into ThemisDB.
 
+### MySQL / MariaDB Importer ✅
+**Path:** `mysql/` *(plugin.json forthcoming)*
+
+**Status:** Production-ready as of v1.7.
+
+**Implementation:** `src/importers/mysql_importer.cpp`
+
+Import data from MySQL / MariaDB `mysqldump` (SQL format) files into ThemisDB.
+
+### MongoDB Importer ✅
+**Path:** `mongo/`
+
+**Status:** Production-ready as of v1.7.
+
+**Implementation:** `src/importers/mongo_importer.cpp`
+
+Import document collections exported by `mongoexport`. Supports JSON-Lines (NDJSON)
+and JSON array formats, with full BSON extended JSON v2 type unwrapping
+(`$oid`, `$date`, `$numberDecimal`, `$numberLong`, etc.).
+
 ## Features
 
 ### Parsing
