@@ -27,6 +27,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/shared_worker_pool.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -157,6 +158,22 @@ public:
     };
     
     explicit InferenceEngineEnhanced(const Config& config);
+
+    /**
+     * @brief Create enhanced engine backed by a shared worker pool.
+     *
+     * When @p pool is non-null the engine runs a single batch-coordinator
+     * thread (instead of N private worker threads).  The coordinator forms
+     * batches and submits them to the shared pool for execution, so both
+     * this engine and an AsyncInferenceEngine can share a common thread
+     * set and avoid competing for CPU cores.
+     *
+     * @param config Engine configuration.
+     * @param pool   Shared thread pool; must outlive this engine.
+     */
+    InferenceEngineEnhanced(const Config& config,
+                            std::shared_ptr<SharedWorkerPool> pool);
+
     ~InferenceEngineEnhanced();
     
     // Model management
@@ -191,7 +208,10 @@ public:
 private:
     Config config_;
     std::atomic<bool> running_{false};
-    
+
+    // Optional shared worker pool (nullptr → private worker threads used)
+    std::shared_ptr<SharedWorkerPool> shared_pool_;
+
     // Core components
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     std::shared_ptr<PagedKVCache> kv_cache_;
@@ -235,6 +255,11 @@ private:
     void workerLoop(size_t worker_id);
     void timeoutMonitorLoop();
     void processBatch(const std::vector<std::shared_ptr<TrackedRequest>>& batch);
+
+    // Batch coordinator used when a shared pool is provided.
+    // Forms batches from the internal queue and submits processBatch()
+    // tasks to shared_pool_ rather than executing them inline.
+    void batchCoordinatorLoop();
     
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);

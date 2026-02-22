@@ -40,7 +40,7 @@ class APIGatewayTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Create minimal dependencies
-        auth_ = std::make_shared<AuthMiddleware>();
+        auth_ = std::make_shared<themis::AuthMiddleware>();
         rate_limiter_ = std::make_shared<RateLimiter>();
         load_shedder_ = std::make_shared<LoadShedder>(LoadShedder::Config{});
         
@@ -65,7 +65,7 @@ protected:
         gateway_.reset();
     }
     
-    std::shared_ptr<AuthMiddleware> auth_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
     std::shared_ptr<RateLimiter> rate_limiter_;
     std::shared_ptr<LoadShedder> load_shedder_;
     std::unique_ptr<APIGateway> gateway_;

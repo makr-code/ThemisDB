@@ -3,6 +3,9 @@
 
 cmake_minimum_required(VERSION 3.20)
 
+# Optional dependency bootstrap during configure (OFF by default for reproducible builds)
+set(THEMIS_AUTO_BOOTSTRAP_DEPS OFF CACHE BOOL "Automatically bootstrap missing third-party dependencies (vcpkg, submodules) during CMake configure")
+
 # CRITICAL: Set CMAKE_PROJECT_INCLUDE before any project() call
 # This ensures MSVC includes are applied to ALL subprojects (including llama.cpp)
 # Must be set unconditionally (before MSVC is defined by project())
@@ -30,8 +33,79 @@ project(Themis
     LANGUAGES CXX
 )
 
+# Preflight for externally provided toolchain file
+# Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
+if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
+    if(THEMIS_AUTO_BOOTSTRAP_DEPS)
+        find_program(THEMIS_GIT_EXECUTABLE git)
+        if(NOT THEMIS_GIT_EXECUTABLE)
+            message(FATAL_ERROR
+                "CMAKE_TOOLCHAIN_FILE is missing: ${CMAKE_TOOLCHAIN_FILE}\n"
+                "Auto-bootstrap is enabled but 'git' was not found in PATH.")
+        endif()
+
+        set(_themis_vcpkg_dir "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg")
+        set(_themis_vcpkg_toolchain "${_themis_vcpkg_dir}/scripts/buildsystems/vcpkg.cmake")
+
+        if(NOT EXISTS "${_themis_vcpkg_toolchain}")
+            message(STATUS "Auto-bootstrap: cloning vcpkg into ${_themis_vcpkg_dir}")
+            execute_process(
+                COMMAND ${THEMIS_GIT_EXECUTABLE} clone https://github.com/microsoft/vcpkg.git "${_themis_vcpkg_dir}"
+                RESULT_VARIABLE _themis_vcpkg_clone_result
+                OUTPUT_QUIET
+                ERROR_VARIABLE _themis_vcpkg_clone_error
+            )
+            if(NOT _themis_vcpkg_clone_result EQUAL 0)
+                message(FATAL_ERROR
+                    "Failed to auto-bootstrap vcpkg.\n"
+                    "git clone error: ${_themis_vcpkg_clone_error}\n"
+                    "Run manually: powershell -ExecutionPolicy Bypass -File scripts/setup-third-party.ps1")
+            endif()
+        endif()
+
+        set(CMAKE_TOOLCHAIN_FILE "${_themis_vcpkg_toolchain}" CACHE STRING "vcpkg toolchain file" FORCE)
+        message(STATUS "Auto-bootstrap: using toolchain ${CMAKE_TOOLCHAIN_FILE}")
+    else()
+        message(FATAL_ERROR
+            "CMAKE_TOOLCHAIN_FILE points to a missing file:\n"
+            "  ${CMAKE_TOOLCHAIN_FILE}\n\n"
+            "Fix options:\n"
+            "  1) Bootstrap dependencies: powershell -ExecutionPolicy Bypass -File scripts/setup-third-party.ps1\n"
+            "  2) Reconfigure with -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON\n"
+            "  3) Set CMAKE_TOOLCHAIN_FILE to a valid vcpkg toolchain path")
+    endif()
+endif()
+
 # Store full semantic version
 set(THEMIS_VERSION_STRING "${_ver_raw}")
+
+# Optional submodule initialization during configure
+if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
+    find_program(THEMIS_GIT_EXECUTABLE git)
+    if(THEMIS_GIT_EXECUTABLE)
+        set(_themis_missing_submodules "")
+        foreach(_themis_submodule IN ITEMS "ffmpeg" "llama.cpp")
+            if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
+               NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
+                list(APPEND _themis_missing_submodules "${_themis_submodule}")
+            endif()
+        endforeach()
+
+        if(_themis_missing_submodules)
+            message(STATUS "Auto-bootstrap: initializing submodules: ${_themis_missing_submodules}")
+            execute_process(
+                COMMAND ${THEMIS_GIT_EXECUTABLE} -C "${CMAKE_CURRENT_SOURCE_DIR}" submodule update --init --recursive ${_themis_missing_submodules}
+                RESULT_VARIABLE _themis_submodule_result
+                ERROR_VARIABLE _themis_submodule_error
+            )
+            if(NOT _themis_submodule_result EQUAL 0)
+                message(WARNING
+                    "Failed to initialize submodules (${_themis_missing_submodules}): ${_themis_submodule_error}\n"
+                    "You can run manually: git submodule update --init --recursive ffmpeg llama.cpp")
+            endif()
+        endif()
+    endif()
+endif()
 
 # ============================================================================
 # MODULAR CMAKE INCLUDES - REFACTORED BUILD SYSTEM
