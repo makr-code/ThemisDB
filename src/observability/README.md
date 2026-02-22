@@ -585,7 +585,90 @@ if (avg_query_latency > 1000) {
 }
 ```
 
-## Configuration
+### ContinuousProfiler (`continuous_profiler.cpp`)
+
+**Purpose:** Always-on CPU sampling profiler producing pprof / async-profiler compatible output
+
+A background thread samples call stacks at a configurable rate (default: ~1% CPU overhead)
+and accumulates them as pprof folded-stacks text, which is directly consumable by
+`go tool pprof`, Brendan Gregg's `flamegraph.pl`, and async-profiler's toolchain.
+
+**Profile Types:**
+- `CPU`: Call-stack sampling (implemented)
+- `HEAP`, `MUTEX`, `BLOCK`: Reserved for future integration
+
+**Key Operations:**
+
+| Operation | Description |
+|-----------|-------------|
+| `start()` | Begin background sampling |
+| `stop()` | Flush remaining data and join the worker thread |
+| `snapshot()` | Capture current accumulated stacks as a `ProfileSnapshot` |
+| `getSnapshots()` | Retrieve snapshots within a time range |
+| `compare()` | Differential analysis between two snapshots |
+| `registerAnomalyCallback()` | Fire callback on >20% CPU regression between flushes |
+| `enable()` / `disable()` | Dynamic on/off without restart |
+
+**Configuration:**
+```cpp
+ContinuousProfilerConfig cfg;
+cfg.enabled = true;
+cfg.cpu_sample_rate = 0.01;          // 1% CPU overhead (sampling period ≈ 100 ms)
+cfg.snapshot_interval = std::chrono::seconds(60);
+cfg.max_snapshots_retained = 1440;   // 24 h at 1/min
+cfg.output_dir = "/var/lib/themisdb/profiles";
+cfg.enable_cpu_profiling = true;
+```
+
+**Usage:**
+```cpp
+#include "observability/continuous_profiler.h"
+
+using namespace themis::observability;
+
+ContinuousProfiler profiler(cfg);
+profiler.start();
+
+// ... workload ...
+
+// Capture and persist
+auto snap = profiler.snapshot(ProfileType::CPU);
+snap.saveToFile("/var/lib/themisdb/profiles/cpu_<timestamp>.folded");
+
+// Analyze with go tool pprof or flamegraph.pl:
+//   go tool pprof -http=:8080 cpu_<ts>.folded
+//   flamegraph.pl cpu_<ts>.folded > flame.svg
+
+// Differential regression detection
+auto diff = profiler.compare(baseline, snap);
+if (diff.cpu_regression_percent > 10.0) {
+    // emit alert
+}
+
+// Register anomaly callback
+profiler.registerAnomalyCallback(
+    [](const ProfileSnapshot& snap, const std::string& msg) {
+        // called from background thread; must be thread-safe
+        THEMIS_WARN("Profiler anomaly: {}", msg);
+    });
+
+profiler.stop();
+```
+
+**pprof Folded-Stacks Format:**
+```
+frame1;frame2;leaf 42
+frame1;frame3;leaf 7
+```
+Each line is a semicolon-joined call stack followed by a sample count.
+Load into `go tool pprof` or convert to SVG with `flamegraph.pl`.
+
+**Output Directory:**
+Auto-named files: `<output_dir>/<type>_<unix_timestamp>.folded`
+
+**Thread Safety:** All public methods are thread-safe (pImpl + internal mutex)
+
+
 
 ### Environment Variables
 
