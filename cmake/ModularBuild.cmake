@@ -228,6 +228,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/delta_update_engine.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
