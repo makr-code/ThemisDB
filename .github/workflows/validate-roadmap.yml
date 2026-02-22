@@ -21,7 +21,13 @@ permissions:
   contents: read
 
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   validate-roadmap:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
     name: Validate Roadmap Structure
     runs-on: ubuntu-latest
 
