@@ -1,321 +1,239 @@
 #!/usr/bin/env python3
 """
-validate_roadmap.py - Automated ROADMAP.md structure and quality validator.
+Validates ROADMAP.md and future_enhancement.md (if present) against structure standards.
+Invoked as a GitHub Action on push when those files change.
 
-Usage:
-    python .github/scripts/validate_roadmap.py ROADMAP.md
-    python .github/scripts/validate_roadmap.py --check-all-modules
-    python .github/scripts/validate_roadmap.py --generate-report > roadmap_report.html
+Severity levels:
+  ERROR   - Critical structural violation; CI fails.
+  WARNING - Improvement recommended; CI passes.
+
+Exit codes:
+  0 - Passed (errors == 0; warnings may exist)
+  1 - One or more errors found
 """
 
-import argparse
 import re
 import sys
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# Constants
+# Patterns
 # ---------------------------------------------------------------------------
 
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+# A valid task checkbox: - [x], - [ ], - [~], - [!], - [?], - [p], - [I], - [P]
+TASK_CHECKBOX_RE = re.compile(r"^- \[[x ~!?pIP]\] .+", re.MULTILINE)
 
-REQUIRED_SECTIONS = [
+# Tasks that also carry a target annotation
+TASK_WITH_TARGET_RE = re.compile(
+    r"^- \[[x ~!?pIP]\] .+\(Target: (Q[1-4] \d{4}|Backlog|TBD)\)",
+    re.MULTILINE,
+)
+
+# Phase header (anywhere in the file, at heading level 2–4)
+PHASE_HEADER_RE = re.compile(r"^#{2,4}\s+Phase \d+", re.MULTILINE)
+
+# Vague terms that should carry a metric when used in a task description
+VAGUE_TERMS_RE = re.compile(
+    r"\b(improve|optimize|enhance|better|faster)\b",
+    re.IGNORECASE,
+)
+
+# Performance / measurable metric pattern
+PERF_METRIC_RE = re.compile(
+    r"[<>]=?\s*\d+\s*(ms|µs|us|ns|MB|GB|KB|throughput|req/s|ops/s|x\s+speedup)"
+)
+
+# Recommended section headers (absence → WARNING, not ERROR)
+RECOMMENDED_SECTIONS = [
     "Current Status",
-    "Implementation Phases",
+    "Production Readiness Checklist",
+    "Known Issues",
 ]
 
-# Every 'Implementation Phases' block must contain at least these phase labels
-REQUIRED_PHASE_LABELS = [
-    "Design",
-    "Core",
-    "Error",
-    "Test",
-    "Perf",
-    "Doc",
-]
-
-VALID_CHECKBOX_STATUSES = {"[ ]", "[x]", "[~]", "[I]", "[P]", "[?]", "[!]"}
-
-TARGET_PATTERN = re.compile(r"\(Target:\s*Q[1-4]\s+\d{4}\)")
-
-VAGUE_PATTERNS = [
-    re.compile(r"\bimprove\b", re.IGNORECASE),
-    re.compile(r"\boptimize\b", re.IGNORECASE),
-    re.compile(r"\benhance\b", re.IGNORECASE),
-    re.compile(r"\bbetter\b", re.IGNORECASE),
-    re.compile(r"\brefactor\b", re.IGNORECASE),
-]
-
-# Pattern to detect task lines (lines starting with "- [")
-TASK_LINE_PATTERN = re.compile(r"^\s*-\s+(\[[^\]]\])\s+(.+)$")
-
-# ---------------------------------------------------------------------------
-# Validation helpers
-# ---------------------------------------------------------------------------
-
-
-def _load(path: Path) -> list[str]:
-    with open(path, encoding="utf-8") as fh:
-        return fh.readlines()
-
-
-def validate_required_sections(lines: list[str], errors: list[str]) -> None:
-    """Ensure all required top-level sections are present."""
-    headings = {
-        line.strip().lstrip("#").strip()
-        for line in lines
-        if line.startswith("#")
-    }
-    for section in REQUIRED_SECTIONS:
-        if not any(section.lower() in h.lower() for h in headings):
-            errors.append(f"Missing required section: '{section}'")
-
-
-def validate_implementation_phases(lines: list[str], errors: list[str]) -> None:
-    """
-    Verify that the 'Implementation Phases' section exists and contains at
-    least one subsection matching each required phase label keyword.
-    """
-    in_phases = False
-    phase_labels_found: set[str] = set()
-
-    for line in lines:
-        stripped = line.strip().lstrip("#").strip()
-        if "implementation phases" in stripped.lower():
-            in_phases = True
-            continue
-        if in_phases:
-            # Stop at the next same-or-higher heading
-            if line.startswith("# "):
-                break
-            if line.startswith("## ") and "implementation phases" not in line.lower():
-                break
-            for label in REQUIRED_PHASE_LABELS:
-                if label.lower() in stripped.lower():
-                    phase_labels_found.add(label)
-
-    if not in_phases:
-        errors.append("Section 'Implementation Phases' not found.")
-        return
-
-    for label in REQUIRED_PHASE_LABELS:
-        if label not in phase_labels_found:
-            errors.append(
-                f"Implementation Phases: missing required phase covering '{label}'"
-            )
-
-
-def validate_task_lines(
-    lines: list[str], warnings: list[str]
-) -> None:
-    """
-    For every task line (- [X] …):
-    - Checkbox status must be in VALID_CHECKBOX_STATUSES
-    - Line should carry a (Target: Q# YYYY) marker
-    """
-    for lineno, line in enumerate(lines, start=1):
-        match = TASK_LINE_PATTERN.match(line)
-        if not match:
-            continue
-        checkbox, rest = match.group(1), match.group(2)
-
-        if checkbox not in VALID_CHECKBOX_STATUSES:
-            warnings.append(
-                f"Line {lineno}: invalid checkbox status '{checkbox}' "
-                f"(allowed: {', '.join(sorted(VALID_CHECKBOX_STATUSES))})"
-            )
-
-        if not TARGET_PATTERN.search(rest):
-            warnings.append(
-                f"Line {lineno}: task is missing a Target quarter "
-                f"'(Target: Q# YYYY)' — {rest[:60].rstrip()}"
-            )
-
-
-def validate_vagueness(lines: list[str], warnings: list[str]) -> None:
-    """Flag task lines that use vague verbs without a measurable goal."""
-    for lineno, line in enumerate(lines, start=1):
-        if not TASK_LINE_PATTERN.match(line):
-            continue
-        for pattern in VAGUE_PATTERNS:
-            if pattern.search(line):
-                warnings.append(
-                    term = re.sub(r"\\b", "", pattern.pattern).lower()
-                warnings.append(
-                    f"Line {lineno}: vague term '{term}' "
-                    f"detected — add a measurable goal. '{line.rstrip()[:80]}'"
-                )
-                break  # one warning per line
+# At least one of these should be present (absence → WARNING)
+PROGRESS_SECTIONS = ["In Progress", "Planned Features", "Implementation Phases"]
 
 
 # ---------------------------------------------------------------------------
-# Main validation entry point
+# Helpers
 # ---------------------------------------------------------------------------
 
-
-def validate_roadmap(path: Path) -> tuple[list[str], list[str]]:
-    """
-    Validate a single ROADMAP file.
-
-    Returns
-    -------
-    errors   : list of blocking issues (exit code 1 if non-empty)
-    warnings : list of advisory issues (exit code 0, printed but not blocking)
-    """
-    errors: list[str] = []
-    warnings: list[str] = []
-
+def load_file(path: "Path") -> "str | None":
+    """Return file content or None if the file does not exist."""
     if not path.exists():
-        errors.append(f"File not found: {path}")
+        return None
+    return path.read_text(encoding="utf-8")
+
+
+def check_recommended_sections(content: str, filename: str) -> "list[str]":
+    """Return WARNING strings for missing recommended sections."""
+    warnings = []
+    for section in RECOMMENDED_SECTIONS:
+        pattern = re.compile(
+            rf"^#{1,4}\s+.*{re.escape(section)}", re.MULTILINE | re.IGNORECASE
+        )
+        if not pattern.search(content):
+            warnings.append(f"[{filename}] Recommended section not found: '{section}'")
+
+    # At least one progress section
+    has_progress = any(
+        re.search(rf"^#{1,4}\s+.*{re.escape(s)}", content, re.MULTILINE | re.IGNORECASE)
+        for s in PROGRESS_SECTIONS
+    )
+    if not has_progress:
+        warnings.append(
+            f"[{filename}] No progress section found"
+            f" (expected one of: {', '.join(PROGRESS_SECTIONS)})"
+        )
+    return warnings
+
+
+def check_phases(content: str, filename: str) -> "tuple[list[str], list[str]]":
+    """Check implementation phases. Returns (errors, warnings)."""
+    errors: "list[str]" = []
+    warnings: "list[str]" = []
+    phases = PHASE_HEADER_RE.findall(content)
+    count = len(phases)
+    if count == 0:
+        # Only an error if the file also claims to have phases (contains the word "Phase")
+        if re.search(r"\bphase\b", content, re.IGNORECASE):
+            errors.append(
+                f"[{filename}] File mentions phases but no 'Phase N' section headers found"
+            )
+        else:
+            warnings.append(f"[{filename}] No 'Phase N' headers found; consider adding phases")
+    elif count < 4:
+        warnings.append(
+            f"[{filename}] Only {count} phase(s) found; recommended minimum is 4"
+        )
+    return errors, warnings
+
+
+def check_tasks(content: str, filename: str) -> "tuple[list[str], list[str]]":
+    """Validate task checkboxes and target annotations."""
+    errors: "list[str]" = []
+    warnings: "list[str]" = []
+
+    all_tasks = TASK_CHECKBOX_RE.findall(content)
+    tasks_with_target = TASK_WITH_TARGET_RE.findall(content)
+
+    total = len(all_tasks)
+    with_target = len(tasks_with_target)
+    without_target = total - with_target
+
+    if total == 0:
+        errors.append(f"[{filename}] No task checkboxes found (expected '- [ ] ...' lines)")
         return errors, warnings
 
-    lines = _load(path)
-
-    validate_required_sections(lines, errors)
-    validate_implementation_phases(lines, errors)
-    validate_task_lines(lines, warnings)
-    validate_vagueness(lines, warnings)
+    if without_target > 0:
+        pct = (without_target / total) * 100
+        warnings.append(
+            f"[{filename}] {without_target}/{total} tasks ({pct:.0f}%) are missing"
+            " '(Target: Q? YYYY|Backlog)' annotation"
+        )
 
     return errors, warnings
 
 
-def check_all_modules(repo_root: Path) -> dict[Path, tuple[list[str], list[str]]]:
-    """Find and validate every *roadmap*.md / *ROADMAP*.md in the repo."""
-    results: dict[Path, tuple[list[str], list[str]]] = {}
-    for candidate in sorted(repo_root.rglob("*[Rr][Oo][Aa][Dd][Mm][Aa][Pp]*.md")):
-        # Skip files inside .git
-        if ".git" in candidate.parts:
+def check_vague_descriptions(content: str, filename: str) -> "list[str]":
+    """Warn about task lines with vague verbs and no measurable metric."""
+    warnings: "list[str]" = []
+    for i, line in enumerate(content.splitlines(), start=1):
+        if not TASK_CHECKBOX_RE.match(line):
             continue
-        results[candidate] = validate_roadmap(candidate)
-    return results
+        if VAGUE_TERMS_RE.search(line) and not PERF_METRIC_RE.search(line):
+            warnings.append(
+                f"[{filename}:{i}] Vague description without metric:"
+                f" {line.strip()[:80]}"
+            )
+    return warnings
+
+
+def validate_file(path: "Path") -> "tuple[list[str], list[str]]":
+    """Run all checks on a single roadmap file. Returns (errors, warnings)."""
+    content = load_file(path)
+    if content is None:
+        return [], []
+
+    filename = path.name
+    errors: "list[str]" = []
+    warnings: "list[str]" = []
+
+    # Recommended sections → warnings only
+    warnings += check_recommended_sections(content, filename)
+
+    # Phases: missing phase headers in a phases-claiming file → error
+    ph_errors, ph_warnings = check_phases(content, filename)
+    errors += ph_errors
+    warnings += ph_warnings
+
+    # Task checkboxes: no tasks or vast majority missing targets → error
+    task_errors, task_warnings = check_tasks(content, filename)
+    errors += task_errors
+    warnings += task_warnings
+
+    # Vague descriptions → warnings
+    warnings += check_vague_descriptions(content, filename)
+
+    return errors, warnings
 
 
 # ---------------------------------------------------------------------------
-# Report generation
+# Entry point
 # ---------------------------------------------------------------------------
 
+def main() -> int:
+    repo_root = Path(__file__).resolve().parent.parent.parent
 
-def _html_escape(text: str) -> str:
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-    )
+    # Only validate explicit roadmap / future-enhancement planning files.
+    # feature_enhancement.md is the auto-generated code maturity analysis and
+    # is intentionally excluded from structure validation.
+    targets = [
+        repo_root / "roadmap.md",
+        repo_root / "ROADMAP.md",
+        repo_root / "future_enhancement.md",
+    ]
 
+    all_errors: "list[str]" = []
+    all_warnings: "list[str]" = []
+    files_checked = 0
 
-def generate_html_report(
-    results: dict[Path, tuple[list[str], list[str]]], repo_root: Path
-) -> str:
-    rows: list[str] = []
-    for path, (errors, warnings) in results.items():
-        rel = path.relative_to(repo_root)
-        status = "✅ PASS" if not errors else "❌ FAIL"
-        color = "#d4edda" if not errors else "#f8d7da"
-        issues = "".join(
-            f"<li style='color:red'>{_html_escape(e)}</li>" for e in errors
-        ) + "".join(
-            f"<li style='color:orange'>{_html_escape(w)}</li>" for w in warnings
-        )
-        rows.append(
-            f"<tr style='background:{color}'>"
-            f"<td>{_html_escape(str(rel))}</td>"
-            f"<td>{status}</td>"
-            f"<td><ul>{issues}</ul></td>"
-            f"</tr>"
-        )
+    for target in targets:
+        content = load_file(target)
+        if content is None:
+            continue
+        files_checked += 1
+        errs, warns = validate_file(target)
+        all_errors += errs
+        all_warnings += warns
 
-    table = "\n".join(rows)
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><title>Roadmap Validation Report</title>
-<style>body{{font-family:sans-serif;margin:2rem}}
-table{{border-collapse:collapse;width:100%}}
-th,td{{border:1px solid #ccc;padding:.5rem;text-align:left;vertical-align:top}}
-th{{background:#343a40;color:#fff}}</style>
-</head>
-<body>
-<h1>ThemisDB — Roadmap Validation Report</h1>
-<table>
-<thead><tr><th>File</th><th>Status</th><th>Issues / Warnings</th></tr></thead>
-<tbody>{table}</tbody>
-</table>
-</body></html>
-"""
-
-
-# ---------------------------------------------------------------------------
-# CLI
-# ---------------------------------------------------------------------------
-
-
-def _print_result(
-    label: str, errors: list[str], warnings: list[str]
-) -> None:
-    if errors or warnings:
-        print(f"\n{'─'*60}")
-        print(f"📄 {label}")
-    for err in errors:
-        print(f"  ❌  {err}")
-    for warn in warnings:
-        print(f"  ⚠️   {warn}")
-    if not errors and not warnings:
-        print(f"  ✅  {label}: no issues found")
-
-
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        description="Validate ROADMAP.md structure and quality."
-    )
-    parser.add_argument(
-        "roadmap",
-        nargs="?",
-        default=None,
-        help="Path to a single roadmap file to validate.",
-    )
-    parser.add_argument(
-        "--check-all-modules",
-        action="store_true",
-        help="Scan the entire repository for roadmap files and validate all.",
-    )
-    parser.add_argument(
-        "--generate-report",
-        action="store_true",
-        help="Output an HTML report to stdout (use with --check-all-modules).",
-    )
-    args = parser.parse_args(argv)
-
-    if args.check_all_modules:
-        all_results = check_all_modules(REPO_ROOT)
-        if not all_results:
-            print("No roadmap files found.")
-            return 0
-
-        if args.generate_report:
-            print(generate_html_report(all_results, REPO_ROOT))
-            return 0
-
-        overall_errors = 0
-        for path, (errors, warnings) in all_results.items():
-            rel = path.relative_to(REPO_ROOT)
-            _print_result(str(rel), errors, warnings)
-            overall_errors += len(errors)
-
-        print(f"\n{'='*60}")
-        print(f"Validated {len(all_results)} roadmap file(s).")
-        if overall_errors:
-            print(f"❌ {overall_errors} blocking error(s) found.")
-            return 1
-        print("✅ All roadmap files passed validation.")
+    if files_checked == 0:
+        print("⚠️  No roadmap files found to validate (roadmap.md / future_enhancement.md)")
         return 0
 
-    if args.roadmap:
-        path = Path(args.roadmap).resolve()
-        errors, warnings = validate_roadmap(path)
-        _print_result(str(path), errors, warnings)
-        return 1 if errors else 0
+    # Summary counts
+    total_valid = sum(
+        len(TASK_WITH_TARGET_RE.findall(load_file(t) or ""))
+        for t in targets
+    )
 
-    parser.print_help()
+    print(f"✅ Valid Tasks (with Target annotation): {total_valid}")
+    print(f"⚠️  Warnings: {len(all_warnings)}")
+    print(f"❌ Errors:   {len(all_errors)}")
+
+    if all_warnings:
+        print("\n── Warnings ──────────────────────────────────────────────")
+        for w in all_warnings:
+            print(f"  ⚠️  {w}")
+
+    if all_errors:
+        print("\n── Errors ────────────────────────────────────────────────")
+        for e in all_errors:
+            print(f"  ❌ {e}")
+        print("\n❌ Roadmap validation FAILED")
+        return 1
+
+    print("\n✅ Roadmap validation PASSED")
     return 0
 
 

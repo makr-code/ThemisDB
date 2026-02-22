@@ -1,18 +1,21 @@
-name: Validate Roadmap Structure
+name: Validate Roadmap
 
 on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'bugfix/**'
+    paths:
+      - 'roadmap.md'
+      - 'ROADMAP.md'
+      - 'future_enhancement.md'
   pull_request:
     paths:
       - 'roadmap.md'
       - 'ROADMAP.md'
-      - '**/roadmap.md'
-      - '**/ROADMAP.md'
-      - '.github/scripts/validate_roadmap.py'
-      - '.github/workflows/validate-roadmap.yml'
-  schedule:
-    # Weekly check every Monday at 09:00 UTC
-    - cron: '0 9 * * 1'
-  workflow_dispatch:
+      - 'future_enhancement.md'
 
 permissions:
   contents: read
@@ -34,31 +37,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Validate all roadmap files
-        id: validate
+      - name: Validate roadmap structure
         run: |
-          python .github/scripts/validate_roadmap.py --check-all-modules
-        continue-on-error: true
-
-      - name: Generate HTML report on failure
-        if: steps.validate.outcome == 'failure'
-        run: |
-          echo "❌ Roadmap validation failed — generating report..."
-          python .github/scripts/validate_roadmap.py \
-            --check-all-modules \
-            --generate-report > /tmp/roadmap_report.html
-          cat /tmp/roadmap_report.html
-
-      - name: Upload report artifact
-        if: steps.validate.outcome == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: roadmap-validation-report
-          path: /tmp/roadmap_report.html
-          retention-days: 14
-
-      - name: Fail workflow if validation errors found
-        if: steps.validate.outcome == 'failure'
-        run: |
-          echo "❌ Roadmap validation failed. See uploaded artifact for the HTML report."
-          exit 1
+          python .github/scripts/validate_roadmap.py

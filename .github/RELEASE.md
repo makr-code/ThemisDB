@@ -1,155 +1,132 @@
-# Release Management Guidelines
+# Release Management
 
-This document describes the versioning scheme, release process, release schedule, and changelog format for ThemisDB.
+## Release Versioning
 
----
-
-## Version Numbering
-
-ThemisDB follows [Semantic Versioning 2.0.0](https://semver.org/):
+ThemisDB follows **Semantic Versioning** ([SemVer 2.0.0](https://semver.org/)):
 
 ```
-MAJOR.MINOR.PATCH[-prerelease]
+X.Y.Z[-pre-release][+build]
+│ │ │
+│ │ └── Patch: backwards-compatible bug fixes
+│ └──── Minor: backwards-compatible new features
+└────── Major: incompatible API changes
 ```
 
-| Segment       | When to increment                                            |
-|---------------|--------------------------------------------------------------|
-| **MAJOR**     | Incompatible API changes or major architectural shifts        |
-| **MINOR**     | New backward-compatible features                             |
-| **PATCH**     | Backward-compatible bug fixes and security patches           |
-| **Pre-release** | `-alpha`, `-beta`, `-rc.N` suffixes for pre-GA releases   |
+### Pre-release Labels
 
-Examples: `2.0.0`, `2.1.0-beta`, `2.1.0-rc.1`, `2.1.0`
+| Label | Usage | Example |
+|-------|-------|---------|
+| `alpha` | Early development, unstable | `2.0.0-alpha.1` |
+| `beta` | Feature-complete, integration testing | `2.0.0-beta.2` |
+| `rc` | Release candidate, stabilization only | `2.0.0-rc.1` |
 
----
+### Breaking Changes Policy
 
-## Release Types
-
-| Type              | Trigger                          | Branch           |
-|-------------------|----------------------------------|------------------|
-| **Patch release** | Security fixes, critical bugs    | `release/2.x.y`  |
-| **Minor release** | Quarterly feature milestone      | `release/2.x.0`  |
-| **Major release** | As planned in ROADMAP.md         | `release/3.0.0`  |
-| **Pre-release**   | Feature preview / RC validation  | `release/X.Y.Z-rc.N` |
+- Breaking changes are **only** allowed in Major version bumps.
+- All breaking changes **must** be documented in `CHANGELOG.md` under a `### Breaking Changes` section.
+- Deprecation warnings are added in the preceding Minor release (see Deprecation Policy).
+- A migration guide is published before or alongside the Major release.
 
 ---
 
-## Release Schedule
+## Release Cycle
 
-- **Patch releases** — as needed; security patches within 7 days of confirmed CVSS ≥ 9.0 vulnerability
-- **Minor releases** — quarterly (end of Q1, Q2, Q3, Q4)
-- **Major releases** — per ROADMAP.md milestones; announced ≥ 4 weeks in advance
+| Phase | Duration | Description |
+|-------|----------|-------------|
+| **Feature Development** | Until feature freeze | New features merged to `develop` |
+| **Feature Freeze** | T-4 weeks | No new features; only bugfixes |
+| **Code Freeze** | T-2 weeks | Only critical bugfixes and docs |
+| **Testing Period** | T-2 weeks to T-1 week | Full regression + performance tests |
+| **Release Candidate** | T-1 week | RC tag cut; final validation |
+| **Release** | T-0 | Final tag, artifacts, announcement |
+| **Post-Release Support** | T+4 weeks | Patch-level fixes for regressions |
+
+### Branch Strategy
+
+- `develop` → active development target
+- `release/X.Y.Z` → stabilization branch cut from `develop` at feature freeze
+- `main` → always reflects latest stable release (merged from `release/X.Y.Z` at release)
+- Hotfix branches → `hotfix/X.Y.Z` cut from `main`
 
 ---
 
 ## Release Checklist
 
-Every release **must** satisfy the following checklist before the release tag is created:
+Before tagging a release, all items must be completed:
 
-### Pre-Release
-
-- [ ] All ROADMAP.md features scoped for this release are marked `[x]` (complete)
-- [ ] All CI status checks passing on the release branch
-- [ ] Security audit complete (run `./scripts/comprehensive-code-audit.sh`)
-- [ ] No open CVSS ≥ 7.0 advisories without an accepted mitigation
-- [ ] Commit signing verified — all commits on release branch must be GPG-signed
-- [ ] SBOM generated (`syft . -o cyclonedx-json > releases/<version>/sbom.json`)
-- [ ] Dependency vulnerability scan clean (`trivy fs --scanners vuln,secret,misconfig .`)
-- [ ] Documentation updated (API reference, CHANGELOG, README badges)
-- [ ] `VERSION` file bumped to the new version string
-- [ ] Migration guide written if there are breaking changes
-
-### Release Execution
-
-- [ ] Merge release branch into `main` via PR (2 approvals + code owner required)
-- [ ] Git tag created: `git tag -s v<version> -m "Release v<version>"`
-- [ ] Tag pushed: `git push origin v<version>`
-- [ ] GitHub Release created with release notes
-- [ ] SBOM and checksums attached to the GitHub Release
+- [ ] All planned PRs merged and CI passing on `release/X.Y.Z`
+- [ ] `CHANGELOG.md` updated with full list of changes
+- [ ] Version numbers bumped in `VERSION`, `CMakeLists.txt`, and package manifests
+- [ ] Security review completed (no open Critical/High CVEs)
+- [ ] Performance baseline established and regressions resolved
+- [ ] Release notes prepared (summary for end-users)
+- [ ] Git tag created: `git tag -s vX.Y.Z -m "Release vX.Y.Z"`
+- [ ] Release artifacts built and signed (checksums + GPG signature)
 - [ ] Docker images built, scanned, and pushed to registry
-
-### Post-Release
-
-- [ ] Announce in project channels / mailing list
-- [ ] Update `develop` branch with post-release commits (version bump, CHANGELOG header)
-- [ ] Close the corresponding GitHub Milestone
-- [ ] Update ROADMAP.md to mark completed items and add next-cycle items
+- [ ] Documentation updated (`docs/`, `mkdocs.yml`)
+- [ ] SBOM generated and attached to release
+- [ ] `main` branch updated (merge `release/X.Y.Z` → `main`)
+- [ ] Release announcement prepared (GitHub Release, mailing list)
+- [ ] Post-release support window opened (milestone in GitHub)
 
 ---
 
-## Changelog Format
+## Deprecation Policy
 
-ThemisDB follows the [Keep a Changelog](https://keepachangelog.com/) format:
+- Deprecated features receive a **minimum 2 major versions** notice before removal.
+- Deprecations are announced in `CHANGELOG.md` and in-code with compiler warnings or runtime log warnings.
+- A **migration guide** is provided alongside the deprecation announcement.
+- Timeline example: Feature deprecated in v1.5.0 → removed no earlier than v3.0.0.
 
-```markdown
-## [2.1.0] - 2026-06-30
+### Deprecation Warning in Code
 
-### Added
-- CUDA geospatial distance kernels (acceleration module)
-- Vector quantization support (Target: Q2 2026)
-
-### Fixed
-- Race condition in MVCC snapshot isolation (#1234)
-
-### Changed
-- Breaking: Modified `QueryResult` API — see migration guide
-
-### Deprecated
-- Legacy Index format (migration path provided in MIGRATION.md)
-
-### Removed
-- Support for TLS 1.0/1.1 (deprecated since v1.x)
-
-### Security
-- Patched AQL injection vulnerability in parser (CVE-2026-XXXX, CVSS 8.1)
+```cpp
+// Example C++ deprecation annotation:
+[[deprecated("Use newFunction() instead. Will be removed in v3.0.")]]
+void oldFunction();
 ```
-
-### Rules
-
-1. Each release has its own `## [version] - YYYY-MM-DD` heading.
-2. Entries are grouped under `Added`, `Fixed`, `Changed`, `Deprecated`, `Removed`, `Security`.
-3. Security entries must include CVE number and CVSS score if applicable.
-4. Breaking changes are highlighted with **Breaking:** prefix.
-5. Issue/PR references are encouraged (`(#1234)` or `(PR #5678)`).
-6. The `## [Unreleased]` heading at the top collects changes for the next release.
 
 ---
 
-## Branching Model
+## Rollback Procedure
 
-```
-main          ◄──── production releases (tags only, GPG-signed)
-  │
-  └── release/2.1.0   ◄── release preparation (RC testing)
-        │
-develop       ◄──── integration of completed features
-  │
-  ├── feature/…
-  ├── bugfix/…
-  └── hotfix/…  ──► main (cherry-picked for urgent security patches)
-```
+### When to Rollback
 
-Hotfixes for critical security vulnerabilities are branched from `main`, patched, merged back, and immediately tagged as a PATCH release.
+Initiate a rollback if any of the following occur within 72 hours of release:
+
+- Critical regression affecting core database operations
+- Security vulnerability introduced by the release
+- Data corruption or data loss risk identified
+- More than 10% error rate increase in production telemetry
+
+### How to Rollback
+
+1. **Announce** the rollback decision in the incident channel and GitHub issue.
+2. **Tag** the previous stable version as the current stable: re-point `latest` Docker tag.
+3. **Revert** the release branch merge on `main` if possible, or create `hotfix/X.Y.Z-rollback`.
+4. **Notify** users via GitHub Release notes, flagging the release as pre-release.
+5. **Publish** a patch release (`X.Y.Z+1`) with the regression fixed as soon as possible.
+
+### Customer Communication Plan
+
+| Severity | Communication Channel | Timing |
+|----------|----------------------|--------|
+| Critical regression | GitHub Security Advisory + email | Within 2 hours |
+| High regression | GitHub Release notes + issue | Within 24 hours |
+| Medium regression | GitHub Issue + CHANGELOG note | Within 72 hours |
+
+### Post-Mortem Requirements
+
+For any rollback event, a post-mortem must be completed within **5 business days**:
+
+- Timeline of events
+- Root cause analysis
+- Impact assessment
+- Corrective actions with owners and due dates
+- Process improvements to prevent recurrence
+
+Post-mortems are published in `docs/post-mortems/` and linked from the GitHub issue.
 
 ---
 
-## Tagging Convention
-
-```bash
-# Annotated, GPG-signed tag (required for all releases)
-git tag -s v2.1.0 -m "Release v2.1.0 — Quarterly Q2 2026"
-
-# Push tag
-git push origin v2.1.0
-```
-
-Lightweight tags are **not** accepted for production releases.
-
----
-
-## Related Documents
-
-- [SECURITY.md](SECURITY.md) — Vulnerability disclosure and response SLAs
-- [CHANGELOG.md](../CHANGELOG.md) — Full changelog history
-- [roadmap.md](../roadmap.md) — Feature roadmap and implementation phases
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — Contribution guidelines
+*This release policy is reviewed with each major release cycle. Last review: 2026-Q1.*

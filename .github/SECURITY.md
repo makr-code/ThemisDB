@@ -1,203 +1,155 @@
 # Security Policy
 
-This document describes the security policy, disclosure process, response SLAs, commit signing requirements, dependency management, contributor best practices, and compliance standards for ThemisDB.
+## Vulnerability Disclosure Policy
 
-> For the full security documentation, see the [repository SECURITY.md](../SECURITY.md).
+### Contact Information
 
----
+Report security vulnerabilities via **GitHub Security Advisories** (preferred):
+[https://github.com/makr-code/ThemisDB/security/advisories/new](https://github.com/makr-code/ThemisDB/security/advisories/new)
 
-## Supported Versions
+**Email:** security@makr-code.com  
+**GPG Key:** Available upon request (fingerprint provided on first contact)  
+**Response Time:** 24–48 hours for Critical issues
 
-| Version | Status  | Security Updates | Support Until |
-|---------|:-------:|:----------------:|:-------------:|
-| **2.x** | Current | ✅ Yes           | TBD           |
-| **1.x** | EOL     | ❌ No            | 2025-12-31    |
+> **Do NOT** open public GitHub issues for security vulnerabilities.
 
-Only the **current** version receives security patches. Users on EOL versions are strongly encouraged to upgrade.
+### Responsible Disclosure Timeline
 
----
+| Stage | Timeframe | Description |
+|-------|-----------|-------------|
+| Acknowledgment | ≤ 24 hours | Confirm receipt of the report |
+| Initial Assessment | ≤ 72 hours | Classify severity and scope |
+| Remediation Plan | ≤ 14 days | Provide a fix timeline |
+| Patch Release | 7–90 days | Depending on severity (see SLA below) |
+| Public Disclosure | After patch | Coordinated with reporter |
 
-## Reporting Security Vulnerabilities
+### CVE Coordination
 
-**Do NOT open a public GitHub Issue for security vulnerabilities.**
-
-### Preferred Method — GitHub Security Advisories (Private)
-
-1. Navigate to [Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new).
-2. Open a **new private security advisory**.
-3. Include:
-   - A clear description of the vulnerability
-   - Steps to reproduce
-   - Potential impact assessment (CVSS score if known)
-   - Suggested mitigations or patches (optional)
-
-### Alternate Method — Encrypted E-Mail
-
-For critical issues that require confidential communication before a GitHub advisory is created, contact the security team at:
-
-```
-security@themisdb.io
-```
-
-PGP key available upon request for encrypted communication.
+For significant vulnerabilities, we coordinate CVE assignment with MITRE. Reporters who wish to remain anonymous may request so during the disclosure process.
 
 ---
 
-## Security Response SLA
+## Security Incident Response
 
-Response and patch timelines are based on **CVSS v3.1 Base Score**:
+### Security Severity Definitions
 
-| Severity     | CVSS Range | Initial Response | Patch Released |
-|--------------|:----------:|:----------------:|:--------------:|
-| 🔴 Critical  | 9.0 – 10.0 | Within **24h**   | Within **7 days**  |
-| 🟠 High      | 7.0 – 8.9  | Within **48h**   | Within **14 days** |
-| 🟡 Medium    | 4.0 – 6.9  | Within **1 week**| Within **30 days** |
-| 🟢 Low       | 0.1 – 3.9  | Within **2 weeks**| Within **60 days** |
+| Severity | Description | Examples |
+|----------|-------------|---------|
+| **Critical** | Remote code execution, auth bypass, data exfiltration without auth | RCE, unauthenticated admin access |
+| **High** | Privilege escalation, significant data exposure, denial-of-service | SQL/AQL injection, SSRF, auth token leakage |
+| **Medium** | Information disclosure, limited impact auth bypass | Verbose error messages, CSRF |
+| **Low** | Minor information disclosure, low-impact issues | Path disclosure, non-sensitive metadata leaks |
 
-Timeline starts from the moment the report is received and acknowledged.
+### SLA for Fixes
 
----
+| Severity | Patch SLA | Patch Release Cadence |
+|----------|-----------|----------------------|
+| Critical | 7 days | Emergency hotfix release |
+| High | 30 days | Out-of-band patch release |
+| Medium | 90 days | Next scheduled patch release |
+| Low | Next major/minor | Bundled with regular release |
 
-## Commit Signing
+### Patch Release Cadence
 
-### Requirements for Release PRs
-
-All commits merged into `main` and `release/*` branches via a release PR **must be signed** with a GPG key. Unsigned commits will be rejected by branch protection rules.
-
-### GPG Key Setup
-
-```bash
-# Generate a new GPG key (ED25519 recommended)
-gpg --full-generate-key
-
-# List keys to find your key ID
-gpg --list-secret-keys --keyid-format=long
-
-# Export public key to add to GitHub
-gpg --armor --export <KEY_ID>
-
-# Configure Git to sign commits automatically
-git config --global user.signingkey <KEY_ID>
-git config --global commit.gpgsign true
-```
-
-Add your exported public key to **GitHub Settings → SSH and GPG keys**.
-
-### Verification in CI
-
-The `validate-roadmap` and `security-hardening-ci` workflows verify commit signatures on release branches. A failed signature check blocks merge.
+- **Emergency hotfixes** (Critical): Released as soon as fix is validated.
+- **Security patches** (High): Out-of-band releases within 30 days.
+- **Maintenance patches** (Medium/Low): Bundled into regular monthly/quarterly releases.
+- All security-related releases are tagged with a CVE reference where applicable.
 
 ---
 
-## Dependency Management
+## Supported Versions Matrix
 
-### SBOM (Software Bill of Materials)
+| Version | Release Date | Support Ends | Status |
+|---------|-------------|--------------|--------|
+| **1.x.x** | 2025-Q4 | 2027-Q4 | ✅ Active |
+| **2.0.0** | TBD | TBD | 🔮 Planned |
+| **< 1.0** | 2024 | 2025-Q4 | ❌ End of Life |
 
-ThemisDB generates and maintains a Software Bill of Materials for each release:
-
-- **Format:** CycloneDX (JSON) and SPDX (tag-value)
-- **Location:** `releases/<version>/sbom.json`
-- **Generation:** Automated via `syft` during the release workflow
-
-### Dependabot Integration
-
-Dependabot is configured (`.github/dependabot.yml`) for:
-
-| Ecosystem     | Update Schedule | Auto-merge Patch |
-|---------------|:--------------:|:----------------:|
-| GitHub Actions | Weekly         | ✅ Yes            |
-| vcpkg / C++    | Weekly         | ❌ Review needed  |
-| Docker         | Weekly         | ❌ Review needed  |
-| Python (pip)   | Weekly         | ✅ Yes (dev-only) |
-
-### Vulnerability Scanning
-
-Automated scanning runs in CI for every pull request and on a weekly schedule:
-
-| Tool       | Purpose                                | Schedule      |
-|------------|----------------------------------------|---------------|
-| **Trivy**  | Container image and filesystem CVEs    | Every PR + weekly |
-| **Gitleaks** | Secret detection in source code      | Every commit  |
-| **clang-tidy** | Static analysis (C++ memory safety) | Every PR      |
-| **cppcheck**  | Additional C++ security checks       | Every PR      |
+Security updates are provided **only for Active supported versions**.
 
 ---
 
-## Security Best Practices for Contributors
+## Dependency Security
 
-### Secrets Management
+### vcpkg Lock-File Management
 
-- ❌ Never commit API keys, tokens, passwords, or credentials.
-- ✅ Use GitHub Secrets for CI credentials.
-- ✅ Use HashiCorp Vault or environment variables for runtime secrets.
-- Run `gitleaks detect --source . --verbose` before submitting a PR.
+- All dependencies are pinned via `vcpkg.json` and `vcpkg-configuration.json`.
+- Lock files must be committed and reviewed for every dependency update.
+- Dependency upgrades require a dedicated PR with security justification.
 
-### Input Validation
+### Known Vulnerable Dependencies Audit
 
-- All user-supplied data entering the query pipeline must be validated against a JSON Schema or AQL grammar.
-- Use bounded `std::string_view` parameters; avoid unbounded `char*` inputs.
-- Path parameters must be canonicalized and checked against an allowlist before filesystem access.
+- Run `trivy fs --scanners vuln .` or the comprehensive audit script to check for known CVEs.
+- CVE audits are performed as part of the `security-hardening-ci` workflow.
+- Known exceptions are documented in `.github/security-exceptions.md` (if present).
 
-### AQL Injection Prevention
+### SBOM (Software Bill of Materials) Generation
 
-- Never concatenate user input directly into AQL query strings.
-- Use parameterized queries / bind variables for all dynamic values.
-- Test injection variants in `fuzz/` targets against the AQL parser.
-
-### Memory Safety (C++ Specific)
-
-- Prefer RAII wrappers over raw `new`/`delete`.
-- Use `std::unique_ptr` or `std::shared_ptr` for heap-allocated objects.
-- Enable AddressSanitizer (`-fsanitize=address`) and UBSanitizer (`-fsanitize=undefined`) in debug/CI builds.
-- Avoid `reinterpret_cast` across trust boundaries.
-
-### Authentication & Authorization
-
-- All new API endpoints must integrate with the existing RBAC middleware.
-- mTLS is required for service-to-service communication in production.
-- Token lifetimes must be configurable and default to ≤ 24 hours for user tokens.
+- SBOM is generated during release builds using `trivy sbom` or `syft`.
+- Published as a release artifact alongside each tagged release.
+- Format: CycloneDX JSON and SPDX.
 
 ---
 
-## Compliance & Standards
+## Code Security Practices
 
-### OWASP Top 10 Alignment
+### Static Analysis
 
-| OWASP Category           | ThemisDB Control                               |
-|--------------------------|------------------------------------------------|
-| A01 Broken Access Control | RBAC with 4-tier hierarchy, mTLS enforcement  |
-| A02 Cryptographic Failures | AES-256-GCM, TLS 1.3, PFS                   |
-| A03 Injection            | AQL parameterized queries, JSON Schema validation |
-| A04 Insecure Design      | Threat model review per major release         |
-| A05 Security Misconfiguration | Production mode gating, HSM stub opt-in  |
-| A06 Vulnerable Components | Dependabot + Trivy scanning                  |
-| A07 Auth Failures        | Token bucket rate limiting, session expiry    |
-| A08 Software Integrity   | GPG commit signing, manifest SHA-256          |
-| A09 Logging Failures     | 65+ audit event types, encrypt-then-sign logs |
-| A10 SSRF                 | Outbound request allowlist, no internal proxying |
+- **clang-tidy**: Enforced via `.clang-tidy` config; runs in CI on every PR.
+- **cppcheck**: Runs with security-focused checks (`--enable=warning,style`).
+- Configuration: `.cppcheck` and `.cppcheck-suppressions`.
 
-### CWE Coverage
+### Address Sanitizer (ASan) in CI
 
-Critical CWEs addressed by ThemisDB's secure coding standards:
+- ASan builds run in CI (`security-hardening-ci` workflow) to detect memory errors.
+- UBSan (Undefined Behavior Sanitizer) is also enabled for fuzz targets.
+- Any new ASan failure blocks merge.
 
-- **CWE-89** (SQL/AQL Injection) — parameterized queries
-- **CWE-119** (Buffer Overflow) — RAII, bounds checking, ASan
-- **CWE-200** (Information Disclosure) — audit log redaction, PII scrubbing
-- **CWE-284** (Improper Access Control) — RBAC enforcement
-- **CWE-295** (Certificate Validation) — mTLS, certificate pinning
-- **CWE-798** (Hardcoded Credentials) — Gitleaks scanning, Vault integration
+### Memory Safety Guidelines
 
-### CVSS Scoring
+- No raw pointer ownership — use `std::unique_ptr` / `std::shared_ptr`.
+- All array access via bounds-checked containers.
+- Buffer overflows caught via ASan + unit tests.
+- See `docs/security/PRODUCTION_HARDENING_CHECKLIST.md` for full guidelines.
 
-All security advisories include a **CVSS v3.1** Base Score calculated using the [NIST NVD Calculator](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator). Severity ratings follow CVSS v3.1 guidelines.
+### Input Validation Requirements
+
+- All user-supplied input validated against JSON schema before processing.
+- AQL injection prevention is mandatory for all query paths.
+- Path traversal protection required for all file-system operations.
+- Request body size limited to 10 MB by default (configurable).
 
 ---
 
-## Security Changelog
+## Third-Party Security Review
 
-| Date        | Event                                                          |
-|-------------|----------------------------------------------------------------|
-| **2026-02** | Security Policy v2 — SLA table, commit signing, SBOM tracking |
-| **2026-01** | RocksDB wrapper: 7 critical CVEs fixed, Docker hardening       |
-| **2025-12** | Update checker security, manifest signing design               |
-| **2025-11** | Initial security policy published                              |
+### Review Process for External Dependencies
+
+1. New dependency proposed in PR with justification.
+2. License checked for copyleft conflicts (GPL, AGPL) — see License Compliance below.
+3. Security audit via `trivy` or `osv-scanner` before merge.
+4. Pin exact version in `vcpkg.json`; no floating versions.
+5. Periodic re-audit via `security-hardening-ci` workflow.
+
+### License Compliance (Copyleft Check)
+
+- **Allowed:** MIT, Apache 2.0, BSD (2/3-clause), ISC, BSL-1.0.
+- **Requires review:** LGPL, MPL-2.0, EPL-2.0.
+- **Not allowed:** GPL-2.0, GPL-3.0, AGPL-3.0 (without explicit legal approval).
+- License policy documented in `.license-policy.json`.
+
+---
+
+## Security Contact
+
+| Method | Details |
+|--------|---------|
+| **GitHub Security Advisories** | [Report here](https://github.com/makr-code/ThemisDB/security/advisories/new) (preferred) |
+| **Email** | security@makr-code.com |
+| **GPG Key** | Fingerprint provided on first contact |
+| **Response Time** | 24–48 hours for Critical; 72 hours for others |
+
+---
+
+*This security policy is reviewed and updated quarterly. Last review: 2026-Q1.*
