@@ -167,10 +167,19 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
     }
 
     try {
-        // Escape the key for use as a literal regex pattern
+        // Escape the key for use as a literal regex pattern.
         std::string escaped = std::regex_replace(key,
             std::regex(R"([.^$|()\[\]{}*+?\\])"), R"(\$&)");
-        size_t count = cache_->invalidate("^" + escaped + "$");
+        // Build a pattern that matches across all cache tiers:
+        // - L1/L2 store keys as either the plain fingerprint ("fp") or a
+        //   tenant-scoped composite key ("tenant:{id}:fp").
+        // - L3 always stores just the plain fingerprint (after stripping the
+        //   "query_cache:" prefix) regardless of tenant isolation.
+        // The two-branch alternation therefore matches:
+        //   * the plain fingerprint in L1/L2 and in L3, and
+        //   * any tenant-scoped form "tenant:{id}:{fingerprint}" in L1/L2.
+        std::string pattern = "(^" + escaped + "$)|(^tenant:.+:" + escaped + "$)";
+        size_t count = cache_->invalidate(pattern);
 
         nlohmann::json body = {
             {"evicted", count},

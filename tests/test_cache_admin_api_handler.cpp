@@ -142,7 +142,10 @@ TEST_F(CacheAdminApiHandlerTest, CircuitBreakerResetReturns200) {
 TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns200ForValidKey) {
     // Pre-populate cache
     std::string fp = cache_->generateFingerprint("SELECT 1", {}, "");
-    cache_->put(fp, {}, json::object(), "");
+    bool inserted = cache_->put(fp, {}, json::object(), "");
+    ASSERT_TRUE(inserted) << "put() must succeed for this test to be meaningful";
+    // Verify the entry is actually present before evicting.
+    ASSERT_TRUE(cache_->get(fp, "").has_value()) << "entry must be retrievable after put()";
 
     std::string encoded = base64Encode(fp);
     auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/" + encoded);
@@ -151,7 +154,8 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns200ForValidKey) {
     EXPECT_EQ(res.result(), http::status::ok);
     json body = json::parse(res.body());
     EXPECT_EQ(body["key"], fp);
-    EXPECT_GE(body["evicted"].get<int>(), 0);
+    // At least one entry (L1) must have been evicted.
+    EXPECT_GE(body["evicted"].get<int>(), 1);
 }
 
 TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForMissingKey) {
@@ -160,6 +164,27 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyReturns400ForMissingKey) {
     auto res = handler_->handleEvictKey(req);
 
     EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+// Regression test: evicting by fingerprint must also evict tenant-prefixed
+// entries stored under "tenant:{id}:{fingerprint}" in L1/L2.
+TEST_F(CacheAdminApiHandlerTest, EvictKeyAlsoEvictsTenantPrefixedEntry) {
+    const std::string tenant = "acme";
+    std::string fp = cache_->generateFingerprint("SELECT 2", {}, tenant);
+    // With enable_tenant_isolation=true the L1 key is "tenant:acme:<fp>".
+    bool inserted = cache_->put(fp, {}, json::object(), tenant);
+    ASSERT_TRUE(inserted);
+    // Verify the entry is actually present before evicting.
+    ASSERT_TRUE(cache_->get(fp, tenant).has_value());
+
+    std::string encoded = base64Encode(fp);
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/key/" + encoded);
+    auto res = handler_->handleEvictKey(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    // The tenant-scoped L1 entry "tenant:acme:<fp>" must have been evicted.
+    EXPECT_GE(body["evicted"].get<int>(), 1);
 }
 
 // ---------------------------------------------------------------------------

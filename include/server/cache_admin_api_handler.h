@@ -39,7 +39,14 @@ public:
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
 
-    /** DELETE /v1/admin/cache/key/{encoded_key} */
+    /** DELETE /v1/admin/cache/key/{encoded_key}
+     *
+     * Evicts all cache entries (across L1, L2, and L3) whose fingerprint
+     * matches the provided key.  The key must be the base64-encoded SHA-256
+     * fingerprint of the query as returned by
+     * AdaptiveQueryCache::generateFingerprint().  Entries for all tenants
+     * sharing that fingerprint are evicted.
+     */
     http::response<http::string_body> handleEvictKey(
         const http::request<http::string_body>& req);
 
