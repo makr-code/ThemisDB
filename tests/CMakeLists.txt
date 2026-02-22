@@ -277,6 +277,15 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
 )
 
+# Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test exercises the ROCm backend CPU fallback path and is fully
+# functional without AMD GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_rocm_backend.cpp
+    )
+endif()
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
@@ -996,6 +1005,150 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_performance.cpp")
     message(STATUS "  GraphQL Performance: parse cache hits, O(1) LRU eviction, executor metrics")
 else()
     message(STATUS "GraphQL Performance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_performance.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Limits Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_limits.cpp")
+    message(STATUS "Adding GraphQL limits tests")
+
+    add_executable(test_graphql_limits
+        test_graphql_limits.cpp
+    )
+
+    target_link_libraries(test_graphql_limits PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_limits PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLLimitsTests COMMAND test_graphql_limits)
+
+    set_tests_properties(GraphQLLimitsTests PROPERTIES
+        LABELS "query;graphql;limits;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Limits: query size, depth, field count limits")
+else()
+    message(STATUS "GraphQL Limits tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_limits.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Error Masking Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
+    message(STATUS "Adding GraphQL error masking tests")
+
+    add_executable(test_graphql_error_masking
+        test_graphql_error_masking.cpp
+    )
+
+    target_link_libraries(test_graphql_error_masking PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_error_masking PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLErrorMaskingTests COMMAND test_graphql_error_masking)
+
+    set_tests_properties(GraphQLErrorMaskingTests PROPERTIES
+        LABELS "query;graphql;error;security;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Error Masking: production error masking, development mode")
+else()
+    message(STATUS "GraphQL Error Masking tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Phase 1 Feature Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_p1_features.cpp")
+    message(STATUS "Adding GraphQL Phase 1 feature tests")
+
+    add_executable(test_graphql_p1_features
+        test_graphql_p1_features.cpp
+    )
+
+    target_link_libraries(test_graphql_p1_features PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_p1_features PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLP1FeatureTests COMMAND test_graphql_p1_features)
+
+    set_tests_properties(GraphQLP1FeatureTests PROPERTIES
+        LABELS "query;graphql;schema;geo;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL P1 Features: geo scalars, document/graph/vector types, query/mutation")
+else()
+    message(STATUS "GraphQL P1 Feature tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_p1_features.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Cache Security Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_cache_security.cpp")
+    message(STATUS "Adding GraphQL cache security tests")
+
+    add_executable(test_graphql_cache_security
+        test_graphql_cache_security.cpp
+    )
+
+    target_link_libraries(test_graphql_cache_security PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_cache_security PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLCacheSecurityTests COMMAND test_graphql_cache_security)
+
+    set_tests_properties(GraphQLCacheSecurityTests PROPERTIES
+        LABELS "query;graphql;cache;security;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Cache Security: LRU cache, TTL expiration, XSS encoding, injection prevention")
+else()
+    message(STATUS "GraphQL Cache Security tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_cache_security.cpp")
 endif()
 
 # ============================================================================

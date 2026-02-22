@@ -22,7 +22,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ## In Progress 🚧
 - [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
-- [I] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
+- [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
 - [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋
@@ -57,9 +57,9 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] RocksDB persistence for vector indexes with WriteBatch atomicity
 - [x] Audit logging for vector operations
 
-### Phase 2: Full-Text & Automated Advisor (Status: In Progress 🚧)
+### Phase 2: Full-Text & Automated Advisor (Status: Completed ✅)
 - [x] Full-text inverted index integration (Target: Q2 2026)
-- [~] Automated index advisor with workload replay (Target: Q2 2026)
+- [x] Automated index advisor with workload replay (Target: Q2 2026)
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
 
 ### Phase 3: Learned Structures & GPU Build (Status: Planned 📋)
