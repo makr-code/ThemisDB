@@ -71,3 +71,13 @@ See full documentation in README for configuration and usage.
 ## Future Enhancements
 
 See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for roadmap.
+
+## Scientific References
+
+1. Liu, C. L., & Layland, J. W. (1973). **Scheduling Algorithms for Multiprogramming in a Hard-Real-Time Environment**. *Journal of the ACM*, 20(1), 46–61. https://doi.org/10.1145/321738.321743
+
+2. Silberschatz, A., Galvin, P. B., & Gagne, G. (2018). **Operating System Concepts (10th ed.)**. Wiley. ISBN: 978-1-119-32091-3
+
+3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
+
+4. Quartz Scheduler Development Team. (2023). **Quartz Scheduler: Enterprise Job Scheduling**. Terracotta. http://www.quartz-scheduler.org/
