@@ -820,15 +820,18 @@ std::string LLMAQLHandler::translateNLToAQL(
     const std::string& nl_query,
     const std::string& schema_context
 ) {
-    try {
-        // Sanitize inputs before embedding them in the LLM prompt.
-        // Both nl_query and schema_context are injected verbatim into the system/user
-        // prompt, making them potential vectors for prompt injection attacks.
-        sanitizePromptInput(nl_query, "nl_query",
-                            ValidationLimits::MAX_NL_QUERY_LENGTH);
-        sanitizePromptInput(schema_context, "schema_context",
-                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+    // Sanitize inputs before embedding them in the LLM prompt.
+    // Both nl_query and schema_context are injected verbatim into the system/user
+    // prompt, making them potential vectors for prompt injection attacks.
+    // NOTE: Called outside the try/catch so that LLMException(PROMPT_INJECTION)
+    // propagates to the caller with its error code intact (not wrapped by the
+    // generic catch below).
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
+    try {
         // Build system prompt for AQL translation
         std::ostringstream system_prompt;
         system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
