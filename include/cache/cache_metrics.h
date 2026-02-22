@@ -69,6 +69,11 @@ struct CacheMetrics {
     std::atomic<uint64_t> rate_limited_requests{0};
     std::atomic<uint64_t> backpressure_events{0};
 
+    // Phase 3: Warmup metrics (Prometheus: themis_cache_warmup_entries_loaded_total)
+    std::atomic<uint64_t> warmup_entries_loaded{0};
+    std::atomic<uint64_t> warmup_entries_skipped{0};
+    std::atomic<uint64_t> warmup_entries_failed{0};
+
     CacheMetrics() = default;
 
     CacheMetrics(const CacheMetrics& other) {
@@ -93,6 +98,9 @@ struct CacheMetrics {
         l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
         rate_limited_requests.store(other.rate_limited_requests.load());
         backpressure_events.store(other.backpressure_events.load());
+        warmup_entries_loaded.store(other.warmup_entries_loaded.load());
+        warmup_entries_skipped.store(other.warmup_entries_skipped.load());
+        warmup_entries_failed.store(other.warmup_entries_failed.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -118,6 +126,9 @@ struct CacheMetrics {
             l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
             rate_limited_requests.store(other.rate_limited_requests.load());
             backpressure_events.store(other.backpressure_events.load());
+            warmup_entries_loaded.store(other.warmup_entries_loaded.load());
+            warmup_entries_skipped.store(other.warmup_entries_skipped.load());
+            warmup_entries_failed.store(other.warmup_entries_failed.load());
         }
         return *this;
     }
@@ -188,6 +199,11 @@ struct CacheMetrics {
         // Phase 2: Rate limiting
         j["rate_limiting"]["rejected_requests"] = rate_limited_requests.load();
         j["backpressure"]["events"] = backpressure_events.load();
+
+        // Phase 3: Warmup metrics
+        j["warmup"]["entries_loaded"] = warmup_entries_loaded.load();
+        j["warmup"]["entries_skipped"] = warmup_entries_skipped.load();
+        j["warmup"]["entries_failed"] = warmup_entries_failed.load();
         
         return j;
     }
@@ -215,6 +231,9 @@ struct CacheMetrics {
         l3_lookup_time_us = 0;
         l3_circuit_breaker_trips = 0;
         l3_circuit_breaker_open = false;
+        warmup_entries_loaded = 0;
+        warmup_entries_skipped = 0;
+        warmup_entries_failed = 0;
     }
 };
 
