@@ -143,6 +143,23 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
     return true;
 }
 
+int TSStore::checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t timestamp_ms) {
+    auto it = watermarks_.find(wm_key);
+    if (it != watermarks_.end()) {
+        int64_t watermark = it->second;
+        if (timestamp_ms < watermark - config_.late_arrival_window_ms) {
+            return -1; // rejected: outside late-arrival window
+        }
+        if (timestamp_ms < watermark) {
+            return 1;  // accepted: out-of-order but within window
+        }
+        it->second = timestamp_ms; // advance watermark
+        return 0; // in-order
+    }
+    watermarks_[wm_key] = timestamp_ms;
+    return 0; // first write for this series
+}
+
 Result<void> TSStore::putDataPoint(const DataPoint& point) {
     auto span = Tracer::startSpan("TSStore.putDataPoint");
     span.setAttribute("metric", point.metric);
@@ -157,6 +174,26 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
     if (point.entity.empty()) {
         span.recordError("Entity ID cannot be empty");
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
+    }
+
+    // Late-arrival / out-of-order check
+    if (config_.late_arrival_window_ms > 0) {
+        std::lock_guard<std::mutex> lock(watermark_mutex_);
+        std::string wm_key = point.metric + ":" + point.entity;
+        int result = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
+        if (result < 0) {
+            ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+            span.recordError("Data point outside late-arrival window");
+            return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                fmt::format("Data point timestamp {} is outside the late-arrival window "
+                            "(window={}ms)",
+                            point.timestamp_ms, config_.late_arrival_window_ms));
+        }
+        if (result > 0) {
+            ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+            THEMIS_DEBUG("Out-of-order write accepted: metric={}, ts={}",
+                         point.metric, point.timestamp_ms);
+        }
     }
     
     // STORAGE METHOD: Singular RocksDB Entity
@@ -235,6 +272,25 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                 [](const DataPoint& a, const DataPoint& b) {
                     return a.timestamp_ms < b.timestamp_ms;
                 });
+
+            // Late-arrival / out-of-order check per group (sorted ascending)
+            if (config_.late_arrival_window_ms > 0) {
+                std::lock_guard<std::mutex> lock(watermark_mutex_);
+                for (const auto& p : group_points) {
+                    int r = checkAndUpdateWatermarkLocked(group_key, p.timestamp_ms);
+                    if (r < 0) {
+                        ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                        span.recordError("Data point outside late-arrival window");
+                        return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                            fmt::format("Data point timestamp {} is outside the late-arrival window "
+                                        "(window={}ms)",
+                                        p.timestamp_ms, config_.late_arrival_window_ms));
+                    }
+                    if (r > 0) {
+                        ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                    }
+                }
+            }
             
             // Extract timestamps and values
             std::vector<int64_t> timestamps;
@@ -323,6 +379,23 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         if (point.metric.empty() || point.entity.empty()) {
             return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
                            "Invalid data point: metric and entity cannot be empty");
+        }
+
+        // Late-arrival / out-of-order check (no-compression path)
+        if (config_.late_arrival_window_ms > 0) {
+            std::lock_guard<std::mutex> lock(watermark_mutex_);
+            std::string wm_key = point.metric + ":" + point.entity;
+            int r = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
+            if (r < 0) {
+                ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
+                    fmt::format("Data point timestamp {} is outside the late-arrival window "
+                                "(window={}ms)",
+                                point.timestamp_ms, config_.late_arrival_window_ms));
+            }
+            if (r > 0) {
+                ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+            }
         }
         
         std::string key = makeKey(point.metric, point.entity, point.timestamp_ms);
@@ -692,6 +765,13 @@ TSStore::Stats TSStore::getStats() const {
         metrics_->updateStorageStats(stats.total_data_points, stats.total_metrics, stats.total_size_bytes);
     }
     
+    return stats;
+}
+
+TSStore::OutOfOrderStats TSStore::getOutOfOrderStats() const {
+    OutOfOrderStats stats;
+    stats.out_of_order_accepted = ooo_accepted_.load(std::memory_order_relaxed);
+    stats.late_arrival_rejected = ooo_rejected_.load(std::memory_order_relaxed);
     return stats;
 }
 
