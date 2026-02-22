@@ -21,8 +21,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ## In Progress 🚧
-- [I] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
-- [!] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
+- [P] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
+- [P] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
 - [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
 
 ## Planned Features 📋
@@ -59,8 +59,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ### Phase 2: ABAC & HSM Direct Integration (Status: In Progress 🚧)
-- [~] Attribute-Based Access Control (ABAC) alongside RBAC
-- [~] Hardware Security Module (HSM) direct PKCS#11 integration
+- [x] Attribute-Based Access Control (ABAC) alongside RBAC
+- [P] Hardware Security Module (HSM) direct PKCS#11 integration
 - [~] FIPS 140-2 / 140-3 validated cryptography mode
 
 ### Phase 3: Federated Auth & Anomaly Detection (Status: Planned 📋)
@@ -86,7 +86,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- HSM integration is partially abstracted; direct PKCS#11 binding is in progress.
+- HSM integration uses RSA-PKCS#1 v1.5 for DEK wrapping; RSA-OAEP upgrade is planned for v1.5.0.
 - FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
 - AQL injection detection uses pattern matching; semantic analysis planned for v1.5.0.
 
