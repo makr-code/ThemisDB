@@ -106,10 +106,10 @@ public:
     };
     
     struct Watermarks {
-        uint64_t low_watermark;   // Oldest event sequence
-        uint64_t high_watermark;  // Newest event sequence
-        int64_t oldest_timestamp_ms;  // Timestamp of oldest event
-        int64_t newest_timestamp_ms;  // Timestamp of newest event
+        uint64_t low_watermark = 0;          // Oldest event sequence
+        uint64_t high_watermark = 0;         // Newest event sequence
+        int64_t oldest_timestamp_ms = 0;     // Timestamp of oldest event
+        int64_t newest_timestamp_ms = 0;     // Timestamp of newest event
     };
 
     struct Stats {

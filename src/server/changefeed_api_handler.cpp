@@ -930,7 +930,7 @@ void ChangefeedApiHandler::applyGovernanceHeaders(
     if (classification != "offen" && classification != "geheim" && 
         classification != "streng-geheim" && classification != "vs-nfd") {
         // Unknown classification -> keep text but apply restrictive defaults
-        classification = classification;
+        // (no-op: classification value is preserved as-is)
     }
     if (mode != "observe" && mode != "enforce") mode = "observe";
     

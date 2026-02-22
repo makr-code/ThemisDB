@@ -218,7 +218,7 @@ HealthStatus CDCAdmin::healthCheck() {
     if (changefeed_) {
         try {
             // Try to get watermarks - if this fails, changefeed is unhealthy
-            auto watermarks = changefeed_->getWatermarks();
+            changefeed_->getWatermarks();
             status.changefeed_healthy = true;
         } catch (const std::exception& e) {
             status.changefeed_healthy = false;
