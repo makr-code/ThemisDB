@@ -714,6 +714,18 @@ void InferenceEngineEnhanced::processBatch(
             
             // Execute inference
             auto response = plugin->generate(effective_request);
+
+            // After the (uninterruptible) plugin call returns, re-check whether
+            // the request was cancelled or timed out during execution.  The
+            // timeout monitor may have already resolved the promise; skip
+            // delivery to avoid a double-set and a spurious error log.
+            if (tracked->cancel_token->load(std::memory_order_acquire)) {
+                spdlog::debug("Discarding late response for cancelled/timed-out request {}",
+                             req.request_id);
+                std::lock_guard<std::mutex> lock(requests_mutex_);
+                tracked_requests_.erase(req.request_id);
+                continue;
+            }
             
             // Update cache
             if (config_.enable_context_caching && req.allow_caching && !response.text.empty()) {
@@ -724,7 +736,11 @@ void InferenceEngineEnhanced::processBatch(
             if (tracked->callback) {
                 tracked->callback(response);
             }
-            tracked->promise.set_value(response);
+            try {
+                tracked->promise.set_value(response);
+            } catch (...) {
+                // Promise already resolved (rare race with timeout monitor) — ignore.
+            }
             
             auto req_end = std::chrono::steady_clock::now();
             double latency = std::chrono::duration<double, std::milli>(

@@ -429,6 +429,64 @@ struct Alert {
 
 ---
 
+### continuous_profiler.h
+
+**Purpose:** Always-on, low-overhead CPU profiling with pprof / async-profiler compatible output
+
+**Key Classes:**
+- `ContinuousProfiler`: Background sampling profiler (pImpl pattern)
+- `ProfileSnapshot`: A captured profile in pprof folded-stacks text format
+- `ProfileDiff`: Differential comparison result between two snapshots
+- `ContinuousProfilerConfig`: Runtime configuration
+
+**Key Enums:**
+- `ProfileType`: CPU, HEAP, MUTEX, BLOCK
+
+**Features:**
+- Background sampling thread (configurable overhead, default 1%)
+- pprof folded-stacks text format output (compatible with `go tool pprof`)
+- async-profiler `-o collapsed` format interoperability
+- Snapshot persistence to `.folded` files
+- Differential hotspot comparison (new / removed / changed frames)
+- CPU regression detection with anomaly callback
+- Dynamic enable/disable without restart
+- Thread-safe public API
+
+**Example:**
+```cpp
+#include "observability/continuous_profiler.h"
+
+using namespace themis::observability;
+
+// Configure and start
+ContinuousProfilerConfig cfg;
+cfg.enabled = true;
+cfg.cpu_sample_rate = 0.01;          // ~1% CPU overhead
+cfg.snapshot_interval = std::chrono::seconds(60);
+cfg.output_dir = "/var/lib/themisdb/profiles";
+
+ContinuousProfiler profiler(cfg);
+profiler.start();
+
+// ... run workload ...
+
+// Capture snapshot and persist
+auto snap = profiler.snapshot(ProfileType::CPU);
+snap.saveToFile("/tmp/profile.folded");
+
+// Compare with a baseline
+auto diff = profiler.compare(baseline_snap, snap);
+if (diff.cpu_regression_percent > 10.0) {
+    // handle regression
+}
+
+profiler.stop();
+```
+
+**Thread Safety:** All public methods are thread-safe
+
+---
+
 ## Data Structures
 
 ### Common Structures

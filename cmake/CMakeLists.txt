@@ -1336,6 +1336,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
     ../src/query/query_plan_visualizer.cpp
+    ../src/query/sql_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1525,6 +1526,8 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1695,9 +1698,10 @@ set(THEMIS_CORE_SOURCES
     ../src/network/qos_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     
-    # Observability (GAP-008: Alertmanager integration)
+    # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
+    ../src/observability/continuous_profiler.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1899,6 +1903,9 @@ if(THEMIS_ENABLE_LLM)
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Phase 2: Streaming Retrieval & Re-Ranking
+    ../src/rag/streaming_retriever.cpp
+    ../src/rag/reranker.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp

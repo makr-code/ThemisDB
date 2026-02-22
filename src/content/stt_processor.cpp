@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     902                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -365,10 +365,71 @@ bool STTProcessor::streamTranscribe(
     const std::vector<uint8_t>& audio_stream,
     std::function<void(const TranscriptionSegment&)> callback
 ) {
-    // Real-time streaming transcription
-    // This would process audio in chunks and call the callback for each segment
-    // For now, return placeholder
-    return false;
+    if (!initialized_ || !callback || audio_stream.empty()) {
+        return false;
+    }
+
+    std::vector<float> pcm_data;
+    try {
+        auto wav_data = convertToWav16kHz(audio_stream);
+        pcm_data = extractPCMData(wav_data);
+    } catch (const std::exception&) {
+        errors_++;
+        return false;
+    }
+
+    if (pcm_data.empty()) {
+        return false;
+    }
+
+    // Process audio in 3-second windows at 16 kHz, stepping 1 second at a time.
+    // This delivers word-by-word transcription as each window is processed,
+    // emitting only segments that advance beyond the previous watermark.
+    constexpr int SAMPLE_RATE = 16000;
+    constexpr size_t WINDOW_SAMPLES = 3 * SAMPLE_RATE;
+    constexpr size_t STEP_SAMPLES   = SAMPLE_RATE;
+
+    int64_t emitted_end_ms = 0;  // high-watermark: end time of last emitted segment
+    bool any_success = false;
+
+    for (size_t start = 0; start < pcm_data.size(); start += STEP_SAMPLES) {
+        size_t end = std::min(start + WINDOW_SAMPLES, pcm_data.size());
+        std::vector<float> window(pcm_data.begin() + static_cast<std::ptrdiff_t>(start),
+                                  pcm_data.begin() + static_cast<std::ptrdiff_t>(end));
+
+        json options;
+        options["language"] = default_language_;
+        options["timestamps"] = true;
+
+        auto result = transcribeInternal(window, options);
+        if (!result.success) {
+            continue;
+        }
+        any_success = true;
+
+        // Translate segment timestamps from window-relative to global audio position.
+        int64_t offset_ms = static_cast<int64_t>(start) * 1000 / SAMPLE_RATE;
+
+        for (const auto& orig_seg : result.segments) {
+            TranscriptionSegment seg = orig_seg;
+            seg.start_ms += offset_ms;
+            seg.end_ms   += offset_ms;
+
+            // Emit only segments that start at or beyond the current watermark
+            // to avoid re-delivering text that was already reported in a prior window.
+            if (seg.start_ms >= emitted_end_ms) {
+                callback(seg);
+                emitted_end_ms = seg.end_ms;
+            }
+        }
+    }
+
+    if (any_success) {
+        transcriptions_completed_++;
+        total_audio_duration_ms_ += static_cast<uint64_t>(pcm_data.size() * 1000 / SAMPLE_RATE);
+    }
+
+    return any_success;
 }
 
 json STTProcessor::generateMeetingProtocol(
