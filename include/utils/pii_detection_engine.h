@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -294,10 +294,6 @@ public:
      * @return Masked value (e.g., "***@example.com", "**** **** **** 1234")
      */
     static std::string maskValue(PIIType type, const std::string& value, const std::string& mode);
-// Forward declaration for engine creation functions
-std::unique_ptr<IPIIDetectionEngine> createRegexEngine();
-std::unique_ptr<IPIIDetectionEngine> createNEREngine();
-
 };
 
 } // namespace utils
