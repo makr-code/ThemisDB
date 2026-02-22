@@ -314,29 +314,42 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
 
 void PIIDetector::initializeDefaultEngine() {
     engines_.clear();
-    
+
+    nlohmann::json default_config;
+    default_config["enabled"] = true;
+
     // Create unsigned regex engine with embedded defaults
-    auto engine_result = PIIDetectionEngineFactory::createUnsigned("regex");
-    if (!engine_result) {
-        spdlog::error("PIIDetector: Failed to create default regex engine: {}", 
-                     engine_result.error().message());
-        return;
+    auto regex_result = PIIDetectionEngineFactory::createUnsigned("regex");
+    if (!regex_result) {
+        spdlog::error("PIIDetector: Failed to create default regex engine: {}",
+                     regex_result.error().message());
+    } else {
+        auto regex_engine = std::move(*regex_result);
+        if (!regex_engine->initialize(default_config)) {
+            spdlog::error("PIIDetector: Failed to initialize default regex engine: {}",
+                         regex_engine->getLastError());
+        } else {
+            engines_.push_back(std::move(regex_engine));
+        }
     }
-    
-    auto engine = std::move(*engine_result);
-    
-    // Initialize with empty config (will use embedded defaults)
-    nlohmann::json empty_config;
-    empty_config["enabled"] = true;
-    
-    if (!engine->initialize(empty_config)) {
-        spdlog::error("PIIDetector: Failed to initialize default regex engine: {}", 
-                     engine->getLastError());
-        return;
+
+    // Create unsigned NER engine with embedded defaults (complements regex for
+    // person names, organizations, and locations that regex cannot detect)
+    auto ner_result = PIIDetectionEngineFactory::createUnsigned("ner");
+    if (!ner_result) {
+        spdlog::error("PIIDetector: Failed to create default NER engine: {}",
+                     ner_result.error().message());
+    } else {
+        auto ner_engine = std::move(*ner_result);
+        if (!ner_engine->initialize(default_config)) {
+            spdlog::error("PIIDetector: Failed to initialize default NER engine: {}",
+                         ner_engine->getLastError());
+        } else {
+            engines_.push_back(std::move(ner_engine));
+        }
     }
-    
-    engines_.push_back(std::move(engine));
-    spdlog::info("PIIDetector: Initialized with embedded unsigned regex engine");
+
+    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)", engines_.size());
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {

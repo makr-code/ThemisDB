@@ -85,7 +85,7 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- PII detection relies on regex patterns; false-negative rate is higher than ML-based approaches.
+- PII detection uses a plugin-based engine architecture combining regex patterns (structured PII) and rule-based NER (person names, organizations, locations); ML-model-based NER with external frameworks remains an optional future enhancement.
 - Geospatial utilities are basic helpers; complex spatial operations are in the index module.
 - Stop-word lists are English-only by default; multi-language support is planned.
 
