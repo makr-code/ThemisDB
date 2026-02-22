@@ -1,0 +1,17 @@
+name: Auto Label
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Label based on changed files
+        uses: actions/labeler@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
