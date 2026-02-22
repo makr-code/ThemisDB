@@ -231,14 +231,14 @@ TEST(IngestionManagerErrorsTest, IngestSourceUnsupportedType) {
     IngestionManager mgr("test_db");
 
     SourceConfig cfg;
-    cfg.source_id = "api_src";
-    cfg.type      = SourceType::API;
-    cfg.location  = "https://example.com/api";
+    cfg.source_id = "db_src";
+    cfg.type      = SourceType::DATABASE;
+    cfg.location  = "postgres://localhost/themis";
     cfg.enabled   = true;
 
     ASSERT_TRUE(mgr.registerSource(cfg));
 
-    auto stats = mgr.ingestSource("api_src");
+    auto stats = mgr.ingestSource("db_src");
 
     ASSERT_FALSE(stats.errors.empty());
     EXPECT_EQ(stats.errors[0].code, IngestionErrorCode::CONNECTOR_NOT_SUPPORTED);
