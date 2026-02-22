@@ -1555,6 +1555,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/oauth_device_flow.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
