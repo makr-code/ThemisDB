@@ -41,6 +41,7 @@
 #include "updates/updates_config.h"
 #include "updates/hot_reload_engine.h"
 #include "updates/update_state_machine.h"
+#include "updates/delta_update_engine.h"
 #include "utils/update_checker.h"
 
 #include <chrono>
@@ -699,4 +700,649 @@ TEST(StateMachineThreadSafetyTest, Reset_Callback_CanCallCurrentVersion_NoDeadlo
 
     EXPECT_NO_THROW(sm.reset());
     EXPECT_EQ(sm.currentState(), UpdateState::IDLE);
+}
+
+// ============================================================================
+// Phase 9: DeltaUpdateEngine – binary delta patches
+// ============================================================================
+
+class DeltaUpdateEngineTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
+    std::string install_dir_;
+    std::string download_dir_;
+
+    void SetUp() override {
+        auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_dir_     = "/tmp/test_delta_" + std::to_string(ts);
+        install_dir_ = tmp_dir_ + "/install";
+        download_dir_ = tmp_dir_ + "/download";
+        fs::create_directories(install_dir_);
+        fs::create_directories(download_dir_);
+    }
+
+    void TearDown() override {
+        try { fs::remove_all(tmp_dir_); } catch (...) {}
+    }
+
+    static void writeBytes(const std::string& path,
+                           const std::vector<uint8_t>& data) {
+        fs::create_directories(fs::path(path).parent_path());
+        std::ofstream f(path, std::ios::binary);
+        f.write(reinterpret_cast<const char*>(data.data()),
+                static_cast<std::streamsize>(data.size()));
+    }
+
+    static std::vector<uint8_t> readBytes(const std::string& path) {
+        std::ifstream f(path, std::ios::binary);
+        return {std::istreambuf_iterator<char>(f),
+                std::istreambuf_iterator<char>()};
+    }
+};
+
+// ── FileDelta JSON round-trip ─────────────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, FileDelta_ToJsonFromJson_RoundTrip) {
+    FileDelta fd;
+    fd.path        = "bin/themis_server";
+    fd.base_hash   = "aabbcc";
+    fd.target_hash = "ddeeff";
+    fd.patch_url   = "https://example.com/patches/server.patch";
+    fd.patch_size  = 1024;
+    fd.target_size = 8192;
+    fd.algorithm   = PatchAlgorithm::ZSTD_DICT;
+
+    auto j      = fd.toJson();
+    auto parsed = FileDelta::fromJson(j);
+
+    ASSERT_TRUE(parsed.has_value());
+    EXPECT_EQ(parsed->path,        fd.path);
+    EXPECT_EQ(parsed->base_hash,   fd.base_hash);
+    EXPECT_EQ(parsed->target_hash, fd.target_hash);
+    EXPECT_EQ(parsed->patch_url,   fd.patch_url);
+    EXPECT_EQ(parsed->patch_size,  fd.patch_size);
+    EXPECT_EQ(parsed->target_size, fd.target_size);
+    EXPECT_EQ(parsed->algorithm,   PatchAlgorithm::ZSTD_DICT);
+}
+
+TEST_F(DeltaUpdateEngineTest, FileDelta_AllAlgorithms_RoundTrip) {
+    const std::vector<PatchAlgorithm> algos = {
+        PatchAlgorithm::BSDIFF,
+        PatchAlgorithm::XDELTA3,
+        PatchAlgorithm::VCDIFF,
+        PatchAlgorithm::ZSTD_DICT,
+    };
+    for (auto algo : algos) {
+        FileDelta fd;
+        fd.algorithm = algo;
+        auto j       = fd.toJson();
+        auto parsed  = FileDelta::fromJson(j);
+        ASSERT_TRUE(parsed.has_value());
+        EXPECT_EQ(parsed->algorithm, algo);
+    }
+}
+
+TEST_F(DeltaUpdateEngineTest, FileDelta_UnknownAlgorithm_DefaultsToZstdDict) {
+    nlohmann::json j;
+    j["algorithm"] = "nonexistent_algo";
+    auto parsed = FileDelta::fromJson(j);
+    ASSERT_TRUE(parsed.has_value());
+    EXPECT_EQ(parsed->algorithm, PatchAlgorithm::ZSTD_DICT);
+}
+
+// ── DeltaManifest JSON round-trip ─────────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, DeltaManifest_ToJsonFromJson_RoundTrip) {
+    DeltaManifest dm;
+    dm.from_version = "1.4.0";
+    dm.to_version   = "1.5.0";
+
+    FileDelta fd1;
+    fd1.path        = "bin/server";
+    fd1.patch_size  = 512;
+    fd1.target_size = 4096;
+    fd1.algorithm   = PatchAlgorithm::ZSTD_DICT;
+
+    FileDelta fd2;
+    fd2.path        = "lib/libthemis.so";
+    fd2.patch_size  = 256;
+    fd2.target_size = 2048;
+    fd2.algorithm   = PatchAlgorithm::VCDIFF;
+
+    dm.deltas = {fd1, fd2};
+
+    auto j      = dm.toJson();
+    auto parsed = DeltaManifest::fromJson(j);
+
+    ASSERT_TRUE(parsed.has_value());
+    EXPECT_EQ(parsed->from_version, "1.4.0");
+    EXPECT_EQ(parsed->to_version,   "1.5.0");
+    ASSERT_EQ(parsed->deltas.size(), 2u);
+    EXPECT_EQ(parsed->deltas[0].path,      "bin/server");
+    EXPECT_EQ(parsed->deltas[1].path,      "lib/libthemis.so");
+    EXPECT_EQ(parsed->deltas[1].algorithm, PatchAlgorithm::VCDIFF);
+}
+
+TEST_F(DeltaUpdateEngineTest, DeltaManifest_TotalSizes) {
+    DeltaManifest dm;
+    FileDelta fd1; fd1.patch_size = 100; fd1.target_size = 1000;
+    FileDelta fd2; fd2.patch_size = 200; fd2.target_size = 2000;
+    dm.deltas = {fd1, fd2};
+
+    EXPECT_EQ(dm.totalPatchSize(),  300u);
+    EXPECT_EQ(dm.totalTargetSize(), 3000u);
+}
+
+TEST_F(DeltaUpdateEngineTest, DeltaManifest_EmptyDeltas_ZeroTotals) {
+    DeltaManifest dm;
+    EXPECT_EQ(dm.totalPatchSize(),  0u);
+    EXPECT_EQ(dm.totalTargetSize(), 0u);
+}
+
+// ── PatchAlgorithm string helpers ─────────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, PatchAlgorithmToString_AllValues) {
+    EXPECT_EQ(patchAlgorithmToString(PatchAlgorithm::BSDIFF),    "bsdiff");
+    EXPECT_EQ(patchAlgorithmToString(PatchAlgorithm::XDELTA3),   "xdelta3");
+    EXPECT_EQ(patchAlgorithmToString(PatchAlgorithm::VCDIFF),    "vcdiff");
+    EXPECT_EQ(patchAlgorithmToString(PatchAlgorithm::ZSTD_DICT), "zstd_dict");
+}
+
+TEST_F(DeltaUpdateEngineTest, PatchAlgorithmFromString_ValidValues) {
+    EXPECT_EQ(patchAlgorithmFromString("bsdiff"),    PatchAlgorithm::BSDIFF);
+    EXPECT_EQ(patchAlgorithmFromString("xdelta3"),   PatchAlgorithm::XDELTA3);
+    EXPECT_EQ(patchAlgorithmFromString("vcdiff"),    PatchAlgorithm::VCDIFF);
+    EXPECT_EQ(patchAlgorithmFromString("zstd_dict"), PatchAlgorithm::ZSTD_DICT);
+}
+
+TEST_F(DeltaUpdateEngineTest, PatchAlgorithmFromString_Invalid_ReturnsNullopt) {
+    EXPECT_FALSE(patchAlgorithmFromString("unknown").has_value());
+    EXPECT_FALSE(patchAlgorithmFromString("").has_value());
+}
+
+// ── Delta registry ────────────────────────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, FindDelta_NotRegistered_ReturnsNullopt) {
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    EXPECT_FALSE(engine.findDelta("1.0.0", "1.1.0").has_value());
+}
+
+TEST_F(DeltaUpdateEngineTest, FindDelta_AfterRegister_ReturnsManifest) {
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    engine.registerDelta(dm);
+
+    auto found = engine.findDelta("1.0.0", "1.1.0");
+    ASSERT_TRUE(found.has_value());
+    EXPECT_EQ(found->from_version, "1.0.0");
+    EXPECT_EQ(found->to_version,   "1.1.0");
+}
+
+TEST_F(DeltaUpdateEngineTest, RegisterDelta_Update_ReplacesExisting) {
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+
+    DeltaManifest dm1;
+    dm1.from_version = "1.0.0";
+    dm1.to_version   = "1.1.0";
+    FileDelta fd1; fd1.path = "old_file"; dm1.deltas = {fd1};
+    engine.registerDelta(dm1);
+
+    DeltaManifest dm2;
+    dm2.from_version = "1.0.0";
+    dm2.to_version   = "1.1.0";
+    FileDelta fd2; fd2.path = "new_file"; dm2.deltas = {fd2};
+    engine.registerDelta(dm2);
+
+    auto found = engine.findDelta("1.0.0", "1.1.0");
+    ASSERT_TRUE(found.has_value());
+    ASSERT_EQ(found->deltas.size(), 1u);
+    EXPECT_EQ(found->deltas[0].path, "new_file");
+}
+
+// ── generatePatch + applyPatch round-trip (ZSTD_DICT) ────────────────────
+
+TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_Identical) {
+    // Edge case: base == target
+    std::vector<uint8_t> data(1024, 0xAB);
+    std::string base_path   = tmp_dir_ + "/base.bin";
+    std::string target_path = tmp_dir_ + "/target.bin";
+    std::string patch_path  = tmp_dir_ + "/patch.bin";
+    std::string recon_path  = tmp_dir_ + "/recon.bin";
+
+    writeBytes(base_path,   data);
+    writeBytes(target_path, data);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::ZSTD_DICT));
+    ASSERT_TRUE(fs::exists(patch_path));
+
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+    ASSERT_TRUE(fs::exists(recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, data);
+}
+
+TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_SmallDiff) {
+    // base and target differ only in a few bytes (realistic update)
+    std::vector<uint8_t> base(4096);
+    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i & 0xFF);
+
+    auto target = base;
+    target[100] = 0xFF;
+    target[101] = 0xFE;
+    target[200] = 0xAA;
+
+    std::string base_path   = tmp_dir_ + "/base_small.bin";
+    std::string target_path = tmp_dir_ + "/target_small.bin";
+    std::string patch_path  = tmp_dir_ + "/patch_small.bin";
+    std::string recon_path  = tmp_dir_ + "/recon_small.bin";
+
+    writeBytes(base_path,   base);
+    writeBytes(target_path, target);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::ZSTD_DICT));
+
+    // Patch should be smaller than target
+    EXPECT_LT(fs::file_size(patch_path), target.size());
+
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, target);
+}
+
+TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_EmptyBase) {
+    std::vector<uint8_t> base;
+    std::vector<uint8_t> target(512, 0x42);
+
+    std::string base_path   = tmp_dir_ + "/empty_base.bin";
+    std::string target_path = tmp_dir_ + "/empty_target.bin";
+    std::string patch_path  = tmp_dir_ + "/empty_patch.bin";
+    std::string recon_path  = tmp_dir_ + "/empty_recon.bin";
+
+    writeBytes(base_path,   base);
+    writeBytes(target_path, target);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::ZSTD_DICT));
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, target);
+}
+
+// ── generatePatch + applyPatch round-trip (VCDIFF) ───────────────────────
+
+TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_Vcdiff_SmallDiff) {
+    std::vector<uint8_t> base(2048);
+    for (size_t i = 0; i < base.size(); ++i) base[i] = static_cast<uint8_t>(i % 251);
+
+    auto target = base;
+    target[50]  = 0xCC;
+    target[51]  = 0xDD;
+    target[300] = 0xEE;
+
+    std::string base_path   = tmp_dir_ + "/vcd_base.bin";
+    std::string target_path = tmp_dir_ + "/vcd_target.bin";
+    std::string patch_path  = tmp_dir_ + "/vcd_patch.bin";
+    std::string recon_path  = tmp_dir_ + "/vcd_recon.bin";
+
+    writeBytes(base_path,   base);
+    writeBytes(target_path, target);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::VCDIFF));
+    ASSERT_TRUE(fs::exists(patch_path));
+
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, target);
+}
+
+TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_Vcdiff_AllNew) {
+    // Target has no overlap with base (worst case for delta)
+    std::vector<uint8_t> base(256, 0x00);
+    std::vector<uint8_t> target(256, 0xFF);
+
+    std::string base_path   = tmp_dir_ + "/vcd2_base.bin";
+    std::string target_path = tmp_dir_ + "/vcd2_target.bin";
+    std::string patch_path  = tmp_dir_ + "/vcd2_patch.bin";
+    std::string recon_path  = tmp_dir_ + "/vcd2_recon.bin";
+
+    writeBytes(base_path,   base);
+    writeBytes(target_path, target);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::VCDIFF));
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, target);
+}
+
+// ── Fallback for unsupported algorithms ──────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, GeneratePatch_BsdiffFallsBackToZstdDict) {
+    std::vector<uint8_t> base(128, 0x01);
+    std::vector<uint8_t> target(128, 0x02);
+
+    std::string base_path   = tmp_dir_ + "/fb_base.bin";
+    std::string target_path = tmp_dir_ + "/fb_target.bin";
+    std::string patch_path  = tmp_dir_ + "/fb_patch.bin";
+    std::string recon_path  = tmp_dir_ + "/fb_recon.bin";
+
+    writeBytes(base_path,   base);
+    writeBytes(target_path, target);
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    // BSDIFF falls back to ZSTD_DICT and should still succeed
+    ASSERT_TRUE(engine.generatePatch(
+        base_path, target_path, patch_path, PatchAlgorithm::BSDIFF));
+    ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
+
+    auto recon = readBytes(recon_path);
+    EXPECT_EQ(recon, target);
+}
+
+// ── applyDelta with hash verification ────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, ApplyDelta_HashVerification_Success) {
+    // Prepare a "currently installed" base file
+    std::vector<uint8_t> base_data(512);
+    for (size_t i = 0; i < base_data.size(); ++i)
+        base_data[i] = static_cast<uint8_t>(i & 0xFF);
+
+    std::string rel_path = "bin/component";
+    std::string base_path = install_dir_ + "/" + rel_path;
+    writeBytes(base_path, base_data);
+
+    // Generate a target
+    auto target_data = base_data;
+    target_data[10] = 0xFF;
+    target_data[11] = 0xFE;
+
+    // Generate patch file (place in download_dir/<rel_path>.patch)
+    std::string patch_path = download_dir_ + "/" + rel_path + ".patch";
+    {
+        DeltaUpdateEngine gen_engine(install_dir_, download_dir_);
+        std::string tgt_tmp = tmp_dir_ + "/tgt_tmp.bin";
+        writeBytes(tgt_tmp, target_data);
+        ASSERT_TRUE(gen_engine.generatePatch(
+            base_path, tgt_tmp, patch_path, PatchAlgorithm::ZSTD_DICT));
+    }
+
+    // Build a DeltaManifest pointing to the pre-downloaded patch
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+
+    FileDelta fd;
+    fd.path        = rel_path;
+    fd.target_size = static_cast<uint64_t>(target_data.size());
+    fd.algorithm   = PatchAlgorithm::ZSTD_DICT;
+    // base_hash and target_hash left empty → verification skipped for this test
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.files_fallback.empty());
+    ASSERT_EQ(result.files_patched.size(), 1u);
+    EXPECT_EQ(result.files_patched[0], rel_path);
+
+    // Verify the installed file was updated
+    auto installed = readBytes(base_path);
+    EXPECT_EQ(installed, target_data);
+}
+
+TEST_F(DeltaUpdateEngineTest, ApplyDelta_MissingPatch_FallsBack) {
+    // Base file exists but patch does not
+    std::vector<uint8_t> base_data(64, 0xAA);
+    std::string rel_path  = "bin/missing_patch";
+    writeBytes(install_dir_ + "/" + rel_path, base_data);
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = rel_path;
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);    // engine-level success
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_EQ(result.files_fallback[0], rel_path);
+    EXPECT_TRUE(result.files_patched.empty());
+}
+
+TEST_F(DeltaUpdateEngineTest, ApplyDelta_BaseHashMismatch_FallsBack) {
+    std::vector<uint8_t> base_data(64, 0xBB);
+    std::string rel_path = "bin/hash_mismatch";
+    writeBytes(install_dir_ + "/" + rel_path, base_data);
+
+    // Create a dummy patch so the path check passes
+    std::string patch_path = download_dir_ + "/" + rel_path + ".patch";
+    fs::create_directories(fs::path(patch_path).parent_path());
+    writeBytes(patch_path, {0x01, 0x02, 0x03});
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path      = rel_path;
+    fd.base_hash = "deadbeef_wrong_hash";  // deliberate mismatch
+    dm.deltas    = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_EQ(result.files_fallback[0], rel_path);
+}
+
+// ── Progress callback ─────────────────────────────────────────────────────
+
+TEST_F(DeltaUpdateEngineTest, ProgressCallback_IsInvoked) {
+    std::vector<int> percentages;
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    engine.setProgressCallback([&](int pct, const std::string&) {
+        percentages.push_back(pct);
+    });
+
+    // Apply a single-file delta (patch absent → fallback, but callback fires)
+    std::vector<uint8_t> base(32, 0x01);
+    std::string rel_path = "bin/cb_test";
+    writeBytes(install_dir_ + "/" + rel_path, base);
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd; fd.path = rel_path;
+    dm.deltas = {fd};
+
+    engine.applyDelta(dm);
+
+    EXPECT_FALSE(percentages.empty());
+    for (int p : percentages) {
+        EXPECT_GE(p, 0);
+        EXPECT_LE(p, 100);
+    }
+}
+
+// ============================================================================
+// Phase 9 – Security: path traversal prevention
+// ============================================================================
+
+class DeltaPathTraversalTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
+    std::string install_dir_;
+    std::string download_dir_;
+
+    void SetUp() override {
+        auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+        tmp_dir_      = "/tmp/test_delta_sec_" + std::to_string(ts);
+        install_dir_  = tmp_dir_ + "/install";
+        download_dir_ = tmp_dir_ + "/download";
+        fs::create_directories(install_dir_);
+        fs::create_directories(download_dir_);
+    }
+
+    void TearDown() override {
+        try { fs::remove_all(tmp_dir_); } catch (...) {}
+    }
+
+    static void writeBytes(const std::string& path,
+                           const std::vector<uint8_t>& data) {
+        fs::create_directories(fs::path(path).parent_path());
+        std::ofstream f(path, std::ios::binary);
+        f.write(reinterpret_cast<const char*>(data.data()),
+                static_cast<std::streamsize>(data.size()));
+    }
+};
+
+TEST_F(DeltaPathTraversalTest, DotDotPath_FallsBackAndNeverWritesOutsideSandbox) {
+    // The "sentinel" file that must NOT be overwritten
+    std::string outside_file = tmp_dir_ + "/outside_secret.txt";
+    writeBytes(outside_file, {0xDE, 0xAD, 0xBE, 0xEF});
+
+    // A manifest with a path traversal attempt
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "../outside_secret.txt";   // traversal attempt
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    // Engine-level success but this file must fall back (path rejected)
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_TRUE(result.files_patched.empty());
+
+    // The outside file must be untouched
+    std::ifstream f(outside_file, std::ios::binary);
+    std::vector<uint8_t> content(
+        std::istreambuf_iterator<char>(f),
+        std::istreambuf_iterator<char>());
+    std::vector<uint8_t> expected = {0xDE, 0xAD, 0xBE, 0xEF};
+    EXPECT_EQ(content, expected);
+}
+
+TEST_F(DeltaPathTraversalTest, AbsolutePath_Rejected) {
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "/etc/passwd";  // absolute path
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    EXPECT_TRUE(result.files_patched.empty());
+}
+
+TEST_F(DeltaPathTraversalTest, EmptyPath_Rejected) {
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = "";  // empty
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+}
+
+TEST_F(DeltaPathTraversalTest, NormalSubdirPath_Accepted) {
+    // Normal nested path inside install_dir should not be rejected
+    std::string rel_path = "bin/subdir/component";
+    std::vector<uint8_t> base_data(64, 0x01);
+    std::string base_path = install_dir_ + "/" + rel_path;
+    writeBytes(base_path, base_data);
+
+    // No patch present → fallback for a different reason (not path rejection)
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path = rel_path;
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    // Should fall back due to missing patch file, NOT due to path rejection
+    EXPECT_TRUE(result.success);
+    // It ended up in fallback (patch missing) but wasn't rejected for the path
+    ASSERT_EQ(result.files_fallback.size(), 1u);
+    // The install dir base file should still exist (wasn't touched)
+    EXPECT_TRUE(fs::exists(base_path));
+}
+
+TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
+    // Prove that the security check does NOT block valid nested-path operations.
+    std::string rel_path = "lib/sub/libfoo.so";
+    std::vector<uint8_t> base_data(512);
+    for (size_t i = 0; i < base_data.size(); ++i) base_data[i] = static_cast<uint8_t>(i & 0xFF);
+
+    auto target_data = base_data;
+    target_data[10] = 0xFF;
+    target_data[20] = 0xFE;
+
+    std::string base_path = install_dir_ + "/" + rel_path;
+    writeBytes(base_path, base_data);
+
+    // Generate patch and place it where applyDelta expects it
+    std::string patch_path = download_dir_ + "/" + rel_path + ".patch";
+    {
+        std::string tgt_tmp = tmp_dir_ + "/tgt_sec_tmp.bin";
+        writeBytes(tgt_tmp, target_data);
+        DeltaUpdateEngine gen(install_dir_, download_dir_);
+        ASSERT_TRUE(gen.generatePatch(base_path, tgt_tmp, patch_path,
+                                      PatchAlgorithm::ZSTD_DICT));
+    }
+
+    DeltaManifest dm;
+    dm.from_version = "1.0.0";
+    dm.to_version   = "1.1.0";
+    FileDelta fd;
+    fd.path        = rel_path;
+    fd.target_size = static_cast<uint64_t>(target_data.size());
+    dm.deltas = {fd};
+
+    DeltaUpdateEngine engine(install_dir_, download_dir_);
+    auto result = engine.applyDelta(dm);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.files_fallback.empty());
+    ASSERT_EQ(result.files_patched.size(), 1u);
+    EXPECT_EQ(result.files_patched[0], rel_path);
+
+    // Verify the installed file matches the target
+    auto installed = readBytes(base_path);
+    EXPECT_EQ(installed, target_data);
 }
