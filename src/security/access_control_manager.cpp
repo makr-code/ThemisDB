@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     323                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -297,6 +297,17 @@ bool AccessControlManager::reloadConfiguration() {
                 THEMIS_ERROR("Failed to reload user-role mappings");
                 return false;
             }
+        }
+        
+        // Reload ABAC policies if configured
+        if (config_.enable_abac && !config_.abac_policy_path.empty()) {
+            std::string err;
+            if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
+                THEMIS_ERROR("Failed to reload ABAC policies from {}: {}",
+                    config_.abac_policy_path, err);
+                return false;
+            }
+            THEMIS_INFO("Reloaded ABAC policies from {}", config_.abac_policy_path);
         }
         
         THEMIS_INFO("Configuration reloaded successfully");

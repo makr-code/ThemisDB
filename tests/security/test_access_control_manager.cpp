@@ -506,3 +506,84 @@ TEST_F(AccessControlManagerTest, ABACDoesNotAffectRBACDeny) {
     auto decision = acm.authorize(ctx, "data", "write");
     EXPECT_FALSE(decision.granted);
 }
+
+TEST_F(AccessControlManagerTest, ABACLoadFromFile) {
+    // Write a JSON ABAC policy file
+    auto abac_policy_path = temp_dir_ / "abac_policies.json";
+    std::ofstream af(abac_policy_path);
+    af << R"([
+        {
+            "id": "file-ip-policy",
+            "name": "Internal IP only",
+            "subjects": ["admin@test.com"],
+            "actions": ["write"],
+            "resources": ["data"],
+            "effect": "allow",
+            "allowed_ip_prefixes": ["10.0."]
+        }
+    ])";
+    af.close();
+
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+    config.abac_policy_path = abac_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "10.0.5.1"; // allowed
+
+    auto d1 = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(d1.granted);
+
+    ctx.source_ip = "8.8.8.8"; // denied
+    auto d2 = acm.authorize(ctx, "data", "write");
+    EXPECT_FALSE(d2.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACReloadConfiguration) {
+    // Write initial ABAC policy (allow from 10.0.)
+    auto abac_policy_path = temp_dir_ / "abac_reload.json";
+    auto write_policy = [&](const std::string& ip_prefix) {
+        std::ofstream f(abac_policy_path);
+        f << R"([{"id":"p1","subjects":["admin@test.com"],"actions":["write"],)"
+          << R"("resources":["data"],"effect":"allow","allowed_ip_prefixes":[")"
+          << ip_prefix << R"("]})";
+        f << "]";
+    };
+    write_policy("10.0.");
+
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+    config.abac_policy_path = abac_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "10.0.1.1";
+
+    // Initially: 10.0.x allowed
+    EXPECT_TRUE(acm.authorize(ctx, "data", "write").granted);
+    ctx.source_ip = "192.168.1.1";
+    EXPECT_FALSE(acm.authorize(ctx, "data", "write").granted);
+
+    // Update policy file to allow 192.168. instead
+    write_policy("192.168.");
+    ASSERT_TRUE(acm.reloadConfiguration());
+
+    // After reload: 192.168.x now allowed
+    ctx.source_ip = "192.168.1.1";
+    EXPECT_TRUE(acm.authorize(ctx, "data", "write").granted);
+    ctx.source_ip = "10.0.1.1";
+    EXPECT_FALSE(acm.authorize(ctx, "data", "write").granted);
+}
