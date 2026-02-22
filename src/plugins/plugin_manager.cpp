@@ -521,6 +521,21 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 fmt::format("Circular dependency detected involving plugin '{}': {}", name, cycle_desc));
         }
 
+        // Validate that all declared dependencies are registered before attempting
+        // to load them. This gives ERR_PLUGIN_MISSING_DEPENDENCY (6305) for
+        // unregistered deps rather than the less-specific ERR_PLUGIN_NOT_FOUND.
+        for (const auto& dep : deps_to_load) {
+            if (plugins_.find(dep) == plugins_.end()) {
+                auto missing_msg = fmt::format(
+                    "Plugin '{}' requires unregistered dependency '{}'", name, dep);
+                THEMIS_ERROR("{}", missing_msg);
+                metrics_.recordError(name);
+                span.setStatus(false, "Missing dependency");
+                return Err<IThemisPlugin*>(
+                    errors::ErrorCode::ERR_PLUGIN_MISSING_DEPENDENCY, missing_msg);
+            }
+        }
+
         lock.unlock();
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
@@ -726,7 +741,22 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                        fmt::format("Plugin not loaded: {}", name));
     }
-    
+
+    // Block unload if other loaded plugins depend on this one.
+    auto dependents = findDependentPlugins(name);
+    if (!dependents.empty()) {
+        std::string dep_list;
+        for (const auto& dep : dependents) {
+            if (!dep_list.empty()) dep_list += ", ";
+            dep_list += dep;
+        }
+        auto error_msg = fmt::format(
+            "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
+            name, dependents.size(), dep_list);
+        THEMIS_ERROR("{}", error_msg);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
+    }
+
     auto& entry = it->second;
     
     // Shutdown plugin
