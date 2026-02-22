@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - *Data Integration*: PostgreSQL Wire Import, Multi-Format Export, Content Pipeline
   - *Observability*: Prometheus, OpenTelemetry, Audit Logging
   - *Quality Metrics*: 41 Modules, 500K+ LOC, 3 Production-Ready Core Modules
+  - *Community*: Chat (Slack), Forum (GitHub Discussions), Contributing Guide
   - All badges link to relevant `src/` module directories using shields.io
 - **Geo Module: Full GeoJSON RFC 7946 parsing** 🌍
   - `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946 geometry types:

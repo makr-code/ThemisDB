@@ -80,6 +80,11 @@
   [![41 Modules](https://img.shields.io/badge/Modules-41-brightgreen)](src)
   [![500K+ LOC](https://img.shields.io/badge/LOC-500K%2B-brightgreen)](src)
   [![Production Ready](https://img.shields.io/badge/Production%20Ready-3%20Core%20Modules-brightgreen)](src/core)
+
+  <!-- Community -->
+  [![Chat](https://img.shields.io/badge/Chat-Slack-4a154b?logo=slack)](SUPPORT.md)
+  [![Forum](https://img.shields.io/badge/Forum-GitHub%20Discussions-181717?logo=github)](https://github.com/makr-code/ThemisDB/discussions)
+  [![Contributing](https://img.shields.io/badge/Contributing-Guide-0075ca)](CONTRIBUTING.md)
 </div>
 
 ## What is ThemisDB?
