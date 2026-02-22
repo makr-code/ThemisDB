@@ -21,7 +21,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ## In Progress 🚧
-- [~] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
+- [P] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
 - [P] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
 - [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
 
@@ -59,7 +59,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ### Phase 2: ABAC & HSM Direct Integration (Status: In Progress 🚧)
-- [~] Attribute-Based Access Control (ABAC) alongside RBAC
+- [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [P] Hardware Security Module (HSM) direct PKCS#11 integration
 - [~] FIPS 140-2 / 140-3 validated cryptography mode
 

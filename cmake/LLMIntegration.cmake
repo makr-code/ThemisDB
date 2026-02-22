@@ -76,6 +76,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/quality_control_pipeline.cpp
         ../src/rag/quality_control_factory.cpp
         
+        # RAG Enhancement: Streaming Retrieval & Incremental Context Window Filling (Phase 2)
+        ../src/rag/streaming_retriever.cpp
+
         # RAG Enhancement: Continuous Learning Integration (Phase 6)
         ../src/rag/continuous_learning_client.cpp
         
