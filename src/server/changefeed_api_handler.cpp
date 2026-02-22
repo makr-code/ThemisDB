@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.cpp                         ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:08                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:39:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     861                                            ║
+    • Total Lines:     995                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 94f31dca3  2026-02-22  Cleanup: fix uninitialized Watermarks, unused variable, a... ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +26,7 @@
 #include "server/tenant_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
+#include "cdc/cdc_admin.h"
 #ifdef THEMIS_ENABLE_SSE
 #include "server/sse_connection_manager.h"
 #endif
@@ -491,6 +490,146 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetention(
     }
 }
 
+http::response<http::string_body> ChangefeedApiHandler::handleCompact(
+    const http::request<http::string_body>& req
+) {
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedCompact");
+    span.setAttribute("http.path", "/changefeed/compact");
+
+    try {
+        themis::cdc::CDCAdmin admin(changefeed_.get());
+        auto result = admin.compactLog();
+
+        nlohmann::json response = {
+            {"events_scanned",  result.events_scanned},
+            {"events_deleted",  result.events_deleted},
+            {"keys_compacted",  result.keys_compacted},
+            {"events_retained", result.events_retained}
+        };
+        span.setAttribute("compact.deleted", static_cast<int64_t>(result.events_deleted));
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ChangefeedApiHandler::handleRetentionGet(
+    const http::request<http::string_body>& req
+) {
+    if (auto auth_resp = checkAuth(req, "cdc:read")) {
+        return *auth_resp;
+    }
+
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedRetentionGet");
+    span.setAttribute("http.path", "/changefeed/retention");
+
+    try {
+        themis::cdc::CDCAdmin admin(changefeed_.get());
+        auto status = admin.getRetentionStatus();
+        span.setStatus(true);
+        return makeResponse(http::status::ok, status.toJson().dump(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
+    const http::request<http::string_body>& req
+) {
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedRetentionPut");
+    span.setAttribute("http.path", "/changefeed/retention");
+
+    try {
+        auto body = nlohmann::json::parse(req.body());
+
+        // Read existing policy and overlay with provided fields
+        Changefeed::RetentionPolicy policy = changefeed_->getRetentionPolicy();
+
+        if (body.contains("enabled")) {
+            policy.enabled = body["enabled"].get<bool>();
+        }
+        if (body.contains("max_age_hours")) {
+            auto v = body["max_age_hours"].get<uint32_t>();
+            if (v < 1 || v > 87600) { // 1h .. 10 years
+                return makeErrorResponse(http::status::bad_request,
+                    "max_age_hours must be 1-87600", req);
+            }
+            policy.max_age_hours = std::chrono::hours(v);
+        }
+        if (body.contains("max_event_count")) {
+            auto v = body["max_event_count"].get<uint64_t>();
+            if (v < 1) {
+                return makeErrorResponse(http::status::bad_request,
+                    "max_event_count must be >= 1", req);
+            }
+            policy.max_event_count = v;
+        }
+        if (body.contains("max_size_bytes")) {
+            auto v = body["max_size_bytes"].get<uint64_t>();
+            if (v < 1024 * 1024) { // min 1 MB
+                return makeErrorResponse(http::status::bad_request,
+                    "max_size_bytes must be >= 1048576 (1 MB)", req);
+            }
+            policy.max_size_bytes = v;
+        }
+        if (body.contains("cleanup_interval_minutes")) {
+            auto v = body["cleanup_interval_minutes"].get<uint32_t>();
+            if (v < 1 || v > 10080) { // 1 min .. 1 week
+                return makeErrorResponse(http::status::bad_request,
+                    "cleanup_interval_minutes must be 1-10080", req);
+            }
+            policy.cleanup_interval = std::chrono::minutes(v);
+        }
+        if (body.contains("compact_on_cleanup")) {
+            policy.compact_on_cleanup = body["compact_on_cleanup"].get<bool>();
+        }
+
+        changefeed_->updateRetentionPolicy(policy);
+
+        // Return current status after the update
+        themis::cdc::CDCAdmin admin(changefeed_.get());
+        auto status = admin.getRetentionStatus();
+        span.setStatus(true);
+        return makeResponse(http::status::ok, status.toJson().dump(), req);
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> ChangefeedApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {
@@ -789,7 +928,7 @@ void ChangefeedApiHandler::applyGovernanceHeaders(
     if (classification != "offen" && classification != "geheim" && 
         classification != "streng-geheim" && classification != "vs-nfd") {
         // Unknown classification -> keep text but apply restrictive defaults
-        classification = classification;
+        // (no-op: classification value is preserved as-is)
     }
     if (mode != "observe" && mode != "enforce") mode = "observe";
     

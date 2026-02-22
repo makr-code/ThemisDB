@@ -14,6 +14,9 @@ This directory contains modular Copilot instructions and development tooling for
 │   ├── CUDA_OPTIMIZATION.md         # GPU Kernel Design & SIMD
 │   ├── MVCC_CONCURRENCY.md          # Concurrency Patterns & Thread-Safety
 │   ├── PERFORMANCE_PROFILING.md     # Profiling Tools & Benchmark Suite
+│   ├── CUDA_OPTIMIZATION.md         # GPU Kernel Design & Memory Optimization
+│   ├── MVCC_CONCURRENCY.md          # MVCC, Transactions & Thread Safety
+│   ├── PERFORMANCE_PROFILING.md     # GPU/CPU Profiling & Benchmarking
 │   ├── TESTING_GUIDE.md             # Test Requirements & Coverage
 │   ├── CROSS_COMPILATION_CONTEXT.md # Platform-specific Rules
 │   └── VSCODE_CONTEXT.md            # VSCode Remote Development
@@ -115,6 +118,24 @@ The modular AI-Guardrails architecture provides:
 - NVTX annotations for timeline correlation
 - CI/CD regression detection workflow and alerting thresholds
 - Per-module performance SLOs (Vector Search, Storage, AQL, MVCC)
+- CUDA kernel design best practices (block/grid sizing, warp-aware programming)
+- Memory optimization (coalesced access, shared memory, pinned memory)
+- SIMD and vector operations (x86 AVX2, ARM NEON)
+- ThemisDB-specific GPU patterns (vector search, geospatial, graph traversal)
+
+### MVCC_CONCURRENCY.md
+- MVCC fundamentals (version numbering, snapshot vs. serializable isolation)
+- Lock strategies (optimistic/pessimistic, lock modes, deadlock detection)
+- Transaction lifecycle (begin → read/write → commit/rollback)
+- Thread safety patterns (RWLocks, atomics, memory ordering)
+- Version garbage collection and common pitfalls
+
+### PERFORMANCE_PROFILING.md
+- GPU profiling with Nsight Compute and Nsight Systems
+- CPU profiling with perf, VTune, and Callgrind
+- Memory access pattern and cache hit-rate analysis
+- Google Benchmark setup and regression detection
+- CI integration for automated benchmark runs
 
 ### VSCODE_CONTEXT.md
 - VSCode setup and extensions
