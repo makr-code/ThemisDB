@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            class-license-portal.php                           ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-02-22 08:39:51                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-02-22 08:57:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            CreateInboxItemCommandValidator.cs                 ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:49                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

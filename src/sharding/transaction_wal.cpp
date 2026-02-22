@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_wal.cpp                                ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:10                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

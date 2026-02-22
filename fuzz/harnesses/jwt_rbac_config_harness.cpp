@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_rbac_config_harness.cpp                        ║
-  Version:         0.0.22                                             ║
-  Last Modified:   2026-02-22 08:38:29                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-22 08:55:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

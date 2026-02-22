@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_savepoints.cpp                                ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:39:40                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:56:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     509                                            ║
+    • Total Lines:     508                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8ab871234  2026-02-21  fix(transaction): addVector SAGA ordering and rollbackToS... ║
-    • 50dd08756  2026-02-21  feat(transaction): SAGA integration for named savepoints ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

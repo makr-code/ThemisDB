@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            full_query_flow_e2e_test.cpp                       ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:17                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

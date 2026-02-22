@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_hot_reload_manager.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-22 08:55:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     240                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 91446f10a  2026-02-22  Fill acceptance criteria gaps: roadmap update, integratio... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /// @file bench_hot_reload_manager.cpp
 /// @brief Performance benchmarks for HotReloadManager
 ///

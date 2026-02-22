@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AuditLogViewerWindow.xaml.cs                       ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:52                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

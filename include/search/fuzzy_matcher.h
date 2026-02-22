@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fuzzy_matcher.h                                    ║
-  Version:         0.0.22                                             ║
-  Last Modified:   2026-02-22 08:38:41                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-22 08:55:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

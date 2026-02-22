@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_timeout.cpp                       ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-02-22 08:39:44                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-22 08:57:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     368                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
     • 6c2da643a  2026-02-21  fix(transaction): clamp negative timeout to 0 in setTimeo... ║
-    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

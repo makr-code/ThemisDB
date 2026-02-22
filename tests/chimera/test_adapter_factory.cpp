@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adapter_factory.cpp                           ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:16                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:07                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • deb41540b  2026-02-21  Code audit: fix 4 bugs found in review (query-string, mut... ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
-    • 4d29ea5a9  2026-02-21  Replace stubs with real shard routing, URN dispatch, circ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

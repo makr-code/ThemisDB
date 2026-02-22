@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_index.h                                    ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:37                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

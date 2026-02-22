@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:08                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8333                                           ║
+    • Total Lines:     8334                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
     • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
-    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

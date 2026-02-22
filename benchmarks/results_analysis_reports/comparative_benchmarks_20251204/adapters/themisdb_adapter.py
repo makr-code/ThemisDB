@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.py                                ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:26                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

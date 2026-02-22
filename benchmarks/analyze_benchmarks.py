@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            analyze_benchmarks.py                              ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:23                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

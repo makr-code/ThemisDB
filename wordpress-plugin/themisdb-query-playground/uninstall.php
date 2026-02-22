@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            uninstall.php                                      ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:39:51                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:57:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

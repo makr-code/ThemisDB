@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            isolation_level.h                                  ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-02-22 08:38:46                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-02-22 08:56:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

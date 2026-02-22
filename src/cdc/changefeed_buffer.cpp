@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_buffer.cpp                              ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:59                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

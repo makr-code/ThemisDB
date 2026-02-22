@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            diff_engine.cpp                                    ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:56                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

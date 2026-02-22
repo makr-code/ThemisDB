@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            keys_api_handler.h                                 ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:38:42                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

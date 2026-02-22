@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_logger_production.cpp                         ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-02-22 08:39:31                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-02-22 08:56:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

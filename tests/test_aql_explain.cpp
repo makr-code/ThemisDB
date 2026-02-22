@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_explain.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-22 08:39:19                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-22 08:56:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
