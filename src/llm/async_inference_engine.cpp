@@ -19,6 +19,7 @@
 
 #include "llm/async_inference_engine.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
@@ -123,7 +124,8 @@ InferenceHandle AsyncInferenceEngine::submit(
         item.request = async_req;
         item.promise = std::move(promise);
         
-        request_queue_.push(std::move(item));
+        request_queue_.push_back(std::move(item));
+        std::push_heap(request_queue_.begin(), request_queue_.end());
         stats_.total_submitted++;
     }
     
@@ -182,7 +184,8 @@ std::string AsyncInferenceEngine::submitAsync(
         item.request = async_req;
         item.promise = std::move(promise);
         
-        request_queue_.push(std::move(item));
+        request_queue_.push_back(std::move(item));
+        std::push_heap(request_queue_.begin(), request_queue_.end());
         stats_.total_submitted++;
     }
     
@@ -338,8 +341,9 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             }
             
             // Get highest priority request
-            item = std::move(const_cast<RequestQueueItem&>(request_queue_.top()));
-            request_queue_.pop();
+            std::pop_heap(request_queue_.begin(), request_queue_.end());
+            item = std::move(request_queue_.back());
+            request_queue_.pop_back();
         }
         
         auto queue_end_time = std::chrono::steady_clock::now();
@@ -485,15 +489,52 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
             return running_.load();
             
         case Config::BackpressurePolicy::DROP_OLDEST:
-            // Remove lowest priority item
+            // Find the queued request with the lowest priority and drop it
+            // to make room for the incoming (presumably higher-priority) request.
             if (!request_queue_.empty()) {
-                spdlog::warn("Queue full, dropping lowest priority request");
-                // std::priority_queue doesn't support removal
-                // In production, use custom heap or deque
-                // For now, just reject
-                return false;
+                auto min_it = std::min_element(
+                    request_queue_.begin(), request_queue_.end(),
+                    [](const RequestQueueItem& a, const RequestQueueItem& b) {
+                        return a.request->priority < b.request->priority;
+                    });
+
+                spdlog::warn(
+                    "Queue full, dropping lowest-priority request (id={}, priority={})",
+                    min_it->request->request_id, min_it->request->priority);
+
+                // Signal cancel token so any InferenceHandle for this request
+                // is notified that it was dropped.
+                min_it->request->cancel_token->store(true, std::memory_order_release);
+
+                // Fulfil the promise so the caller's future doesn't block.
+                try {
+                    min_it->promise.set_exception(
+                        std::make_exception_ptr(
+                            std::runtime_error("Request dropped: queue full")));
+                } catch (...) {
+                    // Promise may already be satisfied; ignore.
+                }
+
+                // Remove from the active-request tracking map.
+                {
+                    std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+                    active_requests_.erase(min_it->request->request_id);
+                }
+
+                // Erase from vector and restore heap invariant.
+                // We swap with the last element and pop_back, then restore
+                // the heap.  make_heap is O(n) but this path is only taken
+                // when the queue is full, so the amortised overhead is low.
+                if (min_it != request_queue_.end() - 1) {
+                    std::iter_swap(min_it, request_queue_.end() - 1);
+                }
+                request_queue_.pop_back();
+                std::make_heap(request_queue_.begin(), request_queue_.end());
+
+                stats_.total_rejected++;
+                return true;
             }
-            return true;
+            return false;
             
         case Config::BackpressurePolicy::REJECT:
             return false;
