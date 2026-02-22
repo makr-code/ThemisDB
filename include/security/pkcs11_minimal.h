@@ -101,6 +101,28 @@ typedef struct CK_ATTRIBUTE {
 #define CKM_SHA256_RSA_PKCS 0x00000040U
 #define CKM_ECDSA 0x00001041U
 #define CKM_RSA_PKCS_KEY_PAIR_GEN 0x00000000U
+#define CKM_SHA_1 0x00000220U
+#define CKM_SHA256 0x00000250U
+
+// MGF (Mask Generation Function) types for RSA-OAEP
+typedef uint32_t CK_RSA_PKCS_MGF_TYPE;
+#define CKG_MGF1_SHA1   0x00000001U
+#define CKG_MGF1_SHA256 0x00000002U
+#define CKG_MGF1_SHA384 0x00000003U
+#define CKG_MGF1_SHA512 0x00000004U
+
+// OAEP source type
+typedef uint32_t CK_RSA_PKCS_OAEP_SOURCE_TYPE;
+#define CKZ_DATA_SPECIFIED 0x00000001U
+
+// RSA-OAEP mechanism parameters (PKCS#11 v2.20 §12.1.7)
+typedef struct CK_RSA_PKCS_OAEP_PARAMS {
+    uint32_t               hashAlg;       // Hash algorithm (e.g. CKM_SHA256)
+    CK_RSA_PKCS_MGF_TYPE   mgf;           // Mask generation function
+    CK_RSA_PKCS_OAEP_SOURCE_TYPE source;  // Source of encoding parameter
+    void*                  pSourceData;   // Encoding parameter (NULL for CKZ_DATA_SPECIFIED with no label)
+    CK_ULONG               ulSourceDataLen; // Length of encoding parameter
+} CK_RSA_PKCS_OAEP_PARAMS;
 
 // Object classes (subset)
 #define CKO_PRIVATE_KEY 0x00000003U
