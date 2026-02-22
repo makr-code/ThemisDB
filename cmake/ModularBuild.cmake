@@ -160,6 +160,7 @@ set(THEMIS_BASE_SOURCES
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
+    ../src/base/hot_reload_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
