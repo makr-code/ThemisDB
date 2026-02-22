@@ -71,6 +71,7 @@ enum class AuthMethod {
     JWT,
     GSSAPI,
     MFA,
+    OAUTH_DEVICE,
     UNKNOWN
 };
 
