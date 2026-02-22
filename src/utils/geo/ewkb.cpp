@@ -51,10 +51,27 @@ MBR MBR::expand(double distance_meters) const {
 
 // GeometryInfo: Compute MBR
 MBR GeometryInfo::computeMBR() const {
-    if (coords.empty() && rings.empty()) {
+    if (coords.empty() && rings.empty() && geometries.empty()) {
         return MBR();
     }
     
+    // For multi-geometry types, union MBRs of sub-geometries
+    if (!geometries.empty() && coords.empty() && rings.empty()) {
+        MBR result = geometries[0].computeMBR();
+        for (size_t i = 1; i < geometries.size(); ++i) {
+            MBR sub = geometries[i].computeMBR();
+            result.minx = std::min(result.minx, sub.minx);
+            result.maxx = std::max(result.maxx, sub.maxx);
+            result.miny = std::min(result.miny, sub.miny);
+            result.maxy = std::max(result.maxy, sub.maxy);
+            if (sub.z_min) {
+                if (!result.z_min || *sub.z_min < *result.z_min) result.z_min = sub.z_min;
+                if (!result.z_max || *sub.z_max > *result.z_max) result.z_max = sub.z_max;
+            }
+        }
+        return result;
+    }
+
     MBR mbr;
     mbr.minx = mbr.maxx = coords.empty() ? rings[0][0].x : coords[0].x;
     mbr.miny = mbr.maxy = coords.empty() ? rings[0][0].y : coords[0].y;
@@ -83,6 +100,19 @@ MBR GeometryInfo::computeMBR() const {
         }
     }
     
+    // Also include sub-geometries (e.g. MultiPoint with coords in geometries)
+    for (const auto& sub : geometries) {
+        MBR sub_mbr = sub.computeMBR();
+        mbr.minx = std::min(mbr.minx, sub_mbr.minx);
+        mbr.maxx = std::max(mbr.maxx, sub_mbr.maxx);
+        mbr.miny = std::min(mbr.miny, sub_mbr.miny);
+        mbr.maxy = std::max(mbr.maxy, sub_mbr.maxy);
+        if (sub_mbr.z_min) {
+            if (!z_min || *sub_mbr.z_min < *z_min) z_min = sub_mbr.z_min;
+            if (!z_max || *sub_mbr.z_max > *z_max) z_max = sub_mbr.z_max;
+        }
+    }
+    
     mbr.z_min = z_min;
     mbr.z_max = z_max;
     
@@ -91,7 +121,7 @@ MBR GeometryInfo::computeMBR() const {
 
 // GeometryInfo: Compute centroid
 Coordinate GeometryInfo::computeCentroid() const {
-    if (coords.empty() && rings.empty()) {
+    if (coords.empty() && rings.empty() && geometries.empty()) {
         return Coordinate();
     }
     
@@ -117,6 +147,18 @@ Coordinate GeometryInfo::computeCentroid() const {
         for (const auto& c : ring) {
             add_coord(c);
         }
+    }
+    
+    // Recurse into sub-geometries (for Multi* and GeometryCollection types)
+    for (const auto& sub : geometries) {
+        auto sub_centroid = sub.computeCentroid();
+        sum_x += sub_centroid.x;
+        sum_y += sub_centroid.y;
+        if (sub_centroid.hasZ()) {
+            sum_z += sub_centroid.getZ();
+            has_z_coord = true;
+        }
+        count++;
     }
     
     if (count == 0) {
@@ -259,7 +301,11 @@ GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
     }
     
     const uint8_t* ptr = ewkb.data();
-    
+    return parseGeometryFromPtr(ptr);
+}
+
+// Recursive EWKB geometry parser (reads its own byte-order marker)
+GeometryInfo EWKBParser::parseGeometryFromPtr(const uint8_t*& ptr) {
     // Byte order: 0 = Big Endian, 1 = Little Endian
     bool is_little_endian = (*ptr == 0x01);
     ptr++;
@@ -273,14 +319,15 @@ GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
     
     uint32_t base_type = type_code & 0x000000FF;
     
+    int srid = 4326;
+    if (has_srid) {
+        srid = static_cast<int>(readUInt32(ptr, is_little_endian));
+    }
+    
     GeometryInfo geom;
     geom.has_z = has_z;
     geom.has_m = has_m;
-    
-    // Read SRID if present
-    if (has_srid) {
-        geom.srid = readUInt32(ptr, is_little_endian);
-    }
+    geom.srid = srid;
     
     // Parse geometry based on type
     switch (base_type) {
@@ -293,19 +340,59 @@ GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
         case 3:  // Polygon
             geom = parsePolygon(ptr, has_z, is_little_endian);
             break;
+        case 4: {  // MultiPoint
+            geom.type = has_z ? GeometryType::MultiPointZ : GeometryType::MultiPoint;
+            uint32_t num = readUInt32(ptr, is_little_endian);
+            geom.geometries.reserve(num);
+            for (uint32_t i = 0; i < num; ++i) {
+                geom.geometries.push_back(parseGeometryFromPtr(ptr));
+            }
+            break;
+        }
+        case 5: {  // MultiLineString
+            geom.type = has_z ? GeometryType::MultiLineStringZ : GeometryType::MultiLineString;
+            uint32_t num = readUInt32(ptr, is_little_endian);
+            geom.geometries.reserve(num);
+            for (uint32_t i = 0; i < num; ++i) {
+                geom.geometries.push_back(parseGeometryFromPtr(ptr));
+            }
+            break;
+        }
+        case 6: {  // MultiPolygon
+            geom.type = has_z ? GeometryType::MultiPolygonZ : GeometryType::MultiPolygon;
+            uint32_t num = readUInt32(ptr, is_little_endian);
+            geom.geometries.reserve(num);
+            for (uint32_t i = 0; i < num; ++i) {
+                geom.geometries.push_back(parseGeometryFromPtr(ptr));
+            }
+            break;
+        }
+        case 7: {  // GeometryCollection
+            geom.type = has_z ? GeometryType::GeometryCollectionZ : GeometryType::GeometryCollection;
+            uint32_t num = readUInt32(ptr, is_little_endian);
+            geom.geometries.reserve(num);
+            for (uint32_t i = 0; i < num; ++i) {
+                geom.geometries.push_back(parseGeometryFromPtr(ptr));
+            }
+            break;
+        }
         default:
             throw std::runtime_error("EWKB: Unsupported geometry type: " + std::to_string(base_type));
     }
     
-    geom.srid = has_srid ? geom.srid : 4326;
+    geom.srid = srid;
     return geom;
 }
 
 // Serialize EWKB
 std::vector<uint8_t> EWKBParser::serialize(const GeometryInfo& geom) {
     std::vector<uint8_t> buf;
-    bool is_little_endian = true;
-    
+    serializeGeometryInto(buf, geom, true);
+    return buf;
+}
+
+// Recursive EWKB serializer helper
+void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const GeometryInfo& geom, bool is_little_endian) {
     // Byte order
     buf.push_back(is_little_endian ? 0x01 : 0x00);
     
@@ -314,7 +401,8 @@ std::vector<uint8_t> EWKBParser::serialize(const GeometryInfo& geom) {
     if (geom.has_z) type_code |= 0x80000000;
     writeUInt32(buf, type_code, is_little_endian);
     
-    // Serialize coordinates based on type
+    uint32_t base_type = static_cast<uint32_t>(geom.type) & 0x000000FFu;
+    
     if (geom.isPoint()) {
         const auto& c = geom.coords[0];
         writeDouble(buf, c.x, is_little_endian);
@@ -337,78 +425,193 @@ std::vector<uint8_t> EWKBParser::serialize(const GeometryInfo& geom) {
                 if (geom.has_z) writeDouble(buf, c.getZ(), is_little_endian);
             }
         }
+    } else if (base_type >= 4 && base_type <= 7) {
+        // MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
+        writeUInt32(buf, static_cast<uint32_t>(geom.geometries.size()), is_little_endian);
+        for (const auto& sub : geom.geometries) {
+            serializeGeometryInto(buf, sub, is_little_endian);
+        }
     }
-    
-    return buf;
 }
 
-// Parse GeoJSON
-GeometryInfo EWKBParser::parseGeoJSON(const std::string& geojson_str) {
-    auto j = json::parse(geojson_str);
+// WGS84 coordinate range validation (disabled with THEMIS_GEO_COMPAT_LAX)
+static void validateWGS84(double lon, double lat) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    if (lon < -180.0 || lon > 180.0) {
+        throw std::runtime_error(
+            "GeoJSON: longitude " + std::to_string(lon) + " is out of WGS84 range [-180, 180]");
+    }
+    if (lat < -90.0 || lat > 90.0) {
+        throw std::runtime_error(
+            "GeoJSON: latitude " + std::to_string(lat) + " is out of WGS84 range [-90, 90]");
+    }
+#else
+    (void)lon; (void)lat;
+#endif
+}
+
+// File-scope helper: recursively parse a GeoJSON geometry object
+static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
+    if (depth <= 0) {
+        throw std::runtime_error("GeoJSON: maximum nesting depth exceeded");
+    }
     
-    std::string type = j["type"];
+    std::string type = j.at("type").get<std::string>();
     GeometryInfo geom;
     
     if (type == "Point") {
-        geom.type = GeometryType::Point;
-        auto coords = j["coordinates"];
-        double x = coords[0];
-        double y = coords[1];
+        const auto& coords = j.at("coordinates");
+        double x = coords.at(0).get<double>();
+        double y = coords.at(1).get<double>();
+        validateWGS84(x, y);
         if (coords.size() > 2) {
-            geom.coords.emplace_back(x, y, coords[2].get<double>());
-            geom.has_z = true;
             geom.type = GeometryType::PointZ;
+            geom.has_z = true;
+            geom.coords.emplace_back(x, y, coords.at(2).get<double>());
         } else {
+            geom.type = GeometryType::Point;
             geom.coords.emplace_back(x, y);
         }
+    } else if (type == "MultiPoint") {
+        const auto& coords_arr = j.at("coordinates");
+        bool has_z = !coords_arr.empty() && coords_arr.at(0).size() > 2;
+        geom.type = has_z ? GeometryType::MultiPointZ : GeometryType::MultiPoint;
+        geom.has_z = has_z;
+        geom.geometries.reserve(coords_arr.size());
+        for (const auto& coord : coords_arr) {
+            GeometryInfo pt;
+            double x = coord.at(0).get<double>();
+            double y = coord.at(1).get<double>();
+            validateWGS84(x, y);
+            if (has_z) {
+                pt.type = GeometryType::PointZ;
+                pt.has_z = true;
+                pt.coords.emplace_back(x, y, coord.at(2).get<double>());
+            } else {
+                pt.type = GeometryType::Point;
+                pt.coords.emplace_back(x, y);
+            }
+            geom.geometries.push_back(std::move(pt));
+        }
     } else if (type == "LineString") {
-        auto coords_arr = j["coordinates"];
-        bool has_z = !coords_arr.empty() && coords_arr[0].size() > 2;
+        const auto& coords_arr = j.at("coordinates");
+        bool has_z = !coords_arr.empty() && coords_arr.at(0).size() > 2;
         geom.type = has_z ? GeometryType::LineStringZ : GeometryType::LineString;
         geom.has_z = has_z;
-        
+        geom.coords.reserve(coords_arr.size());
         for (const auto& coord : coords_arr) {
-            double x = coord[0];
-            double y = coord[1];
+            double x = coord.at(0).get<double>();
+            double y = coord.at(1).get<double>();
+            validateWGS84(x, y);
             if (has_z) {
-                geom.coords.emplace_back(x, y, coord[2].get<double>());
+                geom.coords.emplace_back(x, y, coord.at(2).get<double>());
             } else {
                 geom.coords.emplace_back(x, y);
             }
         }
+    } else if (type == "MultiLineString") {
+        const auto& lines_arr = j.at("coordinates");
+        const auto& first_coord = (!lines_arr.empty() && !lines_arr.at(0).empty())
+                                  ? lines_arr.at(0).at(0) : json{};
+        bool has_z = !first_coord.empty() && first_coord.size() > 2;
+        geom.type = has_z ? GeometryType::MultiLineStringZ : GeometryType::MultiLineString;
+        geom.has_z = has_z;
+        geom.geometries.reserve(lines_arr.size());
+        for (const auto& line : lines_arr) {
+            GeometryInfo ls;
+            ls.type = has_z ? GeometryType::LineStringZ : GeometryType::LineString;
+            ls.has_z = has_z;
+            ls.coords.reserve(line.size());
+            for (const auto& coord : line) {
+                double x = coord.at(0).get<double>();
+                double y = coord.at(1).get<double>();
+                validateWGS84(x, y);
+                if (has_z) {
+                    ls.coords.emplace_back(x, y, coord.at(2).get<double>());
+                } else {
+                    ls.coords.emplace_back(x, y);
+                }
+            }
+            geom.geometries.push_back(std::move(ls));
+        }
     } else if (type == "Polygon") {
-        auto rings_arr = j["coordinates"];
+        const auto& rings_arr = j.at("coordinates");
         if (rings_arr.empty()) {
             throw std::runtime_error("GeoJSON Polygon must have at least one ring");
         }
-        
-        bool has_z = !rings_arr[0].empty() && rings_arr[0][0].size() > 2;
+        bool has_z = !rings_arr.at(0).empty() && rings_arr.at(0).at(0).size() > 2;
         geom.type = has_z ? GeometryType::PolygonZ : GeometryType::Polygon;
         geom.has_z = has_z;
-        
+        geom.rings.reserve(rings_arr.size());
         for (const auto& ring : rings_arr) {
             std::vector<Coordinate> ring_coords;
+            ring_coords.reserve(ring.size());
             for (const auto& coord : ring) {
-                double x = coord[0];
-                double y = coord[1];
+                double x = coord.at(0).get<double>();
+                double y = coord.at(1).get<double>();
+                validateWGS84(x, y);
                 if (has_z) {
-                    ring_coords.emplace_back(x, y, coord[2].get<double>());
+                    ring_coords.emplace_back(x, y, coord.at(2).get<double>());
                 } else {
                     ring_coords.emplace_back(x, y);
                 }
             }
             geom.rings.push_back(std::move(ring_coords));
         }
+    } else if (type == "MultiPolygon") {
+        const auto& polys_arr = j.at("coordinates");
+        const auto& first_ring = (!polys_arr.empty() && !polys_arr.at(0).empty())
+                                 ? polys_arr.at(0).at(0) : json{};
+        bool has_z = !first_ring.empty() && first_ring.at(0).size() > 2;
+        geom.type = has_z ? GeometryType::MultiPolygonZ : GeometryType::MultiPolygon;
+        geom.has_z = has_z;
+        geom.geometries.reserve(polys_arr.size());
+        for (const auto& poly : polys_arr) {
+            GeometryInfo pg;
+            pg.type = has_z ? GeometryType::PolygonZ : GeometryType::Polygon;
+            pg.has_z = has_z;
+            pg.rings.reserve(poly.size());
+            for (const auto& ring : poly) {
+                std::vector<Coordinate> ring_coords;
+                ring_coords.reserve(ring.size());
+                for (const auto& coord : ring) {
+                    double x = coord.at(0).get<double>();
+                    double y = coord.at(1).get<double>();
+                    validateWGS84(x, y);
+                    if (has_z) {
+                        ring_coords.emplace_back(x, y, coord.at(2).get<double>());
+                    } else {
+                        ring_coords.emplace_back(x, y);
+                    }
+                }
+                pg.rings.push_back(std::move(ring_coords));
+            }
+            geom.geometries.push_back(std::move(pg));
+        }
+    } else if (type == "GeometryCollection") {
+        geom.type = GeometryType::GeometryCollection;
+        const auto& members = j.at("geometries");
+        geom.geometries.reserve(members.size());
+        for (const auto& member : members) {
+            geom.geometries.push_back(parseGeoJSONGeomImpl(member, depth - 1));
+        }
     } else {
-        throw std::runtime_error("Unsupported GeoJSON type: " + type);
+        throw std::runtime_error("GeoJSON: unsupported geometry type: " + type);
     }
     
     return geom;
 }
 
+// Parse GeoJSON
+GeometryInfo EWKBParser::parseGeoJSON(const std::string& geojson_str) {
+    auto j = json::parse(geojson_str);
+    return parseGeoJSONGeomImpl(j, 8);
+}
+
 // To GeoJSON
 std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
     json j;
+    uint32_t base_type = static_cast<uint32_t>(geom.type) & 0x000000FFu;
     
     if (geom.isPoint()) {
         j["type"] = "Point";
@@ -418,6 +621,18 @@ std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
         } else {
             j["coordinates"] = {c.x, c.y};
         }
+    } else if (base_type == static_cast<uint32_t>(GeometryType::MultiPoint)) {
+        j["type"] = "MultiPoint";
+        json coords_arr = json::array();
+        for (const auto& sub : geom.geometries) {
+            const auto& c = sub.coords[0];
+            if (sub.has_z) {
+                coords_arr.push_back({c.x, c.y, c.getZ()});
+            } else {
+                coords_arr.push_back({c.x, c.y});
+            }
+        }
+        j["coordinates"] = coords_arr;
     } else if (geom.isLineString()) {
         j["type"] = "LineString";
         json coords_arr = json::array();
@@ -429,6 +644,21 @@ std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
             }
         }
         j["coordinates"] = coords_arr;
+    } else if (base_type == static_cast<uint32_t>(GeometryType::MultiLineString)) {
+        j["type"] = "MultiLineString";
+        json lines_arr = json::array();
+        for (const auto& sub : geom.geometries) {
+            json line_coords = json::array();
+            for (const auto& c : sub.coords) {
+                if (sub.has_z) {
+                    line_coords.push_back({c.x, c.y, c.getZ()});
+                } else {
+                    line_coords.push_back({c.x, c.y});
+                }
+            }
+            lines_arr.push_back(line_coords);
+        }
+        j["coordinates"] = lines_arr;
     } else if (geom.isPolygon()) {
         j["type"] = "Polygon";
         json rings_arr = json::array();
@@ -444,6 +674,32 @@ std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
             rings_arr.push_back(ring_coords);
         }
         j["coordinates"] = rings_arr;
+    } else if (base_type == static_cast<uint32_t>(GeometryType::MultiPolygon)) {
+        j["type"] = "MultiPolygon";
+        json polys_arr = json::array();
+        for (const auto& sub : geom.geometries) {
+            json rings_arr = json::array();
+            for (const auto& ring : sub.rings) {
+                json ring_coords = json::array();
+                for (const auto& c : ring) {
+                    if (sub.has_z) {
+                        ring_coords.push_back({c.x, c.y, c.getZ()});
+                    } else {
+                        ring_coords.push_back({c.x, c.y});
+                    }
+                }
+                rings_arr.push_back(ring_coords);
+            }
+            polys_arr.push_back(rings_arr);
+        }
+        j["coordinates"] = polys_arr;
+    } else if (base_type == static_cast<uint32_t>(GeometryType::GeometryCollection)) {
+        j["type"] = "GeometryCollection";
+        json members = json::array();
+        for (const auto& sub : geom.geometries) {
+            members.push_back(json::parse(toGeoJSON(sub)));
+        }
+        j["geometries"] = members;
     }
     
     return j.dump();
