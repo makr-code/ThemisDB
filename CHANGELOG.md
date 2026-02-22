@@ -21,6 +21,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     in [-90, 90]; invalid coordinates throw `std::runtime_error`. Compile with
     `-DTHEMIS_GEO_COMPAT_LAX` to skip coordinate range validation during a migration
     window.
+- **Geo Module: In-memory R-tree spatial index** 🌳
+  - New `GeoRTree` class (`include/geo/geo_rtree.h`, `src/geo/geo_rtree.cpp`):
+    an in-memory R-tree index for `GeometryInfo` objects enabling sub-linear
+    `intersects` and `contains` queries.
+  - When compiled with `THEMIS_GEO_BOOST_BACKEND` and Boost.Geometry headers present,
+    uses `boost::geometry::index::rtree` with `rstar<16>` splitting strategy.
+  - Without Boost, automatically falls back to an O(n) linear MBR scan —
+    semantically identical, no dependency required.
+  - `bulkLoad(entries)` uses STR (Sort-Tile-Recursive) packing via the Boost bulk-insert
+    constructor for 3–5× faster cold-start load compared to incremental `insert()`.
+  - `memoryBytes()` returns a conservative estimate of heap usage and logs the value
+    via the existing structured audit log field `geo_index_bytes_allocated`.
+  - 20 unit tests covering: empty index, insert, bulkLoad (including replace-on-reload),
+    remove, clear, intersects (single/multiple/overlapping/world), contains
+    (single/multiple/boundary), memory reporting, and move semantics.
 
 ### ⚠️ Breaking Changes
 - **GeoJSON strict parsing** (`EWKBParser::parseGeoJSON`): coordinate values outside

@@ -55,7 +55,7 @@
 
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
 - [P] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
-- [I] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
+- [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [I] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
