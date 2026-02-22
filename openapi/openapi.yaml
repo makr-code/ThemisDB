@@ -6298,7 +6298,7 @@ components:
             normalize_umlauts:
               type: boolean
               default: false
-              description: 'Deutsch: ä→a, ö→o, ü→u, ß→ss vor Tokenisierung/Stemming'
+              description: 'German: ä→a, ö→o, ü→u, ß→ss before tokenization/stemming'
       required: [table, column]
     IndexResponse:
       type: object
