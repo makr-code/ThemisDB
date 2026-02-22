@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:55                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:21                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     259                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +24,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/shared_worker_pool.h"
 #include <thread>
 #include <queue>
 #include <mutex>
@@ -28,6 +32,7 @@
 #include <atomic>
 #include <future>
 #include <functional>
+#include <chrono>
 
 /**
  * @file async_inference_engine.h
@@ -63,8 +68,13 @@ struct AsyncInferenceRequest {
     // Callback for async result delivery
     std::function<void(const InferenceResponse&)> callback;
     
-    // For cancellation
-    std::atomic<bool> cancelled{false};
+    // Shared cancellation token — also held by the InferenceHandle so
+    // calling InferenceHandle::cancel() propagates here immediately.
+    std::shared_ptr<std::atomic<bool>> cancel_token =
+        std::make_shared<std::atomic<bool>>(false);
+
+    // Per-request deadline (steady_clock); zero() means no timeout.
+    std::chrono::steady_clock::time_point deadline;
 };
 
 /**
@@ -116,6 +126,24 @@ public:
      */
     AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config);
     AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config);
+
+    /**
+     * @brief Create async inference engine backed by a shared worker pool.
+     *
+     * When @p pool is non-null the engine does NOT start its own worker
+     * threads; instead, each inference request is submitted directly to the
+     * shared pool.  This allows AsyncInferenceEngine and
+     * InferenceEngineEnhanced to share a common set of threads and avoid
+     * competing for CPU cores.
+     *
+     * @param plugin LLM plugin to use for inference.
+     * @param config Engine configuration.
+     * @param pool   Shared thread pool; must outlive this engine.
+     */
+    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config,
+                         std::shared_ptr<SharedWorkerPool> pool);
+    AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config,
+                         std::shared_ptr<SharedWorkerPool> pool);
     
     ~AsyncInferenceEngine();
     
@@ -131,11 +159,13 @@ public:
      * 
      * @param request Inference request
      * @param priority Higher = more urgent (default: 0)
+     * @param timeout Per-request timeout; zero means no timeout (default: 0)
      * @return Handle to track request and get result
      */
     InferenceHandle submit(
         const InferenceRequest& request,
-        int priority = 0
+        int priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
     
     /**
@@ -147,12 +177,14 @@ public:
      * @param request Inference request
      * @param callback Called when inference completes
      * @param priority Request priority
-     * @return Request ID for tracking
+     * @param timeout Per-request timeout; zero means no timeout (default: 0)
+     * @return Request ID for tracking / cancellation
      */
     std::string submitAsync(
         const InferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback,
-        int priority = 0
+        int priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
     
     /**
@@ -203,7 +235,10 @@ private:
     Config config_;
     ILLMPlugin* plugin_;
     std::shared_ptr<ILLMPlugin> owned_plugin_;
-    
+
+    // Optional shared worker pool (nullptr → private workers used instead)
+    std::shared_ptr<SharedWorkerPool> shared_pool_;
+
     // Worker threads
     std::vector<std::thread> workers_;
     std::atomic<bool> running_{true};
@@ -223,10 +258,13 @@ private:
     mutable std::mutex queue_mutex_;
     std::condition_variable queue_cv_;
     
-    // Request tracking (for cancellation)
+    // Request tracking (for cancellation and timeout)
     std::unordered_map<std::string, std::shared_ptr<AsyncInferenceRequest>> 
         active_requests_;
     mutable std::mutex tracking_mutex_;
+
+    // Timeout monitor thread — fires deadline-based cancellation
+    std::thread timeout_thread_;
     
     // Statistics
     struct Stats {
@@ -234,6 +272,7 @@ private:
         std::atomic<size_t> total_completed{0};
         std::atomic<size_t> total_cancelled{0};
         std::atomic<size_t> total_rejected{0};
+        std::atomic<size_t> total_timed_out{0};
         std::atomic<double> total_inference_time_ms{0.0};
         std::atomic<double> total_queue_time_ms{0.0};
     };
@@ -241,6 +280,11 @@ private:
     
     // Worker thread function
     void workerLoop(size_t worker_id);
+
+    // Timeout monitor — runs in a separate thread, marks requests cancelled
+    // when their deadline expires.
+    void timeoutMonitorLoop();
+    void checkAndHandleTimeouts();
     
     // Process single request
     InferenceResponse processRequest(

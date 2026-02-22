@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_manager_versioned.h                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:53                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:20                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     176                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,12 +26,31 @@
 #include "governance/policy_version_history.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace governance {
+
+/**
+ * @brief Conflict information from real-time policy conflict detection.
+ *
+ * Populated by PolicyManagerWithVersioning::checkConflictsForRule() and
+ * PolicyManagerWithVersioning::getActiveConflicts().
+ */
+struct ConflictInfo {
+    std::string conflict_type;                          ///< "contradictory" or "overlapping"
+    std::string severity;                               ///< "critical", "high", "medium", "low"
+    std::string new_rule_id;                            ///< The rule that triggered detection
+    std::vector<std::string> conflicting_rule_ids;      ///< Existing rules that conflict
+    std::string description;                            ///< Human-readable description
+    std::vector<std::string> resolution_suggestions;    ///< Concrete steps to resolve
+    std::int64_t detected_at = 0;                       ///< Unix timestamp of detection
+
+    nlohmann::json toJson() const;
+};
 
 /**
  * @brief Extended PolicyManager with versioning and audit capabilities
@@ -158,6 +180,19 @@ public:
     /// Save versioning data to file
     bool saveVersionHistory(const std::string& path) const;
     
+    /// Check a candidate rule for conflicts with all currently-active rules.
+    /// Call this before or after adding/updating a rule to detect overlapping or
+    /// contradictory access-control settings in real time.
+    /// @param rule Rule to evaluate (may or may not already be in the rule set)
+    /// @return List of detected ConflictInfo entries (empty when conflict-free)
+    std::vector<ConflictInfo> checkConflictsForRule(const PolicyRule& rule) const;
+
+    /// Return the current, live conflict state across the entire rule set.
+    /// All enabled rules are compared pairwise; the result reflects the state
+    /// at the moment of the call and can be used to feed a real-time report.
+    /// @return All detected ConflictInfo entries across the active rule set
+    std::vector<ConflictInfo> getActiveConflicts() const;
+
 private:
     std::shared_ptr<PolicyManager> policy_manager_;
     std::shared_ptr<PolicyVersionHistory> version_history_;

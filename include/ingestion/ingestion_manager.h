@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:54                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:21                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     892                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,6 +42,28 @@ enum class SourceType {
     FILESYSTEM,     ///< Local file system (PDF, DOCX, etc.)
     API,            ///< REST/SOAP API (future)
     DATABASE        ///< Legacy database exports (future)
+};
+
+/**
+ * @brief Pagination mode for API source connectors
+ *
+ * Controls how the connector advances through pages of results.
+ *
+ * - `OFFSET`: Numeric offset/limit style – each page request carries an
+ *   integer offset that advances by the number of items received.
+ *   Example URL: `?offset=100&limit=50`
+ *
+ * - `CURSOR`: Opaque cursor token style – the first page request carries no
+ *   cursor; each subsequent request uses the cursor token returned in the
+ *   previous response.  Pagination stops when the response contains no cursor.
+ *   Example URL: `?cursor=abc123&limit=50`
+ *
+ * Configured via `SourceConfig::options["pagination_mode"]` with values
+ * `"offset"` (default) or `"cursor"`.
+ */
+enum class PaginationMode {
+    OFFSET,  ///< Numeric offset/limit pagination (default)
+    CURSOR   ///< Opaque cursor-token pagination
 };
 
 /**
@@ -127,11 +152,12 @@ struct IngestionError {
  * @brief Retry / back-off configuration for connectors
  */
 struct RetryConfig {
-    int    max_attempts      = 3;     ///< Maximum total attempts (1 = no retry)
-    double initial_delay_ms  = 500.0; ///< First back-off delay (ms)
-    double backoff_factor    = 2.0;   ///< Exponential multiplier per attempt
-    double max_delay_ms      = 30000.0; ///< Cap on per-attempt delay (ms)
-    int    timeout_ms        = 30000; ///< Per-request timeout (ms)
+    int    max_attempts           = 3;     ///< Maximum total attempts (1 = no retry)
+    double initial_delay_ms       = 500.0; ///< First back-off delay (ms)
+    double backoff_factor         = 2.0;   ///< Exponential multiplier per attempt
+    double max_delay_ms           = 30000.0; ///< Cap on per-attempt delay (ms)
+    int    timeout_ms             = 30000; ///< Per-request timeout (ms)
+    int    max_quarantine_retries = 5;     ///< Max per-document quarantine retry attempts
 
     RetryConfig() = default;
 };
@@ -241,8 +267,10 @@ struct QuarantineEntry {
     std::string source_id;         ///< Source that produced this entry
     IngestionErrorCode error_code  = IngestionErrorCode::UNKNOWN_ERROR;
     std::string error_message;     ///< Last error message
-    size_t retry_count = 0;        ///< Number of attempts made
+    size_t retry_count = 0;        ///< Number of retry attempts made
     std::chrono::system_clock::time_point timestamp; ///< When quarantined
+    std::string raw_payload;       ///< Serialized document content (for per-doc retry)
+    bool permanently_failed = false; ///< True when max_quarantine_retries exceeded
 
     QuarantineEntry() : timestamp(std::chrono::system_clock::now()) {}
 };
@@ -257,7 +285,8 @@ struct IngestionReport {
     double total_time_seconds = 0.0;
     std::vector<QuarantineEntry> quarantine; ///< Items quarantined during this run
     bool dry_run = false;                    ///< True if run in dry-run mode
-    
+    size_t quarantine_retry_successes = 0;   ///< Cumulative successful quarantine retries
+
     IngestionReport() = default;
 };
 
@@ -460,6 +489,51 @@ public:
      * @brief Clear the entire quarantine list
      */
     void clearQuarantine();
+
+    /**
+     * @brief Update an existing quarantine entry in-place
+     *
+     * Finds the entry whose `item_path` matches `updated.item_path` and
+     * replaces it with the supplied value.  Used by the retry mechanism to
+     * persist incremented retry counts and permanently_failed flags.
+     *
+     * @param updated Entry with the new field values
+     * @return true if a matching entry was found and updated
+     */
+    bool updateQuarantineEntry(const QuarantineEntry& updated);
+
+    /**
+     * @brief Directly inject an entry into the quarantine list
+     *
+     * Allows callers (e.g. external importers, unit tests) to queue a
+     * document for retry without going through a full ingestion run.
+     *
+     * @param entry The entry to add
+     */
+    void addToQuarantine(QuarantineEntry entry);
+
+    /**
+     * @brief Return the current retry / back-off configuration
+     */
+    RetryConfig getRetryConfig() const;
+
+    /**
+     * @brief Return the cumulative count of successful quarantine retries
+     *
+     * Counts every call to `IngestionAdminApi::retryQuarantineItem()` that
+     * resulted in a successful re-write and removal from quarantine.
+     */
+    size_t getQuarantineRetrySuccessCount() const;
+
+    /**
+     * @brief Increment the quarantine retry success counter by one
+     *
+     * Called by `IngestionAdminApi::retryQuarantineItem()` on each successful
+     * per-document retry.  Exposed as a public method so that external callers
+     * (e.g. admin REST handlers) can maintain accurate metrics when invoking
+     * the retry logic directly.
+     */
+    void incrementQuarantineRetrySuccess();
 
     /**
      * @brief Configure per-source rate limiting
@@ -853,15 +927,33 @@ public:
     std::vector<QuarantineEntry> listQuarantine() const;
 
     /**
-     * @brief Re-enqueue a quarantined item for ingestion
+     * @brief Retry a single quarantined item with exponential back-off
      *
-     * Removes the entry from quarantine and schedules a fresh ingestion
-     * run for the originating source.
+     * When the entry has a `raw_payload`, the document is written directly
+     * without re-running the whole source.  On each failed attempt the
+     * back-off delay is doubled (capped at `RetryConfig::max_delay_ms`).
+     * If `retry_count` reaches `RetryConfig::max_quarantine_retries` the
+     * entry is marked `permanently_failed` and excluded from future retries.
+     *
+     * If `raw_payload` is empty (legacy entry) the method falls back to
+     * re-running the originating source from the last checkpoint.
      *
      * @param item_path The quarantined item path/URL
-     * @return true if the item was found in quarantine and the source was re-run
+     * @return true if the item was successfully re-ingested and removed from
+     *         quarantine; false if not found, permanently failed, or all
+     *         retry attempts were exhausted
      */
     bool retryQuarantineItem(const std::string& item_path);
+
+    /**
+     * @brief Retry all quarantined items that are not permanently failed
+     *
+     * Iterates the quarantine list and calls `retryQuarantineItem()` for
+     * every entry whose `permanently_failed` flag is false.
+     *
+     * @return Number of items that were successfully re-ingested
+     */
+    size_t retryAllQuarantine();
 
     /**
      * @brief Dismiss (permanently delete) a quarantined item

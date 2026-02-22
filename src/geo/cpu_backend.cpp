@@ -33,6 +33,7 @@ namespace themis { namespace geo {
 // ---------------------------------------------------------------------------
 
 static const double kCpuEpsilon = 1e-9;
+static const double kCpuPi = 3.14159265358979323846;
 
 // Helper function to check point-in-polygon using ray casting algorithm
 // This provides a reasonable fallback when Boost.Geometry is not available
@@ -117,6 +118,108 @@ static bool polygonIntersects(const std::vector<Coordinate>& poly1,
     if (pointInPolygon(poly1[0].x, poly1[0].y, poly2)) return true;
     if (pointInPolygon(poly2[0].x, poly2[0].y, poly1)) return true;
     return false;
+}
+
+// ---------------------------------------------------------------------------
+// ST_BUFFER helpers
+// ---------------------------------------------------------------------------
+
+/// Build a closed polygon ring approximating a circle around (cx, cy).
+/// d_lat/d_lon are the semi-axis lengths in degrees (latitude / longitude).
+static std::vector<Coordinate> cpuCircleRing(double cx, double cy,
+                                              double d_lat, double d_lon,
+                                              int arc_points) {
+    std::vector<Coordinate> ring;
+    ring.reserve(static_cast<std::size_t>(arc_points) + 1);
+    for (int i = 0; i < arc_points; ++i) {
+        const double angle = 2.0 * kCpuPi * i / arc_points;
+        ring.push_back({cx + d_lon * std::cos(angle),
+                        cy + d_lat * std::sin(angle)});
+    }
+    ring.push_back(ring[0]); // close the ring
+    return ring;
+}
+
+/// Compute the signed area of a ring (Shoelace formula).
+/// Positive → CCW, Negative → CW.
+static double cpuSignedArea(const std::vector<Coordinate>& ring,
+                             std::size_t n_verts) {
+    double area = 0.0;
+    for (std::size_t i = 0, j = n_verts - 1; i < n_verts; j = i++) {
+        area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
+    }
+    return area; // 2× actual area; sign is what matters
+}
+
+/// Expand a polygon ring outward by (d_lon, d_lat) degrees using the
+/// edge-shift + intersection method.  Works correctly for convex rings;
+/// produces a reasonable approximation for mildly concave rings.
+static std::vector<Coordinate> cpuExpandRing(const std::vector<Coordinate>& ring,
+                                              double d_lat, double d_lon) {
+    // Determine the number of unique vertices (open ring).
+    std::size_t n = ring.size();
+    if (n < 2) return ring;
+    std::size_t n_verts = n;
+    if (n > 1 &&
+        std::abs(ring[0].x - ring[n - 1].x) < kCpuEpsilon &&
+        std::abs(ring[0].y - ring[n - 1].y) < kCpuEpsilon) {
+        n_verts = n - 1; // closed ring: ignore duplicate closing vertex
+    }
+    if (n_verts < 3) return ring;
+
+    // Determine orientation: CCW (area > 0) → outward normal is right of edge.
+    // CW (area < 0) → outward normal is left of edge.
+    const double signed_area = cpuSignedArea(ring, n_verts);
+    const double orient = (signed_area >= 0.0) ? 1.0 : -1.0;
+
+    // Build shifted edges: each edge is translated outward by distance.
+    // The outward unit normal of edge (A→B) for a CCW ring is (dy, -dx)/len;
+    // for CW the sign flips, captured by orient.
+    struct ShiftedEdge { Coordinate p1, p2; };
+    std::vector<ShiftedEdge> shifted(n_verts);
+    for (std::size_t i = 0; i < n_verts; ++i) {
+        std::size_t j = (i + 1) % n_verts;
+        const double dx = ring[j].x - ring[i].x;
+        const double dy = ring[j].y - ring[i].y;
+        const double len = std::sqrt(dx * dx + dy * dy);
+        if (len < kCpuEpsilon) {
+            shifted[i] = {ring[i], ring[j]};
+            continue;
+        }
+        // Outward normal components (scaled to geographic degrees).
+        const double ox = orient * dy / len * d_lon;
+        const double oy = orient * (-dx) / len * d_lat;
+        shifted[i] = {{ring[i].x + ox, ring[i].y + oy},
+                      {ring[j].x + ox, ring[j].y + oy}};
+    }
+
+    // For each vertex, compute the intersection of the two flanking shifted edges.
+    std::vector<Coordinate> result;
+    result.reserve(n_verts + 1);
+    for (std::size_t i = 0; i < n_verts; ++i) {
+        const std::size_t prev = (i + n_verts - 1) % n_verts;
+        const auto& e1 = shifted[prev];
+        const auto& e2 = shifted[i];
+        // Direction vectors of the two shifted edges.
+        const double d1x = e1.p2.x - e1.p1.x;
+        const double d1y = e1.p2.y - e1.p1.y;
+        const double d2x = e2.p2.x - e2.p1.x;
+        const double d2y = e2.p2.y - e2.p1.y;
+        // Cross product d1 × d2 (denominator).
+        const double denom = d1x * d2y - d1y * d2x;
+        if (std::abs(denom) < kCpuEpsilon) {
+            // Parallel edges: use the start of the current shifted edge.
+            result.push_back(e2.p1);
+        } else {
+            // t = ((e2.p1 - e1.p1) × d2) / (d1 × d2)
+            const double px = e2.p1.x - e1.p1.x;
+            const double py = e2.p1.y - e1.p1.y;
+            const double t = (px * d2y - py * d2x) / denom;
+            result.push_back({e1.p1.x + t * d1x, e1.p1.y + t * d1y});
+        }
+    }
+    result.push_back(result[0]); // close the ring
+    return result;
 }
 
 class CpuExactBackend final : public ISpatialComputeBackend {
@@ -206,6 +309,50 @@ public:
             THEMIS_WARN("CPU exact backend error: {}", e.what());
             return false;
         }
+    }
+
+    // ST_BUFFER: expand a geometry by distance_m metres.
+    // Supported types: Point → closed polygon ring, Polygon → outward expansion.
+    // arc_points controls the vertex count used for curved approximations.
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        if (arc_points < 3) arc_points = 3;
+        if (distance_m <= 0.0) {
+            THEMIS_WARN("CPU stBuffer: distance_m ({}) must be positive", distance_m);
+            return GeometryInfo{};
+        }
+        try {
+            if (geom.isPoint()) {
+                if (geom.coords.empty()) return GeometryInfo{};
+                const Coordinate& c = geom.coords[0];
+                const double lat_rad = c.y * kCpuPi / 180.0;
+                const double d_lat = distance_m / 111320.0;
+                const double cos_lat = std::cos(lat_rad);
+                const double d_lon = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+                GeometryInfo result(GeometryType::Polygon);
+                result.rings.push_back(cpuCircleRing(c.x, c.y, d_lat, d_lon, arc_points));
+                return result;
+            }
+            if (geom.isPolygon()) {
+                const std::vector<Coordinate>& ring_in =
+                    geom.rings.empty() ? geom.coords : geom.rings[0];
+                if (ring_in.size() < 3) return GeometryInfo{};
+                const auto mbr = geom.computeMBR();
+                const double center_lat = (mbr.miny + mbr.maxy) * 0.5;
+                const double lat_rad = center_lat * kCpuPi / 180.0;
+                const double d_lat = distance_m / 111320.0;
+                const double cos_lat = std::cos(lat_rad);
+                const double d_lon = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+                GeometryInfo result(GeometryType::Polygon);
+                result.rings.push_back(cpuExpandRing(ring_in, d_lat, d_lon));
+                return result;
+            }
+            THEMIS_WARN("CPU stBuffer: unsupported geometry type {}",
+                        static_cast<int>(geom.type));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("CPU stBuffer error: {}", e.what());
+        }
+        return GeometryInfo{};
     }
 };
 

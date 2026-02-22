@@ -199,4 +199,30 @@ TEST_F(TimeSeriesMetricsTest, TestErrorRecording) {
     EXPECT_NE(json.find("write_errors_total"), std::string::npos);
 }
 
+TEST_F(TimeSeriesMetricsTest, TestOutOfOrderWriteRecording) {
+    EXPECT_EQ(metrics->getOutOfOrderAccepted(), 0u);
+    EXPECT_EQ(metrics->getLateArrivalRejected(), 0u);
 
+    // Record one accepted out-of-order and two rejections
+    metrics->recordOutOfOrderWrite("cpu", /*rejected=*/false);
+    metrics->recordOutOfOrderWrite("mem", /*rejected=*/true);
+    metrics->recordOutOfOrderWrite("mem", /*rejected=*/true);
+
+    EXPECT_EQ(metrics->getOutOfOrderAccepted(), 1u);
+    EXPECT_EQ(metrics->getLateArrivalRejected(), 2u);
+
+    // Verify exported JSON contains the new fields
+    std::string json = metrics->exportJson();
+    EXPECT_NE(json.find("out_of_order_accepted_total"), std::string::npos);
+    EXPECT_NE(json.find("late_arrival_rejected_total"), std::string::npos);
+
+    // Verify Prometheus export contains the new metrics
+    std::string prom = metrics->exportPrometheus();
+    EXPECT_NE(prom.find("themis_timeseries_out_of_order_accepted_total"), std::string::npos);
+    EXPECT_NE(prom.find("themis_timeseries_late_arrival_rejected_total"), std::string::npos);
+
+    // Verify reset clears the new counters
+    metrics->reset();
+    EXPECT_EQ(metrics->getOutOfOrderAccepted(), 0u);
+    EXPECT_EQ(metrics->getLateArrivalRejected(), 0u);
+}

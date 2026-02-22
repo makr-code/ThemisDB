@@ -25,6 +25,109 @@
 namespace themis {
 namespace governance {
 
+// ========== ConflictInfo Implementation ==========
+
+nlohmann::json ConflictInfo::toJson() const {
+    nlohmann::json j;
+    j["conflict_type"] = conflict_type;
+    j["severity"] = severity;
+    j["new_rule_id"] = new_rule_id;
+    j["conflicting_rule_ids"] = conflicting_rule_ids;
+    j["description"] = description;
+    j["resolution_suggestions"] = resolution_suggestions;
+    j["detected_at"] = detected_at;
+    return j;
+}
+
+// ========== Helpers ==========
+
+/// True if two rules overlap on at least one resource AND one action pattern.
+static bool rulesOverlap(const PolicyRule& a, const PolicyRule& b) {
+    bool res_overlap = false;
+    for (const auto& ra : a.resources) {
+        for (const auto& rb : b.resources) {
+            if (ra == rb || ra == "*" || rb == "*") {
+                res_overlap = true;
+                break;
+            }
+        }
+        if (res_overlap) break;
+    }
+    if (!res_overlap) return false;
+
+    for (const auto& aa : a.actions) {
+        for (const auto& ab : b.actions) {
+            if (aa == ab || aa == "*" || ab == "*") {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/// Build a ConflictInfo for a contradictory pair of rules.
+static ConflictInfo makeContradictoryConflict(const PolicyRule& new_rule,
+                                               const PolicyRule& existing) {
+    ConflictInfo conflict;
+    conflict.conflict_type = "contradictory";
+    conflict.new_rule_id = new_rule.id;
+    conflict.conflicting_rule_ids = {existing.id};
+    conflict.detected_at =
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (new_rule.require_encryption != existing.require_encryption) {
+        conflict.severity = "critical";
+        conflict.description =
+            "Conflicting encryption requirements between rules '" + new_rule.name +
+            "' and '" + existing.name + "'";
+        conflict.resolution_suggestions = {
+            "Enforce encryption requirement consistently across overlapping rules",
+            "Narrow the resource scope of one rule to eliminate the overlap",
+            "Use rule priority to establish clear enforcement precedence"};
+    } else if (new_rule.allow_export != existing.allow_export) {
+        conflict.severity = "high";
+        conflict.description =
+            "Conflicting export permissions between rules '" + new_rule.name +
+            "' and '" + existing.name + "'";
+        conflict.resolution_suggestions = {
+            "Align export permissions or narrow rule scope",
+            "Assign a higher priority to the rule with the stricter export policy",
+            "Consolidate rules to avoid overlapping export settings"};
+    } else {
+        // allow_cache conflict
+        conflict.severity = "medium";
+        conflict.description =
+            "Conflicting cache permissions between rules '" + new_rule.name +
+            "' and '" + existing.name + "'";
+        conflict.resolution_suggestions = {
+            "Align cache permissions or narrow rule scope",
+            "Use rule priority to resolve cache policy ambiguity"};
+    }
+    return conflict;
+}
+
+/// Build a ConflictInfo for two overlapping rules with the same priority.
+static ConflictInfo makeOverlappingConflict(const PolicyRule& new_rule,
+                                             const PolicyRule& existing) {
+    ConflictInfo conflict;
+    conflict.conflict_type = "overlapping";
+    conflict.severity = "low";
+    conflict.new_rule_id = new_rule.id;
+    conflict.conflicting_rule_ids = {existing.id};
+    conflict.detected_at =
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+    conflict.description =
+        "Rules '" + new_rule.name + "' and '" + existing.name +
+        "' overlap with the same priority, creating evaluation ambiguity";
+    conflict.resolution_suggestions = {
+        "Assign distinct priorities to establish a clear evaluation order",
+        "Narrow the resource patterns to eliminate the overlap",
+        "Consider merging rules if they have identical effects"};
+    return conflict;
+}
+
 PolicyManagerWithVersioning::PolicyManagerWithVersioning()
     : policy_manager_(std::make_shared<PolicyManager>())
     , version_history_(std::make_shared<PolicyVersionHistory>())
@@ -78,6 +181,13 @@ std::string PolicyManagerWithVersioning::addRuleVersioned(
     // Add rule to policy manager
     policy_manager_->addRule(new_rule);
     
+    // Detect conflicts introduced by the new rule and emit warnings
+    auto conflicts = checkConflictsForRule(new_rule);
+    for (const auto& c : conflicts) {
+        THEMIS_WARN("Policy conflict detected after adding rule {}: {} (severity: {})",
+                    new_rule.id, c.description, c.severity);
+    }
+    
     // Record audit
     recordAudit(new_rule.id, "create", user, "", version);
     
@@ -124,6 +234,13 @@ std::string PolicyManagerWithVersioning::updateRuleVersioned(
     
     // Update rule in policy manager
     policy_manager_->addRule(updated_rule); // addRule replaces if exists
+    
+    // Detect conflicts introduced by the updated rule and emit warnings
+    auto conflicts = checkConflictsForRule(updated_rule);
+    for (const auto& c : conflicts) {
+        THEMIS_WARN("Policy conflict detected after updating rule {}: {} (severity: {})",
+                    rule_id, c.description, c.severity);
+    }
     
     // Record audit
     recordAudit(rule_id, "update", user, old_version, new_version);
@@ -275,6 +392,69 @@ bool PolicyManagerWithVersioning::loadVersionHistory(const std::string& path) {
 
 bool PolicyManagerWithVersioning::saveVersionHistory(const std::string& path) const {
     return version_history_->saveToFile(path);
+}
+
+std::vector<ConflictInfo> PolicyManagerWithVersioning::checkConflictsForRule(
+    const PolicyRule& new_rule
+) const {
+    std::vector<ConflictInfo> conflicts;
+
+    auto existing_rules = policy_manager_->listRules();
+
+    for (const auto& existing : existing_rules) {
+        if (existing.id == new_rule.id) continue;  // skip self
+        if (!existing.enabled) continue;
+
+        if (!rulesOverlap(new_rule, existing)) continue;
+
+        // Contradictory effects take precedence over overlap reporting
+        bool contradictory = (new_rule.require_encryption != existing.require_encryption) ||
+                             (new_rule.allow_export != existing.allow_export) ||
+                             (new_rule.allow_cache != existing.allow_cache);
+
+        if (contradictory) {
+            conflicts.push_back(makeContradictoryConflict(new_rule, existing));
+        } else if (new_rule.priority == existing.priority) {
+            conflicts.push_back(makeOverlappingConflict(new_rule, existing));
+        }
+    }
+
+    if (!conflicts.empty()) {
+        THEMIS_WARN("Rule '{}' has {} conflict(s) with existing rules",
+                    new_rule.id, conflicts.size());
+    }
+    return conflicts;
+}
+
+std::vector<ConflictInfo> PolicyManagerWithVersioning::getActiveConflicts() const {
+    std::vector<ConflictInfo> all_conflicts;
+
+    auto rules = policy_manager_->listRules();
+
+    for (std::size_t i = 0; i < rules.size(); ++i) {
+        if (!rules[i].enabled) continue;
+
+        for (std::size_t j = i + 1; j < rules.size(); ++j) {
+            if (!rules[j].enabled) continue;
+
+            if (!rulesOverlap(rules[i], rules[j])) continue;
+
+            bool contradictory = (rules[i].require_encryption != rules[j].require_encryption) ||
+                                 (rules[i].allow_export != rules[j].allow_export) ||
+                                 (rules[i].allow_cache != rules[j].allow_cache);
+
+            if (contradictory) {
+                // Treat rules[i] as the "newer" perspective for the report
+                all_conflicts.push_back(makeContradictoryConflict(rules[i], rules[j]));
+            } else if (rules[i].priority == rules[j].priority) {
+                all_conflicts.push_back(makeOverlappingConflict(rules[i], rules[j]));
+            }
+        }
+    }
+
+    THEMIS_DEBUG("getActiveConflicts: {} conflict(s) across {} rules",
+                 all_conflicts.size(), rules.size());
+    return all_conflicts;
 }
 
 void PolicyManagerWithVersioning::recordAudit(

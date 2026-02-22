@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization) is functional. Parallel traversal and distributed graph queries are in progress.
+**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph queries are planned.
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection
@@ -16,10 +16,11 @@
 - [x] Path validation and constraint checking
 - [x] Integration with GraphIndexManager for graph operations
 - [x] Integration with AQL for graph query execution
+- [x] Query plan reuse across structurally similar queries
+- [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
+- [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 
 ## In Progress 🚧
-- [I] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
-- [!] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #2394)
 - [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2386)
 
 ## Planned Features 📋
@@ -53,10 +54,11 @@
 - [x] Integration with GraphIndexManager for graph operations
 - [x] Integration with AQL for graph query execution
 
-### Phase 2: Parallel Traversal & Adaptive Planning (Status: In Progress 🚧)
-- [I] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
-- [~] Query plan reuse across structurally similar queries (Target: Q2 2026)
-- [ ] Cost model calibration from real execution feedback (Target: Q3 2026)
+### Phase 2: Parallel Traversal & Adaptive Planning (Status: Completed ✅)
+- [x] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
+- [x] Query plan reuse across structurally similar queries (Target: Q2 2026)
+- [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
+- [ ] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
 ### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
 - [ ] Subgraph isomorphism queries (pattern matching)
@@ -75,8 +77,7 @@
 - [x] API stability guaranteed for graph query optimizer and path finder
 
 ## Known Issues & Limitations
-- Parallel multi-source BFS/DFS is not yet implemented; large fan-out queries may be slow
-- Cost model is static; adaptive learning from execution history is planned but not active
+- Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
 - Subgraph isomorphism (pattern matching) is not yet available
 - Distributed graph queries across shards are not yet supported
 

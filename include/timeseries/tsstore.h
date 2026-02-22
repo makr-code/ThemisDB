@@ -25,6 +25,9 @@
 #include <optional>
 #include <cstdint>
 #include <memory>
+#include <atomic>
+#include <mutex>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
 
@@ -85,6 +88,12 @@ public:
         // Default to Gorilla compression for better storage efficiency
         CompressionType compression = CompressionType::Gorilla;
         int chunk_size_hours = 24;  // Gorilla chunk size (hours)
+        // Late-arrival window for out-of-order writes (milliseconds).
+        // 0 = disabled (accept all timestamps regardless of order).
+        // When > 0, data points whose timestamp is older than
+        //   (high_watermark - late_arrival_window_ms) are rejected with
+        //   ERR_TIMESERIES_LATE_ARRIVAL.
+        int64_t late_arrival_window_ms = 0;
     };
     
     struct DataPoint {
@@ -125,6 +134,14 @@ public:
         size_t total_size_bytes = 0;
         int64_t oldest_timestamp_ms = 0;
         int64_t newest_timestamp_ms = 0;
+    };
+
+    /**
+     * @brief Statistics for out-of-order write handling
+     */
+    struct OutOfOrderStats {
+        uint64_t out_of_order_accepted = 0;  // Points written out-of-order but within window
+        uint64_t late_arrival_rejected = 0;  // Points rejected as older than late-arrival window
     };
     
     /**
@@ -211,6 +228,12 @@ public:
      * @return Stats struct
      */
     Stats getStats() const;
+
+    /**
+     * @brief Get out-of-order write statistics
+     * @return OutOfOrderStats with counters for accepted and rejected out-of-order points
+     */
+    OutOfOrderStats getOutOfOrderStats() const;
     
     /**
      * @brief Delete data older than specified timestamp (retention policy)
@@ -256,6 +279,15 @@ private:
     rocksdb::ColumnFamilyHandle* cf_;
     Config config_;
     std::shared_ptr<TimeSeriesMetrics> metrics_; // Optional metrics collector
+
+    // Out-of-order write statistics
+    mutable std::atomic<uint64_t> ooo_accepted_{0};
+    mutable std::atomic<uint64_t> ooo_rejected_{0};
+
+    // Per-series high-watermark for late-arrival enforcement.
+    // Key: "{metric}:{entity}", Value: maximum timestamp_ms seen.
+    mutable std::mutex watermark_mutex_;
+    std::unordered_map<std::string, int64_t> watermarks_;
     
     static constexpr const char* KEY_PREFIX = "ts:";
     static constexpr const char* GORILLA_CHUNK_PREFIX = "tsc:";
@@ -279,6 +311,17 @@ private:
     
     // Check if data point matches tag filter
     bool matchesTagFilter(const DataPoint& point, const nlohmann::json& tag_filter) const;
+
+    // Late-arrival enforcement helper.
+    // Checks `timestamp_ms` against the per-series watermark identified by `wm_key`
+    // (format: "{metric}:{entity}") and updates the watermark when the point is
+    // newer.  Must be called with `watermark_mutex_` held.
+    //
+    // Returns:
+    //  -1  data point is too old (outside the late-arrival window) – caller must reject
+    //   0  data point is in-order or first write – accepted, watermark updated
+    //   1  data point is out-of-order but within window – accepted, watermark NOT updated
+    int checkAndUpdateWatermarkLocked(const std::string& wm_key, int64_t timestamp_ms);
 };
 
 } // namespace themis

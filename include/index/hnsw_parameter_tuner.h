@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hnsw_parameter_tuner.h                             ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:54                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:21                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     228                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +27,7 @@
 #include <vector>
 #include <cstddef>
 #include <chrono>
+#include <cstdint>
 
 namespace themis {
 namespace index {
@@ -158,7 +162,30 @@ public:
      * @return Optimized configuration for the workload
      */
     static Config getWorkloadOptimizedConfig(size_t dataset_size, WorkloadType workload);
-    
+
+    /**
+     * @brief Recommended construction-time parameters returned by the auto-tuner
+     */
+    struct ConstructionParams {
+        int M = 16;                              ///< Recommended connections per node
+        int ef_construction = 200;               ///< Recommended construction-time search width
+        WorkloadType detected_workload = WorkloadType::MIXED; ///< Detected or inferred workload
+    };
+
+    /**
+     * @brief Get auto-tuned construction parameters based on workload detection
+     *
+     * Uses the recently recorded query statistics to infer the workload type and
+     * returns the recommended M and ef_construction values for index creation.
+     *
+     * @param dataset_size Expected number of vectors in the index
+     * @param workload_hint If not MIXED, used directly; otherwise workload is auto-detected
+     * @return Recommended M and ef_construction together with the detected workload
+     */
+    ConstructionParams getAutoTunedConstructionParams(
+        size_t dataset_size,
+        WorkloadType workload_hint = WorkloadType::MIXED) const;
+
 private:
     /**
      * @brief Adapt efSearch based on recent queries
@@ -190,6 +217,64 @@ private:
     double total_latency_{0.0};  // Protected by mutex_
     double total_recall_{0.0};   // Protected by mutex_
     size_t recall_count_{0};     // Protected by mutex_
+};
+
+/**
+ * @brief Automatic workload classifier for HNSW construction-parameter auto-tuning
+ *
+ * Observes real-time insert and query events and derives the dominant workload
+ * type.  The classification is then fed into HnswParameterTuner so that the
+ * best M and ef_construction values can be selected without manual input.
+ *
+ * Classification rules (evaluated over the observation window):
+ *   - BATCH_INSERT  : insert_rate >> query_rate (ratio >= 10:1) AND avg_batch_size >= 100
+ *   - OLTP          : insert_rate > query_rate OR avg_k <= 5
+ *   - ANALYTICS     : avg_k >= 20 OR query_rate is low but k is large
+ *   - RAG           : avg_k in [6, 19] AND query_rate is moderate
+ *   - MIXED         : no dominant pattern
+ */
+class WorkloadClassifier {
+public:
+    /**
+     * @brief Record an insert (or batch-insert) event
+     * @param batch_size Number of vectors inserted in this call (defaults to 1)
+     */
+    void recordInsert(size_t batch_size = 1);
+
+    /**
+     * @brief Record a query event
+     * @param k Number of nearest neighbors requested
+     */
+    void recordQuery(size_t k);
+
+    /**
+     * @brief Detect the dominant workload type from recorded events
+     * @return Detected WorkloadType
+     */
+    HnswParameterTuner::WorkloadType detectWorkload() const;
+
+    /**
+     * @brief Reset all recorded statistics
+     */
+    void reset();
+
+    /// Statistics snapshot for inspection / testing
+    struct Stats {
+        uint64_t total_inserts  = 0;
+        uint64_t total_queries  = 0;
+        double   avg_batch_size = 0.0;
+        double   avg_k          = 0.0;
+    };
+
+    Stats getStats() const;
+
+private:
+    mutable std::mutex mutex_;
+
+    uint64_t total_inserts_  = 0;   ///< Total vectors inserted
+    uint64_t insert_events_  = 0;   ///< Number of insert calls
+    uint64_t total_k_        = 0;   ///< Sum of k across all query events
+    uint64_t query_events_   = 0;   ///< Number of query events
 };
 
 /**

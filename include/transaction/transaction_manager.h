@@ -28,6 +28,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
@@ -83,7 +84,8 @@ public:
                     SecondaryIndexManager& secIdx,
                     GraphIndexManager& graphIdx,
                     VectorIndexManager& vecIdx,
-                    IsolationLevel isolation);
+                    IsolationLevel isolation,
+                    LockManager* lock_manager = nullptr);
         ~Transaction();
 
         // Keine Kopie, aber Move
@@ -153,7 +155,108 @@ public:
         Status commit();
         void rollback();
 
-        // ── Savepoints ───────────────────────────────────────────────────────
+        // ── Optimistic Concurrency Control (OCC) ─────────────────────────────
+
+        /**
+         * @brief Read the current OCC version of an entity without acquiring a lock.
+         *
+         * Version numbers are stored under `occ:ver:{table}:{pk}` as a
+         * little-endian uint64_t.  A missing key means the entity does not yet
+         * exist and its effective version is 0.
+         *
+         * This method is safe to call from any isolation level.  It reads
+         * through the MVCC snapshot so the result is consistent with all other
+         * reads performed by this transaction.
+         *
+         * @param table  Table name.
+         * @param pk     Primary key of the entity.
+         * @return       Current version (0 if the entity does not exist), or
+         *               std::nullopt when the transaction is not active.
+         */
+        std::optional<uint64_t> getEntityVersion(std::string_view table,
+                                                  std::string_view pk);
+
+        /**
+         * @brief Write an entity only if its current version matches @p expected_version.
+         *
+         * Implements optimistic locking: the entity is written (or created) only
+         * when no concurrent transaction has already modified it.  On success the
+         * stored version is atomically incremented to `expected_version + 1`.
+         *
+         * Pass `expected_version = 0` to create a new entity (fails if the entity
+         * already exists with version > 0).
+         *
+         * @param table             Table name.
+         * @param entity            Entity to write.
+         * @param expected_version  Version the caller observed; write proceeds
+         *                          only when the stored version equals this value.
+         * @return Status::OK() on success.
+         *         Error with "OCC version conflict" when the stored version differs
+         *         from @p expected_version (caller should retry the transaction).
+         *         Error with "OCC entity already exists" when @p expected_version
+         *         is 0 but a stored version > 0 is found (entity already created
+         *         by another transaction).
+         */
+        Status optimisticPut(std::string_view table,
+                              const BaseEntity& entity,
+                              uint64_t expected_version);
+
+        /**
+         * @brief Delete an entity only if its current version matches @p expected_version.
+         *
+         * On success, both the entity and its version key are removed from the
+         * transaction's write set.  The effective version after a successful erase
+         * is 0 (entity no longer exists).
+         *
+         * @param table             Table name.
+         * @param pk                Primary key of the entity to delete.
+         * @param expected_version  Version the caller observed; deletion proceeds
+         *                          only when the stored version equals this value
+         *                          and is greater than 0.
+         * @return Status::OK() on success.
+         *         Error with "OCC version conflict" when versions differ.
+         *         Error with "OCC entity not found" when the entity does not exist
+         *         (stored version is 0 or missing).
+         */
+        Status optimisticErase(std::string_view table,
+                                std::string_view pk,
+                                uint64_t expected_version);
+
+        // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
+
+        /**
+         * @brief Track a range predicate read for SERIALIZABLE isolation (SSI).
+         *
+         * Records that this transaction has read all keys in the closed interval
+         * [@p start_key, @p end_key].  Any other SERIALIZABLE transaction that
+         * subsequently writes a key inside this range will be detected as a
+         * serialization conflict and aborted.
+         *
+         * No-op when the isolation level is not SERIALIZABLE.
+         *
+         * @param start_key  Lower bound of the range (inclusive).
+         * @param end_key    Upper bound of the range (inclusive). May equal
+         *                   @p start_key for a single-key predicate.
+         * @return Status::OK() on success; error if the transaction is not active.
+         */
+        Status trackPredicateRead(const std::string& start_key,
+                                  const std::string& end_key);
+
+        /**
+         * @brief Check whether writing @p key would violate serializability.
+         *
+         * For SERIALIZABLE transactions only: returns a non-empty error message
+         * when @p key falls within a predicate range held by another active
+         * SERIALIZABLE transaction, indicating a potential phantom / write-skew
+         * anomaly.
+         *
+         * Always returns an empty string for non-SERIALIZABLE isolation levels.
+         *
+         * @param key  The storage key that is about to be written.
+         * @return Non-empty error message on conflict; empty string if safe.
+         */
+        std::string checkSerializableWriteConflict(const std::string& key) const;
+
 
         /**
          * @brief Record a savepoint at the current write position.
@@ -256,6 +359,11 @@ public:
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
         std::atomic<uint64_t> timeout_ms_{0}; ///< 0 = no timeout
         std::atomic<uint64_t> finished_duration_ms_{0}; ///< wall-clock duration captured at commit/rollback time
+
+        /// Non-owning pointer to the shared LockManager; used for predicate
+        /// lock tracking by SERIALIZABLE transactions. May be nullptr for
+        /// non-SERIALIZABLE transactions or legacy Transaction objects.
+        LockManager* lock_manager_{nullptr};
 
         /// Record the current wall-clock duration into finished_duration_ms_.
         /// Must be called while the caller holds exclusive ownership (i.e. after

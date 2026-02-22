@@ -101,6 +101,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_model_loading_from_themisdb\\.cpp$"
         ".*test_real_embeddings\\.cpp$"
         ".*test_adaptive_query_cache\\.cpp$"
+        ".*test_streaming_handler\\.cpp$"
+        ".*test_shared_worker_pool\\.cpp$"
     )
 endif()
 
@@ -141,6 +143,12 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_lora_data_selection\\.cpp$"
         ".*test_training_pipeline_e2e\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_WEBSOCKET)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_wire_protocol_websocket\\.cpp$"
     )
 endif()
 
@@ -275,6 +283,7 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_llm_provider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_auto_optimize.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_detector.cpp
 )
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
@@ -283,6 +292,16 @@ target_sources(themis_tests PRIVATE
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_rocm_backend.cpp
+    )
+endif()
+
+# Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates the slab-based pre-allocator and the
+# defragmentation routine (GPUMemoryPool::defragment()).  It uses only the CPU
+# bookkeeping simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_pool.cpp
     )
 endif()
 

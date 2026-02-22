@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_backend.h                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:53                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:20                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     99                                             ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -59,6 +62,19 @@ public:
     // Exact intersects check between two geometries (used by search path)
     // Returns true if geometries actually intersect, false otherwise
     virtual bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) = 0;
+
+    // ST_BUFFER: expand geometry by a fixed geodesic distance (metres).
+    // Returns a Polygon approximating the buffered geometry, or an empty
+    // GeometryInfo if the geometry type is unsupported.
+    // arc_points controls the number of vertices used to approximate curves
+    // (default 36; minimum 3).
+    // Supported types: Point → circular polygon, Polygon → outward expansion.
+    // GPU path deferred: implementations without CUDA delegate to the CPU path.
+    virtual GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                                  int arc_points = 36) {
+        (void)geom; (void)distance_m; (void)arc_points;
+        return GeometryInfo{};
+    }
 };
 
 // Registry for dynamically loaded plugins

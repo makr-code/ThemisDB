@@ -1329,6 +1329,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/parallel_traversal.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -1360,6 +1361,7 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/prompt_version_control.cpp
     ../src/prompt_engineering/self_improvement_orchestrator.cpp
     ../src/prompt_engineering/prompt_engineering_integration.cpp
+    ../src/prompt_engineering/prompt_injection_detector.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -1494,6 +1496,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/audit_logger.cpp
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/hkdf_helper.cpp
@@ -1577,6 +1580,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_validator.cpp
     ../src/governance/review_scheduler.cpp
     ../src/governance/policy_review.cpp
+    ../src/governance/policy_file_watcher.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1687,6 +1691,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
@@ -1702,6 +1707,8 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/importers/mysql_importer.cpp
+    ../src/importers/mongo_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     
@@ -2644,6 +2651,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
         ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        ../src/llm/shared_worker_pool.cpp    # Shared work-stealing thread pool (Phase 2)
         # v1.3.1: Cache Reuse Integration (Phase 2)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
@@ -2702,6 +2710,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing

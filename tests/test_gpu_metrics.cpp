@@ -212,6 +212,104 @@ TEST_F(GPUMetricsTest, Reset_ClearsAllSamples) {
 }
 
 // ---------------------------------------------------------------------------
+// recordKernelDuration
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMetricsTest, KernelDuration_AppearsInSnapshot) {
+    auto& m = GPUMetrics::GetInstance();
+    GPUMetrics::KernelRecord rec;
+    rec.name        = "vector_distance_kernel";
+    rec.duration_ns = 12345.0;
+    rec.device_id   = 0;
+    m.recordKernelDuration(rec);
+
+    const auto snap = m.snapshot();
+    bool found = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_kernel_duration_ns") != std::string::npos &&
+            s.name.find("vector_distance_kernel") != std::string::npos) {
+            EXPECT_DOUBLE_EQ(s.value, 12345.0);
+            EXPECT_EQ(s.type, "gauge");
+            found = true;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(GPUMetricsTest, KernelDuration_MultipleKernels) {
+    auto& m = GPUMetrics::GetInstance();
+    for (int i = 0; i < 3; ++i) {
+        GPUMetrics::KernelRecord rec;
+        rec.name        = "kernel_" + std::to_string(i);
+        rec.duration_ns = static_cast<double>(i + 1) * 1000.0;
+        rec.device_id   = 0;
+        m.recordKernelDuration(rec);
+    }
+    EXPECT_FALSE(m.snapshot().empty());
+}
+
+// ---------------------------------------------------------------------------
+// nsight_export
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMetricsTest, NsightExport_EmptyWhenNoKernels) {
+    const std::string json = GPUMetrics::GetInstance().nsight_export();
+    EXPECT_FALSE(json.empty());
+    // Must contain the version marker and an empty Kernels array.
+    EXPECT_NE(json.find("NsightComputeVersion"), std::string::npos);
+    EXPECT_NE(json.find("\"Kernels\": []"), std::string::npos);
+}
+
+TEST_F(GPUMetricsTest, NsightExport_ContainsKernelEntry) {
+    auto& m = GPUMetrics::GetInstance();
+    GPUMetrics::KernelRecord rec;
+    rec.name        = "hnsw_distance_kernel";
+    rec.duration_ns = 56789.0;
+    rec.device_id   = 1;
+    rec.grid_x      = 128;
+    rec.block_x     = 256;
+    m.recordKernelDuration(rec);
+
+    const std::string json = m.nsight_export();
+    EXPECT_NE(json.find("hnsw_distance_kernel"),   std::string::npos);
+    EXPECT_NE(json.find("56789"),                   std::string::npos);
+    EXPECT_NE(json.find("NsightComputeVersion"),    std::string::npos);
+    EXPECT_NE(json.find("Duration (ns)"),           std::string::npos);
+    EXPECT_NE(json.find("Grid Size"),               std::string::npos);
+    EXPECT_NE(json.find("Block Size"),              std::string::npos);
+}
+
+TEST_F(GPUMetricsTest, NsightExport_MultipleKernels_ValidJson) {
+    auto& m = GPUMetrics::GetInstance();
+    const std::vector<std::string> names = {
+        "embedding_kernel", "attention_kernel", "pooling_kernel"};
+    for (std::size_t i = 0; i < names.size(); ++i) {
+        GPUMetrics::KernelRecord rec;
+        rec.name        = names[i];
+        rec.duration_ns = static_cast<double>((i + 1) * 10000);
+        rec.device_id   = 0;
+        m.recordKernelDuration(rec);
+    }
+    const std::string json = m.nsight_export();
+    for (const auto& n : names) {
+        EXPECT_NE(json.find(n), std::string::npos) << "Missing kernel: " << n;
+    }
+}
+
+TEST_F(GPUMetricsTest, NsightExport_Reset_ClearsKernels) {
+    auto& m = GPUMetrics::GetInstance();
+    GPUMetrics::KernelRecord rec;
+    rec.name        = "temp_kernel";
+    rec.duration_ns = 100.0;
+    m.recordKernelDuration(rec);
+
+    m.reset();
+    const std::string json = m.nsight_export();
+    EXPECT_EQ(json.find("temp_kernel"), std::string::npos);
+    EXPECT_NE(json.find("\"Kernels\": []"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
 // Thread safety
 // ---------------------------------------------------------------------------
 

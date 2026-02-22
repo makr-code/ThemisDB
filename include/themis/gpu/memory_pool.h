@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -54,10 +54,22 @@ public:
     // Slab descriptor
     // -----------------------------------------------------------------------
     struct Slab {
-        uint64_t    offset    = 0;       ///< Byte offset within pool
-        uint64_t    size      = 0;       ///< Slab size in bytes
-        bool        is_free   = true;
+        uint64_t    offset       = 0;    ///< Byte offset within pool
+        uint64_t    size         = 0;    ///< Slab size in bytes
+        uint64_t    request_size = 0;    ///< Actual bytes requested (≤ size)
+        bool        is_free      = true;
         std::string owner_tag;           ///< Caller-supplied tag when occupied
+    };
+
+    // -----------------------------------------------------------------------
+    // Defragmentation result
+    // -----------------------------------------------------------------------
+    struct DefragResult {
+        size_t   slabs_moved     = 0;    ///< Number of occupied slabs relocated
+        uint64_t bytes_compacted = 0;    ///< Total bytes in relocated slabs
+        float    frag_before     = 0.0f; ///< Fragmentation ratio before defrag
+        float    frag_after      = 0.0f; ///< Fragmentation ratio after defrag
+        bool     ran             = false; ///< true if defrag ran (threshold met)
     };
 
     // -----------------------------------------------------------------------
@@ -156,6 +168,25 @@ public:
      * @brief Return a read-only snapshot of the slab table (for diagnostics).
      */
     std::vector<Slab> slabSnapshot() const;
+
+    /**
+     * @brief Defragment the pool by compacting occupied slabs toward offset 0.
+     *
+     * Occupied slabs are reassigned contiguous offsets starting at 0 and
+     * the internal fragmentation counters are recalculated from the stored
+     * per-slab request sizes.  Free slabs are assigned the remaining offsets.
+     *
+     * In a real CUDA/ROCm implementation this would call cudaMemcpy /
+     * hipMemcpy to copy slab data to the new offsets and return an
+     * offset-remapping table to callers.  In the CPU bookkeeping simulation
+     * it performs the logical compaction only.
+     *
+     * @param threshold  Only run if the current fragmentation ratio exceeds
+     *                   this value (0.0–1.0).  Pass 0.0 to always compact.
+     * @return DefragResult with before/after metrics and a flag indicating
+     *         whether the routine actually executed.
+     */
+    DefragResult defragment(float threshold = 0.05f);
 
 private:
     uint64_t            total_bytes_;

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     658                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -314,19 +314,21 @@ void WebSocketSession::processMessage(const std::string& message) {
 void WebSocketSession::send(const std::string& message) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     
-    write_queue_.push(message);
+    write_queue_.push({message, /*is_binary=*/false});
     
     if (!writing_) {
         writing_ = true;
         
         if (is_tls_) {
+            ws_tls_->text(true);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
+            ws_plain_->text(true);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }
@@ -336,9 +338,8 @@ void WebSocketSession::send(const std::string& message) {
 void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     
-    // Convert binary data to string for queue
-    std::string binary_str(data.begin(), data.end());
-    write_queue_.push(binary_str);
+    // Store as binary entry so onWrite uses the correct frame type
+    write_queue_.push({std::string(data.begin(), data.end()), /*is_binary=*/true});
     
     if (!writing_) {
         writing_ = true;
@@ -346,13 +347,13 @@ void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
         if (is_tls_) {
             ws_tls_->binary(true);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
             ws_plain_->binary(true);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(write_queue_.front().data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }
@@ -376,16 +377,17 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
     
     // Check if there are more messages to send
     if (!write_queue_.empty()) {
+        const auto& next = write_queue_.front();
         if (is_tls_) {
-            ws_tls_->text(true); // Reset to text mode
+            ws_tls_->text(!next.is_binary);
             ws_tls_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(next.data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         } else {
-            ws_plain_->text(true); // Reset to text mode
+            ws_plain_->text(!next.is_binary);
             ws_plain_->async_write(
-                net::buffer(write_queue_.front()),
+                net::buffer(next.data),
                 beast::bind_front_handler(&WebSocketSession::onWrite, shared_from_this())
             );
         }

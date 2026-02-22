@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     324                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +24,11 @@
 
 #include <boost/asio.hpp>
 #include <boost/asio/thread_pool.hpp>
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#  include <boost/beast/core.hpp>
+#  include <boost/beast/http.hpp>
+#  include <boost/beast/websocket.hpp>
+#endif
 #include <memory>
 #include <string>
 #include <thread>
@@ -48,6 +53,14 @@ namespace network {
 
 namespace net = boost::asio;
 using tcp = net::ip::tcp;
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+namespace beast     = boost::beast;
+namespace http_ws   = beast::http;
+namespace websocket = beast::websocket;
+// Forward declaration of the WebSocket session (defined in wire_protocol_websocket.h)
+class WireProtocolWebSocketSession;
+#endif
 
 /**
  * @brief Wire Protocol Server - Binary TCP Protocol
@@ -96,7 +109,13 @@ public:
         // Authentication
         bool require_auth = true;
         std::string auth_mechanism = "SCRAM-SHA-256";
-        
+
+        // WebSocket upgrade on wire protocol port (requires THEMIS_ENABLE_WEBSOCKET)
+        // When true, incoming HTTP Upgrade: websocket requests on this port are
+        // accepted and served by WireProtocolWebSocketSession instead of being
+        // rejected as invalid binary frames.
+        bool enable_websocket_upgrade = false;
+
         Config() = default;
     };
 
@@ -175,6 +194,10 @@ public:
 private:
     class Session;  // Forward declaration
 
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    friend class WireProtocolWebSocketSession;
+#endif
+
     // Accept new connections
     void doAccept();
     void handleAccept(std::shared_ptr<Session> session, const boost::system::error_code& error);
@@ -210,6 +233,12 @@ private:
     mutable std::mutex connections_mutex_;
     std::unordered_map<std::string, uint32_t> connections_per_ip_;
     std::unordered_map<std::string, std::shared_ptr<Session>> active_sessions_;
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // Active WebSocket sessions on the wire protocol port (keyed by session_id)
+    std::unordered_map<uint64_t, std::shared_ptr<WireProtocolWebSocketSession>>
+        active_ws_sessions_;
+#endif
 
     // Rate limiting state (per-IP)
     struct RateLimitState {
@@ -264,6 +293,15 @@ private:
     void asyncReadChecksum();
     void asyncWriteResponse(const std::vector<uint8_t>& data);
     void doWrite();  // Internal write loop
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // Protocol detection: reads first 4 bytes and decides binary vs WebSocket
+    void asyncDetectProtocol();
+    // Continues binary header read after 4 bytes have been peeked
+    void asyncReadRemainingHeader();
+    // Reads the remaining HTTP request lines and performs WebSocket upgrade
+    void asyncUpgradeToWebSocket(const std::array<uint8_t, 4>& first_bytes);
+#endif
 
     // Message handlers (OpCode dispatch)
     void handleMessage();

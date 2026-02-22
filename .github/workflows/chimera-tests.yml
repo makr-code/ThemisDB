@@ -9,6 +9,7 @@ on:
       - 'benchmarks/chimera/**'
       - '.github/workflows/chimera-tests.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'benchmarks/chimera/**'
       - '.github/workflows/chimera-tests.yml'

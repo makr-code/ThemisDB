@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:42                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 13:18:11                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1293                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1433                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -350,6 +350,27 @@ TEST_F(GraphQueryOptimizerTest, ClearPlanCache_RemovesCachedPlans) {
     ASSERT_TRUE(result2);
 }
 
+TEST_F(GraphQueryOptimizerTest, ClearPlanCache_AlsoClearsStructuralKeys) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    // Warm up: A → D populates exact key + structural key
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    // Clear everything (exact + structural)
+    optimizer_->clearPlanCache();
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // B → C with the same constraints: structural key was cleared, so this must be a miss.
+    auto plan2 = optimizer_->optimizeShortestPath("B", "C", constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "clearPlanCache must also remove structural cache keys";
+}
+
 TEST_F(GraphQueryOptimizerTest, PlanCachingDisabled_NoCache) {
     optimizer_->setPlanCachingEnabled(false);
     
@@ -361,8 +382,148 @@ TEST_F(GraphQueryOptimizerTest, PlanCachingDisabled_NoCache) {
 }
 
 // ============================================================================
-// Plan Explanation Tests
+// Structural Plan Reuse Tests
+// Two queries are "structurally similar" when they share the same pattern and
+// constraints but have different start/target vertices.  They receive the same
+// OptimizationPlan via the structural cache key, avoiding redundant planning.
 // ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_ShortestPath_DifferentVertices) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    // First query: A → D (cold start – populates structural cache key)
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Second query: B → C – different vertices, same constraints.
+    // Should be served from the structural cache entry.
+    auto plan2 = optimizer_->optimizeShortestPath("B", "C", constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Structural plan reuse should produce a cache hit for a different vertex pair";
+
+    // The resulting plan must be identical to the first one.
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+    EXPECT_EQ(plan1->estimated_nodes_explored, plan2->estimated_nodes_explored);
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_DifferentConstraintsNoReuse) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 2;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Different constraints – must NOT reuse the previous plan.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 5;
+    auto plan2 = optimizer_->optimizeShortestPath("B", "C", c2);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Queries with different constraints must not share a structural plan";
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_KHop_DifferentStartVertices) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizeKHopNeighborhood("A", 2, constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    auto plan2 = optimizer_->optimizeKHopNeighborhood("B", 2, constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "K-hop structural plan reuse should hit for a different start vertex with same k";
+
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_KHop_DifferentKNoReuse) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    optimizer_->optimizeKHopNeighborhood("A", 2, constraints);
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Different k value – different structural key – no reuse expected.
+    optimizer_->optimizeKHopNeighborhood("B", 3, constraints);
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "K-hop queries with different k values must not share a structural plan";
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_Reachability_DifferentVertices) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizeReachability("A", "D", constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    auto plan2 = optimizer_->optimizeReachability("B", "C", constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Reachability structural plan reuse should hit for different vertex pair";
+
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_PatternMatch_DifferentVertexLabels) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    // Two pattern queries with the same structure (2 vertices, 1 edge)
+    // but different vertex names.
+    std::vector<std::string> verts1 = {"X", "Y"};
+    std::vector<std::pair<std::string, std::string>> edges1 = {{"X", "Y"}};
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizePatternMatch(verts1, edges1, constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    std::vector<std::string> verts2 = {"P", "Q"};
+    std::vector<std::pair<std::string, std::string>> edges2 = {{"P", "Q"}};
+    auto plan2 = optimizer_->optimizePatternMatch(verts2, edges2, constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Pattern-match structural plan reuse should hit for same-shape patterns";
+
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_CachingDisabled_NoStructuralReuse) {
+    optimizer_->setPlanCachingEnabled(false);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    optimizer_->optimizeShortestPath("A", "D", constraints);
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    optimizer_->optimizeShortestPath("B", "C", constraints);
+
+    // With caching disabled, no cache hits should be recorded.
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Structural plan reuse must be disabled when plan caching is off";
+}
 
 TEST_F(GraphQueryOptimizerTest, ExplainPlan_GeneratesExplanation) {
     auto result = optimizer_->optimizeShortestPath("A", "D");

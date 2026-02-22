@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_graph_query_optimizer.cpp                    ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:42                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:09                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +24,7 @@
 // Measures query optimization and execution performance
 
 #include "graph/graph_query_optimizer.h"
+#include "graph/parallel_traversal.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -61,12 +65,16 @@ public:
         // Create optimizer
         optimizer_ = std::make_unique<GraphQueryOptimizer>(*graph_mgr_);
         
+        // Create parallel traversal
+        parallel_traversal_ = std::make_unique<themis::graph::ParallelTraversal>(*graph_mgr_);
+        
         // Build test graph
         graph_size_ = state.range(0);
         buildTestGraph(graph_size_, 4); // 4 average degree
     }
     
     void TearDown(const ::benchmark::State& /*state*/) override {
+        parallel_traversal_.reset();
         optimizer_.reset();
         graph_mgr_.reset();
         db_->close();
@@ -119,6 +127,7 @@ protected:
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::unique_ptr<themis::GraphIndexManager> graph_mgr_;
     std::unique_ptr<GraphQueryOptimizer> optimizer_;
+    std::unique_ptr<themis::graph::ParallelTraversal> parallel_traversal_;
     int graph_size_ = 0;
 };
 
@@ -293,6 +302,113 @@ BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, Bidirectional_Executio
 BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, Statistics_Collection)
     ->Arg(100)
     ->Arg(500);
+
+// ============================================================================
+// Parallel Multi-Source BFS Benchmarks
+// ============================================================================
+
+// Benchmark: Multi-source BFS with varying source count and graph size.
+// state.range(0) = graph size, state.range(1) = number of source vertices.
+BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS)(benchmark::State& state) {
+    const int num_sources = static_cast<int>(state.range(1));
+    std::vector<std::string> sources;
+    sources.reserve(num_sources);
+    for (int i = 0; i < num_sources && i < graph_size_; ++i) {
+        sources.push_back("node_" + std::to_string(i));
+    }
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth = 3;
+
+    for (auto _ : state) {
+        auto result = parallel_traversal_->multiSourceBFS(sources, cfg);
+        benchmark::DoNotOptimize(result);
+        if (result) {
+            state.counters["visited"] = result->visited_vertices.size();
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["num_sources"] = num_sources;
+}
+
+// Benchmark: Multi-source DFS with varying source count and graph size.
+BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceDFS)(benchmark::State& state) {
+    const int num_sources = static_cast<int>(state.range(1));
+    std::vector<std::string> sources;
+    sources.reserve(num_sources);
+    for (int i = 0; i < num_sources && i < graph_size_; ++i) {
+        sources.push_back("node_" + std::to_string(i));
+    }
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth = 3;
+
+    for (auto _ : state) {
+        auto result = parallel_traversal_->multiSourceDFS(sources, cfg);
+        benchmark::DoNotOptimize(result);
+        if (result) {
+            state.counters["visited"] = result->visited_vertices.size();
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["num_sources"] = num_sources;
+}
+
+// Benchmark: Parallel BFS thread scaling – same 4 sources, varying thread count.
+// state.range(0) = graph size, state.range(1) = num_threads for parallel traversal.
+BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS_ThreadScaling)(benchmark::State& state) {
+    const int num_threads = static_cast<int>(state.range(1));
+    const int kSources = 4;
+    std::vector<std::string> sources;
+    for (int i = 0; i < kSources && i < graph_size_; ++i) {
+        sources.push_back("node_" + std::to_string(i));
+    }
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth = 3;
+    cfg.num_threads = static_cast<uint32_t>(num_threads);
+
+    for (auto _ : state) {
+        auto result = parallel_traversal_->multiSourceBFS(sources, cfg);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"] = graph_size_;
+    state.counters["num_threads"] = num_threads;
+}
+
+// Multi-source BFS: vary graph size (1 source) and number of sources (fixed 100-node graph).
+BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS)
+    ->Args({100, 1})
+    ->Args({100, 4})
+    ->Args({100, 8})
+    ->Args({500, 1})
+    ->Args({500, 4})
+    ->Args({500, 8})
+    ->Unit(benchmark::kMillisecond);
+
+// Multi-source DFS: same parameter sweep.
+BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceDFS)
+    ->Args({100, 1})
+    ->Args({100, 4})
+    ->Args({100, 8})
+    ->Args({500, 1})
+    ->Args({500, 4})
+    ->Args({500, 8})
+    ->Unit(benchmark::kMillisecond);
+
+// Thread scaling: graph_size=500, num_threads=1/2/4/8.
+BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS_ThreadScaling)
+    ->Args({500, 1})
+    ->Args({500, 2})
+    ->Args({500, 4})
+    ->Args({500, 8})
+    ->Unit(benchmark::kMillisecond);
 
 // Run the benchmarks
 BENCHMARK_MAIN();

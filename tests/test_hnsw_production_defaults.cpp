@@ -353,3 +353,46 @@ TEST(HnswProductionDefaultsWorkload, WorkloadWithPerformanceProfile) {
     EXPECT_LE(params.M, 16);
     EXPECT_LE(params.initial_capacity, static_cast<size_t>(dataset_size * 1.4));
 }
+
+// ============================================================================
+// autoTuneParameters tests
+// ============================================================================
+
+TEST(HnswProductionDefaultsAutoTune, LowLatencyTargetReducesEfSearch) {
+    size_t dataset_size = 100000;
+    size_t dimension = 768;
+
+    auto params_fast = HnswProductionDefaults::autoTuneParameters(
+        dataset_size, dimension, 100, 2.0 /*ms*/, 0.95);
+    auto params_slow = HnswProductionDefaults::autoTuneParameters(
+        dataset_size, dimension, 100, 50.0 /*ms*/, 0.95);
+
+    // Aggressive latency target should yield lower ef_search
+    EXPECT_LE(params_fast.ef_search, params_slow.ef_search);
+}
+
+TEST(HnswProductionDefaultsAutoTune, HighRecallTargetIncreasesEfConstruction) {
+    size_t dataset_size = 100000;
+    size_t dimension = 768;
+
+    auto params_high_recall = HnswProductionDefaults::autoTuneParameters(
+        dataset_size, dimension, 100, 10.0, 0.99);
+    auto params_normal_recall = HnswProductionDefaults::autoTuneParameters(
+        dataset_size, dimension, 100, 10.0, 0.90);
+
+    // Higher recall target should produce a denser graph (larger ef_construction)
+    EXPECT_GT(params_high_recall.ef_construction, params_normal_recall.ef_construction);
+}
+
+TEST(HnswProductionDefaultsAutoTune, ReturnsValidParams) {
+    size_t dataset_size = 50000;
+    size_t dimension = 512;
+
+    auto params = HnswProductionDefaults::autoTuneParameters(
+        dataset_size, dimension, 100, 10.0, 0.95);
+
+    EXPECT_TRUE(HnswProductionDefaults::validateParams(params, dataset_size));
+    EXPECT_GT(params.M, 0);
+    EXPECT_GT(params.ef_construction, 0);
+    EXPECT_GT(params.ef_search, 0);
+}

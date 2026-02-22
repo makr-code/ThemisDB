@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grafana_metrics.h                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:55                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:22                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     397                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,6 +25,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <atomic>
 #include <chrono>
 #include <vector>
 #include <memory>
@@ -214,10 +218,20 @@ public:
                                  double duration_ms);
     void recordContextLockWait(const std::string& model_id, double wait_time_ms);
     void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
-    
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    // llm_worker_pool_queue_depth  : gauge   — current pending-task depth
+    // llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+    void recordWorkerPoolQueueDepth(size_t depth);
+    void recordWorkerPoolTasksCompleted(uint64_t total_completed);
+
 private:
     PrometheusExporter* exporter_;
     Config config_;
+
+    // Last absolute value reported by recordWorkerPoolTasksCompleted().
+    // Used to compute the delta for the Prometheus counter increment.
+    std::atomic<uint64_t> last_pool_tasks_completed_{0};
 
     void initializeMetrics();
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics

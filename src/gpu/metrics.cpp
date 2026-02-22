@@ -22,6 +22,8 @@
  */
 
 #include "themis/gpu/metrics.h"
+#include <sstream>
+#include <iomanip>
 
 namespace themis {
 namespace gpu {
@@ -133,6 +135,56 @@ void GPUMetrics::setVRAMPeak(uint64_t bytes) {
              static_cast<double>(bytes));
 }
 
+void GPUMetrics::recordKernelDuration(const KernelRecord& record) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    kernels_.push_back(record);
+    setGauge("themis_gpu_kernel_duration_ns",
+             {{"kernel", record.name},
+              {"device", std::to_string(record.device_id)}},
+             record.duration_ns);
+}
+
+// ============================================================================
+// Nsight-compatible export
+// ============================================================================
+
+std::string GPUMetrics::nsight_export() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(3);
+
+    oss << "{\n";
+    oss << "  \"NsightComputeVersion\": \"2024.1\",\n";
+    oss << "  \"Filename\": \"themis_gpu_report\",\n";
+
+    if (kernels_.empty()) {
+        oss << "  \"Kernels\": []\n";
+    } else {
+        oss << "  \"Kernels\": [\n";
+        for (std::size_t i = 0; i < kernels_.size(); ++i) {
+            const KernelRecord& k = kernels_[i];
+            oss << "    {\n";
+            oss << "      \"Name\": \"" << k.name << "\",\n";
+            oss << "      \"Demangled Name\": \"" << k.name << "\",\n";
+            oss << "      \"Device\": " << k.device_id << ",\n";
+            oss << "      \"Duration (ns)\": " << k.duration_ns << ",\n";
+            oss << "      \"Grid Size\": ["
+                << k.grid_x << ", " << k.grid_y << ", " << k.grid_z << "],\n";
+            oss << "      \"Block Size\": ["
+                << k.block_x << ", " << k.block_y << ", " << k.block_z << "]\n";
+            oss << "    }";
+            if (i + 1 < kernels_.size()) oss << ',';
+            oss << '\n';
+        }
+        oss << "  ]\n";
+    }
+
+    oss << "}\n";
+
+    return oss.str();
+}
+
 // ============================================================================
 // Snapshot
 // ============================================================================
@@ -164,6 +216,7 @@ void GPUMetrics::reset() {
     counters_.clear();
     gauges_.clear();
     metric_types_.clear();
+    kernels_.clear();
 }
 
 } // namespace gpu

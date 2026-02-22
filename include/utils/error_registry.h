@@ -140,6 +140,8 @@ enum class ErrorCode {
     ERR_PLUGIN_LOAD_FAILED = 6301,
     ERR_PLUGIN_INCOMPATIBLE = 6302,
     ERR_PLUGIN_INVALID_SIGNATURE = 6303,
+    ERR_PLUGIN_CIRCULAR_DEPENDENCY = 6304,   // Circular dependency detected in plugin graph
+    ERR_PLUGIN_MISSING_DEPENDENCY = 6305,    // Required plugin dependency not registered
 
     // Graph Errors (6400-6499)
     ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph
@@ -154,6 +156,9 @@ enum class ErrorCode {
     ERR_COMPRESSION_FAILED = 7000,
     ERR_COMPRESSION_BUFFER_TOO_SMALL = 7001,
     ERR_COMPRESSION_INVALID_FORMAT = 7002,
+
+    // Time Series Errors (7100-7199)
+    ERR_TIMESERIES_LATE_ARRIVAL = 7100,  // Data point outside the late-arrival window
     
     // Crypto Errors (8000-8099)
     ERR_CRYPTO_ENCRYPTION_FAILED = 8000,

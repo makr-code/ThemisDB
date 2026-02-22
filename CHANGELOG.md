@@ -7,6 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **README: Comprehensive Technology & Feature Badges** 🏷️
+  - Added 11 badge categories to the README header showcasing ThemisDB capabilities:
+  - *Technology Stack*: C++17/20, CUDA, Vulkan, RocksDB, llama.cpp
+  - *Multi-Model Capabilities*: Relational (AQL), Vector (HNSW+FAISS), Graph (Property Graphs),
+    Document, Geospatial (GeoJSON/R-tree), TimeSeries
+  - *Enterprise & Security*: ACID (MVCC), TLS 1.3, PKI (X.509/GPG), RBAC, AES-256-GCM Encryption
+  - *AI/ML Integration*: LLM-Ready, RAG, Vector Search, Embeddings, LoRA Fine-Tuning
+  - *Performance*: GPU-Accelerated, SIMD, 45K WPS, 120K RPS
+  - *Distributed Systems*: Sharding, Raft Replication, CDC
+  - *Query & Analytics*: AQL, GraphQL, OLAP, Full-Text Search (BM25)
+  - *Data Integration*: PostgreSQL Wire Import, Multi-Format Export, Content Pipeline
+  - *Observability*: Prometheus, OpenTelemetry, Audit Logging
+  - *Quality Metrics*: 41 Modules, 500K+ LOC, 3 Production-Ready Core Modules
+  - *Community*: Chat (Slack), Forum (GitHub Discussions), Contributing Guide
+  - All badges link to relevant `src/` module directories using shields.io
+- **Geo Module: Full GeoJSON RFC 7946 parsing** 🌍
+  - `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946 geometry types:
+    `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`,
+    and `GeometryCollection` (including 3D variants with Z coordinates).
+  - `EWKBParser::toGeoJSON()` serializes all seven geometry types.
+  - EWKB `parse()` and `serialize()` now support all geometry types (types 4–7).
+  - `GeometryCollection` is parsed recursively up to a depth of 8 to prevent stack
+    overflow on adversarial input.
+  - `computeMBR()` and `computeCentroid()` now recurse into nested sub-geometries.
+  - WGS84 coordinate range validation: longitude must be in [-180, 180] and latitude
+    in [-90, 90]; invalid coordinates throw `std::runtime_error`. Compile with
+    `-DTHEMIS_GEO_COMPAT_LAX` to skip coordinate range validation during a migration
+    window.
+- **Geo Module: In-memory R-tree spatial index** 🌳
+  - New `GeoRTree` class (`include/geo/geo_rtree.h`, `src/geo/geo_rtree.cpp`):
+    an in-memory R-tree index for `GeometryInfo` objects enabling sub-linear
+    `intersects` and `contains` queries.
+  - When compiled with `THEMIS_GEO_BOOST_BACKEND` and Boost.Geometry headers present,
+    uses `boost::geometry::index::rtree` with `rstar<16>` splitting strategy.
+  - Without Boost, automatically falls back to an O(n) linear MBR scan —
+    semantically identical, no dependency required.
+  - `bulkLoad(entries)` uses STR (Sort-Tile-Recursive) packing via the Boost bulk-insert
+    constructor for 3–5× faster cold-start load compared to incremental `insert()`.
+  - `memoryBytes()` returns a conservative estimate of heap usage and logs the value
+    via the existing structured audit log field `geo_index_bytes_allocated`.
+  - 20 unit tests covering: empty index, insert, bulkLoad (including replace-on-reload),
+    remove, clear, intersects (single/multiple/overlapping/world), contains
+    (single/multiple/boundary), memory reporting, and move semantics.
+
+### ⚠️ Breaking Changes
+- **GeoJSON strict parsing** (`EWKBParser::parseGeoJSON`): coordinate values outside
+  the WGS84 range (longitude [-180, 180], latitude [-90, 90]) now throw
+  `std::runtime_error`. Previously, out-of-range coordinates were silently accepted.
+  To restore the old lenient behavior for one release cycle, compile with
+  `-DTHEMIS_GEO_COMPAT_LAX=1`.
+- **Unknown geometry types** now throw `std::runtime_error` with the message
+  `"GeoJSON: unsupported geometry type: <type>"` instead of silently returning an
+  empty geometry.
+
 ### Changed
 - **Config Architecture Reorganization** 🗂️
   - **Hierarchical Directory Structure**: Reorganized all config files into logical categories

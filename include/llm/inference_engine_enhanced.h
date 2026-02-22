@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.h                        ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:55                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:22                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     261                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +27,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/shared_worker_pool.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -154,6 +158,22 @@ public:
     };
     
     explicit InferenceEngineEnhanced(const Config& config);
+
+    /**
+     * @brief Create enhanced engine backed by a shared worker pool.
+     *
+     * When @p pool is non-null the engine runs a single batch-coordinator
+     * thread (instead of N private worker threads).  The coordinator forms
+     * batches and submits them to the shared pool for execution, so both
+     * this engine and an AsyncInferenceEngine can share a common thread
+     * set and avoid competing for CPU cores.
+     *
+     * @param config Engine configuration.
+     * @param pool   Shared thread pool; must outlive this engine.
+     */
+    InferenceEngineEnhanced(const Config& config,
+                            std::shared_ptr<SharedWorkerPool> pool);
+
     ~InferenceEngineEnhanced();
     
     // Model management
@@ -188,7 +208,10 @@ public:
 private:
     Config config_;
     std::atomic<bool> running_{false};
-    
+
+    // Optional shared worker pool (nullptr → private worker threads used)
+    std::shared_ptr<SharedWorkerPool> shared_pool_;
+
     // Core components
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     std::shared_ptr<PagedKVCache> kv_cache_;
@@ -206,6 +229,10 @@ private:
         std::chrono::steady_clock::time_point deadline;
         std::promise<InferenceResponse> promise;
         std::function<void(const InferenceResponse&)> callback;
+        // Shared cancellation token — held by the InferenceHandle so
+        // InferenceHandle::cancel() propagates here immediately.
+        std::shared_ptr<std::atomic<bool>> cancel_token =
+            std::make_shared<std::atomic<bool>>(false);
     };
     std::unordered_map<std::string, std::shared_ptr<TrackedRequest>> tracked_requests_;
     mutable std::mutex requests_mutex_;
@@ -228,6 +255,11 @@ private:
     void workerLoop(size_t worker_id);
     void timeoutMonitorLoop();
     void processBatch(const std::vector<std::shared_ptr<TrackedRequest>>& batch);
+
+    // Batch coordinator used when a shared pool is provided.
+    // Forms batches from the internal queue and submits processBatch()
+    // tasks to shared_pool_ rather than executing them inline.
+    void batchCoordinatorLoop();
     
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
