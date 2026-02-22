@@ -162,10 +162,10 @@ def main():
         print(f"  ✅ Assigned #{issue['number']}: {issue['title']!r}")
         updated += 1
 
-    print(
-        f"\n📊 Summary: {updated} issue(s) assigned to milestone #{milestone_num}, "
-        f"{skipped} already had a milestone, {total - updated - skipped} skipped."
-    )
+    summary = f"\n📊 Summary: {updated} issue(s) assigned to milestone #{milestone_num}."
+    if skipped:
+        summary += f" {skipped} issue(s) skipped (already had a milestone)."
+    print(summary)
 
 
 if __name__ == "__main__":
