@@ -82,18 +82,22 @@ public:
     /**
      * @brief Construct a WebSocket session from an already-accepted TCP socket.
      *
-     * @param socket  The accepted TCP socket (moved in).
-     * @param server  Owning WireProtocolServer (not null).
+     * @param socket     The accepted TCP socket (moved in).
+     * @param server     Owning WireProtocolServer (not null).
+     * @param client_ip  Remote IP string (passed from binary Session to maintain
+     *                   connection-count accounting across the protocol upgrade).
+     *                   If empty the constructor falls back to extracting the IP
+     *                   from the socket (for standalone construction).
      */
-    WireProtocolWebSocketSession(tcp::socket socket, WireProtocolServer* server);
+    WireProtocolWebSocketSession(tcp::socket socket, WireProtocolServer* server,
+                                  const std::string& client_ip = {});
     ~WireProtocolWebSocketSession();
 
     /**
-     * @brief Begin the WebSocket upgrade from the partially-read HTTP request.
+     * @brief Begin the WebSocket upgrade from the fully-parsed HTTP request.
      *
-     * @param peeked  The first bytes already consumed from the TCP stream
-     *                (used to reconstruct the HTTP request).
-     * @param req     The fully parsed HTTP upgrade request.
+     * @param req  The HTTP Upgrade request read by the binary Session's
+     *             asyncUpgradeToWebSocket method.
      */
     void run(http::request<http::string_body> req);
 

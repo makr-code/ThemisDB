@@ -153,7 +153,11 @@ void WireProtocolServer::wait() {
 
 size_t WireProtocolServer::getActiveConnections() const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    return active_sessions_.size() + active_ws_sessions_.size();
+#else
     return active_sessions_.size();
+#endif
 }
 
 WireProtocolServer::Stats WireProtocolServer::getStats() const {
@@ -477,14 +481,22 @@ void WireProtocolServer::Session::asyncUpgradeToWebSocket(
             // Cancel the connection-level timeout (WebSocket manages its own)
             cancelTimeout();
 
-            // Create a WebSocket session and transfer ownership of the socket
+            // Transfer connection tracking to the WebSocket session.
+            // We pass the original client IP so the WS session can call
+            // unregisterConnection() when it closes, keeping per-IP connection
+            // counts accurate for the lifetime of the WS session.
+            // We then clear client_ip_ on the binary Session so that its
+            // destructor does NOT call unregisterConnection() a second time
+            // (which would drop the count to 0 while the WS session is still alive).
+            const std::string ws_client_ip = client_ip_;
             auto ws_session = std::make_shared<WireProtocolWebSocketSession>(
-                std::move(socket_), server_);
+                std::move(socket_), server_, ws_client_ip);
+            client_ip_.clear();  // neutralize destructor unregister
 
-            // The binary Session no longer owns the socket; clean up tracking
+            // Remove from binary-session tracking
             {
                 std::lock_guard<std::mutex> lock(server_->connections_mutex_);
-                server_->active_sessions_.erase(client_ip_);
+                server_->active_sessions_.erase(ws_client_ip);
             }
 
             ws_session->run(std::move(*req));

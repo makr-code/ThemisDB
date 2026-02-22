@@ -155,6 +155,24 @@ TEST(WireProtocolWebSocket, ServerInstantiationWithUpgradeDisabled) {
 }
 
 // ---------------------------------------------------------------------------
+// getActiveConnections includes WebSocket sessions
+// ---------------------------------------------------------------------------
+
+TEST(WireProtocolWebSocket, GetActiveConnectionsInitiallyZero) {
+    WireProtocolServer::Config cfg;
+    cfg.port                    = 18768;
+    cfg.enable_websocket_upgrade = true;
+
+    auto server = std::make_unique<WireProtocolServer>(
+        cfg,
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+
+    ASSERT_NE(server, nullptr);
+    // No sessions started yet; count must be 0
+    EXPECT_EQ(server->getActiveConnections(), 0u);
+}
+
+// ---------------------------------------------------------------------------
 // JSON message format documentation test
 // ---------------------------------------------------------------------------
 

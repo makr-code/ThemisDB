@@ -34,16 +34,24 @@ namespace network {
 
 WireProtocolWebSocketSession::WireProtocolWebSocketSession(
     tcp::socket socket,
-    WireProtocolServer* server)
+    WireProtocolServer* server,
+    const std::string& client_ip)
     : ws_(std::move(socket))
     , server_(server)
     , session_id_(server->session_id_counter_.fetch_add(1, std::memory_order_acq_rel))
 {
-    // Best-effort: retrieve remote IP before the socket is wrapped in Beast
-    try {
-        client_ip_ = ws_.next_layer().socket().remote_endpoint().address().to_string();
-    } catch (...) {
-        client_ip_ = "unknown";
+    // Use the IP passed from the binary session if available; otherwise extract
+    // from the (moved) socket.  The passed IP is preferred because it ensures the
+    // same string is used for unregisterConnection() as was used for
+    // registerConnection() in handleAccept().
+    if (!client_ip.empty()) {
+        client_ip_ = client_ip;
+    } else {
+        try {
+            client_ip_ = ws_.next_layer().socket().remote_endpoint().address().to_string();
+        } catch (...) {
+            client_ip_ = "unknown";
+        }
     }
 
     // Tune Beast timeouts for a server-side stream
@@ -124,8 +132,15 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
         THEMIS_INFO("[WireWS] session {} closed by client", session_id_);
         active_.store(false, std::memory_order_release);
 
-        std::lock_guard<std::mutex> lock(server_->connections_mutex_);
-        server_->active_ws_sessions_.erase(session_id_);
+        // Decrement per-IP count and remove session under the same lock so the
+        // two changes are atomic from the perspective of checkConnectionLimit.
+        {
+            std::lock_guard<std::mutex> lock(server_->connections_mutex_);
+            auto it = server_->connections_per_ip_.find(client_ip_);
+            if (it != server_->connections_per_ip_.end() && it->second > 0)
+                it->second--;
+            server_->active_ws_sessions_.erase(session_id_);
+        }
         return;
     }
 
@@ -133,8 +148,13 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
         THEMIS_ERROR("[WireWS] session {} read error: {}", session_id_, ec.message());
         active_.store(false, std::memory_order_release);
 
-        std::lock_guard<std::mutex> lock(server_->connections_mutex_);
-        server_->active_ws_sessions_.erase(session_id_);
+        {
+            std::lock_guard<std::mutex> lock(server_->connections_mutex_);
+            auto it = server_->connections_per_ip_.find(client_ip_);
+            if (it != server_->connections_per_ip_.end() && it->second > 0)
+                it->second--;
+            server_->active_ws_sessions_.erase(session_id_);
+        }
         return;
     }
 
@@ -358,8 +378,15 @@ void WireProtocolWebSocketSession::close() {
         THEMIS_INFO("[WireWS] session {} closed", session_id_);
     }
 
-    std::lock_guard<std::mutex> lock(server_->connections_mutex_);
-    server_->active_ws_sessions_.erase(session_id_);
+    // Decrement the per-IP connection count and remove the session atomically
+    // under connections_mutex_ (same lock used by checkConnectionLimit).
+    {
+        std::lock_guard<std::mutex> lock(server_->connections_mutex_);
+        auto it = server_->connections_per_ip_.find(client_ip_);
+        if (it != server_->connections_per_ip_.end() && it->second > 0)
+            it->second--;
+        server_->active_ws_sessions_.erase(session_id_);
+    }
 }
 
 // ---------------------------------------------------------------------------
