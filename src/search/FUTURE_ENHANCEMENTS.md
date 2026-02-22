@@ -251,5 +251,5 @@ Real-time query suggestions.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.5.0*  
-*Next Review: v1.6.0 Release*
+*Module Version: v1.6.0*  
+*Next Review: v1.7.0 Release*
