@@ -39,12 +39,16 @@
 
 #include <benchmark/benchmark.h>
 #include "governance/policy_engine.h"
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <random>
 #include <string>
+#include <memory>
 
 using namespace themis::governance;
+using namespace themis;
 using json = nlohmann::json;
 
 // ============================================================================
@@ -82,12 +86,13 @@ std::string generateRandomString(size_t length) {
 
 static void BM_FieldEncryption_SmallData(benchmark::State& state) {
     auto data = generateTestData(256); // 256 bytes
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        // Simulate field-level encryption
-        // In real implementation, this would encrypt the data
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -97,10 +102,13 @@ BENCHMARK(BM_FieldEncryption_SmallData);
 
 static void BM_FieldEncryption_MediumData(benchmark::State& state) {
     auto data = generateTestData(4096); // 4 KB
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -110,10 +118,13 @@ BENCHMARK(BM_FieldEncryption_MediumData);
 
 static void BM_FieldEncryption_LargeData(benchmark::State& state) {
     auto data = generateTestData(1024 * 1024); // 1 MB
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -124,10 +135,14 @@ BENCHMARK(BM_FieldEncryption_LargeData);
 static void BM_FieldDecryption_Performance(benchmark::State& state) {
     size_t data_size = state.range(0) * 1024;
     auto data = generateTestData(data_size);
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
+    // Pre-encrypt data outside the benchmark loop
+    auto blob = enc.encrypt(data, key_id);
     
     for (auto _ : state) {
-        // Simulate decryption
-        std::vector<uint8_t> decrypted = data;
+        auto decrypted = enc.decryptToBytes(blob);
         benchmark::DoNotOptimize(decrypted);
     }
     
