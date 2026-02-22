@@ -28,10 +28,10 @@ The Prompt Engineering module provides a complete lifecycle management system fo
 - Prometheus-compatible metrics export
 - Background worker thread for periodic auto-optimization checks
 - Integration facade combining all subsystems behind a single API
+- **Prompt injection attack detection** — `PromptInjectionDetector` detects and sanitizes injection attempts in user prompts and model responses
 
 **Out of Scope:**
 - LLM inference itself (callers supply the model inference function)
-- Prompt injection attack detection (callers are responsible for input sanitization)
 - Multi-modal prompts (images, audio)
 - Token counting or context-window management
 
@@ -178,6 +178,21 @@ High-level facade that wires together all subsystems and exposes a single `execu
 - Background worker: periodically calls `SelfImprovementOrchestrator::runAutoOptimization()`
 - `getHealthStatus()` — returns a JSON health summary of all subsystems
 
+### PromptInjectionDetector
+**Location:** `prompt_injection_detector.cpp`
+
+Pattern-based detection and sanitization layer for prompt injection attacks. Callers should invoke this before dispatching user prompts to any LLM and after receiving model responses (to guard against indirect/second-order injection).
+
+**Features:**
+- `detect(prompt)` — analyses user-supplied text; returns a `DetectionResult` with `is_injection`, `risk_score` (0.0–1.0), `matched_patterns`, and a sanitized copy
+- `detectInResponse(response)` — applies the same heuristics to model responses to catch indirect injection (adversarially crafted responses that embed override instructions)
+- `sanitize(text)` — returns a sanitized copy of the text with all detected patterns replaced by `[REDACTED]`
+- 10 built-in case-insensitive regex patterns: instruction override (`ignore`/`disregard`/`forget`), system prompt exfiltration (`reveal`/`tell`/`print`/`show`), special LLM tokens (`[INST]`, `<|system|>`), jailbreak modes, act-as-unrestricted, safety bypass
+- Supplementary keyword and syntax scoring (high special-char density, instruction-bracket tokens)
+- Pluggable `Config::custom_patterns` — add domain-specific regex patterns at construction time; invalid patterns are silently skipped
+- `DetectionResult::toJson()` — serialise result for audit logging
+- `Config::enabled` flag for runtime toggle (returns zero-risk result when disabled)
+
 ## Architecture
 
 ```
@@ -197,7 +212,9 @@ PromptEngineeringIntegration  (facade + background worker)
         │       ├─ calls  PromptOptimizer
         │       └─ writes PromptManager + PromptVersionControl
         │
-        └─ PromptEngineeringMetrics  (Prometheus export)
+        ├─ PromptEngineeringMetrics  (Prometheus export)
+        │
+        └─ PromptInjectionDetector   (stateless security layer; called by callers)
 ```
 
 ## Dependencies

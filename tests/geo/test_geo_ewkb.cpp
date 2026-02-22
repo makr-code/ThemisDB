@@ -270,4 +270,318 @@ TEST_F(EWKBTest, RoundTrip) {
     }
 }
 
+// ============================================================
+// GeoJSON: Full RFC 7946 geometry type tests
+// ============================================================
+
+// Test: GeoJSON MultiPoint parsing
+TEST_F(EWKBTest, GeoJSONMultiPoint) {
+    std::string geojson = R"({"type":"MultiPoint","coordinates":[[10.0,20.0],[30.0,40.0],[50.0,60.0]]})";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::MultiPoint);
+    EXPECT_FALSE(geom.has_z);
+    ASSERT_EQ(geom.geometries.size(), 3u);
+    EXPECT_TRUE(approxEqual(geom.geometries[0].coords[0].x, 10.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[0].coords[0].y, 20.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[2].coords[0].x, 50.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[2].coords[0].y, 60.0));
+}
+
+// Test: GeoJSON MultiPoint 3D parsing
+TEST_F(EWKBTest, GeoJSONMultiPoint3D) {
+    std::string geojson = R"({"type":"MultiPoint","coordinates":[[1.0,2.0,3.0],[4.0,5.0,6.0]]})";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::MultiPointZ);
+    EXPECT_TRUE(geom.has_z);
+    ASSERT_EQ(geom.geometries.size(), 2u);
+    EXPECT_TRUE(approxEqual(geom.geometries[0].coords[0].getZ(), 3.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[1].coords[0].getZ(), 6.0));
+}
+
+// Test: GeoJSON MultiLineString parsing
+TEST_F(EWKBTest, GeoJSONMultiLineString) {
+    std::string geojson = R"({
+        "type": "MultiLineString",
+        "coordinates": [
+            [[0.0,0.0],[1.0,1.0]],
+            [[2.0,2.0],[3.0,3.0],[4.0,4.0]]
+        ]
+    })";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::MultiLineString);
+    ASSERT_EQ(geom.geometries.size(), 2u);
+    EXPECT_EQ(geom.geometries[0].coords.size(), 2u);
+    EXPECT_EQ(geom.geometries[1].coords.size(), 3u);
+    EXPECT_TRUE(approxEqual(geom.geometries[0].coords[1].x, 1.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[1].coords[2].x, 4.0));
+}
+
+// Test: GeoJSON MultiPolygon parsing
+TEST_F(EWKBTest, GeoJSONMultiPolygon) {
+    std::string geojson = R"({
+        "type": "MultiPolygon",
+        "coordinates": [
+            [[[0.0,0.0],[1.0,0.0],[1.0,1.0],[0.0,1.0],[0.0,0.0]]],
+            [[[2.0,2.0],[3.0,2.0],[3.0,3.0],[2.0,3.0],[2.0,2.0]]]
+        ]
+    })";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::MultiPolygon);
+    ASSERT_EQ(geom.geometries.size(), 2u);
+    EXPECT_EQ(geom.geometries[0].rings.size(), 1u);
+    EXPECT_EQ(geom.geometries[0].rings[0].size(), 5u);
+    EXPECT_EQ(geom.geometries[1].rings.size(), 1u);
+    EXPECT_TRUE(approxEqual(geom.geometries[1].rings[0][0].x, 2.0));
+    EXPECT_TRUE(approxEqual(geom.geometries[1].rings[0][0].y, 2.0));
+}
+
+// Test: GeoJSON MultiPolygon with hole
+TEST_F(EWKBTest, GeoJSONMultiPolygonWithHole) {
+    std::string geojson = R"({
+        "type": "MultiPolygon",
+        "coordinates": [
+            [
+                [[0.0,0.0],[10.0,0.0],[10.0,10.0],[0.0,10.0],[0.0,0.0]],
+                [[2.0,2.0],[8.0,2.0],[8.0,8.0],[2.0,8.0],[2.0,2.0]]
+            ]
+        ]
+    })";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::MultiPolygon);
+    ASSERT_EQ(geom.geometries.size(), 1u);
+    EXPECT_EQ(geom.geometries[0].rings.size(), 2u);  // exterior + hole
+    EXPECT_EQ(geom.geometries[0].rings[0].size(), 5u);
+    EXPECT_EQ(geom.geometries[0].rings[1].size(), 5u);
+}
+
+// Test: GeoJSON GeometryCollection parsing
+TEST_F(EWKBTest, GeoJSONGeometryCollection) {
+    std::string geojson = R"({
+        "type": "GeometryCollection",
+        "geometries": [
+            {"type":"Point","coordinates":[1.0,2.0]},
+            {"type":"LineString","coordinates":[[0.0,0.0],[1.0,1.0]]},
+            {"type":"Polygon","coordinates":[[[0.0,0.0],[1.0,0.0],[1.0,1.0],[0.0,0.0]]]}
+        ]
+    })";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::GeometryCollection);
+    ASSERT_EQ(geom.geometries.size(), 3u);
+    EXPECT_EQ(geom.geometries[0].type, GeometryType::Point);
+    EXPECT_EQ(geom.geometries[1].type, GeometryType::LineString);
+    EXPECT_EQ(geom.geometries[2].type, GeometryType::Polygon);
+    EXPECT_TRUE(approxEqual(geom.geometries[0].coords[0].x, 1.0));
+    EXPECT_EQ(geom.geometries[1].coords.size(), 2u);
+    EXPECT_EQ(geom.geometries[2].rings.size(), 1u);
+}
+
+// Test: GeoJSON nested GeometryCollection
+TEST_F(EWKBTest, GeoJSONNestedGeometryCollection) {
+    std::string geojson = R"({
+        "type": "GeometryCollection",
+        "geometries": [
+            {
+                "type": "GeometryCollection",
+                "geometries": [
+                    {"type":"Point","coordinates":[5.0,10.0]}
+                ]
+            }
+        ]
+    })";
+    auto geom = EWKBParser::parseGeoJSON(geojson);
+
+    EXPECT_EQ(geom.type, GeometryType::GeometryCollection);
+    ASSERT_EQ(geom.geometries.size(), 1u);
+    EXPECT_EQ(geom.geometries[0].type, GeometryType::GeometryCollection);
+    ASSERT_EQ(geom.geometries[0].geometries.size(), 1u);
+    EXPECT_EQ(geom.geometries[0].geometries[0].type, GeometryType::Point);
+    EXPECT_TRUE(approxEqual(geom.geometries[0].geometries[0].coords[0].x, 5.0));
+}
+
+// Test: GeoJSON unsupported type throws
+TEST_F(EWKBTest, GeoJSONUnsupportedTypeThrows) {
+    std::string geojson = R"({"type":"Foo","coordinates":[]})";
+    EXPECT_THROW(EWKBParser::parseGeoJSON(geojson), std::runtime_error);
+}
+
+// Test: toGeoJSON MultiPoint round-trip
+TEST_F(EWKBTest, ToGeoJSONMultiPoint) {
+    GeometryInfo geom(GeometryType::MultiPoint);
+    for (auto [x, y] : std::vector<std::pair<double,double>>{{1.0,2.0},{3.0,4.0}}) {
+        GeometryInfo pt(GeometryType::Point);
+        pt.coords.emplace_back(x, y);
+        geom.geometries.push_back(pt);
+    }
+    std::string js = EWKBParser::toGeoJSON(geom);
+    EXPECT_NE(js.find("\"MultiPoint\""), std::string::npos);
+    // Round-trip
+    auto parsed = EWKBParser::parseGeoJSON(js);
+    EXPECT_EQ(parsed.type, GeometryType::MultiPoint);
+    ASSERT_EQ(parsed.geometries.size(), 2u);
+    EXPECT_TRUE(approxEqual(parsed.geometries[0].coords[0].x, 1.0));
+    EXPECT_TRUE(approxEqual(parsed.geometries[1].coords[0].y, 4.0));
+}
+
+// Test: toGeoJSON MultiPolygon round-trip
+TEST_F(EWKBTest, ToGeoJSONMultiPolygon) {
+    GeometryInfo geom(GeometryType::MultiPolygon);
+    GeometryInfo poly(GeometryType::Polygon);
+    std::vector<Coordinate> ring = {
+        {0.0, 0.0}, {1.0, 0.0}, {1.0, 1.0}, {0.0, 1.0}, {0.0, 0.0}
+    };
+    poly.rings.push_back(ring);
+    geom.geometries.push_back(poly);
+
+    std::string js = EWKBParser::toGeoJSON(geom);
+    EXPECT_NE(js.find("\"MultiPolygon\""), std::string::npos);
+    // Round-trip
+    auto parsed = EWKBParser::parseGeoJSON(js);
+    EXPECT_EQ(parsed.type, GeometryType::MultiPolygon);
+    ASSERT_EQ(parsed.geometries.size(), 1u);
+    EXPECT_EQ(parsed.geometries[0].rings.size(), 1u);
+    EXPECT_EQ(parsed.geometries[0].rings[0].size(), 5u);
+}
+
+// Test: toGeoJSON GeometryCollection round-trip
+TEST_F(EWKBTest, ToGeoJSONGeometryCollection) {
+    GeometryInfo geom(GeometryType::GeometryCollection);
+    GeometryInfo pt(GeometryType::Point);
+    pt.coords.emplace_back(7.0, 8.0);
+    geom.geometries.push_back(pt);
+
+    std::string js = EWKBParser::toGeoJSON(geom);
+    EXPECT_NE(js.find("\"GeometryCollection\""), std::string::npos);
+    // Round-trip
+    auto parsed = EWKBParser::parseGeoJSON(js);
+    EXPECT_EQ(parsed.type, GeometryType::GeometryCollection);
+    ASSERT_EQ(parsed.geometries.size(), 1u);
+    EXPECT_EQ(parsed.geometries[0].type, GeometryType::Point);
+    EXPECT_TRUE(approxEqual(parsed.geometries[0].coords[0].x, 7.0));
+}
+
+// Test: EWKB round-trip for MultiPolygon
+TEST_F(EWKBTest, EWKBRoundTripMultiPolygon) {
+    GeometryInfo original(GeometryType::MultiPolygon);
+    for (int i = 0; i < 2; ++i) {
+        GeometryInfo poly(GeometryType::Polygon);
+        std::vector<Coordinate> ring = {
+            {i*10.0, 0.0}, {i*10.0+1.0, 0.0},
+            {i*10.0+1.0, 1.0}, {i*10.0, 1.0}, {i*10.0, 0.0}
+        };
+        poly.rings.push_back(ring);
+        original.geometries.push_back(poly);
+    }
+
+    auto ewkb = EWKBParser::serialize(original);
+    auto parsed = EWKBParser::parse(ewkb);
+
+    EXPECT_EQ(parsed.type, GeometryType::MultiPolygon);
+    ASSERT_EQ(parsed.geometries.size(), 2u);
+    EXPECT_EQ(parsed.geometries[0].rings.size(), 1u);
+    EXPECT_EQ(parsed.geometries[0].rings[0].size(), 5u);
+    EXPECT_TRUE(approxEqual(parsed.geometries[1].rings[0][0].x, 10.0));
+}
+
+// Test: EWKB round-trip for GeometryCollection
+TEST_F(EWKBTest, EWKBRoundTripGeometryCollection) {
+    GeometryInfo original(GeometryType::GeometryCollection);
+    GeometryInfo pt(GeometryType::Point);
+    pt.coords.emplace_back(1.0, 2.0);
+    GeometryInfo ls(GeometryType::LineString);
+    ls.coords.emplace_back(0.0, 0.0);
+    ls.coords.emplace_back(1.0, 1.0);
+    original.geometries.push_back(pt);
+    original.geometries.push_back(ls);
+
+    auto ewkb = EWKBParser::serialize(original);
+    auto parsed = EWKBParser::parse(ewkb);
+
+    EXPECT_EQ(parsed.type, GeometryType::GeometryCollection);
+    ASSERT_EQ(parsed.geometries.size(), 2u);
+    EXPECT_EQ(parsed.geometries[0].type, GeometryType::Point);
+    EXPECT_EQ(parsed.geometries[1].type, GeometryType::LineString);
+    EXPECT_TRUE(approxEqual(parsed.geometries[0].coords[0].x, 1.0));
+    EXPECT_EQ(parsed.geometries[1].coords.size(), 2u);
+}
+
+// Test: computeMBR for GeometryCollection
+TEST_F(EWKBTest, ComputeMBRGeometryCollection) {
+    GeometryInfo geom(GeometryType::GeometryCollection);
+    GeometryInfo pt(GeometryType::Point);
+    pt.coords.emplace_back(-5.0, 3.0);
+    GeometryInfo ls(GeometryType::LineString);
+    ls.coords.emplace_back(0.0, 0.0);
+    ls.coords.emplace_back(7.0, 9.0);
+    geom.geometries.push_back(pt);
+    geom.geometries.push_back(ls);
+
+    auto mbr = geom.computeMBR();
+    EXPECT_TRUE(approxEqual(mbr.minx, -5.0));
+    EXPECT_TRUE(approxEqual(mbr.maxx, 7.0));
+    EXPECT_TRUE(approxEqual(mbr.miny, 0.0));
+    EXPECT_TRUE(approxEqual(mbr.maxy, 9.0));
+}
+
+// ============================================================
+// WGS84 coordinate range validation tests
+// ============================================================
+
+// Test: out-of-range longitude throws (strict mode)
+TEST_F(EWKBTest, GeoJSONInvalidLongitudeThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[200.0,50.0]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: out-of-range latitude throws (strict mode)
+TEST_F(EWKBTest, GeoJSONInvalidLatitudeThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[10.0,100.0]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: valid WGS84 boundary coordinates are accepted
+TEST_F(EWKBTest, GeoJSONValidWGS84Boundaries) {
+    // Min/max valid longitude and latitude
+    EXPECT_NO_THROW(EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[-180.0,-90.0]})"));
+    EXPECT_NO_THROW(EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[180.0,90.0]})"));
+}
+
+// Test: out-of-range coordinate in LineString throws
+TEST_F(EWKBTest, GeoJSONLineStringInvalidCoordThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(
+            R"({"type":"LineString","coordinates":[[0.0,0.0],[181.0,50.0]]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: out-of-range coordinate in Polygon throws
+TEST_F(EWKBTest, GeoJSONPolygonInvalidCoordThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(
+            R"({"type":"Polygon","coordinates":[[[0.0,0.0],[0.0,-91.0],[1.0,0.0],[0.0,0.0]]]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
  

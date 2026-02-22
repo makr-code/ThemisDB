@@ -1003,6 +1003,11 @@ HttpServer::HttpServer(
             );
             schema_consistency_checker_->startBackgroundCheck(std::chrono::hours(6));
 
+            // Wire changefeed for real-time schema change notifications (if CDC is enabled)
+            if (changefeed_) {
+                schema_manager_->setChangefeed(changefeed_.get());
+            }
+
             THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");

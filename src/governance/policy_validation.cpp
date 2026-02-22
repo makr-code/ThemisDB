@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <queue>
 #include <sstream>
 #include <iomanip>
 #include <unordered_set>
@@ -266,87 +267,102 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectCircularDepe
     auto all_rules = policy_mgr.listRules();
     
     THEMIS_DEBUG("Checking for circular dependencies in {} rules", all_rules.size());
-    
-    // Build dependency graph based on priorities and resource relationships
-    std::unordered_map<std::string, std::vector<std::string>> dependencies;
-    
-    for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
-        
-        for (const auto& other_rule : all_rules) {
-            if (other_rule.id == rule.id || !other_rule.enabled) continue;
-            
-            // Check if rule depends on other_rule (e.g., lower priority means depends on higher)
-            if (rule.priority < other_rule.priority) {
-                // Check if they share resources
-                bool shares_resources = false;
-                for (const auto& r1 : rule.resources) {
-                    for (const auto& r2 : other_rule.resources) {
-                        if (r1 == r2) {
-                            shares_resources = true;
-                            break;
-                        }
-                    }
-                    if (shares_resources) break;
-                }
-                
-                if (shares_resources) {
-                    dependencies[rule.id].push_back(other_rule.id);
-                }
+
+    // Build an undirected conflict graph: an edge between rule A and rule B
+    // exists when all three conditions hold:
+    //   1. Both rules are enabled.
+    //   2. They share the same priority (equal priority makes the conflict
+    //      irresolvable by ordering alone, forming a "cycle" in evaluation).
+    //   3. They overlap on at least one resource AND one action pattern.
+    //   4. Their access-control effects contradict each other.
+    //
+    // A connected component of size >= 3 in this graph is reported as a
+    // circular dependency because no deterministic evaluation order can
+    // resolve all pairwise contradictions simultaneously.
+    std::unordered_map<std::string, std::vector<std::string>> conflict_graph;
+
+    auto overlaps_resource = [](const PolicyRule& r1, const PolicyRule& r2) {
+        for (const auto& a : r1.resources) {
+            for (const auto& b : r2.resources) {
+                if (a == b || a == "*" || b == "*") return true;
             }
         }
-    }
-    
-    // Detect cycles using DFS
-    std::unordered_set<std::string> visited;
-    std::unordered_set<std::string> rec_stack;
-    std::vector<std::string> cycle_path;
-    
-    std::function<bool(const std::string&)> has_cycle = [&](const std::string& rule_id) -> bool {
-        if (rec_stack.count(rule_id)) {
-            // Found a cycle
-            cycle_path.push_back(rule_id);
-            return true;
-        }
-        
-        if (visited.count(rule_id)) {
-            return false;
-        }
-        
-        visited.insert(rule_id);
-        rec_stack.insert(rule_id);
-        cycle_path.push_back(rule_id);
-        
-        if (dependencies.count(rule_id)) {
-            for (const auto& dep : dependencies[rule_id]) {
-                if (has_cycle(dep)) {
-                    return true;
-                }
-            }
-        }
-        
-        cycle_path.pop_back();
-        rec_stack.erase(rule_id);
         return false;
     };
-    
-    for (const auto& rule : all_rules) {
-        if (!rule.enabled || visited.count(rule.id)) continue;
-        
-        cycle_path.clear();
-        if (has_cycle(rule.id)) {
+
+    auto overlaps_action = [](const PolicyRule& r1, const PolicyRule& r2) {
+        for (const auto& a : r1.actions) {
+            for (const auto& b : r2.actions) {
+                if (a == b || a == "*" || b == "*") return true;
+            }
+        }
+        return false;
+    };
+
+    auto is_contradictory = [](const PolicyRule& r1, const PolicyRule& r2) {
+        return (r1.require_encryption != r2.require_encryption) ||
+               (r1.allow_export      != r2.allow_export)       ||
+               (r1.allow_cache       != r2.allow_cache);
+    };
+
+    for (std::size_t i = 0; i < all_rules.size(); ++i) {
+        const auto& r1 = all_rules[i];
+        if (!r1.enabled) continue;
+
+        for (std::size_t j = i + 1; j < all_rules.size(); ++j) {
+            const auto& r2 = all_rules[j];
+            if (!r2.enabled) continue;
+
+            if (r1.priority != r2.priority) continue;
+            if (!overlaps_resource(r1, r2)) continue;
+            if (!overlaps_action(r1, r2)) continue;
+            if (!is_contradictory(r1, r2)) continue;
+
+            conflict_graph[r1.id].push_back(r2.id);
+            conflict_graph[r2.id].push_back(r1.id);
+        }
+    }
+
+    // BFS to find connected components of size >= 3
+    std::unordered_set<std::string> visited;
+
+    for (const auto& kv : conflict_graph) {
+        const std::string& start = kv.first;
+        if (visited.count(start)) continue;
+
+        std::vector<std::string> component;
+        std::queue<std::string> q;
+        q.push(start);
+        visited.insert(start);
+
+        while (!q.empty()) {
+            std::string cur = q.front();
+            q.pop();
+            component.push_back(cur);
+
+            for (const auto& nb : conflict_graph.at(cur)) {
+                if (!visited.count(nb)) {
+                    visited.insert(nb);
+                    q.push(nb);
+                }
+            }
+        }
+
+        if (component.size() >= 3) {
             ConflictResult conflict;
-            conflict.conflict_id = "circular_" + cycle_path[0];
+            conflict.conflict_id = "circular_" + component[0];
             conflict.conflict_type = "circular";
-            conflict.conflicting_rule_ids = cycle_path;
-            conflict.description = "Circular dependency detected in rule priority/resource relationships";
+            conflict.conflicting_rule_ids = component;
             conflict.severity = "high";
-            conflict.recommendation = "Review rule priorities and dependencies to break the cycle";
-            conflicts.push_back(conflict);
-            
-            // Clear visited to detect other cycles
-            visited.clear();
-            rec_stack.clear();
+            conflict.description =
+                "Rules form an irresolvable priority cycle: " +
+                std::to_string(component.size()) +
+                " rules share the same priority, overlapping resources/actions, "
+                "and contradictory effects";
+            conflict.recommendation =
+                "Assign distinct priorities to break the evaluation cycle, "
+                "narrow overlapping resource patterns, or merge contradictory rules";
+            conflicts.push_back(std::move(conflict));
         }
     }
     

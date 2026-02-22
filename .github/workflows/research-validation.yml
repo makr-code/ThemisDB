@@ -2,6 +2,7 @@ name: Research Documentation Validation
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
   schedule:
     - cron: '0 9 * * MON'  # Weekly check every Monday at 09:00 UTC
 
