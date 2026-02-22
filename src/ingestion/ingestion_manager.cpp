@@ -481,7 +481,9 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             report.quarantine = quarantine_;
         }
-        
+        report.quarantine_retry_successes =
+            quarantine_retry_successes_.load(std::memory_order_relaxed);
+
         return report;
     }
     
@@ -559,6 +561,14 @@ public:
 
     RetryConfig getRetryConfig() const {
         return retry_config_;
+    }
+
+    size_t getQuarantineRetrySuccessCount() const {
+        return quarantine_retry_successes_.load(std::memory_order_relaxed);
+    }
+
+    void incrementQuarantineRetrySuccess() {
+        quarantine_retry_successes_.fetch_add(1, std::memory_order_relaxed);
     }
 
     bool pauseSource(const std::string& source_id) {
@@ -763,6 +773,7 @@ private:
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::vector<QuarantineEntry> quarantine_;
+    std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
     mutable std::mutex mutex_;
 };
@@ -843,6 +854,14 @@ void IngestionManager::addToQuarantine(QuarantineEntry entry) {
 
 RetryConfig IngestionManager::getRetryConfig() const {
     return impl_->getRetryConfig();
+}
+
+size_t IngestionManager::getQuarantineRetrySuccessCount() const {
+    return impl_->getQuarantineRetrySuccessCount();
+}
+
+void IngestionManager::incrementQuarantineRetrySuccess() {
+    impl_->incrementQuarantineRetrySuccess();
 }
 
 void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
@@ -960,6 +979,13 @@ std::string IngestionMetricsExporter::exportText(
     writeMetric(os, prefix_ + "_quarantine_permanently_failed_total",
                 agg_label, agg_val,
                 static_cast<double>(perm_failed));
+
+    os << "# HELP " << prefix_ << "_quarantine_retry_success_total "
+       << "Cumulative successful per-document quarantine retries\n"
+       << "# TYPE " << prefix_ << "_quarantine_retry_success_total counter\n";
+    writeMetric(os, prefix_ + "_quarantine_retry_success_total",
+                agg_label, agg_val,
+                static_cast<double>(report.quarantine_retry_successes));
 
     return os.str();
 }
@@ -1231,6 +1257,7 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
 
         if (success) {
             mgr_.dismissQuarantineItem(item_path);
+            mgr_.incrementQuarantineRetrySuccess();
             return true;
         }
 
@@ -1275,7 +1302,8 @@ std::string IngestionAdminApi::healthJson() const {
     for (const auto& s : sources) {
         if (s.enabled) ++enabled;
     }
-    size_t qsize = quarantine.size();
+    size_t qsize          = quarantine.size();
+    size_t retry_successes = mgr_.getQuarantineRetrySuccessCount();
 
     // Determine overall status
     std::string status = "healthy";
@@ -1287,7 +1315,8 @@ std::string IngestionAdminApi::healthJson() const {
        << "\"status\":\"" << status << "\","
        << "\"registered_sources\":" << total << ","
        << "\"enabled_sources\":" << enabled << ","
-       << "\"quarantine_size\":" << qsize
+       << "\"quarantine_size\":" << qsize << ","
+       << "\"quarantine_retry_successes\":" << retry_successes
        << "}";
     return os.str();
 }

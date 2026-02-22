@@ -285,7 +285,8 @@ struct IngestionReport {
     double total_time_seconds = 0.0;
     std::vector<QuarantineEntry> quarantine; ///< Items quarantined during this run
     bool dry_run = false;                    ///< True if run in dry-run mode
-    
+    size_t quarantine_retry_successes = 0;   ///< Cumulative successful quarantine retries
+
     IngestionReport() = default;
 };
 
@@ -515,6 +516,24 @@ public:
      * @brief Return the current retry / back-off configuration
      */
     RetryConfig getRetryConfig() const;
+
+    /**
+     * @brief Return the cumulative count of successful quarantine retries
+     *
+     * Counts every call to `IngestionAdminApi::retryQuarantineItem()` that
+     * resulted in a successful re-write and removal from quarantine.
+     */
+    size_t getQuarantineRetrySuccessCount() const;
+
+    /**
+     * @brief Increment the quarantine retry success counter by one
+     *
+     * Called by `IngestionAdminApi::retryQuarantineItem()` on each successful
+     * per-document retry.  Exposed as a public method so that external callers
+     * (e.g. admin REST handlers) can maintain accurate metrics when invoking
+     * the retry logic directly.
+     */
+    void incrementQuarantineRetrySuccess();
 
     /**
      * @brief Configure per-source rate limiting

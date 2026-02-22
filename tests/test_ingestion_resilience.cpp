@@ -795,3 +795,114 @@ TEST(QuarantineRetryTest, GetRetryConfigReturnsCurrentConfig) {
     mgr.setRetryConfig(cfg);
     EXPECT_EQ(mgr.getRetryConfig().max_quarantine_retries, 10);
 }
+
+// ============================================================================
+// quarantine_retry_success_total counter
+// ============================================================================
+
+TEST(QuarantineRetrySuccessCountTest, InitiallyZero) {
+    IngestionManager mgr("test_db");
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, IncrementedOnSuccessfulRetry) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry e;
+    e.item_path   = "doc.txt";
+    e.raw_payload = "content";
+    mgr.addToQuarantine(e);
+
+    IngestionAdminApi admin(mgr);
+    ASSERT_TRUE(admin.retryQuarantineItem("doc.txt"));
+    // Counter must be incremented exactly once
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 1u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, NotIncrementedOnMiss) {
+    IngestionManager mgr("test_db");
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("no_such.txt"));
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, NotIncrementedOnPermanentlyFailed) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry e;
+    e.item_path        = "perm.txt";
+    e.permanently_failed = true;
+    mgr.addToQuarantine(e);
+
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("perm.txt"));
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, DirectIncrementWorks) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 2u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, PopulatedInIngestAllReport) {
+    IngestionManager mgr("test_db");
+    // Simulate two successful retries before ingestAll()
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+
+    auto report = mgr.ingestAll();
+    EXPECT_EQ(report.quarantine_retry_successes, 2u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, PrometheusCounterPresent) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+
+    auto report = mgr.ingestAll();
+    report.quarantine_retry_successes = mgr.getQuarantineRetrySuccessCount();
+
+    IngestionMetricsExporter exporter;
+    std::string prom = exporter.exportText(report);
+
+    // Verify the metric name is emitted
+    EXPECT_NE(prom.find("_quarantine_retry_success_total"), std::string::npos);
+    // Verify the value "1" appears on a line that also contains the metric name
+    std::string metric_name = "themis_ingestion_quarantine_retry_success_total";
+    auto pos = prom.find(metric_name + "{");
+    ASSERT_NE(pos, std::string::npos) << "Metric line not found in: " << prom;
+    auto line_end = prom.find('\n', pos);
+    std::string metric_line = prom.substr(pos, line_end - pos);
+    EXPECT_NE(metric_line.find("} 1"), std::string::npos)
+        << "Expected value 1 on metric line: " << metric_line;
+}
+
+TEST(QuarantineRetrySuccessCountTest, HealthJsonContainsRetrySuccesses) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+
+    IngestionAdminApi admin(mgr);
+    std::string health = admin.healthJson();
+    // Check the specific JSON key:value pair exists
+    EXPECT_NE(health.find("\"quarantine_retry_successes\":3"), std::string::npos)
+        << "Expected field 'quarantine_retry_successes':3 in: " << health;
+}
+
+TEST(QuarantineRetrySuccessCountTest, RetryAllCountsSuccesses) {
+    IngestionManager mgr("test_db");
+
+    for (int i = 0; i < 3; ++i) {
+        QuarantineEntry e;
+        e.item_path   = "doc" + std::to_string(i) + ".txt";
+        e.raw_payload = "content";
+        mgr.addToQuarantine(e);
+    }
+
+    IngestionAdminApi admin(mgr);
+    size_t n = admin.retryAllQuarantine();
+    EXPECT_EQ(n, 3u);
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 3u);
+}
