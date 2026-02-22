@@ -28,9 +28,27 @@
 #include "ingestion/api_connector.h"
 #include <filesystem>
 #include <fstream>
+#include <utility>
 
 using namespace themis::ingestion;
 namespace fs = std::filesystem;
+
+// ---------------------------------------------------------------------------
+// Shared mock HTTP GET: returns the same simulated response that was
+// previously hard-coded in the apiHttpGet stub.  Inject via
+// setHttpGetForTesting() / setApiHttpGetForTesting() so tests are
+// independent of real network connectivity.
+// ---------------------------------------------------------------------------
+static ApiHttpGetFn makeMockHttpGet() {
+    return [](const std::string& /*url*/,
+              const std::string& /*auth*/) -> std::pair<int, std::string> {
+        return {200,
+                R"({"total":6,"next_cursor":"cursor_page2","items":[)"
+                R"({"text":"doc alpha"},)"
+                R"({"text":"doc beta"},)"
+                R"({"text":"doc gamma"}]})"};
+    };
+}
 
 // ============================================================================
 // Test fixture – temporary directory for checkpoint files
@@ -274,7 +292,8 @@ TEST(ApiConnectorTest, IsAvailableAfterValidInit) {
     cfg.type      = SourceType::API;
     cfg.location  = "https://api.example.com/items";
     conn.initialize(cfg);
-    // Simulated HTTP always returns 200
+    conn.setHttpGetForTesting(makeMockHttpGet());
+    // Mock always returns 200
     EXPECT_TRUE(conn.isAvailable());
 }
 
@@ -291,7 +310,8 @@ TEST(ApiConnectorTest, GetDocumentCountFromSimulatedResponse) {
     cfg.type      = SourceType::API;
     cfg.location  = "https://api.example.com/items";
     conn.initialize(cfg);
-    // Simulated body has "total":6
+    conn.setHttpGetForTesting(makeMockHttpGet());
+    // Mock body has "total":6
     EXPECT_EQ(conn.getDocumentCount(), 6u);
 }
 
@@ -303,11 +323,12 @@ TEST(ApiConnectorTest, IngestReturnsDocumentsFromSimulatedPages) {
     cfg.location              = "https://api.example.com/docs";
     cfg.options["page_size"]  = "3";
     cfg.options["text_field"] = "text";
-    // max_pages=1 prevents infinite loop: the simulated endpoint always returns
+    // max_pages=1 prevents infinite loop: the mock endpoint always returns
     // exactly page_size docs, so without a page cap the termination condition
     // (docs.size() < page_size_) would never be true.
     cfg.options["max_pages"]  = "1";
     conn.initialize(cfg);
+    conn.setHttpGetForTesting(makeMockHttpGet());
     conn.setPageSize(3);
 
     auto stats = conn.ingest("test_collection", nullptr);
@@ -324,9 +345,10 @@ TEST(ApiConnectorTest, IngestRespectMaxPages) {
     cfg.options["max_pages"] = "1";
     cfg.options["page_size"] = "3";
     conn.initialize(cfg);
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     auto stats = conn.ingest("col", nullptr);
-    // With max_pages=1 and 3 docs per simulated page, exactly 3 docs expected
+    // With max_pages=1 and 3 docs per mock page, exactly 3 docs expected
     EXPECT_EQ(stats.documents_processed, 3u);
 }
 
@@ -355,6 +377,7 @@ TEST(ApiConnectorTest, IngestWithProgressCallback) {
     cfg.location             = "https://api.example.com/docs";
     cfg.options["max_pages"] = "1";
     conn.initialize(cfg);
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     size_t cb_calls = 0;
     auto stats = conn.ingest("col", [&](const std::string&, size_t, size_t,
@@ -368,6 +391,7 @@ TEST(ApiConnectorTest, IngestWithProgressCallback) {
 
 TEST(IngestionManagerApiTest, RegisterAndIngestApiSource) {
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeMockHttpGet());
     SourceConfig cfg;
     cfg.source_id            = "api_src";
     cfg.type                 = SourceType::API;
@@ -406,6 +430,7 @@ TEST(IngestionManagerApiTest, CursorModeViaSourceConfigOptions) {
     // End-to-end: cursor pagination option flows from SourceConfig through
     // IngestionManager → GenericApiConnector::initialize() → ingest().
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeMockHttpGet());
     SourceConfig cfg;
     cfg.source_id                        = "cursor_mgr";
     cfg.type                             = SourceType::API;
@@ -453,7 +478,7 @@ TEST(ApiConnectorCursorTest, SetCursorResponseFieldDoesNotCrash) {
 }
 
 TEST(ApiConnectorCursorTest, CursorModeIngestsDocuments) {
-    // Simulated response always returns 3 docs + "next_cursor":"cursor_page2".
+    // Mock response always returns 3 docs + "next_cursor":"cursor_page2".
     // Use max_pages=2 to process two pages (6 docs total) before stopping.
     GenericApiConnector conn;
     SourceConfig cfg;
@@ -465,6 +490,7 @@ TEST(ApiConnectorCursorTest, CursorModeIngestsDocuments) {
     cfg.options["page_size"]             = "3";
     cfg.options["max_pages"]             = "2";
     ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     auto stats = conn.ingest("test_collection", nullptr);
     EXPECT_EQ(stats.documents_processed, 6u);
@@ -481,10 +507,11 @@ TEST(ApiConnectorCursorTest, CursorModeStopsWhenNoCursorInResponse) {
     cfg.type                             = SourceType::API;
     cfg.location                         = "https://api.example.com/v2/docs";
     cfg.options["pagination_mode"]       = "cursor";
-    // Use a field name that doesn't exist in the simulated body
+    // Use a field name that doesn't exist in the mock body
     cfg.options["cursor_response_field"] = "nonexistent_cursor_field";
     cfg.options["page_size"]             = "3";
     ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     auto stats = conn.ingest("test_collection", nullptr);
     // Should stop after one page (no cursor field found)
@@ -501,6 +528,7 @@ TEST(ApiConnectorCursorTest, CursorModeViaSetPaginationMode) {
     cfg.options["page_size"] = "3";
     cfg.options["max_pages"] = "1";
     ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     // Override mode and cursor field via setters
     conn.setPaginationMode(PaginationMode::CURSOR);
@@ -522,6 +550,7 @@ TEST(ApiConnectorCursorTest, CursorModeWithProgressCallback) {
     cfg.options["page_size"]             = "3";
     cfg.options["max_pages"]             = "2";
     ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeMockHttpGet());
 
     size_t cb_calls = 0;
     auto stats = conn.ingest("col", [&](const std::string&, size_t, size_t,

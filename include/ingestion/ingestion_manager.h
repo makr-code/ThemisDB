@@ -26,6 +26,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <utility>
 #include <unordered_map>
 #include <chrono>
 #include <atomic>
@@ -225,6 +226,18 @@ using ProgressCallback = std::function<void(const std::string& source_id,
                                             size_t processed, 
                                             size_t total,
                                             const std::string& status)>;
+
+/**
+ * @brief Function type for injecting a mock HTTP GET response in tests.
+ *
+ * Returns `{status_code, response_body}`.  When injected via
+ * `GenericApiConnector::setHttpGetForTesting()` or
+ * `IngestionManager::setApiHttpGetForTesting()`, this function is called
+ * instead of a real libcurl request.  Intended for unit tests only.
+ */
+using ApiHttpGetFn =
+    std::function<std::pair<int, std::string>(const std::string& url,
+                                              const std::string& auth)>;
 
 /**
  * @brief Ingestion statistics
@@ -622,6 +635,15 @@ public:
      * @return true if a checkpoint existed and was removed
      */
     bool clearCheckpoint(const std::string& source_id);
+
+    /**
+     * @brief Inject a mock HTTP GET function for all API connectors (testing only)
+     *
+     * When set, every `GenericApiConnector` created by this manager will have
+     * the supplied function installed via `setHttpGetForTesting()` before its
+     * first use.  Pass an empty `ApiHttpGetFn{}` to restore real HTTP.
+     */
+    void setApiHttpGetForTesting(ApiHttpGetFn fn);
 
 private:
     class Impl;

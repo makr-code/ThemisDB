@@ -313,6 +313,9 @@ public:
                 case SourceType::API: {
                     auto api_connector = std::make_unique<GenericApiConnector>();
                     api_connector->setRetryConfig(retry_config_);
+                    if (api_http_get_fn_) {
+                        api_connector->setHttpGetForTesting(api_http_get_fn_);
+                    }
                     if (!api_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
@@ -702,6 +705,11 @@ public:
         return cs->clear(source_id);
     }
 
+    void setApiHttpGetForTesting(ApiHttpGetFn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        api_http_get_fn_ = std::move(fn);
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -796,6 +804,7 @@ private:
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
+    ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
     mutable std::mutex mutex_;
 };
 
@@ -904,6 +913,10 @@ bool IngestionManager::getCheckpoint(const std::string& source_id,
 
 bool IngestionManager::clearCheckpoint(const std::string& source_id) {
     return impl_->clearCheckpoint(source_id);
+}
+
+void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
+    impl_->setApiHttpGetForTesting(std::move(fn));
 }
 
 // ============================================================================

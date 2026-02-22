@@ -25,9 +25,13 @@
 #include "ingestion_manager.h"
 #include <string>
 #include <memory>
+#include <functional>
+#include <utility>
 
 namespace themis {
 namespace ingestion {
+
+// ApiHttpGetFn is defined in ingestion_manager.h (already included above).
 
 /**
  * @brief Generic REST API source connector
@@ -156,6 +160,15 @@ public:
      * @param field JSON key name (e.g. `"next_cursor"`, `"next_page_token"`)
      */
     void setCursorResponseField(const std::string& field);
+
+    /**
+     * @brief Inject a mock HTTP GET function (for unit testing only)
+     *
+     * When set, every HTTP GET that would normally be performed via libcurl
+     * is replaced by a call to @p fn.  Pass an empty `ApiHttpGetFn{}` to
+     * restore the real libcurl implementation.
+     */
+    void setHttpGetForTesting(ApiHttpGetFn fn);
 
 private:
     class Impl;
