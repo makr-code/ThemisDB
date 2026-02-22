@@ -290,6 +290,11 @@ void CDCAdmin::validateSequenceRange(uint64_t start, uint64_t end) {
 }
 
 PurgeResult CDCAdmin::purgeOlderThan(int64_t before_timestamp_ms) {
+    if (before_timestamp_ms < 0) {
+        throw error::invalidArgument(
+            "purgeOlderThan: before_timestamp_ms must be non-negative, got: " +
+            std::to_string(before_timestamp_ms));
+    }
     return purgeByTimestamp(static_cast<uint64_t>(before_timestamp_ms));
 }
 

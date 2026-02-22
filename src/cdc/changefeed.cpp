@@ -650,7 +650,15 @@ size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
 }
 
 size_t Changefeed::applyRetentionPolicy() {
-    if (!retention_policy_.enabled) {
+    // Take a local snapshot of the policy under the lock to avoid data races
+    // with concurrent calls to updateRetentionPolicy().
+    RetentionPolicy policy;
+    {
+        std::lock_guard<std::mutex> plk(retention_mutex_);
+        policy = retention_policy_;
+    }
+
+    if (!policy.enabled) {
         return 0;
     }
     
@@ -661,11 +669,11 @@ size_t Changefeed::applyRetentionPolicy() {
     auto wm = stats.watermarks;
     
     // Apply time-based retention
-    if (retention_policy_.max_age_hours.count() > 0) {
+    if (policy.max_age_hours.count() > 0) {
         auto now = std::chrono::system_clock::now().time_since_epoch();
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
         auto cutoff_ms = now_ms - std::chrono::duration_cast<std::chrono::milliseconds>(
-            retention_policy_.max_age_hours
+            policy.max_age_hours
         ).count();
         
         size_t deleted_by_time = deleteOldEventsByTimestamp(cutoff_ms);
@@ -674,9 +682,9 @@ size_t Changefeed::applyRetentionPolicy() {
     }
     
     // Apply count-based retention
-    if (stats.total_events > retention_policy_.max_event_count) {
+    if (stats.total_events > policy.max_event_count) {
         // Delete oldest events to get under the limit
-        size_t to_delete = stats.total_events - retention_policy_.max_event_count;
+        size_t to_delete = stats.total_events - policy.max_event_count;
         uint64_t cutoff_sequence = wm.low_watermark + to_delete;
         
         size_t deleted_by_count = deleteOldEvents(cutoff_sequence);
@@ -685,11 +693,11 @@ size_t Changefeed::applyRetentionPolicy() {
     }
     
     // Apply size-based retention
-    if (stats.total_size_bytes > retention_policy_.max_size_bytes) {
+    if (stats.total_size_bytes > policy.max_size_bytes) {
         // Estimate how many events to delete based on average event size
         size_t avg_event_size = stats.total_events > 0 ? 
             (stats.total_size_bytes / stats.total_events) : 1024;
-        size_t excess_bytes = stats.total_size_bytes - retention_policy_.max_size_bytes;
+        size_t excess_bytes = stats.total_size_bytes - policy.max_size_bytes;
         
         // Add buffer to ensure we get under the limit (account for estimation error)
         constexpr size_t SIZE_RETENTION_BUFFER_EVENTS = 100;
@@ -728,8 +736,11 @@ void Changefeed::startRetentionCleanup() {
     }
     
     retention_thread_ = std::thread(&Changefeed::retentionCleanupThread, this);
-    THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
-                retention_policy_.cleanup_interval.count());
+    {
+        std::lock_guard<std::mutex> lk(retention_mutex_);
+        THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
+                    retention_policy_.cleanup_interval.count());
+    }
 }
 
 void Changefeed::stopRetentionCleanup() {
