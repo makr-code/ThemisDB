@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     254                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -152,6 +152,24 @@ public:
     std::string processTextCommand(
         const std::string& text,
         const std::string& session_id
+    );
+
+    /**
+     * @brief Process voice command with real-time streaming STT
+     *
+     * Transcribes audio in incremental windows and invokes @p segment_callback
+     * for each recognized segment as it becomes available (word-by-word delivery).
+     * After full transcription the LLM generates a response and TTS synthesizes it.
+     *
+     * @param audio_data     Audio input from user (WAV or supported format)
+     * @param session_id     Session identifier
+     * @param segment_callback Called for every transcribed segment; may be nullptr
+     * @return Spoken response as audio bytes (WAV), empty on failure
+     */
+    std::vector<uint8_t> streamProcessVoiceCommand(
+        const std::vector<uint8_t>& audio_data,
+        const std::string& session_id,
+        std::function<void(const content::TranscriptionSegment&)> segment_callback = nullptr
     );
     
     /**

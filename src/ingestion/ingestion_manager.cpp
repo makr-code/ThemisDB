@@ -422,20 +422,34 @@ public:
         IngestionReport report;
         report.dry_run = dry_run_;
         
-        std::vector<SourceConfig> enabled_sources;
+        // Collect all registered sources (enabled and disabled) sorted by priority.
+        // Disabled sources will return a SOURCE_DISABLED warning via ingestSource(),
+        // ensuring they appear in the report for full auditability.
+        std::vector<SourceConfig> all_sources;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             for (const auto& pair : sources_) {
-                if (pair.second.enabled) {
-                    enabled_sources.push_back(pair.second);
-                }
+                all_sources.push_back(pair.second);
             }
         }
-        
-        std::sort(enabled_sources.begin(), enabled_sources.end(),
+
+        std::sort(all_sources.begin(), all_sources.end(),
                  [](const SourceConfig& a, const SourceConfig& b) {
                      return a.priority > b.priority;
                  });
+
+        // For parallelism we only launch async tasks for enabled sources to avoid
+        // spinning up threads for trivially-skipped disabled sources; disabled
+        // sources are recorded synchronously after the parallel wave completes.
+        std::vector<SourceConfig> enabled_sources;
+        std::vector<SourceConfig> disabled_sources;
+        for (const auto& cfg : all_sources) {
+            if (cfg.enabled) {
+                enabled_sources.push_back(cfg);
+            } else {
+                disabled_sources.push_back(cfg);
+            }
+        }
 
         if (parallel_enabled_ && enabled_sources.size() > 1) {
             const size_t concurrency =
@@ -475,6 +489,13 @@ public:
                 report.total_failures  += stats.documents_failed;
                 report.total_time_seconds += stats.elapsed_seconds;
             }
+        }
+
+        // Record disabled sources synchronously (they produce a SOURCE_DISABLED warning)
+        for (const auto& config : disabled_sources) {
+            auto stats = ingestSource(config.source_id, progress_callback);
+            report.source_stats[config.source_id] = stats;
+            // Disabled sources contribute no processed docs or bytes to totals
         }
 
         {
@@ -1097,6 +1118,22 @@ IngestionBuilder& IngestionBuilder::withFilesystemSource(
     cfg.source_id = source_id;
     cfg.type      = SourceType::FILESYSTEM;
     cfg.location  = path;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withApiSource(
+        const std::string& source_id,
+        const std::string& endpoint,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::API;
+    cfg.location  = endpoint;
     cfg.options   = std::move(options);
     cfg.priority  = priority;
     cfg.enabled   = true;
