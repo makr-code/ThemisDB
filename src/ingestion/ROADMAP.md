@@ -19,6 +19,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Admin API (list, pause, resume, quarantine)
 - [x] Fluent IngestionBuilder API
 - [x] Cursor-based pagination support alongside offset/limit (Issue: #2409)
+- [x] Per-document quarantine retry with exponential back-off (Issue: #1916)
 
 ## In Progress 🚧
 - [I] PDF and DOCX binary format ingestion via external converters (Target: Q2 2026) (Issue: #1889)
@@ -56,7 +57,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ### Phase 2: HTTP Hardening & Binary Formats (Status: In Progress 🚧)
 - [I] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
-- [I] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
+- [x] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
 - [I] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026) (Issue: #1917)
 - [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
 - [x] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
