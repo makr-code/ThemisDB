@@ -26,6 +26,8 @@
 #include <cctype>
 #include <cerrno>
 #include <cstring>
+#include <array>
+#include <cstdio>
 
 // pugixml for HTML/XML text extraction (already a vcpkg dependency)
 #ifdef THEMIS_HAS_PUGIXML
@@ -36,6 +38,37 @@ namespace themis {
 namespace ingestion {
 
 namespace fs = std::filesystem;
+
+// ---------------------------------------------------------------------------
+// MIME type detection (free function – implementation)
+// ---------------------------------------------------------------------------
+
+BinaryMimeType detectBinaryMimeType(const std::string& raw) {
+    if (raw.size() < 4) return BinaryMimeType::UNKNOWN;
+
+    // PDF: magic bytes "%PDF"
+    if (raw[0] == '%' && raw[1] == 'P' && raw[2] == 'D' && raw[3] == 'F') {
+        return BinaryMimeType::PDF;
+    }
+
+    // ZIP magic: PK\x03\x04 – used by DOCX (Office Open XML)
+    if (raw[0] == 'P' && raw[1] == 'K' &&
+        static_cast<unsigned char>(raw[2]) == 0x03 &&
+        static_cast<unsigned char>(raw[3]) == 0x04) {
+        // Distinguish DOCX from other ZIP-based formats by looking for the
+        // OOXML content-type marker in the first 512 bytes.
+        const std::string probe = raw.substr(0, std::min(raw.size(), size_t(512)));
+        if (probe.find("word/") != std::string::npos ||
+            probe.find("[Content_Types]") != std::string::npos ||
+            probe.find("application/vnd.openxmlformats") != std::string::npos) {
+            return BinaryMimeType::DOCX;
+        }
+        // Generic ZIP but could still be DOCX – trust the extension in that case
+        return BinaryMimeType::UNKNOWN;
+    }
+
+    return BinaryMimeType::UNKNOWN;
+}
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -131,6 +164,92 @@ static std::string extractJsonText(const std::string& raw) {
     return result;
 }
 
+/// Run an external command and capture its stdout.
+/// @return Captured stdout, or an empty string if the command failed /
+///         was not found.  Never throws.
+static std::string runExternalConverter(const std::string& cmd) {
+    // popen is POSIX; on Windows this would need _popen.
+#if defined(_WIN32)
+    FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+    FILE* pipe = popen(cmd.c_str(), "r");  // NOLINT(cert-env33-c)
+#endif
+    if (!pipe) return "";
+    std::string result;
+    std::array<char, 4096> buf;
+    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
+        result += buf.data();
+    }
+#if defined(_WIN32)
+    int rc = _pclose(pipe);
+#else
+    int rc = pclose(pipe);
+#endif
+    return (rc == 0) ? result : "";
+}
+
+/// Platform-aware shell escaping of a file path for use in popen() commands.
+/// On POSIX: wraps in single quotes with embedded single-quote escaping.
+/// On Windows: wraps in double quotes with backslash escaping.
+static std::string shellEscapePath(const std::string& path) {
+#if defined(_WIN32)
+    // Double-quote escaping for cmd.exe / PowerShell
+    std::string escaped = "\"";
+    for (char c : path) {
+        if (c == '"') escaped += "\\\"";
+        else          escaped += c;
+    }
+    escaped += '"';
+    return escaped;
+#else
+    // POSIX single-quote escaping
+    std::string escaped;
+    escaped.reserve(path.size() + 2);
+    escaped += '\'';
+    for (char c : path) {
+        if (c == '\'') escaped += "'\"'\"'";
+        else           escaped += c;
+    }
+    escaped += '\'';
+    return escaped;
+#endif
+}
+
+/// Suppress stderr in a platform-appropriate way for popen() commands.
+static const char* stderrRedirect() {
+#if defined(_WIN32)
+    return " 2>NUL";
+#else
+    return " 2>/dev/null";
+#endif
+}
+
+/// Extract text from a PDF file using an external converter.
+/// @param file_path   Absolute path to the PDF file.
+/// @param converter   Name or path of the converter binary (e.g. "pdftotext").
+///                    If empty, returns an empty string immediately.
+/// @return Extracted plain text, or empty string on failure/unavailability.
+static std::string extractPdfWithConverter(const std::string& file_path,
+                                           const std::string& converter) {
+    if (converter.empty()) return "";
+    // pdftotext syntax: pdftotext <input> - (dash = stdout)
+    std::string cmd = converter + " " + shellEscapePath(file_path) + " -" + stderrRedirect();
+    return runExternalConverter(cmd);
+}
+
+/// Extract text from a DOCX file using an external converter.
+/// @param file_path   Absolute path to the DOCX file.
+/// @param converter   Name or path of the converter binary (e.g. "pandoc").
+///                    If empty, returns an empty string immediately.
+/// @return Extracted plain text, or empty string on failure/unavailability.
+static std::string extractDocxWithConverter(const std::string& file_path,
+                                            const std::string& converter) {
+    if (converter.empty()) return "";
+    // pandoc syntax: pandoc -f docx -t plain <input>
+    std::string cmd = converter + " -f docx -t plain " + shellEscapePath(file_path) + stderrRedirect();
+    return runExternalConverter(cmd);
+}
+
 } // anonymous namespace
 
 // Pimpl implementation
@@ -178,7 +297,23 @@ public:
         if (it != config.options.end()) {
             filter_.recursive = (it->second == "true");
         }
-        
+
+        // Binary converter paths can also be configured via SourceConfig options
+        it = config.options.find("pdf_converter");
+        if (it != config.options.end()) {
+            binary_converter_.pdf_converter = it->second;
+        }
+
+        it = config.options.find("docx_converter");
+        if (it != config.options.end()) {
+            binary_converter_.docx_converter = it->second;
+        }
+
+        it = config.options.find("detect_by_magic");
+        if (it != config.options.end()) {
+            binary_converter_.detect_by_magic = (it->second != "false");
+        }
+
         return fs::exists(path_);
     }
     
@@ -307,7 +442,7 @@ public:
     }
     
 private:
-    // Helper: Extract text from file based on format/extension
+    // Helper: Extract text from file based on format/extension and MIME detection
     std::string extractTextFromFile(const fs::path& file_path) {
         auto ext = file_path.extension().string();
         // Normalise extension to lower-case for comparisons
@@ -315,7 +450,7 @@ private:
             ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
         }
         std::string content;
-        
+
         // Read raw file content
         std::ifstream file(file_path, std::ios::binary);
         if (!file) {
@@ -327,7 +462,27 @@ private:
         std::string raw{std::istreambuf_iterator<char>(file),
                         std::istreambuf_iterator<char>()};
 
-        if (ext == ".txt" || ext == ".md" || ext == ".csv") {
+        // Optionally detect binary MIME type from magic bytes before extension dispatch.
+        // This ensures that binary files are handled correctly even if misnamed.
+        BinaryMimeType mime = BinaryMimeType::UNKNOWN;
+        if (binary_converter_.detect_by_magic) {
+            mime = detectBinaryMimeType(raw);
+        }
+
+        // Determine whether this is a PDF or DOCX (by magic OR extension)
+        bool is_pdf  = (mime == BinaryMimeType::PDF)  || (ext == ".pdf");
+        bool is_docx = (mime == BinaryMimeType::DOCX) || (ext == ".docx");
+
+        if (is_pdf) {
+            // Use external converter to extract plain text.
+            // Silently skip the file (return empty) when no converter is configured
+            // or the converter is not available / fails.
+            content = extractPdfWithConverter(file_path.string(),
+                                              binary_converter_.pdf_converter);
+        } else if (is_docx) {
+            content = extractDocxWithConverter(file_path.string(),
+                                               binary_converter_.docx_converter);
+        } else if (ext == ".txt" || ext == ".md" || ext == ".csv") {
             // Plain text / markdown / CSV – use raw bytes
             content = std::move(raw);
         } else if (ext == ".html" || ext == ".htm") {
@@ -351,36 +506,33 @@ private:
             if (content.empty()) {
                 content = std::move(raw);  // raw fallback
             }
-        } else if (ext == ".pdf") {
-            // PDF – libpoppler/pdfium integration planned (Q1 roadmap)
-            // Return empty so the file is skipped without error.
-            content = "";
-        } else if (ext == ".docx") {
-            // DOCX – Office Open XML parser integration planned (Q1 roadmap)
-            content = "";
         } else {
             // Unknown format: attempt to read as UTF-8 text (best effort)
             content = std::move(raw);
         }
-        
+
         return content;
     }
-    
+
 public:
     void setOCRConfig(const OCRConfig& config) {
         ocr_config_ = config;
     }
-    
+
     void setFileFilter(const FileFilter& filter) {
         filter_ = filter;
     }
-    
+
     void setFileFormat(FileFormat format) {
         format_ = format;
     }
-    
+
     void setMetadataExtraction(bool enabled) {
         metadata_extraction_ = enabled;
+    }
+
+    void setBinaryConverter(const BinaryConverter& config) {
+        binary_converter_ = config;
     }
 
 private:
@@ -429,6 +581,7 @@ private:
     FileFormat format_;
     OCRConfig ocr_config_;
     FileFilter filter_;
+    BinaryConverter binary_converter_;
     bool metadata_extraction_;
 };
 
@@ -470,6 +623,10 @@ void FileSystemIngester::setFileFormat(FileFormat format) {
 
 void FileSystemIngester::setMetadataExtraction(bool enabled) {
     impl_->setMetadataExtraction(enabled);
+}
+
+void FileSystemIngester::setBinaryConverter(const BinaryConverter& config) {
+    impl_->setBinaryConverter(config);
 }
 
 } // namespace ingestion

@@ -49,13 +49,21 @@ Ingests documents from any paginated JSON REST API. Uses offset/limit pagination
 ### FileSystemIngester
 **Location:** `filesystem_ingester.cpp`
 
-Recursively walks a directory tree and ingests text-based files. Supports plain text, HTML, and XML formats. HTML/XML text is extracted using pugixml (when available) with graceful fallback. Uses `std::filesystem` for portable directory traversal.
+Recursively walks a directory tree and ingests text-based files. Supports plain text, HTML, XML, JSON, CSV, Markdown, PDF, and DOCX. HTML/XML text is extracted using pugixml (when available) with graceful fallback. Binary formats (PDF/DOCX) are converted to plain text by external command-line tools. Uses `std::filesystem` for portable directory traversal.
 
 **Features:**
 - Configurable file extension filtering
 - Encoding detection fallback (UTF-8 default)
 - Skips binary files and empty files
 - Optional pugixml HTML/XML text extraction (`THEMIS_HAS_PUGIXML` compile flag)
+- **Binary MIME type detection**: `detectBinaryMimeType()` reads magic bytes to identify
+  PDF (`%PDF`) and DOCX (`PK\x03\x04` + OOXML marker) regardless of file extension
+- **PDF ingestion**: delegates to external `pdftotext` converter (configurable via
+  `BinaryConverter::pdf_converter`; silently skipped when converter is absent/empty)
+- **DOCX ingestion**: delegates to external `pandoc` converter (configurable via
+  `BinaryConverter::docx_converter`; silently skipped when converter is absent/empty)
+- Converter paths configurable via `SourceConfig::options["pdf_converter"]` and
+  `options["docx_converter"]`, or programmatically via `setBinaryConverter()`
 
 ### HuggingFaceConnector
 **Location:** `huggingface_connector.cpp`
