@@ -51,3 +51,13 @@ For content documentation, see:
 - [Content Architecture](../../docs/content_architecture.md)
 - [Content Pipeline](../../docs/content_pipeline.md)
 - [Content Processors](../../docs/content/)
+
+## Scientific References
+
+1. Robertson, S., & Zaragoza, H. (2009). **The Probabilistic Relevance Framework: BM25 and Beyond**. *Foundations and Trends in Information Retrieval*, 3(4), 333–389. https://doi.org/10.1561/1500000019
+
+2. Salton, G., & McGill, M. J. (1983). **Introduction to Modern Information Retrieval**. McGraw-Hill. ISBN: 978-0-070-54484-0
+
+3. Dublin Core Metadata Initiative. (2012). **DCMI Metadata Terms**. DCMI Recommendation. https://www.dublincore.org/specifications/dublin-core/dcmi-terms/
+
+4. W3C. (2013). **PROV-O: The PROV Ontology**. W3C Recommendation. https://www.w3.org/TR/prov-o/

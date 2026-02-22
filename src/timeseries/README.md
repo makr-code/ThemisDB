@@ -64,4 +64,4 @@ For time series documentation, see:
 
 3. Ding, R., Wang, Q., Dang, Y., Fu, Q., Zhang, H., & Zhang, D. (2015). **YADING: Fast Clustering of Large-Scale Time Series Data**. *Proceedings of the VLDB Endowment*, 8(5), 473–484. https://doi.org/10.14778/2735479.2735481
 
-4. Hamilton, J. (2008). **Wan Data Replication**. *Proceedings of the 1st International Workshop on Cloud Data Management (CloudDB)*, 1–6. https://doi.org/10.1145/1651263.1651265
+4. Keogh, E., & Ratanamahatana, C. A. (2005). **Exact Indexing of Dynamic Time Warping**. *Knowledge and Information Systems*, 7(3), 358–386. https://doi.org/10.1007/s10115-004-0154-9

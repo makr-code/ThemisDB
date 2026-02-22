@@ -1065,3 +1065,15 @@ curl http://themisdb:8000/api/v1/profiling/heap/diff
 - [../../grafana/](../../grafana/) - Grafana dashboard definitions
 - [../../prometheus/](../../prometheus/) - Prometheus configuration
 - [Core Module](../core/README.md) - ILogger, ITracer, IMetrics interfaces
+
+## Scientific References
+
+1. OpenTelemetry Authors. (2021). **OpenTelemetry Specification**. Cloud Native Computing Foundation. https://opentelemetry.io/docs/specs/otel/
+
+2. Sigelman, B. H., Barroso, L. A., Burrows, M., Stephenson, P., Plakal, M., Beaver, D., … Shanbhag, C. (2010). **Dapper, a Large-Scale Distributed Systems Tracing Infrastructure**. Google Technical Report. https://research.google/pubs/pub36356/
+
+3. W3C Distributed Tracing Working Group. (2021). **Trace Context (Level 1)**. W3C Recommendation. https://www.w3.org/TR/trace-context/
+
+4. Beyer, B., Jones, C., Petoff, J., & Murphy, N. R. (2016). **Site Reliability Engineering: How Google Runs Production Systems**. O'Reilly Media. ISBN: 978-1-491-92912-4
+
+5. Prometheus Authors. (2023). **Prometheus: An Open-Source Monitoring System with a Dimensional Data Model**. CNCF Project. https://prometheus.io/

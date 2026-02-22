@@ -1328,3 +1328,15 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned server improvements
 - [Core Module](../core/README.md) - Dependency injection and concerns
 - [Storage Module](../storage/README.md) - Data persistence layer
+
+## Scientific References
+
+1. Belshe, M., Peon, R., & Thomson, M. (2015). **Hypertext Transfer Protocol Version 2 (HTTP/2)**. RFC 7540. IETF. https://doi.org/10.17487/RFC7540
+
+2. Fette, I., & Melnikov, A. (2011). **The WebSocket Protocol**. RFC 6455. IETF. https://doi.org/10.17487/RFC6455
+
+3. gRPC Authors. (2023). **gRPC: A High-Performance, Open-Source Universal RPC Framework**. CNCF Project. https://grpc.io/
+
+4. Postel, J. (1980). **Transmission Control Protocol**. RFC 793. IETF. https://doi.org/10.17487/RFC0793
+
+5. Rescorla, E. (2018). **The Transport Layer Security (TLS) Protocol Version 1.3**. RFC 8446. IETF. https://doi.org/10.17487/RFC8446
