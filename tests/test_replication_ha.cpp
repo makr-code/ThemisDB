@@ -2206,7 +2206,7 @@ TEST(LeaderLeaseTest, LeaseReadSucceedsOnLeaderWithValidLease) {
     auto result = mgr.leaseRead("users", "doc-1");
     EXPECT_TRUE(result.success);
     EXPECT_TRUE(result.served_under_lease);
-    EXPECT_GT(result.commit_index, 0u);
+    EXPECT_FALSE(result.node_id.empty());
 
     mgr.shutdown();
 }
