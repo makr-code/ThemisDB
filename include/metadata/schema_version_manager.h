@@ -181,6 +181,31 @@ public:
     /// Export all version history for a table as a JSON array.
     json historyToJSON(std::string_view table_name) const;
 
+    /// Generate a DDL migration script from the diff between two versions.
+    ///
+    /// Produces a sequence of ALTER TABLE statements that, when executed in
+    /// order, transform @p table_name from the schema at @p version_from to
+    /// the schema at @p version_to.
+    ///
+    /// Generated statement types:
+    ///   - ADD COLUMN   – for columns present in @p version_to but not in @p version_from
+    ///   - DROP COLUMN  – for columns present in @p version_from but not in @p version_to
+    ///   - ALTER COLUMN – for columns whose type or nullability changed
+    ///
+    /// Type mapping (ThemisDB → SQL):
+    ///   string  → VARCHAR, integer → INTEGER, double → DOUBLE PRECISION,
+    ///   boolean → BOOLEAN, vector  → VECTOR,  binary → BYTEA, * → TEXT
+    ///
+    /// @param table_name   Table whose versions to compare.
+    /// @param version_from Source version (the "before" state).
+    /// @param version_to   Target version (the "after" state).
+    /// @return VersionResult<std::string> containing the script on success.
+    VersionResult<std::string> generateMigrationScript(
+        std::string_view table_name,
+        uint64_t version_from,
+        uint64_t version_to
+    ) const;
+
     /// Dry-run: validate whether @p new_schema can be applied to @p table_name
     /// without persisting any changes.
     ///
