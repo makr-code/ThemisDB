@@ -16,9 +16,20 @@ on:
       - 'src/config/config_path_resolver.h'
       - 'config/**'
       - 'scripts/validate_config_mapping.py'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   validate-mapping:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Validate Config Path Mapping Table
     runs-on: ubuntu-latest
     permissions:

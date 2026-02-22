@@ -132,7 +132,19 @@ function Resolve-MilestoneTitle {
     )
 
     if (-not [string]::IsNullOrWhiteSpace($Target)) {
-        return (($Target.Trim()) -replace "\s+", " ")
+        $normalizedTarget = (($Target.Trim()) -replace "\s+", " ")
+
+        $quarterMatch = [regex]::Match($normalizedTarget, '(?i)\bQ\s*([1-4])\s*(20\d{2})\b')
+        if ($quarterMatch.Success) {
+            return "Q$($quarterMatch.Groups[1].Value) $($quarterMatch.Groups[2].Value)"
+        }
+
+        $quarterMatchAlt = [regex]::Match($normalizedTarget, '(?i)\b(20\d{2})\s*Q\s*([1-4])\b')
+        if ($quarterMatchAlt.Success) {
+            return "Q$($quarterMatchAlt.Groups[2].Value) $($quarterMatchAlt.Groups[1].Value)"
+        }
+
+        return $normalizedTarget
     }
 
     if (-not [string]::IsNullOrWhiteSpace($MilestonePrefix)) {
@@ -140,6 +152,28 @@ function Resolve-MilestoneTitle {
     }
 
     return ""
+}
+
+function Normalize-MilestoneTitle {
+    param([string]$Title)
+
+    if ([string]::IsNullOrWhiteSpace($Title)) {
+        return ""
+    }
+
+    $normalized = (($Title.Trim()) -replace "\s+", " ")
+
+    $quarterMatch = [regex]::Match($normalized, '(?i)\bQ\s*([1-4])\s*(20\d{2})\b')
+    if ($quarterMatch.Success) {
+        return ("Q{0} {1}" -f $quarterMatch.Groups[1].Value, $quarterMatch.Groups[2].Value)
+    }
+
+    $quarterMatchAlt = [regex]::Match($normalized, '(?i)\b(20\d{2})\s*Q\s*([1-4])\b')
+    if ($quarterMatchAlt.Success) {
+        return ("Q{0} {1}" -f $quarterMatchAlt.Groups[2].Value, $quarterMatchAlt.Groups[1].Value)
+    }
+
+    return $normalized
 }
 
 function Normalize-MarkdownLine {
@@ -232,41 +266,53 @@ function Get-OrCreateMilestoneNumber {
         [switch]$DryRun
     )
 
-    if ([string]::IsNullOrWhiteSpace($MilestoneTitle)) {
+    $normalizedMilestoneTitle = Normalize-MilestoneTitle -Title $MilestoneTitle
+    if ([string]::IsNullOrWhiteSpace($normalizedMilestoneTitle)) {
         return 0
     }
 
-    $cacheKey = "$Repo|$($MilestoneTitle.ToLower())"
+    $cacheKey = "$Repo|$($normalizedMilestoneTitle.ToLowerInvariant())"
     if ($script:MilestoneCache.ContainsKey($cacheKey)) {
         return [int]$script:MilestoneCache[$cacheKey]
     }
 
     try {
-        $existingJson = gh api "repos/$Repo/milestones?state=all&per_page=100" 2>&1
+        $existingJson = gh api "repos/$Repo/milestones?state=all&per_page=100" --paginate --jq '.[] | "\(.number)|\(.title)"' 2>&1
         if ($LASTEXITCODE -eq 0) {
-            $milestones = $existingJson | ConvertFrom-Json
-            $hit = $milestones | Where-Object { $_.title -ieq $MilestoneTitle } | Select-Object -First 1
-            if ($hit) {
-                $script:MilestoneCache[$cacheKey] = [int]$hit.number
-                return [int]$hit.number
+            $lines = @($existingJson -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+            foreach ($line in $lines) {
+                $parts = $line -split "\|", 2
+                if ($parts.Count -lt 2) { continue }
+
+                $numberText = $parts[0].Trim()
+                $existingTitle = Normalize-MilestoneTitle -Title $parts[1]
+                if ([string]::IsNullOrWhiteSpace($existingTitle)) { continue }
+
+                if ($existingTitle -ieq $normalizedMilestoneTitle) {
+                    $number = 0
+                    if ([int]::TryParse($numberText, [ref]$number) -and $number -gt 0) {
+                        $script:MilestoneCache[$cacheKey] = $number
+                        return $number
+                    }
+                }
             }
         }
 
         if ($DryRun) {
-            Write-Host "    [DRY RUN] Wuerde Milestone erstellen: $MilestoneTitle" -ForegroundColor Yellow
+            Write-Host "    [DRY RUN] Wuerde Milestone erstellen: $normalizedMilestoneTitle" -ForegroundColor Yellow
             return 0
         }
 
-        $createJson = gh api "repos/$Repo/milestones" -X POST -f "title=$MilestoneTitle" -f "state=open" 2>&1
+        $createJson = gh api "repos/$Repo/milestones" -X POST -f "title=$normalizedMilestoneTitle" -f "state=open" 2>&1
         if ($LASTEXITCODE -eq 0) {
             $created = $createJson | ConvertFrom-Json
             $number = [int]$created.number
             $script:MilestoneCache[$cacheKey] = $number
-            Write-Host "    Milestone erstellt: $MilestoneTitle (#$number)" -ForegroundColor Gray
+            Write-Host "    Milestone erstellt: $normalizedMilestoneTitle (#$number)" -ForegroundColor Gray
             return $number
         }
 
-        Write-Host "    Milestone konnte nicht erstellt werden: $MilestoneTitle" -ForegroundColor Yellow
+        Write-Host "    Milestone konnte nicht erstellt werden: $normalizedMilestoneTitle" -ForegroundColor Yellow
         Write-Host "      $createJson" -ForegroundColor DarkYellow
         return 0
     } catch {
@@ -1640,6 +1686,33 @@ function New-ModuleIssuesAI {
         $needle = $OnlyItem.ToLower()
         $candidateItems = @($candidateItems | Where-Object { $_.ToLower().Contains($needle) })
         Write-Host "  OnlyItem Filter aktiv: '$OnlyItem' -> $($candidateItems.Count) Treffer" -ForegroundColor Yellow
+    }
+
+    $dedupedCandidateItems = @()
+    $seenCandidateItems = @{}
+    $duplicateFilteredCount = 0
+    foreach ($candidateItem in $candidateItems) {
+        $normalizedCandidate = Get-NormalizedRoadmapCompareText -Text $candidateItem
+        if ([string]::IsNullOrWhiteSpace($normalizedCandidate)) {
+            $normalizedCandidate = (($candidateItem ?? "") -replace "\s+", " ").Trim().ToLowerInvariant()
+        }
+
+        if ([string]::IsNullOrWhiteSpace($normalizedCandidate)) {
+            continue
+        }
+
+        if ($seenCandidateItems.ContainsKey($normalizedCandidate)) {
+            $duplicateFilteredCount++
+            continue
+        }
+
+        $seenCandidateItems[$normalizedCandidate] = $true
+        $dedupedCandidateItems += $candidateItem
+    }
+
+    $candidateItems = $dedupedCandidateItems
+    if ($duplicateFilteredCount -gt 0) {
+        Write-Host "  ROADMAP-Deduplizierung aktiv: $duplicateFilteredCount Duplikat(e) gefiltert" -ForegroundColor DarkGray
     }
 
     foreach ($item in $candidateItems) {

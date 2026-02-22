@@ -1087,6 +1087,47 @@ endif()
 
 message(STATUS "Benchmarks configured successfully")
 message(STATUS "  - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding")
+
+# ============================================================================
+# HotReloadManager Benchmarks
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hot_reload_manager.cpp")
+    message(STATUS "Adding HotReloadManager benchmarks")
+
+    add_executable(bench_hot_reload_manager
+        bench_hot_reload_manager.cpp
+    )
+
+    target_link_libraries(bench_hot_reload_manager PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_hot_reload_manager PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_hot_reload_manager PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_hot_reload_manager
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  HotReloadManager: registration, reload fast-fail, callback dispatch, concurrency")
+endif()
 message(STATUS "  - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding")
 message(STATUS "  - Or use: make run_benchmark_lora_auto_binding")
 message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lora_framework")

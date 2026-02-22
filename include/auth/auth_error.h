@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_error.h                                       ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     279                                            ║
+    • Total Lines:     272                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -94,6 +87,16 @@ enum class AuthErrorCode {
     AUTH_CONFIG_INVALID = 9380,
     AUTH_CONFIG_MISSING = 9381,
     
+    // SAML 2.0 errors (9382-9389)
+    SAML_INVALID_RESPONSE = 9382,
+    SAML_INVALID_SIGNATURE = 9383,
+    SAML_CONDITIONS_FAILED = 9384,
+    SAML_MISSING_ASSERTION = 9385,
+    SAML_REPLAY_DETECTED = 9386,
+    SAML_DESTINATION_MISMATCH = 9387,
+    SAML_STATUS_FAILURE = 9388,
+    SAML_ISSUER_MISMATCH = 9389,
+
     // Internal errors (9390-9399)
     AUTH_INTERNAL_ERROR = 9390,
     AUTH_NOT_IMPLEMENTED = 9391
