@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -427,7 +427,39 @@ public:
         std::chrono::milliseconds avg_replication_latency;
     };
     Stats getStats() const;
-    
+
+    // Topology Snapshot for web UI visualization
+    struct TopologyNode {
+        std::string node_id;
+        std::string endpoint;
+        std::string datacenter;
+        std::string region;
+        std::string state;          // "ACTIVE", "SYNCING", "PARTITIONED", "RECOVERING", "OFFLINE"
+        uint64_t replication_lag_ms;
+        bool is_local;              // True for this node
+    };
+
+    struct TopologyEdge {
+        std::string from;
+        std::string to;
+        std::string type;           // "PEER"
+    };
+
+    struct TopologySnapshot {
+        std::string local_node_id;
+        std::vector<TopologyNode> nodes;
+        std::vector<TopologyEdge> edges;
+        uint64_t max_lag_ms;
+        std::string replication_mode; // "MULTI_MASTER"
+    };
+
+    /**
+     * Build a topology snapshot for visualization (web UI / REST API).
+     * Returns the local node and all known peers with their current state
+     * and estimated replication lag.
+     */
+    TopologySnapshot getTopologySnapshot() const;
+
     // Prometheus Metrics Export
     std::string exportPrometheusMetrics() const;
     

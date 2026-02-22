@@ -33,6 +33,7 @@
 #include "content/stt_processor.h"
 #include "content/tts_processor.h"
 #include "llm/llama_wrapper.h"
+#include "voice/wake_word_detector.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -115,6 +116,15 @@ public:
         bool enable_revision_control = true;
         bool compress_audio = true;
         std::string audio_format = "ogg";  // ogg, mp3, mp4
+
+        // Wake-word configuration
+        bool enable_wake_word = false;
+        WakeWordConfig wake_word_config;
+        std::vector<std::pair<std::string, std::string>> wake_words = {
+            {"hey-themis",   "hey themis"},
+            {"themis",       "themis"},
+            {"database",     "database"}
+        };
     };
     
     VoiceAssistant(const Config& config);
@@ -171,6 +181,31 @@ public:
         const std::string& session_id,
         std::function<void(const content::TranscriptionSegment&)> segment_callback = nullptr
     );
+
+    /**
+     * @brief Scan an audio chunk for registered wake words.
+     *
+     * Feed raw 16-bit PCM audio to the internal WakeWordDetector.  The
+     * detector maintains a rolling buffer internally so callers may stream
+     * small chunks continuously.
+     *
+     * @param audio_chunk  Raw PCM audio (16-bit LE, mono, at the sample rate
+     *                     configured in Config::wake_word_config).
+     * @return Detection result.  result.detected == true when a wake word fires.
+     */
+    WakeWordDetectionResult detectWakeWord(
+        const std::vector<uint8_t>& audio_chunk
+    );
+
+    /**
+     * @brief Register an optional callback invoked on every wake-word detection.
+     *
+     * The callback runs synchronously inside processAudioChunk() on the calling
+     * thread.  Pass nullptr to remove.
+     *
+     * @param callback  Function to call when a wake word is detected.
+     */
+    void setWakeWordCallback(WakeWordDetector::DetectionCallback callback);
     
     /**
      * @brief Record and transcribe phone call
@@ -244,6 +279,9 @@ private:
     std::unique_ptr<content::STTProcessor> stt_processor_;
     std::unique_ptr<content::TTSProcessor> tts_processor_;
     std::unique_ptr<llm::LlamaWrapper> llm_wrapper_;  // Changed from LlamaCppInferenceEngine
+    
+    // Wake-word detector
+    std::unique_ptr<WakeWordDetector> wake_word_detector_;
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;
