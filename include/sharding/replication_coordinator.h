@@ -76,6 +76,17 @@ public:
     size_t getReplicaCount() const;
 
     /**
+     * Get current replica topology info (delegates to WALShipper)
+     * Returns an empty vector if no shipper is configured.
+     */
+    std::vector<ReplicaInfo> getReplicaInfo() const;
+
+    /**
+     * Get WAL shipper statistics (delegates to WALShipper)
+     */
+    WALShipperStats getShipperStats() const;
+
+    /**
      * Enable/disable coordinator (useful for testing)
      */
     void setEnabled(bool enabled);

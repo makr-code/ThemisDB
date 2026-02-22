@@ -348,6 +348,69 @@ themisdb_network_partitions_detected_total  # Network partitions
 themisdb_leader_elections_total             # Leader elections
 ```
 
+### Topology Visualizer (Web UI)
+
+The built-in topology visualizer provides a live, auto-refreshing view of the
+replication cluster directly in the browser.
+
+**Endpoints:**
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/ui/replication/topology` | Interactive SVG topology page (auto-refreshes every 5 s) |
+| `GET` | `/api/v1/replication/topology` | JSON snapshot: nodes, roles, health, WAL lag |
+| `GET` | `/api/v1/replication/health` | Aggregated health summary (quorum, lag, ship stats) |
+
+**Access the visualizer:**
+
+```bash
+# Open in browser
+open http://localhost:8765/ui/replication/topology
+
+# JSON topology snapshot
+curl http://localhost:8765/api/v1/replication/topology | jq .
+
+# JSON health summary
+curl http://localhost:8765/api/v1/replication/health | jq .
+```
+
+**Topology response example:**
+
+```json
+{
+  "primary_node_id": "primary-node-1",
+  "primary_lsn": 1042,
+  "nodes": [
+    { "node_id": "primary-node-1", "role": "PRIMARY", "is_primary": true,
+      "health_status": "HEALTHY", "replication_lag_ms": 0 },
+    { "node_id": "replica-us-east", "role": "REPLICA", "is_primary": false,
+      "health_status": "HEALTHY", "replication_lag_ms": 42 }
+  ],
+  "edges": [
+    { "from": "primary-node-1", "to": "replica-us-east", "type": "WAL_STREAM" }
+  ],
+  "total_nodes": 2,
+  "replica_count": 1
+}
+```
+
+**Health response example:**
+
+```json
+{
+  "primary_node_id": "primary-node-1",
+  "has_quorum": true,
+  "total_nodes": 3,
+  "healthy_replicas": 2,
+  "failed_replicas": 0,
+  "max_replication_lag_ms": 42,
+  "overall_status": "HEALTHY"
+}
+```
+
+The primary node ID can be set via the `THEMIS_WAL_PRIMARY_ID` environment variable;
+if unset it defaults to an empty string.
+
 ### Grafana Dashboard
 
 Import the provided dashboard: [grafana/replication-ha.json](../grafana/replication-ha.json)

@@ -152,6 +152,20 @@ bool ReplicationCoordinator::isEnabled() const {
     return enabled_.load(std::memory_order_acquire);
 }
 
+std::vector<ReplicaInfo> ReplicationCoordinator::getReplicaInfo() const {
+    if (shipper_) {
+        return shipper_->getReplicaInfo();
+    }
+    return {};
+}
+
+WALShipperStats ReplicationCoordinator::getShipperStats() const {
+    if (shipper_) {
+        return shipper_->getStatistics();
+    }
+    return {};
+}
+
 bool ReplicationCoordinator::hasMetConcern(const PendingWrite& write, size_t total_replicas) const {
     size_t required = calculateRequiredReplicas(write.concern.level, total_replicas);
     size_t current_acks = write.ack_count.load(std::memory_order_acquire);

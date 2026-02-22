@@ -697,6 +697,18 @@ HttpServer::HttpServer(
         shard_topology_, redundancy_manager_, auth_
     );
     THEMIS_INFO("Geo Topology API Handler initialized");
+
+    // Initialize Replication Topology API Handler (web UI visualizer)
+    {
+        std::string repl_primary_id;
+        if (const char* pid = std::getenv("THEMIS_WAL_PRIMARY_ID")) {
+            repl_primary_id = pid;
+        }
+        replication_topology_api_ = std::make_unique<themis::server::ReplicationTopologyApiHandler>(
+            replication_coordinator_, wal_manager_, repl_primary_id, auth_
+        );
+        THEMIS_INFO("Replication Topology API Handler initialized");
+    }
     
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
@@ -2038,6 +2050,11 @@ namespace {
     GeoTopologyShardDelete,   // DELETE /api/v1/geo/topology/shard/{shard_id}
     GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
     GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
+
+    // Replication Topology API (web UI visualizer)
+    ReplicationTopologyGet,   // GET  /api/v1/replication/topology
+    ReplicationHealthGet,     // GET  /api/v1/replication/health
+    ReplicationTopologyUiGet, // GET  /ui/replication/topology
        
     // MVCC versioning API
     MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
@@ -2321,6 +2338,11 @@ namespace {
     if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
+
+    // Replication Topology API
+    if (path_only == "/api/v1/replication/topology" && method == http::verb::get) return Route::ReplicationTopologyGet;
+    if (path_only == "/api/v1/replication/health"   && method == http::verb::get) return Route::ReplicationHealthGet;
+    if (path_only == "/ui/replication/topology"     && method == http::verb::get) return Route::ReplicationTopologyUiGet;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
@@ -3873,6 +3895,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GeoConfigPut:
             response = geo_topology_api_->handleConfigPut(req);
+            break;
+
+        // ── Replication Topology API ──────────────────────────────────────────
+        case Route::ReplicationTopologyGet:
+            response = replication_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::ReplicationHealthGet:
+            response = replication_topology_api_->handleHealthGet(req);
+            break;
+        case Route::ReplicationTopologyUiGet:
+            response = replication_topology_api_->handleUiGet(req);
             break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);
