@@ -20,25 +20,25 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 
 ## In Progress 🚧
-- [~] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026)
-- [~] Wake-word detection for hands-free activation (Target: Q2 2026)
-- [~] Multi-speaker diarization improvements (Target: Q3 2026)
+- [!] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026) (Issue: #2496)
+- [I] Wake-word detection for hands-free activation (Target: Q2 2026) (Issue: #2365)
+- [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
-- [I] Language detection and automatic locale switching (Issue: #2011)
+- [I] Language detection and automatic locale switching (Issue: #2492)
 - [I] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
-- [I] WebSocket audio streaming endpoint for browser clients (Issue: #2070)
+- [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 - [I] Voice session playback and search in stored transcripts (Issue: #2077)
 
 ### Long-term (6-12 months)
 - [I] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
-- [I] Emotion / sentiment detection from voice tone (Issue: #2132)
-- [ ] Voice biometric authentication (speaker verification)
-- [ ] Real-time meeting transcription with action-item extraction
-- [ ] Integration with telephony systems (SIP / WebRTC)
+- [!] Emotion / sentiment detection from voice tone (Issue: #2493)
+- [I] Voice biometric authentication (speaker verification) (Issue: #2494)
+- [I] Real-time meeting transcription with action-item extraction (Issue: #2353)
+- [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Implementation Phases
 
@@ -76,12 +76,12 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [ ] Integration with telephony systems (SIP / WebRTC)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (full pipeline: audio in → transcription → AQL → audio out)
-- [ ] Performance benchmarks (STT latency, TTS generation speed)
-- [ ] Security audit (audio data storage, transcription PII handling)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [I] Unit tests coverage > 80% (Issue: #2355)
+- [I] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
+- [I] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
+- [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
+- [I] Documentation complete (Issue: #2359)
+- [I] API stability guaranteed (Issue: #2360)
 
 ## Known Issues & Limitations
 - Streaming (real-time word-by-word) STT is not yet implemented; batch mode only.

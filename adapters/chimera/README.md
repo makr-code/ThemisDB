@@ -31,6 +31,7 @@ This directory contains vendor-neutral database adapter implementations for the 
 | Adapter | Database Type | Features | Status |
 |---------|--------------|----------|--------|
 | **ThemisDB** | Multi-model | CRUD, Vectors, Transactions, Graph | ✅ Complete |
+| **MongoDB** | Document Store | CRUD, Atlas Vector Search, Transactions | ✅ Complete |
 | **PostgreSQL** | Relational | CRUD, SQL, pgvector, Transactions | ✅ Complete |
 | **Weaviate** | Vector DB | CRUD, Vector Search, REST/GraphQL | ✅ Complete |
 
@@ -45,7 +46,6 @@ This directory contains vendor-neutral database adapter implementations for the 
 
 - Neo4j (Graph database)
 - ArangoDB (Multi-model)
-- MongoDB (Document store)
 - Cassandra (Wide-column)
 - Redis (Key-value)
 - Elasticsearch (Search engine)
@@ -194,12 +194,12 @@ The adapter interface is defined in `include/chimera/database_adapter.hpp`:
 │ • get_database_version()                │
 │ • get_capabilities()                    │
 └─────────────────────────────────────────┘
-           │              │              │
-           ▼              ▼              ▼
-    ┌──────────┐  ┌──────────┐  ┌──────────┐
-    │ ThemisDB │  │PostgreSQL│  │ Weaviate │
-    │ Adapter  │  │ Adapter  │  │ Adapter  │
-    └──────────┘  └──────────┘  └──────────┘
+           │           │          │          │
+           ▼           ▼          ▼          ▼
+    ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
+    │ ThemisDB │ │ MongoDB  │ │PostgreSQL│ │ Weaviate │
+    │ Adapter  │ │ Adapter  │ │ Adapter  │ │ Adapter  │
+    └──────────┘ └──────────┘ └──────────┘ └──────────┘
 ```
 
 ### Data Types
@@ -279,6 +279,60 @@ config.parameters["protocol"] = "binary_wire";
 - Documents → Structured rows or JSON
 - Transactions → Native MVCC transactions
 - Vector search → ThemisDB vector index
+
+---
+
+### MongoDB Adapter
+
+**File:** `mongodb_adapter.hpp`
+
+```cpp
+#include "chimera/mongodb_adapter.hpp"
+
+auto adapter = create_mongodb_adapter();
+```
+
+**Features:**
+- Native document CRUD operations via mongocxx driver
+- Atlas Vector Search for vector similarity queries
+- Multi-document ACID transactions (MongoDB 4.0+, replica set required)
+- Full-text search via text indexes
+- Secondary and compound index management
+- JSON schema validation support
+
+**Configuration:**
+```cpp
+ConnectionConfig config;
+config.host = "localhost";
+config.port = 27017;
+config.database = "benchmark_db";
+config.username = "bench_user";
+config.password = "password";
+config.use_tls = true;
+// Or use a full connection string:
+config.parameters["connection_string"] =
+    "mongodb+srv://user:pass@cluster.mongodb.net/benchmark_db";
+```
+
+**Mappings:**
+- Collections → MongoDB collections
+- Documents → BSON documents with `_id` field
+- Vectors → Numeric array fields + Atlas Vector Search index
+- Transactions → MongoDB multi-document sessions
+
+**Vector Operations:**
+```json
+// Atlas $vectorSearch aggregation stage (requires Atlas Vector Search index)
+{
+  "$vectorSearch": {
+    "index": "embedding_index",
+    "path": "embedding",
+    "queryVector": [0.1, 0.2, 0.3],
+    "numCandidates": 100,
+    "limit": 10
+  }
+}
+```
 
 ---
 
@@ -534,6 +588,7 @@ Special thanks to all contributors who have implemented adapters for their datab
 
 - [x] Core interface definition
 - [x] ThemisDB adapter
+- [x] MongoDB adapter
 - [x] PostgreSQL adapter
 - [x] Weaviate adapter
 - [x] Template and documentation
@@ -541,7 +596,6 @@ Special thanks to all contributors who have implemented adapters for their datab
 ### Version 2.x (Planned)
 
 - [ ] Neo4j adapter (Graph)
-- [ ] MongoDB adapter (Document)
 - [ ] ArangoDB adapter (Multi-model)
 - [ ] Performance benchmarks
 - [ ] Async operation support

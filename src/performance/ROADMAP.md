@@ -22,25 +22,25 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Benchmark infrastructure
 
 ## In Progress 🚧
-- [?] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026)
-- [?] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026)
-- [?] NUMA topology detection and automatic thread pinning (Target: Q3 2026)
+- [!] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026) (Issue: #2425)
+- [I] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026) (Issue: #2220)
+- [I] NUMA topology detection and automatic thread pinning (Target: Q3 2026) (Issue: #2426)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-- [!] Per-query cost model integration with query optimizer (Issue: #2110)
-- [?] Memory pressure monitoring with automatic cache eviction
-- [?] Jemalloc integration as alternative allocator
+- [!] Per-query cost model integration with query optimizer (Issue: #2419)
+- [I] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
+- [!] Jemalloc integration as alternative allocator (Issue: #2421)
 
 ### Long-term (6-12 months)
-- [?] ML-based workload predictor for proactive resource scaling
-- [?] Hardware performance counter (PMU) integration for cache miss analysis
-- [?] Cross-module performance regression detection in CI
-- [?] DPDK / io_uring zero-copy I/O path for network performance
-- [?] Persistent memory (Optane) aware storage layout
+- [I] ML-based workload predictor for proactive resource scaling (Issue: #2214)
+- [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
+- [I] Cross-module performance regression detection in CI (Issue: #2423)
+- [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
+- [!] Persistent memory (Optane) aware storage layout (Issue: #2424)
 
 ## Implementation Phases
 

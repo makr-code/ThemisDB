@@ -1,0 +1,130 @@
+# CI Scope Classification Configuration
+#
+# Maps file path patterns to CI scopes.
+# Used by .github/scripts/classify_ci_scope.py and
+# .github/workflows/ci-scope-classifier.yml to determine which workflows
+# are relevant for a given set of changed files.
+#
+# Pattern syntax follows Python's fnmatch (glob-style):
+#   *  matches any sequence of characters within a path segment
+#   ** matches any path segment(s) (handled via custom matching)
+#   ?  matches any single character
+
+scopes:
+
+  # ── Code changes: any C++/CUDA/Python source ─────────────────────────────
+  # True when at least one source/include/test/fuzz/benchmark file changes.
+  has_code_changes:
+    patterns:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'fuzz/**'
+      - 'benchmarks/**'
+      - 'cmake/**'
+      - 'cmake/CMakeLists.txt'
+      - 'scripts/**/*.py'
+      - 'scripts/**/*.sh'
+      - 'wordpress-plugin/**'
+      - 'tools/**'
+
+  # ── Security changes: auth / security modules ────────────────────────────
+  has_security_changes:
+    patterns:
+      - 'src/security/**'
+      - 'src/auth/**'
+      - 'src/server/api_auth_config.cpp'
+      - 'src/server/auth_middleware.cpp'
+      - 'include/security/**'
+      - 'include/auth/**'
+      - 'include/server/api_auth_config.h'
+      - 'include/server/auth_middleware.h'
+      - 'tests/security/**'
+      - 'tests/test_jwt_*.cpp'
+      - 'tests/test_rbac_*.cpp'
+      - 'tests/test_vault_*.cpp'
+      - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
+      - 'fuzz/corpus/jwt/**'
+      - 'fuzz/corpus/rbac/**'
+
+  # ── GPU changes: GPU module, geo GPU backend ──────────────────────────────
+  has_gpu_changes:
+    patterns:
+      - 'src/gpu/**'
+      - 'src/geo/gpu_backend_stub.cpp'
+      - 'src/server/spatial_api_handler.cpp'
+      - 'include/themis/gpu/**'
+      - 'include/geo/spatial_backend.h'
+      - 'tests/test_gpu_*.cpp'
+      - 'tests/test_geo_gpu_backend.cpp'
+      - 'benchmarks/bench_gpu_module.cpp'
+
+  # ── LLM/CUDA changes: LLM inference, embeddings, CUDA kernels ────────────
+  has_llm_changes:
+    patterns:
+      - 'src/llm/**'
+      - 'src/rag/**'
+      - 'src/voice/**'
+      - 'src/prompt_engineering/**'
+      - 'include/llm/**'
+      - 'include/rag/**'
+      - 'tests/llm/**'
+
+  # ── Documentation-only changes ───────────────────────────────────────────
+  # True when ALL changed files are documentation (no code/config changed).
+  # This scope is computed differently: it is set to true only when no other
+  # code/config scope is triggered.
+  has_doc_only_changes:
+    patterns:
+      - 'docs/**'
+      - '*.md'
+      - 'README*'
+      - 'CHANGELOG*'
+      - 'LICENSE*'
+      - '.github/COPILOT_INSTRUCTIONS.md'
+      - '.github/copilot/**'
+      - '.github/GOVERNANCE.md'
+      - '.github/SECURITY.md'
+      - '.github/LABELS.md'
+      - '.github/RELEASE.md'
+      - 'roadmap.md'
+      - 'ROADMAP.md'
+      - 'future_enhancement.md'
+
+  # ── Config/CMake changes ──────────────────────────────────────────────────
+  has_config_changes:
+    patterns:
+      - 'cmake/**'
+      - 'config/**'
+      - '*.cmake'
+      - 'CMakeLists.txt'
+      - '.github/workflows/**'
+      - '.github/ci-scope-config.yaml'
+      - '.github/scripts/**'
+      - '.github/labeler.yml'
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+
+  # ── Grafana dashboard changes ─────────────────────────────────────────────
+  has_grafana_changes:
+    patterns:
+      - 'grafana/**'
+      - 'scripts/validate_grafana_dashboards.py'
+
+# ── Workflow-to-scope mapping ─────────────────────────────────────────────────
+# Documents which scope each workflow requires.
+# Used as reference; enforcement is done via `if:` conditions in each workflow.
+workflow_scope_map:
+  validate-ai-guardrails:     [has_doc_only_changes, has_config_changes]
+  validate-roadmap:           [has_doc_only_changes]
+  research-validation:        [has_doc_only_changes]
+  validate-grafana-dashboards: [has_grafana_changes]
+  gpu-ci:                     [has_gpu_changes]
+  llm-cuda-gpu-ci:            [has_llm_changes, has_gpu_changes]
+  llm-cpu-fallback-ci:        [has_llm_changes]
+  security-hardening-ci:      [has_security_changes]
+  themis-core-ci:             [has_code_changes]
+  pii-redaction-check:        [has_code_changes]
+  validate-config-mapping:    [has_config_changes]
+  chimera-tests:              [has_code_changes]
+  importer-tests:             [has_code_changes]
