@@ -34,8 +34,8 @@
 
 ## Research / References
 
-- [ ] TODO: Add reference – *Rawls, A Theory of Justice* (ISBN placeholder)
-- [ ] TODO: Add reference – *A Survey of AI Ethics Frameworks* (DOI / arXiv placeholder)
-- [ ] TODO: Add reference – *Argumentation in AI: A Survey* – arXiv:1801.06500 (verify DOI)
-- [ ] TODO: Add reference – *Value Alignment Problem in Artificial Intelligence* (DOI placeholder)
-- [ ] TODO: Add reference – *EU AI Act – Official Journal of the EU* (URL placeholder)
+- L. Floridi et al., "An ethical framework for a good AI society: Opportunities, risks, principles, and recommendations," *Minds Mach.*, vol. 29, pp. 689–707, 2019. DOI: [10.1007/s11023-019-09484-4](https://doi.org/10.1007/s11023-019-09484-4)
+- T. J. M. Bench-Capon and P. E. Dunne, "Argumentation in artificial intelligence," *Artif. Intell.*, vol. 171, no. 10–15, pp. 619–641, 2007. DOI: [10.1016/j.artint.2007.05.001](https://doi.org/10.1016/j.artint.2007.05.001)
+- P. M. Dung, "On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games," *Artif. Intell.*, vol. 77, no. 2, pp. 321–357, 1995. DOI: [10.1016/0004-3702(94)00041-X](https://doi.org/10.1016/0004-3702(94)00041-X)
+- B. Mittelstadt et al., "The ethics of algorithms: Mapping the debate," *Big Data Soc.*, vol. 3, no. 2, 2016. DOI: [10.1177/2053951716679679](https://doi.org/10.1177/2053951716679679)
+- S. Russell, D. Dewey, and M. Tegmark, "Research priorities for robust and beneficial artificial intelligence," *AI Mag.*, vol. 36, no. 4, pp. 105–114, 2015. DOI: [10.1609/aimag.v36i4.2577](https://doi.org/10.1609/aimag.v36i4.2577)

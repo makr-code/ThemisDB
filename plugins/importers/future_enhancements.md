@@ -39,6 +39,8 @@
 
 ## Research / References
 
-- [ ] TODO: Add reference – *Debezium: Change Data Capture* (URL placeholder)
-- [ ] TODO: Add reference – *The Data Warehouse Toolkit* – Kimball (ISBN placeholder)
-- [ ] TODO: Add reference – *Streaming Systems* – Akidau et al. (ISBN placeholder)
+- T. Akidau et al., "The dataflow model: A practical approach to balancing correctness, latency, and cost in massive-scale, unbounded, out-of-order data processing," *Proc. VLDB Endow.*, vol. 8, no. 12, pp. 1792–1803, 2015. DOI: [10.14778/2824032.2824076](https://doi.org/10.14778/2824032.2824076)
+- M. Stonebraker and L. A. Rowe, "The design of POSTGRES," in *Proc. 1986 ACM SIGMOD International Conf. Management of Data*, 1986, pp. 340–355. DOI: [10.1145/16894.16888](https://doi.org/10.1145/16894.16888)
+- C. Mohan et al., "ARIES: A transaction recovery method supporting fine-granularity locking and partial rollbacks using write-ahead logging," *ACM Trans. Database Syst.*, vol. 17, no. 1, pp. 94–162, Mar. 1992. DOI: [10.1145/128765.128770](https://doi.org/10.1145/128765.128770)
+- A. Reuter and H. Härder, "Principles of transaction-oriented database recovery," *ACM Comput. Surv.*, vol. 15, no. 4, pp. 287–317, Dec. 1983. DOI: [10.1145/289.291](https://doi.org/10.1145/289.291)
+- M. J. Carey and D. J. DeWitt, "Of objects and databases: A decade of turmoil," in *Proc. 22nd International Conf. Very Large Data Bases (VLDB)*, 1996, pp. 3–14.

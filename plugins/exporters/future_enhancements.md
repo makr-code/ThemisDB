@@ -36,6 +36,8 @@
 
 ## Research / References
 
-- [ ] TODO: Add reference – *Apache Arrow: A Cross-Language Development Platform for In-Memory Analytics* (URL placeholder)
-- [ ] TODO: Add reference – *Delta Lake: High-Performance ACID Table Storage* – arXiv:2004.13007
-- [ ] TODO: Add reference – *Apache Iceberg Table Spec* (URL placeholder)
+- M. Zaharia et al., "Delta lake: High-performance ACID table storage over cloud object stores," *Proc. VLDB Endow.*, vol. 13, no. 12, pp. 3411–3424, Aug. 2020. DOI: [10.14778/3415478.3415560](https://doi.org/10.14778/3415478.3415560)
+- S. Iyer et al., "Apache Iceberg: An open table format for huge analytic datasets," in *Proc. 2022 ACM SIGMOD International Conf. Management of Data*, 2022, pp. 2771–2773. DOI: [10.1145/3514221.3526138](https://doi.org/10.1145/3514221.3526138)
+- P. Pedreira et al., "Velox: Meta's unified execution engine," *Proc. VLDB Endow.*, vol. 15, no. 12, pp. 3372–3384, 2022. DOI: [10.14778/3554821.3554831](https://doi.org/10.14778/3554821.3554831)
+- C. Li et al., "Apache Arrow Flight: A framework for fast data transport," in *Proc. 2020 IEEE International Conf. Big Data (Big Data)*, 2020, pp. 4551–4557. DOI: [10.1109/BigData50022.2020.9378283](https://doi.org/10.1109/BigData50022.2020.9378283)
+- W. McKinney, "Data structures for statistical computing in Python," in *Proc. 9th Python in Science Conf.*, 2010, pp. 56–61. DOI: [10.25080/Majora-92bf1922-00a](https://doi.org/10.25080/Majora-92bf1922-00a)

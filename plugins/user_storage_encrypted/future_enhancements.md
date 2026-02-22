@@ -37,8 +37,8 @@
 
 ## Research / References
 
-- [ ] TODO: Add reference – *Searchable Symmetric Encryption: Survey* (DOI / arXiv placeholder)
-- [ ] TODO: Add reference – *Homomorphic Encryption Standardisation* (URL: homomorphicencryption.org)
-- [ ] TODO: Add reference – *NIST Post-Quantum Cryptography Standards* – FIPS 203/204/205 (URL placeholder)
-- [ ] TODO: Add reference – *Open Policy Agent: Policy-Based Control Plane* (URL: openpolicyagent.org)
-- [ ] TODO: Add reference – *BSI IT-Grundschutz Compendium* (URL placeholder)
+- D. X. Song, D. Wagner, and A. Perrig, "Practical techniques for searches on encrypted data," in *Proc. 2000 IEEE Symp. Security and Privacy*, 2000, pp. 44–55. DOI: [10.1109/SECPRI.2000.848445](https://doi.org/10.1109/SECPRI.2000.848445)
+- C. Gentry, "Fully homomorphic encryption using ideal lattices," in *Proc. 41st Annual ACM Symp. Theory of Computing (STOC)*, 2009, pp. 169–178. DOI: [10.1145/1536414.1536440](https://doi.org/10.1145/1536414.1536440)
+- D. J. Bernstein and T. Lange, "Post-quantum cryptography," *Nature*, vol. 549, pp. 188–194, 2017. DOI: [10.1038/nature23461](https://doi.org/10.1038/nature23461)
+- NIST, "FIPS 203: Module-lattice-based key-encapsulation mechanism standard," National Institute of Standards and Technology, 2024. DOI: [10.6028/NIST.FIPS.203](https://doi.org/10.6028/NIST.FIPS.203)
+- M. S. Islam, M. Kuzu, and M. Kantarcioglu, "Access pattern disclosure on searchable encryption: Ramification, attack and mitigation," in *Proc. 19th Annual Network and Distributed System Security Symp. (NDSS)*, 2012.

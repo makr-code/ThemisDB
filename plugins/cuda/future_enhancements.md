@@ -34,7 +34,8 @@
 
 ## Research / References
 
-- [ ] TODO: Add reference – *Efficient GPU Similarity Search* (DOI / arXiv placeholder)
-- [ ] TODO: Add reference – *FAISS: A Library for Efficient Similarity Search* – arXiv:1702.08734
-- [ ] TODO: Add reference – *cuVS: GPU-Accelerated Vector Search* (NVIDIA, URL placeholder)
-- [ ] TODO: Add reference – *Tensor Core GEMM Optimisation* (DOI / arXiv placeholder)
+- J. Johnson, M. Douze, and H. Jégou, "Billion-scale similarity search with GPUs," *IEEE Trans. Big Data*, vol. 7, no. 3, pp. 535–547, Jul. 2021. DOI: [10.1109/TBDATA.2019.2921572](https://doi.org/10.1109/TBDATA.2019.2921572)
+- Y. A. Malkov and D. A. Yashunin, "Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs," *IEEE Trans. Pattern Anal. Mach. Intell.*, vol. 42, no. 4, pp. 824–836, Apr. 2020. DOI: [10.1109/TPAMI.2018.2889473](https://doi.org/10.1109/TPAMI.2018.2889473)
+- S. Chetlur et al., "cuDNN: Efficient primitives for deep learning," arXiv:1410.0759, 2014. [https://arxiv.org/abs/1410.0759](https://arxiv.org/abs/1410.0759)
+- V. Volkov and J. W. Demmel, "Benchmarking GPUs to tune dense linear algebra," in *Proc. SC '08: ACM/IEEE Conf. Supercomputing*, 2008, pp. 1–11. DOI: [10.1109/SC.2008.5213359](https://doi.org/10.1109/SC.2008.5213359)
+- N. Satish, M. Harris, and M. Garland, "Designing efficient sorting algorithms for manycore GPUs," in *Proc. IEEE International Symp. Parallel & Distributed Processing (IPDPS)*, 2009, pp. 1–10. DOI: [10.1109/IPDPS.2009.5161005](https://doi.org/10.1109/IPDPS.2009.5161005)
