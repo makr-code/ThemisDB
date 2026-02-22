@@ -463,4 +463,74 @@ private:
                             const ModeSpec&    mode) const;
 };
 
+// ============================================================================
+// McpToolBridge – connect MCP server tools into the ToolRegistry
+// ============================================================================
+
+/**
+ * @brief Utility that bridges McpServer-registered tools into an AIOrchestrator
+ *        ToolRegistry.
+ *
+ * When the MCP server and the AI Orchestrator run together, tools registered in
+ * the MCP server can be forwarded to the orchestrator's ToolRegistry so that
+ * mode pipelines (e.g. "rag", "agentic") can invoke them without duplicating
+ * registration logic.
+ *
+ * Usage:
+ * @code
+ * #include "llm/ai_orchestrator.h"
+ * #include "server/mcp_server.h"
+ *
+ * AIOrchestrator orch(pack);
+ * McpServer mcp(io);
+ *
+ * // Wire orchestrator into MCP (MCP exposes modes as tools)
+ * mcp.attachOrchestrator(std::make_shared<AIOrchestrator>(pack));
+ *
+ * // Wire MCP tools into orchestrator (orchestrator can call MCP tools)
+ * McpToolBridge::bridgeTools(mcp, orch.toolRegistry());
+ * @endcode
+ *
+ * Only available when THEMIS_ENABLE_MCP is defined.
+ */
+#ifdef THEMIS_ENABLE_MCP
+// Forward-declare McpServer to avoid a circular include between
+// llm/ai_orchestrator.h and server/mcp_server.h.
+namespace themis::server { class McpServer; }
+
+class McpToolBridge {
+public:
+    /**
+     * @brief Import all tools currently registered in @p mcp into @p registry.
+     *
+     * For each tool found in the MCP server, a ToolSpec is created (using the
+     * tool's description and schema) and a handler is registered that forwards
+     * calls to @p mcp.handleRequest() with a JSON-RPC "tools/call" envelope.
+     *
+     * Existing entries in @p registry with the same name are overwritten.
+     *
+     * @param mcp      Reference to the McpServer whose tools to import.
+     * @param registry ToolRegistry to populate.
+     * @param prefix   Optional name prefix added to every imported tool name,
+     *                 e.g. "mcp_" → "mcp_docs_search".  Default: no prefix.
+     */
+    static void bridgeTools(themis::server::McpServer& mcp,
+                            ToolRegistry&               registry,
+                            const std::string&          prefix = "");
+
+    /**
+     * @brief Import a single named MCP tool into the registry.
+     *
+     * @param mcp        Reference to the McpServer.
+     * @param tool_name  Name of the tool inside the MCP server.
+     * @param registry   ToolRegistry to populate.
+     * @param alias      Name to use in the registry; defaults to @p tool_name.
+     */
+    static void bridgeTool(themis::server::McpServer& mcp,
+                            const std::string&         tool_name,
+                            ToolRegistry&               registry,
+                            const std::string&          alias = "");
+};
+#endif // THEMIS_ENABLE_MCP
+
 } // namespace themis::llm

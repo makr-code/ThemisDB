@@ -259,11 +259,119 @@ Content-Type: application/json
 | Module              | Integration point                                                |
 |---------------------|------------------------------------------------------------------|
 | DocsAssistant       | RAG retrieval via `docs_search` tool                            |
-| EmbeddedLLM         | Provides `LLMPluginInterface` to `AIOrchestrator::setLLMPlugin` |
+| EmbeddedLLM         | Provides `ILLMPlugin` to `AIOrchestrator::setLLMPlugin`         |
 | EthicalGuidelinesManager | Invoked by `ethics` mode system-prompt injection          |
 | RAG Judge           | Enabled per-mode via `judge.enabled = true`                     |
+| **McpServer**       | **Bidirectional bridge (see below)**                            |
 | Prometheus metrics  | Hooks via `observability.metrics = true`                        |
 | OpenTelemetry       | Hooks via `observability.trace = true`                          |
+
+---
+
+## MCP Integration (Model Context Protocol)
+
+ThemisDB ships a full MCP server (`McpServer`, enabled with
+`-DTHEMIS_ENABLE_MCP=ON`).  The AI Orchestration layer integrates with it
+in **both directions**:
+
+```
+ ┌──────────────────────────────────────────────────────────────────────┐
+ │  MCP Client (Claude Desktop, VS Code, …)                            │
+ └──────────────────────────────┬───────────────────────────────────────┘
+        JSON-RPC / stdio / SSE  │
+ ┌──────────────────────────────▼───────────────────────────────────────┐
+ │  McpServer                                                           │
+ │  ┌───────────────────────────────────────────────────────────────┐   │
+ │  │ Built-in MCP tools:  query, put_entity, get_schema, llm_chat… │   │
+ │  ├───────────────────────────────────────────────────────────────┤   │
+ │  │ Orchestrator tools (added by attachOrchestrator()):           │   │
+ │  │   llm_orchestrate  – run a named mode (ask/rag/agentic/…)    │   │
+ │  │   llm_list_modes   – list all available modes                 │   │
+ │  └───────────────────────────────────────────────────────────────┘   │
+ └──────────────────────────────┬───────────────────────────────────────┘
+                                │ attachOrchestrator()
+ ┌──────────────────────────────▼───────────────────────────────────────┐
+ │  AIOrchestrator                                                      │
+ │  ┌──────────────────────────────────────────────────────────────┐    │
+ │  │ ToolRegistry ← McpToolBridge::bridgeTools()                  │    │
+ │  │   (MCP tools usable inside mode pipelines)                   │    │
+ │  └──────────────────────────────────────────────────────────────┘    │
+ └──────────────────────────────────────────────────────────────────────┘
+```
+
+### MCP → Orchestrator (MCP clients invoke orchestration modes)
+
+```cpp
+#include "server/mcp_server.h"
+#include "llm/ai_orchestrator.h"
+
+auto pack = ModeSpecLoader::loadFromFile("config/ai_ml/llm/modes/default.yaml");
+auto orch = std::make_shared<AIOrchestrator>(pack);
+orch->setLLMPlugin(my_plugin);
+
+McpServer mcp(io_context);
+mcp.attachOrchestrator(orch);   // registers llm_orchestrate + llm_list_modes
+mcp.start();
+```
+
+After calling `attachOrchestrator()`, any MCP client can invoke the pipeline:
+
+```json
+// JSON-RPC request from a Claude Desktop session
+{
+  "jsonrpc": "2.0", "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "llm_orchestrate",
+    "arguments": {
+      "query": "How do I configure sharding?",
+      "mode":  "rag"
+    }
+  }
+}
+```
+
+Response includes the generated text plus full run metadata:
+
+```json
+{
+  "status":           "success",
+  "text":             "Sharding is configured via …",
+  "mode_id":          "rag",
+  "tokens_generated": 112,
+  "retrieved_docs":   3,
+  "latency_ms":       430
+}
+```
+
+### Orchestrator → MCP (mode pipelines call MCP tools)
+
+To let mode pipelines use any tool already registered on the MCP server,
+use `McpToolBridge`:
+
+```cpp
+#include "llm/ai_orchestrator.h"
+#include "server/mcp_server.h"
+
+// Import ALL MCP tools (prefixed with "mcp_" to avoid name collisions)
+McpToolBridge::bridgeTools(mcp, orch->toolRegistry(), "mcp_");
+
+// Import a single tool under its original name
+McpToolBridge::bridgeTool(mcp, "docs_search", orch->toolRegistry());
+```
+
+Once bridged, a mode that has `tools_allowed: [mcp_query]` will forward
+tool calls through the local McpServer's handler.
+
+### Enabling MCP support
+
+```cmake
+cmake -DTHEMIS_ENABLE_MCP=ON -DTHEMIS_ENABLE_LLM=ON ..
+```
+
+Both flags are required for the bridge; the compile-time guard
+`#if defined(THEMIS_ENABLE_MCP) && defined(THEMIS_ENABLE_LLM)` ensures that
+neither module creates a dependency on the other when used standalone.
 
 ---
 

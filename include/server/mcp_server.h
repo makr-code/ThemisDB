@@ -48,6 +48,18 @@ namespace prompt_engineering {
 class PromptManager;
 }
 
+} // namespace server
+
+// Forward-declare AIOrchestrator for the MCP ↔ Orchestrator integration bridge.
+// The include is kept out of the global namespace to avoid polluting translation
+// units that only use McpServer without the LLM feature enabled.
+#ifdef THEMIS_ENABLE_LLM
+namespace themis::llm { class AIOrchestrator; }
+#endif
+
+namespace themis {
+namespace server {
+
 /**
  * @brief MCP (Model Context Protocol) Server Implementation
  * 
@@ -126,6 +138,24 @@ public:
     // Transport management
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
     void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
+
+    /**
+     * @brief Attach an AIOrchestrator to expose mode-based LLM pipelines as MCP tools.
+     *
+     * When attached, two new MCP tools are registered:
+     *  - **llm_orchestrate**: executes an AIOrchestrator pipeline for a given mode.
+     *  - **llm_list_modes**: returns all available modes from the loaded ModePack.
+     *
+     * This is the primary integration point between the Model Context Protocol
+     * transport layer and the YAML-configurable LLM orchestration layer.
+     *
+     * Only available when both THEMIS_ENABLE_MCP and THEMIS_ENABLE_LLM are set.
+     *
+     * @param orchestrator Shared pointer to a fully initialised AIOrchestrator.
+     */
+    #ifdef THEMIS_ENABLE_LLM
+    void attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator);
+    #endif
     std::shared_ptr<McpTransport> getStdioTransport() const { return stdio_transport_; }
     std::shared_ptr<McpTransport> getSseTransport() const { return sse_transport_; }
     std::shared_ptr<McpTransport> getWebSocketTransport() const { return ws_transport_; }
@@ -167,6 +197,10 @@ private:
     json toolLLMEmbed(const json& args);
     json toolLLMChat(const json& args);
     json toolDatabaseQueryWithLLM(const json& args);
+
+    // AI Orchestrator tools – mode-based LLM pipelines (ask / edit / rag / agentic / ethics …)
+    json toolLLMOrchestrate(const json& args);
+    json toolLLMListModes(const json& args);
     #endif
 
     // Default resource handlers
@@ -239,6 +273,11 @@ private:
     // Session state
     bool initialized_ = false;
     std::string client_info_;
+
+    // AI Orchestrator reference (optional – set via attachOrchestrator())
+    #ifdef THEMIS_ENABLE_LLM
+    std::shared_ptr<themis::llm::AIOrchestrator> orchestrator_;
+    #endif
 };
 
 /**
