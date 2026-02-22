@@ -349,6 +349,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/content/stt_processor.cpp
         ../src/content/tts_processor.cpp
         ../src/voice/audio_preprocessing.cpp
+        ../src/voice/wake_word_detector.cpp
         ../src/voice/voice_intent_detector.cpp
         ../src/voice/voice_session_manager.cpp
         ../src/voice/voice_security.cpp
