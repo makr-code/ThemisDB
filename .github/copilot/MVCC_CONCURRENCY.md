@@ -150,7 +150,7 @@ inline LogicalClock g_txn_clock;
 ### MVCC vs. Pessimistic Locking
 
 | Aspect | MVCC | Pessimistic Locking |
-|--------|------|---------------------|
+| ------ | ---- | ------------------- |
 | Read-write contention | None (readers never block writers) | Readers block writers |
 | Write-write contention | Detect at commit (abort one) | Block until lock released |
 | Throughput (read-heavy) | ✅ High | ❌ Lower |

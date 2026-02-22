@@ -5,7 +5,7 @@
 ### NVIDIA Terminology
 
 | Term | Description |
-|------|-------------|
+| ------ | ----------- |
 | **Thread** | Single execution unit; executes one instance of the kernel |
 | **Warp** | 32 threads that execute in lock-step (SIMT model) |
 | **Block** | Group of threads (up to 1024) sharing Shared Memory and synchronization |
@@ -31,7 +31,7 @@
 ```
 
 | Memory Type | Scope | Latency | Size |
-|-------------|-------|---------|------|
+| ----------- | ----- | ------- | ---- |
 | Register | Per thread | ~1 cycle | ~256 KB per SM |
 | Shared | Per block | ~5 cycles | 48–96 KB per block |
 | L1/Texture Cache | Per SM | ~30 cycles | 32–128 KB per SM |

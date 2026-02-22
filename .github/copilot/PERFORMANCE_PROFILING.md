@@ -3,7 +3,7 @@
 ## Profiling Tools Overview
 
 | Tool | Platform | Use Case |
-|------|----------|----------|
+| ---- | -------- | -------- |
 | NVIDIA Nsight Systems (`nsys`) | GPU | System-wide timeline, CPU+GPU interactions |
 | NVIDIA Nsight Compute (`ncu`) | GPU | Per-kernel deep-dive metrics |
 | Linux `perf` + FlameGraph | CPU (Linux) | CPU hot-path analysis |
@@ -155,7 +155,7 @@ kcachegrind callgrind.out
 ### GPU Metrics
 
 | Metric | Good Value | Warning | Tool |
-|--------|-----------|---------|------|
+| ------ | ---------- | ------- | ---- |
 | SM Utilization | > 80% | < 50% | `ncu` |
 | Memory Bandwidth | > 70% peak | < 40% | `ncu` |
 | Warp Efficiency | > 85% | < 60% | `ncu` |
@@ -167,7 +167,7 @@ kcachegrind callgrind.out
 ### CPU Metrics
 
 | Metric | Good Value | Tool |
-|--------|-----------|------|
+| ------ | ---------- | ---- |
 | IPC (Instructions/Cycle) | > 2.0 | `perf stat` |
 | L1D Cache Miss Rate | < 5% | `perf stat` |
 | Branch Misprediction Rate | < 2% | `perf stat` |
@@ -356,7 +356,7 @@ REGRESSION_THRESHOLDS = {
 ## Performance Targets by Module
 
 | Module | Metric | Target | Notes |
-|--------|--------|--------|-------|
+| ------ | ------ | ------ | ----- |
 | Vector Search (GPU) | Search latency (1K queries) | < 5 ms | HNSW, float32, dim=768 |
 | Vector Search (CPU) | Search latency (1K queries) | < 50 ms | AVX2 baseline |
 | Storage Write | Bulk insert (100K records) | < 2 s | RocksDB backend |
