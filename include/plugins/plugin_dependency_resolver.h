@@ -209,6 +209,34 @@ public:
     }
     
     /**
+     * @brief Validate that all declared dependencies are registered in the graph
+     * 
+     * Identifies plugins that declare a dependency on a plugin that is not
+     * present in the dependency graph (i.e. not registered with the manager).
+     * Must be called before computeLoadOrder() to distinguish missing-dependency
+     * failures from circular-dependency failures.
+     * 
+     * @param graph Dependency graph
+     * @return Vector of (dependent_plugin, missing_dependency) pairs.
+     *         Empty if all dependencies are satisfied.
+     */
+    static std::vector<std::pair<std::string, std::string>> validateDependencies(
+        const DependencyGraph& graph
+    ) {
+        std::vector<std::pair<std::string, std::string>> missing;
+        
+        for (const auto& [name, deps] : graph.dependencies) {
+            for (const auto& dep : deps) {
+                if (graph.dependencies.find(dep) == graph.dependencies.end()) {
+                    missing.emplace_back(name, dep);
+                }
+            }
+        }
+        
+        return missing;
+    }
+    
+    /**
      * @brief Get all transitive dependencies for a plugin
      * 
      * Returns all direct and indirect dependencies in load order.

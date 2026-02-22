@@ -900,23 +900,68 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
 }
 
 Result<size_t> PluginManager::autoLoadPlugins() {
-    std::vector<std::pair<int, std::string>> to_load;
+    std::vector<std::string> topo_order;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        for (const auto& [name, entry] : plugins_) {
-            if (entry.manifest.auto_load) {
-                to_load.emplace_back(entry.manifest.load_priority, name);
+
+        // Build dependency graph from all registered plugins
+        auto dep_graph = PluginDependencyResolver::buildGraph(plugins_);
+
+        // Detect circular dependencies before attempting any load
+        auto cycles = PluginDependencyResolver::detectCircularDependencies(dep_graph);
+        if (!cycles.empty()) {
+            std::string cycle_desc;
+            for (const auto& cycle : cycles) {
+                if (!cycle_desc.empty()) cycle_desc += "; ";
+                for (size_t i = 0; i < cycle.size(); ++i) {
+                    if (i > 0) cycle_desc += " -> ";
+                    cycle_desc += cycle[i];
+                }
             }
+            auto error_msg = fmt::format("Circular dependencies detected: {}", cycle_desc);
+            THEMIS_ERROR("Cannot auto-load plugins — {}", error_msg);
+            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, error_msg);
+        }
+
+        // Check for unregistered dependencies (missing plugins)
+        auto missing_deps = PluginDependencyResolver::validateDependencies(dep_graph);
+        if (!missing_deps.empty()) {
+            std::string missing_desc;
+            for (const auto& [plugin, dep] : missing_deps) {
+                if (!missing_desc.empty()) missing_desc += "; ";
+                missing_desc += fmt::format("'{}' requires unregistered '{}'", plugin, dep);
+            }
+            auto error_msg = fmt::format("Unregistered plugin dependencies: {}", missing_desc);
+            THEMIS_ERROR("Cannot auto-load plugins — {}", error_msg);
+            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, error_msg);
+        }
+
+        // Compute topological load order so dependencies are loaded before dependents
+        try {
+            topo_order = PluginDependencyResolver::computeLoadOrder(dep_graph);
+        } catch (const std::runtime_error& e) {
+            // Defensive: computeLoadOrder only throws when cycles or incomplete graphs
+            // are present; both are checked above, but guard against unexpected cases.
+            auto error_msg = fmt::format("Plugin dependency resolution failed: {}", e.what());
+            THEMIS_ERROR("Cannot auto-load plugins — {}", error_msg);
+            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, error_msg);
         }
     }
-    
-    std::sort(to_load.begin(), to_load.end(), [](const auto& a, const auto& b) {
-        return a.first < b.first;
-    });
-    
+
     size_t loaded = 0;
-    for (const auto& [priority, name] : to_load) {
-        (void)priority;
+    for (const auto& name : topo_order) {
+        // Only explicitly load plugins marked for auto-load;
+        // non-auto-load dependencies are pulled in automatically by loadPlugin().
+        // Re-check under the lock because a plugin may have been unregistered
+        // between graph construction and this iteration.
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto it = plugins_.find(name);
+            if (it == plugins_.end() || !it->second.manifest.auto_load) {
+                continue;
+            }
+        }
+
         auto result = loadPlugin(name);
         if (!result) {
             metrics_.recordError(name);
@@ -924,7 +969,7 @@ Result<size_t> PluginManager::autoLoadPlugins() {
         }
         ++loaded;
     }
-    
+
     THEMIS_INFO("Auto-loaded {} plugins", loaded);
     return Ok(loaded);
 }
