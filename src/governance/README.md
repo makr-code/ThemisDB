@@ -44,3 +44,13 @@ For governance documentation, see:
 - [Governance Usage](../../docs/governance_usage.md)
 - [Compliance Governance Strategy](../../docs/compliance_governance_strategy.md)
 - [Compliance Integration](../../docs/compliance_integration.md)
+
+## Scientific References
+
+1. European Parliament and Council. (2016). **General Data Protection Regulation (GDPR)**. Official Journal of the European Union, L 119. https://eur-lex.europa.eu/eli/reg/2016/679/oj
+
+2. National Institute of Standards and Technology. (2020). **Security and Privacy Controls for Information Systems and Organizations**. NIST Special Publication 800-53 Rev. 5. https://doi.org/10.6028/NIST.SP.800-53r5
+
+3. Abiteboul, S., Hull, R., & Vianu, V. (1995). **Foundations of Databases**. Addison-Wesley. https://webdam.inria.fr/Alice/
+
+4. Sandhu, R. S., Coyne, E. J., Feinstein, H. L., & Youman, C. E. (1996). **Role-Based Access Control Models**. *IEEE Computer*, 29(2), 38–47. https://doi.org/10.1109/2.485845

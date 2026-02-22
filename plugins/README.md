@@ -58,24 +58,53 @@ plugins/
 ├── CMakeLists.txt                      (Build configuration)
 ├── blob_storage/                       ✅ Production
 │   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
 │   ├── azure/                          (Azure Blob Storage plugin)
 │   └── s3/                             (Amazon S3 plugin)
-├── image_analysis/                     ✅ Production
+├── cuda/                               📋 Example/Template
 │   ├── README.md
-│   └── onnx_clip/                      (ONNX CLIP embedding plugin)
-├── rpc/                                ✅ Production
-│   └── grpc/                           (gRPC plugin)
+│   ├── roadmap.md
+│   ├── future_enhancements.md
+│   ├── CMakeLists.txt.example
+│   ├── cuda_plugin.cpp.example
+│   └── cuda_plugin.json
+├── ethics_ai/                          🔧 WIP
+│   ├── README.md
+│   ├── roadmap.md
+│   └── future_enhancements.md
 ├── exporters/                          ✅ Production
 │   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
 │   └── jsonl_llm/                      (JSONL LLM exporter)
+├── huggingface/                        ✅ Ready for use
+│   ├── README.md
+│   ├── roadmap.md
+│   └── future_enhancements.md
+├── image_analysis/                     ✅ Production
+│   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
+│   └── onnx_clip/                      (ONNX CLIP embedding plugin)
 ├── importers/                          ✅ Production
 │   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
 │   └── postgres/                       (PostgreSQL importer)
-└── cuda/                               📋 Example/Template
+├── rpc/                                ✅ Production
+│   ├── README.md
+│   ├── roadmap.md
+│   ├── future_enhancements.md
+│   └── grpc/                           (gRPC plugin)
+└── user_storage_encrypted/             🔧 WIP
     ├── README.md
-    ├── CMakeLists.txt.example
-    ├── cuda_plugin.cpp.example
-    └── cuda_plugin.json
+    ├── roadmap.md
+    └── future_enhancements.md
+
+> 📄 **Per-plugin documentation:** Every plugin subdirectory contains three standard
+> Markdown files: `README.md` (status, architecture, references), `roadmap.md`
+> (planned work), and `future_enhancements.md` (ideas backlog).
 
 Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented
 in src/acceleration/ and can be enabled via build configuration.
@@ -547,9 +576,14 @@ For developers interested in creating hardware acceleration plugins, see the exa
   
 - **Specific Plugin Types**:
   - [Blob Storage Plugins](blob_storage/README.md)
-  - [Image Analysis Plugins](image_analysis/README.md)
+  - [CUDA Plugin Template](cuda/README.md)
+  - [Ethics AI Plugin](ethics_ai/README.md)
   - [Exporter Plugins](exporters/README.md)
+  - [HuggingFace Ingestion Plugin](huggingface/README.md)
+  - [Image Analysis Plugins](image_analysis/README.md)
   - [Importer Plugins](importers/README.md)
+  - [RPC Plugins](rpc/README.md)
+  - [User Storage Encrypted Plugin](user_storage_encrypted/README.md)
   - [RPC Plugin Architecture](../docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md)
   
 - **Future Plans**:

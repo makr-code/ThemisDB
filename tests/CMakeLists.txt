@@ -102,6 +102,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_real_embeddings\\.cpp$"
         ".*test_adaptive_query_cache\\.cpp$"
         ".*test_streaming_handler\\.cpp$"
+        ".*test_shared_worker_pool\\.cpp$"
     )
 endif()
 

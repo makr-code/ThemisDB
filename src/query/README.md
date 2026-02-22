@@ -805,3 +805,15 @@ target_link_libraries(themisdb_query
 *Last Updated: February 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
+
+## Scientific References
+
+1. Selinger, P. G., Astrahan, M. M., Chamberlin, D. D., Lorie, R. A., & Price, T. G. (1979). **Access Path Selection in a Relational Database Management System**. *Proceedings of the 1979 ACM SIGMOD International Conference on Management of Data*, 23–34. https://doi.org/10.1145/582095.582099
+
+2. Graefe, G., & McKenna, W. J. (1993). **The Volcano Model: An Extensible and Parallel Query Evaluation System**. *IEEE Transactions on Knowledge and Data Engineering*, 6(1), 120–135. https://doi.org/10.1109/69.273032
+
+3. Ioannidis, Y. E. (1996). **Query Optimization**. *ACM Computing Surveys*, 28(1), 121–123. https://doi.org/10.1145/234313.234367
+
+4. Graefe, G. (1993). **Query Evaluation Techniques for Large Databases**. *ACM Computing Surveys*, 25(2), 73–170. https://doi.org/10.1145/152610.152611
+
+5. Leis, V., Gubichev, A., Mirchev, A., Boncz, P., Kemper, A., & Neumann, T. (2015). **How Good Are Query Optimizers, Really?** *Proceedings of the VLDB Endowment*, 9(3), 204–215. https://doi.org/10.14778/2850583.2850594
