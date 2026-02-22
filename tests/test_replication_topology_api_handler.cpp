@@ -95,22 +95,18 @@ TEST_F(ReplicationTopologyApiHandlerNoReplTest, UiAlwaysServes200) {
 // Test fixture – stub coordinator with two replicas
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * Minimal stub WALShipper that returns hard-coded ReplicaInfo entries.
- * We can't easily mock WALShipper without a WALManager, so we build a
- * ReplicationCoordinator around a real (but tiny) WALShipper pointing at
- * two fake replica endpoints.
- */
+// ─────────────────────────────────────────────────────────────────────────────
+// Test fixture – validates UI endpoint behaviour; uses nullptr coordinator
+// because WALShipper construction requires a live WALManager.
+// The null-coordinator path is exercised in the no-replication fixture above;
+// these tests focus on the UI page content and Host-header injection.
+// ─────────────────────────────────────────────────────────────────────────────
+
 class ReplicationTopologyApiHandlerWithReplTest : public ::testing::Test {
 protected:
     std::unique_ptr<ReplicationTopologyApiHandler> handler_;
 
     void SetUp() override {
-        // A nullptr coordinator still lets us test the "no coordinator" path,
-        // but here we want to exercise the "happy path" with a real coordinator.
-        // Use nullptr for coordinator to keep the test self-contained while still
-        // covering the code paths that DO have a coordinator via a separate mock.
-        // The two sub-tests below cover null vs non-null paths.
         handler_ = std::make_unique<ReplicationTopologyApiHandler>(
             nullptr, nullptr, "primary-node", nullptr);
     }
