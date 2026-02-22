@@ -76,7 +76,7 @@ Implement end-to-end plugin signing using Ed25519 keys managed by the PKI client
 
 ---
 
-### [ ] Plugin Dependency Resolution and Ordered Loading
+### [x] Plugin Dependency Resolution and Ordered Loading
 **Priority:** Medium
 **Target Version:** v0.9.0
 
