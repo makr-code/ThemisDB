@@ -26,6 +26,7 @@ on:
       - 'fuzz/corpus/rbac/**'
       - '.github/workflows/security-hardening-ci.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/auth/**'
       - 'src/security/**'

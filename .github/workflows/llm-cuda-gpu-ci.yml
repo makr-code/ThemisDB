@@ -27,6 +27,7 @@ name: LLM CUDA GPU CI
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/llm/kernel_fusion.cu'
       - 'include/llm/kernel_fusion_cuda.h'
