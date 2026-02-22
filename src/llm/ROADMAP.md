@@ -53,7 +53,7 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [x] Grammar-constrained generation with runtime API detection
 
 ### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
-- [I] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
+- [x] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
 - [I] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
 - [ ] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [ ] Unified metrics dashboard for both engines (Target: Q3 2026)
