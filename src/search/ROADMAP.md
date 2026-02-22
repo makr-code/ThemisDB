@@ -22,9 +22,9 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] High recall@10 (85%+) with hybrid search
 - [x] QueryParser – natural language query parsing
 - [x] ResultRanker – configurable score aggregation
+- [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 
 ## In Progress 🚧
-- [!] LLM-based query rewriting for improved recall (Target: Q2 2026) (Issue: #2456)
 - [I] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
@@ -59,7 +59,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] `ResultRanker` – configurable score aggregation
 
 ### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
-- [~] LLM-based query rewriting for improved recall
+- [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 - [~] Faceted search with dynamic facet counting
 - [~] Highlight / snippet generation for matched terms
 
