@@ -414,6 +414,22 @@ private:
     }
 
     // ------------------------------------------------------------------
+    // stBuffer
+    //
+    // CUDA kernel dispatch for ST_BUFFER is deferred to a future release
+    // (see FUTURE_ENHANCEMENTS.md §CUDA_KERNEL_DISPATCH).  This implementation
+    // falls back to the CPU exact backend and records the fallback in the audit
+    // log so that when a GPU kernel is eventually wired in, the counters start
+    // from 0.
+    // ------------------------------------------------------------------
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel not yet implemented)", "");
+        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
+        return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
+    }
+
+    // ------------------------------------------------------------------
     // Members
     // ------------------------------------------------------------------
     Config                         cfg_;
