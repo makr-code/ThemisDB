@@ -145,6 +145,9 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     else if (path == "/api/v1/voice/command/stream" && method == http::verb::post) {
         return handleStreamCommand(req);
     }
+    else if (path == "/api/v1/voice/wake-word/detect" && method == http::verb::post) {
+        return handleWakeWordDetect(req);
+    }
     else if (path == "/api/v1/voice/call/record" && method == http::verb::post) {
         return handleRecordCall(req);
     }
@@ -399,6 +402,29 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     result["segments"]     = segments_json;
     result["audio_base64"] = encodeBase64(tts_audio);
     result["mime_type"]    = "audio/wav";
+
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
+    const http::request<http::string_body>& req
+) {
+    auto audio_data = extractAudioData(req);
+    if (audio_data.empty()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "Audio data is required for wake-word detection"
+        );
+    }
+
+    auto detection = voice_assistant_->detectWakeWord(audio_data);
+
+    json result;
+    result["detected"]               = detection.detected;
+    result["wake_word_id"]           = detection.wake_word_id;
+    result["confidence"]             = detection.confidence;
+    result["detection_timestamp_ms"] = detection.detection_timestamp_ms;
 
     return createJsonResponse(result);
 }

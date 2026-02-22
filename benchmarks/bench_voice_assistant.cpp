@@ -33,7 +33,9 @@
 
 #include <benchmark/benchmark.h>
 #include "voice/voice_assistant.h"
+#include "voice/wake_word_detector.h"
 #include <nlohmann/json.hpp>
+#include <cmath>
 #include <vector>
 #include <random>
 
@@ -455,6 +457,121 @@ BENCHMARK(BM_MemoryUsagePerSession)
     ->Arg(100)
     ->Arg(1000)
     ->Arg(10000);
+
+// ============================================================================
+// Wake-Word Detection Benchmarks
+// ============================================================================
+
+// Build 16-bit PCM audio at 16 kHz with a sine wave of given amplitude.
+static std::vector<uint8_t> generateSinePcm(int duration_ms, float amplitude,
+                                             int sample_rate = 16000) {
+    if (duration_ms <= 0) return {};
+    constexpr float kFrequencyHz = 440.0f;
+    const int num_samples = (sample_rate * duration_ms) / 1000;
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(num_samples) * 2);
+    for (int i = 0; i < num_samples; ++i) {
+        float val = amplitude *
+            std::sin(2.0f * static_cast<float>(M_PI) * kFrequencyHz * i / sample_rate);
+        auto s = static_cast<int16_t>(val * 32767.0f);
+        pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+        pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+// Benchmark: processAudioChunk with silence (VAD gate path).
+static void BM_WakeWordDetect_Silence(benchmark::State& state) {
+    WakeWordConfig cfg;
+    cfg.vad_min_energy = 0.01f;
+    cfg.sensitivity    = 0.5f;
+    WakeWordDetector detector(cfg);
+    detector.addWakeWord("hey-themis", "hey themis");
+    detector.addWakeWord("themis",     "themis");
+
+    int duration_ms = state.range(0);
+    auto audio = generateSinePcm(duration_ms, 0.0001f);  // near-silence
+
+    for (auto _ : state) {
+        auto result = detector.processAudioChunk(audio);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+}
+BENCHMARK(BM_WakeWordDetect_Silence)
+    ->Arg(100)   // 100 ms chunk
+    ->Arg(500)   // 500 ms chunk
+    ->Arg(1500); // 1.5 s chunk (full buffer)
+
+// Benchmark: processAudioChunk with voiced audio (full scoring path).
+static void BM_WakeWordDetect_Voiced(benchmark::State& state) {
+    WakeWordConfig cfg;
+    cfg.vad_min_energy = 0.0f;   // Always pass VAD gate
+    cfg.sensitivity    = 0.99f;  // Very high threshold so we score but rarely fire
+    cfg.cooldown_ms    = 0;
+    WakeWordDetector detector(cfg);
+    detector.addWakeWord("hey-themis", "hey themis");
+    detector.addWakeWord("themis",     "themis");
+    detector.addWakeWord("database",   "database");
+
+    int duration_ms = state.range(0);
+    auto audio = generateSinePcm(duration_ms, 0.8f);
+
+    for (auto _ : state) {
+        detector.reset();  // clear cooldown so each chunk is evaluated
+        auto result = detector.processAudioChunk(audio);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+}
+BENCHMARK(BM_WakeWordDetect_Voiced)
+    ->Arg(100)
+    ->Arg(500)
+    ->Arg(1500);
+
+// Benchmark: Wake-word detection via VoiceAssistant::detectWakeWord.
+static void BM_VoiceAssistant_DetectWakeWord(benchmark::State& state) {
+    VoiceAssistant::Config cfg = createTestConfig();
+    cfg.enable_wake_word                  = true;
+    cfg.wake_word_config.vad_min_energy   = 0.0f;
+    cfg.wake_word_config.sensitivity      = 0.99f;
+    cfg.wake_word_config.cooldown_ms      = 0;
+    VoiceAssistant assistant(cfg);
+
+    auto audio = generateSinePcm(state.range(0), 0.8f);
+
+    for (auto _ : state) {
+        auto result = assistant.detectWakeWord(audio);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+}
+BENCHMARK(BM_VoiceAssistant_DetectWakeWord)
+    ->Arg(100)
+    ->Arg(500)
+    ->Arg(1500);
+
+// Benchmark: getStatistics after detection processing.
+static void BM_WakeWordDetector_GetStatistics(benchmark::State& state) {
+    WakeWordDetector detector;
+    detector.addWakeWord("hey-themis", "hey themis");
+    auto audio = generateSinePcm(500, 0.5f);
+    detector.processAudioChunk(audio);  // prime the stats
+
+    for (auto _ : state) {
+        auto stats = detector.getStatistics();
+        benchmark::DoNotOptimize(stats);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_WakeWordDetector_GetStatistics);
 
 // ============================================================================
 // Main

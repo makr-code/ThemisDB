@@ -85,7 +85,10 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 
 ## Known Issues & Limitations
 - Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.
-- Wake-word detection requires an additional lightweight model; not yet integrated.
+- Wake-word detection uses energy-based VAD gating and acoustic feature scoring
+  (density, spectral centroid, crest factor). A neural wake-word model backend
+  (e.g. Porcupine, openWakeWord) can be plugged in via `WakeWordDetector::scorePhrase()`
+  without API changes.
 - Multi-speaker diarization accuracy degrades with more than 4 simultaneous speakers.
 - TTS voice quality depends on the llama.cpp model in use.
 
