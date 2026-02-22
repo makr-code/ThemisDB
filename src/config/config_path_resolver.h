@@ -21,9 +21,11 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <filesystem>
 #include <optional>
 #include <atomic>
+#include <chrono>
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
 #include "config/path_mapping_metadata.h"
@@ -132,6 +134,40 @@ public:
      */
     static void clearCache() { cache_.clear(); }
 
+    /**
+     * Entry in the deprecation usage report.
+     */
+    struct DeprecationEntry {
+        std::string legacy_path;
+        std::string new_path;
+        std::string category;
+        uint64_t usage_count{0};
+        std::optional<std::chrono::system_clock::time_point> removal_date;
+        std::optional<std::string> migration_guide_url;
+    };
+
+    /**
+     * Enable or disable deprecation warning aggregation.
+     *
+     * When enabled, per-call log warnings are suppressed and replaced by
+     * periodic batch reports from the background reporter thread. The
+     * reporter fires every @p interval_seconds seconds (default: 300).
+     *
+     * @param enabled         true to enable aggregation, false to disable
+     * @param interval_seconds Reporting interval in seconds (only used when enabling)
+     */
+    static void setAggregationEnabled(bool enabled, int interval_seconds = 300);
+
+    /**
+     * Get the current deprecation usage report.
+     *
+     * Returns all legacy paths that have been accessed since the last
+     * resetMetrics() call, sorted by descending usage count.
+     *
+     * @return Vector of deprecation entries with usage counts
+     */
+    static std::vector<DeprecationEntry> deprecationReport();
+
 private:
     // Mapping table from legacy paths to new hierarchical paths
     static const std::map<std::string, std::string> PATH_MAPPING;
@@ -154,6 +190,11 @@ private:
     
     // Get category from new path
     static std::string inferCategory(const std::string& new_path);
+
+    // Deprecation aggregator (tracks per-path legacy usage counts)
+    class DeprecationAggregator;
+    static DeprecationAggregator aggregator_;
+    static std::atomic<bool> aggregation_enabled_;
 };
 
 } // namespace config

@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, and thread-safe metrics. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
+Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, and deprecation warning aggregation. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
 
 ## Completed ✅
 - [x] Legacy-to-new config path mapping with 60+ path mappings
@@ -15,10 +15,10 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Optional API: `tryResolve()` returning `std::nullopt` on failure
 - [x] Typed exception hierarchy for config-related errors
 - [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
+- [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
 
 ## In Progress 🚧
 - [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
-- [I] Deprecation warning aggregation report (list all legacy paths in use) (Target: Q2 2026) (Issue: #1659)
 
 ## Planned Features 📋
 
