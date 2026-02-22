@@ -4,13 +4,13 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
   Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:20                                ║
+  Last Modified:   2026-02-22 13:18:11                                ║
   Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     661                                            ║
+    • Total Lines:     680                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -630,13 +630,36 @@ private:
     ) const;
 
     /**
-     * Generate cache key for plan
+     * Generate cache key for plan (exact: includes vertex IDs)
      */
     std::string generatePlanCacheKey(
         QueryPattern pattern,
         std::string_view start,
         std::string_view target,
         const QueryConstraints& constraints
+    ) const;
+
+    /**
+     * Generate structural cache key for plan reuse across queries with the same
+     * pattern and constraints but different vertex IDs.
+     *
+     * Two queries are structurally similar when they share the same QueryPattern
+     * and QueryConstraints, regardless of the specific start/target vertices.
+     * Their optimization plans are identical (same algorithm, same cost estimates)
+     * because plan selection is driven only by pattern type, depth, edge-type
+     * selectivity, parallelism flags, and graph-level statistics.
+     *
+     * @param pattern     Query pattern type
+     * @param constraints Query constraints (depth, edge type, flags, etc.)
+     * @param depth_hint  Optional explicit depth override (used for K_HOP and
+     *                    PATTERN_MATCH where depth comes from the call site, not
+     *                    from constraints.max_depth).
+     * @return Structural cache key string (prefixed with "struct:")
+     */
+    std::string generateStructuralCacheKey(
+        QueryPattern pattern,
+        const QueryConstraints& constraints,
+        std::optional<size_t> depth_hint = std::nullopt
     ) const;
 
     /**

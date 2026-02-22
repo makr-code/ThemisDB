@@ -517,7 +517,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             THEMIS_ERROR("Circular dependency detected for plugin {}: {}", name, cycle_desc);
             metrics_.recordError(name);
             span.setStatus(false, "Circular dependency");
-            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_CIRCULAR_DEPENDENCY,
                 fmt::format("Circular dependency detected involving plugin '{}': {}", name, cycle_desc));
         }
 
@@ -920,7 +920,7 @@ Result<size_t> PluginManager::autoLoadPlugins() {
             }
             auto error_msg = fmt::format("Circular dependencies detected: {}", cycle_desc);
             THEMIS_ERROR("Cannot auto-load plugins — {}", error_msg);
-            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, error_msg);
+            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_CIRCULAR_DEPENDENCY, error_msg);
         }
 
         // Check for unregistered dependencies (missing plugins)
@@ -933,7 +933,7 @@ Result<size_t> PluginManager::autoLoadPlugins() {
             }
             auto error_msg = fmt::format("Unregistered plugin dependencies: {}", missing_desc);
             THEMIS_ERROR("Cannot auto-load plugins — {}", error_msg);
-            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, error_msg);
+            return Err<size_t>(errors::ErrorCode::ERR_PLUGIN_MISSING_DEPENDENCY, error_msg);
         }
 
         // Compute topological load order so dependencies are loaded before dependents

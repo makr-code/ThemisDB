@@ -313,6 +313,11 @@ prompts:
 - Automatic prompt enhancement hooks
 - Background optimization triggers
 
+### ✅ Phase 2 (Security): Prompt Injection Detection (Complete)
+- `PromptInjectionDetector`: Pattern-based injection attack detection for prompts and responses
+- 10 built-in injection patterns + pluggable custom patterns
+- Sanitization via `[REDACTED]` replacement
+
 ## Testing
 
 All components have comprehensive unit tests:
@@ -1242,6 +1247,8 @@ Before deploying the autonomous self-improvement system:
 - [ ] Set up logging and audit trails
 - [ ] **NEW: Configure feedback retention policies**
 - [ ] **NEW: Set up quality dashboards**
+- [ ] **NEW: Instantiate `PromptInjectionDetector` and call `detect()` on every user-supplied prompt before LLM dispatch**
+- [ ] **NEW: Call `detectInResponse()` on LLM responses when the output is forwarded to further LLM calls**
 
 ## Performance Impact (All Phases)
 

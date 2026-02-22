@@ -3,11 +3,11 @@
 # Transaction Module Roadmap
 
 ## Current Status
-v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
+v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
 
 ## Completed ✅
 - [x] TransactionManager – ACID guarantees via RocksDB WriteBatch
-- [x] Isolation levels: ReadCommitted (default) and Snapshot
+- [x] Isolation levels: ReadCommitted (default), Snapshot, and Serializable (SSI via predicate locking)
 - [x] MVCC via RocksDB native transactions
 - [x] Atomic multi-layer updates (relational, graph, vector, secondary indexes)
 - [x] SAGA pattern with compensating actions for distributed transactions
@@ -22,16 +22,17 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Changefeed integration for CDC
 - [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
 - [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
+- [x] Optimistic concurrency control (OCC) – `getEntityVersion`, `optimisticPut`, `optimisticErase` with per-entity version numbers
 
 ## In Progress 🚧
-- [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
+- [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
 - [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
+- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
 - [x] Transaction timeout with automatic rollback
 - [!] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
@@ -61,13 +62,13 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] `SnapshotManager` – named snapshots/tags for PITR
 - [x] Changefeed integration for CDC
 
-### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
-- [~] Serializable isolation level (full SSI via predicate locking)
+### Phase 2: Serializable Isolation & Two-Phase Commit (Status: Completed ✅)
+- [x] Serializable isolation level (full SSI via predicate locking)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [~] Transaction savepoints (partial rollback within a transaction)
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
-- [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
+- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
@@ -90,7 +91,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ## Known Issues & Limitations
 - Individual `Transaction` objects are NOT thread-safe; use from a single thread.
-- Serializable isolation is not yet implemented; ReadCommitted and Snapshot only.
+- Serializable isolation is implemented via predicate locking (SSI); SERIALIZABLE transactions acquire predicate locks on read ranges and detect write conflicts at write time.
 - 2PC coordinator for cross-shard transactions is implemented in `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0).
 
 ## Breaking Changes
