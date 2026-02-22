@@ -15,7 +15,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] API middleware infrastructure
 
 ## In Progress 🚧
-- [I] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
+- [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
 - [I] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
 
@@ -48,7 +48,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Built request/response handling pipeline with error serialization
 
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: In Progress)
-- [I] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
+- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
 - [I] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [I] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
@@ -69,7 +69,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] API stability guaranteed (Issue: #1514)
 
 ## Known Issues & Limitations
-- GraphQL endpoint is not yet implemented
 - WebSocket/streaming endpoints are not yet available
 - OpenAPI specification may be incomplete for newer endpoints
 
