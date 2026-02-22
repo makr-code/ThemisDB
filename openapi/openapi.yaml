@@ -545,7 +545,7 @@ paths:
   /api/reports/compliance:
     get:
       summary: Compliance-Report (DSGVO/Datenschutz)
-      operationId: getComplianceReport
+      operationId: getApiComplianceReport
       tags: [reports]
       description: |
         Generiert einen Compliance-Report gemäß DSGVO/Datenschutz-Anforderungen.
@@ -1727,6 +1727,7 @@ paths:
   /api/v1/geo/topology:
     get:
       summary: List all shards with region/zone/health metadata
+      operationId: getGeoTopology
       tags: [Geo Topology]
       responses:
         '200':
@@ -1748,6 +1749,7 @@ paths:
   /api/v1/geo/topology/shard:
     post:
       summary: Add or update a shard's region and zone metadata
+      operationId: upsertGeoTopologyShard
       tags: [Geo Topology]
       requestBody:
         required: true
@@ -1780,6 +1782,7 @@ paths:
   /api/v1/geo/topology/shard/{shard_id}:
     delete:
       summary: Remove a shard from the geo topology
+      operationId: deleteGeoTopologyShard
       tags: [Geo Topology]
       parameters:
         - name: shard_id
@@ -1809,6 +1812,7 @@ paths:
   /api/v1/geo/regions:
     get:
       summary: Per-region aggregated health summary
+      operationId: getGeoRegions
       tags: [Geo Topology]
       responses:
         '200':
@@ -1829,6 +1833,7 @@ paths:
   /api/v1/geo/health:
     get:
       summary: Overall geo-failover and quorum health
+      operationId: getGeoHealth
       tags: [Geo Topology]
       responses:
         '200':
@@ -1842,6 +1847,7 @@ paths:
   /api/v1/geo/config/{collection}:
     get:
       summary: Get geo-replication configuration for a collection
+      operationId: getGeoConfig
       tags: [Geo Topology]
       parameters:
         - name: collection
@@ -1861,6 +1867,7 @@ paths:
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
     put:
       summary: Update geo-replication configuration for a collection
+      operationId: updateGeoConfig
       tags: [Geo Topology]
       parameters:
         - name: collection
