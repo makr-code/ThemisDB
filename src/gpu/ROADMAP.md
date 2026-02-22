@@ -26,6 +26,7 @@
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
+- [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
 
 ## In Progress 🚧
 - [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
@@ -34,7 +35,7 @@
 
 ### Short-term (Next 3-6 months)
 - [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
-- [I] GPU memory defragmentation for long-running workloads (Issue: #1787)
+- [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
