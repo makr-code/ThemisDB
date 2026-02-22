@@ -47,6 +47,9 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     for (size_t i = 0; i < config_.num_worker_threads; ++i) {
         workers_.emplace_back(&AsyncInferenceEngine::workerLoop, this, i);
     }
+
+    // Start timeout monitor thread
+    timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
     
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
@@ -64,6 +67,10 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     for (size_t i = 0; i < config_.num_worker_threads; ++i) {
         workers_.emplace_back(&AsyncInferenceEngine::workerLoop, this, i);
     }
+
+    // Start timeout monitor thread
+    timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
 
@@ -73,7 +80,8 @@ AsyncInferenceEngine::~AsyncInferenceEngine() {
 
 InferenceHandle AsyncInferenceEngine::submit(
     const InferenceRequest& request,
-    int priority
+    int priority,
+    std::chrono::milliseconds timeout
 ) {
     auto submit_time = std::chrono::steady_clock::now();
     
@@ -82,6 +90,12 @@ InferenceHandle AsyncInferenceEngine::submit(
     async_req->request = request;
     async_req->priority = priority;
     async_req->request_id = generateRequestId();
+    // cancel_token is default-initialised to false in the struct
+
+    // Set per-request deadline when a positive timeout is given
+    if (timeout.count() > 0) {
+        async_req->deadline = submit_time + timeout;
+    }
     
     // Create promise/future for result
     std::promise<InferenceResponse> promise;
@@ -98,7 +112,7 @@ InferenceHandle AsyncInferenceEngine::submit(
             }
         }
         
-        // Add to tracking (for cancellation)
+        // Add to tracking (for cancellation and timeout monitoring)
         {
             std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
             active_requests_[async_req->request_id] = async_req;
@@ -119,7 +133,9 @@ InferenceHandle AsyncInferenceEngine::submit(
     spdlog::debug("Submitted inference request {} (priority={}, queue_size={})",
                   async_req->request_id, priority, request_queue_.size());
     
-    return InferenceHandle(async_req->request_id, future);
+    // Share the cancel token with the handle so InferenceHandle::cancel()
+    // propagates directly to this request.
+    return InferenceHandle(async_req->request_id, future, async_req->cancel_token);
 }
 
 std::string AsyncInferenceEngine::submitAsync(
@@ -209,8 +225,9 @@ bool AsyncInferenceEngine::cancel(const std::string& request_id) {
         return false;  // Not found or already completed
     }
     
-    // Mark as cancelled
-    it->second->cancelled.store(true);
+    // Set the shared cancellation token so the worker and any streaming
+    // callback are notified at the next check point.
+    it->second->cancel_token->store(true, std::memory_order_release);
     stats_.total_cancelled++;
     
     spdlog::info("Cancelled inference request: {}", request_id);
@@ -265,7 +282,7 @@ void AsyncInferenceEngine::shutdown() {
     
     spdlog::info("Shutting down AsyncInferenceEngine...");
     
-    // Signal workers to stop
+    // Signal workers and timeout monitor to stop
     running_.store(false);
     queue_cv_.notify_all();
     
@@ -275,8 +292,12 @@ void AsyncInferenceEngine::shutdown() {
             worker.join();
         }
     }
-    
     workers_.clear();
+
+    // Wait for timeout monitor
+    if (timeout_thread_.joinable()) {
+        timeout_thread_.join();
+    }
     
     spdlog::info("AsyncInferenceEngine shutdown complete");
 }
@@ -315,7 +336,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
         auto queue_end_time = std::chrono::steady_clock::now();
         
         // Check if cancelled
-        if (item.request->cancelled.load()) {
+        if (item.request->cancel_token->load(std::memory_order_acquire)) {
             spdlog::debug("Skipping cancelled request: {}", 
                          item.request->request_id);
             
@@ -386,9 +407,34 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         start_time - submit_time
     ).count();
     stats_.total_queue_time_ms.fetch_add(queue_time);
+
+    // Build an effective InferenceRequest that wraps the stream_callback so
+    // cancellation (and deadline expiry) are checked at every token boundary.
+    InferenceRequest effective_request = request.request;
+    auto cancel_token = request.cancel_token;  // capture shared ownership
+    auto deadline = request.deadline;
+
+    if (effective_request.stream_callback) {
+        // Wrap the original callback: stop streaming when cancelled/timed-out.
+        auto original_cb = std::move(effective_request.stream_callback);
+        effective_request.stream_callback = [original_cb, cancel_token, deadline]
+            (const std::string& token) {
+            // Abort streaming on cancellation
+            if (cancel_token->load(std::memory_order_acquire)) {
+                return;  // silently drop token; plugin will finish its call
+            }
+            // Abort streaming on deadline expiry
+            if (deadline != std::chrono::steady_clock::time_point{} &&
+                std::chrono::steady_clock::now() >= deadline) {
+                cancel_token->store(true, std::memory_order_release);
+                return;
+            }
+            original_cb(token);
+        };
+    }
     
     // Call plugin (blocking inference)
-    InferenceResponse response = plugin_->generate(request.request);
+    InferenceResponse response = plugin_->generate(effective_request);
     
     // Add metadata
     response.metadata["async"] = true;
@@ -445,6 +491,40 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
     }
     
     return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Timeout Monitoring
+// ═══════════════════════════════════════════════════════════
+
+void AsyncInferenceEngine::timeoutMonitorLoop() {
+    spdlog::debug("AsyncInferenceEngine timeout monitor started");
+
+    while (running_.load()) {
+        checkAndHandleTimeouts();
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+
+    spdlog::debug("AsyncInferenceEngine timeout monitor stopped");
+}
+
+void AsyncInferenceEngine::checkAndHandleTimeouts() {
+    auto now = std::chrono::steady_clock::now();
+    const auto zero_tp = std::chrono::steady_clock::time_point{};
+
+    std::lock_guard<std::mutex> lock(tracking_mutex_);
+    for (auto& [id, req] : active_requests_) {
+        // Skip requests with no deadline or already cancelled
+        if (req->deadline == zero_tp) continue;
+        if (req->cancel_token->load(std::memory_order_acquire)) continue;
+
+        if (now >= req->deadline) {
+            spdlog::warn("Request {} exceeded per-request timeout, marking cancelled", id);
+            req->cancel_token->store(true, std::memory_order_release);
+            stats_.total_timed_out++;
+            stats_.total_cancelled++;
+        }
+    }
 }
 
 } // namespace llm

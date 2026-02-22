@@ -31,6 +31,7 @@
 #include <atomic>
 #include <future>
 #include <functional>
+#include <chrono>
 
 /**
  * @file async_inference_engine.h
@@ -66,8 +67,13 @@ struct AsyncInferenceRequest {
     // Callback for async result delivery
     std::function<void(const InferenceResponse&)> callback;
     
-    // For cancellation
-    std::atomic<bool> cancelled{false};
+    // Shared cancellation token — also held by the InferenceHandle so
+    // calling InferenceHandle::cancel() propagates here immediately.
+    std::shared_ptr<std::atomic<bool>> cancel_token =
+        std::make_shared<std::atomic<bool>>(false);
+
+    // Per-request deadline (steady_clock); zero() means no timeout.
+    std::chrono::steady_clock::time_point deadline;
 };
 
 /**
@@ -134,11 +140,13 @@ public:
      * 
      * @param request Inference request
      * @param priority Higher = more urgent (default: 0)
+     * @param timeout Per-request timeout; zero means no timeout (default: 0)
      * @return Handle to track request and get result
      */
     InferenceHandle submit(
         const InferenceRequest& request,
-        int priority = 0
+        int priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
     
     /**
@@ -226,10 +234,13 @@ private:
     mutable std::mutex queue_mutex_;
     std::condition_variable queue_cv_;
     
-    // Request tracking (for cancellation)
+    // Request tracking (for cancellation and timeout)
     std::unordered_map<std::string, std::shared_ptr<AsyncInferenceRequest>> 
         active_requests_;
     mutable std::mutex tracking_mutex_;
+
+    // Timeout monitor thread — fires deadline-based cancellation
+    std::thread timeout_thread_;
     
     // Statistics
     struct Stats {
@@ -237,6 +248,7 @@ private:
         std::atomic<size_t> total_completed{0};
         std::atomic<size_t> total_cancelled{0};
         std::atomic<size_t> total_rejected{0};
+        std::atomic<size_t> total_timed_out{0};
         std::atomic<double> total_inference_time_ms{0.0};
         std::atomic<double> total_queue_time_ms{0.0};
     };
@@ -244,6 +256,11 @@ private:
     
     // Worker thread function
     void workerLoop(size_t worker_id);
+
+    // Timeout monitor — runs in a separate thread, marks requests cancelled
+    // when their deadline expires.
+    void timeoutMonitorLoop();
+    void checkAndHandleTimeouts();
     
     // Process single request
     InferenceResponse processRequest(

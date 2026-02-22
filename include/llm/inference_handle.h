@@ -25,6 +25,8 @@
 #include "llm/llm_plugin_interface.h"
 #include <future>
 #include <string>
+#include <atomic>
+#include <memory>
 
 namespace themis {
 namespace llm {
@@ -45,12 +47,19 @@ namespace llm {
  * - Blocking wait for result (get())
  * - Non-blocking status check (ready())
  * - Best-effort cancellation (cancel())
+ *
+ * Cancellation is propagated via a shared atomic<bool> cancel token that
+ * is also held by the request in the inference engine. Setting the flag
+ * causes the worker thread to skip queued requests and abort streaming
+ * inference at the next token boundary.
  */
 class InferenceHandle {
 public:
     InferenceHandle(const std::string& request_id,
-                    std::shared_future<InferenceResponse> future)
-        : request_id_(request_id), future_(future) {}
+                    std::shared_future<InferenceResponse> future,
+                    std::shared_ptr<std::atomic<bool>> cancel_token = nullptr)
+        : request_id_(request_id), future_(future),
+          cancel_token_(std::move(cancel_token)) {}
     
     // Wait for result (blocking)
     InferenceResponse get() { return future_.get(); }
@@ -61,7 +70,8 @@ public:
                std::future_status::ready;
     }
     
-    // Cancel request (best effort)
+    // Cancel request (best effort) — sets the shared cancel token so the
+    // worker thread will stop processing at the next check point.
     void cancel();
     
     const std::string& requestId() const { return request_id_; }
@@ -69,6 +79,7 @@ public:
 private:
     std::string request_id_;
     std::shared_future<InferenceResponse> future_;
+    std::shared_ptr<std::atomic<bool>> cancel_token_;
 };
 
 } // namespace llm
