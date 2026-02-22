@@ -699,6 +699,8 @@ set(THEMIS_NETWORK_SOURCES
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp
+    # Observability: continuous profiling (pprof / async-profiler compatible)
+    ../src/observability/continuous_profiler.cpp
 )
 
 set(THEMIS_GEO_SOURCES
