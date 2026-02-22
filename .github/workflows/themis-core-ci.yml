@@ -4,6 +4,9 @@ name: Themis Core Framework CI
 # or any of its test files.
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/utils/build_info.cpp'
       - 'src/utils/license_info.cpp'

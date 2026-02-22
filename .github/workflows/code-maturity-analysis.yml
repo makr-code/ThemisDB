@@ -1,19 +1,12 @@
 name: Code Maturity Analysis & Auto-Versioning
 
-# Triggert bei Push von Source-Dateien auf relevante Branches
+# Runs on a weekly schedule and can be triggered manually.
+# Automatic push triggers are intentionally disabled to avoid running
+# this heavy analysis on every source-file change.
 on:
-  push:
-    paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.hpp'
-      - '**.py'
-      - '**.cs'
-      - '**.php'
-    branches:
-      - main
-      - develop
-      - 'feature/**'
+  schedule:
+    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: write  # Für automatischen Commit

@@ -3,6 +3,9 @@ name: Security Hardening CI
 # Triggered whenever security-relevant sources or this workflow itself change.
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/auth/**'
       - 'src/security/**'
