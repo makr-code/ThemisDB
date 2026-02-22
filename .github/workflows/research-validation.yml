@@ -5,10 +5,15 @@ on:
   schedule:
     - cron: '0 9 * * MON'  # Weekly check every Monday at 09:00 UTC
 
+permissions:
+  contents: read
+
 jobs:
   check-research-links:
     name: Validate Research Links
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +29,8 @@ jobs:
   validate-research-metadata:
     name: Validate Research Metadata
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +46,8 @@ jobs:
   generate-research-report:
     name: Generate Research Index (dry-run)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 

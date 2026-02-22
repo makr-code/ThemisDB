@@ -16,8 +16,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RESEARCH_DIR = REPO_ROOT / "docs" / "research"
 
-# Subdirectories and their required fields (looked for as "- <field>:" lines or
-# bold Markdown field headers like "**Field:**").
+# Subdirectories and their required fields (checked in the Markdown body as
+# "- <field>:" or "**Field:**" patterns).
+#
+# Note: Paper templates deliberately use German field names (e.g. "Jahr" for
+# year, "Konferenz/Journal") to match the project's bilingual documentation
+# convention. Other fields remain in English for broader tool compatibility.
 REQUIRED_FIELDS: dict[str, list[str]] = {
     "papers": ["Author", "Jahr", "Tags", "ThemisDB-Versionen", "Status"],
     "best_practices": ["Source", "Tags", "ThemisDB-Versionen", "Status"],
