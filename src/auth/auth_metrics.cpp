@@ -280,6 +280,8 @@ std::string AuthMetrics::authMethodToString(AuthMethod method) {
             return "gssapi";
         case AuthMethod::MFA:
             return "mfa";
+        case AuthMethod::OAUTH_DEVICE:
+            return "oauth_device";
         case AuthMethod::UNKNOWN:
         default:
             return "unknown";
