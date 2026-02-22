@@ -290,8 +290,9 @@ bool HSMProvider::initialize(){
     if (!impl_->real_ready) {
         impl_->stub_kek.resize(32);
         if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
-            THEMIS_WARN("HSMProvider: failed to generate stub KEK");
-            impl_->stub_kek.assign(32, 0); // zero key as last resort
+            THEMIS_ERROR("HSMProvider: failed to generate stub KEK - aborting initialization");
+            initialized_ = false;
+            return false;
         }
     }
     
@@ -599,7 +600,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         return {};
     }
     CK_MECHANISM mech{};
-    mech.mechanism = CKM_RSA_PKCS; // PKCS#1 v1.5 encryption
+    mech.mechanism = CKM_RSA_PKCS; // RSA-PKCS#1 v1.5 encryption (OAEP upgrade planned for v1.5.0)
     CK_RV rv = api->C_EncryptInit(sess->handle, &mech, sess->pubKey);
     if (rv != CKR_OK) {
         last_error_ = "C_EncryptInit failed: " + mapError(rv);
@@ -637,7 +638,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         return {};
     }
     CK_MECHANISM mech{};
-    mech.mechanism = CKM_RSA_PKCS; // PKCS#1 v1.5 decryption
+    mech.mechanism = CKM_RSA_PKCS; // RSA-PKCS#1 v1.5 decryption (OAEP upgrade planned for v1.5.0)
     CK_RV rv = api->C_DecryptInit(sess->handle, &mech, sess->privKey);
     if (rv != CKR_OK) {
         last_error_ = "C_DecryptInit failed: " + mapError(rv);
