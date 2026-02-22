@@ -76,6 +76,12 @@ struct AsyncInferenceRequest {
 
     // Per-request deadline (steady_clock); zero() means no timeout.
     std::chrono::steady_clock::time_point deadline;
+
+    // Shared promise — owned jointly by the queue item (or pool task lambda)
+    // and the timeout monitor so that the monitor can resolve the future
+    // immediately when the deadline expires, even while the worker is still
+    // executing the plugin call.
+    std::shared_ptr<std::promise<InferenceResponse>> shared_promise;
 };
 
 /**
@@ -247,7 +253,9 @@ private:
     // Request queue (priority-based)
     struct RequestQueueItem {
         std::shared_ptr<AsyncInferenceRequest> request;
-        std::promise<InferenceResponse> promise;
+        // Shared with async_req->shared_promise so the timeout monitor can
+        // resolve the future early even while this item is being processed.
+        std::shared_ptr<std::promise<InferenceResponse>> promise;
         
         // For priority queue ordering
         bool operator<(const RequestQueueItem& other) const {

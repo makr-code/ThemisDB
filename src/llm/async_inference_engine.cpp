@@ -147,26 +147,47 @@ InferenceHandle AsyncInferenceEngine::submit(
     if (shared_pool_) {
         // ── Shared-pool path: submit directly; no internal queue ─────
         auto promise = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = promise;  // Share with timeout monitor
         future = promise->get_future().share();
 
         bool queued = shared_pool_->submit(
             [this, async_req, promise, submit_time]() {
                 if (async_req->cancel_token->load(std::memory_order_acquire)) {
-                    promise->set_exception(std::make_exception_ptr(
-                        std::runtime_error("Request cancelled")));
+                    try {
+                        promise->set_exception(std::make_exception_ptr(
+                            std::runtime_error("Request cancelled")));
+                    } catch (...) {}  // Promise may already be resolved by timeout monitor
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
                 }
                 try {
                     auto response = processRequest(*async_req, submit_time);
-                    stats_.total_completed++;
-                    if (async_req->callback) {
-                        async_req->callback(response);
+
+                    // Re-check cancellation after the (uninterruptible) plugin call:
+                    // the timeout monitor may have fired during execution and already
+                    // resolved the promise.  Skip delivery to avoid double-set and
+                    // ensure the callback is not invoked for timed-out requests.
+                    if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                        spdlog::debug(
+                            "Shared-pool: discarding late response for "
+                            "cancelled/timed-out request {}",
+                            async_req->request_id);
+                    } else {
+                        stats_.total_completed++;
+                        if (async_req->callback) {
+                            async_req->callback(response);
+                        }
+                        try {
+                            promise->set_value(response);
+                        } catch (...) {
+                            // Promise already resolved (rare race) — ignore.
+                        }
                     }
-                    promise->set_value(response);
                 } catch (...) {
-                    promise->set_exception(std::current_exception());
+                    try {
+                        promise->set_exception(std::current_exception());
+                    } catch (...) {}  // Promise may already be resolved by timeout monitor
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -182,9 +203,10 @@ InferenceHandle AsyncInferenceEngine::submit(
         }
         stats_.total_submitted++;
     } else {
-        // ── Private-worker path (original behaviour) ──────────────────
-        std::promise<InferenceResponse> local_promise;
-        future = local_promise.get_future().share();
+        // ── Private-worker path ──────────────────────────────────────
+        auto promise = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = promise;  // Share with timeout monitor
+        future = promise->get_future().share();
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
@@ -200,7 +222,7 @@ InferenceHandle AsyncInferenceEngine::submit(
 
         RequestQueueItem item;
         item.request = async_req;
-        item.promise = std::move(local_promise);
+        item.promise = std::move(promise);
         request_queue_.push(std::move(item));
         stats_.total_submitted++;
         queue_cv_.notify_one();
@@ -271,8 +293,9 @@ std::string AsyncInferenceEngine::submitAsync(
         }
         stats_.total_submitted++;
     } else {
-        // ── Private-worker path (original behaviour) ──────────────────
-        std::promise<InferenceResponse> promise;
+        // ── Private-worker path ──────────────────────────────────────
+        auto promise = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = promise;  // Share with timeout monitor
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
@@ -450,15 +473,18 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
         
         auto queue_end_time = std::chrono::steady_clock::now();
         
-        // Check if cancelled
+        // Check if cancelled or timed out before we start executing
         if (item.request->cancel_token->load(std::memory_order_acquire)) {
             spdlog::debug("Skipping cancelled request: {}", 
                          item.request->request_id);
             
-            // Set exception in promise
-            item.promise.set_exception(
-                std::make_exception_ptr(std::runtime_error("Request cancelled"))
-            );
+            // Set exception in promise; guard against double-set (timeout monitor
+            // may have already resolved it).
+            try {
+                item.promise->set_exception(
+                    std::make_exception_ptr(std::runtime_error("Request cancelled"))
+                );
+            } catch (...) {}
             
             // Remove from tracking
             {
@@ -479,15 +505,29 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // Actual inference (blocking call to plugin)
             auto response = processRequest(*item.request, submit_time);
             
+            // After plugin returns, re-check cancellation: the timeout monitor
+            // may have fired during the (uninterruptible) plugin call and already
+            // resolved the promise.  Skip delivery to avoid double-set.
+            if (item.request->cancel_token->load(std::memory_order_acquire)) {
+                spdlog::debug("Worker {} discarding late response for cancelled/timed-out request {}",
+                             worker_id, item.request->request_id);
+                std::lock_guard<std::mutex> lock(tracking_mutex_);
+                active_requests_.erase(item.request->request_id);
+                continue;
+            }
+
             // Update stats
             stats_.total_completed++;
             
             // Deliver result
             if (item.request->callback) {
-                // Call callback on worker thread
                 item.request->callback(response);
             }
-            item.promise.set_value(response);
+            try {
+                item.promise->set_value(response);
+            } catch (...) {
+                // Promise already resolved (rare race with timeout monitor) — ignore.
+            }
             
             spdlog::debug("Worker {} completed request {} in {:.1f}ms",
                          worker_id, item.request->request_id,
@@ -497,8 +537,10 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             spdlog::error("Worker {} failed to process request {}: {}",
                          worker_id, item.request->request_id, e.what());
             
-            // Set exception in promise
-            item.promise.set_exception(std::current_exception());
+            // Set exception in promise; guard against double-set.
+            try {
+                item.promise->set_exception(std::current_exception());
+            } catch (...) {}
         }
         
         // Remove from tracking
@@ -610,7 +652,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
 
                 // Fulfil the promise so the caller's future doesn't block.
                 try {
-                    min_it->promise.set_exception(
+                    min_it->promise->set_exception(
                         std::make_exception_ptr(
                             std::runtime_error("Request dropped: queue full")));
                 } catch (...) {
@@ -673,6 +715,19 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
         if (now >= req->deadline) {
             spdlog::warn("Request {} exceeded per-request timeout, marking cancelled", id);
             req->cancel_token->store(true, std::memory_order_release);
+
+            // Resolve the future immediately so the caller is not blocked until
+            // the plugin call (which may be uninterruptible) eventually returns.
+            if (req->shared_promise) {
+                try {
+                    req->shared_promise->set_exception(
+                        std::make_exception_ptr(
+                            std::runtime_error("Request timed out")));
+                } catch (...) {
+                    // Promise already resolved by the worker — safe to ignore.
+                }
+            }
+
             stats_.total_timed_out++;
             stats_.total_cancelled++;
         }

@@ -23,7 +23,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 
 ## In Progress 🚧
 - [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
-- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
+- [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
 ## Planned Features 📋
