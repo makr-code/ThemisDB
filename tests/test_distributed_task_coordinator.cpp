@@ -276,8 +276,10 @@ TEST_F(DistributedTaskCoordinatorTest, TasksPreservedAcrossLeadershipChange) {
     ASSERT_NE(ptr, nullptr);
     EXPECT_EQ(ptr->name, "persistent_task");
 
-    // Step down – task should still be in local registry
-    coordinator_->stepDown();
+    // Simulate leadership transfer – notify DTC so it deactivates the scheduler.
+    // (coordinator_->stepDown() only changes the role; it does NOT fire the
+    // DTC callback, so we must drive the DTC directly here.)
+    dtc_->onLeaderElected("node-99");
     ASSERT_FALSE(dtc_->isSchedulerActive());
 
     ptr = dtc_->getTask(id);
@@ -359,6 +361,28 @@ TEST_F(DistributedTaskCoordinatorTest, LocalNodeId) {
 TEST_F(DistributedTaskCoordinatorTest, GetSchedulerAndCoordinator) {
     EXPECT_EQ(dtc_->getScheduler(), scheduler_.get());
     EXPECT_EQ(dtc_->getCoordinator(), coordinator_.get());
+}
+
+// ============================================================================
+// Race-condition guards
+// ============================================================================
+
+TEST_F(DistributedTaskCoordinatorTest, OnLeaderElectedIgnoredAfterStop) {
+    // Start, become leader, stop – then fire the callback.
+    // The scheduler must NOT be reactivated.
+    dtc_->start();
+    coordinator_->becomeLeader();
+    ASSERT_TRUE(dtc_->isSchedulerActive());
+
+    dtc_->stop();
+    ASSERT_FALSE(dtc_->isRunning());
+    ASSERT_FALSE(dtc_->isSchedulerActive());
+
+    // Simulate a late callback arriving after stop().
+    dtc_->onLeaderElected(coordinator_->getLocalShardId());
+
+    // Must remain inactive – the guard in onLeaderElected checks running_.
+    EXPECT_FALSE(dtc_->isSchedulerActive());
 }
 
 // ============================================================================

@@ -285,6 +285,13 @@ DistributedTaskCoordinator::Stats DistributedTaskCoordinator::getStats() const {
 // ── Private helpers ───────────────────────────────────────────────────────────
 
 void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
+    // If the coordinator has been stopped, ignore late callbacks that may
+    // fire in the window between running_.exchange(false) and
+    // setLeaderElectedCallback(nullptr) in stop().
+    if (!running_.load()) {
+        return;
+    }
+
     const std::string my_id = coordinator_->getLocalShardId();
     const bool i_am_leader  = (leader_id == my_id);
 
