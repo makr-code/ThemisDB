@@ -22,8 +22,6 @@
 #include <functional>
 #include <string>
 #include <cstddef>
-#include <atomic>
-#include <memory>
 
 /**
  * @file streaming_handler.h

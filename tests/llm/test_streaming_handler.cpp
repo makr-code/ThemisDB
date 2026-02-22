@@ -100,15 +100,54 @@ TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping) {
     std::string event = StreamingHandler::formatSseEvent(
         "say \"hello\"\nworld\\end", kRequestId, 0);
 
-    // After escaping, raw double-quotes and backslashes should not appear
-    // unescaped inside the token value.
-    // We check that the raw characters are replaced with escape sequences.
     EXPECT_NE(event.find("\\\""), std::string::npos)
         << "Double-quote must be escaped as \\\"";
     EXPECT_NE(event.find("\\n"), std::string::npos)
         << "Newline must be escaped as \\n";
     EXPECT_NE(event.find("\\\\"), std::string::npos)
         << "Backslash must be escaped as \\\\";
+}
+
+/**
+ * Carriage return and tab characters must use their named JSON escapes.
+ */
+TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_RAndT) {
+    std::string event = StreamingHandler::formatSseEvent(
+        "line\r\nnext\tcol", kRequestId, 0);
+
+    EXPECT_NE(event.find("\\r"), std::string::npos)
+        << "Carriage return must be escaped as \\r";
+    EXPECT_NE(event.find("\\t"), std::string::npos)
+        << "Tab must be escaped as \\t";
+}
+
+/**
+ * Backspace (\\b) and form-feed (\\f) must use their named JSON escapes.
+ */
+TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_BAndF) {
+    std::string token;
+    token += '\x08'; // backspace
+    token += '\x0C'; // form feed
+
+    std::string event = StreamingHandler::formatSseEvent(token, kRequestId, 0);
+
+    EXPECT_NE(event.find("\\b"), std::string::npos)
+        << "Backspace (0x08) must be escaped as \\b";
+    EXPECT_NE(event.find("\\f"), std::string::npos)
+        << "Form feed (0x0C) must be escaped as \\f";
+}
+
+/**
+ * Other C0 control characters (< 0x20 and not named) must be \\uXXXX encoded.
+ */
+TEST_F(StreamingHandlerTest, FormatSseEvent_JsonEscaping_ControlChars) {
+    std::string token;
+    token += '\x01'; // SOH — not a named escape
+
+    std::string event = StreamingHandler::formatSseEvent(token, kRequestId, 0);
+
+    EXPECT_NE(event.find("\\u0001"), std::string::npos)
+        << "SOH (0x01) must be encoded as \\u0001";
 }
 
 /**
