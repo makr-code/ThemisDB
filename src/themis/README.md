@@ -367,3 +367,13 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Public Headers](../../include/themis/README.md) - Public API documentation
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned enhancements
 - [Architecture Decision Records](../../docs/architecture/) - Design decisions
+
+## Scientific References
+
+1. Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). **Design Patterns: Elements of Reusable Object-Oriented Software**. Addison-Wesley. ISBN: 978-0-201-63361-0
+
+2. Fowler, M. (2004). **Inversion of Control Containers and the Dependency Injection Pattern**. martinfowler.com. https://martinfowler.com/articles/injection.html
+
+3. Kleppmann, M. (2017). **Designing Data-Intensive Applications**. O'Reilly Media. ISBN: 978-1-449-37332-0
+
+4. Stonebraker, M., & Hellerstein, J. M. (Eds.). (1994). **Readings in Database Systems (3rd ed.)**. Morgan Kaufmann. ISBN: 978-1-558-60252-9

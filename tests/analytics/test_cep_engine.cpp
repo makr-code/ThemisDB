@@ -570,8 +570,11 @@ TEST(AggregatorTest, GroupByAggregation) {
     bool found_a = false, found_b = false;
     for (const auto& [name, res] : results) {
         if (res.group_by_values.count("category")) {
-            if (res.group_by_values.at("category") == "A") found_a = true;
-            if (res.group_by_values.at("category") == "B") found_b = true;
+            const auto& category_value = res.group_by_values.at("category");
+            if (const auto* category = std::get_if<std::string>(&category_value)) {
+                if (*category == "A") found_a = true;
+                if (*category == "B") found_b = true;
+            }
         }
     }
     EXPECT_TRUE(found_a);

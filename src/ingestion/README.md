@@ -189,3 +189,13 @@ auto quarantine = admin.listQuarantine();
 - Known limitations:
   - `max_pages = 0` means unlimited pages; always set a sensible limit for untrusted APIs
   - Parallel ingestion uses `std::thread`; consider migrating to a work-stealing thread pool for better CPU utilization under high source counts
+
+## Scientific References
+
+1. Zaharia, M., Das, T., Li, H., Hunter, T., Shenker, S., & Stoica, I. (2013). **Discretized Streams: Fault-Tolerant Streaming Computation at Scale**. *Proceedings of the 24th ACM Symposium on Operating Systems Principles (SOSP)*, 423–438. https://doi.org/10.1145/2517349.2522737
+
+2. Kleppmann, M. (2017). **Designing Data-Intensive Applications**. O'Reilly Media. ISBN: 978-1-449-37332-0
+
+3. Karp, R. M., Shenker, S., & Papadimitriou, C. H. (2003). **A Simple Algorithm for Finding Frequent Elements in Streams and Bags**. *ACM Transactions on Database Systems*, 28(1), 51–55. https://doi.org/10.1145/762471.762473
+
+4. Dede, E., Govindaraju, M., Gunter, D., Canon, R. S., & Ramakrishnan, L. (2013). **Performance Evaluation of a MongoDB and Hadoop Platform for Scientific Data Analysis**. *Proceedings of the 4th ACM/IEEE Workshop on Many-Task Computing on Clouds, Grids, and Supercomputers (MTAGS)*. https://doi.org/10.1145/2532508.2532521

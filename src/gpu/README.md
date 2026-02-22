@@ -143,3 +143,13 @@ metric writes, and audit-log appends are safe.
 
 - [LLM Module](../llm/README.md) — GPU model inference
 - [Vector Index](../index/README.md) — GPU-accelerated indexing
+
+## Scientific References
+
+1. Nickolls, J., Buck, I., Garland, M., & Skadron, K. (2008). **Scalable Parallel Programming with CUDA**. *Queue*, 6(2), 40–53. https://doi.org/10.1145/1365490.1365500
+
+2. NVIDIA Corporation. (2023). **CUDA C++ Programming Guide (v12.x)**. NVIDIA Developer Documentation. https://docs.nvidia.com/cuda/cuda-c-programming-guide/
+
+3. Ryoo, S., Rodrigues, C. I., Baghsorkhi, S. S., Stone, S. S., Kirk, D. B., & Hwu, W. M. W. (2008). **Optimization Principles and Application Performance Evaluation of a Multithreaded GPU Using CUDA**. *Proceedings of the 13th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming (PPoPP)*, 73–82. https://doi.org/10.1145/1345206.1345220
+
+4. Johnson, J., Douze, M., & Jégou, H. (2019). **Billion-Scale Similarity Search with GPUs**. *IEEE Transactions on Big Data*, 7(3), 535–547. https://doi.org/10.1109/TBDATA.2019.2921572

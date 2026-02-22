@@ -1003,3 +1003,15 @@ A: Enable cycle metrics, compare before/after profiles, use Linux perf or VTune 
 **Last Updated**: 2025-02-10  
 **Maintainers**: ThemisDB Performance Team  
 **Related Modules**: query, storage, index, server
+
+## Scientific References
+
+1. Leis, V., Kemper, A., & Neumann, T. (2013). **The Adaptive Radix Tree: ARTful Indexing for Main-Memory Databases**. *Proceedings of the 2013 IEEE International Conference on Data Engineering (ICDE)*, 38–49. https://doi.org/10.1109/ICDE.2013.6544812
+
+2. Ding, J., Nathan, V., Idreos, S., & Kraska, T. (2020). **Tsunami: A Learned Multi-dimensional Index for Correlated Data and Skewed Workloads**. *Proceedings of the VLDB Endowment*, 14(2), 74–86. https://doi.org/10.14778/3425879.3425880
+
+3. Faleiro, J. M., & Abadi, D. J. (2017). **Latch-free Synchronization in Database Systems: Silver Bullet or Fool's Gold?** *Proceedings of the 8th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2017/papers/p121-faleiro-cidr17.pdf
+
+4. Graefe, G. (2011). **Modern B-Tree Techniques**. *Foundations and Trends in Databases*, 3(4), 203–402. https://doi.org/10.1561/1900000028
+
+5. Dong, S., Callaghan, M., Galanis, L., Borthakur, D., Savor, T., & Strum, M. (2017). **Optimizing Space Amplification in RocksDB**. *Proceedings of the 8th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf

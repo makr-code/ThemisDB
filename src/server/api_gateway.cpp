@@ -544,10 +544,7 @@ std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
     }
     
     // Create new circuit breaker for this backend
-    auto cb = std::make_shared<sharding::CircuitBreaker>(
-        backend_id,
-        config_.circuit_breaker_config
-    );
+    auto cb = std::make_shared<sharding::CircuitBreaker>(config_.circuit_breaker_config);
     circuit_breakers_[backend_id] = cb;
     return cb;
 }
@@ -577,7 +574,7 @@ http::response<http::string_body> APIGateway::executeRemote(
     // Check circuit breaker
     if (config_.enable_circuit_breaker) {
         auto cb = getCircuitBreaker(shard_id);
-        if (cb->isOpen()) {
+        if (!cb->allowRequest()) {
             circuit_breaker_rejections_++;
             return makeErrorResponse(http::status::service_unavailable,
                                     "Circuit breaker open for shard: " + shard_id, req);
