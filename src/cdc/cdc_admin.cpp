@@ -74,7 +74,7 @@ PurgeResult CDCAdmin::purgeAll() {
     }
     
     // Delete all events
-    result.events_deleted = changefeed_->deleteOldEventsBySequence(watermarks.high_watermark + 1);
+    result.events_deleted = changefeed_->deleteOldEvents(watermarks.high_watermark + 1);
     
     auto end = steady_clock::now();
     result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();
@@ -96,7 +96,7 @@ PurgeResult CDCAdmin::purgeBySequenceRange(uint64_t start_sequence, uint64_t end
     }
     
     // Delete events up to end_sequence (exclusive, so add 1)
-    uint64_t total_deleted = changefeed_->deleteOldEventsBySequence(end_sequence + 1);
+    uint64_t total_deleted = changefeed_->deleteOldEvents(end_sequence + 1);
     
     // If start_sequence > 0, we deleted too many, but RocksDB delete is by prefix
     // For now, we delete everything up to end_sequence
@@ -287,6 +287,51 @@ void CDCAdmin::validateSequenceRange(uint64_t start, uint64_t end) {
             "Invalid sequence range: end (" + std::to_string(end) + 
             ") < start (" + std::to_string(start) + ")");
     }
+}
+
+PurgeResult CDCAdmin::purgeOlderThan(int64_t before_timestamp_ms) {
+    return purgeByTimestamp(static_cast<uint64_t>(before_timestamp_ms));
+}
+
+CompactionResult CDCAdmin::compactLog() {
+    THEMIS_INFO("CDC Admin: Starting log compaction (compact by key)");
+
+    if (!changefeed_) {
+        throw error::internalError("No changefeed available for compaction");
+    }
+
+    auto start = steady_clock::now();
+    CompactionResult result = changefeed_->compactByKey();
+    auto end = steady_clock::now();
+
+    THEMIS_INFO("CDC Admin: Compaction complete in {}ms — scanned={} deleted={} retained={}",
+                duration_cast<milliseconds>(end - start).count(),
+                result.events_scanned, result.events_deleted, result.events_retained);
+    return result;
+}
+
+RetentionStatus CDCAdmin::getRetentionStatus() {
+    THEMIS_INFO("CDC Admin: Getting retention status");
+
+    if (!changefeed_) {
+        throw error::internalError("No changefeed available for retention status");
+    }
+
+    RetentionStatus status;
+
+    auto stats = changefeed_->getStats();
+    status.total_events      = stats.total_events;
+    status.total_size_bytes  = stats.total_size_bytes;
+    status.oldest_timestamp_ms = stats.watermarks.oldest_timestamp_ms;
+    status.newest_timestamp_ms = stats.watermarks.newest_timestamp_ms;
+
+    if (stats.watermarks.oldest_timestamp_ms > 0) {
+        auto now_ms = duration_cast<milliseconds>(
+            system_clock::now().time_since_epoch()).count();
+        status.oldest_event_age_ms = now_ms - stats.watermarks.oldest_timestamp_ms;
+    }
+
+    return status;
 }
 
 }  // namespace cdc

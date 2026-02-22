@@ -318,6 +318,20 @@ namespace error {
                            "Invalid argument: " + argName,
                            reason);
     }
+
+    inline CDCException invalidArgument(const std::string& message) {
+        return CDCException(ErrorCode::INVALID_ARGUMENT,
+                           ErrorSeverity::ERROR,
+                           message,
+                           "");
+    }
+
+    inline CDCException internalError(const std::string& message) {
+        return CDCException(ErrorCode::INTERNAL_ERROR,
+                           ErrorSeverity::ERROR,
+                           message,
+                           "");
+    }
 }
 
 } // namespace cdc

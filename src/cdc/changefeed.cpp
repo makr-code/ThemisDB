@@ -31,6 +31,8 @@
 #include <rocksdb/utilities/transaction.h>
 #include <thread>
 #include <chrono>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 using namespace themis::cdc;
@@ -367,6 +369,131 @@ void Changefeed::clear() {
     }
     
     THEMIS_INFO("Cleared {} change events", count);
+}
+
+Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
+    std::string key = makeKey(sequence);
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, key, &value);
+    } else {
+        s = db_->Get(read_opts, key, &value);
+    }
+
+    if (!s.ok()) {
+        throw error::dbOperationFailed("getEvent", s.ToString());
+    }
+
+    nlohmann::json j = nlohmann::json::parse(value);
+    return ChangeEvent::fromJson(j);
+}
+
+Changefeed::CompactionResult Changefeed::compactByKey() {
+    CompactionResult result;
+
+    rocksdb::ReadOptions read_opts;
+    rocksdb::WriteOptions write_opts;
+
+    // Phase 1: Scan all events and record the latest sequence per document key.
+    // Use the rocksdb key string as the storage key (not the document key) to
+    // iterate in sequence order so we naturally see events oldest-first.
+    std::unordered_map<std::string, uint64_t> latest_seq_per_doc_key;
+
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            result.events_scanned++;
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+                // Always overwrite: later iterations have higher sequence numbers
+                // because we iterate in key (sequence) order.
+                latest_seq_per_doc_key[ev.key] = ev.sequence;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+            }
+        }
+    }
+
+    // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
+    // unless it is a DELETE event (tombstone must be preserved for consumers).
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        std::unordered_set<std::string> compacted_keys;
+
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+
+                auto it_latest = latest_seq_per_doc_key.find(ev.key);
+                if (it_latest == latest_seq_per_doc_key.end()) {
+                    result.events_retained++;
+                    continue;
+                }
+
+                bool is_latest = (ev.sequence == it_latest->second);
+                bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);
+
+                if (!is_latest && !is_delete) {
+                    // Superseded — remove it
+                    rocksdb::Status s;
+                    if (cf_) {
+                        s = db_->Delete(write_opts, cf_, k);
+                    } else {
+                        s = db_->Delete(write_opts, k);
+                    }
+
+                    if (s.ok()) {
+                        result.events_deleted++;
+                        compacted_keys.insert(ev.key);
+                    } else {
+                        THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
+                        result.events_retained++;
+                    }
+                } else {
+                    result.events_retained++;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+                result.events_retained++;
+            }
+        }
+
+        result.keys_compacted = compacted_keys.size();
+    }
+
+    THEMIS_INFO("compactByKey: scanned={} deleted={} keys_compacted={} retained={}",
+                result.events_scanned, result.events_deleted,
+                result.keys_compacted, result.events_retained);
+    return result;
 }
 
 size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {

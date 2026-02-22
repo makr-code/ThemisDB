@@ -111,6 +111,17 @@ public:
      */
     http::response<http::string_body> handleRetention(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /changefeed/compact request
+     *
+     * Triggers a key-based log compaction: removes superseded entries,
+     * keeping only the latest event per document key.
+     *
+     * @param req HTTP request
+     * @return HTTP response with compaction statistics
+     */
+    http::response<http::string_body> handleCompact(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<Changefeed> changefeed_;

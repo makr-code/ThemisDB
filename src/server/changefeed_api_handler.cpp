@@ -28,6 +28,7 @@
 #include "server/tenant_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
+#include "cdc/cdc_admin.h"
 #ifdef THEMIS_ENABLE_SSE
 #include "server/sse_connection_manager.h"
 #endif
@@ -484,6 +485,42 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetention(
         span.recordError(e.what());
         span.setStatus(false, "json_parse_error");
         return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> ChangefeedApiHandler::handleCompact(
+    const http::request<http::string_body>& req
+) {
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedCompact");
+    span.setAttribute("http.path", "/changefeed/compact");
+
+    try {
+        themis::cdc::CDCAdmin admin(changefeed_.get());
+        auto result = admin.compactLog();
+
+        nlohmann::json response = {
+            {"events_scanned",  result.events_scanned},
+            {"events_deleted",  result.events_deleted},
+            {"keys_compacted",  result.keys_compacted},
+            {"events_retained", result.events_retained}
+        };
+        span.setAttribute("compact.deleted", static_cast<int64_t>(result.events_deleted));
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
     } catch (const std::exception& e) {
         span.recordError(e.what());
         span.setStatus(false, "internal_error");

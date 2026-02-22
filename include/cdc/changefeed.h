@@ -174,6 +174,15 @@ public:
      * @return Number of events deleted
      */
     size_t deleteOldEvents(uint64_t before_sequence);
+
+    /**
+     * @brief Alias for deleteOldEvents (sequence-based)
+     * @param before_sequence Delete events with sequence < this value
+     * @return Number of events deleted
+     */
+    size_t deleteOldEventsBySequence(uint64_t before_sequence) {
+        return deleteOldEvents(before_sequence);
+    }
     
     /**
      * @brief Delete events older than given timestamp
@@ -181,6 +190,34 @@ public:
      * @return Number of events deleted
      */
     size_t deleteOldEventsByTimestamp(int64_t before_timestamp_ms);
+
+    /**
+     * @brief Get a single event by sequence number
+     * @param sequence The sequence number to look up
+     * @return The change event (throws on not found or error)
+     */
+    ChangeEvent getEvent(uint64_t sequence) const;
+
+    /**
+     * @brief Result of a compaction operation
+     */
+    struct CompactionResult {
+        size_t events_scanned = 0;   ///< Total events examined
+        size_t events_deleted = 0;   ///< Superseded events removed
+        size_t keys_compacted = 0;   ///< Distinct keys that had older entries removed
+        size_t events_retained = 0;  ///< Events kept (latest per key + tombstones)
+    };
+
+    /**
+     * @brief Compact the change log by removing superseded entries per key
+     *
+     * For each document key, retains only the latest change event and removes
+     * all earlier events that have been superseded by a newer one.  A DELETE
+     * event is never discarded so that consumers can still observe tombstones.
+     *
+     * @return CompactionResult describing what was removed
+     */
+    CompactionResult compactByKey();
     
     /**
      * @brief Apply retention policy (delete old events based on configured policy)
