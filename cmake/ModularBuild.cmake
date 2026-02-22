@@ -244,6 +244,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/query_plan_visualizer.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -253,7 +254,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/cache/adaptive_query_cache.cpp
-    ../src/cache/warmup.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -849,6 +849,10 @@ function(themis_build_modular)
             themis_query 
             themis_transaction
     )
+    if(MSVC)
+        set_source_files_properties(${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
+            PROPERTIES COMPILE_OPTIONS "/bigobj /Od")
+    endif()
     
     # Optional modules
     if(THEMIS_MODULE_SHARDING)

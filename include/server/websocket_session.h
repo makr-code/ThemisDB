@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     246                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -152,8 +152,14 @@ private:
     bool active_;
     bool is_tls_;
     
-    // Message queue for outgoing messages
-    std::queue<std::string> write_queue_;
+    // Message queue for outgoing messages.
+    // Each entry records the payload and whether it is a binary frame so that
+    // onWrite can restore the correct frame type when draining the queue.
+    struct WriteEntry {
+        std::string data;
+        bool        is_binary = false;
+    };
+    std::queue<WriteEntry> write_queue_;
     std::mutex write_mutex_;
     bool writing_;
     

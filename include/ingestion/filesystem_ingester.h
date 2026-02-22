@@ -31,6 +31,56 @@ namespace themis {
 namespace ingestion {
 
 /**
+ * @brief Detected binary MIME type based on magic-byte inspection
+ *
+ * Used by `detectBinaryMimeType()` to identify binary document formats
+ * before dispatching to the appropriate external converter.
+ */
+enum class BinaryMimeType {
+    UNKNOWN,  ///< Not a known binary type (may be text)
+    PDF,      ///< Portable Document Format (magic: %PDF)
+    DOCX      ///< Office Open XML / DOCX (magic: PK\x03\x04 ZIP with OOXML marker)
+};
+
+/**
+ * @brief Detect the binary MIME type of a buffer via magic-byte inspection
+ *
+ * Reads the first 8 bytes of the provided raw buffer and identifies
+ * known binary formats:
+ * - PDF:  starts with `%PDF`
+ * - DOCX: starts with the ZIP magic `PK\x03\x04` and contains the OOXML
+ *         content-type marker in the first 512 bytes
+ *
+ * @param raw   First bytes of the file (minimum 4 bytes required; fewer
+ *              bytes always return `BinaryMimeType::UNKNOWN`)
+ * @return Detected type or `BinaryMimeType::UNKNOWN`
+ */
+BinaryMimeType detectBinaryMimeType(const std::string& raw);
+
+/**
+ * @brief Configuration for external binary-format converters
+ *
+ * When set on `FileSystemIngester`, the ingester calls the specified
+ * command-line tools to extract plain text from PDF and DOCX files.
+ * An empty converter path disables conversion for that format (the
+ * file is silently skipped without raising an error).
+ *
+ * Converter invocations:
+ * - PDF:  `<pdf_converter> "<file>" -`   (pdftotext writes to stdout)
+ * - DOCX: `<docx_converter> -f docx -t plain "<file>"` (pandoc)
+ *
+ * When a converter is not found on PATH or exits with a non-zero status,
+ * the file is silently skipped (no error added to `IngestionStats`).
+ */
+struct BinaryConverter {
+    std::string pdf_converter  = "pdftotext";  ///< Converter for PDF (e.g. "pdftotext", "/usr/bin/pdftotext", or "")
+    std::string docx_converter = "pandoc";     ///< Converter for DOCX (e.g. "pandoc", "/usr/bin/pandoc", or "")
+    bool detect_by_magic = true;               ///< Detect type by magic bytes in addition to file extension
+
+    BinaryConverter() = default;
+};
+
+/**
  * @brief Supported file formats
  */
 enum class FileFormat {
@@ -166,6 +216,17 @@ public:
      * @param enabled Whether to extract file metadata (author, date, etc.)
      */
     void setMetadataExtraction(bool enabled);
+
+    /**
+     * @brief Set external binary-format converter paths
+     *
+     * When configured, PDF and DOCX files are converted to plain text by
+     * spawning the specified command-line tools.  An empty converter path
+     * disables conversion for that format and the file is silently skipped.
+     *
+     * @param config Converter paths and detection settings
+     */
+    void setBinaryConverter(const BinaryConverter& config);
 
 private:
     class Impl;

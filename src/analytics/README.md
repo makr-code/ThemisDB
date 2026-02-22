@@ -1470,6 +1470,22 @@ When contributing to the Analytics module:
 - [ ] Platform compatibility verified
 - [ ] Integration tests added
 
+## Scientific References
+
+1. Gray, J., Bosworth, A., Layman, A., & Pirahesh, H. (1997). **Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals**. *Data Mining and Knowledge Discovery*, 1, 29–53. https://doi.org/10.1023/A:1009726021843
+
+2. Apache Arrow Community. (2025). **Apache Arrow: A cross-language development platform for in-memory data** (Project Documentation). https://arrow.apache.org/  
+   (Autoritative technische Referenz für das im Modul genutzte spaltenorientierte In-Memory-Format / RecordBatches.)
+
+3. Vohra, D. (2016). **Apache Parquet**. Apress. https://doi.org/10.1007/978-1-4842-1592-5  
+   (Zitierbare Referenz zu Parquet als Columnar Storage Format; passt zur Export/Arrow-Integration.)
+
+4. van der Aalst, W. M. P. (2016). **Process Mining: Data Science in Action (2nd ed.)**. Springer. https://doi.org/10.1007/978-3-662-49851-4  
+   (Wissenschaftliche Grundlage für Process Discovery & Conformance Checking.)
+
+5. Breunig, M. M., Kriegel, H.-P., Ng, R. T., & Sander, J. (2000). **LOF: Identifying Density-Based Local Outliers**. *Proceedings of the 2000 ACM SIGMOD International Conference on Management of Data*, 93–104. https://doi.org/10.1145/342009.335388  
+   (Basis für LOF-Anomalieerkennung, wie sie im Modul verwendet wird.)
+
 ## License
 
 Part of ThemisDB. See LICENSE file in the root directory.

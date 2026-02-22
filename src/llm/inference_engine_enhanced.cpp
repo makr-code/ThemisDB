@@ -18,6 +18,7 @@
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -80,6 +81,18 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
     }
     
     spdlog::info("Enhanced Inference Engine initialized successfully");
+}
+
+InferenceEngineEnhanced::InferenceEngineEnhanced(
+    const Config& config,
+    std::shared_ptr<SharedWorkerPool> pool
+) : InferenceEngineEnhanced(config) {
+    if (!pool) {
+        throw std::invalid_argument("SharedWorkerPool cannot be null");
+    }
+    shared_pool_ = std::move(pool);
+    spdlog::info("Enhanced Inference Engine will use shared worker pool ({} threads)",
+                 shared_pool_->numThreads());
 }
 
 InferenceEngineEnhanced::~InferenceEngineEnhanced() {
@@ -384,19 +397,33 @@ void InferenceEngineEnhanced::start() {
     if (running_.load()) {
         return;
     }
-    
+
     running_.store(true);
-    
-    // Start worker threads
-    for (size_t i = 0; i < config_.num_worker_threads; ++i) {
-        worker_threads_.emplace_back(&InferenceEngineEnhanced::workerLoop, this, i);
+
+    if (shared_pool_) {
+        // ── Shared-pool path: one batch-coordinator thread ────────────
+        // The coordinator forms batches from the internal queue and submits
+        // processBatch() tasks to the shared pool.  Actual inference is
+        // executed by the pool's worker threads, which may be shared with
+        // AsyncInferenceEngine.
+        worker_threads_.emplace_back(
+            &InferenceEngineEnhanced::batchCoordinatorLoop, this);
+        spdlog::info("Enhanced Inference Engine started with shared worker pool "
+                     "({} threads, 1 batch coordinator)",
+                     shared_pool_->numThreads());
+    } else {
+        // ── Private-worker path (original behaviour) ──────────────────
+        for (size_t i = 0; i < config_.num_worker_threads; ++i) {
+            worker_threads_.emplace_back(
+                &InferenceEngineEnhanced::workerLoop, this, i);
+        }
+        spdlog::info("Enhanced Inference Engine started with {} private workers",
+                     config_.num_worker_threads);
     }
-    
-    // Start timeout monitor
-    timeout_thread_ = std::thread(&InferenceEngineEnhanced::timeoutMonitorLoop, this);
-    
-    spdlog::info("Enhanced Inference Engine started with {} workers", 
-                 config_.num_worker_threads);
+
+    // Timeout monitor runs in both cases
+    timeout_thread_ = std::thread(
+        &InferenceEngineEnhanced::timeoutMonitorLoop, this);
 }
 
 void InferenceEngineEnhanced::shutdown() {
@@ -474,6 +501,61 @@ void InferenceEngineEnhanced::workerLoop(size_t worker_id) {
     }
     
     spdlog::debug("Worker {} stopped", worker_id);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Internal Methods - Batch Coordinator (shared-pool path)
+// ═══════════════════════════════════════════════════════════
+
+void InferenceEngineEnhanced::batchCoordinatorLoop() {
+    spdlog::debug("InferenceEngineEnhanced batch coordinator started");
+
+    while (running_.load()) {
+        std::vector<std::shared_ptr<TrackedRequest>> batch;
+
+        {
+            std::unique_lock<std::mutex> lock(queue_mutex_);
+
+            auto wait_until = std::chrono::steady_clock::now() +
+                              std::chrono::milliseconds(config_.batch_timeout_ms);
+
+            queue_cv_.wait_until(lock, wait_until, [this] {
+                return !request_queue_.empty() || !running_.load();
+            });
+
+            if (!running_.load() && request_queue_.empty()) {
+                break;
+            }
+
+            if (config_.enable_batch_processing) {
+                batch = formBatch();
+            } else if (!request_queue_.empty()) {
+                batch.push_back(request_queue_.front());
+                request_queue_.pop();
+            }
+
+            {
+                std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+                stats_.current_queue_size = request_queue_.size();
+            }
+        }
+
+        if (!batch.empty()) {
+            // Determine scheduling priority from the highest-priority request
+            // in the batch so the shared pool schedules this work correctly.
+            int max_priority = 0;
+            for (const auto& req : batch) {
+                max_priority = std::max(max_priority, req->request.priority);
+            }
+
+            shared_pool_->submit(
+                [this, b = std::move(batch)]() { processBatch(b); },
+                max_priority
+            );
+        }
+    }
+
+    spdlog::debug("InferenceEngineEnhanced batch coordinator stopped");
 }
 
 // ═══════════════════════════════════════════════════════════

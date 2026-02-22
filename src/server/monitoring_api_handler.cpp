@@ -346,6 +346,9 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
     }
 }
 
+#ifdef _MSC_VER
+#pragma optimize("", off)
+#endif
 http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     const http::request<http::string_body>& req
 ) {
@@ -810,6 +813,9 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
+#ifdef _MSC_VER
+#pragma optimize("", on)
+#endif
 
 http::response<http::string_body> MonitoringApiHandler::handleStats(
     const http::request<http::string_body>& req

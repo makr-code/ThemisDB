@@ -53,6 +53,14 @@ void TimeSeriesMetrics::recordDataPointWrite(const std::string& metric_name, dou
     }
 }
 
+void TimeSeriesMetrics::recordOutOfOrderWrite(const std::string& /*metric_name*/, bool rejected) {
+    if (rejected) {
+        late_arrival_rejected_.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        out_of_order_accepted_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
 void TimeSeriesMetrics::recordBatchWrite(size_t num_points, double latency_ms, bool compressed, bool success) {
     total_data_points_written_.fetch_add(num_points, std::memory_order_relaxed);
     total_batches_written_.fetch_add(1, std::memory_order_relaxed);
@@ -160,6 +168,14 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
     oss << formatPrometheusMetric("themis_timeseries_write_errors_total", "counter",
                                   "Total number of write errors",
                                   write_errors_.load());
+
+    oss << formatPrometheusMetric("themis_timeseries_out_of_order_accepted_total", "counter",
+                                  "Total out-of-order data points accepted within the late-arrival window",
+                                  out_of_order_accepted_.load());
+
+    oss << formatPrometheusMetric("themis_timeseries_late_arrival_rejected_total", "counter",
+                                  "Total data points rejected as outside the late-arrival window",
+                                  late_arrival_rejected_.load());
     
     // Query metrics
     oss << formatPrometheusMetric("themis_timeseries_queries_executed_total", "counter",
@@ -251,6 +267,8 @@ std::string TimeSeriesMetrics::exportJson() const {
     j["ingestion"]["compressed_batches_total"] = total_compressed_batches_.load();
     j["ingestion"]["write_errors_total"] = write_errors_.load();
     j["ingestion"]["write_latency_ms_avg"] = getAverageWriteLatency();
+    j["ingestion"]["out_of_order_accepted_total"] = out_of_order_accepted_.load();
+    j["ingestion"]["late_arrival_rejected_total"] = late_arrival_rejected_.load();
     
     // Query metrics
     j["query"]["queries_executed_total"] = total_queries_executed_.load();
@@ -313,6 +331,8 @@ void TimeSeriesMetrics::reset() {
     write_errors_.store(0);
     total_bytes_written_uncompressed_.store(0);
     total_bytes_written_compressed_.store(0);
+    out_of_order_accepted_.store(0);
+    late_arrival_rejected_.store(0);
     
     total_queries_executed_.store(0);
     total_aggregations_executed_.store(0);
