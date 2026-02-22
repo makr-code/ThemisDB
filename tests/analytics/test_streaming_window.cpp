@@ -633,6 +633,94 @@ TEST(PipelineTest, MultipleIngestsAndFlush) {
 }
 
 // ============================================================================
+// Bug-fix regression tests
+// ============================================================================
+
+// BUG 2: SessionWindow::ingest should not regress last_event on OOO records.
+// An out-of-order record arriving within the gap must NOT cause the session to
+// be closed on the next timer tick (last_event must not move backward).
+TEST(BugfixTest, SessionWindowOutOfOrderDoesNotRegressLastEvent) {
+    std::atomic<int> fired{0};
+    SessionWindow win([]() {
+        SessionWindowConfig c;
+        c.gap = 200ms; // short gap for the timer test
+        return c;
+    }());
+    win.setResultCallback([&](WindowResult) { ++fired; });
+
+    // Record at t=0
+    win.ingest(rec("r1", 0ms, 1.0, "user"));
+    // OOO record at t=0 (same offset) — last_event must remain max(0,0)=0
+    win.ingest(rec("r2", 0ms, 2.0, "user"));
+    // Advance: record at t=100ms — still within 200ms gap
+    win.ingest(rec("r3", 100ms, 3.0, "user"));
+
+    // Sleep 50ms: gap timer should NOT fire (last_event = 100ms, not regressed to 0ms).
+    std::this_thread::sleep_for(50ms);
+    EXPECT_EQ(fired.load(), 0) << "session must not expire prematurely";
+
+    // Flush should emit exactly one session with 3 records.
+    win.flush();
+    EXPECT_EQ(fired.load(), 1);
+}
+
+// BUG 4: SessionWindow must track watermark and drop records flagged as late.
+TEST(BugfixTest, SessionWindowDropsLateRecordWhenAllowLateFalse) {
+    SessionWindowConfig cfg;
+    cfg.gap = 60000ms;
+    cfg.watermark.max_out_of_orderness = std::chrono::milliseconds(0);
+    cfg.watermark.allow_late_data = false;
+    SessionWindow win(cfg);
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+
+    // Advance watermark with a far-future record
+    bool ok_future = win.ingest(rec("future", 300000ms, 1.0, "u1"));
+    EXPECT_TRUE(ok_future);
+
+    // Now ingest a very old record — should be dropped
+    bool ok_old = win.ingest(rec("old", 0ms, 2.0, "u1"));
+    EXPECT_FALSE(ok_old);
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.records_dropped, 1u);
+    EXPECT_GE(stats.late_records, 1u);
+}
+
+// BUG 5: DISTINCT_COUNT must not count records where the field is absent.
+TEST(BugfixTest, DistinctCountIgnoresMissingField) {
+    std::vector<WindowResult> results;
+    TumblingWindow win([]() {
+        TumblingWindowConfig c;
+        c.size = 60000ms;
+        return c;
+    }());
+    win.addAggregation({"dc", AggFunc::DISTINCT_COUNT, "cat"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // Records WITH the "cat" field: 2 distinct values
+    win.ingest(makeRecord("", baseTime(), "", {{"cat", std::string("A")}}));
+    win.ingest(makeRecord("", baseTime(), "", {{"cat", std::string("B")}}));
+    win.ingest(makeRecord("", baseTime(), "", {{"cat", std::string("A")}}));
+    // Record WITHOUT the "cat" field: must NOT inflate the distinct count
+    win.ingest(makeRecord("", baseTime(), "", {{"other", std::string("")}}));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    // Expect exactly 2 distinct values ("A" and "B"), not 3
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("dc")), 2);
+}
+
+// BUG 7: StreamingWindowPipeline must refuse ingest()/flush() before build().
+TEST(BugfixTest, PipelineIngestBeforeBuildReturnsFalse) {
+    StreamingWindowPipeline p = StreamingWindowPipeline::tumbling(60000ms);
+    // build() has NOT been called — ingest() and flush() must be no-ops
+    EXPECT_FALSE(p.ingest(rec("r1", 0ms, 1.0)));
+    EXPECT_NO_THROW(p.flush());
+    auto s = p.getStats();
+    EXPECT_EQ(s.records_ingested, 0u);
+}
+
+// ============================================================================
 // aggFuncToString helper
 // ============================================================================
 

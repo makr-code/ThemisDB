@@ -206,7 +206,6 @@ struct SlidingWindowConfig {
 struct SessionWindowConfig {
     std::chrono::milliseconds gap{30000};
     WatermarkConfig watermark;
-    bool allow_late_data = false;
 };
 
 struct HoppingWindowConfig {
@@ -305,7 +304,8 @@ private:
     int64_t slotIndex(const std::chrono::system_clock::time_point& tp) const;
     std::chrono::system_clock::time_point slotStart(int64_t idx) const;
     WindowResult computeResult(const InternalWindow& win, bool late) const;
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
 };
 
@@ -373,7 +373,8 @@ private:
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
@@ -434,6 +435,9 @@ private:
     std::atomic<bool> running_{false};
     std::condition_variable expiry_cv_;
     std::mutex expiry_mutex_;
+
+    // Watermark (monotonically increasing, in microseconds since epoch)
+    std::atomic<int64_t> watermark_us_{0};
 
     std::atomic<uint64_t> windows_opened_{0};
     std::atomic<uint64_t> windows_closed_{0};
@@ -507,7 +511,8 @@ private:
 
     WindowResult computeResult(const InternalWindow& win, bool late) const;
     void ensureWindowsExist(const std::chrono::system_clock::time_point& event_time);
-    void closeExpiredWindows(int64_t watermark_us);
+    // Returns results to emit; caller fires the callback outside the mutex.
+    std::vector<WindowResult> closeExpiredWindows(int64_t watermark_us);
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
