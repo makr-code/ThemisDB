@@ -963,6 +963,42 @@ else()
 endif()
 
 # ============================================================================
+# GraphQL Performance Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_performance.cpp")
+    message(STATUS "Adding GraphQL performance tests")
+
+    add_executable(test_graphql_performance
+        test_graphql_performance.cpp
+    )
+
+    target_link_libraries(test_graphql_performance PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_performance PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLPerformanceTests COMMAND test_graphql_performance)
+
+    set_tests_properties(GraphQLPerformanceTests PROPERTIES
+        LABELS "query;graphql;performance;cache;metrics;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Performance: parse cache hits, O(1) LRU eviction, executor metrics")
+else()
+    message(STATUS "GraphQL Performance tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_performance.cpp")
+endif()
+
+# ============================================================================
 # Inverted Index (standalone full-text search module) Tests
 # ============================================================================
 

@@ -28,11 +28,21 @@ on:
       - '.github/workflows/gpu-ci.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   # ---------------------------------------------------------------------------
   # Build and test GPU module with CPU-only fallback (no hardware required)
   # ---------------------------------------------------------------------------
   gpu-module-cpu-fallback:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
     name: GPU Module (CPU Fallback, ${{ matrix.edition }})
     runs-on: ubuntu-latest
     permissions:
@@ -133,6 +143,8 @@ jobs:
   # Static analysis: clang-tidy on GPU sources
   # ---------------------------------------------------------------------------
   gpu-static-analysis:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
     name: GPU Static Analysis (clang-tidy)
     runs-on: ubuntu-latest
     permissions:
@@ -170,6 +182,8 @@ jobs:
   # Device-loss simulation: fault-injection smoke test
   # ---------------------------------------------------------------------------
   gpu-device-loss-simulation:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
     name: GPU Device Loss Simulation
     runs-on: ubuntu-latest
     permissions:
@@ -209,6 +223,8 @@ jobs:
   # Documentation gate: roadmap and runbooks present
   # ---------------------------------------------------------------------------
   gpu-docs-gate:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
     name: GPU Documentation Gate
     runs-on: ubuntu-latest
     permissions:

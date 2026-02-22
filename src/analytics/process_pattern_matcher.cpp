@@ -3,22 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_pattern_matcher.cpp                        ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:02                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     848                                            ║
+    • Total Lines:     845                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
+    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -289,7 +286,7 @@ ProcessPatternMatcher::getTrace(const std::string& case_id) const {
     cfg.timestamp_field = "timestamp";
 
     auto [st, log] = process_mining_.extractEventLog("events", cfg);
-    if (!st.ok()) {
+    if (!st.ok) {
         return {Status::Error("Failed to extract event log: " + st.message), {}};
     }
 
@@ -331,7 +328,7 @@ ProcessPatternMatcher::findSimilar(
     log_cfg.timestamp_field = "timestamp";
 
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
-    if (!lst.ok()) {
+    if (!lst.ok) {
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 
@@ -553,7 +550,7 @@ ProcessPatternMatcher::hasPattern(
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
     // Fallback: if DB unavailable, compute purely from trace
     double sim = 0.0;
-    if (lst.ok()) {
+    if (lst.ok) {
         PatternMatchConfig cfg;
         cfg.method = SimilarityMethod::HYBRID;
         sim = computeHybridSimilarity(pattern, log, case_id, cfg);
@@ -585,7 +582,7 @@ ProcessPatternMatcher::findPatternsInBatch(
     log_cfg.activity_field  = "activity";
     log_cfg.timestamp_field = "timestamp";
     auto [lst, log] = process_mining_.extractEventLog("events", log_cfg);
-    if (!lst.ok()) {
+    if (!lst.ok) {
         return {Status::Error("Cannot extract event log: " + lst.message), {}};
     }
 

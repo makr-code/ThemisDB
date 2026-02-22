@@ -24,25 +24,25 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Prometheus metrics export
 
 ## In Progress 🚧
-- [?] Raft leader lease reads for linearizable read-scale-out (Target: Q2 2026)
-- [?] Replication topology visualizer (web UI) (Target: Q2 2026)
-- [?] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026)
+- [I] Raft leader lease reads for linearizable read-scale-out (Target: Q2 2026) (Issue: #2258)
+- [!] Replication topology visualizer (web UI) (Target: Q2 2026) (Issue: #2443)
+- [!] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026) (Issue: #2444)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2119)
-- [?] Replication slot management API (pause/resume individual slots)
-- [?] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
-- [?] Automated lag-based read traffic shifting
-- [?] Cross-cluster logical replication (publish/subscribe model)
+- [I] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154)
+- [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
+- [I] CDC event filtering by operation type (INSERT/UPDATE/DELETE) (Issue: #2439)
+- [I] Automated lag-based read traffic shifting (Issue: #2251)
+- [!] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
 
 ### Long-term (6-12 months)
-- [?] Full Raft v2 implementation (joint consensus for membership changes)
-- [?] Multi-region active-active with bounded staleness guarantees
-- [?] Schema-aware CDC with Avro/Protobuf schema registry integration
-- [?] Conflict-free Replicated Data Types (CRDT) library expansion
-- [?] Kubernetes operator for automated topology management
+- [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
+- [I] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
+- [I] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
+- [I] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
+- [I] Kubernetes operator for automated topology management (Issue: #2257)
 
 ## Implementation Phases
 
