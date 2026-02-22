@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1112                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
@@ -996,7 +996,24 @@ public:
     bool createCheckpoint();
     
     /**
-     * Restore from checkpoint
+     * Restore engine state from a previously created checkpoint.
+     *
+     * Reads the checkpoint file written by createCheckpoint() and restores
+     * the enabled/disabled state of each rule that was registered at the time
+     * the checkpoint was taken.  Rules that exist in the checkpoint but are no
+     * longer registered in the engine are silently skipped.
+     *
+     * Checkpoint file format (one entry per line):
+     *   events_received=<N>
+     *   events_processed=<N>
+     *   alerts_generated=<N>
+     *   rule=<rule_id>:<rule_name>:<1|0>   (1 = enabled, 0 = disabled)
+     *
+     * @param checkpoint_id  Name of the checkpoint (stem of the .txt file
+     *                       inside the configured checkpoint_path directory).
+     *                       Use listCheckpoints() to enumerate available IDs.
+     * @return true on success, false if the checkpoint file does not exist or
+     *         cannot be opened.
      */
     bool restoreFromCheckpoint(const std::string& checkpoint_id);
     

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1966                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
@@ -1884,6 +1884,12 @@ bool CEPEngine::createCheckpoint() {
     return true;
 }
 
+// Parses the text checkpoint produced by createCheckpoint().
+// Only "rule=<id>:<name>:<1|0>" lines are acted upon: the enabled flag is
+// applied to any rule currently registered in the rule engine.
+// Counter lines (events_received=, etc.) are intentionally skipped because
+// they are cumulative since engine initialisation and cannot be meaningfully
+// restored.
 bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
     std::filesystem::path cp_file =
         std::filesystem::path(config_.checkpoint_path) / (checkpoint_id + ".txt");
