@@ -22,11 +22,161 @@
 #include "config/path_mapping_metadata.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <condition_variable>
+#include <mutex>
 #include <sstream>
 #include <iomanip>
+#include <thread>
+#include <unordered_map>
 
 namespace themis {
 namespace config {
+
+// ═══════════════════════════════════════════════════════════
+// DeprecationAggregator – tracks per-path legacy usage counts
+// and emits periodic structured log reports.
+// ═══════════════════════════════════════════════════════════
+
+class ConfigPathResolver::DeprecationAggregator {
+public:
+    static constexpr int DEFAULT_INTERVAL_SECONDS = 300;
+
+    ~DeprecationAggregator() {
+        stop();
+    }
+
+    /**
+     * Increment the usage counter for a legacy path.
+     * Thread-safe; called from ConfigPathResolver::tryResolve().
+     */
+    void incrementUsage(const std::string& legacy_path) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        usage_counts_[legacy_path]++;
+    }
+
+    /**
+     * Build and return a snapshot of the current deprecation report,
+     * sorted by descending usage count.
+     */
+    std::vector<ConfigPathResolver::DeprecationEntry> getReport() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::vector<ConfigPathResolver::DeprecationEntry> report;
+        report.reserve(usage_counts_.size());
+
+        for (const auto& [path, count] : usage_counts_) {
+            ConfigPathResolver::DeprecationEntry entry;
+            entry.legacy_path = path;
+            entry.usage_count = count;
+
+            auto metadata = ConfigPathResolver::getMetadata(path);
+            if (metadata) {
+                entry.new_path           = metadata->new_path;
+                entry.category           = metadata->category;
+                entry.removal_date       = metadata->removal_date;
+                entry.migration_guide_url = metadata->migration_guide_url;
+            } else {
+                entry.new_path = ConfigPathResolver::mapLegacyToNew(path);
+                entry.category = ConfigPathResolver::inferCategory(entry.new_path);
+            }
+            report.push_back(std::move(entry));
+        }
+
+        std::sort(report.begin(), report.end(),
+                  [](const DeprecationEntry& a, const DeprecationEntry& b) {
+                      return a.usage_count > b.usage_count;
+                  });
+        return report;
+    }
+
+    /**
+     * Reset all usage counters (called from ConfigPathResolver::resetMetrics()).
+     */
+    void reset() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        usage_counts_.clear();
+    }
+
+    /**
+     * Start the background reporter thread.
+     *
+     * @param interval_seconds How often to emit the aggregated report (default 300 s).
+     */
+    void start(int interval_seconds = DEFAULT_INTERVAL_SECONDS) {
+        std::lock_guard<std::mutex> tlock(thread_mutex_);
+        if (running_.load()) {
+            return;  // Already running
+        }
+        running_ = true;
+        interval_ = std::chrono::seconds(interval_seconds);
+        reporter_thread_ = std::thread([this]() { reporterLoop(); });
+    }
+
+    /**
+     * Stop the background reporter thread and join it.
+     */
+    void stop() {
+        {
+            std::lock_guard<std::mutex> lock(cv_mutex_);
+            running_ = false;
+        }
+        cv_.notify_all();
+
+        std::lock_guard<std::mutex> tlock(thread_mutex_);
+        if (reporter_thread_.joinable()) {
+            reporter_thread_.join();
+        }
+    }
+
+    bool isRunning() const { return running_.load(); }
+
+private:
+    void reporterLoop() {
+        while (running_.load()) {
+            std::unique_lock<std::mutex> lock(cv_mutex_);
+            cv_.wait_for(lock, interval_, [this]() { return !running_.load(); });
+            if (running_.load()) {
+                logReport();
+            }
+        }
+    }
+
+    void logReport() {
+        auto report = getReport();
+        if (report.empty()) {
+            return;
+        }
+
+        spdlog::info("[CONFIG] Legacy path deprecation report ({} paths in use):",
+                     report.size());
+        for (const auto& entry : report) {
+            std::string removal_str = "N/A";
+            if (entry.removal_date.has_value()) {
+                auto t = std::chrono::system_clock::to_time_t(*entry.removal_date);
+                std::ostringstream oss;
+                // NOLINTNEXTLINE(concurrency-mt-unsafe)
+                oss << std::put_time(std::localtime(&t), "%Y-%m-%d");
+                removal_str = oss.str();
+            }
+            const std::string& guide_str =
+                entry.migration_guide_url.value_or("N/A");
+
+            spdlog::warn("[CONFIG] Legacy path report: "
+                         "{{path: '{}', hits: {}, removal_date: '{}', guide: '{}'}}",
+                         entry.legacy_path, entry.usage_count,
+                         removal_str, guide_str);
+        }
+    }
+
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, uint64_t> usage_counts_;
+
+    std::mutex thread_mutex_;
+    std::mutex cv_mutex_;
+    std::condition_variable cv_;
+    std::thread reporter_thread_;
+    std::chrono::seconds interval_{DEFAULT_INTERVAL_SECONDS};
+    std::atomic<bool> running_{false};
+};
 
 // ═══════════════════════════════════════════════════════════
 // Static Members Initialization
@@ -35,6 +185,8 @@ namespace config {
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
 LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
+ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
+std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -223,19 +375,22 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     // Fall back to legacy path with warning
     else if (std::filesystem::exists(normalized)) {
         if (!new_path.empty() && new_path != normalized) {
-            // Check if we have metadata for more detailed warning
-            auto metadata = getMetadata(normalized);
-            if (metadata && metadata->isDeprecated()) {
-                // Use structured deprecation message
-                if (metadata->isRemovalDue()) {
-                    spdlog::error("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+            // Track usage for aggregation report
+            aggregator_.incrementUsage(normalized);
+
+            if (!aggregation_enabled_.load()) {
+                // Per-call warning (only when aggregation is disabled)
+                auto metadata = getMetadata(normalized);
+                if (metadata && metadata->isDeprecated()) {
+                    if (metadata->isRemovalDue()) {
+                        spdlog::error("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+                    } else {
+                        spdlog::warn("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+                    }
                 } else {
-                    spdlog::warn("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+                    spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
+                                "Please migrate to: {}", normalized, new_path);
                 }
-            } else {
-                // Fallback to simple warning
-                spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
-                            "Please migrate to: {}", normalized, new_path);
             }
             metrics_.legacy_fallbacks++;
         }
@@ -344,6 +499,7 @@ void ConfigPathResolver::resetMetrics() {
     metrics_.unmapped_requests = 0;
     metrics_.cache_hits = 0;
     metrics_.cache_misses = 0;
+    aggregator_.reset();
 }
 
 void ConfigPathResolver::setCachingEnabled(bool enabled) {
@@ -351,6 +507,19 @@ void ConfigPathResolver::setCachingEnabled(bool enabled) {
     if (!enabled) {
         cache_.clear();
     }
+}
+
+void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_seconds) {
+    aggregation_enabled_.store(enabled);
+    if (enabled) {
+        aggregator_.start(interval_seconds);
+    } else {
+        aggregator_.stop();
+    }
+}
+
+std::vector<ConfigPathResolver::DeprecationEntry> ConfigPathResolver::deprecationReport() {
+    return aggregator_.getReport();
 }
 
 std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
