@@ -207,6 +207,76 @@ std::string VoiceAssistant::processTextCommand(
     return llm_response;
 }
 
+std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
+    const std::vector<uint8_t>& audio_data,
+    const std::string& session_id,
+    std::function<void(const content::TranscriptionSegment&)> segment_callback
+) {
+    if (!initialized_) {
+        return {};
+    }
+
+    auto session = getSession(session_id);
+
+    // Accumulate all segments delivered by the streaming transcription.
+    std::string full_transcript;
+    std::mutex transcript_mutex;
+
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+        {
+            std::lock_guard<std::mutex> lock(transcript_mutex);
+            if (!full_transcript.empty()) {
+                full_transcript += ' ';
+            }
+            full_transcript += seg.text;
+        }
+        // Forward to caller's callback if provided.
+        if (segment_callback) {
+            segment_callback(seg);
+        }
+    };
+
+    bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
+
+    if (!ok || full_transcript.empty()) {
+        // Fall back to batch transcription so the pipeline always returns audio.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            full_transcript = transcription.full_text;
+        }
+    }
+
+    if (full_transcript.empty()) {
+        content::TTSOptions tts_options;
+        tts_options.voice_id = config_.tts_voice;
+        tts_options.format = "wav";
+        auto tts_result = tts_processor_->synthesize(
+            "I'm sorry, I couldn't understand that. Please try again.",
+            tts_options
+        );
+        return tts_result.audio_data;
+    }
+
+    session.history.push_back("User: " + full_transcript);
+
+    std::string llm_response = generateLLMResponse(full_transcript, session);
+
+    session.history.push_back("Assistant: " + llm_response);
+
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_[session_id] = session;
+    }
+
+    content::TTSOptions tts_options;
+    tts_options.voice_id = config_.tts_voice;
+    tts_options.speed    = config_.tts_speed;
+    tts_options.format   = "wav";
+
+    auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
+    return tts_result.audio_data;
+}
+
 json VoiceAssistant::recordPhoneCall(
     const std::vector<uint8_t>& audio_data,
     const PhoneCallMetadata& metadata
