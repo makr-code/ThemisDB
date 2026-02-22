@@ -305,7 +305,6 @@ int HnswParameterTuner::calculateEfSearch(size_t k, size_t dataset_size) const {
 HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
     size_t dataset_size,
     WorkloadType workload) {
-    
     Config config;
     config.workload = workload;
     
@@ -376,6 +375,132 @@ HnswParameterTuner::Config HnswParameterTuner::getWorkloadOptimizedConfig(
     config.stats_window_size = 1000;
     
     return config;
+}
+
+HnswParameterTuner::ConstructionParams HnswParameterTuner::getAutoTunedConstructionParams(
+    size_t dataset_size,
+    WorkloadType workload_hint) const {
+
+    ConstructionParams result;
+
+    // Determine effective workload: use hint unless caller left it as MIXED,
+    // in which case we infer from recently recorded query statistics.
+    WorkloadType effective_workload = workload_hint;
+
+    if (effective_workload == WorkloadType::MIXED) {
+        // Infer from recorded query patterns.
+        // Use average k as a simple heuristic:
+        //   k <= 5         → likely OLTP (point-lookups, small neighborhoods)
+        //   6 <= k <= 19   → likely RAG  (retrieval-augmented generation)
+        //   k >= 20        → likely ANALYTICS (large result sets)
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!recent_queries_.empty()) {
+            double avg_k = 0.0;
+            for (const auto& q : recent_queries_) {
+                avg_k += static_cast<double>(q.k);
+            }
+            avg_k /= static_cast<double>(recent_queries_.size());
+
+            if (avg_k <= 5.0) {
+                effective_workload = WorkloadType::OLTP;
+            } else if (avg_k >= 20.0) {
+                effective_workload = WorkloadType::ANALYTICS;
+            } else {
+                effective_workload = WorkloadType::RAG;
+            }
+        }
+        // If no queries have been recorded yet, keep MIXED as the default.
+    }
+
+    result.detected_workload  = effective_workload;
+    result.M                  = getRecommendedM(dataset_size, effective_workload);
+    result.ef_construction    = getRecommendedEfConstruction(dataset_size, result.M, effective_workload);
+
+    return result;
+}
+
+// WorkloadClassifier implementation
+
+void WorkloadClassifier::recordInsert(size_t batch_size) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    total_inserts_ += batch_size;
+    insert_events_ += 1;
+}
+
+void WorkloadClassifier::recordQuery(size_t k) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    total_k_      += k;
+    query_events_ += 1;
+}
+
+HnswParameterTuner::WorkloadType WorkloadClassifier::detectWorkload() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    const bool has_inserts = insert_events_ > 0;
+    const bool has_queries = query_events_  > 0;
+
+    if (!has_inserts && !has_queries) {
+        return HnswParameterTuner::WorkloadType::MIXED;
+    }
+
+    double avg_batch = has_inserts
+        ? static_cast<double>(total_inserts_) / static_cast<double>(insert_events_)
+        : 0.0;
+    double avg_k = has_queries
+        ? static_cast<double>(total_k_) / static_cast<double>(query_events_)
+        : 0.0;
+
+    // Pure-insert or heavily insert-dominated traffic
+    if (!has_queries) {
+        return avg_batch >= 100.0
+            ? HnswParameterTuner::WorkloadType::BATCH_INSERT
+            : HnswParameterTuner::WorkloadType::OLTP;
+    }
+
+    double insert_query_ratio = has_inserts
+        ? static_cast<double>(insert_events_) / static_cast<double>(query_events_)
+        : 0.0;
+
+    // Heavy batch insertions with very few queries
+    if (insert_query_ratio >= 10.0 && avg_batch >= 100.0) {
+        return HnswParameterTuner::WorkloadType::BATCH_INSERT;
+    }
+
+    // Insert-dominated with small batches → transactional (OLTP)
+    if (insert_query_ratio >= 1.0) {
+        return HnswParameterTuner::WorkloadType::OLTP;
+    }
+
+    // Query-dominated: differentiate by k
+    if (avg_k >= 20.0) {
+        return HnswParameterTuner::WorkloadType::ANALYTICS;
+    }
+    if (avg_k <= 5.0) {
+        return HnswParameterTuner::WorkloadType::OLTP;
+    }
+    return HnswParameterTuner::WorkloadType::RAG;
+}
+
+void WorkloadClassifier::reset() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    total_inserts_  = 0;
+    insert_events_  = 0;
+    total_k_        = 0;
+    query_events_   = 0;
+}
+
+WorkloadClassifier::Stats WorkloadClassifier::getStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    Stats s;
+    s.total_inserts  = total_inserts_;
+    s.total_queries  = query_events_;
+    s.avg_batch_size = insert_events_ > 0
+        ? static_cast<double>(total_inserts_) / static_cast<double>(insert_events_)
+        : 0.0;
+    s.avg_k = query_events_ > 0
+        ? static_cast<double>(total_k_) / static_cast<double>(query_events_)
+        : 0.0;
+    return s;
 }
 
 // HnswMemoryOptimizer implementation
