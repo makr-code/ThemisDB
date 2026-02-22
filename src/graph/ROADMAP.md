@@ -16,10 +16,10 @@
 - [x] Path validation and constraint checking
 - [x] Integration with GraphIndexManager for graph operations
 - [x] Integration with AQL for graph query execution
+- [x] Query plan reuse across structurally similar queries
 
 ## In Progress 🚧
 - [x] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
-- [!] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #2394)
 - [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2386)
 
 ## Planned Features 📋
@@ -55,7 +55,7 @@
 
 ### Phase 2: Parallel Traversal & Adaptive Planning (Status: In Progress 🚧)
 - [x] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
-- [~] Query plan reuse across structurally similar queries (Target: Q2 2026)
+- [x] Query plan reuse across structurally similar queries (Target: Q2 2026)
 - [ ] Cost model calibration from real execution feedback (Target: Q3 2026)
 
 ### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
