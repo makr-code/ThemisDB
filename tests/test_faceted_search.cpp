@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     167                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -164,4 +164,37 @@ TEST(ActiveFacet, FieldValueAssignment) {
     f.value = "electronics";
     EXPECT_EQ(f.field, "category");
     EXPECT_EQ(f.value, "electronics");
+}
+
+// ============================================================================
+// discoverFacetableColumns
+// ============================================================================
+
+TEST(FacetedSearchDiscoverColumns, NullIndexReturnsError) {
+    FacetedSearch fs(nullptr);
+    auto [st, cols] = fs.discoverFacetableColumns("products");
+    EXPECT_FALSE(st.ok);
+}
+
+TEST(FacetedSearchDiscoverColumns, EmptyTableReturnsError) {
+    FacetedSearch fs(nullptr);
+    auto [st, cols] = fs.discoverFacetableColumns("");
+    EXPECT_FALSE(st.ok);
+}
+
+// ============================================================================
+// computeDynamicFacets
+// ============================================================================
+
+TEST(FacetedSearchDynamicFacets, NullIndexReturnsError) {
+    FacetedSearch fs(nullptr);
+    auto [st, facets] = fs.computeDynamicFacets("products");
+    EXPECT_FALSE(st.ok);
+}
+
+TEST(FacetedSearchDynamicFacets, NullIndexWithCandidatesReturnsError) {
+    FacetedSearch fs(nullptr);
+    std::vector<std::string> candidates = {"pk1", "pk2"};
+    auto [st, facets] = fs.computeDynamicFacets("products", candidates);
+    EXPECT_FALSE(st.ok);
 }
