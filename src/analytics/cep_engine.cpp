@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1963                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1966                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
@@ -392,9 +392,9 @@ EventStream::PushResult EventStream::push(Event event) {
         std::lock_guard lk(part.mutex);
         part.buffer.push_back(std::move(event));
         ++part.size;
+        ++events_pushed_;
+        notifySubscribers(part.buffer.back());
     }
-    ++events_pushed_;
-    notifySubscribers(partitions_[pid]->buffer.back());
     return PushResult::SUCCESS;
 }
 
@@ -1064,7 +1064,8 @@ void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
 }
 
 FieldValue Aggregator::computeResult(const AggregationState& s) const {
-    if (s.count == 0) return std::monostate{};
+    // COUNT returns 0 even for empty sets; other aggregations return null
+    if (s.count == 0 && s.type != AggregationType::COUNT) return std::monostate{};
     switch (s.type) {
         case AggregationType::COUNT:         return static_cast<int64_t>(s.count);
         case AggregationType::SUM:           return s.sum;
@@ -1880,6 +1881,12 @@ bool CEPEngine::createCheckpoint() {
     return true;
 }
 
+// Parses the text checkpoint produced by createCheckpoint().
+// Only "rule=<id>:<name>:<1|0>" lines are acted upon: the enabled flag is
+// applied to any rule currently registered in the rule engine.
+// Counter lines (events_received=, etc.) are intentionally skipped because
+// they are cumulative since engine initialisation and cannot be meaningfully
+// restored.
 bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
     std::filesystem::path cp_file =
         std::filesystem::path(config_.checkpoint_path) / (checkpoint_id + ".txt");
@@ -1888,8 +1895,43 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
         return false;
     }
     spdlog::info("CEPEngine: restoring from checkpoint '{}'", checkpoint_id);
-    // In a full implementation, we would replay events or restore state.
-    // For now we acknowledge the checkpoint exists.
+
+    std::ifstream f(cp_file);
+    if (!f.is_open()) {
+        spdlog::error("CEPEngine: cannot read checkpoint '{}'", cp_file.string());
+        return false;
+    }
+
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.rfind("rule=", 0) == 0) {
+            // Format: rule=<rule_id>:<rule_name>:<enabled>
+            std::string rest = line.substr(5);
+            auto colon1 = rest.find(':');
+            if (colon1 == std::string::npos) {
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
+                             checkpoint_id, line);
+                continue;
+            }
+            auto colon2 = rest.find(':', colon1 + 1);
+            if (colon2 == std::string::npos) {
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
+                             checkpoint_id, line);
+                continue;
+            }
+            std::string rule_id    = rest.substr(0, colon1);
+            std::string flag_str   = rest.substr(colon2 + 1);
+            // Trim trailing whitespace
+            auto trim_end = flag_str.find_last_not_of(" \t\r\n");
+            if (trim_end != std::string::npos) flag_str = flag_str.substr(0, trim_end + 1);
+            bool enabled = (flag_str == "1");
+            if (rule_engine_) {
+                rule_engine_->setRuleEnabled(rule_id, enabled);
+            }
+        }
+    }
+
+    spdlog::info("CEPEngine: checkpoint '{}' restored", checkpoint_id);
     return true;
 }
 
