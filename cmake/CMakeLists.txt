@@ -1694,6 +1694,7 @@ set(THEMIS_CORE_SOURCES
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp

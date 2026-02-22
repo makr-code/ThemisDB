@@ -90,6 +90,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #endif
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
+#include "server/graphql_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -840,6 +841,10 @@ private:
     // Schema API Handler
     std::unique_ptr<themis::server::SchemaApiHandler> schema_api_handler_;
     std::unique_ptr<SchemaManager> schema_manager_;
+
+    // GraphQL API Handler
+    std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
+
     // Metadata sub-components owned alongside SchemaApiHandler
     std::unique_ptr<StatisticsCollector>      stats_collector_;
     std::unique_ptr<SchemaConstraints>        schema_constraints_;
