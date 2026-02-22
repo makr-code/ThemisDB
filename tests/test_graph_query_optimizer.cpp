@@ -558,6 +558,24 @@ TEST_F(GraphQueryOptimizerTest, ExplainPlan_GeneratesExplanation) {
     EXPECT_NE(explanation.find("Estimated Cost"), std::string::npos);
 }
 
+TEST_F(GraphQueryOptimizerTest, KHop_EnableParallel_RespectedInPlan) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    auto plan = optimizer_->optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan.has_value());
+    EXPECT_TRUE(plan->enable_parallel)
+        << "optimizeKHopNeighborhood must set enable_parallel=true when constraints.enable_parallel=true";
+}
+
+TEST_F(GraphQueryOptimizerTest, Reachability_EnableParallel_RespectedInPlan) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan.has_value());
+    EXPECT_TRUE(plan->enable_parallel)
+        << "optimizeReachability must set enable_parallel=true when constraints.enable_parallel=true";
+}
+
 // ============================================================================
 // Execution History Tests
 // ============================================================================
