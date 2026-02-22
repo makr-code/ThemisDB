@@ -136,6 +136,9 @@ public:
     bool isLeader() const { return role_.load() == CoordinatorRole::LEADER; }
     std::optional<std::string> getCurrentLeader() const;
     
+    // Local node identity
+    const std::string& getLocalShardId() const { return local_shard_id_; }
+    
     // Leader election (Gossip-based, no centralized coordination)
     void startElection();
     void becomeLeader();
