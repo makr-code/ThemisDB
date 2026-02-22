@@ -19,6 +19,7 @@ name: Validate Grafana Dashboards
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'grafana/**/*.json'
       - 'scripts/validate_grafana_dashboards.py'

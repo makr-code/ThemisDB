@@ -18,6 +18,7 @@ on:
       - 'docs/importers_runbook.md'
       - '.github/workflows/importer-tests.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/importers/**'
       - 'include/importers/**'

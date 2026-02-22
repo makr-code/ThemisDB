@@ -58,6 +58,24 @@ public:
         std::string type;  ///< "counter" | "gauge"
     };
 
+    /**
+     * @brief Record of a single GPU kernel invocation for Nsight-compatible export.
+     *
+     * Compatible with the CUDA Nsight Compute JSON schema:
+     * https://docs.nvidia.com/nsight-compute/2024.1/
+     */
+    struct KernelRecord {
+        std::string name;            ///< Kernel function name (demangled)
+        double      duration_ns = 0; ///< Elapsed GPU time in nanoseconds
+        int         device_id  = 0;  ///< CUDA device ordinal
+        int         grid_x     = 1;  ///< Grid dimension X
+        int         grid_y     = 1;  ///< Grid dimension Y
+        int         grid_z     = 1;  ///< Grid dimension Z
+        int         block_x    = 1;  ///< Block dimension X
+        int         block_y    = 1;  ///< Block dimension Y
+        int         block_z    = 1;  ///< Block dimension Z
+    };
+
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
@@ -83,6 +101,17 @@ public:
     void setVRAMAllocated(uint64_t bytes, const std::string& tenant_id = "");
     void setVRAMPeak(uint64_t bytes);
 
+    /**
+     * @brief Record a GPU kernel execution for Nsight-compatible export.
+     *
+     * Appends one KernelRecord to the internal kernel list and also
+     * increments the themis_gpu_kernel_duration_ns gauge so the data
+     * is visible in Prometheus snapshots too.
+     *
+     * @param record  Populated KernelRecord (name and duration_ns required).
+     */
+    void recordKernelDuration(const KernelRecord& record);
+
     // -----------------------------------------------------------------------
     // Snapshot
     // -----------------------------------------------------------------------
@@ -95,7 +124,20 @@ public:
     std::vector<Sample> snapshot() const;
 
     /**
-     * @brief Reset all counters and gauges (for testing).
+     * @brief Export kernel records in CUDA Nsight Compute-compatible JSON.
+     *
+     * Produces a JSON document that mirrors the top-level schema used by
+     * Nsight Compute's `--export json` option so that tooling built around
+     * that format (e.g. ncu-ui, custom analysis scripts) can consume the
+     * output without modification.
+     *
+     * @return UTF-8 JSON string. When no kernels have been recorded the
+     *         `"Kernels"` array is present but empty (`"Kernels": []`).
+     */
+    std::string nsight_export() const;
+
+    /**
+     * @brief Reset all counters, gauges, and kernel records (for testing).
      */
     void reset();
 
@@ -109,6 +151,8 @@ private:
     std::unordered_map<std::string, double> gauges_;
     // Metric metadata for snapshot.
     std::unordered_map<std::string, std::string> metric_types_;  // key → "counter"|"gauge"
+    // Kernel records for Nsight-compatible export.
+    std::vector<KernelRecord> kernels_;
 
     void incrCounter(const std::string& name,
                      const std::unordered_map<std::string, std::string>& labels,

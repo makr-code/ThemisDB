@@ -135,6 +135,7 @@ InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& 
     auto tracked = std::make_shared<TrackedRequest>();
     tracked->request = request;
     tracked->deadline = std::chrono::steady_clock::now() + request.timeout;
+    // cancel_token is default-initialised to false in TrackedRequest
     
     auto future = tracked->promise.get_future().share();
     
@@ -167,7 +168,9 @@ InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& 
     
     queue_cv_.notify_one();
     
-    return InferenceHandle(request.request_id, future);
+    // Share the cancel token with the handle so InferenceHandle::cancel()
+    // propagates directly to this tracked request.
+    return InferenceHandle(request.request_id, future, tracked->cancel_token);
 }
 
 std::string InferenceEngineEnhanced::submitAsync(
@@ -221,6 +224,9 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
         return false;
     }
     
+    // Signal the cancel token first so any in-flight streaming stops.
+    it->second->cancel_token->store(true, std::memory_order_release);
+
     // Set exception in promise
     try {
         it->second->promise.set_exception(
@@ -510,6 +516,9 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
         std::lock_guard<std::mutex> lock(requests_mutex_);
         auto it = tracked_requests_.find(id);
         if (it != tracked_requests_.end()) {
+            // Signal cancel token to stop any in-flight streaming
+            it->second->cancel_token->store(true, std::memory_order_release);
+
             try {
                 InferenceResponse timeout_response;
                 timeout_response.text = "";
@@ -545,6 +554,19 @@ void InferenceEngineEnhanced::processBatch(
         auto& req = tracked->request;
         
         try {
+            // Skip cancelled requests
+            if (tracked->cancel_token->load(std::memory_order_acquire)) {
+                spdlog::debug("Skipping cancelled request {}", req.request_id);
+                try {
+                    tracked->promise.set_exception(
+                        std::make_exception_ptr(
+                            std::runtime_error("Request cancelled")));
+                } catch (...) {}
+                std::lock_guard<std::mutex> lock(requests_mutex_);
+                tracked_requests_.erase(req.request_id);
+                continue;
+            }
+
             auto req_start = std::chrono::steady_clock::now();
             
             // Check cache first
@@ -586,9 +608,28 @@ void InferenceEngineEnhanced::processBatch(
             if (!plugin) {
                 throw std::runtime_error("No available model for request");
             }
+
+            // Build an effective request that wraps the stream_callback so
+            // cancellation is propagated at every token boundary.
+            InferenceRequest effective_request = req.base_request;
+            auto cancel_token = tracked->cancel_token;
+            auto deadline = tracked->deadline;
+            if (effective_request.stream_callback) {
+                auto original_cb = std::move(effective_request.stream_callback);
+                effective_request.stream_callback =
+                    [original_cb, cancel_token, deadline](const std::string& token) {
+                    if (cancel_token->load(std::memory_order_acquire)) return;
+                    if (deadline != std::chrono::steady_clock::time_point{} &&
+                        std::chrono::steady_clock::now() >= deadline) {
+                        cancel_token->store(true, std::memory_order_release);
+                        return;
+                    }
+                    original_cb(token);
+                };
+            }
             
             // Execute inference
-            auto response = plugin->generate(req.base_request);
+            auto response = plugin->generate(effective_request);
             
             // Update cache
             if (config_.enable_context_caching && req.allow_caching && !response.text.empty()) {
