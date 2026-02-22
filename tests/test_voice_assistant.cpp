@@ -418,3 +418,83 @@ TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
     EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
 }
 #endif // THEMIS_ENABLE_VOICE_ASSISTANT
+
+// ============================================================
+// VoiceBatchProcessor + streaming STT integration tests
+// ============================================================
+
+#include "voice/voice_batch_processor.h"
+
+// processItem keeps transcript empty when no STT processor is attached.
+TEST(BatchProcessorStreamingSTT, TranscriptEmptyWithoutSTTProcessor) {
+    themis::voice::VoiceBatchProcessor bp;
+
+    themis::voice::BatchAudioItem item;
+    item.item_id    = "no-stt";
+    item.audio_data = makeSineWav(2);
+    item.sample_rate = 16000;
+
+    auto result = bp.processItem(item);
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.transcript.empty());
+}
+
+// setSTTProcessor / getStatistics: attaching a processor doesn't crash.
+TEST(BatchProcessorStreamingSTT, SetSTTProcessorDoesNotCrash) {
+    themis::voice::VoiceBatchProcessor bp;
+    auto stt = std::make_shared<themis::content::STTProcessor>();
+    EXPECT_NO_THROW(bp.setSTTProcessor(stt));
+    EXPECT_NO_THROW(bp.setSTTProcessor(nullptr));  // detach is also safe
+}
+
+// When the STT processor is initialised (placeholder path), processItem
+// populates result.transcript via streamTranscribe.
+TEST(BatchProcessorStreamingSTT, TranscriptPopulatedWhenSTTInitialised) {
+    auto stt = std::make_shared<themis::content::STTProcessor>();
+    themis::content::PluginConfig cfg;
+    bool init_ok = stt->initialize(cfg);
+    if (!init_ok) {
+        GTEST_SKIP() << "STT processor could not be initialised (no model file)";
+    }
+
+    themis::voice::VoiceBatchProcessor bp;
+    bp.setSTTProcessor(stt);
+
+    themis::voice::BatchAudioItem item;
+    item.item_id     = "stream-batch";
+    item.audio_data  = makeSineWav(5);
+    item.sample_rate = 16000;
+
+    auto result = bp.processItem(item);
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.transcript.empty())
+        << "transcript should be populated by streamTranscribe";
+}
+
+// WER is computed when transcript_reference is provided and STT is active.
+TEST(BatchProcessorStreamingSTT, WERComputedWithTranscriptAndReference) {
+    auto stt = std::make_shared<themis::content::STTProcessor>();
+    themis::content::PluginConfig cfg;
+    bool init_ok = stt->initialize(cfg);
+    if (!init_ok) {
+        GTEST_SKIP() << "STT processor could not be initialised (no model file)";
+    }
+
+    themis::voice::BatchProcessorConfig bpcfg;
+    bpcfg.compute_wer = true;
+    themis::voice::VoiceBatchProcessor bp(bpcfg);
+    bp.setSTTProcessor(stt);
+
+    themis::voice::BatchAudioItem item;
+    item.item_id              = "wer-test";
+    item.audio_data           = makeSineWav(3);
+    item.sample_rate          = 16000;
+    item.transcript_reference = "hello world";  // reference text
+
+    auto result = bp.processItem(item);
+    EXPECT_TRUE(result.success);
+    // WER should be computed (>=0) because both transcript and reference exist.
+    if (!result.transcript.empty()) {
+        EXPECT_GE(result.wer_score, 0.0f);
+    }
+}

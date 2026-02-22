@@ -135,6 +135,11 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     return results;
 }
 
+void VoiceBatchProcessor::setSTTProcessor(std::shared_ptr<content::STTProcessor> stt) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    stt_processor_ = std::move(stt);
+}
+
 BatchItemResult VoiceBatchProcessor::processItem(const BatchAudioItem& item) {
     using namespace std::chrono;
     auto start = steady_clock::now();
@@ -142,10 +147,36 @@ BatchItemResult VoiceBatchProcessor::processItem(const BatchAudioItem& item) {
     BatchItemResult result;
     result.item_id = item.item_id;
 
+    // Capture a local copy of the STT processor to avoid holding the lock
+    // during potentially slow transcription.
+    std::shared_ptr<content::STTProcessor> stt;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        stt = stt_processor_;
+    }
+
     try {
         // Preprocess audio
         if (!item.audio_data.empty()) {
             result.preprocessing = preprocessor_.process(item.audio_data, item.sample_rate);
+        }
+
+        // Real-time streaming STT: transcribe word-by-word using a sliding
+        // window and accumulate the segments into a single transcript string.
+        if (stt && !item.audio_data.empty()) {
+            std::string transcript;
+            bool ok = stt->streamTranscribe(
+                item.audio_data,
+                [&transcript](const content::TranscriptionSegment& seg) {
+                    if (!transcript.empty()) {
+                        transcript += ' ';
+                    }
+                    transcript += seg.text;
+                }
+            );
+            if (ok) {
+                result.transcript = std::move(transcript);
+            }
         }
 
         // Compute quality metrics
