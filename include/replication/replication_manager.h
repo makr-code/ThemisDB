@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1200                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -200,6 +200,12 @@ struct ReplicationConfig {
     uint32_t max_consecutive_failures = 3;  // Failures before marking as FAILED
     uint32_t degraded_lag_threshold_ms = 5000;  // Lag threshold for DEGRADED status
     ReadPreference default_read_preference = ReadPreference::PRIMARY_PREFERRED;
+
+    // Lease read settings (Raft leader lease reads)
+    bool enable_leader_lease = true;
+    // Lease duration must be strictly less than election_timeout_min_ms to guarantee
+    // that no follower can start a new election while the leader's lease is valid.
+    uint32_t leader_lease_duration_ms = 2500;
     
     // TLS/Security
     std::string cert_path;
@@ -404,6 +410,28 @@ public:
     // Get current term
     uint64_t getCurrentTerm() const { return current_term_.load(); }
 
+    // Raft leader lease management -----------------------------------------
+
+    /**
+     * Renew the leader lease for `duration_ms` milliseconds from now.
+     * Must only be called by the leader after successfully broadcasting a
+     * heartbeat to the quorum.
+     */
+    void renewLease(uint32_t duration_ms);
+
+    /**
+     * Returns true if this node holds a valid (non-expired) leader lease.
+     * A valid lease guarantees that no other node can have been elected
+     * leader since the lease was last renewed.
+     */
+    bool hasValidLease() const;
+
+    /**
+     * Returns the absolute time at which the current lease expires.
+     * Returns a past time-point when no lease is held.
+     */
+    std::chrono::steady_clock::time_point leaseExpiresAt() const;
+
 private:
     std::string node_id_;
     ReplicationConfig config_;
@@ -416,6 +444,10 @@ private:
     std::atomic<uint32_t> votes_received_{0};    // Votes gathered in current election
     std::atomic<uint32_t> cluster_size_{1};      // Total known cluster size (set externally)
     std::chrono::steady_clock::time_point last_heartbeat_time_;
+
+    // Leader lease expiry time; epoch when no lease is held.
+    mutable std::mutex lease_mutex_;
+    std::chrono::steady_clock::time_point lease_expires_at_;
     
     std::mutex election_mutex_;
     std::condition_variable election_cv_;
@@ -589,6 +621,43 @@ public:
     
     // Set read preference
     void setReadPreference(ReadPreference preference);
+
+    // -----------------------------------------------------------------------
+    // Raft leader lease reads for linearizable read-scale-out
+    // -----------------------------------------------------------------------
+
+    /**
+     * Result returned by leaseRead().
+     */
+    struct LeaseReadResult {
+        bool  success = false;         ///< true when the read could be served
+        bool  served_under_lease = false; ///< true when linearizable via lease
+        std::string node_id;           ///< node that served the read
+        uint64_t    commit_index = 0;  ///< WAL sequence visible at read time
+    };
+
+    /**
+     * Attempt a linearizable read via the leader lease mechanism.
+     *
+     * If this node is the current Raft leader *and* its lease is still valid,
+     * the read is served locally with linearizability guarantees (no quorum
+     * round-trip required).  Otherwise the call returns `success=false` and
+     * the caller should redirect to the primary or use a quorum read.
+     *
+     * @param collection  Collection name (informational; not used for storage
+     *                    lookup within this module).
+     * @param document_id Document identifier (informational).
+     * @return LeaseReadResult describing whether the read was served and how.
+     */
+    LeaseReadResult leaseRead(const std::string& collection,
+                              const std::string& document_id) const;
+
+    /**
+     * Returns true when this node is the leader AND its leader lease is
+     * currently valid.  Can be used by routing layers to decide whether to
+     * serve a read locally.
+     */
+    bool hasLeaderLease() const;
 
 private:
     ReplicationConfig config_;
