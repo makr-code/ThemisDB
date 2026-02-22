@@ -380,6 +380,20 @@ private:
     );
 
     /**
+     * @brief Make generic response
+     *
+     * @param status HTTP status code
+     * @param body Response body
+     * @param req Original request
+     * @return HTTP response
+     */
+    http::response<http::string_body> makeResponse(
+        http::status status,
+        const std::string& body,
+        const http::request<http::string_body>& req
+    );
+
+    /**
      * @brief Extract a urn:themis: URN from an HTTP request path
      *
      * Looks for either:

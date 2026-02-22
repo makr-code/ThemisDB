@@ -38,12 +38,12 @@ cd ThemisDB
 # Linux/macOS
 ./scripts/setup-pre-commit.sh
 
-# 3. Install vcpkg dependencies
+# 3. Bootstrap third-party dependencies (vcpkg, ffmpeg, llama.cpp)
 # Windows
-.\scripts\setup-vcpkg-offline.ps1
+.\scripts\setup-third-party.ps1
 
 # Linux/macOS
-./scripts/setup-vcpkg-offline.sh
+pwsh ./scripts/setup-third-party.ps1
 
 # 4. Configure VS Code (optional)
 cp -r .vscode.example .vscode
@@ -141,26 +141,26 @@ Pre-commit hooks automatically validate code before commits.
   - Secret detection
   - Copilot instruction validation
 
-### 4. Configure vcpkg (Offline-First)
+### 4. Configure third-party dependencies
 
-ThemisDB uses vcpkg for dependency management with offline-first caching.
+ThemisDB uses vcpkg plus external components (`ffmpeg`, `llama.cpp`).
 
 #### Windows
 
 ```powershell
-.\scripts\setup-vcpkg-offline.ps1
+.\scripts\setup-third-party.ps1
 ```
 
 #### Linux/macOS
 
 ```bash
-./scripts/setup-vcpkg-offline.sh
+pwsh ./scripts/setup-third-party.ps1
 ```
 
-**This creates:**
-- `vcpkg/downloads/` - ~2.5 GB source archives
-- `vcpkg/packages/` - ~10 GB compiled packages
-- Offline-capable builds (no internet after setup)
+**This ensures:**
+- `vcpkg/scripts/buildsystems/vcpkg.cmake` is available
+- `ffmpeg` and `llama.cpp` submodules are initialized
+- `vcpkg.json` baseline commit is validated/fetched when possible
 
 ### 5. Configure VS Code (Optional but Recommended)
 

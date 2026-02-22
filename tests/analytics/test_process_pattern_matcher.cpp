@@ -134,7 +134,7 @@ protected:
         };
         for (const auto& e : events) {
             auto blob = e.serialize();
-            db_->put("events:" + e.getId(), {blob.begin(), blob.end()});
+            db_->put("events:" + e.getPrimaryKey(), {blob.begin(), blob.end()});
         }
     }
 

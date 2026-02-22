@@ -272,8 +272,8 @@ std::string LLMAQLHandler::executeInfer(
                 "Circuit breaker is open - LLM service temporarily unavailable");
         }
         
-        // Execute with timeout and retry
-        auto result = impl_->timeout_manager_.executeInferWithTimeout([&]() {
+        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
+        auto result = impl_->timeout_manager_.executeInferWithCancelToken([&](auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry([&]() {
                 auto& plugin_mgr = impl_->getPluginManager();
                 
@@ -306,6 +306,16 @@ std::string LLMAQLHandler::executeInfer(
                 }
                 if (options.count("repetition_penalty")) {
                     request.repetition_penalty = std::stof(options.at("repetition_penalty"));
+                }
+
+                // Wrap any streaming callback so token delivery stops on cancellation.
+                if (request.stream_callback) {
+                    auto orig_cb = std::move(request.stream_callback);
+                    request.stream_callback = [orig_cb = std::move(orig_cb), cancel_token](const std::string& token) {
+                        if (!cancel_token->load(std::memory_order_acquire)) {
+                            orig_cb(token);
+                        }
+                    };
                 }
                 
                 // Execute via plugin manager
@@ -544,8 +554,8 @@ std::string LLMAQLHandler::executeRAG(
                 "Circuit breaker is open - LLM service temporarily unavailable");
         }
         
-        // Execute with timeout and retry
-        auto result = impl_->timeout_manager_.executeRAGWithTimeout([&]() {
+        // Execute with timeout and cooperative cancellation propagated to streaming callbacks.
+        auto result = impl_->timeout_manager_.executeRAGWithCancelToken([&](auto cancel_token) {
             return impl_->retry_policy_.executeWithRetry([&]() {
                 auto& plugin_mgr = impl_->getPluginManager();
                 
@@ -616,6 +626,16 @@ std::string LLMAQLHandler::executeRAG(
                 }
                 if (options.count("top_p")) {
                     request.top_p = std::stof(options.at("top_p"));
+                }
+
+                // Wrap any streaming callback so token delivery stops on cancellation.
+                if (request.stream_callback) {
+                    auto orig_cb = std::move(request.stream_callback);
+                    request.stream_callback = [orig_cb = std::move(orig_cb), cancel_token](const std::string& token) {
+                        if (!cancel_token->load(std::memory_order_acquire)) {
+                            orig_cb(token);
+                        }
+                    };
                 }
                 
                 // Execute RAG query

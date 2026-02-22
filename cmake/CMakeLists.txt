@@ -2651,6 +2651,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
         ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        ../src/llm/shared_worker_pool.cpp    # Shared work-stealing thread pool (Phase 2)
         # v1.3.1: Cache Reuse Integration (Phase 2)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
