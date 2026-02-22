@@ -20,6 +20,7 @@
 #include <gtest/gtest.h>
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_interface.h"
+#include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <chrono>
@@ -357,6 +358,80 @@ TEST_F(EnhancedHotReloadTest, RollbackAPIExists) {
     // These calls should not crash even with invalid inputs
     EXPECT_FALSE(pm.reloadPlugin(""));
     EXPECT_FALSE(pm.reloadPlugin("invalid_plugin_name"));
+}
+
+TEST_F(EnhancedHotReloadTest, ReloadNotLoadedPluginReturnsNotFound) {
+    auto& pm = PluginManager::instance();
+
+    // reloadPlugin must return ERR_PLUGIN_NOT_FOUND when the plugin is not loaded
+    auto result = pm.reloadPlugin("never_loaded_plugin_xyz");
+    EXPECT_FALSE(result);
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+}
+
+TEST_F(EnhancedHotReloadTest, DependencyConflictErrorCodeDistinct) {
+    // Verify ERR_PLUGIN_DEPENDENCY_CONFLICT is defined and distinct from related codes
+    EXPECT_NE(static_cast<int>(themis::errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT), 0);
+    EXPECT_NE(themis::errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT,
+              themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+    EXPECT_NE(themis::errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT,
+              themis::errors::ErrorCode::ERR_PLUGIN_MISSING_DEPENDENCY);
+    EXPECT_NE(themis::errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT,
+              themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED);
+}
+
+TEST_F(EnhancedHotReloadTest, StatefulPluginPreservesStateAcrossReload) {
+    // Verify that IStatefulPlugin saveState/restoreState works correctly,
+    // matching the pattern used by reloadPlugin.
+
+    auto plugin = PluginManagerRegistry::createPlugin("stateful_test");
+    ASSERT_NE(plugin, nullptr);
+    ASSERT_TRUE(plugin->initialize("{}"));
+
+    auto* stateful = dynamic_cast<StatefulTestPlugin*>(plugin.get());
+    ASSERT_NE(stateful, nullptr);
+
+    stateful->incrementCounter();
+    stateful->incrementCounter();
+    stateful->setSavedData("persistent data");
+
+    // Step 1: Save state (what reloadPlugin does before unloading)
+    std::string state = stateful->saveState();
+    EXPECT_FALSE(state.empty());
+
+    // Step 2: Simulate reload — create new instance (what reloadPlugin does after loading)
+    auto plugin2 = PluginManagerRegistry::createPlugin("stateful_test");
+    ASSERT_NE(plugin2, nullptr);
+    ASSERT_TRUE(plugin2->initialize("{}"));
+
+    auto* stateful2 = dynamic_cast<StatefulTestPlugin*>(plugin2.get());
+    ASSERT_NE(stateful2, nullptr);
+
+    // Fresh instance has no state
+    EXPECT_EQ(stateful2->getCounter(), 0);
+    EXPECT_EQ(stateful2->getSavedData(), "");
+
+    // Step 3: Restore state (what reloadPlugin does after successful reload)
+    EXPECT_TRUE(stateful2->restoreState(state));
+    EXPECT_EQ(stateful2->getCounter(), 2);
+    EXPECT_EQ(stateful2->getSavedData(), "persistent data");
+}
+
+TEST_F(EnhancedHotReloadTest, StatefulPluginRestoreStateFailsGracefully) {
+    // restoreState must return false for malformed JSON without throwing
+    auto plugin = PluginManagerRegistry::createPlugin("stateful_test");
+    ASSERT_NE(plugin, nullptr);
+
+    auto* stateful = dynamic_cast<StatefulTestPlugin*>(plugin.get());
+    ASSERT_NE(stateful, nullptr);
+
+    // These should return false, not throw
+    EXPECT_FALSE(stateful->restoreState("not json at all"));
+    EXPECT_FALSE(stateful->restoreState(""));
+    EXPECT_FALSE(stateful->restoreState("{\"wrong_key\": 99}"));
+
+    // Counter and data should remain at default values
+    EXPECT_EQ(stateful->getCounter(), 0);
 }
 
 // ============================================================================

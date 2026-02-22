@@ -850,12 +850,35 @@ bool PluginManager::isPluginLoaded(const std::string& name) const {
 Result<void> PluginManager::reloadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
 
-    // Pre-reload tamper detection: compare current on-disk hash against the
-    // hash recorded at load time to detect unexpected file mutations.
+    // Pre-reload checks and state capture (all under a single lock).
+    std::string saved_state;
     {
         std::lock_guard<std::mutex> lock(mutex_);
+
         auto it = plugins_.find(name);
-        if (it != plugins_.end() && it->second.loaded && !it->second.file_hash.empty()) {
+        if (it == plugins_.end() || !it->second.loaded) {
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                           fmt::format("Plugin not loaded: {}", name));
+        }
+
+        // Block reload if other loaded plugins depend on this one.
+        auto dependents = findDependentPlugins(name);
+        if (!dependents.empty()) {
+            std::string dep_list;
+            for (const auto& dep : dependents) {
+                if (!dep_list.empty()) dep_list += ", ";
+                dep_list += dep;
+            }
+            auto error_msg = fmt::format(
+                "Cannot reload plugin '{}' — {} plugin(s) depend on it: {}",
+                name, dependents.size(), dep_list);
+            THEMIS_ERROR("{}", error_msg);
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
+        }
+
+        // Pre-reload tamper detection: compare current on-disk hash against the
+        // hash recorded at load time to detect unexpected file mutations.
+        if (it->second.loaded && !it->second.file_hash.empty()) {
             std::string current_hash = calculateFileHash(it->second.path);
             if (!current_hash.empty() && current_hash != it->second.file_hash) {
                 THEMIS_WARN("Plugin '{}' binary has changed on disk since last load "
@@ -863,6 +886,20 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                             name,
                             it->second.file_hash.substr(0, 16),
                             current_hash.substr(0, 16));
+            }
+        }
+
+        // Save state from IStatefulPlugin before unloading.
+        if (it->second.instance) {
+            auto* stateful = dynamic_cast<IStatefulPlugin*>(it->second.instance.get());
+            if (stateful) {
+                try {
+                    saved_state = stateful->saveState();
+                    THEMIS_INFO("Saved state for plugin '{}' ({} bytes)",
+                                name, saved_state.size());
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed to save state for plugin '{}': {}", name, e.what());
+                }
             }
         }
     }
@@ -887,7 +924,26 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
 
     if (!result) {
         metrics_.recordError(name);
+        THEMIS_WARN("Plugin '{}' reload failed; plugin slot left unloaded. "
+                    "Saved state (if any) was not applied.", name);
         return tl::unexpected(result.error());
+    }
+
+    // Restore IStatefulPlugin state if it was saved.
+    if (!saved_state.empty()) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = plugins_.find(name);
+        if (it != plugins_.end() && it->second.loaded && it->second.instance) {
+            auto* stateful = dynamic_cast<IStatefulPlugin*>(it->second.instance.get());
+            if (stateful) {
+                if (stateful->restoreState(saved_state)) {
+                    THEMIS_INFO("Restored state for plugin '{}'", name);
+                } else {
+                    THEMIS_WARN("Failed to restore state for plugin '{}'; "
+                                "plugin continues with default state", name);
+                }
+            }
+        }
     }
 
     // Notify listeners: reload complete
