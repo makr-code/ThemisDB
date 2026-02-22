@@ -72,6 +72,7 @@
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
 #include "server/geo_topology_api_handler.h"
+#include "server/replication_topology_api_handler.h"
 #include "server/cache_api_handler.h"
 #include "server/cache_admin_api_handler.h"
 #include "server/pii_api_handler.h"
@@ -755,6 +756,9 @@ private:
 
     // Geo Topology API Handler
     std::unique_ptr<themis::server::GeoTopologyApiHandler> geo_topology_api_;
+
+    // Replication Topology API Handler (web UI visualizer)
+    std::unique_ptr<themis::server::ReplicationTopologyApiHandler> replication_topology_api_;
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;

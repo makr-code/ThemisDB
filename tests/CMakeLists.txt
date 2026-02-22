@@ -66,6 +66,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_qlora.*\\.cpp$"
         ".*test_quantization\\.cpp$"
         ".*test_rag_judge.*\\.cpp$"
+        ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
@@ -400,6 +401,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
             ${THEMIS_ROOT_DIR}/src/server/mvcc_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
         )
