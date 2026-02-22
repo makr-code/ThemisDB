@@ -2,6 +2,9 @@ name: CHIMERA Suite Tests
 
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'benchmarks/chimera/**'
       - '.github/workflows/chimera-tests.yml'

@@ -50,6 +50,6 @@ jobs:
           else
             git commit -m "🤖 Auto-update: Code maturity analysis & versioning [skip ci]"
             # Fetch latest changes and rebase before pushing
-            git pull --rebase origin develop
-            git push origin develop
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }}
           fi
