@@ -383,6 +383,78 @@ TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ThrowsOnCircularDependency
     );
 }
 
+TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ThrowsOnUnregisteredDependency) {
+    // Plugin A depends on X, but X is not registered.
+    // detectCircularDependencies() finds no cycle (X is merely absent),
+    // but computeLoadOrder() cannot satisfy A's in-degree so it throws.
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX_NotRegistered"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    
+    // No cycle — X is simply missing
+    EXPECT_TRUE(PluginDependencyResolver::detectCircularDependencies(graph).empty());
+    
+    // computeLoadOrder cannot resolve the missing dep → must throw
+    EXPECT_THROW(
+        PluginDependencyResolver::computeLoadOrder(graph),
+        std::runtime_error
+    );
+}
+
+// ============================================================================
+// validateDependencies Tests
+// ============================================================================
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_AllPresent) {
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginB"}),
+        createPlugin("PluginB", {"PluginC"}),
+        createPlugin("PluginC")
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    EXPECT_TRUE(missing.empty());
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_MissingDirect) {
+    // A depends on X (not registered)
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX_NotRegistered"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    ASSERT_EQ(missing.size(), 1);
+    EXPECT_EQ(missing[0].first, "PluginA");
+    EXPECT_EQ(missing[0].second, "PluginX_NotRegistered");
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_MultipleMissing) {
+    // A depends on X and Y (neither registered)
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX", "PluginY"}),
+        createPlugin("PluginB", {"PluginZ"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    ASSERT_EQ(missing.size(), 3);  // A->X, A->Y, B->Z
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_Empty) {
+    std::map<std::string, TestPluginEntry> plugins;
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    EXPECT_TRUE(missing.empty());
+}
+
 TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ComplexGraph) {
     // Complex: A -> B, C; B -> D; C -> D, E; D -> F; E -> F
     // Load order should be: F, then D/E, then B/C, then A
