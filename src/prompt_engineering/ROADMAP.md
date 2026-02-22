@@ -33,7 +33,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 ## In Progress 🚧
 - [?] Token counting and context-window budget enforcement (Target: Q2 2026)
 - [!] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
-- [I] Prompt injection attack detection layer (Target: Q2 2026) (Issue: #2428)
+- [I] Prompt injection attack detection layer (Target: Q2 2026) (Issue: #2428, PR: #2534)
 
 ## Planned Features 📋
 
@@ -67,7 +67,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 ### Phase 2: Typed DSL & Context Budget (Status: In Progress 🚧)
 - [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
 - [?] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
-- [ ] Prompt injection attack detection layer (Target: Q2 2026)
+- [x] Prompt injection attack detection layer (Target: Q2 2026)
 - [ ] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
 
 ### Phase 3: Tracing, Regression & Experiments (Status: Planned 📋)

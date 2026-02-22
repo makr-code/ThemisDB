@@ -1361,6 +1361,7 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/prompt_version_control.cpp
     ../src/prompt_engineering/self_improvement_orchestrator.cpp
     ../src/prompt_engineering/prompt_engineering_integration.cpp
+    ../src/prompt_engineering/prompt_injection_detector.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
