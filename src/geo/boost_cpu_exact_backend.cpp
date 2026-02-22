@@ -27,9 +27,16 @@
 #if __has_include(<boost/geometry/geometries/point_xy.hpp>)
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometries/multi_polygon.hpp>
 #include <boost/geometry/geometries/linestring.hpp>
 #include <boost/geometry/algorithms/intersects.hpp>
 #include <boost/geometry/algorithms/within.hpp>
+#include <boost/geometry/algorithms/buffer.hpp>
+#include <boost/geometry/strategies/agnostic/buffer_distance_symmetric.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_point_circle.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_join_round.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_end_round.hpp>
+#include <boost/geometry/strategies/cartesian/buffer_side_straight.hpp>
 
 #include <boost/geometry/algorithms/touches.hpp>
 #include <boost/geometry/algorithms/equals.hpp>
@@ -43,6 +50,7 @@
 #include "utils/geo/ewkb.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
+#include <cmath>
 #include <vector>
 #include <string>
 #include <memory>
@@ -56,6 +64,8 @@ namespace bg = boost::geometry;
 using Point = bg::model::d2::point_xy<double>;
 using Polygon = bg::model::polygon<Point>;
 using LineString = bg::model::linestring<Point>;
+
+static const double kBoostPi = 3.14159265358979323846;
 
 /// Convert GeometryInfo to Boost.Geometry polygon
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
@@ -150,6 +160,88 @@ public:
             auto mbr2 = geom2.computeMBR();
             return mbr1.intersects(mbr2);
         }
+    }
+
+    // ST_BUFFER: expand geometry by distance_m metres using Boost.Geometry buffer.
+    // Converts distance_m to degrees (latitude-uniform) and applies the buffer
+    // with round join and round end strategies for smooth output polygons.
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        if (arc_points < 3) arc_points = 3;
+        if (distance_m <= 0.0) {
+            THEMIS_WARN("Boost stBuffer: distance_m ({}) must be positive", distance_m);
+            return GeometryInfo{};
+        }
+        try {
+            // Convert metres to degrees using latitude-based approximation.
+            // For geodesic accuracy at small-to-medium scales (1 m – 100 km).
+            double center_lat = 0.0;
+            if (geom.isPoint() && !geom.coords.empty()) {
+                center_lat = geom.coords[0].y;
+            } else {
+                const auto mbr = geom.computeMBR();
+                center_lat = (mbr.miny + mbr.maxy) * 0.5;
+            }
+            const double lat_rad = center_lat * kBoostPi / 180.0;
+            const double d_lat = distance_m / 111320.0;
+            const double cos_lat = std::cos(lat_rad);
+            const double d_lon = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
+            // Use the average of d_lat and d_lon as a symmetric buffer distance
+            // for Boost.Geometry (which expects isotropic coordinates).
+            const double d_deg = (d_lat + d_lon) * 0.5;
+
+            using MultiPoly = bg::model::multi_polygon<Polygon>;
+
+            bg::strategy::buffer::distance_symmetric<double> dist_strategy(d_deg);
+            bg::strategy::buffer::join_round join_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::end_round end_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::point_circle point_strategy(static_cast<std::size_t>(arc_points));
+            bg::strategy::buffer::side_straight side_strategy;
+
+            if (geom.isPoint() && !geom.coords.empty()) {
+                Point pt(geom.coords[0].x, geom.coords[0].y);
+                MultiPoly buffered;
+                bg::buffer(pt, buffered, dist_strategy, side_strategy,
+                           join_strategy, end_strategy, point_strategy);
+                if (buffered.empty()) return GeometryInfo{};
+                // Convert the first polygon of the result back to GeometryInfo.
+                const auto& out_poly = buffered[0];
+                GeometryInfo result(GeometryType::Polygon);
+                std::vector<Coordinate> ring;
+                for (const auto& p : out_poly.outer()) {
+                    ring.push_back({bg::get<0>(p), bg::get<1>(p)});
+                }
+                result.rings.push_back(std::move(ring));
+                return result;
+            }
+            if (geom.isPolygon()) {
+                Polygon in_poly = toBoostPolygon(geom);
+                MultiPoly buffered;
+                bg::buffer(in_poly, buffered, dist_strategy, side_strategy,
+                           join_strategy, end_strategy, point_strategy);
+                if (buffered.empty()) return GeometryInfo{};
+                const auto& out_poly = buffered[0];
+                GeometryInfo result(GeometryType::Polygon);
+                std::vector<Coordinate> outer_ring;
+                for (const auto& p : out_poly.outer()) {
+                    outer_ring.push_back({bg::get<0>(p), bg::get<1>(p)});
+                }
+                result.rings.push_back(std::move(outer_ring));
+                for (const auto& inner : out_poly.inners()) {
+                    std::vector<Coordinate> hole;
+                    for (const auto& p : inner) {
+                        hole.push_back({bg::get<0>(p), bg::get<1>(p)});
+                    }
+                    result.rings.push_back(std::move(hole));
+                }
+                return result;
+            }
+            THEMIS_WARN("Boost stBuffer: unsupported geometry type {}",
+                        static_cast<int>(geom.type));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stBuffer error: {}", e.what());
+        }
+        return GeometryInfo{};
     }
 };
 

@@ -22,7 +22,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Benchmark infrastructure
 
 ## In Progress 🚧
-- [!] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026) (Issue: #2425)
+- [x] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026) (Issue: #2425)
 - [I] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026) (Issue: #2220)
 - [I] NUMA topology detection and automatic thread pinning (Target: Q3 2026) (Issue: #2426)
 
@@ -61,7 +61,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Benchmark infrastructure
 
 ### Phase 2: GPU Metrics & Auto-Tuning (Status: In Progress 🚧)
-- [~] GPU metrics integration with CUDA Nsight-compatible export
+- [x] GPU metrics integration with CUDA Nsight-compatible export
 - [~] Auto-tuner for HNSW `ef_construction` and `M` based on workload
 - [~] NUMA topology detection and automatic thread pinning
 
