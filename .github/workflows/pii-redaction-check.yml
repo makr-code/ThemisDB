@@ -17,6 +17,7 @@ on:
       - '.github/scripts/check_pii_leakage.py'
       - '.github/workflows/pii-redaction-check.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/**'
       - 'include/**'

@@ -173,6 +173,10 @@ private:
     static GeometryInfo parsePoint(const uint8_t*& ptr, bool has_z, bool is_little_endian);
     static GeometryInfo parseLineString(const uint8_t*& ptr, bool has_z, bool is_little_endian);
     static GeometryInfo parsePolygon(const uint8_t*& ptr, bool has_z, bool is_little_endian);
+    // Recursive helper: parse one EWKB geometry starting at ptr (reads its own byte-order marker)
+    static GeometryInfo parseGeometryFromPtr(const uint8_t*& ptr);
+    // Recursive helper: serialize one geometry into buf
+    static void serializeGeometryInto(std::vector<uint8_t>& buf, const GeometryInfo& geom, bool is_little_endian);
     
     // Binary read helpers
     static double readDouble(const uint8_t*& ptr, bool is_little_endian);

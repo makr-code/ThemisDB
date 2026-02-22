@@ -47,6 +47,7 @@ on:
       - 'include/security/vault_key_provider.h'
       - '.github/workflows/themis-core-ci.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/utils/build_info.cpp'
       - 'src/utils/license_info.cpp'

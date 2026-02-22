@@ -12,6 +12,7 @@ on:
       - 'ROADMAP.md'
       - 'future_enhancement.md'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'roadmap.md'
       - 'ROADMAP.md'

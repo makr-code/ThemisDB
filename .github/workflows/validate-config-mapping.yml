@@ -2,6 +2,7 @@ name: Validate Config Mapping
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/config/config_path_resolver.cpp'
       - 'src/config/config_path_resolver.h'

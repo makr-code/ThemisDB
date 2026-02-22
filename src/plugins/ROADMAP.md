@@ -16,7 +16,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 
 ## In Progress 🚧
 - [I] Plugin hot-reload without server restart (Target: Q2 2026) (Issue: #2223)
-- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2427)
+- [P] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2427)
 - [?] Plugin marketplace / registry integration (Target: Q3 2026)
 
 ## Planned Features 📋
@@ -49,7 +49,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 ### Phase 2: Signing Hardening & Permissions (Status: In Progress 🚧)
 - [?] Ed25519 manifest signing workflow (`plugins/manifest_signer.cpp`) with key-rotation support (Target: Q2 2026)
 - [?] Capability-based permission model (fine-grained access control per plugin) (Target: Q2 2026)
-- [ ] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026)
+- [x] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026)
 - [ ] Plugin hot-reload without server restart (Target: Q3 2026)
 
 ### Phase 3: WASM Sandbox & Ecosystem (Status: Planned 📋)

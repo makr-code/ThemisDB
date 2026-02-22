@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON import/export and ST_BUFFER are still in progress.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete; ST_BUFFER is still in progress.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -17,18 +17,18 @@
 - [x] Structured audit log for GPU/CPU backend switches
 
 ## In Progress 🚧
-- [I] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
+- [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
 - [I] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
 - [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
+- [P] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [I] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
-- [I] R-tree index integration for CPU backend (Issue: #1741)
+- [P] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
@@ -54,8 +54,8 @@
 - [I] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`) (Issue: #1758)
 
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
-- [I] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
-- [I] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
+- [P] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
+- [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [I] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
@@ -69,11 +69,13 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- Full GeoJSON parsing is incomplete; some geometry types may not parse correctly
 - ST_BUFFER operation is planned but not yet implemented
 - CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
 - ROCm/HIP support is not available
 - Raster data is not supported
 
 ## Breaking Changes
-- GeoJSON parsing will become stricter when full spec compliance is added (may reject previously accepted malformed inputs)
+- GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates
+  (longitude outside [-180, 180], latitude outside [-90, 90]) throw `std::runtime_error`.
+  Compile with `-DTHEMIS_GEO_COMPAT_LAX=1` to skip coordinate range validation during a
+  one-release migration window.
