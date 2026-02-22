@@ -18,7 +18,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 
 ## In Progress 🚧
 - [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
-- [!] SAML 2.0 identity provider integration (Target: Q2 2026) (Issue: #2371)
+- [x] SAML 2.0 identity provider integration (Target: Q2 2026)
 - [I] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
 ## Planned Features 📋
@@ -52,8 +52,8 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
-- [P] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
-- [~] SAML 2.0 identity provider integration (Target: Q2 2026)
+- [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
+- [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
@@ -74,7 +74,6 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
 
 ## Known Issues & Limitations
-- SAML 2.0 is not yet implemented
 - WebAuthn support is planned but not started
 - ABAC (attribute-based) access control is limited to role-based rules currently
 - LDAP direct bind is not supported; only Kerberos-based AD integration

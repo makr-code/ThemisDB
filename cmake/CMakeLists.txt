@@ -65,6 +65,9 @@ if(NOT OpenSSL_FOUND)
     find_package(OpenSSL REQUIRED)
 endif()
 
+# zlib (required for SAML HTTP-Redirect binding DEFLATE compression)
+find_package(ZLIB REQUIRED)
+
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
 find_package(CURL CONFIG)
@@ -1557,6 +1560,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
@@ -2278,6 +2282,7 @@ target_link_libraries(themis_core
     OpenSSL::SSL
     OpenSSL::Crypto
     TBB::tbb
+    ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
 
