@@ -1,19 +1,12 @@
 name: Code Maturity Analysis & Auto-Versioning
 
-# Triggert bei Push von Source-Dateien auf relevante Branches
+# Runs on a weekly schedule and can be triggered manually.
+# Automatic push triggers are intentionally disabled to avoid running
+# this heavy analysis on every source-file change.
 on:
-  push:
-    paths:
-      - '**.cpp'
-      - '**.h'
-      - '**.hpp'
-      - '**.py'
-      - '**.cs'
-      - '**.php'
-    branches:
-      - main
-      - develop
-      - 'feature/**'
+  schedule:
+    - cron: '0 3 * * 1'   # Every Monday at 03:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: write  # Für automatischen Commit
@@ -38,18 +31,34 @@ jobs:
         run: |
           pip install gitpython pyyaml
 
+      - name: Skip if triggered by bot commit
+        id: bot_check
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+          if [[ "$COMMIT_MSG" == "🤖 Auto-update:"* ]] || [[ "$COMMIT_AUTHOR" == "ThemisDB Version Bot" ]]; then
+            echo "Bot commit detected – skipping analysis to prevent infinite loop."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run code maturity analysis
+        if: steps.bot_check.outputs.skip != 'true'
         env:
           MATURITY_MAX_HISTORY: '5'
+          EXCLUDE_BOT_COMMITS: 'true'
         run: |
           python .github/scripts/analyze_code_maturity.py --root .
 
       - name: Configure Git bot user
+        if: steps.bot_check.outputs.skip != 'true'
         run: |
           git config user.name 'ThemisDB Version Bot'
           git config user.email 'bot@themisdb.local'
 
       - name: Commit updated files and push safely
+        if: steps.bot_check.outputs.skip != 'true'
         run: |
           git add -A
           if git diff --cached --quiet; then
@@ -57,6 +66,6 @@ jobs:
           else
             git commit -m "🤖 Auto-update: Code maturity analysis & versioning [skip ci]"
             # Fetch latest changes and rebase before pushing
-            git pull --rebase origin develop
-            git push origin develop
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }}
           fi

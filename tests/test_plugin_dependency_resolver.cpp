@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_dependency_resolver.cpp                ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:19                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     519                                            ║
+    • Total Lines:     512                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -381,6 +374,78 @@ TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ThrowsOnCircularDependency
         PluginDependencyResolver::computeLoadOrder(graph),
         std::runtime_error
     );
+}
+
+TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ThrowsOnUnregisteredDependency) {
+    // Plugin A depends on X, but X is not registered.
+    // detectCircularDependencies() finds no cycle (X is merely absent),
+    // but computeLoadOrder() cannot satisfy A's in-degree so it throws.
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX_NotRegistered"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    
+    // No cycle — X is simply missing
+    EXPECT_TRUE(PluginDependencyResolver::detectCircularDependencies(graph).empty());
+    
+    // computeLoadOrder cannot resolve the missing dep → must throw
+    EXPECT_THROW(
+        PluginDependencyResolver::computeLoadOrder(graph),
+        std::runtime_error
+    );
+}
+
+// ============================================================================
+// validateDependencies Tests
+// ============================================================================
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_AllPresent) {
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginB"}),
+        createPlugin("PluginB", {"PluginC"}),
+        createPlugin("PluginC")
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    EXPECT_TRUE(missing.empty());
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_MissingDirect) {
+    // A depends on X (not registered)
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX_NotRegistered"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    ASSERT_EQ(missing.size(), 1);
+    EXPECT_EQ(missing[0].first, "PluginA");
+    EXPECT_EQ(missing[0].second, "PluginX_NotRegistered");
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_MultipleMissing) {
+    // A depends on X and Y (neither registered)
+    auto plugins = toMap({
+        createPlugin("PluginA", {"PluginX", "PluginY"}),
+        createPlugin("PluginB", {"PluginZ"})
+    });
+    
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    ASSERT_EQ(missing.size(), 3);  // A->X, A->Y, B->Z
+}
+
+TEST_F(PluginDependencyResolverTest, ValidateDependencies_Empty) {
+    std::map<std::string, TestPluginEntry> plugins;
+    auto graph = PluginDependencyResolver::buildGraph(plugins);
+    auto missing = PluginDependencyResolver::validateDependencies(graph);
+    
+    EXPECT_TRUE(missing.empty());
 }
 
 TEST_F(PluginDependencyResolverTest, ComputeLoadOrder_ComplexGraph) {

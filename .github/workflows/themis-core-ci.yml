@@ -4,6 +4,9 @@ name: Themis Core Framework CI
 # or any of its test files.
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/utils/build_info.cpp'
       - 'src/utils/license_info.cpp'
@@ -84,6 +87,10 @@ on:
       - 'include/security/vault_key_provider.h'
       - '.github/workflows/themis-core-ci.yml'
   workflow_dispatch:   # Allow manual trigger from the Actions UI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Jobs

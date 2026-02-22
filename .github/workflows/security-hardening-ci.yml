@@ -3,6 +3,9 @@ name: Security Hardening CI
 # Triggered whenever security-relevant sources or this workflow itself change.
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/auth/**'
       - 'src/security/**'
@@ -43,6 +46,10 @@ on:
       - 'fuzz/corpus/rbac/**'
       - '.github/workflows/security-hardening-ci.yml'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Common install step shared across jobs

@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.h                             ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
+    • Total Lines:     353                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -295,6 +288,42 @@ public:
      * @return Number of entries invalidated
      */
     size_t invalidateTenant(const std::string& tenant_id);
+
+    // ========================================================================
+    // Phase 3: Cache Warmup from Query Logs
+    // ========================================================================
+
+    /**
+     * @brief Warm up the cache from a newline-delimited JSON query log
+     *
+     * Each log line must be a JSON object:
+     *   {"key":"<sha256-hex>","value_b64":"<base64-encoded-json>",
+     *    "ttl_remaining_s":<int>,"tenant":"<tenant_id>"}
+     *
+     * The warmup path bypasses the rate limiter (internal operation) but
+     * still enforces per-tenant quota limits.  L1 is filled up to
+     * config_.l1_max_entries / 2 to preserve headroom for live traffic;
+     * excess entries are stored in L2.
+     *
+     * Prometheus gauge updated: themis_cache_warmup_entries_loaded_total
+     *
+     * @param log_path   Path to the query log file on disk
+     * @param max_entries Maximum entries to load (0 = unlimited)
+     * @return Number of entries successfully loaded
+     */
+    size_t warmupFromLog(const std::string& log_path, size_t max_entries = 0);
+
+    /**
+     * @brief Export a snapshot of the current L1/L2 cache to disk
+     *
+     * Writes a newline-delimited JSON file compatible with warmupFromLog().
+     * Only non-expired entries are exported.  L3 (RocksDB) entries are not
+     * included because they are already persisted.
+     *
+     * @param out_path  Destination file path
+     * @return Number of entries exported
+     */
+    size_t exportSnapshot(const std::string& out_path) const;
 
 private:
     struct L1Entry {

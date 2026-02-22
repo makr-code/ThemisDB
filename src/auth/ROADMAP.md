@@ -17,8 +17,8 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ## In Progress 🚧
-- [P] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
-- [I] SAML 2.0 identity provider integration (Target: Q2 2026) (Issue: #1553)
+- [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
+- [!] SAML 2.0 identity provider integration (Target: Q2 2026) (Issue: #2371)
 - [I] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
 ## Planned Features 📋
@@ -35,7 +35,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] SAML 2.0 SP-initiated and IdP-initiated SSO (Issue: #1536)
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
 - [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
-- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2081)
+- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [I] Federated identity across multiple realms (Issue: #1540)
 - [I] Zero-trust access model with continuous verification (Issue: #1541)
 

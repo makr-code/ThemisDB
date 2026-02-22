@@ -1,0 +1,42 @@
+name: Validate Roadmap
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'bugfix/**'
+    paths:
+      - 'roadmap.md'
+      - 'ROADMAP.md'
+      - 'future_enhancement.md'
+  pull_request:
+    paths:
+      - 'roadmap.md'
+      - 'ROADMAP.md'
+      - 'future_enhancement.md'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-roadmap:
+    name: Validate Roadmap Structure
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate roadmap structure
+        run: |
+          python .github/scripts/validate_roadmap.py
