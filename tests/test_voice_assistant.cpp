@@ -159,3 +159,37 @@ TEST(STTStreamTranscribe, SegmentTimestampsAreMonotonic) {
         prev_start = seg.start_ms;
     });
 }
+
+// ============================================================
+// VoiceAssistant::streamProcessVoiceCommand unit tests
+// ============================================================
+
+#ifdef THEMIS_ENABLE_VOICE_ASSISTANT
+#include "voice/voice_assistant.h"
+
+// streamProcessVoiceCommand returns empty audio when the assistant is not initialised.
+TEST(VoiceAssistantStream, ReturnsFalseWhenNotInitialised) {
+    themis::voice::VoiceAssistant::Config cfg;
+    themis::voice::VoiceAssistant va(cfg);
+
+    bool callback_invoked = false;
+    auto result = va.streamProcessVoiceCommand(
+        {0x00, 0x01},
+        "test-session",
+        [&](const themis::content::TranscriptionSegment&) { callback_invoked = true; }
+    );
+
+    EXPECT_TRUE(result.empty()) << "uninitialized assistant must return empty audio";
+    EXPECT_FALSE(callback_invoked);
+}
+
+// streamProcessVoiceCommand accepts nullptr callback without crashing.
+TEST(VoiceAssistantStream, NullCallbackDoesNotCrash) {
+    themis::voice::VoiceAssistant::Config cfg;
+    themis::voice::VoiceAssistant va(cfg);
+
+    // Should not crash even with nullptr callback and uninitialized state.
+    auto result = va.streamProcessVoiceCommand({0x00}, "test-session", nullptr);
+    EXPECT_TRUE(result.empty());
+}
+#endif  // THEMIS_ENABLE_VOICE_ASSISTANT
