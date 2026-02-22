@@ -28,6 +28,12 @@ namespace updates {
 
 using json = nlohmann::json;
 
+// Forward declaration: runtime CanaryConfig lives in canary_rollout.h.
+// We forward-declare it here to avoid a circular include chain and to allow
+// UpdatesConfig::CanaryConfig::toCanaryConfig() to return it by value in
+// the header.  The full definition is included by users who need CanaryRollout.
+struct CanaryConfig;
+
 /**
  * @brief Configuration for update checker and hot-reload system
  */
@@ -105,6 +111,20 @@ struct UpdatesConfig {
             {0.25, 21600},
             {1.00, 0},
         };
+
+        /**
+         * @brief Convert to the runtime CanaryConfig used by CanaryRollout.
+         *
+         * @param version  Target version string to roll out (e.g., "1.5.0").
+         * @return         Runtime CanaryConfig ready for constructing a CanaryRollout.
+         *
+         * Usage:
+         * @code
+         *   auto cfg = updates_config.canary.toCanaryConfig("1.5.0");
+         *   CanaryRollout rollout(engine, cfg);
+         * @endcode
+         */
+        ::themis::updates::CanaryConfig toCanaryConfig(const std::string& version) const;
     } canary;
     
     /**

@@ -644,3 +644,110 @@ TEST(CanaryRegressionTest, ThrowingRollbackCallback_DoesNotPropagateException) {
     });
     EXPECT_NO_THROW(rollout.rollback("test"));
 }
+
+// ---------------------------------------------------------------------------
+// Fix 1: Double-apply guard
+// ---------------------------------------------------------------------------
+
+class CanaryDoubleApplyTest : public ::testing::Test {};
+
+TEST_F(CanaryDoubleApplyTest, SecondApply_DoesNotCallEngineAgain) {
+    auto engine = std::make_shared<StubHotReloadEngine>(/*apply_succeeds=*/true);
+    CanaryConfig cfg;
+    cfg.version = "1.5.0";
+    cfg.node_id = "node-full";
+    cfg.stages = {{1.0, std::chrono::seconds{0}}};
+    CanaryRollout rollout(engine, cfg);
+
+    rollout.applyIfIncluded();  // first apply
+    rollout.applyIfIncluded();  // second apply – must be a no-op
+
+    EXPECT_EQ(engine->apply_call_count_, 1) << "Engine must be called exactly once";
+}
+
+TEST_F(CanaryDoubleApplyTest, SecondApply_ReturnsSuccessWithRollbackId) {
+    auto engine = std::make_shared<StubHotReloadEngine>(/*apply_succeeds=*/true);
+    CanaryConfig cfg;
+    cfg.version = "1.5.0";
+    cfg.node_id = "node-full";
+    cfg.stages = {{1.0, std::chrono::seconds{0}}};
+    CanaryRollout rollout(engine, cfg);
+
+    rollout.applyIfIncluded();
+    auto result = rollout.applyIfIncluded();
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.rollback_id.empty());
+}
+
+TEST_F(CanaryDoubleApplyTest, FailedFirstApply_AllowsRetry) {
+    auto engine = std::make_shared<StubHotReloadEngine>(/*apply_succeeds=*/false);
+    CanaryConfig cfg;
+    cfg.version = "1.5.0";
+    cfg.node_id = "node-full";
+    cfg.stages = {{1.0, std::chrono::seconds{0}}};
+    CanaryRollout rollout(engine, cfg);
+
+    auto r1 = rollout.applyIfIncluded();  // fails
+    EXPECT_FALSE(r1.success);
+
+    // Engine can try again since is_applied_ is only set on success
+    engine->apply_call_count_ = 0;  // reset counter for clarity
+    rollout.applyIfIncluded();
+    EXPECT_EQ(engine->apply_call_count_, 1);
+}
+
+// ---------------------------------------------------------------------------
+// Fix 2: UpdatesConfig::CanaryConfig::toCanaryConfig bridge
+// ---------------------------------------------------------------------------
+
+class UpdatesConfigToCanaryConfigTest : public ::testing::Test {};
+
+TEST_F(UpdatesConfigToCanaryConfigTest, DefaultConfig_ConvertsToRuntimeConfig) {
+    UpdatesConfig cfg;
+    cfg.canary.node_id = "my-node";
+
+    auto runtime = cfg.canary.toCanaryConfig("1.5.0");
+
+    EXPECT_EQ(runtime.version, "1.5.0");
+    EXPECT_EQ(runtime.node_id, "my-node");
+    EXPECT_EQ(runtime.stages.size(), cfg.canary.stages.size());
+    EXPECT_DOUBLE_EQ(runtime.error_rate_threshold, cfg.canary.error_rate_threshold);
+    EXPECT_EQ(runtime.min_sample_count, cfg.canary.min_sample_count);
+}
+
+TEST_F(UpdatesConfigToCanaryConfigTest, CustomStages_AreConvertedCorrectly) {
+    UpdatesConfig cfg;
+    cfg.canary.node_id = "node-x";
+    cfg.canary.stages = {{0.02, 1800}, {0.20, 3600}, {1.0, 0}};
+
+    auto runtime = cfg.canary.toCanaryConfig("2.0.0");
+
+    ASSERT_EQ(runtime.stages.size(), 3u);
+    EXPECT_DOUBLE_EQ(runtime.stages[0].percentage, 0.02);
+    EXPECT_EQ(runtime.stages[0].observation_duration, std::chrono::seconds{1800});
+    EXPECT_DOUBLE_EQ(runtime.stages[1].percentage, 0.20);
+    EXPECT_EQ(runtime.stages[1].observation_duration, std::chrono::seconds{3600});
+    EXPECT_DOUBLE_EQ(runtime.stages[2].percentage, 1.0);
+    EXPECT_EQ(runtime.stages[2].observation_duration, std::chrono::seconds{0});
+}
+
+TEST_F(UpdatesConfigToCanaryConfigTest, ConvertedConfig_CanConstructCanaryRollout) {
+    auto engine = std::make_shared<StubHotReloadEngine>();
+    UpdatesConfig cfg;
+    cfg.canary.enabled = true;
+    cfg.canary.node_id = "integration-node";
+    cfg.canary.error_rate_threshold = 0.03;
+    cfg.canary.min_sample_count = 30;
+
+    auto runtime = cfg.canary.toCanaryConfig("1.6.0");
+    EXPECT_NO_THROW(CanaryRollout rollout(engine, runtime));
+}
+
+TEST_F(UpdatesConfigToCanaryConfigTest, DefaultStagesYieldFourStages) {
+    UpdatesConfig cfg;
+    cfg.canary.node_id = "node-a";
+    auto runtime = cfg.canary.toCanaryConfig("1.0.0");
+    EXPECT_EQ(runtime.stages.size(), 4u);
+    EXPECT_DOUBLE_EQ(runtime.stages.back().percentage, 1.0);
+}

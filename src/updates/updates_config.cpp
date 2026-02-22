@@ -18,6 +18,7 @@
  */
 
 #include "updates/updates_config.h"
+#include "updates/canary_rollout.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -29,6 +30,27 @@
 
 namespace themis {
 namespace updates {
+
+// ---------------------------------------------------------------------------
+// UpdatesConfig::CanaryConfig bridge
+// ---------------------------------------------------------------------------
+
+::themis::updates::CanaryConfig
+UpdatesConfig::CanaryConfig::toCanaryConfig(const std::string& version) const {
+    ::themis::updates::CanaryConfig runtime;
+    runtime.version = version;
+    runtime.node_id = node_id;
+    runtime.error_rate_threshold = error_rate_threshold;
+    runtime.min_sample_count = min_sample_count;
+    runtime.stages.reserve(stages.size());
+    for (const auto& s : stages) {
+        CanaryStage stage;
+        stage.percentage = s.percentage;
+        stage.observation_duration = std::chrono::seconds{s.observation_seconds};
+        runtime.stages.push_back(stage);
+    }
+    return runtime;
+}
 
 UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
     try {

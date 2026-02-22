@@ -267,10 +267,13 @@ public:
 
 private:
     /**
-     * @brief Compute a deterministic hash value in [0, 1) for the node,
-     *        given a specific stage percentage bucket.
+     * @brief Compute a deterministic hash value in [0, 1) for the node.
      *
      * Uses std::hash on the concatenation of version + node_id.
+     * NOTE: std::hash<std::string> is consistent within a single binary but is
+     * implementation-defined across different compilers/platforms.  Since all
+     * nodes in a cluster run the same binary when evaluating canary membership,
+     * this is sufficient for single-binary deployments.
      */
     double computeNodeHash() const;
 
@@ -282,6 +285,7 @@ private:
     size_t current_stage_{0};
     bool is_complete_{false};
     bool is_rolled_back_{false};
+    bool is_applied_{false};         ///< Guard: prevent double-apply on the same node.
     std::string rollback_reason_;
     std::string rollback_id_;
 

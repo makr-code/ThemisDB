@@ -167,6 +167,16 @@ ReloadResult CanaryRollout::applyIfIncluded() {
             skipped.error_message = "Canary rollout already complete";
             return skipped;
         }
+        if (is_applied_) {
+            // Idempotency guard: return the already-stored rollback_id so the
+            // caller can still use it for manual rollback if needed.
+            skipped.success = true;
+            skipped.rollback_id = rollback_id_;
+            skipped.error_message = "Update already applied on this node";
+            LOG_DEBUG("CanaryRollout: apply called again – already applied (version {})",
+                      config_.version);
+            return skipped;
+        }
         if (!isNodeInStage(current_stage_)) {
             skipped.error_message =
                 "Node not included in canary stage " +
@@ -187,6 +197,7 @@ ReloadResult CanaryRollout::applyIfIncluded() {
     if (result.success) {
         std::lock_guard<std::mutex> lock(mutex_);
         rollback_id_ = result.rollback_id;
+        is_applied_ = true;
         LOG_INFO("CanaryRollout: update applied; rollback_id={}", rollback_id_);
     } else {
         LOG_ERROR("CanaryRollout: applyHotReload failed: {}", result.error_message);
