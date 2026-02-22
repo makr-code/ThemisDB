@@ -307,6 +307,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU metrics test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates the in-process Prometheus-compatible counter/gauge
+# registry (GPUMetrics) and the CUDA Nsight-compatible JSON export (nsight_export).
+# It exercises only CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_metrics.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
