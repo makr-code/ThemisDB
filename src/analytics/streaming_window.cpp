@@ -60,8 +60,10 @@ namespace analytics {
 namespace {
 
 std::string genId() {
-    static std::mt19937_64 rng{std::random_device{}()};
-    static std::uniform_int_distribution<uint64_t> dist;
+    // thread_local avoids data races when multiple window instances call genId()
+    // concurrently (static mutable rng would be a data race).
+    thread_local std::mt19937_64 rng{std::random_device{}()};
+    thread_local std::uniform_int_distribution<uint64_t> dist;
     uint64_t a = dist(rng), b = dist(rng);
     char buf[37];
     std::snprintf(buf, sizeof(buf),
@@ -130,7 +132,6 @@ std::vector<AggregatedValue> computeAggregations(
 
         // Collect numeric values for all records
         std::vector<double>      nums;
-        std::set<std::string>    distinct;
         RecordValue              first_val{std::monostate{}};
         RecordValue              last_val{std::monostate{}};
         bool                     has_first = false;
@@ -149,7 +150,6 @@ std::vector<AggregatedValue> computeAggregations(
             if (d < min_val) min_val = d;
             if (d > max_val) max_val = d;
             nums.push_back(d);
-            distinct.insert(rvToString(fv));
             last_val = fv;
             if (!has_first) { first_val = fv; has_first = true; }
         }
@@ -196,9 +196,22 @@ std::vector<AggregatedValue> computeAggregations(
             case AggFunc::LAST:
                 av.value = last_val;
                 break;
-            case AggFunc::DISTINCT_COUNT:
+            case AggFunc::DISTINCT_COUNT: {
+                // Only count values where the field is actually present (not monostate).
+                // This avoids conflating a missing field with an empty-string value.
+                std::set<std::string> distinct;
+                for (const auto& rec : records) {
+                    if (!spec.field.empty()) {
+                        auto it = rec.fields.find(spec.field);
+                        if (it != rec.fields.end() &&
+                            !std::holds_alternative<std::monostate>(it->second)) {
+                            distinct.insert(rvToString(it->second));
+                        }
+                    }
+                }
                 av.value = static_cast<int64_t>(distinct.size());
                 break;
+            }
         }
 
         results.push_back(std::move(av));
@@ -281,27 +294,26 @@ void TumblingWindow::updateWatermark(const std::chrono::system_clock::time_point
                std::memory_order_release, std::memory_order_relaxed)) {}
 }
 
-void TumblingWindow::closeExpiredWindows(int64_t watermark_us) {
-    // Called with mutex_ held
+std::vector<WindowResult> TumblingWindow::closeExpiredWindows(int64_t watermark_us) {
+    // Called with mutex_ held. Returns results to emit; callers fire callbacks
+    // outside the lock to prevent re-entrant deadlock.
     std::vector<int64_t> to_close;
     for (const auto& [idx, win] : open_windows_) {
-        int64_t win_end_us = toMicros(win.end);
-        if (win_end_us <= watermark_us) {
+        if (toMicros(win.end) <= watermark_us) {
             to_close.push_back(idx);
         }
     }
+    std::vector<WindowResult> pending;
     for (int64_t idx : to_close) {
         auto& win = open_windows_[idx];
         if (config_.emit_empty_windows || !win.records.empty()) {
-            auto result = computeResult(win, false);
+            pending.push_back(computeResult(win, false));
             ++results_emitted_;
-            if (callback_) {
-                try { callback_(std::move(result)); } catch (...) {}
-            }
         }
         ++windows_closed_;
         open_windows_.erase(idx);
     }
+    return pending;
 }
 
 WindowResult TumblingWindow::computeResult(const InternalWindow& win, bool late) const {
@@ -329,32 +341,47 @@ bool TumblingWindow::ingest(const StreamRecord& record) {
         return false;
     }
 
-    std::lock_guard lk(mutex_);
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
 
-    int64_t idx = slotIndex(record.event_time);
-    if (open_windows_.find(idx) == open_windows_.end()) {
-        InternalWindow win;
-        win.start = slotStart(idx);
-        win.end   = win.start + config_.size;
-        open_windows_[idx] = std::move(win);
-        ++windows_opened_;
+        int64_t idx = slotIndex(record.event_time);
+        if (open_windows_.find(idx) == open_windows_.end()) {
+            InternalWindow win;
+            win.start = slotStart(idx);
+            win.end   = win.start + config_.size;
+            open_windows_[idx] = std::move(win);
+            ++windows_opened_;
+        }
+
+        if (ev_us < wm && config_.watermark.allow_late_data) {
+            ++late_records_;
+        }
+        open_windows_[idx].records.push_back(record);
+
+        pending = closeExpiredWindows(wm);
+    } // mutex_ released
+
+    // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
+        }
     }
-
-    if (ev_us < wm && config_.watermark.allow_late_data) {
-        ++late_records_;
-    }
-    open_windows_[idx].records.push_back(record);
-
-    // Close any windows whose end is <= watermark
-    closeExpiredWindows(wm);
     return true;
 }
 
 void TumblingWindow::flush() {
-    std::lock_guard lk(mutex_);
-    // Advance watermark to "infinite" to close all windows
-    int64_t inf = std::numeric_limits<int64_t>::max();
-    closeExpiredWindows(inf);
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
+        pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+    } // mutex_ released
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
+        }
+    }
 }
 
 WindowStats TumblingWindow::getStats() const {
@@ -438,23 +465,23 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
     }
 }
 
-void SlidingWindow::closeExpiredWindows(int64_t watermark_us) {
-    // Called with mutex_ held
+std::vector<WindowResult> SlidingWindow::closeExpiredWindows(int64_t watermark_us) {
+    // Called with mutex_ held. Returns results to emit; callers fire callbacks
+    // outside the lock to prevent re-entrant deadlock.
+    std::vector<WindowResult> pending;
     for (auto& w : windows_) {
         if (!w.closed && toMicros(w.end) <= watermark_us) {
             w.closed = true;
             ++windows_closed_;
-            auto result = computeResult(w, false);
+            pending.push_back(computeResult(w, false));
             ++results_emitted_;
-            if (callback_) {
-                try { callback_(std::move(result)); } catch (...) {}
-            }
         }
     }
     // Prune closed windows (keep deque manageable)
     while (!windows_.empty() && windows_.front().closed) {
         windows_.pop_front();
     }
+    return pending;
 }
 
 WindowResult SlidingWindow::computeResult(const InternalWindow& win, bool late) const {
@@ -480,30 +507,48 @@ bool SlidingWindow::ingest(const StreamRecord& record) {
         return false;
     }
 
-    std::lock_guard lk(mutex_);
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
 
-    ensureWindowsExist(record.event_time);
+        ensureWindowsExist(record.event_time);
 
-    // Add record to all overlapping open windows
-    for (auto& w : windows_) {
-        if (!w.closed &&
-            record.event_time >= w.start &&
-            record.event_time < w.end) {
-            w.records.push_back(record);
+        // Add record to all overlapping open windows
+        for (auto& w : windows_) {
+            if (!w.closed &&
+                record.event_time >= w.start &&
+                record.event_time < w.end) {
+                w.records.push_back(record);
+            }
+        }
+
+        if (ev_us < wm && config_.watermark.allow_late_data) {
+            ++late_records_;
+        }
+
+        pending = closeExpiredWindows(wm);
+    } // mutex_ released
+
+    // BUG 3 FIX: fire callbacks outside the lock.
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
         }
     }
-
-    if (ev_us < wm && config_.watermark.allow_late_data) {
-        ++late_records_;
-    }
-
-    closeExpiredWindows(wm);
     return true;
 }
 
 void SlidingWindow::flush() {
-    std::lock_guard lk(mutex_);
-    closeExpiredWindows(std::numeric_limits<int64_t>::max());
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
+        pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+    }
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
+        }
+    }
 }
 
 WindowStats SlidingWindow::getStats() const {
@@ -559,63 +604,102 @@ WindowResult SessionWindow::computeResult(const Session& s) const {
 
 bool SessionWindow::ingest(const StreamRecord& record) {
     ++records_ingested_;
-    std::lock_guard lk(mutex_);
 
-    const std::string& key = record.partition_key;
-    auto it = sessions_.find(key);
-    if (it == sessions_.end()) {
-        Session s;
-        s.session_id    = genId();
-        s.partition_key = key;
-        s.start         = record.event_time;
-        s.last_event    = record.event_time;
-        s.records.push_back(record);
-        sessions_[key] = std::move(s);
-        ++windows_opened_;
-    } else {
-        auto& s = it->second;
-        auto gap_since_last = std::chrono::duration_cast<std::chrono::milliseconds>(
-            record.event_time - s.last_event);
+    // BUG 4 FIX: Apply watermark check (was entirely missing).
+    // Use processing-time as a proxy watermark because session windows are
+    // gap-based rather than slot-based, but still respect out-of-orderness tolerance.
+    int64_t ev_us  = toMicros(record.event_time);
+    int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
+    int64_t new_wm = ev_us - tol_us;
+    int64_t old_wm = watermark_us_.load(std::memory_order_relaxed);
+    while (new_wm > old_wm &&
+           !watermark_us_.compare_exchange_weak(old_wm, new_wm,
+               std::memory_order_release, std::memory_order_relaxed)) {}
+    int64_t wm = watermark_us_.load(std::memory_order_acquire);
 
-        if (gap_since_last > config_.gap) {
-            // Gap exceeded → close current session and start new
-            auto result = computeResult(s);
-            ++windows_closed_;
-            ++results_emitted_;
-            if (callback_) {
-                try { callback_(std::move(result)); } catch (...) {}
-            }
-            // New session
-            Session ns;
-            ns.session_id    = genId();
-            ns.partition_key = key;
-            ns.start         = record.event_time;
-            ns.last_event    = record.event_time;
-            ns.records.push_back(record);
-            it->second = std::move(ns);
+    if (ev_us < wm && !config_.watermark.allow_late_data) {
+        ++late_records_;
+        ++records_dropped_;
+        return false;
+    }
+
+    WindowResult pending_result;
+    bool         has_pending = false;
+
+    {
+        std::lock_guard lk(mutex_);
+
+        if (ev_us < wm) {
+            ++late_records_;
+        }
+
+        const std::string& key = record.partition_key;
+        auto it = sessions_.find(key);
+        if (it == sessions_.end()) {
+            Session s;
+            s.session_id    = genId();
+            s.partition_key = key;
+            s.start         = record.event_time;
+            s.last_event    = record.event_time;
+            s.records.push_back(record);
+            sessions_[key] = std::move(s);
             ++windows_opened_;
         } else {
-            // Extend existing session
-            s.last_event = record.event_time;
-            s.records.push_back(record);
+            auto& s = it->second;
+            auto gap_since_last = std::chrono::duration_cast<std::chrono::milliseconds>(
+                record.event_time - s.last_event);
+
+            if (gap_since_last > config_.gap) {
+                // Gap exceeded → close current session and start new
+                pending_result = computeResult(s);
+                has_pending = true;
+                ++windows_closed_;
+                ++results_emitted_;
+                // New session
+                Session ns;
+                ns.session_id    = genId();
+                ns.partition_key = key;
+                ns.start         = record.event_time;
+                ns.last_event    = record.event_time;
+                ns.records.push_back(record);
+                it->second = std::move(ns);
+                ++windows_opened_;
+            } else {
+                // Extend existing session.
+                // BUG 2 FIX: use max() so that an out-of-order record cannot
+                // regress last_event and cause instant timer-driven expiry.
+                s.last_event = std::max(s.last_event, record.event_time);
+                s.records.push_back(record);
+            }
         }
+    } // mutex_ released before callback
+
+    // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
+    if (has_pending && callback_) {
+        try { callback_(std::move(pending_result)); } catch (...) {}
     }
     return true;
 }
 
 void SessionWindow::flush() {
-    std::lock_guard lk(mutex_);
-    for (auto& [key, s] : sessions_) {
-        if (!s.records.empty()) {
-            auto result = computeResult(s);
-            ++windows_closed_;
-            ++results_emitted_;
-            if (callback_) {
-                try { callback_(std::move(result)); } catch (...) {}
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
+        for (auto& [key, s] : sessions_) {
+            if (!s.records.empty()) {
+                pending.push_back(computeResult(s));
+                ++windows_closed_;
+                ++results_emitted_;
             }
         }
+        sessions_.clear();
     }
-    sessions_.clear();
+    // BUG 3 FIX: invoke callbacks outside the mutex.
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
+        }
+    }
 }
 
 WindowStats SessionWindow::getStats() const {
@@ -638,27 +722,32 @@ void SessionWindow::expiryLoop() {
         }
         if (!running_) break;
 
-        auto now = std::chrono::system_clock::now();
-        std::lock_guard lk(mutex_);
-        std::vector<std::string> to_close;
-        for (const auto& [key, s] : sessions_) {
-            auto idle = std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - s.last_event);
-            if (idle > config_.gap) {
-                to_close.push_back(key);
-            }
-        }
-        for (const auto& key : to_close) {
-            auto& s = sessions_[key];
-            if (!s.records.empty()) {
-                auto result = computeResult(s);
-                ++windows_closed_;
-                ++results_emitted_;
-                if (callback_) {
-                    try { callback_(std::move(result)); } catch (...) {}
+        std::vector<WindowResult> pending;
+        {
+            auto now = std::chrono::system_clock::now();
+            std::lock_guard lk(mutex_);
+            std::vector<std::string> to_close;
+            for (const auto& [key, s] : sessions_) {
+                auto idle = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    now - s.last_event);
+                if (idle > config_.gap) {
+                    to_close.push_back(key);
                 }
             }
-            sessions_.erase(key);
+            for (const auto& key : to_close) {
+                auto& s = sessions_[key];
+                if (!s.records.empty()) {
+                    pending.push_back(computeResult(s));
+                    ++windows_closed_;
+                    ++results_emitted_;
+                }
+                sessions_.erase(key);
+            }
+        } // mutex_ released before callback (BUG 3 FIX)
+        if (callback_) {
+            for (auto& r : pending) {
+                try { callback_(std::move(r)); } catch (...) {}
+            }
         }
     }
 }
@@ -725,21 +814,22 @@ void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
     }
 }
 
-void HoppingWindow::closeExpiredWindows(int64_t watermark_us) {
+std::vector<WindowResult> HoppingWindow::closeExpiredWindows(int64_t watermark_us) {
+    // Called with mutex_ held. Returns results to emit; callers fire callbacks
+    // outside the lock to prevent re-entrant deadlock.
+    std::vector<WindowResult> pending;
     for (auto& w : windows_) {
         if (!w.closed && toMicros(w.end) <= watermark_us) {
             w.closed = true;
             ++windows_closed_;
-            auto result = computeResult(w, false);
+            pending.push_back(computeResult(w, false));
             ++results_emitted_;
-            if (callback_) {
-                try { callback_(std::move(result)); } catch (...) {}
-            }
         }
     }
     while (!windows_.empty() && windows_.front().closed) {
         windows_.pop_front();
     }
+    return pending;
 }
 
 WindowResult HoppingWindow::computeResult(const InternalWindow& win, bool late) const {
@@ -765,25 +855,43 @@ bool HoppingWindow::ingest(const StreamRecord& record) {
         return false;
     }
 
-    std::lock_guard lk(mutex_);
-    ensureWindowsExist(record.event_time);
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
+        ensureWindowsExist(record.event_time);
 
-    for (auto& w : windows_) {
-        if (!w.closed &&
-            record.event_time >= w.start &&
-            record.event_time < w.end) {
-            w.records.push_back(record);
+        for (auto& w : windows_) {
+            if (!w.closed &&
+                record.event_time >= w.start &&
+                record.event_time < w.end) {
+                w.records.push_back(record);
+            }
+        }
+
+        if (ev_us < wm && config_.watermark.allow_late_data) ++late_records_;
+        pending = closeExpiredWindows(wm);
+    } // mutex_ released
+
+    // BUG 3 FIX: fire callbacks outside the lock.
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
         }
     }
-
-    if (ev_us < wm && config_.watermark.allow_late_data) ++late_records_;
-    closeExpiredWindows(wm);
     return true;
 }
 
 void HoppingWindow::flush() {
-    std::lock_guard lk(mutex_);
-    closeExpiredWindows(std::numeric_limits<int64_t>::max());
+    std::vector<WindowResult> pending;
+    {
+        std::lock_guard lk(mutex_);
+        pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+    }
+    if (callback_) {
+        for (auto& r : pending) {
+            try { callback_(std::move(r)); } catch (...) {}
+        }
+    }
 }
 
 WindowStats HoppingWindow::getStats() const {
@@ -907,6 +1015,10 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
 }
 
 bool StreamingWindowPipeline::ingest(const StreamRecord& record) {
+    if (!built_) {
+        spdlog::warn("StreamingWindowPipeline::ingest() called before build()");
+        return false;
+    }
     if (tumbling_) return tumbling_->ingest(record);
     if (sliding_)  return sliding_->ingest(record);
     if (session_)  return session_->ingest(record);
@@ -915,6 +1027,10 @@ bool StreamingWindowPipeline::ingest(const StreamRecord& record) {
 }
 
 void StreamingWindowPipeline::flush() {
+    if (!built_) {
+        spdlog::warn("StreamingWindowPipeline::flush() called before build()");
+        return;
+    }
     if (tumbling_) tumbling_->flush();
     if (sliding_)  sliding_->flush();
     if (session_)  session_->flush();
@@ -922,6 +1038,7 @@ void StreamingWindowPipeline::flush() {
 }
 
 WindowStats StreamingWindowPipeline::getStats() const {
+    if (!built_) return {};
     if (tumbling_) return tumbling_->getStats();
     if (sliding_)  return sliding_->getStats();
     if (session_)  return session_->getStats();
