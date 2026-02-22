@@ -35,7 +35,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] SAML 2.0 SP-initiated and IdP-initiated SSO (Issue: #1536)
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
 - [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
-- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2081)
+- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [I] Federated identity across multiple realms (Issue: #1540)
 - [I] Zero-trust access model with continuous verification (Issue: #1541)
 

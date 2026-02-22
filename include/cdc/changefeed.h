@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
+    • Total Lines:     277                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 94f31dca3  2026-02-22  Cleanup: fix uninitialized Watermarks, unused variable, a... ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -102,13 +100,14 @@ public:
         uint64_t max_event_count = 1000000;             // Max events (default: 1M)
         size_t max_size_bytes = DEFAULT_MAX_SIZE_BYTES; // Max size (default: 100GB)
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
+        bool compact_on_cleanup = false;                // Run key-based compaction after each cleanup cycle
     };
     
     struct Watermarks {
-        uint64_t low_watermark;   // Oldest event sequence
-        uint64_t high_watermark;  // Newest event sequence
-        int64_t oldest_timestamp_ms;  // Timestamp of oldest event
-        int64_t newest_timestamp_ms;  // Timestamp of newest event
+        uint64_t low_watermark = 0;          // Oldest event sequence
+        uint64_t high_watermark = 0;         // Newest event sequence
+        int64_t oldest_timestamp_ms = 0;     // Timestamp of oldest event
+        int64_t newest_timestamp_ms = 0;     // Timestamp of newest event
     };
 
     struct Stats {
@@ -174,6 +173,15 @@ public:
      * @return Number of events deleted
      */
     size_t deleteOldEvents(uint64_t before_sequence);
+
+    /**
+     * @brief Alias for deleteOldEvents (sequence-based)
+     * @param before_sequence Delete events with sequence < this value
+     * @return Number of events deleted
+     */
+    size_t deleteOldEventsBySequence(uint64_t before_sequence) {
+        return deleteOldEvents(before_sequence);
+    }
     
     /**
      * @brief Delete events older than given timestamp
@@ -181,12 +189,52 @@ public:
      * @return Number of events deleted
      */
     size_t deleteOldEventsByTimestamp(int64_t before_timestamp_ms);
+
+    /**
+     * @brief Get a single event by sequence number
+     * @param sequence The sequence number to look up
+     * @return The change event (throws on not found or error)
+     */
+    ChangeEvent getEvent(uint64_t sequence) const;
+
+    /**
+     * @brief Result of a compaction operation
+     */
+    struct CompactionResult {
+        size_t events_scanned = 0;   ///< Total events examined
+        size_t events_deleted = 0;   ///< Superseded events removed
+        size_t keys_compacted = 0;   ///< Distinct keys that had older entries removed
+        size_t events_retained = 0;  ///< Events kept (latest per key + tombstones)
+    };
+
+    /**
+     * @brief Compact the change log by removing superseded entries per key
+     *
+     * For each document key, retains only the latest change event and removes
+     * all earlier events that have been superseded by a newer one.  A DELETE
+     * event is never discarded so that consumers can still observe tombstones.
+     *
+     * @return CompactionResult describing what was removed
+     */
+    CompactionResult compactByKey();
     
     /**
      * @brief Apply retention policy (delete old events based on configured policy)
      * @return Number of events deleted
      */
     size_t applyRetentionPolicy();
+    
+    /**
+     * @brief Update the retention policy at runtime
+     * @param policy New retention policy to apply
+     */
+    void updateRetentionPolicy(const RetentionPolicy& policy);
+
+    /**
+     * @brief Get the current retention policy
+     * @return Current retention policy
+     */
+    RetentionPolicy getRetentionPolicy() const;
     
     /**
      * @brief Start background retention cleanup thread
@@ -219,7 +267,7 @@ private:
     std::atomic<bool> retention_thread_running_{false};
     std::thread retention_thread_;
     std::condition_variable retention_cv_;
-    std::mutex retention_mutex_;
+    mutable std::mutex retention_mutex_;  // also protects retention_policy_ reads
     
     void retentionCleanupThread();
 };

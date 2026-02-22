@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.cpp                           ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:02                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1259                                           ║
+    • Total Lines:     1252                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,10 +21,12 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
+#include "observability/metrics_collector.h"
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 #include <thread>
 #include <openssl/sha.h>
 #include <regex>
@@ -1254,6 +1249,356 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
     return count;
+}
+
+nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {
+    nlohmann::json status;
+    if (!l3_circuit_breaker_) {
+        status["enabled"] = false;
+        status["state"] = "CLOSED";
+        status["failure_count"] = 0;
+        return status;
+    }
+
+    status["enabled"] = true;
+    status["failure_count"] = l3_circuit_breaker_->getFailureCount();
+
+    switch (l3_circuit_breaker_->getState()) {
+        case cache::CircuitBreaker::State::CLOSED:
+            status["state"] = "CLOSED";
+            break;
+        case cache::CircuitBreaker::State::OPEN:
+            status["state"] = "OPEN";
+            break;
+        case cache::CircuitBreaker::State::HALF_OPEN:
+            status["state"] = "HALF_OPEN";
+            break;
+    }
+
+    return status;
+}
+
+void AdaptiveQueryCache::resetCircuitBreaker() {
+    if (!l3_circuit_breaker_) {
+        return;
+    }
+    l3_circuit_breaker_->reset();
+    enhanced_metrics_.l3_circuit_breaker_open = false;
+    THEMIS_INFO("L3 circuit breaker reset to CLOSED by admin request");
+}
+
+// ---------------------------------------------------------------------------
+// Phase 3: Cache Warmup and Snapshot helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Decode standard (+ URL-safe) base64 to a string. Returns empty on error.
+static std::string warmupBase64Decode(const std::string& input) {
+    static const char kChars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::array<int, 256> T;
+    T.fill(-1);
+    for (int i = 0; i < 64; ++i) T[static_cast<unsigned char>(kChars[i])] = i;
+    T[static_cast<unsigned char>('-')] = 62;
+    T[static_cast<unsigned char>('_')] = 63;
+
+    std::string out;
+    int val = 0, valb = -8;
+    for (unsigned char c : input) {
+        if (c == '=') break;
+        int tv = T[c];
+        if (tv == -1) break;
+        val = (val << 6) + tv;
+        valb += 6;
+        if (valb >= 0) {
+            out.push_back(static_cast<char>((val >> valb) & 0xFF));
+            valb -= 8;
+        }
+    }
+    return out;
+}
+
+/// Encode bytes to standard base64.
+static std::string warmupBase64Encode(const std::string& input) {
+    static const char kChars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    int val = 0, valb = -6;
+    for (unsigned char c : input) {
+        val = (val << 8) + c;
+        valb += 8;
+        while (valb >= 0) {
+            out.push_back(kChars[(val >> valb) & 0x3F]);
+            valb -= 6;
+        }
+    }
+    if (valb > -6) out.push_back(kChars[((val << 8) >> (valb + 8)) & 0x3F]);
+    while (out.size() % 4) out.push_back('=');
+    return out;
+}
+
+/// Return true iff `s` is a 64-character lowercase hex string (SHA-256 fingerprint).
+static bool isValidFingerprint(const std::string& s) {
+    if (s.size() != 64) return false;
+    for (char c : s) {
+        if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'))) return false;
+    }
+    return true;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// warmupFromLog
+// ---------------------------------------------------------------------------
+
+AdaptiveQueryCache::WarmupResult
+AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries) {
+    WarmupResult result;
+
+    std::ifstream file(log_path);
+    if (!file.is_open()) {
+        result.ok    = false;
+        result.error = "Cannot open warmup log: " + log_path;
+        THEMIS_WARN("Cache warmup failed: {}", result.error);
+        return result;
+    }
+
+    // Hard cap: l1_max_entries / 2 to reserve headroom, further capped by caller.
+    const size_t headroom_cap = config_.l1_max_entries / 2;
+    const size_t effective_cap = (max_entries > 0)
+                                 ? std::min(max_entries, headroom_cap)
+                                 : headroom_cap;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty() || line[0] == '#') continue;
+        ++result.entries_total;
+
+        if (result.entries_loaded >= effective_cap) {
+            ++result.entries_skipped;
+            continue;
+        }
+
+        // --- Parse line ---
+        nlohmann::json obj;
+        try {
+            obj = nlohmann::json::parse(line);
+        } catch (...) {
+            THEMIS_DEBUG("Cache warmup: skipping malformed JSON line {}", result.entries_total);
+            ++result.entries_skipped;
+            continue;
+        }
+
+        // Validate required fields
+        if (!obj.contains("key") || !obj["key"].is_string() ||
+            !obj.contains("value_b64") || !obj["value_b64"].is_string()) {
+            ++result.entries_skipped;
+            continue;
+        }
+
+        std::string fingerprint = obj["key"].get<std::string>();
+        if (!isValidFingerprint(fingerprint)) {
+            THEMIS_DEBUG("Cache warmup: invalid fingerprint '{}' at line {}", fingerprint.substr(0, 16), result.entries_total);
+            ++result.entries_skipped;
+            continue;
+        }
+
+        // Decode value.
+        // Note: warmupBase64Decode() returns "" both on a real decode error and
+        // when the input decodes to an empty byte sequence.  An empty decoded
+        // string can never be valid JSON (the smallest valid JSON is "null",
+        // "true", "{}", or "[]"), so skipping it is intentional and correct.
+        std::string decoded = warmupBase64Decode(obj["value_b64"].get<std::string>());
+        if (decoded.empty()) {
+            ++result.entries_skipped;
+            continue;
+        }
+
+        // Validate size against L1 limit (warmup targets L1)
+        if (decoded.size() > config_.l1_max_entry_size) {
+            THEMIS_DEBUG("Cache warmup: entry {} exceeds L1 size limit ({} > {})",
+                         fingerprint.substr(0, 16), decoded.size(), config_.l1_max_entry_size);
+            ++result.entries_skipped;
+            continue;
+        }
+
+        nlohmann::json value_json;
+        try {
+            value_json = nlohmann::json::parse(decoded);
+        } catch (...) {
+            ++result.entries_skipped;
+            continue;
+        }
+
+        const std::string tenant_id = obj.value("tenant", std::string{});
+        const int ttl_s = obj.value("ttl_remaining_s", config_.l1_ttl_seconds);
+        if (ttl_s <= 0) {
+            // Already expired
+            ++result.entries_skipped;
+            continue;
+        }
+
+        // --- Insert directly into L1, bypassing the rate limiter ---
+        {
+            std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())
+                              ? makeTenantKey(fingerprint, tenant_id)
+                              : fingerprint;
+
+            // Quota check (must still honour per-tenant quota)
+            if (!checkTenantQuota(tenant_id, decoded.size())) {
+                THEMIS_DEBUG("Cache warmup: tenant '{}' quota exceeded, skipping entry", tenant_id);
+                ++result.entries_skipped;
+                continue;
+            }
+
+            L1Entry entry;
+            entry.result          = std::move(value_json);
+            entry.created_at_ms   = getCurrentTimeMs();
+            entry.last_accessed_ms = entry.created_at_ms;
+            entry.access_count    = 0;
+            entry.ttl_seconds     = ttl_s;
+
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            // Evict oldest L1 entry if at capacity
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            l1_cache_[key] = std::move(entry);
+        }
+
+        ++result.entries_loaded;
+
+        // Update tenant size tracking
+        if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+            std::lock_guard<std::mutex> lock(tenant_mutex_);
+            tenant_sizes_[tenant_id] += decoded.size();
+        }
+    }
+
+    // Report to Prometheus MetricsCollector
+    auto& mc = observability::MetricsCollector::getInstance();
+    mc.addCounter("themis_cache_warmup_entries_loaded_total",
+                  static_cast<int64_t>(result.entries_loaded));
+
+    THEMIS_INFO("Cache warmup complete: loaded={}, skipped={}, total_lines={}",
+                result.entries_loaded, result.entries_skipped, result.entries_total);
+    return result;
+}
+
+// ---------------------------------------------------------------------------
+// exportSnapshot
+// ---------------------------------------------------------------------------
+
+AdaptiveQueryCache::WarmupResult
+AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
+    WarmupResult result;
+
+    // Prefix used for tenant-scoped keys: "tenant:{id}:{fingerprint}"
+    static const std::string kTenantPrefix = "tenant:";
+
+    std::ofstream file(out_path, std::ios::trunc);
+    if (!file.is_open()) {
+        result.ok    = false;
+        result.error = "Cannot open snapshot file for writing: " + out_path;
+        THEMIS_WARN("Cache snapshot export failed: {}", result.error);
+        return result;
+    }
+
+    const int64_t now_ms = getCurrentTimeMs();
+
+    // Export live L1 entries
+    {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        for (const auto& [key, entry] : l1_cache_) {
+            if (isExpired(entry.created_at_ms, entry.ttl_seconds)) continue;
+
+            // Derive fingerprint: strip tenant prefix if present
+            std::string fp = key;
+            if (fp.rfind(kTenantPrefix, 0) == 0) {
+                auto pos = fp.find(':', kTenantPrefix.size());
+                if (pos != std::string::npos) fp = fp.substr(pos + 1);
+            }
+
+            int remaining_ttl = entry.ttl_seconds
+                - static_cast<int>((now_ms - entry.created_at_ms) / 1000);
+            if (remaining_ttl <= 0) continue;
+
+            std::string value_str = entry.result.dump();
+            std::string value_b64 = warmupBase64Encode(value_str);
+
+            // Extract tenant from original key
+            std::string tenant_id;
+            if (key.rfind(kTenantPrefix, 0) == 0) {
+                auto pos = key.find(':', kTenantPrefix.size());
+                if (pos != std::string::npos)
+                    tenant_id = key.substr(kTenantPrefix.size(), pos - kTenantPrefix.size());
+            }
+
+            nlohmann::json line_obj = {
+                {"key",             fp},
+                {"value_b64",       value_b64},
+                {"ttl_remaining_s", remaining_ttl},
+                {"tenant",          tenant_id}
+            };
+            file << line_obj.dump() << '\n';
+            ++result.entries_written;
+            ++result.entries_total;
+        }
+    }
+
+    // Export live L2 entries (decompress to get original JSON)
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        for (const auto& [key, entry] : l2_cache_) {
+            if (isExpired(entry.created_at_ms, entry.ttl_seconds)) continue;
+
+            int remaining_ttl = entry.ttl_seconds
+                - static_cast<int>((now_ms - entry.created_at_ms) / 1000);
+            if (remaining_ttl <= 0) continue;
+
+            // Decompress
+            std::vector<uint8_t> raw = utils::zstd_decompress(entry.compressed_result);
+            if (raw.empty()) continue;
+            std::string value_str(raw.begin(), raw.end());
+
+            // Validate JSON
+            try { nlohmann::json::parse(value_str); } catch (...) { continue; }
+
+            // Derive fingerprint and tenant
+            std::string fp = key;
+            std::string tenant_id;
+            if (fp.rfind(kTenantPrefix, 0) == 0) {
+                auto pos = fp.find(':', kTenantPrefix.size());
+                if (pos != std::string::npos) {
+                    tenant_id = fp.substr(kTenantPrefix.size(), pos - kTenantPrefix.size());
+                    fp = fp.substr(pos + 1);
+                }
+            }
+
+            std::string value_b64 = warmupBase64Encode(value_str);
+            nlohmann::json line_obj = {
+                {"key",             fp},
+                {"value_b64",       value_b64},
+                {"ttl_remaining_s", remaining_ttl},
+                {"tenant",          tenant_id}
+            };
+            file << line_obj.dump() << '\n';
+            ++result.entries_written;
+            ++result.entries_total;
+        }
+    }
+
+    if (!file.good()) {
+        result.ok    = false;
+        result.error = "I/O error while writing snapshot to: " + out_path;
+        THEMIS_WARN("Cache snapshot export I/O error: {}", out_path);
+        return result;
+    }
+
+    THEMIS_INFO("Cache snapshot exported: {} entries to {}", result.entries_written, out_path);
+    return result;
 }
 
 } // namespace themis
