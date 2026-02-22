@@ -156,6 +156,9 @@ enum class ErrorCode {
     ERR_COMPRESSION_FAILED = 7000,
     ERR_COMPRESSION_BUFFER_TOO_SMALL = 7001,
     ERR_COMPRESSION_INVALID_FORMAT = 7002,
+
+    // Time Series Errors (7100-7199)
+    ERR_TIMESERIES_LATE_ARRIVAL = 7100,  // Data point outside the late-arrival window
     
     // Crypto Errors (8000-8099)
     ERR_CRYPTO_ENCRYPTION_FAILED = 8000,

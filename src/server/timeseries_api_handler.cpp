@@ -269,7 +269,8 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigGet(
             const auto& config = ts_store_->getConfig();
             response = {
                 {"compression", config.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
-                {"chunk_size_hours", config.chunk_size_hours}
+                {"chunk_size_hours", config.chunk_size_hours},
+                {"late_arrival_window_ms", config.late_arrival_window_ms}
             };
         }
 
@@ -304,7 +305,8 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
             const auto& cur = ts_store_->getConfig();
             persisted = {
                 {"compression", cur.compression == TSStore::CompressionType::Gorilla ? "gorilla" : "none"},
-                {"chunk_size_hours", cur.chunk_size_hours}
+                {"chunk_size_hours", cur.chunk_size_hours},
+                {"late_arrival_window_ms", cur.late_arrival_window_ms}
             };
         }
 
@@ -337,6 +339,20 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
             persisted["chunk_size_hours"] = chunk_size;
         }
 
+        if (body.contains("late_arrival_window_ms")) {
+            if (!body["late_arrival_window_ms"].is_number_integer()) {
+                span.setStatus(false, "invalid_late_arrival_window_type");
+                return makeErrorResponse(http::status::bad_request, "late_arrival_window_ms must be an integer", req);
+            }
+            int64_t window = body["late_arrival_window_ms"].get<int64_t>();
+            if (window < 0) {
+                span.setStatus(false, "invalid_late_arrival_window");
+                return makeErrorResponse(http::status::bad_request, 
+                    "late_arrival_window_ms must be >= 0 (0 = disabled)", req);
+            }
+            persisted["late_arrival_window_ms"] = window;
+        }
+
         // Persist to storage
         std::string config_str = persisted.dump();
         std::vector<uint8_t> bytes(config_str.begin(), config_str.end());
@@ -354,6 +370,9 @@ http::response<http::string_body> TimeSeriesApiHandler::handleConfigPut(
         }
         if (persisted.contains("chunk_size_hours")) {
             new_config.chunk_size_hours = persisted["chunk_size_hours"];
+        }
+        if (persisted.contains("late_arrival_window_ms")) {
+            new_config.late_arrival_window_ms = persisted["late_arrival_window_ms"].get<int64_t>();
         }
         ts_store_->setConfig(new_config);
 

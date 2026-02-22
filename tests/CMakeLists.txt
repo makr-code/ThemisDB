@@ -146,6 +146,12 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_WEBSOCKET)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_wire_protocol_websocket\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
