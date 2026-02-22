@@ -66,10 +66,16 @@ env:
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
 
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   # ───────────────────────────────────────────────────────────────────────────
   # 1. Negative security tests across MINIMAL / COMMUNITY / ENTERPRISE editions
   # ───────────────────────────────────────────────────────────────────────────
   security-negative-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
     name: Security negative tests (${{ matrix.edition }} / ${{ matrix.compiler }})
     runs-on: ubuntu-22.04
 
@@ -180,6 +186,8 @@ jobs:
   # 2. AddressSanitizer + UndefinedBehaviorSanitizer
   # ───────────────────────────────────────────────────────────────────────────
   sanitizer-tests:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
     name: Sanitizer tests (ASan + UBSan)
     runs-on: ubuntu-22.04
 
@@ -273,6 +281,8 @@ jobs:
   #    source changes.
   # ───────────────────────────────────────────────────────────────────────────
   edition-build-check:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
     name: Edition compile check (${{ matrix.edition }})
     runs-on: ubuntu-22.04
 
@@ -322,6 +332,8 @@ jobs:
   # 4. Static analysis with clang-tidy
   # ───────────────────────────────────────────────────────────────────────────
   static-analysis:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
     name: Static analysis (clang-tidy)
     runs-on: ubuntu-22.04
 
@@ -411,6 +423,8 @@ jobs:
   # 5. Fuzz smoke-test (libFuzzer, short time limit suitable for CI)
   # ───────────────────────────────────────────────────────────────────────────
   fuzz-smoke-test:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
     name: Fuzz smoke test (JWT + RBAC config)
     runs-on: ubuntu-22.04
 

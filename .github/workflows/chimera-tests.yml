@@ -19,7 +19,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   test:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Run CHIMERA Tests
     runs-on: ubuntu-latest
     

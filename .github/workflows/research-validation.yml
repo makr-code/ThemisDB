@@ -9,7 +9,15 @@ permissions:
   contents: read
 
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   check-research-links:
+    needs: ci-scope-classifier
+    if: >
+      github.event_name == 'schedule' ||
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
     name: Validate Research Links
     runs-on: ubuntu-latest
     permissions:
@@ -27,6 +35,10 @@ jobs:
           python3 scripts/validate_research_links.py
 
   validate-research-metadata:
+    needs: ci-scope-classifier
+    if: >
+      github.event_name == 'schedule' ||
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
     name: Validate Research Metadata
     runs-on: ubuntu-latest
     permissions:
@@ -44,6 +56,10 @@ jobs:
           python3 scripts/validate_research_metadata.py
 
   generate-research-report:
+    needs: ci-scope-classifier
+    if: >
+      github.event_name == 'schedule' ||
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
     name: Generate Research Index (dry-run)
     runs-on: ubuntu-latest
     permissions:

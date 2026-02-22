@@ -54,7 +54,15 @@ concurrency:
 # (no GPU hardware required — pure compile / syntax check)
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   cuda-compile-check:
+    needs: ci-scope-classifier
+    if: >
+      needs.ci-scope-classifier.outputs.has_llm_changes == 'true' ||
+      needs.ci-scope-classifier.outputs.has_gpu_changes == 'true'
     name: CUDA Kernel Compile Check (nvcc, no GPU)
     runs-on: ubuntu-22.04
     permissions:
@@ -116,14 +124,17 @@ jobs:
   # Job 2: Full GPU correctness test (self-hosted runner with CUDA GPU)
   # ─────────────────────────────────────────────────────────────────────────
   cuda-kernel-tests:
+    needs: ci-scope-classifier
     name: CUDA Kernel Tests (GPU Runner)
     # This job runs only on self-hosted runners labelled 'gpu-cuda'.
     # If no such runner is registered the job is skipped gracefully.
     runs-on: [self-hosted, gpu-cuda]
     if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' &&
-       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'))
+      (needs.ci-scope-classifier.outputs.has_llm_changes == 'true' ||
+       needs.ci-scope-classifier.outputs.has_gpu_changes == 'true') &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'push' &&
+        (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')))
     permissions:
       contents: read
 
