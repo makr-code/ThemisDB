@@ -141,14 +141,22 @@ InferenceHandle AsyncInferenceEngine::submit(
 std::string AsyncInferenceEngine::submitAsync(
     const InferenceRequest& request,
     std::function<void(const InferenceResponse&)> callback,
-    int priority
+    int priority,
+    std::chrono::milliseconds timeout
 ) {
+    auto submit_time = std::chrono::steady_clock::now();
+
     // Create async request with callback
     auto async_req = std::make_shared<AsyncInferenceRequest>();
     async_req->request = request;
     async_req->priority = priority;
     async_req->request_id = generateRequestId();
     async_req->callback = callback;
+
+    // Set per-request deadline when a positive timeout is given
+    if (timeout.count() > 0) {
+        async_req->deadline = submit_time + timeout;
+    }
     
     // Create promise (result delivered via callback)
     std::promise<InferenceResponse> promise;
@@ -253,6 +261,7 @@ json AsyncInferenceEngine::getWorkerStats() const {
     stats["total_completed"] = stats_.total_completed.load();
     stats["total_cancelled"] = stats_.total_cancelled.load();
     stats["total_rejected"] = stats_.total_rejected.load();
+    stats["total_timed_out"] = stats_.total_timed_out.load();
     
     auto completed = stats_.total_completed.load();
     if (completed > 0) {

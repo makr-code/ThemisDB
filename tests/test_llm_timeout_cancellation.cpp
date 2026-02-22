@@ -335,3 +335,70 @@ TEST_F(EnhancedEngineTimeoutCancelTest, HandleCancelPropagatesOnEnhancedEngine) 
 
     engine.shutdown();
 }
+
+// ═══════════════════════════════════════════════════════════
+// Additional audit tests
+// ═══════════════════════════════════════════════════════════
+
+// Test 6: getWorkerStats() exposes total_timed_out counter.
+TEST_F(AsyncEngineTimeoutCancelTest, WorkerStatsExposesTimedOut) {
+    // Use a plugin that takes longer than the per-request timeout.
+    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(30, 30); // ~900 ms
+    AsyncInferenceEngine engine(slow_plugin, cfg);
+
+    InferenceRequest req;
+    req.prompt = "will timeout";
+    auto handle = engine.submit(req, 0, std::chrono::milliseconds(100));
+
+    try {
+        auto resp = handle.get();
+        (void)resp;
+    } catch (...) {}
+
+    // Allow time for the timeout monitor to fire and increment the counter.
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    auto stats = engine.getWorkerStats();
+    EXPECT_TRUE(stats.contains("total_timed_out"));
+
+    engine.shutdown();
+}
+
+// Test 7: submitAsync() honours a per-request timeout via the cancel token.
+TEST_F(AsyncEngineTimeoutCancelTest, SubmitAsyncHonoursTimeout) {
+    auto streaming_plugin = std::make_shared<SlowStreamingPlugin>(30, 30); // ~900 ms
+    AsyncInferenceEngine engine(streaming_plugin, cfg);
+
+    std::atomic<int> tokens_received{0};
+    std::atomic<bool> callback_called{false};
+
+    InferenceRequest req;
+    req.prompt = "async with timeout";
+    req.stream_callback = [&tokens_received](const std::string&) {
+        tokens_received.fetch_add(1, std::memory_order_relaxed);
+    };
+
+    // Submit via fire-and-forget with a short per-request timeout.
+    std::string req_id = engine.submitAsync(
+        req,
+        [&callback_called](const InferenceResponse&) {
+            callback_called.store(true, std::memory_order_release);
+        },
+        0,
+        std::chrono::milliseconds(120)
+    );
+
+    EXPECT_FALSE(req_id.empty());
+
+    // Wait for the plugin to finish (it will complete after ~900 ms).
+    std::this_thread::sleep_for(std::chrono::milliseconds(1100));
+
+    // The timeout should have fired within 120 ms, stopping token delivery.
+    int received = tokens_received.load();
+    spdlog::info("submitAsync timeout test: {} tokens received", received);
+    // Plugin emits one token every 30 ms; 120 ms timeout + 50 ms monitor
+    // poll interval → cancel fires by ~150 ms → at most ~5-6 tokens delivered.
+    EXPECT_LT(received, 10);
+
+    engine.shutdown();
+}

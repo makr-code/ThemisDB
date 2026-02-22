@@ -158,12 +158,14 @@ public:
      * @param request Inference request
      * @param callback Called when inference completes
      * @param priority Request priority
-     * @return Request ID for tracking
+     * @param timeout Per-request timeout; zero means no timeout (default: 0)
+     * @return Request ID for tracking / cancellation
      */
     std::string submitAsync(
         const InferenceRequest& request,
         std::function<void(const InferenceResponse&)> callback,
-        int priority = 0
+        int priority = 0,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(0)
     );
     
     /**
