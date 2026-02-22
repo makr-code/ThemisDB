@@ -10,6 +10,7 @@ name: LLM CPU Fallback CI
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/llm/kernel_fusion.cpp'
       - 'src/llm/kernel_fusion.cu'

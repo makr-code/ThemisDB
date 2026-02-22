@@ -2,6 +2,7 @@ name: GPU Module CI Gate
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'src/gpu/**'
       - 'src/geo/gpu_backend_stub.cpp'

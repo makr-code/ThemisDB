@@ -2,6 +2,14 @@ name: Research Documentation Validation
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'docs/**'
+      - 'research/**'
+      - '*.md'
+      - 'scripts/validate_research_links.py'
+      - 'scripts/validate_research_metadata.py'
+      - 'scripts/generate_research_index.py'
   schedule:
     - cron: '0 9 * * MON'  # Weekly check every Monday at 09:00 UTC
 
