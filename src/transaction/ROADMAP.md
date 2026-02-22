@@ -3,11 +3,11 @@
 # Transaction Module Roadmap
 
 ## Current Status
-v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
+v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
 
 ## Completed ✅
 - [x] TransactionManager – ACID guarantees via RocksDB WriteBatch
-- [x] Isolation levels: ReadCommitted (default) and Snapshot
+- [x] Isolation levels: ReadCommitted (default), Snapshot, and Serializable (SSI via predicate locking)
 - [x] MVCC via RocksDB native transactions
 - [x] Atomic multi-layer updates (relational, graph, vector, secondary indexes)
 - [x] SAGA pattern with compensating actions for distributed transactions
@@ -24,7 +24,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
 
 ## In Progress 🚧
-- [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
+- [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
 - [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
 
@@ -61,7 +61,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] `SnapshotManager` – named snapshots/tags for PITR
 - [x] Changefeed integration for CDC
 
-### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
+### Phase 2: Serializable Isolation & Two-Phase Commit (Status: Completed ✅)
 - [x] Serializable isolation level (full SSI via predicate locking)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [~] Transaction savepoints (partial rollback within a transaction)

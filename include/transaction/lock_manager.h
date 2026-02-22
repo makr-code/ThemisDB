@@ -143,15 +143,16 @@ public:
     ///
     /// Records that @p txn_id has read all keys in [@p start_key, @p end_key]
     /// (inclusive on both ends). Any other transaction that subsequently writes
-    /// a key in this range will be detected as a serialization conflict.
+    /// a key in this range will be detected as a serialization conflict when
+    /// it calls checkPredicateConflict().
     ///
     /// @param txn_id     Owning transaction.
     /// @param start_key  Lower bound of the predicate range (inclusive).
     /// @param end_key    Upper bound of the predicate range (inclusive; may
     ///                   equal @p start_key for a single-key predicate).
-    /// @return true on success; false if acquiring would create an immediate
-    ///         predicate-lock conflict with an existing lock on the same range
-    ///         from another transaction.
+    /// @return Always returns true; the predicate lock is always recorded.
+    ///         Conflict detection is performed lazily at write time via
+    ///         checkPredicateConflict(), not at acquire time.
     bool acquirePredicateLock(TransactionId txn_id,
                               const std::string& start_key,
                               const std::string& end_key);
