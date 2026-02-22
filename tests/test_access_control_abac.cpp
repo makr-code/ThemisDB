@@ -38,15 +38,17 @@ static AccessControl::AuthorizationContext makeCtx(
     const std::vector<std::string>& roles,
     const std::string& resource,
     const std::string& action,
-    const std::string& ip = ""
+    const std::string& ip = "",
+    const std::optional<std::string>& user_agent = std::nullopt
 ) {
     AccessControl::AuthorizationContext ctx;
-    ctx.user_id   = user_id;
-    ctx.roles     = roles;
-    ctx.resource  = resource;
-    ctx.action    = action;
+    ctx.user_id    = user_id;
+    ctx.roles      = roles;
+    ctx.resource   = resource;
+    ctx.action     = action;
     ctx.ip_address = ip;
-    ctx.timestamp = std::chrono::system_clock::now();
+    ctx.user_agent = user_agent;
+    ctx.timestamp  = std::chrono::system_clock::now();
     return ctx;
 }
 
@@ -229,4 +231,59 @@ TEST(AccessControlABACTest, ABACDisabled_PoliciesIgnored) {
     // Admin has RBAC permission and ABAC is disabled -> access granted
     auto ctx = makeCtx("alice", {"admin"}, "data", "write");
     EXPECT_TRUE(ac.authorize(ctx));
+}
+
+// ============================================================================
+// ABAC user-agent condition tests
+// ============================================================================
+
+TEST(AccessControlABACTest, ABACEnabled_UAAllow_GrantedForMatchingUA) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id             = "ua-allow";
+    p.subjects       = {"*"};
+    p.actions        = {"read"};
+    p.resources      = {"data"};
+    p.effect_allow   = true;
+    p.allowed_user_agent_patterns = {"ThemisClient"};
+    ac.addABACPolicy(p);
+
+    // Admin + matching UA -> granted
+    auto ctx = makeCtx("alice", {"admin"}, "data", "read", "", "ThemisClient/2.0");
+    EXPECT_TRUE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedForNonMatchingUA) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id             = "ua-allow";
+    p.subjects       = {"*"};
+    p.actions        = {"read"};
+    p.resources      = {"data"};
+    p.effect_allow   = true;
+    p.allowed_user_agent_patterns = {"ThemisClient"};
+    ac.addABACPolicy(p);
+
+    // Admin role passes RBAC but ABAC UA condition fails -> denied
+    auto ctx = makeCtx("alice", {"admin"}, "data", "read", /*ip=*/"", "curl/7.68.0");
+    EXPECT_FALSE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedWhenNoUAProvided) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id             = "ua-allow";
+    p.subjects       = {"*"};
+    p.actions        = {"read"};
+    p.resources      = {"data"};
+    p.effect_allow   = true;
+    p.allowed_user_agent_patterns = {"ThemisClient"};
+    ac.addABACPolicy(p);
+
+    // No user_agent -> ABAC UA condition fails -> denied
+    auto ctx = makeCtx("alice", {"admin"}, "data", "read", /*ip=*/"", std::nullopt);
+    EXPECT_FALSE(ac.authorize(ctx));
 }

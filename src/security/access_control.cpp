@@ -401,7 +401,8 @@ bool AccessControl::authorize(const AuthorizationContext& context) {
             : std::make_optional(context.ip_address);
         
         auto abac_decision = policy_engine_.authorize(
-            context.user_id, context.action, context.resource, client_ip);
+            context.user_id, context.action, context.resource,
+            client_ip, context.user_agent);
         
         if (!abac_decision.allowed) {
             authorized = false;

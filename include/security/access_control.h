@@ -194,6 +194,7 @@ public:
         std::string action;
         std::unordered_map<std::string, std::string> attributes;
         std::string ip_address;
+        std::optional<std::string> user_agent; // HTTP User-Agent (used by ABAC UA conditions)
         std::chrono::system_clock::time_point timestamp;
     };
     
