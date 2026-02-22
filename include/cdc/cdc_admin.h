@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-02-22 08:21:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,13 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     216                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -127,11 +120,42 @@ struct DiagnosticsInfo {
 };
 
 /**
+ * Status information for the current retention/compaction state
+ */
+struct RetentionStatus {
+    uint64_t total_events = 0;              ///< Current number of change events
+    size_t   total_size_bytes = 0;          ///< Approximate log size in bytes
+    int64_t  oldest_event_age_ms = 0;       ///< Age of the oldest event (ms)
+    int64_t  oldest_timestamp_ms = 0;       ///< Absolute timestamp of oldest event
+    int64_t  newest_timestamp_ms = 0;       ///< Absolute timestamp of newest event
+    int64_t  next_cleanup_time_ms = 0;      ///< Estimated time of next scheduled cleanup (epoch ms)
+    bool     compact_on_cleanup = false;    ///< Whether key compaction runs with each cleanup cycle
+
+    nlohmann::json toJson() const {
+        return {
+            {"total_events",          total_events},
+            {"total_size_bytes",      total_size_bytes},
+            {"oldest_event_age_ms",   oldest_event_age_ms},
+            {"oldest_timestamp_ms",   oldest_timestamp_ms},
+            {"newest_timestamp_ms",   newest_timestamp_ms},
+            {"next_cleanup_time_ms",  next_cleanup_time_ms},
+            {"compact_on_cleanup",    compact_on_cleanup}
+        };
+    }
+};
+
+/**
+ * Result of a compaction operation
+ */
+using CompactionResult = Changefeed::CompactionResult;
+
+/**
  * CDC Admin API for operational tasks
  * 
  * Provides administrative operations for CDC:
  * - Purge: Delete events by range, timestamp, or tenant
  * - Replay: Get events from a specific sequence
+ * - Compact: Remove superseded entries to reclaim log space
  * - Health Check: Check system health status
  * - Diagnostics: Export complete diagnostics info
  */
@@ -169,6 +193,12 @@ public:
      * @param before_timestamp_ms Delete events with timestamp < this value
      */
     PurgeResult purgeByTimestamp(uint64_t before_timestamp_ms);
+
+    /**
+     * Purge events older than a timestamp (alias for purgeByTimestamp)
+     * @param before_timestamp_ms Delete events with timestamp < this value
+     */
+    PurgeResult purgeOlderThan(int64_t before_timestamp_ms);
     
     /**
      * Purge all events for a specific tenant
@@ -187,6 +217,26 @@ public:
     std::vector<Changefeed::ChangeEvent> replayFromSequence(
         uint64_t from_sequence, 
         uint64_t limit = 0);
+
+    // Compaction
+
+    /**
+     * Compact the change log by removing superseded entries per key.
+     *
+     * Keeps only the latest event per document key, removing older events that
+     * have been superseded by a newer one.  DELETE tombstones are always kept.
+     *
+     * @return CompactionResult with counts of scanned/deleted/retained events
+     */
+    CompactionResult compactLog();
+    
+    // Retention status
+
+    /**
+     * Get current retention/compaction status information
+     * @return RetentionStatus describing current log state
+     */
+    RetentionStatus getRetentionStatus();
     
     // Health & diagnostics
     

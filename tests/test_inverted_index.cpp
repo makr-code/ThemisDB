@@ -3,18 +3,17 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inverted_index.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 19:43:17                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-22 08:22:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     607                                            ║
+    • Total Lines:     609                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║
     • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
     • d80551ba8  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║

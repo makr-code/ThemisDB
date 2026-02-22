@@ -11,17 +11,24 @@ GITHUB_REPOSITORY = os.environ.get("GITHUB_REPOSITORY")
 LABELS_TO_CREATE = {
     "type:feature": {"color": "1f6feb", "description": "New feature or enhancement"},
     "type:bug": {"color": "d73a49", "description": "Bug fix or defect"},
+    "type:enhancement": {"color": "84cc16", "description": "Improvement to an existing feature"},
     "type:test": {"color": "ffc837", "description": "Test coverage"},
     "type:documentation": {"color": "0075ca", "description": "Documentation"},
     "type:refactor": {"color": "a371f7", "description": "Code refactoring"},
     "type:chore": {"color": "cfcfcf", "description": "Chores"},
     "priority:critical": {"color": "dc2626", "description": "Critical priority"},
+    "priority:high": {"color": "f97316", "description": "High priority"},
+    "priority:medium": {"color": "eab308", "description": "Medium priority"},
     "priority:low": {"color": "6b7280", "description": "Low priority"},
     "status:open": {"color": "0075ca", "description": "Status: open"},
     "status:in_progress": {"color": "1f6feb", "description": "Status: in progress"},
     "status:blocked": {"color": "d73a49", "description": "Status: blocked"},
     "status:review": {"color": "6366f1", "description": "Status: review"},
     "status:ready": {"color": "10b981", "description": "Status: ready"},
+    "area:core": {"color": "0ea5e9", "description": "Area: core engine"},
+    "area:aql": {"color": "8b5cf6", "description": "Area: AQL query language"},
+    "area:query": {"color": "6366f1", "description": "Area: query engine"},
+    "area:acceleration": {"color": "f59e0b", "description": "Area: CUDA acceleration"},
     "area:storage": {"color": "ea580c", "description": "Area: storage"},
     "area:vector": {"color": "1f6feb", "description": "Area: vector"},
     "area:graph": {"color": "a371f7", "description": "Area: graph"},
@@ -44,6 +51,7 @@ def create_label(name, data):
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
     }
     
     try:

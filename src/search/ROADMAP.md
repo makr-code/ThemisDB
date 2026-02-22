@@ -24,25 +24,25 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] ResultRanker – configurable score aggregation
 
 ## In Progress 🚧
-- [?] LLM-based query rewriting for improved recall (Target: Q2 2026)
-- [?] Faceted search with dynamic facet counting (Target: Q2 2026)
-- [?] Highlight / snippet generation for matched terms (Target: Q3 2026)
+- [!] LLM-based query rewriting for improved recall (Target: Q2 2026) (Issue: #2456)
+- [I] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
+- [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [I] Configurable re-ranking with LLM feedback loop (Issue: #2113)
-- [?] Search analytics (top queries, zero-result queries)
-- [?] Spelling correction suggestions
+- [I] Configurable re-ranking with LLM feedback loop (Issue: #2454)
+- [I] Search analytics (top queries, zero-result queries) (Issue: #2275)
+- [I] Spelling correction suggestions (Issue: #2455)
 
 ### Long-term (6-12 months)
-- [?] Neural sparse retrieval (SPLADE / BERT-based)
-- [?] Cross-lingual semantic search (multilingual embeddings)
-- [?] Personalized ranking based on user interaction history
-- [?] Distributed search across shards with result merging
-- [?] Autocomplete / type-ahead query suggestions
+- [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
+- [I] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
+- [I] Personalized ranking based on user interaction history (Issue: #2279)
+- [I] Distributed search across shards with result merging (Issue: #2280)
+- [I] Autocomplete / type-ahead query suggestions (Issue: #2281)
 
 ## Implementation Phases
 

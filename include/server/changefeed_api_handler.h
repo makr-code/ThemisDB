@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.h                           ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:55                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-02-22 08:22:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,13 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     149                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -110,6 +103,35 @@ public:
      * @return HTTP response with update status
      */
     http::response<http::string_body> handleRetention(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /changefeed/retention request
+     *
+     * Returns the current retention status (log size, oldest event age,
+     * next scheduled cleanup time, compact_on_cleanup flag).
+     */
+    http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle PUT /changefeed/retention request
+     *
+     * Updates the retention policy at runtime.  Accepted JSON fields:
+     *   enabled (bool), max_age_hours (uint32), max_event_count (uint64),
+     *   max_size_bytes (uint64), cleanup_interval_minutes (uint32),
+     *   compact_on_cleanup (bool)
+     */
+    http::response<http::string_body> handleRetentionPut(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle POST /changefeed/compact request
+     *
+     * Triggers a key-based log compaction: removes superseded entries,
+     * keeping only the latest event per document key.
+     *
+     * @param req HTTP request
+     * @return HTTP response with compaction statistics
+     */
+    http::response<http::string_body> handleCompact(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
