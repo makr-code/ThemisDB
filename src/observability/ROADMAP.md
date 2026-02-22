@@ -20,7 +20,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
-- [!] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026) (Issue: #2418)
+- [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026) (Issue: #2418)
 - [I] Adaptive sampling rate for high-frequency spans (Target: Q3 2026) (Issue: #1963)
 
 ## Planned Features 📋
@@ -55,7 +55,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ### Phase 2: Native OTLP Export & Continuous Profiling (Status: In Progress 🚧)
 - [?] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
-- [~] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
+- [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
 - [ ] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 
 ### Phase 3: ML-Augmented & Distributed Observability (Status: Planned 📋)
