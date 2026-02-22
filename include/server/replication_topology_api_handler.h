@@ -50,8 +50,9 @@ namespace server {
  *   - Auto-refresh every 5 seconds via JavaScript fetch
  *
  * All JSON endpoints return structured data suitable for programmatic
- * consumption.  Authentication is enforced on JSON API endpoints when an
- * AuthMiddleware is configured.
+ * consumption.  The `auth` parameter is stored for future per-route access
+ * control; currently the same open-access policy as the geo topology handler
+ * applies (auth is delegated to the central HttpServer middleware layer).
  */
 class ReplicationTopologyApiHandler {
 public:
