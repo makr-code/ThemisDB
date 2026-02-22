@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON import/export and ST_BUFFER are still in progress.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete; ST_BUFFER is still in progress.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -17,18 +17,18 @@
 - [x] Structured audit log for GPU/CPU backend switches
 
 ## In Progress 🚧
-- [I] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
+- [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
 - [I] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
 - [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
+- [P] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [I] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
-- [I] R-tree index integration for CPU backend (Issue: #1741)
+- [P] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)

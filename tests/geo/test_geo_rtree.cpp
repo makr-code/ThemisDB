@@ -51,7 +51,10 @@ protected:
 
 TEST_F(GeoRTreeTest, DefaultConstructor_EmptyIndex) {
     EXPECT_EQ(tree_.size(), 0u);
-    EXPECT_EQ(tree_.memoryBytes(), 0u);   // or very small overhead
+    // memoryBytes() includes Impl struct overhead even when empty;
+    // require it is non-zero (struct overhead) but below an unreasonable ceiling.
+    EXPECT_GT(tree_.memoryBytes(), 0u);
+    EXPECT_LT(tree_.memoryBytes(), 1024u);
 }
 
 // ── Insert ────────────────────────────────────────────────────────────────
