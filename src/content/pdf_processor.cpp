@@ -168,28 +168,34 @@ ExtractionResult PDFProcessor::extract(
         
         // Extract text from each page
         std::ostringstream all_text;
-        int max_pages = config_.max_pages > 0 
-            ? std::min(config_.max_pages, doc->pages()) 
-            : doc->pages();
-        
-        for (int i = 0; i < max_pages; ++i) {
-            std::unique_ptr<poppler::page> page(doc->create_page(i));
-            if (!page) continue;
-            
-            // Get page text
-            poppler::byte_array page_text_bytes = page->text().to_utf8();
-            std::string page_text(page_text_bytes.data(), page_text_bytes.size());
-            
-            if (!page_text.empty()) {
-                all_text << page_text;
-                if (i + 1 < max_pages) {
+
+        // Use extractPages() so layout preservation and text_positions are handled uniformly
+        auto page_infos = extractPages(blob);
+
+        json pages_array = json::array();
+        for (size_t i = 0; i < page_infos.size(); ++i) {
+            const auto& pi = page_infos[i];
+
+            if (!pi.text.empty()) {
+                all_text << pi.text;
+                if (i + 1 < page_infos.size()) {
                     all_text << "\n\n--- Page " << (i + 2) << " ---\n\n";
                 }
             }
+
+            json page_obj;
+            page_obj["page"] = pi.page_number;
+            page_obj["text"] = pi.text;
+            page_obj["width"] = pi.width;
+            page_obj["height"] = pi.height;
+            page_obj["rotation"] = pi.rotation;
+            pages_array.push_back(std::move(page_obj));
         }
         
         result.text = all_text.str();
-        result.metadata["extracted_pages"] = max_pages;
+        result.metadata["extracted_pages"] = static_cast<int>(page_infos.size());
+        result.metadata["pages"] = pages_array;
+        result.metadata["layout_preserved"] = config_.maintain_layout;
         result.metadata["token_count"] = countTokens(result.text);
         result.ok = true;
         
@@ -221,6 +227,7 @@ ExtractionResult PDFProcessor::extract(
     result.text = extracted.str();
     result.metadata["extraction_method"] = "basic_regex";
     result.metadata["note"] = "Full PDF extraction requires building with -DTHEMIS_ENABLE_PDF=ON";
+    result.metadata["layout_preserved"] = false;
     result.metadata["token_count"] = countTokens(result.text);
     result.ok = true;
 #endif
@@ -316,9 +323,15 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
         PDFPageInfo info;
         info.page_number = i + 1;
         
-        // Get text
-        poppler::byte_array text_bytes = page->text().to_utf8();
-        info.text = std::string(text_bytes.data(), text_bytes.size());
+        if (config_.maintain_layout) {
+            // Layout-preserving extraction: use text_list() to get positioned text boxes
+            auto text_boxes = page->text_list();
+            info.text = assembleTextWithLayout(text_boxes, info.text_positions);
+        } else {
+            // Simple text extraction (reading order from poppler)
+            poppler::byte_array text_bytes = page->text().to_utf8();
+            info.text = std::string(text_bytes.data(), text_bytes.size());
+        }
         
         // Get dimensions
         poppler::rectf rect = page->page_rect();
@@ -332,6 +345,101 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
 
     return pages;
 }
+
+#ifdef THEMIS_ENABLE_PDF
+// static
+std::string PDFProcessor::assembleTextWithLayout(
+    const std::vector<poppler::text_box>& boxes,
+    std::vector<std::pair<float, float>>& positions_out
+) {
+    if (boxes.empty()) {
+        return {};
+    }
+
+    // Collect text boxes with their bounding box coordinates
+    struct Item {
+        float x, y, w, h;
+        std::string text;
+        bool has_space_after;
+    };
+
+    std::vector<Item> items;
+    items.reserve(boxes.size());
+
+    for (const auto& box : boxes) {
+        poppler::byte_array bytes = box.text().to_utf8();
+        std::string text(bytes.data(), bytes.size());
+        if (text.empty()) continue;
+
+        poppler::rectf r = box.bbox();
+        items.push_back({
+            static_cast<float>(r.x()),
+            static_cast<float>(r.y()),
+            static_cast<float>(r.width()),
+            static_cast<float>(r.height()),
+            std::move(text),
+            box.has_space_after()
+        });
+    }
+
+    if (items.empty()) {
+        return {};
+    }
+
+    // Sort top-to-bottom, then left-to-right within the same visual line.
+    // Two items are on the same line when their y-distance is less than
+    // 40% of the average of their heights (accounts for baseline variation).
+    std::sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+        float line_thr = (a.h + b.h) * 0.4f;
+        if (std::abs(a.y - b.y) < line_thr) {
+            return a.x < b.x;
+        }
+        return a.y < b.y;
+    });
+
+    // Store (x, y) positions for each item
+    positions_out.reserve(positions_out.size() + items.size());
+    for (const auto& item : items) {
+        positions_out.push_back({item.x, item.y});
+    }
+
+    // Assemble text inserting spaces and newlines based on position
+    std::ostringstream oss;
+    float prev_y = items[0].y;
+    float prev_h = items[0].h;
+
+    oss << items[0].text;
+    if (items[0].has_space_after) {
+        oss << ' ';
+    }
+
+    for (std::size_t i = 1; i < items.size(); ++i) {
+        const Item& cur = items[i];
+        float dy = std::abs(cur.y - prev_y);
+        float line_thr = (cur.h + prev_h) * 0.4f;
+
+        if (dy >= line_thr) {
+            // New line: use a blank line for paragraph-sized vertical gaps
+            if (dy >= prev_h * 1.5f) {
+                oss << "\n\n";
+            } else {
+                oss << '\n';
+            }
+        }
+        // (On the same line, spaces are handled by has_space_after above)
+
+        oss << cur.text;
+        if (cur.has_space_after) {
+            oss << ' ';
+        }
+
+        prev_y = cur.y;
+        prev_h = cur.h;
+    }
+
+    return oss.str();
+}
+#endif
 
 std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo>& pages) {
     std::ostringstream oss;
