@@ -19,7 +19,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [x] AQL integration for metadata queries
 
 ## In Progress 🚧
-- [I] Schema diff and migration script generation (Target: Q2 2026) (Issue: #1946)
+- [P] Schema diff and migration script generation (Target: Q2 2026) (Issue: #1946)
 - [I] Real-time schema change notifications via changefeeds (Target: Q2 2026) (Issue: #1947)
 - [I] Adaptive TTL based on table mutation rate (Target: Q3 2026) (Issue: #1948)
 
@@ -54,7 +54,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [x] Lazy loading, incremental updates, and AQL integration
 
 ### Phase 2: Live Schema Changes & Adaptive Caching (Status: In Progress 🚧)
-- [~] Schema diff and migration script generation (Target: Q2 2026)
+- [x] Schema diff and migration script generation (Target: Q2 2026)
 - [~] Real-time schema change notifications via changefeeds (Target: Q2 2026)
 - [ ] Adaptive TTL based on table mutation rate (Target: Q3 2026)
 
