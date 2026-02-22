@@ -60,8 +60,8 @@ namespace analytics {
 namespace {
 
 std::string genId() {
-    static std::mt19937_64 rng{std::random_device{}()};
-    static std::uniform_int_distribution<uint64_t> dist;
+    thread_local std::mt19937_64 rng{std::random_device{}()};
+    thread_local std::uniform_int_distribution<uint64_t> dist;
     uint64_t a = dist(rng), b = dist(rng);
     char buf[37];
     std::snprintf(buf, sizeof(buf),
