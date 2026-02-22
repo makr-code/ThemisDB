@@ -756,3 +756,15 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 *Last Updated: February 2026*  
 *Module Version: v1.0.0 (Reference Implementation)*  
 *Status: Stub/Template - Production Implementation Pending*
+
+## Scientific References
+
+1. DeWitt, D., & Gray, J. (1992). **Parallel Database Systems: The Future of High Performance Database Systems**. *Communications of the ACM*, 35(6), 85–98. https://doi.org/10.1145/129888.129894
+
+2. Boncz, P., Neumann, T., & Erling, O. (2013). **TPC-H Analyzed: Hidden Messages and Lessons Learned from an Influential Benchmark**. *Proceedings of the 5th TPC Technology Conference (TPCTC)*, LNCS 8169, 61–76. https://doi.org/10.1007/978-3-319-04936-6_5
+
+3. Stonebraker, M., Madden, S., Abadi, D., Harizopoulos, S., Hachem, N., & Helland, P. (2007). **The End of an Architectural Era (It's Time for a Complete Rewrite)**. *Proceedings of the 33rd International Conference on Very Large Data Bases (VLDB)*, 1150–1160. https://dl.acm.org/doi/10.5555/1325851.1325981
+
+4. Leis, V., Kemper, A., & Neumann, T. (2013). **The Adaptive Radix Tree: ARTful Indexing for Main-Memory Databases**. *Proceedings of the 2013 IEEE International Conference on Data Engineering (ICDE)*, 38–49. https://doi.org/10.1109/ICDE.2013.6544812
+
+5. Raasveldt, M., & Mühleisen, H. (2019). **DuckDB: an Embeddable Analytical Database**. *Proceedings of the 2019 ACM SIGMOD International Conference on Management of Data*, 1981–1984. https://doi.org/10.1145/3299869.3320212

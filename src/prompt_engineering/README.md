@@ -292,3 +292,15 @@ All components are individually tested and the integration facade wires them tog
 Known limitations (by design):
   - Full LLM-based evaluation in `SelfImprovementOrchestrator::optimizePrompt()` requires callers to execute the prompt through their LLM and supply a custom `eval_fn`; the built-in fallback uses `PromptEvaluator` for structural similarity as a proxy.
   - Background worker optimization interval defaults to 1 hour; tune via `IntegrationConfig::background_worker_interval`.
+
+## Scientific References
+
+1. White, J., Fu, Q., Hays, S., Sandborn, M., Olea, C., Gilbert, H., … Schmidt, D. C. (2023). **A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT**. *arXiv preprint*. https://arxiv.org/abs/2302.11382
+
+2. Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., … Zhou, D. (2022). **Chain-of-Thought Prompting Elicits Reasoning in Large Language Models**. *Advances in Neural Information Processing Systems (NeurIPS)*, 35. https://arxiv.org/abs/2201.11903
+
+3. Zhou, Y., Muresanu, A. I., Han, Z., Paster, K., Pitis, S., Chan, H., & Ba, J. (2022). **Large Language Models Are Human-Level Prompt Engineers**. *Proceedings of ICLR 2023*. https://arxiv.org/abs/2211.01910
+
+4. Rubin, O., Herzig, J., & Berant, J. (2022). **Learning To Retrieve Prompts for In-Context Learning**. *Proceedings of NAACL-HLT 2022*, 1523–1535. https://doi.org/10.18653/v1/2022.naacl-main.191
+
+5. Lester, B., Al-Rfou, R., & Constant, N. (2021). **The Power of Scale for Parameter-Efficient Prompt Tuning**. *Proceedings of EMNLP 2021*, 3045–3059. https://doi.org/10.18653/v1/2021.emnlp-main.243

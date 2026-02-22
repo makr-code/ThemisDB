@@ -1011,3 +1011,15 @@ find_package(CUDAToolkit QUIET)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss/wiki)
 - [Product Quantization Paper](https://hal.inria.fr/inria-00514462) - Jégou et al. (2011)
 - [R-tree Paper](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf) - Guttman (1984)
+
+## Scientific References
+
+1. Malkov, Y. A., & Yashunin, D. A. (2020). **Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs**. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 42(4), 824–836. https://doi.org/10.1109/TPAMI.2018.2889473
+
+2. Guttman, A. (1984). **R-Trees: A Dynamic Index Structure for Spatial Searching**. *Proceedings of the 1984 ACM SIGMOD International Conference on Management of Data*, 47–57. https://doi.org/10.1145/602259.602266
+
+3. Bayer, R., & McCreight, E. (1972). **Organization and Maintenance of Large Ordered Indexes**. *Acta Informatica*, 1(3), 173–189. https://doi.org/10.1007/BF00288683
+
+4. Beckmann, N., Kriegel, H.-P., Schneider, R., & Seeger, B. (1990). **The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles**. *Proceedings of the 1990 ACM SIGMOD International Conference on Management of Data*, 322–331. https://doi.org/10.1145/93597.98741
+
+5. Johnson, J., Douze, M., & Jégou, H. (2019). **Billion-Scale Similarity Search with GPUs**. *IEEE Transactions on Big Data*, 7(3), 535–547. https://doi.org/10.1109/TBDATA.2019.2921572

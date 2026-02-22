@@ -268,3 +268,15 @@ if (schema.has_value()) {
 - [Index Module](../index/README.md) - Index metadata
 - [Query Module](../query/README.md) - Query optimization
 - [Architecture Guide](../../ARCHITECTURE.md) - Metadata architecture
+
+## Scientific References
+
+1. ISO/IEC. (2013). **Information Technology – Metadata Registries (MDR) – Part 1: Framework**. ISO/IEC 11179-1:2013. https://www.iso.org/standard/61932.html
+
+2. W3C. (2013). **PROV-O: The PROV Ontology**. W3C Recommendation. https://www.w3.org/TR/prov-o/
+
+3. Bernstein, P. A., & Melnik, S. (2007). **Model Management 2.0: Manipulating Richer Mappings**. *Proceedings of the 2007 ACM SIGMOD International Conference on Management of Data*, 1–12. https://doi.org/10.1145/1247480.1247482
+
+4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4
+
+5. Gray, J., Bosworth, A., Layman, A., & Pirahesh, H. (1997). **Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals**. *Data Mining and Knowledge Discovery*, 1, 29–53. https://doi.org/10.1023/A:1009726021843

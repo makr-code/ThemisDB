@@ -1038,3 +1038,15 @@ bool loadLoRAAdapter(const std::string& path) {
 - [Security Configuration Guide](../../docs/security-config.md)
 - [Compliance Documentation](../../docs/compliance/)
 - [Key Management Guide](../../docs/key-management.md)
+
+## Scientific References
+
+1. Diffie, W., & Hellman, M. E. (1976). **New Directions in Cryptography**. *IEEE Transactions on Information Theory*, 22(6), 644–654. https://doi.org/10.1109/TIT.1976.1055638
+
+2. National Institute of Standards and Technology. (2001). **Advanced Encryption Standard (AES)**. FIPS Publication 197. https://doi.org/10.6028/NIST.FIPS.197
+
+3. Rivest, R. L., Shamir, A., & Adleman, L. (1978). **A Method for Obtaining Digital Signatures and Public-Key Cryptosystems**. *Communications of the ACM*, 21(2), 120–126. https://doi.org/10.1145/359340.359342
+
+4. Saltzer, J. H., & Schroeder, M. D. (1975). **The Protection of Information in Computer Systems**. *Proceedings of the IEEE*, 63(9), 1278–1308. https://doi.org/10.1109/PROC.1975.9939
+
+5. Barker, E., & Roginsky, A. (2019). **Transitioning the Use of Cryptographic Algorithms and Key Lengths**. NIST Special Publication 800-131A Rev. 2. https://doi.org/10.6028/NIST.SP.800-131Ar2

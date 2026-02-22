@@ -338,3 +338,15 @@ results.erase(std::remove_if(results.begin(), results.end(),
 - [LLM Module](../llm/README.md) - Embedding generation
 - [Utils Module](../utils/README.md) - Text processing utilities
 - [Architecture Guide](../../ARCHITECTURE.md) - Search architecture
+
+## Scientific References
+
+1. Robertson, S., & Zaragoza, H. (2009). **The Probabilistic Relevance Framework: BM25 and Beyond**. *Foundations and Trends in Information Retrieval*, 3(4), 333–389. https://doi.org/10.1561/1500000019
+
+2. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … Polosukhin, I. (2017). **Attention Is All You Need**. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 5998–6008. https://arxiv.org/abs/1706.03762
+
+3. Karpukhin, V., Oğuz, B., Min, S., Lewis, P., Wu, L., Edunov, S., … Yih, W.-t. (2020). **Dense Passage Retrieval for Open-Domain Question Answering**. *Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)*, 6769–6781. https://doi.org/10.18653/v1/2020.emnlp-main.550
+
+4. Manning, C. D., Raghavan, P., & Schütze, H. (2008). **Introduction to Information Retrieval**. Cambridge University Press. https://doi.org/10.1017/CBO9780511809071
+
+5. Luan, Y., Eisenstein, J., Toutanova, K., & Collins, M. (2021). **Sparse, Dense, and Attentional Representations for Text Retrieval**. *Transactions of the Association for Computational Linguistics*, 9, 329–345. https://doi.org/10.1162/tacl_a_00369

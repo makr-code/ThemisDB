@@ -194,3 +194,15 @@ For detailed implementation documentation, see:
 - [Replication Module](../replication/README.md) - HLC and multi-master support
 - [Storage Module](../storage/README.md) - Underlying storage layer
 - [Query Module](../query/README.md) - Query execution integration
+
+## Scientific References
+
+1. Jensen, C. S., & Snodgrass, R. T. (1999). **Temporal Data Management**. *IEEE Transactions on Knowledge and Data Engineering*, 11(1), 36–44. https://doi.org/10.1109/69.755613
+
+2. Snodgrass, R. T. (1987). **The Temporal Query Language TQuel**. *ACM Transactions on Database Systems*, 12(2), 247–298. https://doi.org/10.1145/22952.22956
+
+3. Kulkarni, K., & Michels, J.-E. (2012). **Temporal Features in SQL:2011**. *ACM SIGMOD Record*, 41(3), 34–43. https://doi.org/10.1145/2380776.2380786
+
+4. Lamport, L. (1978). **Time, Clocks, and the Ordering of Events in a Distributed System**. *Communications of the ACM*, 21(7), 558–565. https://doi.org/10.1145/359545.359563
+
+5. Dalgaard, P., & Jensen, C. S. (2001). **On the Representation of Valid Time in a Temporal Relational Database**. *VLDB Journal*, 10(2–3), 188–205. https://doi.org/10.1007/s007780100041

@@ -585,6 +585,8 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
         std::lock_guard<std::mutex> lock(requests_mutex_);
         
         for (auto& [id, tracked] : tracked_requests_) {
+            // Skip requests that are already cancelled
+            if (tracked->cancel_token->load(std::memory_order_acquire)) continue;
             if (now >= tracked->deadline) {
                 timed_out.push_back(id);
             }

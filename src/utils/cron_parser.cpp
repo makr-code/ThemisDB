@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     625                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +21,7 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 #include <ctime>
 #include <iomanip>
 
@@ -433,6 +434,88 @@ std::string CronExpression::describe() const {
     return oss.str();
 }
 
+// ===== Name Alias Helpers =====
+
+// Translate a month name to its numeric equivalent (1-12).
+// Returns -1 if not a known alias.
+static int monthNameToNumber(const std::string& name) {
+    // Case-insensitive comparison via a local uppercase copy
+    std::string upper;
+    upper.reserve(name.size());
+    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+
+    static const std::pair<const char*, int> kMonthNames[] = {
+        {"JAN", 1}, {"FEB", 2}, {"MAR", 3}, {"APR", 4},
+        {"MAY", 5}, {"JUN", 6}, {"JUL", 7}, {"AUG", 8},
+        {"SEP", 9}, {"OCT", 10}, {"NOV", 11}, {"DEC", 12},
+        // Long-form aliases
+        {"JANUARY", 1}, {"FEBRUARY", 2}, {"MARCH", 3}, {"APRIL", 4},
+        {"MAY", 5}, {"JUNE", 6}, {"JULY", 7}, {"AUGUST", 8}, {"SEPTEMBER", 9},
+        {"OCTOBER", 10}, {"NOVEMBER", 11}, {"DECEMBER", 12}
+    };
+    for (const auto& kv : kMonthNames) {
+        if (upper == kv.first) return kv.second;
+    }
+    return -1;
+}
+
+// Translate a weekday name to its numeric equivalent (0=Sunday … 6=Saturday).
+// Returns -1 if not a known alias.
+static int weekdayNameToNumber(const std::string& name) {
+    std::string upper;
+    upper.reserve(name.size());
+    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+
+    static const std::pair<const char*, int> kWeekdayNames[] = {
+        {"SUN", 0}, {"MON", 1}, {"TUE", 2}, {"WED", 3},
+        {"THU", 4}, {"FRI", 5}, {"SAT", 6},
+        // Long-form aliases
+        {"SUNDAY", 0}, {"MONDAY", 1}, {"TUESDAY", 2}, {"WEDNESDAY", 3},
+        {"THURSDAY", 4}, {"FRIDAY", 5}, {"SATURDAY", 6}
+    };
+    for (const auto& kv : kWeekdayNames) {
+        if (upper == kv.first) return kv.second;
+    }
+    return -1;
+}
+
+// Parse a single token that may be either an integer or a name alias.
+// Returns std::nullopt on failure.
+static std::optional<int> parseToken(const std::string& token,
+                                     int min_value, int max_value) {
+    if (token.empty()) return std::nullopt;
+
+    // Try integer first
+    bool all_digits = true;
+    for (char c : token) {
+        if (!std::isdigit(static_cast<unsigned char>(c))) { all_digits = false; break; }
+    }
+    if (all_digits) {
+        try {
+            int v = std::stoi(token);
+            if (v < min_value || v > max_value) return std::nullopt;
+            return v;
+        } catch (...) {
+            return std::nullopt;
+        }
+    }
+
+    // Try context-appropriate name aliases only:
+    //   month context  → min=1,  max=12
+    //   weekday context→ min=0,  max=6
+    // Other fields (minutes, hours, days) do not have name aliases.
+    if (min_value == 1 && max_value == 12) {
+        int v = monthNameToNumber(token);
+        if (v != -1) return v;           // already within [1,12] by construction
+    }
+    if (min_value == 0 && max_value == 6) {
+        int v = weekdayNameToNumber(token);
+        if (v != -1) return v;           // already within [0,6] by construction
+    }
+
+    return std::nullopt;
+}
+
 // ===== Field Parsing =====
 
 std::optional<std::set<int>> CronExpression::parseField(
@@ -441,18 +524,20 @@ std::optional<std::set<int>> CronExpression::parseField(
     if (field.empty()) {
         return std::nullopt;
     }
-    
-    // Check for step syntax first (contains '/')
+
+    // Check for list syntax first (contains ',') so that complex items
+    // like "1,3-5,*/10" are handled element-by-element.
+    if (field.find(',') != std::string::npos) {
+        return parseList(field, min_value, max_value);
+    }
+
+    // Check for step syntax (contains '/')
     if (field.find('/') != std::string::npos) {
         return parseStep(field, min_value, max_value);
     }
     
-    // Check for list syntax (contains ',')
-    if (field.find(',') != std::string::npos) {
-        return parseList(field, min_value, max_value);
-    }
-    
-    // Check for range syntax (contains '-')
+    // Check for range syntax (contains '-') — but only after name-alias check
+    // so that "JAN-MAR" is handled correctly (names contain no '-').
     if (field.find('-') != std::string::npos) {
         return parseRange(field, min_value, max_value);
     }
@@ -462,16 +547,10 @@ std::optional<std::set<int>> CronExpression::parseField(
         return parseWildcard(min_value, max_value);
     }
     
-    // Parse as single number
-    try {
-        int value = std::stoi(field);
-        if (value < min_value || value > max_value) {
-            return std::nullopt;
-        }
-        return std::set<int>{value};
-    } catch (...) {
-        return std::nullopt;
-    }
+    // Parse as single token (number or name alias)
+    auto v = parseToken(field, min_value, max_value);
+    if (!v) return std::nullopt;
+    return std::set<int>{*v};
 }
 
 std::optional<std::set<int>> CronExpression::parseWildcard(int min_value, int max_value) {
@@ -490,24 +569,20 @@ std::optional<std::set<int>> CronExpression::parseRange(
         return std::nullopt;
     }
     
-    try {
-        int start = std::stoi(range.substr(0, dash_pos));
-        int end = std::stoi(range.substr(dash_pos + 1));
-        
-        if (start < min_value || start > max_value ||
-            end < min_value || end > max_value ||
-            start > end) {
-            return std::nullopt;
-        }
-        
-        std::set<int> result;
-        for (int i = start; i <= end; ++i) {
-            result.insert(i);
-        }
-        return result;
-    } catch (...) {
-        return std::nullopt;
+    auto start_opt = parseToken(range.substr(0, dash_pos), min_value, max_value);
+    auto end_opt   = parseToken(range.substr(dash_pos + 1), min_value, max_value);
+
+    if (!start_opt || !end_opt) return std::nullopt;
+
+    int start = *start_opt;
+    int end   = *end_opt;
+    if (start > end) return std::nullopt;
+
+    std::set<int> result;
+    for (int i = start; i <= end; ++i) {
+        result.insert(i);
     }
+    return result;
 }
 
 std::optional<std::set<int>> CronExpression::parseList(
@@ -518,15 +593,23 @@ std::optional<std::set<int>> CronExpression::parseList(
     std::string item;
     
     while (std::getline(iss, item, ',')) {
-        try {
-            int value = std::stoi(item);
-            if (value < min_value || value > max_value) {
-                return std::nullopt;
-            }
-            result.insert(value);
-        } catch (...) {
-            return std::nullopt;
+        if (item.empty()) return std::nullopt;
+
+        // Each list item may be a step, range, wildcard, or single token.
+        std::optional<std::set<int>> item_values;
+        if (item.find('/') != std::string::npos) {
+            item_values = parseStep(item, min_value, max_value);
+        } else if (item.find('-') != std::string::npos) {
+            item_values = parseRange(item, min_value, max_value);
+        } else if (item == "*") {
+            item_values = parseWildcard(min_value, max_value);
+        } else {
+            auto v = parseToken(item, min_value, max_value);
+            if (v) item_values = std::set<int>{*v};
         }
+
+        if (!item_values) return std::nullopt;
+        result.insert(item_values->begin(), item_values->end());
     }
     
     return result.empty() ? std::nullopt : std::optional<std::set<int>>(result);
@@ -571,8 +654,12 @@ std::optional<std::set<int>> CronExpression::parseStep(
                 range_values.insert(i);
             }
         } else {
-            // Single number with step (e.g., 5/10) - not standard, treat as error
-            return std::nullopt;
+            // start/step — starting at 'start', step by 'step_value' up to max_value
+            auto start_opt = parseToken(range_part, min_value, max_value);
+            if (!start_opt) return std::nullopt;
+            for (int i = *start_opt; i <= max_value; i += step_value) {
+                range_values.insert(i);
+            }
         }
         
         return range_values.empty() ? std::nullopt : std::optional<std::set<int>>(range_values);
