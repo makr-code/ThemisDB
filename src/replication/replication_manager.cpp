@@ -2542,6 +2542,70 @@ MultiMasterReplicationManager::Stats MultiMasterReplicationManager::getStats() c
     return s;
 }
 
+MultiMasterReplicationManager::TopologySnapshot
+MultiMasterReplicationManager::getTopologySnapshot() const {
+    TopologySnapshot snapshot;
+    snapshot.local_node_id    = config_.node_id;
+    snapshot.replication_mode = "MULTI_MASTER";
+    snapshot.max_lag_ms       = 0;
+
+    // Helper: convert MMNodeState enum to string
+    auto stateToStr = [](MMNodeState s) -> std::string {
+        switch (s) {
+            case MMNodeState::ACTIVE:       return "ACTIVE";
+            case MMNodeState::SYNCING:      return "SYNCING";
+            case MMNodeState::PARTITIONED:  return "PARTITIONED";
+            case MMNodeState::RECOVERING:   return "RECOVERING";
+            case MMNodeState::OFFLINE:      return "OFFLINE";
+            default:                        return "UNKNOWN";
+        }
+    };
+
+    // Add the local node
+    {
+        TopologyNode local;
+        local.node_id            = config_.node_id;
+        local.endpoint           = "";
+        local.datacenter         = config_.datacenter;
+        local.region             = config_.region;
+        local.state              = running_.load() ? "ACTIVE" : "OFFLINE";
+        local.replication_lag_ms = 0;
+        local.is_local           = true;
+        snapshot.nodes.push_back(std::move(local));
+    }
+
+    // Add peer nodes
+    std::vector<MMPeerInfo> peers;
+    {
+        std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+        peers.reserve(peers_.size());
+        for (const auto& kv : peers_) {
+            peers.push_back(kv.second);
+        }
+    }
+
+    for (const auto& peer : peers) {
+        TopologyNode node;
+        node.node_id            = peer.node_id;
+        node.endpoint           = peer.endpoint;
+        node.datacenter         = peer.datacenter;
+        node.region             = peer.region;
+        node.state              = stateToStr(peer.state);
+        node.replication_lag_ms = peer.replication_lag_ms;
+        node.is_local           = false;
+        if (peer.replication_lag_ms > snapshot.max_lag_ms) {
+            snapshot.max_lag_ms = peer.replication_lag_ms;
+        }
+        snapshot.nodes.push_back(std::move(node));
+
+        // Bidirectional peer edges (multi-master: both directions replicate)
+        snapshot.edges.push_back({config_.node_id, peer.node_id, "PEER"});
+        snapshot.edges.push_back({peer.node_id, config_.node_id, "PEER"});
+    }
+
+    return snapshot;
+}
+
 std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
     auto s = getStats();
     std::ostringstream oss;

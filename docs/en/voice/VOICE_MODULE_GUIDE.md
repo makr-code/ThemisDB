@@ -19,6 +19,7 @@ The ThemisDB Voice Module provides a full production-ready speech pipeline cover
 | 9 | `VoiceAccessibility` | Closed captions (VTT, SRT, plain text, HTML, JSON) |
 | 10 | `VoiceModelCache` | LRU model cache with memory limits and auto-eviction |
 | 10 | `VoiceBatchProcessor` | Batch audio processing, WER, PESQ-like quality metrics |
+| 2b | `WakeWordDetector` | Hands-free activation via configurable wake-word phrases |
 
 ---
 
@@ -284,6 +285,78 @@ auto model = cache.get("stt-en-v1", "/models/stt-en.bin", "stt");
 if (model) {
     use_model(model->handle);
 }
+```
+
+### Wake-Word Detection
+
+The `WakeWordDetector` enables hands-free activation: audio is continuously scanned for a
+keyword phrase; when detected, the full voice pipeline is triggered.
+
+```cpp
+#include "voice/wake_word_detector.h"
+
+themis::voice::WakeWordConfig ww_cfg;
+ww_cfg.sensitivity        = 0.5f;   // 0 = permissive, 1 = strict
+ww_cfg.buffer_length_ms   = 1500;   // Rolling audio window
+ww_cfg.cooldown_ms        = 1000;   // Time between re-detections (ms)
+ww_cfg.vad_min_energy     = 0.005f; // RMS gate – silence is skipped for free
+ww_cfg.continuous_listen  = true;   // Keep listening after a hit
+
+themis::voice::WakeWordDetector detector(ww_cfg);
+detector.addWakeWord("hey-themis", "hey themis");
+detector.addWakeWord("themis",     "themis");
+
+detector.setDetectionCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    std::cout << "Wake word fired: " << r.wake_word_id
+              << "  confidence=" << r.confidence << "\n";
+});
+
+// Microphone loop — feed raw 16-bit PCM chunks
+while (mic.isOpen()) {
+    auto chunk = mic.read(160);          // e.g. 10 ms @ 16 kHz
+    auto res   = detector.processAudioChunk(chunk);
+    if (res.detected) {
+        start_voice_command_pipeline();
+    }
+}
+```
+
+Integration into `VoiceAssistant` via `detectWakeWord()` / `setWakeWordCallback()`:
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_wake_word            = true;
+cfg.wake_word_config.sensitivity = 0.5f;
+cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+themis::voice::VoiceAssistant va(cfg);
+va.setWakeWordCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    // Trigger UI or pipeline here
+});
+
+// Per microphone chunk:
+va.detectWakeWord(pcm_chunk);
+```
+
+**Detection pipeline (two stages):**
+
+| Stage | Description | CPU cost |
+|-------|-------------|----------|
+| VAD gate | RMS energy vs. `vad_min_energy` | ~0% in silence |
+| Keyword scoring | Phrase density × centroid proxy × crest factor | < 0.1 ms/chunk |
+
+**Statistics:**
+
+```cpp
+auto stats = detector.getStatistics();
+// {
+//   "total_chunks_processed": 84000,
+//   "total_detections": 12,
+//   "registered_wake_words": 2,
+//   "buffer_samples": 24000
+// }
 ```
 
 ---
