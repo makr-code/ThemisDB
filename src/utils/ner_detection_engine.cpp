@@ -490,14 +490,6 @@ bool NERDetectionEngine::isCapitalized(const std::string& word) {
     return false;
 }
 
-bool NERDetectionEngine::isAllUpper(const std::string& word) {
-    if (word.size() < 2) return false;
-    for (unsigned char c : word) {
-        if (std::isalpha(c) && !std::isupper(c)) return false;
-    }
-    return true;
-}
-
 std::string NERDetectionEngine::toLower(const std::string& s) {
     std::string out = s;
     std::transform(out.begin(), out.end(), out.begin(),

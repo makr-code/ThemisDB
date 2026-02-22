@@ -131,7 +131,6 @@ private:
 
     // Capitalisation helpers
     static bool isCapitalized(const std::string& word);
-    static bool isAllUpper(const std::string& word);
     static std::string toLower(const std::string& s);
 
     // Build a PIIFinding spanning tokens[first..last] (inclusive)

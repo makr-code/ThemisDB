@@ -127,35 +127,70 @@ detection_engines:
           - "uri"
         enabled: true
 
-  # NER-based Named Entity Recognition (optional, requires MITIE or ONNX Runtime)
+  # NER-based Named Entity Recognition (rule-based gazetteer, no external ML dependency)
   - type: "ner"
-    enabled: false
-    description: "Named Entity Recognition for person names, locations, organizations"
-    
-    # NER-specific configuration
+    enabled: true
+    version: "1.0.0"
+    description: "Rule-based NER for person names, organizations, and locations (no ML dependency)"
+
+    # NER-specific settings
     settings:
-      model_path: "models/pii_ner.dat"  # Path to MITIE .dat file or ONNX .onnx file
-      model_type: "mitie"  # Options: "mitie", "onnx_bert", "onnx_roberta"
-      confidence_threshold: 0.85
-      enable_caching: true
-      batch_size: 32  # For ONNX models
-    
-    # Entity types to detect
-    entity_types:
-      - name: "PERSON"
-        pii_type: "PERSON_NAME"
-        redaction_mode: "strict"
-        enabled: true
-      
-      - name: "LOCATION"
-        pii_type: "LOCATION"
-        redaction_mode: "partial"
-        enabled: false  # Often not PII, configurable
-      
-      - name: "ORGANIZATION"
-        pii_type: "ORGANIZATION"
-        redaction_mode: "none"
-        enabled: false
+      min_confidence: 0.70
+      default_redaction_mode: "strict"
+
+    # Honorific prefixes that introduce a person name (case-insensitive)
+    honorifics:
+      - "Mr."
+      - "Mrs."
+      - "Ms."
+      - "Miss"
+      - "Dr."
+      - "Prof."
+      - "Sir"
+      - "Dame"
+      - "Rev."
+      - "Capt."
+      - "Col."
+      - "Gen."
+      - "Gov."
+      - "Amb."
+
+    # Legal-entity suffixes that mark an organisation (case-insensitive)
+    org_suffixes:
+      - "Inc."
+      - "Corp."
+      - "Ltd."
+      - "LLC"
+      - "LLP"
+      - "plc"
+      - "GmbH"
+      - "AG"
+      - "SA"
+      - "NV"
+      - "BV"
+      - "AB"
+      - "Foundation"
+      - "Institute"
+      - "Group"
+      - "Holdings"
+      - "Partners"
+      - "Associates"
+
+    # Prepositions whose immediately following capitalised word is likely a location
+    location_prepositions:
+      - "in"
+      - "at"
+      - "from"
+      - "near"
+      - "to"
+      - "via"
+      - "through"
+
+    # Redaction modes per entity type
+    redaction_modes:
+      PERSON_NAME: "strict"
+      ORGANIZATION: "partial"
+      LOCATION: "partial"
   
   # Embedding-based semantic detection (optional, requires fastText or word2vec)
   - type: "embedding"
