@@ -402,6 +402,28 @@ TEST(IngestionManagerApiTest, DatabaseSourceStillUnsupported) {
     EXPECT_TRUE(found_error);
 }
 
+TEST(IngestionManagerApiTest, CursorModeViaSourceConfigOptions) {
+    // End-to-end: cursor pagination option flows from SourceConfig through
+    // IngestionManager → GenericApiConnector::initialize() → ingest().
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id                        = "cursor_mgr";
+    cfg.type                             = SourceType::API;
+    cfg.location                         = "https://api.example.com/v2/items";
+    cfg.options["pagination_mode"]       = "cursor";
+    cfg.options["cursor_response_field"] = "next_cursor";
+    cfg.options["page_size"]             = "3";
+    cfg.options["max_pages"]             = "2";
+    cfg.enabled                          = true;
+    ASSERT_TRUE(mgr.registerSource(cfg));
+
+    auto stats = mgr.ingestSource("cursor_mgr");
+    EXPECT_EQ(stats.documents_failed,    0u);
+    // Two pages × 3 docs each
+    EXPECT_EQ(stats.documents_processed, 6u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
 // ============================================================================
 // GenericApiConnector – cursor-based pagination
 // ============================================================================
