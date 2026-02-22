@@ -1024,6 +1024,15 @@ judge_config.async_evaluation = true;
 
 The RAG module implements state-of-the-art research:
 
+### Foundational RAG
+- **RAG** (Lewis et al., 2020): Retrieval-augmented generation for knowledge-intensive NLP — arXiv:[2005.11401](https://arxiv.org/abs/2005.11401)
+
+### Streaming Retrieval & Context Window Management
+- **FLARE** (Jiang et al., 2023): Active retrieval augmented generation — arXiv:[2305.06983](https://arxiv.org/abs/2305.06983)
+- **Lost in the Middle** (Liu et al., 2023): Relevance-ordered context placement — arXiv:[2307.03172](https://arxiv.org/abs/2307.03172)
+- **In-Context RAG** (Ram et al., 2023): Optimal token-budget allocation — arXiv:[2302.00083](https://arxiv.org/abs/2302.00083)
+- **MMR** (Carbonell & Goldstein, 1998): Diversity-based document selection — DOI:[10.1145/290941.291025](https://doi.org/10.1145/290941.291025)
+
 ### Knowledge Gap Detection
 - **Self-RAG** (Asai et al., 2023): Self-reflective retrieval
 - **Active RAG** (Jiang et al., 2023): Active retrieval augmentation

@@ -147,7 +147,7 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
         current_mtime = std::filesystem::last_write_time(path);
     } catch (const std::exception& e) {
         if (err) *err = std::string("stat failed: ") + e.what();
-        themis::MetricsCollector::getInstance().addCounter(
+        observability::MetricsCollector::getInstance().addCounter(
             "governance_policy_reload_total", 1, {{"result", "failure"}});
         return false;
     }
@@ -167,7 +167,7 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     const bool ok = loadFromYAML(path);
 
     // Emit Prometheus counter per spec (governance_policy_reload_total)
-    themis::MetricsCollector::getInstance().addCounter(
+    observability::MetricsCollector::getInstance().addCounter(
         "governance_policy_reload_total", 1,
         {{"result", ok ? "success" : "failure"}});
 

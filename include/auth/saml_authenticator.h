@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     231                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                              ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
@@ -55,7 +55,11 @@ namespace auth {
  *    namespace prefixes or whitespace normalization may fail verification when
  *    interoperating with strict IdPs. Production deployments requiring strict
  *    C14N compliance should integrate a C14N library (e.g., libxml2 c14n support).
- *  - Encrypted assertions (require_encrypted_assertion) are not yet implemented.
+ *  - Encrypted assertions (EncryptedAssertion element) are not yet supported.
+ *    When an EncryptedAssertion is present in the SAMLResponse, processResponse()
+ *    throws AUTH_NOT_IMPLEMENTED. Implementing decryption requires SP private-key
+ *    configuration and an XML encryption library.  Setting require_encrypted_assertion
+ *    to true will also throw AUTH_NOT_IMPLEMENTED, preventing accidental silent bypass.
  *  - The in-process replay cache does not survive process restarts; high-availability
  *    deployments should use a shared TTL store (e.g., Redis).
  *
@@ -83,7 +87,7 @@ struct SAMLConfig {
     std::chrono::seconds clock_skew{60};          ///< Allowed clock skew for NotBefore/NotOnOrAfter
     bool require_signed_response{true};            ///< Whether SAMLResponse element must be signed
     bool require_signed_assertion{true};           ///< Whether Assertion element must be signed
-    bool require_encrypted_assertion{false};       ///< Reserved: encrypted assertion support is not yet implemented; setting true has no effect
+    bool require_encrypted_assertion{false};       ///< When true, throws AUTH_NOT_IMPLEMENTED (XML assertion decryption is not yet supported; this flag is reserved for future SP private-key decryption support)
     size_t max_replay_cache_size{100000};          ///< Maximum number of assertion IDs to keep in the in-memory replay cache
 
     // Attribute mapping (IdP attribute name → local claim name)
