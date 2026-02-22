@@ -32,6 +32,7 @@
 
 #include "security/rbac.h"
 #include "security/user_registration_plugin.h"
+#include "server/policy_engine.h"
 #include "utils/expected.h"
 
 // Forward declarations
@@ -124,6 +125,12 @@ public:
             std::string client_secret;
             std::vector<std::string> scopes;
         } oauth_config;
+        
+        // ABAC Configuration
+        struct ABACConfig {
+            bool enable_abac = false;
+            std::string abac_policy_path;
+        } abac_config;
     };
     
     /**
@@ -485,6 +492,35 @@ public:
         return *user_registration_plugin_manager_; 
     }
 
+    // ========================================================================
+    // ABAC Policy Management
+    // ========================================================================
+
+    /**
+     * @brief Get the ABAC policy engine
+     * @return PolicyEngine instance
+     * @note PolicyEngine is internally thread-safe via its own mutex.
+     *       Do not modify the engine concurrently with ongoing authorization calls
+     *       unless relying solely on PolicyEngine's own synchronization.
+     */
+    PolicyEngine& getABACEngine() { return policy_engine_; }
+    const PolicyEngine& getABACEngine() const { return policy_engine_; }
+
+    /**
+     * @brief Add an ABAC policy at runtime
+     * @param policy PolicyEngine policy to add
+     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     */
+    void addABACPolicy(const PolicyEngine::Policy& policy);
+
+    /**
+     * @brief Remove an ABAC policy by id
+     * @param policy_id Policy identifier
+     * @return true if the policy was removed
+     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     */
+    bool removeABACPolicy(const std::string& policy_id);
+
 private:
     Config config_;
     mutable std::mutex mutex_;
@@ -496,6 +532,7 @@ private:
     std::unique_ptr<auth::MFAAuthenticator> mfa_authenticator_;
     std::unique_ptr<utils::AuditLogger> audit_logger_;
     std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
+    PolicyEngine policy_engine_;  ///< ABAC policy engine (evaluated alongside RBAC)
     
     // NOTE: ThemisDB does NOT store user passwords locally.
     // All user authentication is delegated to plugins:
