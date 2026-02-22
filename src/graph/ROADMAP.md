@@ -18,7 +18,7 @@
 - [x] Integration with AQL for graph query execution
 
 ## In Progress 🚧
-- [I] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
+- [x] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
 - [!] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #2394)
 - [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2386)
 
@@ -54,7 +54,7 @@
 - [x] Integration with AQL for graph query execution
 
 ### Phase 2: Parallel Traversal & Adaptive Planning (Status: In Progress 🚧)
-- [I] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
+- [x] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
 - [~] Query plan reuse across structurally similar queries (Target: Q2 2026)
 - [ ] Cost model calibration from real execution feedback (Target: Q3 2026)
 
@@ -75,7 +75,6 @@
 - [x] API stability guaranteed for graph query optimizer and path finder
 
 ## Known Issues & Limitations
-- Parallel multi-source BFS/DFS is not yet implemented; large fan-out queries may be slow
 - Cost model is static; adaptive learning from execution history is planned but not active
 - Subgraph isomorphism (pattern matching) is not yet available
 - Distributed graph queries across shards are not yet supported
