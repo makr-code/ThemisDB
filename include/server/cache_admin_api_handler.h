@@ -24,6 +24,8 @@ namespace server {
  *   DELETE /v1/admin/cache/tenant/{tenant_id}    – Evict all entries for a tenant
  *   POST   /v1/admin/cache/circuit-breaker/reset – Force circuit breaker to CLOSED
  *   GET    /v1/admin/cache/circuit-breaker       – Current circuit breaker state
+ *   POST   /v1/admin/cache/warmup                – Load entries from NDJSON log file
+ *   POST   /v1/admin/cache/snapshot              – Export live entries to NDJSON file
  *
  * Authentication: requires JWT with "admin:cache:read" scope for read endpoints
  * and "admin:cache:write" scope for write/mutation endpoints.
@@ -60,6 +62,28 @@ public:
 
     /** GET /v1/admin/cache/circuit-breaker */
     http::response<http::string_body> handleCircuitBreakerStatus(
+        const http::request<http::string_body>& req);
+
+    /**
+     * POST /v1/admin/cache/warmup
+     *
+     * Body: {"log_path":"<path>","max_entries":<optional uint>}
+     *
+     * Loads cache entries from the NDJSON log at log_path.
+     * Returns a JSON summary of the load operation.
+     */
+    http::response<http::string_body> handleWarmup(
+        const http::request<http::string_body>& req);
+
+    /**
+     * POST /v1/admin/cache/snapshot
+     *
+     * Body: {"out_path":"<path>"}
+     *
+     * Exports all live L1/L2 entries to the specified NDJSON file.
+     * Returns a JSON summary of the export operation.
+     */
+    http::response<http::string_body> handleSnapshot(
         const http::request<http::string_body>& req);
 
 private:

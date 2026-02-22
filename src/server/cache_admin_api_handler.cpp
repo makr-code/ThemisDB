@@ -306,5 +306,113 @@ http::response<http::string_body> CacheAdminApiHandler::makeErrorResponse(
     return makeResponse(status, err.dump(), req);
 }
 
+// ---------------------------------------------------------------------------
+// POST /v1/admin/cache/warmup
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:write", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    std::string log_path;
+    size_t max_entries = 0;
+
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        if (!body.contains("log_path") || !body["log_path"].is_string() ||
+            body["log_path"].get<std::string>().empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Missing required field: log_path", req);
+        }
+        log_path    = body["log_path"].get<std::string>();
+        max_entries = body.value("max_entries", static_cast<size_t>(0));
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON parse error: ") + e.what(), req);
+    }
+
+    try {
+        auto result = cache_->warmupFromLog(log_path, max_entries);
+
+        if (!result.ok) {
+            return makeErrorResponse(http::status::internal_server_error,
+                                     result.error, req);
+        }
+
+        nlohmann::json resp = {
+            {"status",           "ok"},
+            {"entries_loaded",   result.entries_loaded},
+            {"entries_skipped",  result.entries_skipped},
+            {"entries_total",    result.entries_total},
+            {"log_path",         log_path}
+        };
+        return makeResponse(http::status::ok, resp.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin warmup error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// POST /v1/admin/cache/snapshot
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:write", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    std::string out_path;
+
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        if (!body.contains("out_path") || !body["out_path"].is_string() ||
+            body["out_path"].get<std::string>().empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Missing required field: out_path", req);
+        }
+        out_path = body["out_path"].get<std::string>();
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON parse error: ") + e.what(), req);
+    }
+
+    try {
+        auto result = cache_->exportSnapshot(out_path);
+
+        if (!result.ok) {
+            return makeErrorResponse(http::status::internal_server_error,
+                                     result.error, req);
+        }
+
+        nlohmann::json resp = {
+            {"status",          "ok"},
+            {"entries_exported", result.entries_written},
+            {"out_path",         out_path}
+        };
+        return makeResponse(http::status::ok, resp.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin snapshot error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 } // namespace server
 } // namespace themis

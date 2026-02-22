@@ -313,6 +313,61 @@ public:
      */
     void resetCircuitBreaker();
 
+    // ========================================================================
+    // Phase 3: Cache Warmup and Snapshot
+    // ========================================================================
+
+    /**
+     * @brief Result returned by warmupFromLog() and exportSnapshot().
+     */
+    struct WarmupResult {
+        size_t entries_loaded = 0;   ///< entries successfully inserted (warmupFromLog)
+        size_t entries_written = 0;  ///< entries successfully written   (exportSnapshot)
+        size_t entries_skipped = 0;  ///< malformed or quota-rejected entries
+        size_t entries_total = 0;    ///< total lines read / entries considered
+        bool   ok = true;            ///< false if the log file could not be opened
+        std::string error;           ///< error message when ok == false
+    };
+
+    /**
+     * @brief Warm up L1/L2 cache from a newline-delimited JSON log file.
+     *
+     * Each line of the log must be a JSON object with the following fields:
+     * @code
+     * {"key":"<sha256_hex>","value_b64":"<base64_result>","ttl_remaining_s":300,"tenant":"acme"}
+     * @endcode
+     *
+     * - "key"            – 64-char SHA-256 hex fingerprint (required)
+     * - "value_b64"      – base64-encoded JSON result string (required)
+     * - "ttl_remaining_s"– remaining TTL in seconds; if omitted defaults to l1_ttl_seconds
+     * - "tenant"         – tenant_id; empty string or omitted means no-tenant
+     *
+     * Warm-up rules:
+     * - Bypasses the rate limiter (internal operation).
+     * - Respects per-tenant quota checks.
+     * - Capped at `l1_max_entries / 2` entries total to reserve headroom for
+     *   live traffic; excess entries overflow to L2.
+     * - Validates SHA-256 hex format and entry size limits before insertion.
+     * - Reports progress to the global MetricsCollector gauge
+     *   `themis_cache_warmup_entries_loaded_total`.
+     *
+     * @param log_path    Path to the NDJSON warmup log.
+     * @param max_entries Hard cap on total entries loaded (0 = no extra cap).
+     * @return WarmupResult with counts and error info.
+     */
+    WarmupResult warmupFromLog(const std::string& log_path, size_t max_entries = 0);
+
+    /**
+     * @brief Export all live (non-expired) L1 and L2 entries to an NDJSON file.
+     *
+     * Each output line matches the format expected by warmupFromLog().
+     * The file can be used to pre-populate the cache after a restart.
+     *
+     * @param out_path  Destination file path (created/overwritten).
+     * @return WarmupResult: entries_loaded = entries written; ok = false on I/O error.
+     */
+    WarmupResult exportSnapshot(const std::string& out_path) const;
+
 private:
     struct L1Entry {
         nlohmann::json result;

@@ -4,6 +4,7 @@
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include <fstream>
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -223,4 +224,152 @@ TEST_F(CacheAdminApiHandlerTest, Returns503WhenCacheIsNull) {
     auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
     auto res = handler_no_cache->handleStats(req);
     EXPECT_EQ(res.result(), http::status::service_unavailable);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: POST /v1/admin/cache/warmup
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForMissingLogPath) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup", "{}");
+    auto res = handler_->handleWarmup(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupReturns400ForEmptyLogPath) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":""})");
+    auto res = handler_->handleWarmup(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupReturns500ForNonExistentFile) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":"/tmp/no_such_file_xyz_abc.ndjson"})");
+    auto res = handler_->handleWarmup(req);
+    EXPECT_EQ(res.result(), http::status::internal_server_error);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupLoadsValidEntries) {
+    // Write a minimal NDJSON warmup log
+    const std::string log_path = db_path_ + "_warmup.ndjson";
+
+    // Use a valid fingerprint (64 hex chars) and a base64-encoded JSON value
+    const std::string fp = "a1b2c3d4e5f60718293a4b5c6d7e8f9001234567890abcdef1234567890abcd";
+    const std::string value = R"({"rows":[]})";
+    // base64("{"rows":[]}") — use our helper
+    const std::string value_b64 = base64Encode(value);
+
+    {
+        std::ofstream f(log_path);
+        ASSERT_TRUE(f.is_open());
+        f << R"({"key":")" << fp << R"(","value_b64":")" << value_b64
+          << R"(","ttl_remaining_s":300,"tenant":""})" << '\n';
+    }
+
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":")" + log_path + R"("})");
+    auto res = handler_->handleWarmup(req);
+    std::filesystem::remove(log_path);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "ok");
+    EXPECT_GE(body["entries_loaded"].get<int>(), 1);
+    EXPECT_EQ(body["entries_total"].get<int>(), 1);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupSkipsMalformedLines) {
+    const std::string log_path = db_path_ + "_warmup_bad.ndjson";
+    {
+        std::ofstream f(log_path);
+        f << "not-json\n";
+        f << R"({"key":"tooshort","value_b64":"dGVzdA==","ttl_remaining_s":300})" << '\n';
+        // Valid entry
+        const std::string fp = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+        f << R"({"key":")" << fp << R"(","value_b64":")" << base64Encode(R"({"x":1})")
+          << R"(","ttl_remaining_s":300,"tenant":""})" << '\n';
+    }
+
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":")" + log_path + R"("})");
+    auto res = handler_->handleWarmup(req);
+    std::filesystem::remove(log_path);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["entries_total"].get<int>(), 3);
+    EXPECT_EQ(body["entries_loaded"].get<int>(), 1);
+    EXPECT_EQ(body["entries_skipped"].get<int>(), 2);
+}
+
+TEST_F(CacheAdminApiHandlerTest, WarmupSkipsExpiredEntries) {
+    const std::string log_path = db_path_ + "_warmup_expired.ndjson";
+    const std::string fp = "cafebabecafebabecafebabecafebabecafebabecafebabecafebabecafebabe";
+    {
+        std::ofstream f(log_path);
+        // ttl_remaining_s = 0 → already expired
+        f << R"({"key":")" << fp << R"(","value_b64":")" << base64Encode(R"({})")
+          << R"(","ttl_remaining_s":0,"tenant":""})" << '\n';
+    }
+
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                           R"({"log_path":")" + log_path + R"("})");
+    auto res = handler_->handleWarmup(req);
+    std::filesystem::remove(log_path);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["entries_loaded"].get<int>(), 0);
+    EXPECT_EQ(body["entries_skipped"].get<int>(), 1);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: POST /v1/admin/cache/snapshot
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, SnapshotReturns400ForMissingOutPath) {
+    auto req = makeRequest(http::verb::post, "/v1/admin/cache/snapshot", "{}");
+    auto res = handler_->handleSnapshot(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, SnapshotExportsAndReloads) {
+    // Insert two entries into the cache
+    const std::string fp1 = cache_->generateFingerprint("SELECT 10", {}, "");
+    const std::string fp2 = cache_->generateFingerprint("SELECT 11", {}, "");
+    ASSERT_TRUE(cache_->put(fp1, {}, json::parse(R"({"result":"r1"})"), ""));
+    ASSERT_TRUE(cache_->put(fp2, {}, json::parse(R"({"result":"r2"})"), ""));
+
+    const std::string snap_path = db_path_ + "_snapshot.ndjson";
+
+    // Export
+    {
+        auto req = makeRequest(http::verb::post, "/v1/admin/cache/snapshot",
+                               R"({"out_path":")" + snap_path + R"("})");
+        auto res = handler_->handleSnapshot(req);
+        EXPECT_EQ(res.result(), http::status::ok);
+        json body = json::parse(res.body());
+        EXPECT_EQ(body["status"], "ok");
+        EXPECT_GE(body["entries_exported"].get<int>(), 2);
+    }
+
+    // Clear cache and reload from snapshot
+    cache_->clear();
+    EXPECT_FALSE(cache_->get(fp1, "").has_value());
+
+    {
+        auto req = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                               R"({"log_path":")" + snap_path + R"("})");
+        auto res = handler_->handleWarmup(req);
+        EXPECT_EQ(res.result(), http::status::ok);
+        json body = json::parse(res.body());
+        EXPECT_GE(body["entries_loaded"].get<int>(), 2);
+    }
+
+    // Verify entries are back
+    EXPECT_TRUE(cache_->get(fp1, "").has_value());
+    EXPECT_TRUE(cache_->get(fp2, "").has_value());
+
+    std::filesystem::remove(snap_path);
 }
