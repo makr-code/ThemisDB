@@ -892,3 +892,15 @@ target_include_directories(themisdb_graph
 *Last Updated: February 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
+
+## Scientific References
+
+1. Angles, R., & Gutierrez, C. (2008). **Survey of Graph Database Models**. *ACM Computing Surveys*, 40(1), 1:1–1:39. https://doi.org/10.1145/1322432.1322433
+
+2. Rodriguez, M. A., & Neubauer, P. (2010). **The Graph Traversal Pattern**. *Graph Data Management: Techniques and Applications*. https://arxiv.org/abs/1004.1001
+
+3. Robinson, I., Webber, J., & Eifrem, E. (2015). **Graph Databases: New Opportunities for Connected Data (2nd ed.)**. O'Reilly Media. ISBN: 978-1-491-93089-2
+
+4. Dijkstra, E. W. (1959). **A Note on Two Problems in Connexion with Graphs**. *Numerische Mathematik*, 1, 269–271. https://doi.org/10.1007/BF01386390
+
+5. Nguyen, D., Lenharth, A., & Pingali, K. (2013). **A Lightweight Infrastructure for Graph Analytics**. *Proceedings of the 24th ACM Symposium on Operating Systems Principles (SOSP)*, 456–471. https://doi.org/10.1145/2517349.2522739

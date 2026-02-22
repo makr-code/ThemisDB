@@ -1051,3 +1051,15 @@ endif()
 *Last Updated: February 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
+
+## Scientific References
+
+1. Ongaro, D., & Ousterhout, J. (2014). **In Search of an Understandable Consensus Algorithm**. *Proceedings of the 2014 USENIX Annual Technical Conference (ATC)*, 305–320. https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf
+
+2. Lamport, L. (1998). **The Part-Time Parliament**. *ACM Transactions on Computer Systems*, 16(2), 133–169. https://doi.org/10.1145/279227.279229
+
+3. Gilbert, S., & Lynch, N. (2002). **Brewer's Conjecture and the Feasibility of Consistent, Available, Partition-Tolerant Web Services**. *ACM SIGACT News*, 33(2), 51–59. https://doi.org/10.1145/564585.564601
+
+4. DeCandia, G., Hastorun, D., Jampani, M., Kakulapati, G., Lakshman, A., Pilchin, A., … Vogels, W. (2007). **Dynamo: Amazon's Highly Available Key-Value Store**. *Proceedings of the 21st ACM SIGOPS Symposium on Operating Systems Principles (SOSP)*, 205–220. https://doi.org/10.1145/1294261.1294281
+
+5. Vogels, W. (2009). **Eventually Consistent**. *Communications of the ACM*, 52(1), 40–44. https://doi.org/10.1145/1435417.1435432

@@ -764,3 +764,15 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage improvements
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols and APIs
+
+## Scientific References
+
+1. O'Neil, P., Cheng, E., Gawlick, D., & O'Neil, E. (1996). **The Log-Structured Merge-Tree (LSM-tree)**. *Acta Informatica*, 33(4), 351–385. https://doi.org/10.1007/s002360050048
+
+2. Dong, S., Callaghan, M., Galanis, L., Borthakur, D., Savor, T., & Strum, M. (2017). **Optimizing Space Amplification in RocksDB**. *Proceedings of the 8th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf
+
+3. Rosenblum, M., & Ousterhout, J. K. (1992). **The Design and Implementation of a Log-Structured File System**. *ACM Transactions on Computer Systems*, 10(1), 26–52. https://doi.org/10.1145/146941.146943
+
+4. Reed, D. P. (1978). **Naming and Synchronization in a Decentralized Computer System** (Doctoral dissertation, MIT). https://dspace.mit.edu/handle/1721.1/14965
+
+5. Graefe, G. (2010). **A Survey of B-Tree Locking Techniques**. *ACM Transactions on Database Systems*, 35(3), 16:1–16:26. https://doi.org/10.1145/1806907.1806908

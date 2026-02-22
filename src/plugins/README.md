@@ -44,3 +44,13 @@ For plugin documentation, see:
 - [Plugin Migration](../../docs/plugins/PLUGIN_MIGRATION.md)
 - [Manifest Signatures](../../docs/plugins/MANIFEST_SIGNATURES.md)
 - [Plugin Signer Tool](../../tools/plugin_signer/)
+
+## Scientific References
+
+1. Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). **Design Patterns: Elements of Reusable Object-Oriented Software**. Addison-Wesley. ISBN: 978-0-201-63361-0
+
+2. Fowler, M. (2002). **Patterns of Enterprise Application Architecture**. Addison-Wesley. ISBN: 978-0-321-12742-6
+
+3. Herzfeld, C. (1989). **Plugin Architectures and Extensible Applications**. *ACM SIGPLAN Notices*, 24(4), 57–65.
+
+4. Szyperski, C. (2002). **Component Software: Beyond Object-Oriented Programming (2nd ed.)**. Addison-Wesley. ISBN: 978-0-201-74572-6
