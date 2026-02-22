@@ -301,6 +301,8 @@ __global__ void batchCosineSimilarity(
     const float* v = vectors + vid * dimension;
 
     float dot = 0.0f;
+    // Process 4 elements per iteration; dimension must be padded to a multiple
+    // of 4 by the caller (pad with zeros) to avoid out-of-bounds accesses.
     for (int d = 0; d < dimension; d += 4) {
         dot += q[d]   * __ldg(v + d);
         dot += q[d+1] * __ldg(v + d + 1);
@@ -370,7 +372,11 @@ __global__ void bfsKernel(
     for (int e = start; e < end; ++e) {
         int neighbor = adjIndices[e];
         float newDist = distances[node] + edgeWeights[e];
-        // Atomic update to avoid races
+        // Atomic min update for non-negative floats only.
+        // IEEE 754 positive floats maintain their ordering when reinterpreted
+        // as signed 32-bit integers (same bit pattern, same order for >= 0),
+        // so atomicMin on int* is safe here.
+        // distances[] must be initialized to +FLT_MAX (not negative values).
         if (atomicMin(reinterpret_cast<int*>(&distances[neighbor]),
                       __float_as_int(newDist)) >
             __float_as_int(newDist)) {

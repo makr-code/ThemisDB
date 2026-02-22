@@ -15,14 +15,18 @@ Versions are identified by a monotonically increasing timestamp:
 
 ```cpp
 using Timestamp = uint64_t;
+using TxId      = uint64_t;
+
+// Special sentinel timestamps
+constexpr Timestamp kInfinity = std::numeric_limits<Timestamp>::max();
+constexpr Timestamp kPending  = 0;  // Sentinel: version not yet committed (begin_ts replaced at commit)
 
 struct RecordVersion {
-    Timestamp begin_ts;   // Transaction that created this version
-    Timestamp end_ts;     // Transaction that deleted/updated it (kInfinity if live)
+    Timestamp begin_ts;   // Transaction that created this version (kPending until committed)
+    Timestamp end_ts;     // Transaction that superseded it (kInfinity while live)
+    TxId      tx_id;      // ID of the creating transaction (used during rollback)
     std::vector<uint8_t> data;
 };
-
-constexpr Timestamp kInfinity = std::numeric_limits<Timestamp>::max();
 
 // A record's version chain (newest first)
 struct VersionChain {
@@ -297,11 +301,11 @@ Use `std::shared_mutex` for data structures with many readers and few writers:
 class VersionIndex {
 public:
     // ✅ Multiple threads can read concurrently
-    std::optional<Value> read(const Key& key, Timestamp ts) const {
+    std::optional<Value> read(const Key& key, const Transaction& tx) const {
         std::shared_lock lock(mutex_);  // Shared (read) lock
         auto it = chains_.find(key);
         if (it == chains_.end()) return std::nullopt;
-        auto* v = findVisible(it->second, ts);
+        auto* v = findVisible(it->second, tx);
         return v ? deserialize(v->data) : std::optional<Value>{};
     }
 
