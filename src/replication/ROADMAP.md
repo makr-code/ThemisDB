@@ -22,9 +22,9 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Cascading replication for hierarchical topologies
 - [x] Selective replication (filter by collection, tenant, or pattern)
 - [x] Prometheus metrics export
+- [x] Raft leader lease reads for linearizable read-scale-out (Issue: #2258)
 
 ## In Progress 🚧
-- [I] Raft leader lease reads for linearizable read-scale-out (Target: Q2 2026) (Issue: #2258)
 - [!] Replication topology visualizer (web UI) (Target: Q2 2026) (Issue: #2443)
 - [!] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026) (Issue: #2444)
 
@@ -65,7 +65,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Prometheus metrics export
 
 ### Phase 2: Raft Lease Reads & WAL Compression (Status: In Progress 🚧)
-- [~] Raft leader lease reads for linearizable read-scale-out
+- [x] Raft leader lease reads for linearizable read-scale-out
 - [~] Replication topology visualizer (web UI)
 - [~] Compressed WAL shipping (Zstd) for bandwidth reduction
 

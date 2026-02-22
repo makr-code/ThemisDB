@@ -664,3 +664,15 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned AQL improvements
 - [Query Module](../query/README.md) - Query execution engine
 - [LLM Module](../llm/README.md) - LLM integration
+
+## Scientific References
+
+1. Chamberlin, D. D., & Boyce, R. F. (1974). **SEQUEL: A Structured English Query Language**. *Proceedings of the 1974 ACM SIGFIDET Workshop on Data Description, Access and Control*, 249–264. https://doi.org/10.1145/800296.811515
+
+2. Wood, P. T. (2012). **Query Languages for Graph Databases**. *SIGMOD Record*, 41(1), 50–60. https://doi.org/10.1145/2206869.2206879
+
+3. Angles, R., Arenas, M., Barceló, P., Hogan, A., Reutter, J., & Vrgoc, D. (2017). **Foundations of Modern Query Languages for Graph Databases**. *ACM Computing Surveys*, 50(5), 68:1–68:40. https://doi.org/10.1145/3104031
+
+4. Li, F., & Jagadish, H. V. (2014). **Constructing an Interactive Natural Language Interface for Relational Databases**. *Proceedings of the VLDB Endowment*, 8(1), 73–84. https://doi.org/10.14778/2735461.2735468
+
+5. Bonawitz, K., Ivanov, V., Kreuter, B., Marcedone, A., McMahan, H. B., Patel, S., … Ramage, D. (2017). **Practical Secure Aggregation for Privacy-Preserving Machine Learning**. *Proceedings of ACM CCS 2017*, 1175–1191. https://doi.org/10.1145/3133956.3133982

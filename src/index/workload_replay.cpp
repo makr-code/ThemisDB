@@ -3,6 +3,7 @@
 
 #include "index/workload_replay.h"
 #include <spdlog/spdlog.h>
+#include <utility>
 
 namespace themis {
 
@@ -33,6 +34,25 @@ WorkloadEvent WorkloadEvent::fromJSON(const json& j) {
 // ============================================================================
 // WorkloadCapture – public API
 // ============================================================================
+
+WorkloadCapture::WorkloadCapture(WorkloadCapture&& other) noexcept {
+    std::lock_guard<std::mutex> lock(other.mutex_);
+    events_ = std::move(other.events_);
+    total_queries_ = other.total_queries_;
+    other.total_queries_ = 0;
+}
+
+WorkloadCapture& WorkloadCapture::operator=(WorkloadCapture&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    std::scoped_lock lock(mutex_, other.mutex_);
+    events_ = std::move(other.events_);
+    total_queries_ = other.total_queries_;
+    other.total_queries_ = 0;
+    return *this;
+}
 
 void WorkloadCapture::recordEvent(const WorkloadEvent& event) {
     std::lock_guard<std::mutex> lock(mutex_);

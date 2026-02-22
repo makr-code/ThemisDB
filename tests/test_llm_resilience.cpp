@@ -97,6 +97,78 @@ TEST_F(LLMResilienceTest, TimeoutManager_ConfigurableTimeouts) {
     EXPECT_EQ(timeout_mgr.getConfig().embed_timeout.count(), 1);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Cooperative cancellation tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+// The cancel token must be set to true when the timeout fires, so that the
+// function (or a streaming callback it drives) can abort at the next checkpoint.
+TEST_F(LLMResilienceTest, TimeoutManager_CancelToken_SetOnTimeout) {
+    LLMTimeoutManager timeout_mgr;
+
+    std::shared_ptr<std::atomic<bool>> observed_token;
+
+    EXPECT_THROW({
+        timeout_mgr.executeWithCancelToken(
+            [&observed_token](auto cancel_token) {
+                observed_token = cancel_token;
+                // Simulate a slow operation that does NOT check the token itself
+                std::this_thread::sleep_for(std::chrono::seconds(10));
+                return 0;
+            },
+            std::chrono::seconds(1),
+            "cooperative_op"
+        );
+    }, LLMException);
+
+    // The cancel token must have been set before the exception was thrown
+    ASSERT_NE(observed_token, nullptr);
+    EXPECT_TRUE(observed_token->load(std::memory_order_acquire));
+}
+
+// A cooperative function that polls the cancel token should exit early when
+// the timeout fires, spending far less than the total "work" duration.
+TEST_F(LLMResilienceTest, TimeoutManager_CancelToken_FunctionExitsEarly) {
+    LLMTimeoutManager timeout_mgr;
+    std::atomic<int> iterations_completed{0};
+
+    EXPECT_THROW({
+        timeout_mgr.executeWithCancelToken(
+            [&iterations_completed](auto cancel_token) {
+                // Poll the cancel token at each iteration
+                for (int i = 0; i < 1000; ++i) {
+                    if (cancel_token->load(std::memory_order_acquire)) {
+                        break;
+                    }
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    iterations_completed.fetch_add(1, std::memory_order_relaxed);
+                }
+                return 0;
+            },
+            std::chrono::seconds(1),
+            "cooperative_poll_op"
+        );
+    }, LLMException);
+
+    // With a 1 s timeout and 10 ms per iteration, the function should have
+    // completed significantly fewer than all 1000 iterations.
+    int done = iterations_completed.load();
+    EXPECT_LT(done, 1000);
+}
+
+// executeWithCancelToken completes normally (no timeout) when the func is fast.
+TEST_F(LLMResilienceTest, TimeoutManager_CancelToken_FastOperation_Completes) {
+    LLMTimeoutManager timeout_mgr;
+
+    auto result = timeout_mgr.executeWithCancelToken(
+        [](auto /*cancel_token*/) { return 42; },
+        std::chrono::seconds(5),
+        "fast_cooperative_op"
+    );
+
+    EXPECT_EQ(result, 42);
+}
+
 // ============================================================================
 // Retry Policy Tests
 // ============================================================================

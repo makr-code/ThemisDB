@@ -71,3 +71,13 @@ For detailed utilities documentation, see:
 - [Tracing](../../docs/src/utils/tracing.cpp.md)
 - [ZSTD Codec](../../docs/src/utils/zstd_codec.cpp.md)
 - And many more in [docs/src/utils/](../../docs/src/utils/)
+
+## Scientific References
+
+1. Josuttis, N. M. (2012). **The C++ Standard Library: A Tutorial and Reference (2nd ed.)**. Addison-Wesley. ISBN: 978-0-321-62321-8
+
+2. Knuth, D. E. (1998). **The Art of Computer Programming, Vol. 3: Sorting and Searching (2nd ed.)**. Addison-Wesley. ISBN: 978-0-201-89685-5
+
+3. Chazelle, B. (2001). **The Soft Heap: An Approximate Priority Queue with Optimal Error Rate**. *Journal of the ACM*, 47(6), 1012–1027. https://doi.org/10.1145/355541.355542
+
+4. Agner Fog. (2023). **Instruction Tables: Lists of Instruction Latencies, Throughputs and Micro-operation Breakdowns for Intel, AMD and VIA CPUs**. Technical University of Denmark. https://www.agner.org/optimize/instruction_tables.pdf
