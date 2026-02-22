@@ -1364,6 +1364,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
+    ../src/server/cache_admin_api_handler.cpp
     ../src/server/admin_api_handler.cpp
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp

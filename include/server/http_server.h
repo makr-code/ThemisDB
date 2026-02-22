@@ -76,6 +76,7 @@
 #include "server/saga_api_handler.h"
 #include "server/geo_topology_api_handler.h"
 #include "server/cache_api_handler.h"
+#include "server/cache_admin_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
@@ -788,6 +789,10 @@ private:
 
     // Cache API Handler
     std::unique_ptr<themis::server::CacheApiHandler> cache_api_;
+
+    // Cache Admin API Handler (Phase 3: Admin API for cache operations)
+    std::shared_ptr<AdaptiveQueryCache> adaptive_query_cache_;
+    std::unique_ptr<themis::server::CacheAdminApiHandler> cache_admin_api_;
     
     // TimeSeries API Handler
     std::unique_ptr<themis::server::TimeSeriesApiHandler> timeseries_api_;

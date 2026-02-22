@@ -1256,4 +1256,40 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     return count;
 }
 
+nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {
+    nlohmann::json status;
+    if (!l3_circuit_breaker_) {
+        status["enabled"] = false;
+        status["state"] = "CLOSED";
+        status["failure_count"] = 0;
+        return status;
+    }
+
+    status["enabled"] = true;
+    status["failure_count"] = l3_circuit_breaker_->getFailureCount();
+
+    switch (l3_circuit_breaker_->getState()) {
+        case cache::CircuitBreaker::State::CLOSED:
+            status["state"] = "CLOSED";
+            break;
+        case cache::CircuitBreaker::State::OPEN:
+            status["state"] = "OPEN";
+            break;
+        case cache::CircuitBreaker::State::HALF_OPEN:
+            status["state"] = "HALF_OPEN";
+            break;
+    }
+
+    return status;
+}
+
+void AdaptiveQueryCache::resetCircuitBreaker() {
+    if (!l3_circuit_breaker_) {
+        return;
+    }
+    l3_circuit_breaker_->reset();
+    enhanced_metrics_.l3_circuit_breaker_open = false;
+    THEMIS_INFO("L3 circuit breaker reset to CLOSED by admin request");
+}
+
 } // namespace themis

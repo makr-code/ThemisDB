@@ -296,6 +296,23 @@ public:
      */
     size_t invalidateTenant(const std::string& tenant_id);
 
+    /**
+     * @brief Get L3 circuit breaker status as JSON.
+     *
+     * Returns an object with keys:
+     *   - state: "CLOSED" | "OPEN" | "HALF_OPEN"
+     *   - failure_count: uint32
+     *   - enabled: bool (false when circuit breaker is not configured)
+     */
+    nlohmann::json getCircuitBreakerStatus() const;
+
+    /**
+     * @brief Force the L3 circuit breaker to CLOSED state.
+     *
+     * Resets failure counters. No-op when the circuit breaker is not configured.
+     */
+    void resetCircuitBreaker();
+
 private:
     struct L1Entry {
         nlohmann::json result;

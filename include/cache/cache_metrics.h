@@ -346,6 +346,13 @@ public:
         half_open_calls_ = 0;
     }
 
+    /**
+     * @brief Get current failure count
+     */
+    uint32_t getFailureCount() const {
+        return failure_count_.load();
+    }
+
 private:
     Config config_;
     std::atomic<State> state_;
