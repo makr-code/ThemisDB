@@ -393,7 +393,8 @@ TEST_F(ConfigPathResolverTest, DeprecationReportEntriesHaveExpectedFields) {
     for (const auto& entry : report) {
         EXPECT_FALSE(entry.legacy_path.empty());
         EXPECT_FALSE(entry.new_path.empty());
-        EXPECT_GE(entry.usage_count, 0u);
+        // Any entry that appears in the report must have been accessed at least once
+        EXPECT_GE(entry.usage_count, 1u);
     }
 }
 

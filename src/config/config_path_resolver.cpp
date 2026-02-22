@@ -151,10 +151,16 @@ private:
         for (const auto& entry : report) {
             std::string removal_str = "N/A";
             if (entry.removal_date.has_value()) {
-                auto t = std::chrono::system_clock::to_time_t(*entry.removal_date);
+                // Use chrono year_month_day for thread-safe, locale-independent formatting
+                auto days = std::chrono::floor<std::chrono::days>(*entry.removal_date);
+                std::chrono::year_month_day ymd{days};
+                auto y = static_cast<int>(ymd.year());
+                auto m = static_cast<unsigned>(ymd.month());
+                auto d = static_cast<unsigned>(ymd.day());
                 std::ostringstream oss;
-                // NOLINTNEXTLINE(concurrency-mt-unsafe)
-                oss << std::put_time(std::localtime(&t), "%Y-%m-%d");
+                oss << y
+                    << '-' << (m < 10 ? "0" : "") << m
+                    << '-' << (d < 10 ? "0" : "") << d;
                 removal_str = oss.str();
             }
             const std::string& guide_str =
