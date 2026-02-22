@@ -61,12 +61,11 @@ void main() {
     
     // Compute distance based on metric type
     if (pc.metricType == 0) {
-        // L2 distance
+        // Squared L2 distance (no sqrt — consistent with l2_distance.comp)
         for (uint i = 0; i < pc.dim; i++) {
             float diff = sharedQuery[i] - vectors[vectorOffset + i];
             result += diff * diff;
         }
-        result = sqrt(result);
     } else if (pc.metricType == 1) {
         // Cosine distance
         float dotProduct = 0.0;

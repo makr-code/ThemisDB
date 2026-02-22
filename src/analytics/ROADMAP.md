@@ -32,9 +32,9 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] GPU-accelerated OLAP aggregations (CUDA)
-- [ ] Zero-copy Arrow data transfer optimizations
-- [ ] Arrow Flight RPC support for remote analytics
+- [I] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
+- [I] Zero-copy Arrow data transfer optimizations (Issue: #1471)
+- [I] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
 - [I] Predictive analytics and time-series forecasting (Issue: #1473)
@@ -76,7 +76,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
-- [~] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run)
+- [I] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run) (Issue: #2135)
 - [x] Integration tests (query module, index module, CDC)
 - [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`)
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
