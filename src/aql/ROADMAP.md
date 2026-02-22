@@ -68,7 +68,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [I] Performance benchmarks (Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`)
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()` and `translateNLToAQLStreaming()`)
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [I] API stability guaranteed (Issue: #1524)
 

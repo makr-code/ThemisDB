@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_metrics.h                                    ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:55:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     437                                            ║
+    • Total Lines:     430                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -76,6 +69,11 @@ struct CacheMetrics {
     std::atomic<uint64_t> rate_limited_requests{0};
     std::atomic<uint64_t> backpressure_events{0};
 
+    // Phase 3: Warmup metrics (Prometheus: themis_cache_warmup_entries_loaded_total)
+    std::atomic<uint64_t> warmup_entries_loaded{0};
+    std::atomic<uint64_t> warmup_entries_skipped{0};
+    std::atomic<uint64_t> warmup_entries_failed{0};
+
     CacheMetrics() = default;
 
     CacheMetrics(const CacheMetrics& other) {
@@ -100,6 +98,9 @@ struct CacheMetrics {
         l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
         rate_limited_requests.store(other.rate_limited_requests.load());
         backpressure_events.store(other.backpressure_events.load());
+        warmup_entries_loaded.store(other.warmup_entries_loaded.load());
+        warmup_entries_skipped.store(other.warmup_entries_skipped.load());
+        warmup_entries_failed.store(other.warmup_entries_failed.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -125,6 +126,9 @@ struct CacheMetrics {
             l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
             rate_limited_requests.store(other.rate_limited_requests.load());
             backpressure_events.store(other.backpressure_events.load());
+            warmup_entries_loaded.store(other.warmup_entries_loaded.load());
+            warmup_entries_skipped.store(other.warmup_entries_skipped.load());
+            warmup_entries_failed.store(other.warmup_entries_failed.load());
         }
         return *this;
     }
@@ -195,6 +199,11 @@ struct CacheMetrics {
         // Phase 2: Rate limiting
         j["rate_limiting"]["rejected_requests"] = rate_limited_requests.load();
         j["backpressure"]["events"] = backpressure_events.load();
+
+        // Phase 3: Warmup metrics
+        j["warmup"]["entries_loaded"] = warmup_entries_loaded.load();
+        j["warmup"]["entries_skipped"] = warmup_entries_skipped.load();
+        j["warmup"]["entries_failed"] = warmup_entries_failed.load();
         
         return j;
     }
@@ -222,6 +231,9 @@ struct CacheMetrics {
         l3_lookup_time_us = 0;
         l3_circuit_breaker_trips = 0;
         l3_circuit_breaker_open = false;
+        warmup_entries_loaded = 0;
+        warmup_entries_skipped = 0;
+        warmup_entries_failed = 0;
     }
 };
 

@@ -5,8 +5,6 @@ on:
     branches:
       - main
       - develop
-      - 'feature/**'
-      - 'bugfix/**'
     paths:
       - '.github/COPILOT_INSTRUCTIONS.md'
       - '.github/copilot/**'
@@ -17,12 +15,25 @@ on:
       - '.github/COPILOT_INSTRUCTIONS.md'
       - '.github/copilot/**'
       - '.github/scripts/validate_copilot_refs.py'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   validate-copilot-instructions:
+    needs: ci-scope-classifier
+    if: >
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true' ||
+      needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Validate Copilot Instructions
     runs-on: ubuntu-latest
     
@@ -92,6 +103,10 @@ jobs:
           echo "✅ No broken links found"
   
   lint-markdown:
+    needs: ci-scope-classifier
+    if: >
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true' ||
+      needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Lint Markdown Files
     runs-on: ubuntu-latest
     
@@ -111,6 +126,10 @@ jobs:
         continue-on-error: true
   
   check-structure:
+    needs: ci-scope-classifier
+    if: >
+      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true' ||
+      needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Check Module Structure
     runs-on: ubuntu-latest
     
