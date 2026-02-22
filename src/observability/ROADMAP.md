@@ -17,10 +17,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Telemetry aggregation across shards
 - [x] Grafana dashboard integration
 - [x] PagerDuty/Slack notification routing
+- [x] Continuous profiling integration (pprof / async-profiler compatible) (Issue: #2418)
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
-- [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026) (Issue: #2418)
 - [I] Adaptive sampling rate for high-frequency spans (Target: Q3 2026) (Issue: #1963)
 
 ## Planned Features 📋

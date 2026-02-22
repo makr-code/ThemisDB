@@ -1697,9 +1697,10 @@ set(THEMIS_CORE_SOURCES
     ../src/network/qos_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     
-    # Observability (GAP-008: Alertmanager integration)
+    # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
+    ../src/observability/continuous_profiler.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
