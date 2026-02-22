@@ -68,6 +68,22 @@ The optimizer recognizes and optimizes for these query patterns:
 - Configurable enable/disable
 - Cache clearing functionality
 
+#### Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries)
+- Two queries are structurally similar when they share the same `QueryPattern` and
+  `QueryConstraints` but differ only in start/target vertex IDs
+- Two-level cache lookup: exact key (pattern + vertices + constraints) checked first;
+  on miss, structural key (pattern + constraints only, no vertex IDs) is checked
+- When a structural key hit occurs, the plan is promoted to the exact key for
+  faster future lookups of the same vertex pair
+- Structural key encodes all constraint fields that affect algorithm selection:
+  `max_depth`/depth-hint, `edge_type`, `unique_vertices`, `unique_edges`,
+  `enable_parallel`, count of `forbidden_vertices`, count of `required_vertices`
+- Fields excluded from the structural key (affect execution, not plan selection):
+  `timeout_ms`, `max_results`, `num_threads`, `graph_id`
+- All four `optimize*` methods participate: `optimizeShortestPath`,
+  `optimizeKHopNeighborhood`, `optimizePatternMatch`, `optimizeReachability`
+- Cache hit/miss counters available via `getQueryMetrics().plan_cache_hits/misses`
+
 ### 4. Performance Optimizations (✅ Complete)
 
 #### Early Termination

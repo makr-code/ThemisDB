@@ -344,6 +344,7 @@ set(THEMIS_SECURITY_SOURCES
     # PII detection
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
@@ -500,6 +501,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llamacpp_inference_engine.cpp
     ../src/llm/async_inference_engine.cpp
     ../src/llm/inference_engine_enhanced.cpp
+    ../src/llm/streaming_handler.cpp
     ../src/llm/embedded_llm.cpp
     ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/docs_assistant.cpp
@@ -699,6 +701,8 @@ set(THEMIS_NETWORK_SOURCES
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp
+    # Observability: continuous profiling (pprof / async-profiler compatible)
+    ../src/observability/continuous_profiler.cpp
 )
 
 set(THEMIS_GEO_SOURCES

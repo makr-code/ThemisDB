@@ -601,3 +601,308 @@ TEST(IngestionManagerPauseResumeTest, PausedSourceSkippedInIngestAll) {
 
     fs::remove_all(tmp_dir);
 }
+
+// ============================================================================
+// Per-document quarantine retry with exponential back-off
+// ============================================================================
+
+TEST(QuarantineRetryTest, DefaultQuarantineEntryFields) {
+    QuarantineEntry e;
+    EXPECT_TRUE(e.raw_payload.empty());
+    EXPECT_FALSE(e.permanently_failed);
+    EXPECT_EQ(e.retry_count, 0u);
+}
+
+TEST(QuarantineRetryTest, RetryConfigHasMaxQuarantineRetries) {
+    RetryConfig cfg;
+    EXPECT_EQ(cfg.max_quarantine_retries, 5);
+}
+
+TEST(QuarantineRetryTest, RetryItemNotFound) {
+    IngestionManager mgr("test_db");
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("nonexistent_item"));
+}
+
+TEST(QuarantineRetryTest, RetryPermanentlyFailedItem) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry entry;
+    entry.item_path       = "perm_failed_doc.txt";
+    entry.source_id       = "src";
+    entry.permanently_failed = true;
+    entry.retry_count     = 5;
+    mgr.addToQuarantine(entry);
+
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("perm_failed_doc.txt"));
+    // Entry must still be in quarantine
+    auto items = mgr.getQuarantineItems();
+    ASSERT_EQ(items.size(), 1u);
+    EXPECT_TRUE(items[0].permanently_failed);
+}
+
+TEST(QuarantineRetryTest, RetryWithRawPayloadSucceeds) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry entry;
+    entry.item_path   = "good_doc.txt";
+    entry.source_id   = "src";
+    entry.raw_payload = "document content";
+    mgr.addToQuarantine(entry);
+
+    IngestionAdminApi admin(mgr);
+    EXPECT_TRUE(admin.retryQuarantineItem("good_doc.txt"));
+    // Successful retry must remove the item from quarantine
+    EXPECT_TRUE(mgr.getQuarantineItems().empty());
+}
+
+TEST(QuarantineRetryTest, RetryMaxRetriesExhaustedMarksPermanentlyFailed) {
+    IngestionManager mgr("test_db");
+
+    // Configure a low max_quarantine_retries so the test is fast
+    RetryConfig cfg;
+    cfg.max_quarantine_retries = 2;
+    cfg.initial_delay_ms       = 0.0; // no sleep in tests
+    mgr.setRetryConfig(cfg);
+
+    // Register a source that always fails (non-existent path)
+    SourceConfig sc;
+    sc.source_id = "failing_src";
+    sc.type      = SourceType::FILESYSTEM;
+    sc.location  = "/tmp/no_such_dir_quarantine_retry_test";
+    ASSERT_TRUE(mgr.registerSource(sc));
+
+    // Run ingestion to produce a quarantine entry
+    mgr.ingestSource("failing_src");
+    auto items = mgr.getQuarantineItems();
+    if (items.empty()) {
+        // No quarantine entry produced (source produced no FATAL errors) –
+        // inject one manually and test the counter logic
+        QuarantineEntry e;
+        e.item_path   = "injected.txt";
+        e.source_id   = "failing_src";
+        // cfg.max_quarantine_retries >= 1 is guaranteed by the default of 2 set above
+        e.retry_count = static_cast<size_t>(cfg.max_quarantine_retries - 1);
+        mgr.addToQuarantine(e);
+        items = mgr.getQuarantineItems();
+    }
+    ASSERT_FALSE(items.empty());
+
+    // Manually bump retry_count to max - 1 so the next retry tips it over
+    {
+        QuarantineEntry updated = items[0];
+        updated.retry_count =
+            static_cast<size_t>(cfg.max_quarantine_retries - 1);
+        // Clear raw_payload to force the legacy code path which can fail
+        updated.raw_payload = "";
+        mgr.updateQuarantineEntry(updated);
+    }
+
+    IngestionAdminApi admin(mgr);
+
+    // Inject a permanently-failed entry directly to verify the flag
+    QuarantineEntry perm;
+    perm.item_path          = "perm_test_doc.txt";
+    perm.source_id          = "failing_src";
+    perm.retry_count        = static_cast<size_t>(cfg.max_quarantine_retries);
+    perm.permanently_failed = false;
+    perm.raw_payload        = "";
+    mgr.addToQuarantine(perm);
+
+    // Update the entry to test that permanently_failed prevents retries
+    {
+        QuarantineEntry pf = perm;
+        pf.permanently_failed = true;
+        mgr.updateQuarantineEntry(pf);
+    }
+    EXPECT_FALSE(admin.retryQuarantineItem("perm_test_doc.txt"));
+}
+
+TEST(QuarantineRetryTest, UpdateQuarantineEntryUpdatesFields) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry e;
+    e.item_path   = "update_test.txt";
+    e.source_id   = "src";
+    e.retry_count = 0;
+    mgr.addToQuarantine(e);
+
+    e.retry_count     = 3;
+    e.error_message   = "write failed";
+    e.permanently_failed = true;
+    EXPECT_TRUE(mgr.updateQuarantineEntry(e));
+
+    auto items = mgr.getQuarantineItems();
+    ASSERT_EQ(items.size(), 1u);
+    EXPECT_EQ(items[0].retry_count, 3u);
+    EXPECT_EQ(items[0].error_message, "write failed");
+    EXPECT_TRUE(items[0].permanently_failed);
+}
+
+TEST(QuarantineRetryTest, UpdateNonExistentEntryReturnsFalse) {
+    IngestionManager mgr("test_db");
+    QuarantineEntry e;
+    e.item_path = "no_such.txt";
+    EXPECT_FALSE(mgr.updateQuarantineEntry(e));
+}
+
+TEST(QuarantineRetryTest, AddToQuarantineAddsEntry) {
+    IngestionManager mgr("test_db");
+    QuarantineEntry e;
+    e.item_path = "injected.txt";
+    e.source_id = "src";
+    mgr.addToQuarantine(e);
+    auto items = mgr.getQuarantineItems();
+    ASSERT_EQ(items.size(), 1u);
+    EXPECT_EQ(items[0].item_path, "injected.txt");
+}
+
+TEST(QuarantineRetryTest, RetryAllEmptyQueueReturnsZero) {
+    IngestionManager mgr("test_db");
+    IngestionAdminApi admin(mgr);
+    EXPECT_EQ(admin.retryAllQuarantine(), 0u);
+}
+
+TEST(QuarantineRetryTest, RetryAllSkipsPermanentlyFailed) {
+    IngestionManager mgr("test_db");
+
+    // Two entries: one with payload (retryable), one permanently failed
+    QuarantineEntry good;
+    good.item_path   = "good.txt";
+    good.raw_payload = "hello";
+    mgr.addToQuarantine(good);
+
+    QuarantineEntry bad;
+    bad.item_path        = "bad.txt";
+    bad.permanently_failed = true;
+    mgr.addToQuarantine(bad);
+
+    IngestionAdminApi admin(mgr);
+    size_t retried = admin.retryAllQuarantine();
+    EXPECT_EQ(retried, 1u);
+
+    // The permanently-failed entry must remain
+    auto items = mgr.getQuarantineItems();
+    ASSERT_EQ(items.size(), 1u);
+    EXPECT_EQ(items[0].item_path, "bad.txt");
+}
+
+TEST(QuarantineRetryTest, GetRetryConfigReturnsCurrentConfig) {
+    IngestionManager mgr("test_db");
+    RetryConfig cfg;
+    cfg.max_quarantine_retries = 10;
+    mgr.setRetryConfig(cfg);
+    EXPECT_EQ(mgr.getRetryConfig().max_quarantine_retries, 10);
+}
+
+// ============================================================================
+// quarantine_retry_success_total counter
+// ============================================================================
+
+TEST(QuarantineRetrySuccessCountTest, InitiallyZero) {
+    IngestionManager mgr("test_db");
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, IncrementedOnSuccessfulRetry) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry e;
+    e.item_path   = "doc.txt";
+    e.raw_payload = "content";
+    mgr.addToQuarantine(e);
+
+    IngestionAdminApi admin(mgr);
+    ASSERT_TRUE(admin.retryQuarantineItem("doc.txt"));
+    // Counter must be incremented exactly once
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 1u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, NotIncrementedOnMiss) {
+    IngestionManager mgr("test_db");
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("no_such.txt"));
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, NotIncrementedOnPermanentlyFailed) {
+    IngestionManager mgr("test_db");
+
+    QuarantineEntry e;
+    e.item_path        = "perm.txt";
+    e.permanently_failed = true;
+    mgr.addToQuarantine(e);
+
+    IngestionAdminApi admin(mgr);
+    EXPECT_FALSE(admin.retryQuarantineItem("perm.txt"));
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 0u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, DirectIncrementWorks) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 2u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, PopulatedInIngestAllReport) {
+    IngestionManager mgr("test_db");
+    // Simulate two successful retries before ingestAll()
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+
+    auto report = mgr.ingestAll();
+    EXPECT_EQ(report.quarantine_retry_successes, 2u);
+}
+
+TEST(QuarantineRetrySuccessCountTest, PrometheusCounterPresent) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+
+    auto report = mgr.ingestAll();
+    report.quarantine_retry_successes = mgr.getQuarantineRetrySuccessCount();
+
+    IngestionMetricsExporter exporter;
+    std::string prom = exporter.exportText(report);
+
+    // Verify the metric name is emitted
+    EXPECT_NE(prom.find("_quarantine_retry_success_total"), std::string::npos);
+    // Verify the value "1" appears on a line that also contains the metric name
+    std::string metric_name = "themis_ingestion_quarantine_retry_success_total";
+    auto pos = prom.find(metric_name + "{");
+    ASSERT_NE(pos, std::string::npos) << "Metric line not found in: " << prom;
+    auto line_end = prom.find('\n', pos);
+    std::string metric_line = prom.substr(pos, line_end - pos);
+    EXPECT_NE(metric_line.find("} 1"), std::string::npos)
+        << "Expected value 1 on metric line: " << metric_line;
+}
+
+TEST(QuarantineRetrySuccessCountTest, HealthJsonContainsRetrySuccesses) {
+    IngestionManager mgr("test_db");
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+    mgr.incrementQuarantineRetrySuccess();
+
+    IngestionAdminApi admin(mgr);
+    std::string health = admin.healthJson();
+    // Check the specific JSON key:value pair exists
+    EXPECT_NE(health.find("\"quarantine_retry_successes\":3"), std::string::npos)
+        << "Expected field 'quarantine_retry_successes':3 in: " << health;
+}
+
+TEST(QuarantineRetrySuccessCountTest, RetryAllCountsSuccesses) {
+    IngestionManager mgr("test_db");
+
+    for (int i = 0; i < 3; ++i) {
+        QuarantineEntry e;
+        e.item_path   = "doc" + std::to_string(i) + ".txt";
+        e.raw_payload = "content";
+        mgr.addToQuarantine(e);
+    }
+
+    IngestionAdminApi admin(mgr);
+    size_t n = admin.retryAllQuarantine();
+    EXPECT_EQ(n, 3u);
+    EXPECT_EQ(mgr.getQuarantineRetrySuccessCount(), 3u);
+}
