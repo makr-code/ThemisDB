@@ -98,3 +98,94 @@ TEST(TransactionManagerComprehensive, LockManagerStatistics) {
     EXPECT_EQ(stats.current_held,    2u);
 }
 
+// ---------------------------------------------------------------------------
+// Predicate locking / SSI integration tests (via LockManager)
+// ---------------------------------------------------------------------------
+
+TEST(TransactionManagerComprehensive, SerializableIsolationLevelValue) {
+    // Value 4 is part of the public ABI (persisted in RocksDB isolation-level fields).
+    // This is intentionally an exact-value regression guard. See IsolationLevel docs.
+    EXPECT_EQ(static_cast<int>(IsolationLevel::SERIALIZABLE), 4);
+    EXPECT_GT(static_cast<int>(IsolationLevel::SERIALIZABLE),
+              static_cast<int>(IsolationLevel::REPEATABLE_READ));
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockAcquireAndCount) {
+    LockManager lm;
+    EXPECT_TRUE(lm.acquirePredicateLock(1, "entity:users:alice", "entity:users:zara"));
+    EXPECT_EQ(lm.getPredicateLockCount(1), 1u);
+    EXPECT_EQ(lm.getPredicateLockCount(2), 0u); // other txn unaffected
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockNoConflictSameTransaction) {
+    LockManager lm;
+    lm.acquirePredicateLock(1, "entity:users:a", "entity:users:z");
+    // Writing within own predicate range must NOT trigger a conflict
+    EXPECT_EQ(lm.checkPredicateConflict(1, "entity:users:m"), 0u);
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockConflictDetected) {
+    LockManager lm;
+    // T1 holds a predicate lock covering the range
+    lm.acquirePredicateLock(1, "entity:users:a", "entity:users:z");
+    // T2 writing into that range must see a conflict with T1
+    auto holder = lm.checkPredicateConflict(2, "entity:users:bob");
+    EXPECT_EQ(holder, 1u);
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockNoConflictOutsideRange) {
+    LockManager lm;
+    lm.acquirePredicateLock(1, "entity:users:a", "entity:users:m");
+    // Key outside the upper bound → no conflict
+    EXPECT_EQ(lm.checkPredicateConflict(2, "entity:users:z"), 0u);
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockReleasedOnCommit) {
+    // Simulate acquire → release (as called by Transaction::commit)
+    LockManager lm;
+    lm.acquirePredicateLock(5, "entity:orders:100", "entity:orders:999");
+    EXPECT_EQ(lm.getPredicateLockCount(5), 1u);
+
+    lm.releasePredicateLocks(5);
+    EXPECT_EQ(lm.getPredicateLockCount(5), 0u);
+    // After release the key must not conflict any more
+    EXPECT_EQ(lm.checkPredicateConflict(6, "entity:orders:500"), 0u);
+}
+
+TEST(TransactionManagerComprehensive, PredicateLockMultipleTransactions) {
+    LockManager lm;
+    // T1 and T2 hold non-overlapping predicate ranges
+    lm.acquirePredicateLock(1, "entity:accounts:100", "entity:accounts:199");
+    lm.acquirePredicateLock(2, "entity:accounts:200", "entity:accounts:299");
+
+    // T3 writing into T1's range conflicts with T1, not T2
+    EXPECT_EQ(lm.checkPredicateConflict(3, "entity:accounts:150"), 1u);
+    // T3 writing into T2's range conflicts with T2, not T1
+    EXPECT_EQ(lm.checkPredicateConflict(3, "entity:accounts:250"), 2u);
+    // T3 writing outside both ranges has no conflict
+    EXPECT_EQ(lm.checkPredicateConflict(3, "entity:accounts:300"), 0u);
+}
+
+TEST(TransactionManagerComprehensive, NonSerializableIsolationNoPredicateTracking) {
+    // Transactions with non-SERIALIZABLE isolation levels must not acquire
+    // predicate locks (trackPredicateRead is a no-op for those levels).
+    // Simulate the LockManager state: a non-SERIALIZABLE txn only uses regular
+    // locks, so getPredicateLockCount must remain 0.
+    LockManager lm;
+
+    // Simulate READ_COMMITTED txn (txn_id = 10): acquires regular read lock, no predicate lock
+    lm.acquireLock(10, "entity:users:alice", LockType::SHARED);
+    EXPECT_EQ(lm.getPredicateLockCount(10), 0u);
+
+    // Simulate REPEATABLE_READ txn (txn_id = 11): same — no predicate lock
+    lm.acquireLock(11, "entity:users:bob", LockType::SHARED);
+    EXPECT_EQ(lm.getPredicateLockCount(11), 0u);
+
+    // Only SERIALIZABLE txn (txn_id = 12) acquires a predicate lock
+    lm.acquirePredicateLock(12, "entity:users:a", "entity:users:z");
+    EXPECT_EQ(lm.getPredicateLockCount(12), 1u);
+    // Confirm non-serializable txns still have 0 predicate locks
+    EXPECT_EQ(lm.getPredicateLockCount(10), 0u);
+    EXPECT_EQ(lm.getPredicateLockCount(11), 0u);
+}
+
