@@ -1293,6 +1293,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learned_quantizer.cpp
     ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/workload_replay.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
