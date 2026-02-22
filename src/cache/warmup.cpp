@@ -132,6 +132,25 @@ static std::string extractTenantFromKey(const std::string& key) {
     return key.substr(kTenantKeyPrefixLen, second_colon - kTenantKeyPrefixLen);
 }
 
+/**
+ * @brief Extract the bare SHA-256 fingerprint from a (possibly tenant-scoped) cache key.
+ *
+ * - For plain fingerprints: returns the key unchanged.
+ * - For tenant-scoped keys ("tenant:<id>:<fingerprint>"): returns only the fingerprint part.
+ *
+ * This is needed by exportSnapshot() so the exported log records always carry
+ * a bare 64-char hex key that warmupFromLog() can re-import correctly.
+ */
+static std::string extractFingerprintFromKey(const std::string& key) {
+    if (key.size() <= kTenantKeyPrefixLen ||
+        key.substr(0, kTenantKeyPrefixLen) != kTenantKeyPrefix) {
+        return key;  // Not tenant-scoped; already a plain fingerprint.
+    }
+    size_t second_colon = key.find(':', kTenantKeyPrefixLen);
+    if (second_colon == std::string::npos) return key;
+    return key.substr(second_colon + 1);
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -250,6 +269,8 @@ size_t AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
                                       ? makeTenantKey(key, tenant_id)
                                       : key;
 
+        bool inserted = false;
+
         if (l1_warmed < l1_warmup_cap && decoded.size() <= config_.l1_max_entry_size) {
             // Store in L1.
             L1Entry entry;
@@ -268,12 +289,8 @@ size_t AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
                     l1_cache_[cache_key] = std::move(entry);
                     ++l1_warmed;
                     enhanced_metrics_.total_bytes_cached += decoded.size();
+                    inserted = true;
                 }
-            }
-
-            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
-                std::lock_guard<std::mutex> tlk(tenant_mutex_);
-                tenant_sizes_[tenant_id] += decoded.size();
             }
         } else {
             // Store in L2 (compressed).
@@ -302,17 +319,24 @@ size_t AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
                     l2_cache_[cache_key] = std::move(entry);
                     enhanced_metrics_.total_bytes_cached += decoded.size();
                     enhanced_metrics_.total_bytes_compressed += compressed_size;
+                    inserted = true;
                 }
             }
+        }
 
+        if (inserted) {
+            // Update tenant quota tracking only when the entry was actually inserted.
             if (config_.enable_tenant_isolation && !tenant_id.empty()) {
                 std::lock_guard<std::mutex> tlk(tenant_mutex_);
                 tenant_sizes_[tenant_id] += decoded.size();
             }
+            ++loaded;
+            enhanced_metrics_.warmup_entries_loaded++;
+        } else {
+            // Duplicate key already present in cache; count as skipped.
+            ++skipped;
+            enhanced_metrics_.warmup_entries_skipped++;
         }
-
-        ++loaded;
-        enhanced_metrics_.warmup_entries_loaded++;
     }
 
     THEMIS_INFO("warmupFromLog: loaded={}, skipped={}, failed={} from '{}'",
@@ -348,11 +372,15 @@ size_t AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
             std::string value_b64 = base64Encode(value_json);
 
             nlohmann::json rec;
-            rec["key"] = key;
+            // Bug fix: always export the bare SHA-256 fingerprint, not the
+            // tenant-scoped cache key.  warmupFromLog() validates the key with
+            // isValidSha256Key() which requires a 64-char hex string; exporting
+            // "tenant:<id>:<fp>" would cause those entries to be silently
+            // skipped on re-import.
+            rec["key"] = extractFingerprintFromKey(key);
             rec["value_b64"] = value_b64;
             rec["ttl_remaining_s"] = ttl_remaining_s;
 
-            // Extract tenant from key prefix "tenant:<id>:<fingerprint>".
             std::string tenant = extractTenantFromKey(key);
             if (!tenant.empty()) rec["tenant"] = tenant;
 
@@ -378,7 +406,7 @@ size_t AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
             std::string value_b64 = base64Encode(value_json);
 
             nlohmann::json rec;
-            rec["key"] = key;
+            rec["key"] = extractFingerprintFromKey(key);
             rec["value_b64"] = value_b64;
             rec["ttl_remaining_s"] = ttl_remaining_s;
 

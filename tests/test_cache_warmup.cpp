@@ -395,3 +395,136 @@ TEST_F(CacheWarmupTest, Metrics_TrackWarmupCounters) {
     EXPECT_EQ(m.warmup_entries_loaded.load(), 2u);
     EXPECT_GE(m.warmup_entries_skipped.load(), 1u);
 }
+
+// ---------------------------------------------------------------------------
+// Bug fix: duplicate entries in log should be counted as skipped, not loaded
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_DuplicateKeySkipped) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    std::string key = makeKey(42);
+    std::string val_b64 = b64Encode(json({{"v", 1}}).dump());
+
+    {
+        std::ofstream f(log_path_);
+        // Same key twice.
+        writeLogLine(f, key, val_b64, 300);
+        writeLogLine(f, key, b64Encode(json({{"v", 2}}).dump()), 300);
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    // Only one entry should be inserted; the duplicate should be skipped.
+    EXPECT_EQ(loaded, 1u);
+
+    const auto& m = cache.getEnhancedMetrics();
+    EXPECT_EQ(m.warmup_entries_loaded.load(), 1u);
+    EXPECT_GE(m.warmup_entries_skipped.load(), 1u);
+
+    // The stored value should be the first occurrence.
+    auto result = cache.get(key);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->result["v"], 1);
+}
+
+// ---------------------------------------------------------------------------
+// Bug fix: exportSnapshot + warmupFromLog round-trip with tenant isolation
+// (regression test for tenant-scoped key export bug)
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
+    constexpr size_t ONE_MB = 1024 * 1024;
+    auto config = cfg();
+    config.enable_tenant_isolation = true;
+    config.per_tenant_max_bytes = ONE_MB;
+    AdaptiveQueryCache cache(config);
+
+    const std::string tenant = "acme";
+    const int count = 3;
+
+    for (int i = 0; i < count; ++i) {
+        std::string fp = makeKey(i);
+        json value = {{"n", i}};
+        ASSERT_TRUE(cache.put(fp, {}, value, tenant));
+    }
+
+    // Export to snapshot.
+    size_t exported = cache.exportSnapshot(snap_path_);
+    EXPECT_EQ(exported, static_cast<size_t>(count));
+
+    // Verify the snapshot file keys are bare fingerprints, not tenant-scoped.
+    {
+        std::ifstream f(snap_path_);
+        std::string line;
+        int line_count = 0;
+        while (std::getline(f, line)) {
+            if (line.empty()) continue;
+            auto rec = json::parse(line);
+            std::string exported_key = rec["key"].get<std::string>();
+            // Must be a 64-char hex string, NOT "tenant:acme:<fp>"
+            EXPECT_EQ(exported_key.size(), 64u)
+                << "Exported key is not a bare fingerprint: " << exported_key;
+            EXPECT_EQ(rec["tenant"].get<std::string>(), tenant);
+            ++line_count;
+        }
+        EXPECT_EQ(line_count, count);
+    }
+
+    // Reimport into a fresh tenant-isolated cache.
+    std::string db_path2 = db_path_ + "_tenant2";
+    auto config2 = cfg();
+    config2.l3_db_path = db_path2;
+    config2.enable_tenant_isolation = true;
+    config2.per_tenant_max_bytes = ONE_MB;
+    AdaptiveQueryCache cache2(config2);
+
+    size_t loaded = cache2.warmupFromLog(snap_path_);
+    EXPECT_EQ(loaded, static_cast<size_t>(count));
+
+    // All entries should be retrievable via the tenant-scoped get.
+    for (int i = 0; i < count; ++i) {
+        auto result = cache2.get(makeKey(i), tenant);
+        ASSERT_TRUE(result.has_value())
+            << "Tenant entry " << i << " missing after round-trip";
+        EXPECT_EQ(result->result["n"], i);
+    }
+
+    std::error_code ec;
+    std::filesystem::remove_all(db_path2, ec);
+}
+
+// ---------------------------------------------------------------------------
+// Bug fix: tenant quota must NOT be double-charged on duplicate warmup entries
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_TenantQuota_NoDuplicateCharge) {
+    constexpr size_t TEN_KB = 10 * 1024;
+    auto config = cfg();
+    config.enable_tenant_isolation = true;
+    config.per_tenant_max_bytes = TEN_KB;  // tight quota
+    AdaptiveQueryCache cache(config);
+
+    const std::string tenant = "t1";
+    std::string key = makeKey(7);
+    std::string val_b64 = b64Encode(json({{"data", "hello"}}).dump());
+
+    {
+        std::ofstream f(log_path_);
+        // Same key 5 times – only first should count against quota.
+        for (int i = 0; i < 5; ++i) {
+            writeLogLine(f, key, val_b64, 300, tenant);
+        }
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    // Only 1 real insertion.
+    EXPECT_EQ(loaded, 1u);
+
+    // Now add more unique entries – quota should not be exhausted by duplicates.
+    for (int i = 1; i <= 5; ++i) {
+        json v = {{"n", i}};
+        EXPECT_TRUE(cache.put(makeKey(100 + i), {}, v, tenant))
+            << "Quota should still have room for entry " << i;
+    }
+}
