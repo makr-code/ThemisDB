@@ -173,7 +173,7 @@ json ProfileDiff::toJSON() const {
 class ContinuousProfiler::Impl {
 public:
     explicit Impl(const ContinuousProfilerConfig& config)
-        : config_(config), enabled_(config.enabled) {}
+        : enabled_(config.enabled), config_(config) {}
 
     ~Impl() {
         stopInternal();
@@ -360,15 +360,24 @@ private:
             auto now = std::chrono::steady_clock::now();
             if (now >= next_flush) {
                 next_flush = now + config_.snapshot_interval;
-                auto snap = snapshotNoLock(ProfileType::CPU);
+
+                // Take snapshot and copy the callback under the mutex so we
+                // never hold the lock while invoking user code.
+                ProfileSnapshot snap;
+                std::function<void(const ProfileSnapshot&, const std::string&)> cb;
+                {
+                    std::unique_lock<std::mutex> lk(mutex_);
+                    snap = snapshotNoLock(ProfileType::CPU);
+                    cb = anomaly_cb_;
+                }
 
                 // Anomaly detection: compare with last flush
-                if (have_last && anomaly_cb_) {
+                if (have_last && cb) {
                     auto diff = compare(last_flush_snap, snap);
                     if (diff.cpu_regression_percent > 20.0) {
                         std::string msg = "CPU regression detected: +" +
                             std::to_string(static_cast<int>(diff.cpu_regression_percent)) + "%";
-                        try { anomaly_cb_(snap, msg); } catch (...) {}
+                        try { cb(snap, msg); } catch (...) {}
                     }
                 }
                 last_flush_snap = snap;

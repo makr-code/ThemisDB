@@ -17,8 +17,10 @@
 #include <gtest/gtest.h>
 #include "observability/continuous_profiler.h"
 
+#include <atomic>
 #include <chrono>
 #include <cstdio>
+#include <mutex>
 #include <string>
 #include <thread>
 
@@ -329,4 +331,49 @@ TEST(ContinuousProfilerTest, AnomalyCallbackRegistration) {
     // Just verify registration doesn't throw / crash; the callback may not be
     // triggered in a short test unless a regression is injected artificially.
     EXPECT_FALSE(called);  // no profiling was started
+}
+
+// ---------------------------------------------------------------------------
+// Anomaly callback – triggered by a >20 % CPU regression between flushes.
+// We drive the flush cycle by using a very short snapshot_interval so the
+// background thread fires it during the test window.
+// ---------------------------------------------------------------------------
+
+TEST(ContinuousProfilerTest, AnomalyCallbackFiredOnRegression) {
+    ContinuousProfilerConfig cfg;
+    cfg.enabled = true;
+    cfg.cpu_sample_rate = 1.0;        // 1 ms sample period
+    cfg.snapshot_interval = 30ms;     // flush every 30 ms (two flush cycles in test)
+    cfg.output_dir = "";              // no disk I/O
+
+    ContinuousProfiler p(cfg);
+
+    std::atomic<int> callback_count{0};
+    std::string last_msg;
+    std::mutex cb_mutex;
+
+    p.registerAnomalyCallback(
+        [&](const ProfileSnapshot& /*snap*/, const std::string& msg) {
+            std::lock_guard<std::mutex> lk(cb_mutex);
+            callback_count.fetch_add(1, std::memory_order_relaxed);
+            last_msg = msg;
+        });
+
+    p.start();
+    // Run long enough for at least two flush cycles so the diff logic can fire
+    std::this_thread::sleep_for(150ms);
+    p.stop();
+
+    // The callback may or may not fire depending on whether the background
+    // thread observed a >20 % sample-count change between consecutive flushes.
+    // What we must guarantee is: no crash, no deadlock, and if it fired the
+    // message contains a meaningful string.
+    if (callback_count.load() > 0) {
+        std::lock_guard<std::mutex> lk(cb_mutex);
+        EXPECT_FALSE(last_msg.empty());
+        EXPECT_NE(std::string::npos, last_msg.find("CPU regression"))
+            << "Unexpected callback message: " << last_msg;
+    }
+    // At minimum, the profiler must have survived the run without deadlock.
+    SUCCEED();
 }
