@@ -1393,6 +1393,13 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     if (constraints.edge_type.has_value()) {
         key += ":type=" + constraints.edge_type.value();
     }
+
+    // enable_parallel affects plan.enable_parallel directly; include it so that
+    // the same vertex pair queried with and without parallel yields distinct
+    // cache entries.
+    if (constraints.enable_parallel) {
+        key += ":par";
+    }
     
     return key;
 }
