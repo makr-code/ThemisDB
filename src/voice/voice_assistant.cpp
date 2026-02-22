@@ -507,6 +507,10 @@ json VoiceAssistant::getStatistics() const {
         stats["llm"]["vram_used_mb"] = llm_stats.vram_used_mb;
     }
     
+    if (wake_word_detector_) {
+        stats["wake_word"] = wake_word_detector_->getStatistics();
+    }
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();

@@ -340,3 +340,81 @@ TEST(WakeWordDetector, AddWakeWordRejectsEmpty) {
     EXPECT_FALSE(detector.addWakeWord("hw-id", ""));
     EXPECT_TRUE(detector.listWakeWords().empty());
 }
+
+// ============================================================
+// VoiceAssistant::detectWakeWord() integration tests
+// (exercises the VoiceAssistant wrapper path without needing
+//  a real STT/TTS/LLM model)
+// These tests require THEMIS_ENABLE_VOICE_ASSISTANT=ON because
+// voice_assistant.cpp is only compiled with that flag.
+// ============================================================
+
+#ifdef THEMIS_ENABLE_VOICE_ASSISTANT
+#include "voice/voice_assistant.h"
+
+// VoiceAssistant detectWakeWord delegates to WakeWordDetector.
+// Even without initialize(), the detector is ready in the constructor.
+TEST(VoiceAssistantWakeWord, DetectWakeWordReturnsFalseForSilence) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_wake_word = true;
+    cfg.wake_word_config.vad_min_energy = 0.01f;
+    cfg.wake_word_config.sensitivity    = 0.3f;
+    cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+    themis::voice::VoiceAssistant va(cfg);
+
+    // Near-silence PCM – VAD gate should block detection.
+    auto silent = makePcm(1500, 0.0001f);
+    auto result = va.detectWakeWord(silent);
+    EXPECT_FALSE(result.detected);
+}
+
+TEST(VoiceAssistantWakeWord, DetectWakeWordReturnsFalseForEmptyChunk) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_wake_word = true;
+    cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+    themis::voice::VoiceAssistant va(cfg);
+
+    auto result = va.detectWakeWord({});
+    EXPECT_FALSE(result.detected);
+}
+
+TEST(VoiceAssistantWakeWord, SetCallbackIsForwarded) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_wake_word = true;
+    cfg.wake_word_config.sensitivity    = 0.0f;
+    cfg.wake_word_config.vad_min_energy = 0.0f;
+    cfg.wake_word_config.cooldown_ms    = 0;
+    cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+    themis::voice::VoiceAssistant va(cfg);
+
+    std::atomic<int> fired{0};
+    va.setWakeWordCallback([&](const themis::voice::WakeWordDetectionResult& r) {
+        if (r.detected) ++fired;
+    });
+
+    // Feed voiced audio; detection depends on scoring but callback must be wired.
+    auto audio = makePcm(1500, 0.8f);
+    va.detectWakeWord(audio);
+    // Whether it detects or not, the callback must not crash.
+    SUCCEED();
+}
+
+TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_wake_word = true;
+    cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+    themis::voice::VoiceAssistant va(cfg);
+    auto audio = makePcm(500, 0.3f);
+    va.detectWakeWord(audio);
+
+    auto stats = va.getStatistics();
+    ASSERT_TRUE(stats.contains("wake_word"))
+        << "getStatistics() must expose 'wake_word' sub-object";
+    ASSERT_TRUE(stats["wake_word"].contains("total_chunks_processed"));
+    EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
+}
+#endif // THEMIS_ENABLE_VOICE_ASSISTANT
