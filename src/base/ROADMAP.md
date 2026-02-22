@@ -19,7 +19,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Version compatibility checking
 
 ## In Progress 🚧
-- [I] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554)
+- [P] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
 
 ## Planned Features 📋
@@ -27,8 +27,8 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ### Short-term (Next 3-6 months)
 - [I] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
 - [I] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
-- [!] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2082)
-- [I] Plugin health monitoring and automatic restart (Issue: #1570)
+- [!] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
+- [!] Plugin health monitoring and automatic restart (Issue: #2373)
 - [I] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
@@ -53,7 +53,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Cross-platform export/import macros and version compatibility checking
 
 ### Phase 2: Dynamic Loading & Dependency Management (Status: In Progress 🚧)
-- [I] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1576)
+- [P] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [ ] Plugin dependency resolution and ordered loading (Target: Q2 2026)
 
 ### Phase 3: Marketplace & Sandboxing (Status: Planned 📋)
@@ -73,7 +73,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] API stability guaranteed for module loading interface
 
 ## Known Issues & Limitations
-- Hot-reload is not yet supported; module changes require a restart
+- Hot-reload is supported via `HotReloadManager` (`include/themis/base/hot_reload_manager.h`); see Phase 2 above
 - WASM plugin isolation is not yet implemented
 - Remote plugin loading from a registry is not yet available
 - Plugin dependency resolution is manual (loading order not enforced)

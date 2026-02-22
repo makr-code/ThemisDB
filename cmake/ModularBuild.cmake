@@ -160,6 +160,7 @@ set(THEMIS_BASE_SOURCES
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
+    ../src/base/hot_reload_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -251,6 +252,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/cache/adaptive_query_cache.cpp
+    ../src/cache/warmup.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -517,6 +519,7 @@ set(THEMIS_LLM_SOURCES
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
+    ../src/llm/lora_framework/lora_provenance.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp

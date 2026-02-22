@@ -4,7 +4,7 @@ import sys
 
 EXISTING = ["enhancement", "priority:medium", "priority:high", "core", "query", "acceleration", "AQL"]
 REQUIRED = {
-    "Type": ["type:feature", "type:bug", "type:test", "type:documentation", "type:refactor", "type:chore"],
+    "Type": ["type:feature", "type:bug", "type:enhancement", "type:test", "type:documentation", "type:refactor", "type:chore"],
     "Priority": ["priority:critical", "priority:high", "priority:medium", "priority:low"],
     "Status": ["status:open", "status:in_progress", "status:blocked", "status:review", "status:ready"],
     "Area": ["area:core", "area:aql", "area:query", "area:acceleration", "area:storage", "area:vector", "area:graph", "area:rag", "area:infrastructure"]

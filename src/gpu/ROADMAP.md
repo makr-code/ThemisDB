@@ -28,26 +28,26 @@
 
 ## In Progress 🚧
 - [I] ROCm/HIP backend parity with CUDA feature set (Target: Q2 2026) (Issue: #1783)
-- [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #1807)
-- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2092)
+- [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #2191)
+- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [I] GPU memory defragmentation for long-running workloads (Issue: #1787)
-- [I] CUDA graph capture for recurring query execution patterns (Issue: #1801)
+- [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [I] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #1804)
+- [!] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
 - [I] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
 - [I] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
 - [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
-- [I] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #1803)
+- [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
 ## Implementation Phases
 

@@ -2,6 +2,9 @@ name: Importer Module Tests
 
 on:
   push:
+    branches:
+      - main
+      - develop
     paths:
       - 'src/importers/**'
       - 'include/importers/**'
@@ -28,6 +31,10 @@ on:
       - 'docs/importers_runbook.md'
       - '.github/workflows/importer-tests.yml'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   # ---------------------------------------------------------------------------
