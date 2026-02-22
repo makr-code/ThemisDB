@@ -23,25 +23,25 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] JSON query support (`aql_parser_json.cpp`)
 
 ## In Progress 🚧
-- [?] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026)
-- [?] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026)
+- [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
+- [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
 - [I] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Query result type annotations for client SDK code generation (Issue: #1432)
-- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2116)
-- [?] Query cancellation via request ID
-- [?] Parallel scan for large collection full-table queries
-- [?] User-defined functions (UDF) registration API
+- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
+- [!] Query cancellation via request ID (Issue: #2431)
+- [I] Parallel scan for large collection full-table queries (Issue: #2432)
+- [I] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
-- [?] Vectorized execution engine (column-store style batch processing)
-- [?] Adaptive query re-optimization on runtime statistics
-- [?] Cross-cluster federated AQL with cost estimation
-- [?] Multi-statement transaction AQL (BEGIN/COMMIT in query)
-- [?] SPARQL compatibility for RDF / knowledge-graph queries
+- [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
+- [I] Adaptive query re-optimization on runtime statistics (Issue: #2232)
+- [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
+- [I] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435)
+- [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
 
 ## Implementation Phases
 

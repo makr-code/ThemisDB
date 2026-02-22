@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_retention.cpp                             ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:13                                ║
+  Version:         0.0.24                                             ║
+  Last Modified:   2026-02-22 08:12:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 00c723d27  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -366,4 +366,160 @@ TEST_F(CDCRetentionTest, WatermarksAfterRetention) {
     auto wm_after = changefeed_->getWatermarks();
     EXPECT_GT(wm_after.low_watermark, wm_before.low_watermark);  // Low moved up
     EXPECT_EQ(wm_after.high_watermark, wm_before.high_watermark);  // High stays same
+}
+
+// ===== Compaction Tests =====
+
+TEST_F(CDCRetentionTest, CompactionEmptyLog) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    auto result = changefeed_->compactByKey();
+
+    EXPECT_EQ(result.events_scanned, 0u);
+    EXPECT_EQ(result.events_deleted, 0u);
+    EXPECT_EQ(result.keys_compacted, 0u);
+}
+
+TEST_F(CDCRetentionTest, CompactionKeepsLatestEventPerKey) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    // Record 3 PUT events for the same key
+    for (int i = 0; i < 3; i++) {
+        Changefeed::ChangeEvent event;
+        event.type = Changefeed::ChangeEventType::EVENT_PUT;
+        event.key = "doc:1";
+        event.value = "value_" + std::to_string(i);
+        changefeed_->recordEvent(event);
+    }
+
+    auto stats_before = changefeed_->getStats();
+    EXPECT_EQ(stats_before.total_events, 3u);
+
+    auto result = changefeed_->compactByKey();
+
+    EXPECT_EQ(result.events_scanned, 3u);
+    EXPECT_EQ(result.events_deleted, 2u);   // 2 older events removed
+    EXPECT_EQ(result.keys_compacted, 1u);   // 1 key compacted
+    EXPECT_EQ(result.events_retained, 1u);  // 1 latest event kept
+
+    auto stats_after = changefeed_->getStats();
+    EXPECT_EQ(stats_after.total_events, 1u);
+}
+
+TEST_F(CDCRetentionTest, CompactionMultipleKeys) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    // 2 events for "doc:1", 3 events for "doc:2", 1 event for "doc:3"
+    for (int i = 0; i < 2; i++) {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_PUT;
+        e.key = "doc:1";
+        e.value = "v" + std::to_string(i);
+        changefeed_->recordEvent(e);
+    }
+    for (int i = 0; i < 3; i++) {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_PUT;
+        e.key = "doc:2";
+        e.value = "v" + std::to_string(i);
+        changefeed_->recordEvent(e);
+    }
+    {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_PUT;
+        e.key = "doc:3";
+        e.value = "v0";
+        changefeed_->recordEvent(e);
+    }
+
+    auto stats_before = changefeed_->getStats();
+    EXPECT_EQ(stats_before.total_events, 6u);
+
+    auto result = changefeed_->compactByKey();
+
+    // Superseded: 1 for doc:1, 2 for doc:2 = 3 total
+    EXPECT_EQ(result.events_scanned, 6u);
+    EXPECT_EQ(result.events_deleted, 3u);
+    EXPECT_EQ(result.keys_compacted, 2u);   // doc:1 and doc:2 had superseded events
+    EXPECT_EQ(result.events_retained, 3u);  // one per key
+
+    auto stats_after = changefeed_->getStats();
+    EXPECT_EQ(stats_after.total_events, 3u);
+}
+
+TEST_F(CDCRetentionTest, CompactionPreservesDeleteTombstones) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    // PUT then DELETE for same key
+    {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_PUT;
+        e.key = "doc:x";
+        e.value = "hello";
+        changefeed_->recordEvent(e);
+    }
+    {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_DELETE;
+        e.key = "doc:x";
+        changefeed_->recordEvent(e);
+    }
+
+    auto result = changefeed_->compactByKey();
+
+    // The PUT is superseded; the DELETE (tombstone) must be kept.
+    EXPECT_EQ(result.events_scanned, 2u);
+    EXPECT_GE(result.events_deleted, 1u);  // The PUT should be removed
+    EXPECT_GE(result.events_retained, 1u); // The DELETE tombstone must survive
+
+    // Verify the DELETE event is still present
+    auto remaining = changefeed_->listEvents();
+    bool found_delete = false;
+    for (const auto& ev : remaining) {
+        if (ev.key == "doc:x" && ev.type == Changefeed::ChangeEventType::EVENT_DELETE) {
+            found_delete = true;
+        }
+    }
+    EXPECT_TRUE(found_delete);
+}
+
+TEST_F(CDCRetentionTest, CompactionNoOpWhenAllUnique) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    // Each key has exactly one event — nothing to compact
+    for (int i = 0; i < 5; i++) {
+        Changefeed::ChangeEvent e;
+        e.type = Changefeed::ChangeEventType::EVENT_PUT;
+        e.key = "doc:" + std::to_string(i);
+        e.value = "value";
+        changefeed_->recordEvent(e);
+    }
+
+    auto result = changefeed_->compactByKey();
+
+    EXPECT_EQ(result.events_scanned, 5u);
+    EXPECT_EQ(result.events_deleted, 0u);
+    EXPECT_EQ(result.keys_compacted, 0u);
+    EXPECT_EQ(result.events_retained, 5u);
+}
+
+TEST_F(CDCRetentionTest, GetEventBySequence) {
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr);
+
+    Changefeed::ChangeEvent e;
+    e.type = Changefeed::ChangeEventType::EVENT_PUT;
+    e.key = "lookup:key";
+    e.value = "lookup_value";
+    auto recorded = changefeed_->recordEvent(e);
+
+    auto fetched = changefeed_->getEvent(recorded.sequence);
+    EXPECT_EQ(fetched.sequence, recorded.sequence);
+    EXPECT_EQ(fetched.key, "lookup:key");
+    EXPECT_EQ(fetched.value, std::optional<std::string>("lookup_value"));
 }

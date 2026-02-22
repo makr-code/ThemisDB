@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_plan_visualizer.h                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-21 19:42:54                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-22 08:12:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     119                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     142                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 00c723d27  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 96eb8b81b  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
     • 1b8d26881  2026-02-21  feat(query): implement query plan visualization API (EXPL... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -1702,6 +1702,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/arrow_export.cpp
     ../src/analytics/analytics_export.cpp
+
+    # Streaming Aggregation Windows (Phase 2)
+    ../src/analytics/streaming_window.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2174,6 +2177,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         if(Vulkan_FOUND)
             target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()
