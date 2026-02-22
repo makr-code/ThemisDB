@@ -350,6 +350,27 @@ TEST_F(GraphQueryOptimizerTest, ClearPlanCache_RemovesCachedPlans) {
     ASSERT_TRUE(result2);
 }
 
+TEST_F(GraphQueryOptimizerTest, ClearPlanCache_AlsoClearsStructuralKeys) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    // Warm up: A → D populates exact key + structural key
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", constraints);
+    ASSERT_TRUE(plan1.has_value());
+
+    // Clear everything (exact + structural)
+    optimizer_->clearPlanCache();
+
+    const uint64_t hits_before = optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // B → C with the same constraints: structural key was cleared, so this must be a miss.
+    auto plan2 = optimizer_->optimizeShortestPath("B", "C", constraints);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "clearPlanCache must also remove structural cache keys";
+}
+
 TEST_F(GraphQueryOptimizerTest, PlanCachingDisabled_NoCache) {
     optimizer_->setPlanCachingEnabled(false);
     
