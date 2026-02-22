@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <fstream>
 #include <chrono>
+#include <filesystem>
 #include <yaml-cpp/yaml.h>
 
 namespace themis {
@@ -48,6 +49,10 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
     try {
         YAML::Node config = YAML::LoadFile(yaml_path);
         
+        std::unordered_map<std::string, ClassificationProfile> new_profiles;
+        std::unordered_map<std::string, std::string> new_mapping;
+        std::string new_mode = "enforce";
+
         // Load VS classification profiles
         if (config["vs_classification"]) {
             const auto& vs = config["vs_classification"];
@@ -65,7 +70,7 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
                 if (val["retention_days"]) profile.retention_days = val["retention_days"].as<int>();
                 if (val["log_encryption"]) profile.log_encryption = val["log_encryption"].as<bool>();
                 
-                classification_profiles_[normalize(level)] = profile;
+                new_profiles[normalize(level)] = profile;
             }
         }
         
@@ -75,17 +80,39 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
             for (const auto& kv : mappings) {
                 std::string resource = kv.first.as<std::string>();
                 std::string min_class = kv.second.as<std::string>();
-                resource_mapping_[resource] = normalize(min_class);
+                new_mapping[resource] = normalize(min_class);
             }
         }
         
         // Load default mode
         if (config["enforcement"] && config["enforcement"]["default_mode"]) {
-            default_mode_ = normalize(config["enforcement"]["default_mode"].as<std::string>());
+            new_mode = normalize(config["enforcement"]["default_mode"].as<std::string>());
+        }
+        
+        // Capture mtime before taking the lock to minimise lock hold time
+        std::filesystem::file_time_type mtime{};
+        try {
+            mtime = std::filesystem::last_write_time(yaml_path);
+        } catch (...) {
+            // If stat fails use a zero time_point; reloadIfChanged will retry
+        }
+
+        // Capture size for logging before the move
+        const size_t n_profiles = new_profiles.size();
+        const size_t n_mappings = new_mapping.size();
+
+        // Atomically swap policy data under the mutex
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            classification_profiles_ = std::move(new_profiles);
+            resource_mapping_        = std::move(new_mapping);
+            default_mode_            = std::move(new_mode);
+            loaded_yaml_path_        = yaml_path;
+            last_loaded_mtime_       = mtime;
         }
         
         THEMIS_INFO("Loaded governance policies from {}: {} classifications, {} resource mappings",
-            yaml_path, classification_profiles_.size(), resource_mapping_.size());
+            yaml_path, n_profiles, n_mappings);
         return true;
         
     } catch (const YAML::Exception& e) {
@@ -97,13 +124,52 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
     }
 }
 
+bool PolicyEngine::reloadIfChanged(std::string* err) {
+    // Read state under the lock then release before touching the filesystem
+    std::string path;
+    std::filesystem::file_time_type last_mtime;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        path       = loaded_yaml_path_;
+        last_mtime = last_loaded_mtime_;
+    }
+
+    if (path.empty()) {
+        // No file was ever loaded – nothing to do
+        return true;
+    }
+
+    std::filesystem::file_time_type current_mtime;
+    try {
+        current_mtime = std::filesystem::last_write_time(path);
+    } catch (const std::exception& e) {
+        if (err) *err = std::string("stat failed: ") + e.what();
+        return false;
+    }
+
+    if (current_mtime <= last_mtime) {
+        return true;  // File unchanged – fast no-op
+    }
+
+    // File has changed – reload atomically
+    THEMIS_INFO("PolicyEngine: governance policy file changed, reloading: {}", path);
+    return loadFromYAML(path);
+}
+
+std::string PolicyEngine::getLoadedFilePath() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return loaded_yaml_path_;
+}
+
 std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(const std::string& level) const {
+    std::lock_guard<std::mutex> lock(mutex_);
     auto it = classification_profiles_.find(normalize(level));
     if (it == classification_profiles_.end()) return std::nullopt;
     return it->second;
 }
 
 void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger) {
+    std::lock_guard<std::mutex> lock(mutex_);
     audit_logger_ = std::move(logger);
 }
 
@@ -115,14 +181,27 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         return std::string();
     };
 
+    // Snapshot policy data under lock so a concurrent reload doesn't race
+    std::unordered_map<std::string, ClassificationProfile> profiles;
+    std::unordered_map<std::string, std::string> resource_map;
+    std::string mode;
+    std::shared_ptr<themis::utils::AuditLogger> audit_log;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        profiles     = classification_profiles_;
+        resource_map = resource_mapping_;
+        mode         = default_mode_;
+        audit_log    = audit_logger_;
+    }
+
     PolicyDecision d;
 
     // Classification
     auto cls = normalize(get("X-Classification"));
     if (cls.empty()) {
         // Check resource mapping for default
-        auto res_it = resource_mapping_.find(route);
-        if (res_it != resource_mapping_.end()) {
+        auto res_it = resource_map.find(route);
+        if (res_it != resource_map.end()) {
             cls = res_it->second;
         } else {
             cls = "vs-nfd"; // ultimate default
@@ -131,20 +210,21 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     d.classification = cls;
 
     // Mode
-    auto mode = normalize(get("X-Governance-Mode"));
-    if (mode != "observe") mode = default_mode_;
-    d.mode = mode;
+    auto req_mode = normalize(get("X-Governance-Mode"));
+    if (req_mode != "observe") req_mode = mode;
+    d.mode = req_mode;
 
     // Lookup profile
-    auto profile = getClassificationProfile(cls);
-    if (profile) {
-        d.encrypt_logs = profile->log_encryption;
-        d.redaction = profile->redaction_level;
-        d.ann_allowed = profile->ann_allowed;
-        d.require_content_encryption = profile->encryption_required;
-        d.export_allowed = profile->export_allowed;
-        d.cache_allowed = profile->cache_allowed;
-        d.retention_days = profile->retention_days;
+    auto prof_it = profiles.find(normalize(cls));
+    if (prof_it != profiles.end()) {
+        const auto& profile = prof_it->second;
+        d.encrypt_logs = profile.log_encryption;
+        d.redaction = profile.redaction_level;
+        d.ann_allowed = profile.ann_allowed;
+        d.require_content_encryption = profile.encryption_required;
+        d.export_allowed = profile.export_allowed;
+        d.cache_allowed = profile.cache_allowed;
+        d.retention_days = profile.retention_days;
     } else {
         // Fallback if profile not found (MVP heuristics)
         bool strict = isStrictClass(cls);
@@ -174,7 +254,7 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     }
 
     // Audit log if in enforce mode and logger is configured
-    if (audit_logger_ && d.mode == "enforce") {
+    if (audit_log && d.mode == "enforce") {
         nlohmann::json audit_event = {
             {"event_type", "policy_evaluation"},
             {"route", route},
@@ -194,7 +274,7 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
             audit_event["user_id"] = user_it->second;
         }
         
-        audit_logger_->logEvent(audit_event);
+        audit_log->logEvent(audit_event);
     }
 
     return d;
