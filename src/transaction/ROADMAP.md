@@ -62,7 +62,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Changefeed integration for CDC
 
 ### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
-- [~] Serializable isolation level (full SSI via predicate locking)
+- [x] Serializable isolation level (full SSI via predicate locking)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [~] Transaction savepoints (partial rollback within a transaction)
 
@@ -90,7 +90,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ## Known Issues & Limitations
 - Individual `Transaction` objects are NOT thread-safe; use from a single thread.
-- Serializable isolation is not yet implemented; ReadCommitted and Snapshot only.
+- Serializable isolation is implemented via predicate locking (SSI); SERIALIZABLE transactions acquire predicate locks on read ranges and detect write conflicts at write time.
 - 2PC coordinator for cross-shard transactions is implemented in `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0).
 
 ## Breaking Changes

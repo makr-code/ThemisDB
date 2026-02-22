@@ -348,7 +348,8 @@ TransactionManager::TransactionId TransactionManager::generateTransactionId() {
 
 TransactionManager::TransactionId TransactionManager::beginTransaction(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
-    auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation,
+                                              &lock_manager_);
     applyDefaultTimeout(*txn);
     
     {
@@ -632,7 +633,7 @@ TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolati
     updateStatsWithSeqLock([this]() {
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
-    Transaction txn(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    Transaction txn(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation, &lock_manager_);
     applyDefaultTimeout(txn);
     return txn;
 }
@@ -644,9 +645,11 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              SecondaryIndexManager& secIdx,
                                              GraphIndexManager& graphIdx,
                                              VectorIndexManager& vecIdx,
-                                             IsolationLevel isolation)
+                                             IsolationLevel isolation,
+                                             LockManager* lock_manager)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
-      start_time_(std::chrono::system_clock::now()) {
+      start_time_(std::chrono::system_clock::now()),
+      lock_manager_(lock_manager) {
     // Map ThemisDB IsolationLevel to the appropriate RocksDB isolation level.
     // SERIALIZABLE and REPEATABLE_READ use snapshot isolation at the storage layer;
     // additional write-conflict checks are performed at commit time.
@@ -682,6 +685,8 @@ TransactionManager::Transaction::~Transaction() {
         captureDuration();
         mvcc_txn_->rollback();
         saga_->compensate();
+        // Release any predicate locks held by this transaction
+        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
     }
 }
 
@@ -711,8 +716,10 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       finished_(other.finished_.load(std::memory_order_acquire)),
       timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
       finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
-      savepoints_(std::move(other.savepoints_)) {
+      savepoints_(std::move(other.savepoints_)),
+      lock_manager_(other.lock_manager_) {
     other.finished_.store(true, std::memory_order_release);
+    other.lock_manager_ = nullptr;
 }
 
 TransactionManager::Transaction& TransactionManager::Transaction::operator=(Transaction&& other) noexcept {
@@ -720,12 +727,15 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
             mvcc_txn_->rollback();
             saga_->compensate();
+            if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
         }
         // Anmerkung: db_, secIdx_, graphIdx_ sind Referenzen und können nicht erneut gebunden werden.
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
         savepoints_ = std::move(other.savepoints_);
+        lock_manager_ = other.lock_manager_;
+        other.lock_manager_ = nullptr;
         timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
@@ -741,7 +751,11 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     // Serialize entity
     auto serialized = entity.serialize();
     std::string key = std::string("entity:") + std::string(table) + ":" + entity.getPrimaryKey();
-    
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     // Write to MVCC transaction
     if (!mvcc_txn_->put(key, serialized)) {
         return Status::Error("putEntity: MVCC conflict detected");
@@ -761,7 +775,11 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
     
     std::string key = std::string("entity:") + std::string(table) + ":" + std::string(pk);
-    
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     // Delete from MVCC transaction
     if (!mvcc_txn_->del(key)) {
         return Status::Error("eraseEntity: MVCC conflict detected");
@@ -782,6 +800,11 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     
     // Graph edges stored with MVCC
     std::string edge_key = "graph:edge:" + edgeEntity.getPrimaryKey();
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(edge_key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     auto serialized = edgeEntity.serialize();
     
     if (!mvcc_txn_->put(edge_key, serialized)) {
@@ -802,6 +825,10 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
     if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
     std::string edge_key = "graph:edge:" + std::string(edgeId);
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(edge_key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
     
     if (!mvcc_txn_->del(edge_key)) {
         return Status::Error("deleteEdge: MVCC conflict detected");
@@ -824,6 +851,11 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
 
     // Store vector entity in MVCC transaction
     std::string vector_key = "vector:" + pk;
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(vector_key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     auto serialized = entity.serialize();
     if (!mvcc_txn_->put(vector_key, serialized)) {
         return Status::Error("addVector: MVCC conflict detected");
@@ -856,6 +888,11 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
     // read-your-own-writes buffer would return the new value instead of the original.
     std::string pk = entity.getPrimaryKey();
     std::string vector_key = "vector:" + pk;
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(vector_key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     auto old_data = mvcc_txn_->get(vector_key);
 
     // Update vector entity in MVCC transaction
@@ -902,6 +939,11 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
     // read-your-own-writes buffer would return nothing instead of the original value.
     std::string pk_str(pk);
     std::string vector_key = "vector:" + pk_str;
+
+    // SSI: check for predicate conflict before writing
+    auto conflict_msg = checkSerializableWriteConflict(vector_key);
+    if (!conflict_msg.empty()) return Status::Error(conflict_msg);
+
     auto old_data = mvcc_txn_->get(vector_key);
 
     // Delete vector entity from MVCC transaction
@@ -940,6 +982,38 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
     return Status::OK();
 }
 
+TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(
+    const std::string& start_key, const std::string& end_key)
+{
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("trackPredicateRead: transaction already finished");
+    }
+    if (isolation_ != IsolationLevel::SERIALIZABLE) {
+        return Status::OK(); // no-op for non-serializable isolation levels
+    }
+    if (!lock_manager_) {
+        return Status::Error("trackPredicateRead: no LockManager available");
+    }
+    lock_manager_->acquirePredicateLock(id_, start_key, end_key);
+    THEMIS_DEBUG("Transaction {} acquired predicate lock on [{}, {}]", id_, start_key, end_key);
+    return Status::OK();
+}
+
+std::string TransactionManager::Transaction::checkSerializableWriteConflict(
+    const std::string& key) const
+{
+    if (isolation_ != IsolationLevel::SERIALIZABLE) return {};
+    if (!lock_manager_) return {};
+    auto conflicting_txn = lock_manager_->checkPredicateConflict(id_, key);
+    if (conflicting_txn != 0) {
+        THEMIS_WARN("Transaction {} write to '{}' conflicts with predicate lock held by txn {}",
+                    id_, key, conflicting_txn);
+        return "serialization failure: write conflicts with predicate lock held by txn " +
+               std::to_string(conflicting_txn) + ", transaction must be retried";
+    }
+    return {};
+}
+
 TransactionManager::Status TransactionManager::Transaction::commit() {
     // RACE CONDITION FIX: Use atomic compare-exchange to prevent double commit
     bool expected = false;
@@ -962,6 +1036,7 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         THEMIS_WARN("Transaction {} timed out ({} ms), aborting commit", id_, getDurationMs());
         mvcc_txn_->rollback();
         saga_->compensate();
+        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
         return Status::Error("commit: transaction timed out");
     }
     
@@ -972,11 +1047,13 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         // Commit failed - MVCC conflict detected
         THEMIS_ERROR("Transaction {} commit failed - MVCC conflict, executing SAGA compensation", id_);
         saga_->compensate();
+        if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
         return Status::Error("commit: MVCC conflict detected, transaction must be retried");
     }
     
     // Success - clear SAGA (no compensation needed)
     saga_->clear();
+    if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
     THEMIS_INFO("Transaction {} committed successfully (MVCC)", id_);
     return Status::OK();
 }
@@ -1000,6 +1077,7 @@ void TransactionManager::Transaction::rollback() {
     
     // Execute SAGA compensation
     saga_->compensate();
+    if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
     
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }

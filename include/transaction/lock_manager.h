@@ -137,6 +137,41 @@ public:
     /// Keys that @p txn_id is currently blocked on (used by deadlock detector).
     std::vector<std::string> getWaitingFor(TransactionId txn_id) const;
 
+    // ── Predicate Locking for SSI (Serializable Snapshot Isolation) ──────────
+
+    /// Acquire a predicate (range) lock for SERIALIZABLE isolation.
+    ///
+    /// Records that @p txn_id has read all keys in [@p start_key, @p end_key]
+    /// (inclusive on both ends). Any other transaction that subsequently writes
+    /// a key in this range will be detected as a serialization conflict.
+    ///
+    /// @param txn_id     Owning transaction.
+    /// @param start_key  Lower bound of the predicate range (inclusive).
+    /// @param end_key    Upper bound of the predicate range (inclusive; may
+    ///                   equal @p start_key for a single-key predicate).
+    /// @return true on success; false if acquiring would create an immediate
+    ///         predicate-lock conflict with an existing lock on the same range
+    ///         from another transaction.
+    bool acquirePredicateLock(TransactionId txn_id,
+                              const std::string& start_key,
+                              const std::string& end_key);
+
+    /// Release all predicate locks held by @p txn_id.
+    ///
+    /// Must be called when a SERIALIZABLE transaction commits or rolls back.
+    void releasePredicateLocks(TransactionId txn_id);
+
+    /// Check whether writing @p key by @p writing_txn_id conflicts with a
+    /// predicate lock held by another active transaction.
+    ///
+    /// Returns the TransactionId of the first conflicting holder, or 0 if
+    /// no conflict exists.
+    TransactionId checkPredicateConflict(TransactionId writing_txn_id,
+                                         const std::string& key) const;
+
+    /// Return the number of predicate locks currently held by @p txn_id.
+    size_t getPredicateLockCount(TransactionId txn_id) const;
+
 private:
     /// One active lock holder for a key.
     struct LockEntry {
@@ -201,6 +236,18 @@ private:
     std::atomic<uint64_t> stats_timeouts_{0};
     std::atomic<uint64_t> stats_escalations_{0};
     std::atomic<uint64_t> stats_waiting_{0};
+
+    // ── Predicate locks for SSI ───────────────────────────────────────────────
+
+    /// A predicate (range) lock for Serializable Snapshot Isolation.
+    struct PredicateLock {
+        TransactionId txn_id;
+        std::string   start_key; ///< lower bound (inclusive)
+        std::string   end_key;   ///< upper bound (inclusive)
+    };
+
+    /// All active predicate locks, protected by mutex_.
+    std::vector<PredicateLock> predicate_locks_;
 };
 
 } // namespace themis

@@ -83,7 +83,8 @@ public:
                     SecondaryIndexManager& secIdx,
                     GraphIndexManager& graphIdx,
                     VectorIndexManager& vecIdx,
-                    IsolationLevel isolation);
+                    IsolationLevel isolation,
+                    LockManager* lock_manager = nullptr);
         ~Transaction();
 
         // Keine Kopie, aber Move
@@ -153,7 +154,41 @@ public:
         Status commit();
         void rollback();
 
-        // ── Savepoints ───────────────────────────────────────────────────────
+        // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
+
+        /**
+         * @brief Track a range predicate read for SERIALIZABLE isolation (SSI).
+         *
+         * Records that this transaction has read all keys in the closed interval
+         * [@p start_key, @p end_key].  Any other SERIALIZABLE transaction that
+         * subsequently writes a key inside this range will be detected as a
+         * serialization conflict and aborted.
+         *
+         * No-op when the isolation level is not SERIALIZABLE.
+         *
+         * @param start_key  Lower bound of the range (inclusive).
+         * @param end_key    Upper bound of the range (inclusive). May equal
+         *                   @p start_key for a single-key predicate.
+         * @return Status::OK() on success; error if the transaction is not active.
+         */
+        Status trackPredicateRead(const std::string& start_key,
+                                  const std::string& end_key);
+
+        /**
+         * @brief Check whether writing @p key would violate serializability.
+         *
+         * For SERIALIZABLE transactions only: returns a non-empty error message
+         * when @p key falls within a predicate range held by another active
+         * SERIALIZABLE transaction, indicating a potential phantom / write-skew
+         * anomaly.
+         *
+         * Always returns an empty string for non-SERIALIZABLE isolation levels.
+         *
+         * @param key  The storage key that is about to be written.
+         * @return Non-empty error message on conflict; empty string if safe.
+         */
+        std::string checkSerializableWriteConflict(const std::string& key) const;
+
 
         /**
          * @brief Record a savepoint at the current write position.
@@ -256,6 +291,11 @@ public:
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
         std::atomic<uint64_t> timeout_ms_{0}; ///< 0 = no timeout
         std::atomic<uint64_t> finished_duration_ms_{0}; ///< wall-clock duration captured at commit/rollback time
+
+        /// Non-owning pointer to the shared LockManager; used for predicate
+        /// lock tracking by SERIALIZABLE transactions. May be nullptr for
+        /// non-SERIALIZABLE transactions or legacy Transaction objects.
+        LockManager* lock_manager_{nullptr};
 
         /// Record the current wall-clock duration into finished_duration_ms_.
         /// Must be called while the caller holds exclusive ownership (i.e. after
