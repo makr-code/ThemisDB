@@ -183,6 +183,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         int result = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
         if (result < 0) {
             ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
             span.recordError("Data point outside late-arrival window");
             return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                 fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -191,6 +192,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
         }
         if (result > 0) {
             ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+            if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
             THEMIS_DEBUG("Out-of-order write accepted: metric={}, ts={}",
                          point.metric, point.timestamp_ms);
         }
@@ -280,6 +282,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     int r = checkAndUpdateWatermarkLocked(group_key, p.timestamp_ms);
                     if (r < 0) {
                         ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/true);
                         span.recordError("Data point outside late-arrival window");
                         return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                             fmt::format("Data point timestamp {} is outside the late-arrival window "
@@ -288,6 +291,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
                     }
                     if (r > 0) {
                         ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                        if (metrics_) metrics_->recordOutOfOrderWrite(p.metric, /*rejected=*/false);
                     }
                 }
             }
@@ -388,6 +392,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             int r = checkAndUpdateWatermarkLocked(wm_key, point.timestamp_ms);
             if (r < 0) {
                 ooo_rejected_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/true);
                 return ErrVoid(errors::ErrorCode::ERR_TIMESERIES_LATE_ARRIVAL,
                     fmt::format("Data point timestamp {} is outside the late-arrival window "
                                 "(window={}ms)",
@@ -395,6 +400,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
             }
             if (r > 0) {
                 ooo_accepted_.fetch_add(1, std::memory_order_relaxed);
+                if (metrics_) metrics_->recordOutOfOrderWrite(point.metric, /*rejected=*/false);
             }
         }
         
