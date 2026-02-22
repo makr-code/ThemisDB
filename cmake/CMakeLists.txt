@@ -1328,6 +1328,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/parallel_traversal.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
