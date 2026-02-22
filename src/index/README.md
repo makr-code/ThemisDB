@@ -75,6 +75,7 @@ High-performance vector similarity search with HNSW algorithm and optional GPU a
 - **Quantization**: Product Quantization (PQ), Binary Quantization, Residual Quantization
 - **Advanced Features**: IVF+PQ, FAISS integration, multi-vector search
 - **Production Defaults**: Optimized parameters via `HnswProductionDefaults`
+- **Workload Auto-Tuner**: Runtime construction-parameter selection via `HnswParameterTuner` and `WorkloadClassifier`
 - **RocksDB Persistence**: Atomic updates via WriteBatch
 - **Audit Logging**: Track vector operations for compliance
 
@@ -121,6 +122,41 @@ auto hnsw_config = defaults.getConfig(
     HnswProductionDefaults::LatencyRequirement::P99_SUB_10MS
 );
 vim.setHnswConfig("embeddings", hnsw_config);
+```
+
+**Workload-Adaptive Construction Parameters (Auto-Tuner):**
+```cpp
+// Option A: Classify workload automatically from observed traffic
+WorkloadClassifier classifier;
+
+// Record events as they occur (thread-safe)
+classifier.recordInsert(1);        // single-vector inserts → OLTP signal
+classifier.recordQuery(/*k=*/10);  // medium-k queries → RAG signal
+
+// Detect workload type from accumulated stats
+auto workload = classifier.detectWorkload();
+// → OLTP / ANALYTICS / RAG / BATCH_INSERT / MIXED
+
+// Option B: Ask the tuner to pick M and ef_construction automatically
+HnswParameterTuner::Config tuner_cfg;
+tuner_cfg.adaptive = true;
+tuner_cfg.target_recall = 0.95;
+HnswParameterTuner tuner(tuner_cfg);
+
+// Record a few warm-up queries, then ask for construction params
+tuner.recordQueryResult(/*k=*/10, /*ef=*/64, /*latency_ms=*/3.0, /*recall=*/0.96);
+auto cp = tuner.getAutoTunedConstructionParams(/*dataset_size=*/500000);
+// cp.M, cp.ef_construction, cp.detected_workload are all set
+
+// Option C: Point-in-time target-based tuning (no warm-up needed)
+auto params = HnswProductionDefaults::autoTuneParameters(
+    500000,   // dataset size
+    768,      // vector dimension
+    100,      // sample_size (currently informational)
+    10.0,     // target latency ms
+    0.95      // target recall
+);
+// params.M, params.ef_construction, params.ef_search selected for the targets
 ```
 
 **Quantization for Memory Efficiency:**
