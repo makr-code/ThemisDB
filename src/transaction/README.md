@@ -1201,3 +1201,15 @@ txn.commit();  // Auto-compensate on failure
 ## License
 
 Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
+
+## Scientific References
+
+1. Gray, J., & Reuter, A. (1992). **Transaction Processing: Concepts and Techniques**. Morgan Kaufmann. ISBN: 978-1-558-60190-4
+
+2. Bernstein, P. A., Hadzilacos, V., & Goodman, N. (1987). **Concurrency Control and Recovery in Database Systems**. Addison-Wesley. https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/ccontrol.zip
+
+3. Kung, H. T., & Robinson, J. T. (1981). **On Optimistic Methods for Concurrency Control**. *ACM Transactions on Database Systems*, 6(2), 213–226. https://doi.org/10.1145/319566.319567
+
+4. Garcia-Molina, H., & Salem, K. (1987). **Sagas**. *Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data*, 249–259. https://doi.org/10.1145/38713.38742
+
+5. Herlihy, M., & Wing, J. M. (1990). **Linearizability: A Correctness Condition for Concurrent Objects**. *ACM Transactions on Programming Languages and Systems*, 12(3), 463–492. https://doi.org/10.1145/78969.78972

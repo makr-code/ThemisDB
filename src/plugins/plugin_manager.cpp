@@ -850,12 +850,40 @@ bool PluginManager::isPluginLoaded(const std::string& name) const {
 Result<void> PluginManager::reloadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
 
-    // Pre-reload tamper detection: compare current on-disk hash against the
-    // hash recorded at load time to detect unexpected file mutations.
+    // -------------------------------------------------------------------------
+    // Phase 1: Pre-reload validation and state capture (under mutex)
+    // -------------------------------------------------------------------------
+    std::string saved_state;
+    std::string plugin_path;
+    std::string expected_hash;
+
     {
         std::lock_guard<std::mutex> lock(mutex_);
+
         auto it = plugins_.find(name);
-        if (it != plugins_.end() && it->second.loaded && !it->second.file_hash.empty()) {
+        if (it == plugins_.end() || !it->second.loaded) {
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                           fmt::format("Plugin not loaded: {}", name));
+        }
+
+        // Block reload if other loaded plugins depend on this one.
+        auto dependents = findDependentPlugins(name);
+        if (!dependents.empty()) {
+            std::string dep_list;
+            for (const auto& dep : dependents) {
+                if (!dep_list.empty()) dep_list += ", ";
+                dep_list += dep;
+            }
+            auto error_msg = fmt::format(
+                "Cannot reload plugin '{}' — {} plugin(s) depend on it: {}",
+                name, dependents.size(), dep_list);
+            THEMIS_ERROR("{}", error_msg);
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
+        }
+
+        // Pre-reload tamper detection: compare current on-disk hash against the
+        // hash recorded at load time to detect unexpected file mutations.
+        if (it->second.loaded && !it->second.file_hash.empty()) {
             std::string current_hash = calculateFileHash(it->second.path);
             if (!current_hash.empty() && current_hash != it->second.file_hash) {
                 THEMIS_WARN("Plugin '{}' binary has changed on disk since last load "
@@ -865,37 +893,190 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
                             current_hash.substr(0, 16));
             }
         }
+
+        // Save IStatefulPlugin state before the old instance is replaced.
+        if (it->second.instance) {
+            auto* stateful = dynamic_cast<IStatefulPlugin*>(it->second.instance.get());
+            if (stateful) {
+                try {
+                    saved_state = stateful->saveState();
+                    THEMIS_INFO("Saved state for plugin '{}' ({} bytes)",
+                                name, saved_state.size());
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed to save state for plugin '{}': {}", name, e.what());
+                }
+            }
+        }
+
+        plugin_path    = it->second.path;
+        expected_hash  = it->second.manifest.expected_hash;
     }
 
-    // Notify listeners: about to unload
+    // -------------------------------------------------------------------------
+    // Phase 2: ATOMIC RELOAD — load new binary before touching the old one.
+    //
+    // If any step in this phase fails, the old plugin instance is completely
+    // untouched and continues to run (rollback is implicit).
+    // -------------------------------------------------------------------------
+
+    // Step 2a: Optional binary hash enforcement (manifest expected_hash)
+    if (!expected_hash.empty()) {
+        std::string actual_hash = calculateFileHash(plugin_path);
+        if (actual_hash.empty()) {
+            auto msg = fmt::format("Hash computation failed for plugin '{}' during reload", name);
+            THEMIS_ERROR("{}", msg);
+            metrics_.recordError(name);
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
+        }
+        if (actual_hash != expected_hash) {
+            auto msg = fmt::format("Binary hash mismatch for plugin '{}' — possible tampering", name);
+            THEMIS_ERROR("Plugin '{}': expected hash {}, got {}", name, expected_hash, actual_hash);
+            metrics_.recordError(name);
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE, msg);
+        }
+    }
+
+    // Step 2b: Signature / security verification of new binary
+    std::string verify_error;
+    if (!verifyPlugin(plugin_path, verify_error)) {
+        auto msg = fmt::format("Plugin verification failed after reload for '{}': {}", name, verify_error);
+        THEMIS_ERROR("{}", msg);
+        metrics_.recordError(name);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE, msg);
+    }
+
+    // Step 2c: Load new binary (old library stays open — OS ref-counts handles)
+    void* new_handle = loadLibrary(plugin_path);
+    if (!new_handle) {
+        auto msg = fmt::format("Failed to load new plugin binary for '{}' from '{}'", name, plugin_path);
+        THEMIS_ERROR("{}", msg);
+#ifndef _WIN32
+        THEMIS_ERROR("dlopen error: {}", dlerror());
+#endif
+        metrics_.recordError(name);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
+    }
+
+    // Step 2d: Resolve createPlugin / destroyPlugin entry points
+    auto new_create  = reinterpret_cast<CreatePluginFunc>(getSymbol(new_handle, "createPlugin"));
+    auto new_destroy = reinterpret_cast<DestroyPluginFunc>(getSymbol(new_handle, "destroyPlugin"));
+    if (!new_create) {
+        unloadLibrary(new_handle);
+        auto msg = fmt::format("New binary for plugin '{}' does not export createPlugin", name);
+        THEMIS_ERROR("{}", msg);
+        metrics_.recordError(name);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
+    }
+
+    // Step 2e: Create new plugin instance
+    IThemisPlugin* new_instance = new_create();
+    if (!new_instance) {
+        unloadLibrary(new_handle);
+        auto msg = fmt::format("createPlugin() returned null for '{}'", name);
+        THEMIS_ERROR("{}", msg);
+        metrics_.recordError(name);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
+    }
+
+    // Step 2f: Initialize with restored state embedded in config (if available)
+    std::string init_config = "{}";
+    if (!saved_state.empty()) {
+        try {
+            nlohmann::json cfg;
+            cfg["restored_state"] = saved_state;
+            init_config = cfg.dump();
+        } catch (...) {
+            init_config = "{}";
+        }
+    }
+
+    if (!new_instance->initialize(init_config.c_str())) {
+        if (new_destroy) new_destroy(new_instance);
+        else delete new_instance;
+        unloadLibrary(new_handle);
+        auto msg = fmt::format("New plugin binary for '{}' failed initialize()", name);
+        THEMIS_ERROR("{}", msg);
+        metrics_.recordError(name);
+        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED, msg);
+    }
+
+    // Step 2g: Restore state directly via IStatefulPlugin (belt-and-suspenders)
+    if (!saved_state.empty()) {
+        auto* stateful = dynamic_cast<IStatefulPlugin*>(new_instance);
+        if (stateful && !stateful->restoreState(saved_state)) {
+            THEMIS_WARN("restoreState() returned false for '{}' after reload; "
+                        "plugin continues with state from initialize()", name);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Phase 3: New binary is healthy. Notify listeners (BEFORE_UNLOAD),
+    // then atomically swap entries under mutex, then clean up old binary.
+    // -------------------------------------------------------------------------
+
     notifyPluginReload(name, PluginReloadPhase::BEFORE_UNLOAD);
 
-    // Unload first
-    auto unload_result = unloadPlugin(name);
-    if (!unload_result) {
-        return tl::unexpected(unload_result.error());
+    // Capture old handle/instance for post-swap cleanup outside the lock
+    void* old_handle = nullptr;
+    IThemisPlugin* old_raw   = nullptr;
+    DestroyPluginFunc old_destroy = nullptr;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        auto it = plugins_.find(name);
+        if (it == plugins_.end()) {
+            // Unlikely: plugin entry was removed concurrently. Clean up new instance.
+            if (new_destroy) new_destroy(new_instance);
+            else delete new_instance;
+            unloadLibrary(new_handle);
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
+                           fmt::format("Plugin entry '{}' removed during reload", name));
+        }
+
+        auto& entry      = it->second;
+        old_handle       = entry.library_handle;
+
+        // Retrieve old destroyPlugin symbol before the handle is replaced
+        if (old_handle) {
+            old_destroy = reinterpret_cast<DestroyPluginFunc>(
+                getSymbol(old_handle, "destroyPlugin"));
+        }
+
+        // Release old instance ownership and atomically install new instance.
+        // Using get()+reset() rather than release() to ensure the unique_ptr is
+        // explicitly nulled before the new pointer is assigned.
+        old_raw = entry.instance.get();
+        entry.instance.release();
+        entry.instance.reset(new_instance);
+        entry.library_handle = new_handle;
+        entry.loaded         = true;
+        entry.file_hash      = calculateFileHash(plugin_path);
     }
 
-    // Brief delay to allow the OS to release file handles before reloading
-    std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
-
-    // Notify listeners: unload complete
+    // Swap complete — old plugin is now detached. Notify AFTER_UNLOAD.
     notifyPluginReload(name, PluginReloadPhase::AFTER_UNLOAD);
 
-    // Then reload
-    auto result = loadPlugin(name);
-
-    if (!result) {
-        metrics_.recordError(name);
-        return tl::unexpected(result.error());
+    // Shut down and destroy the old instance outside the lock
+    if (old_raw) {
+        old_raw->shutdown();
+        if (old_destroy) old_destroy(old_raw);
+        else delete old_raw;
+    }
+    // Brief delay to allow the OS to release the old file handle
+    if (old_handle) {
+        std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
+        unloadLibrary(old_handle);
     }
 
-    // Notify listeners: reload complete
+    // Notify AFTER_LOAD
     notifyPluginReload(name, PluginReloadPhase::AFTER_LOAD);
 
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     metrics_.recordReload(name, duration);
+
+    THEMIS_INFO("Hot-reloaded plugin '{}' successfully ({}ms)", name, duration.count());
     return OkVoid();
 }
 

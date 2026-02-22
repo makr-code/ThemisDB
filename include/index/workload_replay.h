@@ -62,8 +62,8 @@ public:
     WorkloadCapture& operator=(const WorkloadCapture&) = delete;
 
     // Move is allowed
-    WorkloadCapture(WorkloadCapture&&) = default;
-    WorkloadCapture& operator=(WorkloadCapture&&) = default;
+    WorkloadCapture(WorkloadCapture&& other) noexcept;
+    WorkloadCapture& operator=(WorkloadCapture&& other) noexcept;
 
     /// Record one column access event.
     void recordEvent(const WorkloadEvent& event);

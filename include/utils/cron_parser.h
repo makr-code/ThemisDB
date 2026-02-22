@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     194                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,8 +28,17 @@
  * Supported syntax:
  * - Wildcards: * (any value)
  * - Ranges: 0-5 (values from 0 to 5)
- * - Lists: 1,3,5 (specific values)
- * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30)
+ * - Lists: 1,3,5 (specific values); list items may themselves be ranges or
+ *   steps, e.g. "1,3-5,*\/10"
+ * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30),
+ *   5/15 (starting at 5, every 15 up to the field maximum)
+ *
+ * Name aliases (case-insensitive):
+ * - Month  field: JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC
+ *   (and full names JANUARY … DECEMBER)
+ * - Weekday field: SUN MON TUE WED THU FRI SAT
+ *   (and full names SUNDAY … SATURDAY)
+ * Name aliases may be used in ranges and lists, e.g. "JAN-MAR", "MON,WED,FRI".
  *
  * Special expressions:
  * - @yearly / @annually  – once a year  ("0 0 1 1 *")
@@ -45,8 +54,12 @@
  *
  * Examples:
  * - "0 9-17 * * 1-5"      = Weekdays 9-17h every hour
+ * - "0 9-17 * * MON-FRI"  = Same as above using name aliases
  * - "*\/15 * * * *"        = Every 15 minutes
+ * - "5/15 * * * *"         = Minutes 5, 20, 35, 50
+ * - "1,3-5,7 * * * *"     = Minutes 1, 3, 4, 5, 7
  * - "0 0 1 * *"           = First day of month at midnight
+ * - "0 0 1 JAN-MAR *"     = First day of Jan, Feb, Mar at midnight
  * - "30 2 * * 0"          = Every Sunday at 2:30 AM
  * - "@daily"              = Every day at midnight
  * - "@hourly"             = Every hour on the hour

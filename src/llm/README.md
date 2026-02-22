@@ -155,3 +155,13 @@ if (grammar.isValid()) {
 For LLM documentation, see:
 - [LLM Interaction Store](../../docs/src/llm/llm_interaction_store.cpp.md)
 - [Chain of Thought Storage](../../docs/chain_of_thought_storage.md)
+
+## Scientific References
+
+1. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … Polosukhin, I. (2017). **Attention Is All You Need**. *Advances in Neural Information Processing Systems (NeurIPS)*, 30, 5998–6008. https://arxiv.org/abs/1706.03762
+
+2. Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., … Amodei, D. (2020). **Language Models are Few-Shot Learners**. *Advances in Neural Information Processing Systems (NeurIPS)*, 33, 1877–1901. https://arxiv.org/abs/2005.14165
+
+3. Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., … Zhou, D. (2022). **Chain-of-Thought Prompting Elicits Reasoning in Large Language Models**. *Advances in Neural Information Processing Systems (NeurIPS)*, 35. https://arxiv.org/abs/2201.11903
+
+4. Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). **BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding**. *Proceedings of NAACL-HLT 2019*, 4171–4186. https://doi.org/10.18653/v1/N19-1423

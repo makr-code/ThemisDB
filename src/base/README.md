@@ -250,3 +250,13 @@ std::cout << "Author: " << capabilities.author << std::endl;
 - [Acceleration Module](../acceleration/README.md) - Plugin security
 - [Plugin Development Guide](../../docs/base/plugin_development.md)
 - [Security Guide](../../docs/security/module_security.md)
+
+## Scientific References
+
+1. Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). **Design Patterns: Elements of Reusable Object-Oriented Software**. Addison-Wesley. ISBN: 978-0-201-63361-0
+
+2. Stroustrup, B. (2013). **The C++ Programming Language (4th ed.)**. Addison-Wesley. ISBN: 978-0-321-56384-2
+
+3. Alexandrescu, A. (2001). **Modern C++ Design: Generic Programming and Design Patterns Applied**. Addison-Wesley. ISBN: 978-0-201-70431-0
+
+4. Meyers, S. (2014). **Effective Modern C++: 42 Specific Ways to Improve Your Use of C++11 and C++14**. O'Reilly Media. ISBN: 978-1-491-90399-5

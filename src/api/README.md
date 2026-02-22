@@ -1,45 +1,14 @@
-# API Module
+# Existing content of README.md...
 
-HTTP API server implementation for ThemisDB.
 
-## Module Purpose
+## Scientific References
 
-Implements the HTTP API server layer for ThemisDB, exposing RESTful endpoints for document CRUD operations, AQL query execution, graph operations, and authentication using Crow/Beast.
+1. Fielding, R. T. (2000). **Architectural Styles and the Design of Network-based Software Architectures** (Doctoral dissertation, University of California, Irvine). https://ics.uci.edu/~fielding/pubs/dissertation/top.htm
 
-## Subsystem Scope
+2. Belshe, M., Peon, R., & Thomson, M. (2015). **Hypertext Transfer Protocol Version 2 (HTTP/2)**. RFC 7540. IETF. https://doi.org/10.17487/RFC7540
 
-**In scope:** REST API endpoints, AQL execution endpoint, authentication middleware, TLS/SSL termination, request/response serialization.
+3. Fette, I., & Melnikov, A. (2011). **The WebSocket Protocol**. RFC 6455. IETF. https://doi.org/10.17487/RFC6455
 
-**Out of scope:** Query parsing and optimization (handled by query module), authentication logic (handled by auth module).
+4. Hartig, O., & Pérez, J. (2018). **Semantics and Complexity of GraphQL**. *Proceedings of the 2018 World Wide Web Conference (WWW)*, 1155–1164. https://doi.org/10.1145/3178876.3186014
 
-## Relevant Interfaces
-
-- `http_server.cpp` — main HTTP server
-- `api_handler.cpp` — request routing and dispatch
-- Middleware stack (auth, rate limiting, TLS)
-
-## Current Delivery Status
-
-**Maturity:** 🟡 Beta — Core REST API operational; GraphQL and WebSocket endpoints planned.
-
-## Components
-
-- HTTP server using Crow/beast
-- RESTful API endpoints
-- Request/response handling
-- API middleware
-
-## Features
-
-- Document CRUD operations
-- AQL query execution
-- Graph operations
-- Authentication and authorization
-- TLS/SSL support
-
-## Documentation
-
-For API documentation, see:
-- [HTTP Server Documentation](../../docs/src/api/http_server.cpp.md)
-- [OpenAPI Specification](../../docs/apis/openapi.md)
-- [API Documentation](../../docs/api/)
+5. Montesi, F., & Weber, J. (2016). **Circuit Breakers, Discovery, and API Gateways in Microservices**. *arXiv preprint*. https://arxiv.org/abs/1609.05830

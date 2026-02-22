@@ -39,3 +39,13 @@ Provides data import functionality for ThemisDB, currently supporting PostgreSQL
 
 For importer documentation, see:
 - [PostgreSQL Importer](../../docs/importers/POSTGRES_IMPORTER.md)
+
+## Scientific References
+
+1. Vassiliadis, P., Simitsis, A., & Skiadopoulos, S. (2002). **Conceptual Modeling for ETL Processes**. *Proceedings of the 5th ACM International Workshop on Data Warehousing and OLAP (DOLAP)*, 14–21. https://doi.org/10.1145/583890.583893
+
+2. Kimball, R., & Caserta, J. (2004). **The Data Warehouse ETL Toolkit: Practical Techniques for Extracting, Cleaning, Conforming, and Delivering Data**. Wiley. ISBN: 978-0-764-57923-5
+
+3. Stonebraker, M., Bruckner, D., Ilyas, I. F., Beschastnikh, I., Cherniack, M., & Xu, N. (2013). **Data Curation at Scale: The Data Tamer System**. *Proceedings of the 6th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2013/Papers/CIDR13_Paper28.pdf
+
+4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4

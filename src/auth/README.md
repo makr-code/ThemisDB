@@ -1111,3 +1111,15 @@ For more detailed documentation, see:
 For security issues, see [SECURITY.md](../../SECURITY.md)
 
 For general support, see [SUPPORT.md](../../SUPPORT.md)
+
+## Scientific References
+
+1. Jones, M., Bradley, J., & Sakimura, N. (2015). **JSON Web Token (JWT)**. RFC 7519. IETF. https://doi.org/10.17487/RFC7519
+
+2. Hardt, D. (2012). **The OAuth 2.0 Authorization Framework**. RFC 6749. IETF. https://doi.org/10.17487/RFC6749
+
+3. Sakimura, N., Bradley, J., Jones, M. B., de Medeiros, B., & Mortimore, C. (2014). **OpenID Connect Core 1.0**. OpenID Foundation. https://openid.net/specs/openid-connect-core-1_0.html
+
+4. Bonneau, J., Herley, C., van Oorschot, P. C., & Stajano, F. (2012). **The Quest to Replace Passwords: A Framework for Comparative Evaluation of Web Authentication Schemes**. *Proceedings of the 2012 IEEE Symposium on Security and Privacy*, 553–567. https://doi.org/10.1109/SP.2012.44
+
+5. Grassi, P. A., Garcia, M. E., & Fenton, J. L. (2017). **Digital Identity Guidelines: Authentication and Lifecycle Management**. NIST Special Publication 800-63B. National Institute of Standards and Technology. https://doi.org/10.6028/NIST.SP.800-63b

@@ -391,3 +391,15 @@ When adding new cross-cutting concerns:
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned features and improvements
 - [Storage Module](../storage/README.md) - Storage layer documentation
 - [Server Module](../server/README.md) - Server implementation documentation
+
+## Scientific References
+
+1. Fowler, M. (2004). **Inversion of Control Containers and the Dependency Injection Pattern**. martinfowler.com. https://martinfowler.com/articles/injection.html
+
+2. Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). **Design Patterns: Elements of Reusable Object-Oriented Software**. Addison-Wesley. ISBN: 978-0-201-63361-0
+
+3. Martin, R. C. (2003). **Agile Software Development, Principles, Patterns, and Practices**. Prentice Hall. ISBN: 978-0-135-97444-5
+
+4. Johnson, R., & Foote, B. (1988). **Designing Reusable Classes**. *Journal of Object-Oriented Programming*, 1(2), 22–35.
+
+5. Steele, G. L. (1994). **Building Interpreters by Composing Monads**. *Proceedings of the 21st ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL)*, 472–492. https://doi.org/10.1145/174675.178068
