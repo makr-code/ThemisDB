@@ -581,3 +581,84 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRequiresAssertionSignatureWhenConfigu
         EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_SIGNATURE);
     }
 }
+
+// ============================================================================
+// Encrypted assertion tests
+// ============================================================================
+
+// Helper: base64-encode a raw XML string (same algorithm as buildSAMLResponseB64)
+static std::string base64EncodeString(const std::string& in) {
+    std::vector<uint8_t> bytes(in.begin(), in.end());
+    const char b64t[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve(((bytes.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < bytes.size(); i += 3) {
+        uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
+        if (i + 1 < bytes.size()) b |= (static_cast<uint32_t>(bytes[i+1]) << 8);
+        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i+2]);
+        out += b64t[(b >> 18) & 0x3F];
+        out += b64t[(b >> 12) & 0x3F];
+        out += (i + 1 < bytes.size()) ? b64t[(b >> 6) & 0x3F] : '=';
+        out += (i + 2 < bytes.size()) ? b64t[b & 0x3F] : '=';
+    }
+    return out;
+}
+
+// Helper: build a SAMLResponse containing an EncryptedAssertion instead of a plain Assertion
+static std::string buildEncryptedAssertionResponseB64() {
+    const std::string xml =
+        R"(<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
+        R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_enc_resp001" Version="2.0" IssueInstant="2026-01-01T00:00:00Z")"
+        R"( Destination="https://myapp.example.com/saml/acs">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(<samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>)"
+        R"(<saml:EncryptedAssertion>)"
+        R"(<xenc:EncryptedData xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">)"
+        R"(<xenc:CipherData><xenc:CipherValue>AAAA</xenc:CipherValue></xenc:CipherData>)"
+        R"(</xenc:EncryptedData>)"
+        R"(</saml:EncryptedAssertion>)"
+        R"(</samlp:Response>)";
+    return base64EncodeString(xml);
+}
+
+TEST(SAMLAuthenticatorTest, ProcessResponseRejectsEncryptedAssertion) {
+    // Even with signatures disabled, a response containing EncryptedAssertion
+    // should throw AUTH_NOT_IMPLEMENTED since decryption is not supported.
+    SAMLAuthenticator auth(makeTestConfig());
+
+    auto b64 = buildEncryptedAssertionResponseB64();
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected AuthException for EncryptedAssertion";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::AUTH_NOT_IMPLEMENTED);
+    }
+}
+
+TEST(SAMLAuthenticatorTest, ProcessResponseRejectsRequireEncryptedAssertionWithPlainAssertion) {
+    // When require_encrypted_assertion=true, a plain (unencrypted) Assertion
+    // must be rejected with AUTH_NOT_IMPLEMENTED.
+    auto cfg = makeTestConfig();
+    cfg.require_encrypted_assertion = true;
+    SAMLAuthenticator auth(cfg);
+
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    auto b64 = buildSAMLResponseB64(
+        "https://test-idp.example.com/metadata",
+        "https://myapp.example.com/saml/metadata",
+        "https://myapp.example.com/saml/acs",
+        "user@example.com",
+        "urn:oasis:names:tc:SAML:2.0:status:Success",
+        "_assert_enc_required_01",
+        now);
+
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected AuthException when require_encrypted_assertion=true with plain Assertion";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::AUTH_NOT_IMPLEMENTED);
+    }
+}

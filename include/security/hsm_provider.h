@@ -211,6 +211,26 @@ public:
     std::optional<std::string> getCertificate(const std::string& key_label);
 
     /**
+     * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK wrapping in the key management hierarchy.
+     * @param data: Plaintext to encrypt (max ~245 bytes for RSA-2048)
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Encrypted bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> encryptData(const std::vector<uint8_t>& data,
+                                     const std::string& key_label = "");
+
+    /**
+     * Decrypt data using HSM-backed private key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK unwrapping in the key management hierarchy.
+     * @param encrypted: Ciphertext produced by encryptData()
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Decrypted plaintext bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> decryptData(const std::vector<uint8_t>& encrypted,
+                                     const std::string& key_label = "");
+
+    /**
      * Check if HSM is initialized and ready
      */
     bool isReady() const;

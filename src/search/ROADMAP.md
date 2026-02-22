@@ -25,7 +25,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 
 ## In Progress 🚧
-- [I] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
+- [x] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
 ## Planned Features 📋
@@ -60,7 +60,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 
 ### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
-- [~] Faceted search with dynamic facet counting
+- [x] Faceted search with dynamic facet counting
 - [~] Highlight / snippet generation for matched terms
 
 ### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)

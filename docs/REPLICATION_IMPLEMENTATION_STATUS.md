@@ -127,6 +127,22 @@ Diese Aufteilung ermöglicht es, dass `replication/` sich auf Business-Logik kon
   7. ✅ **ReplicaFailureDetection** - Topology API tracking Replica-Gesundheit
   8. ✅ **WriteConcernTimeout** - Timeout-Handling funktioniert
 
+### 9. **Replication Topology Visualizer** (Web UI) ✨ *NEU*
+- **Datei:** `include/server/replication_topology_api_handler.h` + `src/server/replication_topology_api_handler.cpp`
+- **Endpoints:**
+  - `GET /api/v1/replication/topology` — JSON-Snapshot aller Nodes mit Rolle, Health, WAL-Lag
+  - `GET /api/v1/replication/health` — Aggregierter Cluster-Health-Status (Quorum, Lag, Ship-Statistiken)
+  - `GET /ui/replication/topology` — Interaktive SVG-Topologieseite (automatisches Refresh alle 5 s)
+- **Features:**
+  - Radial SVG-Graph: Primary (blau, `P`) im Zentrum, Replicas farblich nach Health
+  - Gerichtete WAL-Stream-Kanten mit Pfeilspitzen
+  - Per-Replica Lag-Label direkt am Knoten
+  - Sidebar mit Cluster-Statistiken und Node-Tabelle
+  - `API_BASE` automatisch aus dem `Host`-Header injiziert
+  - 503-Antwort bei nicht konfigurierter Replikation (tolerant gegenüber null-Coordinator)
+- **Tests:** `tests/test_replication_topology_api_handler.cpp`
+- **Erweiterung von `ReplicationCoordinator`:** neue Methoden `getReplicaInfo()` und `getShipperStats()` (delegiert an `WALShipper`)
+
 ---
 
 ## 🔄 Write-Path (Beispiel: PUT /entities)

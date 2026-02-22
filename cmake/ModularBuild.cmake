@@ -233,6 +233,9 @@ set(THEMIS_STORAGE_SOURCES
     # Storage security
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
+
+    # Change data capture (used by metadata/schema manager)
+    ../src/cdc/changefeed.cpp
 )
 
 set(THEMIS_QUERY_SOURCES
@@ -388,9 +391,6 @@ set(THEMIS_TRANSACTION_SOURCES
     # Replication
     ../src/replication/replication_manager.cpp
     
-    # Change data capture
-    ../src/cdc/changefeed.cpp
-    
     # Graph index (used by transactions)
     ../src/index/graph_index.cpp
 )
@@ -500,6 +500,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
     ../src/llm/llamacpp_inference_engine.cpp
+    ../src/llm/shared_worker_pool.cpp
     ../src/llm/async_inference_engine.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp

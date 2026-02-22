@@ -28,12 +28,17 @@
 #include "security/hsm_provider.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
+#include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <sstream>
 #include <chrono>
 
 namespace themis { namespace security {
 
-class HSMProvider::Impl { };
+class HSMProvider::Impl {
+public:
+    std::vector<uint8_t> stub_kek; // 32-byte AES-256 KEK for stub wrap/unwrap
+};
 
 static std::string to_hex(const std::vector<uint8_t>& data) {
     static const char* d = "0123456789abcdef";
@@ -44,6 +49,61 @@ static std::string to_hex(const std::vector<uint8_t>& data) {
 
 static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
+}
+
+// AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
+    if (key.size() != 32) return {};
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), 12) != 1) return {};
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+    bool ok =
+        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+    ct_len = len;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    ct_len += len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    ciphertext.resize(ct_len);
+    std::vector<uint8_t> result;
+    result.insert(result.end(), iv.begin(), iv.end());
+    result.insert(result.end(), ciphertext.begin(), ciphertext.end());
+    result.insert(result.end(), tag.begin(), tag.end());
+    return result;
+}
+
+// AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
+    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    const uint8_t* iv  = encrypted.data();
+    size_t ct_len      = encrypted.size() - 12 - 16;
+    const uint8_t* ct  = encrypted.data() + 12;
+    const uint8_t* tag = encrypted.data() + 12 + ct_len;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> plaintext(ct_len);
+    int len = 0, pt_len = 0;
+    bool ok =
+        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+    pt_len = len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
+    pt_len += len;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    plaintext.resize(pt_len);
+    return plaintext;
 }
 
 HSMProvider::HSMProvider(HSMConfig config)
@@ -96,6 +156,20 @@ bool HSMProvider::initialize() {
     }
     
     initialized_ = true;
+    
+    // Recreate Impl if finalize() was called previously (impl_ would be nullptr)
+    if (!impl_) {
+        impl_ = std::make_unique<Impl>();
+    }
+    
+    // Generate stub KEK for consistent wrap/unwrap operations
+    impl_->stub_kek.resize(32);
+    if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
+        last_error_ = "Failed to generate stub KEK";
+        THEMIS_ERROR("HSMProvider stub: {}", last_error_);
+        initialized_ = false;
+        return false;
+    }
     
     // CRITICAL SECURITY WARNING: Stub provider active
     THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
@@ -159,6 +233,24 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     info.extractable = false;
     info.key_size = 0;
     return {info};
+}
+
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
+    (void)key_label;
+    if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
+    auto result = stub_aes_encrypt(impl_->stub_kek, data);
+    if (result.empty()) { last_error_ = "Stub AES encrypt failed"; }
+    return result;
+}
+
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
+    (void)key_label;
+    if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
+    auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
+    if (result.empty()) { last_error_ = "Stub AES decrypt failed (bad ciphertext or key mismatch)"; }
+    return result;
 }
 
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {

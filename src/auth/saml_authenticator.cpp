@@ -508,12 +508,31 @@ SAMLClaims SAMLAuthenticator::processResponse(
     // Find Response-level signature
     auto response_sig = findSignature(response_node);
 
-    // Find Assertion element (may be inside EncryptedAssertion in future)
+    // Detect EncryptedAssertion elements (decryption is not yet supported)
+    auto encrypted_assertion_node = findDescendantByLocalName(response_node, "EncryptedAssertion");
+    if (encrypted_assertion_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
+                         "Encrypted assertion not supported",
+                         "SAMLResponse contains an EncryptedAssertion element. "
+                         "XML assertion decryption (requiring SP private key) is not yet implemented. "
+                         "Configure the IdP to send unencrypted assertions.");
+    }
+
+    // Find plain Assertion element
     auto assertion_node = findDescendantByLocalName(response_node, "Assertion");
     if (!assertion_node) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION,
                          "Invalid SAML response",
                          "No Assertion element found in SAMLResponse");
+    }
+
+    // Enforce require_encrypted_assertion: reject plain assertions when encryption is required
+    if (config_.require_encrypted_assertion) {
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
+                         "Encrypted assertion required but not supported",
+                         "require_encrypted_assertion=true is set but XML assertion decryption "
+                         "(requiring SP private key) is not yet implemented. "
+                         "Set require_encrypted_assertion=false or integrate an XML decryption library.");
     }
 
     auto assertion_sig = findSignature(assertion_node);
