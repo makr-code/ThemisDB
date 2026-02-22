@@ -1,0 +1,61 @@
+name: Research Documentation Validation
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 9 * * MON'  # Weekly check every Monday at 09:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  check-research-links:
+    name: Validate Research Links
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for undocumented research references
+        run: |
+          python3 scripts/validate_research_links.py
+
+  validate-research-metadata:
+    name: Validate Research Metadata
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate research file metadata
+        run: |
+          python3 scripts/validate_research_metadata.py
+
+  generate-research-report:
+    name: Generate Research Index (dry-run)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dry-run index generation
+        run: |
+          python3 scripts/generate_research_index.py --dry-run
