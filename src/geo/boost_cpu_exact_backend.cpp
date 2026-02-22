@@ -65,6 +65,8 @@ using Point = bg::model::d2::point_xy<double>;
 using Polygon = bg::model::polygon<Point>;
 using LineString = bg::model::linestring<Point>;
 
+static const double kBoostPi = 3.14159265358979323846;
+
 /// Convert GeometryInfo to Boost.Geometry polygon
 static Polygon toBoostPolygon(const GeometryInfo& geom) {
     Polygon poly;
@@ -180,7 +182,7 @@ public:
                 const auto mbr = geom.computeMBR();
                 center_lat = (mbr.miny + mbr.maxy) * 0.5;
             }
-            const double lat_rad = center_lat * M_PI / 180.0;
+            const double lat_rad = center_lat * kBoostPi / 180.0;
             const double d_lat = distance_m / 111320.0;
             const double cos_lat = std::cos(lat_rad);
             const double d_lon = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
