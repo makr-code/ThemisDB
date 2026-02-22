@@ -1891,8 +1891,43 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
         return false;
     }
     spdlog::info("CEPEngine: restoring from checkpoint '{}'", checkpoint_id);
-    // In a full implementation, we would replay events or restore state.
-    // For now we acknowledge the checkpoint exists.
+
+    std::ifstream f(cp_file);
+    if (!f.is_open()) {
+        spdlog::error("CEPEngine: cannot read checkpoint '{}'", cp_file.string());
+        return false;
+    }
+
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.rfind("rule=", 0) == 0) {
+            // Format: rule=<rule_id>:<rule_name>:<enabled>
+            std::string rest = line.substr(5);
+            auto colon1 = rest.find(':');
+            if (colon1 == std::string::npos) {
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
+                             checkpoint_id, line);
+                continue;
+            }
+            auto colon2 = rest.find(':', colon1 + 1);
+            if (colon2 == std::string::npos) {
+                spdlog::warn("CEPEngine: malformed rule line in checkpoint '{}': '{}'",
+                             checkpoint_id, line);
+                continue;
+            }
+            std::string rule_id    = rest.substr(0, colon1);
+            std::string flag_str   = rest.substr(colon2 + 1);
+            // Trim trailing whitespace
+            auto trim_end = flag_str.find_last_not_of(" \t\r\n");
+            if (trim_end != std::string::npos) flag_str = flag_str.substr(0, trim_end + 1);
+            bool enabled = (flag_str == "1");
+            if (rule_engine_) {
+                rule_engine_->setRuleEnabled(rule_id, enabled);
+            }
+        }
+    }
+
+    spdlog::info("CEPEngine: checkpoint '{}' restored", checkpoint_id);
     return true;
 }
 
