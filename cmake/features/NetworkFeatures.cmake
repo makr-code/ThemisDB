@@ -48,7 +48,7 @@ endif()
 
 # GraphQL
 if(NOT DEFINED THEMIS_ENABLE_GRAPHQL)
-    option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL" OFF)
+    option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL" ON)
 endif()
 
 # Display network features

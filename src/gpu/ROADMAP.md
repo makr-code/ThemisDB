@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, and query acceleration are implemented. ROCm parity and multi-node GPU support are still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, and ROCm/HIP backend parity are implemented. Multi-node GPU coordination and memory defragmentation are still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -25,9 +25,9 @@
 - [x] Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
+- [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 
 ## In Progress 🚧
-- [I] ROCm/HIP backend parity with CUDA feature set (Target: Q2 2026) (Issue: #1783)
 - [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #2191)
 - [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
 
@@ -67,8 +67,8 @@
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
-### Phase 2: Backend Parity & Cluster Coordination (Status: In Progress 🚧)
-- [I] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026) (Issue: #1806)
+### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)
+- [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
 - [~] GPU memory defragmentation routine (Target: Q2 2026)
 - [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
 
@@ -89,7 +89,6 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
-- ROCm/HIP backend has partial feature parity with CUDA backend
 - GPU memory defragmentation is not yet implemented; long-running instances may fragment VRAM
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is not yet implemented
