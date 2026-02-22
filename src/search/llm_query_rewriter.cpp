@@ -19,10 +19,10 @@
 
 #include "search/llm_query_rewriter.h"
 #include "utils/logger.h"
-#include <algorithm>
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 namespace themis {
 
