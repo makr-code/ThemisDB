@@ -19,9 +19,9 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] SecurityManager orchestrator
 - [x] Audit log with tamper-evident chaining
 - [x] Compliance features (eIDAS, GDPR-related controls)
+- [x] Attribute-Based Access Control (ABAC) alongside RBAC
 
 ## In Progress 🚧
-- [P] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
 - [P] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
 - [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
 

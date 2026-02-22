@@ -154,6 +154,20 @@ voice_assistant:
     # Wake word detection
     wake_word_enabled: false
     wake_word: "hey themis"
+    # Advanced wake-word configuration (WakeWordConfig)
+    wake_word_sensitivity: 0.5        # Detection threshold: 0.0 (permissive) – 1.0 (strict)
+    wake_word_buffer_length_ms: 1500  # Rolling audio buffer size in ms
+    wake_word_cooldown_ms: 1000       # Minimum ms between successive detections
+    wake_word_vad_min_energy: 0.005   # Minimum RMS energy for VAD gate (silence suppressor)
+    wake_word_sample_rate: 16000      # Expected PCM sample rate (Hz)
+    # Additional wake words (id: phrase format)
+    wake_words:
+      - id: "hey-themis"
+        phrase: "hey themis"
+      - id: "themis"
+        phrase: "themis"
+      - id: "database"
+        phrase: "database"
     
     # Continuous listening
     continuous_listening: false
