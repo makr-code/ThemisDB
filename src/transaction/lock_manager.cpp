@@ -511,4 +511,51 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
                 row_keys.size(), table_key, txn_id);
 }
 
+// ---------------------------------------------------------------------------
+// Predicate locking for SSI
+// ---------------------------------------------------------------------------
+
+bool LockManager::acquirePredicateLock(TransactionId txn_id,
+                                        const std::string& start_key,
+                                        const std::string& end_key)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    predicate_locks_.push_back({txn_id, start_key, end_key});
+    return true;
+}
+
+void LockManager::releasePredicateLocks(TransactionId txn_id)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    predicate_locks_.erase(
+        std::remove_if(predicate_locks_.begin(), predicate_locks_.end(),
+                       [txn_id](const PredicateLock& pl) {
+                           return pl.txn_id == txn_id;
+                       }),
+        predicate_locks_.end());
+}
+
+LockManager::TransactionId LockManager::checkPredicateConflict(
+    TransactionId writing_txn_id, const std::string& key) const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    for (const auto& pl : predicate_locks_) {
+        if (pl.txn_id == writing_txn_id) continue;
+        if (key >= pl.start_key && key <= pl.end_key) {
+            return pl.txn_id;
+        }
+    }
+    return 0;
+}
+
+size_t LockManager::getPredicateLockCount(TransactionId txn_id) const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    return static_cast<size_t>(
+        std::count_if(predicate_locks_.begin(), predicate_locks_.end(),
+                      [txn_id](const PredicateLock& pl) {
+                          return pl.txn_id == txn_id;
+                      }));
+}
+
 } // namespace themis
