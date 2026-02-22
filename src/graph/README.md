@@ -167,6 +167,55 @@ if (enable_parallel && estimated_nodes > 10000) {
 return cost;
 ```
 
+**Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries):**
+
+Two queries are "structurally similar" when they share the same `QueryPattern` and
+`QueryConstraints` but differ only in start/target vertex IDs. Because algorithm
+selection is driven entirely by pattern type, constraint shape, and graph-level
+statistics — not by specific vertex IDs — the optimizer can reuse the same
+`OptimizationPlan` for all such queries.
+
+The plan cache employs a two-level lookup strategy:
+1. **Exact key** (`pattern:start:target[:depth=N][:type=T]…`) — fastest lookup
+   for repeated identical queries.
+2. **Structural key** (`struct:pattern[:depth=N][:type=T][:uv][:ue][:par]…`) —
+   used when the exact key misses. If found, the plan is promoted to the exact
+   key for faster future lookups.
+
+```cpp
+optimizer.setPlanCachingEnabled(true);
+
+// First query — cold start; populates both the exact and structural cache keys.
+auto plan1 = optimizer.optimizeShortestPath("user_A", "user_B", constraints);
+
+// Second query — different vertices, same constraints.
+// Served from the structural cache entry (cache hit, no re-planning).
+auto plan2 = optimizer.optimizeShortestPath("user_C", "user_D", constraints);
+
+// plan1 and plan2 carry identical algorithm, cost, and node estimates.
+assert(plan1->algorithm == plan2->algorithm);
+assert(plan1->estimated_cost == plan2->estimated_cost);
+
+// Monitor cache efficiency
+const auto& m = optimizer.getQueryMetrics();
+uint64_t hits   = m.plan_cache_hits.load();
+uint64_t misses = m.plan_cache_misses.load();
+```
+
+Structural key components (all constraint factors that affect plan selection):
+- `QueryPattern` (SHORTEST_PATH, K_HOP_NEIGHBORS, PATTERN_MATCH, REACHABILITY, …)
+- `max_depth` or depth hint (e.g., `k` for K_HOP queries, vertex/edge count for PATTERN_MATCH)
+- `edge_type` (selectivity-driven cost)
+- `unique_vertices` / `unique_edges` flags
+- `enable_parallel` flag
+- Count of `forbidden_vertices` / `required_vertices`
+
+Fields intentionally excluded from the structural key (they affect execution, not planning):
+- `timeout_ms` (execution deadline only)
+- `max_results` (early termination only)
+- `num_threads` (parallelism tuning only)
+- `graph_id` (statistics are global; per-graph statistics can be collected separately)
+
 **Thread Safety:**
 - Optimizer instances are NOT thread-safe (create per-query or use mutex)
 - Statistics reads are thread-safe
