@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **README: Comprehensive Technology & Feature Badges** 🏷️
+  - Added 11 badge categories to the README header showcasing ThemisDB capabilities:
+  - *Technology Stack*: C++17/20, CUDA, Vulkan, RocksDB, llama.cpp
+  - *Multi-Model Capabilities*: Relational (AQL), Vector (HNSW+FAISS), Graph (Property Graphs),
+    Document, Geospatial (GeoJSON/R-tree), TimeSeries
+  - *Enterprise & Security*: ACID (MVCC), TLS 1.3, PKI (X.509/GPG), RBAC, AES-256-GCM Encryption
+  - *AI/ML Integration*: LLM-Ready, RAG, Vector Search, Embeddings, LoRA Fine-Tuning
+  - *Performance*: GPU-Accelerated, SIMD, 45K WPS, 120K RPS
+  - *Distributed Systems*: Sharding, Raft Replication, CDC
+  - *Query & Analytics*: AQL, GraphQL, OLAP, Full-Text Search (BM25)
+  - *Data Integration*: PostgreSQL Wire Import, Multi-Format Export, Content Pipeline
+  - *Observability*: Prometheus, OpenTelemetry, Audit Logging
+  - *Quality Metrics*: 41 Modules, 500K+ LOC, 3 Production-Ready Core Modules
+  - All badges link to relevant `src/` module directories using shields.io
 - **Geo Module: Full GeoJSON RFC 7946 parsing** 🌍
   - `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946 geometry types:
     `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`,
