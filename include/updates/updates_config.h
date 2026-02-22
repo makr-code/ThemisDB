@@ -85,6 +85,27 @@ struct UpdatesConfig {
         std::string webhook_url;                        // Webhook URL for notifications
         std::string email_to;                           // Email address for notifications
     } notifications;
+
+    // Canary Rollout Settings
+    struct CanaryConfig {
+        bool enabled = false;                           // Enable canary rollout mode
+        std::string node_id;                            // Stable identifier for this node
+        double error_rate_threshold = 0.05;             // Error rate triggering auto-rollback
+        size_t min_sample_count = 20;                   // Minimum events before threshold check
+
+        // Rollout stages: each entry is (fraction_0_to_1, observation_seconds).
+        // Default four-stage: 1% → 5% → 25% → 100%
+        struct Stage {
+            double percentage = 1.0;
+            int observation_seconds = 0;
+        };
+        std::vector<Stage> stages = {
+            {0.01, 3600},
+            {0.05, 7200},
+            {0.25, 21600},
+            {1.00, 0},
+        };
+    } canary;
     
     /**
      * @brief Load configuration from YAML file
