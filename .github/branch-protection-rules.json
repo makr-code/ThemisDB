@@ -43,15 +43,17 @@
             "build-linux-gcc",
             "test-unit",
             "static-analysis",
-            "validate-ai-guardrails"
+            "security-scan",
+            "validate-ai-guardrails",
+            "validate-roadmap"
           ]
         },
         "enforce_admins": false,
         "required_pull_request_reviews": {
           "dismissal_restrictions": {},
-          "dismiss_stale_reviews": true,
-          "require_code_owner_reviews": false,
-          "required_approving_review_count": 1,
+          "dismiss_stale_reviews": false,
+          "require_code_owner_reviews": true,
+          "required_approving_review_count": 2,
           "require_last_push_approval": false
         },
         "restrictions": null,
@@ -139,7 +141,8 @@
     "test-performance": "Performance/benchmark tests",
     "static-analysis": "Static analysis (clang-tidy, cppcheck)",
     "security-scan": "CodeQL security scanning",
-    "validate-ai-guardrails": "AI-Guardrails validation workflow"
+    "validate-ai-guardrails": "AI-Guardrails validation workflow",
+    "validate-roadmap": "Roadmap structure validation"
   },
   "notes": [
     "Branch protection rules must be configured manually in GitHub UI",
