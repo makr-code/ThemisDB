@@ -97,7 +97,7 @@ auto tx = db.beginTransaction(IsolationLevel::Serializable);
 A version `v` is visible to transaction `tx` if and only if:
 
 ```
-v.begin_ts <= tx.read_ts  AND  tx.read_ts < v.end_ts
+v.begin_ts != kPending  AND  v.begin_ts <= tx.read_ts  AND  tx.read_ts < v.end_ts
 ```
 
 ```cpp
@@ -133,9 +133,9 @@ write locks only when two transactions may modify the same record:
 ```cpp
 // Optimistic: no lock during read, validate at commit
 auto readOptimistic(Transaction& tx, const Key& key) -> std::optional<Value> {
-    auto* chain = index_.find(key);
-    if (!chain) return std::nullopt;
-    auto* v = findVisible(*chain, tx);
+    auto it = index_.find(key);
+    if (it == index_.end()) return std::nullopt;
+    auto* v = findVisible(it->second, tx);
     if (!v) return std::nullopt;
     tx.addReadSet(key, v->begin_ts);  // Track for validation
     return deserialize(v->data);
@@ -144,10 +144,10 @@ auto readOptimistic(Transaction& tx, const Key& key) -> std::optional<Value> {
 // Validate read set at commit time
 bool validateReadSet(const Transaction& tx) {
     for (const auto& [key, observed_ts] : tx.readSet()) {
-        auto* chain = index_.find(key);
-        if (!chain) return false;
+        auto it = index_.find(key);
+        if (it == index_.end()) return false;
         // Check that the version we read is still the latest visible one
-        auto* current = findVisible(*chain, tx);
+        auto* current = findVisible(it->second, tx);
         if (!current || current->begin_ts != observed_ts) return false;
     }
     return true;
@@ -278,16 +278,17 @@ have `begin_ts = kPending`. They are simply removed:
 ```cpp
 void rollbackTransaction(Transaction& tx) {
     for (const auto& [key, pendingVersion] : tx.writeSet()) {
-        auto* chain = index_.find(key);
-        if (chain) {
+        auto it = index_.find(key);
+        if (it != index_.end()) {
+            auto& chain = it->second;
             // Remove the pending version from the chain head
-            chain->versions.erase(
-                std::remove_if(chain->versions.begin(), chain->versions.end(),
+            chain.versions.erase(
+                std::remove_if(chain.versions.begin(), chain.versions.end(),
                     [&] (const RecordVersion& v) {
                         return v.begin_ts == kPending &&
                                v.tx_id == tx.id();
                     }),
-                chain->versions.end()
+                chain.versions.end()
             );
         }
     }
