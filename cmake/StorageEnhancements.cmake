@@ -12,6 +12,9 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/scheduler/task_scheduler.cpp
     ../src/scheduler/event_trigger.cpp
     
+    # Distributed task coordination (Phase 2)
+    ../src/scheduler/distributed_task_coordinator.cpp
+    
     # Task audit events and anomaly detection
     ../src/scheduler/task_audit_event.cpp
     ../src/scheduler/task_anomaly_detector.cpp

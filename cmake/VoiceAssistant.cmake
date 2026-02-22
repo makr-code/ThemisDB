@@ -3,6 +3,9 @@
 
 if(THEMIS_ENABLE_VOICE_ASSISTANT)
     list(APPEND THEMIS_CORE_SOURCES
+        # Content processors required by the voice pipeline
+        ../src/content/stt_processor.cpp
+        ../src/content/tts_processor.cpp
         # Voice Assistant Core
         ../src/voice/voice_assistant.cpp
         ../src/voice/voice_assistant_llm.cpp

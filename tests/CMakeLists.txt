@@ -346,6 +346,8 @@ endif()
 # Voice module production components for testing (compile standalone, not gated by THEMIS_ENABLE_VOICE_ASSISTANT)
 if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
     target_sources(themis_tests PRIVATE
+        ../src/content/stt_processor.cpp
+        ../src/content/tts_processor.cpp
         ../src/voice/audio_preprocessing.cpp
         ../src/voice/voice_intent_detector.cpp
         ../src/voice/voice_session_manager.cpp
