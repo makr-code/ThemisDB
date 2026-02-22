@@ -35,6 +35,12 @@ namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
     : config_(config) {
+    // Initialise wake-word detector regardless of the enable flag so that
+    // detectWakeWord() is always safe to call; the caller can gate on the flag.
+    wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
+    for (const auto& entry : config_.wake_words) {
+        wake_word_detector_->addWakeWord(entry.first, entry.second);
+    }
 }
 
 VoiceAssistant::~VoiceAssistant() {
@@ -528,6 +534,16 @@ std::string VoiceAssistant::createRevisionEntry(
     std::stringstream ss;
     ss << "revision:" << std::hex << now;
     return ss.str();
+}
+
+WakeWordDetectionResult VoiceAssistant::detectWakeWord(
+    const std::vector<uint8_t>& audio_chunk
+) {
+    return wake_word_detector_->processAudioChunk(audio_chunk);
+}
+
+void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback(std::move(callback));
 }
 
 } // namespace voice
