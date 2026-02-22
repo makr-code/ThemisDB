@@ -15,8 +15,8 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Plugin signer tool (`tools/plugin_signer/`)
 
 ## In Progress 🚧
-- [?] Plugin hot-reload without server restart (Target: Q2 2026)
-- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2112)
+- [I] Plugin hot-reload without server restart (Target: Q2 2026) (Issue: #2223)
+- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2427)
 - [?] Plugin marketplace / registry integration (Target: Q3 2026)
 
 ## Planned Features 📋
@@ -30,7 +30,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 
 ### Long-term (6-12 months)
 - [?] WebAssembly (WASM) plugin runtime for sandboxed execution
-- [?] Remote plugin loading from OCI registries
+- [I] Remote plugin loading from OCI registries (Issue: #2224)
 - [?] Plugin capability permissions model (fine-grained access control)
 - [?] Plugin SDK (C++, Python, Go bindings)
 - [?] Community plugin repository with security scanning

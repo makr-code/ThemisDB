@@ -518,6 +518,7 @@ set(THEMIS_LLM_SOURCES
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
+    ../src/llm/lora_framework/lora_provenance.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp

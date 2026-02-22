@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     334                                            ║
+    • Total Lines:     406                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b2265b9b9  2026-02-21  feat(acceleration): Phase 3.3 — BackendHealthStatus + Vul... ║
     • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
+    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -100,6 +98,62 @@ struct BackendCapabilities {
     std::string deviceName;
 };
 
+// Backend health status — returned by IComputeBackend::getHealthStatus()
+struct BackendHealthStatus {
+    // Overall health: "healthy" | "degraded" | "unhealthy"
+    std::string status;
+
+    // True when the backend has been successfully initialized and is ready
+    // to accept work (liveness probe + readiness probe combined)
+    bool healthy  = false;
+    bool ready    = false;  // initialized and compute pipelines loaded
+    bool alive    = false;  // backend process/driver is reachable
+
+    // Human-readable description of the current state
+    std::string message;
+
+    // List of actionable issue descriptions (empty when healthy)
+    std::vector<std::string> issues;
+
+    // Device/driver information (populated when alive)
+    std::string deviceName;
+    std::string driverInfo;
+
+    // Memory snapshot (0 when unavailable)
+    size_t memoryUsedBytes      = 0;
+    size_t memoryAvailableBytes = 0;
+
+    // Convenience builder helpers
+    static BackendHealthStatus makeHealthy(const std::string& device = "") {
+        BackendHealthStatus s;
+        s.status  = "healthy";
+        s.healthy = s.ready = s.alive = true;
+        s.message    = "Backend is operational";
+        s.deviceName = device;
+        return s;
+    }
+
+    static BackendHealthStatus makeDegraded(const std::string& issue) {
+        BackendHealthStatus s;
+        s.status  = "degraded";
+        s.healthy = false;
+        s.ready   = false;
+        s.alive   = true;
+        s.message = issue;
+        s.issues.push_back(issue);
+        return s;
+    }
+
+    static BackendHealthStatus makeUnhealthy(const std::string& issue) {
+        BackendHealthStatus s;
+        s.status  = "unhealthy";
+        s.healthy = s.ready = s.alive = false;
+        s.message = issue;
+        s.issues.push_back(issue);
+        return s;
+    }
+};
+
 // Base interface for compute backends
 class IComputeBackend {
 public:
@@ -122,6 +176,23 @@ public:
     // Returns error context with details, code, and troubleshooting hint
     virtual ErrorContext getLastError() const {
         return lastError_;
+    }
+
+    // Health check (Phase 3.3)
+    // Returns the current health and readiness status of this backend.
+    // Default implementation derives status from isAvailable() + getLastError().
+    virtual BackendHealthStatus getHealthStatus() const {
+        if (!isAvailable()) {
+            return BackendHealthStatus::makeUnhealthy(
+                std::string(name()) + " is not available on this system");
+        }
+        const auto& err = lastError_;
+        if (!err.isSuccess()) {
+            return BackendHealthStatus::makeDegraded(
+                std::string(name()) + " error: " + err.message);
+        }
+        return BackendHealthStatus::makeHealthy(
+            getCapabilities().deviceName);
     }
     
 protected:

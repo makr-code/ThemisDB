@@ -1,0 +1,28 @@
+# CODEOWNERS
+# Each line is a file pattern followed by one or more owners.
+# Order matters – the last matching pattern takes the highest precedence.
+
+# Core Storage
+/src/storage/ @makr-code
+/src/mvcc/ @makr-code
+
+# Query Engine & AQL
+/src/query/ @makr-code
+/src/aql/ @makr-code
+
+# CUDA Acceleration
+/src/cuda/ @makr-code
+
+# Vector DB
+/src/vector/ @makr-code
+
+# Graph DB
+/src/graph/ @makr-code
+
+# RAG Integration
+/src/rag/ @makr-code
+
+# Build & Infrastructure
+/cmake/ @makr-code
+/.github/ @makr-code
+CMakeLists.txt @makr-code

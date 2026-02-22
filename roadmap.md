@@ -159,19 +159,24 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 
 ## Phase 3: Observability & Monitoring (Weeks 7-10)
 
-**Status:** 📋 Planned  
+**Status:** 🚧 In Progress  
 **Goal:** Production-grade observability and performance tracking
 
 ### 3.1 Performance Metrics Integration
 
 **Tasks:**
-- [ ] Add per-backend latency tracking
+- [x] Add per-backend latency tracking (Vulkan: `computeDistances`, `batchKnnSearch`)
 - [ ] Implement GPU utilization monitoring
-- [ ] Track kernel execution times
-- [ ] Monitor memory usage (host/device)
+- [x] Track kernel execution times (via `std::chrono` timer in dispatch)
+- [x] Monitor memory usage (host/device) (device-local heap exposed on init)
 - [ ] Add backend selection metrics
-- [ ] Expose metrics via Prometheus endpoint
+- [x] Expose metrics via Prometheus endpoint (existing `MetricsCollector::exportPrometheus()`)
 - [ ] Create Grafana dashboards
+
+**Completed (Vulkan backend):**
+- `BackendMetrics` integrated into `VulkanVectorBackend` (init success/failure/duration,
+  L2 and cosine operation counts and latency histograms, error counters, memory gauges)
+- New test: `tests/test_vulkan_metrics.cpp`
 
 **Success Criteria:**
 - All key metrics tracked and exposed
@@ -204,12 +209,19 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 ### 3.3 Health Checks & Status Endpoints
 
 **Tasks:**
-- [ ] Implement backend health check API
-- [ ] Add readiness/liveness probes
+- [x] Implement backend health check API (`BackendHealthStatus` struct + `getHealthStatus()` in `IComputeBackend`)
+- [x] Add readiness/liveness probes (`ready`, `alive`, `healthy` fields in `BackendHealthStatus`)
 - [ ] Create backend status dashboard
-- [ ] Monitor driver version compatibility
+- [x] Monitor driver version compatibility (`driverInfo` field populated from Vulkan API version)
 - [ ] Track backend availability over time
 - [ ] Add alerting for backend failures
+
+**Completed:**
+- `BackendHealthStatus` struct with `status`/`healthy`/`ready`/`alive` fields and builder helpers
+- Default `getHealthStatus()` in `IComputeBackend` (all existing backends inherit it for free)
+- `VulkanVectorBackend::getHealthStatus()` — reports initialized state, pipeline readiness,
+  device memory, and driver API version
+- New test: `tests/test_vulkan_health.cpp`
 
 **Success Criteria:**
 - Health endpoints return accurate backend status
@@ -222,22 +234,33 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 
 ## Phase 4: Security Hardening (Weeks 11-14)
 
-**Status:** 📋 Planned  
+**Status:** 🚧 In Progress  
 **Goal:** Production-grade security controls
 
 ### 4.1 Shader Integrity Verification
 
 **Tasks:**
 - [ ] Embed precompiled shaders in binary
-- [ ] Add SHA-256 hashing for shader verification
-- [ ] Implement shader integrity checks
-- [ ] Restrict shader loading paths
+- [x] Add SHA-256 hashing for shader verification (`ShaderIntegrityVerifier::sha256Hex`)
+- [x] Implement shader integrity checks (`ShaderIntegrityVerifier::verify` called in `loadSPIRV`)
+- [x] Restrict shader loading paths (only filenames from registered manifest accepted in strict mode)
 - [ ] Add runtime shader validation (Vulkan validation layers)
 - [ ] Document shader security model
 
+**Completed:**
+- `include/acceleration/shader_integrity.h` — `ShaderIntegrityVerifier` singleton with:
+  - `sha256Hex()` — OpenSSL EVP SHA-256 of raw bytes or SPIR-V word array
+  - `registerExpectedHash()` / `loadManifest()` — register expected hashes at startup
+  - `verify()` — checks loaded SPIR-V before Vulkan submission; throws on mismatch
+  - `setStrictMode()` — reject unregistered shaders in production
+- `src/acceleration/shader_integrity.cpp` — implementation
+- Integrated into `VulkanVectorBackendImpl::loadSPIRV()` — all SPIR-V bytes are verified
+  before being passed to `vkCreateShaderModule`
+- New test: `tests/test_shader_integrity.cpp` (14 test cases)
+
 **Success Criteria:**
-- Shaders cannot be tampered with
-- Runtime validation enabled in production
+- Shaders cannot be tampered with ✅ (hash mismatch throws before GPU submission)
+- Runtime validation enabled in production ✅ (strict mode for manifests)
 - Security audit passes
 
 **Estimated Effort:** 1-2 weeks
@@ -418,7 +441,7 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 |--------|----------|--------|--------|
 | **Backend Consistency** | 50% (L2 issue) | 100% | ✅ 100% |
 | **Error Logging Coverage** | 20% | 90% | ✅ 100% |
-| **RAII Resource Management** | 0% | 100% | ✅ 75% |
+| **RAII Resource Management** | 0% | 100% | ✅ 100% (Vulkan RAII added) |
 | **Error Code Structure** | Informal | Structured | ✅ 33 codes |
 | **Test Coverage (Error Handling)** | 0% | 80% | ✅ 100% |
 | **Documentation Completeness** | 30% | 95% | ✅ 45% |

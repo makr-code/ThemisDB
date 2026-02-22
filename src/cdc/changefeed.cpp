@@ -3,22 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:43:02                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     628                                            ║
+    • Total Lines:     790                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
+    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
+    • e9805c94b  2026-02-22  Address code review: add warning log for unexpected missi... ║
+    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +30,8 @@
 #include <rocksdb/utilities/transaction.h>
 #include <thread>
 #include <chrono>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 using namespace themis::cdc;
@@ -369,6 +370,135 @@ void Changefeed::clear() {
     THEMIS_INFO("Cleared {} change events", count);
 }
 
+Changefeed::ChangeEvent Changefeed::getEvent(uint64_t sequence) const {
+    std::string key = makeKey(sequence);
+    std::string value;
+    rocksdb::ReadOptions read_opts;
+    rocksdb::Status s;
+
+    if (cf_) {
+        s = db_->Get(read_opts, cf_, key, &value);
+    } else {
+        s = db_->Get(read_opts, key, &value);
+    }
+
+    if (!s.ok()) {
+        throw error::dbOperationFailed("getEvent", s.ToString());
+    }
+
+    nlohmann::json j = nlohmann::json::parse(value);
+    return ChangeEvent::fromJson(j);
+}
+
+Changefeed::CompactionResult Changefeed::compactByKey() {
+    CompactionResult result;
+
+    rocksdb::ReadOptions read_opts;
+    rocksdb::WriteOptions write_opts;
+
+    // Phase 1: Scan all events and record the latest sequence per document key.
+    // Use the rocksdb key string as the storage key (not the document key) to
+    // iterate in sequence order so we naturally see events oldest-first.
+    std::unordered_map<std::string, uint64_t> latest_seq_per_doc_key;
+
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            result.events_scanned++;
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+                // Always overwrite: later iterations have higher sequence numbers
+                // because we iterate in key (sequence) order.
+                latest_seq_per_doc_key[ev.key] = ev.sequence;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+            }
+        }
+    }
+
+    // Phase 2: Re-scan and delete any event that is NOT the latest for its key,
+    // unless it is a DELETE event (tombstone must be preserved for consumers).
+    {
+        std::unique_ptr<rocksdb::Iterator> it;
+        if (cf_) {
+            it.reset(db_->NewIterator(read_opts, cf_));
+        } else {
+            it.reset(db_->NewIterator(read_opts));
+        }
+
+        it->Seek(KEY_PREFIX);
+        std::unordered_set<std::string> compacted_keys;
+
+        for (; it->Valid(); it->Next()) {
+            std::string k = it->key().ToString();
+            if (k.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+                break;
+            }
+
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent ev = ChangeEvent::fromJson(j);
+
+                auto it_latest = latest_seq_per_doc_key.find(ev.key);
+                if (it_latest == latest_seq_per_doc_key.end()) {
+                    // This can happen if the event was added after Phase 1 scan,
+                    // or if Phase 1 failed to parse it.  Conservatively keep it.
+                    THEMIS_WARN("compactByKey: doc key '{}' not found in phase-1 map; "
+                                "retaining event seq={}", ev.key, ev.sequence);
+                    result.events_retained++;
+                    continue;
+                }
+
+                bool is_latest = (ev.sequence == it_latest->second);
+                bool is_delete = (ev.type == ChangeEventType::EVENT_DELETE);
+
+                if (!is_latest && !is_delete) {
+                    // Superseded — remove it
+                    rocksdb::Status s;
+                    if (cf_) {
+                        s = db_->Delete(write_opts, cf_, k);
+                    } else {
+                        s = db_->Delete(write_opts, k);
+                    }
+
+                    if (s.ok()) {
+                        result.events_deleted++;
+                        compacted_keys.insert(ev.key);
+                    } else {
+                        THEMIS_WARN("compactByKey: failed to delete event {}: {}", k, s.ToString());
+                        result.events_retained++;
+                    }
+                } else {
+                    result.events_retained++;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("compactByKey: failed to parse event at {}: {}", k, e.what());
+                result.events_retained++;
+            }
+        }
+
+        result.keys_compacted = compacted_keys.size();
+    }
+
+    THEMIS_INFO("compactByKey: scanned={} deleted={} keys_compacted={} retained={}",
+                result.events_scanned, result.events_deleted,
+                result.keys_compacted, result.events_retained);
+    return result;
+}
+
 size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
@@ -519,7 +649,15 @@ size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
 }
 
 size_t Changefeed::applyRetentionPolicy() {
-    if (!retention_policy_.enabled) {
+    // Take a local snapshot of the policy under the lock to avoid data races
+    // with concurrent calls to updateRetentionPolicy().
+    RetentionPolicy policy;
+    {
+        std::lock_guard<std::mutex> plk(retention_mutex_);
+        policy = retention_policy_;
+    }
+
+    if (!policy.enabled) {
         return 0;
     }
     
@@ -530,11 +668,11 @@ size_t Changefeed::applyRetentionPolicy() {
     auto wm = stats.watermarks;
     
     // Apply time-based retention
-    if (retention_policy_.max_age_hours.count() > 0) {
+    if (policy.max_age_hours.count() > 0) {
         auto now = std::chrono::system_clock::now().time_since_epoch();
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
         auto cutoff_ms = now_ms - std::chrono::duration_cast<std::chrono::milliseconds>(
-            retention_policy_.max_age_hours
+            policy.max_age_hours
         ).count();
         
         size_t deleted_by_time = deleteOldEventsByTimestamp(cutoff_ms);
@@ -543,9 +681,9 @@ size_t Changefeed::applyRetentionPolicy() {
     }
     
     // Apply count-based retention
-    if (stats.total_events > retention_policy_.max_event_count) {
+    if (stats.total_events > policy.max_event_count) {
         // Delete oldest events to get under the limit
-        size_t to_delete = stats.total_events - retention_policy_.max_event_count;
+        size_t to_delete = stats.total_events - policy.max_event_count;
         uint64_t cutoff_sequence = wm.low_watermark + to_delete;
         
         size_t deleted_by_count = deleteOldEvents(cutoff_sequence);
@@ -554,11 +692,11 @@ size_t Changefeed::applyRetentionPolicy() {
     }
     
     // Apply size-based retention
-    if (stats.total_size_bytes > retention_policy_.max_size_bytes) {
+    if (stats.total_size_bytes > policy.max_size_bytes) {
         // Estimate how many events to delete based on average event size
         size_t avg_event_size = stats.total_events > 0 ? 
             (stats.total_size_bytes / stats.total_events) : 1024;
-        size_t excess_bytes = stats.total_size_bytes - retention_policy_.max_size_bytes;
+        size_t excess_bytes = stats.total_size_bytes - policy.max_size_bytes;
         
         // Add buffer to ensure we get under the limit (account for estimation error)
         constexpr size_t SIZE_RETENTION_BUFFER_EVENTS = 100;
@@ -577,6 +715,19 @@ size_t Changefeed::applyRetentionPolicy() {
     return total_deleted;
 }
 
+void Changefeed::updateRetentionPolicy(const RetentionPolicy& policy) {
+    std::lock_guard<std::mutex> lock(retention_mutex_);
+    retention_policy_ = policy;
+    THEMIS_INFO("RetentionPolicy updated: enabled={} max_age_hours={} max_event_count={} compact_on_cleanup={}",
+                policy.enabled, policy.max_age_hours.count(),
+                policy.max_event_count, policy.compact_on_cleanup);
+}
+
+Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
+    std::lock_guard<std::mutex> lock(retention_mutex_);
+    return retention_policy_;
+}
+
 void Changefeed::startRetentionCleanup() {
     if (retention_thread_running_.exchange(true)) {
         THEMIS_WARN("Retention cleanup thread already running");
@@ -584,8 +735,11 @@ void Changefeed::startRetentionCleanup() {
     }
     
     retention_thread_ = std::thread(&Changefeed::retentionCleanupThread, this);
-    THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
-                retention_policy_.cleanup_interval.count());
+    {
+        std::lock_guard<std::mutex> lk(retention_mutex_);
+        THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
+                    retention_policy_.cleanup_interval.count());
+    }
 }
 
 void Changefeed::stopRetentionCleanup() {
@@ -607,8 +761,22 @@ void Changefeed::retentionCleanupThread() {
     
     while (retention_thread_running_.load()) {
         try {
-            // Apply retention policy
+            // Apply TTL/count/size-based retention
             applyRetentionPolicy();
+
+            // Take a local copy of the policy fields we need, holding the lock
+            bool do_compact;
+            {
+                std::lock_guard<std::mutex> plk(retention_mutex_);
+                do_compact = retention_policy_.compact_on_cleanup;
+            }
+
+            // If configured, also compact superseded entries by key
+            if (do_compact) {
+                auto cr = compactByKey();
+                THEMIS_DEBUG("Retention compact pass: deleted={} keys_compacted={}",
+                             cr.events_deleted, cr.keys_compacted);
+            }
             
             // Wait for next cleanup interval
             std::unique_lock<std::mutex> lock(retention_mutex_);

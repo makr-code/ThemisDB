@@ -21,18 +21,18 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2128)
-- [?] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
-- [?] `getBuildConfiguration()` – aggregate build metadata at runtime
-- [?] `isModuleCompiledIn()` – runtime module availability check
-- [?] SHA-256 hash verification for loaded modules
+- [!] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
+- [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
+- [I] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
+- [I] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
+- [!] SHA-256 hash verification for loaded modules (Issue: #2471)
 
 ### Long-term (6-12 months)
-- [?] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
-- [?] Authenticode (Windows) and GPG (Linux) signature verification for modules
-- [?] Zone.Identifier / quarantine detection (Windows)
-- [?] Dynamic feature flag gating per edition at runtime
-- [?] Module dependency resolution and load-order management
+- [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
+- [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
+- [I] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
+- [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
+- [I] Module dependency resolution and load-order management (Issue: #2474)
 
 ## Implementation Phases
 

@@ -3,19 +3,17 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_capability_contract.cpp               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 19:43:13                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-22 08:39:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     412                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
     • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣

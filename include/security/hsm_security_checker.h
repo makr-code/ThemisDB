@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_security_checker.h                             ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:55                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-22 08:38:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   45.0/100                                       ║
-    • Total Lines:     175                                            ║
+    • Total Lines:     168                                            ║
     • Open Issues:     TODOs: 0, Stubs: 14                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

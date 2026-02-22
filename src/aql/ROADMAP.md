@@ -17,7 +17,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 
 ## In Progress 🚧
 - [x] AQL query validation and linting before LLM submission (Target: Q2 2026)
-- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
+- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #1520)
 - [I] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## Planned Features 📋
@@ -53,7 +53,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 
 ### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
 - [I] AQL query validation and linting before LLM submission (`aql/query_validator.cpp`, Target: Q2 2026) (Issue: #1525)
-- [~] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
+- [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
 - [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
 
 ### Phase 3: Advanced Tooling & Intelligence (Status: In Progress 🚧)
@@ -68,7 +68,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [I] Performance benchmarks (Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`)
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()` and `translateNLToAQLStreaming()`)
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [I] API stability guaranteed (Issue: #1524)
 
