@@ -1,0 +1,397 @@
+#include <gtest/gtest.h>
+#include "cache/adaptive_query_cache.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <filesystem>
+#include <chrono>
+
+using namespace themis;
+using json = nlohmann::json;
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+static std::string uniqueTmpPath(const std::string& suffix = "") {
+    auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+    return "/tmp/themis_warmup_test_" + std::to_string(ts) + suffix;
+}
+
+/// Build a minimal AdaptiveQueryCache::Config suitable for unit tests.
+static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_path) {
+    AdaptiveQueryCache::Config cfg;
+    cfg.l3_db_path = db_path;
+    cfg.l1_max_entries = 20;
+    cfg.l2_max_entries = 40;
+    cfg.l1_max_entry_size = 1024;        // 1 KB
+    cfg.l2_max_entry_size = 10240;       // 10 KB
+    cfg.l1_ttl_seconds = 300;
+    cfg.l2_ttl_seconds = 600;
+    cfg.l3_ttl_seconds = 3600;
+    cfg.enable_rate_limiting = false;    // disable for warmup tests
+    cfg.enable_tenant_isolation = false;
+    return cfg;
+}
+
+/// Write a warmup log line to a file.
+static void writeLogLine(std::ofstream& f,
+                         const std::string& key,
+                         const std::string& value_b64,
+                         int ttl_remaining_s,
+                         const std::string& tenant = "") {
+    json rec;
+    rec["key"] = key;
+    rec["value_b64"] = value_b64;
+    rec["ttl_remaining_s"] = ttl_remaining_s;
+    if (!tenant.empty()) rec["tenant"] = tenant;
+    f << rec.dump() << '\n';
+}
+
+/// Produce a 64-char lowercase hex string (valid SHA-256 key).
+static std::string makeKey(int n) {
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    return ss.str();
+}
+
+/// Base64-encode using the same alphabet as warmup.cpp.
+static const std::string kB64 =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+static std::string b64Encode(const std::string& data) {
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    uint32_t buf = 0;
+    int bits = 0;
+    for (unsigned char c : data) {
+        buf = (buf << 8) | c;
+        bits += 8;
+        while (bits >= 6) {
+            bits -= 6;
+            out.push_back(kB64[(buf >> bits) & 0x3F]);
+        }
+    }
+    if (bits > 0) {
+        buf <<= (6 - bits);
+        out.push_back(kB64[buf & 0x3F]);
+    }
+    while (out.size() % 4 != 0) out.push_back('=');
+    return out;
+}
+
+// ---------------------------------------------------------------------------
+// Test fixture
+// ---------------------------------------------------------------------------
+
+class CacheWarmupTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = uniqueTmpPath("_db");
+        log_path_ = uniqueTmpPath("_log.ndjson");
+        snap_path_ = uniqueTmpPath("_snap.ndjson");
+    }
+
+    void TearDown() override {
+        std::error_code ec;
+        std::filesystem::remove_all(db_path_, ec);
+        std::filesystem::remove(log_path_, ec);
+        std::filesystem::remove(snap_path_, ec);
+    }
+
+    AdaptiveQueryCache::Config cfg() { return makeTestConfig(db_path_); }
+
+    std::string db_path_;
+    std::string log_path_;
+    std::string snap_path_;
+};
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – basic round-trip
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_BasicRoundTrip) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    json value = {{"result", 42}, {"rows", {1, 2, 3}}};
+    std::string key = makeKey(1);
+    std::string value_b64 = b64Encode(value.dump());
+
+    // Write a valid log file.
+    {
+        std::ofstream f(log_path_);
+        writeLogLine(f, key, value_b64, 300);
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, 1u);
+
+    // The entry should now be retrievable.
+    auto result = cache.get(key);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->result, value);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – multiple entries
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_MultipleEntries) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    const int count = 5;
+    {
+        std::ofstream f(log_path_);
+        for (int i = 0; i < count; ++i) {
+            json value = {{"n", i}};
+            writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
+        }
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, static_cast<size_t>(count));
+
+    for (int i = 0; i < count; ++i) {
+        auto result = cache.get(makeKey(i));
+        ASSERT_TRUE(result.has_value()) << "Entry " << i << " not found";
+        EXPECT_EQ(result->result["n"], i);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – max_entries cap
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_MaxEntriesCap) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        for (int i = 0; i < 10; ++i) {
+            json value = {{"n", i}};
+            writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
+        }
+    }
+
+    // Only load 3 entries.
+    size_t loaded = cache.warmupFromLog(log_path_, 3);
+    EXPECT_EQ(loaded, 3u);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – invalid key is skipped
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_SkipsInvalidKey) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        // Invalid key (too short / non-hex).
+        json bad;
+        bad["key"] = "not_a_sha256";
+        bad["value_b64"] = b64Encode(json({{"x", 1}}).dump());
+        bad["ttl_remaining_s"] = 300;
+        f << bad.dump() << '\n';
+
+        // Valid entry.
+        writeLogLine(f, makeKey(99), b64Encode(json({{"ok", true}}).dump()), 300);
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, 1u);
+
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GE(metrics.warmup_entries_skipped.load(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – expired TTL entries are skipped
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_SkipsExpiredTTL) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        // ttl_remaining_s = 0 → expired.
+        writeLogLine(f, makeKey(1), b64Encode(json({{"x", 1}}).dump()), 0);
+        // Valid entry.
+        writeLogLine(f, makeKey(2), b64Encode(json({{"x", 2}}).dump()), 300);
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, 1u);
+
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GE(metrics.warmup_entries_skipped.load(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – missing file returns 0
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_MissingFile) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    size_t loaded = cache.warmupFromLog("/tmp/nonexistent_log_file.ndjson");
+    EXPECT_EQ(loaded, 0u);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – malformed JSON is counted as failed
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_MalformedJSON) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        f << "{broken json\n";
+        writeLogLine(f, makeKey(1), b64Encode(json({{"ok", 1}}).dump()), 300);
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, 1u);
+
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GE(metrics.warmup_entries_failed.load(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// warmupFromLog – L1 cap: excess entries go to L2
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, WarmupFromLog_L1CapExcessGoesToL2) {
+    auto config = cfg();
+    config.l1_max_entries = 4;   // cap = 2 for warmup
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        // Write 4 entries; first 2 should land in L1, rest in L2.
+        for (int i = 0; i < 4; ++i) {
+            json value = {{"n", i}};
+            writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
+        }
+    }
+
+    size_t loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded, 4u);
+
+    // All 4 entries should be retrievable (regardless of tier).
+    for (int i = 0; i < 4; ++i) {
+        auto result = cache.get(makeKey(i));
+        EXPECT_TRUE(result.has_value()) << "Entry " << i << " not found";
+    }
+}
+
+// ---------------------------------------------------------------------------
+// exportSnapshot – round-trip with warmupFromLog
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, ExportSnapshot_RoundTrip) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    // Insert a few entries.
+    const int count = 3;
+    for (int i = 0; i < count; ++i) {
+        std::string fp = makeKey(i);
+        json params = {};
+        json value = {{"n", i}};
+        ASSERT_TRUE(cache.put(fp, params, value));
+    }
+
+    // Export to snapshot.
+    size_t exported = cache.exportSnapshot(snap_path_);
+    EXPECT_GE(exported, static_cast<size_t>(count));
+
+    // Create a fresh cache and warm it from the snapshot.
+    std::string db_path2 = db_path_ + "_2";
+    auto config2 = makeTestConfig(db_path2);
+    AdaptiveQueryCache cache2(config2);
+
+    size_t loaded = cache2.warmupFromLog(snap_path_);
+    EXPECT_EQ(loaded, exported);
+
+    // All entries should be retrievable in the new cache.
+    for (int i = 0; i < count; ++i) {
+        auto result = cache2.get(makeKey(i));
+        ASSERT_TRUE(result.has_value()) << "Entry " << i << " missing after round-trip";
+        EXPECT_EQ(result->result["n"], i);
+    }
+
+    std::error_code ec;
+    std::filesystem::remove_all(db_path2, ec);
+}
+
+// ---------------------------------------------------------------------------
+// exportSnapshot – empty cache exports nothing
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, ExportSnapshot_EmptyCache) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    size_t exported = cache.exportSnapshot(snap_path_);
+    EXPECT_EQ(exported, 0u);
+
+    // File should exist and be empty (or just newlines).
+    std::ifstream f(snap_path_);
+    ASSERT_TRUE(f.is_open());
+    std::string content((std::istreambuf_iterator<char>(f)),
+                        std::istreambuf_iterator<char>());
+    EXPECT_TRUE(content.empty());
+}
+
+// ---------------------------------------------------------------------------
+// exportSnapshot – bad path returns 0
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, ExportSnapshot_BadPath) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    // Insert something.
+    cache.put(makeKey(0), {}, json({{"x", 1}}));
+
+    size_t exported = cache.exportSnapshot("/nonexistent_dir/snapshot.ndjson");
+    EXPECT_EQ(exported, 0u);
+}
+
+// ---------------------------------------------------------------------------
+// warmup metrics tracked in CacheMetrics
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheWarmupTest, Metrics_TrackWarmupCounters) {
+    auto config = cfg();
+    AdaptiveQueryCache cache(config);
+
+    {
+        std::ofstream f(log_path_);
+        writeLogLine(f, makeKey(1), b64Encode(json({{"a", 1}}).dump()), 300);
+        writeLogLine(f, makeKey(2), b64Encode(json({{"b", 2}}).dump()), 300);
+        // One invalid key.
+        json bad;
+        bad["key"] = "short";
+        bad["value_b64"] = b64Encode(json({{"c", 3}}).dump());
+        bad["ttl_remaining_s"] = 300;
+        f << bad.dump() << '\n';
+    }
+
+    cache.warmupFromLog(log_path_);
+
+    const auto& m = cache.getEnhancedMetrics();
+    EXPECT_EQ(m.warmup_entries_loaded.load(), 2u);
+    EXPECT_GE(m.warmup_entries_skipped.load(), 1u);
+}

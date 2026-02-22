@@ -296,6 +296,42 @@ public:
      */
     size_t invalidateTenant(const std::string& tenant_id);
 
+    // ========================================================================
+    // Phase 3: Cache Warmup from Query Logs
+    // ========================================================================
+
+    /**
+     * @brief Warm up the cache from a newline-delimited JSON query log
+     *
+     * Each log line must be a JSON object:
+     *   {"key":"<sha256-hex>","value_b64":"<base64-encoded-json>",
+     *    "ttl_remaining_s":<int>,"tenant":"<tenant_id>"}
+     *
+     * The warmup path bypasses the rate limiter (internal operation) but
+     * still enforces per-tenant quota limits.  L1 is filled up to
+     * config_.l1_max_entries / 2 to preserve headroom for live traffic;
+     * excess entries are stored in L2.
+     *
+     * Prometheus gauge updated: themis_cache_warmup_entries_loaded_total
+     *
+     * @param log_path   Path to the query log file on disk
+     * @param max_entries Maximum entries to load (0 = unlimited)
+     * @return Number of entries successfully loaded
+     */
+    size_t warmupFromLog(const std::string& log_path, size_t max_entries = 0);
+
+    /**
+     * @brief Export a snapshot of the current L1/L2 cache to disk
+     *
+     * Writes a newline-delimited JSON file compatible with warmupFromLog().
+     * Only non-expired entries are exported.  L3 (RocksDB) entries are not
+     * included because they are already persisted.
+     *
+     * @param out_path  Destination file path
+     * @return Number of entries exported
+     */
+    size_t exportSnapshot(const std::string& out_path) const;
+
 private:
     struct L1Entry {
         nlohmann::json result;

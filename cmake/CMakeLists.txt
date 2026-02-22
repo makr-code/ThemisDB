@@ -1455,6 +1455,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
+    ../src/cache/warmup.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
