@@ -201,9 +201,21 @@ public:
     bool isPluginLoaded(const std::string& name) const;
     
     /**
-     * @brief Reload a plugin (hot-reload)
+     * @brief Hot-reload a plugin without server restart (atomic with rollback)
+     *
+     * Reload process:
+     *  1. Validate plugin is loaded; fail if dependents exist
+     *  2. Save IStatefulPlugin state (if applicable)
+     *  3. Verify new binary (hash + signature) — old plugin still running
+     *  4. Load new binary, create instance, initialize, restore state
+     *  5. If any of the above fail: return error, old plugin continues unaffected
+     *  6. Atomically swap old entry for new entry under mutex
+     *  7. Notify BEFORE_UNLOAD / AFTER_UNLOAD listeners
+     *  8. Shutdown and unload old binary (outside mutex)
+     *  9. Notify AFTER_LOAD listeners
+     *
      * @param name Plugin name
-     * @return Result<void> - success or error
+     * @return Result<void> - success or error; old plugin remains running on failure
      */
     Result<void> reloadPlugin(const std::string& name);
     

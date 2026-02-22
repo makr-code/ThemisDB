@@ -66,6 +66,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_qlora.*\\.cpp$"
         ".*test_quantization\\.cpp$"
         ".*test_rag_judge.*\\.cpp$"
+        ".*test_rag_reranker\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -102,6 +103,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_real_embeddings\\.cpp$"
         ".*test_adaptive_query_cache\\.cpp$"
         ".*test_streaming_handler\\.cpp$"
+        ".*test_shared_worker_pool\\.cpp$"
     )
 endif()
 
@@ -301,6 +303,17 @@ endif()
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_pool.cpp
+    )
+endif()
+
+# Re-include LlmQueryRewriter tests when LLM is disabled.
+# The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
+# test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
+# LLM library dependency — it only uses a std::function mock backend.
+# Add it back unconditionally so it runs in every build variant.
+if(NOT THEMIS_ENABLE_LLM)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
     )
 endif()
 

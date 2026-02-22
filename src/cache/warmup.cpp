@@ -157,12 +157,15 @@ static std::string extractFingerprintFromKey(const std::string& key) {
 // AdaptiveQueryCache::warmupFromLog
 // ---------------------------------------------------------------------------
 
-size_t AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
-                                         size_t max_entries) {
+AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
+                                                                    size_t max_entries) {
+    WarmupResult result;
     std::ifstream file(log_path);
     if (!file.is_open()) {
         THEMIS_WARN("warmupFromLog: cannot open log file '{}'", log_path);
-        return 0;
+        result.ok = false;
+        result.error = "cannot open log file: " + log_path;
+        return result;
     }
 
     const size_t l1_warmup_cap = config_.l1_max_entries / 2;
@@ -341,18 +344,24 @@ size_t AdaptiveQueryCache::warmupFromLog(const std::string& log_path,
 
     THEMIS_INFO("warmupFromLog: loaded={}, skipped={}, failed={} from '{}'",
                 loaded, skipped, failed, log_path);
-    return loaded;
+    result.entries_loaded = loaded;
+    result.entries_skipped = skipped + failed;
+    result.entries_total = loaded + skipped + failed;
+    return result;
 }
 
 // ---------------------------------------------------------------------------
 // AdaptiveQueryCache::exportSnapshot
 // ---------------------------------------------------------------------------
 
-size_t AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
+AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
+    WarmupResult result;
     std::ofstream file(out_path, std::ios::trunc);
     if (!file.is_open()) {
         THEMIS_WARN("exportSnapshot: cannot open output file '{}'", out_path);
-        return 0;
+        result.ok = false;
+        result.error = "cannot open output file: " + out_path;
+        return result;
     }
 
     size_t exported = 0;
@@ -420,7 +429,10 @@ size_t AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
 
     file.flush();
     THEMIS_INFO("exportSnapshot: exported {} entries to '{}'", exported, out_path);
-    return exported;
+    result.entries_loaded = exported;
+    result.entries_written = exported;
+    result.entries_total = exported;
+    return result;
 }
 
 } // namespace themis

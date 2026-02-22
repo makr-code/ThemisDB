@@ -74,6 +74,20 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v1.6.0
+
+### LlmQueryRewriter (`include/search/llm_query_rewriter.h`)
+- LLM-based query rewriting for improved recall via injected `LlmBackend` callback
+- Builds structured prompts instructing the LLM to produce `n` numbered alternative phrasings
+- Parses numbered lines (supporting `.`, `)`, and `:` separators) from LLM response
+- Deduplication: case-insensitive comparison removes duplicate and original-equivalent rewrites
+- Length guard: rewrites exceeding `max_rewrite_length` are silently dropped
+- Graceful fallback: returns original query when backend is absent, throws, or produces no output
+- `setBackend()`: runtime backend replacement (e.g. after model load)
+- Tests: `tests/test_llm_query_rewriter.cpp`
+
+---
+
 ## Planned Features
 
 ### Query Expansion and Rewriting

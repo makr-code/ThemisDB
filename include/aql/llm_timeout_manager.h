@@ -22,9 +22,11 @@
 
 #pragma once
 
+#include <atomic>
 #include <chrono>
 #include <future>
 #include <functional>
+#include <memory>
 #include <stdexcept>
 #include "aql/llm_error_codes.h"
 
@@ -79,9 +81,9 @@ public:
         auto status = future.wait_for(timeout);
         
         if (status == std::future_status::timeout) {
-            // Timeout occurred - we can't safely cancel the thread, but we report the error
-            // Note: The thread is detached and may complete later (resource consideration)
-            // TODO: Implement cooperative cancellation for cleaner shutdown
+            // Timeout occurred — the worker thread is detached and may complete later.
+            // For cooperative cancellation (allowing the function to abort early),
+            // use executeWithCancelToken() instead, which passes a cancel flag to func.
             worker.detach();
             throw LLMException(LLMErrorCode::TIMEOUT,
                 "Operation '" + operation_name + "' exceeded timeout of " +
@@ -123,6 +125,99 @@ public:
     template<typename Func>
     auto executeModelLoadWithTimeout(Func&& func) {
         return executeWithTimeout(std::forward<Func>(func), config_.model_load_timeout, "LLM MODEL LOAD");
+    }
+
+    /**
+     * @brief Execute function with timeout and cooperative cancellation.
+     *
+     * Like executeWithTimeout(), but passes a shared cancel token to @p func.
+     * When the timeout fires the token is set to @c true before the worker
+     * thread is detached, giving the function an opportunity to abort at the
+     * next point where it checks the token.
+     *
+     * @tparam Func Callable of the form @c Result(std::shared_ptr<std::atomic<bool>>).
+     * @param func Function to execute; receives the cancel token as its sole argument.
+     * @param timeout Timeout duration.
+     * @param operation_name Name for error reporting.
+     * @return Result of function execution.
+     * @throws LLMException with TIMEOUT code if execution exceeds timeout.
+     *
+     * Usage example:
+     * @code
+     *   timeout_mgr.executeWithCancelToken(
+     *       [](auto cancel_token) {
+     *           for (auto& chunk : data) {
+     *               if (cancel_token->load(std::memory_order_acquire)) break;
+     *               process(chunk);
+     *           }
+     *       },
+     *       std::chrono::seconds(5), "my_op");
+     * @endcode
+     */
+    template<typename Func,
+             typename Result = std::invoke_result_t<std::decay_t<Func>, std::shared_ptr<std::atomic<bool>>>>
+    Result executeWithCancelToken(Func&& func,
+                                  std::chrono::seconds timeout,
+                                  const std::string& operation_name) {
+        auto cancel_token = std::make_shared<std::atomic<bool>>(false);
+
+        std::packaged_task<Result()> task(
+            [f = std::forward<Func>(func), ct = cancel_token]() mutable {
+                return f(ct);
+            });
+        auto future = task.get_future();
+
+        std::thread worker(std::move(task));
+
+        auto status = future.wait_for(timeout);
+
+        if (status == std::future_status::timeout) {
+            // Signal cooperative cancellation so the function can exit early.
+            cancel_token->store(true, std::memory_order_release);
+            worker.detach();
+            throw LLMException(LLMErrorCode::TIMEOUT,
+                "Operation '" + operation_name + "' exceeded timeout of " +
+                std::to_string(timeout.count()) + " seconds");
+        }
+
+        worker.join();
+        return future.get();
+    }
+
+    /**
+     * @brief Execute inference with configured timeout and cooperative cancellation.
+     */
+    template<typename Func>
+    auto executeInferWithCancelToken(Func&& func) {
+        return executeWithCancelToken(std::forward<Func>(func),
+                                      config_.infer_timeout, "LLM INFER");
+    }
+
+    /**
+     * @brief Execute RAG with configured timeout and cooperative cancellation.
+     */
+    template<typename Func>
+    auto executeRAGWithCancelToken(Func&& func) {
+        return executeWithCancelToken(std::forward<Func>(func),
+                                      config_.rag_timeout, "LLM RAG");
+    }
+
+    /**
+     * @brief Execute embedding with configured timeout and cooperative cancellation.
+     */
+    template<typename Func>
+    auto executeEmbedWithCancelToken(Func&& func) {
+        return executeWithCancelToken(std::forward<Func>(func),
+                                      config_.embed_timeout, "LLM EMBED");
+    }
+
+    /**
+     * @brief Execute model load with configured timeout and cooperative cancellation.
+     */
+    template<typename Func>
+    auto executeModelLoadWithCancelToken(Func&& func) {
+        return executeWithCancelToken(std::forward<Func>(func),
+                                      config_.model_load_timeout, "LLM MODEL LOAD");
     }
     
     /**
