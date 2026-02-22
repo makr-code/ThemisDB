@@ -444,8 +444,11 @@ public:
         std::vector<SourceConfig> enabled_sources;
         std::vector<SourceConfig> disabled_sources;
         for (const auto& cfg : all_sources) {
-            if (cfg.enabled) enabled_sources.push_back(cfg);
-            else             disabled_sources.push_back(cfg);
+            if (cfg.enabled) {
+                enabled_sources.push_back(cfg);
+            } else {
+                disabled_sources.push_back(cfg);
+            }
         }
 
         if (parallel_enabled_ && enabled_sources.size() > 1) {
