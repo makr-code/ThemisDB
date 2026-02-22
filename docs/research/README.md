@@ -1,8 +1,24 @@
-# ThemisDB Research Documentation - Summary
+# ThemisDB Research Documentation
 
 **Projekt:** ThemisDB  
 **Kategorie:** Research Documentation  
 **Letzte Aktualisierung:** 10. Februar 2026 (v4.0)
+
+---
+
+## 🗂️ Structured Research System
+
+The `docs/research/` directory is organized into the following subsystems:
+
+| Directory | Purpose | Key Files |
+|-----------|---------|-----------|
+| [`papers/`](papers/README.md) | Scientific papers that influence ThemisDB algorithms | [Index](papers/README.md) · [Templates](papers/TEMPLATES.md) · [Starter](papers/_template_paper.md) |
+| [`best_practices/`](best_practices/README.md) | Engineering patterns from open-source & industry | [Index](best_practices/README.md) · [Templates](best_practices/TEMPLATES.md) · [Starter](best_practices/_template_best_practice.md) |
+| [`stand_der_technik/`](stand_der_technik/README.md) | Quarterly state-of-the-art landscape reviews | [Q1 2026](stand_der_technik/2026_q1_landscape.md) · [Process](stand_der_technik/quarterly_updates.md) |
+| [`architecture_decisions/`](architecture_decisions/README.md) | ADR-style records of significant design choices | [Log](architecture_decisions/decision_log.md) · [Starter](architecture_decisions/_template_decision.md) |
+| [`implementation_influence/`](implementation_influence/README.md) | Master cross-reference: source → module → version | [Master Index](implementation_influence/README.md) · [By Module](implementation_influence/by_module.md) · [By Paper](implementation_influence/by_paper.md) · [By Version](implementation_influence/by_version.md) |
+
+📖 **New contributor?** Start with [RESEARCH_GUIDE.md](RESEARCH_GUIDE.md).
 
 ---
 

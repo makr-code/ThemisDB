@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphics_backends.h                                ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-21 19:42:50                                ║
+  Version:         0.0.24                                             ║
+  Last Modified:   2026-02-22 08:12:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     151                                            ║
+    • Total Lines:     155                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 00c723d27  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b2265b9b9  2026-02-21  feat(acceleration): Phase 3.3 — BackendHealthStatus + Vul... ║
     • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,8 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/metrics/backend_metrics.h"
+#include <memory>
 
 namespace themis {
 namespace acceleration {
@@ -83,6 +85,7 @@ public:
     BackendCapabilities getCapabilities() const override;
     bool initialize() override;
     void shutdown() override;
+    BackendHealthStatus getHealthStatus() const override;
     
     std::vector<float> computeDistances(
         const float* queries,
@@ -107,6 +110,7 @@ private:
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
+    metrics::BackendMetrics metrics_{"vulkan"};
 };
 
 // OpenGL Compute Shaders backend (legacy support)

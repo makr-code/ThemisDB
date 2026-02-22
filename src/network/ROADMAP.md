@@ -21,25 +21,25 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Prometheus metrics for connection and request statistics
 
 ## In Progress 🚧
-- [?] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
+- [I] WebSocket upgrade support on wire protocol port (Target: Q2 2026) (Issue: #2209)
 - [I] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962)
 - [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2106)
+- [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [?] Adaptive I/O thread scaling based on connection load
-- [?] Per-tenant network bandwidth quotas
-- [?] Connection-level compression (LZ4, Zstd)
+- [I] Per-tenant network bandwidth quotas (Issue: #2205)
+- [!] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [?] Service mesh integration (Istio/Envoy sidecar compatibility)
+- [!] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
 - [I] gRPC native transport (separate from server module) (Issue: #2024)
-- [?] Network topology-aware routing for geo-distributed clusters
+- [I] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
 
 ## Implementation Phases
 
