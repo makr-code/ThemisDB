@@ -102,6 +102,7 @@ public:
         uint64_t max_event_count = 1000000;             // Max events (default: 1M)
         size_t max_size_bytes = DEFAULT_MAX_SIZE_BYTES; // Max size (default: 100GB)
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
+        bool compact_on_cleanup = false;                // Run key-based compaction after each cleanup cycle
     };
     
     struct Watermarks {
@@ -226,6 +227,18 @@ public:
     size_t applyRetentionPolicy();
     
     /**
+     * @brief Update the retention policy at runtime
+     * @param policy New retention policy to apply
+     */
+    void updateRetentionPolicy(const RetentionPolicy& policy);
+
+    /**
+     * @brief Get the current retention policy
+     * @return Current retention policy
+     */
+    RetentionPolicy getRetentionPolicy() const;
+    
+    /**
      * @brief Start background retention cleanup thread
      */
     void startRetentionCleanup();
@@ -256,7 +269,7 @@ private:
     std::atomic<bool> retention_thread_running_{false};
     std::thread retention_thread_;
     std::condition_variable retention_cv_;
-    std::mutex retention_mutex_;
+    mutable std::mutex retention_mutex_;  // also protects retention_policy_ reads
     
     void retentionCleanupThread();
 };

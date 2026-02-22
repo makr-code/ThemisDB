@@ -112,6 +112,24 @@ public:
     http::response<http::string_body> handleRetention(const http::request<http::string_body>& req);
 
     /**
+     * @brief Handle GET /changefeed/retention request
+     *
+     * Returns the current retention status (log size, oldest event age,
+     * next scheduled cleanup time, compact_on_cleanup flag).
+     */
+    http::response<http::string_body> handleRetentionGet(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle PUT /changefeed/retention request
+     *
+     * Updates the retention policy at runtime.  Accepted JSON fields:
+     *   enabled (bool), max_age_hours (uint32), max_event_count (uint64),
+     *   max_size_bytes (uint64), cleanup_interval_minutes (uint32),
+     *   compact_on_cleanup (bool)
+     */
+    http::response<http::string_body> handleRetentionPut(const http::request<http::string_body>& req);
+
+    /**
      * @brief Handle POST /changefeed/compact request
      *
      * Triggers a key-based log compaction: removes superseded entries,

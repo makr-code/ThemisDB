@@ -708,6 +708,19 @@ size_t Changefeed::applyRetentionPolicy() {
     return total_deleted;
 }
 
+void Changefeed::updateRetentionPolicy(const RetentionPolicy& policy) {
+    std::lock_guard<std::mutex> lock(retention_mutex_);
+    retention_policy_ = policy;
+    THEMIS_INFO("RetentionPolicy updated: enabled={} max_age_hours={} max_event_count={} compact_on_cleanup={}",
+                policy.enabled, policy.max_age_hours.count(),
+                policy.max_event_count, policy.compact_on_cleanup);
+}
+
+Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
+    std::lock_guard<std::mutex> lock(retention_mutex_);
+    return retention_policy_;
+}
+
 void Changefeed::startRetentionCleanup() {
     if (retention_thread_running_.exchange(true)) {
         THEMIS_WARN("Retention cleanup thread already running");
@@ -738,8 +751,22 @@ void Changefeed::retentionCleanupThread() {
     
     while (retention_thread_running_.load()) {
         try {
-            // Apply retention policy
+            // Apply TTL/count/size-based retention
             applyRetentionPolicy();
+
+            // Take a local copy of the policy fields we need, holding the lock
+            bool do_compact;
+            {
+                std::lock_guard<std::mutex> plk(retention_mutex_);
+                do_compact = retention_policy_.compact_on_cleanup;
+            }
+
+            // If configured, also compact superseded entries by key
+            if (do_compact) {
+                auto cr = compactByKey();
+                THEMIS_DEBUG("Retention compact pass: deleted={} keys_compacted={}",
+                             cr.events_deleted, cr.keys_compacted);
+            }
             
             // Wait for next cleanup interval
             std::unique_lock<std::mutex> lock(retention_mutex_);

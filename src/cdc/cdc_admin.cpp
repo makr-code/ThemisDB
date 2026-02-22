@@ -325,10 +325,20 @@ RetentionStatus CDCAdmin::getRetentionStatus() {
     status.oldest_timestamp_ms = stats.watermarks.oldest_timestamp_ms;
     status.newest_timestamp_ms = stats.watermarks.newest_timestamp_ms;
 
+    auto now_ms = duration_cast<milliseconds>(
+        system_clock::now().time_since_epoch()).count();
+
     if (stats.watermarks.oldest_timestamp_ms > 0) {
-        auto now_ms = duration_cast<milliseconds>(
-            system_clock::now().time_since_epoch()).count();
         status.oldest_event_age_ms = now_ms - stats.watermarks.oldest_timestamp_ms;
+    }
+
+    // Populate policy-derived fields
+    auto policy = changefeed_->getRetentionPolicy();
+    status.compact_on_cleanup = policy.compact_on_cleanup;
+    if (policy.enabled) {
+        // Estimate next cleanup: current time + interval (conservative upper bound)
+        status.next_cleanup_time_ms = now_ms +
+            duration_cast<milliseconds>(policy.cleanup_interval).count();
     }
 
     return status;

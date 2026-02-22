@@ -130,19 +130,23 @@ struct DiagnosticsInfo {
  * Status information for the current retention/compaction state
  */
 struct RetentionStatus {
-    uint64_t total_events = 0;         ///< Current number of change events
-    size_t   total_size_bytes = 0;     ///< Approximate log size in bytes
-    int64_t  oldest_event_age_ms = 0;  ///< Age of the oldest event (ms)
-    int64_t  oldest_timestamp_ms = 0;  ///< Absolute timestamp of oldest event
-    int64_t  newest_timestamp_ms = 0;  ///< Absolute timestamp of newest event
+    uint64_t total_events = 0;              ///< Current number of change events
+    size_t   total_size_bytes = 0;          ///< Approximate log size in bytes
+    int64_t  oldest_event_age_ms = 0;       ///< Age of the oldest event (ms)
+    int64_t  oldest_timestamp_ms = 0;       ///< Absolute timestamp of oldest event
+    int64_t  newest_timestamp_ms = 0;       ///< Absolute timestamp of newest event
+    int64_t  next_cleanup_time_ms = 0;      ///< Estimated time of next scheduled cleanup (epoch ms)
+    bool     compact_on_cleanup = false;    ///< Whether key compaction runs with each cleanup cycle
 
     nlohmann::json toJson() const {
         return {
-            {"total_events",        total_events},
-            {"total_size_bytes",    total_size_bytes},
-            {"oldest_event_age_ms", oldest_event_age_ms},
-            {"oldest_timestamp_ms", oldest_timestamp_ms},
-            {"newest_timestamp_ms", newest_timestamp_ms}
+            {"total_events",          total_events},
+            {"total_size_bytes",      total_size_bytes},
+            {"oldest_event_age_ms",   oldest_event_age_ms},
+            {"oldest_timestamp_ms",   oldest_timestamp_ms},
+            {"newest_timestamp_ms",   newest_timestamp_ms},
+            {"next_cleanup_time_ms",  next_cleanup_time_ms},
+            {"compact_on_cleanup",    compact_on_cleanup}
         };
     }
 };
