@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     482                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -477,6 +477,97 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     spdlog::info("SchemaVersionManager: dry-run validation passed for table '{}' ({} columns)",
                  table_name, new_schema.properties.size());
     return VersionResult<bool>::success(true);
+}
+
+// ============================================================================
+// Migration script generation
+// ============================================================================
+
+/// Map a ThemisDB property type string to a SQL column type.
+static std::string toSqlType(const std::string& themis_type) {
+    if (themis_type == "string")  return "VARCHAR";
+    if (themis_type == "integer") return "INTEGER";
+    if (themis_type == "double")  return "DOUBLE PRECISION";
+    if (themis_type == "boolean") return "BOOLEAN";
+    if (themis_type == "vector")  return "VECTOR";
+    if (themis_type == "binary")  return "BYTEA";
+    return "TEXT";
+}
+
+VersionResult<std::string> SchemaVersionManager::generateMigrationScript(
+    std::string_view table_name,
+    uint64_t version_from,
+    uint64_t version_to) const
+{
+    auto diff_result = diffVersions(table_name, version_from, version_to);
+    if (!diff_result.ok) {
+        return VersionResult<std::string>::failure(
+            diff_result.error, diff_result.error_message);
+    }
+
+    const json& diff  = diff_result.value;
+    const std::string tbl = std::string(table_name);
+    std::ostringstream script;
+
+    script << "-- Migration: " << tbl
+           << " from version " << version_from
+           << " to version "   << version_to << "\n";
+
+    // ADD COLUMN statements
+    for (const auto& col : diff["added"]) {
+        const std::string col_name = col.value("name", std::string{});
+        const std::string col_type = col.value("type", std::string{});
+        const bool nullable        = col.value("nullable", true);
+
+        script << "ALTER TABLE " << tbl
+               << " ADD COLUMN " << col_name
+               << " " << toSqlType(col_type);
+        if (!nullable) {
+            script << " NOT NULL";
+        }
+        script << ";\n";
+    }
+
+    // DROP COLUMN statements
+    for (const auto& col : diff["removed"]) {
+        const std::string col_name = col.value("name", std::string{});
+        script << "ALTER TABLE " << tbl
+               << " DROP COLUMN " << col_name << ";\n";
+    }
+
+    // ALTER COLUMN statements (type or nullability changes)
+    for (const auto& change : diff["modified"]) {
+        const std::string col_name    = change.value("column", std::string{});
+        const json&       before      = change["before"];
+        const json&       after       = change["after"];
+        const std::string new_type    = after.value("type",     std::string{});
+        const std::string old_type    = before.value("type",    std::string{});
+        const bool        new_nullable = after.value("nullable", true);
+        const bool        old_nullable = before.value("nullable", true);
+
+        if (new_type != old_type) {
+            script << "ALTER TABLE " << tbl
+                   << " ALTER COLUMN " << col_name
+                   << " TYPE " << toSqlType(new_type) << ";\n";
+        }
+        if (new_nullable != old_nullable) {
+            if (!new_nullable) {
+                script << "ALTER TABLE " << tbl
+                       << " ALTER COLUMN " << col_name << " SET NOT NULL;\n";
+            } else {
+                script << "ALTER TABLE " << tbl
+                       << " ALTER COLUMN " << col_name << " DROP NOT NULL;\n";
+            }
+        }
+    }
+
+    spdlog::info(
+        "SchemaVersionManager: Generated migration script for '{}' v{} → v{} "
+        "({} add, {} drop, {} modify)",
+        table_name, version_from, version_to,
+        diff["added"].size(), diff["removed"].size(), diff["modified"].size());
+
+    return VersionResult<std::string>::success(script.str());
 }
 
 } // namespace themis
