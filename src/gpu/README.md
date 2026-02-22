@@ -8,7 +8,7 @@ Provides GPU compute integration for ThemisDB, implementing VRAM management with
 
 ## Subsystem Scope
 
-**In scope:** VRAM allocation and tenant quotas, CUDA/ROCm device enumeration, circuit breaker with GPU→CPU fallback, audit event log, capability gate, kernel whitelist, Prometheus metrics, multi-GPU load balancer, parallel scan/filter/sort/aggregate/join.
+**In scope:** VRAM allocation and tenant quotas, CUDA/ROCm device enumeration, circuit breaker with GPU→CPU fallback, audit event log, capability gate, kernel whitelist, Prometheus metrics, multi-GPU load balancer, parallel scan/filter/sort/aggregate/join, ROCm/HIP stream and device-memory backend.
 
 **Out of scope:** GPU kernel implementations for specific algorithms (handled by acceleration module), model training orchestration (handled by training module).
 
@@ -22,7 +22,7 @@ Provides GPU compute integration for ThemisDB, implementing VRAM management with
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — VRAM management, circuit breaker, and parallel query acceleration operational; ROCm parity and multi-node coordination in progress.
+**Maturity:** 🟡 Beta — VRAM management, circuit breaker, parallel query acceleration, and ROCm/HIP backend parity operational; multi-node coordination in progress.
 
 ## Components
 
@@ -47,6 +47,7 @@ Provides GPU compute integration for ThemisDB, implementing VRAM management with
 | `query_accelerator.h` | `query_accelerator.cpp` | Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch |
 | `tensor_buffer.h` | `tensor_buffer.cpp` | Typed tensor containers with shape/dtype, views, checkpointing |
 | `training_loop.h` | `training_loop.cpp` | Training loop coordinator: batch iteration, loss tracking, early stopping |
+| `rocm_backend.h` | `rocm_backend.cpp` | ROCm/HIP backend: stream lifecycle, device memory, launcher BackendFn |
 
 ## Architecture
 
@@ -69,7 +70,8 @@ GPUModule (gpu_module.h)
  ├── GPUConfig           – startup validation, dry-run simulation
  ├── GPUQueryAccelerator – scan/filter/sort/aggregate/join
  ├── GPUTensorBuffer     – typed tensors, views, checkpointing
- └── GPUTrainingLoop     – batch training coordinator
+ ├── GPUTrainingLoop     – batch training coordinator
+ └── ROCmBackend         – HIP stream lifecycle, device memory, launcher backend
 ```
 
 ## Edition-Based GPU Limits
@@ -133,6 +135,9 @@ metric writes, and audit-log appends are safe.
 - **v1.2.0**: Memory pool, metrics, config validation, kernel validator, alerts,
   launcher, load balancer, feature flags, admin API, integration facade,
   stream manager, query accelerator, tensor buffer, training loop
+- **v1.3.0**: ROCm/HIP backend parity (`rocm_backend.cpp`): HIP stream lifecycle,
+  device memory (`hipMalloc`/`hipFree`/`hipMemset`), launcher BackendFn with CPU
+  fallback; `GPUStreamManager` default backend now wires through `ROCmBackend`
 
 ## See Also
 
