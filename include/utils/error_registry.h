@@ -142,6 +142,7 @@ enum class ErrorCode {
     ERR_PLUGIN_INVALID_SIGNATURE = 6303,
     ERR_PLUGIN_CIRCULAR_DEPENDENCY = 6304,   // Circular dependency detected in plugin graph
     ERR_PLUGIN_MISSING_DEPENDENCY = 6305,    // Required plugin dependency not registered
+    ERR_PLUGIN_DEPENDENCY_CONFLICT = 6306,   // Cannot reload plugin: other loaded plugins depend on it
 
     // Graph Errors (6400-6499)
     ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph

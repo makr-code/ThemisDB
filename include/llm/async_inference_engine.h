@@ -26,7 +26,8 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/shared_worker_pool.h"
 #include <thread>
-#include <queue>
+#include <algorithm>
+#include <vector>
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
@@ -254,7 +255,7 @@ private:
         }
     };
     
-    std::priority_queue<RequestQueueItem> request_queue_;
+    std::vector<RequestQueueItem> request_queue_;
     mutable std::mutex queue_mutex_;
     std::condition_variable queue_cv_;
     
