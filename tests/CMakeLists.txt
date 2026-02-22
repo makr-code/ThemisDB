@@ -305,6 +305,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include LlmQueryRewriter tests when LLM is disabled.
+# The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
+# test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
+# LLM library dependency — it only uses a std::function mock backend.
+# Add it back unconditionally so it runs in every build variant.
+if(NOT THEMIS_ENABLE_LLM)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
+    )
+endif()
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
