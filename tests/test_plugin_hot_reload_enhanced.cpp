@@ -22,8 +22,16 @@
 #include "plugins/plugin_interface.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
+#include <fstream>
 #include <thread>
 #include <chrono>
+#ifndef _WIN32
+#include <unistd.h>  // getpid()
+#else
+#include <process.h>
+#define getpid _getpid
+#endif
 
 using namespace themis::plugins;
 
@@ -531,6 +539,98 @@ TEST_F(EnhancedHotReloadTest, PluginReloadPhaseValues) {
               static_cast<int>(PluginReloadPhase::AFTER_LOAD));
     EXPECT_NE(static_cast<int>(PluginReloadPhase::BEFORE_UNLOAD),
               static_cast<int>(PluginReloadPhase::AFTER_LOAD));
+}
+
+// ============================================================================
+// Atomic Reload / Rollback Tests
+// ============================================================================
+
+TEST_F(EnhancedHotReloadTest, AtomicReload_NotLoadedPluginLeavesRegistryUnchanged) {
+    // The atomic reload design guarantees: if reloadPlugin() is called on a
+    // registered-but-not-loaded plugin, it returns ERR_PLUGIN_NOT_FOUND
+    // and the registry entry is completely unchanged.
+
+    auto& pm = PluginManager::instance();
+
+    // Register a plugin via scanPluginDirectory into a temp dir with a manifest
+    // but NO binary — so it will be registered as loaded=false.
+    namespace fs = std::filesystem;
+    // Use PID to avoid directory collisions when tests run in parallel.
+    auto tmp_dir = fs::temp_directory_path() /
+                   ("themis_reload_rollback_" + std::to_string(::getpid()));
+
+    // RAII cleanup: remove directory on scope exit (handles exceptions too)
+    struct DirGuard {
+        fs::path path;
+        ~DirGuard() { try { fs::remove_all(path); } catch (...) {} }
+    } dir_guard{tmp_dir};
+
+    fs::create_directories(tmp_dir);
+
+    {
+        nlohmann::json manifest;
+        manifest["name"]        = "rollback_test_plugin";
+        manifest["version"]     = "1.0.0";
+        manifest["type"]        = "custom";
+        manifest["description"] = "Test plugin for rollback";
+        manifest["binary"]["windows"] = "rollback_test_plugin.dll";
+        manifest["binary"]["linux"]   = "rollback_test_plugin.so";
+        manifest["binary"]["macos"]   = "rollback_test_plugin.dylib";
+        std::ofstream(tmp_dir / "plugin.json") << manifest.dump();
+    }
+
+    auto scan_result = pm.scanPluginDirectory(tmp_dir.string());
+    // Scan may succeed (manifest parsed) or fail (binary not found); we only
+    // care that the reload contract holds.
+    (void)scan_result;
+
+    // reloadPlugin on a not-loaded plugin must return ERR_PLUGIN_NOT_FOUND
+    auto result = pm.reloadPlugin("rollback_test_plugin");
+    EXPECT_FALSE(result);
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_PLUGIN_NOT_FOUND);
+
+    // The plugin entry must NOT be loaded (old state preserved = not-loaded)
+    EXPECT_FALSE(pm.isPluginLoaded("rollback_test_plugin"));
+}
+
+TEST_F(EnhancedHotReloadTest, AtomicReload_ListenerNotCalledOnEarlyFailure) {
+    // Reload listeners (BEFORE_UNLOAD etc.) must NOT be called if reloadPlugin
+    // returns an error in Phase 1 (before any unload begins), so that
+    // external systems are not incorrectly notified of a reload that never happened.
+
+    auto& pm = PluginManager::instance();
+
+    std::vector<PluginReloadPhase> observed_phases;
+    pm.registerReloadListener([&observed_phases](const std::string&, PluginReloadPhase phase) {
+        observed_phases.push_back(phase);
+    });
+
+    // This should fail immediately in Phase 1 (not loaded)
+    auto result = pm.reloadPlugin("not_loaded_plugin_for_listener_test");
+    EXPECT_FALSE(result);
+
+    // No listeners should have been called
+    EXPECT_TRUE(observed_phases.empty());
+}
+
+TEST_F(EnhancedHotReloadTest, AtomicReload_DependencyCheckPreventsListenerCall) {
+    // Same guarantee: if dependency conflict blocks reload in Phase 1,
+    // no listeners should fire.
+    // (Actual dependency testing with loaded plugins requires real binaries;
+    //  this verifies the early-exit code path is reached and no listeners fire.)
+
+    auto& pm = PluginManager::instance();
+
+    std::vector<PluginReloadPhase> observed_phases;
+    pm.registerReloadListener([&observed_phases](const std::string&, PluginReloadPhase phase) {
+        observed_phases.push_back(phase);
+    });
+
+    // Plugin is not loaded, so we hit ERR_PLUGIN_NOT_FOUND before dependency check,
+    // but no listeners fire either way.
+    auto result = pm.reloadPlugin("dependency_blocked_plugin");
+    EXPECT_FALSE(result);
+    EXPECT_TRUE(observed_phases.empty());
 }
 
 // ============================================================================
