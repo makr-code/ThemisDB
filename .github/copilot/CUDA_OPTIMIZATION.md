@@ -52,6 +52,9 @@ __global__ void processWithDivergence(const float* data, float* out, int n) {
     if (data[tid] > 0.5f) {
         out[tid] = expf(data[tid]);   // Half the warp here
     } else {
+        // Note: logf(-data[tid]) is NaN for data[tid] ∈ (0, 0.5].
+        // This intentionally unrealistic math keeps the focus on the
+        // divergence anti-pattern; do not copy this arithmetic.
         out[tid] = logf(-data[tid]);  // Other half here
     }
 }
@@ -360,7 +363,7 @@ __global__ void bfsKernel(
     const float* __restrict__ edgeWeights,
     int* frontier, int frontierSize,
     int* nextFrontier, int* nextSize,
-    float* distances, int source
+    float* distances  // initialized to +FLT_MAX; source node set to 0 by caller
 ) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx >= frontierSize) return;

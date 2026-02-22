@@ -50,9 +50,10 @@ ABORT   → discard all pending versions
 ```cpp
 class Transaction {
 public:
-    explicit Transaction(Timestamp readTs)
-        : read_ts_(readTs), write_ts_(kInfinity), state_(State::Active) {}
+    explicit Transaction(TxId id, Timestamp readTs)
+        : id_(id), read_ts_(readTs), write_ts_(kInfinity), state_(State::Active) {}
 
+    TxId      id()      const { return id_; }
     Timestamp readTs()  const { return read_ts_; }
     Timestamp writeTs() const { return write_ts_; }
 
@@ -67,6 +68,7 @@ public:
     bool isCommitted() const { return state_ == State::Committed; }
 
 private:
+    TxId      id_;
     Timestamp read_ts_;
     Timestamp write_ts_;
     enum class State { Active, Committed, Aborted } state_;
@@ -100,7 +102,10 @@ v.begin_ts <= tx.read_ts  AND  tx.read_ts < v.end_ts
 
 ```cpp
 bool isVisible(const RecordVersion& v, const Transaction& tx) {
-    return v.begin_ts <= tx.readTs() && tx.readTs() < v.end_ts;
+    // Pending versions (not yet committed) are never visible to any reader.
+    return v.begin_ts != kPending
+        && v.begin_ts <= tx.readTs()
+        && tx.readTs() < v.end_ts;
 }
 
 // Walk the version chain to find the visible version
@@ -211,16 +216,16 @@ private:
 
 ```
 BEGIN
-  └─ assign read_ts = atomic_fetch_add(global_ts, 0)  // snapshot, no increment
+  └─ assign read_ts = global_ts.load()  // snapshot read; no increment
        │
-       ├─ READ(key) → findVisible(chain, read_ts) → add to read_set
+       ├─ READ(key) → findVisible(chain, tx) → add to read_set
        │
        └─ WRITE(key, value) → create pending version, add to write_set
               │
               ├─ COMMIT
               │    ├─ acquire write locks for all keys in write_set
               │    ├─ validateReadSet() → abort if stale reads detected
-              │    ├─ write_ts = atomic_fetch_add(global_ts, 1)  // increment
+              │    ├─ write_ts = global_ts.fetch_add(1) + 1  // atomic increment
               │    ├─ finalize all pending versions (begin_ts = write_ts)
               │    ├─ release locks
               │    └─ append to transaction log
@@ -418,7 +423,7 @@ if (!index_.contains(key)) {
 // ✅ Good: Atomic insert-or-update with lock
 {
     std::unique_lock lock(mutex_);
-    index_.emplace(key, value);  // emplace is a no-op if key exists
+    index_.emplace(key, value);  // won't overwrite an existing key
 }
 ```
 
