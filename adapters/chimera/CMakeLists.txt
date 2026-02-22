@@ -142,7 +142,10 @@ install(
 
 # Install main interface header
 install(
-    FILES ${CMAKE_SOURCE_DIR}/include/chimera/database_adapter.hpp
+    FILES
+        ${CMAKE_SOURCE_DIR}/include/chimera/database_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/themisdb_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/mongodb_adapter.hpp
     DESTINATION include/chimera
 )
 
