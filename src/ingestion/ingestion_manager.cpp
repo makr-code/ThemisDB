@@ -1104,6 +1104,22 @@ IngestionBuilder& IngestionBuilder::withFilesystemSource(
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withApiSource(
+        const std::string& source_id,
+        const std::string& endpoint,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::API;
+    cfg.location  = endpoint;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
 IngestionBuilder& IngestionBuilder::withRetryConfig(const RetryConfig& config) {
     opts_->retry_config = config;
     return *this;

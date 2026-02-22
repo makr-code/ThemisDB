@@ -790,6 +790,34 @@ public:
         int priority = 5);
 
     /**
+     * @brief Register a REST API source (supports cursor and offset/limit pagination)
+     *
+     * Registers a `GenericApiConnector` source.  Pagination behaviour is
+     * controlled through the `options` map:
+     *
+     * | Key                     | Description                                        | Default       |
+     * |-------------------------|----------------------------------------------------|---------------|
+     * | `api_key`               | Bearer token for `Authorization: Bearer <token>`   | (none)        |
+     * | `page_size`             | Items per page                                     | `100`         |
+     * | `pagination_mode`       | `"offset"` (numeric) or `"cursor"` (opaque token)  | `"offset"`    |
+     * | `cursor_param`          | Query-parameter name for the cursor / offset       | `"offset"`    |
+     * | `cursor_response_field` | JSON key in response containing the next cursor    | `"next_cursor"`|
+     * | `text_field`            | JSON key whose value is the document text          | `"text"`      |
+     * | `max_pages`             | Maximum pages to fetch (0 = unlimited)             | `0`           |
+     *
+     * @param source_id Unique source identifier
+     * @param endpoint  Base URL of the REST API endpoint
+     * @param options   Optional key/value options (see table above)
+     * @param priority  Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withApiSource(
+        const std::string& source_id,
+        const std::string& endpoint,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
      * @brief Set retry configuration
      * @return *this for chaining
      */
