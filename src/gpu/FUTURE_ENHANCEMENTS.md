@@ -10,21 +10,25 @@
 
 ## Features
 
-### CUDA Kernel Support
-**Priority:** High | **Target Version:** v1.1.0 | **Status:** ⬜ Blocked on hardware
+### CUDA / ROCm Kernel Support
+**Priority:** High | **Target Version:** v1.1.0 | **Status:** ✅ Infrastructure implemented
 
-Custom CUDA kernels for specialised operations.
+Custom CUDA/ROCm kernels for specialised operations.
 
 **Implemented infrastructure:**
 - ✅ `GPUKernelValidator` — checksum/whitelist registry, validate-before-launch
 - ✅ `GPULauncher` — typed async work-item / batch launcher with `BackendFn` hook
-- ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement
+- ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement;
+  default backend now wires through `ROCmBackend::createBackendFn()` instead of
+  a no-op lambda
+- ✅ `ROCmBackend` — HIP stream lifecycle (`hipStreamCreate` / `hipStreamDestroy`
+  / `hipStreamSynchronize`), device memory (`hipMalloc` / `hipFree` / `hipMemset`),
+  and launcher `BackendFn` with CPU fallback when `THEMIS_ENABLE_HIP` is absent
 
 **Remaining (hardware required):**
-- Wire `cudaMalloc` / `hipMalloc` into `GPUMemoryManager`
-- Implement CUDA stream creation in `GPUStreamManager`
+- Wire `cudaMalloc` into `GPUMemoryManager` (CUDA-only path)
 - Plug kernel `.ptx` / `.hsaco` blobs into `GPULauncher::BackendFn`
-- Activate `cudaMemset` zero-on-free in `GPUMemoryPool::release()`
+- Activate `cudaMemset` / `hipMemset` zero-on-free in `GPUMemoryPool::release()`
 
 ---
 
