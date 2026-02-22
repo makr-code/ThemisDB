@@ -20,7 +20,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 
 ## In Progress 🚧
-- [!] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026) (Issue: #2496)
+- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026) (Issue: #2496)
 - [I] Wake-word detection for hands-free activation (Target: Q2 2026) (Issue: #2365)
 - [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
 
@@ -57,7 +57,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 
 ### Phase 2: Streaming STT & Wake-Word Detection (Status: In Progress 🚧)
-- [~] Real-time streaming STT (word-by-word transcription as audio arrives)
+- [x] Real-time streaming STT (word-by-word transcription as audio arrives)
 - [~] Wake-word detection for hands-free activation
 - [~] Multi-speaker diarization improvements
 
@@ -84,7 +84,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [I] API stability guaranteed (Issue: #2360)
 
 ## Known Issues & Limitations
-- Streaming (real-time word-by-word) STT is not yet implemented; batch mode only.
+- Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.
 - Wake-word detection requires an additional lightweight model; not yet integrated.
 - Multi-speaker diarization accuracy degrades with more than 4 simultaneous speakers.
 - TTS voice quality depends on the llama.cpp model in use.
