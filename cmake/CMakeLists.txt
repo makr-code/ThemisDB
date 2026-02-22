@@ -1901,6 +1901,9 @@ if(THEMIS_ENABLE_LLM)
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Phase 2: Streaming Retrieval & Re-Ranking
+    ../src/rag/streaming_retriever.cpp
+    ../src/rag/reranker.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
