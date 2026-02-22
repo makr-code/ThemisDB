@@ -174,6 +174,33 @@ struct ImportStats {
 using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
 
 /**
+ * @brief Streaming Row Callback for memory-efficient large-dataset imports.
+ *
+ * Invoked by the importer for each converted entity as it is produced from the
+ * source file, enabling callers to process rows one-by-one without waiting for
+ * the entire dataset to be read into memory.
+ *
+ * @param table_name  Name of the source table the entity belongs to.
+ * @param entity      Converted row as a JSON object (field-name → value).
+ *
+ * @return `true`  to continue the import; `false` to abort immediately.
+ *
+ * Thread-safety: the callback is invoked from the same thread that calls
+ * `importDataStreaming()`.  Implementations that share state with other
+ * threads must provide their own synchronisation.
+ *
+ * Example – stream rows directly to a sink without buffering:
+ * @code
+ *   ImportOptions opts;
+ *   auto stats = importer.importDataStreaming(path, opts,
+ *       [&sink](const std::string& table, const json& row) -> bool {
+ *           return sink.write(table, row);  // false on sink error → abort
+ *       });
+ * @endcode
+ */
+using RowCallback = std::function<bool(const std::string& table_name, const json& entity)>;
+
+/**
  * @brief Distributed Tracing / OpenTelemetry Span Callback.
  *
  * Called by the importer at the start and end of every major operation
@@ -327,6 +354,14 @@ struct ImportOptions {
     // their values (separated by a non-printable field separator).
     // If empty, the entire raw row string is hashed instead.
     std::vector<std::string> delta_key_columns;
+
+    // Streaming row callback for large-dataset imports.
+    // When set, each converted entity is delivered to this callback immediately
+    // after it is produced, without buffering all rows in memory first.
+    // Return false from the callback to abort the import early.
+    // Used internally by importDataStreaming(); can also be set directly on
+    // ImportOptions passed to importData() for the same effect.
+    RowCallback streaming_row_callback;
     
     json toJson() const {
         return json{
@@ -530,6 +565,43 @@ public:
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
     ) = 0;
+
+    /**
+     * @brief Import data from source with per-row streaming callback.
+     *
+     * Reads the source file in a single pass, delivering each converted entity
+     * to @p row_callback immediately after it is produced.  No rows are held in
+     * memory between callback invocations, making this suitable for datasets
+     * that would otherwise exhaust available RAM.
+     *
+     * The callback signature is:
+     * @code
+     *   bool callback(const std::string& table_name, const json& entity);
+     * @endcode
+     * Return `true` to continue; `false` to abort the import early (the method
+     * will return with whatever @c ImportStats have been accumulated so far).
+     *
+     * All other @p options (filtering, type overrides, UTF-8 enforcement, etc.)
+     * are applied in the same way as `importData()`.
+     *
+     * The default implementation stores the callback in a copy of @p options
+     * and delegates to `importData()`.  Derived classes may override for
+     * connector-specific streaming optimisations.
+     *
+     * @param source_path  Path to source file / connection string.
+     * @param options      Import options (streaming_row_callback is overwritten).
+     * @param row_callback Callback invoked for every successfully converted row.
+     * @return             Accumulated import statistics.
+     */
+    virtual ImportStats importDataStreaming(
+        const std::string& source_path,
+        const ImportOptions& options,
+        RowCallback row_callback
+    ) {
+        ImportOptions streaming_opts = options;
+        streaming_opts.streaming_row_callback = std::move(row_callback);
+        return importData(source_path, streaming_opts, nullptr);
+    }
 
     /**
      * @brief Import data from source (asynchronous)

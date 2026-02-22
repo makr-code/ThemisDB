@@ -361,6 +361,49 @@ void PostgreSQLImporter::cancel() {
     THEMIS_INFO("Import cancelled");
 }
 
+ImportStats PostgreSQLImporter::importDataStreaming(
+    const std::string& source_path,
+    const ImportOptions& options,
+    RowCallback row_callback
+) {
+    // Wire the caller's row callback into a copy of the options, then delegate
+    // to the standard importData() path.  parseCopy() and parseInsert() already
+    // check options.streaming_row_callback and invoke it per-row, so no rows
+    // are accumulated in memory between callback invocations.
+    ImportOptions streaming_opts = options;
+    streaming_opts.streaming_row_callback = std::move(row_callback);
+
+    ImportStats stats = importData(source_path, streaming_opts, nullptr);
+
+    // importData() adds a FILE_READ_FAILED error when parseDumpFile() returns
+    // false (i.e. cancelled_ was set).  When the streaming callback is the one
+    // that requested the abort this is a clean early exit, not an I/O failure.
+    // Remove that spurious error so callers see clean stats.  Real file-open
+    // failures happen before any rows are processed (imported_records == 0) so
+    // the guard below preserves genuine FILE_READ_FAILED errors.
+    if (stats.imported_records > 0) {
+        auto& se = stats.structured_errors;
+        se.erase(std::remove_if(se.begin(), se.end(),
+            [](const ImportError& e) {
+                return e.code == ImportErrorCode::FILE_READ_FAILED &&
+                       e.severity == ImportErrorSeverity::CRITICAL &&
+                       e.message == "Failed to parse dump file";
+            }),
+            se.end());
+        // Keep errors/warnings vectors in sync
+        auto& ev = stats.errors;
+        ev.erase(std::remove(ev.begin(), ev.end(),
+                             std::string("Failed to parse dump file")),
+                 ev.end());
+    }
+
+    // Reset cancelled_ so this importer instance can be reused after a
+    // streaming callback abort.
+    cancelled_ = false;
+
+    return stats;
+}
+
 json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
     
@@ -801,6 +844,12 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
     json entity = convertRowToEntity(eff_schema, values);
     THEMIS_DEBUG("INSERT entity: {}", entity.dump());
 
+    if (options.streaming_row_callback) {
+        if (!options.streaming_row_callback(table_name, entity)) {
+            cancelled_ = true;  // abort the import
+        }
+    }
+
     stats.imported_records++;
     return true;
 }
@@ -968,6 +1017,16 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
 
         json entity = convertRowToEntity(eff_schema, values);
         THEMIS_DEBUG("COPY entity: {}", entity.dump());
+
+        if (options.streaming_row_callback) {
+            if (!options.streaming_row_callback(table_name, entity)) {
+                cancelled_ = true;  // caller requested abort
+                stats.imported_records++;
+                emitMetric(options, "themisdb_import_rows_total",
+                           {{"table", table_name}, {"status", "imported"}}, 1.0);
+                return false;
+            }
+        }
 
         stats.imported_records++;
         emitMetric(options, "themisdb_import_rows_total",
