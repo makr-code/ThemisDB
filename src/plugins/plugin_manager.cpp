@@ -521,6 +521,21 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 fmt::format("Circular dependency detected involving plugin '{}': {}", name, cycle_desc));
         }
 
+        // Validate that all declared dependencies are registered before attempting
+        // to load them. This gives ERR_PLUGIN_MISSING_DEPENDENCY (6305) for
+        // unregistered deps rather than the less-specific ERR_PLUGIN_NOT_FOUND.
+        for (const auto& dep : deps_to_load) {
+            if (plugins_.find(dep) == plugins_.end()) {
+                auto missing_msg = fmt::format(
+                    "Plugin '{}' requires unregistered dependency '{}'", name, dep);
+                THEMIS_ERROR("{}", missing_msg);
+                metrics_.recordError(name);
+                span.setStatus(false, "Missing dependency");
+                return Err<IThemisPlugin*>(
+                    errors::ErrorCode::ERR_PLUGIN_MISSING_DEPENDENCY, missing_msg);
+            }
+        }
+
         lock.unlock();
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);
