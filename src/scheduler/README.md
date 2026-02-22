@@ -8,13 +8,13 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 
 | Interface / File | Role |
 |-----------------|------|
-| `scheduler.cpp` | Task scheduling engine with thread pool |
-| `job_queue.cpp` | Priority-based job queue management |
-| `cron_parser.cpp` | Cron expression parsing (planned) |
+| `task_scheduler.cpp` | Task scheduling engine with thread pool |
+| `hybrid_retention_manager.cpp` | Three-stage time-series data lifecycle |
+| `../utils/cron_parser.cpp` | Full cron expression parsing (v1.5.0) |
 
 ## Current Delivery Status
 
-**Maturity:** 🔴 Alpha — Task and job scheduling infrastructure operational; production scheduling with cron expressions and priorities in progress.
+**Maturity:** 🟡 Beta — Full cron expression parsing (v1.5.0) complete; thread pool task scheduler and hybrid retention manager production-ready. Distributed coordination and DAG execution in progress.
 
 ## Scope
 
@@ -28,10 +28,10 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 - Security validation (AQL injection detection, resource limits)
 - Rate limiting and resource management
 - OpenTelemetry tracing integration
+- **Full cron expression parsing** (wildcards, ranges, lists with embedded ranges/steps, start/step syntax, month/weekday name aliases, @-specials, 6-field year constraint, timezone-aware scheduling)
 
 **Out of Scope:**
 - Distributed coordination (future enhancement)
-- Cron expression parsing (simple intervals only, v1.5.0)
 - Task dependencies and DAG execution (future)
 - Authentication/authorization logic (handled by auth module)
 - Query parsing (handled by query module)
@@ -61,6 +61,83 @@ Three-stage data lifecycle management achieving 99.9% storage reduction for time
 3. Time-based retention (>1 year): Daily aggregates
 
 See full documentation in README for configuration and usage.
+
+### CronExpression Parser
+**Location:** `../utils/cron_parser.cpp`, `../include/utils/cron_parser.h`
+
+Full standard cron expression parser supporting all standard syntax elements:
+- Wildcards `*`, ranges `1-5`, lists `1,3,5`, steps `*/15`, start/step `5/15`
+- List items may contain ranges or steps: `1,3-5,*/10`
+- Month name aliases: `JAN`–`DEC` (also full names, case-insensitive)
+- Weekday name aliases: `SUN`–`SAT` (also full names, case-insensitive)
+- Special expressions: `@daily`, `@hourly`, `@monthly`, `@weekly`, `@yearly`, `@reboot`
+- Optional 6-field form with year constraint: `0 9 * * MON 2025`
+- Timezone-aware `getNextExecution(from, tz_offset_seconds)` overload
+
+## Wissenschaftliche Grundlagen
+
+The following peer-reviewed papers and specifications form the scientific foundation of the Scheduler module's core algorithms and design decisions.
+
+### [1] Gorilla: A Fast, Scalable, In-Memory Time Series Database
+**Used in:** `HybridRetentionManager` – Stage 1 Gorilla compression (0–7 days, 10–20× reduction)
+
+> Pelkonen, T., Franklin, S., Teller, J., Cavallaro, P., Huang, Q., Meza, J., & Veeraraghavan, K. (2015).
+> **Gorilla: A Fast, Scalable, In-Memory Time Series Database.**
+> *Proceedings of the VLDB Endowment*, 8(12), 1816–1827.
+> DOI: [10.14778/2824032.2824078](https://doi.org/10.14778/2824032.2824078)
+> URL: https://www.vldb.org/pvldb/vol8/p1816-teller.pdf
+
+Introduces the Gorilla time-series compression algorithm using XOR delta-of-delta encoding for floating-point values and variable-length encoding for timestamps. Achieves 1.37 bytes per data point on average. The `GorillaEncoder` in `src/timeseries/gorilla.*` directly implements this algorithm.
+
+---
+
+### [2] Scheduling Multithreaded Computations by Work Stealing
+**Used in:** `TaskScheduler` – thread pool with work-stealing dequeue for task dispatching
+
+> Blumofe, R. D., & Leiserson, C. E. (1999).
+> **Scheduling Multithreaded Computations by Work Stealing.**
+> *Journal of the ACM (JACM)*, 46(5), 720–748.
+> DOI: [10.1145/324133.324234](https://doi.org/10.1145/324133.324234)
+
+Provides the theoretical foundation for work-stealing thread pool schedulers. Proves that a work-stealing scheduler achieves optimal time and space bounds for fully strict multithreaded computations. The TaskScheduler's thread pool design follows the work-stealing pattern to maximise CPU utilisation across concurrent task execution.
+
+---
+
+### [3] Dapper, a Large-Scale Distributed Systems Tracing Infrastructure
+**Used in:** `TaskScheduler` – OpenTelemetry distributed tracing integration (`utils/tracing.h`)
+
+> Sigelman, B. H., Barroso, L. A., Burrows, M., Stephenson, P., Plakal, M., Beaver, D., Jaspan, S., & Shanbhag, C. (2010).
+> **Dapper, a Large-Scale Distributed Systems Tracing Infrastructure.**
+> *Google Technical Report*.
+> URL: https://research.google/pubs/pub36356/
+
+The Dapper paper introduced the span/trace model that is the conceptual basis for all modern distributed tracing systems including OpenTelemetry. ThemisDB's `Tracer::startSpan` API directly follows the Dapper model of parent/child spans, baggage propagation, and sampling-based trace collection used throughout the scheduler and retention manager.
+
+---
+
+### [4] POSIX crontab Utility Specification (IEEE Std 1003.1-2017)
+**Used in:** `CronExpression::parse()` – 5-field cron syntax definition and field semantics
+
+> IEEE and The Open Group. (2018).
+> **IEEE Std 1003.1-2017: Standard for Information Technology — Portable Operating System Interface (POSIX), Base Specifications, Issue 7 — crontab Utility.**
+> The Open Group.
+> URL: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html
+
+Defines the canonical cron expression grammar (`minute hour day month weekday`) and the semantics of wildcards, ranges, lists, and steps. The `CronExpression` parser in `src/utils/cron_parser.cpp` implements this specification exactly, extending it with name aliases (JAN–DEC, MON–SUN), a start/step shorthand, an optional year field, and `@`-special shorthand expressions.
+
+---
+
+### [5] Downsampling Time Series for Visual Representation (LTTB)
+**Used in:** `HybridRetentionManager` – Stage 2 variance-based adaptive retention (7–365 days)
+
+> Steinarsson, S. (2013).
+> **Downsampling Time Series for Visual Representation.**
+> *M.Sc. thesis, School of Computer Science, Reykjavik University, Iceland*.
+> URL: http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf
+
+Introduces the *Largest Triangle Three Buckets* (LTTB) algorithm for perceptually optimal time-series downsampling. The algorithm selects data points that maximise the area of the triangle formed by adjacent buckets, preserving visual features (peaks, troughs) and statistical variance. Stage 2 of the `HybridRetentionManager` applies variance-based point selection inspired by this approach to determine which data points to retain across the 7–365-day window.
+
+---
 
 ## Related Documentation
 

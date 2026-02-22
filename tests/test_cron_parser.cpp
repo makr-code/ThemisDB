@@ -602,3 +602,149 @@ TEST_F(CronParserTest, TimezoneUtcZeroMatchesExistingBehaviorApproximately) {
     auto next_tz  = cron->getNextExecution(from, std::chrono::seconds(0));
     EXPECT_TRUE(next_tz.has_value());
 }
+
+// ===== Full Cron Expression Parsing (v1.5.0) =====
+
+// --- Month name aliases ---
+
+TEST_F(CronParserTest, ParseMonthNameAbbreviation) {
+    // "0 0 1 JAN *" should be equivalent to "0 0 1 1 *"
+    auto cron = CronExpression::parse("0 0 1 JAN *");
+    ASSERT_TRUE(cron.has_value());
+    // Must match on Jan 1 at midnight
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    // Must not match on Feb 1
+    EXPECT_FALSE(cron->matches(makeTime(2025, 2, 1, 0, 0)));
+}
+
+TEST_F(CronParserTest, ParseMonthNameRange) {
+    // "0 0 1 JAN-MAR *" = Jan, Feb, Mar
+    auto cron = CronExpression::parse("0 0 1 JAN-MAR *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 2, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 3, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 4, 1, 0, 0)));
+}
+
+TEST_F(CronParserTest, ParseMonthNameList) {
+    // "0 0 1 JAN,JUL,DEC *"
+    auto cron = CronExpression::parse("0 0 1 JAN,JUL,DEC *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 7, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 12, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 6, 1, 0, 0)));
+}
+
+TEST_F(CronParserTest, ParseMonthNamesLowercase) {
+    auto cron = CronExpression::parse("0 0 1 jan *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 2, 1, 0, 0)));
+}
+
+// --- Weekday name aliases ---
+
+TEST_F(CronParserTest, ParseWeekdayNameAbbreviation) {
+    // "0 9 * * MON" = every Monday at 9:00
+    auto cron = CronExpression::parse("0 9 * * MON");
+    ASSERT_TRUE(cron.has_value());
+    // 2025-06-02 is a Monday
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 2, 9, 0)));
+    // 2025-06-03 is a Tuesday
+    EXPECT_FALSE(cron->matches(makeTime(2025, 6, 3, 9, 0)));
+}
+
+TEST_F(CronParserTest, ParseWeekdayNameRange) {
+    // "0 9 * * MON-FRI" = weekdays
+    auto cron = CronExpression::parse("0 9 * * MON-FRI");
+    ASSERT_TRUE(cron.has_value());
+    // Monday (2025-06-02)
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 2, 9, 0)));
+    // Friday (2025-06-06)
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 6, 9, 0)));
+    // Saturday (2025-06-07)
+    EXPECT_FALSE(cron->matches(makeTime(2025, 6, 7, 9, 0)));
+    // Sunday (2025-06-08)
+    EXPECT_FALSE(cron->matches(makeTime(2025, 6, 8, 9, 0)));
+}
+
+TEST_F(CronParserTest, ParseWeekdayNameList) {
+    // "0 9 * * MON,WED,FRI"
+    auto cron = CronExpression::parse("0 9 * * MON,WED,FRI");
+    ASSERT_TRUE(cron.has_value());
+    // Monday 2025-06-02
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 2, 9, 0)));
+    // Wednesday 2025-06-04
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 4, 9, 0)));
+    // Friday 2025-06-06
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 6, 9, 0)));
+    // Tuesday 2025-06-03
+    EXPECT_FALSE(cron->matches(makeTime(2025, 6, 3, 9, 0)));
+}
+
+TEST_F(CronParserTest, ParseWeekdayNamesLowercase) {
+    auto cron = CronExpression::parse("0 9 * * mon");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 6, 2, 9, 0)));
+}
+
+// --- List with ranges inside ---
+
+TEST_F(CronParserTest, ParseListWithRangeItems) {
+    // "1,3-5,7 * * * *" = minutes 1, 3, 4, 5, 7
+    auto cron = CronExpression::parse("1,3-5,7 * * * *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 1)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 3)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 4)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 5)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 7)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 2)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 6)));
+}
+
+TEST_F(CronParserTest, ParseListWithStepItems) {
+    // "0-10/2,30 * * * *" = minutes 0,2,4,6,8,10,30
+    auto cron = CronExpression::parse("0-10/2,30 * * * *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 2)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 10)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 30)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 1)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 15)));
+}
+
+// --- start/step syntax ---
+
+TEST_F(CronParserTest, ParseStepWithExplicitStart) {
+    // "5/15 * * * *" = minutes 5, 20, 35, 50
+    auto cron = CronExpression::parse("5/15 * * * *");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 5)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 20)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 35)));
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 50)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2025, 1, 1, 0, 15)));
+}
+
+TEST_F(CronParserTest, ValidateExpressionWithNameAliases) {
+    EXPECT_TRUE(CronExpression::validate("0 9 * * MON-FRI").is_valid);
+    EXPECT_TRUE(CronExpression::validate("0 0 1 JAN-DEC *").is_valid);
+    EXPECT_TRUE(CronExpression::validate("0 9 * * MON,WED,FRI").is_valid);
+    EXPECT_TRUE(CronExpression::validate("5/15 * * * *").is_valid);
+    EXPECT_TRUE(CronExpression::validate("1,3-5,7 * * * *").is_valid);
+}
+
+TEST_F(CronParserTest, ValidateExpressionWithStepStart) {
+    // valid start/step should pass
+    auto result_valid = CronExpression::validate("5/15 * * * *");
+    EXPECT_TRUE(result_valid.is_valid);
+
+    // start/step where start > max should fail
+    auto result = CronExpression::validate("60/5 * * * *");
+    EXPECT_FALSE(result.is_valid);
+}
