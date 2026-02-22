@@ -51,6 +51,7 @@ def create_label(name, data):
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
     }
     
     try:
