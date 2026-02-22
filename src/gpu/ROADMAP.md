@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, and ROCm/HIP backend parity are implemented. Multi-node GPU coordination and memory defragmentation are still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, and memory defragmentation are implemented. Multi-node GPU coordination is still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -26,16 +26,16 @@
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
+- [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
 
 ## In Progress 🚧
-- [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #2191)
 - [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
-- [I] GPU memory defragmentation for long-running workloads (Issue: #1787)
+- [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
@@ -69,7 +69,7 @@
 
 ### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
-- [~] GPU memory defragmentation routine (Target: Q2 2026)
+- [x] GPU memory defragmentation routine (Target: Q2 2026)
 - [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
@@ -89,7 +89,6 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
-- GPU memory defragmentation is not yet implemented; long-running instances may fragment VRAM
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is not yet implemented
 - MIG partitioning is not yet supported

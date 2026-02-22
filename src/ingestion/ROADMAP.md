@@ -18,10 +18,10 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Prometheus-compatible metrics export (docs_processed, errors, throughput, etc.)
 - [x] Admin API (list, pause, resume, quarantine)
 - [x] Fluent IngestionBuilder API
+- [x] Cursor-based pagination support alongside offset/limit (Issue: #2409)
 
 ## In Progress 🚧
 - [I] PDF and DOCX binary format ingestion via external converters (Target: Q2 2026) (Issue: #1889)
-- [!] Cursor-based pagination support alongside offset/limit (Target: Q2 2026) (Issue: #2409)
 - [!] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2408)
 
 ## Planned Features 📋
@@ -59,7 +59,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [I] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
 - [I] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026) (Issue: #1917)
 - [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
-- [ ] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
+- [x] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
 - [I] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)

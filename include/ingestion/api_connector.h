@@ -37,21 +37,48 @@ namespace ingestion {
  * parameter; retries use the shared `RetryConfig` back-off logic.
  *
  * Supported `SourceConfig::options` keys:
- * | Key             | Description                                           | Default  |
- * |-----------------|-------------------------------------------------------|----------|
- * | `api_key`       | Bearer token sent in `Authorization: Bearer <token>`  | (none)   |
- * | `page_size`     | Items requested per page                              | `100`    |
- * | `cursor_param`  | Query-parameter name for the page cursor              | `offset` |
- * | `text_field`    | JSON key whose value is treated as the document text  | `text`   |
- * | `max_pages`     | Maximum pages to fetch (0 = unlimited)                | `0`      |
+ * | Key                    | Description                                           | Default        |
+ * |------------------------|-------------------------------------------------------|----------------|
+ * | `api_key`              | Bearer token sent in `Authorization: Bearer <token>`  | (none)         |
+ * | `page_size`            | Items requested per page                              | `100`          |
+ * | `cursor_param`         | Query-parameter name for the page cursor / offset     | `offset`       |
+ * | `text_field`           | JSON key whose value is treated as the document text  | `text`         |
+ * | `max_pages`            | Maximum pages to fetch (0 = unlimited)                | `0`            |
+ * | `pagination_mode`      | `"offset"` (numeric) or `"cursor"` (opaque token)     | `offset`       |
+ * | `cursor_response_field`| JSON key in the response that contains the next cursor| `next_cursor`  |
  *
- * Example usage:
+ * **Offset mode** (default): each page appends `?<cursor_param>=N&limit=M`
+ * where N advances by the number of items received.
+ *
+ * **Cursor mode**: the first request uses `?limit=M` only; every subsequent
+ * request appends `?<cursor_param>=<token>&limit=M` where `<token>` is the
+ * value read from `cursor_response_field` in the previous response.
+ * Pagination terminates when the response contains no cursor field or the
+ * field value is empty.
+ *
+ * Example usage (offset mode):
  * @code
  * SourceConfig cfg{
  *     .source_id = "my_api",
  *     .type      = SourceType::API,
  *     .location  = "https://api.example.com/v1/documents",
  *     .options   = {{"api_key","secret"},{"page_size","50"},{"text_field","content"}}
+ * };
+ * GenericApiConnector conn;
+ * conn.initialize(cfg);
+ * auto stats = conn.ingest("documents", nullptr);
+ * @endcode
+ *
+ * Example usage (cursor mode):
+ * @code
+ * SourceConfig cfg{
+ *     .source_id = "cursor_api",
+ *     .type      = SourceType::API,
+ *     .location  = "https://api.example.com/v2/documents",
+ *     .options   = {{"pagination_mode","cursor"},
+ *                   {"cursor_param","page_token"},
+ *                   {"cursor_response_field","next_page_token"},
+ *                   {"page_size","50"}}
  * };
  * GenericApiConnector conn;
  * conn.initialize(cfg);
@@ -109,6 +136,26 @@ public:
      * @brief Configure retry and timeout behaviour
      */
     void setRetryConfig(const RetryConfig& config);
+
+    /**
+     * @brief Override the pagination mode
+     *
+     * Equivalent to setting `options["pagination_mode"]` in the source config.
+     * Must be called after `initialize()` to take effect.
+     *
+     * @param mode `PaginationMode::OFFSET` (default) or `PaginationMode::CURSOR`
+     */
+    void setPaginationMode(PaginationMode mode);
+
+    /**
+     * @brief Set the JSON response field that contains the next-page cursor
+     *
+     * Only relevant in `PaginationMode::CURSOR`.  Equivalent to setting
+     * `options["cursor_response_field"]` in the source config.
+     *
+     * @param field JSON key name (e.g. `"next_cursor"`, `"next_page_token"`)
+     */
+    void setCursorResponseField(const std::string& field);
 
 private:
     class Impl;
