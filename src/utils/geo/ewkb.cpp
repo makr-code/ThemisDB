@@ -434,6 +434,22 @@ void EWKBParser::serializeGeometryInto(std::vector<uint8_t>& buf, const Geometry
     }
 }
 
+// WGS84 coordinate range validation (disabled with THEMIS_GEO_COMPAT_LAX)
+static void validateWGS84(double lon, double lat) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    if (lon < -180.0 || lon > 180.0) {
+        throw std::runtime_error(
+            "GeoJSON: longitude " + std::to_string(lon) + " is out of WGS84 range [-180, 180]");
+    }
+    if (lat < -90.0 || lat > 90.0) {
+        throw std::runtime_error(
+            "GeoJSON: latitude " + std::to_string(lat) + " is out of WGS84 range [-90, 90]");
+    }
+#else
+    (void)lon; (void)lat;
+#endif
+}
+
 // File-scope helper: recursively parse a GeoJSON geometry object
 static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
     if (depth <= 0) {
@@ -447,6 +463,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         const auto& coords = j.at("coordinates");
         double x = coords.at(0).get<double>();
         double y = coords.at(1).get<double>();
+        validateWGS84(x, y);
         if (coords.size() > 2) {
             geom.type = GeometryType::PointZ;
             geom.has_z = true;
@@ -465,6 +482,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
             GeometryInfo pt;
             double x = coord.at(0).get<double>();
             double y = coord.at(1).get<double>();
+            validateWGS84(x, y);
             if (has_z) {
                 pt.type = GeometryType::PointZ;
                 pt.has_z = true;
@@ -484,6 +502,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         for (const auto& coord : coords_arr) {
             double x = coord.at(0).get<double>();
             double y = coord.at(1).get<double>();
+            validateWGS84(x, y);
             if (has_z) {
                 geom.coords.emplace_back(x, y, coord.at(2).get<double>());
             } else {
@@ -506,6 +525,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
             for (const auto& coord : line) {
                 double x = coord.at(0).get<double>();
                 double y = coord.at(1).get<double>();
+                validateWGS84(x, y);
                 if (has_z) {
                     ls.coords.emplace_back(x, y, coord.at(2).get<double>());
                 } else {
@@ -529,6 +549,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
             for (const auto& coord : ring) {
                 double x = coord.at(0).get<double>();
                 double y = coord.at(1).get<double>();
+                validateWGS84(x, y);
                 if (has_z) {
                     ring_coords.emplace_back(x, y, coord.at(2).get<double>());
                 } else {
@@ -556,6 +577,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
                 for (const auto& coord : ring) {
                     double x = coord.at(0).get<double>();
                     double y = coord.at(1).get<double>();
+                    validateWGS84(x, y);
                     if (has_z) {
                         ring_coords.emplace_back(x, y, coord.at(2).get<double>());
                     } else {

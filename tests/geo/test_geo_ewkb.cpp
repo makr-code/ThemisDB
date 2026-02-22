@@ -527,4 +527,61 @@ TEST_F(EWKBTest, ComputeMBRGeometryCollection) {
     EXPECT_TRUE(approxEqual(mbr.miny, 0.0));
     EXPECT_TRUE(approxEqual(mbr.maxy, 9.0));
 }
+
+// ============================================================
+// WGS84 coordinate range validation tests
+// ============================================================
+
+// Test: out-of-range longitude throws (strict mode)
+TEST_F(EWKBTest, GeoJSONInvalidLongitudeThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[200.0,50.0]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: out-of-range latitude throws (strict mode)
+TEST_F(EWKBTest, GeoJSONInvalidLatitudeThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[10.0,100.0]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: valid WGS84 boundary coordinates are accepted
+TEST_F(EWKBTest, GeoJSONValidWGS84Boundaries) {
+    // Min/max valid longitude and latitude
+    EXPECT_NO_THROW(EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[-180.0,-90.0]})"));
+    EXPECT_NO_THROW(EWKBParser::parseGeoJSON(R"({"type":"Point","coordinates":[180.0,90.0]})"));
+}
+
+// Test: out-of-range coordinate in LineString throws
+TEST_F(EWKBTest, GeoJSONLineStringInvalidCoordThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(
+            R"({"type":"LineString","coordinates":[[0.0,0.0],[181.0,50.0]]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
+
+// Test: out-of-range coordinate in Polygon throws
+TEST_F(EWKBTest, GeoJSONPolygonInvalidCoordThrows) {
+#ifndef THEMIS_GEO_COMPAT_LAX
+    EXPECT_THROW(
+        EWKBParser::parseGeoJSON(
+            R"({"type":"Polygon","coordinates":[[[0.0,0.0],[0.0,-91.0],[1.0,0.0],[0.0,0.0]]]})"),
+        std::runtime_error);
+#else
+    GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
+#endif
+}
  

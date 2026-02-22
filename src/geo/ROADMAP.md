@@ -54,7 +54,7 @@
 - [I] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`) (Issue: #1758)
 
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
-- [I] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
+- [P] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
 - [I] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [I] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
@@ -69,11 +69,13 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- Full GeoJSON parsing is incomplete; some geometry types may not parse correctly
 - ST_BUFFER operation is planned but not yet implemented
 - CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
 - ROCm/HIP support is not available
 - Raster data is not supported
 
 ## Breaking Changes
-- GeoJSON parsing will become stricter when full spec compliance is added (may reject previously accepted malformed inputs)
+- GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates
+  (longitude outside [-180, 180], latitude outside [-90, 90]) throw `std::runtime_error`.
+  Compile with `-DTHEMIS_GEO_COMPAT_LAX=1` to skip coordinate range validation during a
+  one-release migration window.

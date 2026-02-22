@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Geo Module: Full GeoJSON RFC 7946 parsing** 🌍
+  - `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946 geometry types:
+    `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`,
+    and `GeometryCollection` (including 3D variants with Z coordinates).
+  - `EWKBParser::toGeoJSON()` serializes all seven geometry types.
+  - EWKB `parse()` and `serialize()` now support all geometry types (types 4–7).
+  - `GeometryCollection` is parsed recursively up to a depth of 8 to prevent stack
+    overflow on adversarial input.
+  - `computeMBR()` and `computeCentroid()` now recurse into nested sub-geometries.
+  - WGS84 coordinate range validation: longitude must be in [-180, 180] and latitude
+    in [-90, 90]; invalid coordinates throw `std::runtime_error`. Compile with
+    `-DTHEMIS_GEO_COMPAT_LAX` to skip coordinate range validation during a migration
+    window.
+
+### ⚠️ Breaking Changes
+- **GeoJSON strict parsing** (`EWKBParser::parseGeoJSON`): coordinate values outside
+  the WGS84 range (longitude [-180, 180], latitude [-90, 90]) now throw
+  `std::runtime_error`. Previously, out-of-range coordinates were silently accepted.
+  To restore the old lenient behavior for one release cycle, compile with
+  `-DTHEMIS_GEO_COMPAT_LAX=1`.
+- **Unknown geometry types** now throw `std::runtime_error` with the message
+  `"GeoJSON: unsupported geometry type: <type>"` instead of silently returning an
+  empty geometry.
+
 ### Changed
 - **Config Architecture Reorganization** 🗂️
   - **Hierarchical Directory Structure**: Reorganized all config files into logical categories
