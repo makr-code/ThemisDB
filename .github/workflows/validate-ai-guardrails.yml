@@ -11,6 +11,7 @@ on:
       - '.github/scripts/validate_copilot_refs.py'
       - '.github/workflows/validate-ai-guardrails.yml'
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - '.github/COPILOT_INSTRUCTIONS.md'
       - '.github/copilot/**'

@@ -77,7 +77,8 @@ Efficient VRAM allocation with pooling.
 
 **Implemented:**
 - ✅ `GPUMemoryPool` — slab-based pre-allocator, `setZeroOnFree`, fragmentation
-  tracking, pool stats
+  tracking, pool stats, and `defragment()` routine (compacts occupied slabs,
+  recalculates wasted bytes from per-slab `request_size`)
 - ✅ `GPUMemoryManager` — pre-allocation hints (`ReserveHint` / `ConsumeHint`),
   tenant-aware quotas, peak tracking
 

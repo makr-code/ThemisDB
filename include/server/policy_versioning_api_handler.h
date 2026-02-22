@@ -42,6 +42,7 @@ namespace server {
  * - POST /policies/rules/:id/rollback/:version - Rollback to version
  * - GET /policies/rules/:id/diff/:v1/:v2 - Compare versions
  * - GET /policies/audit - Query audit trail
+ * - GET /policies/conflicts - Real-time policy conflict report
  */
 class PolicyVersioningApiHandler {
 public:
@@ -114,6 +115,21 @@ public:
      * @return HTTP response with JSON array of audit entries
      */
     http::response<http::string_body> handleQueryAudit(
+        const http::request<http::string_body>& req
+    );
+
+    /**
+     * @brief Handle GET /policies/conflicts - Real-time policy conflict report
+     *
+     * Returns a JSON object containing all currently active policy conflicts
+     * across the entire rule set.  Conflicts are detected pairwise for every
+     * enabled rule and classify contradictory or overlapping conditions with
+     * their severity and concrete resolution suggestions.
+     *
+     * @param req HTTP request
+     * @return HTTP response with JSON array of ConflictInfo objects
+     */
+    http::response<http::string_body> handleGetConflicts(
         const http::request<http::string_body>& req
     );
     

@@ -37,6 +37,7 @@ namespace themis {
 // Forward declarations
 class RocksDBWrapper;
 class SecondaryIndexManager;
+class Changefeed;
 
 using json = nlohmann::json;
 
@@ -178,6 +179,12 @@ public:
     /// @param seconds Cache expiration time in seconds (default: 60)
     void setCacheTTL(std::chrono::seconds ttl);
 
+    /// Register a Changefeed for real-time schema change notifications.
+    /// When set, every schema mutation (create/update/delete) emits a
+    /// ChangeEvent with key "schema:{table_name}" into the given changefeed.
+    /// @param changefeed Non-owning pointer; may be nullptr to disable notifications.
+    void setChangefeed(Changefeed* changefeed);
+
     // ========================================================================
     // JSON Export API
     // ========================================================================
@@ -263,6 +270,11 @@ private:
     /// Build cache from scratch
     void buildCache();
 
+    /// Emit a schema change event to the registered changefeed (if any).
+    /// @param table_name Table that changed
+    /// @param event_kind "schema_created", "schema_updated", or "schema_deleted"
+    void notifySchemaChange(std::string_view table_name, std::string_view event_kind);
+
     /// Load custom schemas from RocksDB
     void loadCustomSchemas();
 
@@ -277,6 +289,7 @@ private:
 
     RocksDBWrapper& db_;                                    // Database wrapper
     SecondaryIndexManager* index_mgr_;                      // Index manager (optional)
+    Changefeed* changefeed_ = nullptr;                      // Changefeed for schema notifications (optional)
 
     // Cache
     std::map<std::string, TableSchema> table_cache_;        // Table name -> schema

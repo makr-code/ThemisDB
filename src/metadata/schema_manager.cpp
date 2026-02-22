@@ -21,6 +21,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/schema_manager.h"
+#include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
@@ -272,6 +273,38 @@ void SchemaManager::refreshCache() {
 void SchemaManager::setCacheTTL(std::chrono::seconds ttl) {
     cache_ttl_ = ttl;
     spdlog::debug("SchemaManager: Cache TTL set to {} seconds", ttl.count());
+}
+
+void SchemaManager::setChangefeed(Changefeed* changefeed) {
+    changefeed_ = changefeed;
+    if (changefeed_) {
+        spdlog::info("SchemaManager: Changefeed registered for schema change notifications");
+    } else {
+        spdlog::debug("SchemaManager: Changefeed deregistered");
+    }
+}
+
+void SchemaManager::notifySchemaChange(std::string_view table_name, std::string_view event_kind) {
+    if (!changefeed_) {
+        return;
+    }
+    try {
+        Changefeed::ChangeEvent ev;
+        ev.key = "schema:" + std::string(table_name);
+        ev.type = (event_kind == "schema_deleted")
+                    ? Changefeed::ChangeEventType::EVENT_DELETE
+                    : Changefeed::ChangeEventType::EVENT_PUT;
+        ev.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        ev.metadata = {
+            {"table", std::string(table_name)},
+            {"event", std::string(event_kind)}
+        };
+        changefeed_->recordEvent(std::move(ev));
+        spdlog::debug("SchemaManager: Emitted '{}' notification for table '{}'", event_kind, table_name);
+    } catch (const std::exception& e) {
+        spdlog::warn("SchemaManager: Failed to emit schema change notification: {}", e.what());
+    }
 }
 
 // ============================================================================
@@ -737,8 +770,10 @@ bool SchemaManager::setTableSchema(std::string_view table_name, const TableSchem
     
     // Also update the cache so it's immediately available
     table_cache_[std::string(table_name)] = schema;
+    lock.unlock();
     
     spdlog::info("SchemaManager: Stored custom schema for table '{}'", table_name);
+    notifySchemaChange(table_name, "schema_created");
     return true;
 }
 
@@ -847,8 +882,10 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
     // Save and update cache
     saveCustomSchema(table_name, schema);
     table_cache_[std::string(table_name)] = schema;
+    lock.unlock();
     
     spdlog::info("SchemaManager: Patched schema for table '{}'", table_name);
+    notifySchemaChange(table_name, "schema_updated");
     return true;
 }
 
@@ -873,8 +910,10 @@ bool SchemaManager::deleteTableSchema(std::string_view table_name) {
     
     // Rebuild cache to reflect discovered schema (if any)
     buildCache();
+    lock.unlock();
     
     spdlog::info("SchemaManager: Deleted custom schema for table '{}'", table_name);
+    notifySchemaChange(table_name, "schema_deleted");
     return true;
 }
 
