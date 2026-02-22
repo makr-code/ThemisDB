@@ -25,6 +25,7 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <atomic>
 #include <chrono>
 #include <vector>
 #include <memory>
@@ -227,6 +228,10 @@ public:
 private:
     PrometheusExporter* exporter_;
     Config config_;
+
+    // Last absolute value reported by recordWorkerPoolTasksCompleted().
+    // Used to compute the delta for the Prometheus counter increment.
+    std::atomic<uint64_t> last_pool_tasks_completed_{0};
 
     void initializeMetrics();
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics

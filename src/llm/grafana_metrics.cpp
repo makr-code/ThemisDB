@@ -479,7 +479,7 @@ void LLMMetricsCollector::initializeMetrics() {
     exporter_->registerMetric({
         "llm_worker_pool_tasks_completed_total",
         "Total tasks completed by the shared worker pool since start",
-        PrometheusExporter::MetricType::GAUGE,
+        PrometheusExporter::MetricType::COUNTER,
         {}
     });
 
@@ -710,8 +710,40 @@ void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
 }
 
 void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
-    exporter_->setGauge("llm_worker_pool_tasks_completed_total",
-                        static_cast<double>(total_completed));
+    // Compute delta against last reported total and increment the counter.
+    // Uses compare-exchange to avoid losing increments under concurrent callers.
+    //
+    // If total_completed == prev: delta is 0, no-op — intentional (no new completions).
+    // If total_completed < prev:  pool was recreated / counter reset; treat
+    //                             total_completed as a fresh delta from zero.
+    uint64_t prev = last_pool_tasks_completed_.load(std::memory_order_relaxed);
+    while (true) {
+        uint64_t new_val;
+        double   delta;
+        if (total_completed >= prev) {
+            delta   = static_cast<double>(total_completed - prev);
+            new_val = total_completed;
+        } else {
+            // Counter reset detected: treat total_completed as the new delta.
+            spdlog::debug("SharedWorkerPool tasks counter reset detected "
+                          "(prev={}, new={}); recording {} as delta",
+                          prev, total_completed, total_completed);
+            delta   = static_cast<double>(total_completed);
+            new_val = total_completed;
+        }
+
+        if (delta == 0.0) break;  // nothing new to report
+
+        if (last_pool_tasks_completed_.compare_exchange_weak(
+                prev, new_val,
+                std::memory_order_release,
+                std::memory_order_relaxed)) {
+            exporter_->incrementCounter("llm_worker_pool_tasks_completed_total",
+                                        {}, delta);
+            break;
+        }
+        // prev was refreshed by compare_exchange_weak — retry
+    }
 }
 
 // Initialize extended context metrics (v1.4.0+)

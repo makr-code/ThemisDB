@@ -141,8 +141,6 @@ InferenceHandle AsyncInferenceEngine::submit(
         active_requests_[async_req->request_id] = async_req;
     }
 
-    stats_.total_submitted++;
-
     std::shared_future<InferenceResponse> future;
 
     if (shared_pool_) {
@@ -181,6 +179,7 @@ InferenceHandle AsyncInferenceEngine::submit(
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full, request rejected");
         }
+        stats_.total_submitted++;
     } else {
         // ── Private-worker path (original behaviour) ──────────────────
         std::promise<InferenceResponse> local_promise;
@@ -202,6 +201,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         item.request = async_req;
         item.promise = std::move(local_promise);
         request_queue_.push(std::move(item));
+        stats_.total_submitted++;
         queue_cv_.notify_one();
     }
 
@@ -237,8 +237,6 @@ std::string AsyncInferenceEngine::submitAsync(
         active_requests_[async_req->request_id] = async_req;
     }
 
-    stats_.total_submitted++;
-
     if (shared_pool_) {
         // ── Shared-pool path ─────────────────────────────────────────
         bool queued = shared_pool_->submit(
@@ -270,6 +268,7 @@ std::string AsyncInferenceEngine::submitAsync(
             active_requests_.erase(async_req->request_id);
             throw std::runtime_error("SharedWorkerPool queue full");
         }
+        stats_.total_submitted++;
     } else {
         // ── Private-worker path (original behaviour) ──────────────────
         std::promise<InferenceResponse> promise;
@@ -289,6 +288,7 @@ std::string AsyncInferenceEngine::submitAsync(
         item.request = async_req;
         item.promise = std::move(promise);
         request_queue_.push(std::move(item));
+        stats_.total_submitted++;
         queue_cv_.notify_one();
     }
 
