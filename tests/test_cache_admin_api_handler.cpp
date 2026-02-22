@@ -195,7 +195,8 @@ TEST_F(CacheAdminApiHandlerTest, EvictKeyAlsoEvictsTenantPrefixedEntry) {
 TEST_F(CacheAdminApiHandlerTest, EvictTenantReturns200) {
     // Pre-populate with a tenant entry
     std::string fp = cache_->generateFingerprint("SELECT 1", {}, "acme");
-    cache_->put(fp, {}, json::object(), "acme");
+    bool inserted = cache_->put(fp, {}, json::object(), "acme");
+    ASSERT_TRUE(inserted) << "put() must succeed for this test to be meaningful";
 
     auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/tenant/acme");
     auto res = handler_->handleEvictTenant(req);
@@ -203,7 +204,8 @@ TEST_F(CacheAdminApiHandlerTest, EvictTenantReturns200) {
     EXPECT_EQ(res.result(), http::status::ok);
     json body = json::parse(res.body());
     EXPECT_EQ(body["tenant_id"], "acme");
-    EXPECT_GE(body["evicted"].get<int>(), 0);
+    // At least the one entry we inserted must have been evicted.
+    EXPECT_GE(body["evicted"].get<int>(), 1);
 }
 
 TEST_F(CacheAdminApiHandlerTest, EvictTenantReturns400ForMissingTenantId) {
@@ -221,9 +223,18 @@ TEST_F(CacheAdminApiHandlerTest, Returns503WhenCacheIsNull) {
     auto handler_no_cache =
         std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
 
-    auto req = makeRequest(http::verb::get, "/v1/admin/cache/stats");
-    auto res = handler_no_cache->handleStats(req);
-    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto req_stats   = makeRequest(http::verb::get,  "/v1/admin/cache/stats");
+    auto req_warmup  = makeRequest(http::verb::post, "/v1/admin/cache/warmup",
+                                   R"({"log_path":"/tmp/dummy.ndjson"})");
+    auto req_snap    = makeRequest(http::verb::post, "/v1/admin/cache/snapshot",
+                                   R"({"out_path":"/tmp/dummy.ndjson"})");
+
+    EXPECT_EQ(handler_no_cache->handleStats(req_stats).result(),
+              http::status::service_unavailable);
+    EXPECT_EQ(handler_no_cache->handleWarmup(req_warmup).result(),
+              http::status::service_unavailable);
+    EXPECT_EQ(handler_no_cache->handleSnapshot(req_snap).result(),
+              http::status::service_unavailable);
 }
 
 // ---------------------------------------------------------------------------
@@ -257,7 +268,6 @@ TEST_F(CacheAdminApiHandlerTest, WarmupLoadsValidEntries) {
     // Use a valid fingerprint (64 hex chars) and a base64-encoded JSON value
     const std::string fp = "a1b2c3d4e5f60718293a4b5c6d7e8f9001234567890abcdef1234567890abcd";
     const std::string value = R"({"rows":[]})";
-    // base64("{"rows":[]}") — use our helper
     const std::string value_b64 = base64Encode(value);
 
     {
@@ -277,6 +287,13 @@ TEST_F(CacheAdminApiHandlerTest, WarmupLoadsValidEntries) {
     EXPECT_EQ(body["status"], "ok");
     EXPECT_GE(body["entries_loaded"].get<int>(), 1);
     EXPECT_EQ(body["entries_total"].get<int>(), 1);
+
+    // Verify the entry is actually retrievable from the cache (not just counted),
+    // and that warmup correctly restored the original JSON content.
+    auto entry = cache_->get(fp, "");
+    ASSERT_TRUE(entry.has_value()) << "warmed-up entry must be retrievable via get()";
+    EXPECT_EQ(entry->result, json::parse(R"({"rows":[]})"))
+        << "warmed-up entry must contain the original JSON value";
 }
 
 TEST_F(CacheAdminApiHandlerTest, WarmupSkipsMalformedLines) {
