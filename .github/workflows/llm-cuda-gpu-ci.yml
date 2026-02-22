@@ -45,6 +45,10 @@ on:
       - '.github/workflows/llm-cuda-gpu-ci.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Job 1: Compile kernel_fusion.cu on a standard ubuntu-latest runner
 # (no GPU hardware required — pure compile / syntax check)

@@ -15,6 +15,11 @@ on:
       - '.github/COPILOT_INSTRUCTIONS.md'
       - '.github/copilot/**'
       - '.github/scripts/validate_copilot_refs.py'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

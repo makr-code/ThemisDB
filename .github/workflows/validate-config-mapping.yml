@@ -16,6 +16,11 @@ on:
       - 'src/config/config_path_resolver.h'
       - 'config/**'
       - 'scripts/validate_config_mapping.py'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-mapping:

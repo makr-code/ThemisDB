@@ -47,6 +47,10 @@ on:
       - '.github/workflows/security-hardening-ci.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Common install step shared across jobs
 # ─────────────────────────────────────────────────────────────────────────────

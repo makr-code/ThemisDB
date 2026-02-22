@@ -88,6 +88,10 @@ on:
       - '.github/workflows/themis-core-ci.yml'
   workflow_dispatch:   # Allow manual trigger from the Actions UI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Jobs
 # ─────────────────────────────────────────────────────────────────────────────
