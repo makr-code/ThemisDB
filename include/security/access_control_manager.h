@@ -26,6 +26,7 @@
 #include <functional>
 #include <unordered_map>
 #include "security/rbac.h"
+#include "server/policy_engine.h"
 
 namespace themis {
 
@@ -41,6 +42,7 @@ struct SecurityContext {
     std::vector<std::string> groups;              // User's groups (from JWT/LDAP)
     std::string session_id;                       // Session identifier
     std::string source_ip;                        // Request source IP
+    std::optional<std::string> user_agent;        // HTTP User-Agent (used by ABAC policies)
     std::unordered_map<std::string, std::string> attributes; // Additional context
     
     /// Check if context has a specific role
@@ -73,6 +75,10 @@ struct AccessControlConfig {
     bool fail_closed = true;                      // Deny access on errors (fail-safe)
     bool enable_resource_wildcards = true;        // Allow wildcards in resources
     
+    // ABAC configuration
+    std::string abac_policy_path;                 // Path to ABAC policy file (JSON/YAML)
+    bool enable_abac = false;                     // Enable ABAC evaluation alongside RBAC
+
     /// Custom authorization hook (optional)
     /// Can be used to implement custom authorization logic
     std::function<AccessDecision(const SecurityContext&, const std::string&, const std::string&)> 
@@ -143,6 +149,16 @@ public:
     /// Get user-role store (for advanced operations)
     std::shared_ptr<UserRoleStore> getUserRoleStore() const { return user_store_; }
     
+    /// Get ABAC policy engine (for advanced operations)
+    PolicyEngine& getABACEngine() { return policy_engine_; }
+    const PolicyEngine& getABACEngine() const { return policy_engine_; }
+    
+    /// Add an ABAC policy at runtime
+    void addABACPolicy(const PolicyEngine::Policy& policy);
+    
+    /// Remove an ABAC policy by id
+    bool removeABACPolicy(const std::string& policy_id);
+    
     /// Reload configuration from disk
     bool reloadConfiguration();
     
@@ -166,6 +182,7 @@ private:
     std::shared_ptr<UserRoleStore> user_store_;
     std::shared_ptr<AuthMiddleware> auth_middleware_;
     mutable Metrics metrics_;
+    PolicyEngine policy_engine_;    ///< ABAC policy engine (evaluated alongside RBAC)
     
     /// Helper: log access decision for audit
     void auditAccessDecision(
