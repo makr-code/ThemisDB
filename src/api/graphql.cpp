@@ -25,6 +25,8 @@
  */
 
 #include "api/graphql.h"
+#include "api/graphql_cache.h"
+#include "api/graphql_metrics.h"
 #include "utils/error_registry.h"
 #include <cctype>
 #include <sstream>
@@ -43,7 +45,36 @@ Parser::Parser(std::string_view query, const QueryLimits& limits)
     : source_(query), limits_(limits) {}
 
 Parser::Result Parser::parse(std::string_view query) {
-    return parse(query, QueryLimits::defaults());
+    const std::string query_str(query);
+    
+    // Check query plan cache first to avoid re-parsing identical queries.
+    // Only the default-limits path is cached; custom-limits calls bypass the cache.
+    auto& plan_cache = QueryPlanCache::instance();
+    auto cached_plan = plan_cache.get(query_str);
+    if (cached_plan && cached_plan->validation_passed) {
+        Result result;
+        result.success = true;
+        result.document = cached_plan->parsed_document;
+        return result;
+    }
+    
+    const QueryLimits limits = QueryLimits::defaults();
+    Parser parser(query, limits);
+    Result result = parser.parseDocument();
+    
+    // Populate the query plan cache on success
+    if (result.success) {
+        QueryPlanCache::QueryPlan plan;
+        plan.query_hash = query_str;
+        plan.depth = parser.max_depth_reached_;
+        plan.field_count = parser.field_count_;
+        plan.ast_node_count = parser.ast_node_count_;
+        plan.validation_passed = true;
+        plan.parsed_document = result.document;
+        plan_cache.put(query_str, plan);
+    }
+    
+    return result;
 }
 
 Parser::Result Parser::parse(std::string_view query, const QueryLimits& limits) {
@@ -659,8 +690,22 @@ Executor::Result Executor::execute(
         return result;
     }
     
+    // Determine operation type string for metrics
+    std::string op_type_str;
+    switch (op->type) {
+        case OperationType::Query:        op_type_str = "Query"; break;
+        case OperationType::Mutation:     op_type_str = "Mutation"; break;
+        case OperationType::Subscription: op_type_str = "Subscription"; break;
+    }
+    
+    // Track execution time and record metrics via RAII
+    size_t field_count = op->selections.size();
+    size_t top_level_depth = op->selections.empty() ? 0u : 1u;
+    QueryTimer timer(op_type_str, top_level_depth, field_count);
+    
     try {
         result.data = executeOperation(*op, context);
+        timer.setSuccess(true);
     } catch (const std::exception& e) {
         result.addError(
             std::string("Execution error: ") + e.what(),

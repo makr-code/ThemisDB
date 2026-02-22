@@ -27,18 +27,21 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include <unordered_map>
 #include <chrono>
 #include <mutex>
 #include <memory>
+#include "api/graphql.h"
 
 namespace themis {
 namespace graphql {
 
 /**
- * @brief Simple LRU cache with time-based expiration
- * 
+ * @brief LRU cache with time-based expiration
+ *
  * Thread-safe cache for storing query plans and results.
+ * Eviction is O(1) using a doubly-linked list to track access order.
  */
 template<typename T>
 class Cache {
@@ -77,17 +80,19 @@ public:
         }
         
         // Check if expired
-        if (it->second.isExpired(ttl_)) {
+        if (it->second.first.isExpired(ttl_)) {
+            lru_order_.erase(it->second.second);
             cache_.erase(it);
             stats_.misses++;
             return nullptr;
         }
         
-        // Update access info
-        it->second.access_count++;
+        // Move to front of LRU list (most recently used)
+        lru_order_.splice(lru_order_.begin(), lru_order_, it->second.second);
+        it->second.first.access_count++;
         
         stats_.hits++;
-        return std::make_shared<T>(it->second.value);
+        return std::make_shared<T>(it->second.first.value);
     }
     
     /**
@@ -98,17 +103,29 @@ public:
     void put(const std::string& key, const T& value) {
         std::lock_guard<std::mutex> lock(mutex_);
         
+        auto it = cache_.find(key);
+        if (it != cache_.end()) {
+            // Update existing entry and move to front
+            it->second.first.value = value;
+            it->second.first.created_at = std::chrono::steady_clock::now();
+            it->second.first.access_count = 1;
+            lru_order_.splice(lru_order_.begin(), lru_order_, it->second.second);
+            return;
+        }
+        
         // Evict if at capacity
-        if (cache_.size() >= max_size_ && cache_.find(key) == cache_.end()) {
+        if (cache_.size() >= max_size_) {
             evictLRU();
         }
+        
+        lru_order_.push_front(key);
         
         CacheEntry entry;
         entry.value = value;
         entry.created_at = std::chrono::steady_clock::now();
         entry.access_count = 1;
         
-        cache_[key] = std::move(entry);
+        cache_[key] = {std::move(entry), lru_order_.begin()};
     }
     
     /**
@@ -116,7 +133,11 @@ public:
      */
     void invalidate(const std::string& key) {
         std::lock_guard<std::mutex> lock(mutex_);
-        cache_.erase(key);
+        auto it = cache_.find(key);
+        if (it != cache_.end()) {
+            lru_order_.erase(it->second.second);
+            cache_.erase(it);
+        }
     }
     
     /**
@@ -125,6 +146,7 @@ public:
     void clear() {
         std::lock_guard<std::mutex> lock(mutex_);
         cache_.clear();
+        lru_order_.clear();
         stats_ = CacheStats{};
     }
     
@@ -155,26 +177,20 @@ public:
     }
     
 private:
+    // Evict the least recently used entry (back of lru_order_). O(1).
     void evictLRU() {
-        // Find least recently used entry (lowest access count + oldest)
-        if (cache_.empty()) return;
-        
-        auto lru_it = cache_.begin();
-        for (auto it = cache_.begin(); it != cache_.end(); ++it) {
-            if (it->second.access_count < lru_it->second.access_count ||
-                (it->second.access_count == lru_it->second.access_count &&
-                 it->second.created_at < lru_it->second.created_at)) {
-                lru_it = it;
-            }
-        }
-        
-        cache_.erase(lru_it);
+        if (lru_order_.empty()) return;
+        const std::string& lru_key = lru_order_.back();
+        cache_.erase(lru_key);
+        lru_order_.pop_back();
     }
     
     size_t max_size_;
     std::chrono::seconds ttl_;
     mutable std::mutex mutex_;
-    std::unordered_map<std::string, CacheEntry> cache_;
+    // Maps key -> (entry, iterator into lru_order_)
+    std::unordered_map<std::string, std::pair<CacheEntry, typename std::list<std::string>::iterator>> cache_;
+    std::list<std::string> lru_order_;  // Front = most recently used, back = LRU
     CacheStats stats_;
 };
 
@@ -193,8 +209,7 @@ public:
         size_t ast_node_count;
         bool validation_passed;
         
-        // Could store the parsed Document here in the future
-        // Document parsed_document;
+        Document parsed_document;
     };
     
     static QueryPlanCache& instance() {
