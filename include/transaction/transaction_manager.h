@@ -28,6 +28,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
@@ -153,6 +154,73 @@ public:
         // Abschluss
         Status commit();
         void rollback();
+
+        // ── Optimistic Concurrency Control (OCC) ─────────────────────────────
+
+        /**
+         * @brief Read the current OCC version of an entity without acquiring a lock.
+         *
+         * Version numbers are stored under `occ:ver:{table}:{pk}` as a
+         * little-endian uint64_t.  A missing key means the entity does not yet
+         * exist and its effective version is 0.
+         *
+         * This method is safe to call from any isolation level.  It reads
+         * through the MVCC snapshot so the result is consistent with all other
+         * reads performed by this transaction.
+         *
+         * @param table  Table name.
+         * @param pk     Primary key of the entity.
+         * @return       Current version (0 if the entity does not exist), or
+         *               std::nullopt when the transaction is not active.
+         */
+        std::optional<uint64_t> getEntityVersion(std::string_view table,
+                                                  std::string_view pk);
+
+        /**
+         * @brief Write an entity only if its current version matches @p expected_version.
+         *
+         * Implements optimistic locking: the entity is written (or created) only
+         * when no concurrent transaction has already modified it.  On success the
+         * stored version is atomically incremented to `expected_version + 1`.
+         *
+         * Pass `expected_version = 0` to create a new entity (fails if the entity
+         * already exists with version > 0).
+         *
+         * @param table             Table name.
+         * @param entity            Entity to write.
+         * @param expected_version  Version the caller observed; write proceeds
+         *                          only when the stored version equals this value.
+         * @return Status::OK() on success.
+         *         Error with "OCC version conflict" when the stored version differs
+         *         from @p expected_version (caller should retry the transaction).
+         *         Error with "OCC entity already exists" when @p expected_version
+         *         is 0 but a stored version > 0 is found (entity already created
+         *         by another transaction).
+         */
+        Status optimisticPut(std::string_view table,
+                              const BaseEntity& entity,
+                              uint64_t expected_version);
+
+        /**
+         * @brief Delete an entity only if its current version matches @p expected_version.
+         *
+         * On success, both the entity and its version key are removed from the
+         * transaction's write set.  The effective version after a successful erase
+         * is 0 (entity no longer exists).
+         *
+         * @param table             Table name.
+         * @param pk                Primary key of the entity to delete.
+         * @param expected_version  Version the caller observed; deletion proceeds
+         *                          only when the stored version equals this value
+         *                          and is greater than 0.
+         * @return Status::OK() on success.
+         *         Error with "OCC version conflict" when versions differ.
+         *         Error with "OCC entity not found" when the entity does not exist
+         *         (stored version is 0 or missing).
+         */
+        Status optimisticErase(std::string_view table,
+                                std::string_view pk,
+                                uint64_t expected_version);
 
         // ── Serializable Snapshot Isolation (SSI) / Predicate Locking ────────
 

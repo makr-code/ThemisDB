@@ -982,6 +982,159 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
     return Status::OK();
 }
 
+// ---------------------------------------------------------------------------
+// OCC helpers
+// ---------------------------------------------------------------------------
+
+/// Encode a uint64_t as an 8-byte little-endian blob.
+static std::vector<uint8_t> encodeVersion(uint64_t v) {
+    std::vector<uint8_t> buf(8);
+    for (int i = 0; i < 8; ++i) {
+        buf[i] = static_cast<uint8_t>(v >> (8 * i));
+    }
+    return buf;
+}
+
+/// Decode an 8-byte little-endian blob to uint64_t; returns 0 on wrong size.
+static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
+    if (buf.size() != 8) return 0;
+    uint64_t v = 0;
+    for (int i = 0; i < 8; ++i) {
+        v |= static_cast<uint64_t>(buf[i]) << (8 * i);
+    }
+    return v;
+}
+
+/// Build the version key for an entity.
+static std::string versionKey(std::string_view table, std::string_view pk) {
+    std::string k;
+    k.reserve(9 + table.size() + 1 + pk.size()); // "occ:ver:" + table + ":" + pk
+    k += "occ:ver:";
+    k += table;
+    k += ':';
+    k += pk;
+    return k;
+}
+
+// ---------------------------------------------------------------------------
+// OCC public API
+// ---------------------------------------------------------------------------
+
+std::optional<uint64_t> TransactionManager::Transaction::getEntityVersion(
+    std::string_view table, std::string_view pk)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return std::nullopt;
+    auto raw = mvcc_txn_->get(versionKey(table, pk));
+    if (!raw) return 0; // entity does not exist → version 0
+    return decodeVersion(*raw);
+}
+
+TransactionManager::Status TransactionManager::Transaction::optimisticPut(
+    std::string_view table, const BaseEntity& entity, uint64_t expected_version)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("optimisticPut: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("optimisticPut: transaction timed out");
+
+    const std::string pk    = entity.getPrimaryKey();
+    const std::string verKey = versionKey(table, pk);
+
+    // Read current version
+    auto raw = mvcc_txn_->get(verKey);
+    uint64_t current_version = raw ? decodeVersion(*raw) : 0;
+
+    // Version check
+    if (expected_version == 0 && current_version != 0) {
+        return Status::Error(
+            "OCC entity already exists: table=" + std::string(table) +
+            " pk=" + pk + " stored_version=" + std::to_string(current_version));
+    }
+    if (expected_version != current_version) {
+        return Status::Error(
+            "OCC version conflict: table=" + std::string(table) +
+            " pk=" + pk +
+            " expected=" + std::to_string(expected_version) +
+            " actual=" + std::to_string(current_version));
+    }
+
+    // SSI: check for predicate conflict
+    const std::string entKey = std::string("entity:") + std::string(table) + ":" + pk;
+    auto conflict = checkSerializableWriteConflict(entKey);
+    if (!conflict.empty()) return Status::Error(conflict);
+
+    // Write new version
+    uint64_t new_version = expected_version + 1;
+    if (!mvcc_txn_->put(verKey, encodeVersion(new_version))) {
+        return Status::Error("optimisticPut: MVCC conflict on version key");
+    }
+
+    // Write entity
+    auto serialized = entity.serialize();
+    if (!mvcc_txn_->put(entKey, serialized)) {
+        return Status::Error("optimisticPut: MVCC conflict on entity key");
+    }
+
+    // Update secondary indexes
+    auto st = secIdx_.put(table, entity, *mvcc_txn_);
+    if (!st.ok) return Status::Error(st.message);
+
+    THEMIS_DEBUG("OCC optimisticPut: table={} pk={} version {} → {}",
+                 table, pk, expected_version, new_version);
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::optimisticErase(
+    std::string_view table, std::string_view pk, uint64_t expected_version)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("optimisticErase: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("optimisticErase: transaction timed out");
+
+    const std::string verKey = versionKey(table, pk);
+
+    // Read current version
+    auto raw = mvcc_txn_->get(verKey);
+    uint64_t current_version = raw ? decodeVersion(*raw) : 0;
+
+    if (current_version == 0) {
+        return Status::Error(
+            "OCC entity not found: table=" + std::string(table) +
+            " pk=" + std::string(pk));
+    }
+    if (expected_version != current_version) {
+        return Status::Error(
+            "OCC version conflict: table=" + std::string(table) +
+            " pk=" + std::string(pk) +
+            " expected=" + std::to_string(expected_version) +
+            " actual=" + std::to_string(current_version));
+    }
+
+    // SSI: check for predicate conflict
+    const std::string entKey =
+        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    auto conflict = checkSerializableWriteConflict(entKey);
+    if (!conflict.empty()) return Status::Error(conflict);
+
+    // Delete version key
+    if (!mvcc_txn_->del(verKey)) {
+        return Status::Error("optimisticErase: MVCC conflict on version key");
+    }
+
+    // Delete entity
+    if (!mvcc_txn_->del(entKey)) {
+        return Status::Error("optimisticErase: MVCC conflict on entity key");
+    }
+
+    // Update secondary indexes
+    auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+    if (!st.ok) return Status::Error(st.message);
+
+    THEMIS_DEBUG("OCC optimisticErase: table={} pk={} version={}", table, pk, expected_version);
+    return Status::OK();
+}
+
 TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(
     const std::string& start_key, const std::string& end_key)
 {

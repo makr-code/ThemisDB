@@ -22,6 +22,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Changefeed integration for CDC
 - [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
 - [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
+- [x] Optimistic concurrency control (OCC) – `getEntityVersion`, `optimisticPut`, `optimisticErase` with per-entity version numbers
 
 ## In Progress 🚧
 - [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
@@ -31,7 +32,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
+- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
 - [x] Transaction timeout with automatic rollback
 - [!] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
@@ -67,7 +68,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [~] Transaction savepoints (partial rollback within a transaction)
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
-- [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
+- [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
