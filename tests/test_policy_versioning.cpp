@@ -20,11 +20,14 @@
 #include <gtest/gtest.h>
 #include "governance/policy_version_history.h"
 #include "governance/policy_manager_versioned.h"
+#include "server/policy_versioning_api_handler.h"
+#include <boost/beast/http.hpp>
 #include <filesystem>
 #include <thread>
 #include <chrono>
 
 using namespace themis::governance;
+namespace http = boost::beast::http;
 
 class PolicyVersionHistoryTest : public ::testing::Test {
 protected:
@@ -661,6 +664,87 @@ TEST_F(PolicyManagerVersionedTest, ConflictInfoJson) {
     EXPECT_EQ(j["description"], "Test description");
     EXPECT_EQ(j["resolution_suggestions"][0], "Fix it");
     EXPECT_EQ(j["detected_at"], 1234567890);
+}
+
+// ========== PolicyVersioningApiHandler Conflict Endpoint Tests ==========
+
+class PolicyVersioningApiHandlerConflictTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        policy_mgr_versioned = std::make_shared<PolicyManagerWithVersioning>();
+        handler = std::make_unique<themis::server::PolicyVersioningApiHandler>(
+            policy_mgr_versioned, nullptr);
+    }
+
+    http::request<http::string_body> makeGet(const std::string& target) {
+        http::request<http::string_body> req{http::verb::get, target, 11};
+        req.set(http::field::host, "localhost");
+        req.set(http::field::content_type, "application/json");
+        // No auth header -- handler allows access when auth is null (dev mode)
+        req.prepare_payload();
+        return req;
+    }
+
+    PolicyRule createRule(const std::string& id, const std::string& name,
+                          const std::string& resource = "data/*") {
+        PolicyRule r;
+        r.id   = id;
+        r.name = name;
+        r.resources = {resource};
+        r.actions   = {"read"};
+        r.enabled   = true;
+        r.priority  = 5;
+        return r;
+    }
+
+    std::shared_ptr<PolicyManagerWithVersioning> policy_mgr_versioned;
+    std::unique_ptr<themis::server::PolicyVersioningApiHandler> handler;
+};
+
+TEST_F(PolicyVersioningApiHandlerConflictTest, GetConflicts_EmptyWhenNoConflicts) {
+    auto rule = createRule("nc_a", "No Conflict A", "logs/*");
+    policy_mgr_versioned->addRuleVersioned(rule, "admin", "baseline");
+
+    auto req = makeGet("/policies/conflicts");
+    auto res = handler->handleGetConflicts(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+
+    auto body = nlohmann::json::parse(res.body());
+    EXPECT_TRUE(body.contains("conflicts"));
+    EXPECT_TRUE(body.contains("conflict_count"));
+    EXPECT_EQ(body["conflict_count"].get<int>(), 0);
+    EXPECT_FALSE(body["has_critical_conflicts"].get<bool>());
+}
+
+TEST_F(PolicyVersioningApiHandlerConflictTest, GetConflicts_ReturnsConflictsAsJson) {
+    // Rule A – requires encryption
+    auto rule_a = createRule("hc_a", "High Conflict A", "sensitive/*");
+    rule_a.require_encryption = true;
+    policy_mgr_versioned->addRuleVersioned(rule_a, "admin", "rule a");
+
+    // Rule B – same resource, same action but NO encryption requirement → conflict
+    auto rule_b = createRule("hc_b", "High Conflict B", "sensitive/*");
+    rule_b.require_encryption = false;
+    policy_mgr_versioned->addRuleVersioned(rule_b, "admin", "rule b");
+
+    auto req = makeGet("/policies/conflicts");
+    auto res = handler->handleGetConflicts(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+
+    auto body = nlohmann::json::parse(res.body());
+    EXPECT_TRUE(body.contains("conflicts"));
+    EXPECT_GT(body["conflict_count"].get<int>(), 0);
+    EXPECT_TRUE(body["has_critical_conflicts"].get<bool>());
+
+    // Each conflict entry must carry resolution suggestions
+    const auto& first = body["conflicts"][0];
+    EXPECT_TRUE(first.contains("conflict_type"));
+    EXPECT_TRUE(first.contains("severity"));
+    EXPECT_TRUE(first.contains("description"));
+    EXPECT_TRUE(first.contains("resolution_suggestions"));
+    EXPECT_FALSE(first["resolution_suggestions"].empty());
 }
 
 // Run all tests
