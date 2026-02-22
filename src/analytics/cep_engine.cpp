@@ -395,9 +395,9 @@ EventStream::PushResult EventStream::push(Event event) {
         std::lock_guard lk(part.mutex);
         part.buffer.push_back(std::move(event));
         ++part.size;
+        ++events_pushed_;
+        notifySubscribers(part.buffer.back());
     }
-    ++events_pushed_;
-    notifySubscribers(partitions_[pid]->buffer.back());
     return PushResult::SUCCESS;
 }
 
@@ -1067,7 +1067,8 @@ void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
 }
 
 FieldValue Aggregator::computeResult(const AggregationState& s) const {
-    if (s.count == 0) return std::monostate{};
+    // COUNT returns 0 even for empty sets; other aggregations return null
+    if (s.count == 0 && s.type != AggregationType::COUNT) return std::monostate{};
     switch (s.type) {
         case AggregationType::COUNT:         return static_cast<int64_t>(s.count);
         case AggregationType::SUM:           return s.sum;
@@ -1384,7 +1385,7 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
                     Alert alert;
                     alert.alert_id = generateId();
                     alert.rule_id = rule_id;
-                    alert.rule_name = state.config.name;
+                    alert.rule_name = state.config.rule_name;
                     alert.timestamp = std::chrono::system_clock::now();
                     alert.match = match;
                     // Determine severity from tags
