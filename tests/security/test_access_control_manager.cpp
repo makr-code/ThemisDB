@@ -305,3 +305,285 @@ TEST_F(AccessControlManagerTest, MetricsTracking) {
     EXPECT_EQ(metrics.authorization_success.load(), 1);
     EXPECT_EQ(metrics.access_denied.load(), 2);
 }
+
+// ============================================================================
+// ABAC Integration Tests
+// ============================================================================
+
+TEST_F(AccessControlManagerTest, ABACDisabledByDefault) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    // enable_abac defaults to false
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Admin should be granted by RBAC alone (ABAC is disabled)
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "1.2.3.4";
+
+    auto decision = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(decision.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACAllowsWhenNoPoliciesDefined) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true; // ABAC enabled but no policies loaded
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // When ABAC is enabled but no policies are defined, PolicyEngine defaults to allow
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+
+    auto decision = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(decision.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACDeniesWhenIPNotInAllowedRange) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Add an ABAC policy that allows only internal IPs
+    PolicyEngine::Policy p;
+    p.id = "internal-only";
+    p.subjects = {"admin@test.com"};
+    p.actions = {"write"};
+    p.resources = {"data"};
+    p.effect_allow = true;
+    p.allowed_ip_prefixes = {"10.0."};
+    acm.addABACPolicy(p);
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "192.168.1.1"; // Not in allowed IP range
+
+    // RBAC allows (admin role), but ABAC denies (wrong IP)
+    auto decision = acm.authorize(ctx, "data", "write");
+    EXPECT_FALSE(decision.granted);
+    EXPECT_NE(decision.reason.find("ABAC"), std::string::npos);
+}
+
+TEST_F(AccessControlManagerTest, ABACAllowsWhenConditionsMatch) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Add an ABAC policy that allows only internal IPs
+    PolicyEngine::Policy p;
+    p.id = "internal-only";
+    p.subjects = {"admin@test.com"};
+    p.actions = {"write"};
+    p.resources = {"data"};
+    p.effect_allow = true;
+    p.allowed_ip_prefixes = {"10.0."};
+    acm.addABACPolicy(p);
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "10.0.1.5"; // In allowed IP range
+
+    // RBAC allows (admin role), ABAC also allows (matching IP)
+    auto decision = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(decision.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACUserAgentCondition) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Add an ABAC policy restricting to trusted clients
+    PolicyEngine::Policy p;
+    p.id = "trusted-clients-only";
+    p.subjects = {"*"};
+    p.actions = {"read"};
+    p.resources = {"data"};
+    p.effect_allow = true;
+    p.allowed_user_agent_patterns = {"ThemisClient"};
+    acm.addABACPolicy(p);
+
+    SecurityContext ctx_trusted;
+    ctx_trusted.user_id = "user@test.com";
+    ctx_trusted.roles = {"user"};
+    ctx_trusted.user_agent = "ThemisClient/2.0";
+
+    SecurityContext ctx_untrusted;
+    ctx_untrusted.user_id = "user@test.com";
+    ctx_untrusted.roles = {"user"};
+    ctx_untrusted.user_agent = "curl/7.68.0";
+
+    // Trusted client: RBAC allows (user can read data) + ABAC allows (matching UA)
+    auto d1 = acm.authorize(ctx_trusted, "data", "read");
+    EXPECT_TRUE(d1.granted);
+
+    // Untrusted client: RBAC allows but ABAC denies (non-matching UA)
+    auto d2 = acm.authorize(ctx_untrusted, "data", "read");
+    EXPECT_FALSE(d2.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACRemovePolicy) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Add an ABAC policy that restricts access
+    PolicyEngine::Policy p;
+    p.id = "restrict-ip";
+    p.subjects = {"admin@test.com"};
+    p.actions = {"write"};
+    p.resources = {"data"};
+    p.effect_allow = true;
+    p.allowed_ip_prefixes = {"10.0."};
+    acm.addABACPolicy(p);
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "192.168.1.1"; // Not in allowed range
+
+    // ABAC denies
+    auto d1 = acm.authorize(ctx, "data", "write");
+    EXPECT_FALSE(d1.granted);
+
+    // Remove the ABAC policy
+    EXPECT_TRUE(acm.removeABACPolicy("restrict-ip"));
+
+    // Now ABAC has no policies -> default allow, so RBAC decision stands
+    auto d2 = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(d2.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACDoesNotAffectRBACDeny) {
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+
+    AccessControlManager acm(config);
+    acm.initialize();
+
+    // Add a permissive ABAC policy (allow all)
+    PolicyEngine::Policy p;
+    p.id = "allow-all";
+    p.subjects = {"*"};
+    p.actions = {"write"};
+    p.resources = {"data"};
+    p.effect_allow = true;
+    acm.addABACPolicy(p);
+
+    SecurityContext ctx;
+    ctx.user_id = "user@test.com";
+    ctx.roles = {"user"}; // "user" role only has data:read, not data:write
+
+    // RBAC denies (user role has no write permission) - ABAC is not evaluated
+    auto decision = acm.authorize(ctx, "data", "write");
+    EXPECT_FALSE(decision.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACLoadFromFile) {
+    // Write a JSON ABAC policy file
+    auto abac_policy_path = temp_dir_ / "abac_policies.json";
+    std::ofstream af(abac_policy_path);
+    af << R"([
+        {
+            "id": "file-ip-policy",
+            "name": "Internal IP only",
+            "subjects": ["admin@test.com"],
+            "actions": ["write"],
+            "resources": ["data"],
+            "effect": "allow",
+            "allowed_ip_prefixes": ["10.0."]
+        }
+    ])";
+    af.close();
+
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+    config.abac_policy_path = abac_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "10.0.5.1"; // allowed
+
+    auto d1 = acm.authorize(ctx, "data", "write");
+    EXPECT_TRUE(d1.granted);
+
+    ctx.source_ip = "8.8.8.8"; // denied
+    auto d2 = acm.authorize(ctx, "data", "write");
+    EXPECT_FALSE(d2.granted);
+}
+
+TEST_F(AccessControlManagerTest, ABACReloadConfiguration) {
+    // Write initial ABAC policy (allow from 10.0.)
+    auto abac_policy_path = temp_dir_ / "abac_reload.json";
+    auto write_policy = [&](const std::string& ip_prefix) {
+        std::ofstream f(abac_policy_path);
+        f << R"([{"id":"p1","subjects":["admin@test.com"],"actions":["write"],)"
+          << R"("resources":["data"],"effect":"allow","allowed_ip_prefixes":[")"
+          << ip_prefix << R"("]})";
+        f << "]";
+    };
+    write_policy("10.0.");
+
+    AccessControlConfig config;
+    config.rbac_config_path = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_abac = true;
+    config.abac_policy_path = abac_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    SecurityContext ctx;
+    ctx.user_id = "admin@test.com";
+    ctx.roles = {"admin"};
+    ctx.source_ip = "10.0.1.1";
+
+    // Initially: 10.0.x allowed
+    EXPECT_TRUE(acm.authorize(ctx, "data", "write").granted);
+    ctx.source_ip = "192.168.1.1";
+    EXPECT_FALSE(acm.authorize(ctx, "data", "write").granted);
+
+    // Update policy file to allow 192.168. instead
+    write_policy("192.168.");
+    ASSERT_TRUE(acm.reloadConfiguration());
+
+    // After reload: 192.168.x now allowed
+    ctx.source_ip = "192.168.1.1";
+    EXPECT_TRUE(acm.authorize(ctx, "data", "write").granted);
+    ctx.source_ip = "10.0.1.1";
+    EXPECT_FALSE(acm.authorize(ctx, "data", "write").granted);
+}

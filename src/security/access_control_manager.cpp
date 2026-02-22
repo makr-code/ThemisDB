@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     323                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -76,6 +76,17 @@ bool AccessControlManager::initialize() {
             if (!user_store_->load(config_.user_role_store_path)) {
                 THEMIS_WARN("Failed to load user-role mappings from {}", 
                     config_.user_role_store_path);
+            }
+        }
+        
+        // Load ABAC policies if configured
+        if (config_.enable_abac && !config_.abac_policy_path.empty()) {
+            std::string err;
+            if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
+                THEMIS_WARN("Failed to load ABAC policies from {}: {}", 
+                    config_.abac_policy_path, err);
+            } else {
+                THEMIS_INFO("Loaded ABAC policies from {}", config_.abac_policy_path);
             }
         }
         
@@ -156,6 +167,29 @@ AccessDecision AccessControlManager::authorize(
         
         AccessDecision decision;
         if (has_permission) {
+            // Step 3: If RBAC grants access and ABAC is enabled, evaluate ABAC policies
+            if (config_.enable_abac) {
+                std::optional<std::string> client_ip = context.source_ip.empty()
+                    ? std::nullopt
+                    : std::make_optional(context.source_ip);
+                std::optional<std::string> user_agent = context.user_agent;
+                
+                auto abac_decision = policy_engine_.authorize(
+                    context.user_id, action, resource, client_ip, user_agent);
+                
+                if (!abac_decision.allowed) {
+                    decision = AccessDecision::Deny(
+                        "ABAC policy denied access: " + abac_decision.reason +
+                        (abac_decision.policy_id.empty() ? "" : " [policy: " + abac_decision.policy_id + "]")
+                    );
+                    metrics_.access_denied++;
+                    THEMIS_INFO("ABAC denied access for user '{}' on '{}:{}' - {}", 
+                        context.user_id, resource, action, abac_decision.reason);
+                    auditAccessDecision(context, resource, action, decision);
+                    return decision;
+                }
+            }
+            
             decision = AccessDecision::Allow("Permission granted via RBAC");
             
             // Get which permissions were applied
@@ -236,6 +270,19 @@ void AccessControlManager::setAuthMiddleware(std::shared_ptr<AuthMiddleware> aut
     THEMIS_INFO("AuthMiddleware configured for AccessControlManager");
 }
 
+void AccessControlManager::addABACPolicy(const PolicyEngine::Policy& policy) {
+    policy_engine_.addPolicy(policy);
+    THEMIS_INFO("Added ABAC policy '{}' to AccessControlManager", policy.id);
+}
+
+bool AccessControlManager::removeABACPolicy(const std::string& policy_id) {
+    bool removed = policy_engine_.removePolicy(policy_id);
+    if (removed) {
+        THEMIS_INFO("Removed ABAC policy '{}' from AccessControlManager", policy_id);
+    }
+    return removed;
+}
+
 bool AccessControlManager::reloadConfiguration() {
     try {
         if (!config_.rbac_config_path.empty()) {
@@ -250,6 +297,17 @@ bool AccessControlManager::reloadConfiguration() {
                 THEMIS_ERROR("Failed to reload user-role mappings");
                 return false;
             }
+        }
+        
+        // Reload ABAC policies if configured
+        if (config_.enable_abac && !config_.abac_policy_path.empty()) {
+            std::string err;
+            if (!policy_engine_.loadFromFile(config_.abac_policy_path, &err)) {
+                THEMIS_ERROR("Failed to reload ABAC policies from {}: {}",
+                    config_.abac_policy_path, err);
+                return false;
+            }
+            THEMIS_INFO("Reloaded ABAC policies from {}", config_.abac_policy_path);
         }
         
         THEMIS_INFO("Configuration reloaded successfully");
