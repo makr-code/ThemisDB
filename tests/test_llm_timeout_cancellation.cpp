@@ -402,3 +402,96 @@ TEST_F(AsyncEngineTimeoutCancelTest, SubmitAsyncHonoursTimeout) {
 
     engine.shutdown();
 }
+
+// ═══════════════════════════════════════════════════════════
+// Backpressure tests
+// ═══════════════════════════════════════════════════════════
+
+// Test 8: DROP_OLDEST policy — when the queue fills up, the lowest-priority
+// request is dropped (promise resolved with an exception) and the new higher-
+// priority request is accepted.
+TEST_F(AsyncEngineTimeoutCancelTest, DropOldestPolicyDropsLowestPriorityRequest) {
+    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(50, 20); // ~1 s per request
+
+    AsyncInferenceEngine::Config drop_cfg;
+    drop_cfg.num_worker_threads = 1;
+    drop_cfg.max_queue_size = 2;  // very small queue: 1 worker slot + 1 queued
+    drop_cfg.backpressure = AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
+
+    AsyncInferenceEngine engine(slow_plugin, drop_cfg);
+
+    // Fill the worker + queue completely with low-priority requests.
+    InferenceRequest low_req;
+    low_req.prompt = "low priority";
+    auto h1 = engine.submit(low_req, 0);  // taken by worker
+    auto h2 = engine.submit(low_req, 0);  // fills the queue
+
+    // Now submit a higher-priority request — DROP_OLDEST should drop h2.
+    InferenceRequest high_req;
+    high_req.prompt = "high priority";
+    auto h3 = engine.submit(high_req, 100);  // should succeed; h2 gets dropped
+
+    // h2 must resolve with an exception ("Request dropped").
+    bool h2_dropped = false;
+    try {
+        h2.get();  // result discarded; we only care about the exception
+    } catch (const std::runtime_error& e) {
+        h2_dropped = true;
+        spdlog::info("DROP_OLDEST test: h2 exception as expected: {}", e.what());
+    }
+    EXPECT_TRUE(h2_dropped);
+
+    // h3 should eventually complete without throwing (queue had room after drop).
+    bool h3_ok = false;
+    try {
+        h3.get();
+        h3_ok = true;
+    } catch (const std::exception& e) {
+        spdlog::warn("DROP_OLDEST test: h3 unexpected exception: {}", e.what());
+    }
+    EXPECT_TRUE(h3_ok);
+
+    engine.shutdown();
+    // h1 may still be in flight — discard it
+    try { h1.get(); } catch (...) {}
+}
+
+// Test 9: DROP_OLDEST drops the request with strictly the lowest priority,
+// not just the first one added.
+TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
+    auto slow_plugin = std::make_shared<SlowStreamingPlugin>(50, 20);
+
+    AsyncInferenceEngine::Config drop_cfg;
+    drop_cfg.num_worker_threads = 1;
+    drop_cfg.max_queue_size = 3;  // 1 worker + 2 queued
+    drop_cfg.backpressure = AsyncInferenceEngine::Config::BackpressurePolicy::DROP_OLDEST;
+
+    AsyncInferenceEngine engine(slow_plugin, drop_cfg);
+
+    // Fill the worker and queue.
+    InferenceRequest filler;
+    filler.prompt = "filler";
+    auto h_worker = engine.submit(filler, 5);  // taken by worker
+    auto h_high   = engine.submit(filler, 10); // queued, higher priority
+    auto h_low    = engine.submit(filler, 1);  // queued, lowest priority
+
+    // New request triggers DROP_OLDEST — must drop h_low (priority=1).
+    InferenceRequest new_req;
+    new_req.prompt = "new";
+    auto h_new = engine.submit(new_req, 7);
+
+    // h_low must be dropped.
+    bool low_dropped = false;
+    try {
+        h_low.get();  // result discarded; we only care about the exception
+    } catch (const std::runtime_error& e) {
+        low_dropped = true;
+        spdlog::info("DROP_OLDEST priority test: h_low dropped: {}", e.what());
+    }
+    EXPECT_TRUE(low_dropped);
+
+    engine.shutdown();
+    try { h_worker.get(); } catch (...) {}
+    try { h_high.get();   } catch (...) {}
+    try { h_new.get();    } catch (...) {}
+}
