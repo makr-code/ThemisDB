@@ -178,7 +178,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     plan.use_index = statistics_.has_edge_index;
     plan.use_cache = statistics_.has_adjacency_cache;
     plan.enable_early_termination = true; // Stop at depth k
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
 
@@ -297,7 +298,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     plan.use_index = statistics_.has_edge_index;
     plan.use_cache = statistics_.has_adjacency_cache;
     plan.enable_early_termination = true; // Stop as soon as path found
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
 
@@ -1392,6 +1394,13 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     
     if (constraints.edge_type.has_value()) {
         key += ":type=" + constraints.edge_type.value();
+    }
+
+    // enable_parallel affects plan.enable_parallel directly; include it so that
+    // the same vertex pair queried with and without parallel yields distinct
+    // cache entries.
+    if (constraints.enable_parallel) {
+        key += ":par";
     }
     
     return key;
