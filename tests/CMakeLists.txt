@@ -277,6 +277,15 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
 )
 
+# Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test exercises the ROCm backend CPU fallback path and is fully
+# functional without AMD GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_rocm_backend.cpp
+    )
+endif()
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
