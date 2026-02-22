@@ -163,11 +163,27 @@ InferenceHandle AsyncInferenceEngine::submit(
                 }
                 try {
                     auto response = processRequest(*async_req, submit_time);
-                    stats_.total_completed++;
-                    if (async_req->callback) {
-                        async_req->callback(response);
+
+                    // Re-check cancellation after the (uninterruptible) plugin call:
+                    // the timeout monitor may have fired during execution and already
+                    // resolved the promise.  Skip delivery to avoid double-set and
+                    // ensure the callback is not invoked for timed-out requests.
+                    if (async_req->cancel_token->load(std::memory_order_acquire)) {
+                        spdlog::debug(
+                            "Shared-pool: discarding late response for "
+                            "cancelled/timed-out request {}",
+                            async_req->request_id);
+                    } else {
+                        stats_.total_completed++;
+                        if (async_req->callback) {
+                            async_req->callback(response);
+                        }
+                        try {
+                            promise->set_value(response);
+                        } catch (...) {
+                            // Promise already resolved (rare race) — ignore.
+                        }
                     }
-                    promise->set_value(response);
                 } catch (...) {
                     try {
                         promise->set_exception(std::current_exception());
