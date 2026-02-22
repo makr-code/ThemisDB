@@ -53,8 +53,9 @@ static ApiHttpResponse apiHttpGet(const std::string& /*url*/,
     //   curl_easy_perform(curl); curl_easy_cleanup(curl);
     ApiHttpResponse r;
     r.status_code = 200;
-    // Simulate a page of 3 documents; real code would parse r.body
-    r.body = R"({"total":6,"items":[)"
+    // Simulate a page of 3 documents; real code would parse r.body.
+    // "next_cursor" enables cursor-mode pagination tests.
+    r.body = R"({"total":6,"next_cursor":"cursor_page2","items":[)"
              R"({"text":"doc alpha"},)"
              R"({"text":"doc beta"},)"
              R"({"text":"doc gamma"}]})";
@@ -149,6 +150,13 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
     return results;
 }
 
+/// Extract the first string value for `"key":"<value>"` from JSON, or "" if absent.
+static std::string jsonExtractStringValue(const std::string& json,
+                                          const std::string& key) {
+    auto list = jsonExtractStringList(json, key);
+    return list.empty() ? "" : list[0];
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -157,7 +165,8 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
 
 class GenericApiConnector::Impl {
 public:
-    Impl() : page_size_(100), max_pages_(0) {}
+    Impl() : page_size_(100), max_pages_(0),
+             pagination_mode_(PaginationMode::OFFSET) {}
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
@@ -181,6 +190,13 @@ public:
         std::string mp = opt("max_pages", "0");
         try { max_pages_ = static_cast<size_t>(std::stoul(mp)); }
         catch (...) { max_pages_ = 0; }
+
+        // Pagination mode: "offset" (default) or "cursor"
+        std::string pm = opt("pagination_mode", "offset");
+        pagination_mode_ = (pm == "cursor") ? PaginationMode::CURSOR
+                                            : PaginationMode::OFFSET;
+
+        cursor_response_field_ = opt("cursor_response_field", "next_cursor");
 
         return !endpoint_.empty();
     }
@@ -222,9 +238,14 @@ public:
             return stats;
         }
 
-        size_t offset     = 0;
         size_t page_num   = 0;
         size_t total_hint = 0; // populated from first response
+
+        // Offset mode state
+        size_t offset = 0;
+
+        // Cursor mode state
+        std::string current_cursor; // empty on first page
 
         try {
             while (true) {
@@ -233,8 +254,18 @@ public:
                 // Build paginated URL
                 std::string url = endpoint_;
                 url += (url.find('?') == std::string::npos) ? '?' : '&';
-                url += cursor_param_ + "=" + std::to_string(offset);
-                url += "&limit=" + std::to_string(page_size_);
+
+                if (pagination_mode_ == PaginationMode::CURSOR) {
+                    // Cursor mode: append cursor param only when we have a token
+                    url += "limit=" + std::to_string(page_size_);
+                    if (!current_cursor.empty()) {
+                        url += "&" + cursor_param_ + "=" + current_cursor;
+                    }
+                } else {
+                    // Offset mode (default): numeric offset + limit
+                    url += cursor_param_ + "=" + std::to_string(offset);
+                    url += "&limit=" + std::to_string(page_size_);
+                }
 
                 auto response = apiGetWithRetry(url, buildAuthHeader(),
                                                 retry_config_, stats);
@@ -242,8 +273,11 @@ public:
                 if (response.status_code != 200) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
                                    IngestionErrorSeverity::ERROR,
-                                   "Page fetch failed at offset " +
-                                   std::to_string(offset) + " (HTTP " +
+                                   "Page fetch failed at " +
+                                   (pagination_mode_ == PaginationMode::CURSOR
+                                        ? "cursor '" + current_cursor + "'"
+                                        : "offset " + std::to_string(offset)) +
+                                   " (HTTP " +
                                    std::to_string(response.status_code) + ")");
                     break;
                 }
@@ -262,7 +296,6 @@ public:
                 // In production: insert docs into target_collection
                 stats.documents_processed += docs.size();
                 stats.bytes_processed     += response.body.size();
-                offset += docs.size();
                 ++page_num;
 
                 if (progress_callback) {
@@ -272,8 +305,16 @@ public:
                                       "Page " + std::to_string(page_num));
                 }
 
-                // Stop if we received fewer docs than requested (last page)
-                if (docs.size() < page_size_) break;
+                if (pagination_mode_ == PaginationMode::CURSOR) {
+                    // Advance cursor; stop when the response carries no next cursor
+                    current_cursor = jsonExtractStringValue(response.body,
+                                                            cursor_response_field_);
+                    if (current_cursor.empty()) break;
+                } else {
+                    // Advance offset; stop if fewer docs than requested (last page)
+                    offset += docs.size();
+                    if (docs.size() < page_size_) break;
+                }
             }
         } catch (const std::exception& e) {
             stats.addError(IngestionErrorCode::INTERNAL_ERROR,
@@ -297,6 +338,8 @@ public:
     void setApiKey(const std::string& key)    { api_key_   = key; }
     void setPageSize(size_t ps)               { page_size_ = ps;  }
     void setRetryConfig(const RetryConfig& c) { retry_config_ = c; }
+    void setPaginationMode(PaginationMode m)  { pagination_mode_ = m; }
+    void setCursorResponseField(const std::string& f) { cursor_response_field_ = f; }
 
 private:
     std::string buildAuthHeader() const {
@@ -311,6 +354,8 @@ private:
     size_t       page_size_;
     size_t       max_pages_;
     RetryConfig  retry_config_;
+    PaginationMode pagination_mode_;
+    std::string  cursor_response_field_;
 };
 
 // ---------------------------------------------------------------------------
@@ -349,6 +394,14 @@ void GenericApiConnector::setPageSize(size_t page_size) {
 
 void GenericApiConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
+}
+
+void GenericApiConnector::setPaginationMode(PaginationMode mode) {
+    impl_->setPaginationMode(mode);
+}
+
+void GenericApiConnector::setCursorResponseField(const std::string& field) {
+    impl_->setCursorResponseField(field);
 }
 
 } // namespace ingestion
