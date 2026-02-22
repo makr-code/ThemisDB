@@ -293,6 +293,7 @@ set(THEMIS_QUERY_SOURCES
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/huggingface_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp

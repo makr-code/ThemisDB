@@ -186,6 +186,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
     ".*test_jsonl_llm_exporter\\.cpp$"
+    ".*test_huggingface_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
