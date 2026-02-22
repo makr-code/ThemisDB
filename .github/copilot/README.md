@@ -11,6 +11,9 @@ This directory contains modular Copilot instructions and development tooling for
 │   ├── BRANCHING_GUIDE.md           # Git Flow & PR Guidelines
 │   ├── BUILD_GUIDE.md               # CMake Presets & Build Commands
 │   ├── CODE_STANDARDS.md            # C++ Style & Quality Tools
+│   ├── CUDA_OPTIMIZATION.md         # GPU Kernel Design & SIMD
+│   ├── MVCC_CONCURRENCY.md          # Concurrency Patterns & Thread-Safety
+│   ├── PERFORMANCE_PROFILING.md     # Profiling Tools & Benchmark Suite
 │   ├── TESTING_GUIDE.md             # Test Requirements & Coverage
 │   ├── CROSS_COMPILATION_CONTEXT.md # Platform-specific Rules
 │   └── VSCODE_CONTEXT.md            # VSCode Remote Development
@@ -83,6 +86,35 @@ The modular AI-Guardrails architecture provides:
 - SIMD optimizations (x86 SSE/AVX, ARM NEON)
 - vcpkg triplet configuration
 - Docker multi-architecture builds
+
+### CUDA_OPTIMIZATION.md
+- GPU architecture basics (Warp, Block, Grid, SM, Compute Capability)
+- Memory hierarchy and access patterns (coalesced, shared memory, bank conflicts)
+- Optimal kernel design (block size, occupancy, shared memory limits)
+- SIMD optimization for x86 (SSE/AVX) and ARM (NEON) with fallback strategy
+- Atomic operations and lock-free patterns on GPU
+- Annotated code examples: vector add, parallel reduction, distance kernel
+- Common GPU pitfalls and how to avoid them
+
+### MVCC_CONCURRENCY.md
+- MVCC fundamentals: version numbering, snapshot isolation, visibility rules
+- Lock strategies: RWLock, optimistic locking, timestamp ordering
+- Thread-safety patterns: CoW, lock-free queues, atomic counters
+- Deadlock prevention: lock ordering, `std::lock`, timeout strategies
+- Testing concurrent code: ThreadSanitizer, stress tests, race detection
+- Common pitfalls: use-after-free, data races, deadlocks, livelocks
+- NUMA-aware thread affinity for scalable read/write workloads
+
+### PERFORMANCE_PROFILING.md
+- Profiling tool setup: Nsight Systems, Nsight Compute, Linux perf, Valgrind
+- Step-by-step GPU profiling workflow with `nsys` and `ncu` commands
+- CPU profiling with perf + FlameGraph and Valgrind callgrind
+- Key performance metrics with target ranges and warning thresholds
+- Benchmark best practices: warmup, variance reduction, baseline comparisons
+- Google Benchmark and CMake `benchmark` target integration
+- NVTX annotations for timeline correlation
+- CI/CD regression detection workflow and alerting thresholds
+- Per-module performance SLOs (Vector Search, Storage, AQL, MVCC)
 
 ### VSCODE_CONTEXT.md
 - VSCode setup and extensions
@@ -196,7 +228,7 @@ The main `COPILOT_INSTRUCTIONS.md` should:
 
 ### After Refactoring
 - Main file: 264 lines (-47%)
-- 6 focused modules
+- 9 focused modules
 - Automated validation
 - Clear organization
 

@@ -115,3 +115,14 @@ Beim Implementieren aus Roadmap/Future-Enhancement gilt:
 ```
 
 Dieser Detaillierungsgrad ist für produktiven Code erforderlich.
+
+## 8) Developer Guides
+
+Detaillierte Anleitungen für performance-kritische und nebenläufige Entwicklung:
+
+- **GPU-Optimierung**: [copilot/CUDA_OPTIMIZATION.md](copilot/CUDA_OPTIMIZATION.md)
+  - Kernel-Design, Memory Patterns, SIMD (AVX/NEON), Atomic Operations
+- **Performance Profiling**: [copilot/PERFORMANCE_PROFILING.md](copilot/PERFORMANCE_PROFILING.md)
+  - Nsight Systems/Compute, perf + FlameGraph, Benchmark Suite, SLOs
+- **MVCC & Concurrency**: [copilot/MVCC_CONCURRENCY.md](copilot/MVCC_CONCURRENCY.md)
+  - Snapshot Isolation, RWLock, Lock-Free Patterns, ThreadSanitizer
