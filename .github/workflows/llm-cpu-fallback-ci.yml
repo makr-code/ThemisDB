@@ -30,8 +30,18 @@ on:
       - '.github/workflows/llm-cpu-fallback-ci.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  ci-scope-classifier:
+    permissions: {}
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
   llm-cpu-fallback:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_llm_changes == 'true'
     name: LLM Kernel Fusion (CPU Fallback)
     runs-on: ubuntu-latest
     permissions:

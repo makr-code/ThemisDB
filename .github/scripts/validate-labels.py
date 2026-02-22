@@ -10,7 +10,7 @@ GITHUB_API = "https://api.github.com"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPOSITORY = os.environ.get("GITHUB_REPOSITORY")
 
-REQUIRED_TYPES = {"type:feature", "type:bug", "type:test", "type:documentation", "type:refactor", "type:chore"}
+REQUIRED_TYPES = {"type:feature", "type:bug", "type:enhancement", "type:test", "type:documentation", "type:refactor", "type:chore"}
 REQUIRED_PRIORITIES = {"priority:critical", "priority:high", "priority:medium", "priority:low"}
 REQUIRED_STATUS = {"status:open", "status:in_progress", "status:blocked", "status:review", "status:ready"}
 REQUIRED_AREAS = {"area:core", "area:aql", "area:query", "area:acceleration", "area:storage", "area:vector", "area:graph", "area:rag", "area:infrastructure"}

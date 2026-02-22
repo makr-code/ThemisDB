@@ -65,6 +65,9 @@ if(NOT OpenSSL_FOUND)
     find_package(OpenSSL REQUIRED)
 endif()
 
+# zlib (required for SAML HTTP-Redirect binding DEFLATE compression)
+find_package(ZLIB REQUIRED)
+
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
 find_package(CURL CONFIG)
@@ -1364,6 +1367,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
+    ../src/server/cache_admin_api_handler.cpp
     ../src/server/admin_api_handler.cpp
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp
@@ -1455,6 +1459,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
+    ../src/cache/warmup.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
@@ -1555,6 +1560,8 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/saml_authenticator.cpp
+    ../src/auth/oauth_device_flow.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
@@ -1702,6 +1709,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/arrow_export.cpp
     ../src/analytics/analytics_export.cpp
+
+    # Streaming Aggregation Windows (Phase 2)
+    ../src/analytics/streaming_window.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2174,6 +2184,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         if(Vulkan_FOUND)
             target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()
@@ -2271,6 +2282,7 @@ target_link_libraries(themis_core
     OpenSSL::SSL
     OpenSSL::Crypto
     TBB::tbb
+    ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
 
