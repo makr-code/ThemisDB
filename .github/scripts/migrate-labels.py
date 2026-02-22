@@ -8,8 +8,11 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPOSITORY = os.environ.get("GITHUB_REPOSITORY")
 
 MIGRATION_MAP = {
-    "enhancement": "type:feature",
+    "enhancement": "type:enhancement",
     "AQL": "area:aql",
+    "core": "area:core",
+    "query": "area:query",
+    "acceleration": "area:acceleration",
 }
 
 def get_issues():
@@ -28,6 +31,7 @@ def update_labels(issue_num, labels):
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
     }
     try:
         request = Request(url, data=payload, headers=headers, method="PUT")
