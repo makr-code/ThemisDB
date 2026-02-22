@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     1442                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -304,7 +304,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     plan.use_index = statistics_.has_edge_index;
     plan.use_cache = statistics_.has_adjacency_cache;
     plan.enable_early_termination = has_max_length; // Can terminate early with max length
-    plan.enable_parallel = false; // PathConstraints implementation doesn't support parallel yet
+    plan.enable_parallel = false; // Single-source constrained path finding does not use parallel expansion;
+                                   // for multi-source parallel traversal use ParallelTraversal directly.
     
     // Generate explanation
     std::ostringstream oss;

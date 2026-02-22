@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:52                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:18                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     351                                            ║
+    • Total Lines:     407                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
