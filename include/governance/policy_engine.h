@@ -26,6 +26,8 @@
 #include <unordered_map>
 #include <optional>
 #include <memory>
+#include <mutex>
+#include <filesystem>
 
 namespace themis {
 namespace utils {
@@ -70,6 +72,24 @@ public:
     // Load policies from YAML file (returns false on error)
     bool loadFromYAML(const std::string& yaml_path);
 
+    /**
+     * @brief Reload policies if the source YAML file has changed on disk.
+     *
+     * Checks the modification time of the file last passed to loadFromYAML().
+     * If the file has been modified, the new policy set is loaded atomically.
+     * If the path is empty or the file has not changed, this is a fast no-op.
+     *
+     * @param err  Optional: populated with a human-readable error message on
+     *             failure (file read error, parse error, etc.).
+     * @return true  if policies are up-to-date (either reloaded or unchanged),
+     *         false on error.
+     */
+    bool reloadIfChanged(std::string* err = nullptr);
+
+    /// @return The file path last passed to loadFromYAML(), or empty string if
+    ///         no file has been loaded yet.
+    std::string getLoadedFilePath() const;
+
     // Set audit logger for automatic logging of policy evaluations
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
@@ -84,10 +104,15 @@ public:
     static bool isStrictClass(const std::string& cls);
 
 private:
+    mutable std::mutex mutex_;
     std::unordered_map<std::string, ClassificationProfile> classification_profiles_;
     std::unordered_map<std::string, std::string> resource_mapping_;
     std::string default_mode_ = "enforce";
     std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
+
+    // Hot-reload state
+    std::string loaded_yaml_path_;
+    std::filesystem::file_time_type last_loaded_mtime_{};
 
     static std::string normalize(const std::string& s);
 };

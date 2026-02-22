@@ -22,6 +22,7 @@
  */
 
 #include "themis/gpu/stream_manager.h"
+#include "themis/gpu/rocm_backend.h"
 #include <stdexcept>
 
 namespace themis {
@@ -39,10 +40,11 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     std::lock_guard<std::mutex> lock(mutex_);
     if (streams_.count(cfg.name)) return false;   // already exists
 
-    // Default no-op backend: work always succeeds (CPU path).
+    // When no backend is supplied, use the ROCm backend (which transparently
+    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined).
     GPULauncher::BackendFn fn = backend
         ? backend
-        : [](const GPULauncher::WorkItem&) { return true; };
+        : ROCmBackend::GetInstance().createBackendFn();
 
     Stream s;
     s.config   = cfg;
