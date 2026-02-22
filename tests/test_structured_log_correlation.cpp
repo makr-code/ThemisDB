@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_structured_log_correlation.cpp                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22 08:12:42                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-22 08:23:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     401                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • eaa002657  2026-02-21  fix(core): restore setLevel() in SpdlogLoggerAdapter; fix... ║

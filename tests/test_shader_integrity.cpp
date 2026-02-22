@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_shader_integrity.cpp                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22 08:12:41                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-22 08:23:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     218                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 326c1184f  2026-02-21  feat(acceleration): Phase 4.1 — ShaderIntegrityVerifier S... ║
