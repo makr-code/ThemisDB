@@ -236,7 +236,8 @@ std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const 
     // BFS over the conflict graph to find connected components of size >= 3
     std::unordered_set<std::string> visited;
 
-    for (const auto& [start_id, _] : conflict_graph) {
+    for (const auto& kv : conflict_graph) {
+        const std::string& start_id = kv.first;
         if (visited.count(start_id) > 0) continue;
 
         // BFS

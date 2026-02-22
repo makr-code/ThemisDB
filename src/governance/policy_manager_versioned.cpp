@@ -73,7 +73,8 @@ static ConflictInfo makeContradictoryConflict(const PolicyRule& new_rule,
     conflict.new_rule_id = new_rule.id;
     conflict.conflicting_rule_ids = {existing.id};
     conflict.detected_at =
-        std::chrono::system_clock::now().time_since_epoch().count() / 1000000000;
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
 
     if (new_rule.require_encryption != existing.require_encryption) {
         conflict.severity = "critical";
@@ -115,7 +116,8 @@ static ConflictInfo makeOverlappingConflict(const PolicyRule& new_rule,
     conflict.new_rule_id = new_rule.id;
     conflict.conflicting_rule_ids = {existing.id};
     conflict.detected_at =
-        std::chrono::system_clock::now().time_since_epoch().count() / 1000000000;
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
     conflict.description =
         "Rules '" + new_rule.name + "' and '" + existing.name +
         "' overlap with the same priority, creating evaluation ambiguity";
