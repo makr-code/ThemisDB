@@ -568,6 +568,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/nli_faithfulness_verifier.cpp
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
+    ../src/rag/reranker.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
