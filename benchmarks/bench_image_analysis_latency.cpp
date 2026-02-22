@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_image_analysis_latency.cpp                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:42                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:09                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   75.0/100                                       ║
     • Total Lines:     569                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

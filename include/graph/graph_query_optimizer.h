@@ -3,9 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:53                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22 11:29:20                                ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
@@ -14,8 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
