@@ -467,7 +467,22 @@ void LLMMetricsCollector::initializeMetrics() {
         PrometheusExporter::MetricType::COUNTER,
         {}
     });
-    
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    exporter_->registerMetric({
+        "llm_worker_pool_queue_depth",
+        "Current number of tasks pending in the shared worker pool",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+
+    exporter_->registerMetric({
+        "llm_worker_pool_tasks_completed_total",
+        "Total tasks completed by the shared worker pool since start",
+        PrometheusExporter::MetricType::GAUGE,
+        {}
+    });
+
     // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
     initializeExtendedContextMetrics();
 }
@@ -685,6 +700,18 @@ void LLMMetricsCollector::recordConcurrentLoRAOperation(const std::string& model
         // Warn about potential thread-safety issues
         exporter_->incrementCounter("llm_lora_concurrent_operations_total", {{"model_id", model_id}});
     }
+}
+
+// ─── Shared Worker Pool metrics (Phase 2) ────────────────────────────────────
+
+void LLMMetricsCollector::recordWorkerPoolQueueDepth(size_t depth) {
+    exporter_->setGauge("llm_worker_pool_queue_depth",
+                        static_cast<double>(depth));
+}
+
+void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_completed) {
+    exporter_->setGauge("llm_worker_pool_tasks_completed_total",
+                        static_cast<double>(total_completed));
 }
 
 // Initialize extended context metrics (v1.4.0+)

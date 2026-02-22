@@ -217,7 +217,13 @@ public:
                                  double duration_ms);
     void recordContextLockWait(const std::string& model_id, double wait_time_ms);
     void recordConcurrentLoRAOperation(const std::string& model_id, bool sequential_mode);
-    
+
+    // Shared Worker Pool metrics (Phase 2 — Q2 2026)
+    // llm_worker_pool_queue_depth  : gauge   — current pending-task depth
+    // llm_worker_pool_tasks_completed_total : counter — tasks finished since start
+    void recordWorkerPoolQueueDepth(size_t depth);
+    void recordWorkerPoolTasksCompleted(uint64_t total_completed);
+
 private:
     PrometheusExporter* exporter_;
     Config config_;
