@@ -249,3 +249,123 @@ TEST(HnswParameterTunerWorkloadTest, WorkloadEfConstructionInfluencesRecommendat
     EXPECT_GT(ef_analytics, ef_oltp);
     EXPECT_GE(ef_oltp, M * 8);  // Should still be reasonable
 }
+
+// ============================================================================
+// WorkloadClassifier tests
+// ============================================================================
+
+TEST(WorkloadClassifierTest, DefaultIsMixed) {
+    WorkloadClassifier classifier;
+    EXPECT_EQ(classifier.detectWorkload(), HnswParameterTuner::WorkloadType::MIXED);
+}
+
+TEST(WorkloadClassifierTest, PureInsertSmallBatchIsOLTP) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 100; ++i) {
+        classifier.recordInsert(1);  // single-vector inserts
+    }
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::OLTP);
+}
+
+TEST(WorkloadClassifierTest, PureInsertLargeBatchIsBatchInsert) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 10; ++i) {
+        classifier.recordInsert(500);  // large batches
+    }
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::BATCH_INSERT);
+}
+
+TEST(WorkloadClassifierTest, ManyInsertsSmallQueriesIsOLTP) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 100; ++i) classifier.recordInsert(1);
+    for (int i = 0; i < 5; ++i)   classifier.recordQuery(5);
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::OLTP);
+}
+
+TEST(WorkloadClassifierTest, LargeKQueriesIsAnalytics) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 50; ++i) classifier.recordQuery(50);
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::ANALYTICS);
+}
+
+TEST(WorkloadClassifierTest, MediumKQueriesIsRAG) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 50; ++i) classifier.recordQuery(10);
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::RAG);
+}
+
+TEST(WorkloadClassifierTest, SmallKQueriesIsOLTP) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 50; ++i) classifier.recordQuery(3);
+    auto wl = classifier.detectWorkload();
+    EXPECT_EQ(wl, HnswParameterTuner::WorkloadType::OLTP);
+}
+
+TEST(WorkloadClassifierTest, ResetClearsState) {
+    WorkloadClassifier classifier;
+    for (int i = 0; i < 50; ++i) classifier.recordQuery(50);
+    classifier.reset();
+    EXPECT_EQ(classifier.detectWorkload(), HnswParameterTuner::WorkloadType::MIXED);
+    auto stats = classifier.getStats();
+    EXPECT_EQ(stats.total_inserts, 0u);
+    EXPECT_EQ(stats.total_queries, 0u);
+}
+
+TEST(WorkloadClassifierTest, StatsAreAccurate) {
+    WorkloadClassifier classifier;
+    classifier.recordInsert(10);
+    classifier.recordInsert(20);
+    classifier.recordQuery(5);
+    classifier.recordQuery(15);
+
+    auto stats = classifier.getStats();
+    EXPECT_EQ(stats.total_inserts, 30u);
+    EXPECT_EQ(stats.total_queries, 2u);
+    EXPECT_DOUBLE_EQ(stats.avg_batch_size, 15.0);
+    EXPECT_DOUBLE_EQ(stats.avg_k, 10.0);
+}
+
+// ============================================================================
+// HnswParameterTuner::getAutoTunedConstructionParams tests
+// ============================================================================
+
+TEST_F(HnswParameterTunerTest, AutoTunedConstructionParamsWithHint) {
+    size_t dataset_size = 100000;
+
+    auto params_oltp = tuner->getAutoTunedConstructionParams(
+        dataset_size, HnswParameterTuner::WorkloadType::OLTP);
+    auto params_analytics = tuner->getAutoTunedConstructionParams(
+        dataset_size, HnswParameterTuner::WorkloadType::ANALYTICS);
+
+    // Analytics should have higher M and ef_construction than OLTP
+    EXPECT_GT(params_analytics.M, params_oltp.M);
+    EXPECT_GT(params_analytics.ef_construction, params_oltp.ef_construction);
+    EXPECT_EQ(params_oltp.detected_workload, HnswParameterTuner::WorkloadType::OLTP);
+    EXPECT_EQ(params_analytics.detected_workload, HnswParameterTuner::WorkloadType::ANALYTICS);
+}
+
+TEST_F(HnswParameterTunerTest, AutoTunedConstructionParamsAutoDetect) {
+    // Record large-k queries to trigger ANALYTICS detection
+    for (int i = 0; i < 10; ++i) {
+        tuner->recordQueryResult(50, 128, 10.0, 0.97);
+    }
+
+    auto params = tuner->getAutoTunedConstructionParams(100000);
+    // With avg k=50, the detected workload should be ANALYTICS
+    EXPECT_EQ(params.detected_workload, HnswParameterTuner::WorkloadType::ANALYTICS);
+    EXPECT_GT(params.M, 0);
+    EXPECT_GT(params.ef_construction, 0);
+}
+
+TEST_F(HnswParameterTunerTest, AutoTunedConstructionParamsNoQueriesIsMixed) {
+    // No queries recorded – should fall back to MIXED and still return valid params
+    auto params = tuner->getAutoTunedConstructionParams(100000);
+    EXPECT_EQ(params.detected_workload, HnswParameterTuner::WorkloadType::MIXED);
+    EXPECT_GT(params.M, 0);
+    EXPECT_GT(params.ef_construction, params.M * 5);
+}

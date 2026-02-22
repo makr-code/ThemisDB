@@ -209,6 +209,10 @@ private:
         std::chrono::steady_clock::time_point deadline;
         std::promise<InferenceResponse> promise;
         std::function<void(const InferenceResponse&)> callback;
+        // Shared cancellation token — held by the InferenceHandle so
+        // InferenceHandle::cancel() propagates here immediately.
+        std::shared_ptr<std::atomic<bool>> cancel_token =
+            std::make_shared<std::atomic<bool>>(false);
     };
     std::unordered_map<std::string, std::shared_ptr<TrackedRequest>> tracked_requests_;
     mutable std::mutex requests_mutex_;

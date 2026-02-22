@@ -64,6 +64,14 @@ public:
      * @param success Whether the operation succeeded
      */
     void recordDataPointWrite(const std::string& metric_name, double latency_ms, bool success = true);
+
+    /**
+     * @brief Record an out-of-order data point write
+     * @param metric_name Name of the metric
+     * @param rejected   true if the point was rejected (outside late-arrival window);
+     *                   false if it was accepted (within window but out-of-order)
+     */
+    void recordOutOfOrderWrite(const std::string& metric_name, bool rejected);
     
     /**
      * @brief Record a batch write operation
@@ -165,6 +173,8 @@ public:
     uint64_t getTotalAggregationsExecuted() const { return total_aggregations_executed_.load(); }
     uint64_t getOptimizerHits() const { return optimizer_hits_.load(); }
     uint64_t getOptimizerMisses() const { return optimizer_misses_.load(); }
+    uint64_t getOutOfOrderAccepted() const { return out_of_order_accepted_.load(); }
+    uint64_t getLateArrivalRejected() const { return late_arrival_rejected_.load(); }
     
     double getAverageWriteLatency() const;
     double getAverageQueryLatency() const;
@@ -180,6 +190,8 @@ private:
     std::atomic<uint64_t> write_errors_{0};
     std::atomic<uint64_t> total_bytes_written_uncompressed_{0};
     std::atomic<uint64_t> total_bytes_written_compressed_{0};
+    std::atomic<uint64_t> out_of_order_accepted_{0};
+    std::atomic<uint64_t> late_arrival_rejected_{0};
     
     // Query counters
     std::atomic<uint64_t> total_queries_executed_{0};

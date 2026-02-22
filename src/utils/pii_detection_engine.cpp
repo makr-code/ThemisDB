@@ -29,6 +29,9 @@ namespace utils {
 // Forward declaration of factory implemented in regex_detection_engine.cpp
 std::unique_ptr<IPIIDetectionEngine> createRegexEngine();
 
+// Forward declaration of factory implemented in ner_detection_engine.cpp
+std::unique_ptr<IPIIDetectionEngine> createNEREngine();
+
 // ============================================================================
 // PluginSignature Implementation
 // ============================================================================
@@ -327,9 +330,12 @@ Result<std::unique_ptr<IPIIDetectionEngine>> PIIDetectionEngineFactory::createUn
         return Ok(createRegexEngine());
     }
     
+    if (engine_type == "ner") {
+        return Ok(createNEREngine());
+    }
+    
     // Future engines:
-    // if (engine_type == "ner") return Ok(std::make_unique<NERDetectionEngine>());
-    // if (engine_type == "embedding") return Ok(std::make_unique<EmbeddingDetectionEngine>());
+    // if (engine_type == "embedding") return Ok(createEmbeddingEngine());
     
     spdlog::warn("PIIDetectionEngineFactory: Unknown engine type '{}'", engine_type);
     return Err<std::unique_ptr<IPIIDetectionEngine>>(
@@ -340,12 +346,9 @@ Result<std::unique_ptr<IPIIDetectionEngine>> PIIDetectionEngineFactory::createUn
 std::vector<std::string> PIIDetectionEngineFactory::getAvailableEngines() {
     std::vector<std::string> engines;
     engines.push_back("regex");  // Always available
+    engines.push_back("ner");    // Always available (rule-based gazetteer NER)
     
     // Conditionally compiled engines:
-    #ifdef THEMIS_ENABLE_NER
-    engines.push_back("ner");
-    #endif
-    
     #ifdef THEMIS_ENABLE_EMBEDDING
     engines.push_back("embedding");
     #endif

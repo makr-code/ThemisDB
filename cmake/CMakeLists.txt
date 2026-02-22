@@ -1496,6 +1496,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/audit_logger.cpp
     ../src/utils/pii_detection_engine.cpp
     ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/hkdf_helper.cpp
@@ -1707,6 +1708,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
+    ../src/importers/mongo_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     
@@ -2707,6 +2709,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing

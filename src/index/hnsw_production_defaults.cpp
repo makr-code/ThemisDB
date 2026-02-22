@@ -249,32 +249,55 @@ int HnswProductionDefaults::getRecommendedEfSearch(
 HnswProductionDefaults::HnswParams HnswProductionDefaults::autoTuneParameters(
     size_t dataset_size,
     size_t dimension,
-    size_t sample_size,
+    size_t /*sample_size*/,
     double target_latency_ms,
     double target_recall) {
-    
-    // Start with balanced defaults
-    HnswParams params = getRecommendedParams(
-        dataset_size, dimension, PerformanceProfile::BALANCED);
-    
-    // Note: In a real implementation, this would:
-    // 1. Build a small index with sample data
-    // 2. Run sample queries with different ef_search values
-    // 3. Measure latency and recall
-    // 4. Binary search for optimal ef_search
-    
-    // For now, estimate based on targets
-    if (target_latency_ms < 5.0) {
-        // Very aggressive latency target
-        params.ef_search = getRecommendedEfSearch(10, PerformanceProfile::LATENCY_OPTIMIZED);
-    } else if (target_recall > 0.98) {
-        // High recall target
-        params.ef_search = getRecommendedEfSearch(10, PerformanceProfile::RECALL_OPTIMIZED);
+
+    // Select the workload profile that best matches the caller's targets.
+    // Latency-critical callers map to OLTP; recall-critical ones to ANALYTICS;
+    // everyone else gets MIXED (balanced).
+    WorkloadType workload = WorkloadType::MIXED;
+    if (target_latency_ms > 0.0 && target_latency_ms < 5.0) {
+        workload = WorkloadType::OLTP;
+    } else if (target_recall >= 0.98) {
+        workload = WorkloadType::ANALYTICS;
+    } else if (target_recall >= 0.95 && target_latency_ms >= 5.0 && target_latency_ms <= 20.0) {
+        workload = WorkloadType::RAG;
     }
-    
-    spdlog::info("HNSW auto-tuned parameters: M={}, ef_construction={}, ef_search={}", 
-                 params.M, params.ef_construction, params.ef_search);
-    
+
+    HnswParams params = getWorkloadOptimizedParams(dataset_size, dimension, workload);
+
+    // Fine-tune ef_construction based on the recall target.
+    // A higher recall target during construction means a denser graph is needed.
+    if (target_recall >= 0.99) {
+        params.ef_construction = static_cast<int>(params.ef_construction * 1.5);
+    } else if (target_recall >= 0.97) {
+        params.ef_construction = static_cast<int>(params.ef_construction * 1.2);
+    } else if (target_recall < 0.90) {
+        params.ef_construction = static_cast<int>(params.ef_construction * 0.8);
+    }
+
+    // Fine-tune ef_search based on the latency target.
+    if (target_latency_ms > 0.0) {
+        PerformanceProfile profile = PerformanceProfile::BALANCED;
+        if (target_latency_ms < 5.0) {
+            profile = PerformanceProfile::LATENCY_OPTIMIZED;
+        } else if (target_latency_ms > 20.0) {
+            profile = PerformanceProfile::RECALL_OPTIMIZED;
+        }
+        params.ef_search = getRecommendedEfSearch(10, profile);
+    }
+
+    // Ensure the computed values are sane.
+    validateParams(params, dataset_size);
+
+    spdlog::info(
+        "HNSW auto-tuned parameters: M={}, ef_construction={}, ef_search={} "
+        "(latency_target={:.1f}ms, recall_target={:.3f}, workload={})",
+        params.M, params.ef_construction, params.ef_search,
+        target_latency_ms, target_recall,
+        static_cast<int>(workload));
+
     return params;
 }
 

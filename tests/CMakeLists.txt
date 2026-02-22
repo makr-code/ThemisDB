@@ -294,6 +294,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates the slab-based pre-allocator and the
+# defragmentation routine (GPUMemoryPool::defragment()).  It uses only the CPU
+# bookkeeping simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_pool.cpp
+    )
+endif()
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE

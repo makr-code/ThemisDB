@@ -15,7 +15,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ## In Progress 🚧
 - [~] MySQL / MariaDB importer (Target: Q2 2026) (Issue: #1835)
-- [I] MongoDB importer for document collections (Target: Q2 2026) (Issue: #1836)
+- [~] MongoDB importer for document collections (Target: Q2 2026) (Issue: #1836)
 - [I] Import progress reporting with streaming callbacks (Target: Q3 2026) (Issue: #1864)
 
 ## Planned Features 📋
@@ -53,7 +53,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
-- [I] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
+- [~] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
 - [I] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)
 - [I] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
 - [I] S3-compatible object-storage source connector (Issue: #1855)

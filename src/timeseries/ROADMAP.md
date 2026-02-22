@@ -17,7 +17,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 
 ## In Progress 🚧
 - [?] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
-- [I] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
+- [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
 - [?] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋
@@ -50,7 +50,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [?] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
 - [?] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
 - [?] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
-- [ ] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
+- [x] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
 
 ### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)
 - [?] SIMD Gorilla decoder (AVX2) for accelerated bulk decompression
@@ -68,7 +68,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- Out-of-order writes are not currently handled; data must arrive in timestamp order.
+- Out-of-order writes are now handled via the configurable late-arrival window (`Config::late_arrival_window_ms`); data arriving within the window is accepted regardless of order.
 - Distributed sharding for time series is not yet implemented.
 - TSAutoBuffer flush interval is fixed at initialization; runtime adjustment is planned.
 
