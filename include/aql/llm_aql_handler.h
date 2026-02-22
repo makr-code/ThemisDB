@@ -29,6 +29,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -309,6 +310,61 @@ public:
         const std::string& llm_response,
         bool use_ansi = true
     ) const;
+    // =========================================================================
+    // Streaming natural language explanations
+    // =========================================================================
+
+    /**
+     * @brief Stream a natural language explanation of an AQL query token by token.
+     *
+     * Builds an explanation prompt for @p aql_query and feeds it to the configured
+     * LLM with token-level streaming.  Each generated token is delivered to
+     * @p stream_callback as it becomes available, enabling real-time display of
+     * long explanations without waiting for the full response.
+     *
+     * @p aql_query is sanitized before being embedded in the prompt: prompt
+     * injection attempts are rejected with @c LLMException(PROMPT_INJECTION).
+     * @p schema_context (if non-empty) is sanitized with the same check.
+     *
+     * @param aql_query       The AQL query to explain.
+     *                        Maximum length: @c ValidationLimits::MAX_NL_QUERY_LENGTH.
+     * @param stream_callback Called once per token with the token text.
+     * @param schema_context  Optional database schema context for richer explanations.
+     *                        Maximum length: @c ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH.
+     * @return Full accumulated explanation text (concatenation of all streamed tokens).
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
+     * @throws std::runtime_error if the LLM backend reports an error
+     */
+    std::string streamExplainAQL(
+        const std::string& aql_query,
+        std::function<void(const std::string& token)> stream_callback,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Stream a natural language explanation of an AQL query as SSE events.
+     *
+     * Like @c streamExplainAQL() but formats every token as a Server-Sent Events
+     * (SSE) data frame before passing it to @p stream_callback, making the output
+     * ready to send over an HTTP/SSE connection.
+     *
+     * @param aql_query       The AQL query to explain.
+     * @param stream_callback Called once per token with the SSE-formatted event string.
+     * @param request_id      Optional request identifier embedded in each SSE event.
+     * @param schema_context  Optional database schema context.
+     * @return Full accumulated explanation text.
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
+     * @throws std::runtime_error if the LLM backend reports an error
+     */
+    std::string streamExplainAQLAsSSE(
+        const std::string& aql_query,
+        std::function<void(const std::string& sse_event)> stream_callback,
+        const std::string& request_id = "",
+        const std::string& schema_context = ""
+    );
+
     // =========================================================================
     // Confidence scoring
     // =========================================================================

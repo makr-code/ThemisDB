@@ -151,6 +151,30 @@ void sanitizePromptInput(
     }
 }
 
+/**
+ * @brief Build the LLM prompt used to generate a natural language explanation of an AQL query.
+ *
+ * @param aql_query      The AQL query to explain (must already be sanitized).
+ * @param schema_context Optional schema description (must already be sanitized).
+ * @return Prompt string ready to send to the LLM.
+ */
+std::string buildAQLExplanationPrompt(
+    const std::string& aql_query,
+    const std::string& schema_context
+) {
+    std::ostringstream prompt;
+    prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+    if (!schema_context.empty()) {
+        prompt << "Database schema context:\n" << schema_context << "\n\n";
+    }
+    prompt << "Explain the following AQL query in clear, concise natural language. "
+           << "Describe what the query does step by step, including any filters, "
+           << "joins, aggregations, or special operations used.\n\n"
+           << "AQL query:\n```\n" << aql_query << "\n```\n\n"
+           << "Explanation:";
+    return prompt.str();
+}
+
 } // anonymous namespace
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLConversationSession
@@ -907,15 +931,18 @@ std::string LLMAQLHandler::translateNLToAQL(
     const std::string& nl_query,
     const std::string& schema_context
 ) {
-    try {
-        // Sanitize inputs before embedding them in the LLM prompt.
-        // Both nl_query and schema_context are injected verbatim into the system/user
-        // prompt, making them potential vectors for prompt injection attacks.
-        sanitizePromptInput(nl_query, "nl_query",
-                            ValidationLimits::MAX_NL_QUERY_LENGTH);
-        sanitizePromptInput(schema_context, "schema_context",
-                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+    // Sanitize inputs before embedding them in the LLM prompt.
+    // Both nl_query and schema_context are injected verbatim into the system/user
+    // prompt, making them potential vectors for prompt injection attacks.
+    // NOTE: Called outside the try/catch so that LLMException(PROMPT_INJECTION)
+    // propagates to the caller with its error code intact (not wrapped by the
+    // generic catch below).
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
 
+    try {
         // Build system prompt for AQL translation
         std::ostringstream system_prompt;
         system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
@@ -1168,6 +1195,58 @@ std::string LLMAQLHandler::executeChat(
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("LLM CHAT failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQL(
+    const std::string& aql_query,
+    std::function<void(const std::string& token)> stream_callback,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreaming(prompt, std::move(stream_callback));
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation streaming failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::streamExplainAQLAsSSE(
+    const std::string& aql_query,
+    std::function<void(const std::string& sse_event)> stream_callback,
+    const std::string& request_id,
+    const std::string& schema_context
+) {
+    // Sanitize inputs before embedding them in the LLM prompt
+    sanitizePromptInput(aql_query, "aql_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        const std::string prompt = buildAQLExplanationPrompt(aql_query, schema_context);
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        return llm.generateStreamingSSE(prompt, std::move(stream_callback),
+                                        request_id);
+
+    } catch (const LLMException&) {
+        throw;
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("AQL explanation SSE streaming failed: ") + e.what()
         );
     }
 }

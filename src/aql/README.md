@@ -53,6 +53,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 
 **Core Features:**
 - **Natural Language to AQL**: `translateNLToAQL()` - Schema-aware query translation with automatic syntax validation of the generated AQL
+- **Streaming AQL Explanations**: `streamExplainAQL()` / `streamExplainAQLAsSSE()` — token-by-token streaming of natural language explanations for long AQL queries
 - **Chat Interface**: `executeChat()` - Multi-turn conversations with message history
 - **LLM INFER**: Generate text using loaded language models (with model/LoRA selection)
 - **LLM RAG**: Retrieval-Augmented Generation with vector search integration
@@ -72,6 +73,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - ✅ `formatLLMResponse()` method for post-processing arbitrary LLM output
 - ✅ `translateNLToAQL()` validates generated AQL and logs structural issues
 - ✅ `translateNLToAQL()` sanitizes `nl_query` and `schema_context` inputs to prevent prompt injection (instruction overrides, persona hijacking, system-block markers, null bytes)
+- ✅ `streamExplainAQL()` / `streamExplainAQLAsSSE()` — real-time streaming explanations for long AQL queries
 - ✅ Comprehensive test coverage
 
 **Syntax Examples:**
@@ -434,46 +436,51 @@ aql_query = handler.translateNLToAQL(nl_query, schema_context);
 - Translation typically completes in < 2 seconds (target)
 - Depends on LLM model size and hardware acceleration
 
-### Streaming Natural Language Responses
+### Streaming AQL Explanations
 
-For long AQL explanations or verbose LLM responses, use the streaming variants to receive tokens progressively as they are generated:
+For long, complex AQL queries the `streamExplainAQL()` and `streamExplainAQLAsSSE()` methods
+let callers receive the LLM-generated explanation token by token, enabling real-time display
+without waiting for the full response.
 
 ```cpp
 #include "aql/llm_aql_handler.h"
 
 LLMAQLHandler handler;
 
-// Stream NL-to-AQL translation — receive tokens as they arrive
-std::string nl_query = "Find all orders placed in the last 30 days with total > 100";
-std::string aql_result = handler.translateNLToAQLStreaming(
-    nl_query,
+const std::string aql = R"(
+FOR u IN users
+  COLLECT city = u.city WITH COUNT INTO cnt
+  SORT cnt DESC
+  LIMIT 5
+  RETURN { city, cnt }
+)";
+
+// Token-by-token streaming (terminal, WebSocket, ...)
+std::string full_explanation = handler.streamExplainAQL(
+    aql,
     [](const std::string& token) {
-        // Called for each token as it is generated
         std::cout << token << std::flush;
     }
 );
-// aql_result contains the extracted AQL query after generation completes
 
-// Stream with schema context
-std::string schema = "Collection: orders (fields: _id, user_id, total, created_at)";
-aql_result = handler.translateNLToAQLStreaming(
-    nl_query,
-    [](const std::string& token) { std::cout << token << std::flush; },
-    schema
+// SSE streaming for HTTP endpoints
+handler.streamExplainAQLAsSSE(
+    aql,
+    [&response](const std::string& sse_event) {
+        response.write(sse_event); // each event is "data: <token>\n\n"
+    },
+    "req-12345" // optional request_id echoed in every event
 );
 
-// Stream raw LLM inference (lower-level, no AQL post-processing)
-handler.executeInferStreaming(
-    "Explain the difference between FILTER and LET in AQL.",
-    [](const std::string& token) { std::cout << token << std::flush; }
-);
+// With optional schema context for richer explanations
+const std::string schema = "Collection users: {name, city, age}";
+handler.streamExplainAQL(aql, [](const std::string& t){ std::cout << t; }, schema);
 ```
 
-**Notes:**
-- The callback is invoked sequentially from the inference thread — no concurrent access.
-- The return value of `translateNLToAQLStreaming` is the post-processed AQL query (markdown fences stripped, whitespace trimmed, syntax-validated), identical to what `translateNLToAQL` would return.
-- Both methods apply the same prompt-injection detection as their blocking counterparts.
-- Metrics (latency, token counts) are recorded identically to `executeInfer`.
+**Security:** Both methods apply the same prompt injection prevention as `translateNLToAQL()`
+— `aql_query` and `schema_context` are sanitized before being embedded in the LLM prompt.
+Any input containing injection patterns (instruction overrides, persona hijacking, system
+markers, DAN jailbreaks, null bytes) raises `LLMException(PROMPT_INJECTION)`.
 
 ### RAG Query Example
 
