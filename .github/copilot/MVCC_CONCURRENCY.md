@@ -8,7 +8,7 @@ Multi-Version Concurrency Control (MVCC) allows readers and writers to operate
 on different versions of the same data simultaneously, avoiding read-write
 contention that plagues traditional locking schemes.
 
-```
+```text
 Timeline:
   T=0  T=1  T=2  T=3  T=4
   ─────────────────────────
@@ -43,7 +43,8 @@ bool isVisible(const VersionedRecord& v, VersionId snapshot) {
 class Transaction {
 public:
     explicit Transaction(VersionStore& store)
-        : snapshot_version_(store.currentVersion()),
+        : store_(store),
+          snapshot_version_(store.currentVersion()),
           txn_id_(store.beginTransaction()) {}
 
     // All reads use the snapshot taken at BEGIN, not the current state
@@ -56,7 +57,8 @@ public:
     }
 
 private:
-    VersionId snapshot_version_;  // Frozen at BEGIN
+    VersionStore& store_;             // Reference to the owning store
+    VersionId snapshot_version_;      // Frozen at BEGIN
     TransactionId txn_id_;
     WriteSet write_set_;
 };
@@ -96,6 +98,8 @@ public:
 // ✅ Good: Optimistic concurrency—validate at commit, not at read
 class OptimisticTransaction {
 public:
+    explicit OptimisticTransaction(VersionStore& store) : store_(store) {}
+
     Record read(const Key& key) {
         auto [record, version] = store_.readWithVersion(key);
         read_set_[key] = version;  // Record version for validation
@@ -118,6 +122,7 @@ public:
     }
 
 private:
+    VersionStore& store_;
     std::unordered_map<Key, VersionId> read_set_;
     WriteSet write_set_;
 };
@@ -161,22 +166,24 @@ inline LogicalClock g_txn_clock;
 
 ```cpp
 // ✅ Good: Readers get stable snapshot, writers create new copies
+// Uses C++20 std::atomic<shared_ptr> (atomic_load/store are deprecated in C++20)
 class CoWConfig {
-    std::shared_ptr<const ConfigData> data_;
+    std::atomic<std::shared_ptr<const ConfigData>> data_;
     mutable std::mutex write_mutex_;
 
 public:
-    // Readers: O(1), no locking after load
+    // Readers: O(1), wait-free after atomic load
     std::shared_ptr<const ConfigData> get() const {
-        return std::atomic_load(&data_);  // Atomic pointer load
+        return data_.load(std::memory_order_acquire);
     }
 
     // Writer: Creates new copy, atomically swaps
     void update(std::function<void(ConfigData&)> mutator) {
         std::unique_lock lock(write_mutex_);
-        auto new_data = std::make_shared<ConfigData>(*data_);  // Copy
+        auto current = data_.load(std::memory_order_relaxed);
+        auto new_data = std::make_shared<ConfigData>(*current);  // Copy
         mutator(*new_data);
-        std::atomic_store(&data_, std::move(new_data));  // Atomic swap
+        data_.store(std::move(new_data), std::memory_order_release);  // Atomic swap
     }
 };
 ```
@@ -211,10 +218,11 @@ Singleton& getInstance() {
 }
 ```
 
-### Lock-Free MPSC Queue
+### Lock-Free Queue (Michael-Scott, MPMC)
 
 ```cpp
-// ✅ Good: Michael-Scott lock-free queue for producer-consumer pipelines
+// ✅ Good: Michael-Scott lock-free queue (MPMC — multiple producer, multiple consumer)
+// Suitable for producer-consumer pipelines with multiple threads on each end.
 template <typename T>
 class LockFreeQueue {
     struct Node {
@@ -232,8 +240,15 @@ public:
         tail_.store(dummy);
     }
 
+    ~LockFreeQueue() {
+        // Drain remaining items and free all nodes including the dummy
+        while (dequeue()) {}
+        delete head_.load();
+    }
+
     void enqueue(T value) {
-        Node* node = new Node{.data = std::move(value)};
+        Node* node = new Node{};
+        node->data = std::move(value);
         Node* prev_tail = tail_.exchange(node, std::memory_order_acq_rel);
         prev_tail->next.store(node, std::memory_order_release);
     }
@@ -547,15 +562,15 @@ public:
 ```cpp
 // ✅ Good: Pin threads to NUMA nodes to reduce cross-socket memory latency
 #ifdef __linux__
-#include <sched.h>
 #include <numa.h>
 
 void pinThreadToNUMANode(int node) {
     if (numa_available() < 0) return;
     struct bitmask* mask = numa_allocate_cpumask();
     numa_node_to_cpus(node, mask);
-    sched_setaffinity(0, sizeof(cpu_set_t),
-                      reinterpret_cast<cpu_set_t*>(mask->maskp));
+    // Use numa_sched_setaffinity — accepts struct bitmask* directly,
+    // avoiding the undefined-behaviour reinterpret_cast to cpu_set_t*.
+    numa_sched_setaffinity(0, mask);
     numa_free_cpumask(mask);
 }
 #endif

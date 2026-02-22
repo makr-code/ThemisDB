@@ -270,7 +270,7 @@ cmake --build build --target benchmark
     --benchmark_out=results.json
 
 # Compare two result files
-python tools/compare.py results_before.json results_after.json
+python tools/compare_benchmarks.py results_before.json results_after.json
 ```
 
 ### Google Benchmark Output Format

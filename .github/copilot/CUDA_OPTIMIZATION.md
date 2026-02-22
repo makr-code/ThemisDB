@@ -15,7 +15,7 @@
 
 ### Memory Hierarchy
 
-```
+```text
 ┌──────────────────────────────────────────────┐
 │  Global Memory  (DRAM, ~80 GB/s, high latency)│
 │  ┌────────────────────────────────────────┐   │
@@ -103,8 +103,10 @@ __global__ void tiledKernel(const float* __restrict__ input,
     tile[threadIdx.x] = (idx < n) ? input[idx] : 0.0f;
     __syncthreads();  // Barrier before using shared data
 
-    // Process tile...
-    output[idx] = tile[threadIdx.x] * 2.0f;
+    // Process tile... (guard output write with same bounds check)
+    if (idx < n) {
+        output[idx] = tile[threadIdx.x] * 2.0f;
+    }
 }
 
 // ✅ Good: Dynamic shared memory when size is runtime-dependent
@@ -153,7 +155,7 @@ __global__ void stridedKernel(const float* data, float* out, int n, int stride) 
 }
 ```
 
-### Read-Only Data with __restrict__ and __ldg
+### Read-Only Data with `__restrict__` and `__ldg`
 
 ```cpp
 // ✅ Good: Use __restrict__ and __ldg for read-only arrays
@@ -172,10 +174,12 @@ __global__ void readOnlyKernel(const float* __restrict__ a,
 
 ```cpp
 // ✅ Good: Vectorized loads for higher memory bandwidth
+// Note: caller must ensure n is a multiple of 4, or pad the buffer.
 __global__ void vectorizedLoad(const float4* __restrict__ input,
-                                float4* __restrict__ output, int n) {
+                                float4* __restrict__ output, int n4) {
+    // n4 = n / 4  (number of float4 elements)
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < n / 4) {
+    if (idx < n4) {
         float4 val = input[idx];  // Load 128 bits in one transaction
         val.x *= 2.0f;
         val.y *= 2.0f;
@@ -363,15 +367,16 @@ __global__ void reduceSum(const float* __restrict__ input,
         if (tid < s) smem[tid] += smem[tid + s];
         __syncthreads();
     }
-    // Warp-level reduction (no sync needed within a warp)
+    // Warp-level reduction (no block sync needed within a single warp).
+    // Use __syncwarp() instead of volatile for correctness on Volta+ (sm70+),
+    // where independent thread scheduling invalidates the volatile idiom.
     if (tid < 32) {
-        volatile float* vs = smem;
-        vs[tid] += vs[tid + 32];
-        vs[tid] += vs[tid + 16];
-        vs[tid] += vs[tid + 8];
-        vs[tid] += vs[tid + 4];
-        vs[tid] += vs[tid + 2];
-        vs[tid] += vs[tid + 1];
+        smem[tid] += smem[tid + 32]; __syncwarp();
+        smem[tid] += smem[tid + 16]; __syncwarp();
+        smem[tid] += smem[tid +  8]; __syncwarp();
+        smem[tid] += smem[tid +  4]; __syncwarp();
+        smem[tid] += smem[tid +  2]; __syncwarp();
+        smem[tid] += smem[tid +  1]; __syncwarp();
     }
 
     if (tid == 0) output[blockIdx.x] = smem[0];
@@ -444,7 +449,7 @@ __global__ void computeL2DistancesTiled(
 
 ### 1. Underutilized Warps (Low Occupancy)
 
-```
+```text
 Problem:  Too few active warps → SM idles during memory latency
 Symptom:  Low SM utilization in profiler (< 50%)
 Fix:      Increase parallelism (more threads/blocks) or reduce register usage
@@ -458,7 +463,7 @@ kernel<<<grid, 256>>>(data);
 
 ### 2. Bank Conflicts in Shared Memory
 
-```
+```text
 Problem:  Multiple threads in a warp access the same shared memory bank
 Symptom:  ncu reports "shared memory bank conflicts" > 0
 Fix:      Add padding or reorganize data layout (see Bank Conflict section)
@@ -483,7 +488,7 @@ if (idx < n) {  // Boundary check only—usually affects just last block
 
 ### 4. Global Memory Thrashing
 
-```
+```text
 Problem:  Repeated global memory accesses to same data without caching
 Symptom:  Low L2 cache hit rate in profiler
 Fix:      Load data into shared memory once, reuse from there
