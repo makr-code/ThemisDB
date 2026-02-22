@@ -22,6 +22,9 @@
 
 #include <chrono>
 #include <algorithm>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace governance {
@@ -172,12 +175,107 @@ std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() cons
 }
 
 std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const {
-    // Simplified: Check for rules that might create circular permission chains
     std::vector<PolicyConflict> circular;
-    
-    // In a real implementation, this would do dependency graph analysis
-    // For now, we just return empty as circular deps are complex to detect
-    
+
+    auto rules = policy_manager_->listRules();
+
+    // Build an undirected conflict graph:
+    // An edge between rule A and rule B exists when both rules overlap on at
+    // least one resource/action AND have the same priority AND their effects
+    // contradict each other.  A connected component of size >= 3 in this graph
+    // represents a "circular" evaluation problem: no deterministic priority
+    // ordering can resolve the group because every rule in the component is
+    // simultaneously in conflict with at least one other member.
+    std::unordered_map<std::string, std::vector<std::string>> conflict_graph;
+
+    for (std::size_t i = 0; i < rules.size(); ++i) {
+        const auto& r1 = rules[i];
+        if (!r1.enabled) continue;
+
+        for (std::size_t j = i + 1; j < rules.size(); ++j) {
+            const auto& r2 = rules[j];
+            if (!r2.enabled) continue;
+
+            // Only rules with the same priority can form an irresolvable cycle
+            if (r1.priority != r2.priority) continue;
+
+            // Check for resource overlap
+            bool res_overlap = false;
+            for (const auto& ra : r1.resources) {
+                for (const auto& rb : r2.resources) {
+                    if (ra == rb || ra == "*" || rb == "*") {
+                        res_overlap = true;
+                        break;
+                    }
+                }
+                if (res_overlap) break;
+            }
+            if (!res_overlap) continue;
+
+            // Check for action overlap
+            bool act_overlap = false;
+            for (const auto& aa : r1.actions) {
+                for (const auto& ab : r2.actions) {
+                    if (aa == ab || aa == "*" || ab == "*") {
+                        act_overlap = true;
+                        break;
+                    }
+                }
+                if (act_overlap) break;
+            }
+            if (!act_overlap) continue;
+
+            // Contradictory effects at the same priority ⟹ edge in conflict graph
+            if (areContradictory(r1, r2)) {
+                conflict_graph[r1.id].push_back(r2.id);
+                conflict_graph[r2.id].push_back(r1.id);
+            }
+        }
+    }
+
+    // BFS over the conflict graph to find connected components of size >= 3
+    std::unordered_set<std::string> visited;
+
+    for (const auto& [start_id, _] : conflict_graph) {
+        if (visited.count(start_id) > 0) continue;
+
+        // BFS
+        std::vector<std::string> component;
+        std::queue<std::string> q;
+        q.push(start_id);
+        visited.insert(start_id);
+
+        while (!q.empty()) {
+            std::string cur = q.front();
+            q.pop();
+            component.push_back(cur);
+
+            for (const auto& neighbor : conflict_graph.at(cur)) {
+                if (visited.count(neighbor) == 0) {
+                    visited.insert(neighbor);
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        if (component.size() >= 3) {
+            PolicyConflict conflict;
+            conflict.conflict_type = "circular";
+            conflict.severity = "high";
+            conflict.affected_rules = component;
+            conflict.description =
+                "Rules form an irresolvable priority cycle: " +
+                std::to_string(component.size()) +
+                " rules share the same priority, overlapping resources/actions, "
+                "and contradictory effects";
+            conflict.resolution_suggestions = {
+                "Assign distinct priorities to break the evaluation cycle",
+                "Refactor rules to eliminate overlapping resource/action patterns",
+                "Merge conflicting rules into a single authoritative rule"};
+            circular.push_back(conflict);
+        }
+    }
+
     return circular;
 }
 

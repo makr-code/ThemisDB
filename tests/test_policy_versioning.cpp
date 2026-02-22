@@ -492,4 +492,175 @@ TEST_F(PolicyManagerVersionedTest, CompareVersions) {
     EXPECT_GE(diff.changes.size(), 2);
 }
 
+// ========== Real-Time Conflict Detection Tests ==========
+
+TEST_F(PolicyManagerVersionedTest, CheckConflictsForRule_EncryptionConflict) {
+    // Add an existing rule that requires encryption
+    auto existing = createTestRule("conflict_base", "Base Rule");
+    existing.resources = {"sensitive/*"};
+    existing.actions = {"read"};
+    existing.require_encryption = true;
+    manager->addRuleVersioned(existing, "admin", "baseline rule");
+
+    // New rule with same resource/action but opposite encryption requirement
+    auto new_rule = createTestRule("conflict_new", "New Rule");
+    new_rule.resources = {"sensitive/*"};
+    new_rule.actions = {"read"};
+    new_rule.require_encryption = false;
+
+    auto conflicts = manager->checkConflictsForRule(new_rule);
+
+    ASSERT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "contradictory");
+    EXPECT_EQ(conflicts[0].severity, "critical");
+    ASSERT_FALSE(conflicts[0].conflicting_rule_ids.empty());
+    EXPECT_EQ(conflicts[0].conflicting_rule_ids[0], "conflict_base");
+    EXPECT_FALSE(conflicts[0].description.empty());
+    EXPECT_FALSE(conflicts[0].resolution_suggestions.empty());
+}
+
+TEST_F(PolicyManagerVersionedTest, CheckConflictsForRule_ExportConflict) {
+    auto existing = createTestRule("export_base", "Export Base");
+    existing.resources = {"reports/*"};
+    existing.actions = {"*"};
+    existing.allow_export = false;
+    manager->addRuleVersioned(existing, "admin", "no-export rule");
+
+    auto new_rule = createTestRule("export_new", "Export New");
+    new_rule.resources = {"reports/*"};
+    new_rule.actions = {"read"};
+    new_rule.allow_export = true;
+
+    auto conflicts = manager->checkConflictsForRule(new_rule);
+
+    ASSERT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "contradictory");
+    EXPECT_EQ(conflicts[0].severity, "high");
+}
+
+TEST_F(PolicyManagerVersionedTest, CheckConflictsForRule_OverlapSamePriority) {
+    auto existing = createTestRule("overlap_base", "Overlap Base");
+    existing.resources = {"data/*"};
+    existing.actions = {"read"};
+    existing.priority = 5;
+    manager->addRuleVersioned(existing, "admin", "baseline");
+
+    // Same resource/action and same priority but no contradictory effects
+    auto new_rule = createTestRule("overlap_new", "Overlap New");
+    new_rule.resources = {"data/*"};
+    new_rule.actions = {"read"};
+    new_rule.priority = 5;
+
+    auto conflicts = manager->checkConflictsForRule(new_rule);
+
+    ASSERT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "overlapping");
+    EXPECT_EQ(conflicts[0].severity, "low");
+}
+
+TEST_F(PolicyManagerVersionedTest, CheckConflictsForRule_NoConflict) {
+    auto existing = createTestRule("noconflict_base", "No Conflict Base");
+    existing.resources = {"logs/*"};
+    existing.actions = {"write"};
+    manager->addRuleVersioned(existing, "admin", "baseline");
+
+    // Different resource pattern – no overlap
+    auto new_rule = createTestRule("noconflict_new", "No Conflict New");
+    new_rule.resources = {"data/*"};
+    new_rule.actions = {"read"};
+
+    auto conflicts = manager->checkConflictsForRule(new_rule);
+
+    EXPECT_TRUE(conflicts.empty());
+}
+
+TEST_F(PolicyManagerVersionedTest, CheckConflictsForRule_DifferentPriorityNoConflict) {
+    // Same resource/action but different priorities (higher priority wins, no cycle)
+    auto existing = createTestRule("prio_base", "Priority Base");
+    existing.resources = {"keys/*"};
+    existing.actions = {"*"};
+    existing.require_encryption = true;
+    existing.priority = 10;
+    manager->addRuleVersioned(existing, "admin", "high-prio rule");
+
+    auto new_rule = createTestRule("prio_new", "Priority New");
+    new_rule.resources = {"keys/*"};
+    new_rule.actions = {"read"};
+    new_rule.require_encryption = false;
+    new_rule.priority = 5;  // lower priority – not an irresolvable conflict
+
+    auto conflicts = manager->checkConflictsForRule(new_rule);
+
+    // Should still report contradictory effects (severity) even with different priorities
+    ASSERT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "contradictory");
+}
+
+TEST_F(PolicyManagerVersionedTest, GetActiveConflicts_ReturnsAllConflicts) {
+    auto rule_a = createTestRule("active_a", "Rule A");
+    rule_a.resources = {"shared/*"};
+    rule_a.actions = {"read"};
+    rule_a.require_encryption = true;
+    manager->addRuleVersioned(rule_a, "admin", "rule a");
+
+    auto rule_b = createTestRule("active_b", "Rule B");
+    rule_b.resources = {"shared/*"};
+    rule_b.actions = {"read"};
+    rule_b.require_encryption = false;
+    manager->addRuleVersioned(rule_b, "admin", "rule b – conflicts with a");
+
+    auto conflicts = manager->getActiveConflicts();
+
+    ASSERT_FALSE(conflicts.empty());
+    bool found_pair = false;
+    for (const auto& c : conflicts) {
+        bool has_a = std::find(c.conflicting_rule_ids.begin(),
+                               c.conflicting_rule_ids.end(), "active_a") !=
+                     c.conflicting_rule_ids.end();
+        bool has_b = (c.new_rule_id == "active_a" || c.new_rule_id == "active_b");
+        if (has_a && has_b) {
+            found_pair = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_pair) << "Expected to find the active_a / active_b conflict pair";
+}
+
+TEST_F(PolicyManagerVersionedTest, GetActiveConflicts_EmptyWhenNoConflicts) {
+    auto rule_a = createTestRule("clean_a", "Clean A");
+    rule_a.resources = {"data/*"};
+    rule_a.actions = {"read"};
+    manager->addRuleVersioned(rule_a, "admin", "clean a");
+
+    auto rule_b = createTestRule("clean_b", "Clean B");
+    rule_b.resources = {"logs/*"};
+    rule_b.actions = {"write"};
+    manager->addRuleVersioned(rule_b, "admin", "clean b");
+
+    auto conflicts = manager->getActiveConflicts();
+
+    EXPECT_TRUE(conflicts.empty());
+}
+
+TEST_F(PolicyManagerVersionedTest, ConflictInfoJson) {
+    ConflictInfo info;
+    info.conflict_type = "contradictory";
+    info.severity = "critical";
+    info.new_rule_id = "rule_x";
+    info.conflicting_rule_ids = {"rule_y"};
+    info.description = "Test description";
+    info.resolution_suggestions = {"Fix it"};
+    info.detected_at = 1234567890;
+
+    auto j = info.toJson();
+
+    EXPECT_EQ(j["conflict_type"], "contradictory");
+    EXPECT_EQ(j["severity"], "critical");
+    EXPECT_EQ(j["new_rule_id"], "rule_x");
+    EXPECT_EQ(j["conflicting_rule_ids"][0], "rule_y");
+    EXPECT_EQ(j["description"], "Test description");
+    EXPECT_EQ(j["resolution_suggestions"][0], "Fix it");
+    EXPECT_EQ(j["detected_at"], 1234567890);
+}
+
 // Run all tests
