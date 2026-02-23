@@ -1154,6 +1154,35 @@ HttpServer::HttpServer(
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
 
+    // Initialize rate limiting middleware with configurable per-client token bucket
+    {
+        RateLimitingMiddleware::Config rl_mw_config;
+        rl_mw_config.default_capacity    = rate_config.bucket_capacity;
+        rl_mw_config.default_refill_rate = rate_config.refill_rate;
+        rl_mw_config.whitelist_ips       = rate_config.whitelist_ips;
+        rl_mw_config.max_clients         = 10000;
+        rl_mw_config.send_rate_limit_headers = true;
+
+        // Apply a tighter limit on bulk-write paths to prevent abuse
+        rl_mw_config.endpoint_overrides = {
+            RateLimitingMiddleware::EndpointLimit{
+                "/v2/documents",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            },
+            RateLimitingMiddleware::EndpointLimit{
+                "/api/bulk",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            }
+        };
+
+        rate_limiting_middleware_ = std::make_unique<RateLimitingMiddleware>(rl_mw_config);
+        THEMIS_INFO("RateLimitingMiddleware initialized: {:.1f} req/min default, {} endpoint overrides",
+                    rl_mw_config.default_refill_rate * 60.0,
+                    rl_mw_config.endpoint_overrides.size());
+    }
+
     // ----------------------------------------------------------------------------
     // CORS configuration (from environment)
     // ----------------------------------------------------------------------------
@@ -8124,7 +8153,42 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         }
     }
     
-    // Check rate limit
+    // Prefer the per-client middleware (per-endpoint configurable token bucket).
+    if (rate_limiting_middleware_) {
+        std::string path = std::string(req.target());
+        // Strip query string for path matching
+        auto qpos = path.find('?');
+        if (qpos != std::string::npos) path = path.substr(0, qpos);
+
+        // Use authenticated user ID when available, otherwise fall back to IP
+        const std::string& client_key = user_id.empty() ? client_ip : user_id;
+
+        auto result = rate_limiting_middleware_->check(client_key, path);
+        if (!result.allowed) {
+            http::response<http::string_body> response;
+            response.result(http::status::too_many_requests);
+            response.set(http::field::content_type, "application/json");
+            for (const auto& [k, v] : result.headers) {
+                response.set(k, v);
+            }
+
+            json error_body = {
+                {"error", "Too Many Requests"},
+                {"message", "Rate limit exceeded. Please retry after " +
+                             std::to_string(result.retry_after_seconds) + " seconds."},
+                {"retry_after_seconds", result.retry_after_seconds},
+                {"status_code", 429}
+            };
+
+            response.body() = error_body.dump();
+            applyGovernanceHeaders(req, response);
+            response.prepare_payload();
+            return response;
+        }
+        return std::nullopt; // Rate limit OK
+    }
+
+    // Fallback to legacy rate limiter
     if (!rate_limiter_->allowRequest(client_ip, user_id)) {
         uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
         
@@ -8148,7 +8212,6 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         };
         
         response.body() = error_body.dump();
-        // Apply governance and security headers as with normal responses
         applyGovernanceHeaders(req, response);
         response.prepare_payload();
         

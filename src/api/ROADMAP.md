@@ -24,7 +24,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Short-term (Next 3-6 months)
 - [I] GraphQL schema for multi-model queries (Issue: #1493)
 - [I] WebSocket support for real-time change subscriptions (Issue: #1494)
-- [I] Rate limiting middleware (Issue: #1495)
+- [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
 - [I] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
@@ -51,7 +51,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
 - [I] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
-- [I] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
+- [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
