@@ -76,7 +76,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     if (config.loggerAdapter == "noop") {
         logger = std::make_unique<NoOpLogger>();
     } else {
-        // "noop" — only reachable after validation passes
+        // "spdlog" — only reachable after validation passes
         auto spdlogger = std::make_unique<SpdlogLoggerAdapter>(nullptr, config.jsonLogging);
         if (!config.jsonLogging) {
             spdlogger->setPattern(config.logPattern);
