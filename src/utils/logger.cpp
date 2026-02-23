@@ -26,6 +26,7 @@
 #include <memory>
 #include <iostream>
 #include <mutex>
+#include <cstdio>
 
 // Windows defines ERROR as a macro; undef it
 #ifdef ERROR
@@ -35,10 +36,35 @@
 namespace themis {
 namespace utils {
 
+namespace {
+/// Minimal JSON-string escape for embedding a value inside "…".
+/// Only escapes characters that would break JSON: backslash and double-quote.
+/// Control characters (< 0x20) are replaced with their \uXXXX representation.
+std::string jsonEscapeTraceId(const std::string& s) {
+    std::string out;
+    out.reserve(s.size() + 4);
+    for (unsigned char c : s) {
+        if (c == '"') {
+            out += "\\\"";
+        } else if (c == '\\') {
+            out += "\\\\";
+        } else if (c < 0x20) {
+            char buf[8];
+            std::snprintf(buf, sizeof(buf), "\\u%04X", static_cast<unsigned>(c));
+            out += buf;
+        } else {
+            out += static_cast<char>(c);
+        }
+    }
+    return out;
+}
+} // anonymous namespace
+
 std::shared_ptr<spdlog::logger> Logger::logger_;
 LogMetrics Logger::metrics_;
 std::string Logger::trace_context_;
 std::mutex Logger::trace_context_mu_;
+bool Logger::json_mode_ = false;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Private helper
@@ -75,6 +101,7 @@ void Logger::init(const std::string& log_file, Level level) {
         logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] %v");
 
         spdlog::set_default_logger(logger_);
+        json_mode_ = false;
         logger_->info("Logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
@@ -102,6 +129,7 @@ void Logger::initJson(const std::string& log_file, Level level) {
             R"({"ts":"%Y-%m-%dT%H:%M:%S.%e","logger":"%n","level":"%l","thread":%t,"msg":"%v"})");
 
         spdlog::set_default_logger(logger_);
+        json_mode_ = true;
         logger_->info("JSON logger initialized");
     } catch (const spdlog::spdlog_ex& ex) {
         std::cerr << "JSON log initialization failed: " << ex.what() << std::endl;
@@ -131,6 +159,7 @@ void Logger::initRotating(const std::string& log_file,
         logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] %v");
 
         spdlog::set_default_logger(logger_);
+        json_mode_ = false;
         logger_->info("Rotating logger initialized (max_size={}, max_files={})",
                       max_file_size, max_files);
     } catch (const spdlog::spdlog_ex& ex) {
@@ -147,6 +176,7 @@ void Logger::shutdown() {
         logger_->flush();
         spdlog::shutdown();
         logger_.reset();
+        json_mode_ = false;
     }
 }
 
@@ -166,6 +196,19 @@ void Logger::setLevel(Level level) {
     logger_->set_level(toSpdlogLevel(level));
 }
 
+Logger::Level Logger::getLevel() {
+    if (!logger_) { init(); }
+    switch (logger_->level()) {
+        case spdlog::level::trace: return Level::TRACE;
+        case spdlog::level::debug: return Level::DEBUG;
+        case spdlog::level::info:  return Level::INFO;
+        case spdlog::level::warn:  return Level::WARN;
+        case spdlog::level::err:   return Level::ERROR;
+        case spdlog::level::critical: return Level::CRITICAL;
+        default: return Level::INFO;
+    }
+}
+
 void Logger::setPattern(const std::string& pattern) {
     if (!logger_) { init(); }
     logger_->set_pattern(pattern);
@@ -175,12 +218,30 @@ void Logger::setTraceContext(const std::string& trace_id) {
     std::lock_guard<std::mutex> lk(trace_context_mu_);
     trace_context_ = trace_id;
     if (!logger_) { return; }
-    if (trace_id.empty()) {
-        logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] %v");
+    if (json_mode_) {
+        // Keep JSON format; inject trace_id as an additional JSON field when set.
+        if (trace_id.empty()) {
+            logger_->set_pattern(
+                R"({"ts":"%Y-%m-%dT%H:%M:%S.%e","logger":"%n","level":"%l","thread":%t,"msg":"%v"})");
+        } else {
+            logger_->set_pattern(
+                R"({"ts":"%Y-%m-%dT%H:%M:%S.%e","logger":"%n","level":"%l","thread":%t,"trace_id":")" +
+                jsonEscapeTraceId(trace_id) +
+                R"(","msg":"%v"})");
+        }
     } else {
-        logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] [trace:" +
-                             trace_id + "] %v");
+        if (trace_id.empty()) {
+            logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] %v");
+        } else {
+            logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%l%$] [thread %t] [trace:" +
+                                 trace_id + "] %v");
+        }
     }
+}
+
+std::string Logger::getTraceContext() {
+    std::lock_guard<std::mutex> lk(trace_context_mu_);
+    return trace_context_;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

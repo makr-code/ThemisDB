@@ -2162,6 +2162,7 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/geo_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)

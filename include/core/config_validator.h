@@ -190,6 +190,53 @@ public:
     }
     
     /**
+     * @brief Validate adapter type configuration
+     * 
+     * Validates that the adapter type strings in ConcernsContext::Config refer
+     * to known, supported adapters.
+     *
+     * @param logger_adapter   Value of Config::loggerAdapter
+     * @param tracer_adapter   Value of Config::tracerAdapter (empty = auto)
+     * @param metrics_adapter  Value of Config::metricsAdapter (empty = auto)
+     * @param cache_adapter    Value of Config::cacheAdapter
+     */
+    static ValidationResult validateAdapterConfig(
+        const std::string& logger_adapter,
+        const std::string& tracer_adapter,
+        const std::string& metrics_adapter,
+        const std::string& cache_adapter)
+    {
+        ValidationResult result;
+
+        const std::vector<std::string> valid_logger_adapters  = {"spdlog", "noop"};
+        const std::vector<std::string> valid_tracer_adapters  = {"otel",   "noop", ""};
+        const std::vector<std::string> valid_metrics_adapters = {"prometheus", "noop", ""};
+        const std::vector<std::string> valid_cache_adapters   = {"inmemory", "noop"};
+
+        auto check = [&](const std::string& value,
+                         const std::vector<std::string>& valid_values,
+                         const std::string& field_name) {
+            for (const auto& v : valid_values) {
+                if (value == v) return;
+            }
+            std::string allowed;
+            for (size_t i = 0; i < valid_values.size(); ++i) {
+                if (i > 0) allowed += ", ";
+                allowed += valid_values[i].empty() ? "(empty)" : valid_values[i];
+            }
+            result.addError("Unknown " + field_name + " adapter: '" + value +
+                            "'. Supported values: " + allowed);
+        };
+
+        check(logger_adapter,  valid_logger_adapters,  "loggerAdapter");
+        check(tracer_adapter,  valid_tracer_adapters,  "tracerAdapter");
+        check(metrics_adapter, valid_metrics_adapters, "metricsAdapter");
+        check(cache_adapter,   valid_cache_adapters,   "cacheAdapter");
+
+        return result;
+    }
+    
+    /**
      * @brief Validate cache configuration
      */
     static ValidationResult validateCacheConfig(size_t max_size, uint64_t default_ttl) {
