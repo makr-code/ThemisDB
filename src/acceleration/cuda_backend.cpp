@@ -551,7 +551,7 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(
 }
 
 // ============================================================================
-// CUDAGeoBackend Stub Implementation
+// CUDAGeoBackend Implementation
 // ============================================================================
 
 CUDAGeoBackend::~CUDAGeoBackend() {
@@ -560,7 +560,9 @@ CUDAGeoBackend::~CUDAGeoBackend() {
 
 bool CUDAGeoBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_CUDA
-    return false; // Stub
+    int deviceCount = 0;
+    cudaError_t err = cudaGetDeviceCount(&deviceCount);
+    return (err == cudaSuccess && deviceCount > 0);
 #else
     return false;
 #endif
@@ -570,45 +572,307 @@ BackendCapabilities CUDAGeoBackend::getCapabilities() const {
     BackendCapabilities caps;
 #ifdef THEMIS_ENABLE_CUDA
     caps.supportsGeoOps = true;
-    caps.deviceName = "CUDA Device (Stub)";
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync = true;
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    if (isAvailable()) {
+        cudaDeviceProp prop;
+        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+            caps.deviceName = std::string(prop.name);
+            caps.maxMemoryBytes = prop.totalGlobalMem;
+            caps.computeUnits = prop.multiProcessorCount;
+        }
+    } else {
+        caps.deviceName = "CUDA Device (Not Available)";
+    }
 #endif
     return caps;
 }
 
 bool CUDAGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
-    initialized_ = false; // Stub
-    return initialized_;
+    if (!isAvailable()) {
+        int deviceCount = 0;
+        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        if (deviceCount == 0) {
+            setError(ErrorContextHelpers::createNoDevicesError("CUDA-Geo"));
+        } else {
+            setError(ErrorContext(
+                AccelerationErrorCode::DriverNotInstalled,
+                "CUDA-Geo",
+                "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                "Install NVIDIA CUDA driver and runtime"
+            ));
+        }
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    cudaError_t setDeviceErr = cudaSetDevice(0);
+    if (setDeviceErr != cudaSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "CUDA-Geo",
+            "Failed to set device 0: " + std::string(cudaGetErrorString(setDeviceErr)),
+            "Check if device is available and not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    try {
+        stream_.create();
+    } catch (const std::exception& e) {
+        setError(ErrorContextHelpers::createQueueError("CUDA-Geo", std::string(e.what())));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    cudaDeviceProp prop;
+    cudaError_t propErr = cudaGetDeviceProperties(&prop, 0);
+    if (propErr != cudaSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "CUDA-Geo",
+            "Failed to query device properties: " + std::string(cudaGetErrorString(propErr)),
+            "Ensure CUDA runtime is properly installed and device is accessible"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    std::cout << "CUDA Geo Backend initialized successfully:" << std::endl;
+    std::cout << "  Device: " << prop.name << std::endl;
+
+    clearError();
+    initialized_ = true;
+    return true;
 #else
+    setError(ErrorContext(
+        AccelerationErrorCode::FeatureNotSupported,
+        "CUDA-Geo",
+        "Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)",
+        "Recompile with CUDA support enabled"
+    ));
+    std::cerr << lastError_.format() << std::endl;
     return false;
 #endif
 }
 
 void CUDAGeoBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
-    initialized_ = false;
+    if (initialized_) {
+        // stream_ automatically destroyed by RAII destructor
+        initialized_ = false;
+    }
 #endif
 }
 
 std::vector<float> CUDAGeoBackend::batchDistances(
-    const double* /*latitudes1*/,
-    const double* /*longitudes1*/,
-    const double* /*latitudes2*/,
-    const double* /*longitudes2*/,
-    size_t /*count*/,
-    bool /*useHaversine*/
+    const double* latitudes1,
+    const double* longitudes1,
+    const double* latitudes2,
+    const double* longitudes2,
+    size_t count,
+    bool useHaversine
 ) {
-    return {}; // Stub
+#ifdef THEMIS_ENABLE_CUDA
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA-Geo",
+            "CUDA geo backend not initialized",
+            "Call initialize() before using the backend"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+
+    if (latitudes1 == nullptr || longitudes1 == nullptr ||
+        latitudes2 == nullptr || longitudes2 == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA-Geo", AccelerationErrorCode::InvalidInputShape,
+            "input coordinate pointers must be non-null"));
+        return {};
+    }
+    if (count == 0) {
+        return {};
+    }
+
+    const GeoDistanceFormula formula = useHaversine
+        ? GeoDistanceFormula::HAVERSINE
+        : GeoDistanceFormula::VINCENTY;
+
+    cudaStream_t stream = stream_.get();
+
+    const size_t coordSize = count * sizeof(double);
+    const size_t distSize  = count * sizeof(float);
+
+    try {
+        raii::CudaDeviceMemory d_lats1(coordSize);
+        raii::CudaDeviceMemory d_lons1(coordSize);
+        raii::CudaDeviceMemory d_lats2(coordSize);
+        raii::CudaDeviceMemory d_lons2(coordSize);
+        raii::CudaDeviceMemory d_distances(distSize);
+
+        d_lats1.copyFrom(latitudes1,  coordSize, stream);
+        d_lons1.copyFrom(longitudes1, coordSize, stream);
+        d_lats2.copyFrom(latitudes2,  coordSize, stream);
+        d_lons2.copyFrom(longitudes2, coordSize, stream);
+
+        const int rc = launchGeoDistanceKernel(
+            static_cast<const double*>(d_lats1.get()),
+            static_cast<const double*>(d_lons1.get()),
+            static_cast<const double*>(d_lats2.get()),
+            static_cast<const double*>(d_lons2.get()),
+            static_cast<float*>(d_distances.get()),
+            static_cast<int>(count),
+            formula,
+            stream);
+
+        if (rc != 0) {
+            setError(ErrorContext(
+                AccelerationErrorCode::KernelLaunchFailed,
+                "CUDA-Geo",
+                "launchGeoDistanceKernel failed with code " + std::to_string(rc),
+                "Check CUDA device state"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        std::vector<float> result(count);
+        d_distances.copyTo(result.data(), distSize, stream);
+
+        cudaError_t err = cudaStreamSynchronize(stream);
+        if (err != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::SynchronizationFailed,
+                "CUDA-Geo",
+                "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+                "Check if the GPU is still responsive"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        clearError();
+        return result;
+    } catch (const std::exception& e) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "CUDA-Geo",
+            std::string("Device memory operation failed: ") + e.what(),
+            "Reduce batch size or free GPU memory"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+#else
+    return {};
+#endif
 }
 
 std::vector<bool> CUDAGeoBackend::batchPointInPolygon(
-    const double* /*pointLats*/,
-    const double* /*pointLons*/,
-    size_t /*numPoints*/,
-    const double* /*polygonCoords*/,
-    size_t /*numPolygonVertices*/
+    const double* pointLats,
+    const double* pointLons,
+    size_t numPoints,
+    const double* polygonCoords,
+    size_t numPolygonVertices
 ) {
-    return {}; // Stub
+#ifdef THEMIS_ENABLE_CUDA
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA-Geo",
+            "CUDA geo backend not initialized",
+            "Call initialize() before using the backend"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+
+    if (pointLats == nullptr || pointLons == nullptr || polygonCoords == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA-Geo", AccelerationErrorCode::InvalidInputShape,
+            "input coordinate pointers must be non-null"));
+        return {};
+    }
+    if (numPoints == 0 || numPolygonVertices < 3) {
+        return {};
+    }
+
+    cudaStream_t stream = stream_.get();
+
+    const size_t pointSize   = numPoints          * sizeof(double);
+    const size_t polySize    = numPolygonVertices * 2 * sizeof(double);
+    const size_t resultSize  = numPoints          * sizeof(uint8_t);
+
+    try {
+        raii::CudaDeviceMemory d_pointLats(pointSize);
+        raii::CudaDeviceMemory d_pointLons(pointSize);
+        raii::CudaDeviceMemory d_polyCoords(polySize);
+        raii::CudaDeviceMemory d_results(resultSize);
+
+        d_pointLats.copyFrom(pointLats,      pointSize, stream);
+        d_pointLons.copyFrom(pointLons,      pointSize, stream);
+        d_polyCoords.copyFrom(polygonCoords, polySize,  stream);
+
+        const int rc = launchGeoContainmentKernel(
+            static_cast<const double*>(d_pointLats.get()),
+            static_cast<const double*>(d_pointLons.get()),
+            static_cast<int>(numPoints),
+            static_cast<const double*>(d_polyCoords.get()),
+            static_cast<int>(numPolygonVertices),
+            static_cast<uint8_t*>(d_results.get()),
+            stream);
+
+        if (rc != 0) {
+            setError(ErrorContext(
+                AccelerationErrorCode::KernelLaunchFailed,
+                "CUDA-Geo",
+                "launchGeoContainmentKernel failed with code " + std::to_string(rc),
+                "Check CUDA device state"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        std::vector<uint8_t> rawResults(numPoints);
+        d_results.copyTo(rawResults.data(), resultSize, stream);
+
+        cudaError_t err = cudaStreamSynchronize(stream);
+        if (err != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::SynchronizationFailed,
+                "CUDA-Geo",
+                "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+                "Check if the GPU is still responsive"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        std::vector<bool> result(numPoints);
+        for (size_t i = 0; i < numPoints; ++i) {
+            result[i] = (rawResults[i] != 0);
+        }
+
+        clearError();
+        return result;
+    } catch (const std::exception& e) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "CUDA-Geo",
+            std::string("Device memory operation failed: ") + e.what(),
+            "Reduce batch size or free GPU memory"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+#else
+    return {};
+#endif
 }
 
 } // namespace acceleration

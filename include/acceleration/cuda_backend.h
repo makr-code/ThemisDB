@@ -151,7 +151,12 @@ public:
 
 private:
     bool initialized_ = false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    raii::CudaStream stream_;
+#else
     void* deviceContext_ = nullptr;
+#endif
 };
 
 } // namespace acceleration
