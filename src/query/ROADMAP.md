@@ -40,7 +40,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
 - [I] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
-- [I] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435)
+- [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
 - [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
 
 ## Implementation Phases
@@ -72,11 +72,11 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [ ] Parallel scan for large collection full-table queries
 - [ ] User-defined functions (UDF) registration API
 
-### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: Planned 📋)
+### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
 - [ ] Vectorized execution engine (column-store style batch processing)
 - [ ] Adaptive query re-optimization on runtime statistics
 - [ ] Cross-cluster federated AQL with cost estimation
-- [ ] Multi-statement transaction AQL (BEGIN/COMMIT in query)
+- [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
 - [ ] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Production Readiness Checklist

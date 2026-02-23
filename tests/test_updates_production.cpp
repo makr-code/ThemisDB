@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1349                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1396                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 31e1d71f8  2026-02-22  Audit: fix stale banner metadata in delta_update_engine f... ║
@@ -28,7 +28,7 @@
 
 /**
  * @file test_updates_production.cpp
- * @brief Production-readiness tests for the Updates module (all 9 phases)
+ * @brief Production-readiness tests for the Updates module (all 10 phases)
  *
  * Covers:
  *  Phase 1 – Core Download & Backup structures
@@ -40,6 +40,8 @@
  *  Phase 7 – UpdatesConfig & Observability (YAML/JSON round-trip)
  *  Phase 8 – Testing coverage (progress callbacks, config defaults)
  *  Phase 9 – DeltaUpdateEngine (binary diff patches, generate/apply, path traversal security)
+ *  Phase 10 – SchemaMigrationTester (staging-before-production framework;
+ *              full integration suite in test_schema_migration_tester.cpp)
  */
 
 #include <gtest/gtest.h>
@@ -49,6 +51,7 @@
 #include "updates/hot_reload_engine.h"
 #include "updates/update_state_machine.h"
 #include "updates/delta_update_engine.h"
+#include "updates/schema_migration_tester.h"
 #include "utils/update_checker.h"
 
 #include <chrono>
@@ -1352,4 +1355,42 @@ TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
     // Verify the installed file matches the target
     auto installed = readBytes(base_path);
     EXPECT_EQ(installed, target_data);
+}
+
+// ============================================================================
+// Phase 10: SchemaMigrationTester – structural & config smoke tests
+// (Full integration suite lives in test_schema_migration_tester.cpp)
+// ============================================================================
+
+class SchemaMigrationTesterProductionTest : public ::testing::Test {};
+
+TEST_F(SchemaMigrationTesterProductionTest, DefaultConfig_HasExpectedDefaults) {
+    themis::updates::SchemaMigrationTester::Config cfg;
+    EXPECT_EQ(cfg.staging_directory, "/tmp/themis_staging");
+    EXPECT_TRUE(cfg.cleanup_staging_on_success);
+    EXPECT_FALSE(cfg.cleanup_staging_on_failure);
+}
+
+TEST_F(SchemaMigrationTesterProductionTest, Constructable_WithDefaultConfig) {
+    themis::updates::SchemaMigrationTester tester;
+    // Constructing with default config must not throw or crash.
+    (void)tester;
+}
+
+TEST_F(SchemaMigrationTesterProductionTest, MigrationTestResult_EmptyCounters) {
+    themis::updates::MigrationTestResult r;
+    EXPECT_EQ(r.passedCount(), 0u);
+    EXPECT_EQ(r.failedCount(), 0u);
+    EXPECT_FALSE(r.success);
+    EXPECT_TRUE(r.error_message.empty());
+    EXPECT_TRUE(r.migration_script.empty());
+}
+
+TEST_F(SchemaMigrationTesterProductionTest, MigrationTestResult_CountHelpers) {
+    themis::updates::MigrationTestResult r;
+    r.test_results.push_back({"t1", true,  ""});
+    r.test_results.push_back({"t2", false, "err"});
+    r.test_results.push_back({"t3", true,  ""});
+    EXPECT_EQ(r.passedCount(), 2u);
+    EXPECT_EQ(r.failedCount(), 1u);
 }

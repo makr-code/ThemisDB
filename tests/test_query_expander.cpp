@@ -210,3 +210,145 @@ TEST(QueryExpanderRelax, EmptyQueryReturnsEmpty) {
     QueryExpander qe;
     EXPECT_EQ(qe.relaxQuery(""), "");
 }
+
+// ============================================================================
+// suggestSpellingCorrections
+// ============================================================================
+
+TEST(QueryExpanderSpellSuggest, EmptyVocabularyReturnsEmpty) {
+    QueryExpander qe;
+    auto suggestions = qe.suggestSpellingCorrections("databse");
+    EXPECT_TRUE(suggestions.empty());
+}
+
+TEST(QueryExpanderSpellSuggest, ExactWordInVocabularyReturnsEmpty) {
+    QueryExpander qe;
+    qe.addVocabulary({"database"});
+    auto suggestions = qe.suggestSpellingCorrections("database");
+    EXPECT_TRUE(suggestions.empty());
+}
+
+TEST(QueryExpanderSpellSuggest, SingleEditDistanceFound) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query", "index"});
+    // "databse" is 1 edit from "database"
+    auto suggestions = qe.suggestSpellingCorrections("databse");
+    ASSERT_FALSE(suggestions.empty());
+    EXPECT_EQ(suggestions[0].suggestion, "database");
+    EXPECT_EQ(suggestions[0].edit_distance, 1);
+    EXPECT_GT(suggestions[0].confidence, 0.0);
+    EXPECT_LE(suggestions[0].confidence, 1.0);
+}
+
+TEST(QueryExpanderSpellSuggest, ResultsRankedByEditDistance) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabulary({"machine", "machines"});
+    // "machne" is 1 edit from "machine" and 2 edits from "machines"
+    auto suggestions = qe.suggestSpellingCorrections("machne", 5);
+    ASSERT_GE(suggestions.size(), 1u);
+    // First result should have the lowest edit distance
+    EXPECT_LE(suggestions[0].edit_distance, suggestions.back().edit_distance);
+}
+
+TEST(QueryExpanderSpellSuggest, MaxSuggestionsHonored) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabulary({"machine", "machina", "machines", "mashine", "mochine"});
+    auto suggestions = qe.suggestSpellingCorrections("machne", 2);
+    EXPECT_LE(suggestions.size(), 2u);
+}
+
+TEST(QueryExpanderSpellSuggest, ConfidenceHigherForLowerEditDistance) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabulary({"machine", "machines"});
+    auto suggestions = qe.suggestSpellingCorrections("machne", 5);
+    // If both are returned, the one with distance 1 has higher confidence
+    if (suggestions.size() >= 2) {
+        EXPECT_GE(suggestions[0].confidence, suggestions[1].confidence);
+    }
+}
+
+TEST(QueryExpanderSpellSuggest, SpellingDisabledReturnsEmpty) {
+    QueryExpander::Config cfg;
+    cfg.correct_spelling = false;
+    QueryExpander qe{cfg};
+    qe.addVocabulary({"database"});
+    auto suggestions = qe.suggestSpellingCorrections("databse");
+    EXPECT_TRUE(suggestions.empty());
+}
+
+// ============================================================================
+// suggestQueryCorrections
+// ============================================================================
+
+TEST(QueryExpanderQueryCorrections, EmptyVocabularyReturnsEmpty) {
+    QueryExpander qe;
+    auto suggestions = qe.suggestQueryCorrections("databse qurey");
+    EXPECT_TRUE(suggestions.empty());
+}
+
+TEST(QueryExpanderQueryCorrections, AllCorrectTokensReturnsEmpty) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query"});
+    auto suggestions = qe.suggestQueryCorrections("database query");
+    EXPECT_TRUE(suggestions.empty());
+}
+
+TEST(QueryExpanderQueryCorrections, SingleMisspelledToken) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query", "index"});
+    // "databse" is 1 edit from "database"
+    auto suggestions = qe.suggestQueryCorrections("databse query");
+    ASSERT_FALSE(suggestions.empty());
+    // Corrected query should contain "database"
+    bool found = false;
+    for (const auto& s : suggestions) {
+        if (s.suggestion == "database query") { found = true; break; }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST(QueryExpanderQueryCorrections, MultipleMisspelledTokens) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query"});
+    // both tokens misspelled
+    auto suggestions = qe.suggestQueryCorrections("databse qurey");
+    ASSERT_FALSE(suggestions.empty());
+    // All-corrected variant should appear
+    bool found_all_corrected = false;
+    for (const auto& s : suggestions) {
+        if (s.suggestion == "database query") { found_all_corrected = true; break; }
+    }
+    EXPECT_TRUE(found_all_corrected);
+}
+
+TEST(QueryExpanderQueryCorrections, MaxSuggestionsHonored) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query", "index"});
+    auto suggestions = qe.suggestQueryCorrections("databse qurey", 1);
+    EXPECT_LE(suggestions.size(), 1u);
+}
+
+TEST(QueryExpanderQueryCorrections, ResultsHaveValidConfidence) {
+    QueryExpander qe;
+    qe.addVocabulary({"database", "query"});
+    auto suggestions = qe.suggestQueryCorrections("databse query");
+    for (const auto& s : suggestions) {
+        EXPECT_GE(s.confidence, 0.0);
+        EXPECT_LE(s.confidence, 1.0);
+    }
+}
+
+TEST(QueryExpanderQueryCorrections, SpellingDisabledReturnsEmpty) {
+    QueryExpander::Config cfg;
+    cfg.correct_spelling = false;
+    QueryExpander qe{cfg};
+    qe.addVocabulary({"database"});
+    auto suggestions = qe.suggestQueryCorrections("databse");
+    EXPECT_TRUE(suggestions.empty());
+}

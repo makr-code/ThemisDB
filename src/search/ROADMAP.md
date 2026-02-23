@@ -35,7 +35,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
 - [I] Configurable re-ranking with LLM feedback loop (Issue: #2454)
 - [I] Search analytics (top queries, zero-result queries) (Issue: #2275)
-- [I] Spelling correction suggestions (Issue: #2455)
+- [x] Spelling correction suggestions (Issue: #2455)
 
 ### Long-term (6-12 months)
 - [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
@@ -68,7 +68,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Negative keyword filtering (`NOT` operator)
 - [ ] Configurable re-ranking with LLM feedback loop
 - [ ] Search analytics (top queries, zero-result queries)
-- [ ] Spelling correction suggestions
+- [x] Spelling correction suggestions
 
 ### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
 - [ ] Neural sparse retrieval (SPLADE / BERT-based)

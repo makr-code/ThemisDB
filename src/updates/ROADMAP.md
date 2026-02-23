@@ -39,7 +39,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [I] Blue/green deployment support (run two versions simultaneously) (Issue: #2484)
 - [!] Multi-node coordinated update with replication-safe sequencing (Issue: #2485)
 - [I] Update bundle signing with hardware-backed keys (HSM) (Issue: #2486)
-- [!] Schema migration testing framework (apply to staging before production) (Issue: #2487)
+- [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 
 ## Implementation Phases
 
@@ -73,7 +73,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [ ] Blue/green deployment support (run two versions simultaneously)
 - [ ] Multi-node coordinated update with replication-safe sequencing
 - [ ] Update bundle signing with hardware-backed keys (HSM)
-- [ ] Schema migration testing framework (apply to staging before production)
+- [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; module total: 74 tests)
