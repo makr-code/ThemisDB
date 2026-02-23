@@ -21,7 +21,7 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
+- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
 - [x] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
@@ -49,8 +49,8 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 - [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
-### Phase 3: Wire Protocol & Edition Manager (Status: Planned 📋)
-- [ ] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/`
+### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
+- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [x] `isModuleCompiledIn()` – runtime module availability check
@@ -73,8 +73,24 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 
 ## Known Issues & Limitations
 - The `src/themis/` directory contains `module_dependency_resolver.cpp`; additional monolithic build logic is distributed in `src/utils/` (build info, license, etc.).
+- `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
+  map grows monotonically and `active_sessions()` never decreases. Fixing this
+  requires adding a disconnect-callback member to `WireProtocolSession`, which
+  would change the frozen v1.x public header ABI.
+- `WireProtocolServer` members (`sessions_`, `running_`, `total_connections_`) are
+  not protected by a mutex. Thread-safety depends on the caller using a
+  single-threaded `io_context` or providing external synchronisation. Fixing this
+  requires adding a `std::mutex` member to the frozen header.
+- `WireProtocolSession::write_buffer_` is shared across `send_error`, `send_ok`, and
+  `async_write_response`. Concurrent calls from multiple threads are unsafe; within
+  a single-threaded `io_context` event loop the design is correct.
+- LZ4 compress/decompress stubs return empty vectors; full implementation deferred
+  until the LZ4 dependency is unconditionally available across all build targets.
+- `OpCode::PING` and `OpCode::PONG` share the same wire value (`0xFE`) in the
+  frozen header; this is a pre-existing design decision.
 - Modularization is blocked on the v1.7.0 architectural refactor.
-- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned but not yet implemented here.
+- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned
+  but not yet implemented here.
 
 ## Breaking Changes
 - `module_dependency_resolver.cpp` is already present; all remaining APIs are new.
