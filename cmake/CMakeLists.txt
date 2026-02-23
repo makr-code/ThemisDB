@@ -1899,6 +1899,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_autocomplete.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
