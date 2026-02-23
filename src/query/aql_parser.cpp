@@ -53,6 +53,11 @@ enum class TokenType {
     AS,              // AS alias for CTE naming
     ALL,             // ALL quantifier for array subqueries
     SATISFIES,       // SATISFIES for array predicates
+
+    // Phase 4: Multi-statement transaction AQL
+    BEGIN,           // BEGIN – start of a transaction block
+    COMMIT,          // COMMIT – successfully end a transaction block
+    ROLLBACK,        // ROLLBACK – abort a transaction block
     
     // Operators
     EQ, NEQ, LT, LTE, GT, GTE,
@@ -261,6 +266,11 @@ private:
         if (lower == "as") return Token(TokenType::AS, value, line, col);
         if (lower == "all") return Token(TokenType::ALL, value, line, col);
         if (lower == "satisfies") return Token(TokenType::SATISFIES, value, line, col);
+
+        // Phase 4: Multi-statement transaction AQL
+        if (lower == "begin") return Token(TokenType::BEGIN, value, line, col);
+        if (lower == "commit") return Token(TokenType::COMMIT, value, line, col);
+        if (lower == "rollback") return Token(TokenType::ROLLBACK, value, line, col);
         
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
@@ -1103,6 +1113,102 @@ Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string)
 
 // JSON Serialization moved to src/query/aql_parser_json.cpp to reduce
 // compile-time pressure on this translation unit.
+
+// ============================================================================
+// Multi-Statement Transaction Block Parsing
+// ============================================================================
+
+Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& input) {
+    try {
+        // Tokenize the full input
+        Tokenizer tokenizer(input);
+        auto tokens = tokenizer.tokenize();
+
+        // Validate: must start with BEGIN
+        if (tokens.empty() || tokens[0].type != TokenType::BEGIN) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Multi-statement transaction block must start with BEGIN"
+            );
+        }
+
+        AqlTransactionBlock block;
+
+        // Walk through the token stream slicing out individual statements.
+        // Each statement starts at FOR (or WITH) and ends just before the
+        // next FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        size_t start = 1; // skip BEGIN token
+        const size_t n = tokens.size();
+
+        auto isStatementStart = [](TokenType t) {
+            return t == TokenType::FOR || t == TokenType::WITH;
+        };
+        auto isTerminator = [](TokenType t) {
+            return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
+        };
+
+        while (start < n && !isTerminator(tokens[start].type)) {
+            if (!isStatementStart(tokens[start].type)) {
+                return Err<AqlTransactionBlock>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format(
+                        "Expected FOR or WITH at line {}, column {} inside transaction block",
+                        tokens[start].line, tokens[start].column)
+                );
+            }
+
+            // Find the end of this statement (next FOR/WITH/COMMIT/ROLLBACK/EOF)
+            size_t end = start + 1;
+            while (end < n && !isStatementStart(tokens[end].type) && !isTerminator(tokens[end].type)) {
+                ++end;
+            }
+
+            // Build a sub-token list for this statement (include an EOF sentinel)
+            std::vector<Token> sub(tokens.begin() + start, tokens.begin() + end);
+            sub.emplace_back(TokenType::END_OF_FILE, "", 0, 0);
+
+            Parser subParser(std::move(sub));
+            auto stmtResult = subParser.parse();
+            if (!stmtResult) {
+                return Err<AqlTransactionBlock>(
+                    stmtResult.error().code(),
+                    fmt::format("Error in statement {} of transaction block: {}",
+                                block.statements.size() + 1,
+                                stmtResult.error().message())
+                );
+            }
+            block.statements.push_back(std::move(*stmtResult));
+            start = end;
+        }
+
+        if (start >= n || !isTerminator(tokens[start].type)) {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Transaction block is missing COMMIT or ROLLBACK"
+            );
+        }
+
+        // Determine terminator
+        if (tokens[start].type == TokenType::COMMIT) {
+            block.action = AqlTransactionAction::Commit;
+        } else if (tokens[start].type == TokenType::ROLLBACK) {
+            block.action = AqlTransactionAction::Rollback;
+        } else {
+            return Err<AqlTransactionBlock>(
+                errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                "Transaction block is missing COMMIT or ROLLBACK"
+            );
+        }
+
+        return Ok(std::move(block));
+
+    } catch (const std::exception& e) {
+        return Err<AqlTransactionBlock>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            fmt::format("Failed to parse transaction block: {}", e.what())
+        );
+    }
+}
 
 }  // namespace query
 }  // namespace themis
