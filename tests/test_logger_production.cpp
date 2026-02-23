@@ -262,6 +262,55 @@ TEST(LoggerProduction, ClearTraceContext) {
     EXPECT_NE(content.find("no trace context"), std::string::npos);
 }
 
+TEST(LoggerProduction, GetTraceContext) {
+    Logger::shutdown();
+    Logger::init(tmpPath("get_trace.log"), Logger::Level::INFO);
+
+    EXPECT_TRUE(Logger::getTraceContext().empty());
+    Logger::setTraceContext("trace-xyz");
+    EXPECT_EQ(Logger::getTraceContext(), "trace-xyz");
+    Logger::setTraceContext("");
+    EXPECT_TRUE(Logger::getTraceContext().empty());
+
+    Logger::shutdown();
+}
+
+TEST(LoggerProduction, InitJsonWithTraceContextEmitsTraceIdField) {
+    Logger::shutdown();
+    auto path = tmpPath("json_trace.log");
+    Logger::initJson(path, Logger::Level::INFO);
+
+    Logger::setTraceContext("cafebabe0123456789abcdef01234567");
+    Logger::info("json trace test");
+    Logger::setTraceContext("");  // clear after use
+    Logger::shutdown();
+
+    auto content = readFile(path);
+    // The trace_id field must appear in the JSON output.
+    EXPECT_NE(content.find("cafebabe0123456789abcdef01234567"), std::string::npos);
+    // JSON structural keys must still be present — format not corrupted.
+    EXPECT_NE(content.find("\"level\""), std::string::npos);
+    EXPECT_NE(content.find("\"msg\""), std::string::npos);
+    EXPECT_NE(content.find("json trace test"), std::string::npos);
+}
+
+TEST(LoggerProduction, InitJsonClearTraceContextRestoresJsonFormat) {
+    Logger::shutdown();
+    auto path = tmpPath("json_trace_clear.log");
+    Logger::initJson(path, Logger::Level::INFO);
+
+    Logger::setTraceContext("deadbeef00000000deadbeef00000000");
+    Logger::setTraceContext("");  // clear — JSON format must be restored
+    Logger::info("after clear");
+    Logger::shutdown();
+
+    auto content = readFile(path);
+    // Message must appear in JSON format without the old trace ID.
+    EXPECT_NE(content.find("\"msg\""), std::string::npos);
+    EXPECT_NE(content.find("after clear"), std::string::npos);
+    EXPECT_EQ(content.find("deadbeef00000000deadbeef00000000"), std::string::npos);
+}
+
 // ============================================================================
 // Level helpers
 // ============================================================================

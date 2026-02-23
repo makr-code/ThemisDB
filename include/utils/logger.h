@@ -99,6 +99,7 @@ public:
     static void setLevel(Level level);
     static void setPattern(const std::string& pattern);
     static void setTraceContext(const std::string& trace_id);
+    static std::string getTraceContext();
 
     static Level levelFromString(const std::string& lvl);
     static const char* levelToString(Level lvl);
@@ -129,6 +130,7 @@ private:
     static LogMetrics metrics_;
     static std::string trace_context_;
     static std::mutex trace_context_mu_;
+    static bool json_mode_;
 
     static spdlog::level::level_enum toSpdlogLevel(Level level);
 };

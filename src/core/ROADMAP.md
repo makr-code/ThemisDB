@@ -65,7 +65,7 @@
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [ ] Health check interface in ConcernsContext
-- [ ] Structured log correlation (trace ID injection into log records)
+- [x] Structured log correlation (trace ID injection into log records)
 - [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [I] Feature flag interface for runtime enable/disable (Issue: #1707)
