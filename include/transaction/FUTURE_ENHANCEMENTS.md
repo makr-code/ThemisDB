@@ -50,15 +50,15 @@ public:
 ---
 
 ### Transaction Savepoints
+**Status: ✅ Implemented** (v1.x)  
 **Target Version:** v1.8.0
 
-Add savepoint support to Transaction:
+Named savepoint support is fully implemented in `TransactionManager::Transaction`.  See `createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, and `hasSavepoint` in `transaction_manager.h`.
 
 ```cpp
-// transaction_manager.h
+// transaction_manager.h — already implemented
 class Transaction {
 public:
-    // NEW: Savepoint API
     Status createSavepoint(std::string_view name);
     Status rollbackToSavepoint(std::string_view name);
     Status releaseSavepoint(std::string_view name);
