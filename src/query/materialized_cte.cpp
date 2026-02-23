@@ -30,7 +30,6 @@
 #include "query/materialized_cte.h"
 
 #include <spdlog/spdlog.h>
-#include <sstream>
 
 namespace themis {
 namespace query {
@@ -42,7 +41,7 @@ namespace query {
 namespace {
 
 /** Convert a single nlohmann::json value to analytics::FieldValue. */
-static themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
+themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v) {
     if (v.is_null())    return themisdb::analytics::FieldValue{nullptr};
     if (v.is_boolean()) return themisdb::analytics::FieldValue{v.get<bool>()};
     if (v.is_number_integer()) {
@@ -59,7 +58,7 @@ static themisdb::analytics::FieldValue jsonToFieldValue(const nlohmann::json& v)
 }
 
 /** Convert analytics::FieldValue back to nlohmann::json. */
-static nlohmann::json fieldValueToJson(const themisdb::analytics::FieldValue& fv) {
+nlohmann::json fieldValueToJson(const themisdb::analytics::FieldValue& fv) {
     if (std::holds_alternative<std::nullptr_t>(fv)) return nullptr;
     if (auto* b = std::get_if<bool>(&fv))           return *b;
     if (auto* i = std::get_if<int64_t>(&fv))        return *i;
@@ -257,6 +256,14 @@ MaterializedCTERegistry::~MaterializedCTERegistry() = default;
 // ============================================================================
 
 bool MaterializedCTERegistry::registerCTE(const MaterializedCTEDef& def) {
+    if (def.name.empty()) {
+        spdlog::warn("MaterializedCTERegistry: CTE name must not be empty");
+        return false;
+    }
+    if (def.source_collection.empty()) {
+        spdlog::warn("MaterializedCTERegistry: CTE '{}' source_collection must not be empty", def.name);
+        return false;
+    }
     std::unique_lock lk(registry_mutex_);
     if (views_.count(def.name)) {
         spdlog::warn("MaterializedCTERegistry: CTE '{}' already registered", def.name);

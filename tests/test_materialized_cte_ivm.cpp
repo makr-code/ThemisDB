@@ -627,6 +627,24 @@ TEST(MaterializedCTEViewTest, EmptyView_QueryReturnsEmpty) {
     EXPECT_EQ(r.total_rows, 0);
 }
 
+TEST(MaterializedCTERegistryTest, RegisterEmptyName_ReturnsFalse) {
+    MaterializedCTERegistry registry;
+    MaterializedCTEDef def = sales_def();
+    def.name = "";  // empty name
+
+    EXPECT_FALSE(registry.registerCTE(def));
+    EXPECT_EQ(registry.listCTEs().size(), 0u);
+}
+
+TEST(MaterializedCTERegistryTest, RegisterEmptyCollection_ReturnsFalse) {
+    MaterializedCTERegistry registry;
+    MaterializedCTEDef def = sales_def();
+    def.source_collection = "";  // empty source collection
+
+    EXPECT_FALSE(registry.registerCTE(def));
+    EXPECT_EQ(registry.listCTEs().size(), 0u);
+}
+
 TEST(MaterializedCTEViewTest, MissingField_TreatedAsNull) {
     MaterializedCTEDef def;
     def.name              = "v";
