@@ -46,7 +46,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [P] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to `computeDistances()`/`batchKnnSearch()`
 - [I] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)
-- [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
+- [P] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388) — lower-index tie-breaking in `batchKnnSearch()`/`cpu_ann_topk`; `batchKnnSearchSafe()` with per-query NaN/Inf validation and `PartialBatchResult` in `compute_backend.h`/`compute_backend.cpp`
 
 ### Phase 4: Tests
 - [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_cuda_ann_search.cpp` added
