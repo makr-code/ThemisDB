@@ -103,6 +103,11 @@ enum class ModuleErrorCode {
     MODULE_DIRECTORY_NOT_FOUND = 102,
     MODULE_ACCESS_DENIED = 103,
     
+    // Dependency errors (1xx continued)
+    DEPENDENCY_NOT_FOUND = 110,        ///< Required dependency not registered or missing
+    DEPENDENCY_CIRCULAR = 111,          ///< Circular dependency detected in module graph
+    DEPENDENCY_VERSION_MISMATCH = 112,  ///< Dependency version constraint not satisfied
+    
     // Verification errors (2xx)
     VERIFICATION_FAILED = 200,
     SIGNATURE_INVALID = 201,
@@ -146,6 +151,19 @@ enum class ErrorCategory {
 };
 
 /**
+ * @brief Dependency declaration for a module.
+ *
+ * Each entry describes one other module that must be present (or present
+ * with a compatible version) before this module can be activated.
+ */
+struct ModuleDependency {
+    std::string name;           ///< Module name (e.g., "themis_base")
+    std::string minVersion;     ///< Minimum compatible version, "" = unconstrained
+    std::string maxVersion;     ///< Maximum compatible version, "" = unconstrained
+    bool required = true;       ///< If false, the dep is optional (load-order hint only)
+};
+
+/**
  * @brief Module metadata (version, ABI, build info)
  */
 struct ModuleMetadata {
@@ -157,6 +175,8 @@ struct ModuleMetadata {
     uint32_t themisMajor = 0;   // ThemisDB major version
     uint32_t themisMinor = 0;   // ThemisDB minor version
     uint32_t themisPatch = 0;   // ThemisDB patch version
+    
+    std::vector<ModuleDependency> dependencies; ///< Declared module dependencies
     
     bool isValid() const {
         return !version.empty() && themisMajor > 0;
@@ -655,6 +675,124 @@ private:
     ModuleRegistry& operator=(const ModuleRegistry&) = delete;
     
     std::vector<LoadedModule> modules_;
+};
+
+// ============================================================================
+// MODULE DEPENDENCY RESOLUTION
+// ============================================================================
+
+/**
+ * @brief Result of a dependency resolution pass.
+ */
+struct DependencyResolutionResult {
+    bool success = false;
+    std::vector<std::string> loadOrder;             ///< Resolved load order (deps first)
+    std::vector<std::string> missingRequired;        ///< Required deps absent from registry
+    std::vector<std::vector<std::string>> cycles;   ///< Detected dependency cycles
+    /// Version-constraint violations: each entry is "module→dep (got X, need ≥Y ≤Z)"
+    std::vector<std::string> versionMismatches;
+    std::string errorMessage;
+};
+
+/**
+ * @brief Resolves module dependencies and computes a safe load order.
+ *
+ * Modules register themselves together with their dependency declarations.
+ * Calling resolve() returns a topological ordering that guarantees every
+ * dependency is loaded before the module that depends on it.  Circular
+ * dependencies and missing required dependencies are reported as errors.
+ *
+ * Usage:
+ * @code
+ *   ModuleDependencyResolver resolver;
+ *   resolver.registerModule("themis_base",    {});
+ *   resolver.registerModule("themis_storage", {{"themis_base"}});
+ *   resolver.registerModule("themis_query",   {{"themis_storage"}, {"themis_base"}});
+ *
+ *   auto result = resolver.resolve();
+ *   if (result.success) {
+ *       for (const auto& mod : result.loadOrder) { ... }
+ *   }
+ * @endcode
+ */
+class ModuleDependencyResolver {
+public:
+    /**
+     * @brief Register a module together with its dependency declarations.
+     *
+     * Registering a module a second time replaces the previous registration.
+     *
+     * @param name     Unique module name (e.g., "themis_base").
+     * @param version  Semantic version of this module (e.g., "1.2.3").  May be "".
+     * @param deps     Dependency list; may be empty.
+     */
+    void registerModule(const std::string& name,
+                        const std::string& version,
+                        const std::vector<ModuleDependency>& deps);
+
+    /**
+     * @brief Convenience overload — registers a module with no version string.
+     *
+     * Version constraints declared by other modules against this module will
+     * only be satisfied if they are unconstrained (both minVersion and
+     * maxVersion are empty).
+     *
+     * @param name  Unique module name.
+     * @param deps  Dependency list; may be empty.
+     */
+    void registerModule(const std::string& name,
+                        const std::vector<ModuleDependency>& deps);
+
+    /**
+     * @brief Resolve load order for all registered modules.
+     *
+     * @return Resolution result with load order or error information.
+     */
+    DependencyResolutionResult resolve() const;
+
+    /**
+     * @brief Resolve load order for a specific subset of modules.
+     *
+     * Transitive dependencies that are registered but not in @p moduleNames
+     * are included in the resolution automatically.
+     *
+     * @param moduleNames  Modules to resolve (by name).
+     * @return Resolution result.
+     */
+    DependencyResolutionResult resolveFor(
+        const std::vector<std::string>& moduleNames) const;
+
+    /**
+     * @brief Remove all registered module entries.
+     */
+    void clear();
+
+    /**
+     * @brief Check if a version string satisfies the given constraints.
+     *
+     * Supports semantic version strings of the form "major.minor.patch".
+     * An empty constraint string is treated as unconstrained (always passes).
+     * An empty @p version satisfies only fully unconstrained dependencies.
+     *
+     * @param version     Version to test.
+     * @param minVersion  Lower bound (inclusive).  "" = no lower bound.
+     * @param maxVersion  Upper bound (inclusive).  "" = no upper bound.
+     * @return true if @p version satisfies both constraints.
+     */
+    static bool isVersionCompatible(const std::string& version,
+                                    const std::string& minVersion,
+                                    const std::string& maxVersion);
+
+private:
+    struct ModuleEntry {
+        std::string version;
+        std::vector<ModuleDependency> deps;
+    };
+    std::map<std::string, ModuleEntry> modules_;
+
+    /// Topological sort (Kahn's algorithm) over the supplied node set.
+    DependencyResolutionResult topologicalSort(
+        const std::vector<std::string>& nodes) const;
 };
 
 } // namespace modules
