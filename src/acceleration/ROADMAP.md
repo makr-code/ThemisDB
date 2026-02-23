@@ -50,8 +50,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 4: Tests
 - [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_cuda_ann_search.cpp` added
-- [x] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — full parity suite in `tests/test_cpu_gpu_parity.cpp`: CUDA ANN (L2/Cosine/InnerProduct/TopK), CUDA Geo (Haversine/PointInPolygon), Vulkan ANN, Vulkan Geo, and BackendRegistry selection parity tests; all GPU fixtures skip gracefully when hardware is absent
-- [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
+- [x] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
+- [x] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — comprehensive regression suite in `tests/test_acceleration_regression.cpp`: specific error-code assertions (InvalidInputShape, InputRangeViolation) for all three CPU backends, error-context field verification, clearError-after-success regression, batchKnnSearchSafe batch-level validation (null ptr, zero counts, NaN/Inf per-query), runtime fallback selection (impossible requirements → nullptr, re-init restores CPU), and CPU dispatch-table integration as live fallback for ANNKernelFallbackDispatcher/GeoKernelFallbackDispatcher; BatchValidator unit regressions for all validate_* helpers
 
 ### Phase 5: Performance/Hardening
 - [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
