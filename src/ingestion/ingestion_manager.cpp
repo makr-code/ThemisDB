@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.cpp                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23                                         ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1193                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1376                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 139394c19  2026-02-22  Style fix: expand single-line if/else in ingestAll() disa... ║
+    • aac34c402  2026-02-22  Fix pre-existing test failures: include disabled sources ... ║
+    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
+    • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
+    • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -313,6 +320,9 @@ public:
                 case SourceType::API: {
                     auto api_connector = std::make_unique<GenericApiConnector>();
                     api_connector->setRetryConfig(retry_config_);
+                    if (api_http_get_fn_) {
+                        api_connector->setHttpGetForTesting(api_http_get_fn_);
+                    }
                     if (!api_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
@@ -702,6 +712,11 @@ public:
         return cs->clear(source_id);
     }
 
+    void setApiHttpGetForTesting(ApiHttpGetFn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        api_http_get_fn_ = std::move(fn);
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -796,6 +811,7 @@ private:
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
+    ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
     mutable std::mutex mutex_;
 };
 
@@ -904,6 +920,10 @@ bool IngestionManager::getCheckpoint(const std::string& source_id,
 
 bool IngestionManager::clearCheckpoint(const std::string& source_id) {
     return impl_->clearCheckpoint(source_id);
+}
+
+void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
+    impl_->setApiHttpGetForTesting(std::move(fn));
 }
 
 // ============================================================================

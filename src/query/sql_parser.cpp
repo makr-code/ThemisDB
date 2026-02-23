@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            sql_parser.cpp                                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-23 03:58:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1044                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • daa5bb0c5  2026-02-22  feat(query): implement SQL dialect compatibility layer fo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SQL dialect compatibility layer – SELECT/INSERT/UPDATE/DELETE passthrough.
 // Implements a standalone SQL tokenizer + recursive-descent parser and an
 // AQL transpiler.  The generated AQL can be fed directly into executeAql().

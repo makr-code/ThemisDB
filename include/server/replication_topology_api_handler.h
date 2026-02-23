@@ -3,14 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_topology_api_handler.h                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:57:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     107                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ec6839144  2026-02-22  docs(replication): add topology visualizer docs + fix aut... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

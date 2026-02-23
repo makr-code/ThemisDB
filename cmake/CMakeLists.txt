@@ -111,6 +111,23 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
 endif()
 
+# PDF support requires poppler-cpp
+if(THEMIS_ENABLE_PDF)
+    find_package(Poppler CONFIG COMPONENTS cpp QUIET)
+    if(NOT Poppler_FOUND)
+        find_package(Poppler COMPONENTS cpp QUIET)
+    endif()
+
+    if(Poppler_FOUND)
+        message(STATUS "PDF support enabled - poppler-cpp found")
+        add_compile_definitions(THEMIS_ENABLE_PDF)
+    else()
+        message(WARNING "poppler-cpp not found - Install with: vcpkg install poppler")
+        message(WARNING "Disabling PDF layout preservation due to missing dependencies")
+        set(THEMIS_ENABLE_PDF OFF CACHE BOOL "PDF support disabled - missing poppler-cpp" FORCE)
+    endif()
+endif()
+
 # FFmpeg support for video processing (optional)
 # Priority: 1) Local Submodule, 2) vcpkg, 3) System
 find_package(FFmpeg CONFIG QUIET)
@@ -191,6 +208,10 @@ option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
+
+# PDF Document Processing (Q2 2026)
+# Enables poppler-cpp integration for layout-preserving PDF text extraction
+option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
 
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
@@ -1709,6 +1730,7 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/parquet_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
@@ -2336,6 +2358,18 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     message(STATUS "Office support linked: libzip and pugixml")
 endif()
 
+# Link poppler-cpp (for PDF layout-preserving extraction) if enabled
+if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
+    if(TARGET Poppler::cpp)
+        target_link_libraries(themis_core PUBLIC Poppler::cpp)
+    elseif(TARGET poppler-cpp)
+        target_link_libraries(themis_core PUBLIC poppler-cpp)
+    else()
+        message(WARNING "Poppler::cpp target not found - please check poppler installation")
+    endif()
+    message(STATUS "PDF support linked: poppler-cpp")
+endif()
+
 # Link Kerberos/GSSAPI if enabled
 if(THEMIS_ENABLE_KERBEROS)
     if(TARGET KRB5::krb5)
@@ -2725,7 +2759,14 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
-        
+
+        # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
+        ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
+        ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+
+        # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/llm/mcp_tool_bridge.cpp>
+
         # RAG Enhancement: Quality Evaluation and Gap Detection
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation

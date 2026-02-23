@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_dependency_resolver.h                       ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:57                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     318                                            ║
+    • Total Lines:     346                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3c73f9d65  2026-02-22  fix: handle unregistered deps in autoLoadPlugins; add val... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

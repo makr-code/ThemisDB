@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            class-license-api.php                              ║
-  Version:         0.0.21                                             ║
-  Last Modified:   2026-02-22 08:57:06                                ║
+  Version:         0.0.26                                             ║
+  Last Modified:   2026-02-23 03:59:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
