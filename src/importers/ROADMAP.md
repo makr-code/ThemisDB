@@ -46,7 +46,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [x] Import pipeline infrastructure (source → transform → sink)
 
 ### Phase 2: Streaming & Conflict Resolution (Status: In Progress 🚧)
-- [I] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
+- [x] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
 - [~] Import progress reporting with streaming callbacks (Target: Q2 2026)
 - [I] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
 - [ ] Dry-run mode to preview import without writing data (Target: Q3 2026)

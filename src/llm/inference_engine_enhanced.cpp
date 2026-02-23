@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.cpp                      ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   79.0/100                                       ║
-    • Total Lines:     948                                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     1089                                           ║
     • Open Issues:     TODOs: 3, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
+    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
+    • 17bf44106  2026-02-22  feat(llm): propagate timeouts and cancellation across req... ║
+    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

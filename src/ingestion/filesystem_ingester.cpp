@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
+    • Total Lines:     633                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -68,6 +71,24 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw) {
     }
 
     return BinaryMimeType::UNKNOWN;
+}
+
+// ---------------------------------------------------------------------------
+// Converter path safety validation (free function – implementation)
+// ---------------------------------------------------------------------------
+
+bool isConverterSafe(const std::string& converter) {
+    if (converter.empty()) return true;  // empty = disabled, skip silently
+    for (char c : converter) {
+        switch (c) {
+            case '|': case ';': case '&': case '$': case '<': case '>':
+            case '`': case '!': case '\n': case '\r': case '\0':
+                return false;
+            default:
+                break;
+        }
+    }
+    return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -232,6 +253,7 @@ static const char* stderrRedirect() {
 static std::string extractPdfWithConverter(const std::string& file_path,
                                            const std::string& converter) {
     if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
     // pdftotext syntax: pdftotext <input> - (dash = stdout)
     std::string cmd = converter + " " + shellEscapePath(file_path) + " -" + stderrRedirect();
     return runExternalConverter(cmd);
@@ -245,6 +267,7 @@ static std::string extractPdfWithConverter(const std::string& file_path,
 static std::string extractDocxWithConverter(const std::string& file_path,
                                             const std::string& converter) {
     if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
     // pandoc syntax: pandoc -f docx -t plain <input>
     std::string cmd = converter + " -f docx -t plain " + shellEscapePath(file_path) + stderrRedirect();
     return runExternalConverter(cmd);

@@ -13,6 +13,13 @@
     • Total Lines:     1376                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 139394c19  2026-02-22  Style fix: expand single-line if/else in ingestAll() disa... ║
+    • aac34c402  2026-02-22  Fix pre-existing test failures: include disabled sources ... ║
+    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
+    • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
+    • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
+╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
