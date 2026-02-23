@@ -33,7 +33,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 
 ## In Progress 🚧
 - [?] Token counting and context-window budget enforcement (Target: Q2 2026)
-- [!] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
+- [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
 
 ## Planned Features 📋
 
@@ -68,7 +68,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
 - [?] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
 - [x] Prompt injection attack detection layer (Target: Q2 2026)
-- [ ] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
+- [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
 
 ### Phase 3: Tracing, Regression & Experiments (Status: Planned 📋)
 - [?] CoT execution tracer – record per-step reasoning chain with latency attribution
@@ -98,7 +98,6 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 
 ## Known Issues & Limitations
 - Token counting and context-window management is out of scope; callers must manage limits.
-- Multi-modal prompts (image/audio) are not supported in the current release.
 - Full LLM-based evaluation in `optimizePrompt()` requires callers to execute the prompt and supply a custom `eval_fn`; the built-in fallback uses `PromptEvaluator` structural similarity as a proxy.
 
 ## Breaking Changes
