@@ -1409,6 +1409,38 @@ else()
     message(STATUS "Transaction Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
 endif()
 
+# Transaction OCC Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
+    message(STATUS "Adding Transaction OCC tests")
+
+    add_executable(test_transaction_occ
+        test_transaction_occ.cpp
+    )
+
+    target_link_libraries(test_transaction_occ PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_occ PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionOccTests COMMAND test_transaction_occ)
+
+    set_tests_properties(TransactionOccTests PROPERTIES
+        LABELS "transaction;occ;optimistic;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction OCC: getEntityVersion, optimisticPut, optimisticErase, retry pattern")
+else()
+    message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
