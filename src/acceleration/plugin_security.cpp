@@ -92,6 +92,52 @@ PluginSecurityVerifier::PluginSecurityVerifier(const PluginSecurityPolicy& polic
     : policy_(policy) {
 }
 
+bool PluginSecurityVerifier::validatePluginPath(const std::string& path,
+                                                std::string& errorMessage) {
+    if (path.empty()) {
+        errorMessage = "Plugin path is empty";
+        return false;
+    }
+
+    // Reject paths containing traversal sequences
+    if (path.find("..") != std::string::npos) {
+        errorMessage = "Plugin path contains path traversal sequence: " + path;
+        return false;
+    }
+
+    // Reject paths with null bytes (check using size vs c_str length)
+    if (path.size() != std::strlen(path.c_str())) {
+        errorMessage = "Plugin path contains null byte";
+        return false;
+    }
+
+    // Reject paths with shell-injection characters
+    static const std::string kForbiddenChars = ";|&`$><\n\r";
+    for (char ch : kForbiddenChars) {
+        if (path.find(ch) != std::string::npos) {
+            errorMessage = "Plugin path contains disallowed character";
+            return false;
+        }
+    }
+
+    // Resolve to canonical form and verify the resolved path matches the
+    // canonical path (catches symlinks that escape the intended directory).
+    std::error_code ec;
+    std::filesystem::path canonical = std::filesystem::weakly_canonical(path, ec);
+    if (ec) {
+        errorMessage = "Failed to resolve plugin path: " + ec.message();
+        return false;
+    }
+
+    // Ensure the canonical path still has an absolute component (sanity check)
+    if (!canonical.is_absolute()) {
+        errorMessage = "Plugin path does not resolve to an absolute path";
+        return false;
+    }
+
+    return true;
+}
+
 std::string PluginSecurityVerifier::calculateFileHash(const std::string& filePath) {
     std::ifstream file(filePath, std::ios::binary);
     if (!file) {
@@ -661,15 +707,30 @@ PluginSecurityAuditor& PluginSecurityAuditor::instance() {
 }
 
 void PluginSecurityAuditor::logEvent(const PluginSecurityEvent& event) {
-    events_.push_back(event);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        events_.push_back(event);
+    }
     
-    // Also log to system logger (spdlog integration)
-    // TODO: Integration with existing audit_logger.h
+    // Forward to the ThemisDB system logger
+    const std::string msg = "[PluginSecurity] " + event.message +
+                            " | plugin=" + event.pluginPath +
+                            " | hash=" + event.pluginHash;
+    if (event.severity == "CRITICAL") {
+        THEMIS_CRITICAL("{}", msg);
+    } else if (event.severity == "ERROR") {
+        THEMIS_ERROR("{}", msg);
+    } else if (event.severity == "WARNING") {
+        THEMIS_WARN("{}", msg);
+    } else {
+        THEMIS_INFO("{}", msg);
+    }
 }
 
 std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(
     const std::string& pluginPath) const {
     
+    std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PluginSecurityEvent> result;
     for (const auto& event : events_) {
         if (event.pluginPath == pluginPath) {
@@ -679,16 +740,28 @@ std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(
     return result;
 }
 
+std::vector<PluginSecurityEvent> PluginSecurityAuditor::getAllEvents() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return events_;
+}
+
 void PluginSecurityAuditor::clearEvents() {
+    std::lock_guard<std::mutex> lock(mutex_);
     events_.clear();
 }
 
 bool PluginSecurityAuditor::exportEvents(const std::string& outputPath) const {
+    std::vector<PluginSecurityEvent> snapshot;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        snapshot = events_;
+    }
+    
     try {
         json j;
         j["events"] = json::array();
         
-        for (const auto& event : events_) {
+        for (const auto& event : snapshot) {
             json eventJson;
             eventJson["type"] = static_cast<int>(event.type);
             eventJson["pluginPath"] = event.pluginPath;

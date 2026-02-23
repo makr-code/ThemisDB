@@ -63,10 +63,17 @@ struct HealthStatus {
     ProbeResult tracer;
     ProbeResult metrics;
     ProbeResult cache;
+    ProbeResult circuit_breaker;
 
     /// @return true only when every concern reports healthy/ready.
     bool isHealthy() const noexcept {
-        return logger.ok && tracer.ok && metrics.ok && cache.ok;
+        return logger.ok && tracer.ok && metrics.ok && cache.ok &&
+               circuit_breaker.ok;
+    ProbeResult featureFlags;
+
+    /// @return true only when every concern reports healthy/ready.
+    bool isHealthy() const noexcept {
+        return logger.ok && tracer.ok && metrics.ok && cache.ok && featureFlags.ok;
     }
 };
 

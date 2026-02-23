@@ -23,6 +23,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/blocked_range2d.h>
@@ -237,6 +238,12 @@ public:
         size_t numVectors,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+
         std::vector<float> distances(numQueries * numVectors);
         
         // Use TBB parallel_for with work-stealing
@@ -271,6 +278,15 @@ public:
         size_t k,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+        if (!BatchValidator::validateK(name(), k, sink)) {
+            return {};
+        }
+
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         
         // TBB parallel_for with dynamic load balancing

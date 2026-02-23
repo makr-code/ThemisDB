@@ -23,6 +23,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/kernel_invocation.h"
 #include <string>
 #include <memory>
 
@@ -158,9 +159,79 @@ public:
      * Get ROCm version info
      */
     static std::string getROCmVersion();
-    
+
+    /**
+     * Populate the frozen ANN kernel dispatch table for this backend.
+     *
+     * When THEMIS_ENABLE_HIP is defined the returned table references the
+     * kernel launchers compiled in src/acceleration/hip/ann_kernels.hip.
+     * When HIP is unavailable all slots are null and the BackendRegistry
+     * falls back to the CPU table.
+     */
+    ANNKernelDispatch populateANNDispatch() const override;
+
 private:
     std::unique_ptr<HIPBackendImpl> impl_;
+};
+
+/**
+ * HIP Geospatial Backend for AMD GPU Acceleration
+ *
+ * Provides GPU-accelerated geospatial operations using the AMD ROCm/HIP
+ * platform.  Implements the IGeoBackend interface and exposes the frozen
+ * GeoKernelDispatch table wired to the launchers compiled in
+ * src/acceleration/hip/geo_kernels.hip.
+ *
+ * When THEMIS_ENABLE_HIP is not defined the backend reports itself as
+ * unavailable and all operations are no-ops, allowing the BackendRegistry
+ * to fall back to the CPU geo backend.
+ */
+class HIPGeoBackend : public IGeoBackend {
+public:
+    HIPGeoBackend() = default;
+    ~HIPGeoBackend() override;
+
+    const char* name() const noexcept override { return "HIP"; }
+    BackendType type() const noexcept override { return BackendType::HIP; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    std::vector<float> batchDistances(
+        const double* latitudes1,
+        const double* longitudes1,
+        const double* latitudes2,
+        const double* longitudes2,
+        size_t count,
+        bool useHaversine = true
+    ) override;
+
+    std::vector<bool> batchPointInPolygon(
+        const double* pointLats,
+        const double* pointLons,
+        size_t numPoints,
+        const double* polygonCoords,
+        size_t numPolygonVertices
+    ) override;
+
+    /**
+     * Populate the frozen geo kernel dispatch table for this backend.
+     *
+     * When THEMIS_ENABLE_HIP is defined the returned table references the
+     * kernel launchers compiled in src/acceleration/hip/geo_kernels.hip.
+     * When HIP is unavailable all slots are null and the BackendRegistry
+     * falls back to the CPU geo table.
+     */
+    GeoKernelDispatch populateGeoDispatch() const override;
+
+private:
+    bool initialized_ = false;
+
+#ifdef THEMIS_ENABLE_HIP
+    raii::HipStream stream_;
+#endif
 };
 
 } // namespace acceleration
