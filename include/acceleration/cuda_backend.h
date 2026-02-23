@@ -295,9 +295,10 @@ private:
 #endif
 };
 
-// CUDA backend for Tensor Core FP16 / BF16 matrix multiply (NVIDIA)
-// Routes to cublasHgemm (FP16) or cublasGemmEx BF16 on SM 7.0+ hardware.
-// Falls back to FP32 CPU path when compiled without CUDA.
+// CUDA backend for FP16/BF16/FP32 matrix multiply with Tensor Core acceleration.
+// Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) which automatically
+// engage Tensor Core units on SM 7.0+ (FP16) and SM 8.0+ (BF16) hardware.
+// Falls back to returning an error when CUDA is not available.
 class CUDAMatrixBackend : public IMatrixBackend {
 public:
     CUDAMatrixBackend() = default;

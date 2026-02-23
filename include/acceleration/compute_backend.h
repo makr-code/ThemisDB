@@ -483,6 +483,9 @@ public:
     /// Like selectBackendFor() but restricted to IGeoBackend instances.
     IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
 
+    /// Like selectBackendFor() but restricted to IMatrixBackend instances.
+    IMatrixBackend* selectMatrixBackendFor(const CapabilityRequirements& reqs) const;
+
     // ---------------------------------------------------------------------------
     // Runtime startup initialization
     // ---------------------------------------------------------------------------
