@@ -54,8 +54,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
-- [P] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
-- [P] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
+- [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
+- [x] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
@@ -85,12 +85,12 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [x] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458) — `launchFP16MatmulKernel` (`cublasHgemm`), `launchBF16MatmulKernel` (`cublasGemmEx+CUDA_R_16BF`), and `launchFP32MatmulKernel` (`cublasSgemm`) implemented in `cuda/tensor_core_matmul.cu`; `CUDAMatrixBackend` declared in `cuda_backend.h`, implemented in `cuda_backend.cpp`, and auto-registered in `BackendRegistry`; CPU fallback via `CPUMatrixBackend` always available
 - [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
-- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [x] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460) — `bench_cuda_vs_cpu` harness with CPU ANN (L2/Cosine/InnerProduct/TopK/BatchKNN) and Geo (Haversine/PointInPolygon) benchmarks; CUDA benchmarks skipped gracefully without GPU; JSON output with regression detection via CI workflow `acceleration-benchmark-ci.yml`
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
 - [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
-- [P] Performance benchmarks with regression thresholds in CI (Issue: #1400)
+- [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
 - [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
