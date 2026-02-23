@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     166                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     179                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
@@ -26,9 +26,13 @@
 #include "ingestion_manager.h"
 #include <string>
 #include <memory>
+#include <functional>
+#include <utility>
 
 namespace themis {
 namespace ingestion {
+
+// ApiHttpGetFn is defined in ingestion_manager.h (already included above).
 
 /**
  * @brief Generic REST API source connector
@@ -157,6 +161,15 @@ public:
      * @param field JSON key name (e.g. `"next_cursor"`, `"next_page_token"`)
      */
     void setCursorResponseField(const std::string& field);
+
+    /**
+     * @brief Inject a mock HTTP GET function (for unit testing only)
+     *
+     * When set, every HTTP GET that would normally be performed via libcurl
+     * is replaced by a call to @p fn.  Pass an empty `ApiHttpGetFn{}` to
+     * restore the real libcurl implementation.
+     */
+    void setHttpGetForTesting(ApiHttpGetFn fn);
 
 private:
     class Impl;

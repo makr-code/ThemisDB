@@ -56,7 +56,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Prometheus-compatible metrics (docs_processed, errors, throughput)
 
 ### Phase 2: HTTP Hardening & Binary Formats (Status: In Progress 🚧)
-- [I] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
+- [P] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
 - [I] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
 - [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026)
 - [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
@@ -80,7 +80,8 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 ## Known Issues & Limitations
 - PDF/DOCX require external converters; not handled natively.
 - OAuth token refresh must be handled by callers; connectors use static tokens.
-- libcurl HTTP calls in HuggingFaceConnector are stubbed; replace with `curl_easy_perform` in production builds.
+- libcurl HTTP calls in `HuggingFaceConnector` are stubbed; replace with `curl_easy_perform` in a follow-up PR.
+- `GenericApiConnector` now uses real `curl_easy_perform` calls (PR #1915).
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
