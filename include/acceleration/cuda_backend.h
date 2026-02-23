@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     158                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -315,6 +315,7 @@ public:
     // IMatrixBackend interface
     int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) override;
 
+    // Frozen kernel dispatch — wires CUDA matmul launcher to the interface contract
     MatrixKernelDispatch populateMatrixDispatch() const override;
 
 private:
@@ -322,6 +323,8 @@ private:
 
 #ifdef THEMIS_ENABLE_CUDA
     raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;
 #endif
 };
 
