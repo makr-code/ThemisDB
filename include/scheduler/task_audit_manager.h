@@ -256,6 +256,8 @@ private:
     bool matchesQuery(const TaskAuditEvent& event, const AuditQueryParams& params) const;
     std::vector<TaskAuditEvent> loadEventsFromFile(const std::string& file_path,
                                                    const AuditQueryParams& params) const;
+    std::vector<TaskSecurityEvent> loadSecurityEventsFromFile(const std::string& file_path,
+                                                              const AuditQueryParams& params) const;
 };
 
 } // namespace scheduler
