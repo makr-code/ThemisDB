@@ -75,7 +75,7 @@ RateLimitingMiddleware::Config RateLimitingMiddleware::getConfig() const {
 std::size_t
 RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
     // config_mutex_ must be held by the caller.
-    size_t      best_len = 0;
+    std::size_t best_len = 0;
     std::size_t best_idx = config_.endpoint_overrides.size(); // sentinel = no match
 
     for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
