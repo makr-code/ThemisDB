@@ -33,9 +33,9 @@
 - [I] OpenTelemetry trace and span propagation (Issue: #1407)
 - [x] Prometheus-compatible metrics adapter (Issue: #1408)
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
-- [x] Health check interface in ConcernsContext (Issue: #1410)
-- [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
-- [P] Dynamic log level adjustment at runtime (Issue: #1412)
+- [I] Health check interface in ConcernsContext (Issue: #1410)
+- [x] Configuration-driven adapter selection (Issue: #1411)
+- [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
 - [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
@@ -66,6 +66,7 @@
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [x] Health check interface in ConcernsContext
+- [x] Structured log correlation (trace ID injection into log records)
 - [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [I] Feature flag interface for runtime enable/disable (Issue: #1707)
