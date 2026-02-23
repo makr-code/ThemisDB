@@ -59,4 +59,21 @@ Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine,
 /// The output can be piped to `dot -Tpng -o plan.png` for a visual diagram.
 Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
 
+/// Execute a multi-statement AQL transaction block.
+///
+/// The @p aql string must have the form:
+///   BEGIN
+///     <AQL statement 1>
+///     <AQL statement 2>
+///     ...
+///   COMMIT | ROLLBACK
+///
+/// If the block ends with COMMIT, every statement is executed in order and the
+/// combined results are returned as a JSON array (one entry per statement).
+/// If the block ends with ROLLBACK, no statement is executed and a JSON object
+/// @c {"type":"rollback","statements":N} is returned.
+///
+/// On parse or execution failure the function returns an Err.
+Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine);
+
 } // namespace themis
