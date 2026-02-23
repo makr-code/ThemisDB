@@ -143,11 +143,13 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/concerns/context_propagation.cpp
     ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     
@@ -164,6 +166,9 @@ set(THEMIS_BASE_SOURCES
     
     # Module dependency resolver (load-order management)
     ../src/themis/module_dependency_resolver.cpp
+    
+    # Module hash verifier (SHA-256 integrity verification)
+    ../src/themis/module_hash_verifier.cpp
     
     # Edition manager (Community / Enterprise / Hyperscaler feature gating)
     ../src/themis/edition_manager.cpp
@@ -349,6 +354,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/mfa_authenticator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
+    ../src/server/policy_engine.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp
@@ -674,7 +680,6 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/reports_api_handler.cpp
     ../src/server/schema_api_handler.cpp
     ../src/server/ranger_adapter.cpp
-    ../src/server/policy_engine.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
     ../src/server/load_shedder.cpp

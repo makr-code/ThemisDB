@@ -99,11 +99,11 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation. Add a `CUDAGraphCache` within `CUDAVectorBackend` that captures and replays graphs keyed on `{dim, numQueries, topK, metric}`.
 
 **Implementation Notes:**
-- `[ ]` Add `CUDAGraphCache` struct to `cuda_backend.cpp`; keyed by a `QueryShape` tuple, value is a `cudaGraph_t` + `cudaGraphExec_t` pair.
-- `[ ]` On cache miss: record a graph with `cudaStreamBeginCapture` / `cudaStreamEndCapture`.
-- `[ ]` On cache hit: update device-memory pointers via `cudaGraphExecMemcpyNodeSetParams` then `cudaGraphLaunch`.
-- `[ ]` LRU evict graphs when cache exceeds 32 entries to bound device memory usage.
-- `[ ]` Disable graph capture if `opts.dynamicShapes == true` (variable-length query batches).
+- `[x]` Add `CUDAGraphCache` struct to `cuda_backend.h`/`cuda_backend.cpp`; keyed by a `QueryShape` tuple (`numQueries`, `numVectors`, `dim`, `topK`, `metric`), value is a `CUDAGraphEntry` owning a `cudaGraph_t` + `cudaGraphExec_t` pair plus pre-allocated device buffers.
+- `[x]` On cache miss: record a graph with `cudaStreamBeginCapture` / `cudaStreamEndCapture` on a temporary non-blocking capture stream; instantiate via `cudaGraphInstantiate` (CUDA 11/12 API variant guarded by `CUDART_VERSION`).
+- `[x]` On cache hit: copy new input data into the entry's pre-allocated device buffers via `cudaMemcpyAsync` on the main stream, then replay with `cudaGraphLaunch`. This is functionally equivalent to `cudaGraphExecMemcpyNodeSetParams`: by keeping the device-pointer addresses constant (pre-allocated at capture time), no node-parameter update is required on every replay. Approach chosen for simplicity and broader driver compatibility.
+- `[x]` LRU evict graphs when cache exceeds 32 entries to bound device memory usage (`CUDAGraphCache::evictLRU` traverses all entries in O(n) — acceptable since n ≤ 32).
+- `[x]` Variable-shape batches: no `SearchOptions` struct exists at this stage. Callers with variable-length batches are directed to use `batchKnnSearch()` instead; this is documented in the `batchKnnSearchWithGraph()` method comment. A future `SearchOptions::dynamicShapes` field can be wired in when the options API is added.
 
 **Performance Targets:**
 - ≥ 30% reduction in end-to-end ANN query latency for fixed-shape repeated queries (benchmarked via `benchmarks/vector_bench.cpp`).
