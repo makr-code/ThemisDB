@@ -24,7 +24,7 @@
 ## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
-- [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
+- [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
 ## Planned Features 📋
 
