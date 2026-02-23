@@ -66,7 +66,7 @@ struct MigrationResult {
  *
  * ### Automatic rewrites (WARNING issued, manual review recommended)
  * - `NEAR(collection, lat, lng, n)` → `ST_DISTANCE()`-based geo query pattern
- * - `WITHIN(collection, lat, lng, radius)` → `ST_WITHIN()`-based geo query pattern
+ * - `WITHIN(collection, lat, lng, radius)` → `ST_DISTANCE()`-based FILTER with `<=` radius check
  * - `FULLTEXT(collection, attr, query)` → `SIMILARITY()`-based full-text search pattern
  * - `DOCUMENT(collection, key)` → inline `FOR`/`FILTER`/`LIMIT 1`/`RETURN` sub-query
  * - `@@collection` bind parameter → `@collection` (ThemisDB convention, one `@`)
