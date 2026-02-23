@@ -103,6 +103,45 @@ __global__ void computeCosineDistanceKernel(
     distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
 }
 
+/**
+ * Compute negative inner-product distance between query vectors and database vectors.
+ * Distance = -dot(query, vector), so that smaller values indicate closer matches
+ * (consistent with L2 and cosine conventions used by the ANN dispatch interface).
+ *
+ * @param queries      Query vectors (numQueries x dim)
+ * @param vectors      Database vectors (numVectors x dim)
+ * @param distances    Output negative inner products (numQueries x numVectors)
+ * @param numQueries   Number of query vectors
+ * @param numVectors   Number of database vectors
+ * @param dim          Vector dimension
+ */
+__global__ void computeInnerProductKernel(
+    const float* queries,
+    const float* vectors,
+    float* distances,
+    int numQueries,
+    int numVectors,
+    int dim
+) {
+    int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
+    int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (qIdx >= numQueries || vIdx >= numVectors) return;
+
+    const float* query  = queries + qIdx * dim;
+    const float* vector = vectors + vIdx * dim;
+
+    float dot = 0.0f;
+
+    #pragma unroll 4
+    for (int i = 0; i < dim; i++) {
+        dot += query[i] * vector[i];
+    }
+
+    // Negate so that higher inner product → lower distance (min-heap compatible)
+    distances[qIdx * numVectors + vIdx] = -dot;
+}
+
 // ============================================================================
 // Top-K Selection Kernels (for KNN)
 // ============================================================================
@@ -277,6 +316,30 @@ void launchCosineDistanceKernel(
     );
     
     computeCosineDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_queries, d_vectors, d_distances,
+        numQueries, numVectors, dim
+    );
+}
+
+/**
+ * Launch inner-product (negative dot-product) distance computation kernel
+ */
+void launchInnerProductKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+) {
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
+        (numVectors + blockDim.x - 1) / blockDim.x,
+        (numQueries + blockDim.y - 1) / blockDim.y
+    );
+
+    computeInnerProductKernel<<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );

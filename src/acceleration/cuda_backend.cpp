@@ -53,6 +53,16 @@ void launchCosineDistanceKernel(
     cudaStream_t stream
 );
 
+void launchInnerProductKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+);
+
 void launchTopKKernel(
     const float* d_distances,
     int* d_topkIndices,
@@ -137,7 +147,11 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
     caps.supportsGeoOps = false;
     caps.supportsBatchProcessing = true;
     caps.supportsAsync = true;
-    
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                          | metricBit(DistanceMetric::COSINE)
+                          | metricBit(DistanceMetric::INNER_PRODUCT);
+
     if (isAvailable()) {
         cudaDeviceProp prop;
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
@@ -281,6 +295,10 @@ std::vector<float> CUDAVectorBackend::computeDistances(
         std::cerr << "CUDA backend not initialized" << std::endl;
         return {};
     }
+    if (!queries || !vectors || numQueries == 0 || numVectors == 0 || dim == 0) {
+        std::cerr << "CUDA computeDistances: invalid input parameters" << std::endl;
+        return {};
+    }
     
     // Use RAII-managed stream
     cudaStream_t stream = stream_.get();
@@ -341,6 +359,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
         std::cerr << "CUDA backend not initialized" << std::endl;
         return {};
     }
+    if (!queries || !vectors || numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        std::cerr << "CUDA batchKnnSearch: invalid input parameters" << std::endl;
+        return {};
+    }
+    // Clamp k to available vectors to prevent out-of-bounds access
+    k = std::min(k, numVectors);
     
     cudaStream_t stream = stream_.get();
     
@@ -573,6 +597,16 @@ static int cuda_ann_cosine_dispatch(
     return static_cast<int>(cudaGetLastError());
 }
 
+static int cuda_ann_inner_product_dispatch(
+    const float* d_queries, const float* d_vectors, float* d_distances,
+    int numQueries, int numVectors, int dim, void* opaque_stream)
+{
+    launchInnerProductKernel(d_queries, d_vectors, d_distances,
+                             numQueries, numVectors, dim,
+                             static_cast<cudaStream_t>(opaque_stream));
+    return static_cast<int>(cudaGetLastError());
+}
+
 static int cuda_ann_topk_dispatch(
     const float* d_distances, uint32_t* d_topk_indices, float* d_topk_dists,
     int numQueries, int numVectors, int topK, void* opaque_stream)
@@ -599,7 +633,7 @@ ANNKernelDispatch CUDAVectorBackend::populateANNDispatch() const {
     ANNKernelDispatch d;
     d.launchL2Distance   = cuda_ann_l2_dispatch;
     d.launchCosine       = cuda_ann_cosine_dispatch;
-    // Inner-product not yet implemented for CUDA — slot remains null (CPU fallback)
+    d.launchInnerProduct = cuda_ann_inner_product_dispatch;
     d.launchTopK         = cuda_ann_topk_dispatch;
     return d;
 #else
