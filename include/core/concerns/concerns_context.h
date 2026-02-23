@@ -27,6 +27,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_secrets.h"
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
@@ -112,6 +113,8 @@ public:
     /**
      * @brief Create a context with custom implementations (for testing).
      *
+     * The @p secrets parameter is optional; when nullptr a no-op provider is
+     * used so that existing call-sites do not need to be updated.
      * The 4-argument overload automatically installs a NoOpFeatureFlags so
      * that existing call-sites do not need to be updated.
      */
@@ -131,6 +134,7 @@ public:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
+        std::unique_ptr<ISecrets> secrets = nullptr
         std::unique_ptr<IFeatureFlags> featureFlags
     );
 
@@ -144,6 +148,7 @@ public:
     ITracer& tracer() { return *tracer_; }
     IMetrics& metrics() { return *metrics_; }
     ICache& cache() { return *cache_; }
+    ISecrets& secrets() { return *secrets_; }
     ICircuitBreaker& circuitBreaker() { return *circuit_breaker_; }
     IFeatureFlags& featureFlags() { return *featureFlags_; }
 
@@ -151,6 +156,7 @@ public:
     const ITracer& tracer() const { return *tracer_; }
     const IMetrics& metrics() const { return *metrics_; }
     const ICache& cache() const { return *cache_; }
+    const ISecrets& secrets() const { return *secrets_; }
     const ICircuitBreaker& circuitBreaker() const { return *circuit_breaker_; }
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
 
@@ -226,6 +232,7 @@ public:
         tracer_->flush();
         metrics_->flush();
         cache_->flush();
+        secrets_->flush();
         circuit_breaker_->flush();
         featureFlags_->flush();
     }
@@ -250,6 +257,7 @@ public:
         metrics_->flush();
         featureFlags_->flush();
 
+        secrets_->shutdown();
         tracer_->shutdown();
         metrics_->shutdown();
         cache_->shutdown();
@@ -279,6 +287,7 @@ public:
             tracer_->isHealthy(),
             metrics_->isHealthy(),
             cache_->isHealthy(),
+            secrets_->isHealthy()
             circuit_breaker_->isHealthy()
             featureFlags_->isHealthy()
         };
@@ -309,12 +318,14 @@ private:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ICircuitBreaker> circuit_breaker
+        std::unique_ptr<ISecrets> secrets,
+        std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
         cache_(std::move(cache)),
+        secrets_(std::move(secrets)) {}
         circuit_breaker_(std::move(circuit_breaker)) {}
         featureFlags_(std::move(featureFlags)) {}
 
@@ -322,6 +333,7 @@ private:
     std::unique_ptr<ITracer> tracer_;
     std::unique_ptr<IMetrics> metrics_;
     std::unique_ptr<ICache> cache_;
+    std::unique_ptr<ISecrets> secrets_;
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
 };

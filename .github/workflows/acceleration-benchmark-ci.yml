@@ -42,7 +42,8 @@ concurrency:
 
 jobs:
   ci-scope-classifier:
-    permissions: {}
+    permissions:
+      contents: read
     uses: ./.github/workflows/ci-scope-classifier.yml
 
   # ---------------------------------------------------------------------------
@@ -125,6 +126,7 @@ jobs:
 
       - name: Run regression detector unit tests
         run: |
+          mkdir -p benchmark_results
           pip install pytest --quiet
           python3 -m pytest benchmarks/tests/test_performance_regression_detector.py \
             -v --tb=short 2>&1 | tee benchmark_results/unit_test_results.log

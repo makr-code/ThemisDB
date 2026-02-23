@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     158                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -284,6 +284,39 @@ public:
 
     // Frozen kernel dispatch — wires CUDA geo launchers to the interface contract
     GeoKernelDispatch populateGeoDispatch() const override;
+
+private:
+    bool initialized_ = false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;
+#endif
+};
+
+// CUDA backend for FP16/BF16/FP32 matrix multiply with Tensor Core acceleration.
+// Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) which automatically
+// engage Tensor Core units on SM 7.0+ (FP16) and SM 8.0+ (BF16) hardware.
+// Falls back to returning an error when CUDA is not available.
+class CUDAMatrixBackend : public IMatrixBackend {
+public:
+    CUDAMatrixBackend() = default;
+    ~CUDAMatrixBackend() override;
+
+    const char* name() const noexcept override { return "CUDA"; }
+    BackendType type() const noexcept override { return BackendType::CUDA; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    // IMatrixBackend interface
+    int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) override;
+
+    // Frozen kernel dispatch — wires CUDA matmul launcher to the interface contract
+    MatrixKernelDispatch populateMatrixDispatch() const override;
 
 private:
     bool initialized_ = false;
