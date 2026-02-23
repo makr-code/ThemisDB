@@ -22,6 +22,7 @@
 #include "utils/hkdf_helper.h"
 #include "utils/openssl_deleter.h"
 #include "utils/logger.h"
+#include "utils/audit_logger.h"
 
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
@@ -365,12 +366,20 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     // Input validation: Check token size limit
     if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
         utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "token_too_large"}});
+        }
         throw std::runtime_error("Token exceeds maximum size limit");
     }
     
     // Input validation: Check for empty token
     if (jwt.empty()) {
         utils::Logger::warn("JWT validation failed: Empty token");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "empty_token"}});
+        }
         throw std::runtime_error("Empty token");
     }
     
@@ -382,6 +391,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     if (parts.size() != 3) {
         utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "invalid_format"}});
+        }
         throw std::runtime_error("Invalid JWT format (expected 3 parts)");
     }
     auto header_json = decodeBase64UrlToString(parts[0]);
@@ -394,12 +407,20 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     // Check algorithm - support RS256, ES256 and EdDSA
     if (alg != "RS256" && alg != "ES256" && alg != "EdDSA") {
         utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "unsupported_algorithm"}, {"alg", alg}});
+        }
         throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, ES256, EdDSA)");
     }
     
     // Check kid revocation
     if (!kid.empty() && isKidRevoked(kid)) {
         utils::Logger::warn("JWT validation failed: Revoked kid: " + kid);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "revoked_kid"}, {"kid", kid}});
+        }
         throw std::runtime_error("Token signed with revoked key (kid: " + kid + ")");
     }
     
@@ -409,6 +430,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     // Input validation: Check principal/subject length
     if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
         utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "jwt/token", {{"reason", "subject_too_long"}});
+        }
         throw std::runtime_error("Subject (principal) exceeds maximum length");
     }
     
@@ -428,6 +453,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         claims.expiration = std::chrono::system_clock::time_point{std::chrono::seconds{exp}};
     } else {
         utils::Logger::warn("JWT validation failed: Missing exp claim");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "missing_exp"}});
+        }
         throw std::runtime_error("Missing exp claim");
     }
     if (payload.contains("nbf")) {
@@ -435,6 +464,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         claims.not_before = std::chrono::system_clock::time_point{std::chrono::seconds{nbf}};
         if (now + cfg_.clock_skew < *claims.not_before) {
             utils::Logger::warn("JWT validation failed: Token not yet valid (nbf)");
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                    claims.sub, "jwt/token", {{"reason", "not_yet_valid"}});
+            }
             throw std::runtime_error("Token not yet valid (nbf)");
         }
     }
@@ -443,6 +476,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         claims.issued_at = std::chrono::system_clock::time_point{std::chrono::seconds{iat}};
         if (now + cfg_.clock_skew < *claims.issued_at) {
             utils::Logger::warn("JWT validation failed: iat in future");
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                    claims.sub, "jwt/token", {{"reason", "iat_in_future"}});
+            }
             throw std::runtime_error("iat in future");
         }
     }
@@ -455,14 +492,26 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     if (claims.isExpired() && now > claims.expiration + cfg_.clock_skew) {
         utils::Logger::warn("JWT validation failed: Token expired");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "token_expired"}});
+        }
         throw std::runtime_error("Token expired");
     }
     if (!cfg_.expected_issuer.empty() && claims.issuer != cfg_.expected_issuer) {
         utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + cfg_.expected_issuer + ", got: " + claims.issuer + ")");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "issuer_mismatch"}, {"issuer", claims.issuer}});
+        }
         throw std::runtime_error("Issuer mismatch");
     }
     if (!checkAudience(payload)) {
         utils::Logger::warn("JWT validation failed: Audience mismatch");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "audience_mismatch"}});
+        }
         throw std::runtime_error("Audience mismatch");
     }
     auto jwks = fetchJWKS();
@@ -479,6 +528,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     if (!jwk) {
         utils::Logger::warn("JWT validation failed: JWK not found for kid: " + kid);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "jwk_not_found"}, {"kid", kid}});
+        }
         throw std::runtime_error("JWK not found for kid");
     }
     bool sig_ok = false;
@@ -491,12 +544,29 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     if (!sig_ok) {
         utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "signature_invalid"}, {"kid", kid}});
+        }
         throw std::runtime_error("Signature verification failed");
     }
     // Per-token revocation check: reject if the JTI is in the blacklist
     if (token_blacklist_ && !claims.jti.empty() && token_blacklist_->isRevoked(claims.jti)) {
         utils::Logger::warn("JWT validation failed: Token revoked (jti: " + claims.jti + ")");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token/" + claims.jti,
+                {{"reason", "token_revoked"}, {"jti", claims.jti}});
+        }
         throw std::runtime_error("Token has been revoked");
+    }
+    if (audit_logger_) {
+        nlohmann::json d;
+        d["jti"]    = claims.jti;
+        d["issuer"] = claims.issuer;
+        d["kid"]    = kid;
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS,
+            claims.sub, "jwt/token", d);
     }
     return claims;
 }

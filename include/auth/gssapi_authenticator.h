@@ -38,6 +38,7 @@
 #endif
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 // Input validation limits for GSSAPI
@@ -117,6 +118,12 @@ public:
     GSSAPIAuthenticator& operator=(GSSAPIAuthenticator&&) = delete;
     
     /**
+     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+    
+    /**
      * @brief Initialize GSSAPI with service principal
      * 
      * @param config Kerberos configuration
@@ -158,6 +165,7 @@ public:
 private:
     bool initialized_ = false;
     KerberosConfig config_;
+    utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning, optional.
     
 #ifdef _WIN32
     // Windows SSPI handles
