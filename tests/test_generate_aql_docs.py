@@ -450,9 +450,7 @@ class TestRealHeaders:
     _HEADERS_DIR = (
         Path(__file__).parent.parent / 'include' / 'query' / 'functions'
     )
-
-    _SKIP = {'function_registry.h', 'function_adapter.h', 'holiday_provider.h',
-             'ai_ml_functions.h'}
+    _SKIP = gen.SKIP_HEADERS
 
     def test_headers_dir_exists(self):
         assert self._HEADERS_DIR.is_dir(), \

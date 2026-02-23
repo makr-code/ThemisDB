@@ -4,12 +4,12 @@
 ThemisDB AQL Function Documentation Generator
 ==============================================
 
-Parses C++ header files in include/query/functions/ and generates a Markdown
-function reference document from the embedded FunctionSignature metadata.
+Parses C++ header files in ``<repo-root>/include/query/functions/`` and generates
+a Markdown function reference document from the embedded FunctionSignature metadata.
 
 Usage:
     python3 scripts/generate_aql_docs.py
-    python3 scripts/generate_aql_docs.py --headers-dir include/query/functions \
+    python3 scripts/generate_aql_docs.py --headers-dir include/query/functions \\
         --output docs/en/aql/aql_functions_reference.md
     python3 scripts/generate_aql_docs.py --dry-run   # print to stdout
 """
@@ -47,6 +47,26 @@ class FunctionEntry:
     examples: list = field(default_factory=list)
     source_file: str = ""
     brief: str = ""
+
+
+# ---------------------------------------------------------------------------
+# Module-level constants
+# ---------------------------------------------------------------------------
+
+# Headers to skip: infrastructure files that don't define FunctionSignature classes
+# compatible with themis::query::functions::FunctionSignature, or that use a
+# completely different struct layout (e.g. ai_ml_functions.h uses themisdb namespace).
+SKIP_HEADERS: frozenset = frozenset({
+    'function_registry.h',
+    'function_adapter.h',
+    'holiday_provider.h',
+    'ai_ml_functions.h',
+})
+
+# How many characters to search *backwards* from a signature() method to find
+# the nearest preceding Doxygen /** ... */ comment block.  800 chars comfortably
+# covers a typical class definition + multi-line comment without false-positives.
+_DOXYGEN_LOOKBACK = 800
 
 
 # ---------------------------------------------------------------------------
@@ -455,9 +475,9 @@ def parse_header(path: Path) -> list:
 
         entry.source_file = path.name
 
-        # Look for a @brief comment in the 400 chars preceding the class definition
+        # Look for a @brief comment in the _DOXYGEN_LOOKBACK chars preceding the class definition
         # Search backwards from method_start for the class definition
-        before = text[max(0, method_start - 800):method_start]
+        before = text[max(0, method_start - _DOXYGEN_LOOKBACK):method_start]
         # Find the last /** ... */ comment block before this method
         comments = list(re.finditer(r'/\*\*.*?\*/', before, re.DOTALL))
         if comments:
@@ -646,12 +666,10 @@ def main(argv=None) -> int:
         return 1
 
     # Exclude infrastructure headers and files that use a different FunctionSignature struct
-    skip = {'function_registry.h', 'function_adapter.h', 'holiday_provider.h',
-            'ai_ml_functions.h'}
 
     all_entries = []
     for header in sorted(headers_dir.glob('*.h')):
-        if header.name in skip:
+        if header.name in SKIP_HEADERS:
             continue
         entries = parse_header(header)
         all_entries.extend(entries)
