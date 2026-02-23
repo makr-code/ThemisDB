@@ -1272,5 +1272,172 @@ private:
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
 };
 
+// ============================================================================
+// Cross-Cluster Publish/Subscribe Replication – v1.7.0
+// ============================================================================
+
+/**
+ * PublicationFilter
+ *
+ * Specifies which WAL entries a CrossClusterPublication exposes to remote
+ * subscribers.  An empty include_collections set means "all collections".
+ * Operations not listed in include_operations are filtered out.
+ */
+struct PublicationFilter {
+    // Collections to include; empty = publish all collections
+    std::vector<std::string> include_collections;
+
+    // Operation types to replicate (INSERT / UPDATE / DELETE)
+    // Empty = replicate all operation types
+    std::vector<std::string> include_operations;
+
+    // Returns true if the given WALEntry passes this filter
+    bool matches(const WALEntry& entry) const;
+};
+
+/**
+ * CrossClusterPublication
+ *
+ * Represents a named, filtered publication on the source (publisher) cluster.
+ * Remote subscribers register a callback; when the publication receives a WAL
+ * entry (via publish()), every matching subscriber callback is invoked.
+ *
+ * Usage (publisher side):
+ *   auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+ *   pub->setFilter(filter);
+ *   wal_manager.addListener(pub);   // feed WAL entries into the publication
+ *
+ *   // A remote subscriber registers its delivery callback:
+ *   auto sub_id = pub->addRemoteSubscriber([](const WALEntry& e) { ... });
+ */
+class CrossClusterPublication : public IReplicationListener {
+public:
+    // Delivery callback invoked for every entry that passes the filter
+    using DeliveryCallback = std::function<void(const WALEntry&)>;
+
+    explicit CrossClusterPublication(std::string name);
+
+    // Publication name (unique within the cluster)
+    const std::string& name() const { return name_; }
+
+    // Replace the current filter (thread-safe)
+    void setFilter(const PublicationFilter& filter);
+
+    // Retrieve a copy of the current filter
+    PublicationFilter getFilter() const;
+
+    // Register a remote subscriber; returns a unique subscriber ID
+    uint64_t addRemoteSubscriber(DeliveryCallback callback);
+
+    // Remove a previously registered subscriber
+    void removeRemoteSubscriber(uint64_t subscriber_id);
+
+    // Number of currently registered remote subscribers
+    size_t subscriberCount() const;
+
+    // Total WAL entries published since construction
+    uint64_t publishedCount() const { return published_count_.load(); }
+
+    // Manually inject a WAL entry (for testing or replay)
+    void publish(const WALEntry& entry);
+
+    // -------------------------------------------------------------------
+    // IReplicationListener – feed entries from WALManager / CDCManager
+    // -------------------------------------------------------------------
+    void onWALEntryApplied(const WALEntry& entry) override;
+    void onRoleChange(ReplicationRole, ReplicationRole) override {}
+    void onLeaderElected(const std::string&) override {}
+    void onReplicaAdded(const ReplicaInfo&) override {}
+    void onReplicaRemoved(const std::string&) override {}
+    void onConflictDetected(const std::string&) override {}
+    void onReplicationLagWarning(int64_t) override {}
+    void onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) override {}
+    void onFailoverStarted(const std::string&, const std::string&) override {}
+    void onFailoverCompleted(const std::string&, bool) override {}
+    void onNetworkPartitionDetected(const std::vector<std::string>&) override {}
+
+private:
+    struct RemoteSubscriber {
+        uint64_t        id;
+        DeliveryCallback callback;
+    };
+
+    std::string name_;
+
+    mutable std::shared_mutex filter_mutex_;
+    PublicationFilter filter_;
+
+    mutable std::shared_mutex subs_mutex_;
+    std::vector<RemoteSubscriber> subscribers_;
+    std::atomic<uint64_t> next_sub_id_{1};
+    std::atomic<uint64_t> published_count_{0};
+};
+
+/**
+ * CrossClusterSubscription
+ *
+ * Represents a named subscription on the target (subscriber) cluster.
+ * A subscription connects to a local CrossClusterPublication (for in-process
+ * testing) or to a remote one via a user-supplied transport callback, applies
+ * the received WAL entries through a user-defined ApplyCallback, and tracks
+ * the last successfully applied WAL sequence number.
+ *
+ * Usage (subscriber side):
+ *   auto sub = std::make_shared<CrossClusterSubscription>(
+ *       "orders_sub", pub,
+ *       [&](const WALEntry& e) { local_wal.apply(e); });
+ *   sub->enable();
+ *
+ *   // Later:
+ *   sub->disable();
+ *   auto seq = sub->lastAppliedSequence();
+ */
+class CrossClusterSubscription {
+public:
+    // Callback invoked on the subscriber side to apply each incoming entry
+    using ApplyCallback = std::function<void(const WALEntry&)>;
+
+    // Construct a subscription that receives entries from a local publication
+    CrossClusterSubscription(std::string              name,
+                              std::shared_ptr<CrossClusterPublication> publication,
+                              ApplyCallback            apply_fn);
+
+    ~CrossClusterSubscription();
+
+    // Subscription name
+    const std::string& name() const { return name_; }
+
+    // Start receiving entries from the publication
+    void enable();
+
+    // Stop receiving entries; unregisters from the publication
+    void disable();
+
+    // Whether the subscription is currently active
+    bool isEnabled() const { return enabled_.load(); }
+
+    // Sequence number of the last successfully applied WAL entry (0 = none)
+    uint64_t lastAppliedSequence() const { return last_applied_seq_.load(); }
+
+    // Total entries applied since construction
+    uint64_t appliedCount() const { return applied_count_.load(); }
+
+    // Total entries skipped due to apply errors since construction
+    uint64_t errorCount() const { return error_count_.load(); }
+
+private:
+    void applyEntry(const WALEntry& entry);
+
+    std::string name_;
+    std::shared_ptr<CrossClusterPublication> publication_;
+    ApplyCallback apply_fn_;
+
+    std::atomic<bool>     enabled_{false};
+    std::atomic<uint64_t> last_applied_seq_{0};
+    std::atomic<uint64_t> applied_count_{0};
+    std::atomic<uint64_t> error_count_{0};
+    uint64_t              pub_subscriber_id_{0};  // ID returned by publication_->addRemoteSubscriber
+};
+
 } // namespace replication
 } // namespace themisdb
