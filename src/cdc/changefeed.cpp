@@ -236,7 +236,12 @@ std::vector<Changefeed::ChangeEvent> Changefeed::listEvents(const ListOptions& o
                 matches = false;
             }
             
-            if (options.event_type.has_value() &&
+            // Multi-type filter takes precedence; fall back to legacy single-type filter
+            if (!options.event_types.empty()) {
+                if (options.event_types.find(event.type) == options.event_types.end()) {
+                    matches = false;
+                }
+            } else if (options.event_type.has_value() &&
                 event.type != *options.event_type) {
                 matches = false;
             }
