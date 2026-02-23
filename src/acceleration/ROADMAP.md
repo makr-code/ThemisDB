@@ -29,7 +29,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [!] ROCm/HIP support for AMD GPU acceleration (Issue: #1370)
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
-- [I] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
+- [P] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
 ## Implementation Phases
 
@@ -84,7 +84,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
-- [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
+- [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
 - [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
