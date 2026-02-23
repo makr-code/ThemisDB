@@ -32,7 +32,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [!] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2458)
 - [I] Session token revocation list with real-time invalidation (Issue: #2286)
 - [!] Anomaly detection on authentication patterns (brute-force, credential stuffing) (Issue: #2459)
-- [!] Row-level security policies in AQL execution (Issue: #2460)
+- [P] Row-level security policies in AQL execution (Issue: #2460)
 - [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
 
 ### Long-term (6-12 months)
@@ -68,7 +68,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [ ] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [ ] Session token revocation list with real-time invalidation
 - [ ] Anomaly detection on authentication patterns (brute-force, credential stuffing)
-- [ ] Row-level security policies in AQL execution
+- [P] Row-level security policies in AQL execution
 - [ ] Secret scanning pre-commit hook for CI pipelines
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: Planned 📋)
