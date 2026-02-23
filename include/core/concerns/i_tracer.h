@@ -140,6 +140,56 @@ public:
      */
     virtual std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) = 0;
 
+    /**
+     * @brief Extract W3C TraceContext from inbound HTTP headers and start a
+     *        span that is a child of the upstream trace.
+     *
+     * Reads the `traceparent` (and optionally `tracestate`) header from
+     * @p headers and creates a span linked to the upstream trace so that all
+     * internal processing appears in the same distributed trace across service
+     * boundaries.
+     *
+     * When no valid `traceparent` is present, this falls back to startSpan()
+     * and starts a new root span.  Baggage headers are also extracted and
+     * merged into the current thread's baggage store.
+     *
+     * Format of `traceparent` (W3C Trace Context Level 1):
+     *   version-traceid-parentid-flags
+     *   e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+     *
+     * Default implementation falls back to startSpan() so existing
+     * implementations remain valid without change.
+     *
+     * @param name    Span name.
+     * @param headers Incoming HTTP headers (case-insensitive key lookup).
+     * @return Unique ownership of the new span; never null.
+     */
+    virtual std::unique_ptr<ISpan> startSpanFromHeaders(
+            const std::string& name,
+            const std::map<std::string, std::string>& headers) {
+        (void)headers;
+        return startSpan(name);
+    }
+
+    /**
+     * @brief Inject the active span's W3C TraceContext into outgoing HTTP
+     *        headers so downstream services can continue the trace.
+     *
+     * Writes a `traceparent` header (and optionally `tracestate`) derived
+     * from the current active span.  Also injects W3C Baggage if any items
+     * are set on the current thread.
+     *
+     * If no span is active or tracing is disabled, headers are left unchanged.
+     *
+     * Default implementation is a no-op so existing implementations remain
+     * valid without change.
+     *
+     * @param headers Outgoing HTTP headers to populate.
+     */
+    virtual void injectContext(std::map<std::string, std::string>& headers) {
+        (void)headers;
+    }
+
     // -----------------------------------------------------------------------
     // Initialization and cleanup
     // -----------------------------------------------------------------------

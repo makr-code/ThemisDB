@@ -1606,6 +1606,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
+# Phase 2 – OpenTelemetry trace and span propagation tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
+    message(STATUS "Adding OTel propagation tests (Phase 2)")
+    add_executable(test_otel_propagation test_otel_propagation.cpp)
+    target_link_libraries(test_otel_propagation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_otel_propagation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelPropagationTests COMMAND test_otel_propagation)
+    set_tests_properties(OtelPropagationTests PROPERTIES
+        LABELS "core;tracing;otel;propagation;w3c;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OtelPropagation: startSpanFromHeaders, injectContext, baggage round-trip")
+endif()
+
 # Phase 2 – Sampling strategy unit tests (replaces stub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "Adding Sampling Strategy tests (Phase 2)")
