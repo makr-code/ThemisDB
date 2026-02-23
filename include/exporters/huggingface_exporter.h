@@ -93,8 +93,11 @@ public:
     std::string getName() const override { return "huggingface_exporter"; }
     std::string getVersion() const override { return "1.0.0"; }
 
-    /// Set custom configuration
-    void setConfig(const HuggingFaceExporterConfig& config) { config_ = config; }
+    /// Set custom configuration (clears any previously inferred features)
+    void setConfig(const HuggingFaceExporterConfig& config) {
+        config_ = config;
+        inferred_features_.clear();
+    }
 
     /// Get current configuration
     const HuggingFaceExporterConfig& getConfig() const { return config_; }

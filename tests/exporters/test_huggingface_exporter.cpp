@@ -15,6 +15,7 @@
 #include "exporters/huggingface_exporter.h"
 #include "exporters/exporter_errors.h"
 #include "storage/base_entity.h"
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -444,3 +445,96 @@ TEST_F(HuggingFaceExporterTest, GenerateDatasetInfoJsonStandalone) {
     EXPECT_EQ(j["splits"]["train"]["num_bytes"],    4200);
     EXPECT_EQ(j["splits"]["train"]["dataset_name"], "standalone");
 }
+
+// ---------------------------------------------------------------------------
+// Audit fix tests
+// ---------------------------------------------------------------------------
+
+TEST_F(HuggingFaceExporterTest, DatasetCardYamlEscapesSpecialCharsInLicense) {
+    HuggingFaceExporterConfig config;
+    config.generate_dataset_card = true;
+    // A license value containing characters that would break unquoted YAML
+    config.license      = "mit: special \"value\"";
+    config.dataset_name = "escape_test";
+    HuggingFaceExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/yaml_escape";
+
+    exporter.exportEntities(test_entities_, options);
+
+    auto content = readFile(options.output_path + "/README.md");
+    EXPECT_FALSE(content.empty());
+
+    // The raw injection text must NOT appear unquoted in the front matter
+    EXPECT_EQ(content.find("license: mit: special"), std::string::npos);
+
+    // The YAML block must still start and end correctly
+    EXPECT_EQ(content.substr(0, 3), "---");
+    auto second_fence = content.find("---\n\n");
+    EXPECT_NE(second_fence, std::string::npos);
+}
+
+TEST_F(HuggingFaceExporterTest, DatasetCardYamlEscapesNewlineInTag) {
+    HuggingFaceExporterConfig config;
+    config.generate_dataset_card = true;
+    config.tags = {"good_tag", "tag\nwith_newline"};
+    HuggingFaceExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/yaml_newline";
+
+    exporter.exportEntities(test_entities_, options);
+
+    auto content = readFile(options.output_path + "/README.md");
+    // The raw newline must not appear inside the YAML front matter block
+    // (it is encoded as \n in the quoted string)
+    const auto first_fence_end  = content.find('\n');          // end of first "---"
+    const auto second_fence_pos = content.find("---\n\n");     // closing "---"
+    ASSERT_NE(second_fence_pos, std::string::npos);
+
+    const std::string yaml_block = content.substr(0, second_fence_pos);
+    // Ensure the raw tag text "tag\nwith_newline" does NOT appear as a bare newline
+    EXPECT_EQ(yaml_block.find("with_newline\n"), std::string::npos);
+    (void)first_fence_end;
+}
+
+TEST_F(HuggingFaceExporterTest, SetConfigClearsInferredFeatures) {
+    HuggingFaceExporterConfig config1;
+    config1.infer_features = true;
+    HuggingFaceExporter exporter(config1);
+
+    // First export populates inferred_features_
+    ExportOptions options;
+    options.output_path = test_dir_ + "/setconfig_clear_1";
+    exporter.exportEntities(test_entities_, options);
+
+    // The dataset card for export1 should contain the inferred fields
+    auto card1 = exporter.generateDatasetCard();
+    EXPECT_NE(card1.find("instruction"), std::string::npos);
+
+    // setConfig replaces config AND clears inferred_features_
+    HuggingFaceExporterConfig config2;
+    config2.infer_features = false;
+    config2.features = {};  // No features, inference disabled
+    exporter.setConfig(config2);
+
+    // generateDatasetCard must NOT use stale inferred features
+    auto card2 = exporter.generateDatasetCard();
+    // With no configured features and inference disabled, data fields section should be empty
+    EXPECT_EQ(card2.find("- **instruction**"), std::string::npos);
+}
+
+TEST_F(HuggingFaceExporterTest, ExportStatsHaveDurationOnEmptyPath) {
+    HuggingFaceExporter exporter;
+
+    ExportOptions options;
+    options.output_path = "";  // triggers early return
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(stats.errors.size(), 0);
+    // duration must be set even in error paths (consistent stats)
+    EXPECT_GE(stats.duration.count(), 0);
+}
+

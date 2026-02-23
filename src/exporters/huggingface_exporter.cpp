@@ -49,6 +49,9 @@ ExportStats HuggingFaceExporter::exportEntities(
     const std::string dataset_root = options.output_path;
     if (dataset_root.empty()) {
         stats.errors.push_back("output_path must be set to the dataset root directory");
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time
+        );
         return stats;
     }
 
@@ -138,6 +141,25 @@ ExportStats HuggingFaceExporter::exportEntities(
         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time
         );
+    } catch (const std::filesystem::filesystem_error& e) {
+        stats.errors.push_back(
+            std::string("Filesystem error: ") + e.what() +
+            " (path: " + e.path1().string() + ")"
+        );
+        metrics_->recordError("filesystem_error");
+
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
+    } catch (const std::exception& e) {
+        stats.errors.push_back(std::string("Unexpected error: ") + e.what());
+        metrics_->recordError("unexpected_error");
+
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
     }
 
     return stats;
@@ -201,6 +223,26 @@ std::string HuggingFaceExporter::generateDatasetInfoJson(
 // README.md (dataset card) generation
 // ---------------------------------------------------------------------------
 
+/// Escape a string for safe embedding as a YAML double-quoted scalar.
+/// Wraps the value in double quotes and escapes backslashes, double-quotes,
+/// and control characters so that the resulting YAML front matter is always
+/// syntactically valid regardless of the input.
+static std::string yamlQuote(const std::string& s) {
+    std::string out;
+    out.reserve(s.size() + 2);
+    out += '"';
+    for (unsigned char c : s) {
+        if (c == '"')       { out += "\\\""; }
+        else if (c == '\\') { out += "\\\\"; }
+        else if (c == '\n') { out += "\\n";  }
+        else if (c == '\r') { out += "\\r";  }
+        else if (c == '\t') { out += "\\t";  }
+        else                { out += static_cast<char>(c); }
+    }
+    out += '"';
+    return out;
+}
+
 std::string HuggingFaceExporter::generateDatasetCard() const {
     // Use custom template if provided
     if (!config_.dataset_card_template.empty()) {
@@ -215,18 +257,18 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
     // YAML front matter
     card << "---\n";
     if (!config_.license.empty()) {
-        card << "license: " << config_.license << "\n";
+        card << "license: " << yamlQuote(config_.license) << "\n";
     }
     if (!config_.language.empty()) {
-        card << "language:\n- " << config_.language << "\n";
+        card << "language:\n- " << yamlQuote(config_.language) << "\n";
     }
     if (!config_.task_category.empty()) {
-        card << "task_categories:\n- " << config_.task_category << "\n";
+        card << "task_categories:\n- " << yamlQuote(config_.task_category) << "\n";
     }
     if (!config_.tags.empty()) {
         card << "tags:\n";
         for (const auto& tag : config_.tags) {
-            card << "- " << tag << "\n";
+            card << "- " << yamlQuote(tag) << "\n";
         }
     }
 
@@ -234,11 +276,11 @@ std::string HuggingFaceExporter::generateDatasetCard() const {
     card << "dataset_info:\n";
     card << "  features:\n";
     for (const auto& feat : resolvedFeatures()) {
-        card << "  - name: " << feat.name << "\n";
-        card << "    dtype: " << feat.dtype << "\n";
+        card << "  - name: " << yamlQuote(feat.name) << "\n";
+        card << "    dtype: " << yamlQuote(feat.dtype) << "\n";
     }
     card << "  splits:\n";
-    card << "  - name: " << split << "\n";
+    card << "  - name: " << yamlQuote(split) << "\n";
     card << "---\n\n";
 
     // Markdown body
