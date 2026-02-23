@@ -26,9 +26,11 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Bulk transaction API – `bulkPutEntities`, `bulkEraseEntities` for batch insert/update/delete without per-row overhead
 
 ## In Progress 🚧
+> All Phase 2 items are now complete.
+
 - [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
-- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
+- [x] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
 
 ## Planned Features 📋
 
@@ -66,7 +68,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ### Phase 2: Serializable Isolation & Two-Phase Commit (Status: Completed ✅)
 - [x] Serializable isolation level (full SSI via predicate locking)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
-- [~] Transaction savepoints (partial rollback within a transaction)
+- [x] Transaction savepoints (partial rollback within a transaction)
 
 ### Phase 3: OCC Mode & Bulk API (Status: In Progress 🚧)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
