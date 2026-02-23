@@ -56,7 +56,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 5: Performance/Hardening
 - [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
 - [x] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
-- [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
+- [P] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394) — `RTLD_NOW` replaces `RTLD_LAZY` in `loadLibrary` for fail-fast symbol binding; file permission check rejects group/world-writable plugins; file size cap (128 MB) guards against resource exhaustion; `verifyGPGSignature` (Linux) replaced `popen`+shell with `posix_spawn`+`execv` to eliminate shell-injection surface; `verifyMacOSCodeSignature` (macOS) replaced shell invocation with direct `SecStaticCodeCheckValidity` Security-framework call; tests in `tests/test_plugin_security_audit.cpp`
 
 ### Phase 6: Dokumentation & Abnahme
 - [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
@@ -91,7 +91,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Unit tests coverage > 80% (Issue: #1398)
 - [x] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` covers CUDA + Vulkan ANN and Geo parity; tests are skipped gracefully when hardware is absent
 - [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
-- [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
+- [P] Security audit for backend plugin loading and runtime probes (Issue: #1401) — permission/size hardening added to `PluginLoader::loadPlugin`; shell-invocation surface removed from platform signature verifiers; audit-log coverage confirmed in `tests/test_plugin_security_audit.cpp`
 - [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
