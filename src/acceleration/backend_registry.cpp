@@ -32,6 +32,9 @@
 #ifdef THEMIS_ENABLE_HIP
 #include "acceleration/hip_backend.h"
 #endif
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -63,6 +66,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     registerBackend(std::make_unique<CPUVectorBackend>());
     registerBackend(std::make_unique<CPUGraphBackend>());
     registerBackend(std::make_unique<CPUGeoBackend>());
+    registerBackend(std::make_unique<CPUMatrixBackend>());
+
+    // Register CUDA matrix backend for Tensor Core FP16/BF16 acceleration.
+    // registerBackend() checks isAvailable() at runtime; silently skipped
+    // when no CUDA-capable GPU is detected.
+#ifdef THEMIS_ENABLE_CUDA
+    registerBackend(std::make_unique<CUDAMatrixBackend>());
+#endif
 
     // Register Vulkan backend when compiled with Vulkan support.
     // registerBackend() checks isAvailable() at runtime, so if no Vulkan

@@ -295,5 +295,35 @@ private:
 #endif
 };
 
+// CUDA backend for FP16/BF16/FP32 matrix multiply with Tensor Core acceleration.
+// Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) which automatically
+// engage Tensor Core units on SM 7.0+ (FP16) and SM 8.0+ (BF16) hardware.
+// Falls back to returning an error when CUDA is not available.
+class CUDAMatrixBackend : public IMatrixBackend {
+public:
+    CUDAMatrixBackend() = default;
+    ~CUDAMatrixBackend() override;
+
+    const char* name() const noexcept override { return "CUDA"; }
+    BackendType type() const noexcept override { return BackendType::CUDA; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    // IMatrixBackend interface
+    int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) override;
+
+    MatrixKernelDispatch populateMatrixDispatch() const override;
+
+private:
+    bool initialized_ = false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    raii::CudaStream stream_;
+#endif
+};
+
 } // namespace acceleration
 } // namespace themis
