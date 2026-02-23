@@ -1113,7 +1113,10 @@ TEST_F(DeltaUpdateEngineTest, ApplyDelta_HashVerification_Success) {
     EXPECT_EQ(result.files_patched[0], rel_path);
 
     // Verify the installed file was updated
-    auto installed = readBytes(base_path);
+    std::ifstream installed_file(base_path, std::ios::binary);
+    std::vector<uint8_t> installed;
+    installed.assign(std::istreambuf_iterator<char>(installed_file),
+                     std::istreambuf_iterator<char>());
     EXPECT_EQ(installed, target_data);
 }
 
@@ -1224,6 +1227,12 @@ protected:
         f.write(reinterpret_cast<const char*>(data.data()),
                 static_cast<std::streamsize>(data.size()));
     }
+
+    static std::vector<uint8_t> readBytes(const std::string& path) {
+        std::ifstream f(path, std::ios::binary);
+        return {std::istreambuf_iterator<char>(f),
+                std::istreambuf_iterator<char>()};
+    }
 };
 
 TEST_F(DeltaPathTraversalTest, DotDotPath_FallsBackAndNeverWritesOutsideSandbox) {
@@ -1249,9 +1258,9 @@ TEST_F(DeltaPathTraversalTest, DotDotPath_FallsBackAndNeverWritesOutsideSandbox)
 
     // The outside file must be untouched
     std::ifstream f(outside_file, std::ios::binary);
-    std::vector<uint8_t> content(
-        std::istreambuf_iterator<char>(f),
-        std::istreambuf_iterator<char>());
+    std::vector<uint8_t> content;
+    content.assign(std::istreambuf_iterator<char>(f),
+                   std::istreambuf_iterator<char>());
     std::vector<uint8_t> expected = {0xDE, 0xAD, 0xBE, 0xEF};
     EXPECT_EQ(content, expected);
 }
@@ -1353,7 +1362,10 @@ TEST_F(DeltaPathTraversalTest, NormalSubdirPath_WithPatch_AppliesSuccessfully) {
     EXPECT_EQ(result.files_patched[0], rel_path);
 
     // Verify the installed file matches the target
-    auto installed = readBytes(base_path);
+    std::ifstream installed_file(base_path, std::ios::binary);
+    std::vector<uint8_t> installed;
+    installed.assign(std::istreambuf_iterator<char>(installed_file),
+                     std::istreambuf_iterator<char>());
     EXPECT_EQ(installed, target_data);
 }
 

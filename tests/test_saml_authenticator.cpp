@@ -177,43 +177,43 @@ static std::string buildSAMLResponseB64(
 // ============================================================================
 
 TEST(SAMLAuthenticatorTest, ConstructorAcceptsValidConfig) {
-    EXPECT_NO_THROW(SAMLAuthenticator(makeTestConfig()));
+    EXPECT_NO_THROW((void)SAMLAuthenticator{makeTestConfig()});
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsEmptySpEntityId) {
     auto cfg = makeTestConfig();
     cfg.sp_entity_id = "";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::invalid_argument);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::invalid_argument);
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsEmptyAcsUrl) {
     auto cfg = makeTestConfig();
     cfg.sp_acs_url = "";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::invalid_argument);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::invalid_argument);
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsEmptyIdpSsoUrl) {
     auto cfg = makeTestConfig();
     cfg.idp_sso_url = "";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::invalid_argument);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::invalid_argument);
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsEmptyIdpEntityId) {
     auto cfg = makeTestConfig();
     cfg.idp_entity_id = "";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::invalid_argument);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::invalid_argument);
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsEmptyCertificate) {
     auto cfg = makeTestConfig();
     cfg.idp_certificate_pem = "";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::invalid_argument);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::invalid_argument);
 }
 
 TEST(SAMLAuthenticatorTest, ConstructorRejectsInvalidCertificate) {
     auto cfg = makeTestConfig();
     cfg.idp_certificate_pem = "-----BEGIN CERTIFICATE-----\nnotvalid\n-----END CERTIFICATE-----\n";
-    EXPECT_THROW(SAMLAuthenticator(cfg), std::runtime_error);
+    EXPECT_THROW((void)SAMLAuthenticator{cfg}, std::runtime_error);
 }
 
 // ============================================================================

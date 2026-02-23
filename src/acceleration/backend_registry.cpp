@@ -35,6 +35,9 @@
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
 #endif
+#ifdef THEMIS_ENABLE_OPENCL
+#include "acceleration/opencl_backend.h"
+#endif
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -90,6 +93,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
 #ifdef THEMIS_ENABLE_HIP
     registerBackend(std::make_unique<HIPVectorBackend>());
     registerBackend(std::make_unique<HIPGeoBackend>());
+#endif
+
+    // Register OpenCL backend for broad hardware compatibility.
+    // Supports any OpenCL 1.2+ capable device: NVIDIA, AMD, Intel, ARM, Qualcomm.
+    // registerBackend() checks isAvailable() at runtime; silently skipped when
+    // no OpenCL ICD is present.
+#ifdef THEMIS_ENABLE_OPENCL
+    registerBackend(std::make_unique<OpenCLVectorBackend>());
 #endif
 }
 

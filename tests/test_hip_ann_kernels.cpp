@@ -53,6 +53,27 @@ TEST(HipAnnKernels, Capabilities_SupportsVectorOpsAndBatch) {
     EXPECT_TRUE(caps.supportsBatchProcessing);
 }
 
+TEST(HipAnnKernels, Capabilities_DeclaresFP32Precision) {
+    HIPVectorBackend backend;
+    BackendCapabilities caps = backend.getCapabilities();
+    EXPECT_TRUE(hasPrecision(caps.supportedPrecisions, PrecisionMode::FP32));
+}
+
+TEST(HipAnnKernels, Capabilities_DeclaresANNMetrics) {
+    HIPVectorBackend backend;
+    BackendCapabilities caps = backend.getCapabilities();
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::L2),            0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::COSINE),        0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::INNER_PRODUCT), 0u);
+}
+
+TEST(HipAnnKernels, Capabilities_SatisfiesDefaultVectorRequirements) {
+    HIPVectorBackend backend;
+    EXPECT_TRUE(BackendRegistry::satisfies(
+        backend.getCapabilities(),
+        BackendRegistry::defaultVectorRequirements()));
+}
+
 TEST(HipAnnKernels, Backend_NameIsHIP) {
     HIPVectorBackend backend;
     EXPECT_STREQ(backend.name(), "HIP");

@@ -63,7 +63,7 @@ struct IntentResult {
 class ConversationContext {
 public:
     ConversationContext() = default;
-    explicit ConversationContext(size_t max_history = 20);
+    explicit ConversationContext(size_t max_history);
 
     void addTurn(const std::string& user_input, const std::string& assistant_response);
     void setEntity(const std::string& key, const std::string& value);

@@ -57,6 +57,8 @@ AdapterRegistry::AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManag
     , impl_(std::make_unique<Impl>()) {
 }
 
+AdapterRegistry::~AdapterRegistry() = default;
+
 // ============================================================================
 // Key construction helpers
 // ============================================================================

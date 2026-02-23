@@ -124,7 +124,7 @@ TEST_F(RequestValidationMiddlewareTest, ClearSchemas) {
 // ---------------------------------------------------------------------------
 
 TEST_F(RequestValidationMiddlewareTest, NoSchema_AnyBodyPasses) {
-    auto r = mw_.validate("POST", "/api/v1/entities", R"({"random": 42})");
+    auto r = mw_.validate("POST", "/api/v1/entities", std::string{R"({"random": 42})"});
     EXPECT_TRUE(r.valid);
 
     auto r2 = mw_.validate("POST", "/api/v1/entities", nlohmann::json{{"x", 1}});
@@ -132,7 +132,7 @@ TEST_F(RequestValidationMiddlewareTest, NoSchema_AnyBodyPasses) {
 }
 
 TEST_F(RequestValidationMiddlewareTest, NoSchema_EmptyBodyPasses) {
-    auto r = mw_.validate("POST", "/api/v1/entities", "");
+    auto r = mw_.validate("POST", "/api/v1/entities", std::string{});
     EXPECT_TRUE(r.valid);
 }
 
@@ -149,14 +149,14 @@ TEST_F(RequestValidationMiddlewareTest, ValidBody_StringOverload) {
 
 TEST_F(RequestValidationMiddlewareTest, InvalidJSON_StringOverload) {
     mw_.registerSchema("POST", "/api/v1/entities", entitySchema());
-    auto r = mw_.validate("POST", "/api/v1/entities", "{ not valid json }");
+    auto r = mw_.validate("POST", "/api/v1/entities", std::string{"{ not valid json }"});
     EXPECT_FALSE(r.valid);
     EXPECT_FALSE(r.error_message.empty());
 }
 
 TEST_F(RequestValidationMiddlewareTest, EmptyBody_RequiredFieldMissing) {
     mw_.registerSchema("POST", "/api/v1/entities", entitySchema());
-    auto r = mw_.validate("POST", "/api/v1/entities", "");
+    auto r = mw_.validate("POST", "/api/v1/entities", std::string{});
     EXPECT_FALSE(r.valid);
     EXPECT_NE(r.error_message.find("missing required"), std::string::npos);
 }
@@ -326,7 +326,7 @@ TEST_F(RequestValidationMiddlewareTest, LongerPrefixWins) {
 TEST_F(RequestValidationMiddlewareTest, PrefixDoesNotMatchNonBoundary) {
     // /api/v1/entities should NOT match /api/v1/entities2
     mw_.registerSchema("POST", "/api/v1/entities", entitySchema());
-    auto r = mw_.validate("POST", "/api/v1/entities2", "{}");
+    auto r = mw_.validate("POST", "/api/v1/entities2", std::string{"{}"});
     EXPECT_TRUE(r.valid); // no schema found → skip
 }
 
@@ -364,7 +364,7 @@ TEST_F(RequestValidationMiddlewareTest, ExactMethodTakesPrecedenceOverWildcard) 
 // ---------------------------------------------------------------------------
 
 TEST_F(RequestValidationMiddlewareTest, Metrics_Skip) {
-    mw_.validate("POST", "/no/schema", R"({"x":1})");
+    mw_.validate("POST", "/no/schema", std::string{R"({"x":1})"});
     EXPECT_EQ(mw_.getMetrics().validation_skip_total.load(), 1u);
     EXPECT_EQ(mw_.getMetrics().validation_pass_total.load(), 0u);
     EXPECT_EQ(mw_.getMetrics().validation_fail_total.load(), 0u);
@@ -386,7 +386,7 @@ TEST_F(RequestValidationMiddlewareTest, Metrics_Fail) {
 
 TEST_F(RequestValidationMiddlewareTest, Metrics_ParseError) {
     mw_.registerSchema("POST", "/api/v1/entities", entitySchema());
-    mw_.validate("POST", "/api/v1/entities", "not json {{");
+    mw_.validate("POST", "/api/v1/entities", std::string{"not json {{"});
     EXPECT_EQ(mw_.getMetrics().parse_error_total.load(), 1u);
     EXPECT_EQ(mw_.getMetrics().validation_fail_total.load(), 1u);
 }
