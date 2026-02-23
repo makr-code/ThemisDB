@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cache_admin_api_handler.h                          ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-23 03:57:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     118                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
+    • 65af13dcb  2026-02-22  Code audit bugfixes: fix L3 eviction pattern and strength... ║
+    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "server/auth_middleware.h"

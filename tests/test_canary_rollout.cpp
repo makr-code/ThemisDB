@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_canary_rollout.cpp                            ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:48                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     753                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 34                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
+    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

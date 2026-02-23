@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_routing.cpp                               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:36                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     261                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8f9180151  2026-02-21  Integrate deprecation headers and API versioning into bui... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

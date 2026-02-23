@@ -3,35 +3,40 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.cpp                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
-  Author:          unknown                                            ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23                                         ║
+  Author:          copilot-swe-agent[bot]                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     355                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     464                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "ingestion/api_connector.h"
+#include <curl/curl.h>
 #include <sstream>
 #include <stdexcept>
 #include <chrono>
 #include <thread>
+#include <functional>
 
-// Note: For actual HTTP requests, libcurl would be used in production (same
-// pattern as HuggingFaceConnector).  This implementation provides the full
-// pagination/retry structure with a simulated HTTP layer.
+// HTTP requests are performed via libcurl (`curl_easy_perform`).
+// The `Impl::httpGet()` wrapper delegates to an injectable test function
+// when one is set, allowing unit tests to run without network access.
 
 namespace themis {
 namespace ingestion {
 
 // ---------------------------------------------------------------------------
-// Minimal simulated HTTP client (shared pattern with HuggingFaceConnector)
+// HTTP helpers
 // ---------------------------------------------------------------------------
 
 namespace {
@@ -42,23 +47,52 @@ struct ApiHttpResponse {
     std::string error;
 };
 
-// Simulated HTTP GET – replace body with libcurl in production.
-static ApiHttpResponse apiHttpGet(const std::string& /*url*/,
-                                   const std::string& /*auth*/,
-                                   int /*timeout_ms*/) {
-    // Production stub: would do
-    //   CURL* curl = curl_easy_init();
-    //   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    //   … Bearer token, timeout, response capture …
-    //   curl_easy_perform(curl); curl_easy_cleanup(curl);
+// libcurl write callback – appends received data to a std::string.
+static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                void* userdata) {
+    const auto total = size * nmemb;
+    static_cast<std::string*>(userdata)->append(ptr, total);
+    return total;
+}
+
+// Production HTTP GET using libcurl.
+static ApiHttpResponse apiHttpGet(const std::string& url,
+                                   const std::string& auth,
+                                   int timeout_ms) {
     ApiHttpResponse r;
-    r.status_code = 200;
-    // Simulate a page of 3 documents; real code would parse r.body.
-    // "next_cursor" enables cursor-mode pagination tests.
-    r.body = R"({"total":6,"next_cursor":"cursor_page2","items":[)"
-             R"({"text":"doc alpha"},)"
-             R"({"text":"doc beta"},)"
-             R"({"text":"doc gamma"}]})";
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        r.error = "Failed to initialize libcurl handle";
+        return r;
+    }
+
+    struct curl_slist* headers = nullptr;
+    if (!auth.empty()) {
+        std::string auth_header = "Authorization: " + auth;
+        headers = curl_slist_append(headers, auth_header.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        r.error = curl_easy_strerror(res);
+        r.status_code = 0;
+    } else {
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        r.status_code = static_cast<int>(http_code);
+    }
+
+    if (headers) curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
     return r;
 }
 
@@ -66,12 +100,13 @@ static ApiHttpResponse apiHttpGet(const std::string& /*url*/,
 static ApiHttpResponse apiGetWithRetry(const std::string& url,
                                         const std::string& auth,
                                         const RetryConfig& cfg,
-                                        IngestionStats& stats) {
+                                        IngestionStats& stats,
+                                        const std::function<ApiHttpResponse(const std::string&, const std::string&, int)>& http_get) {
     ApiHttpResponse response;
     double delay_ms = cfg.initial_delay_ms;
 
     for (int attempt = 1; attempt <= cfg.max_attempts; ++attempt) {
-        response = apiHttpGet(url, auth, cfg.timeout_ms);
+        response = http_get(url, auth, cfg.timeout_ms);
 
         if (response.status_code == 200) return response;
 
@@ -201,10 +236,23 @@ public:
         return !endpoint_.empty();
     }
 
+    // Wrapper that delegates to the test hook when set, or real curl otherwise.
+    ApiHttpResponse httpGet(const std::string& url, const std::string& auth,
+                            int timeout_ms) const {
+        if (http_get_fn_) {
+            auto [status, body] = http_get_fn_(url, auth);
+            ApiHttpResponse r;
+            r.status_code = status;
+            r.body        = std::move(body);
+            return r;
+        }
+        return apiHttpGet(url, auth, timeout_ms);
+    }
+
     bool isAvailable() const {
         if (endpoint_.empty()) return false;
         try {
-            auto r = apiHttpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
+            auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             return r.status_code == 200;
         } catch (...) {
             return false;
@@ -214,7 +262,7 @@ public:
     size_t getDocumentCount() const {
         if (endpoint_.empty()) return 0;
         try {
-            auto r = apiHttpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
+            auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             if (r.status_code == 200) {
                 // Try common total-count fields
                 size_t total = jsonExtractSizeT(r.body, "total");
@@ -247,6 +295,11 @@ public:
         // Cursor mode state
         std::string current_cursor; // empty on first page
 
+        // Capture httpGet as a lambda for the retry helper
+        auto http_get = [this](const std::string& u, const std::string& a, int t) {
+            return httpGet(u, a, t);
+        };
+
         try {
             while (true) {
                 if (max_pages_ > 0 && page_num >= max_pages_) break;
@@ -268,7 +321,7 @@ public:
                 }
 
                 auto response = apiGetWithRetry(url, buildAuthHeader(),
-                                                retry_config_, stats);
+                                                retry_config_, stats, http_get);
 
                 if (response.status_code != 200) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
@@ -293,7 +346,8 @@ public:
                         total_hint = jsonExtractSizeT(response.body, "count");
                 }
 
-                // In production: insert docs into target_collection
+                // Accumulate stats; persistence is delegated to the caller
+                // (IngestionManager writes extracted text to the target collection).
                 stats.documents_processed += docs.size();
                 stats.bytes_processed     += response.body.size();
                 ++page_num;
@@ -340,6 +394,7 @@ public:
     void setRetryConfig(const RetryConfig& c) { retry_config_ = c; }
     void setPaginationMode(PaginationMode m)  { pagination_mode_ = m; }
     void setCursorResponseField(const std::string& f) { cursor_response_field_ = f; }
+    void setHttpGetForTesting(ApiHttpGetFn fn) { http_get_fn_ = std::move(fn); }
 
 private:
     std::string buildAuthHeader() const {
@@ -356,6 +411,7 @@ private:
     RetryConfig  retry_config_;
     PaginationMode pagination_mode_;
     std::string  cursor_response_field_;
+    ApiHttpGetFn http_get_fn_; // testing hook; empty = use real libcurl
 };
 
 // ---------------------------------------------------------------------------
@@ -402,6 +458,10 @@ void GenericApiConnector::setPaginationMode(PaginationMode mode) {
 
 void GenericApiConnector::setCursorResponseField(const std::string& field) {
     impl_->setCursorResponseField(field);
+}
+
+void GenericApiConnector::setHttpGetForTesting(ApiHttpGetFn fn) {
+    impl_->setHttpGetForTesting(std::move(fn));
 }
 
 } // namespace ingestion

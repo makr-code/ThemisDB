@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.cpp                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:22                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1083                                           ║
+    • Total Lines:     1339                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 22507ba4e  2026-02-22  fix(plugins): guard unloadPlugin() against unloading a de... ║
+    • b6bbc823d  2026-02-22  fix(plugins): return ERR_PLUGIN_MISSING_DEPENDENCY in loa... ║
+    • facf306eb  2026-02-22  feat(plugins): atomic hot-reload with rollback, dependenc... ║
+    • f0de4a6e8  2026-02-22  feat(plugins): implement hot-reload with state preservati... ║
+    • 45ed81ca1  2026-02-22  Add dedicated plugin dependency error codes and update RO... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

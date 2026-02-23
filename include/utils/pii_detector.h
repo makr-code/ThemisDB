@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_detector.h                                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:05                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     228                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1914efd40  2026-02-22  audit(utils): fix broken test assertion and update qualit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

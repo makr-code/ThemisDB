@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.h                             ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:56                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     324                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     362                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 48054ea22  2026-02-22  fix(server/network): finalize WebSocket upgrade – ROADMAP... ║
+    • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:00                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     180                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     184                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

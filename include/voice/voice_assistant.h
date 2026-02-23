@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.h                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:05                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     254                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     310                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
+    • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║
+    • 2b12bc7d3  2026-02-22  impl: real-time streaming STT for audio arrival ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

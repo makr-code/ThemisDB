@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_versioning_api_handler.cpp                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:25                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     344                                            ║
+    • Total Lines:     382                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fd111c0c8  2026-02-22  Add GET /policies/conflicts HTTP endpoint for real-time p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
