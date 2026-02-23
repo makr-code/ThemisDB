@@ -136,6 +136,17 @@ http::response<http::string_body> QueryApiHandler::makeResponse(
     return res;
 }
 
+nlohmann::json QueryApiHandler::applyMasking(
+    const nlohmann::json& entities,
+    const http::request<http::string_body>& req)
+{
+    if (!masking_policy_) {
+        return entities;
+    }
+    auto auth_ctx = extractAuthContext(req);
+    return masking_policy_->maskResultSet(entities, auth_ctx.groups);
+}
+
 // Implementation extracted from http_server.cpp (lines 5950-6222)
 http::response<http::string_body> QueryApiHandler::handleQuery(
     const http::request<http::string_body>& req
@@ -429,7 +440,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                     entities.push_back(obj);
                 }
             }
-            json j = {{"table", table}, {"count", res.second.size()}, {"entities", entities}, {"decrypted", decrypt}};
+            json j = {{"table", table}, {"count", res.second.size()}, {"entities", applyMasking(entities, req)}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
             return makeResponse(http::status::ok, j.dump(), req);
         }
@@ -608,7 +619,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (off < out.size()) { size_t last = std::min(out.size(), off + cnt); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); for (size_t i = off; i < last; ++i) tmp.emplace_back(std::move(out[i])); out.swap(tmp); } else { out.clear(); } }
-            nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", entities}};
+            nlohmann::json entities = nlohmann::json::array(); for (const auto& e : out) entities.push_back(e.toJson()); nlohmann::json response_body = {{"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}};
             if (explain) { response_body["query"] = aql_query; response_body["ast"] = (*parse_result)->toJSON(); nlohmann::json jp; jp["on_left"] = (*joinCols).first; jp["on_right"] = (*joinCols).second; response_body["join"] = jp; }
             joinSpan.setAttribute("join.output_count", static_cast<int64_t>(out.size())); joinSpan.setStatus(true); span.setAttribute("aql.result_count", static_cast<int64_t>(out.size())); span.setStatus(true);
             return makeResponse(http::status::ok, response_body.dump(), req);
@@ -1940,6 +1951,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             traversalSpan.setStatus(true);
             span.setAttribute("aql.result_count", static_cast<int64_t>(res["count"].get<int>()));
             span.setStatus(true);
+            if (res.contains("entities") && res["entities"].is_array()) {
+                res["entities"] = applyMasking(res["entities"], req);
+            }
             return makeResponse(http::status::ok, res.dump(), req);
         }
 
@@ -1987,7 +2001,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             nlohmann::json response_body = {
                 {"table", dq.table},
                 {"count", entities.size()},
-                {"entities", entities}
+                {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility with older clients/tests
             try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
@@ -2179,7 +2193,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 response_body = {
                     {"table", table},
                     {"count", entities.size()},
-                    {"entities", entities}
+                    {"entities", applyMasking(entities, req)}
                 };
                 
                 if (explain) {
@@ -2998,7 +3012,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             json page_items = json::array();
             for (const auto& e : sliced) page_items.push_back(e.toJson());
 
-            paged.items = std::move(page_items);
+            paged.items = applyMasking(page_items, req);
             paged.batch_size = sliced.size();
             paged.has_more = has_more;
             paged.method = themis::utils::PaginationMethod::CURSOR;
@@ -3039,7 +3053,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             response_body = {
                 {"table", table},
                 {"count", sliced.size()},
-                {"entities", entities}
+                {"entities", applyMasking(entities, req)}
             };
             // Provide "result" alias for compatibility
             try { response_body["result"] = response_body["entities"]; } catch (...) { /* ignore */ }
