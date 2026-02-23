@@ -383,6 +383,8 @@ The ThemisDB acceleration module demonstrates strong foundational architecture w
 
 ## References
 
+- [Capability Negotiation and Fallback Behavior](capability_negotiation.md)
+- [Error Code Reference](error_codes.md)
 - [CUDA Backend Documentation](../en/performance/CUDA_BACKEND.md)
 - [Vulkan Backend Documentation](../en/performance/VULKAN_BACKEND.md)
 - [Hardware Acceleration Guide](../en/performance/HARDWARE_ACCELERATION.md)
