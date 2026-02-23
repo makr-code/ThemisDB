@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_metrics.h                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:20                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:19                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     164                                            ║
+    • Total Lines:     167                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -109,6 +109,12 @@ public:
     
     /// P2: Get compression ratio
     double getCompressionRatio() const;
+
+    /// P3: Record Parquet bytes written (exporter_parquet_bytes_written_total)
+    void recordParquetBytesWritten(size_t bytes);
+
+    /// P3: Get total Parquet bytes written
+    size_t getParquetBytesWritten() const;
     
     /// Export metrics as JSON
     nlohmann::json toJson() const;
@@ -156,6 +162,9 @@ private:
     // P2: Compression
     std::atomic<size_t> compression_uncompressed_bytes_{0};
     std::atomic<size_t> compression_compressed_bytes_{0};
+
+    // P3: Parquet export bytes (exporter_parquet_bytes_written_total)
+    std::atomic<size_t> parquet_bytes_written_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

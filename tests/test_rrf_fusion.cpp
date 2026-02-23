@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rrf_fusion.cpp                                ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-22 08:56:57                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23 03:59:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

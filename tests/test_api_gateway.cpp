@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_gateway.cpp                               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:36                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 67d9f1550  2026-02-22  fix: adjust optimization pragmas for MSVC and qualify Aut... ║
     • deb41540b  2026-02-21  Code audit: fix 4 bugs found in review (query-string, mut... ║
-    • 4d29ea5a9  2026-02-21  Replace stubs with real shard routing, URN dispatch, circ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

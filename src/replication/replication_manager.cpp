@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     3925                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     4092                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
+    • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
+    • 573513108  2026-02-22  feat(replication): implement Raft leader lease reads for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

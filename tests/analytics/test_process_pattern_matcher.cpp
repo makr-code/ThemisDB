@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_pattern_matcher.cpp                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-22 08:56:33                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-23 03:58:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
     • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

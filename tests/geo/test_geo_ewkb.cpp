@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_ewkb.cpp                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:34                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     587                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 01e160a70  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
+    • c88fedecb  2026-02-22  feat(geo): Full GeoJSON RFC 7946 parsing for all geometry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

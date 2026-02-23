@@ -18,10 +18,10 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Voice-based database query interface
 - [x] Storage and retrieval of voice session data
 - [x] Key point and summary extraction
+- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Issue: #2496)
+- [x] Wake-word detection for hands-free activation (Issue: #2365)
 
 ## In Progress 🚧
-- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026) (Issue: #2496)
-- [x] Wake-word detection for hands-free activation (Target: Q2 2026) (Issue: #2365)
 - [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
 
 ## Planned Features 📋
@@ -56,7 +56,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Storage and retrieval of voice session data
 - [x] Key point and summary extraction
 
-### Phase 2: Streaming STT & Wake-Word Detection (Status: In Progress 🚧)
+### Phase 2: Streaming STT & Wake-Word Detection (Status: Completed ✅)
 - [x] Real-time streaming STT (word-by-word transcription as audio arrives)
 - [x] Wake-word detection for hands-free activation
 - [~] Multi-speaker diarization improvements
@@ -85,7 +85,10 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 
 ## Known Issues & Limitations
 - Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.
-- Wake-word detection requires an additional lightweight model; not yet integrated.
+- Wake-word detection uses energy-based VAD gating and acoustic feature scoring
+  (density, spectral centroid, crest factor). A neural wake-word model backend
+  (e.g. Porcupine, openWakeWord) can be plugged in via `WakeWordDetector::scorePhrase()`
+  without API changes.
 - Multi-speaker diarization accuracy degrades with more than 4 simultaneous speakers.
 - TTS voice quality depends on the llama.cpp model in use.
 

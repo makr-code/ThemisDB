@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cron_parser.cpp                                    ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     625                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     712                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • cc68749fe  2026-02-22  chore(scheduler): audit cleanup – update banners Stubs:0 ... ║
+    • c298befed  2026-02-22  feat(scheduler): implement full cron expression parsing (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

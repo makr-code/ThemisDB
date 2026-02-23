@@ -2,9 +2,21 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_transaction_occ.cpp                          ║
-  Description:     Tests for Optimistic Concurrency Control (OCC)    ║
-  Coverage:        getEntityVersion, optimisticPut, optimisticErase   ║
+  File:            test_transaction_occ.cpp                           ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     302                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

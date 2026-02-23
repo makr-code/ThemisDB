@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_access_control_abac.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-23 03:58:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     289                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f0228555e  2026-02-22  fix(security): code-audit: add user_agent to Authorizatio... ║
+    • 3371af473  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_access_control_abac.cpp
  * @brief Tests for ABAC (Attribute-Based Access Control) integration alongside RBAC
