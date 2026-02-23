@@ -582,3 +582,81 @@ TEST_F(TransactionManagerTest, VectorRemoveTransaction) {
     auto value = db_->get(key);
     EXPECT_FALSE(value.has_value());
 }
+
+// ===== Transaction Explain Tests =====
+
+TEST_F(TransactionManagerTest, ExplainActiveTransactionWriteSet) {
+    auto txn_id = tx_manager_->beginTransaction();
+    auto txn = tx_manager_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    BaseEntity entity1("user10");
+    entity1.setField("name", std::string("Diana"));
+    txn->putEntity("users", entity1);
+
+    BaseEntity entity2("user11");
+    entity2.setField("name", std::string("Eve"));
+    txn->eraseEntity("users", "user11");
+
+    auto result = tx_manager_->explainTransaction(txn_id);
+    ASSERT_TRUE(result.has_value());
+
+    EXPECT_EQ(result->txn_id, txn_id);
+    EXPECT_EQ(result->isolation_level, "READ_COMMITTED");
+    EXPECT_FALSE(result->is_finished);
+    EXPECT_GE(result->duration_ms, 0u);
+
+    // Write set must contain both operations
+    ASSERT_EQ(result->write_set.size(), 2u);
+    bool found_put    = false;
+    bool found_delete = false;
+    for (const auto& e : result->write_set) {
+        if (e.key == "entity:users:user10" && e.operation == "put")    found_put    = true;
+        if (e.key == "entity:users:user11" && e.operation == "delete") found_delete = true;
+    }
+    EXPECT_TRUE(found_put);
+    EXPECT_TRUE(found_delete);
+
+    tx_manager_->rollbackTransaction(txn_id);
+}
+
+TEST_F(TransactionManagerTest, ExplainIsolationLevelReported) {
+    auto txn_id = tx_manager_->beginTransaction(IsolationLevel::Snapshot);
+    auto result = tx_manager_->explainTransaction(txn_id);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->isolation_level, "REPEATABLE_READ");
+    tx_manager_->rollbackTransaction(txn_id);
+}
+
+TEST_F(TransactionManagerTest, ExplainFinishedTransaction) {
+    auto txn_id = tx_manager_->beginTransaction();
+    auto txn = tx_manager_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    BaseEntity entity("user20");
+    entity.setField("name", std::string("Frank"));
+    txn->putEntity("users", entity);
+
+    tx_manager_->commitTransaction(txn_id);
+
+    // explain() should still work on a completed transaction
+    auto result = tx_manager_->explainTransaction(txn_id);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_TRUE(result->is_finished);
+    ASSERT_EQ(result->write_set.size(), 1u);
+    EXPECT_EQ(result->write_set[0].key, "entity:users:user20");
+    EXPECT_EQ(result->write_set[0].operation, "put");
+}
+
+TEST_F(TransactionManagerTest, ExplainNotFoundReturnsNullopt) {
+    auto result = tx_manager_->explainTransaction(99999);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(TransactionManagerTest, ExplainEmptyWriteSet) {
+    auto txn_id = tx_manager_->beginTransaction();
+    auto result = tx_manager_->explainTransaction(txn_id);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_TRUE(result->write_set.empty());
+    tx_manager_->rollbackTransaction(txn_id);
+}
