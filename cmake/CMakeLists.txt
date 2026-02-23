@@ -1421,6 +1421,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/entity_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
+    ../src/server/chunked_response_writer.cpp
     ../src/server/wal_api_handler.cpp
     ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
