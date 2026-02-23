@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                             ║
+    • Total Lines:     376                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -350,4 +350,27 @@ TEST_F(InPlaceSchemaMigratorTest, SecondApply_SameSchema_IsIdempotentError) {
     // isAdditiveMigration(to, to) == false (no new columns) → error in strict mode
     auto r2 = migrator.apply("widgets", to, to, *schema_, *version_, "bot");
     EXPECT_FALSE(r2.success);
+}
+
+// ============================================================================
+// Phase 6: Fresh table (empty from_schema) applied via apply()
+// ============================================================================
+
+TEST_F(InPlaceSchemaMigratorTest, Apply_FreshTable_EmptyFromSchema) {
+    // No seed – this is a brand-new table that doesn't exist yet in the DB.
+    SchemaManager::TableSchema from;   // empty
+    from.name = "brand_new_table";
+    auto to = makeSchema("brand_new_table", {"id", "value", "created_at"});
+
+    InPlaceSchemaMigrator migrator;
+    auto result = migrator.apply("brand_new_table", from, to, *schema_, *version_, "init");
+
+    EXPECT_TRUE(result.success) << result.error_message;
+    ASSERT_EQ(result.added_columns.size(), 3u);
+    EXPECT_GT(result.schema_version, 0u);
+
+    // Table should now be readable from SchemaManager
+    auto tbl = schema_->getTable("brand_new_table");
+    ASSERT_TRUE(tbl.has_value());
+    EXPECT_EQ(tbl->properties.size(), 3u);
 }
