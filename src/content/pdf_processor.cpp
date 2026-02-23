@@ -31,6 +31,7 @@
  */
 
 #include "content/pdf_processor.h"
+#include "content/content_metrics.h"
 #include <regex>
 #include <sstream>
 #include <cstring>
@@ -143,12 +144,18 @@ ExtractionResult PDFProcessor::extract(
         
         if (!doc) {
             result.error_message = "Failed to parse PDF with poppler";
+            if (config_.metrics) {
+                config_.metrics->recordExtractError();
+            }
             return result;
         }
         
         if (doc->is_locked()) {
             result.error_message = "PDF is encrypted and password is incorrect";
             result.metadata["is_encrypted"] = true;
+            if (config_.metrics) {
+                config_.metrics->recordExtractError();
+            }
             return result;
         }
         
@@ -166,34 +173,49 @@ ExtractionResult PDFProcessor::extract(
         result.metadata["is_encrypted"] = metadata.is_encrypted;
         result.metadata["is_linearized"] = metadata.is_linearized;
         
-        // Extract text from each page
+        // Extract pages using the already-loaded doc (avoids redundant PDF loading)
         std::ostringstream all_text;
-
-        // Use extractPages() so layout preservation and text_positions are handled uniformly
-        auto page_infos = extractPages(blob);
+        int max_pages = config_.max_pages > 0
+            ? std::min(config_.max_pages, doc->pages())
+            : doc->pages();
 
         json pages_array = json::array();
-        for (size_t i = 0; i < page_infos.size(); ++i) {
-            const auto& pi = page_infos[i];
+        for (int i = 0; i < max_pages; ++i) {
+            std::unique_ptr<poppler::page> page(doc->create_page(i));
+            if (!page) continue;
 
-            if (!pi.text.empty()) {
-                all_text << pi.text;
-                if (i + 1 < page_infos.size()) {
+            std::string page_text;
+            if (config_.maintain_layout) {
+                // Layout-preserving: use positioned text boxes
+                auto text_boxes = page->text_list();
+                std::vector<std::pair<float, float>> positions;
+                page_text = assembleTextWithLayout(text_boxes, positions);
+            } else {
+                // Simple reading-order extraction
+                poppler::byte_array bytes = page->text().to_utf8();
+                page_text = std::string(bytes.data(), bytes.size());
+            }
+
+            poppler::rectf rect = page->page_rect();
+
+            if (!page_text.empty()) {
+                all_text << page_text;
+                if (i + 1 < max_pages) {
                     all_text << "\n\n--- Page " << (i + 2) << " ---\n\n";
                 }
             }
 
             json page_obj;
-            page_obj["page"] = pi.page_number;
-            page_obj["text"] = pi.text;
-            page_obj["width"] = pi.width;
-            page_obj["height"] = pi.height;
-            page_obj["rotation"] = pi.rotation;
+            page_obj["page"] = i + 1;
+            page_obj["text"] = page_text;
+            page_obj["width"] = static_cast<int>(rect.width());
+            page_obj["height"] = static_cast<int>(rect.height());
+            page_obj["rotation"] = page->orientation() * 90;
             pages_array.push_back(std::move(page_obj));
         }
-        
+
         result.text = all_text.str();
-        result.metadata["extracted_pages"] = static_cast<int>(page_infos.size());
+        result.metadata["extracted_pages"] = max_pages;
         result.metadata["pages"] = pages_array;
         result.metadata["layout_preserved"] = config_.maintain_layout;
         result.metadata["token_count"] = countTokens(result.text);
@@ -201,6 +223,9 @@ ExtractionResult PDFProcessor::extract(
         
     } catch (const std::exception& e) {
         result.error_message = std::string("PDF extraction error: ") + e.what();
+        if (config_.metrics) {
+            config_.metrics->recordExtractError();
+        }
         return result;
     }
 #else
@@ -231,6 +256,15 @@ ExtractionResult PDFProcessor::extract(
     result.metadata["token_count"] = countTokens(result.text);
     result.ok = true;
 #endif
+
+    // Report metrics if a ContentMetrics instance was configured
+    if (config_.metrics) {
+        if (result.ok) {
+            config_.metrics->recordPdfExtracted();
+        } else {
+            config_.metrics->recordExtractError();
+        }
+    }
 
     return result;
 }

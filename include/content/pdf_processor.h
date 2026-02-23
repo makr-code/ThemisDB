@@ -46,6 +46,8 @@
 namespace themis {
 namespace content {
 
+class ContentMetrics;  // forward declaration
+
 /**
  * @brief PDF Page Information
  */
@@ -101,6 +103,7 @@ public:
         bool detect_tables = false;       // Basic table detection
         int max_pages = 0;                // 0 = no limit
         std::string password;             // For encrypted PDFs
+        ContentMetrics* metrics = nullptr; // Optional: report pdf_extracted / extract_error counters
     };
 
     PDFProcessor();
