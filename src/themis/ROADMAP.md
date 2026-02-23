@@ -24,7 +24,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [!] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [I] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
-- [I] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
+- [x] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
 - [!] SHA-256 hash verification for loaded modules (Issue: #2471)
 
 ### Long-term (6-12 months)
@@ -53,7 +53,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [ ] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/`
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [ ] `getBuildConfiguration()` – aggregate build metadata at runtime
-- [ ] `isModuleCompiledIn()` – runtime module availability check
+- [x] `isModuleCompiledIn()` – runtime module availability check
 - [ ] SHA-256 hash verification for loaded modules
 
 ### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
@@ -72,10 +72,10 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- The `src/themis/` directory is currently empty; the monolithic build distributes this logic elsewhere.
+- The `src/themis/` directory contains `module_dependency_resolver.cpp`; additional monolithic build logic is distributed in `src/utils/` (build info, license, etc.).
 - Modularization is blocked on the v1.7.0 architectural refactor.
 - Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned but not yet implemented here.
 
 ## Breaking Changes
-- No existing code in this directory; all APIs are new.
+- `module_dependency_resolver.cpp` is already present; all remaining APIs are new.
 - Public header interfaces (`include/themis/`) are frozen for v1.x to prevent downstream breakage.
