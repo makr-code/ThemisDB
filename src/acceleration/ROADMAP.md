@@ -13,7 +13,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
 
 ## In Progress 🚧
-- [I] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
+- [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
 - [I] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
 - [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
 

@@ -104,13 +104,12 @@ __global__ void computeCosineDistanceKernel(
 }
 
 /**
- * Compute negative inner-product distance between query vectors and database vectors.
- * Distance = -dot(query, vector), so that smaller values indicate closer matches
- * (consistent with L2 and cosine conventions used by the ANN dispatch interface).
+ * Compute Inner Product distance between query vectors and database vectors
+ * Distance = -dot(query, vector) (negative so smaller = more similar)
  *
  * @param queries      Query vectors (numQueries x dim)
  * @param vectors      Database vectors (numVectors x dim)
- * @param distances    Output negative inner products (numQueries x numVectors)
+ * @param distances    Output distances (numQueries x numVectors)
  * @param numQueries   Number of query vectors
  * @param numVectors   Number of database vectors
  * @param dim          Vector dimension
@@ -138,7 +137,7 @@ __global__ void computeInnerProductKernel(
         dot += query[i] * vector[i];
     }
 
-    // Negate so that higher inner product → lower distance (min-heap compatible)
+    // Store negative dot product so smaller values correspond to more similar vectors
     distances[qIdx * numVectors + vIdx] = -dot;
 }
 
@@ -322,7 +321,7 @@ void launchCosineDistanceKernel(
 }
 
 /**
- * Launch inner-product (negative dot-product) distance computation kernel
+ * Launch Inner Product distance computation kernel
  */
 void launchInnerProductKernel(
     const float* d_queries,
