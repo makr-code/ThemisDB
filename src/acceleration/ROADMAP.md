@@ -49,7 +49,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
 
 ### Phase 4: Tests
-- [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_cuda_ann_search.cpp` added
+- [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_backend_selection_matrix.cpp` added (65 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers)
 - [P] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
