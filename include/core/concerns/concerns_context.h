@@ -279,7 +279,7 @@ public:
             tracer_->isHealthy(),
             metrics_->isHealthy(),
             cache_->isHealthy(),
-            circuit_breaker_->isHealthy()
+            circuit_breaker_->isHealthy(),
             featureFlags_->isHealthy()
         };
     }
@@ -309,13 +309,13 @@ private:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ICircuitBreaker> circuit_breaker
+        std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
         cache_(std::move(cache)),
-        circuit_breaker_(std::move(circuit_breaker)) {}
+        circuit_breaker_(std::move(circuit_breaker)),
         featureFlags_(std::move(featureFlags)) {}
 
     std::unique_ptr<ILogger> logger_;

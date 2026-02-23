@@ -74,7 +74,7 @@
 - [ ] Secrets interface for credential injection into components
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1419)
+- [P] Unit tests coverage > 80% (Issue: #1419)
 - [x] Integration tests (DI context, adapter injection, factory methods)
 - [I] Performance benchmarks (DI overhead, logging throughput) (Issue: #1420)
 - [x] Security audit (no credential storage in context)
