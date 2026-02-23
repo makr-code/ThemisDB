@@ -329,7 +329,43 @@ TEST_F(TaskSchedulerTest, IntervalTaskExecutesAfterInterval) {
     EXPECT_GE(count.load(), 1);
 }
 
-// ===== Security validation =====
+TEST_F(TaskSchedulerTest, SchedulerLoopFailedTaskIncrementsTotalExecutions) {
+    // Verifies that task->total_executions is incremented even when a scheduled
+    // (background) execution fails.  Previously executeTask() only incremented
+    // total_executions in the success branch, unlike executeTaskNow/executeDAG.
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("always_fail_loop", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("deliberate scheduled failure");
+    });
+
+    ScheduledTask task;
+    task.name = "sched_fail_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "always_fail_loop";
+    task.trigger_type = ScheduledTask::TriggerType::INTERVAL;
+    task.interval = 80ms;
+    task.max_retries = 0;  // No retries so the loop fires fast
+    // Schedule for immediate execution
+    task.next_run = std::chrono::system_clock::now();
+
+    std::string id = scheduler_->registerTask(task);
+    scheduler_->start();
+
+    // Wait long enough for at least one scheduled execution
+    std::this_thread::sleep_for(350ms);
+    scheduler_->stop();
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_GE(call_count.load(), 1) << "task should have been called at least once";
+    // total_executions must equal failed_executions: each failure increments both
+    EXPECT_EQ(t->total_executions, t->failed_executions)
+        << "total_executions should equal failed_executions when task always fails";
+    EXPECT_GE(t->total_executions, 1u);
+}
+
+
 
 TEST_F(TaskSchedulerTest, EmptyAqlQueryThrows) {
     ScheduledTask task;
