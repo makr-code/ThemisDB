@@ -1573,6 +1573,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
+    ../src/search/llm_reranker.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp

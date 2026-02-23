@@ -331,6 +331,7 @@ endif()
 if(NOT THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_reranker.cpp
     )
 endif()
 
