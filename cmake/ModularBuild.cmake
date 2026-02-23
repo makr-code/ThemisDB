@@ -143,6 +143,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/concerns/context_propagation.cpp
     ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
@@ -164,6 +165,9 @@ set(THEMIS_BASE_SOURCES
     
     # Module dependency resolver (load-order management)
     ../src/themis/module_dependency_resolver.cpp
+    
+    # Module hash verifier (SHA-256 integrity verification)
+    ../src/themis/module_hash_verifier.cpp
     
     # Edition manager (Community / Enterprise / Hyperscaler feature gating)
     ../src/themis/edition_manager.cpp
