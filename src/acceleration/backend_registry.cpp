@@ -25,6 +25,9 @@
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
 #include "utils/logger.h"
+#ifdef THEMIS_ENABLE_VULKAN
+#include "acceleration/graphics_backends.h"
+#endif
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -55,6 +58,15 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     registerBackend(std::make_unique<CPUVectorBackend>());
     registerBackend(std::make_unique<CPUGraphBackend>());
     registerBackend(std::make_unique<CPUGeoBackend>());
+
+    // Register Vulkan backend when compiled with Vulkan support.
+    // registerBackend() checks isAvailable() at runtime, so if no Vulkan
+    // ICD is present the backend is silently skipped and CPU remains the
+    // fallback. This is the primary fallback path for non-NVIDIA hardware
+    // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
+#ifdef THEMIS_ENABLE_VULKAN
+    registerBackend(std::make_unique<VulkanVectorBackend>());
+#endif
 }
 
 BackendRegistry::~BackendRegistry() {

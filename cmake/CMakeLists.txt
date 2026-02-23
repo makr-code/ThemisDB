@@ -1714,6 +1714,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/cpu_backend.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
+    ../src/acceleration/geo_acceleration_bridge.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -2161,6 +2162,7 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/geo_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)

@@ -151,7 +151,13 @@ public:
 
 private:
     bool initialized_ = false;
-    void* deviceContext_ = nullptr;
+
+#ifdef THEMIS_ENABLE_CUDA
+    // RAII-managed CUDA stream (automatic cleanup)
+    raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;  // Fallback for non-CUDA builds
+#endif
 };
 
 } // namespace acceleration

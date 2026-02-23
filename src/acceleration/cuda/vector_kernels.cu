@@ -104,9 +104,8 @@ __global__ void computeCosineDistanceKernel(
 }
 
 /**
- * Compute Inner Product distance between query vectors and database vectors.
- * Distance = -dot(query, vector)  (negative so that smaller is better,
- * consistent with L2 and cosine conventions used elsewhere in ThemisDB).
+ * Compute Inner Product distance between query vectors and database vectors
+ * Distance = -dot(query, vector) (negative so smaller = more similar)
  *
  * @param queries      Query vectors (numQueries x dim)
  * @param vectors      Database vectors (numVectors x dim)
@@ -115,7 +114,7 @@ __global__ void computeCosineDistanceKernel(
  * @param numVectors   Number of database vectors
  * @param dim          Vector dimension
  */
-__global__ void computeInnerProductDistanceKernel(
+__global__ void computeInnerProductKernel(
     const float* queries,
     const float* vectors,
     float* distances,
@@ -138,7 +137,7 @@ __global__ void computeInnerProductDistanceKernel(
         dot += query[i] * vector[i];
     }
 
-    // Negate so that maximum inner product maps to minimum distance
+    // Store negative dot product so smaller values correspond to more similar vectors
     distances[qIdx * numVectors + vIdx] = -dot;
 }
 
@@ -316,6 +315,30 @@ void launchCosineDistanceKernel(
     );
     
     computeCosineDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_queries, d_vectors, d_distances,
+        numQueries, numVectors, dim
+    );
+}
+
+/**
+ * Launch Inner Product distance computation kernel
+ */
+void launchInnerProductKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+) {
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
+        (numVectors + blockDim.x - 1) / blockDim.x,
+        (numQueries + blockDim.y - 1) / blockDim.y
+    );
+
+    computeInnerProductKernel<<<gridDim, blockDim, 0, stream>>>(
         d_queries, d_vectors, d_distances,
         numQueries, numVectors, dim
     );
