@@ -433,14 +433,17 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string& ip,
     if (!config_.enable_credential_stuffing_detection || user_id.empty()) return false;
 
     auto now = std::chrono::steady_clock::now();
-    auto  window = std::chrono::seconds(config_.credential_stuffing_window_seconds);
-    auto& entry  = stuffing_state_[ip];
+    auto  window    = std::chrono::seconds(config_.credential_stuffing_window_seconds);
+    auto& entry     = stuffing_state_[ip];
+    auto  cutoff    = now - window;
 
-    // Prune attempts outside the rolling window
-    entry.attempt_times.erase(
-        std::remove_if(entry.attempt_times.begin(), entry.attempt_times.end(),
-                       [&](const auto& t){ return (now - t) > window; }),
-        entry.attempt_times.end());
+    // attempt_times is maintained in chronological (insertion) order, so all
+    // expired entries form a contiguous prefix. Erase it in O(k) rather than
+    // the O(n) erase-remove approach.
+    auto first_valid = std::lower_bound(entry.attempt_times.begin(),
+                                        entry.attempt_times.end(),
+                                        cutoff);
+    entry.attempt_times.erase(entry.attempt_times.begin(), first_valid);
 
     // If the window has fully expired, reset alert state so a new attack wave
     // can trigger another alert.
@@ -462,8 +465,6 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string& ip,
 }
 
 void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
-    config_ = config;
-    
     // Update rate limiters
     server::RateLimitConfig ip_config;
     ip_config.bucket_capacity = config.max_attempts_per_ip_per_minute;
@@ -475,6 +476,14 @@ void AuthRateLimiter::updateConfig(const AuthRateLimitConfig& config) {
     user_config.bucket_capacity = config.max_attempts_per_user_per_minute;
     user_config.refill_rate = static_cast<double>(config.max_attempts_per_user_per_minute) / 60.0;
     user_rate_limiter_->updateConfig(user_config);
+
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    config_ = config;
+    // Clearing the credential-stuffing state on a config update is intentional: it
+    // ensures the new threshold and window take effect immediately for all IPs.
+    // A side-effect is that any IP currently being tracked will restart from zero.
+    // Callers that need continuity should trigger cleanup() before updateConfig().
+    stuffing_state_.clear();
 }
 
 AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
@@ -497,6 +506,26 @@ void AuthRateLimiter::cleanup() {
     ip_rate_limiter_->cleanup();
     user_rate_limiter_->cleanup();
     lockout_manager_->cleanup();
+
+    // Prune stale credential-stuffing state for IPs whose rolling window has expired.
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    auto now    = std::chrono::steady_clock::now();
+    auto window = std::chrono::seconds(config_.credential_stuffing_window_seconds);
+    auto cutoff = now - window;
+    for (auto it = stuffing_state_.begin(); it != stuffing_state_.end(); ) {
+        auto& entry = it->second;
+        // attempt_times is chronological – erase the expired prefix efficiently.
+        auto first_valid = std::lower_bound(entry.attempt_times.begin(),
+                                            entry.attempt_times.end(),
+                                            cutoff);
+        entry.attempt_times.erase(entry.attempt_times.begin(), first_valid);
+        // If no recent attempts remain, remove the entire entry
+        if (entry.attempt_times.empty()) {
+            it = stuffing_state_.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 } // namespace auth
