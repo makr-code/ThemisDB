@@ -85,7 +85,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
-- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [x] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460) — `bench_cuda_vs_cpu` harness with CPU ANN (L2/Cosine/InnerProduct/TopK/BatchKNN) and Geo (Haversine/PointInPolygon) benchmarks; CUDA benchmarks skipped gracefully without GPU; JSON output with regression detection via CI workflow `acceleration-benchmark-ci.yml`
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
