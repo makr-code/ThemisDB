@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     882                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1482                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1438,4 +1438,45 @@ TEST_F(TaskResultStoreTest, ResultSurvivesSchedulerRestart) {
     EXPECT_TRUE(latest->success);
     EXPECT_EQ(latest->output.value("persisted", false), true);
     scheduler_ = std::move(sched2);
+}
+
+TEST_F(TaskResultStoreTest, DAGExecutionPersistsResults) {
+    // All three tasks in a linear DAG should have their results stored.
+    scheduler_->registerFunction("dag_rs_fn",
+        [](const nlohmann::json& p) -> nlohmann::json {
+            return {{"step", p.value("step", 0)}};
+        });
+
+    auto make_task = [&](const std::string& id, const std::vector<std::string>& deps, int step) {
+        ScheduledTask t;
+        t.id   = id;
+        t.name = id;
+        t.type = ScheduledTask::TaskType::FUNCTION;
+        t.function_name = "dag_rs_fn";
+        t.parameters    = {{"step", step}};
+        t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+        t.dependencies  = deps;
+        t.max_retries   = 0;
+        scheduler_->registerTask(t);
+    };
+
+    make_task("dag_rs_a", {}, 1);
+    make_task("dag_rs_b", {"dag_rs_a"}, 2);
+    make_task("dag_rs_c", {"dag_rs_b"}, 3);
+
+    auto dag_result = scheduler_->executeDAG({"dag_rs_a", "dag_rs_b", "dag_rs_c"});
+    ASSERT_EQ(dag_result.succeeded.size(), 3u);
+    EXPECT_TRUE(dag_result.failed.empty());
+
+    // All three tasks should have a stored result.
+    for (const auto& id : {"dag_rs_a", "dag_rs_b", "dag_rs_c"}) {
+        auto r = scheduler_->getLatestTaskResult(id);
+        ASSERT_TRUE(r.has_value()) << "Missing result for " << id;
+        EXPECT_TRUE(r->success);
+        EXPECT_EQ(r->task_id, id);
+    }
+    // Verify output values
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_a")->output.value("step", 0), 1);
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_b")->output.value("step", 0), 2);
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_c")->output.value("step", 0), 3);
 }

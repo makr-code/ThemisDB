@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     2133                                           ║
+    • Total Lines:     2260                                           ║
     • Open Issues:     TODOs: 9, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -910,6 +910,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
             threads.emplace_back([this, &wave_results, i, &task_map]() {
                 const auto& id = wave_results[i].id;
                 auto task = task_map[id];
+                const int64_t exec_start_ms = getCurrentTimeMs();
+                const auto exec_start = std::chrono::steady_clock::now();
                 try {
                     nlohmann::json r;
                     if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
@@ -920,7 +922,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     // Update task stats
                     task->total_executions++;
                     task->successful_executions++;
-                    task->last_run_ms = getCurrentTimeMs();
+                    task->last_run_ms = exec_start_ms;
                     task->last_success_time = std::chrono::system_clock::now();
                     task->last_error_category = ScheduledTask::ErrorCategory::NONE;
                     wave_results[i].succeeded = true;
@@ -948,6 +950,23 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     if (task->on_failure) {
                         task->on_failure(id, wave_results[i].error);
                     }
+                }
+                // Persist execution result to ThemisDB (if result store is enabled).
+                // Duration is computed once here, after all branches.
+                if (result_store_) {
+                    const double dur_ms = std::chrono::duration<double, std::milli>(
+                        std::chrono::steady_clock::now() - exec_start).count();
+                    scheduler::TaskExecutionResult exec_result;
+                    exec_result.task_id      = task->id;
+                    exec_result.task_name    = task->name;
+                    exec_result.timestamp_ms = exec_start_ms;
+                    exec_result.duration_ms  = dur_ms;
+                    exec_result.success      = wave_results[i].succeeded;
+                    exec_result.output       = wave_results[i].succeeded
+                                                   ? wave_results[i].result
+                                                   : nlohmann::json{};
+                    exec_result.error        = wave_results[i].error;
+                    result_store_->store(exec_result);
                 }
             });
         }
