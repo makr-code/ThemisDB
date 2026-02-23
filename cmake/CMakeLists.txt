@@ -1432,6 +1432,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/pii_api_handler.cpp
     ../src/server/retention_api_handler.cpp
     ../src/server/keys_api_handler.cpp
+    ../src/server/api_key_mgmt_handler.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
