@@ -74,7 +74,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
-- [I] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461)
+- [P] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461) — `src/acceleration/cuda/ann_kernels.cu` implemented; ANN kernels (L2, cosine, inner-product, top-K) complete with frozen `ANNDistanceFn`/`ANNTopKFn` interface; dispatch table wired via `populateCUDAANNDispatch`
 - [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
 - [!] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164)
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)

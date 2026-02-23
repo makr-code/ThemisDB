@@ -2171,6 +2171,7 @@ if(THEMIS_ENABLE_CUDA)
     # Add CUDA source files
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
+    ../src/acceleration/cuda/ann_kernels.cu
     ../src/acceleration/cuda/vector_kernels.cu
     ../src/acceleration/cuda/tensor_core_matmul.cu
     ../src/acceleration/cuda/geo_kernels.cu
