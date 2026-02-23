@@ -6,8 +6,8 @@ name: Acceleration Benchmark CI
 # • CPU benchmarks always run – no GPU hardware required.
 # • CUDA benchmarks are compiled in when THEMIS_ENABLE_CUDA=ON but skip
 #   gracefully at runtime if no CUDA device is detected.
-# • On push to main the baseline is updated so future PRs have a fresh
-#   reference point.
+# • On push to main the baseline is updated and committed back to the repo so
+#   future PRs have a fresh reference point.
 # • On pull_request the workflow compares against the stored baseline and
 #   fails if major (≥ 10 %) or critical (≥ 20 %) regressions are found.
 
@@ -123,6 +123,12 @@ jobs:
       - name: Build bench_cuda_vs_cpu
         run: cmake --build build_bench --target bench_cuda_vs_cpu -- -j$(nproc)
 
+      - name: Run regression detector unit tests
+        run: |
+          pip install pytest --quiet
+          python3 -m pytest benchmarks/tests/test_performance_regression_detector.py \
+            -v --tb=short 2>&1 | tee benchmark_results/unit_test_results.log
+
       - name: Run acceleration benchmarks (JSON output)
         run: |
           mkdir -p benchmark_results
@@ -147,10 +153,47 @@ jobs:
           # Propagate exit code from the Python script (not from tee)
           exit "${PIPESTATUS[0]}"
 
-      - name: Update acceleration baseline on main branch (push only)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Upload benchmark results and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceleration-benchmark-results-${{ matrix.os }}
+          path: |
+            benchmark_results/
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------
+  # Commit updated baseline back to main after a successful benchmark run.
+  # Runs only on main branch push to keep the reference point current.
+  # Uses a separate job so that the benchmark job can remain read-only.
+  # ---------------------------------------------------------------------------
+  update-baseline:
+    name: Update Acceleration Baseline
+    needs: acceleration-benchmarks
+    if: >
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.acceleration-benchmarks.result == 'success'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Required to commit and push the updated baseline
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download benchmark results artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acceleration-benchmark-results-ubuntu-22.04
+          path: benchmark_results
+
+      - name: Rebuild baseline from latest results
         run: |
-          python3 - <<'EOF'
+          python3 - <<'PYEOF'
           import json, os
           from datetime import datetime, timezone
 
@@ -171,7 +214,7 @@ jobs:
           baseline = {
               "version": open("VERSION").read().strip(),
               "branch": "main",
-              "commit": os.environ.get("GITHUB_SHA", "unknown"),
+              "commit": os.environ["GITHUB_SHA"],
               "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
               "benchmarks": benchmarks,
           }
@@ -180,19 +223,23 @@ jobs:
           out = "benchmarks/baselines/acceleration/baseline.json"
           with open(out, "w") as f:
               json.dump(baseline, f, indent=2)
-          print(f"✅ Acceleration baseline updated: {out} ({len(benchmarks)} benchmarks)")
-          EOF
-        env:
-          GITHUB_SHA: ${{ github.sha }}
+          print(f"✅ Baseline rebuilt: {out} ({len(benchmarks)} benchmarks)")
+          PYEOF
 
-      - name: Upload benchmark results and reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: acceleration-benchmark-results-${{ matrix.os }}
-          path: |
-            benchmark_results/
-          retention-days: 30
+      - name: Commit and push updated baseline
+        shell: bash
+        run: |
+          git config user.name  'ThemisDB CI Bot'
+          git config user.email 'bot@themisdb.local'
+          git add benchmarks/baselines/acceleration/baseline.json
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit."
+          else
+            git commit -m "chore(acceleration): auto-update CPU benchmark baseline [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+            echo "✅ Acceleration baseline committed to main."
+          fi
 
   # ---------------------------------------------------------------------------
   # Summary / gate job – all matrix legs must pass
@@ -207,6 +254,7 @@ jobs:
 
     steps:
       - name: Check benchmark status
+        shell: bash
         run: |
           result="${{ needs.acceleration-benchmarks.result }}"
           if [[ "$result" == "success" ]]; then
