@@ -53,6 +53,16 @@ void launchCosineDistanceKernel(
     cudaStream_t stream
 );
 
+void launchInnerProductDistanceKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+);
+
 void launchTopKKernel(
     const float* d_distances,
     int* d_topkIndices,
@@ -573,6 +583,16 @@ static int cuda_ann_cosine_dispatch(
     return static_cast<int>(cudaGetLastError());
 }
 
+static int cuda_ann_inner_product_dispatch(
+    const float* d_queries, const float* d_vectors, float* d_distances,
+    int numQueries, int numVectors, int dim, void* opaque_stream)
+{
+    launchInnerProductDistanceKernel(d_queries, d_vectors, d_distances,
+                                     numQueries, numVectors, dim,
+                                     static_cast<cudaStream_t>(opaque_stream));
+    return static_cast<int>(cudaGetLastError());
+}
+
 static int cuda_ann_topk_dispatch(
     const float* d_distances, uint32_t* d_topk_indices, float* d_topk_dists,
     int numQueries, int numVectors, int topK, void* opaque_stream)
@@ -599,7 +619,7 @@ ANNKernelDispatch CUDAVectorBackend::populateANNDispatch() const {
     ANNKernelDispatch d;
     d.launchL2Distance   = cuda_ann_l2_dispatch;
     d.launchCosine       = cuda_ann_cosine_dispatch;
-    // Inner-product not yet implemented for CUDA — slot remains null (CPU fallback)
+    d.launchInnerProduct = cuda_ann_inner_product_dispatch;
     d.launchTopK         = cuda_ann_topk_dispatch;
     return d;
 #else
