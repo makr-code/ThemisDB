@@ -2035,6 +2035,14 @@ std::vector<uint8_t> makeSpeakerAudio(float freq_hz,
     return buf;
 }
 
+// EnrollmentConfig for synthetic (sine-wave) test audio.
+// Liveness detection is disabled because pure sine waves are not live speech.
+inline EnrollmentConfig noLivenessConfig() {
+    EnrollmentConfig cfg;
+    cfg.require_liveness = false;
+    return cfg;
+}
+
 } // namespace
 
 // -- Construction --
@@ -2061,7 +2069,7 @@ TEST(VoiceBiometricAuth, EnrollSuccess) {
     auto s3 = makeSpeakerAudio(230.0f);
 
     VoiceProfileID pid;
-    bool ok = auth.enroll_voice("alice", {s1, s2, s3}, pid);
+    bool ok = auth.enroll_voice("alice", {s1, s2, s3}, pid, noLivenessConfig());
     EXPECT_TRUE(ok);
     EXPECT_FALSE(pid.empty());
     EXPECT_TRUE(auth.has_profile(pid));
@@ -2095,9 +2103,9 @@ TEST(VoiceBiometricAuth, EnrollDuplicateUserIdRejected) {
     auto s3 = makeSpeakerAudio(230.0f);
 
     VoiceProfileID pid1, pid2;
-    EXPECT_TRUE(auth.enroll_voice("carol", {s1, s2, s3}, pid1));
+    EXPECT_TRUE(auth.enroll_voice("carol", {s1, s2, s3}, pid1, noLivenessConfig()));
     // Second enrollment for same user_id must be rejected.
-    EXPECT_FALSE(auth.enroll_voice("carol", {s1, s2, s3}, pid2));
+    EXPECT_FALSE(auth.enroll_voice("carol", {s1, s2, s3}, pid2, noLivenessConfig()));
 }
 
 // -- Profile management --
@@ -2110,7 +2118,7 @@ TEST(VoiceBiometricAuth, ListProfiles) {
 
     EXPECT_EQ(auth.list_profiles().size(), 0u);
     VoiceProfileID pid;
-    auth.enroll_voice("dave", {s1, s2, s3}, pid);
+    auth.enroll_voice("dave", {s1, s2, s3}, pid, noLivenessConfig());
     EXPECT_EQ(auth.list_profiles().size(), 1u);
 }
 
@@ -2121,7 +2129,7 @@ TEST(VoiceBiometricAuth, GetUserId) {
     auto s3 = makeSpeakerAudio(310.0f);
 
     VoiceProfileID pid;
-    auth.enroll_voice("eve", {s1, s2, s3}, pid);
+    auth.enroll_voice("eve", {s1, s2, s3}, pid, noLivenessConfig());
 
     auto uid = auth.get_user_id(pid);
     ASSERT_TRUE(uid.has_value());
@@ -2141,7 +2149,7 @@ TEST(VoiceBiometricAuth, DeleteProfile) {
     auto s3 = makeSpeakerAudio(410.0f);
 
     VoiceProfileID pid;
-    auth.enroll_voice("frank", {s1, s2, s3}, pid);
+    auth.enroll_voice("frank", {s1, s2, s3}, pid, noLivenessConfig());
     EXPECT_TRUE(auth.has_profile(pid));
 
     EXPECT_TRUE(auth.delete_profile(pid));
@@ -2166,7 +2174,7 @@ TEST(VoiceBiometricAuth, VerifyMatchesEnrolledSpeaker) {
     auto s3 = makeSpeakerAudio(438.0f);
 
     VoiceProfileID pid;
-    ASSERT_TRUE(auth.enroll_voice("grace", {s1, s2, s3}, pid));
+    ASSERT_TRUE(auth.enroll_voice("grace", {s1, s2, s3}, pid, noLivenessConfig()));
 
     // Probe with a similar sample.
     auto probe = makeSpeakerAudio(441.0f);
@@ -2192,7 +2200,7 @@ TEST(VoiceBiometricAuth, VerifyEmptyAudio) {
     auto s3 = makeSpeakerAudio(230.0f);
 
     VoiceProfileID pid;
-    ASSERT_TRUE(auth.enroll_voice("henry", {s1, s2, s3}, pid));
+    ASSERT_TRUE(auth.enroll_voice("henry", {s1, s2, s3}, pid, noLivenessConfig()));
 
     auto result = auth.verify_speaker(pid, {});
     EXPECT_FALSE(result.verified);
@@ -2215,7 +2223,7 @@ TEST(VoiceBiometricAuth, IdentifyEmptyAudio) {
     auto s2 = makeSpeakerAudio(225.0f);
     auto s3 = makeSpeakerAudio(230.0f);
     VoiceProfileID pid;
-    ASSERT_TRUE(auth.enroll_voice("iris", {s1, s2, s3}, pid));
+    ASSERT_TRUE(auth.enroll_voice("iris", {s1, s2, s3}, pid, noLivenessConfig()));
 
     auto result = auth.identify_speaker({pid}, {});
     EXPECT_FALSE(result.identified);
@@ -2243,8 +2251,8 @@ TEST(VoiceBiometricAuth, IdentifyMatchesAreSortedByScore) {
     };
 
     VoiceProfileID p1, p2;
-    ASSERT_TRUE(auth.enroll_voice("jack", mk(300.0f), p1));
-    ASSERT_TRUE(auth.enroll_voice("kate", mk(600.0f), p2));
+    ASSERT_TRUE(auth.enroll_voice("jack", mk(300.0f), p1, noLivenessConfig()));
+    ASSERT_TRUE(auth.enroll_voice("kate", mk(600.0f), p2, noLivenessConfig()));
 
     auto probe = makeSpeakerAudio(302.0f);
     auto result = auth.identify_speaker({p1, p2}, probe);
@@ -2317,7 +2325,7 @@ TEST(VoiceBiometricAuth, StatisticsAfterOperations) {
     };
 
     VoiceProfileID pid;
-    auth.enroll_voice("mia", mk3(500.0f), pid);
+    auth.enroll_voice("mia", mk3(500.0f), pid, noLivenessConfig());
     auth.verify_speaker(pid, makeSpeakerAudio(502.0f));
     auth.identify_speaker({pid}, makeSpeakerAudio(501.0f));
 
@@ -2336,4 +2344,37 @@ TEST(VoiceBiometricAuth, SetConfig) {
     newCfg.verification_threshold = 0.90f;
     auth.set_config(newCfg);
     EXPECT_FLOAT_EQ(auth.get_config().verification_threshold, 0.90f);
+}
+
+// -- require_liveness enforcement --
+
+TEST(VoiceBiometricAuth, EnrollRequireLivenessDefaultRejectsSineWaves) {
+    // The default EnrollmentConfig has require_liveness=true.
+    // Pure sine waves do not pass the liveness check, so enrollment must fail
+    // even when 3 samples are provided.
+    VoiceBiometricAuthenticator auth;
+    auto s1 = makeSpeakerAudio(300.0f);
+    auto s2 = makeSpeakerAudio(305.0f);
+    auto s3 = makeSpeakerAudio(310.0f);
+
+    VoiceProfileID pid;
+    // Default config: require_liveness=true → sine waves skipped → < 3 survivors → false
+    bool ok = auth.enroll_voice("nina", {s1, s2, s3}, pid);
+    EXPECT_FALSE(ok);
+    EXPECT_TRUE(pid.empty());
+}
+
+TEST(VoiceBiometricAuth, EnrollRequireLivenessFalseSucceeds) {
+    // Explicitly disabling require_liveness allows synthetic audio to enroll.
+    VoiceBiometricAuthenticator auth;
+    auto s1 = makeSpeakerAudio(300.0f);
+    auto s2 = makeSpeakerAudio(305.0f);
+    auto s3 = makeSpeakerAudio(310.0f);
+
+    EnrollmentConfig cfg;
+    cfg.require_liveness = false;
+
+    VoiceProfileID pid;
+    EXPECT_TRUE(auth.enroll_voice("oscar", {s1, s2, s3}, pid, cfg));
+    EXPECT_FALSE(pid.empty());
 }

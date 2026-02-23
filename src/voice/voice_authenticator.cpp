@@ -100,6 +100,14 @@ bool VoiceBiometricAuthenticator::enroll_voice(
         if (quality < config.quality_threshold) {
             continue;  // skip low-quality samples
         }
+        // Liveness gate: when require_liveness is set, reject samples that do
+        // not appear to be genuine live speech (anti-spoofing during enrollment).
+        if (config.require_liveness) {
+            auto liveness = detect_liveness(sample);
+            if (!liveness.is_live) {
+                continue;  // skip replay / synthetic samples
+            }
+        }
         auto fv = extractFeatures(sample);
         if (fv.empty()) {
             continue;
