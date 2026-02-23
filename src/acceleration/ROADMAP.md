@@ -24,7 +24,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372)
 - [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
-- [I] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
+- [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
 - [!] ROCm/HIP support for AMD GPU acceleration (Issue: #1370)
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
@@ -85,7 +85,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
-- [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
