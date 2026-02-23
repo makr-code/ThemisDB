@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     606                                            ║
+    • Total Lines:     714                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
+    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
     • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
-    • 546b8caf9  2026-02-21  docs(transaction): warn against mixing anonymous and name... ║
-    • 6c2da643a  2026-02-21  fix(transaction): clamp negative timeout to 0 in setTimeo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

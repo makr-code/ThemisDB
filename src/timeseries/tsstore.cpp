@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     897                                            ║
+    • Total Lines:     983                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║
+    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

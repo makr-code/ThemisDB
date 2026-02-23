@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hnsw_parameter_tuner.cpp                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:19                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     420                                            ║
+    • Total Lines:     545                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 939a30a6f  2026-02-22  feat(index/perf): Add auto-tuner for HNSW ef_construction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
