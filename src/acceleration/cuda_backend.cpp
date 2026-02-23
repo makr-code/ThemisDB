@@ -256,6 +256,13 @@ bool CUDAVectorBackend::initialize() {
 void CUDAVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
+        // Clear graph cache before device reset to properly destroy CUDA
+        // graph resources (cudaGraphExecDestroy / cudaGraphDestroy) while
+        // the device is still valid.
+        {
+            std::lock_guard<std::mutex> lock(graphCacheMutex_);
+            graphCache_.clear();
+        }
         // stream_ automatically destroyed by RAII destructor
         cudaDeviceReset();
         initialized_ = false;
@@ -488,6 +495,377 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
     return {};
 #endif
 }
+
+// ============================================================================
+// CUDA Graph Capture Implementation
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_CUDA
+
+// ---------------------------------------------------------------------------
+// CUDAGraphEntry — destructor and move operations
+// ---------------------------------------------------------------------------
+
+CUDAGraphEntry::~CUDAGraphEntry() {
+    if (exec)  { cudaGraphExecDestroy(exec);  exec  = nullptr; }
+    if (graph) { cudaGraphDestroy(graph);     graph = nullptr; }
+}
+
+CUDAGraphEntry::CUDAGraphEntry(CUDAGraphEntry&& o) noexcept
+    : graph(o.graph), exec(o.exec),
+      d_queries    (std::move(o.d_queries)),
+      d_vectors    (std::move(o.d_vectors)),
+      d_distances  (std::move(o.d_distances)),
+      d_topkIndices(std::move(o.d_topkIndices)),
+      d_topkDistances(std::move(o.d_topkDistances)),
+      lastAccess(o.lastAccess)
+{
+    o.graph = nullptr;
+    o.exec  = nullptr;
+}
+
+CUDAGraphEntry& CUDAGraphEntry::operator=(CUDAGraphEntry&& o) noexcept {
+    if (this != &o) {
+        if (exec)  { cudaGraphExecDestroy(exec);  exec  = nullptr; }
+        if (graph) { cudaGraphDestroy(graph);     graph = nullptr; }
+
+        graph       = o.graph;
+        exec        = o.exec;
+        d_queries   = std::move(o.d_queries);
+        d_vectors   = std::move(o.d_vectors);
+        d_distances = std::move(o.d_distances);
+        d_topkIndices    = std::move(o.d_topkIndices);
+        d_topkDistances  = std::move(o.d_topkDistances);
+        lastAccess  = o.lastAccess;
+
+        o.graph = nullptr;
+        o.exec  = nullptr;
+    }
+    return *this;
+}
+
+// ---------------------------------------------------------------------------
+// CUDAGraphCache
+// ---------------------------------------------------------------------------
+
+CUDAGraphEntry* CUDAGraphCache::get(const QueryShape& shape) noexcept {
+    auto it = entries_.find(shape);
+    if (it == entries_.end()) return nullptr;
+    it->second.lastAccess = ++clock_;
+    return &it->second;
+}
+
+CUDAGraphEntry& CUDAGraphCache::put(const QueryShape& shape, CUDAGraphEntry entry) {
+    // Only evict if this is truly a new key (not a replacement)
+    if (entries_.size() >= kMaxEntries && entries_.count(shape) == 0) {
+        evictLRU();
+    }
+    entry.lastAccess = ++clock_;
+    auto res = entries_.insert_or_assign(shape, std::move(entry));
+    return res.first->second;
+}
+
+void CUDAGraphCache::evictLRU() {
+    if (entries_.empty()) return;
+    auto lru = entries_.begin();
+    for (auto it = entries_.begin(); it != entries_.end(); ++it) {
+        if (it->second.lastAccess < lru->second.lastAccess) {
+            lru = it;
+        }
+    }
+    entries_.erase(lru);
+}
+
+void CUDAGraphCache::clear() {
+    entries_.clear();
+}
+
+// ---------------------------------------------------------------------------
+// CUDAVectorBackend::batchKnnSearchWithGraph
+//
+// On the first call for a given QueryShape:
+//   1. Pre-allocate dedicated device buffers for the shape.
+//   2. Capture the L2/cosine/inner-product kernel + top-K kernel into a
+//      cudaGraph_t on a temporary non-blocking stream, then instantiate it.
+//   3. Insert the entry into the LRU graph cache.
+//
+// On subsequent calls with the same shape:
+//   1. Look up the cached CUDAGraphEntry.
+//   2. Copy the new input data into the pre-allocated device buffers on the
+//      main execution stream.
+//   3. Replay the instantiated graph (cudaGraphLaunch) on the same stream.
+//   4. Copy results back to host and synchronize.
+// ---------------------------------------------------------------------------
+
+std::vector<std::vector<std::pair<uint32_t, float>>>
+CUDAVectorBackend::batchKnnSearchWithGraph(
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    DistanceMetric metric
+) {
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA",
+            "CUDA backend not initialized",
+            "Call initialize() before using the backend"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, dim, and k must all be > 0"));
+        return {};
+    }
+
+    const size_t effectiveK = std::min(k, numVectors);
+
+    const size_t querySize    = numQueries * dim       * sizeof(float);
+    const size_t vectorSize   = numVectors * dim       * sizeof(float);
+    const size_t distanceSize = numQueries * numVectors * sizeof(float);
+    const size_t topkIdxSize  = numQueries * effectiveK * sizeof(int);
+    const size_t topkDistSize = numQueries * effectiveK * sizeof(float);
+
+    const QueryShape shape{
+        static_cast<int>(numQueries),
+        static_cast<int>(numVectors),
+        static_cast<int>(dim),
+        static_cast<int>(effectiveK),
+        metric
+    };
+
+    cudaStream_t mainStream = stream_.get();
+
+    try {
+        // ------------------------------------------------------------------
+        // Cache lookup (mutex-protected)
+        // ------------------------------------------------------------------
+        CUDAGraphEntry* entry = nullptr;
+        {
+            std::lock_guard<std::mutex> lock(graphCacheMutex_);
+            entry = graphCache_.get(shape);
+        }
+
+        if (entry == nullptr) {
+            // ---------------------------------------------------------------
+            // Cache miss — capture a new graph for this shape
+            // ---------------------------------------------------------------
+            CUDAGraphEntry newEntry;
+
+            // Allocate dedicated device buffers
+            newEntry.d_queries      = raii::CudaDeviceMemory(querySize);
+            newEntry.d_vectors      = raii::CudaDeviceMemory(vectorSize);
+            newEntry.d_distances    = raii::CudaDeviceMemory(distanceSize);
+            newEntry.d_topkIndices  = raii::CudaDeviceMemory(topkIdxSize);
+            newEntry.d_topkDistances= raii::CudaDeviceMemory(topkDistSize);
+
+            // Initialize buffers so the capture is valid (kernels read valid data)
+            cudaMemset(newEntry.d_queries.get(),    0, querySize);
+            cudaMemset(newEntry.d_vectors.get(),    0, vectorSize);
+            cudaMemset(newEntry.d_distances.get(),  0, distanceSize);
+            cudaMemset(newEntry.d_topkIndices.get(),   0, topkIdxSize);
+            cudaMemset(newEntry.d_topkDistances.get(), 0, topkDistSize);
+            // cudaMemset is synchronous: it blocks the host until the fill is
+            // complete, so the buffers are ready before capture begins.
+
+            // Use a dedicated non-blocking stream for the capture
+            cudaStream_t captureStream = nullptr;
+            cudaError_t csErr = cudaStreamCreateWithFlags(&captureStream,
+                                                          cudaStreamNonBlocking);
+            if (csErr != cudaSuccess) {
+                setError(ErrorContext(
+                    AccelerationErrorCode::AllocationFailed, "CUDA",
+                    "Failed to create capture stream: " +
+                        std::string(cudaGetErrorString(csErr)),
+                    "Check CUDA driver state"));
+                std::cerr << lastError_.format() << std::endl;
+                return {};
+            }
+
+            // Begin stream capture — capture kernel launches only
+            cudaError_t capErr = cudaStreamBeginCapture(
+                captureStream, cudaStreamCaptureModeGlobal);
+            if (capErr != cudaSuccess) {
+                cudaStreamDestroy(captureStream);
+                setError(ErrorContext(
+                    AccelerationErrorCode::AllocationFailed, "CUDA",
+                    "cudaStreamBeginCapture failed: " +
+                        std::string(cudaGetErrorString(capErr)),
+                    "Ensure CUDA >= 10.0 and no concurrent capture in progress"));
+                std::cerr << lastError_.format() << std::endl;
+                return {};
+            }
+
+            // Capture distance kernel
+            switch (metric) {
+                case DistanceMetric::COSINE:
+                    launchCosineDistanceKernel(
+                        static_cast<const float*>(newEntry.d_queries.get()),
+                        static_cast<const float*>(newEntry.d_vectors.get()),
+                        static_cast<float*>(newEntry.d_distances.get()),
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
+                    break;
+                case DistanceMetric::INNER_PRODUCT:
+                    launchInnerProductKernel(
+                        static_cast<const float*>(newEntry.d_queries.get()),
+                        static_cast<const float*>(newEntry.d_vectors.get()),
+                        static_cast<float*>(newEntry.d_distances.get()),
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
+                    break;
+                default: // DistanceMetric::L2
+                    launchL2DistanceKernel(
+                        static_cast<const float*>(newEntry.d_queries.get()),
+                        static_cast<const float*>(newEntry.d_vectors.get()),
+                        static_cast<float*>(newEntry.d_distances.get()),
+                        static_cast<int>(numQueries), static_cast<int>(numVectors),
+                        static_cast<int>(dim), captureStream);
+                    break;
+            }
+
+            // Capture top-K kernel
+            launchTopKKernel(
+                static_cast<const float*>(newEntry.d_distances.get()),
+                static_cast<int*>(newEntry.d_topkIndices.get()),
+                static_cast<float*>(newEntry.d_topkDistances.get()),
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(effectiveK), captureStream);
+
+            // End capture
+            cudaError_t endErr = cudaStreamEndCapture(captureStream, &newEntry.graph);
+            cudaStreamDestroy(captureStream);
+
+            if (endErr != cudaSuccess || newEntry.graph == nullptr) {
+                setError(ErrorContext(
+                    AccelerationErrorCode::AllocationFailed, "CUDA",
+                    "cudaStreamEndCapture failed: " +
+                        std::string(cudaGetErrorString(endErr)),
+                    "Verify CUDA version supports graph capture"));
+                std::cerr << lastError_.format() << std::endl;
+                return {};
+            }
+
+            // Instantiate the graph
+#if defined(CUDART_VERSION) && (CUDART_VERSION >= 12000)
+            cudaError_t instErr = cudaGraphInstantiate(
+                &newEntry.exec, newEntry.graph, 0);
+#else
+            cudaError_t instErr = cudaGraphInstantiate(
+                &newEntry.exec, newEntry.graph, nullptr, nullptr, 0);
+#endif
+            if (instErr != cudaSuccess || newEntry.exec == nullptr) {
+                setError(ErrorContext(
+                    AccelerationErrorCode::AllocationFailed, "CUDA",
+                    "cudaGraphInstantiate failed: " +
+                        std::string(cudaGetErrorString(instErr)),
+                    "Check available device memory and CUDA version"));
+                std::cerr << lastError_.format() << std::endl;
+                return {};
+            }
+
+            // Insert into cache (evicts LRU if needed)
+            {
+                std::lock_guard<std::mutex> lock(graphCacheMutex_);
+                entry = &graphCache_.put(shape, std::move(newEntry));
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // Replay: copy input data → device, launch graph, copy results ← device
+        // ------------------------------------------------------------------
+
+        // H2D: copy input data into the pre-allocated device buffers
+        cudaMemcpyAsync(entry->d_queries.get(),  queries, querySize,
+                        cudaMemcpyHostToDevice, mainStream);
+        cudaMemcpyAsync(entry->d_vectors.get(), vectors, vectorSize,
+                        cudaMemcpyHostToDevice, mainStream);
+
+        // Launch the captured graph (runs after the H2D copies on the same stream)
+        cudaError_t launchErr = cudaGraphLaunch(entry->exec, mainStream);
+        if (launchErr != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::AllocationFailed, "CUDA",
+                "cudaGraphLaunch failed: " +
+                    std::string(cudaGetErrorString(launchErr)),
+                "Inspect CUDA graph validity and available device memory"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        // D2H: copy results from pre-allocated buffers back to host
+        std::vector<int>   topkIndices  (numQueries * effectiveK);
+        std::vector<float> topkDistances(numQueries * effectiveK);
+
+        cudaMemcpyAsync(topkIndices.data(),
+                        entry->d_topkIndices.get(), topkIdxSize,
+                        cudaMemcpyDeviceToHost, mainStream);
+        cudaMemcpyAsync(topkDistances.data(),
+                        entry->d_topkDistances.get(), topkDistSize,
+                        cudaMemcpyDeviceToHost, mainStream);
+
+        cudaError_t syncErr = cudaStreamSynchronize(mainStream);
+        if (syncErr != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::SynchronizationFailed, "CUDA",
+                "Stream synchronization failed: " +
+                    std::string(cudaGetErrorString(syncErr)),
+                "Check if the GPU is still responsive"));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        // Package results
+        std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
+        for (size_t q = 0; q < numQueries; ++q) {
+            results[q].reserve(effectiveK);
+            for (size_t i = 0; i < effectiveK; ++i) {
+                const size_t idx = q * effectiveK + i;
+                results[q].emplace_back(
+                    static_cast<uint32_t>(topkIndices[idx]),
+                    topkDistances[idx]
+                );
+            }
+        }
+
+        clearError();
+        return results;
+
+    } catch (const std::exception& e) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed, "CUDA",
+            std::string("Graph capture/replay failed: ") + e.what(),
+            "Reduce batch size or free GPU memory"));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
+}
+
+#else // !THEMIS_ENABLE_CUDA
+
+std::vector<std::vector<std::pair<uint32_t, float>>>
+CUDAVectorBackend::batchKnnSearchWithGraph(
+    const float* /*queries*/, size_t /*numQueries*/, size_t /*dim*/,
+    const float* /*vectors*/, size_t /*numVectors*/, size_t /*k*/,
+    DistanceMetric /*metric*/
+) {
+    return {};
+}
+
+#endif // THEMIS_ENABLE_CUDA
 
 // ============================================================================
 // CUDAGraphBackend Stub Implementation
