@@ -26,6 +26,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_circuit_breaker.h"
 
 namespace themis {
 namespace core {
@@ -134,6 +135,28 @@ public:
     void flush() noexcept override {}
     void shutdown() noexcept override {}
     ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/**
+ * @brief No-op circuit breaker implementation for testing or when the
+ *        circuit breaker concern is disabled.
+ *
+ * Always reports CLOSED state and allows every request.
+ */
+class NoOpCircuitBreaker : public ICircuitBreaker {
+public:
+    bool   allowRequest()          override { return true; }
+    void   recordSuccess()         override {}
+    void   recordFailure()         override {}
+    State  getState()        const override { return State::CLOSED; }
+    size_t getFailureCount() const override { return 0; }
+    size_t getSuccessCount() const override { return 0; }
+    void   reset()                 override {}
+    void   forceOpen()             override {}
+
+    void        flush()    noexcept override {}
+    void        shutdown() noexcept override {}
+    ProbeResult isHealthy() const   override { return ProbeResult::healthy(); }
 };
 
 } // namespace concerns

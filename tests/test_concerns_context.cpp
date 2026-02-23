@@ -318,6 +318,7 @@ TEST_F(ConcernsContextTest, HealthCheckAllHealthy) {
     EXPECT_TRUE(status.tracer.ok);
     EXPECT_TRUE(status.metrics.ok);
     EXPECT_TRUE(status.cache.ok);
+    EXPECT_TRUE(status.circuit_breaker.ok);
     EXPECT_TRUE(status.isHealthy());
 }
 
@@ -420,10 +421,12 @@ TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
     EXPECT_EQ("",         cfg.tracerAdapter);
     EXPECT_EQ("",         cfg.metricsAdapter);
     EXPECT_EQ("inmemory", cfg.cacheAdapter);
+    EXPECT_EQ("default",  cfg.circuitBreakerAdapter);
 
     auto result = core::ConfigValidator::validateAdapterConfig(
         cfg.loggerAdapter, cfg.tracerAdapter,
-        cfg.metricsAdapter, cfg.cacheAdapter);
+        cfg.metricsAdapter, cfg.cacheAdapter,
+        cfg.circuitBreakerAdapter);
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
