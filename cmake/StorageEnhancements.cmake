@@ -22,6 +22,9 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/scheduler/task_audit_event.cpp
     ../src/scheduler/task_anomaly_detector.cpp
     ../src/scheduler/task_audit_manager.cpp
+
+    # Task execution result persistence (store outputs in ThemisDB)
+    ../src/scheduler/task_result_store.cpp
     
     # Cron parser utility
     ../src/utils/cron_parser.cpp

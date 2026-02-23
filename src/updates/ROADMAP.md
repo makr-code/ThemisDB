@@ -28,7 +28,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] In-place schema migration without data copy for additive changes (Issue: #2480)
+- [x] In-place schema migration without data copy for additive changes (Issue: #2480)
 - [!] Migration dry-run with detailed change preview (Issue: #2481)
 - [!] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
 - [I] Automatic rollback on post-update health check failure (Issue: #2335)
@@ -61,8 +61,8 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Canary rollout mode (update a fraction of nodes first)
 - [~] Update pre-flight health checks (disk space, memory, dependency versions)
 
-### Phase 3: In-Place Migration & Notification Webhooks (Status: Planned 📋)
-- [ ] In-place schema migration without data copy for additive changes
+### Phase 3: In-Place Migration & Notification Webhooks (Status: In Progress 🚧)
+- [x] In-place schema migration without data copy for additive changes
 - [ ] Migration dry-run with detailed change preview
 - [ ] Notification webhooks (Slack, PagerDuty) on update success/failure
 - [ ] Automatic rollback on post-update health check failure
@@ -76,12 +76,12 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; module total: 74 tests)
-- [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator: 23 tests; module total: 97 tests)
+- [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
-- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`)
-- [x] Documentation complete (full API documentation in `delta_update_engine.h`)
-- [x] API stability guaranteed (`DeltaUpdateEngine` is additive; no existing API changed)
+- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations)
+- [x] Documentation complete (full API documentation in `delta_update_engine.h` and `in_place_schema_migrator.h`)
+- [x] API stability guaranteed (`DeltaUpdateEngine` and `InPlaceSchemaMigrator` are additive; no existing API changed)
 
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.

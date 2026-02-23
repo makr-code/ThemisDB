@@ -280,6 +280,13 @@ std::string taskEventTypeToString(TaskEventType type);
  */
 std::string taskSecurityEventTypeToString(TaskSecurityEventType type);
 
+/**
+ * @brief Parse event type from string (reverse of taskEventTypeToString)
+ * @param s String representation of the event type
+ * @return Corresponding TaskEventType, or TASK_COMPLETED as default for unknown values
+ */
+TaskEventType taskEventTypeFromString(const std::string& s);
+
 } // namespace scheduler
 } // namespace themis
 
