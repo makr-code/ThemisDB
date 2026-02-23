@@ -8,10 +8,10 @@
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   35.0/100                                       ║
-    • Total Lines:     622                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+    • Maturity Level:  🟡 BETA                                         ║
+    • Quality Score:   65.0/100                                       ║
+    • Total Lines:     1433                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
@@ -1258,62 +1258,27 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(
 // ============================================================================
 // CUDAVectorBackend::populateANNDispatch
 //
-// Adapts the legacy void-return CUDA launchers from cuda/vector_kernels.cu
-// to the frozen ANNDistanceFn / ANNTopKFn signatures (return int, 0=success).
-// Under THEMIS_ENABLE_CUDA the wrappers call the real kernels; otherwise all
-// slots remain null so the BackendRegistry falls back to the CPU table.
+// Wires the frozen-interface launchers compiled in cuda/ann_kernels.cu into
+// the ANNKernelDispatch table.  Under THEMIS_ENABLE_CUDA all four slots are
+// populated; otherwise all slots remain null so the BackendRegistry falls back
+// to the CPU table.
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_CUDA
 
-namespace {
-
-static int cuda_ann_l2_dispatch(
-    const float* d_queries, const float* d_vectors, float* d_distances,
-    int numQueries, int numVectors, int dim, void* opaque_stream)
-{
-    launchL2DistanceKernel(d_queries, d_vectors, d_distances,
-                           numQueries, numVectors, dim,
-                           static_cast<cudaStream_t>(opaque_stream));
-    return static_cast<int>(cudaGetLastError());
-}
-
-static int cuda_ann_cosine_dispatch(
-    const float* d_queries, const float* d_vectors, float* d_distances,
-    int numQueries, int numVectors, int dim, void* opaque_stream)
-{
-    launchCosineDistanceKernel(d_queries, d_vectors, d_distances,
-                               numQueries, numVectors, dim,
-                               static_cast<cudaStream_t>(opaque_stream));
-    return static_cast<int>(cudaGetLastError());
-}
-
-static int cuda_ann_inner_product_dispatch(
-    const float* d_queries, const float* d_vectors, float* d_distances,
-    int numQueries, int numVectors, int dim, void* opaque_stream)
-{
-    launchInnerProductKernel(d_queries, d_vectors, d_distances,
-                             numQueries, numVectors, dim,
-                             static_cast<cudaStream_t>(opaque_stream));
-    return static_cast<int>(cudaGetLastError());
-}
-
-static int cuda_ann_topk_dispatch(
-    const float* d_distances, uint32_t* d_topk_indices, float* d_topk_dists,
-    int numQueries, int numVectors, int topK, void* opaque_stream)
-{
-    // Guard: the legacy launcher uses int* for indices.  Verify they are the
-    // same size so the reinterpret_cast below is safe.
-    static_assert(sizeof(uint32_t) == sizeof(int),
-                  "uint32_t and int must have the same size for index cast");
-    launchTopKKernel(d_distances,
-                     reinterpret_cast<int*>(d_topk_indices), d_topk_dists,
-                     numQueries, numVectors, topK,
-                     static_cast<cudaStream_t>(opaque_stream));
-    return static_cast<int>(cudaGetLastError());
-}
-
-} // anonymous namespace
+// Forward declarations for launchers compiled in cuda/ann_kernels.cu.
+// These conform to the ANNDistanceFn / ANNTopKFn typedefs in
+// include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
+extern "C" {
+int cuda_launchL2DistanceKernel(const float*, const float*, float*,
+                                 int, int, int, void*);
+int cuda_launchCosineDistanceKernel(const float*, const float*, float*,
+                                     int, int, int, void*);
+int cuda_launchInnerProductKernel(const float*, const float*, float*,
+                                   int, int, int, void*);
+int cuda_launchTopKKernel(const float*, uint32_t*, float*,
+                           int, int, int, void*);
+} // extern "C"
 
 #endif // THEMIS_ENABLE_CUDA
 
@@ -1322,10 +1287,10 @@ namespace acceleration {
 ANNKernelDispatch CUDAVectorBackend::populateANNDispatch() const {
 #ifdef THEMIS_ENABLE_CUDA
     ANNKernelDispatch d;
-    d.launchL2Distance   = cuda_ann_l2_dispatch;
-    d.launchCosine       = cuda_ann_cosine_dispatch;
-    d.launchInnerProduct = cuda_ann_inner_product_dispatch;
-    d.launchTopK         = cuda_ann_topk_dispatch;
+    d.launchL2Distance   = &cuda_launchL2DistanceKernel;
+    d.launchCosine       = &cuda_launchCosineDistanceKernel;
+    d.launchInnerProduct = &cuda_launchInnerProductKernel;
+    d.launchTopK         = &cuda_launchTopKKernel;
     return d;
 #else
     return {}; // No CUDA — all null; BackendRegistry falls back to CPU table

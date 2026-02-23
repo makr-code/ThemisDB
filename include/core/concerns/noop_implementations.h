@@ -26,6 +26,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_secrets.h"
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 
@@ -139,6 +140,20 @@ public:
 };
 
 /**
+ * @brief No-op secrets implementation for testing or when a secrets backend
+ *        is not configured.
+ *
+ * Always reports "not found" for every secret name.  Use this in unit tests
+ * or in environments where credentials are supplied through other means
+ * (e.g. mounted Kubernetes secrets read directly by the application).
+ */
+class NoOpSecrets : public ISecrets {
+public:
+    std::optional<std::string> getSecret(std::string_view name) const override {
+        return std::nullopt;
+    }
+    bool hasSecret(std::string_view name) const override { return false; }
+    std::vector<std::string> listSecretNames() const override { return {}; }
  * @brief No-op circuit breaker implementation for testing or when the
  *        circuit breaker concern is disabled.
  *

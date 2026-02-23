@@ -33,12 +33,16 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [I] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ### Long-term (6-12 months)
-- [P] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
-- [I] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
-- [I] Schema-aware query generation using live collection metadata (Issue: #1361)
+- [I] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
+- [x] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
+- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [I] AQL function documentation auto-generation from C++ headers (Issue: #1362)
-- [I] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
-- [~] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
+- [P] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
+  - `include/aql/aql_lora_finetuner.h` — AQLDatasetBuilder + AQLLoRAFinetuner interfaces
+  - `src/aql/aql_lora_finetuner.cpp`    — Built-in AQL training corpus + LoRA training pipeline
+  - `src/llm/aql_train_parser.cpp`      — AQL TRAIN/DEPLOY/VERIFY/LIST ADAPTERS parser
+  - `tests/test_aql_lora_finetuner.cpp` — 40+ unit tests
+- [I] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 
 ## Implementation Phases
 
@@ -62,7 +66,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] Interactive AQL query builder with LLM suggestions
 - [x] Confidence scoring for generated AQL queries (`aql/aql_confidence_scorer.cpp`, `LLMAQLHandler::translateNLToAQLWithConfidence`)
 - [ ] Multi-turn conversation context for iterative query refinement
-- [ ] Schema-aware query generation using live collection metadata
+- [x] Schema-aware query generation using live collection metadata
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
@@ -76,7 +80,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
 - No offline fallback when no LLM provider is configured
 - Prompt injection in `translateNLToAQL()` is mitigated by pattern-based input sanitization; advanced adversarial inputs not covered by the current pattern set may still bypass detection
-- Schema-aware generation requires explicit schema injection into prompts
+- Schema-aware generation is supported: attach a metadata snapshot via `AQLQueryBuilder::setSchema()` (`include/aql/aql_schema_provider.h`); schema context is injected automatically into LLM prompts and unknown collection names are flagged as validation warnings
 
 ## Breaking Changes
 - LLM command handler API is stable; new command types will be additive

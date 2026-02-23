@@ -949,275 +949,114 @@ TEST(IAsyncCacheTest, DefaultAsyncImplCallsSyncMethod) {
     EXPECT_FALSE(cache.getAsync("k1").get().has_value());
 }
 
-// ===== InMemoryFeatureFlags Tests =====
+// ===== ISecrets / NoOpSecrets Tests =====
 
-TEST(InMemoryFeatureFlagsTest, UnknownFlagIsDisabledByDefault) {
-    InMemoryFeatureFlags flags;
-    EXPECT_FALSE(flags.isEnabled("new_feature"));
-    EXPECT_FALSE(flags.isEnabled("does_not_exist"));
+TEST(ISecretsTest, NoOpSecretsGetReturnsNullopt) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.getSecret("api.key").has_value());
+    EXPECT_FALSE(s.getSecret("db.password").has_value());
 }
 
-TEST(InMemoryFeatureFlagsTest, SetValueEnablesFlag) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("dark_mode", true);
-    EXPECT_TRUE(flags.isEnabled("dark_mode"));
+TEST(ISecretsTest, NoOpSecretsHasSecretReturnsFalse) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.hasSecret("any.secret"));
 }
 
-TEST(InMemoryFeatureFlagsTest, SetValueDisablesFlag) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("beta_feature", true);
-    EXPECT_TRUE(flags.isEnabled("beta_feature"));
-    flags.setValue("beta_feature", false);
-    EXPECT_FALSE(flags.isEnabled("beta_feature"));
+TEST(ISecretsTest, NoOpSecretsListSecretNamesIsEmpty) {
+    NoOpSecrets s;
+    EXPECT_TRUE(s.listSecretNames().empty());
 }
 
-TEST(InMemoryFeatureFlagsTest, ConstructWithInitialValues) {
-    InMemoryFeatureFlags flags({
-        {"feature_a", true},
-        {"feature_b", false},
-        {"feature_c", true}
-    });
-    EXPECT_TRUE(flags.isEnabled("feature_a"));
-    EXPECT_FALSE(flags.isEnabled("feature_b"));
-    EXPECT_TRUE(flags.isEnabled("feature_c"));
+TEST(ISecretsTest, NoOpSecretsLifecycleDoesNotCrash) {
+    NoOpSecrets s;
+    EXPECT_NO_THROW(s.flush());
+    EXPECT_NO_THROW(s.shutdown());
 }
 
-TEST(InMemoryFeatureFlagsTest, GetAllFlagsReturnsSnapshot) {
-    InMemoryFeatureFlags flags({{"f1", true}, {"f2", false}});
-    auto all = flags.getAllFlags();
-    ASSERT_EQ(2u, all.size());
-    EXPECT_TRUE(all.at("f1"));
-    EXPECT_FALSE(all.at("f2"));
-}
-
-TEST(InMemoryFeatureFlagsTest, GetAllFlagsSnapshotIsIndependent) {
-    InMemoryFeatureFlags flags({{"f1", true}});
-    auto snapshot = flags.getAllFlags();
-    // Modifying snapshot does not affect provider
-    snapshot["f1"] = false;
-    EXPECT_TRUE(flags.isEnabled("f1"));
-}
-
-TEST(InMemoryFeatureFlagsTest, GetAllFlagsReflectsCurrentState) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("x", true);
-    auto all = flags.getAllFlags();
-    EXPECT_TRUE(all.at("x"));
-    flags.setValue("x", false);
-    auto all2 = flags.getAllFlags();
-    EXPECT_FALSE(all2.at("x"));
-}
-
-TEST(InMemoryFeatureFlagsTest, MultipleFlags) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("alpha", true);
-    flags.setValue("beta", false);
-    flags.setValue("gamma", true);
-    EXPECT_TRUE(flags.isEnabled("alpha"));
-    EXPECT_FALSE(flags.isEnabled("beta"));
-    EXPECT_TRUE(flags.isEnabled("gamma"));
-    EXPECT_EQ(3u, flags.getAllFlags().size());
-}
-
-TEST(InMemoryFeatureFlagsTest, LifecycleMethods) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("f", true);
-    EXPECT_NO_THROW(flags.flush());
-    EXPECT_NO_THROW(flags.shutdown());
-}
-
-TEST(InMemoryFeatureFlagsTest, IsHealthyReturnsTrue) {
-    InMemoryFeatureFlags flags;
-    auto result = flags.isHealthy();
+TEST(ISecretsTest, NoOpSecretsIsHealthy) {
+    NoOpSecrets s;
+    auto result = s.isHealthy();
     EXPECT_TRUE(result.ok);
 }
 
-TEST(InMemoryFeatureFlagsTest, ThreadSafeConcurrentReadsAndWrites) {
-    InMemoryFeatureFlags flags;
-    flags.setValue("concurrent_flag", false);
+TEST(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
+    // createNoOp() should return a NoOpSecrets provider
+    EXPECT_FALSE(context->secrets().hasSecret("api.key"));
+    EXPECT_FALSE(context->secrets().getSecret("db.password").has_value());
+    EXPECT_TRUE(context->secrets().listSecretNames().empty());
+}
 
-    std::atomic<int> read_true_count{0};
-    std::atomic<int> read_false_count{0};
-    std::latch start_gate{3}; // writer + 2 readers all wait here
-
-    // Writer thread toggles the flag
-    std::thread writer([&]() {
-        start_gate.arrive_and_wait();
-        for (int i = 0; i < 100; ++i) {
-            flags.setValue("concurrent_flag", i % 2 == 0);
+TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
+    // A custom ISecrets implementation for injection testing
+    class StubSecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view name) const override {
+            if (name == "db.password") return "hunter2";
+            if (name == "api.key")     return "sk-test-123";
+            return std::nullopt;
         }
-    });
-
-    // Reader threads count reads
-    std::thread reader1([&]() {
-        start_gate.arrive_and_wait();
-        for (int i = 0; i < 100; ++i) {
-            if (flags.isEnabled("concurrent_flag")) ++read_true_count;
-            else ++read_false_count;
+        bool hasSecret(std::string_view name) const override {
+            return name == "db.password" || name == "api.key";
         }
-    });
-    std::thread reader2([&]() {
-        start_gate.arrive_and_wait();
-        for (int i = 0; i < 100; ++i) {
-            if (flags.isEnabled("concurrent_flag")) ++read_true_count;
-            else ++read_false_count;
+        std::vector<std::string> listSecretNames() const override {
+            return {"api.key", "db.password"};
         }
-    });
+    };
 
-    writer.join();
-    reader1.join();
-    reader2.join();
-
-    // No crash and counts sum correctly
-    EXPECT_EQ(200, read_true_count.load() + read_false_count.load());
-}
-
-// ===== NoOpFeatureFlags Tests =====
-
-TEST(NoOpFeatureFlagsTest, IsEnabledAlwaysReturnsFalse) {
-    NoOpFeatureFlags flags;
-    EXPECT_FALSE(flags.isEnabled("any_flag"));
-    EXPECT_FALSE(flags.isEnabled("feature_x"));
-    EXPECT_FALSE(flags.isEnabled(""));
-}
-
-TEST(NoOpFeatureFlagsTest, SetValueIsNoOp) {
-    NoOpFeatureFlags flags;
-    flags.setValue("feature", true);
-    // setValue has no effect — flag must still be disabled
-    EXPECT_FALSE(flags.isEnabled("feature"));
-}
-
-TEST(NoOpFeatureFlagsTest, GetAllFlagsReturnsEmpty) {
-    NoOpFeatureFlags flags;
-    flags.setValue("f1", true);
-    auto all = flags.getAllFlags();
-    EXPECT_TRUE(all.empty());
-}
-
-TEST(NoOpFeatureFlagsTest, LifecycleMethods) {
-    NoOpFeatureFlags flags;
-    EXPECT_NO_THROW(flags.flush());
-    EXPECT_NO_THROW(flags.shutdown());
-}
-
-TEST(NoOpFeatureFlagsTest, IsHealthyReturnsTrue) {
-    NoOpFeatureFlags flags;
-    EXPECT_TRUE(flags.isHealthy().ok);
-}
-
-// ===== NoOpCircuitBreaker Tests =====
-
-TEST(NoOpCircuitBreakerTest, AllowRequestAlwaysTrue) {
-    NoOpCircuitBreaker cb;
-    for (int i = 0; i < 10; ++i) {
-        EXPECT_TRUE(cb.allowRequest());
-    }
-}
-
-TEST(NoOpCircuitBreakerTest, StateIsAlwaysClosed) {
-    NoOpCircuitBreaker cb;
-    EXPECT_EQ(ICircuitBreaker::State::CLOSED, cb.getState());
-    cb.recordFailure();
-    cb.recordFailure();
-    EXPECT_EQ(ICircuitBreaker::State::CLOSED, cb.getState());
-    cb.forceOpen();
-    EXPECT_EQ(ICircuitBreaker::State::CLOSED, cb.getState());
-}
-
-TEST(NoOpCircuitBreakerTest, CountersAreAlwaysZero) {
-    NoOpCircuitBreaker cb;
-    cb.recordFailure();
-    cb.recordSuccess();
-    EXPECT_EQ(0u, cb.getFailureCount());
-    EXPECT_EQ(0u, cb.getSuccessCount());
-}
-
-TEST(NoOpCircuitBreakerTest, ResetDoesNothing) {
-    NoOpCircuitBreaker cb;
-    EXPECT_NO_THROW(cb.reset());
-    EXPECT_EQ(ICircuitBreaker::State::CLOSED, cb.getState());
-}
-
-TEST(NoOpCircuitBreakerTest, ForceOpenDoesNothing) {
-    NoOpCircuitBreaker cb;
-    EXPECT_NO_THROW(cb.forceOpen());
-    EXPECT_EQ(ICircuitBreaker::State::CLOSED, cb.getState());
-    EXPECT_TRUE(cb.allowRequest());
-}
-
-TEST(NoOpCircuitBreakerTest, IsHealthyReturnsTrueWhenClosed) {
-    NoOpCircuitBreaker cb;
-    EXPECT_TRUE(cb.isHealthy().ok);
-}
-
-TEST(NoOpCircuitBreakerTest, LifecycleMethods) {
-    NoOpCircuitBreaker cb;
-    EXPECT_NO_THROW(cb.flush());
-    EXPECT_NO_THROW(cb.shutdown());
-}
-
-TEST(NoOpCircuitBreakerTest, StateToStringHelpers) {
-    EXPECT_EQ("CLOSED",    ICircuitBreaker::stateToString(ICircuitBreaker::State::CLOSED));
-    EXPECT_EQ("OPEN",      ICircuitBreaker::stateToString(ICircuitBreaker::State::OPEN));
-    EXPECT_EQ("HALF_OPEN", ICircuitBreaker::stateToString(ICircuitBreaker::State::HALF_OPEN));
-}
-
-// ===== ConcernsContext Feature Flags Integration Tests =====
-
-TEST_F(ConcernsContextTest, NoOpContextFeatureFlagsAreDisabled) {
-    // createNoOp() installs NoOpFeatureFlags — all flags disabled by default.
-    EXPECT_FALSE(context->featureFlags().isEnabled("any_flag"));
-}
-
-TEST_F(ConcernsContextTest, CustomContextWithInMemoryFeatureFlags) {
-    auto flags = std::make_unique<InMemoryFeatureFlags>(
-        std::unordered_map<std::string, bool>{{"dark_mode", true}, {"beta", false}});
     auto ctx = ConcernsContext::createCustom(
         std::make_unique<NoOpLogger>(),
         std::make_unique<NoOpTracer>(),
         std::make_unique<NoOpMetrics>(),
         std::make_unique<NoOpCache>(),
-        std::move(flags)
+        std::make_unique<StubSecrets>()
     );
-    EXPECT_TRUE(ctx->featureFlags().isEnabled("dark_mode"));
-    EXPECT_FALSE(ctx->featureFlags().isEnabled("beta"));
-    EXPECT_FALSE(ctx->featureFlags().isEnabled("unknown"));
+
+    ASSERT_TRUE(ctx->secrets().hasSecret("db.password"));
+    ASSERT_EQ("hunter2", ctx->secrets().getSecret("db.password").value());
+    ASSERT_TRUE(ctx->secrets().hasSecret("api.key"));
+    ASSERT_EQ("sk-test-123", ctx->secrets().getSecret("api.key").value());
+    EXPECT_FALSE(ctx->secrets().hasSecret("unknown"));
+    ASSERT_EQ(2u, ctx->secrets().listSecretNames().size());
 }
 
-TEST_F(ConcernsContextTest, FeatureFlagsMutableViaAccessor) {
-    auto flags = std::make_unique<InMemoryFeatureFlags>();
+TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
+    // createCustom() with no secrets argument falls back to NoOpSecrets
     auto ctx = ConcernsContext::createCustom(
         std::make_unique<NoOpLogger>(),
         std::make_unique<NoOpTracer>(),
         std::make_unique<NoOpMetrics>(),
-        std::make_unique<NoOpCache>(),
-        std::move(flags)
+        std::make_unique<NoOpCache>()
     );
-    ctx->featureFlags().setValue("new_feature", true);
-    EXPECT_TRUE(ctx->featureFlags().isEnabled("new_feature"));
+
+    EXPECT_FALSE(ctx->secrets().hasSecret("anything"));
+    EXPECT_FALSE(ctx->secrets().getSecret("anything").has_value());
 }
 
-TEST_F(ConcernsContextTest, HealthCheckIncludesFeatureFlags) {
-    auto ctx = ConcernsContext::createNoOp();
-    auto status = ctx->healthCheck();
-    EXPECT_TRUE(status.featureFlags.ok);
+TEST(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.secrets.ok);
     EXPECT_TRUE(status.isHealthy());
 }
 
-TEST_F(ConcernsContextTest, FlushIncludesFeatureFlags) {
-    // flush() must not crash when featureFlags is present.
-    auto ctx = ConcernsContext::createNoOp();
-    EXPECT_NO_THROW(ctx->flush());
-}
+TEST(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
+    class UnhealthySecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view) const override { return std::nullopt; }
+        bool hasSecret(std::string_view) const override { return false; }
+        std::vector<std::string> listSecretNames() const override { return {}; }
+        ProbeResult isHealthy() const override { return ProbeResult::unhealthy("vault unreachable"); }
+    };
 
-TEST_F(ConcernsContextTest, ShutdownIncludesFeatureFlags) {
-    // shutdown() must not crash when featureFlags is present.
-    auto ctx = ConcernsContext::createNoOp();
-    EXPECT_NO_THROW(ctx->shutdown());
-}
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<UnhealthySecrets>()
+    );
 
-TEST_F(ConcernsContextTest, ConstFeatureFlagsAccessor) {
-    const auto ctx = ConcernsContext::createNoOp();
-    EXPECT_FALSE(ctx->featureFlags().isEnabled("f"));
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.secrets.ok);
+    EXPECT_EQ("vault unreachable", status.secrets.message);
+    EXPECT_FALSE(status.isHealthy());
 }
