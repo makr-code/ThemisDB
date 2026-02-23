@@ -1206,6 +1206,44 @@ else()
 endif()
 
 # ============================================================================
+# Serverless Function API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serverless_function_api_handler.cpp")
+    message(STATUS "Adding Serverless Function API Handler tests")
+
+    add_executable(test_serverless_function_api_handler
+        test_serverless_function_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/serverless_function_api_handler.cpp
+    )
+
+    target_include_directories(test_serverless_function_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_serverless_function_api_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_serverless_function_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ServerlessFunctionApiHandlerTests
+             COMMAND test_serverless_function_api_handler)
+
+    set_tests_properties(ServerlessFunctionApiHandlerTests PROPERTIES
+        LABELS "server;serverless;functions;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Serverless Function Handler: CRUD, invocation DSL, version history")
+else()
+    message(STATUS "Serverless Function API Handler tests not found")
+endif()
+
+# ============================================================================
 # Inverted Index (standalone full-text search module) Tests
 # ============================================================================
 
