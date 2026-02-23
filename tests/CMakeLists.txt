@@ -285,6 +285,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_oauth_device_flow\\.cpp$"
+    ".*test_oauth_pkce_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"

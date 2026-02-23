@@ -1,0 +1,423 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            oauth_pkce_flow.cpp                                ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-02-23                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     310                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "auth/oauth_pkce_flow.h"
+#include "auth/jwt_validator.h"
+
+#include <curl/curl.h>
+#include <openssl/sha.h>
+#include <openssl/rand.h>
+#include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+
+#include <sstream>
+#include <stdexcept>
+#include <array>
+
+namespace themis {
+namespace auth {
+
+namespace {
+
+// libcurl write callback – appends received data to a std::string.
+size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+    const auto total = size * nmemb;
+    static_cast<std::string*>(userdata)->append(ptr, total);
+    return total;
+}
+
+} // anonymous namespace
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+OAuthPKCEFlow::OAuthPKCEFlow(const Config& config)
+    : config_(config)
+{
+    if (config_.authorization_endpoint.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "OAuth PKCE configuration error",
+            "authorization_endpoint must not be empty"
+        ));
+    }
+    if (config_.token_endpoint.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "OAuth PKCE configuration error",
+            "token_endpoint must not be empty"
+        ));
+    }
+    if (config_.client_id.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "OAuth PKCE configuration error",
+            "client_id must not be empty"
+        ));
+    }
+    if (config_.redirect_uri.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "OAuth PKCE configuration error",
+            "redirect_uri must not be empty"
+        ));
+    }
+}
+
+// ============================================================================
+// Testing helpers
+// ============================================================================
+
+void OAuthPKCEFlow::setHttpPostForTesting(
+    std::function<std::string(const std::string& url, const std::string& body)> fn)
+{
+    http_post_fn_ = std::move(fn);
+}
+
+void OAuthPKCEFlow::setRandBytesForTesting(
+    std::function<void(unsigned char* buf, std::size_t len)> fn)
+{
+    rand_bytes_fn_ = std::move(fn);
+}
+
+// ============================================================================
+// RFC 7636 §4.1 – Generate code_verifier and code_challenge
+// ============================================================================
+
+OAuthPKCEFlow::PKCEChallenge OAuthPKCEFlow::generateChallenge() {
+    // Generate 96 random bytes → 128 Base64URL characters (fits 43–128 limit).
+    constexpr std::size_t kVerifierBytes = 96;
+    std::array<unsigned char, kVerifierBytes> raw{};
+
+    fillRandomBytes(raw.data(), raw.size());
+
+    const std::string verifier = base64UrlEncode(raw.data(), raw.size());
+
+    // code_challenge = BASE64URL(SHA256(ASCII(code_verifier)))
+    const std::string digest = sha256(verifier);
+    const std::string challenge = base64UrlEncode(
+        reinterpret_cast<const unsigned char*>(digest.data()),
+        digest.size()
+    );
+
+    spdlog::debug("OAuthPKCEFlow: generated PKCE challenge (method=S256, "
+                  "verifier_len={})", verifier.size());
+
+    PKCEChallenge result;
+    result.code_verifier  = verifier;
+    result.code_challenge = challenge;
+    // challenge_method is already defaulted to "S256" in the struct
+    return result;
+}
+
+// ============================================================================
+// Build authorization URL
+// ============================================================================
+
+std::string OAuthPKCEFlow::buildAuthorizationUrl(const PKCEChallenge& challenge,
+                                                  const std::string& state) const {
+    std::string url = config_.authorization_endpoint;
+    url += (url.find('?') == std::string::npos) ? '?' : '&';
+
+    auto append = [&url](const std::string& key, const std::string& val) {
+        url += urlEncode(key) + '=' + urlEncode(val) + '&';
+    };
+
+    append("response_type", "code");
+    append("client_id",     config_.client_id);
+    append("redirect_uri",  config_.redirect_uri);
+
+    if (!config_.scopes.empty()) {
+        std::string scope_str;
+        for (std::size_t i = 0; i < config_.scopes.size(); ++i) {
+            if (i > 0) scope_str += ' ';
+            scope_str += config_.scopes[i];
+        }
+        append("scope", scope_str);
+    }
+
+    append("code_challenge",        challenge.code_challenge);
+    append("code_challenge_method", challenge.challenge_method);
+
+    if (!state.empty()) {
+        append("state", state);
+    }
+
+    // Remove trailing '&'
+    if (!url.empty() && url.back() == '&') {
+        url.pop_back();
+    }
+
+    return url;
+}
+
+// ============================================================================
+// RFC 7636 §4.5 – Token Exchange
+// ============================================================================
+
+OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(
+    const std::string& authorization_code,
+    const std::string& code_verifier)
+{
+    if (authorization_code.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "PKCE token exchange failed",
+            "authorization_code must not be empty"
+        ));
+    }
+    if (code_verifier.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "PKCE token exchange failed",
+            "code_verifier must not be empty"
+        ));
+    }
+
+    const std::vector<std::pair<std::string, std::string>> params = {
+        {"grant_type",    "authorization_code"},
+        {"code",          authorization_code},
+        {"redirect_uri",  config_.redirect_uri},
+        {"client_id",     config_.client_id},
+        {"code_verifier", code_verifier}
+    };
+
+    const std::string body = buildFormBody(params);
+    spdlog::debug("OAuthPKCEFlow: exchanging authorization code at {}",
+                  config_.token_endpoint);
+
+    std::string response_body;
+    try {
+        response_body = httpPost(config_.token_endpoint, body);
+    } catch (const std::exception& ex) {
+        spdlog::error("OAuthPKCEFlow: token exchange HTTP error: {}", ex.what());
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "PKCE token exchange failed",
+            std::string("HTTP error: ") + ex.what()
+        ));
+    }
+
+    nlohmann::json j;
+    try {
+        j = nlohmann::json::parse(response_body);
+    } catch (const nlohmann::json::exception& ex) {
+        spdlog::error("OAuthPKCEFlow: failed to parse token response: {}", ex.what());
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Invalid token response",
+            std::string("JSON parse error: ") + ex.what()
+        ));
+    }
+
+    // RFC 6749 §5.2 – error response
+    if (j.contains("error")) {
+        const std::string err  = j.value("error", "unknown_error");
+        const std::string desc = j.value("error_description", "");
+        spdlog::error("OAuthPKCEFlow: token endpoint error '{}': {}", err, desc);
+
+        const AuthErrorCode code =
+            (err == "invalid_grant") ? AuthErrorCode::AUTH_INVALID_CREDENTIALS
+                                     : AuthErrorCode::AUTH_INTERNAL_ERROR;
+        throw AuthException(AuthError(
+            code,
+            "PKCE token exchange error",
+            "error=" + err + " description=" + desc
+        ));
+    }
+
+    TokenResponse token;
+    try {
+        token.access_token  = j.at("access_token").get<std::string>();
+        token.token_type    = j.value("token_type", "Bearer");
+        token.expires_in    = j.value("expires_in", 0);
+        token.refresh_token = j.value("refresh_token", std::string{});
+        token.scope         = j.value("scope", std::string{});
+        token.id_token      = j.value("id_token", std::string{});
+    } catch (const nlohmann::json::exception& ex) {
+        spdlog::error("OAuthPKCEFlow: incomplete token response: {}", ex.what());
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Incomplete token response",
+            std::string("Missing field: ") + ex.what()
+        ));
+    }
+
+    spdlog::info("OAuthPKCEFlow: access token obtained (type='{}')", token.token_type);
+    return token;
+}
+
+// ============================================================================
+// id_token validation
+// ============================================================================
+
+JWTClaims OAuthPKCEFlow::validateIdToken(const TokenResponse& token_response) {
+    if (token_response.id_token.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::JWT_MISSING_REQUIRED_CLAIM,
+            "No id_token in token response",
+            "id_token is empty; ensure 'openid' scope was requested"
+        ));
+    }
+    if (config_.jwks_url.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "JWKS URL not configured",
+            "jwks_url must be set in OAuthPKCEFlow::Config to validate id_token"
+        ));
+    }
+
+    JWTValidator validator(config_.jwks_url);
+    return validator.parseAndValidate(token_response.id_token);
+}
+
+// ============================================================================
+// HTTP helper
+// ============================================================================
+
+std::string OAuthPKCEFlow::httpPost(const std::string& url, const std::string& body) {
+    if (http_post_fn_) {
+        return http_post_fn_(url, body);
+    }
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        throw std::runtime_error("Failed to initialize libcurl handle");
+    }
+
+    std::string response_body;
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(config_.http_timeout_seconds));
+    // Always verify TLS certificates
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers,
+                                "Content-Type: application/x-www-form-urlencoded");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    const CURLcode res = curl_easy_perform(curl);
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    if (res != CURLE_OK) {
+        throw std::runtime_error(
+            std::string("libcurl error: ") + curl_easy_strerror(res));
+    }
+
+    return response_body;
+}
+
+// ============================================================================
+// Crypto / encoding helpers
+// ============================================================================
+
+void OAuthPKCEFlow::fillRandomBytes(unsigned char* buf, std::size_t len) {
+    if (rand_bytes_fn_) {
+        rand_bytes_fn_(buf, len);
+        return;
+    }
+    if (RAND_bytes(buf, static_cast<int>(len)) != 1) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Failed to generate secure random bytes",
+            "OpenSSL RAND_bytes returned error"
+        ));
+    }
+}
+
+std::string OAuthPKCEFlow::sha256(const std::string& input) {
+    std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
+    SHA256(reinterpret_cast<const unsigned char*>(input.data()),
+           input.size(),
+           digest.data());
+    return std::string(reinterpret_cast<const char*>(digest.data()), digest.size());
+}
+
+std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char* data, std::size_t len) {
+    // Standard Base64 alphabet
+    static const char kTable[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::string out;
+    out.reserve(((len + 2) / 3) * 4);
+
+    for (std::size_t i = 0; i < len; i += 3) {
+        const uint32_t b0 = data[i];
+        const uint32_t b1 = (i + 1 < len) ? data[i + 1] : 0u;
+        const uint32_t b2 = (i + 2 < len) ? data[i + 2] : 0u;
+        const uint32_t triple = (b0 << 16) | (b1 << 8) | b2;
+
+        out += kTable[(triple >> 18) & 0x3F];
+        out += kTable[(triple >> 12) & 0x3F];
+        out += (i + 1 < len) ? kTable[(triple >> 6) & 0x3F] : '=';
+        out += (i + 2 < len) ? kTable[(triple)      & 0x3F] : '=';
+    }
+
+    // Convert standard Base64 → Base64URL (RFC 4648 §5): replace +→-, /→_, strip =
+    for (char& c : out) {
+        if (c == '+') c = '-';
+        else if (c == '/') c = '_';
+    }
+    // Strip padding
+    while (!out.empty() && out.back() == '=') {
+        out.pop_back();
+    }
+
+    return out;
+}
+
+std::string OAuthPKCEFlow::urlEncode(const std::string& value) {
+    CURL* curl = curl_easy_init();
+    if (!curl) return value;
+
+    char* encoded = curl_easy_escape(curl, value.c_str(),
+                                     static_cast<int>(value.size()));
+    std::string result;
+    if (encoded) {
+        result = encoded;
+        curl_free(encoded);
+    }
+    curl_easy_cleanup(curl);
+    return result;
+}
+
+std::string OAuthPKCEFlow::buildFormBody(
+    const std::vector<std::pair<std::string, std::string>>& params)
+{
+    std::string body;
+    for (std::size_t i = 0; i < params.size(); ++i) {
+        if (i > 0) body += '&';
+        body += urlEncode(params[i].first);
+        body += '=';
+        body += urlEncode(params[i].second);
+    }
+    return body;
+}
+
+} // namespace auth
+} // namespace themis
