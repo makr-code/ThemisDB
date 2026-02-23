@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/cuda_backend.h"
 #include <vector>
 #include <cmath>
 
@@ -236,5 +237,119 @@ TEST_F(AccelerationTest, DISABLED_VectorSearchBenchmark) {
     
     EXPECT_EQ(results.size(), numQueries);
     
+    backend->shutdown();
+}
+
+// ============================================================================
+// ANNKernelDispatch and Capability Tests
+// ============================================================================
+
+TEST_F(AccelerationTest, CPUDispatchTableFullyPopulated) {
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+
+    auto dispatch = backend->populateANNDispatch();
+    EXPECT_NE(dispatch.launchL2Distance,   nullptr);
+    EXPECT_NE(dispatch.launchCosine,       nullptr);
+    EXPECT_NE(dispatch.launchInnerProduct, nullptr);
+    EXPECT_NE(dispatch.launchTopK,         nullptr);
+}
+
+TEST_F(AccelerationTest, CPUDispatchMetricSelector) {
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+
+    auto dispatch = backend->populateANNDispatch();
+    EXPECT_NE(dispatch.distanceLauncherFor(DistanceMetric::L2),            nullptr);
+    EXPECT_NE(dispatch.distanceLauncherFor(DistanceMetric::COSINE),        nullptr);
+    EXPECT_NE(dispatch.distanceLauncherFor(DistanceMetric::INNER_PRODUCT), nullptr);
+}
+
+TEST_F(AccelerationTest, CPUCapabilitiesMetricBitmask) {
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+
+    auto caps = backend->getCapabilities();
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::L2),            0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::COSINE),        0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::INNER_PRODUCT), 0u);
+}
+
+TEST_F(AccelerationTest, CPUCapabilitiesPrecisionMode) {
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+
+    auto caps = backend->getCapabilities();
+    EXPECT_TRUE(hasPrecision(caps.supportedPrecisions, PrecisionMode::FP32));
+}
+
+TEST_F(AccelerationTest, CUDAVectorCapabilitiesMetricBitmask) {
+    // CUDAVectorBackend::getCapabilities() is a pure compile-time/device-query
+    // method that does NOT require initialize() to have been called.  It reports
+    // capabilities based on compile-time flags and optional device queries
+    // (falling back to "Not Available" when no GPU is present).
+    CUDAVectorBackend cudaBackend;
+    auto caps = cudaBackend.getCapabilities();
+
+#ifdef THEMIS_ENABLE_CUDA
+    EXPECT_NE(caps.supportedMetrics, 0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::L2),            0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::COSINE),        0u);
+    EXPECT_NE(caps.supportedMetrics & metricBit(DistanceMetric::INNER_PRODUCT), 0u);
+    EXPECT_TRUE(hasPrecision(caps.supportedPrecisions, PrecisionMode::FP32));
+#else
+    // No CUDA compile support — caps are empty by design
+    EXPECT_EQ(caps.supportedMetrics, 0u);
+#endif
+}
+
+TEST_F(AccelerationTest, CUDAVectorDispatchTablePopulated) {
+    // CUDAVectorBackend::populateANNDispatch() returns compile-time function
+    // pointers and does NOT require initialize() to have been called.  This
+    // separation is intentional: callers can inspect available kernels before
+    // deciding whether to initialize the backend.
+    CUDAVectorBackend cudaBackend;
+    auto dispatch = cudaBackend.populateANNDispatch();
+
+#ifdef THEMIS_ENABLE_CUDA
+    EXPECT_NE(dispatch.launchL2Distance,   nullptr);
+    EXPECT_NE(dispatch.launchCosine,       nullptr);
+    EXPECT_NE(dispatch.launchInnerProduct, nullptr);
+    EXPECT_NE(dispatch.launchTopK,         nullptr);
+#else
+    // Without CUDA, all slots remain null so BackendRegistry falls back to CPU
+    EXPECT_EQ(dispatch.launchL2Distance,   nullptr);
+    EXPECT_EQ(dispatch.launchCosine,       nullptr);
+    EXPECT_EQ(dispatch.launchInnerProduct, nullptr);
+    EXPECT_EQ(dispatch.launchTopK,         nullptr);
+#endif
+}
+
+TEST_F(AccelerationTest, BatchKnnSearchKClampsToNumVectors) {
+    // k larger than numVectors must not crash; results must have at most numVectors entries
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+    };
+    std::vector<float> query = {0.5f, 0.5f};
+
+    auto results = backend->batchKnnSearch(
+        query.data(), 1, 2,
+        vectors.data(), 2,
+        100,  // k > numVectors
+        true);
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_LE(results[0].size(), 2u);
+
     backend->shutdown();
 }

@@ -30,6 +30,7 @@
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
+#include "acceleration/raii/cuda_raii.h"
 
 // External CUDA kernel declarations
 extern "C" {
@@ -95,26 +96,6 @@ int launchGeoContainmentKernel(
     void* opaque_stream
 );
 }
-
-#define CUDA_CHECK(call) \
-    do { \
-        cudaError_t err = call; \
-        if (err != cudaSuccess) { \
-            std::cerr << "CUDA error in " << __FILE__ << ":" << __LINE__ \
-                      << " - " << cudaGetErrorString(err) << std::endl; \
-            return {}; \
-        } \
-    } while(0)
-
-#define CUDA_CHECK_BOOL(call) \
-    do { \
-        cudaError_t err = call; \
-        if (err != cudaSuccess) { \
-            std::cerr << "CUDA error in " << __FILE__ << ":" << __LINE__ \
-                      << " - " << cudaGetErrorString(err) << std::endl; \
-            return false; \
-        } \
-    } while(0)
 
 #endif
 
@@ -292,50 +273,88 @@ std::vector<float> CUDAVectorBackend::computeDistances(
 ) {
 #ifdef THEMIS_ENABLE_CUDA
     if (!initialized_) {
-        std::cerr << "CUDA backend not initialized" << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA",
+            "CUDA backend not initialized",
+            "Call initialize() before using the backend"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         return {};
     }
-    
-    // Use RAII-managed stream
-    cudaStream_t stream = stream_.get();
-    
-    // Allocate device memory
-    float *d_queries, *d_vectors, *d_distances;
-    size_t querySize = numQueries * dim * sizeof(float);
-    size_t vectorSize = numVectors * dim * sizeof(float);
-    size_t distanceSize = numQueries * numVectors * sizeof(float);
-    
-    CUDA_CHECK(cudaMalloc(&d_queries, querySize));
-    CUDA_CHECK(cudaMalloc(&d_vectors, vectorSize));
-    CUDA_CHECK(cudaMalloc(&d_distances, distanceSize));
-    
-    // Copy data to device
-    CUDA_CHECK(cudaMemcpyAsync(d_queries, queries, querySize, cudaMemcpyHostToDevice, stream));
-    CUDA_CHECK(cudaMemcpyAsync(d_vectors, vectors, vectorSize, cudaMemcpyHostToDevice, stream));
-    
-    // Launch kernel
-    if (useL2) {
-        launchL2DistanceKernel(d_queries, d_vectors, d_distances,
-                              numQueries, numVectors, dim, stream);
-    } else {
-        launchCosineDistanceKernel(d_queries, d_vectors, d_distances,
-                                  numQueries, numVectors, dim, stream);
+
+    // Input validation
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        return {};
     }
-    
-    // Copy results back
-    std::vector<float> distances(numQueries * numVectors);
-    CUDA_CHECK(cudaMemcpyAsync(distances.data(), d_distances, distanceSize,
-                               cudaMemcpyDeviceToHost, stream));
-    
-    // Synchronize
-    CUDA_CHECK(cudaStreamSynchronize(stream));
-    
-    // Cleanup
-    cudaFree(d_queries);
-    cudaFree(d_vectors);
-    cudaFree(d_distances);
-    
-    return distances;
+    if (numQueries == 0 || numVectors == 0 || dim == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, and dim must all be > 0"));
+        return {};
+    }
+
+    cudaStream_t stream = stream_.get();
+
+    const size_t querySize    = numQueries * dim      * sizeof(float);
+    const size_t vectorSize   = numVectors * dim      * sizeof(float);
+    const size_t distanceSize = numQueries * numVectors * sizeof(float);
+
+    try {
+        // RAII wrappers ensure no device memory leaks on any error path
+        raii::CudaDeviceMemory d_queries(querySize);
+        raii::CudaDeviceMemory d_vectors(vectorSize);
+        raii::CudaDeviceMemory d_distances(distanceSize);
+
+        d_queries.copyFrom(queries, querySize, stream);
+        d_vectors.copyFrom(vectors, vectorSize, stream);
+
+        if (useL2) {
+            launchL2DistanceKernel(
+                static_cast<const float*>(d_queries.get()),
+                static_cast<const float*>(d_vectors.get()),
+                static_cast<float*>(d_distances.get()),
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
+        } else {
+            launchCosineDistanceKernel(
+                static_cast<const float*>(d_queries.get()),
+                static_cast<const float*>(d_vectors.get()),
+                static_cast<float*>(d_distances.get()),
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
+        }
+
+        std::vector<float> distances(numQueries * numVectors);
+        d_distances.copyTo(distances.data(), distanceSize, stream);
+
+        cudaError_t err = cudaStreamSynchronize(stream);
+        if (err != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::SynchronizationFailed,
+                "CUDA",
+                "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+                "Check if the GPU is still responsive"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        clearError();
+        return distances;
+    } catch (const std::exception& e) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "CUDA",
+            std::string("Device memory operation failed: ") + e.what(),
+            "Reduce batch size or free GPU memory"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
+    }
 #else
     return {};
 #endif
@@ -352,79 +371,119 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
 ) {
 #ifdef THEMIS_ENABLE_CUDA
     if (!initialized_) {
-        std::cerr << "CUDA backend not initialized" << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA",
+            "CUDA backend not initialized",
+            "Call initialize() before using the backend"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         return {};
     }
-    
+
+    // Input validation
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "CUDA", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, dim, and k must all be > 0"));
+        return {};
+    }
+
+    // Clamp k to available vectors to prevent out-of-bounds indexing
+    const size_t effectiveK = std::min(k, numVectors);
+
     cudaStream_t stream = stream_.get();
-    
-    // Allocate device memory
-    float *d_queries, *d_vectors, *d_distances;
-    int *d_topkIndices;
-    float *d_topkDistances;
-    
-    size_t querySize = numQueries * dim * sizeof(float);
-    size_t vectorSize = numVectors * dim * sizeof(float);
-    size_t distanceSize = numQueries * numVectors * sizeof(float);
-    size_t topkIdxSize = numQueries * k * sizeof(int);
-    size_t topkDistSize = numQueries * k * sizeof(float);
-    
-    CUDA_CHECK(cudaMalloc(&d_queries, querySize));
-    CUDA_CHECK(cudaMalloc(&d_vectors, vectorSize));
-    CUDA_CHECK(cudaMalloc(&d_distances, distanceSize));
-    CUDA_CHECK(cudaMalloc(&d_topkIndices, topkIdxSize));
-    CUDA_CHECK(cudaMalloc(&d_topkDistances, topkDistSize));
-    
-    // Copy data to device
-    CUDA_CHECK(cudaMemcpyAsync(d_queries, queries, querySize, cudaMemcpyHostToDevice, stream));
-    CUDA_CHECK(cudaMemcpyAsync(d_vectors, vectors, vectorSize, cudaMemcpyHostToDevice, stream));
-    
-    // Step 1: Compute distances
-    if (useL2) {
-        launchL2DistanceKernel(d_queries, d_vectors, d_distances,
-                              numQueries, numVectors, dim, stream);
-    } else {
-        launchCosineDistanceKernel(d_queries, d_vectors, d_distances,
-                                  numQueries, numVectors, dim, stream);
-    }
-    
-    // Step 2: Extract top-k
-    launchTopKKernel(d_distances, d_topkIndices, d_topkDistances,
-                    numQueries, numVectors, k, stream);
-    
-    // Copy results back
-    std::vector<int> topkIndices(numQueries * k);
-    std::vector<float> topkDistances(numQueries * k);
-    
-    CUDA_CHECK(cudaMemcpyAsync(topkIndices.data(), d_topkIndices, topkIdxSize,
-                               cudaMemcpyDeviceToHost, stream));
-    CUDA_CHECK(cudaMemcpyAsync(topkDistances.data(), d_topkDistances, topkDistSize,
-                               cudaMemcpyDeviceToHost, stream));
-    
-    // Synchronize
-    CUDA_CHECK(cudaStreamSynchronize(stream));
-    
-    // Cleanup device memory
-    cudaFree(d_queries);
-    cudaFree(d_vectors);
-    cudaFree(d_distances);
-    cudaFree(d_topkIndices);
-    cudaFree(d_topkDistances);
-    
-    // Convert to output format
-    std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
-    for (size_t q = 0; q < numQueries; ++q) {
-        results[q].reserve(k);
-        for (size_t i = 0; i < k; ++i) {
-            size_t idx = q * k + i;
-            results[q].emplace_back(
-                static_cast<uint32_t>(topkIndices[idx]),
-                topkDistances[idx]
-            );
+
+    const size_t querySize    = numQueries  * dim         * sizeof(float);
+    const size_t vectorSize   = numVectors  * dim         * sizeof(float);
+    const size_t distanceSize = numQueries  * numVectors  * sizeof(float);
+    const size_t topkIdxSize  = numQueries  * effectiveK  * sizeof(int);
+    const size_t topkDistSize = numQueries  * effectiveK  * sizeof(float);
+
+    try {
+        // RAII wrappers ensure no device memory leaks on any error path
+        raii::CudaDeviceMemory d_queries(querySize);
+        raii::CudaDeviceMemory d_vectors(vectorSize);
+        raii::CudaDeviceMemory d_distances(distanceSize);
+        raii::CudaDeviceMemory d_topkIndices(topkIdxSize);
+        raii::CudaDeviceMemory d_topkDistances(topkDistSize);
+
+        d_queries.copyFrom(queries, querySize, stream);
+        d_vectors.copyFrom(vectors, vectorSize, stream);
+
+        // Step 1: Compute distances
+        if (useL2) {
+            launchL2DistanceKernel(
+                static_cast<const float*>(d_queries.get()),
+                static_cast<const float*>(d_vectors.get()),
+                static_cast<float*>(d_distances.get()),
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
+        } else {
+            launchCosineDistanceKernel(
+                static_cast<const float*>(d_queries.get()),
+                static_cast<const float*>(d_vectors.get()),
+                static_cast<float*>(d_distances.get()),
+                static_cast<int>(numQueries), static_cast<int>(numVectors),
+                static_cast<int>(dim), stream);
         }
+
+        // Step 2: Extract top-k
+        launchTopKKernel(
+            static_cast<const float*>(d_distances.get()),
+            static_cast<int*>(d_topkIndices.get()),
+            static_cast<float*>(d_topkDistances.get()),
+            static_cast<int>(numQueries), static_cast<int>(numVectors),
+            static_cast<int>(effectiveK), stream);
+
+        std::vector<int>   topkIndices  (numQueries * effectiveK);
+        std::vector<float> topkDistances(numQueries * effectiveK);
+
+        d_topkIndices  .copyTo(topkIndices.data(),   topkIdxSize,  stream);
+        d_topkDistances.copyTo(topkDistances.data(), topkDistSize, stream);
+
+        cudaError_t err = cudaStreamSynchronize(stream);
+        if (err != cudaSuccess) {
+            setError(ErrorContext(
+                AccelerationErrorCode::SynchronizationFailed,
+                "CUDA",
+                "Stream synchronization failed: " + std::string(cudaGetErrorString(err)),
+                "Check if the GPU is still responsive"
+            ));
+            std::cerr << lastError_.format() << std::endl;
+            return {};
+        }
+
+        std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
+        for (size_t q = 0; q < numQueries; ++q) {
+            results[q].reserve(effectiveK);
+            for (size_t i = 0; i < effectiveK; ++i) {
+                const size_t idx = q * effectiveK + i;
+                results[q].emplace_back(
+                    static_cast<uint32_t>(topkIndices[idx]),
+                    topkDistances[idx]
+                );
+            }
+        }
+
+        clearError();
+        return results;
+    } catch (const std::exception& e) {
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "CUDA",
+            std::string("Device memory operation failed: ") + e.what(),
+            "Reduce batch size or free GPU memory"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return {};
     }
-    
-    return results;
 #else
     return {};
 #endif
