@@ -233,6 +233,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
+    ".*test_pmem_storage\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
@@ -290,6 +291,7 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_auto_optimize.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_detector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_multimodal.cpp
 )
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
