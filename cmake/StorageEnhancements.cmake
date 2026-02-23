@@ -14,7 +14,10 @@ list(APPEND THEMIS_CORE_SOURCES
     
     # Distributed task coordination (Phase 2)
     ../src/scheduler/distributed_task_coordinator.cpp
-    
+
+    # External scheduler adapters (Kubernetes CronJob, Airflow) – Phase 4
+    ../src/scheduler/external_scheduler_adapter.cpp
+
     # Task audit events and anomaly detection
     ../src/scheduler/task_audit_event.cpp
     ../src/scheduler/task_anomaly_detector.cpp
