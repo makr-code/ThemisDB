@@ -206,7 +206,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_erasure_coding.*\\.cpp$"
     ".*test_auth_error\\.cpp$"
     ".*test_auth_metrics\\.cpp$"
-    ".*test_auth_rate_limiter\\.cpp$"
     ".*test_jwks_security\\.cpp$"
     ".*test_kerberos_security\\.cpp$"
     ".*test_principal_validator\\.cpp$"
