@@ -48,6 +48,7 @@
 #include "prompt_engineering/prompt_manager.h"
 #include "cache/semantic_cache.h"
 #include "server/auth_middleware.h"
+#include "server/chunked_response_writer.h"
 #include "security/encryption.h"
 #include "security/pki_key_provider.h"
 #include "metadata/index_recommender.h"
@@ -205,6 +206,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     bool explain = body.contains("explain") ? body["explain"].get<bool>() : false;
     std::string ret = body.contains("return") ? body["return"].get<std::string>() : std::string("entities");
     bool decrypt = body.contains("decrypt") ? body["decrypt"].get<bool>() : false;
+    bool stream = body.contains("stream") ? body["stream"].get<bool>() : false;
 
     themis::ConjunctiveQuery q{table, preds, {}, {}, {}, {}};
     q.rangePredicates = std::move(rpreds);
@@ -283,6 +285,15 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             
             json j = {{"table", table}, {"count", res.second.size()}, {"keys", res.second}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, res.second.size())) {
+                std::vector<nlohmann::json> key_items;
+                key_items.reserve(res.second.size());
+                for (const auto& k : res.second) {
+                    key_items.push_back(k);
+                }
+                ChunkedWriterConfig cfg;
+                return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, key_items, cfg);
+            }
             return makeResponse(http::status::ok, j.dump(), req);
         } else {
             std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res;
@@ -431,6 +442,11 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
             }
             json j = {{"table", table}, {"count", res.second.size()}, {"entities", entities}, {"decrypted", decrypt}};
             if (explain && !plan_json.is_null()) j["plan"] = plan_json;
+            if (stream && ChunkedResponseWriter::shouldUseChunkedTransfer(req, entities.size())) {
+                std::vector<nlohmann::json> entity_items(entities.begin(), entities.end());
+                ChunkedWriterConfig cfg;
+                return ChunkedResponseWriter::fromJsonVector(req, http::status::ok, entity_items, cfg);
+            }
             return makeResponse(http::status::ok, j.dump(), req);
         }
 
