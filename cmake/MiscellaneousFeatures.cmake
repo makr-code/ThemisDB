@@ -9,6 +9,7 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/module_hash_verifier.cpp
 )
 
 # LLM-adjacent features are only added when LLM is enabled

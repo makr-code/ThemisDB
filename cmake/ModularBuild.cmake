@@ -165,6 +165,9 @@ set(THEMIS_BASE_SOURCES
     # Module dependency resolver (load-order management)
     ../src/themis/module_dependency_resolver.cpp
     
+    # Module hash verifier (SHA-256 integrity verification)
+    ../src/themis/module_hash_verifier.cpp
+    
     # Stubs for missing symbols
     ../src/stubs.cpp
 )

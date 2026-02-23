@@ -25,7 +25,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [I] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
 - [I] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
-- [!] SHA-256 hash verification for loaded modules (Issue: #2471)
+- [~] SHA-256 hash verification for loaded modules (Issue: #2471)
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
@@ -54,7 +54,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [ ] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [ ] `isModuleCompiledIn()` – runtime module availability check
-- [ ] SHA-256 hash verification for loaded modules
+- [~] SHA-256 hash verification for loaded modules
 
 ### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
 - [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
