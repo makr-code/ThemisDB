@@ -1589,6 +1589,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
