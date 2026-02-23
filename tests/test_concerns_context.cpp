@@ -947,3 +947,115 @@ TEST(IAsyncCacheTest, DefaultAsyncImplCallsSyncMethod) {
     cache.invalidateAsync("k1").get();
     EXPECT_FALSE(cache.getAsync("k1").get().has_value());
 }
+
+// ===== ISecrets / NoOpSecrets Tests =====
+
+TEST(ISecretsTest, NoOpSecretsGetReturnsNullopt) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.getSecret("api.key").has_value());
+    EXPECT_FALSE(s.getSecret("db.password").has_value());
+}
+
+TEST(ISecretsTest, NoOpSecretsHasSecretReturnsFalse) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.hasSecret("any.secret"));
+}
+
+TEST(ISecretsTest, NoOpSecretsListSecretNamesIsEmpty) {
+    NoOpSecrets s;
+    EXPECT_TRUE(s.listSecretNames().empty());
+}
+
+TEST(ISecretsTest, NoOpSecretsLifecycleDoesNotCrash) {
+    NoOpSecrets s;
+    EXPECT_NO_THROW(s.flush());
+    EXPECT_NO_THROW(s.shutdown());
+}
+
+TEST(ISecretsTest, NoOpSecretsIsHealthy) {
+    NoOpSecrets s;
+    auto result = s.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
+    // createNoOp() should return a NoOpSecrets provider
+    EXPECT_FALSE(context->secrets().hasSecret("api.key"));
+    EXPECT_FALSE(context->secrets().getSecret("db.password").has_value());
+    EXPECT_TRUE(context->secrets().listSecretNames().empty());
+}
+
+TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
+    // A custom ISecrets implementation for injection testing
+    class StubSecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view name) const override {
+            if (name == "db.password") return "hunter2";
+            if (name == "api.key")     return "sk-test-123";
+            return std::nullopt;
+        }
+        bool hasSecret(std::string_view name) const override {
+            return name == "db.password" || name == "api.key";
+        }
+        std::vector<std::string> listSecretNames() const override {
+            return {"api.key", "db.password"};
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<StubSecrets>()
+    );
+
+    ASSERT_TRUE(ctx->secrets().hasSecret("db.password"));
+    ASSERT_EQ("hunter2", ctx->secrets().getSecret("db.password").value());
+    ASSERT_TRUE(ctx->secrets().hasSecret("api.key"));
+    ASSERT_EQ("sk-test-123", ctx->secrets().getSecret("api.key").value());
+    EXPECT_FALSE(ctx->secrets().hasSecret("unknown"));
+    ASSERT_EQ(2u, ctx->secrets().listSecretNames().size());
+}
+
+TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
+    // createCustom() with no secrets argument falls back to NoOpSecrets
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>()
+    );
+
+    EXPECT_FALSE(ctx->secrets().hasSecret("anything"));
+    EXPECT_FALSE(ctx->secrets().getSecret("anything").has_value());
+}
+
+TEST(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.secrets.ok);
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
+    class UnhealthySecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view) const override { return std::nullopt; }
+        bool hasSecret(std::string_view) const override { return false; }
+        std::vector<std::string> listSecretNames() const override { return {}; }
+        ProbeResult isHealthy() const override { return ProbeResult::unhealthy("vault unreachable"); }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<UnhealthySecrets>()
+    );
+
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.secrets.ok);
+    EXPECT_EQ("vault unreachable", status.secrets.message);
+    EXPECT_FALSE(status.isHealthy());
+}
