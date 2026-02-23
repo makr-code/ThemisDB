@@ -375,13 +375,6 @@ std::string AQLMigrationAssistant::rewriteNear(
 
 // ---------------------------------------------------------------------------
 // Rewrite: WITHIN(collection, lat, lng, radius)
-//          → FOR _doc IN <collection>
-//              FILTER ST_DISTANCE(_doc.location, [lng, lat]) <= <radius>
-//              RETURN _doc
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Rewrite: WITHIN(collection, lat, lng, radius)
 //          → (FOR _within_doc IN <collection>
 //              FILTER ST_DISTANCE(_within_doc.location, [lng, lat]) <= <radius>
 //              RETURN _within_doc)
@@ -462,13 +455,6 @@ std::string AQLMigrationAssistant::rewriteWithin(
 
     return result;
 }
-
-// ---------------------------------------------------------------------------
-// Rewrite: FULLTEXT(collection, attribute, query)
-//          → FOR _doc IN <collection>
-//              FILTER SIMILARITY(_doc.<attribute>, <searchQuery>, 1)
-//              RETURN _doc
-// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Rewrite: FULLTEXT(collection, attribute, query)
@@ -559,11 +545,6 @@ std::string AQLMigrationAssistant::rewriteFulltext(
 
     return result;
 }
-
-// ---------------------------------------------------------------------------
-// Rewrite: DOCUMENT(collection, key)
-//          → (FOR _doc IN <collection> FILTER _doc._key == <key> LIMIT 1 RETURN _doc)
-// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Rewrite: DOCUMENT(collection, key)
