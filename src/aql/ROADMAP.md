@@ -34,10 +34,14 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 
 ### Long-term (6-12 months)
 - [I] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
-- [I] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
+- [x] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
 - [x] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [I] AQL function documentation auto-generation from C++ headers (Issue: #1362)
-- [I] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
+- [P] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
+  - `include/aql/aql_lora_finetuner.h` — AQLDatasetBuilder + AQLLoRAFinetuner interfaces
+  - `src/aql/aql_lora_finetuner.cpp`    — Built-in AQL training corpus + LoRA training pipeline
+  - `src/llm/aql_train_parser.cpp`      — AQL TRAIN/DEPLOY/VERIFY/LIST ADAPTERS parser
+  - `tests/test_aql_lora_finetuner.cpp` — 40+ unit tests
 - [I] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 
 ## Implementation Phases

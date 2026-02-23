@@ -47,6 +47,19 @@ scopes:
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
 
+  # ── Acceleration changes: CPU/GPU backend abstraction layer ──────────────
+  has_acceleration_changes:
+    patterns:
+      - 'src/acceleration/**'
+      - 'include/acceleration/**'
+      - 'benchmarks/bench_cuda_vs_cpu.cpp'
+      - 'benchmarks/performance_regression_detector.py'
+      - 'benchmarks/baseline_manager.py'
+      - 'benchmarks/baselines/acceleration/**'
+      - 'tests/test_acceleration_dispatch.cpp'
+      - 'tests/test_cuda_ann_search.cpp'
+      - 'tests/test_backend_registry_startup.cpp'
+
   # ── GPU changes: GPU module, geo GPU backend ──────────────────────────────
   has_gpu_changes:
     patterns:
@@ -119,6 +132,7 @@ workflow_scope_map:
   validate-roadmap:           [has_doc_only_changes]
   research-validation:        [has_doc_only_changes]
   validate-grafana-dashboards: [has_grafana_changes]
+  acceleration-benchmark-ci:  [has_acceleration_changes, has_code_changes]
   gpu-ci:                     [has_gpu_changes]
   llm-cuda-gpu-ci:            [has_llm_changes, has_gpu_changes]
   llm-cpu-fallback-ci:        [has_llm_changes]

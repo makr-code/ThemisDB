@@ -35,6 +35,25 @@
 namespace themis {
 namespace acceleration {
 
+// =============================================================================
+// Backend contract version
+//
+// Monotonically increasing integer encoding major*100 + minor.
+// Callers may compare this at runtime to detect mismatched shared libraries.
+// This value is bumped ONLY on breaking changes to the public backend API
+// (IComputeBackend, IVectorBackend, IGeoBackend, IGraphBackend, IMatrixBackend,
+// BackendCapabilities, BackendHealthStatus, PartialBatchResult, KnnQueryResult,
+// and BackendRegistry::CapabilityRequirements).
+//
+// Compatibility guarantees:
+//  - Additive changes (new fields, new enum values) increment the minor part.
+//  - Breaking changes (removed/renamed symbols, changed signatures) increment
+//    the major part and invalidate binary compatibility.
+//  - BACKEND_CONTRACT_VERSION and KERNEL_INVOCATION_INTERFACE_VERSION must be
+//    queried together; a shared library is compatible only when both match.
+// =============================================================================
+inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
+
 // Backend types for hardware acceleration
 enum class BackendType {
     CPU,        // CPU-only (fallback)
