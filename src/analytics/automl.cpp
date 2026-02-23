@@ -1827,7 +1827,12 @@ AutoMLModel AutoML::trainClassifier(
     }
     double tot = 0.0;
     for (const auto& [k, v] : importance) tot += v;
-    if (tot > 0) { for (auto& [k, v] : importance) v /= tot; } else if (!importance.empty()) { double u = 1.0 / static_cast<double>(importance.size()); for (auto& [k, v] : importance) v = u; }
+    if (tot > 0) {
+        for (auto& [k, v] : importance) v /= tot;
+    } else if (!importance.empty()) {
+        double u = 1.0 / static_cast<double>(importance.size());
+        for (auto& [k, v] : importance) v = u;
+    }
     result.impl_->feat_importance = importance;
 
     return result;
@@ -1865,7 +1870,12 @@ AutoMLModel AutoML::trainRegressor(
     }
     double tot = 0.0;
     for (const auto& [k, v] : importance) tot += v;
-    if (tot > 0) { for (auto& [k, v] : importance) v /= tot; } else if (!importance.empty()) { double u = 1.0 / static_cast<double>(importance.size()); for (auto& [k, v] : importance) v = u; }
+    if (tot > 0) {
+        for (auto& [k, v] : importance) v /= tot;
+    } else if (!importance.empty()) {
+        double u = 1.0 / static_cast<double>(importance.size());
+        for (auto& [k, v] : importance) v = u;
+    }
     result.impl_->feat_importance = importance;
 
     return result;
