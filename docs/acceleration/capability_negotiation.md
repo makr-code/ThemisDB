@@ -81,10 +81,64 @@ struct BackendCapabilities {
 | `supportedMetrics` | L2 \| COSINE \| INNER_PRODUCT | — | — |
 | `supportsAsync` | ❌ | ❌ | ❌ |
 
-GPU backends (CUDA, Vulkan, HIP) additionally declare:
-- `supportsAsync = true`
-- `supportedPrecisions` including `FP16` and/or `BF16` (for Tensor Core backends)
-- non-zero `maxMemoryBytes` and `computeUnits` from device probing
+### CUDA backend capabilities
+
+| Field | CUDAVectorBackend | CUDAGraphBackend | CUDAGeoBackend | CUDAMatrixBackend |
+|-------|-------------------|------------------|----------------|-------------------|
+| `supportsVectorOps` | ✅ | ❌ | ❌ | ❌ |
+| `supportsGraphOps` | ❌ | ✅ | ❌ | ❌ |
+| `supportsGeoOps` | ❌ | ❌ | ✅ | ❌ |
+| `supportsMatrixOps` | ❌ | ❌ | ❌ | ✅ |
+| `supportsBatchProcessing` | ✅ | ❌ | ✅ | ✅ |
+| `supportsAsync` | ✅ | ❌ | ✅ | ✅ |
+| `supportedPrecisions` | FP32 | — | FP32 | FP32 \| FP16 \| BF16 |
+| `supportedMetrics` | L2 \| COSINE \| INNER_PRODUCT | — | — | — |
+| Build flag | `THEMIS_ENABLE_CUDA` | `THEMIS_ENABLE_CUDA` | `THEMIS_ENABLE_CUDA` | `THEMIS_ENABLE_CUDA` |
+| Stability | Stub (falls back to CPU) | Stub | Stub (falls back to CPU) | Production |
+
+> **Note:** `CUDAMatrixBackend` requires SM 7.0+ for FP16 and SM 8.0+ (Ampere) for BF16 Tensor Core acceleration.
+
+### HIP (AMD ROCm) backend capabilities
+
+| Field | HIPVectorBackend | HIPGeoBackend |
+|-------|------------------|---------------|
+| `supportsVectorOps` | ✅ | ❌ |
+| `supportsGraphOps` | ❌ | ❌ |
+| `supportsGeoOps` | ❌ | ✅ |
+| `supportsBatchProcessing` | ✅ | ✅ |
+| `supportsAsync` | ✅ | ✅ |
+| `supportedPrecisions` | FP32 | FP32 |
+| `supportedMetrics` | L2 \| COSINE \| INNER_PRODUCT | — |
+| Build flag | `THEMIS_ENABLE_HIP` | `THEMIS_ENABLE_HIP` |
+| Stability | Production | Production |
+
+### Vulkan backend capabilities
+
+| Field | VulkanVectorBackend | VulkanGeoBackend |
+|-------|---------------------|------------------|
+| `supportsVectorOps` | ✅ | ❌ |
+| `supportsGraphOps` | ❌ | ❌ |
+| `supportsGeoOps` | ❌ | ✅ |
+| `supportsBatchProcessing` | ✅ | ✅ |
+| `supportsAsync` | ✅ | ✅ |
+| `supportedPrecisions` | FP32 | FP32 |
+| `supportedMetrics` | L2 \| COSINE \| INNER_PRODUCT | — |
+| Build flag | `THEMIS_ENABLE_VULKAN` | `THEMIS_ENABLE_VULKAN` |
+| Stability | Production | Production |
+
+### Other GPU / compute backends
+
+| Field | ZLUDAVectorBackend | DirectXVectorBackend | OpenGLVectorBackend | OpenCLVectorBackend |
+|-------|--------------------|----------------------|---------------------|---------------------|
+| `supportsVectorOps` | ✅ | ✅ | ✅ | ✅ (when initialized) |
+| `supportsBatchProcessing` | ✅ | ✅ | ✅ | ❌ |
+| `supportsAsync` | ✅ | ✅ | ❌ | ❌ |
+| `supportedPrecisions` | FP32 | — | — | — |
+| `supportedMetrics` | L2 \| COSINE \| INNER_PRODUCT | — | — | — |
+| Build flag | `THEMIS_ENABLE_ZLUDA` | `THEMIS_ENABLE_DIRECTX` (Windows only) | `THEMIS_ENABLE_OPENGL` | `THEMIS_ENABLE_OPENCL` |
+| Stability | Experimental | Stub | Stub | Minimal |
+
+> **Fallback chain priority:** CUDA → HIP → ZLUDA → VULKAN → DIRECTX → ROCM → ONEAPI → METAL → OPENCL → OPENGL → WEBGPU → CPU
 
 ### PrecisionMode flags
 

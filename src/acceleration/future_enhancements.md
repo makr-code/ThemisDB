@@ -118,11 +118,11 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 `BackendRegistry` currently selects backends at startup without probing device capabilities (compute capability, available VRAM, driver version). Add a `DeviceCapabilityProbe` that queries all visible GPUs and ranks them, allowing `BackendRegistry::selectBestBackend()` to make an informed choice.
 
 **Implementation Notes:**
-- `[ ]` Create `device_capability_probe.cpp` / `.h`; expose `DeviceInfo` struct with `computeCapabilityMajor`, `computeCapabilityMinor`, `totalMemoryBytes`, `driverVersion`, `backendType`.
-- `[ ]` Probe order: CUDA → HIP → Vulkan → Metal → OpenCL → CPU.
-- `[ ]` Cache probe results for 60 s; re-probe on explicit `BackendRegistry::refresh()` call.
-- `[ ]` Emit structured log line via `utils/logger.h` listing selected backend and device name on startup.
-- `[ ]` Expose probe results via `BackendRegistry::deviceInfo()` for observability.
+- `[x]` Create `device_capability_probe.cpp` / `.h`; expose `DeviceInfo` struct with `computeCapabilityMajor`, `computeCapabilityMinor`, `totalMemoryBytes`, `driverVersion`, `backendType`. — implemented as `device_manager.h` / `device_manager.cpp`; `DeviceCapabilityInfo` struct in `compute_backend.h`
+- `[x]` Probe order: CUDA → HIP → Vulkan → Metal → OpenCL → CPU. — delegated to `themis::gpu::DeviceDiscovery::Enumerate()` which follows this order
+- `[x]` Cache probe results for 60 s; re-probe on explicit `BackendRegistry::refresh()` call. — `DeviceManager::probeDevices()` caches for `kCacheTTL = 60 s`; `DeviceManager::refresh()` forces re-probe; `BackendRegistry::initializeRuntime()` calls `DeviceManager::refresh()`
+- `[x]` Emit structured log line via `utils/logger.h` listing selected backend and device name on startup. — `DeviceManager::logDeviceInfo()` emits structured output; called from `BackendRegistry::initializeRuntime()` (consistent with existing std::cout pattern in backend_registry.cpp)
+- `[x]` Expose probe results via `BackendRegistry::deviceInfo()` for observability. — `BackendRegistry::deviceInfo()` returns the `DeviceCapabilityInfo` snapshot captured at `initializeRuntime()` time
 
 **Performance Targets:**
 - Probe completes in < 50 ms on a system with 4 GPUs.

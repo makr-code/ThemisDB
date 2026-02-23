@@ -48,7 +48,6 @@
 #include <chrono>
 
 using namespace themis::llm;
-using namespace themis::llm::lora;
 
 namespace {
 
