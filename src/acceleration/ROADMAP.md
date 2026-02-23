@@ -28,7 +28,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Long-term (6-12 months)
 - [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
-- [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
+- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `cublasHgemm` (FP16) and `cublasGemmEx+CUDA_R_16BF` (BF16) launchers complete; `CUDAMatrixBackend` + `CPUMatrixBackend` registered in `BackendRegistry`; tests in `tests/test_tensor_core_matmul.cpp`
 - [P] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
 ## Implementation Phases
@@ -54,13 +54,13 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
-- [I] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392)
-- [I] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393)
+- [x] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
+- [x] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
-- [I] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395)
-- [I] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396)
+- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — covered in `docs/acceleration/capability_negotiation.md`
+- [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
 
 ## Implementation Phases
@@ -83,21 +83,21 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
-- [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
+- [x] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458) — `launchFP16MatmulKernel` (`cublasHgemm`), `launchBF16MatmulKernel` (`cublasGemmEx+CUDA_R_16BF`), and `launchFP32MatmulKernel` (`cublasSgemm`) implemented in `cuda/tensor_core_matmul.cu`; `CUDAMatrixBackend` declared in `cuda_backend.h`, implemented in `cuda_backend.cpp`, and auto-registered in `BackendRegistry`; CPU fallback via `CPUMatrixBackend` always available
 - [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
-- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [x] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460) — `bench_cuda_vs_cpu` harness with CPU ANN (L2/Cosine/InnerProduct/TopK/BatchKNN) and Geo (Haversine/PointInPolygon) benchmarks; CUDA benchmarks skipped gracefully without GPU; JSON output with regression detection via CI workflow `acceleration-benchmark-ci.yml`
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
 - [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
-- [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
-- [P] Security audit for backend plugin loading and runtime probes (Issue: #1401) — Thread-safe `PluginSecurityAuditor` (mutex-guarded events + snapshot API); `validatePluginPath()` static helper for path-traversal prevention; logger integration via THEMIS macros; symlink-escape guard in `loadPluginsFromDirectory`; audit tests in `tests/test_plugin_security_audit.cpp`
-- [I] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
-- [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
+- [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
+- [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
+- [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
+- [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA and Vulkan backends are currently stub/scaffolding implementations
-- Actual GPU kernels have not yet been written; all operations fall through to CPU
+- CUDA ANN / geospatial backends are currently stub/scaffolding implementations; all ANN/geo operations fall through to CPU
+- Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - No runtime device capability detection yet
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - Some backend source files are staged but not feature-complete for production traffic
