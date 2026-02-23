@@ -25,7 +25,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [I] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
 - [I] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
-- [~] SHA-256 hash verification for loaded modules (Issue: #2471)
+- [x] SHA-256 hash verification for loaded modules (Issue: #2471)
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
@@ -54,7 +54,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [ ] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [ ] `isModuleCompiledIn()` – runtime module availability check
-- [~] SHA-256 hash verification for loaded modules
+- [x] SHA-256 hash verification for loaded modules
 
 ### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
 - [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
@@ -72,8 +72,8 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- The `src/themis/` directory is currently empty; the monolithic build distributes this logic elsewhere.
-- Modularization is blocked on the v1.7.0 architectural refactor.
+- The `src/themis/` directory contains the module dependency resolver and the SHA-256 module hash verifier; the monolithic build distributes other logic (wire protocol, edition manager) elsewhere.
+- Full modularization is blocked on the v1.7.0 architectural refactor.
 - Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned but not yet implemented here.
 
 ## Breaking Changes

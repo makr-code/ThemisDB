@@ -142,7 +142,31 @@ TEST(ModuleHashVerifier, ClearManifestEmptiesMap) {
     EXPECT_EQ(v.manifestSize(), 0u);
 }
 
-// ---------------------------------------------------------------------------
+TEST(ModuleHashVerifier, GetExpectedHashPresent) {
+    ModuleHashVerifier v;
+    v.addExpectedHash("themis_storage", "aabbccdd");
+
+    const auto result = v.getExpectedHash("themis_storage");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(*result, "aabbccdd");
+}
+
+TEST(ModuleHashVerifier, GetExpectedHashAbsent) {
+    ModuleHashVerifier v;  // empty manifest
+
+    EXPECT_FALSE(v.getExpectedHash("nonexistent").has_value());
+}
+
+TEST(ModuleHashVerifier, GetExpectedHashAfterClear) {
+    ModuleHashVerifier v;
+    v.addExpectedHash("mod", "hash");
+    EXPECT_TRUE(v.getExpectedHash("mod").has_value());
+
+    v.clearManifest();
+    EXPECT_FALSE(v.getExpectedHash("mod").has_value());
+}
+
+
 // loadManifest / saveManifest round-trip
 // ---------------------------------------------------------------------------
 

@@ -210,6 +210,15 @@ size_t ModuleHashVerifier::manifestSize() const {
     return manifest_.size();
 }
 
+std::optional<std::string> ModuleHashVerifier::getExpectedHash(
+    const std::string& moduleName) const {
+    const auto it = manifest_.find(moduleName);
+    if (it == manifest_.end()) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
 void ModuleHashVerifier::clearManifest() {
     manifest_.clear();
 }

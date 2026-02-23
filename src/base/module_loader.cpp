@@ -319,6 +319,32 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     // Step 6: Calculate and store file hash
     result.moduleHash = verifier_->calculateFileHash(modulePath);
     
+    // Step 6b: SHA-256 manifest check (Issue #2471)
+    // If a hash manifest was loaded via setHashManifest(), verify the module's
+    // computed hash matches the expected value.  Modules not listed in the
+    // manifest pass through — the manifest is an integrity verification list
+    // for known modules, not a global block/allowlist.
+    if (hashVerifier_.manifestSize() > 0) {
+        const auto expected = hashVerifier_.getExpectedHash(moduleName);
+        if (expected.has_value()) {
+            if (result.moduleHash != *expected) {
+                result.errorCode = ModuleErrorCode::HASH_MISMATCH;
+                result.errorCategory = categorizeError(result.errorCode);
+                result.errorMessage =
+                    "Integrity violation for module '" + moduleName +
+                    "': expected SHA-256=" + *expected +
+                    " got=" + result.moduleHash;
+                spdlog::critical("SECURITY: {}", result.errorMessage);
+                result.success = false;
+                recordFailure(modulePath, result.errorCode, result.errorMessage);
+                updateMetrics(false, 0, result.errorCode);
+                return result;
+            }
+            spdlog::info("Hash manifest check PASSED for '{}' ({})",
+                         moduleName, result.moduleHash);
+        }
+    }
+
     // STAGED: Staging phase - Load the module library
     if (stagedLoadingEnabled_) {
         spdlog::debug("STAGE: STAGING - {}", moduleName);
@@ -514,6 +540,18 @@ void ModuleLoader::addWhitelistedHash(const std::string& hash) {
 
 void ModuleLoader::addBlacklistedHash(const std::string& hash) {
     verifier_->addBlacklistedHash(hash);
+}
+
+bool ModuleLoader::setHashManifest(const std::string& manifestPath) {
+    const bool ok = hashVerifier_.loadManifest(manifestPath);
+    if (ok) {
+        spdlog::info("ModuleLoader: loaded hash manifest from '{}' ({} entries)",
+                     manifestPath, hashVerifier_.manifestSize());
+    } else {
+        spdlog::error("ModuleLoader: failed to load hash manifest from '{}'",
+                      manifestPath);
+    }
+    return ok;
 }
 
 bool ModuleLoader::exportAuditLog(const std::string& outputPath) const {

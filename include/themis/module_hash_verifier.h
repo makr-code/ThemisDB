@@ -8,6 +8,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 #include <string>
 
 namespace themis {
@@ -109,6 +110,20 @@ public:
      */
     ModuleHashVerificationResult verifyModule(const std::string& moduleName,
                                               const std::string& modulePath) const;
+
+    /**
+     * @brief Look up the expected hash for @p moduleName in the manifest.
+     *
+     * Does NOT open any file; queries only the in-memory manifest loaded via
+     * loadManifest() or populated via addExpectedHash().  Intended for use by
+     * callers (e.g. ModuleLoader) that have already computed the file hash and
+     * want to avoid hashing the file a second time.
+     *
+     * @param moduleName Module name (key in the manifest).
+     * @return The expected hex-encoded SHA-256 string, or an empty optional if
+     *         @p moduleName is not in the manifest.
+     */
+    std::optional<std::string> getExpectedHash(const std::string& moduleName) const;
 
     /**
      * @brief Number of entries currently in the in-memory manifest.
