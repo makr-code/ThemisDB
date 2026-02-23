@@ -59,7 +59,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
-- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — covered in `docs/acceleration/capability_negotiation.md`
+- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
 - [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
 
