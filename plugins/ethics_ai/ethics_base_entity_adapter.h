@@ -23,6 +23,7 @@
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
 #include <nlohmann/json.hpp>
+#include "utils/logger.h"
 
 namespace themis {
 namespace plugins {
@@ -101,7 +102,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*principle_json);
                 argument.principle_basis = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse principle_basis json for argument"); }
         }
         
         auto counter_json = entity.getFieldAsString("counterarguments");
@@ -109,7 +110,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*counter_json);
                 argument.counterarguments = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse counterarguments json for argument"); }
         }
         
         auto supports_json = entity.getFieldAsString("supports");
@@ -117,7 +118,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supports_json);
                 argument.supports = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse supports json for argument"); }
         }
         
         return argument;
@@ -185,7 +186,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*supporting_json);
                 decision.supporting_philosophies = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse supporting_philosophies json for decision"); }
         }
         
         auto chain_json = entity.getFieldAsString("argument_chain_ids");
@@ -193,7 +194,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*chain_json);
                 decision.argument_chain_ids = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse argument_chain_ids json for decision"); }
         }
         
         return decision;
@@ -255,7 +256,7 @@ public:
             try {
                 nlohmann::json j = nlohmann::json::parse(*principles_json);
                 profile.principles = j.get<std::vector<std::string>>();
-            } catch (...) {}
+            } catch (...) { THEMIS_WARN("ethics: failed to parse principles json for profile"); }
         }
         
         return profile;

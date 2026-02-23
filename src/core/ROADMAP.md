@@ -24,14 +24,14 @@
 
 ## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
-- [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
+- [x] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] OpenTelemetry trace and span propagation (Issue: #1407)
-- [I] Prometheus-compatible metrics adapter (Issue: #1408)
+- [x] Prometheus-compatible metrics adapter (Issue: #1408)
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
 - [x] Configuration-driven adapter selection (Issue: #1411)
@@ -58,9 +58,9 @@
 - [x] Environment variable detection for production mode
 - [x] Lazy initialization for optional components
 
-### Phase 2: Observability Adapters (Status: In Progress 🚧)
-- [I] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
-- [I] Prometheus metrics adapter (`core/adapters/prometheus_metrics.cpp`, Target: Q2 2026) (Issue: #1709)
+### Phase 2: Observability Adapters (Status: Completed ✅)
+- [x] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
+- [x] Prometheus metrics adapter (`include/core/concerns/prometheus_metrics_adapter.h`, Target: Q2 2026) (Issue: #1709)
 - [x] Context propagation across async boundaries (Target: Q3 2026)
 
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
@@ -81,8 +81,7 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- Prometheus adapter not yet implemented; metrics are in-memory only
-- Context propagation across async/thread boundaries is provided by `ContextPropagation` and `ContextScope` in `include/core/concerns/context_propagation.h`
+- Context propagation across async/thread boundaries requires manual passing
 - Feature flags are not yet a first-class concern in the DI system
 
 ## Breaking Changes

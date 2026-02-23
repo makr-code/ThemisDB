@@ -102,6 +102,7 @@ public:
                 }
             } catch (...) {
                 ++stats_.errors;
+                std::cerr << "warning: error processing entity '" << pk << "' during scan\n";
             }
             
             return true;  // Continue scanning
