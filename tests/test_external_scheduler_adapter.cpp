@@ -492,3 +492,25 @@ TEST(ExternalSchedulerAdapter, ToAirflowDagTagsIncluded) {
     EXPECT_NE(py.find("themisdb"), std::string::npos) << py;
     EXPECT_NE(py.find("scheduler"), std::string::npos) << py;
 }
+
+TEST(ExternalSchedulerAdapter, ToAirflowDagConnectionHintIncludedWhenBaseUrlSet) {
+    ExternalSchedulerAdapter adapter;
+    auto task = makeIntervalTask("task1", 5min);
+    auto cfg = makeAirflowConfig("https://themisdb.prod.example.com");
+    auto py = adapter.toAirflowDagPython({task}, cfg);
+    // The generated file should contain the connection setup hint with the base URL
+    EXPECT_NE(py.find("https://themisdb.prod.example.com"), std::string::npos) << py;
+    EXPECT_NE(py.find("Connection setup"), std::string::npos) << py;
+}
+
+TEST(ExternalSchedulerAdapter, ToAirflowDagNoConnectionHintWhenBaseUrlEmpty) {
+    ExternalSchedulerAdapter adapter;
+    auto task = makeIntervalTask("task1", 5min);
+    AirflowDagConfig cfg;
+    cfg.dag_id       = "test_dag";
+    cfg.http_conn_id = "themisdb_default";
+    cfg.start_date   = "2026-01-01";
+    // themisdb_base_url intentionally left empty
+    auto py = adapter.toAirflowDagPython({task}, cfg);
+    EXPECT_EQ(py.find("Connection setup"), std::string::npos) << py;
+}
