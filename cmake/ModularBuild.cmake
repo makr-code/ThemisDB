@@ -278,6 +278,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
     ../src/analytics/anomaly_detection.cpp
+    ../src/analytics/forecasting.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
