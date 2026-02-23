@@ -1762,6 +1762,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/mongo_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
+    ../src/aql/aql_migration_assistant.cpp
     
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -1899,6 +1900,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_migration_assistant.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
