@@ -1862,6 +1862,7 @@ namespace {
         EntitiesBatchPost,
         QueryPost,
         QueryAqlPost,
+        QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
         IndexCreatePost,
         IndexDropPost,
         IndexStatsGet,
@@ -2172,6 +2173,8 @@ namespace {
         }
         if (target == "/query" && method == http::verb::post) return Route::QueryPost;
     if (target == "/query/aql" && method == http::verb::post) return Route::QueryAqlPost;
+    // SSE streaming query result endpoint (v2)
+    if (path_only == "/v2/query/stream" && method == http::verb::get) return Route::QueryStreamSseGet;
     // Backward compatibility alias
     if (target == "/api/aql" && method == http::verb::post) return Route::QueryAqlPost;
         if (target == "/index/create" && method == http::verb::post) return Route::IndexCreatePost;
@@ -2902,6 +2905,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = query_api_->handleQueryAql(req);
             break;
         }
+        case Route::QueryStreamSseGet:
+            response = query_api_->handleQueryStreamSse(req);
+            break;
         case Route::IndexCreatePost:
             response = index_api_->handleCreate(req);
             break;
@@ -7506,12 +7512,61 @@ void HttpServer::Session::processRequest() {
 
             // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
+
+            // Validate JWT from the HTTP upgrade Authorization header before
+            // accepting the WebSocket handshake so that auth cannot be bypassed
+            // via the WebSocket upgrade path.
+            std::string ws_auth_token;
+            if (server_->auth_ && server_->auth_->isEnabled()) {
+                auto auth_it = request_.find(http::field::authorization);
+                if (auth_it == request_.end()) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto token = themis::AuthMiddleware::extractBearerToken(
+                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                if (!token) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"invalid_authorization","message":"Invalid Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto ar = server_->auth_->validateToken(*token);
+                if (!ar.authorized) {
+                    response_.result(http::status::forbidden);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"forbidden","message":"Access denied"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                ws_auth_token = *token;
+            }
             
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
+
             // Create WebSocket session and transfer socket ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(socket_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
+            if (!ws_auth_token.empty()) {
+                ws_session->setAuthToken(ws_auth_token);
+            }
             
             // Add to manager
             if (server_->websocket_manager_) {
@@ -7743,12 +7798,60 @@ void HttpServer::SslSession::processRequest() {
 
             // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+
+            // Validate JWT from the HTTP upgrade Authorization header before
+            // accepting the WebSocket handshake.
+            std::string ws_auth_token;
+            if (server_->auth_ && server_->auth_->isEnabled()) {
+                auto auth_it = request_.find(http::field::authorization);
+                if (auth_it == request_.end()) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto token = themis::AuthMiddleware::extractBearerToken(
+                    std::string_view(auth_it->value().data(), auth_it->value().size()));
+                if (!token) {
+                    response_.result(http::status::unauthorized);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"invalid_authorization","message":"Invalid Authorization header"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                auto ar = server_->auth_->validateToken(*token);
+                if (!ar.authorized) {
+                    response_.result(http::status::forbidden);
+                    response_.set(http::field::content_type, "application/json");
+                    response_.keep_alive(false);
+                    response_.body() = R"({"error":"forbidden","message":"Access denied"})";
+                    response_.prepare_payload();
+                    doWrite();
+                    return;
+                }
+                ws_auth_token = *token;
+            }
+
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
             
             // Create WebSocket session and transfer SSL stream ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(stream_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
+            if (!ws_auth_token.empty()) {
+                ws_session->setAuthToken(ws_auth_token);
+            }
             
             // Add to manager
             if (server_->websocket_manager_) {
