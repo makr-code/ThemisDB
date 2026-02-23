@@ -1386,14 +1386,14 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     // Only the Raft leader may serve lease reads.
     if (!election_->isLeader()) {
         THEMIS_DEBUG("leaseRead rejected: node {} is not the leader", node_id_);
-        stats_.lease_reads_rejected++;
+        stats_.lease_reads_rejected.fetch_add(1, std::memory_order_relaxed);
         return result;
     }
 
     // Check that the leader lease is still valid.
     if (!config_.enable_leader_lease || !election_->hasValidLease()) {
         THEMIS_DEBUG("leaseRead rejected: leader lease expired or disabled (node={})", node_id_);
-        stats_.lease_reads_rejected++;
+        stats_.lease_reads_rejected.fetch_add(1, std::memory_order_relaxed);
         return result;
     }
 
@@ -1403,7 +1403,7 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
     result.success            = true;
     result.served_under_lease = true;
     result.commit_index       = wal_ ? wal_->getCurrentSequence() : 0;
-    stats_.lease_reads_served++;
+    stats_.lease_reads_served.fetch_add(1, std::memory_order_relaxed);
 
     THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
                  collection, document_id, result.commit_index, node_id_);
@@ -1433,7 +1433,7 @@ void ReplicationManager::healthMonitorLoop() {
             }
             
             if (!failed_leader_id.empty()) {
-                stats_.replica_failures_detected++;
+                stats_.replica_failures_detected.fetch_add(1, std::memory_order_relaxed);
                 attemptAutomaticFailover(failed_leader_id);
             }
         }

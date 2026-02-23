@@ -149,8 +149,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_BasicRoundTrip) {
         writeLogLine(f, key, value_b64, 300);
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, 1u);
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     // The entry should now be retrievable.
     auto result = cache.get(key);
@@ -175,8 +175,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MultipleEntries) {
         }
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, static_cast<size_t>(count));
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, static_cast<size_t>(count));
 
     for (int i = 0; i < count; ++i) {
         auto result = cache.get(makeKey(i));
@@ -202,8 +202,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MaxEntriesCap) {
     }
 
     // Only load 3 entries.
-    size_t loaded = cache.warmupFromLog(log_path_, 3);
-    EXPECT_EQ(loaded, 3u);
+    auto loaded = cache.warmupFromLog(log_path_, 3);
+    EXPECT_EQ(loaded.entries_loaded, 3u);
 }
 
 // ---------------------------------------------------------------------------
@@ -227,8 +227,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_SkipsInvalidKey) {
         writeLogLine(f, makeKey(99), b64Encode(json({{"ok", true}}).dump()), 300);
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, 1u);
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     const auto& metrics = cache.getEnhancedMetrics();
     EXPECT_GE(metrics.warmup_entries_skipped.load(), 1u);
@@ -250,8 +250,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_SkipsExpiredTTL) {
         writeLogLine(f, makeKey(2), b64Encode(json({{"x", 2}}).dump()), 300);
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, 1u);
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     const auto& metrics = cache.getEnhancedMetrics();
     EXPECT_GE(metrics.warmup_entries_skipped.load(), 1u);
@@ -265,8 +265,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MissingFile) {
     auto config = cfg();
     AdaptiveQueryCache cache(config);
 
-    size_t loaded = cache.warmupFromLog("/tmp/nonexistent_log_file.ndjson");
-    EXPECT_EQ(loaded, 0u);
+    auto loaded = cache.warmupFromLog("/tmp/nonexistent_log_file.ndjson");
+    EXPECT_EQ(loaded.entries_loaded, 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -283,8 +283,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MalformedJSON) {
         writeLogLine(f, makeKey(1), b64Encode(json({{"ok", 1}}).dump()), 300);
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, 1u);
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     const auto& metrics = cache.getEnhancedMetrics();
     EXPECT_GE(metrics.warmup_entries_failed.load(), 1u);
@@ -308,8 +308,8 @@ TEST_F(CacheWarmupTest, WarmupFromLog_L1CapExcessGoesToL2) {
         }
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded, 4u);
+    auto loaded = cache.warmupFromLog(log_path_);
+    EXPECT_EQ(loaded.entries_loaded, 4u);
 
     // All 4 entries should be retrievable (regardless of tier).
     for (int i = 0; i < 4; ++i) {
@@ -336,16 +336,16 @@ TEST_F(CacheWarmupTest, ExportSnapshot_RoundTrip) {
     }
 
     // Export to snapshot.
-    size_t exported = cache.exportSnapshot(snap_path_);
-    EXPECT_GE(exported, static_cast<size_t>(count));
+    auto exported = cache.exportSnapshot(snap_path_);
+    EXPECT_GE(exported.entries_loaded, static_cast<size_t>(count));
 
     // Create a fresh cache and warm it from the snapshot.
     std::string db_path2 = db_path_ + "_2";
     auto config2 = makeTestConfig(db_path2);
     AdaptiveQueryCache cache2(config2);
 
-    size_t loaded = cache2.warmupFromLog(snap_path_);
-    EXPECT_EQ(loaded, exported);
+    auto loaded = cache2.warmupFromLog(snap_path_);
+    EXPECT_EQ(loaded.entries_loaded, exported.entries_loaded);
 
     // All entries should be retrievable in the new cache.
     for (int i = 0; i < count; ++i) {
@@ -366,8 +366,8 @@ TEST_F(CacheWarmupTest, ExportSnapshot_EmptyCache) {
     auto config = cfg();
     AdaptiveQueryCache cache(config);
 
-    size_t exported = cache.exportSnapshot(snap_path_);
-    EXPECT_EQ(exported, 0u);
+    auto exported = cache.exportSnapshot(snap_path_);
+    EXPECT_EQ(exported.entries_loaded, 0u);
 
     // File should exist and be empty (or just newlines).
     std::ifstream f(snap_path_);
@@ -388,8 +388,8 @@ TEST_F(CacheWarmupTest, ExportSnapshot_BadPath) {
     // Insert something.
     cache.put(makeKey(0), {}, json({{"x", 1}}));
 
-    size_t exported = cache.exportSnapshot("/nonexistent_dir/snapshot.ndjson");
-    EXPECT_EQ(exported, 0u);
+    auto exported = cache.exportSnapshot("/nonexistent_dir/snapshot.ndjson");
+    EXPECT_EQ(exported.entries_loaded, 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -437,9 +437,9 @@ TEST_F(CacheWarmupTest, WarmupFromLog_DuplicateKeySkipped) {
         writeLogLine(f, key, b64Encode(json({{"v", 2}}).dump()), 300);
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
+    auto loaded = cache.warmupFromLog(log_path_);
     // Only one entry should be inserted; the duplicate should be skipped.
-    EXPECT_EQ(loaded, 1u);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     const auto& m = cache.getEnhancedMetrics();
     EXPECT_EQ(m.warmup_entries_loaded.load(), 1u);
@@ -473,8 +473,8 @@ TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
     }
 
     // Export to snapshot.
-    size_t exported = cache.exportSnapshot(snap_path_);
-    EXPECT_EQ(exported, static_cast<size_t>(count));
+    auto exported = cache.exportSnapshot(snap_path_);
+    EXPECT_EQ(exported.entries_loaded, static_cast<size_t>(count));
 
     // Verify the snapshot file keys are bare fingerprints, not tenant-scoped.
     {
@@ -502,8 +502,8 @@ TEST_F(CacheWarmupTest, ExportSnapshot_TenantIsolation_RoundTrip) {
     config2.per_tenant_max_bytes = ONE_MB;
     AdaptiveQueryCache cache2(config2);
 
-    size_t loaded = cache2.warmupFromLog(snap_path_);
-    EXPECT_EQ(loaded, static_cast<size_t>(count));
+    auto loaded = cache2.warmupFromLog(snap_path_);
+    EXPECT_EQ(loaded.entries_loaded, static_cast<size_t>(count));
 
     // All entries should be retrievable via the tenant-scoped get.
     for (int i = 0; i < count; ++i) {
@@ -540,9 +540,9 @@ TEST_F(CacheWarmupTest, WarmupFromLog_TenantQuota_NoDuplicateCharge) {
         }
     }
 
-    size_t loaded = cache.warmupFromLog(log_path_);
+    auto loaded = cache.warmupFromLog(log_path_);
     // Only 1 real insertion.
-    EXPECT_EQ(loaded, 1u);
+    EXPECT_EQ(loaded.entries_loaded, 1u);
 
     // Now add more unique entries – quota should not be exhausted by duplicates.
     for (int i = 1; i <= 5; ++i) {

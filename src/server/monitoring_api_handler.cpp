@@ -363,7 +363,24 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
         api_version = "0.1.0";
 #endif
 
-        json spec = {
+        json spec;
+#ifdef _MSC_VER
+        spec = {
+            {"openapi", "3.0.3"},
+            {"info", {
+                {"title", "ThemisDB REST API"},
+                {"description", "Production-ready HTTP API for the ThemisDB distributed database engine"},
+                {"version", api_version}
+            }},
+            {"servers", json::array({json{{"url", "/"}, {"description", "This server"}}})},
+            {"paths", {
+                {"/health", {{"get", {{"summary", "Basic health check"}, {"operationId", "getHealth"}}}}},
+                {"/version", {{"get", {{"summary", "Get server version"}, {"operationId", "getVersion"}}}}},
+                {"/api/openapi.json", {{"get", {{"summary", "OpenAPI specification"}, {"operationId", "getOpenApiSpec"}}}}}
+            }}
+        };
+#else
+        spec = {
             {"openapi", "3.0.3"},
             {"info", {
                 {"title", "ThemisDB REST API"},
@@ -801,6 +818,7 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                 json{{"name","query"},        {"description","Query execution endpoints"}}
             })}
         };
+    #endif
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");
@@ -1396,14 +1414,32 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
     const http::request<http::string_body>& req)
 {
     try {
+        auto severityToString = [](observability::AlertSeverity severity) -> const char* {
+            switch (severity) {
+                case observability::AlertSeverity::INFO: return "info";
+                case observability::AlertSeverity::WARNING: return "warning";
+                case observability::AlertSeverity::ERROR: return "error";
+                case observability::AlertSeverity::CRITICAL: return "critical";
+                default: return "unknown";
+            }
+        };
+        auto statusToString = [](observability::AlertStatus status) -> const char* {
+            switch (status) {
+                case observability::AlertStatus::FIRING: return "firing";
+                case observability::AlertStatus::RESOLVED: return "resolved";
+                case observability::AlertStatus::SILENCED: return "silenced";
+                default: return "unknown";
+            }
+        };
+
         json arr = json::array();
         if (alertmanager_) {
             for (const auto& alert : alertmanager_->getActiveAlerts()) {
                 json a;
                 a["alert_id"]   = alert.alert_id;
                 a["alert_name"] = alert.alert_name;
-                a["severity"]   = observability::Alertmanager::severityToString(alert.severity);
-                a["status"]     = observability::Alertmanager::statusToString(alert.status);
+                a["severity"]   = severityToString(alert.severity);
+                a["status"]     = statusToString(alert.status);
                 a["message"]    = alert.message;
                 // ISO-8601 fired_at
                 std::time_t t = std::chrono::system_clock::to_time_t(alert.fired_at);
@@ -1481,7 +1517,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
         auto result = alertmanager_->silenceAlert(alert_id, duration_minutes);
         if (!result) {
             return makeErrorResponse(http::status::bad_gateway,
-                                     "Silence request failed: " + result.error().message, req);
+                                     "Silence request failed: " + result.error().message(), req);
         }
 
         json body;
@@ -1515,7 +1551,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
                     auto conn = alertmanager_->testConnection();
                     am["reachable"] = conn.has_value();
                     if (!conn) {
-                        am["error"]  = conn.error().message;
+                        am["error"]  = conn.error().message();
                         body["status"] = "degraded";
                     }
                 } else {

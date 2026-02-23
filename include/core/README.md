@@ -140,24 +140,41 @@ Central dependency injection container providing access to all concerns.
 class ConcernsContext {
 public:
     // Factory methods
-    static std::shared_ptr<ConcernsContext> createForProduction(const Config& config);
-    static std::shared_ptr<ConcernsContext> createForTesting();
+    static std::shared_ptr<ConcernsContext> create();
+    static std::shared_ptr<ConcernsContext> create(const Config& config);
     static std::shared_ptr<ConcernsContext> createCustom(
-        ILoggerPtr logger,
-        ITracerPtr tracer, 
-        IMetricsPtr metrics,
-        ICachePtr cache
+        std::unique_ptr<ILogger> logger,
+        std::unique_ptr<ITracer> tracer,
+        std::unique_ptr<IMetrics> metrics,
+        std::unique_ptr<ICache> cache
     );
-    
+    static std::shared_ptr<ConcernsContext> createNoOp();
+
     // Accessors
-    ILogger* logger() const;
-    ITracer* tracer() const;
-    IMetrics* metrics() const;
-    ICache* cache() const;
-    
+    ILogger& logger();
+    ITracer& tracer();
+    IMetrics& metrics();
+    ICache& cache();
+
     // Thread-safe and immutable after construction
 };
 ```
+
+#### Configuration-Driven Adapter Selection
+
+`ConcernsContext::Config` lets you select the concrete adapter for each
+concern via string fields — no code changes required:
+
+| Field | Default | Supported values |
+|---|---|---|
+| `loggerAdapter` | `"spdlog"` | `"spdlog"`, `"noop"` |
+| `tracerAdapter` | `""` (auto) | `"otel"`, `"noop"`, `""` |
+| `metricsAdapter` | `""` (auto) | `"prometheus"`, `"noop"`, `""` |
+| `cacheAdapter` | `"inmemory"` | `"inmemory"`, `"noop"` |
+
+Auto-selection: empty `tracerAdapter` resolves to `"otel"` when
+`tracingEnabled=true`, otherwise `"noop"`. Same rule for `metricsAdapter`.
+An explicit non-empty adapter value always overrides the boolean flag.
 
 ### Initialization Headers
 
@@ -278,20 +295,38 @@ class QueryEngine {
 #include "core/concerns/concerns_context.h"
 
 int main() {
-    // Load configuration
-    Config config = loadConfig("themisdb.yaml");
-    
+    ConcernsContext::Config config;
+    config.logLevel          = "info";
+    config.tracingEnabled    = true;
+    config.tracingEndpoint   = "http://otel-collector:4318";
+    config.metricsEnabled    = true;
+
     // Create production context with real adapters
-    auto concerns = ConcernsContext::createForProduction(config);
-    
+    auto concerns = ConcernsContext::create(config);
+
     // Pass to all subsystems
     auto storage = std::make_shared<StorageEngine>(
         evaluator, encryption, keys, index_manager, concerns
     );
     auto server = std::make_shared<HttpServer>(storage, concerns);
-    
+
     server->start();
 }
+```
+
+### Configuration-Driven Adapter Selection
+
+```cpp
+#include "core/concerns/concerns_context.h"
+
+// Select adapters purely via configuration — no code changes needed
+ConcernsContext::Config cfg;
+cfg.loggerAdapter  = "noop";        // silence all logs in this component
+cfg.tracerAdapter  = "otel";        // explicit: ignore tracingEnabled flag
+cfg.metricsAdapter = "prometheus";  // explicit: ignore metricsEnabled flag
+cfg.cacheAdapter   = "inmemory";
+
+auto ctx = ConcernsContext::create(cfg);
 ```
 
 ### Using Individual Concerns
@@ -325,7 +360,7 @@ void processQuery(const Query& query, ConcernsContext* ctx) {
 
 TEST(StorageEngineTest, BasicPutGet) {
     // Create test context with no-op implementations
-    auto ctx = ConcernsContext::createForTesting();
+    auto ctx = ConcernsContext::createNoOp();
     
     StorageEngine storage(evaluator, encryption, keys, nullptr, ctx);
     
@@ -342,12 +377,11 @@ class MyCustomLogger : public ILogger {
     // Implementation...
 };
 
-auto custom_logger = std::make_shared<MyCustomLogger>();
 auto ctx = ConcernsContext::createCustom(
-    custom_logger,
-    std::make_shared<NoopTracer>(),
-    std::make_shared<PrometheusMetrics>(),
-    std::make_shared<InMemoryCache>()
+    std::make_unique<MyCustomLogger>(),
+    std::make_unique<NoOpTracer>(),
+    std::make_unique<PrometheusMetricsAdapter>(),
+    std::make_unique<InMemoryCacheImpl>(1000, 0)
 );
 ```
 

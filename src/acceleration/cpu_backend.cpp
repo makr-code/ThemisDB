@@ -114,13 +114,21 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
             distances.emplace_back(static_cast<uint32_t>(v), dist);
         }
         
-        // Partial sort to get k nearest neighbors
+        // Partial sort to get k nearest neighbors.
+        // Tie-breaking rule: when two candidates share the same distance the one
+        // with the lower vector index is placed first (deterministic ordering).
+        // Note: exact float equality is intentional — two entries are considered
+        // tied only when their distance values are bit-for-bit identical, which
+        // happens when the same computational path is applied to equal inputs.
         size_t actualK = std::min(k, distances.size());
         std::partial_sort(
             distances.begin(),
             distances.begin() + actualK,
             distances.end(),
-            [](const auto& a, const auto& b) { return a.second < b.second; }
+            [](const auto& a, const auto& b) {
+                if (a.second != b.second) return a.second < b.second;
+                return a.first < b.first; // tie-break: lower index wins
+            }
         );
         
         results[q].assign(distances.begin(), distances.begin() + actualK);
@@ -371,6 +379,11 @@ static int cpu_ann_topk(
     const float* distances, uint32_t* topk_indices, float* topk_dists,
     int numQueries, int numVectors, int topK, void* /*stream*/)
 {
+    // Comparator: (distance, index) where lower distance wins; lower index breaks ties.
+    // The max-heap keeps the topK smallest pairs by ejecting the largest.
+    // Using pair<float,uint32_t> directly: pair comparison is lexicographic, so
+    // equal distances resolve by index (higher index is "larger" and gets ejected).
+    // This guarantees that for equal distances, the lower index is always kept.
     using Pair = std::pair<float, uint32_t>; // (distance, index)
     for (int q = 0; q < numQueries; ++q) {
         const float* row = distances + q * numVectors;
@@ -379,7 +392,7 @@ static int cpu_ann_topk(
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
             if (static_cast<int>(heap.size()) > topK) {
-                heap.pop();
+                heap.pop(); // ejects largest (highest dist, or equal dist + highest index)
             }
         }
         // Drain heap in ascending order

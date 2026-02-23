@@ -195,8 +195,9 @@ using GeoContainmentFn = int (*)(
 // Kernel dispatch tables
 //
 // Backends fill one of these structs during initialization.  Null entries
-// indicate unsupported operations; the BackendRegistry will fall back to
-// the CPU table for any null slot.
+// indicate unsupported operations; use ANNKernelFallbackDispatcher /
+// GeoKernelFallbackDispatcher (kernel_fallback_dispatcher.h) to route null
+// slots to a CPU fallback table and retry transient device errors.
 // =============================================================================
 
 /// ANN kernel dispatch table — one per backend instance.
