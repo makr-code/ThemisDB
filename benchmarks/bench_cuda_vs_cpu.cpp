@@ -298,6 +298,17 @@ BENCHMARK(BM_CPU_Geo_PointInPolygon)
 // CUDA — ANN benchmarks
 // Compiled only when THEMIS_ENABLE_CUDA is defined; skipped at runtime when
 // no CUDA device is available (state.SkipWithMessage).
+//
+// Coverage note
+// -------------
+// The CUDA high-level API (CUDAVectorBackend::computeDistances / batchKnnSearch)
+// exposes L2 and Cosine via the useL2 flag, and full KNN end-to-end.
+// InnerProduct and standalone TopK are only available through the dispatch
+// table (populateANNDispatch), which requires caller-managed device memory.
+// Adding dispatch-level CUDA benchmarks for those two would need explicit
+// cudaMalloc / cudaMemcpy inside the benchmark, introducing copy latency that
+// would dominate for the batch sizes used here (1 000–5 000 vectors, dim ≤ 512).  They are therefore
+// measured only at the CPU level in this harness.
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_CUDA
