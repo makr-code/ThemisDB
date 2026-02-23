@@ -553,6 +553,12 @@ if(TARGET themis_shard_proto)
     add_dependencies(themis_tests themis_shard_proto)
 endif()
 
+# Wire Protocol V1 protobuf: add dependency so the generated .pb.h is ready
+# before the test that includes wire_protocol_server.hpp compiles.
+if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_compile_definitions(themis_tests PRIVATE THEMIS_WIRE_V1_PROTO_AVAILABLE)
+endif()
+
 # Copy DLLs to test directory on Windows after build
 if(WIN32)
     # Copy DLLs from themis_core directory
