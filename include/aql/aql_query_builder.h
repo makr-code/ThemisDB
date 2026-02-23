@@ -23,6 +23,7 @@
 #pragma once
 
 #include "aql/aql_query_validator.h"
+#include "aql/aql_schema_provider.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -163,6 +164,51 @@ public:
     ValidationResult validate() const;
 
     // =========================================================================
+    // Schema-aware query generation (live collection metadata)
+    // =========================================================================
+
+    /**
+     * @brief Attach a collection metadata snapshot to the builder.
+     *
+     * Once set, the builder uses the metadata to:
+     *  - Automatically supply schema context to LLM suggestion methods when no
+     *    explicit context string is passed.
+     *  - Emit warnings in @c validate() for collections that are not found in the
+     *    snapshot.
+     *  - Return field name lists via @c getFieldsForCollection().
+     *
+     * Pass an empty vector to detach any previously attached schema.
+     *
+     * @param schema  Snapshot of collection metadata (e.g. built with
+     *                @c aql::fromTableSchema() from `metadata/aql_schema_bridge.h`)
+     */
+    AQLQueryBuilder& setSchema(const std::vector<CollectionMetadata>& schema);
+
+    /**
+     * @brief Return the formatted schema context string derived from the attached
+     *        metadata snapshot.
+     *
+     * The returned string is formatted by @c formatSchemaContext() and is suitable
+     * for direct use as the @p schema_context argument of @c getCompletionSuggestions()
+     * or @c getLLMSuggestion().
+     *
+     * @return Formatted schema string; empty if no schema was attached.
+     */
+    std::string getSchemaContext() const;
+
+    /**
+     * @brief Return the known field names for a given collection.
+     *
+     * Searches the attached metadata snapshot for the named collection and
+     * returns the names of all its fields.  If no schema has been attached or the
+     * collection is not found, returns an empty vector.
+     *
+     * @param collection  Collection name to look up (case-sensitive)
+     * @return List of field names; empty if collection is unknown
+     */
+    std::vector<std::string> getFieldsForCollection(const std::string& collection) const;
+
+    // =========================================================================
     // Suggestions
     // =========================================================================
 
@@ -179,11 +225,14 @@ public:
     /**
      * @brief Use an LLM to generate natural-language completion suggestions.
      *
-     * Sends the partial query and optional schema context to the LLM handler and
-     * returns a list of AQL snippet suggestions.
+     * Sends the partial query and schema context to the LLM handler and returns a
+     * list of AQL snippet suggestions.  When @p schema_context is empty and a
+     * metadata snapshot has been attached via @c setSchema(), the builder
+     * automatically derives the context from that snapshot.
      *
      * @param handler  LLMAQLHandler instance (must not be null)
-     * @param schema_context Optional description of available collections/fields
+     * @param schema_context Optional description of available collections/fields;
+     *                       leave empty to use attached metadata automatically
      * @param max_suggestions Maximum number of suggestions to return (default 3)
      * @return Vector of suggested AQL snippets; empty on failure
      */
@@ -198,11 +247,14 @@ public:
      *
      * Given a user's intent (e.g., "find active users sorted by age") and optional
      * schema context, asks the LLM to produce a full AQL query.  The current
-     * partial query built so far is passed as additional context.
+     * partial query built so far is passed as additional context.  When
+     * @p schema_context is empty and a metadata snapshot has been attached via
+     * @c setSchema(), the builder automatically derives the context from that snapshot.
      *
      * @param handler  LLMAQLHandler instance (must not be null)
      * @param intent   Natural-language description of the desired query
-     * @param schema_context Optional description of available collections/fields
+     * @param schema_context Optional description of available collections/fields;
+     *                       leave empty to use attached metadata automatically
      * @return Suggested AQL query string; empty string on failure
      */
     std::string getLLMSuggestion(
