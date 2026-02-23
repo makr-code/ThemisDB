@@ -42,6 +42,7 @@ TEST(VoiceAssistantModule, StubPlaceholder) {
 #include <atomic>
 #include <cstdint>
 #include <cmath>
+#include <numbers>
 
 namespace {
 
@@ -84,7 +85,7 @@ std::vector<uint8_t> makeSineWav(int duration_seconds, int sample_rate = 16000) 
     pushU32(static_cast<uint32_t>(data_size));
 
     for (int i = 0; i < num_samples; ++i) {
-        float val = std::sin(2.0f * static_cast<float>(M_PI) * 440.0f * i / sample_rate);
+        float val = std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / sample_rate);
         auto sample = static_cast<int16_t>(val * 16000.0f);
         wav.push_back(static_cast<uint8_t>(sample & 0xFF));
         wav.push_back(static_cast<uint8_t>((sample >> 8) & 0xFF));
@@ -188,7 +189,7 @@ static std::vector<uint8_t> makePcm(int duration_ms,
     std::vector<uint8_t> pcm;
     pcm.reserve(static_cast<size_t>(num_samples) * 2);
     for (int i = 0; i < num_samples; ++i) {
-        float val = amplitude * std::sin(2.0f * static_cast<float>(M_PI) * 440.0f * i / sample_rate);
+        float val = amplitude * std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / sample_rate);
         auto s = static_cast<int16_t>(val * 32767.0f);
         pcm.push_back(static_cast<uint8_t>(s & 0xFF));
         pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));

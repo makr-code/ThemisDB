@@ -184,6 +184,7 @@ struct AdapterMetadata {
 class AdapterRegistry {
 public:
     explicit AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManager> sig_manager);
+    ~AdapterRegistry();
     
     // CRUD Operations
     

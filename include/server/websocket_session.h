@@ -120,7 +120,11 @@ public:
      * @brief Get session ID
      */
     const std::string& getSessionId() const { return session_id_; }
-    
+
+    /// Maximum number of pending outbound frames per connection.
+    /// Exceeding this triggers a 1011 close to prevent unbounded memory growth.
+    static constexpr std::size_t kMaxQueueDepth = 1000;
+
     /**
      * @brief Subscribe to CDC changefeed
      * @param from_sequence Starting sequence number
@@ -176,6 +180,8 @@ private:
     bool active_;
     bool is_tls_;
     
+    // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.
+
     // Message queue for outgoing messages.
     // Each entry records the payload and whether it is a binary frame so that
     // onWrite can restore the correct frame type when draining the queue.
@@ -186,6 +192,9 @@ private:
     std::queue<WriteEntry> write_queue_;
     std::mutex write_mutex_;
     bool writing_;
+    // Set to true when the connection is closed due to back-pressure so that
+    // onWrite can emit a close frame after the current write drains.
+    bool close_due_to_backpressure_;
     
     // CDC subscription state
     bool cdc_subscribed_;

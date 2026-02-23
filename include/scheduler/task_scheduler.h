@@ -512,6 +512,8 @@ public:
         const std::string& task_id = "",
         size_t limit = 100,
         size_t offset = 0) const;
+
+    /**
      * @brief Retrieve recent execution results for a task from the result store.
      *
      * Returns up to `limit` results, newest first.

@@ -941,6 +941,20 @@ void ErrorRegistry::registerDefaultErrors() {
     });
     
     registerError({
+        ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+        "Query",
+        "Error",
+        "Query resource limit exceeded: {}",
+        "The query exceeded a configured per-query resource limit (rows, memory, or timeout).",
+        "1. Reduce result set size with additional FILTER/LIMIT clauses\n"
+        "2. Increase the per-query resource limit in configuration\n"
+        "3. Break the query into smaller operations\n"
+        "4. Add indexes to speed up execution and reduce scanned rows",
+        {"/docs/query/resource-limits.md"},
+        {"query", "resource", "limit", "exhausted", "timeout", "memory", "rows"}
+    });
+
+    registerError({
         ErrorCode::ERR_QUERY_INVALID_INPUT,
         "Query",
         "Error",

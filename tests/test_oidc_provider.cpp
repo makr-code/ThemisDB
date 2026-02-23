@@ -150,14 +150,14 @@ TEST(OIDCProviderTest, ThrowsOnEmptyIssuer) {
     OIDCProviderConfig cfg;
     cfg.issuer_url = "";
     cfg.client_id  = "client";
-    EXPECT_THROW(OIDCProvider(cfg), AuthException);
+    EXPECT_THROW((void)OIDCProvider{cfg}, AuthException);
 }
 
 TEST(OIDCProviderTest, ThrowsOnEmptyClientId) {
     OIDCProviderConfig cfg;
     cfg.issuer_url = "https://idp.example.com";
     cfg.client_id  = "";
-    EXPECT_THROW(OIDCProvider(cfg), AuthException);
+    EXPECT_THROW((void)OIDCProvider{cfg}, AuthException);
 }
 
 // ── Discovery document parsing ───────────────────────────────────────────────

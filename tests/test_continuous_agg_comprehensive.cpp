@@ -69,7 +69,7 @@ struct ContinuousAggFixture : ::testing::Test {
             p.entity       = entity;
             p.timestamp_ms = base_ms + i * step_ms;
             p.value        = start_value + i * step_value;
-            ASSERT_TRUE(store->putDataPoint(p).ok);
+            ASSERT_TRUE(store->putDataPoint(p).has_value());
         }
     }
 

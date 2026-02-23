@@ -24,6 +24,21 @@
 - **Backend**: Relates to server-side development.
 - **Testing**: Related to quality assurance and testing processes.
 
+### Copilot Dispatcher Labels
+
+These labels are managed by the [Copilot Issue Dispatcher](.github/copilot-dispatcher.md) automation.
+
+**Issue labels**
+- **`queue/copilot`** — Issue is eligible for automatic Copilot processing.
+- **`in-progress/copilot`** — Issue has been claimed by the dispatcher; a Copilot PR exists for it.
+
+**PR labels**
+- **`pr/copilot`** — PR was created by the dispatcher.
+- **`copilot/status-working`** — Copilot is actively working on this PR. Counts against the 5-slot WIP limit.
+- **`copilot/status-ready-requested`** — Copilot signals it is done; the readiness gate will promote to `copilot/status-ready` once CI checks and the Copilot review are green.
+- **`copilot/status-ready`** — Copilot work is complete and all gates are green. PR no longer counts against the WIP limit.
+- **`copilot/status-blocked`** — Copilot cannot proceed. Requires human intervention.
+
 ## Migration Map from Old Labels to New Standardized Schema
 | Old Label Name       | New Label Name         |
 |----------------------|------------------------|

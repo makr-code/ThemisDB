@@ -165,6 +165,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
+#include "api/ws_handler.h"
 #endif
 
 #include "query/query_engine.h"
@@ -1153,6 +1154,35 @@ HttpServer::HttpServer(
     
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
+
+    // Initialize rate limiting middleware with configurable per-client token bucket
+    {
+        RateLimitingMiddleware::Config rl_mw_config;
+        rl_mw_config.default_capacity    = rate_config.bucket_capacity;
+        rl_mw_config.default_refill_rate = rate_config.refill_rate;
+        rl_mw_config.whitelist_ips       = rate_config.whitelist_ips;
+        rl_mw_config.max_clients         = 10000;
+        rl_mw_config.send_rate_limit_headers = true;
+
+        // Apply a tighter limit on bulk-write paths to prevent abuse
+        rl_mw_config.endpoint_overrides = {
+            RateLimitingMiddleware::EndpointLimit{
+                "/v2/documents",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            },
+            RateLimitingMiddleware::EndpointLimit{
+                "/api/bulk",
+                static_cast<size_t>(rl_mw_config.default_capacity / 2),
+                rl_mw_config.default_refill_rate / 2.0
+            }
+        };
+
+        rate_limiting_middleware_ = std::make_unique<RateLimitingMiddleware>(rl_mw_config);
+        THEMIS_INFO("RateLimitingMiddleware initialized: {:.1f} req/min default, {} endpoint overrides",
+                    rl_mw_config.default_refill_rate * 60.0,
+                    rl_mw_config.endpoint_overrides.size());
+    }
 
     // ----------------------------------------------------------------------------
     // CORS configuration (from environment)
@@ -7439,6 +7469,48 @@ void HttpServer::Session::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(socket_), server_);
+                // Pre-configure CDC subscription from URL parameters.
+                ws_session->subscribeToCDC(decision.from_sequence,
+                                           decision.key_prefix);
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
 
             // Validate JWT from the HTTP upgrade Authorization header before
@@ -7683,6 +7755,48 @@ void HttpServer::SslSession::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes (TLS) upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(stream_), server_);
+                // Pre-configure CDC subscription from URL parameters.
+                ws_session->subscribeToCDC(decision.from_sequence,
+                                           decision.key_prefix);
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from HTTPS");
 
             // Validate JWT from the HTTP upgrade Authorization header before
@@ -8227,7 +8341,42 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         }
     }
     
-    // Check rate limit
+    // Prefer the per-client middleware (per-endpoint configurable token bucket).
+    if (rate_limiting_middleware_) {
+        std::string path = std::string(req.target());
+        // Strip query string for path matching
+        auto qpos = path.find('?');
+        if (qpos != std::string::npos) path = path.substr(0, qpos);
+
+        // Use authenticated user ID when available, otherwise fall back to IP
+        const std::string& client_key = user_id.empty() ? client_ip : user_id;
+
+        auto result = rate_limiting_middleware_->check(client_key, path);
+        if (!result.allowed) {
+            http::response<http::string_body> response;
+            response.result(http::status::too_many_requests);
+            response.set(http::field::content_type, "application/json");
+            for (const auto& [k, v] : result.headers) {
+                response.set(k, v);
+            }
+
+            json error_body = {
+                {"error", "Too Many Requests"},
+                {"message", "Rate limit exceeded. Please retry after " +
+                             std::to_string(result.retry_after_seconds) + " seconds."},
+                {"retry_after_seconds", result.retry_after_seconds},
+                {"status_code", 429}
+            };
+
+            response.body() = error_body.dump();
+            applyGovernanceHeaders(req, response);
+            response.prepare_payload();
+            return response;
+        }
+        return std::nullopt; // Rate limit OK
+    }
+
+    // Fallback to legacy rate limiter
     if (!rate_limiter_->allowRequest(client_ip, user_id)) {
         uint32_t retry_after = rate_limiter_->getRetryAfter(client_ip, user_id);
         
@@ -8251,7 +8400,6 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
         };
         
         response.body() = error_body.dump();
-        // Apply governance and security headers as with normal responses
         applyGovernanceHeaders(req, response);
         response.prepare_payload();
         

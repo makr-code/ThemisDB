@@ -92,13 +92,16 @@ public:
         caps.supportsGeoOps = false;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = true;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                              | metricBit(DistanceMetric::COSINE)
+                              | metricBit(DistanceMetric::INNER_PRODUCT);
         caps.deviceName = "AMD GPU via ZLUDA (CUDA compatibility)";
         
         if (initialized_) {
             // Query device properties through ZLUDA
             caps.deviceName = "AMD Radeon (ZLUDA)";
-            caps.totalMemory = 8ULL * 1024 * 1024 * 1024; // Placeholder
-            caps.maxBatchSize = 10000;
+            caps.maxMemoryBytes = 8ULL * 1024 * 1024 * 1024; // Placeholder
         }
         
         return caps;

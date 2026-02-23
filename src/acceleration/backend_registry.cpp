@@ -25,6 +25,7 @@
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/multi_gpu_backend.h"
+#include "acceleration/device_manager.h"
 #include "utils/logger.h"
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
@@ -350,6 +351,7 @@ void BackendRegistry::shutdownAll() {
     selectedGraphBackend_  = nullptr;
     selectedGeoBackend_    = nullptr;
     runtimeInitialized_    = false;
+    cachedDeviceInfo_.clear();
     
     if (pluginLoader_) {
         pluginLoader_->unloadAllPlugins();
@@ -397,6 +399,13 @@ void BackendRegistry::initializeRuntime(
 {
     std::cout << "Initializing acceleration runtime with capability-driven backend selection..." << std::endl;
 
+    // Probe hardware capabilities and cache the snapshot for deviceInfo().
+    cachedDeviceInfo_ = DeviceManager::instance().refresh();
+
+    // Emit structured device-capability log so operators can verify the
+    // selected backend at startup.
+    DeviceManager::instance().logDeviceInfo();
+
     // Discover and load all available backends.
     autoDetect();
 
@@ -437,6 +446,10 @@ IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
 
 bool BackendRegistry::isRuntimeInitialized() const noexcept {
     return runtimeInitialized_;
+}
+
+std::vector<DeviceCapabilityInfo> BackendRegistry::deviceInfo() const noexcept {
+    return cachedDeviceInfo_;
 }
 
 } // namespace acceleration
