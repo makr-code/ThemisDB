@@ -192,3 +192,62 @@ TEST(TransactionManagerComprehensive, NonSerializableIsolationNoPredicateTrackin
     EXPECT_EQ(lm.getPredicateLockCount(11), 0u);
 }
 
+// ---------------------------------------------------------------------------
+// TransactionExplain – unit tests (no DB required)
+// ---------------------------------------------------------------------------
+
+// Verify that getLocksHeld() – the data source for explain() – reports exactly
+// the locks acquired by a transaction.
+TEST(TransactionManagerComprehensive, ExplainLocksHeldViaLockManager) {
+    LockManager lm;
+
+    lm.acquireLock(42, "entity:orders:100", LockType::SHARED);
+    lm.acquireLock(42, "entity:orders:200", LockType::EXCLUSIVE);
+
+    auto held = lm.getLocksHeld(42);
+    ASSERT_EQ(held.size(), 2u);
+
+    bool found_shared    = false;
+    bool found_exclusive = false;
+    for (const auto& [key, lt] : held) {
+        if (key == "entity:orders:100" && lt == LockType::SHARED)    found_shared    = true;
+        if (key == "entity:orders:200" && lt == LockType::EXCLUSIVE) found_exclusive = true;
+    }
+    EXPECT_TRUE(found_shared);
+    EXPECT_TRUE(found_exclusive);
+}
+
+// Verify that after releaseAllLocks the lock list is empty (as would be reported
+// in an explain() call on a finished transaction).
+TEST(TransactionManagerComprehensive, ExplainLocksEmptyAfterRelease) {
+    LockManager lm;
+
+    lm.acquireLock(7, "entity:products:p1", LockType::EXCLUSIVE);
+    EXPECT_EQ(lm.getLocksHeld(7).size(), 1u);
+
+    lm.releaseAllLocks(7);
+    EXPECT_EQ(lm.getLocksHeld(7).size(), 0u);
+}
+
+// ExplainResult field defaults are sane.
+TEST(TransactionManagerComprehensive, ExplainResultDefaultValues) {
+    TransactionManager::Transaction::ExplainResult r;
+    EXPECT_EQ(r.txn_id, 0u);
+    EXPECT_TRUE(r.isolation_level.empty());
+    EXPECT_EQ(r.duration_ms, 0u);
+    EXPECT_FALSE(r.is_finished);
+    EXPECT_TRUE(r.locks_held.empty());
+    EXPECT_TRUE(r.write_set.empty());
+}
+
+// ExplainLockEntry and ExplainWriteEntry can be constructed and compared.
+TEST(TransactionManagerComprehensive, ExplainEntryFields) {
+    TransactionManager::Transaction::ExplainLockEntry lock{"entity:users:alice", "SHARED"};
+    EXPECT_EQ(lock.key,       "entity:users:alice");
+    EXPECT_EQ(lock.lock_type, "SHARED");
+
+    TransactionManager::Transaction::ExplainWriteEntry write{"entity:users:bob", "put"};
+    EXPECT_EQ(write.key,       "entity:users:bob");
+    EXPECT_EQ(write.operation, "put");
+}
+

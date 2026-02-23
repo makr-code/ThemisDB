@@ -133,6 +133,15 @@ public:
      * @return HTTP response with entity version
      */
     http::response<http::string_body> handleGetVersion(const http::request<http::string_body>& req);
+     * @brief Handle GET /transaction/{id}/explain request
+     *
+     * Returns the locks currently held and the write set (MVCC version chain
+     * entries) accumulated by the transaction with the given ID.
+     *
+     * @param req HTTP request; the transaction ID is extracted from the URL path.
+     * @return HTTP response with the explain report as JSON, or 404 if not found.
+     */
+    http::response<http::string_body> handleExplain(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;

@@ -346,7 +346,56 @@ public:
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }
 
+        // ── Transaction Explain ───────────────────────────────────────────────
+
+        /**
+         * @brief One lock entry in the explain report.
+         */
+        struct ExplainLockEntry {
+            std::string key;       ///< Storage key that is locked
+            std::string lock_type; ///< "SHARED", "EXCLUSIVE", "INTENT_SHARED", or "INTENT_EXCLUSIVE"
+        };
+
+        /**
+         * @brief One write-set entry in the explain report.
+         *
+         * Each key written or deleted by this transaction is recorded here,
+         * representing the MVCC version chain entries that will be created
+         * on commit.
+         */
+        struct ExplainWriteEntry {
+            std::string key;       ///< Storage key written or deleted
+            std::string operation; ///< "put" or "delete"
+        };
+
+        /**
+         * @brief Full explain report for a transaction.
+         *
+         * Returned by explain() and by TransactionManager::explainTransaction().
+         * Contains the current lock set, write set (MVCC version chain entries),
+         * isolation level, and elapsed duration.
+         */
+        struct ExplainResult {
+            TransactionId txn_id{0};
+            std::string   isolation_level;  ///< Human-readable isolation level name
+            uint64_t      duration_ms{0};
+            bool          is_finished{false};
+            std::vector<ExplainLockEntry>  locks_held; ///< Locks currently held by this transaction
+            std::vector<ExplainWriteEntry> write_set;  ///< Keys written/deleted (MVCC chain entries)
+        };
+
+        /**
+         * @brief Produce an explain report for this transaction.
+         *
+         * Collects the locks currently held (via LockManager) and the write set
+         * accumulated since the transaction started.  Safe to call on both active
+         * and finished transactions.
+         */
+        ExplainResult explain() const;
+
     private:
+        /// Track a key written or deleted by this transaction (for explain()).
+        void trackWrite(std::string key, std::string operation);
         TransactionId id_;
         RocksDBWrapper& db_;
         SecondaryIndexManager& secIdx_;
@@ -375,6 +424,8 @@ public:
             size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
         };
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
+
+        std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
     };
 
     // Session-based transaction management
@@ -388,6 +439,18 @@ public:
      * @return false if no active transaction with this ID exists (already completed).
      */
     bool rollbackTransaction(TransactionId id);
+
+    /**
+     * @brief Return an explain report for an active or recently completed transaction.
+     *
+     * The report includes the locks currently held by the transaction and the
+     * write set (MVCC version chain entries) accumulated since begin.
+     *
+     * @param id  Transaction ID returned by beginTransaction().
+     * @return    ExplainResult on success, std::nullopt if no transaction with
+     *            @p id is found in the active or completed maps.
+     */
+    std::optional<Transaction::ExplainResult> explainTransaction(TransactionId id) const;
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);

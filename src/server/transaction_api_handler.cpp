@@ -421,6 +421,67 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request,
             "Invalid JSON: " + std::string(e.what()), req);
+http::response<http::string_body> TransactionApiHandler::handleExplain(
+    const http::request<http::string_body>& req
+) {
+    // GET /transaction/{id}/explain
+    // Extract the transaction ID from the URL path: /transaction/<id>/explain
+    try {
+        std::string target = std::string(req.target());
+        // Strip query string if present
+        auto qpos = target.find('?');
+        if (qpos != std::string::npos) target = target.substr(0, qpos);
+
+        // Find the numeric ID between /transaction/ and /explain
+        const std::string prefix = "/transaction/";
+        const std::string suffix = "/explain";
+        if (target.size() < prefix.size() + suffix.size()) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid path: expected /transaction/{id}/explain", req);
+        }
+
+        auto id_start = prefix.size();
+        auto id_end   = target.find(suffix, id_start);
+        if (id_end == std::string::npos) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid path: expected /transaction/{id}/explain", req);
+        }
+
+        const std::string id_str = target.substr(id_start, id_end - id_start);
+        uint64_t txn_id = 0;
+        try {
+            txn_id = std::stoull(id_str);
+        } catch (...) {
+            return makeErrorResponse(http::status::bad_request,
+                "Invalid transaction ID: '" + id_str + "'", req);
+        }
+
+        auto result = tx_manager_->explainTransaction(txn_id);
+        if (!result) {
+            return makeErrorResponse(http::status::not_found,
+                "Transaction " + id_str + " not found", req);
+        }
+
+        json locks_json = json::array();
+        for (const auto& lock : result->locks_held) {
+            locks_json.push_back({{"key", lock.key}, {"lock_type", lock.lock_type}});
+        }
+
+        json write_set_json = json::array();
+        for (const auto& entry : result->write_set) {
+            write_set_json.push_back({{"key", entry.key}, {"operation", entry.operation}});
+        }
+
+        json response = {
+            {"transaction_id",  result->txn_id},
+            {"isolation_level", result->isolation_level},
+            {"duration_ms",     result->duration_ms},
+            {"is_finished",     result->is_finished},
+            {"locks_held",      locks_json},
+            {"write_set",       write_set_json}
+        };
+
+        return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error,
             "Error: " + std::string(e.what()), req);
