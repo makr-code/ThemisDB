@@ -22,6 +22,8 @@
  */
 
 #include "utils/geo/ewkb.h"
+#include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <sstream>
@@ -41,6 +43,71 @@ using json = nlohmann::json;
 constexpr double EARTH_RADIUS_METERS = 6371000.0;  // Mean Earth radius
 constexpr double DEG_TO_RAD = M_PI / 180.0;
 constexpr double METERS_PER_DEGREE_APPROX = 111320.0;  // At equator
+
+static std::string trimCopy(const std::string& input) {
+    const auto first = std::find_if_not(input.begin(), input.end(), [](unsigned char c) {
+        return std::isspace(c) != 0;
+    });
+    if (first == input.end()) {
+        return {};
+    }
+
+    const auto last = std::find_if_not(input.rbegin(), input.rend(), [](unsigned char c) {
+        return std::isspace(c) != 0;
+    }).base();
+    return std::string(first, last);
+}
+
+static std::vector<std::string> splitTopLevel(const std::string& input, char delimiter) {
+    std::vector<std::string> parts;
+    std::string current;
+    int depth = 0;
+    for (char c : input) {
+        if (c == '(') {
+            depth++;
+            current.push_back(c);
+            continue;
+        }
+        if (c == ')') {
+            depth--;
+            current.push_back(c);
+            continue;
+        }
+        if (c == delimiter && depth == 0) {
+            parts.push_back(trimCopy(current));
+            current.clear();
+            continue;
+        }
+        current.push_back(c);
+    }
+    if (!current.empty()) {
+        parts.push_back(trimCopy(current));
+    }
+    return parts;
+}
+
+static Coordinate parseCoordinateToken(const std::string& token) {
+    std::istringstream iss(token);
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+    if (!(iss >> x >> y)) {
+        throw std::runtime_error("WKT: Invalid coordinate token: " + token);
+    }
+    if (iss >> z) {
+        return Coordinate(x, y, z);
+    }
+    return Coordinate(x, y);
+}
+
+static std::string extractWktBody(const std::string& wkt) {
+    const auto open = wkt.find('(');
+    const auto close = wkt.rfind(')');
+    if (open == std::string::npos || close == std::string::npos || close <= open) {
+        throw std::runtime_error("WKT: Missing coordinate body");
+    }
+    return trimCopy(wkt.substr(open + 1, close - open - 1));
+}
 
 // MBR expand by distance (approximate for lat/lon)
 MBR MBR::expand(double distance_meters) const {
@@ -610,6 +677,152 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
 GeometryInfo EWKBParser::parseGeoJSON(const std::string& geojson_str) {
     auto j = json::parse(geojson_str);
     return parseGeoJSONGeomImpl(j, 8);
+}
+
+GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
+    const std::string wkt = trimCopy(wkt_raw);
+    if (wkt.empty()) {
+        throw std::runtime_error("WKT: Empty input");
+    }
+
+    std::string upper = wkt;
+    std::transform(upper.begin(), upper.end(), upper.begin(), [](unsigned char c) {
+        return static_cast<char>(std::toupper(c));
+    });
+
+    const std::string body = extractWktBody(wkt);
+
+    if (upper.rfind("POINT", 0) == 0) {
+        GeometryInfo geom(GeometryType::Point);
+        geom.coords.push_back(parseCoordinateToken(body));
+        geom.has_z = geom.coords[0].hasZ();
+        if (geom.has_z) {
+            geom.type = GeometryType::PointZ;
+        }
+        return geom;
+    }
+
+    if (upper.rfind("LINESTRING", 0) == 0) {
+        GeometryInfo geom(GeometryType::LineString);
+        auto tokens = splitTopLevel(body, ',');
+        geom.coords.reserve(tokens.size());
+        for (const auto& token : tokens) {
+            geom.coords.push_back(parseCoordinateToken(token));
+        }
+        geom.has_z = !geom.coords.empty() && geom.coords[0].hasZ();
+        if (geom.has_z) {
+            geom.type = GeometryType::LineStringZ;
+        }
+        return geom;
+    }
+
+    if (upper.rfind("POLYGON", 0) == 0) {
+        GeometryInfo geom(GeometryType::Polygon);
+        auto rings_raw = splitTopLevel(body, ',');
+
+        std::vector<std::string> ring_groups;
+        std::string merged;
+        int depth = 0;
+        for (const auto& part : rings_raw) {
+            if (!merged.empty()) {
+                merged += ",";
+            }
+            merged += part;
+            for (char c : part) {
+                if (c == '(') depth++;
+                if (c == ')') depth--;
+            }
+            if (depth == 0 && !merged.empty()) {
+                ring_groups.push_back(trimCopy(merged));
+                merged.clear();
+            }
+        }
+
+        geom.rings.reserve(ring_groups.size());
+        for (auto ring : ring_groups) {
+            if (!ring.empty() && ring.front() == '(' && ring.back() == ')') {
+                ring = ring.substr(1, ring.size() - 2);
+            }
+            auto coord_tokens = splitTopLevel(ring, ',');
+            std::vector<Coordinate> coords;
+            coords.reserve(coord_tokens.size());
+            for (const auto& token : coord_tokens) {
+                coords.push_back(parseCoordinateToken(token));
+            }
+            geom.rings.push_back(std::move(coords));
+        }
+
+        geom.has_z = !geom.rings.empty() && !geom.rings[0].empty() && geom.rings[0][0].hasZ();
+        if (geom.has_z) {
+            geom.type = GeometryType::PolygonZ;
+        }
+        return geom;
+    }
+
+    throw std::runtime_error("WKT: Unsupported geometry type");
+}
+
+std::string EWKBParser::toWKT(const GeometryInfo& geom) {
+    std::ostringstream oss;
+    if (geom.isPoint()) {
+        if (geom.coords.empty()) {
+            return "POINT EMPTY";
+        }
+        const auto& c = geom.coords[0];
+        oss << "POINT(" << c.x << " " << c.y;
+        if (geom.has_z && c.hasZ()) {
+            oss << " " << c.getZ();
+        }
+        oss << ")";
+        return oss.str();
+    }
+
+    if (geom.isLineString()) {
+        if (geom.coords.empty()) {
+            return "LINESTRING EMPTY";
+        }
+        oss << "LINESTRING(";
+        for (size_t i = 0; i < geom.coords.size(); ++i) {
+            const auto& c = geom.coords[i];
+            if (i > 0) {
+                oss << ",";
+            }
+            oss << c.x << " " << c.y;
+            if (geom.has_z && c.hasZ()) {
+                oss << " " << c.getZ();
+            }
+        }
+        oss << ")";
+        return oss.str();
+    }
+
+    if (geom.isPolygon()) {
+        if (geom.rings.empty()) {
+            return "POLYGON EMPTY";
+        }
+        oss << "POLYGON(";
+        for (size_t r = 0; r < geom.rings.size(); ++r) {
+            if (r > 0) {
+                oss << ",";
+            }
+            oss << "(";
+            for (size_t i = 0; i < geom.rings[r].size(); ++i) {
+                const auto& c = geom.rings[r][i];
+                if (i > 0) {
+                    oss << ",";
+                }
+                oss << c.x << " " << c.y;
+                if (geom.has_z && c.hasZ()) {
+                    oss << " " << c.getZ();
+                }
+            }
+            oss << ")";
+        }
+        oss << ")";
+        return oss.str();
+    }
+
+    throw std::runtime_error("WKT: Unsupported geometry type for serialization");
 }
 
 // To GeoJSON

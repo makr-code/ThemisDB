@@ -31,7 +31,58 @@
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
+#ifdef DELETE
+#undef DELETE
+#endif
+
+#ifdef GET
+#undef GET
+#endif
+
+#ifdef PUT
+#undef PUT
+#endif
+
+#ifdef PING
+#undef PING
+#endif
+
+#ifdef PONG
+#undef PONG
+#endif
+
+#ifdef CLOSE
+#undef CLOSE
+#endif
+
+#if __has_include("themis_wire_v1.pb.h")
+#define THEMIS_WIRE_V1_PB_HEADER_FOUND 1
 #include "themis_wire_v1.pb.h"
+#else
+#define THEMIS_WIRE_V1_PB_HEADER_FOUND 0
+namespace themis {
+namespace wire {
+namespace v1 {
+class HelloRequest;
+class AuthResponse;
+class GetRequest;
+class PutRequest;
+class DeleteRequest;
+class QueryRequest;
+class VectorSearchRequest;
+class GeoQueryRequest;
+class TimeSeriesQueryRequest;
+class BpmnStartProcessRequest;
+class PingRequest;
+class CloseRequest;
+}
+}
+}
+#endif
 
 namespace themis {
 namespace wire {
@@ -48,44 +99,44 @@ constexpr size_t MAX_PAYLOAD_SIZE = 64 * 1024 * 1024;  // 64MB
 
 // OpCodes
 enum class OpCode : uint8_t {
-    HELLO = 0x01,
-    HELLO_ACK = 0x02,
-    AUTH_REQUEST = 0x03,
-    AUTH_RESPONSE = 0x04,
-    AUTH_SUCCESS = 0x05,
-    AUTH_FAILURE = 0x06,
+    OP_HELLO = 0x01,
+    OP_HELLO_ACK = 0x02,
+    OP_AUTH_REQUEST = 0x03,
+    OP_AUTH_RESPONSE = 0x04,
+    OP_AUTH_SUCCESS = 0x05,
+    OP_AUTH_FAILURE = 0x06,
     
-    GET = 0x10,
-    PUT = 0x11,
-    DELETE = 0x12,
-    BATCH_GET = 0x13,
-    BATCH_PUT = 0x14,
+    OP_GET = 0x10,
+    OP_PUT = 0x11,
+    OP_DELETE = 0x12,
+    OP_BATCH_GET = 0x13,
+    OP_BATCH_PUT = 0x14,
     
-    QUERY_AQL = 0x20,
-    QUERY_RESULT = 0x21,
-    QUERY_CURSOR = 0x22,
-    CURSOR_NEXT = 0x23,
-    CURSOR_CLOSE = 0x24,
+    OP_QUERY_AQL = 0x20,
+    OP_QUERY_RESULT = 0x21,
+    OP_QUERY_CURSOR = 0x22,
+    OP_CURSOR_NEXT = 0x23,
+    OP_CURSOR_CLOSE = 0x24,
     
-    TRANSACTION_BEGIN = 0x30,
-    TRANSACTION_COMMIT = 0x31,
-    TRANSACTION_ABORT = 0x32,
+    OP_TRANSACTION_BEGIN = 0x30,
+    OP_TRANSACTION_COMMIT = 0x31,
+    OP_TRANSACTION_ABORT = 0x32,
     
-    VECTOR_SEARCH = 0x40,
-    GRAPH_TRAVERSE = 0x41,
+    OP_VECTOR_SEARCH = 0x40,
+    OP_GRAPH_TRAVERSE = 0x41,
     
-    GEO_QUERY = 0x50,
-    TIMESERIES_QUERY = 0x51,
+    OP_GEO_QUERY = 0x50,
+    OP_TIMESERIES_QUERY = 0x51,
     
-    BPMN_START_PROCESS = 0x60,
-    BPMN_TASK_COMPLETE = 0x61,
-    BPMN_QUERY_INSTANCE = 0x62,
+    OP_BPMN_START_PROCESS = 0x60,
+    OP_BPMN_TASK_COMPLETE = 0x61,
+    OP_BPMN_QUERY_INSTANCE = 0x62,
     
-    ERROR = 0xF0,
-    OK = 0xF1,
-    PING = 0xFE,
-    PONG = 0xFE,
-    CLOSE = 0xFF
+    OP_ERROR = 0xF0,
+    OP_OK = 0xF1,
+    OP_PING = 0xFE,
+    OP_PONG = 0xFE,
+    OP_CLOSE = 0xFF
 };
 
 // Message Flags

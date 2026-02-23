@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LoRA failure scenario tests not runnable in current build.
+// Disabled: LoRA failure scenario tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LoraFailureScenarios, Skipped)

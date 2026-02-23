@@ -50,7 +50,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 4: Tests
 - [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_cuda_ann_search.cpp` added
-- [P] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
+- [x] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — full parity suite in `tests/test_cpu_gpu_parity.cpp`: CUDA ANN (L2/Cosine/InnerProduct/TopK), CUDA Geo (Haversine/PointInPolygon), Vulkan ANN, Vulkan Geo, and BackendRegistry selection parity tests; all GPU fixtures skip gracefully when hardware is absent
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
@@ -59,7 +59,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
-- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — covered in `docs/acceleration/capability_negotiation.md`
+- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
 - [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
 
@@ -89,7 +89,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
-- [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
+- [x] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` covers CUDA + Vulkan ANN and Geo parity; tests are skipped gracefully when hardware is absent
 - [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
 - [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)

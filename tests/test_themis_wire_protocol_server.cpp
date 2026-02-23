@@ -70,8 +70,8 @@ TEST(WireFrameHeader, InvalidVersion) {
 
 TEST(WireFrameHeader, GetOpcode) {
     WireFrameHeader h{};
-    h.opcode = static_cast<uint8_t>(OpCode::PING);
-    EXPECT_EQ(h.get_opcode(), OpCode::PING);
+    h.opcode = static_cast<uint8_t>(OpCode::OP_PING);
+    EXPECT_EQ(h.get_opcode(), OpCode::OP_PING);
 }
 
 TEST(WireFrameHeader, HasFlagNone) {
@@ -106,41 +106,41 @@ TEST(WireFrameHeader, PackedLayout) {
 // ===========================================================================
 
 TEST(OpCode, HandshakeValues) {
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::HELLO),         0x01u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::HELLO_ACK),     0x02u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::AUTH_REQUEST),  0x03u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::AUTH_RESPONSE), 0x04u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::AUTH_SUCCESS),  0x05u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::AUTH_FAILURE),  0x06u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_HELLO),         0x01u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_HELLO_ACK),     0x02u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_AUTH_REQUEST),  0x03u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_AUTH_RESPONSE), 0x04u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_AUTH_SUCCESS),  0x05u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_AUTH_FAILURE),  0x06u);
 }
 
 TEST(OpCode, CRUDValues) {
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::GET),       0x10u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::PUT),       0x11u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::DELETE),    0x12u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::BATCH_GET), 0x13u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::BATCH_PUT), 0x14u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_GET),    0x10u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_PUT),    0x11u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_DELETE), 0x12u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_BATCH_GET), 0x13u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_BATCH_PUT), 0x14u);
 }
 
 TEST(OpCode, QueryValues) {
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::QUERY_AQL),   0x20u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::QUERY_RESULT),0x21u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::QUERY_CURSOR),0x22u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::CURSOR_NEXT), 0x23u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::CURSOR_CLOSE),0x24u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_QUERY_AQL),   0x20u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_QUERY_RESULT),0x21u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_QUERY_CURSOR),0x22u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_CURSOR_NEXT), 0x23u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_CURSOR_CLOSE),0x24u);
 }
 
 TEST(OpCode, TransactionValues) {
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::TRANSACTION_BEGIN),  0x30u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::TRANSACTION_COMMIT), 0x31u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::TRANSACTION_ABORT),  0x32u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_TRANSACTION_BEGIN),  0x30u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_TRANSACTION_COMMIT), 0x31u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_TRANSACTION_ABORT),  0x32u);
 }
 
 TEST(OpCode, SpecialValues) {
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::ERROR), 0xF0u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::OK),    0xF1u);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::PING),  0xFEu);
-    EXPECT_EQ(static_cast<uint8_t>(OpCode::CLOSE), 0xFFu);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_ERROR), 0xF0u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_OK),    0xF1u);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_PING),  0xFEu);
+    EXPECT_EQ(static_cast<uint8_t>(OpCode::OP_CLOSE), 0xFFu);
 }
 
 // ===========================================================================
@@ -207,13 +207,13 @@ TEST(MessageDispatcher, RegisterAndDispatch) {
     MessageDispatcher dispatcher;
 
     dispatcher.register_handler(
-        OpCode::PING,
+        OpCode::OP_PING,
         [&call_count](WireProtocolSession& /*s*/,
                       const std::vector<uint8_t>& /*payload*/) {
             ++call_count;
         });
 
-    dispatcher.dispatch(*session, OpCode::PING, {});
+    dispatcher.dispatch(*session, OpCode::OP_PING, {});
     EXPECT_EQ(call_count, 1);
 }
 
@@ -224,7 +224,7 @@ TEST(MessageDispatcher, UnknownOpcodeDoesNotThrow) {
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
 
     MessageDispatcher dispatcher;
-    EXPECT_NO_THROW(dispatcher.dispatch(*session, OpCode::QUERY_AQL, {}));
+    EXPECT_NO_THROW(dispatcher.dispatch(*session, OpCode::OP_QUERY_AQL, {}));
 }
 
 TEST(MessageDispatcher, HandlerReplacement) {
@@ -237,17 +237,17 @@ TEST(MessageDispatcher, HandlerReplacement) {
     MessageDispatcher dispatcher;
 
     dispatcher.register_handler(
-        OpCode::HELLO,
+        OpCode::OP_HELLO,
         [&first](WireProtocolSession&, const std::vector<uint8_t>&) {
             ++first;
         });
     dispatcher.register_handler(
-        OpCode::HELLO,
+        OpCode::OP_HELLO,
         [&second](WireProtocolSession&, const std::vector<uint8_t>&) {
             ++second;
         });
 
-    dispatcher.dispatch(*session, OpCode::HELLO, {});
+    dispatcher.dispatch(*session, OpCode::OP_HELLO, {});
     // Only the second handler (replacement) should have been called.
     EXPECT_EQ(first, 0);
     EXPECT_EQ(second, 1);
@@ -263,24 +263,24 @@ TEST(MessageDispatcher, MultipleOpcodes) {
     MessageDispatcher dispatcher;
 
     dispatcher.register_handler(
-        OpCode::GET,
+        OpCode::OP_GET,
         [&get_count](WireProtocolSession&, const std::vector<uint8_t>&) {
             ++get_count;
         });
     dispatcher.register_handler(
-        OpCode::PUT,
+        OpCode::OP_PUT,
         [&put_count](WireProtocolSession&, const std::vector<uint8_t>&) {
             ++put_count;
         });
     dispatcher.register_handler(
-        OpCode::DELETE,
+        OpCode::OP_DELETE,
         [&del_count](WireProtocolSession&, const std::vector<uint8_t>&) {
             ++del_count;
         });
 
-    dispatcher.dispatch(*session, OpCode::GET,    {});
-    dispatcher.dispatch(*session, OpCode::PUT,    {});
-    dispatcher.dispatch(*session, OpCode::DELETE, {});
+    dispatcher.dispatch(*session, OpCode::OP_GET,    {});
+    dispatcher.dispatch(*session, OpCode::OP_PUT,    {});
+    dispatcher.dispatch(*session, OpCode::OP_DELETE, {});
 
     EXPECT_EQ(get_count, 1);
     EXPECT_EQ(put_count, 1);

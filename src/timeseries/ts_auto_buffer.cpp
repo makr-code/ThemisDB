@@ -371,7 +371,7 @@ size_t TSAutoBuffer::persistToWAL(const std::string& wal_path) {
     return count;
 }
 
-ssize_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
+std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
     std::ifstream ifs(wal_path);
     if (!ifs.is_open()) {
         THEMIS_WARN("TSAutoBuffer::restoreFromWAL: file '{}' not found", wal_path);
@@ -408,7 +408,7 @@ ssize_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
 
     THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
                 restored.size(), wal_path);
-    return static_cast<ssize_t>(restored.size());
+    return static_cast<std::ptrdiff_t>(restored.size());
 }
 
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {

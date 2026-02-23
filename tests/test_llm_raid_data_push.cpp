@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LLM RAID data push tests not runnable in current build.
+// Disabled: LLM RAID data push tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlmRaidDataPush, Skipped)

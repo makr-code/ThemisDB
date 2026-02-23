@@ -278,7 +278,7 @@ TEST(RetentionAqlFunctions, EstimateStorageSavings_SignatureName) {
 // ─── registerRetentionFunctions: all functions registered ────────────────────
 
 TEST(RetentionAqlFunctions, RegisterRetentionFunctions_AllRegistered) {
-    FunctionRegistry reg;
+    auto& reg = FunctionRegistry::instance();
     registerRetentionFunctions(reg);
 
     EXPECT_TRUE(reg.hasFunction("CV"));
@@ -292,7 +292,7 @@ TEST(RetentionAqlFunctions, RegisterRetentionFunctions_AllRegistered) {
 }
 
 TEST(RetentionAqlFunctions, RegisterRetentionFunctions_CallViaRegistry) {
-    FunctionRegistry reg;
+    auto& reg = FunctionRegistry::instance();
     registerRetentionFunctions(reg);
 
     // Call CV(10, 100) → 10.0 via registry
@@ -302,7 +302,7 @@ TEST(RetentionAqlFunctions, RegisterRetentionFunctions_CallViaRegistry) {
 }
 
 TEST(RetentionAqlFunctions, RegisterRetentionFunctions_ListScheduledTasksReturnsArray) {
-    FunctionRegistry reg;
+    auto& reg = FunctionRegistry::instance();
     registerRetentionFunctions(reg);
 
     auto result = reg.call("LIST_SCHEDULED_TASKS", {}, kCtx);
@@ -310,7 +310,7 @@ TEST(RetentionAqlFunctions, RegisterRetentionFunctions_ListScheduledTasksReturns
 }
 
 TEST(RetentionAqlFunctions, RegisterRetentionFunctions_UnknownFunctionNotRegistered) {
-    FunctionRegistry reg;
+    auto& reg = FunctionRegistry::instance();
     registerRetentionFunctions(reg);
     EXPECT_FALSE(reg.hasFunction("THIS_DOES_NOT_EXIST"));
 }
