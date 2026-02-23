@@ -21,6 +21,7 @@
  */
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
 #include "acceleration/kernel_invocation.h"
 #include <cmath>
 #include <algorithm>
@@ -74,6 +75,12 @@ std::vector<float> CPUVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
+    }
+
     std::vector<float> distances(numQueries * numVectors);
     
     for (size_t q = 0; q < numQueries; ++q) {
@@ -98,6 +105,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
     size_t k,
     bool useL2
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
+    }
+    if (!BatchValidator::validateK(name(), k, sink)) {
+        return {};
+    }
+
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
     
     for (size_t q = 0; q < numQueries; ++q) {
@@ -148,6 +164,12 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
     size_t numStarts,
     uint32_t maxDepth
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices,
+                                               startVertices, numStarts, sink)) {
+        return {};
+    }
+
     (void)adjacency; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
     
@@ -185,6 +207,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
     const uint32_t* endVertices,
     size_t numPairs
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights,
+                                                   numVertices, startVertices,
+                                                   endVertices, numPairs, sink)) {
+        return {};
+    }
+
     (void)adjacency; (void)weights; (void)numVertices;
     (void)startVertices; (void)endVertices; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
@@ -235,6 +264,12 @@ std::vector<float> CPUGeoBackend::batchDistances(
     size_t count,
     bool useHaversine
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1,
+                                          latitudes2, longitudes2, count, sink)) {
+        return {};
+    }
+
     std::vector<float> distances(count);
     
     for (size_t i = 0; i < count; ++i) {
@@ -254,6 +289,13 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons,
+                                                     numPoints, polygonCoords,
+                                                     numPolygonVertices, sink)) {
+        return {};
+    }
+
     std::vector<bool> results(numPoints);
     
     // Ray casting algorithm for point-in-polygon test
