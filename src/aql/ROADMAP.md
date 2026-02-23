@@ -38,7 +38,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [I] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [I] AQL function documentation auto-generation from C++ headers (Issue: #1362)
 - [I] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
-- [I] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
+- [~] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 
 ## Implementation Phases
 
