@@ -32,7 +32,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
 - [I] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
-- [I] Module dependency resolution and load-order management (Issue: #2474)
+- [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## Implementation Phases
 
@@ -61,7 +61,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules
 - [ ] Zone.Identifier / quarantine detection (Windows)
 - [ ] Dynamic feature flag gating per edition at runtime
-- [ ] Module dependency resolution and load-order management
+- [x] Module dependency resolution and load-order management
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

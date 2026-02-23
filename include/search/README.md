@@ -106,7 +106,8 @@ Diagnostic information about a `search()` call.
 ### query_expander.h
 **Purpose:** Query expansion, spelling correction, and zero-result fallback
 
-**Key Classes:**
+**Key Classes / Structs:**
+- `SpellingCorrection`: Ranked correction candidate (suggestion, edit_distance, confidence)
 - `QueryExpander`: Expands a raw user query with synonyms, corrected tokens, and relaxed fallbacks
 - `QueryExpander::Config`: Controls synonym expansion, spelling correction, max expansions
 - `ExpandedQuery`: Output struct with original, corrected, synonyms, relaxed terms, and all_terms
@@ -132,7 +133,18 @@ auto expanded = expander.expand("mashine lerning");
 // expanded.synonyms   == {"artificial intelligence"}
 // expanded.all_terms  contains all tokens + synonyms
 
-// Suggest alternative phrasings
+// Ranked spelling corrections for a single word (new in v1.7.0)
+// NOTE: "databse" and "qurey" are intentionally misspelled inputs to demonstrate correction
+auto word_sug = expander.suggestSpellingCorrections("databse");
+// [{suggestion="database", edit_distance=1, confidence=0.67}, ...]
+
+// Ranked full-query corrections (new in v1.7.0)
+auto query_sug = expander.suggestQueryCorrections("databse qurey");
+// [{suggestion="database qurey", edit_distance=1, ...},
+//  {suggestion="databse query",  edit_distance=2, ...},
+//  {suggestion="database query", edit_distance=3, ...}]
+
+// Suggest alternative phrasings via synonyms
 auto alts = expander.suggestAlternatives("machine learning");
 
 // Zero-result fallback: drop last token
@@ -147,6 +159,11 @@ auto relaxed = expander.relaxQuery("machine learning database");
 - `synonym_weight`: Relative weight of synonym terms — informational (default 0.8)
 - `max_expansions`: Maximum synonym terms to add per token (default 5)
 - `max_edit_distance`: Maximum edit distance for spelling correction (default 2)
+
+**SpellingCorrection Fields:**
+- `suggestion`: Corrected word or full query string
+- `edit_distance`: Levenshtein distance from input (lower is better)
+- `confidence`: Normalized score in [0,1] — `1 - edit_distance / (max_edit_distance + 1)`
 
 ---
 
@@ -524,4 +541,4 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 ---
 
 *Last Updated: February 2026*
-*API Version: v1.5.0*
+*API Version: v1.7.0*

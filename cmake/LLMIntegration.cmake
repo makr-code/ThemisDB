@@ -79,6 +79,9 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Streaming Retrieval & Incremental Context Window Filling (Phase 2)
         ../src/rag/streaming_retriever.cpp
 
+        # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
+        ../src/rag/hallucination_dashboard.cpp
+
         # RAG Enhancement: Continuous Learning Integration (Phase 6)
         ../src/rag/continuous_learning_client.cpp
         

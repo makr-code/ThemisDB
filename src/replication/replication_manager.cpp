@@ -4093,5 +4093,189 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     return archived;
 }
 
+// ============================================================================
+// Cross-Cluster Publish/Subscribe Replication – v1.7.0
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// PublicationFilter
+// ---------------------------------------------------------------------------
+
+bool PublicationFilter::matches(const WALEntry& entry) const {
+    // Collection filter
+    if (!include_collections.empty()) {
+        bool found = false;
+        for (const auto& col : include_collections) {
+            if (col == entry.collection) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    // Operation filter
+    if (!include_operations.empty()) {
+        bool found = false;
+        for (const auto& op : include_operations) {
+            if (op == entry.operation) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterPublication
+// ---------------------------------------------------------------------------
+
+CrossClusterPublication::CrossClusterPublication(std::string name)
+    : name_(std::move(name)) {}
+
+void CrossClusterPublication::setFilter(const PublicationFilter& filter) {
+    std::unique_lock<std::shared_mutex> lock(filter_mutex_);
+    filter_ = filter;
+}
+
+PublicationFilter CrossClusterPublication::getFilter() const {
+    std::shared_lock<std::shared_mutex> lock(filter_mutex_);
+    return filter_;
+}
+
+uint64_t CrossClusterPublication::addRemoteSubscriber(DeliveryCallback callback) {
+    uint64_t id = next_sub_id_.fetch_add(1);
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.push_back({id, std::move(callback)});
+    THEMIS_INFO("CrossClusterPublication '{}': subscriber {} registered (total={})",
+                name_, id, subscribers_.size());
+    return id;
+}
+
+void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.erase(
+        std::remove_if(subscribers_.begin(), subscribers_.end(),
+                       [subscriber_id](const RemoteSubscriber& s) {
+                           return s.id == subscriber_id;
+                       }),
+        subscribers_.end());
+    THEMIS_INFO("CrossClusterPublication '{}': subscriber {} removed (total={})",
+                name_, subscriber_id, subscribers_.size());
+}
+
+size_t CrossClusterPublication::subscriberCount() const {
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    return subscribers_.size();
+}
+
+void CrossClusterPublication::publish(const WALEntry& entry) {
+    // Apply filter
+    {
+        std::shared_lock<std::shared_mutex> flock(filter_mutex_);
+        if (!filter_.matches(entry)) return;
+    }
+
+    published_count_.fetch_add(1);
+
+    std::shared_lock<std::shared_mutex> slock(subs_mutex_);
+    for (const auto& sub : subscribers_) {
+        try {
+            sub.callback(entry);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("CrossClusterPublication '{}': subscriber {} threw: {}",
+                         name_, sub.id, e.what());
+        } catch (...) {
+            THEMIS_ERROR("CrossClusterPublication '{}': subscriber {} threw unknown exception",
+                         name_, sub.id);
+        }
+    }
+}
+
+void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
+    publish(entry);
+}
+
+std::string CrossClusterPublication::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    oss << "# HELP themisdb_cross_cluster_publication_published_total"
+           " Total WAL entries published by this publication\n"
+        << "# TYPE themisdb_cross_cluster_publication_published_total counter\n"
+        << "themisdb_cross_cluster_publication_published_total{publication=\"" << name_ << "\"} "
+        << published_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_publication_subscribers"
+           " Number of active remote subscribers\n"
+        << "# TYPE themisdb_cross_cluster_publication_subscribers gauge\n"
+        << "themisdb_cross_cluster_publication_subscribers{publication=\"" << name_ << "\"} "
+        << subscriberCount() << "\n";
+    return oss.str();
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterSubscription
+// ---------------------------------------------------------------------------
+
+CrossClusterSubscription::CrossClusterSubscription(
+        std::string name,
+        std::shared_ptr<CrossClusterPublication> publication,
+        ApplyCallback apply_fn)
+    : name_(std::move(name))
+    , publication_(std::move(publication))
+    , apply_fn_(std::move(apply_fn)) {}
+
+CrossClusterSubscription::~CrossClusterSubscription() {
+    disable();
+}
+
+void CrossClusterSubscription::enable() {
+    if (enabled_.exchange(true)) return;  // Already enabled
+    pub_subscriber_id_ = publication_->addRemoteSubscriber(
+        [this](const WALEntry& entry) { applyEntry(entry); });
+    THEMIS_INFO("CrossClusterSubscription '{}': enabled (pub='{}')",
+                name_, publication_->name());
+}
+
+void CrossClusterSubscription::disable() {
+    if (!enabled_.exchange(false)) return;  // Already disabled
+    publication_->removeRemoteSubscriber(pub_subscriber_id_);
+    pub_subscriber_id_ = 0;
+    THEMIS_INFO("CrossClusterSubscription '{}': disabled (pub='{}')",
+                name_, publication_->name());
+}
+
+void CrossClusterSubscription::applyEntry(const WALEntry& entry) {
+    try {
+        apply_fn_(entry);
+        last_applied_seq_.store(entry.sequence_number);
+        applied_count_.fetch_add(1);
+    } catch (const std::exception& e) {
+        error_count_.fetch_add(1);
+        THEMIS_ERROR("CrossClusterSubscription '{}': apply error for seq={}: {}",
+                     name_, entry.sequence_number, e.what());
+    } catch (...) {
+        error_count_.fetch_add(1);
+        THEMIS_ERROR("CrossClusterSubscription '{}': apply threw unknown exception for seq={}",
+                     name_, entry.sequence_number);
+    }
+}
+
+std::string CrossClusterSubscription::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    oss << "# HELP themisdb_cross_cluster_subscription_applied_total"
+           " Total WAL entries applied by this subscription\n"
+        << "# TYPE themisdb_cross_cluster_subscription_applied_total counter\n"
+        << "themisdb_cross_cluster_subscription_applied_total{subscription=\"" << name_ << "\"} "
+        << applied_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_subscription_errors_total"
+           " Total apply errors in this subscription\n"
+        << "# TYPE themisdb_cross_cluster_subscription_errors_total counter\n"
+        << "themisdb_cross_cluster_subscription_errors_total{subscription=\"" << name_ << "\"} "
+        << error_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_subscription_last_applied_sequence"
+           " Last successfully applied WAL sequence number\n"
+        << "# TYPE themisdb_cross_cluster_subscription_last_applied_sequence gauge\n"
+        << "themisdb_cross_cluster_subscription_last_applied_sequence{subscription=\"" << name_ << "\"} "
+        << last_applied_seq_.load() << "\n";
+    return oss.str();
+}
+
 } // namespace replication
 } // namespace themisdb
