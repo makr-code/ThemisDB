@@ -35,9 +35,26 @@ In practice, this module is responsible for:
 
 ## Runtime Behavior
 
-- On startup (or first use), backends are registered and a “best” backend is selected.  
-- If no compatible accelerator is present, or if an accelerator backend fails to initialize, the module must **gracefully degrade** to CPU backends (no hard failure).  
-- Calls should be safe under concurrency: multiple threads may request acceleration services simultaneously.
+- On startup, call `BackendRegistry::instance().initializeRuntime()` once to trigger
+  capability-driven backend selection across all three operation categories (vector,
+  graph, geo). The method calls `autoDetect()` to discover available backends
+  (including GPU plugins), then selects the highest-priority backend that satisfies
+  the capability requirements for each category. Selections are cached and retrieved
+  afterwards via `getSelectedVectorBackend()`, `getSelectedGraphBackend()`, and
+  `getSelectedGeoBackend()`. If no backend matches the requirements, the accessor
+  returns `nullptr` instead of crashing.
+- If no compatible accelerator is present, or if an accelerator backend fails to
+  initialize, the module **gracefully degrades** to CPU backends — no hard failure.
+- `isRuntimeInitialized()` returns `true` after the first call to `initializeRuntime()`
+  and `false` again after `shutdownAll()`.
+- Default capability requirements (used when `initializeRuntime()` is called with no
+  arguments) can be retrieved from `BackendRegistry::defaultVectorRequirements()`,
+  `defaultGraphRequirements()`, and `defaultGeoRequirements()`. Custom requirements
+  can be passed per category when stricter constraints are needed (e.g. FP16-only).
+- Calls should be safe under concurrency: multiple threads may request acceleration
+  services simultaneously once `initializeRuntime()` has completed. Concurrent
+  calls to `initializeRuntime()` itself are not recommended; call it once during
+  single-threaded server startup before spawning worker threads.
 
 ## Build & Feature Flags
 
