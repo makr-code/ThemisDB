@@ -75,6 +75,17 @@ inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
     return 1u << static_cast<uint32_t>(m);
 }
 
+// PCI vendor IDs for common GPU vendors — used by Vulkan and other backends
+// for device selection and capability reporting.
+namespace vendor_id {
+    static constexpr uint32_t NVIDIA   = 0x10DE;
+    static constexpr uint32_t AMD      = 0x1002;
+    static constexpr uint32_t INTEL    = 0x8086;
+    static constexpr uint32_t ARM      = 0x13B5;
+    static constexpr uint32_t QUALCOMM = 0x5143;
+    static constexpr uint32_t IMGTEC   = 0x1010;
+} // namespace vendor_id
+
 // Capability contract for a compute backend.
 // Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
@@ -97,6 +108,9 @@ struct BackendCapabilities {
     size_t maxMemoryBytes = 0;      // Available VRAM/memory
     int computeUnits = 0;            // Number of compute units/SMs
     std::string deviceName;
+    // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
+    // Empty string means unknown or CPU backend.
+    std::string vendorName;
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()

@@ -22,9 +22,9 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Short-term (Next 3-6 months)
 - [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
 - [I] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372)
-- [I] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
-- [I] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
+- [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
 - [!] ROCm/HIP support for AMD GPU acceleration (Issue: #1370)
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
@@ -40,7 +40,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: Core-Implementierung
 - [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
-- [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
+- [P] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — inner product pipeline added; ANNKernelDispatch + GeoKernelDispatch populated; VulkanGeoBackend implemented; haversine and point-in-polygon shaders added
 - [P] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `supportedPrecisions`/`supportedMetrics` now populated in `CUDAVectorBackend::getCapabilities()`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
@@ -85,7 +85,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
-- [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)

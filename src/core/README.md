@@ -38,7 +38,7 @@ Central hub for managing cross-cutting concerns using the Service Locator + Depe
 
 ```cpp
 // Create a production-ready context with real implementations
-auto context = ConcernsContext::createForProduction(config);
+auto context = ConcernsContext::create(config);
 
 // Access concerns
 context->logger()->info("Database started");
@@ -137,8 +137,9 @@ Provides secure initialization routines for cryptographic components and key man
    - Testability through mock injection
 
 2. **Factory Pattern**
-   - `ConcernsContext::createForProduction()` - Production configuration
-   - `ConcernsContext::createForTesting()` - Test-friendly configuration
+   - `ConcernsContext::create()` - Default production configuration
+   - `ConcernsContext::create(const Config&)` - Configuration-driven adapter selection
+   - `ConcernsContext::createNoOp()` - Test-friendly no-op configuration
    - `ConcernsContext::createCustom()` - User-defined configuration
 
 3. **Adapter Pattern**
@@ -218,7 +219,7 @@ QueryEngine engine(storage, context);
 #include "core/concerns/concerns_context.h"
 
 // Create context for production
-auto context = ConcernsContext::createForProduction(config);
+auto context = ConcernsContext::create(config);
 
 // Use throughout application
 void processRequest(Request req, std::shared_ptr<ConcernsContext> ctx) {
@@ -250,15 +251,14 @@ void processRequest(Request req, std::shared_ptr<ConcernsContext> ctx) {
 #include "core/concerns/noop_implementations.h"
 
 // Create no-op context for unit tests
-auto test_context = ConcernsContext::createForTesting();
+auto test_context = ConcernsContext::createNoOp();
 
 // Or create custom context with mocks
-auto mock_logger = std::make_shared<MockLogger>();
 auto custom_context = ConcernsContext::createCustom(
-    mock_logger,
-    std::make_shared<NoopTracer>(),
-    std::make_shared<NoopMetrics>(),
-    std::make_shared<NoopCache>()
+    std::make_unique<MockLogger>(),
+    std::make_unique<NoOpTracer>(),
+    std::make_unique<NoOpMetrics>(),
+    std::make_unique<NoOpCache>()
 );
 
 // Verify logging calls
