@@ -1,45 +1,55 @@
 ---
-name: Docs Audit
-about: Track a documentation audit finding that requires remediation
-title: "[docs-audit] "
-labels: ["type:documentation", "area:docs-audit", "status:open"]
+name: Documentation Audit Finding
+about: Report a gap, inaccuracy, or missing documentation discovered during a docs audit
+title: "[docs] "
+labels: ["type:documentation", "status:open", "priority:medium"]
 assignees: []
 ---
 
-## Audit Finding
+## Summary
 
-### Category
-<!-- e.g. broken-links | stale-content | missing-section | architecture-gap | translation | api-coverage | tools-coverage | examples-coverage -->
+A clear and concise description of the documentation gap or inaccuracy found during the audit.
 
-### Severity
-<!-- critical | high | medium | low -->
+## Audit Reference
 
-### Affected File(s) / Path(s)
+- **Audit Version:** <!-- e.g. v1.4.1, v1.5.0 -->
+- **Finding ID:** <!-- e.g. DOCS-001 -->
+- **Severity:** <!-- Critical | High | Medium | Low -->
+- **Discovered:** <!-- Date or sprint -->
 
-```
-docs/...
-```
+## Affected Files
 
-### Problem Description
+List all documentation files and/or source files impacted by this finding:
 
-A clear and concise description of the documentation gap, inaccuracy, or quality issue.
+- `docs/...` – <!-- brief description of issue -->
+- `src/...` – <!-- related source file if applicable -->
 
-### Evidence
+## Current State
 
-Provide specific evidence (line numbers, diff, link-check output, etc.) that confirms the issue.
+Describe the current (incorrect or incomplete) state of the documentation.
 
-### Acceptance Criteria
+## Expected State
 
-- [ ] ...
-- [ ] All internal links in the affected files resolve correctly
-- [ ] Content is consistent with current source code
-- [ ] Reviewed by at least one maintainer
+Describe what the documentation should say or cover after fixing this issue.
 
-### Suggested Fix
+## Gap Type
 
-Describe what changes would resolve this finding.
+<!-- Check all that apply -->
+- [ ] **Inaccurate** – Documentation describes something that no longer exists or works differently
+- [ ] **Missing** – Feature or module has no documentation at all
+- [ ] **Stale** – Documentation references outdated versions, paths, or APIs
+- [ ] **Broken Link** – One or more hyperlinks in the document are dead
+- [ ] **Incomplete** – Documentation exists but is missing important sections
+- [ ] **Translation** – Documentation is missing in one or more supported languages (DE/EN/FR/ES/JA)
 
-### References
+## Acceptance Criteria
 
-- Gap analysis: `docs/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md`
-- Cleanup plan: `docs/DOCUMENTATION_CLEANUP_ACTION_PLAN.md`
+- [ ] Documentation accurately reflects the current implementation
+- [ ] All internal links are valid
+- [ ] Code examples are tested and runnable
+- [ ] Content is reviewed by at least one other contributor
+- [ ] If applicable: German and English versions are in sync
+
+## Additional Context
+
+Add any relevant context, screenshots, or references here.
