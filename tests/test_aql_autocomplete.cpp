@@ -238,6 +238,30 @@ TEST_F(AQLAutoCompleteVariableTest, VarBeforeCursor_PrefixFilter) {
     EXPECT_FALSE(hasLabel(items, "order"));
 }
 
+TEST_F(AQLAutoCompleteVariableTest, CollectGroupVar_AppearAsVariable) {
+    // COLLECT dep = u.department creates variable 'dep'
+    const std::string q = "FOR u IN users COLLECT dep = u.department RETURN d";
+    auto items = ac.complete(makeCtx(q));
+    EXPECT_TRUE(hasLabel(items, "dep"));
+    EXPECT_TRUE(hasKind(items, "dep", CompletionItemKind::Variable));
+}
+
+TEST_F(AQLAutoCompleteVariableTest, CollectIntoVar_AppearAsVariable) {
+    // COLLECT ... INTO grp creates variable 'grp'
+    const std::string q = "FOR u IN users COLLECT dep = u.department INTO grp RETURN g";
+    auto items = ac.complete(makeCtx(q));
+    EXPECT_TRUE(hasLabel(items, "grp"));
+    EXPECT_TRUE(hasKind(items, "grp", CompletionItemKind::Variable));
+}
+
+TEST_F(AQLAutoCompleteVariableTest, CollectWithCountInto_AppearAsVariable) {
+    // COLLECT WITH COUNT INTO cnt creates variable 'cnt'
+    const std::string q = "FOR u IN users COLLECT WITH COUNT INTO cnt RETURN c";
+    auto items = ac.complete(makeCtx(q));
+    EXPECT_TRUE(hasLabel(items, "cnt"));
+    EXPECT_TRUE(hasKind(items, "cnt", CompletionItemKind::Variable));
+}
+
 // ============================================================================
 // Dot / attribute completion
 // ============================================================================

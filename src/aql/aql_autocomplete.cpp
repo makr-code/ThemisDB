@@ -16,8 +16,6 @@
 #include <algorithm>
 #include <cctype>
 #include <regex>
-#include <sstream>
-#include <unordered_map>
 #include <unordered_set>
 
 namespace themis {
@@ -293,25 +291,38 @@ std::vector<std::string> AQLAutoComplete::declaredVariables(
     std::vector<std::string> vars;
     std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
 
+    // Static patterns compiled once for performance
     // FOR <var> IN ...
-    std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)", std::regex::icase);
-    {
-        std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), for_re);
-        std::sregex_iterator end;
-        for (; it != end; ++it) {
-            vars.push_back((*it)[1].str());
-        }
-    }
-
+    static const std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)",
+        std::regex::icase);
     // LET <var> = ...
-    std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
-    {
-        std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), let_re);
+    static const std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)",
+        std::regex::icase);
+    // COLLECT <var> = <expr> — captures the grouping variable after COLLECT
+    static const std::regex collect_re(R"(COLLECT\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)",
+        std::regex::icase);
+    // COLLECT ... INTO <group_var> — [\s\S] matches newlines too
+    static const std::regex collect_into_re(
+        R"(COLLECT\b[\s\S]*?\bINTO\s+([A-Za-z_][A-Za-z0-9_]*))",
+        std::regex::icase);
+    // COLLECT WITH COUNT INTO <count_var>
+    static const std::regex collect_count_re(
+        R"(COLLECT\s+WITH\s+COUNT\s+INTO\s+([A-Za-z_][A-Za-z0-9_]*))",
+        std::regex::icase);
+
+    auto collect_matches = [&](const std::regex& re) {
+        std::sregex_iterator it(prefix_text.begin(), prefix_text.end(), re);
         std::sregex_iterator end;
         for (; it != end; ++it) {
             vars.push_back((*it)[1].str());
         }
-    }
+    };
+
+    collect_matches(for_re);
+    collect_matches(let_re);
+    collect_matches(collect_re);
+    collect_matches(collect_into_re);
+    collect_matches(collect_count_re);
 
     // De-duplicate while preserving order
     std::unordered_set<std::string> seen;
@@ -492,12 +503,17 @@ std::vector<CompletionItem> AQLAutoComplete::attributeCandidates(
     std::string collection_name;
     if (!variable.empty() && !schema.empty()) {
         std::string prefix_text = text.substr(0, std::min(cursor, text.size()));
-        std::regex for_re(
-            "FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)",
-            std::regex::icase);
-        std::smatch m;
-        if (std::regex_search(prefix_text, m, for_re)) {
-            collection_name = toLower(m[1].str());
+        try {
+            std::regex for_re(
+                "FOR\\s+" + variable + "\\s+IN\\s+([A-Za-z_][A-Za-z0-9_]*)",
+                std::regex::icase);
+            std::smatch m;
+            if (std::regex_search(prefix_text, m, for_re)) {
+                collection_name = toLower(m[1].str());
+            }
+        } catch (const std::regex_error&) {
+            // If regex construction fails (malformed variable), fall through
+            // to the union-of-all-fields fallback below.
         }
     }
 
