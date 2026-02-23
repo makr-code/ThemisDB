@@ -35,7 +35,7 @@
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [x] Health check interface in ConcernsContext (Issue: #1410)
 - [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
-- [I] Dynamic log level adjustment at runtime (Issue: #1412)
+- [P] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
 - [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
