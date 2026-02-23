@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:00                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     180                                            ║
+    • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -64,6 +67,7 @@ using json = nlohmann::json;
  * - POST /api/v1/voice/transcribe - Transcribe audio to text
  * - POST /api/v1/voice/synthesize - Synthesize text to speech
  * - POST /api/v1/voice/command - Process voice command
+ * - POST /api/v1/voice/command/stream - Process voice command with streaming STT (segments + TTS)
  * - POST /api/v1/voice/call/record - Record and transcribe phone call
  * - POST /api/v1/voice/meeting/protocol - Generate meeting protocol
  * - GET  /api/v1/voice/sessions/{id} - Get session information
@@ -108,6 +112,9 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleVoiceCommand(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleStreamCommand(
         const http::request<http::string_body>& req);
     
     // Phone call endpoints

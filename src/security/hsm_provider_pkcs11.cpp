@@ -3,17 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   35.0/100                                       ║
-    • Total Lines:     768                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     930                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 24                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
+  Revision History:                                                   ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
+    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -373,6 +379,17 @@ static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     return di;
 }
 
+// Build RSA-OAEP mechanism parameters (SHA-256 hash + MGF1-SHA-256, no label)
+static CK_RSA_PKCS_OAEP_PARAMS makeOaepParams() {
+    CK_RSA_PKCS_OAEP_PARAMS p{};
+    p.hashAlg = CKM_SHA256;
+    p.mgf = CKG_MGF1_SHA256;
+    p.source = CKZ_DATA_SPECIFIED;
+    p.pSourceData = nullptr;
+    p.ulSourceDataLen = 0;
+    return p;
+}
+
 // Key discovery helper
 void HSMProvider::discoverKeysSession(SessionEntry& s){
     auto api = impl_->loader.api(); if(!api || !s.handle) return;
@@ -600,8 +617,12 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         last_error_ = "No public key available for encryption";
         return {};
     }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) for secure DEK wrapping
+    auto oaep_params = makeOaepParams();
     CK_MECHANISM mech{};
-    mech.mechanism = CKM_RSA_PKCS; // RSA-PKCS#1 v1.5 encryption (OAEP upgrade planned for v1.5.0)
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
     CK_RV rv = api->C_EncryptInit(sess->handle, &mech, sess->pubKey);
     if (rv != CKR_OK) {
         last_error_ = "C_EncryptInit failed: " + mapError(rv);
@@ -639,8 +660,12 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         last_error_ = "No private key available for decryption";
         return {};
     }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) matching the encryption mechanism
+    auto oaep_params = makeOaepParams();
     CK_MECHANISM mech{};
-    mech.mechanism = CKM_RSA_PKCS; // RSA-PKCS#1 v1.5 decryption (OAEP upgrade planned for v1.5.0)
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
     CK_RV rv = api->C_DecryptInit(sess->handle, &mech, sess->privKey);
     if (rv != CKR_OK) {
         last_error_ = "C_DecryptInit failed: " + mapError(rv);

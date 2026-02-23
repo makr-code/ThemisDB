@@ -18,10 +18,10 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Voice-based database query interface
 - [x] Storage and retrieval of voice session data
 - [x] Key point and summary extraction
+- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Issue: #2496)
+- [x] Wake-word detection for hands-free activation (Issue: #2365)
 
 ## In Progress 🚧
-- [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026) (Issue: #2496)
-- [I] Wake-word detection for hands-free activation (Target: Q2 2026) (Issue: #2365)
 - [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
 
 ## Planned Features 📋
@@ -56,9 +56,9 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Storage and retrieval of voice session data
 - [x] Key point and summary extraction
 
-### Phase 2: Streaming STT & Wake-Word Detection (Status: In Progress 🚧)
+### Phase 2: Streaming STT & Wake-Word Detection (Status: Completed ✅)
 - [x] Real-time streaming STT (word-by-word transcription as audio arrives)
-- [~] Wake-word detection for hands-free activation
+- [x] Wake-word detection for hands-free activation
 - [~] Multi-speaker diarization improvements
 
 ### Phase 3: Voice Macros & Browser Streaming (Status: Planned 📋)
