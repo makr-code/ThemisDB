@@ -175,7 +175,7 @@ namespace {
 /// Creates a connected TCP socket pair on the loopback interface.
 /// Returns the connected client socket; the acceptor and server socket are
 /// discarded (their lifetime is scoped to the function).
-static boost::asio::ip::tcp::socket makeClientSocket(
+static boost::asio::ip::tcp::socket make_client_socket(
     boost::asio::io_context& ioc) {
     using tcp = boost::asio::ip::tcp;
     tcp::acceptor acceptor(ioc, tcp::endpoint(tcp::v4(), 0));
@@ -200,7 +200,7 @@ static boost::asio::ip::tcp::socket makeClientSocket(
 TEST(MessageDispatcher, RegisterAndDispatch) {
     // Create a minimal connected session to exercise dispatch().
     boost::asio::io_context ioc;
-    auto client = makeClientSocket(ioc);
+    auto client = make_client_socket(ioc);
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
 
     int call_count = 0;
@@ -220,7 +220,7 @@ TEST(MessageDispatcher, RegisterAndDispatch) {
 TEST(MessageDispatcher, UnknownOpcodeDoesNotThrow) {
     // dispatch() with no registered handler should not throw.
     boost::asio::io_context ioc;
-    auto client = makeClientSocket(ioc);
+    auto client = make_client_socket(ioc);
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
 
     MessageDispatcher dispatcher;
@@ -230,7 +230,7 @@ TEST(MessageDispatcher, UnknownOpcodeDoesNotThrow) {
 TEST(MessageDispatcher, HandlerReplacement) {
     // Re-registering the same opcode replaces the old handler.
     boost::asio::io_context ioc;
-    auto client = makeClientSocket(ioc);
+    auto client = make_client_socket(ioc);
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
 
     int first = 0, second = 0;
@@ -256,7 +256,7 @@ TEST(MessageDispatcher, HandlerReplacement) {
 TEST(MessageDispatcher, MultipleOpcodes) {
     // Registering different opcodes should not interfere.
     boost::asio::io_context ioc;
-    auto client = makeClientSocket(ioc);
+    auto client = make_client_socket(ioc);
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
 
     int get_count = 0, put_count = 0, del_count = 0;
