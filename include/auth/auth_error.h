@@ -101,6 +101,9 @@ enum class AuthErrorCode {
     SAML_STATUS_FAILURE = 9388,
     SAML_ISSUER_MISMATCH = 9389,
 
+    // Password policy errors (9392-9394)
+    PASSWORD_POLICY_VIOLATION = 9392,
+
     // Internal errors (9390-9399)
     AUTH_INTERNAL_ERROR = 9390,
     AUTH_NOT_IMPLEMENTED = 9391

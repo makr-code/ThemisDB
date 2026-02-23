@@ -346,6 +346,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
