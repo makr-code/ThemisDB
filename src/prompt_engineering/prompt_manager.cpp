@@ -61,6 +61,14 @@ PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemp
         result.warnings.push_back("Template 'description' is empty – consider adding one");
     }
 
+    // Validate image descriptions
+    for (size_t i = 0; i < t.images.size(); ++i) {
+        if (t.images[i].alt_text.empty()) {
+            result.errors.push_back(
+                "Image[" + std::to_string(i) + "] 'alt_text' must not be empty");
+        }
+    }
+
     // Validate metadata is object or null (not a raw scalar/array)
     if (!t.metadata.is_null() && !t.metadata.is_object()) {
         result.errors.push_back("Template 'metadata' must be a JSON object");
@@ -122,8 +130,14 @@ std::optional<PromptManager::PromptTemplate> PromptManager::getTemplate(const st
                 t.name = j.value("name", "");
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
+                t.description = j.value("description", "");
                 if (j.contains("metadata")) t.metadata = j["metadata"];
                 t.active = j.value("active", true);
+                if (j.contains("images") && j["images"].is_array()) {
+                    for (const auto& img_j : j["images"]) {
+                        t.images.push_back(ImageDescription::fromJson(img_j));
+                    }
+                }
                 return t;
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to parse persisted prompt template {}: {}", id, e.what());
@@ -154,8 +168,14 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
                 t.name = j.value("name", "");
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
+                t.description = j.value("description", "");
                 if (j.contains("metadata")) t.metadata = j["metadata"];
                 t.active = j.value("active", true);
+                if (j.contains("images") && j["images"].is_array()) {
+                    for (const auto& img_j : j["images"]) {
+                        t.images.push_back(ImageDescription::fromJson(img_j));
+                    }
+                }
                 out.push_back(t);
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to parse prompt template during scan: {}", e.what());
@@ -273,6 +293,18 @@ size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
                     pt.metadata = nlohmann::json::parse(emitter.c_str());
                 } catch (...) {
                     pt.metadata = nlohmann::json::object();
+                }
+            }
+
+            // Load image descriptions if present
+            if (prompt_node["images"] && prompt_node["images"].IsSequence()) {
+                for (const auto& img_node : prompt_node["images"]) {
+                    ImageDescription img;
+                    img.alt_text    = img_node["alt_text"].as<std::string>("");
+                    img.url         = img_node["url"].as<std::string>("");
+                    img.description = img_node["description"].as<std::string>("");
+                    img.mime_type   = img_node["mime_type"].as<std::string>("image/jpeg");
+                    pt.images.push_back(std::move(img));
                 }
             }
             
@@ -401,6 +433,40 @@ std::unordered_map<std::string, std::string> PromptManager::buildContextFromSche
     }
     
     return context;
+}
+
+std::string PromptManager::buildMultiModalPrompt(
+    const PromptTemplate& t,
+    const std::unordered_map<std::string, std::string>& context) {
+
+    // Inject context variables into the template text
+    std::string result = t.content;
+    for (const auto& [key, value] : context) {
+        std::string placeholder = "{" + key + "}";
+        size_t pos = 0;
+        while ((pos = result.find(placeholder, pos)) != std::string::npos) {
+            result.replace(pos, placeholder.length(), value);
+            pos += value.length();
+        }
+    }
+
+    // Append structured image-description block when images are present
+    if (!t.images.empty()) {
+        result += "\n\n[Images]\n";
+        for (size_t i = 0; i < t.images.size(); ++i) {
+            const auto& img = t.images[i];
+            const std::string& mime = img.mime_type.empty() ? "image/jpeg" : img.mime_type;
+            result += std::to_string(i + 1) + ". [" + mime + "] " + img.alt_text + "\n";
+            if (!img.description.empty()) {
+                result += "   Description: " + img.description + "\n";
+            }
+            if (!img.url.empty()) {
+                result += "   URL: " + img.url + "\n";
+            }
+        }
+    }
+
+    return result;
 }
 
 } // namespace prompt_engineering
