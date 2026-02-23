@@ -764,7 +764,8 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
     {
         auto pos_order = findKeyword(aql, "ORDER BY");
         if (pos_order != std::string::npos) {
-            std::string rest = trim(aql.substr(pos_order + 8)); // skip "ORDER BY"
+            static const std::size_t kOrderByLen = std::string_view{"ORDER BY"}.size();
+            std::string rest = trim(aql.substr(pos_order + kOrderByLen));
             auto tokens = tokenize(rest);
             if (!tokens.empty()) stmt->order_by = tokens[0];
             if (tokens.size() >= 2 && iequal(tokens[1], "ASC")) stmt->descending = false;

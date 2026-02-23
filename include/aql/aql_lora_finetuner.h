@@ -21,7 +21,6 @@
 #include <memory>
 #include <optional>
 #include <functional>
-#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace aql {
