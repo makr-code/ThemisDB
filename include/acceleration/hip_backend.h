@@ -23,6 +23,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/kernel_invocation.h"
 #include <string>
 #include <memory>
 
@@ -158,7 +159,17 @@ public:
      * Get ROCm version info
      */
     static std::string getROCmVersion();
-    
+
+    /**
+     * Populate the frozen ANN kernel dispatch table for this backend.
+     *
+     * When THEMIS_ENABLE_HIP is defined the returned table references the
+     * kernel launchers compiled in src/acceleration/hip/ann_kernels.hip.
+     * When HIP is unavailable all slots are null and the BackendRegistry
+     * falls back to the CPU table.
+     */
+    ANNKernelDispatch populateANNDispatch() const override;
+
 private:
     std::unique_ptr<HIPBackendImpl> impl_;
 };

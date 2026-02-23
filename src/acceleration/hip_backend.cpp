@@ -691,6 +691,29 @@ std::string HIPVectorBackend::getROCmVersion() {
     return getHIPVersion();
 }
 
+// Forward declarations for launchers compiled in hip/ann_kernels.hip.
+// These conform to the ANNDistanceFn / ANNTopKFn typedefs in
+// include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
+extern "C" {
+int hip_launchL2DistanceKernel(const float*, const float*, float*,
+                                int, int, int, void*);
+int hip_launchCosineDistanceKernel(const float*, const float*, float*,
+                                    int, int, int, void*);
+int hip_launchInnerProductKernel(const float*, const float*, float*,
+                                  int, int, int, void*);
+int hip_launchTopKKernel(const float*, uint32_t*, float*,
+                          int, int, int, void*);
+} // extern "C"
+
+ANNKernelDispatch HIPVectorBackend::populateANNDispatch() const {
+    ANNKernelDispatch d;
+    d.launchL2Distance   = &hip_launchL2DistanceKernel;
+    d.launchCosine       = &hip_launchCosineDistanceKernel;
+    d.launchInnerProduct = &hip_launchInnerProductKernel;
+    d.launchTopK         = &hip_launchTopKKernel;
+    return d;
+}
+
 } // namespace acceleration
 } // namespace themis
 
