@@ -4137,65 +4137,42 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = serverless_fn_handler_->handleList(req);
             break;
         }
-        case Route::ServerlessFnGet: {
-            const std::string path_str{req.target()};
-            auto qpos = path_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
-                ? path_str.substr(0, qpos) : path_str;
-            // Extract {id} from /api/v1/functions/{id}
-            const std::string prefix = "/api/v1/functions/";
-            const std::string id = path_only.substr(prefix.size());
-            response = serverless_fn_handler_->handleGet(req, id);
-            break;
-        }
-        case Route::ServerlessFnPut: {
-            const std::string path_str{req.target()};
-            auto qpos = path_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
-                ? path_str.substr(0, qpos) : path_str;
-            const std::string prefix = "/api/v1/functions/";
-            const std::string id = path_only.substr(prefix.size());
-            response = serverless_fn_handler_->handleUpdate(req, id);
-            break;
-        }
-        case Route::ServerlessFnDelete: {
-            const std::string path_str{req.target()};
-            auto qpos = path_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
-                ? path_str.substr(0, qpos) : path_str;
-            const std::string prefix = "/api/v1/functions/";
-            const std::string id = path_only.substr(prefix.size());
-            response = serverless_fn_handler_->handleDelete(req, id);
-            break;
-        }
-        case Route::ServerlessFnInvokePost: {
-            const std::string path_str{req.target()};
-            auto qpos = path_str.find('?');
-            const std::string path_only = (qpos != std::string::npos)
-                ? path_str.substr(0, qpos) : path_str;
-            // Extract {id} from /api/v1/functions/{id}/invoke
-            const std::string prefix = "/api/v1/functions/";
-            std::string id = path_only.substr(prefix.size());
-            // Remove trailing /invoke
-            if (id.size() > 7 && id.substr(id.size() - 7) == "/invoke") {
-                id = id.substr(0, id.size() - 7);
-            }
-            response = serverless_fn_handler_->handleInvoke(req, id);
-            break;
-        }
+        case Route::ServerlessFnGet:
+        case Route::ServerlessFnPut:
+        case Route::ServerlessFnDelete:
+        case Route::ServerlessFnInvokePost:
         case Route::ServerlessFnVersionsGet: {
-            const std::string path_str{req.target()};
-            auto qpos = path_str.find('?');
+            // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]
+            static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
             const std::string path_only = (qpos != std::string::npos)
-                ? path_str.substr(0, qpos) : path_str;
-            // Extract {id} from /api/v1/functions/{id}/versions
-            const std::string prefix = "/api/v1/functions/";
-            std::string id = path_only.substr(prefix.size());
-            // Remove trailing /versions
-            if (id.size() > 9 && id.substr(id.size() - 9) == "/versions") {
-                id = id.substr(0, id.size() - 9);
+                ? target_str.substr(0, qpos) : target_str;
+            std::string id = path_only.substr(kFnPrefix.size());
+            // Strip trailing sub-resource segment if present
+            for (const auto* suffix : {"/invoke", "/versions"}) {
+                const std::string_view sv{suffix};
+                if (id.size() > sv.size() &&
+                    id.substr(id.size() - sv.size()) == sv) {
+                    id = id.substr(0, id.size() - sv.size());
+                    break;
+                }
             }
-            response = serverless_fn_handler_->handleVersions(req, id);
+            const auto method = req.method();
+            const bool has_invoke  = path_only.size() > 7 &&
+                path_only.substr(path_only.size() - 7) == "/invoke";
+            const bool has_versions = path_only.size() > 9 &&
+                path_only.substr(path_only.size() - 9) == "/versions";
+            if (has_invoke)
+                response = serverless_fn_handler_->handleInvoke(req, id);
+            else if (has_versions)
+                response = serverless_fn_handler_->handleVersions(req, id);
+            else if (method == http::verb::get)
+                response = serverless_fn_handler_->handleGet(req, id);
+            else if (method == http::verb::put)
+                response = serverless_fn_handler_->handleUpdate(req, id);
+            else
+                response = serverless_fn_handler_->handleDelete(req, id);
             break;
         }
 
