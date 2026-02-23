@@ -881,7 +881,152 @@ TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
     EXPECT_EQ(t_ok->last_error_category, ScheduledTask::ErrorCategory::NONE);
 }
 
-// ===== DAG execution tests =====
+// ===== Conditional branching tests =====
+
+// Helper: register a FUNCTION task that stores its result in a shared variable and optionally
+// records execution order, with an optional branch_condition.
+static std::string registerConditionalTask(
+    TaskScheduler* sched,
+    const std::string& name,
+    const std::vector<std::string>& deps,
+    std::function<bool(const std::map<std::string, nlohmann::json>&)> condition,
+    std::vector<std::string>& exec_log,
+    std::mutex& log_mu)
+{
+    ScheduledTask t;
+    t.id = name;
+    t.name = name;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = name + "_cond_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    t.dependencies = deps;
+    t.branch_condition = std::move(condition);
+    sched->registerFunction(name + "_cond_fn", [name, &exec_log, &log_mu](const nlohmann::json&) {
+        std::lock_guard<std::mutex> lk(log_mu);
+        exec_log.push_back(name);
+        return nlohmann::json{{"task", name}, {"status", "ok"}};
+    });
+    return sched->registerTask(t);
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchTrueExecutesTask) {
+    // Task with branch_condition returning true should execute normally.
+    std::vector<std::string> log;
+    std::mutex mu;
+    registerConditionalTask(scheduler_.get(), "cond_always_true", {},
+        [](const std::map<std::string, nlohmann::json>&) { return true; },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cond_always_true"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    EXPECT_TRUE(res.condition_skipped.empty());
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cond_always_true");
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchFalseSkipsTask) {
+    // Task with branch_condition returning false should be condition-skipped.
+    std::vector<std::string> log;
+    std::mutex mu;
+    registerConditionalTask(scheduler_.get(), "cond_always_false", {},
+        [](const std::map<std::string, nlohmann::json>&) { return false; },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cond_always_false"});
+    EXPECT_TRUE(res.succeeded.empty());
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(res.condition_skipped.size(), 1u);
+    EXPECT_EQ(res.condition_skipped[0], "cond_always_false");
+    EXPECT_TRUE(log.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchEvaluatesDepResult) {
+    // root → branch_ok (condition: root result status == "ok")
+    // root → branch_err (condition: root result status == "error")
+    // Only branch_ok should execute since root returns status "ok".
+    std::vector<std::string> log;
+    std::mutex mu;
+
+    // Root task returns {"status": "ok"}
+    ScheduledTask root;
+    root.id = "cb_root"; root.name = root.id;
+    root.type = ScheduledTask::TaskType::FUNCTION;
+    root.function_name = "cb_root_fn";
+    root.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerFunction("cb_root_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {{"status", "ok"}};
+    });
+    scheduler_->registerTask(root);
+
+    registerConditionalTask(scheduler_.get(), "cb_branch_ok", {"cb_root"},
+        [](const std::map<std::string, nlohmann::json>& deps) {
+            auto it = deps.find("cb_root");
+            return it != deps.end() && it->second.value("status", "") == "ok";
+        },
+        log, mu);
+
+    registerConditionalTask(scheduler_.get(), "cb_branch_err", {"cb_root"},
+        [](const std::map<std::string, nlohmann::json>& deps) {
+            auto it = deps.find("cb_root");
+            return it != deps.end() && it->second.value("status", "") == "error";
+        },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cb_root", "cb_branch_ok", "cb_branch_err"});
+    EXPECT_EQ(res.succeeded.size(), 2u);   // root + branch_ok
+    EXPECT_TRUE(res.succeeded.count("cb_root"));
+    EXPECT_TRUE(res.succeeded.count("cb_branch_ok"));
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(res.condition_skipped.size(), 1u);
+    EXPECT_EQ(res.condition_skipped[0], "cb_branch_err");
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cb_branch_ok");
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalSkipPropagatesTransitively) {
+    // A → B (condition: false) → C
+    // B is condition-skipped, C should be condition-skipped transitively.
+    std::vector<std::string> log;
+    std::mutex mu;
+
+    // Register root task A inline (no branch_condition)
+    scheduler_->registerFunction("cs_a_fn", [&log, &mu](const nlohmann::json&) -> nlohmann::json {
+        std::lock_guard<std::mutex> lk(mu);
+        log.push_back("cs_a");
+        return nlohmann::json{{"task", "cs_a"}, {"status", "ok"}};
+    });
+    ScheduledTask ta;
+    ta.id = "cs_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cs_a_fn";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(ta);
+
+    registerConditionalTask(scheduler_.get(), "cs_b", {"cs_a"},
+        [](const std::map<std::string, nlohmann::json>&) { return false; },
+        log, mu);
+    registerConditionalTask(scheduler_.get(), "cs_c", {"cs_b"},
+        nullptr,  // no branch_condition – should be skipped transitively
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cs_a", "cs_b", "cs_c"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.succeeded.count("cs_a"));
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    EXPECT_EQ(res.condition_skipped.size(), 2u);
+    // Both B and C should be in condition_skipped
+    auto& cs = res.condition_skipped;
+    EXPECT_NE(std::find(cs.begin(), cs.end(), "cs_b"), cs.end());
+    EXPECT_NE(std::find(cs.begin(), cs.end(), "cs_c"), cs.end());
+    // Only A executed
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cs_a");
+}
 
 // Helper: register a FUNCTION task that records execution order
 static std::string registerOrderTask(
