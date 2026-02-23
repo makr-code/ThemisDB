@@ -82,6 +82,7 @@ jobs:
             libssl-dev \
             libcurl4-openssl-dev \
             libboost-all-dev \
+            librocksdb-dev \
             pkg-config \
             git \
             python3 python3-pip
