@@ -660,6 +660,250 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     return result;
 }
 
+// ===== DAG Execution =====
+
+std::vector<std::string> TaskScheduler::topologicalSort(
+    const std::vector<std::string>& task_ids,
+    const std::map<std::string, std::vector<std::string>>& adj) const
+{
+    // Kahn's algorithm: compute in-degrees, then process nodes with zero in-degree.
+    std::map<std::string, int> in_degree;
+    for (const auto& id : task_ids) {
+        in_degree[id] = 0;
+    }
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            in_degree[id]++;  // 'id' depends on 'dep', so it has higher in-degree
+        }
+    }
+
+    // Queue nodes with no dependencies
+    std::deque<std::string> ready;
+    for (const auto& [id, deg] : in_degree) {
+        if (deg == 0) {
+            ready.push_back(id);
+        }
+    }
+
+    // Build reverse adjacency: for each node, which nodes depend on it
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    std::vector<std::string> order;
+    order.reserve(task_ids.size());
+
+    while (!ready.empty()) {
+        std::string cur = ready.front();
+        ready.pop_front();
+        order.push_back(cur);
+
+        auto it = dependents.find(cur);
+        if (it != dependents.end()) {
+            for (const auto& dependent : it->second) {
+                if (--in_degree[dependent] == 0) {
+                    ready.push_back(dependent);
+                }
+            }
+        }
+    }
+
+    if (order.size() != task_ids.size()) {
+        throw std::runtime_error(
+            "TaskScheduler::executeDAG: dependency graph contains a cycle");
+    }
+
+    return order;
+}
+
+TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
+    const std::vector<std::string>& task_ids)
+{
+    if (task_ids.empty()) {
+        return {};
+    }
+
+    // Build set of requested IDs for O(1) lookup
+    std::set<std::string> id_set(task_ids.begin(), task_ids.end());
+
+    // Resolve tasks and validate all IDs exist
+    std::map<std::string, std::shared_ptr<ScheduledTask>> task_map;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        for (const auto& id : task_ids) {
+            auto it = tasks_.find(id);
+            if (it == tasks_.end()) {
+                throw std::invalid_argument(
+                    "TaskScheduler::executeDAG: unknown task id '" + id + "'");
+            }
+            task_map[id] = it->second;
+        }
+    }
+
+    // Build adjacency: task -> list of its deps that are within the requested set.
+    // adj[task] = [dep1, dep2, ...] means task depends on dep1, dep2, ...
+    std::map<std::string, std::vector<std::string>> adj;
+    for (const auto& id : task_ids) {
+        adj[id] = {};
+        for (const auto& dep : task_map[id]->dependencies) {
+            if (id_set.count(dep)) {
+                adj[id].push_back(dep);
+            }
+        }
+    }
+
+    // Determine execution order via topological sort
+    std::vector<std::string> order = topologicalSort(task_ids, adj);
+
+    // Build reverse adjacency for propagating failures (dep -> [dependents])
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    DagExecutionResult result;
+    std::set<std::string> failed_or_skipped;  // Tasks we should NOT execute
+
+    // Execute wave by wave: gather tasks whose dependencies are all done,
+    // run them in parallel, then repeat.
+    std::set<std::string> completed;  // succeeded tasks
+    std::set<std::string> processed;  // all tasks we have decided about
+
+    while (processed.size() < task_ids.size()) {
+        // Collect tasks that are ready (all deps completed successfully)
+        std::vector<std::string> wave;
+        for (const auto& id : order) {
+            if (processed.count(id)) {
+                continue;
+            }
+            // Check if it should be skipped
+            if (failed_or_skipped.count(id)) {
+                result.skipped.push_back(id);
+                processed.insert(id);
+                // Propagate skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if all deps are in completed
+            bool deps_ready = true;
+            for (const auto& dep : adj[id]) {
+                if (!completed.count(dep)) {
+                    deps_ready = false;
+                    break;
+                }
+            }
+            if (deps_ready) {
+                wave.push_back(id);
+            }
+        }
+
+        if (wave.empty()) {
+            // No progress possible – remaining tasks must be in failed_or_skipped
+            for (const auto& id : order) {
+                if (!processed.count(id)) {
+                    result.skipped.push_back(id);
+                    processed.insert(id);
+                }
+            }
+            break;
+        }
+
+        // Execute wave tasks in parallel
+        struct WaveResult {
+            std::string id;
+            bool succeeded = false;
+            nlohmann::json result;
+            std::string error;
+        };
+        std::vector<WaveResult> wave_results(wave.size());
+        std::vector<std::thread> threads;
+        threads.reserve(wave.size());
+
+        for (size_t i = 0; i < wave.size(); ++i) {
+            wave_results[i].id = wave[i];
+            threads.emplace_back([this, &wave_results, i, &task_map]() {
+                const auto& id = wave_results[i].id;
+                auto task = task_map[id];
+                try {
+                    nlohmann::json r;
+                    if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                        r = executeAqlQuery(task->aql_query);
+                    } else {
+                        r = executeFunction(task->function_name, task->parameters);
+                    }
+                    // Update task stats
+                    task->total_executions++;
+                    task->successful_executions++;
+                    task->last_run_ms = getCurrentTimeMs();
+                    task->last_success_time = std::chrono::system_clock::now();
+                    task->last_error_category = ScheduledTask::ErrorCategory::NONE;
+                    wave_results[i].succeeded = true;
+                    wave_results[i].result = std::move(r);
+                    if (task->on_success) {
+                        task->on_success(id, wave_results[i].result);
+                    }
+                } catch (const std::exception& e) {
+                    task->total_executions++;
+                    task->failed_executions++;
+                    task->last_error = e.what();
+                    task->last_error_category = categorizeError(e.what());
+                    task->last_failure_time = std::chrono::system_clock::now();
+                    wave_results[i].error = e.what();
+                    if (task->on_failure) {
+                        task->on_failure(id, e.what());
+                    }
+                } catch (...) {
+                    task->total_executions++;
+                    task->failed_executions++;
+                    task->last_error = "unknown non-exception thrown";
+                    task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
+                    task->last_failure_time = std::chrono::system_clock::now();
+                    wave_results[i].error = "unknown non-exception thrown";
+                    if (task->on_failure) {
+                        task->on_failure(id, wave_results[i].error);
+                    }
+                }
+            });
+        }
+        for (auto& t : threads) {
+            t.join();
+        }
+        total_executions_ += wave.size();
+
+        // Collect wave results
+        for (auto& wr : wave_results) {
+            processed.insert(wr.id);
+            if (wr.succeeded) {
+                completed.insert(wr.id);
+                result.succeeded[wr.id] = std::move(wr.result);
+            } else {
+                failed_executions_++;
+                result.failed[wr.id] = wr.error;
+                failed_or_skipped.insert(wr.id);
+                // Propagate failure to direct dependents
+                auto dit = dependents.find(wr.id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 // ===== Function Registration =====
 
 void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {

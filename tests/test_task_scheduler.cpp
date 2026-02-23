@@ -880,3 +880,167 @@ TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
     ASSERT_NE(t_ok, nullptr);
     EXPECT_EQ(t_ok->last_error_category, ScheduledTask::ErrorCategory::NONE);
 }
+
+// ===== DAG execution tests =====
+
+// Helper: register a FUNCTION task that records execution order
+static std::string registerOrderTask(
+    TaskScheduler* sched,
+    const std::string& name,
+    const std::vector<std::string>& deps,
+    std::vector<std::string>& order_log,
+    std::mutex& log_mu)
+{
+    ScheduledTask t;
+    t.id = name;
+    t.name = name;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = name + "_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    t.dependencies = deps;
+    sched->registerFunction(name + "_fn", [name, &order_log, &log_mu](const nlohmann::json&) {
+        std::lock_guard<std::mutex> lk(log_mu);
+        order_log.push_back(name);
+        return nlohmann::json{{"task", name}};
+    });
+    return sched->registerTask(t);
+}
+
+TEST_F(TaskSchedulerTest, DAG_EmptySetReturnsEmptyResult) {
+    auto res = scheduler_->executeDAG({});
+    EXPECT_TRUE(res.succeeded.empty());
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_UnknownTaskIdThrows) {
+    EXPECT_THROW(scheduler_->executeDAG({"does_not_exist"}), std::invalid_argument);
+}
+
+TEST_F(TaskSchedulerTest, DAG_SingleTask) {
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "solo", {}, order, mu);
+
+    auto res = scheduler_->executeDAG({"solo"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(order.size(), 1u);
+    EXPECT_EQ(order[0], "solo");
+}
+
+TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
+    // a -> b -> c   (b depends on a; c depends on b)
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "dag_a", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "dag_b", {"dag_a"}, order, mu);
+    registerOrderTask(scheduler_.get(), "dag_c", {"dag_b"}, order, mu);
+
+    auto res = scheduler_->executeDAG({"dag_a", "dag_b", "dag_c"});
+    EXPECT_EQ(res.succeeded.size(), 3u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+
+    // Order must be a before b before c
+    auto pos = [&](const std::string& id) {
+        return std::find(order.begin(), order.end(), id) - order.begin();
+    };
+    EXPECT_LT(pos("dag_a"), pos("dag_b"));
+    EXPECT_LT(pos("dag_b"), pos("dag_c"));
+}
+
+TEST_F(TaskSchedulerTest, DAG_ParallelIndependentTasksAllSucceed) {
+    // p1, p2, p3 have no dependencies – all run independently
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "par1", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "par2", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "par3", {}, order, mu);
+
+    auto res = scheduler_->executeDAG({"par1", "par2", "par3"});
+    EXPECT_EQ(res.succeeded.size(), 3u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_CascadingFailureSkipsDependents) {
+    // root -> child -> grandchild; root fails → child and grandchild skipped
+    scheduler_->registerFunction("fail_fn", [](const nlohmann::json&) -> nlohmann::json {
+        throw std::runtime_error("intentional failure");
+    });
+    scheduler_->registerFunction("child_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {};
+    });
+    scheduler_->registerFunction("grandchild_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {};
+    });
+
+    ScheduledTask root;
+    root.id = "dag_root_fail"; root.name = root.id;
+    root.type = ScheduledTask::TaskType::FUNCTION;
+    root.function_name = "fail_fn";
+    root.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    root.max_retries = 0;
+    scheduler_->registerTask(root);
+
+    ScheduledTask child;
+    child.id = "dag_child"; child.name = child.id;
+    child.type = ScheduledTask::TaskType::FUNCTION;
+    child.function_name = "child_fn";
+    child.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    child.dependencies = {"dag_root_fail"};
+    scheduler_->registerTask(child);
+
+    ScheduledTask grand;
+    grand.id = "dag_grandchild"; grand.name = grand.id;
+    grand.type = ScheduledTask::TaskType::FUNCTION;
+    grand.function_name = "grandchild_fn";
+    grand.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    grand.dependencies = {"dag_child"};
+    scheduler_->registerTask(grand);
+
+    auto res = scheduler_->executeDAG({"dag_root_fail", "dag_child", "dag_grandchild"});
+    EXPECT_EQ(res.failed.size(), 1u);
+    EXPECT_TRUE(res.failed.count("dag_root_fail"));
+    EXPECT_EQ(res.skipped.size(), 2u);
+    EXPECT_TRUE(res.succeeded.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_CycleDetectionThrows) {
+    // a depends on b, b depends on a → cycle
+    // Cycle is detected during topological sort, before any task executes.
+    scheduler_->registerFunction("cyc_noop", [](const nlohmann::json&) { return nlohmann::json{}; });
+
+    ScheduledTask ta;
+    ta.id = "cyc_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cyc_noop";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.dependencies = {"cyc_b"};
+    scheduler_->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "cyc_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "cyc_noop";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.dependencies = {"cyc_a"};
+    scheduler_->registerTask(tb);
+
+    EXPECT_THROW(scheduler_->executeDAG({"cyc_a", "cyc_b"}), std::runtime_error);
+}
+
+TEST_F(TaskSchedulerTest, DAG_DependencyOutsideSetIsIgnored) {
+    // task_x depends on task_y, but only task_x is in the execution set
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "only_x", {"nonexistent_y"}, order, mu);
+
+    // Should not throw and should succeed (out-of-set dep is silently ignored)
+    auto res = scheduler_->executeDAG({"only_x"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
