@@ -152,6 +152,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/serverless_function_api_handler.h"
 #include "metadata/schema_manager.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
@@ -1033,6 +1034,10 @@ HttpServer::HttpServer(
     // Initialize GraphQL API Handler
     graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
+
+    // Initialize Serverless Function Hosting Handler
+    serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
+    THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
@@ -2072,6 +2077,15 @@ namespace {
     GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
     GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
 
+    // Serverless function hosting
+    ServerlessFnPost,        // POST /api/v1/functions
+    ServerlessFnListGet,     // GET  /api/v1/functions
+    ServerlessFnGet,         // GET  /api/v1/functions/{id}
+    ServerlessFnPut,         // PUT  /api/v1/functions/{id}
+    ServerlessFnDelete,      // DELETE /api/v1/functions/{id}
+    ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
+    ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
+
         NotFound
     };
 
@@ -2461,6 +2475,38 @@ namespace {
         method == http::verb::post) return Route::GraphQLPost;
     if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
+
+    // Serverless function hosting
+    if (path_only == "/api/v1/functions" && method == http::verb::post)
+        return Route::ServerlessFnPost;
+    if (path_only == "/api/v1/functions" && method == http::verb::get)
+        return Route::ServerlessFnListGet;
+    {
+        // /api/v1/functions/{id}/invoke  (POST)
+        static constexpr std::string_view kFnInvokePrefix{"/api/v1/functions/"};
+        static constexpr std::string_view kInvokeSuffix{"/invoke"};
+        if (method == http::verb::post &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
+            path_only.substr(path_only.size() - kInvokeSuffix.size()) == kInvokeSuffix)
+            return Route::ServerlessFnInvokePost;
+
+        // /api/v1/functions/{id}/versions  (GET)
+        static constexpr std::string_view kVersionsSuffix{"/versions"};
+        if (method == http::verb::get &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
+            path_only.substr(path_only.size() - kVersionsSuffix.size()) == kVersionsSuffix)
+            return Route::ServerlessFnVersionsGet;
+
+        // /api/v1/functions/{id}  (GET / PUT / DELETE)
+        if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size()) {
+            if (method == http::verb::get)    return Route::ServerlessFnGet;
+            if (method == http::verb::put)    return Route::ServerlessFnPut;
+            if (method == http::verb::delete_) return Route::ServerlessFnDelete;
+        }
+    }
 
         return Route::NotFound;
     }
@@ -4091,6 +4137,54 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         case Route::GraphQLSchemaGet: {
             response = graphql_api_handler_->handleSchemaGet(req);
+            break;
+        }
+
+        // ── Serverless function hosting ──────────────────────────────────────
+        case Route::ServerlessFnPost: {
+            response = serverless_fn_handler_->handleRegister(req);
+            break;
+        }
+        case Route::ServerlessFnListGet: {
+            response = serverless_fn_handler_->handleList(req);
+            break;
+        }
+        case Route::ServerlessFnGet:
+        case Route::ServerlessFnPut:
+        case Route::ServerlessFnDelete:
+        case Route::ServerlessFnInvokePost:
+        case Route::ServerlessFnVersionsGet: {
+            // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]
+            static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            std::string id = path_only.substr(kFnPrefix.size());
+            // Strip trailing sub-resource segment if present
+            for (const auto* suffix : {"/invoke", "/versions"}) {
+                const std::string_view sv{suffix};
+                if (id.size() > sv.size() &&
+                    id.substr(id.size() - sv.size()) == sv) {
+                    id = id.substr(0, id.size() - sv.size());
+                    break;
+                }
+            }
+            const auto method = req.method();
+            const bool has_invoke  = path_only.size() > 7 &&
+                path_only.substr(path_only.size() - 7) == "/invoke";
+            const bool has_versions = path_only.size() > 9 &&
+                path_only.substr(path_only.size() - 9) == "/versions";
+            if (has_invoke)
+                response = serverless_fn_handler_->handleInvoke(req, id);
+            else if (has_versions)
+                response = serverless_fn_handler_->handleVersions(req, id);
+            else if (method == http::verb::get)
+                response = serverless_fn_handler_->handleGet(req, id);
+            else if (method == http::verb::put)
+                response = serverless_fn_handler_->handleUpdate(req, id);
+            else
+                response = serverless_fn_handler_->handleDelete(req, id);
             break;
         }
 
