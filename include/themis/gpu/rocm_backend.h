@@ -3,13 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocm_backend.h                                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     253                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 140dad5bc  2026-02-22  feat(gpu): implement ROCm/HIP backend parity with CUDA fe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

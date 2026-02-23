@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.cpp                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:17                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1252                                           ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1604                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
+    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

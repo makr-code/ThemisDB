@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_metrics.cpp                               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:39                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

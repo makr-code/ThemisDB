@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            alertmanager.cpp                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:22                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     424                                            ║
+    • Total Lines:     429                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

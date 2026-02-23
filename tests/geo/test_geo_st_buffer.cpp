@@ -3,10 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_st_buffer.cpp                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:39                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Unit tests for the ST_BUFFER operation (ISpatialComputeBackend      ║
-  ::stBuffer).  Tests cover the CPU exact backend (always available)  ║
-  and the GPU backend in CPU-fallback mode.                           ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     209                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 25e932e7f  2026-02-22  feat(geo): implement ST_Buffer operation (Point + Polygon... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            websocket_session.cpp                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:27                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     658                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     660                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 48054ea22  2026-02-22  fix(server/network): finalize WebSocket upgrade – ROADMAP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

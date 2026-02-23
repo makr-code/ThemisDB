@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_path_resolver.cpp                      ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:40                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     337                                            ║
+    • Total Lines:     475                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5b89bdaa0  2026-02-22  audit(config): fix test gaps, update ROADMAP and FUTURE_E... ║
+    • b01c41c10  2026-02-22  fix(config): use thread-safe C++20 chrono date formatting... ║
+    • 7f5ce7a1a  2026-02-22  feat(config): add DeprecationAggregator for legacy path u... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
