@@ -1598,6 +1598,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oidc_provider.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
