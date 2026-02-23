@@ -21,6 +21,7 @@
 
 #include "server/http2_session.h"
 #include "server/http_server.h"
+#include "server/chunked_response_writer.h"
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
 #include <openssl/ssl.h>
@@ -383,15 +384,40 @@ void Http2Session::processStream(int32_t stream_id) {
     
     // Route the request using HttpServer's existing routing logic
     auto response = server_->routeRequest(req);
-    
-    // Convert response headers to HTTP/2 format
+
+    // HTTP/2 forbids Transfer-Encoding: chunked (RFC 7540 §8.1.2.2).
+    // When a handler returns a pre-encoded chunked body (e.g. from
+    // ChunkedResponseWriter), decode it back to plain bytes and strip the
+    // forbidden header before forwarding over the HTTP/2 connection.
+    std::string response_body = response.body();
+    auto te_it = response.find(http::field::transfer_encoding);
+    bool is_chunked = (te_it != response.end() &&
+                       boost::beast::iequals(te_it->value(), "chunked"));
+    if (is_chunked) {
+        response_body = ChunkedResponseWriter::decodeChunkedBody(response_body);
+    }
+
+    // Convert response headers to HTTP/2 format, omitting hop-by-hop headers
+    // forbidden in HTTP/2 by RFC 7540 §8.1.2.2 (transfer-encoding, connection,
+    // keep-alive, upgrade, proxy-connection, te).  Use beast::iequals for
+    // case-insensitive comparison as HTTP header names are case-insensitive.
+    static constexpr std::string_view kHopByHop[] = {
+        "transfer-encoding", "connection", "keep-alive", "upgrade",
+        "proxy-connection", "te"
+    };
     std::unordered_map<std::string, std::string> response_headers;
     for (const auto& header : response) {
-        response_headers[header.name_string()] = header.value();
+        bool skip = false;
+        for (const auto& hop : kHopByHop) {
+            if (boost::beast::iequals(header.name_string(), hop)) { skip = true; break; }
+        }
+        if (!skip) {
+            response_headers[std::string(header.name_string())] = header.value();
+        }
     }
-    
+
     // Send HTTP/2 response
-    sendResponse(stream_id, response.result_int(), response.body(), response_headers);
+    sendResponse(stream_id, response.result_int(), response_body, response_headers);
 }
 
 void Http2Session::sendResponse(int32_t stream_id, int status,

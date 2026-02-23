@@ -19,6 +19,7 @@
 
 #pragma once
 #include "server/auth_middleware.h"
+#include "security/query_masking_policy.h"
 
 #include <memory>
 #include <string>
@@ -154,6 +155,18 @@ public:
      */
     void setIndexRecommender(IndexRecommender* rec) noexcept { index_recommender_ = rec; }
 
+    /**
+     * @brief Inject a QueryMaskingPolicy for dynamic PII masking of query results.
+     *
+     * When set, entity results are passed through the masking policy before
+     * being serialised in the response.  The caller owns the policy lifetime.
+     * Pass nullptr to disable masking.
+     */
+    void setQueryMaskingPolicy(
+        std::shared_ptr<security::QueryMaskingPolicy> policy) noexcept {
+        masking_policy_ = std::move(policy);
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
@@ -168,6 +181,7 @@ private:
     bool feature_llm_store_{false};
     IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
     StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
+    std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(
@@ -188,6 +202,11 @@ private:
         std::vector<std::string> groups;
     };
     AuthContext extractAuthContext(const http::request<http::string_body>& req);
+
+    // Apply QueryMaskingPolicy to a JSON entities array if policy is configured.
+    nlohmann::json applyMasking(
+        const nlohmann::json& entities,
+        const http::request<http::string_body>& req);
 };
 
 } // namespace server

@@ -30,6 +30,14 @@
 #include "query_engine.h"
 #include "utils/expected.h"
 
+// Forward declarations for RLS
+namespace themis {
+namespace security {
+    class RLSManager;
+    struct SecurityContext;
+} // namespace security
+} // namespace themis
+
 namespace themis {
 
 // High-level convenience dispatcher for AQL execution.
@@ -75,5 +83,23 @@ Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
 ///
 /// On parse or execution failure the function returns an Err.
 Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine);
+
+// ── Row-level security (RLS) wrappers ────────────────────────────────────────
+//
+// These functions execute AQL normally and then apply row-level security
+// policies from @p rls to filter the result rows based on @p ctx.
+//
+// If no policies match the queried collection and security context, the result
+// is returned unchanged (no filtering overhead).
+
+/// Execute AQL with row-level security filtering applied to the result.
+/// Only rows that satisfy the applicable RLS policies for the user described
+/// by @p ctx are included in the returned result set.
+Result<nlohmann::json> executeAqlWithRLS(
+    const std::string& aql,
+    QueryEngine& engine,
+    security::RLSManager& rls,
+    const security::SecurityContext& ctx
+);
 
 } // namespace themis
