@@ -20,6 +20,7 @@
 - [x] OpenTelemetry tracer adapter with circuit-breaker guarded OTLP export
 - [x] Prometheus metrics adapter — all IMetrics methods forwarded to MetricsCollector
 - [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
+- [x] OpenTelemetry trace and span propagation — `ITracer::startSpanFromHeaders()` (W3C TraceContext inbound extraction) and `ITracer::injectContext()` (outbound header injection + W3C Baggage); implemented in `OpenTelemetryTracerAdapter` with circuit-breaker guard; convenience wrappers on `ConcernsContext`
 
 ## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
@@ -29,7 +30,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OpenTelemetry trace and span propagation (Issue: #1407)
+- [x] OpenTelemetry trace and span propagation (Issue: #1407)
 - [I] Prometheus-compatible metrics adapter (Issue: #1408)
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
@@ -58,15 +59,15 @@
 - [x] Lazy initialization for optional components
 
 ### Phase 2: Observability Adapters (Status: In Progress 🚧)
-- [I] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
+- [x] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
+- [x] OpenTelemetry trace and span propagation — `startSpanFromHeaders()` + `injectContext()` on `ITracer` and `OpenTelemetryTracerAdapter` (Issue: #1407)
 - [I] Prometheus metrics adapter (`core/adapters/prometheus_metrics.cpp`, Target: Q2 2026) (Issue: #1709)
 - [ ] Context propagation across async boundaries (Target: Q3 2026)
 
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
+- [x] W3C TraceContext propagation — inbound extraction (`startSpanFromHeaders`) and outbound injection (`injectContext`) via `ITracer` (Issue: #1705)
 - [ ] Health check interface in ConcernsContext
-- [ ] Structured log correlation (trace ID injection into log records)
-- [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [I] Feature flag interface for runtime enable/disable (Issue: #1707)
 - [ ] Secrets interface for credential injection into components
@@ -81,7 +82,7 @@
 
 ## Known Issues & Limitations
 - Prometheus adapter not yet implemented; metrics are in-memory only
-- Context propagation across async/thread boundaries requires manual passing
+- Context propagation across async/thread boundaries is supported via `startSpanFromHeaders` / `injectContext`; caller is responsible for passing headers across async boundaries
 - Feature flags are not yet a first-class concern in the DI system
 
 ## Breaking Changes

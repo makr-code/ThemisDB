@@ -267,3 +267,73 @@ TEST(OtelPropagationTest, BaggageRoundTripInjectExtract) {
 
     themis::Baggage::clear();
 }
+
+// ============================================================================
+// Case-insensitive header lookup (W3C spec requirement)
+// ============================================================================
+
+TEST(OtelPropagationTest, StartSpanFromHeadersCaseInsensitiveTraceparent) {
+    OpenTelemetryTracerAdapter adapter;
+
+    // Mixed-case "Traceparent" header – must be accepted per W3C spec
+    std::map<std::string, std::string> upper_headers;
+    upper_headers["Traceparent"] = kValidTraceparent;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpanFromHeaders("req.case.upper", upper_headers);
+        ASSERT_NE(span, nullptr);
+        span->end();
+    });
+
+    // ALL-CAPS "TRACEPARENT" – must also be accepted
+    std::map<std::string, std::string> caps_headers;
+    caps_headers["TRACEPARENT"] = kValidTraceparent;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpanFromHeaders("req.case.caps", caps_headers);
+        ASSERT_NE(span, nullptr);
+        span->end();
+    });
+}
+
+// ============================================================================
+// W3C spec: invalid traceparent values must be rejected and fall back
+// ============================================================================
+
+TEST(OtelPropagationTest, StartSpanFromHeadersAllZerosTraceIdFallsBack) {
+    // All-zeros trace-id is explicitly invalid per W3C TraceContext spec
+    OpenTelemetryTracerAdapter adapter;
+    std::map<std::string, std::string> headers;
+    headers["traceparent"] = "00-00000000000000000000000000000000-00f067aa0ba902b7-01";
+
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpanFromHeaders("req.zero.traceid", headers);
+        ASSERT_NE(span, nullptr);
+        // Should fall back to a root span (not crash)
+        span->end();
+    });
+}
+
+TEST(OtelPropagationTest, StartSpanFromHeadersAllZerosParentIdFallsBack) {
+    // All-zeros parent-id is explicitly invalid per W3C TraceContext spec
+    OpenTelemetryTracerAdapter adapter;
+    std::map<std::string, std::string> headers;
+    headers["traceparent"] = "00-4bf92f3577b34da6a3ce929d0e0e4736-0000000000000000-01";
+
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpanFromHeaders("req.zero.parentid", headers);
+        ASSERT_NE(span, nullptr);
+        span->end();
+    });
+}
+
+TEST(OtelPropagationTest, StartSpanFromHeadersTooShortTraceparentFallsBack) {
+    OpenTelemetryTracerAdapter adapter;
+    std::map<std::string, std::string> headers;
+    // One hex digit too short in the trace-id field
+    headers["traceparent"] = "00-4bf92f3577b34da6a3ce929d0e0e473-00f067aa0ba902b7-01";
+
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpanFromHeaders("req.short.tp", headers);
+        ASSERT_NE(span, nullptr);
+        span->end();
+    });
+}
