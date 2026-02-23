@@ -70,6 +70,7 @@ public:
 
     VkPhysicalDeviceProperties deviceProps{};
     VkPhysicalDeviceMemoryProperties memoryProps{};
+    std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
     // ---- Buffer helper ------------------------------------------------
     struct BufMem {
@@ -185,19 +186,57 @@ public:
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(instance, &count, devs.data());
 
-        // Prefer discrete GPU, fall back to first device
-        physicalDevice = devs[0];
-        vkGetPhysicalDeviceProperties(devs[0], &deviceProps);
+        // Prefer a non-NVIDIA discrete GPU so that Vulkan acts as the primary
+        // fallback for AMD, Intel, ARM, and other non-CUDA hardware.
+        // When only NVIDIA discrete GPUs are present (CUDA is the better choice),
+        // we still accept them rather than fail.
+        // Selection priority: non-NVIDIA discrete > NVIDIA discrete > any integrated > first device.
+
+        VkPhysicalDevice bestDevice = VK_NULL_HANDLE;
+        VkPhysicalDeviceProperties bestProps{};
+        int bestScore = -1;
+
         for (const auto& d : devs) {
             VkPhysicalDeviceProperties p;
             vkGetPhysicalDeviceProperties(d, &p);
+
+            int score = 0;
             if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-                physicalDevice = d;
-                deviceProps    = p;
-                break;
+                score = (p.vendorID != vendor_id::NVIDIA) ? 30 : 20;
+            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
+                score = (p.vendorID != vendor_id::NVIDIA) ? 12 : 10;
+            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) {
+                score = 5;
+            } else {
+                score = 1; // CPU or other
+            }
+
+            if (score > bestScore) {
+                bestScore  = score;
+                bestDevice = d;
+                bestProps  = p;
             }
         }
+
+        if (bestDevice == VK_NULL_HANDLE) {
+            bestDevice = devs[0];
+            vkGetPhysicalDeviceProperties(bestDevice, &bestProps);
+        }
+
+        physicalDevice = bestDevice;
+        deviceProps    = bestProps;
         vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProps);
+
+        // Resolve human-readable vendor name from vendorID
+        switch (deviceProps.vendorID) {
+            case vendor_id::NVIDIA:   vendorName = "NVIDIA";   break;
+            case vendor_id::AMD:      vendorName = "AMD";      break;
+            case vendor_id::INTEL:    vendorName = "Intel";    break;
+            case vendor_id::ARM:      vendorName = "ARM";      break;
+            case vendor_id::QUALCOMM: vendorName = "Qualcomm"; break;
+            case vendor_id::IMGTEC:   vendorName = "ImgTec";   break;
+            default:                  vendorName = "Unknown";  break;
+        }
 
         // Find compute queue family
         uint32_t qfCount = 0;
@@ -623,6 +662,7 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
 
     if (initialized_ && impl_ && impl_->device != VK_NULL_HANDLE) {
         caps.deviceName    = std::string(impl_->deviceProps.deviceName);
+        caps.vendorName    = impl_->vendorName;
         caps.computeUnits  = static_cast<int>(
             impl_->deviceProps.limits.maxComputeWorkGroupCount[0]);
         // Report device-local heap size
