@@ -33,7 +33,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [I] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ### Long-term (6-12 months)
-- [I] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
+- [P] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
 - [I] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
 - [I] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [I] AQL function documentation auto-generation from C++ headers (Issue: #1362)
