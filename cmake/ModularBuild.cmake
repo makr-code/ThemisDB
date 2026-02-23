@@ -259,6 +259,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
