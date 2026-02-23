@@ -36,7 +36,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
 
 ### Long-term (6-12 months)
-- [I] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
+- [~] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
 - [!] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
 - [I] Dynamic data masking for PII fields in query results (Issue: #2463)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
@@ -72,7 +72,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [ ] Secret scanning pre-commit hook for CI pipelines
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: Planned 📋)
-- [ ] Zero-trust network policy enforcement (per-request identity verification)
+- [~] Zero-trust network policy enforcement (per-request identity verification)
 - [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [ ] Dynamic data masking for PII fields in query results
 - [ ] SOC 2 Type II compliance evidence collection
