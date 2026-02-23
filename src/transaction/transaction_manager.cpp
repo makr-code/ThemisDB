@@ -821,7 +821,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     
     trackWrite(edge_key, "put");
     return Status::OK();
-}(std::string_view edgeId) {
+}
+
+TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
@@ -843,7 +845,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     
     trackWrite(edge_key, "delete");
     return Status::OK();
-}(const BaseEntity& entity, std::string_view vectorField) {
+}
+
+TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addVector: transaction timed out");
     
@@ -879,7 +883,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 
     trackWrite(vector_key, "put");
     return Status::OK();
-}(const BaseEntity& entity, std::string_view vectorField) {
+}
+
+TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
     
@@ -929,7 +935,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 
     trackWrite(vector_key, "put");
     return Status::OK();
-}(std::string_view pk) {
+}
+
+TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
     
@@ -980,6 +988,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     trackWrite(vector_key, "delete");
     return Status::OK();
 }
+
+// ---------------------------------------------------------------------------
+// OCC helpers
 // ---------------------------------------------------------------------------
 
 /// Encode a uint64_t as an 8-byte little-endian blob.
