@@ -7526,6 +7526,33 @@ void HttpServer::Session::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const std::string cur_target(request_.target());
+            auto& tm = themis::TenantManager::instance();
+            const std::string effective_path = tm.stripTenantPath(cur_target);
+            if (effective_path != cur_target) {
+                // Forward tenant ID as header so routeRequest can resolve the
+                // tenant context without the original path prefix.
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    const std::string& prefix = tm.getConfig().tenant_path_prefix;
+                    const size_t id_start = prefix.size();
+                    const size_t slash_pos = cur_target.find('/', id_start);
+                    const size_t id_end = (slash_pos != std::string::npos)
+                                         ? slash_pos : cur_target.size();
+                    request_.set("X-Tenant-ID",
+                                 cur_target.substr(id_start, id_end - id_start));
+                }
+                request_.target(effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -7763,6 +7790,33 @@ void HttpServer::SslSession::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const std::string cur_target(request_.target());
+            auto& tm = themis::TenantManager::instance();
+            const std::string effective_path = tm.stripTenantPath(cur_target);
+            if (effective_path != cur_target) {
+                // Forward tenant ID as header so routeRequest can resolve the
+                // tenant context without the original path prefix.
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    const std::string& prefix = tm.getConfig().tenant_path_prefix;
+                    const size_t id_start = prefix.size();
+                    const size_t slash_pos = cur_target.find('/', id_start);
+                    const size_t id_end = (slash_pos != std::string::npos)
+                                         ? slash_pos : cur_target.size();
+                    request_.set("X-Tenant-ID",
+                                 cur_target.substr(id_start, id_end - id_start));
+                }
+                request_.target(effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         

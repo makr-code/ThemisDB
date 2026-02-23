@@ -22,6 +22,7 @@
 #include "server/http2_session.h"
 #include "server/http_server.h"
 #include "server/chunked_response_writer.h"
+#include "server/tenant_manager.h"
 #include "utils/logger.h"
 #include <boost/beast/http.hpp>
 #include <openssl/ssl.h>
@@ -382,6 +383,30 @@ void Http2Session::processStream(int32_t stream_id) {
         return;
     }
     
+    // Rewrite path for tenant-prefixed namespace routing.
+    // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+    // extract the tenant ID, set it as X-Tenant-ID header (if not already
+    // present), and strip the prefix so the request reaches normal API handlers.
+    {
+        const std::string cur_target(req.target());
+        auto& tm = themis::TenantManager::instance();
+        const std::string effective_path = tm.stripTenantPath(cur_target);
+        if (effective_path != cur_target) {
+            // Forward tenant ID as header so routeRequest can resolve the
+            // tenant context without the original path prefix.
+            if (req.find("X-Tenant-ID") == req.end()) {
+                const std::string& prefix = tm.getConfig().tenant_path_prefix;
+                const size_t id_start = prefix.size();
+                const size_t slash_pos = cur_target.find('/', id_start);
+                const size_t id_end = (slash_pos != std::string::npos)
+                                     ? slash_pos : cur_target.size();
+                req.set("X-Tenant-ID",
+                        cur_target.substr(id_start, id_end - id_start));
+            }
+            req.target(effective_path);
+        }
+    }
+
     // Route the request using HttpServer's existing routing logic
     auto response = server_->routeRequest(req);
 

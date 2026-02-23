@@ -502,3 +502,60 @@ TEST_F(TenantManagerTest, BackwardCompatibilityMode) {
     EXPECT_TRUE(tenant_id.has_value());
     EXPECT_EQ(*tenant_id, "default");
 }
+
+// ===== Multi-Tenant Namespace Routing (stripTenantPath) Tests =====
+
+TEST_F(TenantManagerTest, StripTenantPath_BasicPath) {
+    auto& tm = TenantManager::instance();
+
+    // Standard path-based tenant routing
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme-corp/documents"), "/documents");
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme-corp/documents/123"), "/documents/123");
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme-corp/api/v1/entities/foo"), "/api/v1/entities/foo");
+}
+
+TEST_F(TenantManagerTest, StripTenantPath_NoPrefix) {
+    auto& tm = TenantManager::instance();
+
+    // Paths without the tenant prefix are returned unchanged
+    EXPECT_EQ(tm.stripTenantPath("/documents"), "/documents");
+    EXPECT_EQ(tm.stripTenantPath("/api/v1/entities/foo"), "/api/v1/entities/foo");
+    EXPECT_EQ(tm.stripTenantPath("/health"), "/health");
+    EXPECT_EQ(tm.stripTenantPath("/"), "/");
+}
+
+TEST_F(TenantManagerTest, StripTenantPath_WithQueryString) {
+    auto& tm = TenantManager::instance();
+
+    // Query strings should be preserved after stripping
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme-corp/search?q=foo"), "/search?q=foo");
+    EXPECT_EQ(tm.stripTenantPath("/tenants/t1/vector/search?limit=10&offset=0"),
+              "/vector/search?limit=10&offset=0");
+}
+
+TEST_F(TenantManagerTest, StripTenantPath_TenantIdOnly) {
+    auto& tm = TenantManager::instance();
+
+    // Path with tenant ID but no trailing sub-path should return root
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme-corp"), "/");
+}
+
+TEST_F(TenantManagerTest, StripTenantPath_CustomPrefix) {
+    auto& tm = TenantManager::instance();
+
+    // Verify behaviour with a non-default tenant path prefix
+    TenantManager::Config cfg = tm.getConfig();
+    cfg.tenant_path_prefix = "/ns/";
+    cfg.allow_default_tenant = true;
+    tm.configure(cfg);
+
+    EXPECT_EQ(tm.stripTenantPath("/ns/acme/documents"), "/documents");
+    EXPECT_EQ(tm.stripTenantPath("/tenants/acme/documents"), "/tenants/acme/documents");
+
+    // Restore default prefix for other tests
+    TenantManager::Config restore;
+    restore.allow_default_tenant = true;
+    restore.default_tenant_id = "default";
+    tm.configure(restore);
+}
+

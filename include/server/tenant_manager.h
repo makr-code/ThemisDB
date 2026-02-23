@@ -209,7 +209,14 @@ public:
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path
     ) const;
-    
+
+    // Strip tenant path prefix from a URL path for namespace routing.
+    // For path-based tenant routing, removes the "/tenants/{id}/" prefix so
+    // the remaining path can be matched against normal API routes.
+    // Example: "/tenants/acme-corp/documents/123" -> "/documents/123"
+    // Returns the path unchanged when it does not start with the tenant prefix.
+    std::string stripTenantPath(std::string_view path) const;
+
     // Resource quota enforcement
     struct QuotaCheckResult {
         bool allowed = true;

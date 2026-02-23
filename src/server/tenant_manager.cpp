@@ -218,6 +218,20 @@ std::optional<std::string> TenantManager::extractTenantId(
     return std::nullopt;
 }
 
+std::string TenantManager::stripTenantPath(std::string_view path) const {
+    const std::string pathStr(path);
+    if (pathStr.rfind(config_.tenant_path_prefix, 0) != 0) {
+        return pathStr;  // Not a tenant-prefixed path
+    }
+    const size_t id_start = config_.tenant_path_prefix.size();
+    const size_t slash_pos = pathStr.find('/', id_start);
+    if (slash_pos != std::string::npos) {
+        return pathStr.substr(slash_pos);
+    }
+    // Path has tenant ID but no trailing slash (e.g., "/tenants/acme-corp")
+    return "/";
+}
+
 std::optional<TenantContext> TenantManager::resolveContext(
     const std::unordered_map<std::string, std::string>& headers,
     std::string_view path,
