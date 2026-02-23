@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_metrics.h                                  ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:19                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:18                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     324                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -87,6 +87,20 @@ public:
      * @param count Number of embeddings generated
      */
     void recordEmbedding(uint64_t count);
+
+    // ========================================================================
+    // Format-specific Metrics (content_pdf_extracted_total, etc.)
+    // ========================================================================
+
+    /**
+     * @brief Record a successful PDF extraction (content_pdf_extracted_total)
+     */
+    void recordPdfExtracted();
+
+    /**
+     * @brief Record a PDF or generic extract-stage error (content_extract_errors_total)
+     */
+    void recordExtractError();
     
     // ========================================================================
     // Latency Metrics
@@ -240,6 +254,16 @@ public:
      * @brief Get total timeouts
      */
     uint64_t getTotalTimeouts() const { return total_timeouts_.load(); }
+
+    /**
+     * @brief Get total successfully extracted PDF documents
+     */
+    uint64_t getPdfExtractedTotal() const { return pdf_extracted_total_.load(); }
+
+    /**
+     * @brief Get total PDF/document extraction errors
+     */
+    uint64_t getExtractErrorsTotal() const { return extract_errors_total_.load(); }
     
     // ========================================================================
     // Export & Reset
@@ -279,6 +303,10 @@ private:
     // Error counters
     std::atomic<uint64_t> total_errors_{0};
     std::atomic<uint64_t> total_timeouts_{0};
+
+    // Format-specific counters (content_pdf_extracted_total, content_extract_errors_total)
+    std::atomic<uint64_t> pdf_extracted_total_{0};
+    std::atomic<uint64_t> extract_errors_total_{0};
     
     // Cache counters
     std::atomic<uint64_t> cache_hits_{0};

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_prometheus_metrics_adapter.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-22 08:56:54                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-02-23 03:59:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_manager.cpp                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:22                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1129                                           ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     1168                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saga.cpp                                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   87.0/100                                       ║
     • Total Lines:     295                                            ║
     • Open Issues:     TODOs: 2, Stubs: 1                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 50dd08756  2026-02-21  feat(transaction): SAGA integration for named savepoints ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

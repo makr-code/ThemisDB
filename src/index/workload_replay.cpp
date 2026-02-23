@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            workload_replay.cpp                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     156                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
+    • 487a35be5  2026-02-22  chore(index): remove unused include and mark workload-rep... ║
+    • c31e4cee3  2026-02-22  feat(index): add workload capture and replay for index ad... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

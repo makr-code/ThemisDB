@@ -3,9 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.cpp                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 05:18:40                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:07                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║

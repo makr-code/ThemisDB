@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend.h                                      ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:17                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:11                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     196                                            ║
+    • Total Lines:     195                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:20                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:18                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     204                                            ║
+    • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 897f27e99  2026-02-21  feat(core): add OTel tracer adapter tests, fix constructo... ║
+    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

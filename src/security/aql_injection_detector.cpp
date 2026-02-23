@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.cpp                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

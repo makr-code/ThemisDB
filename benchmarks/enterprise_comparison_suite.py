@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            enterprise_comparison_suite.py                     ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:11                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:06                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   61.0/100                                       ║
-    • Total Lines:     947                                            ║
+    • Total Lines:     950                                            ║
     • Open Issues:     TODOs: 2, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

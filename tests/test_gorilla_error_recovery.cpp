@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gorilla_error_recovery.cpp                    ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:56:41                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-02-23 03:58:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

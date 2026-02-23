@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            update_state_machine.h                             ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-02-23 03:57:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

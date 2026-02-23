@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            reranker.h                                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,10 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     264                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a152677ac  2026-02-22  Code audit: fix header metadata inaccuracies (line counts... ║
+    • 3987bc257  2026-02-22  Add CrossEncoderReranker: header, implementation, tests, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

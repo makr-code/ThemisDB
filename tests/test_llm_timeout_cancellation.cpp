@@ -3,11 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_timeout_cancellation.cpp                  ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:08                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Tests: Per-request timeout and cancellation propagation for         ║
-         AsyncInferenceEngine and InferenceEngineEnhanced             ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     506                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
+    • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
+    • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
+    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
