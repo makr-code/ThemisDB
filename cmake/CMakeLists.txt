@@ -1899,6 +1899,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_lora_finetuner.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1932,6 +1933,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
