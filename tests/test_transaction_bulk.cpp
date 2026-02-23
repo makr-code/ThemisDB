@@ -246,7 +246,8 @@ TEST_F(BulkTransactionTest, BulkEraseFailsOnFinishedTransaction) {
 // ── Mixed bulk put and erase in the same transaction ─────────────────────────
 
 TEST_F(BulkTransactionTest, BulkPutAndEraseInSameTransaction) {
-    sec_idx_->createIndex("users", "status");
+    // makeEntity stores the third arg under the "city" field
+    sec_idx_->createIndex("users", "city");
 
     // Seed some initial data
     {
@@ -277,11 +278,11 @@ TEST_F(BulkTransactionTest, BulkPutAndEraseInSameTransaction) {
     }
 
     // New records present
-    auto [st_pending, pending_keys] = sec_idx_->scanKeysEqual("users", "status", "pending");
+    auto [st_pending, pending_keys] = sec_idx_->scanKeysEqual("users", "city", "pending");
     EXPECT_EQ(pending_keys.size(), 2u);
 
     // Old records gone
-    auto [st_active, active_keys] = sec_idx_->scanKeysEqual("users", "status", "active");
+    auto [st_active, active_keys] = sec_idx_->scanKeysEqual("users", "city", "active");
     EXPECT_TRUE(active_keys.empty());
 }
 
