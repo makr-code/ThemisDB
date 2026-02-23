@@ -72,13 +72,11 @@ RateLimitingMiddleware::Config RateLimitingMiddleware::getConfig() const {
 // Path-to-limit resolution
 // ============================================================================
 
-std::pair<size_t, double>
-RateLimitingMiddleware::limitForPath(const std::string& path) const {
-    // config_mutex_ must be held by the caller
-
-    // Find the most-specific (longest) matching prefix
-    size_t      best_len  = 0;
-    std::size_t best_idx  = config_.endpoint_overrides.size(); // sentinel = no match
+std::size_t
+RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
+    // config_mutex_ must be held by the caller.
+    size_t      best_len = 0;
+    std::size_t best_idx = config_.endpoint_overrides.size(); // sentinel = no match
 
     for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
         const auto& ep = config_.endpoint_overrides[i];
@@ -97,9 +95,15 @@ RateLimitingMiddleware::limitForPath(const std::string& path) const {
             }
         }
     }
+    return best_idx;
+}
 
-    if (best_idx < config_.endpoint_overrides.size()) {
-        const auto& ep = config_.endpoint_overrides[best_idx];
+std::pair<size_t, double>
+RateLimitingMiddleware::limitForPath(const std::string& path) const {
+    // config_mutex_ must be held by the caller.
+    std::size_t idx = findOverrideIndex(path);
+    if (idx < config_.endpoint_overrides.size()) {
+        const auto& ep = config_.endpoint_overrides[idx];
         return {ep.capacity, ep.refill_rate};
     }
     return {config_.default_capacity, config_.default_refill_rate};
@@ -134,28 +138,15 @@ RateLimitingMiddleware::check(const std::string& client_key,
     }
 
     // ── Select the appropriate limiter and effective limits ───────────────
-    auto [capacity, refill_rate] = limitForPath(path);
-    result.limit = capacity;
-
-    // Determine which limiter to use (default or override)
-    std::size_t override_idx = config_.endpoint_overrides.size(); // sentinel
-    {
-        std::size_t best_len = 0;
-        for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
-            const auto& ep = config_.endpoint_overrides[i];
-            if (ep.path_prefix.empty()) continue;
-            if (path.size() >= ep.path_prefix.size() &&
-                path.compare(0, ep.path_prefix.size(), ep.path_prefix) == 0) {
-                bool boundary =
-                    (path.size() == ep.path_prefix.size()) ||
-                    (path[ep.path_prefix.size()] == '/') ||
-                    (ep.path_prefix.back() == '/');
-                if (boundary && ep.path_prefix.size() > best_len) {
-                    best_len     = ep.path_prefix.size();
-                    override_idx = i;
-                }
-            }
-        }
+    std::size_t override_idx = findOverrideIndex(path);
+    double refill_rate;
+    if (override_idx < config_.endpoint_overrides.size()) {
+        const auto& ep = config_.endpoint_overrides[override_idx];
+        result.limit = ep.capacity;
+        refill_rate  = ep.refill_rate;
+    } else {
+        result.limit = config_.default_capacity;
+        refill_rate  = config_.default_refill_rate;
     }
 
     PerClientRateLimiter* limiter = (override_idx < override_limiters_.size())

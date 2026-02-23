@@ -148,7 +148,13 @@ public:
     void reset();
 
 private:
+    /// Find the index of the most-specific matching endpoint override for `path`.
+    /// Returns config_.endpoint_overrides.size() (sentinel) when no override matches.
+    /// config_mutex_ must be held by the caller.
+    std::size_t findOverrideIndex(const std::string& path) const;
+
     /// Return the effective (capacity, refill_rate) for the given request path.
+    /// config_mutex_ must be held by the caller.
     std::pair<size_t, double> limitForPath(const std::string& path) const;
 
     /// Rebuild per-endpoint PerClientRateLimiter instances from config_.
