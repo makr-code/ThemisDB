@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            pmem_storage.h                                     ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 07:55:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     351                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB - Persistent Memory (Optane) Aware Storage Layout
 // Paper: "NOVA: A Log-structured File System for Hybrid Volatile/Non-volatile Main Memories"
 //        (FAST'16) - Jian Xu & Steven Swanson, UCSD
