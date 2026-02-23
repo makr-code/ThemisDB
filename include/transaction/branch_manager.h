@@ -23,6 +23,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
+#include "transaction/merge_engine.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -32,15 +33,7 @@
 
 namespace themis {
 
-// Forward declaration
-namespace analytics {
-class DiffEngine;
-}
-
 namespace transaction {
-
-// Forward declaration
-class MergeEngine;
 
 using json = nlohmann::json;
 
@@ -247,6 +240,39 @@ public:
         const MergeOptions& options
     );
     
+    /**
+     * @brief Preview a branch merge (dry-run) with full conflict details
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param base_branch   Optional common ancestor branch name.
+     *                      When empty, base = min(source_seq, target_seq).
+     * @return MergeEngine::MergeResult with full conflict details (base/source/target values)
+     * 
+     * Does not apply any changes. Returns conflict detail sufficient for a
+     * conflict resolution UI to present per-key choices to the user.
+     */
+    MergeEngine::MergeResult previewBranchMerge(
+        const std::string& source_branch,
+        const std::string& target_branch,
+        const std::string& base_branch = ""
+    ) const;
+
+    /**
+     * @brief Resolve conflicts and complete a branch merge
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param resolutions   Per-key conflict resolutions from the user
+     * @param base_branch   Optional common ancestor branch name.
+     *                      When empty, base = min(source_seq, target_seq).
+     * @return MergeEngine::MergeResult with success status and applied changes
+     */
+    MergeEngine::MergeResult resolveAndMergeBranches(
+        const std::string& source_branch,
+        const std::string& target_branch,
+        const std::vector<MergeEngine::ConflictResolution>& resolutions,
+        const std::string& base_branch = ""
+    );
+
     /**
      * @brief Check if a branch exists
      * @param branch_name Branch to check

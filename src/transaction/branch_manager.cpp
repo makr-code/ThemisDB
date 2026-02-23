@@ -421,6 +421,114 @@ BranchManager::MergeResult BranchManager::mergeBranches(
     return result;
 }
 
+// Preview branch merge (dry-run with full conflict details)
+MergeEngine::MergeResult BranchManager::previewBranchMerge(
+    const std::string& source_branch,
+    const std::string& target_branch,
+    const std::string& base_branch
+) const {
+    MergeEngine::MergeResult error_result;
+    error_result.success = false;
+
+    auto source = getBranch(source_branch);
+    auto target = getBranch(target_branch);
+
+    if (!source.has_value()) {
+        error_result.message = fmt::format("Source branch not found: {}", source_branch);
+        return error_result;
+    }
+    if (!target.has_value()) {
+        error_result.message = fmt::format("Target branch not found: {}", target_branch);
+        return error_result;
+    }
+    if (!merge_engine_) {
+        error_result.message = "MergeEngine not initialized; cannot preview merge";
+        return error_result;
+    }
+
+    uint64_t source_seq = source->creation_sequence;
+    uint64_t target_seq = target->creation_sequence;
+
+    uint64_t base_seq;
+    if (!base_branch.empty()) {
+        auto base = getBranch(base_branch);
+        if (!base.has_value()) {
+            error_result.message = fmt::format("Base branch not found: {}", base_branch);
+            return error_result;
+        }
+        base_seq = base->creation_sequence;
+    } else {
+        base_seq = std::min(source_seq, target_seq);
+    }
+
+    return merge_engine_->previewMerge(base_seq, source_seq, target_seq);
+}
+
+// Resolve conflicts and complete a branch merge
+MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
+    const std::string& source_branch,
+    const std::string& target_branch,
+    const std::vector<MergeEngine::ConflictResolution>& resolutions,
+    const std::string& base_branch
+) {
+    MergeEngine::MergeResult error_result;
+    error_result.success = false;
+
+    auto source = getBranch(source_branch);
+    auto target = getBranch(target_branch);
+
+    if (!source.has_value()) {
+        error_result.message = fmt::format("Source branch not found: {}", source_branch);
+        return error_result;
+    }
+    if (!target.has_value()) {
+        error_result.message = fmt::format("Target branch not found: {}", target_branch);
+        return error_result;
+    }
+    if (!merge_engine_) {
+        error_result.message = "MergeEngine not initialized; cannot resolve merge";
+        return error_result;
+    }
+
+    uint64_t source_seq = source->creation_sequence;
+    uint64_t target_seq = target->creation_sequence;
+
+    uint64_t base_seq;
+    if (!base_branch.empty()) {
+        auto base = getBranch(base_branch);
+        if (!base.has_value()) {
+            error_result.message = fmt::format("Base branch not found: {}", base_branch);
+            return error_result;
+        }
+        base_seq = base->creation_sequence;
+    } else {
+        base_seq = std::min(source_seq, target_seq);
+    }
+
+    MergeEngine::MergeOptions opts;
+    opts.strategy           = MergeEngine::MergeStrategy::MANUAL;
+    opts.fail_on_conflict   = false;
+    opts.manual_resolutions = resolutions;
+
+    auto result = merge_engine_->merge(base_seq, source_seq, target_seq, opts);
+
+    if (result.success) {
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        BranchHistoryEntry hist;
+        hist.event_type   = "merged_from";
+        hist.branch_name  = target_branch;
+        hist.details      = fmt::format("Merged from '{}' with {} manual resolution(s)",
+                                        source_branch, resolutions.size());
+        hist.performed_by = "system";
+        hist.timestamp_ms = now_ms;
+        hist.sequence     = result.result_sequence;
+        appendHistory(hist);
+    }
+
+    return result;
+}
+
 // Check branch exists
 bool BranchManager::branchExists(const std::string& branch_name) const {
     auto data = db_.get(makeKey(branch_name));
