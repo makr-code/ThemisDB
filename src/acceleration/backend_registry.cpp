@@ -24,9 +24,13 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/multi_gpu_backend.h"
 #include "utils/logger.h"
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
 #endif
 #include <algorithm>
 #include <mutex>
@@ -38,6 +42,7 @@ namespace acceleration {
 // The canonical fallback chain: highest priority first, CPU always last.
 // All getBestXBackend() methods traverse this list in order.
 static const std::vector<BackendType> kFallbackOrder = {
+    BackendType::MULTI_GPU,
     BackendType::CUDA,
     BackendType::HIP,
     BackendType::ZLUDA,
@@ -66,6 +71,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
 #ifdef THEMIS_ENABLE_VULKAN
     registerBackend(std::make_unique<VulkanVectorBackend>());
+#endif
+
+    // Register HIP vector and geo backends for AMD GPUs.
+    // registerBackend() checks isAvailable() at runtime; both are silently
+    // skipped when no ROCm-capable GPU is present.
+#ifdef THEMIS_ENABLE_HIP
+    registerBackend(std::make_unique<HIPVectorBackend>());
+    registerBackend(std::make_unique<HIPGeoBackend>());
 #endif
 }
 
@@ -256,6 +269,13 @@ IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
 
 void BackendRegistry::autoDetect() {
     std::cout << "Auto-detecting acceleration backends..." << std::endl;
+
+    // Register multi-GPU sharding backend when multiple GPUs are visible.
+    // This is done before plugin loading so it appears at the head of the
+    // fallback chain and getBestVectorBackend() returns it first.
+    if (MultiGPUVectorBackend::detectGPUCount() >= 2) {
+        registerBackend(std::make_unique<MultiGPUVectorBackend>());
+    }
     
     // Try to load plugins from standard locations
     std::vector<std::string> pluginPaths = {

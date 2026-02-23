@@ -68,6 +68,7 @@ enum class BackendType {
     ONEAPI,     // Intel OneAPI/SYCL (cross-platform)
     OPENCL,     // OpenCL (generic)
     WEBGPU,     // WebGPU (browser-based, future)
+    MULTI_GPU,  // Multi-GPU sharding (distributes across N devices)
     AUTO        // Auto-detect best available
 };
 
