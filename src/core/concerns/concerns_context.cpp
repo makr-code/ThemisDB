@@ -149,7 +149,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         std::move(logger),
         std::move(tracer),
         std::move(metrics),
-        std::move(cache)
+        std::move(cache),
+        std::make_unique<NoOpSecrets>()
     ));
 }
 
@@ -157,13 +158,18 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
     std::unique_ptr<IMetrics> metrics,
-    std::unique_ptr<ICache> cache
+    std::unique_ptr<ICache> cache,
+    std::unique_ptr<ISecrets> secrets
 ) {
+    if (!secrets) {
+        secrets = std::make_unique<NoOpSecrets>();
+    }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
         std::move(metrics),
-        std::move(cache)
+        std::move(cache),
+        std::move(secrets)
     ));
 }
 
@@ -181,7 +187,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
         std::make_unique<NoOpLogger>(),
         std::make_unique<NoOpTracer>(),
         std::make_unique<NoOpMetrics>(),
-        std::make_unique<NoOpCache>()
+        std::make_unique<NoOpCache>(),
+        std::make_unique<NoOpSecrets>()
     ));
 }
 

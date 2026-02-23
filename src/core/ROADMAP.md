@@ -71,7 +71,7 @@
 - [x] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [I] Feature flag interface for runtime enable/disable (Issue: #1707)
-- [ ] Secrets interface for credential injection into components
+- [x] Secrets interface for credential injection into components
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1419)

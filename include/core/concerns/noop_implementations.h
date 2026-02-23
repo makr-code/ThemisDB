@@ -26,6 +26,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_secrets.h"
 
 namespace themis {
 namespace core {
@@ -130,6 +131,27 @@ public:
     double hitRate() const override { return 0.0; }
     void setMaxSize(size_t maxSize) override {}
     void setDefaultTTL(uint64_t ttl_ms) override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/**
+ * @brief No-op secrets implementation for testing or when a secrets backend
+ *        is not configured.
+ *
+ * Always reports "not found" for every secret name.  Use this in unit tests
+ * or in environments where credentials are supplied through other means
+ * (e.g. mounted Kubernetes secrets read directly by the application).
+ */
+class NoOpSecrets : public ISecrets {
+public:
+    std::optional<std::string> getSecret(std::string_view name) const override {
+        return std::nullopt;
+    }
+    bool hasSecret(std::string_view name) const override { return false; }
+    std::vector<std::string> listSecretNames() const override { return {}; }
 
     void flush() noexcept override {}
     void shutdown() noexcept override {}

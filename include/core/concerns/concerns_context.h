@@ -27,6 +27,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_secrets.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
@@ -97,12 +98,16 @@ public:
 
     /**
      * @brief Create a context with custom implementations (for testing).
+     *
+     * The @p secrets parameter is optional; when nullptr a no-op provider is
+     * used so that existing call-sites do not need to be updated.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
-        std::unique_ptr<ICache> cache
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<ISecrets> secrets = nullptr
     );
 
     /**
@@ -115,11 +120,13 @@ public:
     ITracer& tracer() { return *tracer_; }
     IMetrics& metrics() { return *metrics_; }
     ICache& cache() { return *cache_; }
+    ISecrets& secrets() { return *secrets_; }
 
     const ILogger& logger() const { return *logger_; }
     const ITracer& tracer() const { return *tracer_; }
     const IMetrics& metrics() const { return *metrics_; }
     const ICache& cache() const { return *cache_; }
+    const ISecrets& secrets() const { return *secrets_; }
 
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
@@ -193,6 +200,7 @@ public:
         tracer_->flush();
         metrics_->flush();
         cache_->flush();
+        secrets_->flush();
     }
 
     /**
@@ -214,6 +222,7 @@ public:
         tracer_->flush();
         metrics_->flush();
 
+        secrets_->shutdown();
         tracer_->shutdown();
         metrics_->shutdown();
         cache_->shutdown();
@@ -240,7 +249,8 @@ public:
             logger_->isHealthy(),
             tracer_->isHealthy(),
             metrics_->isHealthy(),
-            cache_->isHealthy()
+            cache_->isHealthy(),
+            secrets_->isHealthy()
         };
     }
 
@@ -268,16 +278,19 @@ private:
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
-        std::unique_ptr<ICache> cache
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<ISecrets> secrets
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
-        cache_(std::move(cache)) {}
+        cache_(std::move(cache)),
+        secrets_(std::move(secrets)) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
     std::unique_ptr<IMetrics> metrics_;
     std::unique_ptr<ICache> cache_;
+    std::unique_ptr<ISecrets> secrets_;
 };
 
 } // namespace concerns
