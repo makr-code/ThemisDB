@@ -19,6 +19,7 @@
 
 #include "acceleration/plugin_loader.h"
 #include "acceleration/plugin_security.h"
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 
@@ -62,6 +63,21 @@ void PluginLoader::unloadLibrary(void* handle) {
 }
 
 bool PluginLoader::loadPlugin(const std::string& libraryPath) {
+    // SECURITY: Validate path to prevent path traversal attacks
+    std::string pathError;
+    if (!PluginSecurityVerifier::validatePluginPath(libraryPath, pathError)) {
+        std::cerr << "SECURITY: Plugin path validation failed: " << libraryPath << std::endl;
+        std::cerr << "  Reason: " << pathError << std::endl;
+        auto& auditor = PluginSecurityAuditor::instance();
+        auditor.logEvent({
+            PluginSecurityEvent::EventType::POLICY_VIOLATION,
+            libraryPath, "", pathError,
+            static_cast<uint64_t>(std::time(nullptr)),
+            "ERROR"
+        });
+        return false;
+    }
+
     // SECURITY: Verify plugin before loading
     PluginSecurityPolicy policy;
     // Load policy from config if available
@@ -151,6 +167,14 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
         return 0;
     }
     
+    // SECURITY: Resolve the canonical directory path once to detect symlink escapes
+    std::error_code ec;
+    fs::path canonicalDir = fs::canonical(directoryPath, ec);
+    if (ec) {
+        std::cerr << "SECURITY: Cannot resolve canonical directory path: " << directoryPath << std::endl;
+        return 0;
+    }
+    
     size_t loadedCount = 0;
     
     // Determine the platform-specific library extension
@@ -164,7 +188,36 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
     
     // Scan directory for plugin libraries
     for (const auto& entry : fs::directory_iterator(directoryPath)) {
-        if (!entry.is_regular_file()) continue;
+        // SECURITY: Skip symlinks to prevent escaping the plugin directory
+        if (entry.is_symlink()) {
+            // Resolve symlink target and verify it stays within the directory
+            // by comparing path components, not string prefixes, to avoid
+            // false positives (e.g. /plugins_evil matching /plugins).
+            fs::path resolvedTarget = fs::canonical(entry.path(), ec);
+            bool escaped = ec;
+            if (!escaped) {
+                auto [dirIt, tgtIt] = std::mismatch(
+                    canonicalDir.begin(), canonicalDir.end(),
+                    resolvedTarget.begin(), resolvedTarget.end()
+                );
+                escaped = (dirIt != canonicalDir.end());
+            }
+            if (escaped) {
+                std::cerr << "SECURITY: Skipping symlink that escapes plugin directory: "
+                          << entry.path() << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    entry.path().string(), "",
+                    "Symlink escapes plugin directory",
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "WARNING"
+                });
+                continue;
+            }
+        }
+
+        if (!entry.is_regular_file() && !entry.is_symlink()) continue;
         
         std::string path = entry.path().string();
         std::string filename = entry.path().filename().string();
