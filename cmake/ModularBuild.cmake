@@ -143,7 +143,6 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
-    ../src/core/concerns/context_propagation.cpp
     ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
@@ -162,15 +161,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
-    
-    # Module dependency resolver (load-order management)
-    ../src/themis/module_dependency_resolver.cpp
-    
-    # Module hash verifier (SHA-256 integrity verification)
     ../src/themis/module_hash_verifier.cpp
-    
-    # Edition manager (Community / Enterprise / Hyperscaler feature gating)
-    ../src/themis/edition_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -238,7 +229,6 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
-    ../src/updates/delta_update_engine.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
@@ -303,7 +293,6 @@ set(THEMIS_QUERY_SOURCES
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
-    ../src/exporters/huggingface_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
@@ -328,7 +317,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
-    ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -584,7 +572,6 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
     ../src/rag/reranker.cpp
-    ../src/rag/hallucination_dashboard.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -730,9 +717,6 @@ set(THEMIS_GEO_SOURCES
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
     ../src/gpu/audit_log.cpp
-    # Geo acceleration bridge: integrates the geo GPU spatial backend with the
-    # acceleration module's IGeoBackend / BackendRegistry interface.
-    ../src/acceleration/geo_acceleration_bridge.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES
