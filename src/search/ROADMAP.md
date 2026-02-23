@@ -33,7 +33,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [I] Configurable re-ranking with LLM feedback loop (Issue: #2454)
+- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
 - [I] Search analytics (top queries, zero-result queries) (Issue: #2275)
 - [x] Spelling correction suggestions (Issue: #2455)
 
@@ -66,7 +66,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)
 - [ ] Multi-field boosting (title > body > tags)
 - [ ] Negative keyword filtering (`NOT` operator)
-- [ ] Configurable re-ranking with LLM feedback loop
+- [x] Configurable re-ranking with LLM feedback loop
 - [ ] Search analytics (top queries, zero-result queries)
 - [x] Spelling correction suggestions
 
@@ -88,7 +88,6 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ## Known Issues & Limitations
 - Synonym expansion dictionary must be manually provided; no automatic synonym discovery.
 - Phonetic search accuracy varies by language; optimized for English.
-- Re-ranking with LLM feedback is not yet implemented; planned for a future release.
 
 ## Breaking Changes
 - HybridSearch API (RRF weights, mode selection) is stable from v1.2.0.

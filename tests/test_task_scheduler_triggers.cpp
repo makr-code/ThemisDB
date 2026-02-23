@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     415                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     503                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -385,6 +385,94 @@ TEST_F(TaskSchedulerIntegrationTest, IntervalTaskBackwardCompatibility) {
 }
 
 // ===== Statistics Tests =====
+
+// Test: CDC task does NOT execute when the task is disabled
+TEST_F(TaskSchedulerIntegrationTest, CDCTaskDisabledSkipsExecution) {
+    std::atomic<int> execution_count{0};
+
+    ScheduledTask task;
+    task.name = "disabled_cdc_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "disabled_handler";
+    task.trigger_type = ScheduledTask::TriggerType::CDC_EVENT;
+    task.cdc_trigger.key_prefix = "items:";
+    task.cdc_trigger.event_types.insert(static_cast<int>(Changefeed::ChangeEventType::EVENT_PUT));
+
+    scheduler_->registerFunction("disabled_handler", [&execution_count](const nlohmann::json&) {
+        execution_count++;
+        return nlohmann::json{{"status", "processed"}};
+    });
+
+    std::string task_id = scheduler_->registerTask(task);
+
+    // Disable the task before starting
+    scheduler_->disableTask(task_id);
+    scheduler_->start();
+
+    // Record a matching CDC event
+    Changefeed::ChangeEvent event;
+    event.type = Changefeed::ChangeEventType::EVENT_PUT;
+    event.key = "items:42";
+    event.value = "data";
+    event.timestamp_ms = 1000;
+    changefeed_->recordEvent(event);
+
+    // Wait long enough for the event to be processed
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
+    scheduler_->stop();
+
+    // Disabled task must NOT have executed
+    EXPECT_EQ(execution_count.load(), 0);
+}
+
+// Test: CDC task executes after being re-enabled
+TEST_F(TaskSchedulerIntegrationTest, CDCTaskReenabledExecutes) {
+    std::atomic<int> execution_count{0};
+
+    ScheduledTask task;
+    task.name = "reenable_cdc_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "reenable_handler";
+    task.trigger_type = ScheduledTask::TriggerType::CDC_EVENT;
+    task.cdc_trigger.key_prefix = "widgets:";
+    task.cdc_trigger.event_types.insert(static_cast<int>(Changefeed::ChangeEventType::EVENT_PUT));
+
+    scheduler_->registerFunction("reenable_handler", [&execution_count](const nlohmann::json&) {
+        execution_count++;
+        return nlohmann::json{{"status", "ok"}};
+    });
+
+    std::string task_id = scheduler_->registerTask(task);
+    scheduler_->disableTask(task_id);
+    scheduler_->start();
+
+    // Fire an event while disabled – should be ignored
+    Changefeed::ChangeEvent ev1;
+    ev1.type = Changefeed::ChangeEventType::EVENT_PUT;
+    ev1.key = "widgets:1";
+    ev1.value = "v1";
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    EXPECT_EQ(execution_count.load(), 0);
+
+    // Re-enable and fire another event – should execute
+    scheduler_->enableTask(task_id);
+
+    Changefeed::ChangeEvent ev2;
+    ev2.type = Changefeed::ChangeEventType::EVENT_PUT;
+    ev2.key = "widgets:2";
+    ev2.value = "v2";
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    scheduler_->stop();
+
+    EXPECT_GT(execution_count.load(), 0);
+}
 
 TEST_F(TaskSchedulerIntegrationTest, TaskStatistics) {
     ScheduledTask task;
