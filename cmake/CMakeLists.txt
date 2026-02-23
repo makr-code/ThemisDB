@@ -1335,6 +1335,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
+    ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
     
