@@ -2043,7 +2043,7 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     config.condition = task->cdc_trigger.condition;
     config.debounce_ms = task->cdc_trigger.debounce_ms;
     
-    // Create callback that triggers task execution
+    // Create callback that triggers task execution via onCDCEvent
     auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
         // Retrieve task inside the callback to avoid capturing by value
         std::shared_ptr<ScheduledTask> task_ptr;
@@ -2056,64 +2056,7 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
             }
             task_ptr = it->second;
         }
-        
-        THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
-                    task_id, event.key, static_cast<int>(event.type));
-        
-        // Audit log CDC trigger activation
-        if (config_.enable_audit_logging && audit_logger_) {
-            nlohmann::json details = {
-                {"task_name", task_ptr->name},
-                {"trigger_type", "CDC_EVENT"},
-                {"cdc_key", event.key},
-                {"cdc_event_type", static_cast<int>(event.type)},
-                {"cdc_key_prefix", task_ptr->cdc_trigger.key_prefix}
-            };
-            
-            audit_logger_->logTaskSchedulerEvent(
-                utils::SecurityEventType::TASK_CDC_TRIGGERED,
-                task_id,
-                "system",
-                details
-            );
-        }
-        
-        // Check if task is enabled
-        if (!task_ptr->enabled) {
-            THEMIS_DEBUG("Task {} is disabled, skipping execution", task_id);
-            return;
-        }
-        
-        // Atomic check-and-set for task running state
-        bool expected = false;
-        if (!config_.allow_task_overlap) {
-            // Try to set running to true atomically
-            std::lock_guard<std::mutex> lock(tasks_mutex_);
-            if (task_ptr->running) {
-                THEMIS_DEBUG("Task {} is already running, skipping execution", task_id);
-                return;
-            }
-            task_ptr->running = true;
-        } else {
-            task_ptr->running = true;
-        }
-        
-        // Execute task asynchronously
-        std::thread task_thread([this, task_ptr]() {
-            executeTask(task_ptr);
-            
-            // Remove from running threads
-            {
-                std::lock_guard<std::mutex> lock(running_mutex_);
-                running_task_threads_.erase(task_ptr->id);
-            }
-        });
-        
-        // Store thread for cleanup
-        {
-            std::lock_guard<std::mutex> lock(running_mutex_);
-            running_task_threads_[task_id] = std::move(task_thread);
-        }
+        onCDCEvent(task_ptr, event);
     };
     
     // Register trigger with manager
@@ -2126,9 +2069,63 @@ void TaskScheduler::removeEventTrigger(const std::string& task_id) {
     }
 }
 
-void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task, const void* event) {
-    // This method is called by EventTrigger callback
-    // The actual implementation is in setupEventTrigger's callback
+void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
+                               const Changefeed::ChangeEvent& event) {
+    THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
+                task->id, event.key, static_cast<int>(event.type));
+
+    // Audit log CDC trigger activation
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", task->name},
+            {"trigger_type", "CDC_EVENT"},
+            {"cdc_key", event.key},
+            {"cdc_event_type", static_cast<int>(event.type)},
+            {"cdc_key_prefix", task->cdc_trigger.key_prefix}
+        };
+
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_CDC_TRIGGERED,
+            task->id,
+            "system",
+            details
+        );
+    }
+
+    // Check if task is enabled
+    if (!task->enabled) {
+        THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        return;
+    }
+
+    // Check-and-set running state (guard against concurrent triggers)
+    if (!config_.allow_task_overlap) {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        if (task->running) {
+            THEMIS_DEBUG("Task {} is already running, skipping execution", task->id);
+            return;
+        }
+        task->running = true;
+    } else {
+        task->running = true;
+    }
+
+    // Execute task asynchronously
+    std::thread task_thread([this, task]() {
+        executeTask(task);
+
+        // Remove from running threads
+        {
+            std::lock_guard<std::mutex> lock(running_mutex_);
+            running_task_threads_.erase(task->id);
+        }
+    });
+
+    // Store thread for cleanup
+    {
+        std::lock_guard<std::mutex> lock(running_mutex_);
+        running_task_threads_[task->id] = std::move(task_thread);
+    }
 }
 
 // ===== Update shouldExecute and updateNextRun =====

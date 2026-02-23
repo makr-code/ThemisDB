@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     508                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 200439b85  2026-02-22  feat(scheduler): implement full cron expression parsing v... ║
@@ -57,12 +57,12 @@
 #include <functional>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "cdc/changefeed.h"
 
 namespace themis {
 
 // Forward declarations
 class QueryEngine;
-class Changefeed;
 class EventTriggerManager;
 class CronExpression;
 
@@ -514,7 +514,7 @@ private:
     // Event trigger management
     void setupEventTrigger(std::shared_ptr<ScheduledTask> task);
     void removeEventTrigger(const std::string& task_id);
-    void onCDCEvent(std::shared_ptr<ScheduledTask> task, const void* event);
+    void onCDCEvent(std::shared_ptr<ScheduledTask> task, const Changefeed::ChangeEvent& event);
     
     // Cron expression management
     std::shared_ptr<CronExpression> getCronExpression(const std::string& task_id);
