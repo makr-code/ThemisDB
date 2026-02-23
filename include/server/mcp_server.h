@@ -30,6 +30,13 @@
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
+// Forward-declare AIOrchestrator for the MCP ↔ Orchestrator integration bridge.
+// Declared at global scope before the server namespace block to avoid the
+// namespace being re-opened inside an already-open namespace.
+#ifdef THEMIS_ENABLE_LLM
+namespace themis::llm { class AIOrchestrator; }
+#endif
+
 namespace themis {
 namespace server {
 
@@ -47,18 +54,6 @@ class QueryEngine;
 namespace prompt_engineering {
 class PromptManager;
 }
-
-} // namespace server
-
-// Forward-declare AIOrchestrator for the MCP ↔ Orchestrator integration bridge.
-// The include is kept out of the global namespace to avoid polluting translation
-// units that only use McpServer without the LLM feature enabled.
-#ifdef THEMIS_ENABLE_LLM
-namespace themis::llm { class AIOrchestrator; }
-#endif
-
-namespace themis {
-namespace server {
 
 /**
  * @brief MCP (Model Context Protocol) Server Implementation

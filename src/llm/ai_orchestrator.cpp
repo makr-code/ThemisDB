@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
 
@@ -27,6 +28,7 @@ void ToolRegistry::registerTool(const ToolSpec& spec, ToolHandler handler) {
     if (spec.name.empty()) {
         throw std::invalid_argument("ToolRegistry: tool name must not be empty");
     }
+    std::unique_lock lock(tools_mutex_);
     tools_[spec.name] = {spec, std::move(handler)};
     spdlog::debug("[ToolRegistry] Registered tool '{}'", spec.name);
 }
@@ -54,13 +56,23 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
                      tool_name, mode.id);
         return {{"error", "tool '" + tool_name + "' is not permitted for mode '" + mode.id + "'"}};
     }
-    auto it = tools_.find(tool_name);
-    if (it == tools_.end()) {
-        spdlog::warn("[ToolRegistry] Tool '{}' is not registered", tool_name);
-        return {{"error", "tool '" + tool_name + "' is not registered"}};
+    // Take a shared (read) lock to lookup and *copy* the handler safely.
+    // Copying std::function is safe while holding a shared lock because no
+    // writer can modify tools_ concurrently.  The handler is then invoked
+    // *outside* the lock so slow tools don't block concurrent registrations
+    // or other read operations.
+    ToolHandler handler_copy;
+    {
+        std::shared_lock lock(tools_mutex_);
+        auto it = tools_.find(tool_name);
+        if (it == tools_.end()) {
+            spdlog::warn("[ToolRegistry] Tool '{}' is not registered", tool_name);
+            return {{"error", "tool '" + tool_name + "' is not registered"}};
+        }
+        handler_copy = it->second.handler;
     }
     try {
-        return it->second.handler(args, mode);
+        return handler_copy(args, mode);
     } catch (const std::exception& e) {
         spdlog::error("[ToolRegistry] Tool '{}' threw: {}", tool_name, e.what());
         return {{"error", std::string("tool execution failed: ") + e.what()}};
@@ -68,6 +80,7 @@ json ToolRegistry::invokeTool(const std::string& tool_name,
 }
 
 std::vector<std::string> ToolRegistry::listTools() const {
+    std::shared_lock lock(tools_mutex_);
     std::vector<std::string> names;
     names.reserve(tools_.size());
     for (const auto& [name, _] : tools_) {
@@ -77,6 +90,7 @@ std::vector<std::string> ToolRegistry::listTools() const {
 }
 
 std::optional<ToolSpec> ToolRegistry::getSpec(const std::string& tool_name) const {
+    std::shared_lock lock(tools_mutex_);
     auto it = tools_.find(tool_name);
     if (it == tools_.end()) return std::nullopt;
     return it->second.spec;

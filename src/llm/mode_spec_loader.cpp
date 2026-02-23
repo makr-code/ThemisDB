@@ -380,9 +380,10 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
         }
     }
 
-    // Warn if tools_allowed references an unknown tool
+    // Warn if tools_allowed references an unknown tool (skip the "*" wildcard)
     for (const auto& mode : pack.modes) {
         for (const auto& ta : mode.tools_allowed) {
+            if (ta == "*") continue;  // wildcard – permits all registered tools at runtime
             if (seenTools.find(ta) == seenTools.end()) {
                 warn("Mode '" + mode.id + "': tools_allowed references unknown tool '" + ta + "'");
             }

@@ -19,6 +19,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -276,6 +277,7 @@ private:
         ToolHandler handler;
     };
     std::unordered_map<std::string, Entry> tools_;
+    mutable std::shared_mutex              tools_mutex_; ///< guards tools_ for thread safety
 };
 
 // ============================================================================

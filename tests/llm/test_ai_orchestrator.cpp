@@ -10,6 +10,8 @@
  */
 
 #include <gtest/gtest.h>
+#include <atomic>
+#include <thread>
 #include "llm/ai_orchestrator.h"
 
 using namespace themis::llm;
@@ -610,4 +612,150 @@ TEST(AIOrchestrator_ToolTest, RegisterAndInvoke_ViaOrchestrator) {
     // docs_search was called
     EXPECT_FALSE(result.metadata.tool_calls_made.empty());
     EXPECT_EQ(result.metadata.tool_calls_made[0], "docs_search");
+}
+
+// ============================================================================
+// Audit regression tests (fixes from code-audit session)
+// ============================================================================
+
+// ── Fix 1: Wildcard "*" in tools_allowed must NOT produce a validation warning ─
+
+TEST(AuditRegressionTest, WildcardAllowlist_NoFalsePositiveWarning) {
+    const char* yaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+modes:
+  - id: agentic
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+    tools_allowed: ["*"]
+)yaml";
+    // No tools[] section → before the fix, "*" would trigger a warning
+    // "tools_allowed references unknown tool '*'" (false positive).
+    ValidationResult res;
+    ModeSpecLoader::loadFromString(yaml, &res);
+    // The pack has no apiVersion warning issues that cause ok=false, but
+    // let's check that no error/warning mentions "*" as an unknown tool.
+    for (const auto& w : res.warnings) {
+        EXPECT_EQ(w.find("unknown tool '*'"), std::string::npos)
+            << "False-positive warning for wildcard: " << w;
+    }
+    for (const auto& e : res.errors) {
+        EXPECT_EQ(e.find("unknown tool '*'"), std::string::npos)
+            << "False-positive error for wildcard: " << e;
+    }
+}
+
+TEST(AuditRegressionTest, WildcardAllowlist_IsAllowed_AnyTool) {
+    ToolRegistry reg;
+    ModeSpec mode;
+    mode.id            = "agentic";
+    mode.tools_allowed = {"*"};
+    mode.tools_denied  = {};
+    EXPECT_TRUE(reg.isAllowed("any_arbitrary_tool", mode));
+    EXPECT_TRUE(reg.isAllowed("docs_search",        mode));
+    EXPECT_TRUE(reg.isAllowed("aql_execute",        mode));
+}
+
+TEST(AuditRegressionTest, WildcardAllowlist_DenyOverridesWildcard) {
+    ToolRegistry reg;
+    ModeSpec mode;
+    mode.id            = "agentic";
+    mode.tools_allowed = {"*"};
+    mode.tools_denied  = {"dangerous_tool"};
+    EXPECT_FALSE(reg.isAllowed("dangerous_tool", mode));
+    EXPECT_TRUE(reg.isAllowed("safe_tool",       mode));
+}
+
+// ── Fix 2: ToolRegistry thread-safety ──────────────────────────────────────
+
+TEST(AuditRegressionTest, ToolRegistry_ConcurrentReads_NoDataRace) {
+    // Register a tool once, then invoke it concurrently from multiple threads.
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+modes:
+  - id: ask
+    budgets: {max_tokens: 64, timeout_ms: 5000}
+    tools_allowed: ["counter_tool"]
+)yaml", &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+
+    std::atomic<int> call_count{0};
+    ToolSpec spec;
+    spec.name = "counter_tool";
+    orch.toolRegistry().registerTool(spec,
+        [&call_count](const json&, const ModeSpec&) -> json {
+            ++call_count;
+            return {{"ok", true}};
+        });
+
+    // Launch 8 concurrent readers
+    constexpr int kThreads = 8;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    ModeSpec mode;
+    mode.id            = "ask";
+    mode.tools_allowed = {"counter_tool"};
+
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&orch, &mode]() {
+            for (int j = 0; j < 10; ++j) {
+                json r = orch.toolRegistry().invokeTool("counter_tool", {}, mode);
+                EXPECT_FALSE(r.contains("error"));
+            }
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_EQ(call_count.load(), kThreads * 10);
+}
+
+TEST(AuditRegressionTest, ToolRegistry_ConcurrentRegisterAndRead_NoDataRace) {
+    ToolRegistry reg;
+
+    // Writer thread registers tools while reader threads query
+    std::atomic<bool> stop{false};
+
+    std::thread writer([&reg, &stop]() {
+        int n = 0;
+        while (!stop) {
+            ToolSpec s;
+            s.name = "tool_" + std::to_string(n++ % 5);
+            reg.registerTool(s, [](const json&, const ModeSpec&) { return json{{"ok",1}}; });
+        }
+    });
+
+    std::thread reader([&reg, &stop]() {
+        for (int i = 0; i < 100; ++i) {
+            (void)reg.listTools();
+            (void)reg.getSpec("tool_0");
+        }
+        stop = true;
+    });
+
+    writer.join();
+    reader.join();
+    // Verify the registry contains the expected tools after concurrent ops.
+    // This provides value even without sanitizers.
+    for (int i = 0; i < 5; ++i) {
+        auto spec = reg.getSpec("tool_" + std::to_string(i));
+        EXPECT_TRUE(spec.has_value()) << "Expected tool_" << i << " to be registered";
+    }
+}
+
+// ── Fix 3: Namespace correctness (compile-time; tested via inclusion) ────────
+
+TEST(AuditRegressionTest, TypesInCorrectNamespace) {
+    // Verify that key types live in themis::llm (not a nested themis::themis::...)
+    static_assert(std::is_class_v<themis::llm::AIOrchestrator>,
+                  "AIOrchestrator must be in themis::llm");
+    static_assert(std::is_class_v<themis::llm::ToolRegistry>,
+                  "ToolRegistry must be in themis::llm");
+    static_assert(std::is_class_v<themis::llm::ModeSpecLoader>,
+                  "ModeSpecLoader must be in themis::llm");
+    SUCCEED();
 }
