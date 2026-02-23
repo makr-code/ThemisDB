@@ -22,6 +22,7 @@
 // Compatible with AMD Radeon GPUs
 
 #include "acceleration/hip_backend.h"
+#include "acceleration/batch_validator.h"
 #include "acceleration/compute_backend.h"
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
@@ -427,6 +428,12 @@ std::vector<float> HIPVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
+    }
+
     if (!impl_->initialized) {
         std::cerr << "HIP backend not initialized" << std::endl;
         return {};
@@ -517,12 +524,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         std::cerr << "HIP backend not initialized" << std::endl;
         return {};
     }
-    
-    // Validate and clamp k to prevent out-of-bounds access
-    if (k == 0 || numVectors == 0 || numQueries == 0) {
-        return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
+
+    // Validate pointers and reject unsafe batches
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
     }
-    
+    if (!BatchValidator::validateK(name(), k, sink)) {
+        return {};
+    }
+
     size_t effectiveK = std::min(k, numVectors);
     
     // Allocate device memory

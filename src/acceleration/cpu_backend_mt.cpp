@@ -22,6 +22,7 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
 #include "utils/simd_distance.h"
 #include <cmath>
 #include <algorithm>
@@ -200,6 +201,12 @@ public:
         size_t numVectors,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+
         std::vector<float> distances(numQueries * numVectors);
         
 #if THEMIS_HAS_OPENMP
@@ -243,6 +250,15 @@ public:
         size_t k,
         bool useL2
     ) override {
+        auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+        if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                                 vectors, numVectors, sink)) {
+            return {};
+        }
+        if (!BatchValidator::validateK(name(), k, sink)) {
+            return {};
+        }
+
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
         
 #if THEMIS_HAS_OPENMP
