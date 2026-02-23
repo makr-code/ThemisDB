@@ -27,6 +27,7 @@
 #include "analytics/nlp_text_analyzer.h"
 #include "security/row_level_security.h"
 #include "security/access_control_manager.h"
+#include <chrono>
 #include <fmt/format.h>
 
 namespace themis {
@@ -508,6 +509,109 @@ Result<nlohmann::json> executeAqlWithRLS(
     }
 
     return Ok(std::move(doc));
+}
+
+// ── Type-annotated execution ──────────────────────────────────────────────
+
+Result<query::AnnotatedQueryResult> executeAqlAnnotated(
+    const std::string& aql,
+    QueryEngine&       engine)
+{
+    auto result = executeAql(aql, engine);
+    if (!result) {
+        return Err<query::AnnotatedQueryResult>(
+            result.error().code(),
+            result.error().message()
+        );
+    }
+
+    nlohmann::json doc = std::move(*result);
+
+    // Determine query_type label from the "type" field when present.
+    std::string query_type = "unknown";
+    if (doc.is_object() && doc.contains("type") && doc["type"].is_string()) {
+        query_type = doc["type"].get<std::string>();
+    }
+
+    // Infer schema from the "results" array when present; otherwise treat
+    // the whole document as a single-row result for schema inference.
+    nlohmann::json rows = nlohmann::json::array();
+    if (doc.is_object() && doc.contains("results") && doc["results"].is_array()) {
+        rows = doc["results"];
+    } else if (doc.is_array()) {
+        rows = doc;
+    }
+
+    query::AnnotatedQueryResult annotated;
+    annotated.result = std::move(doc);
+    annotated.schema = query::inferResultSchema(rows, query_type);
+
+    return Ok(std::move(annotated));
+}
+
+// ── Per-query resource limits ─────────────────────────────────────────────────
+
+Result<nlohmann::json> executeAqlWithLimits(
+    const std::string& aql,
+    QueryEngine& engine,
+    const query::QueryResourceLimits& limits)
+{
+    // Record start time for timeout enforcement.
+    auto start = std::chrono::steady_clock::now();
+
+    // Execute the query normally.
+    auto result = executeAql(aql, engine);
+    if (!result) {
+        return result; // propagate execution errors unchanged
+    }
+
+    // Check timeout after execution completes.
+    if (limits.timeout_ms > 0) {
+        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start).count();
+        if (static_cast<uint32_t>(elapsed_ms) >= limits.timeout_ms) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "query exceeded timeout of " + std::to_string(limits.timeout_ms) + " ms"
+            );
+        }
+    }
+
+    nlohmann::json& doc = *result;
+
+    // Determine the results array from the standard response envelope.
+    nlohmann::json* rows_ptr = nullptr;
+    if (doc.is_object() && doc.contains("results") && doc["results"].is_array()) {
+        rows_ptr = &doc["results"];
+    } else if (doc.is_array()) {
+        rows_ptr = &doc;
+    }
+
+    if (rows_ptr != nullptr) {
+        // Enforce max_rows limit.
+        if (limits.max_rows > 0 && rows_ptr->size() > limits.max_rows) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+                "result row count " + std::to_string(rows_ptr->size()) +
+                " exceeds max_rows limit of " + std::to_string(limits.max_rows)
+            );
+        }
+
+        // Enforce max_memory_bytes limit using serialised JSON size as a proxy.
+        if (limits.max_memory_bytes > 0) {
+            const std::string serialised = rows_ptr->dump();
+            if (serialised.size() > limits.max_memory_bytes) {
+                return Err<nlohmann::json>(
+                    errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
+                    "result memory estimate " + std::to_string(serialised.size()) +
+                    " bytes exceeds max_memory_bytes limit of " +
+                    std::to_string(limits.max_memory_bytes)
+                );
+            }
+        }
+    }
+
+    return result;
 }
 
 } // namespace themis

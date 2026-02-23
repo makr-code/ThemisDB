@@ -25,6 +25,7 @@
 #include "voice/audio_preprocessing.h"
 #include <chrono>
 #include <cmath>
+#include <numbers>
 #include <numeric>
 #include <algorithm>
 #include <stdexcept>
@@ -77,7 +78,7 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
 {
     if (samples.empty()) return {};
     // Simple first-order high-pass IIR filter: y[n] = alpha * (y[n-1] + x[n] - x[n-1])
-    float rc = 1.0f / (2.0f * static_cast<float>(M_PI) * cutoff_hz);
+    float rc = 1.0f / (2.0f * std::numbers::pi_v<float> * cutoff_hz);
     float dt = 1.0f / static_cast<float>(sample_rate);
     float alpha = rc / (rc + dt);
 

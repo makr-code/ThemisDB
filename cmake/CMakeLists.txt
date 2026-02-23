@@ -1361,6 +1361,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/let_evaluator.cpp
@@ -1441,6 +1442,7 @@ set(THEMIS_CORE_SOURCES
     # LLM integration (server/API/grpc) is added conditionally below
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
     ../src/server/api_version.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
@@ -1718,6 +1720,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/acceleration/device_manager.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -1750,6 +1753,9 @@ set(THEMIS_CORE_SOURCES
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
+
+    # WebSocket change-stream handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp

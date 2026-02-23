@@ -305,7 +305,7 @@ TEST_F(MVCCIntegrationTest, GCAll_RemovesOldVersionsAcrossAllKeys) {
     // GC all versions before watermark with min 1 version kept
     MVCCStore::GCOptions opts;
     opts.min_versions_to_keep = 1;
-    mvcc_->gcAll(gc_watermark, opts);
+    mvcc_->gcAllBefore(gc_watermark, opts);
 
     // Latest version of each key must still be readable
     for (int k = 0; k < kKeys; ++k) {

@@ -44,9 +44,9 @@ enum class ExportStatus {
  * @brief Export format
  */
 enum class ExportFormat {
-    ARROW_IPC,      // Arrow IPC (Inter-Process Communication) format
-    ARROW_PARQUET,  // Apache Parquet format
-    ARROW_FEATHER,  // Apache Feather format
+    FMT_ARROW_IPC,      // Arrow IPC (Inter-Process Communication) format
+    FMT_ARROW_PARQUET,  // Apache Parquet format
+    FMT_ARROW_FEATHER,  // Apache Feather format
     CSV,            // Comma-separated values
     JSON            // JSON format
 };
@@ -55,7 +55,7 @@ enum class ExportFormat {
  * @brief Export options
  */
 struct ExportOptions {
-    ExportFormat format = ExportFormat::ARROW_IPC;
+    ExportFormat format = ExportFormat::FMT_ARROW_IPC;
     bool compress = false;
     std::string compression_codec = "zstd";  // zstd, gzip, snappy, lz4
     int compression_level = 3;

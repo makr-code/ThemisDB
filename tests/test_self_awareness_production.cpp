@@ -165,7 +165,7 @@ TEST(SelfAwarenessProduction, DetectAnomaliesForHighCPU) {
 TEST(SelfAwarenessProduction, AssessHealthReturnsNonEmptyString) {
     SelfAwareness sa(makeConfig());
     auto snap   = sa.takeSnapshot("health_check");
-    auto status = sa.assessHealth(snap);
+    auto status = sa.assessOverallHealth(snap);
     EXPECT_FALSE(status.empty());
 }
 

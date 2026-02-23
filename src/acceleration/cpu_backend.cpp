@@ -75,6 +75,7 @@ std::vector<float> CPUVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
                                              vectors, numVectors, sink)) {
@@ -105,6 +106,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
     size_t k,
     bool useL2
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
                                              vectors, numVectors, sink)) {
@@ -164,6 +166,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
     size_t numStarts,
     uint32_t maxDepth
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices,
                                                startVertices, numStarts, sink)) {
@@ -207,6 +210,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
     const uint32_t* endVertices,
     size_t numPairs
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights,
                                                    numVertices, startVertices,
@@ -264,6 +268,7 @@ std::vector<float> CPUGeoBackend::batchDistances(
     size_t count,
     bool useHaversine
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1,
                                           latitudes2, longitudes2, count, sink)) {
@@ -289,6 +294,7 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    clearError();
     auto sink = [this](ErrorContext e){ setError(std::move(e)); };
     if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons,
                                                      numPoints, polygonCoords,

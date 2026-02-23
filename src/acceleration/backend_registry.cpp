@@ -25,6 +25,7 @@
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/multi_gpu_backend.h"
+#include "acceleration/device_manager.h"
 #include "utils/logger.h"
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
@@ -34,6 +35,9 @@
 #endif
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
+#endif
+#ifdef THEMIS_ENABLE_OPENCL
+#include "acceleration/opencl_backend.h"
 #endif
 #include <algorithm>
 #include <mutex>
@@ -90,6 +94,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
 #ifdef THEMIS_ENABLE_HIP
     registerBackend(std::make_unique<HIPVectorBackend>());
     registerBackend(std::make_unique<HIPGeoBackend>());
+#endif
+
+    // Register OpenCL backend for broad hardware compatibility.
+    // Supports any OpenCL 1.2+ capable device: NVIDIA, AMD, Intel, ARM, Qualcomm.
+    // registerBackend() checks isAvailable() at runtime; silently skipped when
+    // no OpenCL ICD is present.
+#ifdef THEMIS_ENABLE_OPENCL
+    registerBackend(std::make_unique<OpenCLVectorBackend>());
 #endif
 }
 
@@ -339,6 +351,7 @@ void BackendRegistry::shutdownAll() {
     selectedGraphBackend_  = nullptr;
     selectedGeoBackend_    = nullptr;
     runtimeInitialized_    = false;
+    cachedDeviceInfo_.clear();
     
     if (pluginLoader_) {
         pluginLoader_->unloadAllPlugins();
@@ -386,6 +399,13 @@ void BackendRegistry::initializeRuntime(
 {
     std::cout << "Initializing acceleration runtime with capability-driven backend selection..." << std::endl;
 
+    // Probe hardware capabilities and cache the snapshot for deviceInfo().
+    cachedDeviceInfo_ = DeviceManager::instance().refresh();
+
+    // Emit structured device-capability log so operators can verify the
+    // selected backend at startup.
+    DeviceManager::instance().logDeviceInfo();
+
     // Discover and load all available backends.
     autoDetect();
 
@@ -426,6 +446,10 @@ IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
 
 bool BackendRegistry::isRuntimeInitialized() const noexcept {
     return runtimeInitialized_;
+}
+
+std::vector<DeviceCapabilityInfo> BackendRegistry::deviceInfo() const noexcept {
+    return cachedDeviceInfo_;
 }
 
 } // namespace acceleration

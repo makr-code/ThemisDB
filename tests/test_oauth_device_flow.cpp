@@ -84,19 +84,19 @@ std::string makeErrorJson(const std::string& error,
 TEST(OAuthDeviceFlowTest, ConstructorRejectsEmptyEndpoint) {
     OAuthDeviceFlow::Config cfg = makeConfig();
     cfg.device_authorization_endpoint.clear();
-    EXPECT_THROW(OAuthDeviceFlow(cfg), AuthException);
+    EXPECT_THROW((void)OAuthDeviceFlow{cfg}, AuthException);
 }
 
 TEST(OAuthDeviceFlowTest, ConstructorRejectsEmptyTokenEndpoint) {
     OAuthDeviceFlow::Config cfg = makeConfig();
     cfg.token_endpoint.clear();
-    EXPECT_THROW(OAuthDeviceFlow(cfg), AuthException);
+    EXPECT_THROW((void)OAuthDeviceFlow{cfg}, AuthException);
 }
 
 TEST(OAuthDeviceFlowTest, ConstructorRejectsEmptyClientId) {
     OAuthDeviceFlow::Config cfg = makeConfig();
     cfg.client_id.clear();
-    EXPECT_THROW(OAuthDeviceFlow(cfg), AuthException);
+    EXPECT_THROW((void)OAuthDeviceFlow{cfg}, AuthException);
 }
 
 // ===========================================================================
