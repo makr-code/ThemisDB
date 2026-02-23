@@ -1421,6 +1421,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/entity_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
+    ../src/server/chunked_response_writer.cpp
     ../src/server/wal_api_handler.cpp
     ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
@@ -1576,6 +1577,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
+    ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -1589,6 +1591,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
