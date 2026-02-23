@@ -1712,6 +1712,7 @@ set(THEMIS_CORE_SOURCES
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/multi_gpu_backend.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
