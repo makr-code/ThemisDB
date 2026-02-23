@@ -410,3 +410,40 @@ TEST(BackendCapabilityContract, SelectBackendFor_AllMetrics_ReturnsCPU) {
     EXPECT_EQ(vb->type(), BackendType::CPU);
 }
 
+
+#ifdef THEMIS_ENABLE_VULKAN
+// =============================================================================
+// Vulkan registration — requires THEMIS_ENABLE_VULKAN
+// =============================================================================
+
+// When compiled with Vulkan support, BackendRegistry must register a
+// VulkanVectorBackend if a Vulkan ICD is present at runtime.
+// On CI without a GPU the isAvailable() guard silently skips registration,
+// so we only assert when the backend actually reports availability.
+TEST(BackendCapabilityContract, RegistryContainsVulkanWhenAvailable) {
+    auto& registry = BackendRegistry::instance();
+    auto* vk = registry.getBackend(BackendType::VULKAN);
+    if (vk == nullptr) {
+        GTEST_SKIP() << "No Vulkan ICD available on this system; skipping registration check";
+    }
+    EXPECT_EQ(vk->type(), BackendType::VULKAN);
+    auto caps = vk->getCapabilities();
+    EXPECT_TRUE(caps.supportsVectorOps) << "Vulkan backend must declare vector ops";
+    EXPECT_FALSE(caps.vendorName.empty()) << "Vulkan backend must populate vendorName";
+}
+
+// When Vulkan is available, getBestVectorBackend() must return Vulkan before
+// falling back to CPU (CUDA/HIP/ZLUDA are higher priority but absent on
+// non-NVIDIA CI runners, so Vulkan should win over CPU).
+TEST(BackendCapabilityContract, RegistryBestVectorBackendPrefersVulkanOverCPU) {
+    auto& registry = BackendRegistry::instance();
+    auto* vk = registry.getBackend(BackendType::VULKAN);
+    if (vk == nullptr) {
+        GTEST_SKIP() << "No Vulkan ICD available on this system";
+    }
+    auto* best = registry.getBestVectorBackend();
+    ASSERT_NE(best, nullptr);
+    EXPECT_NE(best->type(), BackendType::CPU)
+        << "When Vulkan is available, CPU must not be the best vector backend";
+}
+#endif // THEMIS_ENABLE_VULKAN

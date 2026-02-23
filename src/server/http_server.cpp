@@ -5278,6 +5278,9 @@ http::response<http::string_body> HttpServer::handleConfig(
                 {"compression_active", storage_->getCompressionType()},
                 {"db_size_bytes", storage_->getApproximateSize()}
             }},
+            {"logging", {
+                {"level", themis::utils::Logger::levelToString(themis::utils::Logger::getLevel())}
+            }},
             {"metrics", {
                 {"total_requests", request_count_.load(std::memory_order_relaxed)},
                 {"total_errors", error_count_.load(std::memory_order_relaxed)}

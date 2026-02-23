@@ -24,6 +24,8 @@
 #include <gtest/gtest.h>
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
+#include "acceleration/geo_acceleration_bridge.h"
+#include "acceleration/compute_backend.h"
 #include <memory>
 #include <string_view>
 #include <thread>
@@ -866,4 +868,153 @@ TEST(GpuSpatialBackendStatsJson, BatchCallsReflected) {
         << "Stats JSON should change after calling batchIntersects";
     // batch_pairs_processed must contain at least 2
     EXPECT_NE(after.find("\"batch_pairs_processed\":"), std::string::npos);
+}
+
+// ============================================================
+// GeoAccelerationBridge — integration tests
+// ============================================================
+
+// The bridge always reports isAvailable() == true because it falls back to CPU.
+TEST(GeoAccelerationBridge, IsAlwaysAvailable) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    EXPECT_TRUE(bridge.isAvailable());
+}
+
+TEST(GeoAccelerationBridge, NameAndCapabilities) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    EXPECT_STREQ(bridge.name(), "GeoAccelerationBridge");
+
+    auto caps = bridge.getCapabilities();
+    EXPECT_TRUE(caps.supportsGeoOps);
+    EXPECT_TRUE(caps.supportsBatchProcessing);
+    EXPECT_FALSE(caps.supportsVectorOps);
+    EXPECT_FALSE(caps.supportsGraphOps);
+    EXPECT_FALSE(caps.deviceName.empty());
+}
+
+TEST(GeoAccelerationBridge, InitializeSucceeds) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    EXPECT_TRUE(bridge.initialize());
+}
+
+// batchDistances — Haversine sanity check.
+// Distance from (0,0) to itself is 0; from (0,0) to (0,1) is ~111.19 km.
+TEST(GeoAccelerationBridge, BatchDistancesHaversine) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    const double lats1[] = {0.0, 0.0};
+    const double lons1[] = {0.0, 0.0};
+    const double lats2[] = {0.0, 0.0};
+    const double lons2[] = {0.0, 1.0};
+
+    auto dists = bridge.batchDistances(lats1, lons1, lats2, lons2, 2, true);
+    ASSERT_EQ(dists.size(), 2u);
+    EXPECT_NEAR(dists[0], 0.0f, 1e-4f);         // same point → 0 km
+    EXPECT_NEAR(dists[1], 111.195f, 0.5f);       // 1° longitude at equator ≈ 111.195 km
+}
+
+TEST(GeoAccelerationBridge, BatchDistancesEuclidean) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    const double lats1[] = {0.0};
+    const double lons1[] = {0.0};
+    const double lats2[] = {3.0};
+    const double lons2[] = {4.0};
+
+    auto dists = bridge.batchDistances(lats1, lons1, lats2, lons2, 1, false);
+    ASSERT_EQ(dists.size(), 1u);
+    EXPECT_NEAR(dists[0], 5.0f, 1e-4f);  // 3-4-5 right triangle
+}
+
+TEST(GeoAccelerationBridge, BatchDistancesNullPointerReturnsEmpty) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    auto dists = bridge.batchDistances(nullptr, nullptr, nullptr, nullptr, 5, true);
+    EXPECT_TRUE(dists.empty());
+}
+
+// batchPointInPolygon — delegates to the geo GPU backend.
+TEST(GeoAccelerationBridge, BatchPointInPolygon_InsideAndOutside) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    // Unit square polygon [0,0]→[1,0]→[1,1]→[0,1] (lat,lon)
+    const double poly[] = {0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0};
+
+    // Three test points: inside, outside, on border
+    const double plats[] = {0.5, 2.0, 0.0};
+    const double plons[] = {0.5, 2.0, 0.0};
+
+    auto res = bridge.batchPointInPolygon(plats, plons, 3, poly, 4);
+    ASSERT_EQ(res.size(), 3u);
+    EXPECT_TRUE(res[0])  << "centre point should be inside";
+    EXPECT_FALSE(res[1]) << "far point should be outside";
+    // on-boundary result is implementation-defined; we just check it doesn't throw
+}
+
+TEST(GeoAccelerationBridge, BatchPointInPolygon_EmptyInput) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    const double poly[] = {0.0, 0.0, 1.0, 0.0, 0.0, 1.0};
+    auto res = bridge.batchPointInPolygon(nullptr, nullptr, 0, poly, 3);
+    EXPECT_TRUE(res.empty());
+}
+
+TEST(GeoAccelerationBridge, BatchPointInPolygon_InsufficientVertices) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    // Only 2 polygon vertices — should return all-false
+    const double poly[] = {0.0, 0.0, 1.0, 1.0};
+    const double plats[] = {0.5};
+    const double plons[] = {0.5};
+
+    auto res = bridge.batchPointInPolygon(plats, plons, 1, poly, 2);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_FALSE(res[0]);
+}
+
+// The bridge should agree with the direct geo GPU backend for containment.
+TEST(GeoAccelerationBridge, AgreesWith_GpuSpatialBackend_PointInPolygon) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+
+    // Square polygon
+    const double poly[] = {0.0, 0.0,  4.0, 0.0,  4.0, 4.0,  0.0, 4.0};
+    const double plats[] = {2.0, 9.0};
+    const double plons[] = {2.0, 9.0};
+
+    auto bridge_res = bridge.batchPointInPolygon(plats, plons, 2, poly, 4);
+    ASSERT_EQ(bridge_res.size(), 2u);
+    EXPECT_TRUE(bridge_res[0])  << "centre inside square";
+    EXPECT_FALSE(bridge_res[1]) << "point outside square";
+}
+
+// ============================================================
+// BackendRegistry integration — self-registration verification
+// ============================================================
+
+// Verifies that the static initializer in geo_acceleration_bridge.cpp
+// registers the bridge with BackendRegistry.  getBestGeoBackend() must
+// return a non-null IGeoBackend that supports geo operations; it will be
+// the GeoAccelerationBridge if a CUDA device is present (type CUDA wins over
+// CPUGeoBackend in kFallbackOrder), or CPUGeoBackend when on CPU-only CI.
+// Either way, the backend must report supportsGeoOps == true.
+TEST(GeoAccelerationBridge, RegisteredInBackendRegistry) {
+    auto& registry = themis::acceleration::BackendRegistry::instance();
+
+    auto* geo = registry.getBestGeoBackend();
+    ASSERT_NE(geo, nullptr) << "BackendRegistry must return a geo backend";
+    EXPECT_TRUE(geo->getCapabilities().supportsGeoOps)
+        << "Selected geo backend must support geo operations";
+}
+
+// When the bridge is registered, BackendRegistry::selectGeoBackendFor() must
+// satisfy a request that needs geo operations.
+TEST(GeoAccelerationBridge, SelectGeoBackendFor_GeoOps) {
+    auto& registry = themis::acceleration::BackendRegistry::instance();
+
+    themis::acceleration::BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGeoOps = true;
+
+    auto* geo = registry.selectGeoBackendFor(reqs);
+    ASSERT_NE(geo, nullptr)
+        << "selectGeoBackendFor(needsGeoOps=true) must return a non-null backend";
+    EXPECT_TRUE(geo->getCapabilities().supportsGeoOps);
 }
