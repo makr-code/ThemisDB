@@ -94,6 +94,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
 #include "server/serverless_function_api_handler.h"
+#include "server/async_job_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -854,6 +855,9 @@ private:
 
     // Serverless function hosting – in-process user function registry + executor
     std::unique_ptr<themis::server::ServerlessFunctionApiHandler> serverless_fn_handler_;
+
+    // Async job API – long-running AQL query submission and polling
+    std::unique_ptr<themis::server::AsyncJobApiHandler> async_job_api_;
 
     // Metadata sub-components owned alongside SchemaApiHandler
     std::unique_ptr<StatisticsCollector>      stats_collector_;
