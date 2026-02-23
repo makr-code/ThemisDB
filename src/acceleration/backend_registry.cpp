@@ -55,6 +55,8 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     registerBackend(std::make_unique<CPUVectorBackend>());
     registerBackend(std::make_unique<CPUGraphBackend>());
     registerBackend(std::make_unique<CPUGeoBackend>());
+    // Note: GeoAccelerationBridge self-registers via a static initializer in
+    // geo_acceleration_bridge.cpp when the geo module (themis_geo) is loaded.
 }
 
 BackendRegistry::~BackendRegistry() {
