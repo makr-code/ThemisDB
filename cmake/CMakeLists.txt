@@ -2758,7 +2758,14 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
-        
+
+        # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
+        ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
+        ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+
+        # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/llm/mcp_tool_bridge.cpp>
+
         # RAG Enhancement: Quality Evaluation and Gap Detection
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation

@@ -88,6 +88,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"
         ".*test_ai_decision_auditor\\.cpp$"
+        ".*test_ai_orchestrator\\.cpp$"
+        ".*test_mcp_orchestrator_bridge\\.cpp$"
         ".*test_byzantine_detector\\.cpp$"
         ".*test_continuous_batch_scheduler\\.cpp$"
         ".*test_data_loader\\.cpp$"

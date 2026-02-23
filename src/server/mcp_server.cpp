@@ -33,6 +33,9 @@
 #include "utils/string_utils.h"
 #include "config/config_path_resolver.h"
 #include "version.h"
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/ai_orchestrator.h"
+#endif
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
@@ -173,6 +176,54 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
 }
+
+// ============================================================================
+// AI Orchestrator Integration
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_LLM
+void McpServer::attachOrchestrator(std::shared_ptr<themis::llm::AIOrchestrator> orchestrator) {
+    orchestrator_ = std::move(orchestrator);
+    if (!orchestrator_) {
+        spdlog::warn("MCP Server: attachOrchestrator called with null orchestrator");
+        return;
+    }
+
+    // Register llm_orchestrate: run a named pipeline mode via the orchestrator
+    registerTool("llm_orchestrate",
+        "Execute a named LLM pipeline mode (ask, edit, rag, agentic, ethics, …) "
+        "using the ThemisDB AI Orchestrator. Supports YAML-configured retrieval, "
+        "tool use, budgets and observability.",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query",   {{"type", "string"}, {"description", "The user query or instruction"}}},
+                {"mode",    {{"type", "string"}, {"description",
+                              "Mode id (ask, edit, rag, agentic, ethics, multi_agent, …). "
+                              "Omit to use the pack's default mode."}}},
+                {"request_id", {{"type", "string"}, {"description", "Optional request id for tracing"}}},
+                {"max_tokens", {{"type", "integer"}, {"description", "Override max tokens for this request"}}},
+                {"temperature", {{"type", "number"}, {"description", "Override temperature for this request"}}}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolLLMOrchestrate(args); });
+
+    // Register llm_list_modes: enumerate available orchestration modes
+    registerTool("llm_list_modes",
+        "List all LLM orchestration modes available in the loaded ModePack, "
+        "including their descriptions, retrieval settings, tool permissions and budgets.",
+        {
+            {"type", "object"},
+            {"properties", {}}
+        },
+        [this](const json& args) { return toolLLMListModes(args); });
+
+    const auto& pack = orchestrator_->modePack();
+    spdlog::info("MCP Server: AIOrchestrator attached (pack='{}' v{}, {} mode(s), default='{}')",
+                 pack.name, pack.version, pack.modes.size(), pack.default_mode);
+}
+#endif
 
 // ============================================================================
 // Tool Registration
@@ -1272,6 +1323,86 @@ json McpServer::toolDatabaseQueryWithLLM(const json& args) {
         };
     }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AI Orchestrator Tool Handlers
+// ─────────────────────────────────────────────────────────────────────────────
+
+json McpServer::toolLLMOrchestrate(const json& args) {
+    spdlog::info("MCP Tool 'llm_orchestrate' called");
+
+    if (!orchestrator_) {
+        return {{"status", "error"}, {"message", "AIOrchestrator not attached. Call attachOrchestrator() first."}};
+    }
+
+    try {
+        themis::llm::OrchestratorContext ctx;
+        ctx.query      = args.at("query").get<std::string>();
+        ctx.mode_id    = args.value("mode", "");
+        ctx.request_id = args.value("request_id", "");
+
+        if (args.contains("max_tokens")) {
+            ctx.max_tokens = args["max_tokens"].get<int>();
+        }
+        if (args.contains("temperature")) {
+            ctx.temperature = args["temperature"].get<float>();
+        }
+
+        const auto result = orchestrator_->run(ctx);
+
+        json out;
+        out["status"]          = result.success ? "success" : "error";
+        out["text"]            = result.text;
+        out["mode_id"]         = result.metadata.mode_id;
+        out["model_id"]        = result.metadata.model_id;
+        out["tokens_prompt"]   = result.metadata.tokens_prompt;
+        out["tokens_generated"]= result.metadata.tokens_generated;
+        out["retrieved_docs"]  = result.metadata.retrieved_docs;
+        out["latency_ms"]      = result.metadata.latency.total_ms;
+        if (!result.metadata.tool_calls_made.empty()) {
+            out["tool_calls_made"] = result.metadata.tool_calls_made;
+        }
+        if (!result.success) {
+            out["error"] = result.error;
+        }
+        return out;
+
+    } catch (const std::exception& e) {
+        return {{"status", "error"}, {"message", std::string("llm_orchestrate failed: ") + e.what()}};
+    }
+}
+
+json McpServer::toolLLMListModes(const json& /*args*/) {
+    spdlog::info("MCP Tool 'llm_list_modes' called");
+
+    if (!orchestrator_) {
+        return {{"status", "error"}, {"message", "AIOrchestrator not attached."}};
+    }
+
+    const auto& pack = orchestrator_->modePack();
+
+    json modes_arr = json::array();
+    for (const auto& m : pack.modes) {
+        json entry;
+        entry["id"]          = m.id;
+        entry["description"] = m.description;
+        entry["model"]       = m.model_id;
+        entry["retrieval_enabled"] = m.retrieval.enabled;
+        entry["tools_allowed"]     = m.tools_allowed;
+        entry["max_tokens"]        = m.budgets.max_tokens;
+        entry["temperature"]       = m.budgets.temperature;
+        modes_arr.push_back(std::move(entry));
+    }
+
+    return {
+        {"status",       "success"},
+        {"pack_name",    pack.name},
+        {"pack_version", pack.version},
+        {"default_mode", pack.default_mode},
+        {"modes",        std::move(modes_arr)}
+    };
+}
+
 #endif // THEMIS_ENABLE_LLM
 
 // ============================================================================
