@@ -33,7 +33,7 @@
 - [I] Prometheus-compatible metrics adapter (Issue: #1408)
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
-- [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
+- [x] Configuration-driven adapter selection (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
