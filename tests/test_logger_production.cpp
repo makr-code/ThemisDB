@@ -229,6 +229,58 @@ TEST(LoggerProduction, SetLevelDynamic) {
     Logger::shutdown();
 }
 
+TEST(LoggerProduction, GetLevelReflectsSetLevel) {
+    Logger::shutdown();
+    Logger::init(tmpPath("getlevel.log"), Logger::Level::INFO);
+
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::INFO);
+
+    Logger::setLevel(Logger::Level::DEBUG);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::DEBUG);
+
+    Logger::setLevel(Logger::Level::WARN);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::WARN);
+
+    Logger::setLevel(Logger::Level::ERROR);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::ERROR);
+
+    Logger::setLevel(Logger::Level::TRACE);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::TRACE);
+
+    Logger::setLevel(Logger::Level::CRITICAL);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::CRITICAL);
+
+    Logger::shutdown();
+}
+
+TEST(LoggerProduction, FilteredMessagesNotCounted) {
+    Logger::shutdown();
+    Logger::resetMetrics();
+    Logger::init(tmpPath("filtered.log"), Logger::Level::ERROR);
+
+    // All messages below ERROR are filtered and must not increment counters
+    Logger::trace("trace filtered");
+    Logger::debug("debug filtered");
+    Logger::info("info filtered");
+    Logger::warn("warn filtered");
+
+    auto snap = Logger::getMetrics().snapshot();
+    EXPECT_EQ(snap.trace_count, 0u);
+    EXPECT_EQ(snap.debug_count, 0u);
+    EXPECT_EQ(snap.info_count,  0u);
+    EXPECT_EQ(snap.warn_count,  0u);
+
+    // ERROR and CRITICAL should still be counted
+    Logger::error("error counted");
+    Logger::critical("critical counted");
+
+    snap = Logger::getMetrics().snapshot();
+    EXPECT_EQ(snap.error_count,    1u);
+    EXPECT_EQ(snap.critical_count, 1u);
+
+    Logger::shutdown();
+}
+
 // ============================================================================
 // Trace-context injection
 // ============================================================================
