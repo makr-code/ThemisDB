@@ -29,7 +29,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
-- [P] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
+- [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
 ## Implementation Phases
 
@@ -84,7 +84,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
-- [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
+- [x] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; LRU eviction at 32 entries; tests in `tests/test_cuda_graph_capture.cpp`
 - [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
