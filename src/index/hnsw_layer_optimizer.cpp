@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hnsw_layer_optimizer.cpp                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:19                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

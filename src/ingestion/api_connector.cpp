@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.cpp                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     355                                            ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     408                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

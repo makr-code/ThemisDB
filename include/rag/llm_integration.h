@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_integration.h                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

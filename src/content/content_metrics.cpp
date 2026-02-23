@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_metrics.cpp                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:18                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -70,6 +70,14 @@ void ContentMetrics::recordChunking(uint64_t chunk_count) {
 
 void ContentMetrics::recordEmbedding(uint64_t count) {
     total_embeddings_ += count;
+}
+
+void ContentMetrics::recordPdfExtracted() {
+    pdf_extracted_total_++;
+}
+
+void ContentMetrics::recordExtractError() {
+    extract_errors_total_++;
 }
 
 // ============================================================================
@@ -254,6 +262,10 @@ json ContentMetrics::toJson() const {
     // Errors
     j["errors"]["total_errors"] = total_errors_.load();
     j["errors"]["total_timeouts"] = total_timeouts_.load();
+    j["errors"]["extract_errors_total"] = extract_errors_total_.load();
+
+    // Format-specific extraction stats
+    j["format_stats"]["pdf_extracted_total"] = pdf_extracted_total_.load();
     
     {
         std::lock_guard<std::mutex> lock(error_mutex_);
@@ -342,6 +354,15 @@ std::string ContentMetrics::toPrometheusFormat() const {
     oss << "# HELP content_timeouts_total Total content processing timeouts\n";
     oss << "# TYPE content_timeouts_total counter\n";
     oss << "content_timeouts_total " << total_timeouts_.load() << "\n\n";
+
+    // Format-specific counters
+    oss << "# HELP content_pdf_extracted_total Total successfully extracted PDF documents\n";
+    oss << "# TYPE content_pdf_extracted_total counter\n";
+    oss << "content_pdf_extracted_total " << pdf_extracted_total_.load() << "\n\n";
+
+    oss << "# HELP content_extract_errors_total Total PDF/document extraction errors\n";
+    oss << "# TYPE content_extract_errors_total counter\n";
+    oss << "content_extract_errors_total " << extract_errors_total_.load() << "\n\n";
     
     // Cache metrics
     oss << "# HELP content_cache_requests_total Total cache requests\n";
@@ -430,6 +451,8 @@ void ContentMetrics::reset() {
     total_embeddings_ = 0;
     total_errors_ = 0;
     total_timeouts_ = 0;
+    pdf_extracted_total_ = 0;
+    extract_errors_total_ = 0;
     cache_hits_ = 0;
     cache_misses_ = 0;
     

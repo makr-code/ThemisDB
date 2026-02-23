@@ -88,6 +88,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"
         ".*test_ai_decision_auditor\\.cpp$"
+        ".*test_ai_orchestrator\\.cpp$"
+        ".*test_mcp_orchestrator_bridge\\.cpp$"
         ".*test_byzantine_detector\\.cpp$"
         ".*test_continuous_batch_scheduler\\.cpp$"
         ".*test_data_loader\\.cpp$"
@@ -162,7 +164,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_http_content\\.cpp$"
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
-        ".*test_content_audio_processor\\.cpp$"
+        ".*test_pdf_processor\\.cpp$"
     )
 endif()
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_errors.cpp                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:45                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • aac34c402  2026-02-22  Fix pre-existing test failures: include disabled sources ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

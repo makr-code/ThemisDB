@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_query_rewriter.cpp                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:21                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     211                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • aebcdeacb  2026-02-22  Improve LLM query rewriting for better recall: diversifie... ║
+    • f3592ccbe  2026-02-22  Audit fixes: restore test in MINIMAL builds, clean up unu... ║
+    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -106,13 +111,19 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
 std::string LlmQueryRewriter::buildPrompt(const std::string& query) const {
     // Build a structured prompt that asks the LLM for exactly num_rewrites
     // alternative phrasings of the query, each on a numbered line.
+    // Each rewrite should apply a distinct vocabulary strategy to maximise
+    // search recall: e.g. synonyms, technical terms, abbreviations/acronyms,
+    // broader phrasing, or domain-specific wording.
     // max_tokens and temperature are embedded as guidance for backends that
     // parse prompt metadata, and should be honored by the LlmBackend callable.
     std::ostringstream oss;
     oss << "Rewrite the following search query into "
         << config_.num_rewrites
-        << " alternative phrasings that preserve the original meaning but use "
-           "different vocabulary to improve search recall. "
+        << " alternative phrasings to maximise search recall. "
+           "Apply a different vocabulary strategy for each rewrite — for example: "
+           "synonyms, technical or domain-specific terminology, "
+           "common abbreviations or acronyms, broader or narrower phrasing, "
+           "or layman's terms. "
            "Output exactly one rewrite per line, numbered starting from 1 "
            "(e.g. \"1. rewrite here\"). "
            "Do not include any other text. "

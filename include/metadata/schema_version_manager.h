@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_version_manager.h                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:56                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     238                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     263                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9f3ff691f  2026-02-22  audit: update stubs counter, ROADMAP status, and runbook ... ║
+    • 8e85a68b6  2026-02-22  feat(metadata): implement generateMigrationScript for sch... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

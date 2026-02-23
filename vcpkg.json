@@ -36,7 +36,8 @@
     { "name": "cpp-httplib" },
     { "name": "msgpack" },
     { "name": "tl-expected" },
-    { "name": "onnxruntime" }
+    { "name": "onnxruntime" },
+    { "name": "arrow", "features": ["parquet"] }
   ],
   "features": {
     "gpu": {

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_metrics.cpp                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:16                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     290                                            ║
+    • Total Lines:     292                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fbc40c29a  2026-02-22  Fill acceptance-criteria gaps: AuthMethod enum + OAuth de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

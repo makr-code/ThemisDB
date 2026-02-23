@@ -16,7 +16,7 @@
 
 ## In Progress 🚧
 - [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
-- [x] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
+- [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
 - [I] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 
 ## Planned Features 📋
@@ -54,7 +54,7 @@
 - [I] Add configurable processor chain to enable/disable stages per content type (Issue: #1703)
 
 ### Phase 3: Advanced Format Support (Status: Planned)
-- [I] Integrate PDFium for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1693)
+- [~] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [I] Add Office document text extraction via LibreOffice headless subprocess (Issue: #1694)
 - [I] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
