@@ -543,7 +543,7 @@ TEST_F(TenantManagerTest, StripTenantPath_TenantIdOnly) {
 TEST_F(TenantManagerTest, StripTenantPath_CustomPrefix) {
     auto& tm = TenantManager::instance();
 
-    // Verify behaviour with a non-default tenant path prefix
+    // Verify behavior with a non-default tenant path prefix
     TenantManager::Config cfg = tm.getConfig();
     cfg.tenant_path_prefix = "/ns/";
     cfg.allow_default_tenant = true;
@@ -557,5 +557,45 @@ TEST_F(TenantManagerTest, StripTenantPath_CustomPrefix) {
     restore.allow_default_tenant = true;
     restore.default_tenant_id = "default";
     tm.configure(restore);
+}
+
+TEST_F(TenantManagerTest, RewriteTenantPath_WithPrefix) {
+    auto& tm = TenantManager::instance();
+
+    auto result = tm.rewriteTenantPath("/tenants/acme-corp/documents/123");
+
+    EXPECT_TRUE(result.rewritten);
+    EXPECT_EQ(result.effective_path, "/documents/123");
+    EXPECT_EQ(result.tenant_id, "acme-corp");
+}
+
+TEST_F(TenantManagerTest, RewriteTenantPath_WithoutPrefix) {
+    auto& tm = TenantManager::instance();
+
+    auto result = tm.rewriteTenantPath("/api/v1/entities/foo");
+
+    EXPECT_FALSE(result.rewritten);
+    EXPECT_EQ(result.effective_path, "/api/v1/entities/foo");
+    EXPECT_TRUE(result.tenant_id.empty());
+}
+
+TEST_F(TenantManagerTest, RewriteTenantPath_TenantIdOnly) {
+    auto& tm = TenantManager::instance();
+
+    auto result = tm.rewriteTenantPath("/tenants/acme-corp");
+
+    EXPECT_TRUE(result.rewritten);
+    EXPECT_EQ(result.effective_path, "/");
+    EXPECT_EQ(result.tenant_id, "acme-corp");
+}
+
+TEST_F(TenantManagerTest, RewriteTenantPath_WithQueryString) {
+    auto& tm = TenantManager::instance();
+
+    auto result = tm.rewriteTenantPath("/tenants/t1/search?q=foo&limit=10");
+
+    EXPECT_TRUE(result.rewritten);
+    EXPECT_EQ(result.effective_path, "/search?q=foo&limit=10");
+    EXPECT_EQ(result.tenant_id, "t1");
 }
 

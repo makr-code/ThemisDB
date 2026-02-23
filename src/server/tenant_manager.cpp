@@ -232,6 +232,25 @@ std::string TenantManager::stripTenantPath(std::string_view path) const {
     return "/";
 }
 
+TenantManager::PathRewriteResult TenantManager::rewriteTenantPath(
+    std::string_view path) const {
+    const std::string pathStr(path);
+    if (pathStr.rfind(config_.tenant_path_prefix, 0) != 0) {
+        return {pathStr, "", false};  // Not a tenant-prefixed path
+    }
+    const size_t id_start = config_.tenant_path_prefix.size();
+    const size_t slash_pos = pathStr.find('/', id_start);
+    const size_t id_end = (slash_pos != std::string::npos)
+                          ? slash_pos : pathStr.size();
+    if (id_end <= id_start) {
+        return {pathStr, "", false};  // No tenant ID segment found
+    }
+    const std::string tenant_id = pathStr.substr(id_start, id_end - id_start);
+    const std::string effective_path = (slash_pos != std::string::npos)
+                                       ? pathStr.substr(slash_pos) : "/";
+    return {effective_path, tenant_id, true};
+}
+
 std::optional<TenantContext> TenantManager::resolveContext(
     const std::unordered_map<std::string, std::string>& headers,
     std::string_view path,

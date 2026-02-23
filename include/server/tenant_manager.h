@@ -217,6 +217,22 @@ public:
     // Returns the path unchanged when it does not start with the tenant prefix.
     std::string stripTenantPath(std::string_view path) const;
 
+    // Combined path-rewrite result for namespace routing.
+    // Returned by rewriteTenantPath() to convey both the effective path and
+    // the tenant ID that was embedded in the original URL.
+    struct PathRewriteResult {
+        std::string effective_path; // stripped path, or original path if no prefix
+        std::string tenant_id;      // tenant ID extracted from path, or empty string
+        bool rewritten = false;     // true when the path contained a tenant prefix
+    };
+
+    // Strips the tenant path prefix (if present) and extracts the tenant ID.
+    // Combines extractTenantId-from-path with stripTenantPath in a single pass
+    // to avoid repeated prefix scans in session-layer code.
+    // Example: "/tenants/acme-corp/documents/123"
+    //   -> { effective_path="/documents/123", tenant_id="acme-corp", rewritten=true }
+    PathRewriteResult rewriteTenantPath(std::string_view path) const;
+
     // Resource quota enforcement
     struct QuotaCheckResult {
         bool allowed = true;
