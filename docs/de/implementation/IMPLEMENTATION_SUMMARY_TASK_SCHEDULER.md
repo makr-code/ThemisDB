@@ -278,8 +278,7 @@ task.trigger_logic = ScheduledTask::TriggerLogic::OR;
 2. AQL condition evaluation for CDC filters
 3. Advanced calendar operations (month boundaries)
 4. Distributed task coordination
-5. Task dependencies and workflows
-6. Real-time task monitoring dashboard
+5. Real-time task monitoring dashboard
 
 ### Extension Points
 - Additional trigger types easily added
@@ -287,11 +286,54 @@ task.trigger_logic = ScheduledTask::TriggerLogic::OR;
 - Condition evaluator is pluggable
 - Priority queue can be enhanced
 
+## ✅ Phase 8: Task Dependency DAG Execution (Issue #2453)
+
+Added in v1.7.0.  Resolves the "Task dependency DAG execution" roadmap item (Phase 2).
+
+### New API
+
+**`ScheduledTask::dependencies`** — list of prerequisite task IDs that must complete successfully before this task is dispatched.
+
+```cpp
+ScheduledTask b;
+b.id = "step_b";
+b.dependencies = {"step_a"};  // step_b only runs after step_a succeeds
+```
+
+**`TaskScheduler::executeDAG(task_ids)`** — execute a set of registered tasks in dependency order.
+
+```cpp
+auto result = scheduler.executeDAG({"step_a", "step_b", "step_c"});
+// result.succeeded  — map<task_id, json_result>
+// result.failed     — map<task_id, error_message>
+// result.skipped    — vector<task_id>  (deps of failed tasks)
+```
+
+### Behaviour
+- Topological sort (Kahn's algorithm) determines execution order.
+- Tasks with no unsatisfied dependencies run **in parallel** within each wave.
+- If a task fails, all transitive dependents are **skipped** (cascading failure guard).
+- A cycle in the dependency graph throws `std::runtime_error`.
+- An unknown task ID throws `std::invalid_argument`.
+- Dependencies referencing tasks outside the requested set are silently ignored (subset execution).
+- The `dependencies` list is **persisted** to disk (`tasks.json`) and fully restored on reload.
+
+### Tests added (`test_task_scheduler.cpp`)
+- `DAG_EmptySetReturnsEmptyResult`
+- `DAG_UnknownTaskIdThrows`
+- `DAG_SingleTask`
+- `DAG_LinearChainRespectsDependencyOrder`
+- `DAG_ParallelIndependentTasksAllSucceed`
+- `DAG_CascadingFailureSkipsDependents`
+- `DAG_CycleDetectionThrows`
+- `DAG_DependencyOutsideSetIsIgnored`
+- `DAG_DependenciesPersistedAndRestoredFromDisk`
+
 ## Conclusion
 
-This implementation successfully extends ThemisDB's TaskScheduler with production-ready cron and CDC event trigger capabilities. The solution is:
+This implementation successfully extends ThemisDB's TaskScheduler with production-ready cron and CDC event trigger capabilities, as well as task dependency DAG execution. The solution is:
 
-- ✅ **Complete**: All requirements implemented
+- ✅ **Complete**: All requirements implemented (including DAG execution, Issue #2453)
 - ✅ **Tested**: 80+ test cases with high coverage
 - ✅ **Documented**: Comprehensive guides and examples
 - ✅ **Secure**: Injection prevention, validation, rate limiting

@@ -1548,6 +1548,9 @@ void TaskScheduler::saveTasks() {
         } else {
             task_json["max_retries"] = task->max_retries;
         }
+
+        // Save dependency list
+        task_json["dependencies"] = task->dependencies;
         
         tasks_json.push_back(task_json);
     }
@@ -1659,6 +1662,11 @@ void TaskScheduler::loadTasks() {
                 task.retry_policy = rp;
             } else {
                 task.max_retries = task_json.value("max_retries", size_t{3});
+            }
+
+            // Restore dependency list (backward-compatible: absent = no deps)
+            if (task_json.contains("dependencies")) {
+                task.dependencies = task_json["dependencies"].get<std::vector<std::string>>();
             }
             
             registerTask(task);

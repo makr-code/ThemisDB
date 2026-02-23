@@ -1044,3 +1044,34 @@ TEST_F(TaskSchedulerTest, DAG_DependencyOutsideSetIsIgnored) {
     EXPECT_TRUE(res.failed.empty());
     EXPECT_TRUE(res.skipped.empty());
 }
+
+TEST_F(TaskSchedulerTest, DAG_DependenciesPersistedAndRestoredFromDisk) {
+    // Verify that the `dependencies` field survives a save/load round-trip.
+    auto persist_path = db_path_ + "/persist_dag_test";
+    std::filesystem::create_directories(persist_path);
+
+    TaskScheduler::Config pcfg;
+    pcfg.persist_tasks = true;
+    pcfg.persistence_path = persist_path;
+    pcfg.enable_audit_logging = false;
+    pcfg.enable_anomaly_detection = false;
+    auto sched = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+
+    ScheduledTask task;
+    task.id = "persist_dep_task";
+    task.name = task.id;
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.dependencies = {"dep_a", "dep_b"};
+    sched->registerTask(task);
+    sched.reset();  // destructor triggers saveTasks()
+
+    // Create a fresh scheduler that loads from disk
+    auto sched2 = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+    auto loaded = sched2->getTask("persist_dep_task");
+    ASSERT_NE(loaded, nullptr);
+    ASSERT_EQ(loaded->dependencies.size(), 2u);
+    EXPECT_EQ(loaded->dependencies[0], "dep_a");
+    EXPECT_EQ(loaded->dependencies[1], "dep_b");
+}
