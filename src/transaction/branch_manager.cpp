@@ -381,6 +381,7 @@ BranchManager::MergeResult BranchManager::mergeBranches(
         result.success = true;
         result.message = "Fast-forward merge completed";
         result.merged_sequence = source_seq;
+        recordMergeStatus(source_branch, target_branch);
         return result;
     }
     
@@ -402,6 +403,10 @@ BranchManager::MergeResult BranchManager::mergeBranches(
             // Extract conflict keys
             for (const auto& conflict : merge_result.conflicts) {
                 result.conflicts.push_back(conflict.key);
+            }
+
+            if (result.success) {
+                recordMergeStatus(source_branch, target_branch);
             }
             
             return result;
@@ -513,6 +518,8 @@ MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
     auto result = merge_engine_->merge(base_seq, source_seq, target_seq, opts);
 
     if (result.success) {
+        recordMergeStatus(source_branch, target_branch);
+
         auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
         BranchHistoryEntry hist;
@@ -706,10 +713,23 @@ bool BranchManager::isBranchMerged(
     const std::string& branch_name,
     const std::string& target_branch
 ) const {
-    // Simplified: for now, assume branches are not merged unless explicitly tracked
-    // A full implementation would check if all changes in branch_name
-    // are also in target_branch via changefeed diff
-    return false;
+    std::string key = std::string(BRANCH_MERGED_PREFIX) + branch_name + ":" + target_branch;
+    return db_.get(key).has_value();
+}
+
+// Persist merge status
+void BranchManager::recordMergeStatus(
+    const std::string& source_branch,
+    const std::string& target_branch
+) {
+    std::string key = std::string(BRANCH_MERGED_PREFIX) + source_branch + ":" + target_branch;
+    // Value is a single sentinel byte; the key's presence is all we care about.
+    // Write errors are intentionally swallowed – this is a best-effort audit marker
+    // and should not abort the calling merge operation.
+    std::vector<uint8_t> sentinel = {1};
+    try {
+        db_.put(key, sentinel);
+    } catch (...) {}
 }
 
 // ---- Phase 5: Branch History ----

@@ -380,10 +380,11 @@ private:
     BranchGCPolicy gc_policy_;
 
     // Key prefixes for branch storage in RocksDB
-    static constexpr const char* BRANCH_PREFIX   = "branch:";
-    static constexpr const char* BRANCH_HIST_PREFIX = "branch_hist:";
-    static constexpr const char* ACTIVE_BRANCH_KEY = "branch:_active";
-    static constexpr const char* DEFAULT_BRANCH  = "main";
+    static constexpr const char* BRANCH_PREFIX        = "branch:";
+    static constexpr const char* BRANCH_HIST_PREFIX   = "branch_hist:";
+    static constexpr const char* BRANCH_MERGED_PREFIX = "branch_merged:";
+    static constexpr const char* ACTIVE_BRANCH_KEY    = "branch:_active";
+    static constexpr const char* DEFAULT_BRANCH       = "main";
     
     /**
      * @brief Make RocksDB key for a branch
@@ -424,6 +425,12 @@ private:
      * @brief Check if branch is fully merged into another branch
      */
     bool isBranchMerged(const std::string& branch_name, const std::string& target_branch) const;
+
+    /**
+     * @brief Persist a marker indicating source_branch was merged into target_branch.
+     * Must be called after a successful merge to enable isBranchMerged() checks.
+     */
+    void recordMergeStatus(const std::string& source_branch, const std::string& target_branch);
 
     /**
      * @brief Append a history entry for @p branch_name.

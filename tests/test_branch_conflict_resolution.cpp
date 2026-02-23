@@ -340,3 +340,86 @@ TEST_F(BranchConflictResolutionTest, PreviewResultHasCorrectSequences) {
     EXPECT_EQ(result.target_sequence, seq2);
     EXPECT_EQ(result.base_sequence, seq1); // min(seq1, seq2) = seq1
 }
+
+// ── isBranchMerged: not merged before any merge ───────────────────────────────
+
+TEST_F(BranchConflictResolutionTest, BranchNotMergedInitially) {
+    uint64_t seq1 = recordPut("m:1", "a");
+    createBranchAt("src-merge-init", seq1);
+
+    // Before any merge: deleteBranch without force must fail
+    EXPECT_FALSE(branch_manager_->deleteBranch("src-merge-init", false));
+    EXPECT_TRUE(branch_manager_->branchExists("src-merge-init"));
+}
+
+// ── isBranchMerged: resolveAndMergeBranches records merge status ──────────────
+
+TEST_F(BranchConflictResolutionTest, BranchIsMarkedMergedAfterResolveAndMerge) {
+    uint64_t seq1 = recordPut("m:2", "base");
+    createBranchAt("src-after-resolve", seq1);
+
+    uint64_t seq2 = recordPut("m:3", "other");
+    createBranchAt("tgt-after-resolve", seq2);
+
+    // No conflict path: source_diff(seq1→seq1) is empty
+    auto result = branch_manager_->resolveAndMergeBranches(
+        "src-after-resolve", "tgt-after-resolve", {});
+    ASSERT_TRUE(result.success);
+
+    // Now deleteBranch without force should succeed because merge is recorded
+    EXPECT_TRUE(branch_manager_->deleteBranch("src-after-resolve", false));
+    EXPECT_FALSE(branch_manager_->branchExists("src-after-resolve"));
+}
+
+// ── isBranchMerged: fast-forward mergeBranches records merge status ───────────
+
+TEST_F(BranchConflictResolutionTest, BranchIsMarkedMergedAfterFastForwardMerge) {
+    // For fast-forward: source_seq >= target_seq
+    // Create target first (smaller seq), then source (larger seq)
+    uint64_t seq1 = recordPut("m:4", "target-older");
+    createBranchAt("tgt-ff-merge", seq1);
+
+    uint64_t seq2 = recordPut("m:5", "source-newer"); // seq2 > seq1
+    createBranchAt("src-ff-merge", seq2);
+
+    // Fast-forward: source_seq(seq2) >= target_seq(seq1) → fast-forward path
+    BranchManager::MergeOptions opts;
+    opts.fast_forward    = true;
+    opts.abort_on_conflict = false;
+
+    auto result = branch_manager_->mergeBranches("src-ff-merge", "tgt-ff-merge", opts);
+    ASSERT_TRUE(result.success);
+
+    // Branch should now be deletable without force
+    EXPECT_TRUE(branch_manager_->deleteBranch("src-ff-merge", false));
+}
+
+// ── pruneMergedBranches: only removes merged branches ────────────────────────
+
+TEST_F(BranchConflictResolutionTest, PruneMergedBranchesOnlyRemovesMerged) {
+    uint64_t seq1 = recordPut("p:1", "base");
+    createBranchAt("src-prune-merged", seq1);
+    createBranchAt("src-prune-unmerged", seq1);
+
+    // pruneMergedBranches checks isBranchMerged(branch, "main").
+    // Merge src-prune-merged into main (DEFAULT_BRANCH).
+    BranchManager::MergeOptions opts;
+    opts.fast_forward    = false;
+    opts.abort_on_conflict = false;
+    auto merge_result = branch_manager_->mergeBranches("src-prune-merged", "main", opts);
+    ASSERT_TRUE(merge_result.success);
+
+    // GC policy: no age limit, only prune merged branches
+    BranchManager::BranchGCPolicy policy;
+    policy.max_age_ms    = 0;   // no age limit
+    policy.only_merged   = true;
+    policy.protect_default = true;
+    branch_manager_->setBranchGCPolicy(policy);
+
+    size_t pruned = branch_manager_->pruneMergedBranches();
+
+    EXPECT_EQ(pruned, 1u);
+    EXPECT_FALSE(branch_manager_->branchExists("src-prune-merged"));
+    EXPECT_TRUE(branch_manager_->branchExists("src-prune-unmerged"));
+    EXPECT_TRUE(branch_manager_->branchExists("main"));
+}
