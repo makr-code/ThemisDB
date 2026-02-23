@@ -767,7 +767,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     }
 
     DagExecutionResult result;
-    std::set<std::string> failed_or_skipped;  // Tasks we should NOT execute
+    std::set<std::string> failed_or_skipped;    // Tasks we should NOT execute (dep failure)
+    std::set<std::string> condition_skipped_set; // Tasks skipped by branch_condition
 
     // Execute wave by wave: gather tasks whose dependencies are all done,
     // run them in parallel, then repeat.
@@ -781,7 +782,20 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
             if (processed.count(id)) {
                 continue;
             }
-            // Check if it should be skipped
+            // Check if it should be condition-skipped
+            if (condition_skipped_set.count(id)) {
+                result.condition_skipped.push_back(id);
+                processed.insert(id);
+                // Propagate condition-skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        condition_skipped_set.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if it should be skipped due to a failed dep
             if (failed_or_skipped.count(id)) {
                 result.skipped.push_back(id);
                 processed.insert(id);
@@ -803,6 +817,32 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                 }
             }
             if (deps_ready) {
+                // Evaluate branch_condition if set
+                auto& task = task_map[id];
+                if (task->branch_condition) {
+                    // Build dep_results map from succeeded dependency results
+                    std::map<std::string, nlohmann::json> dep_results;
+                    for (const auto& dep : adj[id]) {
+                        auto it = result.succeeded.find(dep);
+                        if (it != result.succeeded.end()) {
+                            dep_results[dep] = it->second;
+                        }
+                    }
+                    if (!task->branch_condition(dep_results)) {
+                        // Condition not met – condition-skip this task
+                        result.condition_skipped.push_back(id);
+                        processed.insert(id);
+                        condition_skipped_set.insert(id);
+                        // Propagate condition-skip to direct dependents
+                        auto dit = dependents.find(id);
+                        if (dit != dependents.end()) {
+                            for (const auto& dep : dit->second) {
+                                condition_skipped_set.insert(dep);
+                            }
+                        }
+                        continue;
+                    }
+                }
                 wave.push_back(id);
             }
         }

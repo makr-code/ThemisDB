@@ -207,6 +207,24 @@ struct ScheduledTask {
     // Hooks for notifications (optional)
     std::function<void(const std::string& task_id, const nlohmann::json& result)> on_success;
     std::function<void(const std::string& task_id, const std::string& error)> on_failure;
+
+    /**
+     * @brief Optional predicate for conditional branching in DAG execution.
+     *
+     * When set, this function is evaluated AFTER all dependency tasks complete
+     * successfully and BEFORE this task is dispatched for execution.
+     *
+     * @param dep_results Map of { dependency_task_id -> result JSON } for every
+     *                    dependency that succeeded in the current DAG execution.
+     * @return true  – execute this task normally.
+     * @return false – skip this task (conditional skip); the task appears in
+     *                 DagExecutionResult::condition_skipped and its dependents
+     *                 are also condition-skipped transitively.
+     *
+     * When not set the task executes whenever its dependencies complete
+     * successfully (existing behaviour, fully backward-compatible).
+     */
+    std::function<bool(const std::map<std::string, nlohmann::json>& dep_results)> branch_condition;
 };
 
 /**
@@ -364,6 +382,7 @@ public:
         std::map<std::string, nlohmann::json> succeeded;  // task_id -> result
         std::map<std::string, std::string>    failed;     // task_id -> error message
         std::vector<std::string>              skipped;    // task_ids skipped due to failed deps
+        std::vector<std::string>              condition_skipped;  // task_ids skipped because branch_condition returned false (or a transitive dep was condition-skipped)
     };
 
     /**

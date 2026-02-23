@@ -36,7 +36,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 
 ### Long-term (6-12 months)
 - [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
-- [!] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
 - [!] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
 - [!] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
@@ -84,7 +84,6 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 
 ## Known Issues & Limitations
 - Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.
-- DAG execution: conditional execution based on task results is not yet implemented (planned for a future phase).
 
 ## Breaking Changes
 - `TaskScheduler` public API is stable from v1.x.
