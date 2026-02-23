@@ -49,7 +49,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: In Progress)
 - [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
-- [I] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
+- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
@@ -69,7 +69,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] API stability guaranteed (Issue: #1514)
 
 ## Known Issues & Limitations
-- WebSocket/streaming endpoints are not yet available
 - OpenAPI specification may be incomplete for newer endpoints
 
 ## Breaking Changes

@@ -43,6 +43,7 @@ WebSocketSession::WebSocketSession(tcp::socket socket, HttpServer* server)
     , active_(false)
     , is_tls_(false)
     , writing_(false)
+    , close_due_to_backpressure_(false)
     , cdc_subscribed_(false)
     , cdc_from_sequence_(0)
     , cdc_last_sent_sequence_(0)
@@ -61,6 +62,7 @@ WebSocketSession::WebSocketSession(beast::ssl_stream<beast::tcp_stream> stream, 
     , active_(false)
     , is_tls_(true)
     , writing_(false)
+    , close_due_to_backpressure_(false)
     , cdc_subscribed_(false)
     , cdc_from_sequence_(0)
     , cdc_last_sent_sequence_(0)
@@ -317,6 +319,18 @@ void WebSocketSession::processMessage(const std::string& message) {
 void WebSocketSession::send(const std::string& message) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     
+    // Back-pressure protection: close with 1011 (Internal Error) when the
+    // outbound queue is full so that a slow or stalled client cannot exhaust
+    // server memory.  The close frame itself is sent by onWrite() once the
+    // in-flight write drains (writing_ is always true when the queue is full).
+    if (write_queue_.size() >= kMaxQueueDepth) {
+        THEMIS_WARN("WebSocket session {} queue depth {} >= {}: closing with 1011",
+                    session_id_, write_queue_.size(), kMaxQueueDepth);
+        active_ = false;
+        close_due_to_backpressure_ = true;
+        return;
+    }
+
     write_queue_.push({message, /*is_binary=*/false});
     
     if (!writing_) {
@@ -341,6 +355,15 @@ void WebSocketSession::send(const std::string& message) {
 void WebSocketSession::sendBinary(const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     
+    // Back-pressure: same limit as send()
+    if (write_queue_.size() >= kMaxQueueDepth) {
+        THEMIS_WARN("WebSocket session {} binary queue depth {} >= {}: closing with 1011",
+                    session_id_, write_queue_.size(), kMaxQueueDepth);
+        active_ = false;
+        close_due_to_backpressure_ = true;
+        return;
+    }
+
     // Store as binary entry so onWrite uses the correct frame type
     write_queue_.push({std::string(data.begin(), data.end()), /*is_binary=*/true});
     
@@ -396,6 +419,20 @@ void WebSocketSession::onWrite(beast::error_code ec, std::size_t bytes_transferr
         }
     } else {
         writing_ = false;
+
+        // If the queue was closed due to back-pressure, send the 1011 close
+        // frame now that all pending writes have drained.
+        if (close_due_to_backpressure_) {
+            close_due_to_backpressure_ = false;
+            beast::error_code close_ec;
+            if (is_tls_) {
+                ws_tls_->close(websocket::close_code::internal_error, close_ec);
+            } else {
+                ws_plain_->close(websocket::close_code::internal_error, close_ec);
+            }
+            THEMIS_INFO("WebSocket session {} closed with 1011 after back-pressure",
+                        session_id_);
+        }
     }
 }
 

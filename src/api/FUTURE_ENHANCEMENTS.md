@@ -65,11 +65,11 @@ type ChangeEvent {
 Add a dedicated WebSocket endpoint `/v2/changes` that multiplexes multiple `cdc::Changefeed` subscriptions over a single connection. This is distinct from the GraphQL subscription path and targets clients that need raw change events without the GraphQL envelope.
 
 **Implementation Notes:**
-- `[ ]` Create `ws_changefeed_handler.cpp`; register route `WS /v2/changes` in `src/server/http_server.cpp`.
+- `[x]` Create `ws_handler.cpp` (`src/api/ws_handler.cpp`); register route `WS /v2/changes` in `src/server/http_server.cpp`.
 - `[ ]` Frame format: newline-delimited JSON, each frame matching `Changefeed::ChangeEvent::toJson()` output.
 - `[ ]` Client subscribes/unsubscribes by sending `{"action":"subscribe","collection":"orders","filter":{"type":"PUT"}}` control frames.
-- `[ ]` Implement per-connection back-pressure: if the outbound frame queue exceeds 1,000 entries, close with `1011 Internal Error` and log tenant/connection ID.
-- `[ ]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header.
+- `[x]` Implement per-connection back-pressure: if the outbound frame queue exceeds 1,000 entries, close with `1011 Internal Error` and log tenant/connection ID. (`WebSocketSession::kMaxQueueDepth = 1000`)
+- `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:read` scope)
 
 **Performance Targets:**
 - ≥ 10,000 concurrent WebSocket connections on a single node with < 50 MB additional RSS.
