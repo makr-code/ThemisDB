@@ -54,13 +54,13 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
-- [I] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392)
-- [I] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393)
+- [P] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
+- [P] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
-- [I] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395)
-- [I] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396)
+- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — covered in `docs/acceleration/capability_negotiation.md`
+- [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
 
 ## Implementation Phases
@@ -90,10 +90,10 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
 - [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
-- [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
-- [P] Security audit for backend plugin loading and runtime probes (Issue: #1401) — Thread-safe `PluginSecurityAuditor` (mutex-guarded events + snapshot API); `validatePluginPath()` static helper for path-traversal prevention; logger integration via THEMIS macros; symlink-escape guard in `loadPluginsFromDirectory`; audit tests in `tests/test_plugin_security_audit.cpp`
-- [I] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
-- [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
+- [P] Performance benchmarks with regression thresholds in CI (Issue: #1400)
+- [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
+- [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
+- [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
 - CUDA and Vulkan backends are currently stub/scaffolding implementations

@@ -27,6 +27,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
@@ -88,6 +89,18 @@ public:
         uint64_t cacheDefaultTTL = 0; // 0 = no TTL
         /// Which cache adapter to use: "inmemory" (default) or "noop".
         std::string cacheAdapter = "inmemory";
+
+        // Circuit breaker config
+        /// Which circuit breaker adapter to use: "default" or "noop".
+        std::string circuitBreakerAdapter = "default";
+        /// Failure threshold before opening the circuit.
+        size_t circuitBreakerFailureThreshold = 5;
+        /// Seconds the circuit stays OPEN before probing recovery.
+        std::chrono::seconds circuitBreakerTimeout = std::chrono::seconds(30);
+        /// Consecutive successes in HALF_OPEN required to close the circuit.
+        size_t circuitBreakerSuccessThreshold = 2;
+        /// Rolling window for counting failures.
+        std::chrono::seconds circuitBreakerFailureWindow = std::chrono::seconds(60);
     };
 
     /**
@@ -106,7 +119,8 @@ public:
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
-        std::unique_ptr<ICache> cache
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<ICircuitBreaker> circuit_breaker = nullptr
     );
 
     /**
@@ -130,12 +144,14 @@ public:
     ITracer& tracer() { return *tracer_; }
     IMetrics& metrics() { return *metrics_; }
     ICache& cache() { return *cache_; }
+    ICircuitBreaker& circuitBreaker() { return *circuit_breaker_; }
     IFeatureFlags& featureFlags() { return *featureFlags_; }
 
     const ILogger& logger() const { return *logger_; }
     const ITracer& tracer() const { return *tracer_; }
     const IMetrics& metrics() const { return *metrics_; }
     const ICache& cache() const { return *cache_; }
+    const ICircuitBreaker& circuitBreaker() const { return *circuit_breaker_; }
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
 
     // Convenience methods for common operations
@@ -210,6 +226,7 @@ public:
         tracer_->flush();
         metrics_->flush();
         cache_->flush();
+        circuit_breaker_->flush();
         featureFlags_->flush();
     }
 
@@ -236,6 +253,7 @@ public:
         tracer_->shutdown();
         metrics_->shutdown();
         cache_->shutdown();
+        circuit_breaker_->shutdown();
         featureFlags_->shutdown();
         logger_->shutdown();
     }
@@ -261,6 +279,7 @@ public:
             tracer_->isHealthy(),
             metrics_->isHealthy(),
             cache_->isHealthy(),
+            circuit_breaker_->isHealthy()
             featureFlags_->isHealthy()
         };
     }
@@ -290,17 +309,20 @@ private:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
+        std::unique_ptr<ICircuitBreaker> circuit_breaker
         std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
         cache_(std::move(cache)),
+        circuit_breaker_(std::move(circuit_breaker)) {}
         featureFlags_(std::move(featureFlags)) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
     std::unique_ptr<IMetrics> metrics_;
     std::unique_ptr<ICache> cache_;
+    std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
 };
 

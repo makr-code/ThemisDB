@@ -1395,10 +1395,11 @@ json MonitoringApiHandler::buildConcernsJson(
 {
     // Build a per-concern JSON object and update the caller's `ok` flag.
     json result = {
-        {"logger",  {{"ok", status.logger.ok},  {"message", status.logger.message}}},
-        {"tracer",  {{"ok", status.tracer.ok},  {"message", status.tracer.message}}},
-        {"metrics", {{"ok", status.metrics.ok}, {"message", status.metrics.message}}},
-        {"cache",   {{"ok", status.cache.ok},   {"message", status.cache.message}}}
+        {"logger",          {{"ok", status.logger.ok},          {"message", status.logger.message}}},
+        {"tracer",          {{"ok", status.tracer.ok},          {"message", status.tracer.message}}},
+        {"metrics",         {{"ok", status.metrics.ok},         {"message", status.metrics.message}}},
+        {"cache",           {{"ok", status.cache.ok},           {"message", status.cache.message}}},
+        {"circuit_breaker", {{"ok", status.circuit_breaker.ok}, {"message", status.circuit_breaker.message}}}
     };
     if (!status.isHealthy()) {
         ok = false;
