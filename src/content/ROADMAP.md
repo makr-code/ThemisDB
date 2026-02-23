@@ -15,7 +15,7 @@
 - [x] Content type detection for routing to specialized processors
 
 ## In Progress 🚧
-- [~] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
+- [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
 - [I] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 
@@ -70,7 +70,7 @@
 
 ## Known Issues & Limitations
 - PDF and Office document extraction not yet implemented
-- Video and audio processing not yet available
+- Video processing not yet available
 - OCR is not yet integrated
 - Large file streaming ingestion may buffer entire file in memory
 
