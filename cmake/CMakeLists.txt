@@ -1719,6 +1719,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/acceleration/device_manager.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
