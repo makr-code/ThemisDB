@@ -68,6 +68,7 @@ using json = nlohmann::json;
  * - POST /api/v1/voice/synthesize - Synthesize text to speech
  * - POST /api/v1/voice/command - Process voice command
  * - POST /api/v1/voice/command/stream - Process voice command with streaming STT (segments + TTS)
+ * - POST /api/v1/voice/wake-word/detect - Scan audio chunk for registered wake words
  * - POST /api/v1/voice/call/record - Record and transcribe phone call
  * - POST /api/v1/voice/meeting/protocol - Generate meeting protocol
  * - GET  /api/v1/voice/sessions/{id} - Get session information
@@ -115,6 +116,9 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleStreamCommand(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleWakeWordDetect(
         const http::request<http::string_body>& req);
     
     // Phone call endpoints
