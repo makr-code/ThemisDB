@@ -170,12 +170,8 @@ QueryResultSchema inferResultSchema(const nlohmann::json& rows,
     for (const auto& row : rows) {
         if (!row.is_object()) continue;
 
-        // Track which fields appear in this row
-        std::unordered_set<std::string> row_fields;
-
         for (auto it = row.begin(); it != row.end(); ++it) {
             const std::string& fname = it.key();
-            row_fields.insert(fname);
 
             if (seen_fields.find(fname) == seen_fields.end()) {
                 seen_fields.insert(fname);
