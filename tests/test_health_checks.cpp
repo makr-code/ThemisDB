@@ -297,6 +297,7 @@ TEST_F(ConcernsLivenessTest, LivenessIncludesConcernsSectionWhenContextProvided)
     EXPECT_TRUE(concerns.contains("tracer"));
     EXPECT_TRUE(concerns.contains("metrics"));
     EXPECT_TRUE(concerns.contains("cache"));
+    EXPECT_TRUE(concerns.contains("secrets"));
 }
 
 TEST_F(ConcernsLivenessTest, LivenessReturns200WhenAllConcernsHealthy) {
@@ -313,6 +314,7 @@ TEST_F(ConcernsLivenessTest, LivenessReturns200WhenAllConcernsHealthy) {
     EXPECT_TRUE(body["checks"]["concerns"]["tracer"]["ok"].get<bool>());
     EXPECT_TRUE(body["checks"]["concerns"]["metrics"]["ok"].get<bool>());
     EXPECT_TRUE(body["checks"]["concerns"]["cache"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["secrets"]["ok"].get<bool>());
 }
 
 TEST_F(ConcernsLivenessTest, LivenessReturns503WhenConcernUnhealthy) {
@@ -368,6 +370,7 @@ TEST_F(ConcernsReadinessTest, ReadinessIncludesConcernsSectionWhenContextProvide
     EXPECT_TRUE(concerns.contains("tracer"));
     EXPECT_TRUE(concerns.contains("metrics"));
     EXPECT_TRUE(concerns.contains("cache"));
+    EXPECT_TRUE(concerns.contains("secrets"));
 }
 
 TEST_F(ConcernsReadinessTest, ReadinessReturns200WhenAllConcernsReady) {
