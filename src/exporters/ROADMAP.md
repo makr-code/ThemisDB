@@ -14,7 +14,8 @@
 - [x] Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 
 ## In Progress 🚧
-- [I] Hugging Face Datasets-compatible export format (Target: Q2 2026) (Issue: #1711)
+- [I] Parquet export for training datasets (Target: Q2 2026) (Issue: #1710)
+- [P] Hugging Face Datasets-compatible export format (Target: Q2 2026) (Issue: #1711)
 - [I] Streaming export for large collections (Target: Q3 2026) (Issue: #1712)
 
 ## Planned Features 📋
