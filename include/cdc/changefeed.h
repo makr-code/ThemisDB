@@ -36,6 +36,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <chrono>
+#include <set>
 #include <nlohmann/json.hpp>
 
 // Forward declarations for RocksDB types
@@ -90,7 +91,8 @@ public:
         size_t limit = 100;               // Max events to return
         uint32_t long_poll_ms = 0;        // Long-poll timeout (0 = immediate)
         std::optional<std::string> key_prefix; // Filter by key prefix
-        std::optional<ChangeEventType> event_type;   // Filter by event type
+        std::optional<ChangeEventType> event_type;   // Filter by single event type (legacy; use event_types for multi-type)
+        std::set<ChangeEventType> event_types; // Filter by one or more operation types (INSERT/UPDATE=PUT, DELETE); empty = no filter
     };
     
     struct RetentionPolicy {

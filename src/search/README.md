@@ -269,6 +269,10 @@ For detailed implementation documentation, see:
   `MultiModalSearch` (text + embedding RRF fusion, searchTextAndImage convenience)
 - **v1.6.0**: `LlmQueryRewriter` — LLM-based query rewriting for improved recall (injected backend,
   multi-strategy prompt, numbered-line parsing, deduplication, fallback)
+- **v1.7.0**: Ranked spelling correction suggestions — `SpellingCorrection` struct,
+  `QueryExpander::suggestSpellingCorrections()` (ranked multi-candidate word corrections with
+  confidence scores), `QueryExpander::suggestQueryCorrections()` (ranked full-query correction
+  suggestions with per-token substitution and all-corrected variants)
 
 ## Examples
 

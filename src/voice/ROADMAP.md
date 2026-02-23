@@ -20,6 +20,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 - [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Issue: #2496)
 - [x] Wake-word detection for hands-free activation (Issue: #2365)
+- [x] Voice biometric authentication (speaker verification) (Issue: #2494)
 
 ## In Progress 🚧
 - [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
@@ -36,7 +37,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Long-term (6-12 months)
 - [I] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
 - [!] Emotion / sentiment detection from voice tone (Issue: #2493)
-- [I] Voice biometric authentication (speaker verification) (Issue: #2494)
+- [x] Voice biometric authentication (speaker verification) (Issue: #2494)
 - [I] Real-time meeting transcription with action-item extraction (Issue: #2353)
 - [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
@@ -71,7 +72,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Planned 📋)
 - [ ] Multi-language TTS (German, French, Spanish voices)
 - [ ] Emotion / sentiment detection from voice tone
-- [ ] Voice biometric authentication (speaker verification)
+- [x] Voice biometric authentication (speaker verification)
 - [ ] Real-time meeting transcription with action-item extraction
 - [ ] Integration with telephony systems (SIP / WebRTC)
 
@@ -91,6 +92,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
   without API changes.
 - Multi-speaker diarization accuracy degrades with more than 4 simultaneous speakers.
 - TTS voice quality depends on the llama.cpp model in use.
+- Voice biometric authentication uses acoustic sub-band features (no external model required). A neural i-vector/x-vector backend can be plugged in via `VoiceBiometricAuthenticator`'s internal `extractFeatures()` without changing the public API. Liveness detection is heuristic-based (crest factor, spectral flatness, ZCR variability); a neural anti-spoofing model is recommended for production.
 
 ## Breaking Changes
 - VoiceAssistant session API is stable from v1.x.
