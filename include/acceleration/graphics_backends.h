@@ -104,11 +104,55 @@ public:
         bool useL2 = true
     ) override;
 
+    // Frozen kernel dispatch table — L2, cosine, inner-product, and top-K
+    ANNKernelDispatch populateANNDispatch() const override;
+
 private:
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
     metrics::BackendMetrics metrics_{"vulkan"};
+};
+
+// Vulkan Geospatial Compute backend (cross-platform)
+// Implements the IGeoBackend interface using Vulkan compute shaders for
+// Haversine distance and point-in-polygon operations, providing the same
+// geospatial compute capabilities as the CUDA geo backend.
+class VulkanGeoBackend : public IGeoBackend {
+public:
+    VulkanGeoBackend();
+    ~VulkanGeoBackend() override;
+
+    const char* name() const noexcept override { return "VulkanGeo"; }
+    BackendType type() const noexcept override { return BackendType::VULKAN; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    std::vector<float> batchDistances(
+        const double* latitudes1,
+        const double* longitudes1,
+        const double* latitudes2,
+        const double* longitudes2,
+        size_t count,
+        bool useHaversine = true
+    ) override;
+
+    std::vector<bool> batchPointInPolygon(
+        const double* pointLats,
+        const double* pointLons,
+        size_t numPoints,
+        const double* polygonCoords,
+        size_t numPolygonVertices
+    ) override;
+
+    // Frozen kernel dispatch table — haversine distance and point-in-polygon
+    GeoKernelDispatch populateGeoDispatch() const override;
+
+private:
+    bool initialized_ = false;
 };
 
 // OpenGL Compute Shaders backend (legacy support)

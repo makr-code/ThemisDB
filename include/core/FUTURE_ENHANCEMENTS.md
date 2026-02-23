@@ -66,6 +66,46 @@ inheriting from `IAsyncLogger` and implementing the same sync pure-virtuals
 
 
 
+### Context Propagation Across Async Boundaries
+**Priority:** High  
+**Status:** ✅ Implemented in v1.7.0 (`include/core/concerns/context_propagation.h`)
+
+`ContextPropagation` and `ContextScope` enable automatic propagation of the
+active `IContext` into `std::async`/thread tasks without manual parameter
+passing.  The mechanism uses a `thread_local` slot so each thread owns its
+own current-context pointer.
+
+- **`ContextScope`** — RAII guard; installs an `IContextPtr` as the current
+  thread context and atomically restores the previous one on destruction
+  (exception-safe, nestable)
+- **`ContextPropagation::current()`** — returns the active context for the
+  calling thread, or `nullptr` if none installed
+- **`ContextPropagation::propagate(fn)`** — captures the current context,
+  creates a **child** context (so writes inside the task don't affect the
+  parent), launches `fn` via `std::async(launch::async)`, and installs the
+  child as `current()` for the task's lifetime
+
+```cpp
+// At request entry point
+auto ctx = SimpleContext::create("trace-abc", "req-42");
+ContextScope scope(ctx);   // installs on calling thread
+
+// Spawn async work — trace context propagates automatically
+auto fut = ContextPropagation::propagate([] {
+    auto c = ContextPropagation::current();      // child of `ctx`
+    c->get(context_keys::kTraceId);              // "trace-abc"
+    c->set(context_keys::kOperation, "db.query"); // local to this task
+});
+fut.get();
+
+// Parent context unmodified — kOperation is NOT set on `ctx`
+```
+
+Existing `IContext` / `SimpleContext` code is unchanged — no breaking changes.
+Thread-safety guarantees of `SimpleContext` are preserved since each thread
+writes to its own child context.
+
+
 ### Type-Safe Metrics Labels
 **Priority:** Medium  
 **Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/metric_labels.h`)
