@@ -13,6 +13,17 @@ correction, alternative query generation, and zero-result relaxation.
 
 ---
 
+### Ranked Spelling Correction Suggestions API
+**Status:** ✅ Delivered in v1.7.0 — see `include/search/query_expander.h`
+
+`QueryExpander::suggestSpellingCorrections()` returns a ranked list of
+`SpellingCorrection` candidates (suggestion, edit_distance, confidence) for
+a single misspelled word.  `QueryExpander::suggestQueryCorrections()` returns
+ranked full-query correction strings by substituting each misspelled token
+with its best correction, plus an all-corrected variant.
+
+---
+
 ### Fuzzy Search API
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
 
@@ -78,5 +89,5 @@ fusion across all modalities.
 ---
 
 *Last Updated: February 2026*  
-*Current API Version: v1.5.0*  
-*Next Target: v1.6.0*
+*Current API Version: v1.7.0*  
+*Next Target: v1.8.0*
