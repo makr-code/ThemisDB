@@ -24,6 +24,7 @@
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/task_audit_event.h"
+#include "scheduler/task_result_store.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
 #include "security/aql_injection_detector.h"
@@ -32,6 +33,7 @@
 #include "utils/audit_logger.h"
 #include "utils/cron_parser.h"
 #include "cdc/changefeed.h"
+#include "storage/rocksdb_wrapper.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
@@ -209,7 +211,8 @@ static ScheduledTask::ErrorCategory categorizeError(const std::string& error_mes
 
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
-                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger)
+                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger,
+                             RocksDBWrapper* result_storage)
     : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
@@ -235,6 +238,19 @@ TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config,
         THEMIS_INFO("TaskScheduler initialized with CDC event support");
     } else {
         THEMIS_INFO("TaskScheduler initialized without CDC event support");
+    }
+
+    // Initialize result store if enabled and storage is provided
+    if (config_.enable_result_store) {
+        if (result_storage) {
+            result_store_ = std::make_unique<scheduler::TaskResultStore>(
+                *result_storage, config_.result_store_max_results_per_task);
+            THEMIS_INFO("TaskScheduler result store enabled (max_per_task={})",
+                        config_.result_store_max_results_per_task);
+        } else {
+            THEMIS_WARN("TaskScheduler: enable_result_store=true but no result_storage provided; "
+                        "result store is disabled");
+        }
     }
     
     if (config_.persist_tasks) {
@@ -584,6 +600,8 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         );
     }
     
+    auto start_time = std::chrono::steady_clock::now();
+
     // Execute synchronously with retry logic (same as scheduled execution)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
     const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
@@ -632,6 +650,9 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         }
     }
 
+    auto end_time = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+
     if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
@@ -656,6 +677,19 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     task->total_executions++;
     total_executions_++;
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = getCurrentTimeMs();
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
+    }
     
     return result;
 }
@@ -1254,6 +1288,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     span.setAttribute("task_name", task->name);
     
     auto start = std::chrono::steady_clock::now();
+    const int64_t exec_timestamp_ms = getCurrentTimeMs();  // captured for result store
     
     // Create audit event for task start
     scheduler::TaskAuditEvent start_event;
@@ -1446,6 +1481,19 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_failure) {
             task->on_failure(task->id, last_error);
         }
+    }
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = exec_timestamp_ms;
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
     }
     
     task->running = false;
@@ -2171,5 +2219,23 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
 }
 
 // ===== Update shouldExecute and updateNextRun =====
+
+// ===== Result Store Public APIs =====
+
+std::vector<scheduler::TaskExecutionResult> TaskScheduler::getTaskResults(
+        const std::string& task_id, size_t limit) const {
+    if (!result_store_) {
+        return {};
+    }
+    return result_store_->getResults(task_id, limit);
+}
+
+std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult(
+        const std::string& task_id) const {
+    if (!result_store_) {
+        return std::nullopt;
+    }
+    return result_store_->getLatestResult(task_id);
+}
 
 } // namespace themis
