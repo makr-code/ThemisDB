@@ -282,6 +282,8 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
+    ".*test_analytics/test_arrow_export\\.cpp$"
+    ".*test_oauth_device_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
@@ -402,14 +404,6 @@ if(THEMIS_BUILD_MODULAR)
         endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/http_server\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]http_server\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/spatial_api_handler\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]spatial_api_handler\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/changefeed_api_handler\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]changefeed_api_handler\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/auth/saml_authenticator\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]auth[\\\\/]saml_authenticator\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/auth/oauth_device_flow\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]auth[\\\\/]oauth_device_flow\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/analytics/analytics_export\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]analytics[\\\\/]analytics_export\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
@@ -453,8 +447,11 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/mvcc_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/serverless_function_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
