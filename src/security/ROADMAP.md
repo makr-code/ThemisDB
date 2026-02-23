@@ -38,7 +38,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 
 ### Long-term (6-12 months)
 - [x] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
-- [!] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
+- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
 - [P] Dynamic data masking for PII fields in query results (Issue: #2463)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
 - [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
@@ -74,7 +74,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
 - [x] Zero-trust network policy enforcement (per-request identity verification)
-- [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [P] Dynamic data masking for PII fields in query results
 - [ ] SOC 2 Type II compliance evidence collection
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
