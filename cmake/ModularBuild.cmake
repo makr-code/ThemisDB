@@ -148,6 +148,7 @@ set(THEMIS_BASE_SOURCES
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     

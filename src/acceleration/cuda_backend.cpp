@@ -638,5 +638,91 @@ GeoKernelDispatch CUDAGeoBackend::populateGeoDispatch() const {
 #endif
 }
 
+// =============================================================================
+// CUDAMatrixBackend Implementation
+// =============================================================================
+
+CUDAMatrixBackend::~CUDAMatrixBackend() {
+    shutdown();
+}
+
+bool CUDAMatrixBackend::isAvailable() const noexcept {
+#ifdef THEMIS_ENABLE_CUDA
+    int deviceCount = 0;
+    cudaError_t err = cudaGetDeviceCount(&deviceCount);
+    return (err == cudaSuccess && deviceCount > 0);
+#else
+    return false;
+#endif
+}
+
+BackendCapabilities CUDAMatrixBackend::getCapabilities() const {
+    BackendCapabilities caps;
+#ifdef THEMIS_ENABLE_CUDA
+    caps.supportsMatrixOps     = true;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync         = true;
+    // FP16 from SM 7.0 (Volta); BF16 from SM 8.0 (Ampere).
+    // Advertise both — the kernel selection inside dispatchMatmul handles
+    // the actual hardware capability at runtime via cuBLAS.
+    caps.supportedPrecisions   = PrecisionMode::FP32
+                               | PrecisionMode::FP16
+                               | PrecisionMode::BF16;
+    if (isAvailable()) {
+        cudaDeviceProp prop;
+        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+            caps.deviceName    = std::string(prop.name);
+            caps.maxMemoryBytes = prop.totalGlobalMem;
+            caps.computeUnits  = prop.multiProcessorCount;
+        }
+    } else {
+        caps.deviceName = "CUDA Device (Not Available)";
+    }
+#endif
+    return caps;
+}
+
+bool CUDAMatrixBackend::initialize() {
+#ifdef THEMIS_ENABLE_CUDA
+    if (!isAvailable()) {
+        return false;
+    }
+    initialized_ = true;
+    return true;
+#else
+    return false;
+#endif
+}
+
+void CUDAMatrixBackend::shutdown() {
+#ifdef THEMIS_ENABLE_CUDA
+    initialized_ = false;
+#endif
+}
+
+int CUDAMatrixBackend::matmul(const MatrixKernelParams& params, void* opaque_stream)
+{
+#ifdef THEMIS_ENABLE_CUDA
+    if (!initialized_) return 1;
+    cudaStream_t stream = opaque_stream
+        ? static_cast<cudaStream_t>(opaque_stream)
+        : static_cast<cudaStream_t>(stream_.get());
+    return tensor_core::dispatchMatmul(params, stream);
+#else
+    (void)params; (void)opaque_stream;
+    return 1; // CUDA not available
+#endif
+}
+
+MatrixKernelDispatch CUDAMatrixBackend::populateMatrixDispatch() const {
+#ifdef THEMIS_ENABLE_CUDA
+    MatrixKernelDispatch d;
+    d.launchMatmul = tensor_core::dispatchMatmul;
+    return d;
+#else
+    return {}; // No CUDA — null; BackendRegistry falls back to CPU table
+#endif
+}
+
 } // namespace acceleration
 } // namespace themis

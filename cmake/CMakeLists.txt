@@ -1712,6 +1712,7 @@ set(THEMIS_CORE_SOURCES
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
@@ -2161,6 +2162,7 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/tensor_core_matmul.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
