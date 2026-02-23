@@ -44,6 +44,46 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using json = nlohmann::json;
 
+// Helper: parse a comma-separated list of event type names into a set
+// Accepted values: "PUT", "DELETE", "TRANSACTION_COMMIT", "TRANSACTION_ROLLBACK"
+// Maximum length for the event_types query parameter value to prevent DoS via oversized input
+static constexpr size_t EVENT_TYPES_MAX_LEN = 256;
+// Length of the "event_types=" query parameter prefix
+static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
+
+static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& types_str) {
+    std::set<Changefeed::ChangeEventType> result;
+    if (types_str.size() > EVENT_TYPES_MAX_LEN) {
+        THEMIS_WARN("parseEventTypes: input too long ({} bytes, max {} allowed), ignoring",
+                    types_str.size(), EVENT_TYPES_MAX_LEN);
+        return result;
+    }
+    std::istringstream ss(types_str);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        // Trim leading and trailing whitespace
+        auto start = token.find_first_not_of(" \t");
+        auto end = token.find_last_not_of(" \t");
+        if (start == std::string::npos) {
+            continue;
+        }
+        token = token.substr(start, end - start + 1);
+
+        if (token == "PUT") {
+            result.insert(Changefeed::ChangeEventType::EVENT_PUT);
+        } else if (token == "DELETE") {
+            result.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+        } else if (token == "TRANSACTION_COMMIT") {
+            result.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+        } else if (token == "TRANSACTION_ROLLBACK") {
+            result.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+        } else {
+            THEMIS_WARN("parseEventTypes: unrecognized event type '{}'; ignoring", token);
+        }
+    }
+    return result;
+}
+
 ChangefeedApiHandler::ChangefeedApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<Changefeed> changefeed,
@@ -119,6 +159,15 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
                     key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
                 options.key_prefix = key_prefix;
             }
+            
+            // Parse event_types (comma-separated: PUT,DELETE,TRANSACTION_COMMIT,TRANSACTION_ROLLBACK)
+            size_t et_pos = query_str.find("event_types=");
+            if (et_pos != std::string::npos) {
+                size_t et_end = query_str.find('&', et_pos);
+                std::string et_str = query_str.substr(et_pos + EVENT_TYPES_PARAM_LEN,
+                    et_end == std::string::npos ? std::string::npos : et_end - et_pos - EVENT_TYPES_PARAM_LEN);
+                options.event_types = parseEventTypes(et_str);
+            }
         }
         
         // List events
@@ -166,6 +215,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Parse query parameters
         uint64_t from_seq = 0;
         std::string key_prefix;
+        std::set<Changefeed::ChangeEventType> event_types;
         bool keep_alive = true; // New parameter for production streaming
         int max_seconds = 30;   // Optional limit for testability
         int heartbeat_ms_override = -1; // Optional per-request heartbeat interval
@@ -192,6 +242,15 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 size_t key_end = query_str.find('&', key_pos);
                 key_prefix = query_str.substr(key_pos + 11,
                     key_end == std::string::npos ? std::string::npos : key_end - key_pos - 11);
+            }
+            
+            // Parse event_types (comma-separated: PUT,DELETE,TRANSACTION_COMMIT,TRANSACTION_ROLLBACK)
+            size_t et_pos = query_str.find("event_types=");
+            if (et_pos != std::string::npos) {
+                size_t et_end = query_str.find('&', et_pos);
+                std::string et_str = query_str.substr(et_pos + EVENT_TYPES_PARAM_LEN,
+                    et_end == std::string::npos ? std::string::npos : et_end - et_pos - EVENT_TYPES_PARAM_LEN);
+                event_types = parseEventTypes(et_str);
             }
             
             // Parse keep_alive (default true for production)
@@ -310,7 +369,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             // Note: Current Beast setup limits us to batch-based streaming
             // Full keep-alive requires custom async write loop (see TODO in docs)
             
-            uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix);
+            uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
             
             // Stream events for limited duration (configurable for tests)
@@ -374,6 +433,10 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             
             if (!key_prefix.empty()) {
                 options.key_prefix = key_prefix;
+            }
+            
+            if (!event_types.empty()) {
+                options.event_types = event_types;
             }
             
             auto events = changefeed_->listEvents(options);

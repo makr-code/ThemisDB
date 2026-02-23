@@ -68,6 +68,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_judge.*\\.cpp$"
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
+        ".*test_rag_hallucination_dashboard\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -366,6 +367,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_accessibility.cpp
         ../src/voice/voice_model_cache.cpp
         ../src/voice/voice_batch_processor.cpp
+        ../src/voice/voice_authenticator.cpp
     )
 endif()
 

@@ -25,6 +25,7 @@
 #include "query/query_plan_visualizer.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
+#include <fmt/format.h>
 
 namespace themis {
 
@@ -301,6 +302,155 @@ Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
     }
     auto plan_node = engine.buildExplainPlan(*qr);
     return Ok(query::QueryPlanVisualizer::toDOT(plan_node));
+}
+
+Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine) {
+    // Parse the multi-statement transaction block
+    query::AQLParser parser;
+    auto blockResult = parser.parseTransactionBlock(aql);
+    if (!blockResult) {
+        return Err<nlohmann::json>(blockResult.error().code(), blockResult.error().message());
+    }
+    const auto& block = *blockResult;
+
+    // ROLLBACK: do not execute any statement; return metadata only
+    if (block.action == query::AqlTransactionAction::Rollback) {
+        return Ok(nlohmann::json({
+            {"type", "rollback"},
+            {"statements", block.statements.size()}
+        }));
+    }
+
+    // COMMIT: execute each statement in sequence and collect results
+    nlohmann::json results = nlohmann::json::array();
+    for (std::size_t i = 0; i < block.statements.size(); ++i) {
+        const auto& stmt = block.statements[i];
+        if (!stmt) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("Statement {} in transaction block is null", i + 1)
+            );
+        }
+
+        // Translate and dispatch through the same path as executeAql()
+        auto tr = AQLTranslator::translate(stmt);
+        if (!tr.success) {
+            return Err<nlohmann::json>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Translation error for statement {} in transaction block: {}",
+                            i + 1, tr.error_message)
+            );
+        }
+
+        // Dispatch through the engine using the already-translated result,
+        // following the same pattern as executeAql().
+        nlohmann::json stmtResult;
+
+        if (tr.vector_geo.has_value()) {
+            auto res = engine.executeVectorGeoQuery(*tr.vector_geo);
+            if (!res) {
+                return Err<nlohmann::json>(res.error().code(),
+                    fmt::format("Execution error for statement {} in transaction block: {}",
+                                i + 1, res.error().message()));
+            }
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& r : *res) {
+                arr.push_back({{"pk", r.pk}, {"distance", r.vector_distance}, {"entity", r.entity}});
+            }
+            stmtResult = {{"type", "vector_geo"}, {"results", arr}};
+        } else if (tr.content_geo.has_value()) {
+            auto res = engine.executeContentGeoQuery(*tr.content_geo);
+            if (!res) {
+                return Err<nlohmann::json>(res.error().code(),
+                    fmt::format("Execution error for statement {} in transaction block: {}",
+                                i + 1, res.error().message()));
+            }
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& r : *res) {
+                nlohmann::json row = {{"pk", r.pk}, {"bm25", r.bm25_score}, {"entity", r.entity}};
+                if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
+                arr.push_back(std::move(row));
+            }
+            stmtResult = {{"type", "content_geo"}, {"results", arr}};
+        } else if (tr.disjunctive.has_value()) {
+            auto res = engine.executeOrEntitiesWithFallback(*tr.disjunctive, true);
+            if (!res) {
+                return Err<nlohmann::json>(res.error().code(),
+                    fmt::format("Execution error for statement {} in transaction block: {}",
+                                i + 1, res.error().message()));
+            }
+            nlohmann::json arr = nlohmann::json::array();
+            for (auto& e : *res) arr.push_back(nlohmann::json::parse(e.toJson()));
+            stmtResult = {{"type", "or"}, {"results", arr}};
+        } else if (tr.traversal.has_value()) {
+            const auto& tv = *tr.traversal;
+            if (tv.shortestPath) {
+                RecursivePathQuery rq;
+                rq.start_node = tv.startVertex;
+                rq.end_node   = tv.endVertex;
+                rq.graph_id   = tv.graphName;
+                rq.max_depth  = tv.maxDepth;
+                auto res = engine.executeRecursivePathQuery(rq);
+                if (!res) {
+                    return Err<nlohmann::json>(res.error().code(),
+                        fmt::format("Execution error for statement {} in transaction block: {}",
+                                    i + 1, res.error().message()));
+                }
+                nlohmann::json arr = nlohmann::json::array();
+                for (const auto& p : *res) arr.push_back(p);
+                stmtResult = {{"type", "shortest_path"}, {"paths", arr}};
+            } else {
+                TraversalDirection dir;
+                switch (tv.direction) {
+                    case AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound:
+                        dir = TraversalDirection::OUTBOUND; break;
+                    case AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound:
+                        dir = TraversalDirection::INBOUND; break;
+                    case AQLTranslator::TranslationResult::TraversalQuery::Direction::Any:
+                        dir = TraversalDirection::ANY; break;
+                    default:
+                        dir = TraversalDirection::OUTBOUND; break;
+                }
+                auto res = engine.executeGeneralTraversal(
+                    tv.startVertex, tv.minDepth, tv.maxDepth, dir,
+                    tv.graphName.empty() ? "default" : tv.graphName);
+                if (!res) {
+                    return Err<nlohmann::json>(res.error().code(),
+                        fmt::format("Execution error for statement {} in transaction block: {}",
+                                    i + 1, res.error().message()));
+                }
+                nlohmann::json arr = nlohmann::json::array();
+                for (const auto& r : *res) {
+                    arr.push_back({{"vertex", r.vertex_pk}, {"depth", r.depth},
+                                   {"path", r.path}, {"edges", r.edges}, {"data", r.vertex_data}});
+                }
+                stmtResult = {{"type", "traversal"}, {"results", arr}};
+            }
+        } else if (tr.join.has_value()) {
+            auto& j = *tr.join;
+            auto res = engine.executeJoin(j.for_nodes, j.filters, j.let_nodes, j.return_node, j.sort, j.limit);
+            if (!res) {
+                return Err<nlohmann::json>(res.error().code(),
+                    fmt::format("Execution error for statement {} in transaction block: {}",
+                                i + 1, res.error().message()));
+            }
+            stmtResult = {{"type", "join"}, {"results", *res}};
+        } else {
+            auto res = engine.executeAndEntitiesWithFallback(tr.query, true);
+            if (!res) {
+                return Err<nlohmann::json>(res.error().code(),
+                    fmt::format("Execution error for statement {} in transaction block: {}",
+                                i + 1, res.error().message()));
+            }
+            nlohmann::json arr = nlohmann::json::array();
+            for (auto& e : *res) arr.push_back(nlohmann::json::parse(e.toJson()));
+            stmtResult = {{"type", "and"}, {"results", arr}};
+        }
+
+        results.push_back(std::move(stmtResult));
+    }
+
+    return Ok(nlohmann::json({{"type", "commit"}, {"results", results}}));
 }
 
 } // namespace themis

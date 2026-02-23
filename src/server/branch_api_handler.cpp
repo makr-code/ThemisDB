@@ -53,6 +53,16 @@ void BranchApiHandler::registerRoutes(httplib::Server& server) {
         handleSwitchBranch(req, res);
     });
     
+    // POST /api/v1/branches/merge/preview - Preview merge with full conflict details
+    server.Post("/api/v1/branches/merge/preview", [this](const httplib::Request& req, httplib::Response& res) {
+        handlePreviewMergeBranches(req, res);
+    });
+
+    // POST /api/v1/branches/merge/resolve - Resolve conflicts and complete merge
+    server.Post("/api/v1/branches/merge/resolve", [this](const httplib::Request& req, httplib::Response& res) {
+        handleResolveMergeBranches(req, res);
+    });
+
     // POST /api/v1/branches/merge - Merge branches
     server.Post("/api/v1/branches/merge", [this](const httplib::Request& req, httplib::Response& res) {
         handleMergeBranches(req, res);
@@ -242,6 +252,101 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httpli
         {"active_branch", active_branch}
     };
     sendJson(res, result);
+}
+
+void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
+    json body;
+    if (!parseJsonBody(req, body, res)) {
+        return;
+    }
+
+    std::string source_branch = body.value("source_branch", "");
+    std::string target_branch = body.value("target_branch", "");
+    std::string base_branch   = body.value("base_branch", "");
+
+    if (source_branch.empty() || target_branch.empty()) {
+        sendError(res, 400, "source_branch and target_branch are required");
+        return;
+    }
+
+    auto result = branch_manager_.previewBranchMerge(source_branch, target_branch, base_branch);
+
+    // Enrich the standard MergeEngine JSON with branch context
+    json response = result.toJson();
+    response["source_branch"] = source_branch;
+    response["target_branch"] = target_branch;
+    if (!base_branch.empty()) {
+        response["base_branch"] = base_branch;
+    }
+
+    int status = 200;
+    if (!result.success) {
+        const auto& msg = result.message;
+        if (msg.find("not found") != std::string::npos) {
+            status = 404;
+        } else if (msg.find("not initialized") != std::string::npos) {
+            status = 503;
+        } else {
+            status = 409; // genuine merge conflict
+        }
+    }
+    sendJson(res, response, status);
+}
+
+void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
+    json body;
+    if (!parseJsonBody(req, body, res)) {
+        return;
+    }
+
+    std::string source_branch = body.value("source_branch", "");
+    std::string target_branch = body.value("target_branch", "");
+    std::string base_branch   = body.value("base_branch", "");
+
+    if (source_branch.empty() || target_branch.empty()) {
+        sendError(res, 400, "source_branch and target_branch are required");
+        return;
+    }
+
+    // Parse per-key conflict resolutions
+    std::vector<transaction::MergeEngine::ConflictResolution> resolutions;
+    if (body.contains("resolutions") && body["resolutions"].is_array()) {
+        for (const auto& r : body["resolutions"]) {
+            transaction::MergeEngine::ConflictResolution res_item;
+            res_item.key = r.value("key", "");
+            if (res_item.key.empty()) {
+                sendError(res, 400, "Each resolution must have a non-empty 'key' field");
+                return;
+            }
+            if (r.contains("resolved_value")) {
+                res_item.resolved_value = r["resolved_value"].get<std::string>();
+            }
+            resolutions.push_back(std::move(res_item));
+        }
+    }
+
+    auto result = branch_manager_.resolveAndMergeBranches(
+        source_branch, target_branch, resolutions, base_branch);
+
+    json response = result.toJson();
+    response["source_branch"] = source_branch;
+    response["target_branch"] = target_branch;
+    if (!base_branch.empty()) {
+        response["base_branch"] = base_branch;
+    }
+
+    int status = 200;
+    if (!result.success) {
+        const auto& msg = result.message;
+        if (msg.find("not found") != std::string::npos) {
+            status = 404;
+        } else if (msg.find("not initialized") != std::string::npos) {
+            status = 503;
+        } else {
+            status = 409; // unresolved conflicts or merge failure
+        }
+    }
+    sendJson(res, response, status);
 }
 
 void BranchApiHandler::sendJson(httplib::Response& res, const json& data, int status_code) {
