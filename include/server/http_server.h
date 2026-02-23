@@ -105,6 +105,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/wal_api_handler.h"
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
+#include "server/rate_limiting_middleware.h"
 #include "server/auth_middleware.h"
 #include "server/request_validation_middleware.h"
 #include "server/policy_engine.h"
@@ -884,6 +885,9 @@ private:
     
     // Rate Limiter for DoS protection
     std::unique_ptr<RateLimiter> rate_limiter_;
+
+    // Rate limiting middleware with per-client token bucket (per-endpoint configurable)
+    std::unique_ptr<RateLimitingMiddleware> rate_limiting_middleware_;
 
     // Request body validation (JSON Schema per endpoint)
     std::unique_ptr<RequestValidationMiddleware> request_validator_;
