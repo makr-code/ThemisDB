@@ -1461,6 +1461,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         }
     } else {
         // All attempts failed
+        task->total_executions++;  // Mirror executeTaskNow/executeDAG behaviour
         task->failed_executions++;
         task->last_error = last_error;
         task->last_error_category = categorizeError(last_error);
