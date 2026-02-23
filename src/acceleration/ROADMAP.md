@@ -93,7 +93,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
 - [I] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
-- [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
+- [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
 - CUDA and Vulkan backends are currently stub/scaffolding implementations
