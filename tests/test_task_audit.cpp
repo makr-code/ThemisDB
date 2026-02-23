@@ -369,7 +369,8 @@ TEST(TaskAuditEvent, EventTypeFromString) {
 // Helper: log N audit events for a given task ID into a manager
 static void logEvents(TaskAuditManager& mgr, const std::string& task_id,
                       int count, bool success = true,
-                      TaskEventType ev_type = TaskEventType::TASK_COMPLETED) {
+                      TaskEventType ev_type = TaskEventType::TASK_COMPLETED,
+                      const std::string& trigger_type = "CRON") {
     for (int i = 0; i < count; ++i) {
         TaskAuditEvent ev;
         ev.uuid = generateUUID();
@@ -377,7 +378,7 @@ static void logEvents(TaskAuditManager& mgr, const std::string& task_id,
         ev.task_id = task_id;
         ev.task_name = task_id + "_name";
         ev.event_type = ev_type;
-        ev.trigger_type = "CRON";
+        ev.trigger_type = trigger_type;
         ev.user_id = "user_" + task_id;
         ev.ip_address = "127.0.0.1";
         ev.success = success;
@@ -599,4 +600,147 @@ TEST(TaskAuditManager, NoDuplicatesFromCacheAndFile) {
     }
     EXPECT_EQ(5u, uuids.size());
     EXPECT_EQ(5u, results.size());
+}
+
+// Test searchable query: filter by user_id
+TEST(TaskAuditManager, QueryByUserId) {
+    TaskAuditConfig config;
+    config.enable_audit_logging = true;
+    config.enable_anomaly_detection = false;
+    config.audit_log_path = getTempDir() + "/qbyuser_audit.jsonl";
+    config.security_log_path = getTempDir() + "/qbyuser_sec.jsonl";
+
+    auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
+    // logEvents sets user_id = "user_" + task_id
+    logEvents(*mgr, "user-task-a", 3);
+    logEvents(*mgr, "user-task-b", 2);
+
+    AuditQueryParams params;
+    params.user_id = "user_user-task-a";
+    params.limit = 100;
+    auto results = mgr->queryAuditEvents(params);
+    ASSERT_EQ(3u, results.size());
+    for (const auto& ev : results) {
+        EXPECT_EQ("user_user-task-a", ev.user_id);
+    }
+}
+
+// Test searchable query: filter by trigger_type
+TEST(TaskAuditManager, QueryByTriggerType) {
+    TaskAuditConfig config;
+    config.enable_audit_logging = true;
+    config.enable_anomaly_detection = false;
+    config.audit_log_path = getTempDir() + "/qbytrigger_audit.jsonl";
+    config.security_log_path = getTempDir() + "/qbytrigger_sec.jsonl";
+
+    auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
+    // Log events with CRON trigger (default from logEvents helper)
+    logEvents(*mgr, "trigger-task", 3);
+    // Log events with MANUAL trigger; use TASK_COMPLETED event type to test
+    // that trigger_type filter works independently of the event type.
+    logEvents(*mgr, "trigger-task", 2, true, TaskEventType::TASK_COMPLETED, "MANUAL");
+
+    AuditQueryParams params;
+    params.trigger_type = "MANUAL";
+    params.limit = 100;
+    auto results = mgr->queryAuditEvents(params);
+    EXPECT_EQ(2u, results.size());
+    for (const auto& ev : results) {
+        EXPECT_EQ("MANUAL", ev.trigger_type);
+    }
+}
+
+// Test querySecurityEvents with disk persistence (no-duplicates across cache+file)
+TEST(TaskAuditManager, SecurityEventsFromDisk) {
+    auto sec_log_path = getTempDir() + "/secdisk_sec.jsonl";
+    std::filesystem::remove(sec_log_path);
+
+    TaskAuditConfig config;
+    config.enable_security_logging = true;
+    config.enable_audit_logging = false;
+    config.audit_log_path = getTempDir() + "/secdisk_audit.jsonl";
+    config.security_log_path = sec_log_path;
+
+    // Phase 1: write security events through a manager instance
+    {
+        auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
+        for (int i = 0; i < 4; ++i) {
+            TaskSecurityEvent ev;
+            ev.uuid = generateUUID();
+            ev.timestamp = std::chrono::system_clock::now();
+            ev.task_id = "sec-task";
+            ev.task_name = "sec-task_name";
+            ev.event_type = TaskSecurityEventType::RATE_LIMIT_EXCEEDED;
+            ev.severity = "MEDIUM";
+            ev.user_id = "sec-user";
+            ev.ip_address = "127.0.0.1";
+            ev.violation_type = "rate_limit";
+            ev.description = "rate limit";
+            ev.blocked = true;
+            ev.action_taken = "denied";
+            mgr->logSecurityEvent(ev);
+        }
+    }
+
+    // Phase 2: fresh manager (empty cache) — events must come from file
+    auto mgr2 = std::make_shared<TaskAuditManager>(nullptr, config);
+
+    AuditQueryParams params;
+    params.limit = 100;
+    auto results = mgr2->querySecurityEvents(params);
+    EXPECT_EQ(4u, results.size());
+
+    // filter by task_id
+    AuditQueryParams by_task;
+    by_task.task_id = "sec-task";
+    by_task.limit = 100;
+    auto task_results = mgr2->querySecurityEvents(by_task);
+    EXPECT_EQ(4u, task_results.size());
+
+    // filter by user_id
+    AuditQueryParams by_user;
+    by_user.user_id = "sec-user";
+    by_user.limit = 100;
+    auto user_results = mgr2->querySecurityEvents(by_user);
+    EXPECT_EQ(4u, user_results.size());
+}
+
+// Test no duplicate security events across cache+file
+TEST(TaskAuditManager, NoDuplicateSecurityEvents) {
+    auto sec_log_path = getTempDir() + "/secnodup_sec.jsonl";
+    std::filesystem::remove(sec_log_path);
+
+    TaskAuditConfig config;
+    config.enable_security_logging = true;
+    config.enable_audit_logging = false;
+    config.audit_log_path = getTempDir() + "/secnodup_audit.jsonl";
+    config.security_log_path = sec_log_path;
+
+    auto mgr = std::make_shared<TaskAuditManager>(nullptr, config);
+    // Log 3 events — land in both file and in-memory cache
+    for (int i = 0; i < 3; ++i) {
+        TaskSecurityEvent ev;
+        ev.uuid = generateUUID();
+        ev.timestamp = std::chrono::system_clock::now();
+        ev.event_type = TaskSecurityEventType::AQL_INJECTION_DETECTED;
+        ev.severity = "HIGH";
+        ev.user_id = "attacker";
+        ev.ip_address = "10.0.0.1";
+        ev.violation_type = "injection";
+        ev.description = "injection attempt";
+        ev.blocked = true;
+        ev.action_taken = "blocked";
+        mgr->logSecurityEvent(ev);
+    }
+
+    AuditQueryParams params;
+    params.limit = 100;
+    auto results = mgr->querySecurityEvents(params);
+
+    std::set<std::string> uuids;
+    for (const auto& ev : results) {
+        uuids.insert(ev.uuid);
+    }
+    EXPECT_EQ(3u, uuids.size());
+    EXPECT_EQ(3u, results.size());
 }

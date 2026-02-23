@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     526                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -288,6 +288,11 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
         seen_uuids.insert(cached.uuid);
     }
     
+    // Read at most enough events to satisfy the pagination request, bounded by
+    // max_query_results.  Reading only params.offset + params.limit matching
+    // events ensures pagination cannot silently truncate when offset is large.
+    const size_t read_limit = std::min(params.offset + params.limit, config_.max_query_results);
+    
     try {
         std::ifstream ifs(file_path);
         if (!ifs.is_open()) {
@@ -295,7 +300,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
         }
         
         std::string line;
-        while (std::getline(ifs, line) && results.size() < config_.max_query_results) {
+        while (std::getline(ifs, line) && results.size() < read_limit) {
             if (line.empty()) continue;
             try {
                 auto j = nlohmann::json::parse(line);
@@ -369,11 +374,10 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                     event.metadata = j["metadata"];
                 }
                 
-                // Check if matches query
+                // Check if matches query; insert UUID before move so it's always valid
                 if (matchesQuery(event, params)) {
-                    auto uuid_copy = event.uuid;
+                    seen_uuids.insert(event.uuid);
                     results.push_back(std::move(event));
-                    seen_uuids.insert(std::move(uuid_copy));
                 }
                 
             } catch (const std::exception& e) {
@@ -395,7 +399,6 @@ std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const Audit
     
     // Query from in-memory cache
     for (const auto& event : recent_security_events_) {
-        // Apply filters (simplified version)
         bool matches = true;
         
         if (params.start_time && event.timestamp < *params.start_time) {
@@ -416,6 +419,11 @@ std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const Audit
         }
     }
     
+    // Load from file to include events that have been evicted from the cache.
+    // loadSecurityEventsFromFile() deduplicates against the in-memory results.
+    auto file_results = loadSecurityEventsFromFile(config_.security_log_path, params);
+    results.insert(results.end(), file_results.begin(), file_results.end());
+    
     // Apply pagination
     if (results.size() > params.offset) {
         results.erase(results.begin(), results.begin() + params.offset);
@@ -425,6 +433,102 @@ std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const Audit
     
     if (results.size() > params.limit) {
         results.resize(params.limit);
+    }
+    
+    return results;
+}
+
+std::vector<TaskSecurityEvent> TaskAuditManager::loadSecurityEventsFromFile(
+    const std::string& file_path,
+    const AuditQueryParams& params) const {
+    
+    std::vector<TaskSecurityEvent> results;
+    
+    // Build a set of UUIDs already in the cache to avoid duplicates
+    std::unordered_set<std::string> seen_uuids;
+    for (const auto& cached : recent_security_events_) {
+        seen_uuids.insert(cached.uuid);
+    }
+    
+    // Read at most enough events to satisfy the pagination request, bounded by
+    // max_query_results.
+    const size_t read_limit = std::min(params.offset + params.limit, config_.max_query_results);
+    
+    try {
+        std::ifstream ifs(file_path);
+        if (!ifs.is_open()) {
+            return results;
+        }
+        
+        std::string line;
+        while (std::getline(ifs, line) && results.size() < read_limit) {
+            if (line.empty()) continue;
+            try {
+                auto j = nlohmann::json::parse(line);
+                
+                TaskSecurityEvent event;
+                event.uuid = j.value("uuid", "");
+                
+                // Skip events already in cache
+                if (!event.uuid.empty() && seen_uuids.count(event.uuid)) {
+                    continue;
+                }
+                
+                if (j.contains("timestamp")) {
+                    auto ts_ms = j["timestamp"].get<int64_t>();
+                    event.timestamp = std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ts_ms));
+                }
+                
+                event.task_id = j.value("task_id", "");
+                event.task_name = j.value("task_name", "");
+                event.severity = j.value("severity", "");
+                event.user_id = j.value("user_id", "");
+                event.ip_address = j.value("ip_address", "");
+                event.session_id = j.value("session_id", "");
+                event.violation_type = j.value("violation_type", "");
+                event.description = j.value("description", "");
+                event.blocked = j.value("blocked", false);
+                event.action_taken = j.value("action_taken", "");
+                
+                if (j.contains("details") && j["details"].is_object()) {
+                    event.details = j["details"];
+                }
+                if (j.contains("policy_id") && !j["policy_id"].is_null()) {
+                    event.policy_id = j["policy_id"].get<std::string>();
+                }
+                if (j.contains("rule_id") && !j["rule_id"].is_null()) {
+                    event.rule_id = j["rule_id"].get<std::string>();
+                }
+                
+                // Apply filters
+                bool matches = true;
+                if (params.start_time && event.timestamp < *params.start_time) {
+                    matches = false;
+                }
+                if (params.end_time && event.timestamp > *params.end_time) {
+                    matches = false;
+                }
+                if (params.task_id && event.task_id != *params.task_id) {
+                    matches = false;
+                }
+                if (params.user_id && event.user_id != *params.user_id) {
+                    matches = false;
+                }
+                
+                // Insert UUID before move so it's always valid
+                if (matches) {
+                    seen_uuids.insert(event.uuid);
+                    results.push_back(std::move(event));
+                }
+                
+            } catch (const std::exception& e) {
+                // Skip malformed lines
+                continue;
+            }
+        }
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to load security events from {}: {}", file_path, e.what());
     }
     
     return results;
