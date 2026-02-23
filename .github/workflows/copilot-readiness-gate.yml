@@ -9,11 +9,6 @@ on:
   check_suite:
     types: [completed]
 
-  # Alternative trigger for CI that surfaces results via workflow_run.
-  workflow_run:
-    workflows: ['*']
-    types: [completed]
-
   # Manual trigger for testing / recovery.
   workflow_dispatch:
     inputs:
@@ -109,14 +104,17 @@ jobs:
               core.info(`Evaluating PR #${prNumber} (head=${headSha})`);
 
               // ── Gate 1: all required checks must be successful ────────────
-              const { data: checkRuns } = await github.rest.checks.listForRef({
-                owner: OWNER,
-                repo: REPO,
-                ref: headSha,
-                per_page: 100,
-              });
+              const runs = await github.paginate(
+                github.rest.checks.listForRef,
+                {
+                  owner: OWNER,
+                  repo: REPO,
+                  ref: headSha,
+                  per_page: 100,
+                },
+                response => response.data
+              );
 
-              const runs = checkRuns.check_runs;
               const pending = runs.filter(r => r.status !== 'completed');
               const failed  = runs.filter(r => r.status === 'completed' && r.conclusion !== 'success' && r.conclusion !== 'skipped' && r.conclusion !== 'neutral');
 

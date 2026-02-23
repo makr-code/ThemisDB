@@ -117,7 +117,6 @@ creation-date order (oldest first).
 | `workflow_dispatch` | Manual trigger |
 | `pull_request` labeled / unlabeled / closed / synchronize | Capacity may have changed |
 | `check_suite` completed | CI results arrived; readiness gate may fire |
-| `workflow_run` completed | Alternative to check_suite for some CI setups |
 
 ---
 

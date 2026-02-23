@@ -18,12 +18,6 @@ on:
   check_suite:
     types: [completed]
 
-  # Alternative / additional trigger for repos that surface results via
-  # workflow_run rather than check_suite.
-  workflow_run:
-    workflows: ['*']
-    types: [completed]
-
 # Only one dispatcher run at a time to prevent race conditions.
 concurrency:
   group: copilot-dispatcher
