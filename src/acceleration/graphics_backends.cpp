@@ -912,8 +912,6 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
         metrics_.recordError("zero_dimension");
         return {};
     }
-    // Clamp k to available vectors to prevent out-of-bounds indexing
-    const size_t effectiveK = std::min(k, numVectors);
 
     // Compute all pairwise distances on the GPU
     auto opStart = std::chrono::steady_clock::now();
@@ -946,6 +944,8 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     }
 
     // CPU top-k selection from the distance matrix
+    // Clamp k to available vectors to prevent out-of-bounds indexing
+    const size_t effectiveK = std::min(k, numVectors);
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
     for (size_t q = 0; q < numQueries; ++q) {
         const float* row = distances.data() + q * numVectors;
@@ -1297,7 +1297,7 @@ std::vector<float> VulkanGeoBackend::batchDistances(
             "coordinate pointers must be non-null"));
         return {};
     }
-    if (count == 0) return {};
+    if (count == 0) { clearError(); return {}; }
 
     std::vector<float> out(count);
     for (size_t i = 0; i < count; ++i) {
@@ -1333,7 +1333,7 @@ std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
             "point and polygon coordinate pointers must be non-null"));
         return {};
     }
-    if (numPoints == 0) return {};
+    if (numPoints == 0) { clearError(); return {}; }
     if (numPolygonVertices < 3) {
         setError(ErrorContextHelpers::createValidationError(
             "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
