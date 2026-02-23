@@ -5,6 +5,8 @@
 //   - Required dependencies create ordering edges; missing required deps are errors.
 //   - Optional dependencies create ordering edges only when both modules are registered.
 //   - Circular dependencies are detected and reported.
+//   - Version constraints (minVersion/maxVersion) are validated against the registered
+//     version of each dependency; violations are reported via versionMismatches.
 
 #include "themis/base/module_loader.h"
 #include <algorithm>
@@ -69,9 +71,17 @@ std::tuple<int, int, int> parseVersion(const std::string& v) {
 
 void ModuleDependencyResolver::registerModule(
     const std::string& name,
+    const std::string& version,
     const std::vector<ModuleDependency>& deps)
 {
-    modules_[name] = deps;
+    modules_[name] = {version, deps};
+}
+
+void ModuleDependencyResolver::registerModule(
+    const std::string& name,
+    const std::vector<ModuleDependency>& deps)
+{
+    modules_[name] = {"", deps};
 }
 
 void ModuleDependencyResolver::clear()
@@ -111,7 +121,7 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
         if (it == modules_.end()) {
             continue;
         }
-        for (const auto& dep : it->second) {
+        for (const auto& dep : it->second.deps) {
             if (!visited[dep.name] && modules_.count(dep.name)) {
                 visited[dep.name] = true;
                 toVisit.push(dep.name);
@@ -151,7 +161,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
         if (it == modules_.end()) {
             continue;
         }
-        for (const auto& dep : it->second) {
+        for (const auto& dep : it->second.deps) {
             const bool inNodeSet = inDegree.count(dep.name) > 0;
 
             if (dep.required) {
@@ -166,12 +176,51 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
                     result.missingRequired.push_back(dep.name);
                     continue;
                 }
+
+                // Validate version constraints against the registered version.
+                if (!dep.minVersion.empty() || !dep.maxVersion.empty()) {
+                    const std::string& depVersion = modules_.at(dep.name).version;
+                    if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
+                        std::ostringstream oss;
+                        oss << n << " requires " << dep.name
+                            << " version";
+                        if (!dep.minVersion.empty()) {
+                            oss << " >=" << dep.minVersion;
+                        }
+                        if (!dep.maxVersion.empty()) {
+                            oss << " <=" << dep.maxVersion;
+                        }
+                        oss << " but got \"" << depVersion << "\"";
+                        result.versionMismatches.push_back(oss.str());
+                    }
+                }
+
                 // Add ordering edge: dep must come before n.
                 dependents[dep.name].push_back(n);
                 inDegree[n]++;
             } else {
                 // Optional dependency: create edge only when dep is in the set.
                 if (inNodeSet) {
+                    // Version constraints on optional deps are enforced the same
+                    // way as required deps — a violation fails resolution.
+                    if ((!dep.minVersion.empty() || !dep.maxVersion.empty()) &&
+                        modules_.count(dep.name))
+                    {
+                        const std::string& depVersion = modules_.at(dep.name).version;
+                        if (!isVersionCompatible(depVersion, dep.minVersion, dep.maxVersion)) {
+                            std::ostringstream oss;
+                            oss << n << " optionally requires " << dep.name
+                                << " version";
+                            if (!dep.minVersion.empty()) {
+                                oss << " >=" << dep.minVersion;
+                            }
+                            if (!dep.maxVersion.empty()) {
+                                oss << " <=" << dep.maxVersion;
+                            }
+                            oss << " but got \"" << depVersion << "\"";
+                            result.versionMismatches.push_back(oss.str());
+                        }
+                    }
                     dependents[dep.name].push_back(n);
                     inDegree[n]++;
                 }
@@ -192,6 +241,17 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
         oss << "Missing required dependencies:";
         for (const auto& m : result.missingRequired) {
             oss << " " << m;
+        }
+        result.errorMessage = oss.str();
+        result.success = false;
+        return result;
+    }
+
+    if (!result.versionMismatches.empty()) {
+        std::ostringstream oss;
+        oss << "Version constraint violations:";
+        for (const auto& vm : result.versionMismatches) {
+            oss << " [" << vm << "]";
         }
         result.errorMessage = oss.str();
         result.success = false;

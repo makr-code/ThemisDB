@@ -529,3 +529,131 @@ TEST(ModuleDependencyResolver, ThemisModuleGraph) {
     EXPECT_LT(pos("themis_network"),     pos("themis_server"));
     EXPECT_LT(pos("themis_transaction"), pos("themis_server"));
 }
+
+// ============================================================================
+// Version-aware registerModule overload
+// ============================================================================
+
+TEST(ModuleDependencyResolver, RegisterWithVersion) {
+    // Modules registered with version strings and then queried.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", "1.0.0", {});
+    resolver.registerModule("storage", "2.3.1", {dep("base")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 2u);
+    EXPECT_EQ(result.loadOrder[0], "base");
+    EXPECT_EQ(result.loadOrder[1], "storage");
+    EXPECT_TRUE(result.versionMismatches.empty());
+}
+
+// ============================================================================
+// Version constraint enforcement during resolution
+// ============================================================================
+
+TEST(ModuleDependencyResolver, VersionConstraintSatisfied) {
+    // base v1.2.0 satisfies requirement >=1.0.0 <=2.0.0.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", "1.2.0", {});
+    resolver.registerModule("storage", "2.0.0", {dep("base", "1.0.0", "2.0.0")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.versionMismatches.empty());
+    ASSERT_EQ(result.loadOrder.size(), 2u);
+    EXPECT_EQ(result.loadOrder[0], "base");
+    EXPECT_EQ(result.loadOrder[1], "storage");
+}
+
+TEST(ModuleDependencyResolver, VersionConstraintViolated_TooOld) {
+    // base v0.9.0 is below the minimum 1.0.0 required by storage.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", "0.9.0", {});
+    resolver.registerModule("storage", "2.0.0", {dep("base", "1.0.0", "")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.versionMismatches.size(), 1u);
+    EXPECT_TRUE(result.errorMessage.find("Version constraint") != std::string::npos);
+}
+
+TEST(ModuleDependencyResolver, VersionConstraintViolated_TooNew) {
+    // base v3.0.0 exceeds the maximum 2.0.0 allowed by storage.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", "3.0.0", {});
+    resolver.registerModule("storage", "1.0.0", {dep("base", "", "2.0.0")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.versionMismatches.size(), 1u);
+    EXPECT_TRUE(result.errorMessage.find("Version constraint") != std::string::npos);
+}
+
+TEST(ModuleDependencyResolver, VersionConstraintUnversionedDepFails) {
+    // base registered without a version; storage requires >=1.0.0.
+    // Unversioned module cannot satisfy a constrained dependency.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", {});        // No version
+    resolver.registerModule("storage", "1.0.0", {dep("base", "1.0.0", "")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.versionMismatches.size(), 1u);
+}
+
+TEST(ModuleDependencyResolver, VersionConstraintUnconstrainedAlwaysPasses) {
+    // Even an unversioned module satisfies an unconstrained dependency.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", {});        // No version, no constraint
+    resolver.registerModule("storage", "1.0.0", {dep("base", "", "")});
+
+    auto result = resolver.resolve();
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.versionMismatches.empty());
+}
+
+TEST(ModuleDependencyResolver, MultipleVersionViolations) {
+    // Two different dependency version violations in one pass.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("libA", "0.5.0", {});
+    resolver.registerModule("libB", "3.0.0", {});
+    // top requires libA >=1.0 (too old) and libB <=2.0 (too new).
+    ModuleDependency dA = dep("libA", "1.0.0", "");
+    ModuleDependency dB = dep("libB", "",      "2.0.0");
+    resolver.registerModule("top", "1.0.0", {dA, dB});
+
+    auto result = resolver.resolve();
+
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.versionMismatches.size(), 2u);
+}
+
+TEST(ModuleDependencyResolver, VersionConstraintOptionalDepPresent_Violated) {
+    // Optional dep present with a version that violates its constraint.
+    // Resolution should fail on version mismatch even for optional deps.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("ext", "0.8.0", {});
+    ModuleDependency od;
+    od.name       = "ext";
+    od.minVersion = "1.0.0";
+    od.required   = false;
+    resolver.registerModule("plugin", "1.0.0", {od});
+
+    auto result = resolver.resolve();
+
+    EXPECT_FALSE(result.success);
+    ASSERT_EQ(result.versionMismatches.size(), 1u);
+}
+
+TEST(ModuleDependencyResolver, DependencyResolutionResult_HasVersionMismatchesField) {
+    // Verify the new field is accessible and defaults to empty.
+    DependencyResolutionResult r;
+    EXPECT_TRUE(r.versionMismatches.empty());
+}

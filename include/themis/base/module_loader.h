@@ -689,6 +689,8 @@ struct DependencyResolutionResult {
     std::vector<std::string> loadOrder;             ///< Resolved load order (deps first)
     std::vector<std::string> missingRequired;        ///< Required deps absent from registry
     std::vector<std::vector<std::string>> cycles;   ///< Detected dependency cycles
+    /// Version-constraint violations: each entry is "module→dep (got X, need ≥Y ≤Z)"
+    std::vector<std::string> versionMismatches;
     std::string errorMessage;
 };
 
@@ -720,7 +722,22 @@ public:
      *
      * Registering a module a second time replaces the previous registration.
      *
-     * @param name  Unique module name (e.g., "themis_base").
+     * @param name     Unique module name (e.g., "themis_base").
+     * @param version  Semantic version of this module (e.g., "1.2.3").  May be "".
+     * @param deps     Dependency list; may be empty.
+     */
+    void registerModule(const std::string& name,
+                        const std::string& version,
+                        const std::vector<ModuleDependency>& deps);
+
+    /**
+     * @brief Convenience overload — registers a module with no version string.
+     *
+     * Version constraints declared by other modules against this module will
+     * only be satisfied if they are unconstrained (both minVersion and
+     * maxVersion are empty).
+     *
+     * @param name  Unique module name.
      * @param deps  Dependency list; may be empty.
      */
     void registerModule(const std::string& name,
@@ -767,7 +784,11 @@ public:
                                     const std::string& maxVersion);
 
 private:
-    std::map<std::string, std::vector<ModuleDependency>> modules_;
+    struct ModuleEntry {
+        std::string version;
+        std::vector<ModuleDependency> deps;
+    };
+    std::map<std::string, ModuleEntry> modules_;
 
     /// Topological sort (Kahn's algorithm) over the supplied node set.
     DependencyResolutionResult topologicalSort(
