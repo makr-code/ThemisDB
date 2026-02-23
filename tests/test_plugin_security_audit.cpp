@@ -387,12 +387,10 @@ TEST_F(PluginLoaderHardeningTest, SecurePermissionsPluginPassesPermissionCheck) 
     fs::path plugin = createTempFile(test_dir_, "good_perms.so");
     chmod(plugin.c_str(), 0600);
 
-    // Audit log must not contain a POLICY_VIOLATION for this file before the
-    // normal security-verifier step runs.
+    // Audit log must not contain a POLICY_VIOLATION for this file caused by
+    // the permission check. (loadPlugin will still fail because it is not a
+    // real shared library, but not for permission reasons.)
     PluginLoader loader;
-    // loadPlugin will still fail (not a real .so), but we just confirm that the
-    // permission check itself did not fire.
-    auto before = PluginSecurityAuditor::instance().getEventsForPlugin(plugin.string());
     loader.loadPlugin(plugin.string());
     auto after = PluginSecurityAuditor::instance().getEventsForPlugin(plugin.string());
 
