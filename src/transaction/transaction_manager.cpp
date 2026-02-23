@@ -767,6 +767,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
         return Status::Error(st.message);
     }
     
+    trackWrite(key, "put");
     return Status::OK();
 }
 
@@ -791,6 +792,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
         return Status::Error(st.message);
     }
     
+    trackWrite(key, "delete");
     return Status::OK();
 }
 
@@ -817,10 +819,9 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
         return Status::Error(st.message);
     }
     
+    trackWrite(edge_key, "put");
     return Status::OK();
-}
-
-TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
+}(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
@@ -840,10 +841,9 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
         return Status::Error(st.message);
     }
     
+    trackWrite(edge_key, "delete");
     return Status::OK();
-}
-
-TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
+}(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("addVector: transaction timed out");
     
@@ -876,11 +876,10 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
             THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
         }
     });
-    
-    return Status::OK();
-}
 
-TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
+    trackWrite(vector_key, "put");
+    return Status::OK();
+}(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
     
@@ -927,11 +926,10 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
             vecIdx_.removeByPk(pk);
         });
     }
-    
-    return Status::OK();
-}
 
-TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
+    trackWrite(vector_key, "put");
+    return Status::OK();
+}(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
     
@@ -978,12 +976,10 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
             THEMIS_DEBUG("SAGA: Vector remove compensation skipped (no old data) for '{}'", pk_str);
         });
     }
-    
+
+    trackWrite(vector_key, "delete");
     return Status::OK();
 }
-
-// ---------------------------------------------------------------------------
-// OCC helpers
 // ---------------------------------------------------------------------------
 
 /// Encode a uint64_t as an 8-byte little-endian blob.
@@ -1441,6 +1437,67 @@ TransactionManager::crashRecover() {
         return r;
     }
     return crash_recovery_mgr_->recover(db_);
+}
+
+// ── Transaction Explain ───────────────────────────────────────────────────────
+
+void TransactionManager::Transaction::trackWrite(std::string key, std::string operation) {
+    write_set_.push_back({std::move(key), std::move(operation)});
+}
+
+static std::string isolationLevelName(IsolationLevel level) {
+    switch (level) {
+    case IsolationLevel::READ_UNCOMMITTED: return "READ_UNCOMMITTED";
+    case IsolationLevel::READ_COMMITTED:   return "READ_COMMITTED";
+    case IsolationLevel::REPEATABLE_READ:  return "REPEATABLE_READ";
+    case IsolationLevel::SERIALIZABLE:     return "SERIALIZABLE";
+    default:                               return "UNKNOWN";
+    }
+}
+
+static std::string lockTypeName(LockType t) {
+    switch (t) {
+    case LockType::SHARED:           return "SHARED";
+    case LockType::EXCLUSIVE:        return "EXCLUSIVE";
+    case LockType::INTENT_SHARED:    return "INTENT_SHARED";
+    case LockType::INTENT_EXCLUSIVE: return "INTENT_EXCLUSIVE";
+    default:                         return "UNKNOWN";
+    }
+}
+
+TransactionManager::Transaction::ExplainResult
+TransactionManager::Transaction::explain() const {
+    ExplainResult result;
+    result.txn_id         = id_;
+    result.isolation_level = isolationLevelName(isolation_);
+    result.duration_ms    = getDurationMs();
+    result.is_finished    = finished_.load(std::memory_order_acquire);
+
+    // Collect locks held via LockManager
+    if (lock_manager_) {
+        for (const auto& [key, lock_type] : lock_manager_->getLocksHeld(id_)) {
+            result.locks_held.push_back({key, lockTypeName(lock_type)});
+        }
+    }
+
+    // Copy the write set (MVCC version chain entries)
+    result.write_set = write_set_;
+
+    return result;
+}
+
+std::optional<TransactionManager::Transaction::ExplainResult>
+TransactionManager::explainTransaction(TransactionId id) const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    auto it = active_transactions_.find(id);
+    if (it != active_transactions_.end() && it->second) {
+        return it->second->explain();
+    }
+    auto cit = completed_transactions_.find(id);
+    if (cit != completed_transactions_.end() && cit->second) {
+        return cit->second->explain();
+    }
+    return std::nullopt;
 }
 
 } // namespace themis
