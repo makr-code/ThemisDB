@@ -1732,6 +1732,10 @@ set(THEMIS_CORE_SOURCES
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+
+    # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
+    ../src/themis/wire_protocol_server.cpp
+    ../src/themis/module_dependency_resolver.cpp
     
     # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
@@ -1973,6 +1977,42 @@ if(NOT THEMIS_ENABLE_LLM)
 endif()
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
+
+# ============================================================================
+# Wire Protocol V1 Protobuf Generation
+# (required by src/themis/wire_protocol_server.cpp)
+# ============================================================================
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+    find_package(Protobuf MODULE QUIET)
+endif()
+
+if(Protobuf_FOUND)
+    set(WIRE_V1_PROTO ${THEMIS_ROOT_DIR}/src/network/themis_wire_v1.proto)
+    set(WIRE_V1_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+    file(MAKE_DIRECTORY ${WIRE_V1_PROTO_GEN_DIR})
+
+    set(WIRE_V1_PROTO_SRC ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.cc)
+    set(WIRE_V1_PROTO_HDR ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.h)
+
+    add_custom_command(
+        OUTPUT  ${WIRE_V1_PROTO_SRC} ${WIRE_V1_PROTO_HDR}
+        COMMAND $<TARGET_FILE:protobuf::protoc>
+        ARGS    --cpp_out ${WIRE_V1_PROTO_GEN_DIR}
+                -I ${THEMIS_ROOT_DIR}/src/network
+                ${WIRE_V1_PROTO}
+        DEPENDS ${WIRE_V1_PROTO} protobuf::protoc
+        COMMENT "Generating protobuf C++ sources for themis_wire_v1.proto"
+        VERBATIM
+    )
+
+    list(APPEND THEMIS_CORE_SOURCES ${WIRE_V1_PROTO_SRC})
+    set(THEMIS_WIRE_V1_PROTO_AVAILABLE ON)
+    message(STATUS "themis_wire_v1.proto: protobuf generation configured")
+else()
+    message(STATUS "Protobuf not found – themis_wire_v1.pb.h will not be generated; "
+                   "wire_protocol_server (themis::wire) compiles without proto handlers")
+endif()
 
 # ============================================================================
 # BUILD MODE SELECTION: Modular vs Monolithic
@@ -2276,6 +2316,13 @@ endif()
 if(THEMIS_ENABLE_HSM_REAL)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)
     target_sources(themis_core PRIVATE ../src/security/hsm_provider_pkcs11.cpp)
+endif()
+
+# Wire Protocol V1 protobuf compile flag and link
+if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_link_libraries(themis_core PRIVATE protobuf::libprotobuf)
+    message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled (themis::wire protobuf handlers active)")
 endif()
 
 # Geo feature flags and Boost.Geometry support

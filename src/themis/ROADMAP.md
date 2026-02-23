@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.6.x – Implementation directory is currently empty pending the v1.7.0 modularization effort. Core functionality (build info, edition management, license validation, module loading, wire protocol) currently lives in `src/core/`, `src/security/`, and `src/server/`.
+v1.6.x – Phase 3 in progress: `wire_protocol_server.cpp` added to `src/themis/` implementing `themis::wire::WireProtocolSession`, `WireProtocolServer`, and `MessageDispatcher` from the frozen v1.x public header. Protobuf-based message handlers are conditionally compiled (guarded by `THEMIS_WIRE_V1_PROTO_AVAILABLE`) and activated when `protobuf::protoc` is available at build time.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -21,7 +21,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
+- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [I] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
 - [I] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
@@ -49,8 +49,8 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [?] `license_info.cpp` – embedded license validation and Ed25519 signature verification (v1.7.0)
 - [?] `module_loader.cpp` – secure shared-library loading with hash/signature checks (v1.7.0)
 
-### Phase 3: Wire Protocol & Edition Manager (Status: Planned 📋)
-- [ ] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/`
+### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
+- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [ ] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [ ] `isModuleCompiledIn()` – runtime module availability check
