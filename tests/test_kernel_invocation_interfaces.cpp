@@ -461,10 +461,13 @@ TEST(KernelInvocationInterfaces, CUDAVectorBackend_DispatchReturnsValidStructure
 }
 
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_DispatchReturnsValidStructure) {
-    // Verifies the method exists and returns a well-formed struct (even without GPU).
+    // Verifies the method exists and both kernel slots are non-null when compiled
+    // with THEMIS_ENABLE_CUDA, even without GPU hardware present.  The slots are
+    // populated from extern "C" function pointers that always exist at link time.
     CUDAGeoBackend backend;
     GeoKernelDispatch d = backend.populateGeoDispatch();
-    (void)d; // Structural / compilation check
+    EXPECT_NE(d.launchDistance,    nullptr);
+    EXPECT_NE(d.launchContainment, nullptr);
 }
 
 #endif // THEMIS_ENABLE_CUDA

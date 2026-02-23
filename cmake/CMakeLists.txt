@@ -1361,6 +1361,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/let_evaluator.cpp
@@ -1710,8 +1711,11 @@ set(THEMIS_CORE_SOURCES
     ../src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
+    ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/multi_gpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
@@ -1759,6 +1763,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/mongo_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
+    ../src/aql/aql_migration_assistant.cpp
     
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -1894,8 +1899,13 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/aql_query_builder.cpp
     ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_schema_provider.cpp
+    ../src/aql/aql_lora_finetuner.cpp
+    ../src/aql/aql_migration_assistant.cpp
+    ../src/aql/aql_autocomplete.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1929,6 +1939,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
@@ -2161,13 +2172,15 @@ if(THEMIS_ENABLE_CUDA)
     # Add CUDA source files
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
+    ../src/acceleration/cuda/ann_kernels.cu
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/tensor_core_matmul.cu
     ../src/acceleration/cuda/geo_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
-    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver CUDA::cublas)
     
     # Link NCCL if available
     if(NCCL_FOUND)
@@ -3909,6 +3922,33 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
     )
     target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Acceleration (CUDA vs CPU) Benchmark — Issue #1375 / #1392 / #1393
+    # CPU kernels always built; CUDA kernels activated via THEMIS_ENABLE_CUDA.
+    # Benchmark gracefully skips CUDA cases at runtime when no GPU is detected.
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp")
+        add_executable(bench_cuda_vs_cpu
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp
+        )
+        target_link_libraries(bench_cuda_vs_cpu PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+            Threads::Threads
+        )
+        target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+                THEMIS_ENABLE_CUDA=1
+            )
+        endif()
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" AND NOT MSVC)
+            target_compile_options(bench_cuda_vs_cpu PRIVATE -O3 -DNDEBUG)
+        endif()
+        message(STATUS "Added bench_cuda_vs_cpu (acceleration benchmarks)")
+    endif()
 
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance

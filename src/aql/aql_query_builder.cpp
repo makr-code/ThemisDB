@@ -19,6 +19,7 @@
 
 #include "aql/aql_query_builder.h"
 #include "aql/aql_query_validator.h"
+#include "aql/aql_schema_provider.h"
 #include "aql/llm_aql_handler.h"
 
 #include <sstream>
@@ -62,6 +63,9 @@ public:
     int                        limit_count  = -1;
     int                        limit_offset = 0;
     std::string                return_expr;
+
+    // Schema snapshot attached via setSchema()
+    std::vector<CollectionMetadata> schema;
 
     void reset() {
         for_clauses.clear();
@@ -225,6 +229,35 @@ AQLQueryBuilder& AQLQueryBuilder::reset() {
 }
 
 // ============================================================================
+// Schema-aware query generation
+// ============================================================================
+
+AQLQueryBuilder& AQLQueryBuilder::setSchema(const std::vector<CollectionMetadata>& schema) {
+    impl_->schema = schema;
+    return *this;
+}
+
+std::string AQLQueryBuilder::getSchemaContext() const {
+    return formatSchemaContext(impl_->schema);
+}
+
+std::vector<std::string> AQLQueryBuilder::getFieldsForCollection(
+    const std::string& collection
+) const {
+    for (const auto& col : impl_->schema) {
+        if (col.name == collection) {
+            std::vector<std::string> fields;
+            fields.reserve(col.fields.size());
+            for (const auto& f : col.fields) {
+                fields.push_back(f.name);
+            }
+            return fields;
+        }
+    }
+    return {};
+}
+
+// ============================================================================
 // Query output
 // ============================================================================
 
@@ -262,7 +295,30 @@ bool AQLQueryBuilder::isValid() const {
 
 ValidationResult AQLQueryBuilder::validate() const {
     AQLQueryValidator validator;
-    return validator.validate(*this);
+    ValidationResult result = validator.validate(*this);
+
+    // Schema-aware: warn when a collection named in a FOR clause is not found
+    // in the attached metadata snapshot.
+    if (!impl_->schema.empty()) {
+        for (const auto& fc : impl_->for_clauses) {
+            bool found = false;
+            for (const auto& col : impl_->schema) {
+                if (col.name == fc.collection) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                result.issues.push_back({
+                    ValidationIssue::Severity::WARNING,
+                    "Collection '" + fc.collection + "' not found in attached schema",
+                    "FOR"
+                });
+            }
+        }
+    }
+
+    return result;
 }
 
 // ============================================================================
@@ -311,10 +367,14 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(
     try {
         std::string partial = getPartialQuery();
 
+        // Use the caller-supplied context, or fall back to the attached schema.
+        const std::string& effective_schema =
+            !schema_context.empty() ? schema_context : getSchemaContext();
+
         std::ostringstream prompt;
         prompt << "You are an AQL (ArangoDB Query Language) expert for ThemisDB.\n";
-        if (!schema_context.empty()) {
-            prompt << "Available schema:\n" << schema_context << "\n\n";
+        if (!effective_schema.empty()) {
+            prompt << "Available schema:\n" << effective_schema << "\n\n";
         }
         prompt << "Current partial AQL query:\n```\n" << partial << "\n```\n\n";
         prompt << "Valid next clauses (based on AQL grammar): ";
@@ -361,9 +421,13 @@ std::string AQLQueryBuilder::getLLMSuggestion(
     try {
         std::string partial = getPartialQuery();
 
+        // Use the caller-supplied context, or fall back to the attached schema.
+        const std::string& effective_schema =
+            !schema_context.empty() ? schema_context : getSchemaContext();
+
         std::ostringstream context;
-        if (!schema_context.empty()) {
-            context << "Schema:\n" << schema_context << "\n\n";
+        if (!effective_schema.empty()) {
+            context << "Schema:\n" << effective_schema << "\n\n";
         }
         if (!partial.empty()) {
             context << "Partial query so far:\n```\n" << partial << "\n```\n\n";

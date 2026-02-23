@@ -96,6 +96,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
+        ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_claim_extractor\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
         ".*test_adapter_factory\\.cpp$"
@@ -322,6 +323,16 @@ if(THEMIS_ENABLE_GPU)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_rocm_backend.cpp
     )
 endif()
+
+# Re-include test_multi_gpu_backend.cpp which tests the acceleration module's
+# multi-GPU sharding backend (MultiGPUVectorBackend + ShardDescriptor).
+# This test does NOT depend on LLM, but is caught by the broad LLM exclusion
+# pattern ".*test_multi_gpu.*\\.cpp$" that targets test_multi_gpu_training.cpp,
+# test_multi_gpu_lora*.cpp, etc. Re-adding it unconditionally ensures it always
+# compiles and runs; it uses only CPU sub-backends so no GPU hardware is required.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
+)
 
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates the slab-based pre-allocator and the
@@ -1633,6 +1644,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
+# Phase 2 – OpenTelemetry trace and span propagation tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
+    message(STATUS "Adding OTel propagation tests (Phase 2)")
+    add_executable(test_otel_propagation test_otel_propagation.cpp)
+    target_link_libraries(test_otel_propagation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_otel_propagation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelPropagationTests COMMAND test_otel_propagation)
+    set_tests_properties(OtelPropagationTests PROPERTIES
+        LABELS "core;tracing;otel;propagation;w3c;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OtelPropagation: startSpanFromHeaders, injectContext, baggage round-trip")
+    
 # Phase 3 – Structured log correlation (trace ID injection into structured logs)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
     message(STATUS "Adding Structured Log Correlation tests (Phase 3)")

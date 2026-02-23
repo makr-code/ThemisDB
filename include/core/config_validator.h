@@ -195,23 +195,26 @@ public:
      * Validates that the adapter type strings in ConcernsContext::Config refer
      * to known, supported adapters.
      *
-     * @param logger_adapter   Value of Config::loggerAdapter
-     * @param tracer_adapter   Value of Config::tracerAdapter (empty = auto)
-     * @param metrics_adapter  Value of Config::metricsAdapter (empty = auto)
-     * @param cache_adapter    Value of Config::cacheAdapter
+     * @param logger_adapter           Value of Config::loggerAdapter
+     * @param tracer_adapter           Value of Config::tracerAdapter (empty = auto)
+     * @param metrics_adapter          Value of Config::metricsAdapter (empty = auto)
+     * @param cache_adapter            Value of Config::cacheAdapter
+     * @param circuit_breaker_adapter  Value of Config::circuitBreakerAdapter
      */
     static ValidationResult validateAdapterConfig(
         const std::string& logger_adapter,
         const std::string& tracer_adapter,
         const std::string& metrics_adapter,
-        const std::string& cache_adapter)
+        const std::string& cache_adapter,
+        const std::string& circuit_breaker_adapter = "default")
     {
         ValidationResult result;
 
-        const std::vector<std::string> valid_logger_adapters  = {"spdlog", "noop"};
-        const std::vector<std::string> valid_tracer_adapters  = {"otel",   "noop", ""};
-        const std::vector<std::string> valid_metrics_adapters = {"prometheus", "noop", ""};
-        const std::vector<std::string> valid_cache_adapters   = {"inmemory", "noop"};
+        const std::vector<std::string> valid_logger_adapters          = {"spdlog", "noop"};
+        const std::vector<std::string> valid_tracer_adapters          = {"otel",   "noop", ""};
+        const std::vector<std::string> valid_metrics_adapters         = {"prometheus", "noop", ""};
+        const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop"};
+        const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};
 
         auto check = [&](const std::string& value,
                          const std::vector<std::string>& valid_values,
@@ -228,10 +231,11 @@ public:
                             "'. Supported values: " + allowed);
         };
 
-        check(logger_adapter,  valid_logger_adapters,  "loggerAdapter");
-        check(tracer_adapter,  valid_tracer_adapters,  "tracerAdapter");
-        check(metrics_adapter, valid_metrics_adapters, "metricsAdapter");
-        check(cache_adapter,   valid_cache_adapters,   "cacheAdapter");
+        check(logger_adapter,          valid_logger_adapters,          "loggerAdapter");
+        check(tracer_adapter,          valid_tracer_adapters,          "tracerAdapter");
+        check(metrics_adapter,         valid_metrics_adapters,         "metricsAdapter");
+        check(cache_adapter,           valid_cache_adapters,           "cacheAdapter");
+        check(circuit_breaker_adapter, valid_circuit_breaker_adapters, "circuitBreakerAdapter");
 
         return result;
     }

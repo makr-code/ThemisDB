@@ -27,6 +27,7 @@
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
+#include "query/result_type_annotation.h"
 #include "query_engine.h"
 #include "utils/expected.h"
 
@@ -100,6 +101,20 @@ Result<nlohmann::json> executeAqlWithRLS(
     QueryEngine& engine,
     security::RLSManager& rls,
     const security::SecurityContext& ctx
+);
+
+// ── Type-annotated execution (for client SDK code generation) ─────────────
+
+/// Execute AQL and return the result together with its inferred type schema.
+///
+/// The schema is derived from the "results" array inside the JSON payload.
+/// It can be serialised with AnnotatedQueryResult::schema.toJson() and fed
+/// to client SDK generators to produce strongly-typed accessor code.
+///
+/// On execution failure the function returns an Err identical to executeAql().
+Result<query::AnnotatedQueryResult> executeAqlAnnotated(
+    const std::string& aql,
+    QueryEngine& engine
 );
 
 } // namespace themis

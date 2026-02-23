@@ -24,9 +24,19 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/multi_gpu_backend.h"
 #include "utils/logger.h"
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
+#ifdef THEMIS_ENABLE_OPENCL
+#include "acceleration/opencl_backend.h"
 #endif
 #include <algorithm>
 #include <mutex>
@@ -38,6 +48,7 @@ namespace acceleration {
 // The canonical fallback chain: highest priority first, CPU always last.
 // All getBestXBackend() methods traverse this list in order.
 static const std::vector<BackendType> kFallbackOrder = {
+    BackendType::MULTI_GPU,
     BackendType::CUDA,
     BackendType::HIP,
     BackendType::ZLUDA,
@@ -58,6 +69,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     registerBackend(std::make_unique<CPUVectorBackend>());
     registerBackend(std::make_unique<CPUGraphBackend>());
     registerBackend(std::make_unique<CPUGeoBackend>());
+    registerBackend(std::make_unique<CPUMatrixBackend>());
+
+    // Register CUDA matrix backend for Tensor Core FP16/BF16 acceleration.
+    // registerBackend() checks isAvailable() at runtime; silently skipped
+    // when no CUDA-capable GPU is detected.
+#ifdef THEMIS_ENABLE_CUDA
+    registerBackend(std::make_unique<CUDAMatrixBackend>());
+#endif
 
     // Register Vulkan backend when compiled with Vulkan support.
     // registerBackend() checks isAvailable() at runtime, so if no Vulkan
@@ -66,6 +85,22 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
 #ifdef THEMIS_ENABLE_VULKAN
     registerBackend(std::make_unique<VulkanVectorBackend>());
+#endif
+
+    // Register HIP vector and geo backends for AMD GPUs.
+    // registerBackend() checks isAvailable() at runtime; both are silently
+    // skipped when no ROCm-capable GPU is present.
+#ifdef THEMIS_ENABLE_HIP
+    registerBackend(std::make_unique<HIPVectorBackend>());
+    registerBackend(std::make_unique<HIPGeoBackend>());
+#endif
+
+    // Register OpenCL backend for broad hardware compatibility.
+    // Supports any OpenCL 1.2+ capable device: NVIDIA, AMD, Intel, ARM, Qualcomm.
+    // registerBackend() checks isAvailable() at runtime; silently skipped when
+    // no OpenCL ICD is present.
+#ifdef THEMIS_ENABLE_OPENCL
+    registerBackend(std::make_unique<OpenCLVectorBackend>());
 #endif
 }
 
@@ -194,6 +229,10 @@ IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& 
     return selectTyped<IGeoBackend>(backends_, reqs);
 }
 
+IMatrixBackend* BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IMatrixBackend>(backends_, reqs);
+}
+
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
     for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
@@ -236,8 +275,29 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
     return nullptr;
 }
 
+IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends_) {
+            if (backend->type() == type && backend->getCapabilities().supportsMatrixOps) {
+                auto* matrixBackend = dynamic_cast<IMatrixBackend*>(backend.get());
+                if (matrixBackend) {
+                    return matrixBackend;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 void BackendRegistry::autoDetect() {
     std::cout << "Auto-detecting acceleration backends..." << std::endl;
+
+    // Register multi-GPU sharding backend when multiple GPUs are visible.
+    // This is done before plugin loading so it appears at the head of the
+    // fallback chain and getBestVectorBackend() returns it first.
+    if (MultiGPUVectorBackend::detectGPUCount() >= 2) {
+        registerBackend(std::make_unique<MultiGPUVectorBackend>());
+    }
     
     // Try to load plugins from standard locations
     std::vector<std::string> pluginPaths = {
@@ -284,10 +344,99 @@ void BackendRegistry::shutdownAll() {
         backend->shutdown();
     }
     backends_.clear();
+
+    // Clear cached startup selections; the backends they pointed to are gone.
+    selectedVectorBackend_ = nullptr;
+    selectedGraphBackend_  = nullptr;
+    selectedGeoBackend_    = nullptr;
+    runtimeInitialized_    = false;
     
     if (pluginLoader_) {
         pluginLoader_->unloadAllPlugins();
     }
+}
+
+// ---------------------------------------------------------------------------
+// Default capability requirements
+// ---------------------------------------------------------------------------
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultVectorRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsVectorOps      = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    reqs.requiredMetrics     = metricBit(DistanceMetric::L2)
+                             | metricBit(DistanceMetric::COSINE)
+                             | metricBit(DistanceMetric::INNER_PRODUCT);
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGraphRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGraphOps = true;
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGeoOps         = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    return reqs;
+}
+
+// ---------------------------------------------------------------------------
+// Runtime startup initialization
+// ---------------------------------------------------------------------------
+
+void BackendRegistry::initializeRuntime(
+    const CapabilityRequirements& vectorReqs,
+    const CapabilityRequirements& graphReqs,
+    const CapabilityRequirements& geoReqs)
+{
+    std::cout << "Initializing acceleration runtime with capability-driven backend selection..." << std::endl;
+
+    // Discover and load all available backends.
+    autoDetect();
+
+    // Capability-driven selection for each operation category.
+    selectedVectorBackend_ = selectVectorBackendFor(vectorReqs);
+    selectedGraphBackend_  = selectGraphBackendFor(graphReqs);
+    selectedGeoBackend_    = selectGeoBackendFor(geoReqs);
+    runtimeInitialized_    = true;
+
+    // Log the selected backends so operators can confirm the startup choice.
+    auto logSelection = [](const char* category, const IComputeBackend* b) {
+        if (b) {
+            std::cout << "  [acceleration] Selected " << category
+                      << " backend: " << b->name()
+                      << " (type=" << static_cast<int>(b->type()) << ")" << std::endl;
+        } else {
+            std::cout << "  [acceleration] No suitable " << category
+                      << " backend found — operation category unavailable." << std::endl;
+        }
+    };
+
+    logSelection("vector", selectedVectorBackend_);
+    logSelection("graph",  selectedGraphBackend_);
+    logSelection("geo",    selectedGeoBackend_);
+}
+
+IVectorBackend* BackendRegistry::getSelectedVectorBackend() const noexcept {
+    return selectedVectorBackend_;
+}
+
+IGraphBackend* BackendRegistry::getSelectedGraphBackend() const noexcept {
+    return selectedGraphBackend_;
+}
+
+IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
+    return selectedGeoBackend_;
+}
+
+bool BackendRegistry::isRuntimeInitialized() const noexcept {
+    return runtimeInitialized_;
 }
 
 } // namespace acceleration

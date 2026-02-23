@@ -510,4 +510,42 @@ Result<nlohmann::json> executeAqlWithRLS(
     return Ok(std::move(doc));
 }
 
+// ── Type-annotated execution ──────────────────────────────────────────────
+
+Result<query::AnnotatedQueryResult> executeAqlAnnotated(
+    const std::string& aql,
+    QueryEngine&       engine)
+{
+    auto result = executeAql(aql, engine);
+    if (!result) {
+        return Err<query::AnnotatedQueryResult>(
+            result.error().code(),
+            result.error().message()
+        );
+    }
+
+    nlohmann::json doc = std::move(*result);
+
+    // Determine query_type label from the "type" field when present.
+    std::string query_type = "unknown";
+    if (doc.is_object() && doc.contains("type") && doc["type"].is_string()) {
+        query_type = doc["type"].get<std::string>();
+    }
+
+    // Infer schema from the "results" array when present; otherwise treat
+    // the whole document as a single-row result for schema inference.
+    nlohmann::json rows = nlohmann::json::array();
+    if (doc.is_object() && doc.contains("results") && doc["results"].is_array()) {
+        rows = doc["results"];
+    } else if (doc.is_array()) {
+        rows = doc;
+    }
+
+    query::AnnotatedQueryResult annotated;
+    annotated.result = std::move(doc);
+    annotated.schema = query::inferResultSchema(rows, query_type);
+
+    return Ok(std::move(annotated));
+}
+
 } // namespace themis

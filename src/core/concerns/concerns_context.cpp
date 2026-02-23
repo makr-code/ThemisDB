@@ -63,7 +63,8 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
 
     auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
         config.loggerAdapter, config.tracerAdapter,
-        config.metricsAdapter, config.cacheAdapter);
+        config.metricsAdapter, config.cacheAdapter,
+        config.circuitBreakerAdapter);
     if (!adapter_validation.valid) {
         throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
     }
@@ -145,11 +146,27 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         );
     }
 
+    // Initialize circuit breaker
+    std::unique_ptr<ICircuitBreaker> circuit_breaker;
+    if (config.circuitBreakerAdapter == "noop") {
+        circuit_breaker = std::make_unique<NoOpCircuitBreaker>();
+    } else {
+        // "default" — production circuit breaker
+        ICircuitBreaker::Config cb_cfg;
+        cb_cfg.failure_threshold  = config.circuitBreakerFailureThreshold;
+        cb_cfg.timeout            = config.circuitBreakerTimeout;
+        cb_cfg.success_threshold  = config.circuitBreakerSuccessThreshold;
+        cb_cfg.failure_window     = config.circuitBreakerFailureWindow;
+        circuit_breaker = std::make_unique<DefaultCircuitBreaker>(cb_cfg);
+    }
+
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
         std::move(metrics),
-        std::move(cache)
+        std::move(cache),
+        std::move(circuit_breaker),
+        std::make_unique<NoOpFeatureFlags>()
     ));
 }
 
@@ -157,13 +174,43 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
     std::unique_ptr<ILogger> logger,
     std::unique_ptr<ITracer> tracer,
     std::unique_ptr<IMetrics> metrics,
-    std::unique_ptr<ICache> cache
+    std::unique_ptr<ICache> cache,
+    std::unique_ptr<ICircuitBreaker> circuit_breaker
 ) {
+    if (!circuit_breaker) {
+        circuit_breaker = std::make_unique<NoOpCircuitBreaker>();
+    }
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
         std::move(metrics),
-        std::move(cache)
+        std::move(cache),
+        std::move(circuit_breaker),
+        std::make_unique<NoOpSecrets>(),
+        std::move(circuit_breaker),
+        std::make_unique<NoOpFeatureFlags>()
+    ));
+}
+
+std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
+    std::unique_ptr<ILogger> logger,
+    std::unique_ptr<ITracer> tracer,
+    std::unique_ptr<IMetrics> metrics,
+    std::unique_ptr<ICache> cache,
+    std::unique_ptr<ISecrets> secrets
+    std::unique_ptr<IFeatureFlags> featureFlags
+) {
+    if (!secrets) {
+        secrets = std::make_unique<NoOpSecrets>();
+    }
+    return std::shared_ptr<ConcernsContext>(new ConcernsContext(
+        std::move(logger),
+        std::move(tracer),
+        std::move(metrics),
+        std::move(cache),
+        std::make_unique<NoOpCircuitBreaker>(),
+        std::move(secrets),
+        std::move(featureFlags)
     ));
 }
 
@@ -181,7 +228,10 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
         std::make_unique<NoOpLogger>(),
         std::make_unique<NoOpTracer>(),
         std::make_unique<NoOpMetrics>(),
-        std::make_unique<NoOpCache>()
+        std::make_unique<NoOpCache>(),
+        std::make_unique<NoOpCircuitBreaker>(),
+        std::make_unique<NoOpSecrets>(),
+        std::make_unique<NoOpFeatureFlags>()
     ));
 }
 

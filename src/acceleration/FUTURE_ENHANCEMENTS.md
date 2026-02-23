@@ -80,11 +80,11 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 `nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`.
 
 **Implementation Notes:**
-- `[ ]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
-- `[ ]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[ ]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers.
-- `[ ]` RCCL mirror: `rccl_vector_backend.cpp` must expose the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
-- `[ ]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
+- `[x]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
+- `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
+- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring is deferred pending real CUDA kernels — v2.5+)
+- `[x]` RCCL mirror: `rccl_vector_backend.cpp` must expose the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
+- `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80GB; query latency < 15 ms @ 99th percentile for k=100.
@@ -99,11 +99,11 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation. Add a `CUDAGraphCache` within `CUDAVectorBackend` that captures and replays graphs keyed on `{dim, numQueries, topK, metric}`.
 
 **Implementation Notes:**
-- `[ ]` Add `CUDAGraphCache` struct to `cuda_backend.cpp`; keyed by a `QueryShape` tuple, value is a `cudaGraph_t` + `cudaGraphExec_t` pair.
-- `[ ]` On cache miss: record a graph with `cudaStreamBeginCapture` / `cudaStreamEndCapture`.
-- `[ ]` On cache hit: update device-memory pointers via `cudaGraphExecMemcpyNodeSetParams` then `cudaGraphLaunch`.
-- `[ ]` LRU evict graphs when cache exceeds 32 entries to bound device memory usage.
-- `[ ]` Disable graph capture if `opts.dynamicShapes == true` (variable-length query batches).
+- `[x]` Add `CUDAGraphCache` struct to `cuda_backend.h`/`cuda_backend.cpp`; keyed by a `QueryShape` tuple (`numQueries`, `numVectors`, `dim`, `topK`, `metric`), value is a `CUDAGraphEntry` owning a `cudaGraph_t` + `cudaGraphExec_t` pair plus pre-allocated device buffers.
+- `[x]` On cache miss: record a graph with `cudaStreamBeginCapture` / `cudaStreamEndCapture` on a temporary non-blocking capture stream; instantiate via `cudaGraphInstantiate` (CUDA 11/12 API variant guarded by `CUDART_VERSION`).
+- `[x]` On cache hit: copy new input data into the entry's pre-allocated device buffers via `cudaMemcpyAsync` on the main stream, then replay with `cudaGraphLaunch`. This is functionally equivalent to `cudaGraphExecMemcpyNodeSetParams`: by keeping the device-pointer addresses constant (pre-allocated at capture time), no node-parameter update is required on every replay. Approach chosen for simplicity and broader driver compatibility.
+- `[x]` LRU evict graphs when cache exceeds 32 entries to bound device memory usage (`CUDAGraphCache::evictLRU` traverses all entries in O(n) — acceptable since n ≤ 32).
+- `[x]` Variable-shape batches: no `SearchOptions` struct exists at this stage. Callers with variable-length batches are directed to use `batchKnnSearch()` instead; this is documented in the `batchKnnSearchWithGraph()` method comment. A future `SearchOptions::dynamicShapes` field can be wired in when the options API is added.
 
 **Performance Targets:**
 - ≥ 30% reduction in end-to-end ANN query latency for fixed-shape repeated queries (benchmarked via `benchmarks/vector_bench.cpp`).

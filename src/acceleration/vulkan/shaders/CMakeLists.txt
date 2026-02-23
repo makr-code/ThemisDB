@@ -29,6 +29,12 @@ set(VECTOR_INDEX_SHADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/topk_selection.comp
 )
 
+# Geospatial shader sources
+set(GEO_SHADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/haversine_distance.comp
+    ${CMAKE_CURRENT_SOURCE_DIR}/point_in_polygon.comp
+)
+
 # Output directory for compiled shaders
 set(SHADER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/shaders/lora)
 set(VECTOR_SHADER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/shaders/vector_index)
@@ -122,3 +128,50 @@ install(FILES ${VECTOR_INDEX_SHADERS}
 )
 
 message(STATUS "Vulkan Vector Index shaders will be compiled to: ${VECTOR_SHADER_OUTPUT_DIR}")
+
+# Compile Geospatial shaders
+set(GEO_SHADER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/shaders/geo)
+file(MAKE_DIRECTORY ${GEO_SHADER_OUTPUT_DIR})
+
+set(COMPILED_GEO_SHADERS "")
+foreach(SHADER_FILE ${GEO_SHADERS})
+    get_filename_component(SHADER_NAME ${SHADER_FILE} NAME_WE)
+    set(OUTPUT_FILE ${GEO_SHADER_OUTPUT_DIR}/${SHADER_NAME}.comp.spv)
+
+    # Set compiler flags based on compiler
+    if(VULKAN_SHADER_COMPILER_NAME STREQUAL "glslc")
+        set(COMPILER_FLAGS -o ${OUTPUT_FILE})
+    else()
+        set(COMPILER_FLAGS -V -o ${OUTPUT_FILE})
+    endif()
+
+    add_custom_command(
+        OUTPUT ${OUTPUT_FILE}
+        COMMAND ${VULKAN_SHADER_COMPILER} ${COMPILER_FLAGS} ${SHADER_FILE}
+        DEPENDS ${SHADER_FILE}
+        COMMENT "Compiling Geospatial Vulkan shader: ${SHADER_NAME}.comp"
+        VERBATIM
+    )
+
+    list(APPEND COMPILED_GEO_SHADERS ${OUTPUT_FILE})
+endforeach()
+
+# Create target for Geospatial shaders
+add_custom_target(vulkan_geo_shaders ALL
+    DEPENDS ${COMPILED_GEO_SHADERS}
+    COMMENT "Building Vulkan Geospatial shaders"
+)
+
+# Install compiled Geospatial shaders
+install(FILES ${COMPILED_GEO_SHADERS}
+    DESTINATION share/themis/shaders/geo
+    COMPONENT shaders
+)
+
+# Install Geospatial shader sources
+install(FILES ${GEO_SHADERS}
+    DESTINATION share/themis/shaders/geo/source
+    COMPONENT shaders
+)
+
+message(STATUS "Vulkan Geospatial shaders will be compiled to: ${GEO_SHADER_OUTPUT_DIR}")

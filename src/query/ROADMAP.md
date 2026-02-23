@@ -30,7 +30,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Query result type annotations for client SDK code generation (Issue: #1432)
+- [P] Query result type annotations for client SDK code generation (Issue: #1432)
 - [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
 - [!] Query cancellation via request ID (Issue: #2431)
 - [I] Parallel scan for large collection full-table queries (Issue: #2432)
@@ -66,7 +66,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [~] Incremental view maintenance for materialized CTEs
 
 ### Phase 3: Resource Management & UDF (Status: Planned 📋)
-- [ ] Query result type annotations for client SDK code generation
+- [x] Query result type annotations for client SDK code generation
 - [ ] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [ ] Parallel scan for large collection full-table queries

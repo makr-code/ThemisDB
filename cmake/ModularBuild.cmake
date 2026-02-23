@@ -148,6 +148,7 @@ set(THEMIS_BASE_SOURCES
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     
@@ -248,6 +249,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
@@ -282,8 +284,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/aql_query_builder.cpp
     ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
+    ../src/aql/aql_schema_provider.cpp
+    ../src/aql/aql_migration_assistant.cpp
     
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
