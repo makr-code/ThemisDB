@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LLM LoRA inline tests not runnable in current build.
+// Disabled: LLM LoRA inline tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlmLoraInline, Skipped)

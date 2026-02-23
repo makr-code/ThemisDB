@@ -290,6 +290,10 @@ BackendCapabilities HIPVectorBackend::getCapabilities() const {
     caps.supportsGeoOps = false;
     caps.supportsBatchProcessing = true;
     caps.supportsAsync = true;
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                          | metricBit(DistanceMetric::COSINE)
+                          | metricBit(DistanceMetric::INNER_PRODUCT);
     
     if (impl_->initialized) {
         caps.deviceName = std::string(impl_->deviceProps.name) + " (HIP)";

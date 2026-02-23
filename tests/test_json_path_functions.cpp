@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: JSON path functions tests not runnable in current build.
+// Disabled: JSON path functions tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_JsonPathFunctions, Skipped)

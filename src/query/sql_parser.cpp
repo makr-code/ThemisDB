@@ -346,8 +346,6 @@ public:
         : tokens_(std::move(tokens)), pos_(0) {}
 
     Result<SQLASTNode> parseStatement() {
-        skipWhitespace(); // no-op on tokens, just ensure pos_ valid
-
         if (current().type == SQLTokenType::SELECT) {
             auto res = parseSelect();
             if (!res) return Err<SQLASTNode>(res.error().code(), res.error().context());

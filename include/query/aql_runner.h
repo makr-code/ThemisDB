@@ -27,6 +27,8 @@
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
+#include "query/result_type_annotation.h"
+#include "query/query_resource_limits.h"
 #include "query_engine.h"
 #include "utils/expected.h"
 
@@ -45,6 +47,23 @@ namespace themis {
 // Returns Result<nlohmann::json> for unified error handling.
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
 Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
+
+/// Execute AQL with per-query resource limits (max rows, max memory, timeout).
+///
+/// Enforces the supplied limits on the result of executeAql():
+/// - @p limits.max_rows:         returns ERR_QUERY_RESOURCE_EXHAUSTED when the
+///                               result contains more rows than the limit.
+/// - @p limits.max_memory_bytes: returns ERR_QUERY_RESOURCE_EXHAUSTED when the
+///                               serialised JSON result exceeds the byte budget.
+/// - @p limits.timeout_ms:       returns ERR_QUERY_TIMEOUT when execution takes
+///                               longer than the configured timeout.
+///
+/// A limit value of 0 means unlimited (the check is skipped).
+Result<nlohmann::json> executeAqlWithLimits(
+    const std::string& aql,
+    QueryEngine& engine,
+    const query::QueryResourceLimits& limits
+);
 
 // ── Query plan visualisation (EXPLAIN / EXPLAIN ANALYZE) ─────────────────────
 //
@@ -100,6 +119,20 @@ Result<nlohmann::json> executeAqlWithRLS(
     QueryEngine& engine,
     security::RLSManager& rls,
     const security::SecurityContext& ctx
+);
+
+// ── Type-annotated execution (for client SDK code generation) ─────────────
+
+/// Execute AQL and return the result together with its inferred type schema.
+///
+/// The schema is derived from the "results" array inside the JSON payload.
+/// It can be serialised with AnnotatedQueryResult::schema.toJson() and fed
+/// to client SDK generators to produce strongly-typed accessor code.
+///
+/// On execution failure the function returns an Err identical to executeAql().
+Result<query::AnnotatedQueryResult> executeAqlAnnotated(
+    const std::string& aql,
+    QueryEngine& engine
 );
 
 } // namespace themis
