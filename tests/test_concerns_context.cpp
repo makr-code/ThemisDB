@@ -433,7 +433,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
 
 TEST_F(ConcernsContextTest, ConfigAdapterNoopValuesAreValid) {
     auto result = core::ConfigValidator::validateAdapterConfig(
-        "noop", "noop", "noop", "noop");
+        "noop", "noop", "noop", "noop", "noop");
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
@@ -481,11 +481,20 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
     EXPECT_NE(std::string::npos, result.errors[0].find("redis"));
 }
 
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownCircuitBreakerAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "inmemory", "hystrix");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("circuitBreakerAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("hystrix"));
+}
+
 TEST_F(ConcernsContextTest, ConfigAdapterMultipleInvalidAdaptersReportAllErrors) {
     auto result = core::ConfigValidator::validateAdapterConfig(
-        "log4cpp", "jaeger", "datadog", "redis");
+        "log4cpp", "jaeger", "datadog", "redis", "hystrix");
     EXPECT_FALSE(result.valid);
-    EXPECT_EQ(4u, result.errors.size());
+    EXPECT_EQ(5u, result.errors.size());
 }
 
 TEST_F(ConcernsContextTest, ConfigDrivenNoopLoggerSelection) {
