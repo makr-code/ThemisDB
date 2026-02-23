@@ -211,8 +211,26 @@ void WebSocketSession::processMessage(const std::string& message) {
                 // Subscribe to CDC changefeed
                 uint64_t from_seq = msg.value("from_sequence", 0);
                 std::string key_prefix = msg.value("key_prefix", "");
-                
-                subscribeToCDC(from_seq, key_prefix);
+
+                // Parse optional filter.type field (e.g. {"filter":{"type":"PUT"}})
+                std::set<Changefeed::ChangeEventType> event_types;
+                if (msg.contains("filter") && msg["filter"].is_object()) {
+                    const auto& flt = msg["filter"];
+                    if (flt.contains("type") && flt["type"].is_string()) {
+                        const std::string& ft = flt["type"].get<std::string>();
+                        if (ft == "PUT") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+                        } else if (ft == "DELETE") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+                        } else if (ft == "TRANSACTION_COMMIT") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+                        } else if (ft == "TRANSACTION_ROLLBACK") {
+                            event_types.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+                        }
+                    }
+                }
+
+                subscribeToCDC(from_seq, key_prefix, event_types);
                 
                 json response = {
                     {"type", "subscribed"},
@@ -330,7 +348,23 @@ void WebSocketSession::processMessage(const std::string& message) {
 
 void WebSocketSession::send(const std::string& message) {
     std::lock_guard<std::mutex> lock(write_mutex_);
-    
+
+    // Back-pressure: close with code 1011 (Internal Error) when the outbound
+    // queue is saturated to avoid unbounded memory growth.
+    constexpr size_t kMaxQueueSize = 1000;
+    if (write_queue_.size() >= kMaxQueueSize) {
+        THEMIS_WARN("WebSocket session {} outbound queue full ({}), closing with 1011",
+                    session_id_, write_queue_.size());
+        active_ = false;
+        beast::error_code ec;
+        if (is_tls_) {
+            ws_tls_->close(websocket::close_code::internal_error, ec);
+        } else {
+            ws_plain_->close(websocket::close_code::internal_error, ec);
+        }
+        return;
+    }
+
     write_queue_.push({message, /*is_binary=*/false});
     
     if (!writing_) {
@@ -439,16 +473,18 @@ void WebSocketSession::doClose() {
     }
 }
 
-void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix) {
+void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix,
+                                      const std::set<Changefeed::ChangeEventType>& event_types) {
     std::lock_guard<std::mutex> lock(cdc_mutex_);
     cdc_subscribed_ = true;
     cdc_from_sequence_ = from_sequence;
     // Set last_sent to from_sequence - 1 so first poll gets events > from_sequence
     cdc_last_sent_sequence_ = (from_sequence > 0) ? (from_sequence - 1) : 0;
     cdc_key_prefix_ = key_prefix;
+    cdc_event_types_ = event_types;
     
-    THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}')", 
-                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix);
+    THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}', event_types={})", 
+                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix, event_types.size());
 }
 
 void WebSocketSession::unsubscribeFromCDC() {
@@ -469,7 +505,8 @@ WebSocketSession::CDCSubscription WebSocketSession::getCDCSubscription() const {
     return CDCSubscription{
         cdc_from_sequence_,
         cdc_key_prefix_,
-        cdc_last_sent_sequence_
+        cdc_last_sent_sequence_,
+        cdc_event_types_
     };
 }
 
@@ -543,6 +580,10 @@ void WebSocketManager::pollCDCEvents() {
             options.long_poll_ms = 0; // No blocking
             if (!sub.key_prefix.empty()) {
                 options.key_prefix = sub.key_prefix;
+            }
+            // Apply per-subscription event-type filter if set
+            if (!sub.event_types.empty()) {
+                options.event_types = sub.event_types;
             }
             
             try {

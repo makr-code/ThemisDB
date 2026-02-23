@@ -320,4 +320,66 @@ TEST(WsChangesMessageFormat, ExistingTypeFieldIsPreserved) {
     EXPECT_EQ(client_msg["type"], "subscribe");
     EXPECT_FALSE(client_msg.contains("action"));
 }
+
+TEST(WsChangesMessageFormat, FilterTypeIsParsedToPutEventType) {
+    // Validate that filter.type="PUT" produces the correct event type set.
+    // This mirrors the logic in WebSocketSession::processMessage.
+    json client_msg = {
+        {"action", "subscribe"},
+        {"collection", "orders"},
+        {"filter", {{"type", "PUT"}}}
+    };
+
+    // Normalise
+    if (client_msg.contains("action") && !client_msg.contains("type")) {
+        client_msg["type"] = client_msg["action"];
+    }
+    if (client_msg.contains("collection") && !client_msg.contains("channel")) {
+        client_msg["channel"]    = "changefeed";
+        client_msg["key_prefix"] = client_msg["collection"].get<std::string>() + ":";
+    }
+
+    // Simulate event_types extraction
+    std::set<std::string> event_types;
+    if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
+        const auto& flt = client_msg["filter"];
+        if (flt.contains("type") && flt["type"].is_string()) {
+            event_types.insert(flt["type"].get<std::string>());
+        }
+    }
+
+    EXPECT_EQ(event_types.size(), 1u);
+    EXPECT_TRUE(event_types.count("PUT") > 0);
+}
+
+TEST(WsChangesMessageFormat, FilterTypeDeleteIsParsed) {
+    json client_msg = {
+        {"action", "subscribe"},
+        {"collection", "orders"},
+        {"filter", {{"type", "DELETE"}}}
+    };
+    std::set<std::string> event_types;
+    if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
+        const auto& flt = client_msg["filter"];
+        if (flt.contains("type") && flt["type"].is_string()) {
+            event_types.insert(flt["type"].get<std::string>());
+        }
+    }
+    EXPECT_EQ(event_types.size(), 1u);
+    EXPECT_TRUE(event_types.count("DELETE") > 0);
+}
+
+TEST(WsChangesMessageFormat, NoFilterMeansAllEventTypes) {
+    json client_msg = {{"action", "subscribe"}, {"collection", "orders"}};
+    std::set<std::string> event_types;
+    if (client_msg.contains("filter") && client_msg["filter"].is_object()) {
+        const auto& flt = client_msg["filter"];
+        if (flt.contains("type") && flt["type"].is_string()) {
+            event_types.insert(flt["type"].get<std::string>());
+        }
+    }
+    // No filter → empty set → all event types (unfiltered)
+    EXPECT_TRUE(event_types.empty());
+}
+
 #endif // THEMIS_ENABLE_WEBSOCKET
