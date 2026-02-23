@@ -314,3 +314,57 @@ TEST(ChunkedResponseWriterTest, CustomThreshold) {
     EXPECT_TRUE(ChunkedResponseWriter::shouldUseChunkedTransfer(req, 50, 50));
     EXPECT_FALSE(ChunkedResponseWriter::shouldUseChunkedTransfer(req, 49, 50));
 }
+
+// ============================================================================
+// decodeChunkedBody — round-trip tests
+// ============================================================================
+
+TEST(ChunkedResponseWriterTest, DecodeEmptyBody) {
+    EXPECT_EQ(ChunkedResponseWriter::decodeChunkedBody(""), "");
+}
+
+TEST(ChunkedResponseWriterTest, DecodeTerminatorOnly) {
+    EXPECT_EQ(ChunkedResponseWriter::decodeChunkedBody("0\r\n\r\n"), "");
+}
+
+TEST(ChunkedResponseWriterTest, DecodeSingleChunk) {
+    // Manually encoded single chunk
+    std::string encoded = "5\r\nhello\r\n0\r\n\r\n";
+    EXPECT_EQ(ChunkedResponseWriter::decodeChunkedBody(encoded), "hello");
+}
+
+TEST(ChunkedResponseWriterTest, DecodeMultipleChunks) {
+    std::string encoded = "3\r\nfoo\r\n3\r\nbar\r\n0\r\n\r\n";
+    EXPECT_EQ(ChunkedResponseWriter::decodeChunkedBody(encoded), "foobar");
+}
+
+TEST(ChunkedResponseWriterTest, EncodeDecodeRoundTrip) {
+    std::vector<std::string> frags = {"{\"a\":1}\n", "{\"b\":2}\n", "{\"c\":3}\n"};
+    std::string encoded = ChunkedResponseWriter::encodeChunkedBody(frags);
+    std::string decoded = ChunkedResponseWriter::decodeChunkedBody(encoded);
+    EXPECT_EQ(decoded, "{\"a\":1}\n{\"b\":2}\n{\"c\":3}\n");
+}
+
+TEST(ChunkedResponseWriterTest, DecodePreservesContent) {
+    // Build via fromJsonVector, then decode – validates the full pipeline
+    auto req = makeRequest();
+    std::vector<json> items;
+    for (int i = 0; i < 5; ++i) {
+        items.push_back({{"v", i}});
+    }
+    auto res = ChunkedResponseWriter::fromJsonVector(req, http::status::ok, items);
+    std::string decoded = ChunkedResponseWriter::decodeChunkedBody(res.body());
+
+    // Should be 5 NDJSON lines
+    std::istringstream iss(decoded);
+    std::string line;
+    int count = 0;
+    while (std::getline(iss, line)) {
+        if (!line.empty()) {
+            json parsed = json::parse(line);
+            EXPECT_EQ(parsed["v"], count);
+            ++count;
+        }
+    }
+    EXPECT_EQ(count, 5);
+}

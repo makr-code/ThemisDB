@@ -10,6 +10,7 @@
  */
 
 #include "server/chunked_response_writer.h"
+#include "utils/logger.h"
 
 #include <iomanip>
 #include <sstream>
@@ -157,6 +158,48 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
     }
 
     return fromFragments(req, status, fragments, config.content_type);
+}
+
+// ---------------------------------------------------------------------------
+// decodeChunkedBody
+// ---------------------------------------------------------------------------
+
+std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
+    std::string result;
+    size_t pos = 0;
+    while (pos < encoded.size()) {
+        // Find CRLF that ends the chunk-size line
+        size_t crlf = encoded.find("\r\n", pos);
+        if (crlf == std::string::npos) {
+            break;
+        }
+        const std::string size_str = encoded.substr(pos, crlf - pos);
+        if (size_str.empty()) {
+            break;
+        }
+        size_t chunk_size = 0;
+        try {
+            chunk_size = std::stoul(size_str, nullptr, 16);
+        } catch (...) {
+            THEMIS_WARN("decodeChunkedBody: failed to parse chunk size '{}'; aborting decode", size_str);
+            break;
+        }
+        pos = crlf + 2;
+        if (chunk_size == 0) {
+            // Terminal chunk
+            break;
+        }
+        if (pos + chunk_size > encoded.size()) {
+            // Truncated – take what we have
+            THEMIS_WARN("decodeChunkedBody: truncated chunk (expected {} bytes, {} available); returning partial data",
+                        chunk_size, encoded.size() - pos);
+            result.append(encoded, pos, encoded.size() - pos);
+            break;
+        }
+        result.append(encoded, pos, chunk_size);
+        pos += chunk_size + 2; // skip data + trailing CRLF
+    }
+    return result;
 }
 
 // ---------------------------------------------------------------------------

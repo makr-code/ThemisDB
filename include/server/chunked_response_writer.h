@@ -169,6 +169,18 @@ public:
         size_t item_count,
         size_t threshold = 1000);
 
+    /**
+     * @brief Decode an RFC 7230 chunked body back to plain bytes.
+     *
+     * Used by protocol adapters (e.g. HTTP/2 session) that need to strip
+     * chunked framing before forwarding the body over a transport that does
+     * not support `Transfer-Encoding: chunked`.
+     *
+     * @param encoded  Raw chunked body (as produced by encodeChunkedBody).
+     * @return Decoded body.  Returns an empty string if `encoded` is empty.
+     */
+    static std::string decodeChunkedBody(const std::string& encoded);
+
 private:
     /// Append one chunk to `out` using RFC 7230 encoding.
     static void appendChunk(std::string& out, const std::string& data);
