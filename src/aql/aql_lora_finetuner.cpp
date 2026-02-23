@@ -613,6 +613,21 @@ TrainingResult AQLLoRAFinetuner::train() {
     AQL_LOG_INFO("AQLLoRAFinetuner: training adapter '{}' on {} samples (base model: {})",
                  impl_->config.adapter_id, dataset.size(), impl_->config.base_model);
 
+    // Wire epoch_callback through LoRATrainingService::registerCallback if provided
+    if (impl_->config.epoch_callback) {
+        auto cb = impl_->config.epoch_callback;
+        impl_->training_service->registerCallback(
+            [cb](const ::themis::llm::lora::TrainingMetrics& metrics) {
+                // Deliver a callback at the end of each epoch (status == "training"
+                // and current_step == total_steps within that epoch, or per-epoch
+                // transition).  We forward every metrics update; callers can
+                // filter by metrics.current_epoch themselves.
+                cb(metrics.current_epoch,
+                   static_cast<double>(metrics.current_loss));
+            }
+        );
+    }
+
     // Delegate to the LoRA training service
     auto result = impl_->training_service->trainOnTheFly(
         impl_->config.adapter_id,

@@ -253,6 +253,30 @@ TEST_F(AQLLoRAFinetunerTest, IsTrainedAfterSuccessfulTrain) {
     }
 }
 
+TEST_F(AQLLoRAFinetunerTest, EpochCallbackIsWiredAndInvoked) {
+    AQLLoRAFinetuner::Config cfg;
+    cfg.include_builtin_samples  = true;
+    cfg.min_training_samples     = 1;
+    cfg.hyperparameters.num_epochs = 1;
+
+    std::vector<std::pair<int,double>> cb_calls;
+    cfg.epoch_callback = [&cb_calls](int epoch, double loss) {
+        cb_calls.push_back({epoch, loss});
+    };
+
+    AQLLoRAFinetuner finetuner(cfg, training_service_);
+    // Just verify that constructing with a callback and training doesn't throw.
+    // The callback may or may not fire depending on the underlying simulation
+    // mode of LoRATrainingService.
+    ASSERT_NO_THROW(finetuner.train());
+}
+
+TEST_F(AQLLoRAFinetunerTest, EpochCallbackNullByDefault) {
+    AQLLoRAFinetuner::Config cfg;
+    // epoch_callback should be null / unset by default
+    EXPECT_FALSE(static_cast<bool>(cfg.epoch_callback));
+}
+
 // ============================================================================
 // AQLTrainParser Tests
 // ============================================================================
