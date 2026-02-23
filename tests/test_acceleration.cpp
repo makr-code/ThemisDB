@@ -355,6 +355,169 @@ TEST_F(AccelerationTest, BatchKnnSearchKClampsToNumVectors) {
     backend->shutdown();
 }
 
+// =============================================================================
+// Strict input validation tests — CPU backends (no GPU required)
+// These tests cover all three CPU backend types and verify that unsafe batches
+// are rejected early with an appropriate error set.
+// =============================================================================
+
+// --- CPUVectorBackend ---------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_NullQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(nullptr, 1, 2, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_NullVectorsReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 1, 2, nullptr, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_ZeroQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 0, 2, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_ZeroDimReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 1, 0, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_NullQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(nullptr, 1, 2, v, 1, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_ZeroKReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(q, 1, 2, v, 1, 0, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_ZeroDimReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(q, 1, 0, v, 1, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+// --- CPUGeoBackend ------------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUGeo_BatchDistances_NullLatsReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lons1[] = {0.0};
+    const double lats2[] = {10.0};
+    const double lons2[] = {10.0};
+    auto result = backend.batchDistances(nullptr, lons1, lats2, lons2, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchDistances_ZeroCountReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lats1[] = {0.0};
+    const double lons1[] = {0.0};
+    const double lats2[] = {10.0};
+    const double lons2[] = {10.0};
+    auto result = backend.batchDistances(lats1, lons1, lats2, lons2, 0, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchPointInPolygon_NullPointsReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double polyCoords[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    const double lons[] = {0.5};
+    auto result = backend.batchPointInPolygon(nullptr, lons, 1, polyCoords, 4);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lats[] = {0.5};
+    const double lons[] = {0.5};
+    const double polyCoords[] = {0.0,0.0, 1.0,0.0}; // only 2 vertices
+    auto result = backend.batchPointInPolygon(lats, lons, 1, polyCoords, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+// --- CPUGraphBackend ---------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUGraph_BatchBFS_NullAdjacencyReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(nullptr, 4, starts, 1, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchBFS_ZeroNumStartsReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t adj[] = {0u};
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(adj, 4, starts, 0, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_NullAdjacencyReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[] = {1u};
+    auto result = backend.batchShortestPath(nullptr, weights, 4, starts, ends, 1);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_ZeroNumPairsReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t adj[] = {0u};
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[] = {1u};
+    auto result = backend.batchShortestPath(adj, weights, 4, starts, ends, 0);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
 // ============================================================================
 // Deterministic Tie-Breaking Tests (Issue #1388)
 // ============================================================================

@@ -26,7 +26,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
-- [!] ROCm/HIP support for AMD GPU acceleration (Issue: #1370)
+- [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
 - [P] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
@@ -40,12 +40,12 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: Core-Implementierung
 - [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
-- [P] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — inner product pipeline added; ANNKernelDispatch + GeoKernelDispatch populated; VulkanGeoBackend implemented; haversine and point-in-polygon shaders added
-- [P] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `supportedPrecisions`/`supportedMetrics` now populated in `CUDAVectorBackend::getCapabilities()`
+- [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
+- [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [P] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to `computeDistances()`/`batchKnnSearch()`
-- [P] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)
+- [P] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to all active backends: `CUDAVectorBackend`, `CPUVectorBackend`, `CPUVectorBackendMT`, `CPUVectorBackendTBB`, `HIPVectorBackend`; geo and graph CPU backends also guarded via `BatchValidator` utility (`include/acceleration/batch_validator.h`)
+- [I] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)
 - [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
 
 ### Phase 4: Tests
@@ -59,8 +59,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
-- [I] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395)
-- [I] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396)
+- [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — covered in `docs/acceleration/capability_negotiation.md`
+- [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
 
 ## Implementation Phases
@@ -81,7 +81,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
-- [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
+- [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
@@ -92,14 +92,14 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` added: 14 GTest cases across 5 fixtures (CUDA ANN, CUDA Geo, Vulkan ANN, Vulkan Geo, Registry); tests skip gracefully when backend not compiled in or no device present
 - [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
-- [I] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
+- [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402) — `docs/acceleration/capability_negotiation.md` published
 - [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
 
 ## Known Issues & Limitations
 - CUDA and Vulkan backends are currently stub/scaffolding implementations
 - Actual GPU kernels have not yet been written; all operations fall through to CPU
 - No runtime device capability detection yet
-- Multi-GPU support not implemented
+- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - Some backend source files are staged but not feature-complete for production traffic
 
 ## Breaking Changes

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/tensor_core_matmul.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/raii/cuda_raii.h"
@@ -288,10 +289,9 @@ private:
     bool initialized_ = false;
 
 #ifdef THEMIS_ENABLE_CUDA
-    // RAII-managed CUDA stream (automatic cleanup)
     raii::CudaStream stream_;
 #else
-    void* deviceContext_ = nullptr;  // Fallback for non-CUDA builds
+    void* deviceContext_ = nullptr;
 #endif
 };
 
