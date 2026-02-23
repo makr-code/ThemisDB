@@ -21,6 +21,7 @@
 #include "utils/logger.h"
 #include <fstream>
 #include <algorithm>
+#include <unordered_set>
 
 namespace themis {
 namespace scheduler {
@@ -224,11 +225,11 @@ std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryP
         }
     }
     
-    // If not enough results, load from file
-    if (results.size() < params.limit) {
-        auto file_results = loadEventsFromFile(config_.audit_log_path, params);
-        results.insert(results.end(), file_results.begin(), file_results.end());
-    }
+    // Always load from file to include events that have been evicted from the cache.
+    // loadEventsFromFile() skips UUIDs already present in recent_audit_events_ to
+    // prevent duplicates.
+    auto file_results = loadEventsFromFile(config_.audit_log_path, params);
+    results.insert(results.end(), file_results.begin(), file_results.end());
     
     // Sort results
     switch (params.sort_by) {
@@ -281,6 +282,12 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
     
     std::vector<TaskAuditEvent> results;
     
+    // Build a set of UUIDs already in the results to avoid duplicates with cache
+    std::unordered_set<std::string> seen_uuids;
+    for (const auto& cached : recent_audit_events_) {
+        seen_uuids.insert(cached.uuid);
+    }
+    
     try {
         std::ifstream ifs(file_path);
         if (!ifs.is_open()) {
@@ -289,16 +296,21 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
         
         std::string line;
         while (std::getline(ifs, line) && results.size() < config_.max_query_results) {
+            if (line.empty()) continue;
             try {
                 auto j = nlohmann::json::parse(line);
                 
-                // Reconstruct TaskAuditEvent from JSON
-                // Note: This is a simplified version. Full implementation would
-                // need to parse all fields correctly.
                 TaskAuditEvent event;
                 event.uuid = j.value("uuid", "");
+                
+                // Skip events already present in the in-memory cache
+                if (!event.uuid.empty() && seen_uuids.count(event.uuid)) {
+                    continue;
+                }
+                
                 event.task_id = j.value("task_id", "");
                 event.task_name = j.value("task_name", "");
+                event.task_description = j.value("task_description", "");
                 
                 if (j.contains("timestamp")) {
                     auto ts_ms = j["timestamp"].get<int64_t>();
@@ -306,11 +318,62 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
                         std::chrono::milliseconds(ts_ms));
                 }
                 
+                event.duration_ms = j.value("duration_ms", 0.0);
                 event.success = j.value("success", false);
+                
+                if (j.contains("event_type")) {
+                    event.event_type = taskEventTypeFromString(j["event_type"].get<std::string>());
+                }
+                event.trigger_type = j.value("trigger_type", "");
+                
+                event.user_id = j.value("user_id", "");
+                event.ip_address = j.value("ip_address", "");
+                event.session_id = j.value("session_id", "");
+                if (j.contains("tenant_id") && !j["tenant_id"].is_null()) {
+                    event.tenant_id = j["tenant_id"].get<std::string>();
+                }
+                
+                if (j.contains("error_message") && !j["error_message"].is_null()) {
+                    event.error_message = j["error_message"].get<std::string>();
+                }
+                if (j.contains("error_type") && !j["error_type"].is_null()) {
+                    event.error_type = j["error_type"].get<std::string>();
+                }
+                if (j.contains("retry_count") && !j["retry_count"].is_null()) {
+                    event.retry_count = j["retry_count"].get<int>();
+                }
+                
+                if (j.contains("resource_usage")) {
+                    const auto& ru = j["resource_usage"];
+                    event.resource_usage.cpu_time_ms = ru.value("cpu_time_ms", 0.0);
+                    event.resource_usage.memory_bytes = ru.value("memory_bytes", uint64_t{0});
+                    event.resource_usage.io_read_bytes = ru.value("io_read_bytes", uint64_t{0});
+                    event.resource_usage.io_write_bytes = ru.value("io_write_bytes", uint64_t{0});
+                    event.resource_usage.execution_time_ms = ru.value("execution_time_ms", 0.0);
+                    event.resource_usage.result_rows = ru.value("result_rows", uint64_t{0});
+                    event.resource_usage.affected_rows = ru.value("affected_rows", uint64_t{0});
+                }
+                
+                if (j.contains("anomaly_metrics")) {
+                    const auto& am = j["anomaly_metrics"];
+                    event.anomaly_metrics.frequency_score = am.value("frequency_score", 0.0);
+                    event.anomaly_metrics.pattern_score = am.value("pattern_score", 0.0);
+                    event.anomaly_metrics.resource_score = am.value("resource_score", 0.0);
+                    event.anomaly_metrics.failure_rate_score = am.value("failure_rate_score", 0.0);
+                    event.anomaly_metrics.overall_score = am.value("overall_score", 0.0);
+                    event.anomaly_metrics.is_anomalous = am.value("is_anomalous", false);
+                    event.anomaly_metrics.description = am.value("description", "");
+                }
+                
+                if (j.contains("metadata") && j["metadata"].is_object()) {
+                    event.metadata = j["metadata"];
+                }
                 
                 // Check if matches query
                 if (matchesQuery(event, params)) {
-                    results.push_back(event);
+                    auto uuid_copy = event.uuid;
+                    results.push_back(std::move(event));
+                    seen_uuids.insert(std::move(uuid_copy));
                 }
                 
             } catch (const std::exception& e) {

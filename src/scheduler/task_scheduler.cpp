@@ -1160,6 +1160,26 @@ std::shared_ptr<ScheduledTask> TaskScheduler::getTask(const std::string& task_id
     return nullptr;
 }
 
+std::vector<scheduler::TaskAuditEvent> TaskScheduler::getExecutionHistory(
+    const std::string& task_id,
+    size_t limit,
+    size_t offset) const {
+    
+    if (!audit_manager_) {
+        return {};
+    }
+    
+    scheduler::AuditQueryParams params;
+    if (!task_id.empty()) {
+        params.task_id = task_id;
+    }
+    params.limit = limit;
+    params.offset = offset;
+    params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
+    
+    return audit_manager_->queryAuditEvents(params);
+}
+
 // ===== Scheduler Loop =====
 
 void TaskScheduler::schedulerLoop() {

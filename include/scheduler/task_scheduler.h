@@ -58,6 +58,7 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
+#include "scheduler/task_audit_event.h"
 
 namespace themis {
 
@@ -482,6 +483,24 @@ public:
     std::shared_ptr<scheduler::TaskAuditManager> getAuditManager() const {
         return audit_manager_;
     }
+
+    /**
+     * @brief Get execution history for a specific task (or all tasks)
+     *
+     * Convenience wrapper around TaskAuditManager::queryAuditEvents() that
+     * pre-populates the task_id filter and sensible defaults for browsing
+     * the searchable audit log.
+     *
+     * @param task_id  Task ID to filter on (empty string = all tasks)
+     * @param limit    Maximum number of results to return (default 100)
+     * @param offset   Pagination offset (default 0)
+     * @return Vector of audit events ordered by timestamp descending,
+     *         or empty vector if audit logging is disabled
+     */
+    std::vector<scheduler::TaskAuditEvent> getExecutionHistory(
+        const std::string& task_id = "",
+        size_t limit = 100,
+        size_t offset = 0) const;
 
 private:
     // Core components
