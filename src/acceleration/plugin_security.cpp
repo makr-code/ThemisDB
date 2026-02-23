@@ -47,6 +47,13 @@
 #include <Security/Security.h>
 #endif
 
+#if !defined(_WIN32) && !defined(__APPLE__)
+// POSIX process spawning headers for shell-free GPG invocation
+#include <spawn.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
+
 namespace themis {
 namespace acceleration {
 
@@ -1242,57 +1249,43 @@ bool EnhancedPluginSecurityVerifier::verifyMacOSCodeSignature(
     const std::string& plugin_path,
     VerificationResult& result
 ) {
-    // Validate plugin_path to prevent injection
-    // NOTE: This is a basic validation. For production use, consider using
-    // Security framework's SecStaticCodeCheckValidity API directly instead of
-    // shelling out to avoid any potential shell injection risks.
-    if (plugin_path.find('\'') != std::string::npos || 
-        plugin_path.find('\"') != std::string::npos ||
-        plugin_path.find(';') != std::string::npos ||
-        plugin_path.find('&') != std::string::npos ||
-        plugin_path.find('|') != std::string::npos ||
-        plugin_path.find('`') != std::string::npos ||
-        plugin_path.find('$') != std::string::npos ||
-        plugin_path.find('\n') != std::string::npos ||
-        plugin_path.find('\r') != std::string::npos) {
-        result.error_message = "Invalid characters in plugin path";
+    // Use Security framework APIs directly — avoids shell invocation entirely.
+    CFStringRef path_cf = CFStringCreateWithCString(
+        kCFAllocatorDefault, plugin_path.c_str(), kCFStringEncodingUTF8
+    );
+    if (!path_cf) {
+        result.error_message = "Failed to create CFString from plugin path";
         return false;
     }
-    
-    // Use codesign utility to verify code signature
-    // TODO: Replace with Security framework APIs (SecStaticCodeCheckValidity) for better security
-    
-    std::string command = "/usr/bin/codesign --verify --verbose=2 '" + plugin_path + "' 2>&1";
-    
-    FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe) {
-        result.error_message = "Failed to execute codesign command";
+
+    CFURLRef url = CFURLCreateWithFileSystemPath(
+        kCFAllocatorDefault, path_cf, kCFURLPOSIXPathStyle, false
+    );
+    CFRelease(path_cf);
+    if (!url) {
+        result.error_message = "Failed to create CFURL from plugin path";
         return false;
     }
-    
-    char buffer[256];
-    std::string output;
-    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        output += buffer;
+
+    SecStaticCodeRef code = nullptr;
+    OSStatus status = SecStaticCodeCreateWithPath(url, kSecCSDefaultFlags, &code);
+    CFRelease(url);
+
+    if (status != errSecSuccess) {
+        result.error_message = "Failed to create SecStaticCode (OSStatus " +
+                               std::to_string(static_cast<int>(status)) + ")";
+        return false;
     }
-    
-    int exit_code = pclose(pipe);
-    
-    if (exit_code == 0) {
+
+    status = SecStaticCodeCheckValidity(code, kSecCSDefaultFlags, nullptr);
+    CFRelease(code);
+
+    if (status == errSecSuccess) {
         result.platform_signature_verified = true;
-        
-        // Extract signer identity if available
-        if (output.find("Authority=") != std::string::npos) {
-            size_t pos = output.find("Authority=");
-            size_t end = output.find('\n', pos);
-            if (end != std::string::npos) {
-                result.issuer = output.substr(pos + 10, end - pos - 10);
-            }
-        }
-        
         return true;
     } else {
-        result.error_message = "macOS code signature verification failed: " + output;
+        result.error_message = "macOS code signature verification failed (OSStatus " +
+                               std::to_string(static_cast<int>(status)) + ")";
         return false;
     }
 }
@@ -1301,26 +1294,10 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
     const std::string& plugin_path,
     VerificationResult& result
 ) {
-    // Validate plugin_path to prevent injection
-    // NOTE: This is a basic validation. For production use, consider using
-    // GPGME library for safer API access instead of shelling out.
-    if (plugin_path.find('\'') != std::string::npos || 
-        plugin_path.find('\"') != std::string::npos ||
-        plugin_path.find(';') != std::string::npos ||
-        plugin_path.find('&') != std::string::npos ||
-        plugin_path.find('|') != std::string::npos ||
-        plugin_path.find('`') != std::string::npos ||
-        plugin_path.find('$') != std::string::npos ||
-        plugin_path.find('\n') != std::string::npos ||
-        plugin_path.find('\r') != std::string::npos) {
-        result.error_message = "Invalid characters in plugin path";
-        return false;
-    }
-    
-    // Check for GPG signature file (.sig or .asc)
+    // Check for GPG signature file (.sig, .asc, or .gpg)
     std::vector<std::string> sig_extensions = {".sig", ".asc", ".gpg"};
     std::string sig_file;
-    
+
     for (const auto& ext : sig_extensions) {
         std::string candidate = plugin_path + ext;
         if (std::filesystem::exists(candidate)) {
@@ -1328,45 +1305,71 @@ bool EnhancedPluginSecurityVerifier::verifyGPGSignature(
             break;
         }
     }
-    
+
     if (sig_file.empty()) {
         result.error_message = "No GPG signature file found";
         return false;
     }
-    
-    // Use gpg to verify signature
-    // TODO: Replace with GPGME library for safer API access
-    std::string command = "gpg --verify '" + sig_file + "' '" + plugin_path + "' 2>&1";
-    
-    FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe) {
-        result.error_message = "Failed to execute gpg command";
+
+    // Use posix_spawn to invoke gpg directly — no shell, no injection risk.
+    int pipefd[2];
+    if (pipe(pipefd) != 0) {
+        result.error_message = "Failed to create pipe for gpg output";
         return false;
     }
-    
-    char buffer[256];
-    std::string output;
-    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        output += buffer;
+
+    posix_spawn_file_actions_t actions;
+    posix_spawn_file_actions_init(&actions);
+    posix_spawn_file_actions_adddup2(&actions, pipefd[1], STDOUT_FILENO);
+    posix_spawn_file_actions_adddup2(&actions, pipefd[1], STDERR_FILENO);
+    posix_spawn_file_actions_addclose(&actions, pipefd[0]);
+
+    const char* gpg_bin = "/usr/bin/gpg";
+    char* const argv[] = {
+        const_cast<char*>("gpg"),
+        const_cast<char*>("--verify"),
+        const_cast<char*>(sig_file.c_str()),
+        const_cast<char*>(plugin_path.c_str()),
+        nullptr
+    };
+
+    pid_t pid;
+    int spawn_ret = posix_spawn(&pid, gpg_bin, &actions, nullptr, argv, environ);
+    posix_spawn_file_actions_destroy(&actions);
+    close(pipefd[1]);
+
+    if (spawn_ret != 0) {
+        close(pipefd[0]);
+        result.error_message = "Failed to execute gpg";
+        return false;
     }
-    
-    int exit_code = pclose(pipe);
-    
-    // GPG returns 0 for good signature
+
+    // Read combined stdout/stderr from the pipe
+    char buf[256];
+    std::string output;
+    ssize_t n;
+    while ((n = read(pipefd[0], buf, sizeof(buf) - 1)) > 0) {
+        buf[n] = '\0';
+        output += buf;
+    }
+    close(pipefd[0]);
+
+    int wstatus = 0;
+    waitpid(pid, &wstatus, 0);
+    int exit_code = WIFEXITED(wstatus) ? WEXITSTATUS(wstatus) : -1;
+
     if (exit_code == 0 && output.find("Good signature") != std::string::npos) {
         result.platform_signature_verified = true;
-        
-        // Extract signer identity
-        if (output.find("using") != std::string::npos) {
-            size_t pos = output.find("from \"");
-            if (pos != std::string::npos) {
-                size_t end = output.find("\"", pos + 6);
-                if (end != std::string::npos) {
-                    result.issuer = output.substr(pos + 6, end - pos - 6);
-                }
+
+        // Extract signer identity if present
+        size_t pos = output.find("from \"");
+        if (pos != std::string::npos) {
+            size_t end = output.find("\"", pos + 6);
+            if (end != std::string::npos) {
+                result.issuer = output.substr(pos + 6, end - pos - 6);
             }
         }
-        
+
         return true;
     } else {
         result.error_message = "GPG signature verification failed: " + output;

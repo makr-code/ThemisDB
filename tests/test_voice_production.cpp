@@ -33,6 +33,7 @@
 #include "voice/voice_error_handler.h"
 
 #include <cmath>
+#include <numbers>
 #include <thread>
 #include <chrono>
 
@@ -71,7 +72,7 @@ TEST(AudioPreprocessingPhase1, ProcessRawPCMAudio) {
     const float freq = 440.0f;
     std::vector<uint8_t> raw(sample_rate * 2);  // 2 bytes per sample
     for (int i = 0; i < sample_rate; ++i) {
-        float val = std::sin(2.0f * static_cast<float>(M_PI) * freq * i / sample_rate);
+        float val = std::sin(2.0f * std::numbers::pi_v<float> * freq * i / sample_rate);
         int16_t sample = static_cast<int16_t>(val * 16000.0f);
         raw[2 * i]     = static_cast<uint8_t>(sample & 0xFF);
         raw[2 * i + 1] = static_cast<uint8_t>((sample >> 8) & 0xFF);
@@ -103,7 +104,7 @@ TEST(AudioPreprocessingPhase1, EchoCancellation) {
     AudioFrame input, reference;
     input.sample_rate = reference.sample_rate = 16000;
     for (int i = 0; i < 800; ++i) {
-        float s = 0.5f * std::sin(2.0f * static_cast<float>(M_PI) * 200.0f * i / 16000);
+        float s = 0.5f * std::sin(2.0f * std::numbers::pi_v<float> * 200.0f * i / 16000);
         input.samples.push_back(s);
         reference.samples.push_back(s * 0.3f);
     }
@@ -136,7 +137,7 @@ TEST(AudioPreprocessingPhase1, VoiceActivityDetectionLoudSignal) {
     AudioFrame frame;
     frame.sample_rate = 16000;
     for (int i = 0; i < 3200; ++i) {
-        frame.samples.push_back(0.8f * std::sin(2.0f * static_cast<float>(M_PI) * 300.0f * i / 16000));
+        frame.samples.push_back(0.8f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
     }
     float vad = pipeline.detectVoiceActivity(frame);
     EXPECT_GT(vad, 0.5f);
@@ -147,7 +148,7 @@ TEST(AudioPreprocessingPhase1, AudioNormalization) {
     AudioFrame frame;
     frame.sample_rate = 16000;
     for (int i = 0; i < 1600; ++i) {
-        frame.samples.push_back(0.001f * std::sin(2.0f * static_cast<float>(M_PI) * 100.0f * i / 16000));
+        frame.samples.push_back(0.001f * std::sin(2.0f * std::numbers::pi_v<float> * 100.0f * i / 16000));
     }
     float target_rms = 0.1f;
     auto normalized = pipeline.normalize(frame, target_rms);
@@ -170,7 +171,7 @@ TEST(AudioPreprocessingPhase1, Resampling) {
     AudioFrame frame;
     frame.sample_rate = 44100;
     for (int i = 0; i < 4410; ++i) {
-        frame.samples.push_back(std::sin(2.0f * static_cast<float>(M_PI) * 440.0f * i / 44100));
+        frame.samples.push_back(std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 44100));
     }
     auto resampled = pipeline.resample(frame, 16000);
     EXPECT_EQ(resampled.sample_rate, 16000);
@@ -192,7 +193,7 @@ TEST(AudioPreprocessingPhase1, ConfidenceScoring) {
     AudioFrame frame;
     frame.sample_rate = 16000;
     for (int i = 0; i < 1600; ++i) {
-        frame.samples.push_back(0.5f * std::sin(2.0f * static_cast<float>(M_PI) * 300.0f * i / 16000));
+        frame.samples.push_back(0.5f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
     }
     auto score = pipeline.scoreConfidence(frame);
     EXPECT_GE(score.overall, 0.0f);
@@ -276,7 +277,7 @@ TEST(AudioPreprocessingPhase1, HighSampleRate) {
     AudioFrame frame;
     frame.sample_rate = 48000;
     for (int i = 0; i < 4800; ++i) {
-        frame.samples.push_back(0.3f * std::sin(2.0f * static_cast<float>(M_PI) * 440.0f * i / 48000));
+        frame.samples.push_back(0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 48000));
     }
     auto result = pipeline.processFrame(frame);
     EXPECT_TRUE(result.success);
@@ -921,7 +922,7 @@ TEST(PerformanceBenchmarkPhase10, AudioProcessingThroughput) {
     frame.sample_rate = 16000;
     frame.samples.resize(16000);  // 1 second of audio
     for (size_t i = 0; i < frame.samples.size(); ++i) {
-        frame.samples[i] = 0.3f * std::sin(2.0f * static_cast<float>(M_PI) * 440.0f * i / 16000);
+        frame.samples[i] = 0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 16000);
     }
 
     auto start = std::chrono::steady_clock::now();
@@ -2027,7 +2028,7 @@ std::vector<uint8_t> makeSpeakerAudio(float freq_hz,
     std::vector<uint8_t> buf(static_cast<size_t>(num_samples) * 2);
     for (int i = 0; i < num_samples; ++i) {
         float t = static_cast<float>(i) / static_cast<float>(sample_rate);
-        float val = std::sin(2.0f * static_cast<float>(M_PI) * freq_hz * t);
+        float val = std::sin(2.0f * std::numbers::pi_v<float> * freq_hz * t);
         int16_t s = static_cast<int16_t>(val * 16000.0f);
         buf[static_cast<size_t>(2 * i)]     = static_cast<uint8_t>(s & 0xFF);
         buf[static_cast<size_t>(2 * i + 1)] = static_cast<uint8_t>((s >> 8) & 0xFF);

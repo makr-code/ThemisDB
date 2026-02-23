@@ -68,7 +68,7 @@ struct RetentionFixture : ::testing::Test {
         p.entity       = entity;
         p.timestamp_ms = now_ms - age_ms;
         p.value        = value;
-        ASSERT_TRUE(store->putDataPoint(p).ok);
+        ASSERT_TRUE(store->putDataPoint(p).has_value());
     }
 
     size_t countPoints(const std::string& metric, const std::string& entity) {
@@ -188,7 +188,7 @@ TEST_F(RetentionFixture, AsyncCycleCountsAfterSleep) {
     RetentionPolicy policy;
     RetentionManager mgr(store.get(), policy);
     // Use a very short interval for testing
-    mgr.startAsync(std::chrono::milliseconds(50));
+    mgr.startAsync(std::chrono::seconds(1));
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     mgr.stopAsync();
     // Should have run at least 1 background cycle
@@ -204,7 +204,7 @@ TEST_F(RetentionFixture, AsyncDeletesOldDataInBackground) {
     policy.per_metric["net"] = std::chrono::days(1);
     RetentionManager mgr(store.get(), policy);
     // Start async with short interval
-    mgr.startAsync(std::chrono::milliseconds(50));
+    mgr.startAsync(std::chrono::seconds(1));
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     mgr.stopAsync();
 

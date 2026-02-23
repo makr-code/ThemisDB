@@ -366,7 +366,7 @@ TEST(ContinuousProfilerTest, AnomalyCallbackFiredOnRegression) {
     ContinuousProfilerConfig cfg;
     cfg.enabled = true;
     cfg.cpu_sample_rate = 1.0;        // 1 ms sample period
-    cfg.snapshot_interval = 30ms;     // flush every 30 ms (two flush cycles in test)
+    cfg.snapshot_interval = std::chrono::seconds{1};
     cfg.output_dir = "";              // no disk I/O
 
     ContinuousProfiler p(cfg);

@@ -65,7 +65,9 @@ protected:
         db_ = std::make_shared<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
 
-        engine_ = std::make_unique<StorageEngine>(db_);
+        engine_ = StorageEngine::createDefault();
+        ASSERT_TRUE(engine_ != nullptr);
+        ASSERT_TRUE(engine_->open(db_path_).has_value());
         compaction_ = std::make_unique<CompactionManager>(db_);
     }
 
@@ -101,7 +103,7 @@ protected:
 
     std::string db_path_;
     std::shared_ptr<RocksDBWrapper> db_;
-    std::unique_ptr<StorageEngine> engine_;
+    std::shared_ptr<StorageEngine> engine_;
     std::unique_ptr<CompactionManager> compaction_;
 };
 

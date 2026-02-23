@@ -3,20 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:20                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-22                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     4092                                           ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     3925                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
-    • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
-    • 573513108  2026-02-22  feat(replication): implement Raft leader lease reads for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -661,32 +656,11 @@ ReplicationStream::ReplicationStream(
     : follower_endpoint_(follower_endpoint)
     , wal_(wal)
     , config_(config) {
-
+    
     follower_info_.endpoint = follower_endpoint;
     follower_info_.role = ReplicationRole::FOLLOWER;
     follower_info_.last_applied_sequence = 0;
     follower_info_.last_heartbeat = std::chrono::system_clock::now();
-
-    if (config_.enable_wal_compression) {
-        // Map the string algorithm name to the enum
-        using Algo = CompressedReplicationStream::CompressionAlgorithm;
-        Algo algo = Algo::ZSTD;  // default
-        const auto& alg_str = config_.wal_compression_algorithm;
-        if      (alg_str == "none")   algo = Algo::NONE;
-        else if (alg_str == "lz4")    algo = Algo::LZ4;
-        else if (alg_str == "zstd")   algo = Algo::ZSTD;
-        else if (alg_str == "snappy") algo = Algo::SNAPPY;
-        else if (alg_str == "auto")   algo = Algo::AUTO;
-        else {
-            THEMIS_WARN("Unknown wal_compression_algorithm '{}', defaulting to zstd", alg_str);
-        }
-
-        CompressedReplicationStream::CompressionConfig cc;
-        cc.algorithm         = algo;
-        cc.compression_level = config_.wal_compression_level;
-        cc.min_batch_size    = config_.wal_compression_min_batch_bytes;
-        compress_stream_  = std::make_unique<CompressedReplicationStream>(follower_endpoint, cc);
-    }
 }
 
 ReplicationStream::~ReplicationStream() {
@@ -750,16 +724,9 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 }
 
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // When WAL compression is enabled, delegate to CompressedReplicationStream
-    // which serializes, compresses (Zstd/LZ4/Snappy), and tracks bandwidth stats.
-    // In a production implementation the compressed bytes would be transmitted over
-    // the mTLS connection to `follower_endpoint_`; here we drive the compression
-    // path and return its success status so callers can observe statistics and
-    // error paths.  The retry/backoff logic is managed by the caller (streamLoop).
-    if (compress_stream_) {
-        return compress_stream_->sendBatch(entries);
-    }
-    // Compression disabled: no-op send (production would transmit raw bytes).
+    // In a real implementation, this would serialize entries and send them over
+    // a mTLS connection to the follower endpoint, then wait for acknowledgement.
+    // The retry/backoff logic is managed by the caller (streamLoop).
     (void)entries;
     return true;
 }
@@ -1599,13 +1566,6 @@ bool ReplicationManager::validateConfig() {
             "leader_lease_duration_ms ({}) must be strictly less than "
             "election_timeout_min_ms ({}) to guarantee linearizability",
             config_.leader_lease_duration_ms, config_.election_timeout_min_ms);
-        return false;
-    }
-
-    if (config_.enable_wal_compression &&
-        (config_.wal_compression_level < 1 || config_.wal_compression_level > 9)) {
-        THEMIS_ERROR("wal_compression_level must be between 1 and 9, got {}",
-                     config_.wal_compression_level);
         return false;
     }
 
@@ -2580,70 +2540,6 @@ MultiMasterReplicationManager::Stats MultiMasterReplicationManager::getStats() c
 
     s.avg_replication_latency = std::chrono::milliseconds(0);
     return s;
-}
-
-MultiMasterReplicationManager::TopologySnapshot
-MultiMasterReplicationManager::getTopologySnapshot() const {
-    TopologySnapshot snapshot;
-    snapshot.local_node_id    = config_.node_id;
-    snapshot.replication_mode = "MULTI_MASTER";
-    snapshot.max_lag_ms       = 0;
-
-    // Helper: convert MMNodeState enum to string
-    auto stateToStr = [](MMNodeState s) -> std::string {
-        switch (s) {
-            case MMNodeState::ACTIVE:       return "ACTIVE";
-            case MMNodeState::SYNCING:      return "SYNCING";
-            case MMNodeState::PARTITIONED:  return "PARTITIONED";
-            case MMNodeState::RECOVERING:   return "RECOVERING";
-            case MMNodeState::OFFLINE:      return "OFFLINE";
-            default:                        return "UNKNOWN";
-        }
-    };
-
-    // Add the local node
-    {
-        TopologyNode local;
-        local.node_id            = config_.node_id;
-        local.endpoint           = "";
-        local.datacenter         = config_.datacenter;
-        local.region             = config_.region;
-        local.state              = running_.load() ? "ACTIVE" : "OFFLINE";
-        local.replication_lag_ms = 0;
-        local.is_local           = true;
-        snapshot.nodes.push_back(std::move(local));
-    }
-
-    // Add peer nodes
-    std::vector<MMPeerInfo> peers;
-    {
-        std::shared_lock<std::shared_mutex> lock(peers_mutex_);
-        peers.reserve(peers_.size());
-        for (const auto& kv : peers_) {
-            peers.push_back(kv.second);
-        }
-    }
-
-    for (const auto& peer : peers) {
-        TopologyNode node;
-        node.node_id            = peer.node_id;
-        node.endpoint           = peer.endpoint;
-        node.datacenter         = peer.datacenter;
-        node.region             = peer.region;
-        node.state              = stateToStr(peer.state);
-        node.replication_lag_ms = peer.replication_lag_ms;
-        node.is_local           = false;
-        if (peer.replication_lag_ms > snapshot.max_lag_ms) {
-            snapshot.max_lag_ms = peer.replication_lag_ms;
-        }
-        snapshot.nodes.push_back(std::move(node));
-
-        // Bidirectional peer edges (multi-master: both directions replicate)
-        snapshot.edges.push_back({config_.node_id, peer.node_id, "PEER"});
-        snapshot.edges.push_back({peer.node_id, config_.node_id, "PEER"});
-    }
-
-    return snapshot;
 }
 
 std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
@@ -4126,190 +4022,6 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     uint32_t archived = archiveSegments(candidates);
     purgeExpired();
     return archived;
-}
-
-// ============================================================================
-// Cross-Cluster Publish/Subscribe Replication – v1.7.0
-// ============================================================================
-
-// ---------------------------------------------------------------------------
-// PublicationFilter
-// ---------------------------------------------------------------------------
-
-bool PublicationFilter::matches(const WALEntry& entry) const {
-    // Collection filter
-    if (!include_collections.empty()) {
-        bool found = false;
-        for (const auto& col : include_collections) {
-            if (col == entry.collection) { found = true; break; }
-        }
-        if (!found) return false;
-    }
-    // Operation filter
-    if (!include_operations.empty()) {
-        bool found = false;
-        for (const auto& op : include_operations) {
-            if (op == entry.operation) { found = true; break; }
-        }
-        if (!found) return false;
-    }
-    return true;
-}
-
-// ---------------------------------------------------------------------------
-// CrossClusterPublication
-// ---------------------------------------------------------------------------
-
-CrossClusterPublication::CrossClusterPublication(std::string name)
-    : name_(std::move(name)) {}
-
-void CrossClusterPublication::setFilter(const PublicationFilter& filter) {
-    std::unique_lock<std::shared_mutex> lock(filter_mutex_);
-    filter_ = filter;
-}
-
-PublicationFilter CrossClusterPublication::getFilter() const {
-    std::shared_lock<std::shared_mutex> lock(filter_mutex_);
-    return filter_;
-}
-
-uint64_t CrossClusterPublication::addRemoteSubscriber(DeliveryCallback callback) {
-    uint64_t id = next_sub_id_.fetch_add(1);
-    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
-    subscribers_.push_back({id, std::move(callback)});
-    THEMIS_INFO("CrossClusterPublication '{}': subscriber {} registered (total={})",
-                name_, id, subscribers_.size());
-    return id;
-}
-
-void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
-    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
-    subscribers_.erase(
-        std::remove_if(subscribers_.begin(), subscribers_.end(),
-                       [subscriber_id](const RemoteSubscriber& s) {
-                           return s.id == subscriber_id;
-                       }),
-        subscribers_.end());
-    THEMIS_INFO("CrossClusterPublication '{}': subscriber {} removed (total={})",
-                name_, subscriber_id, subscribers_.size());
-}
-
-size_t CrossClusterPublication::subscriberCount() const {
-    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
-    return subscribers_.size();
-}
-
-void CrossClusterPublication::publish(const WALEntry& entry) {
-    // Apply filter
-    {
-        std::shared_lock<std::shared_mutex> flock(filter_mutex_);
-        if (!filter_.matches(entry)) return;
-    }
-
-    published_count_.fetch_add(1);
-
-    std::shared_lock<std::shared_mutex> slock(subs_mutex_);
-    for (const auto& sub : subscribers_) {
-        try {
-            sub.callback(entry);
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("CrossClusterPublication '{}': subscriber {} threw: {}",
-                         name_, sub.id, e.what());
-        } catch (...) {
-            THEMIS_ERROR("CrossClusterPublication '{}': subscriber {} threw unknown exception",
-                         name_, sub.id);
-        }
-    }
-}
-
-void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
-    publish(entry);
-}
-
-std::string CrossClusterPublication::exportPrometheusMetrics() const {
-    std::ostringstream oss;
-    oss << "# HELP themisdb_cross_cluster_publication_published_total"
-           " Total WAL entries published by this publication\n"
-        << "# TYPE themisdb_cross_cluster_publication_published_total counter\n"
-        << "themisdb_cross_cluster_publication_published_total{publication=\"" << name_ << "\"} "
-        << published_count_.load() << "\n";
-
-    oss << "# HELP themisdb_cross_cluster_publication_subscribers"
-           " Number of active remote subscribers\n"
-        << "# TYPE themisdb_cross_cluster_publication_subscribers gauge\n"
-        << "themisdb_cross_cluster_publication_subscribers{publication=\"" << name_ << "\"} "
-        << subscriberCount() << "\n";
-    return oss.str();
-}
-
-// ---------------------------------------------------------------------------
-// CrossClusterSubscription
-// ---------------------------------------------------------------------------
-
-CrossClusterSubscription::CrossClusterSubscription(
-        std::string name,
-        std::shared_ptr<CrossClusterPublication> publication,
-        ApplyCallback apply_fn)
-    : name_(std::move(name))
-    , publication_(std::move(publication))
-    , apply_fn_(std::move(apply_fn)) {}
-
-CrossClusterSubscription::~CrossClusterSubscription() {
-    disable();
-}
-
-void CrossClusterSubscription::enable() {
-    if (enabled_.exchange(true)) return;  // Already enabled
-    pub_subscriber_id_ = publication_->addRemoteSubscriber(
-        [this](const WALEntry& entry) { applyEntry(entry); });
-    THEMIS_INFO("CrossClusterSubscription '{}': enabled (pub='{}')",
-                name_, publication_->name());
-}
-
-void CrossClusterSubscription::disable() {
-    if (!enabled_.exchange(false)) return;  // Already disabled
-    publication_->removeRemoteSubscriber(pub_subscriber_id_);
-    pub_subscriber_id_ = 0;
-    THEMIS_INFO("CrossClusterSubscription '{}': disabled (pub='{}')",
-                name_, publication_->name());
-}
-
-void CrossClusterSubscription::applyEntry(const WALEntry& entry) {
-    try {
-        apply_fn_(entry);
-        last_applied_seq_.store(entry.sequence_number);
-        applied_count_.fetch_add(1);
-    } catch (const std::exception& e) {
-        error_count_.fetch_add(1);
-        THEMIS_ERROR("CrossClusterSubscription '{}': apply error for seq={}: {}",
-                     name_, entry.sequence_number, e.what());
-    } catch (...) {
-        error_count_.fetch_add(1);
-        THEMIS_ERROR("CrossClusterSubscription '{}': apply threw unknown exception for seq={}",
-                     name_, entry.sequence_number);
-    }
-}
-
-std::string CrossClusterSubscription::exportPrometheusMetrics() const {
-    std::ostringstream oss;
-    oss << "# HELP themisdb_cross_cluster_subscription_applied_total"
-           " Total WAL entries applied by this subscription\n"
-        << "# TYPE themisdb_cross_cluster_subscription_applied_total counter\n"
-        << "themisdb_cross_cluster_subscription_applied_total{subscription=\"" << name_ << "\"} "
-        << applied_count_.load() << "\n";
-
-    oss << "# HELP themisdb_cross_cluster_subscription_errors_total"
-           " Total apply errors in this subscription\n"
-        << "# TYPE themisdb_cross_cluster_subscription_errors_total counter\n"
-        << "themisdb_cross_cluster_subscription_errors_total{subscription=\"" << name_ << "\"} "
-        << error_count_.load() << "\n";
-
-    oss << "# HELP themisdb_cross_cluster_subscription_last_applied_sequence"
-           " Last successfully applied WAL sequence number\n"
-        << "# TYPE themisdb_cross_cluster_subscription_last_applied_sequence gauge\n"
-        << "themisdb_cross_cluster_subscription_last_applied_sequence{subscription=\"" << name_ << "\"} "
-        << last_applied_seq_.load() << "\n";
-    return oss.str();
 }
 
 } // namespace replication

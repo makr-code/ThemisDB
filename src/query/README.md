@@ -553,6 +553,61 @@ if (result) {
 }
 ```
 
+### Per-Query Resource Limits
+
+`executeAqlWithLimits()` wraps `executeAql()` and enforces configurable caps on
+row count, memory, and wall-clock execution time.  A limit value of `0` means
+**unlimited** for that dimension.
+
+**Header:** `include/query/query_resource_limits.h`
+
+```cpp
+#include "query/aql_runner.h"
+#include "query/query_resource_limits.h"
+
+QueryResourceLimits limits;
+limits.max_rows         = 1000;             // max result rows  (0 = unlimited)
+limits.max_memory_bytes = 4 * 1024 * 1024;  // 4 MB result size (0 = unlimited)
+limits.timeout_ms       = 5000;             // 5 s wall-clock   (0 = unlimited)
+
+auto result = executeAqlWithLimits(aql, engine, limits);
+if (!result) {
+  if (result.error().code() == errors::ErrorCode::ERR_QUERY_TIMEOUT) {
+    // Query exceeded configured timeout
+  } else if (result.error().code() == errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED) {
+    // Row count or memory limit exceeded
+  }
+}
+```
+
+**Enforcement semantics:**
+
+| Limit | Checkpoint | Error code |
+|---|---|---|
+| `max_rows` | After execution – checks `results` array length | `ERR_QUERY_RESOURCE_EXHAUSTED` |
+| `max_memory_bytes` | After execution – uses serialized JSON byte size as proxy | `ERR_QUERY_RESOURCE_EXHAUSTED` |
+| `timeout_ms` | After execution returns – wall-clock from call entry | `ERR_QUERY_TIMEOUT` |
+
+**Low-level helper — `QueryResourceGuard`:**
+
+For code that produces rows iteratively (e.g. custom execution paths), use the
+`QueryResourceGuard` RAII class to track violations incrementally:
+
+```cpp
+#include "query/query_resource_limits.h"
+
+QueryResourceGuard guard(limits);
+
+for (auto& row : rows) {
+  auto violation = guard.checkRow(/*estimated_bytes=*/row.dump().size());
+  if (violation != QueryResourceGuard::Violation::None) {
+    // handle RowLimit / MemoryLimit / Timeout
+    break;
+  }
+  process(row);
+}
+```
+
 ### Advanced Query Execution
 
 ```cpp

@@ -40,6 +40,7 @@
 #include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
+#include "transaction/saga.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"

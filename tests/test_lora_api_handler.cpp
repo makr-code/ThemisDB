@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LoRA API handler tests not runnable in current build.
+// Disabled: LoRA API handler tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LoraApiHandler, Skipped)

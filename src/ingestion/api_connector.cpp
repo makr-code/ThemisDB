@@ -28,6 +28,10 @@
 #include <thread>
 #include <functional>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 // HTTP requests are performed via libcurl (`curl_easy_perform`).
 // The `Impl::httpGet()` wrapper delegates to an injectable test function
 // when one is set, allowing unit tests to run without network access.
