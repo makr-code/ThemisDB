@@ -3,18 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.h                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:21                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
+    • Total Lines:     237                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -58,6 +59,21 @@ enum class BinaryMimeType {
 BinaryMimeType detectBinaryMimeType(const std::string& raw);
 
 /**
+ * @brief Check whether a converter program name/path is safe to use in a shell command
+ *
+ * Rejects any value that contains shell metacharacters (`|`, `;`, `&`, `$`,
+ * `<`, `>`, `` ` ``, `!`, newlines, or NUL) that could enable command injection
+ * through the `popen()` call used to invoke external converters.
+ *
+ * An empty string returns `true` because an empty converter path means conversion
+ * is disabled (the file is silently skipped without spawning any process).
+ *
+ * @param converter  Converter name or path as stored in `BinaryConverter`
+ * @return `true` if safe to pass to popen(); `false` if dangerous characters found
+ */
+bool isConverterSafe(const std::string& converter);
+
+/**
  * @brief Configuration for external binary-format converters
  *
  * When set on `FileSystemIngester`, the ingester calls the specified
@@ -71,6 +87,9 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw);
  *
  * When a converter is not found on PATH or exits with a non-zero status,
  * the file is silently skipped (no error added to `IngestionStats`).
+ *
+ * Converter paths are validated with `isConverterSafe()` before use;
+ * values containing shell metacharacters are rejected silently.
  */
 struct BinaryConverter {
     std::string pdf_converter  = "pdftotext";  ///< Converter for PDF (e.g. "pdftotext", "/usr/bin/pdftotext", or "")

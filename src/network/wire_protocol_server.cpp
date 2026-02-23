@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.cpp                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:22                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   75.0/100                                       ║
-    • Total Lines:     1201                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+    • Quality Score:   77.0/100                                       ║
+    • Total Lines:     1437                                           ║
+    • Open Issues:     TODOs: 9, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7a1316ac3  2026-02-22  fix(network): implement CRC32 checksum verification + fix... ║
+    • 0d6fb9967  2026-02-22  fix(network): audit fixes – connection-count correctness ... ║
+    • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

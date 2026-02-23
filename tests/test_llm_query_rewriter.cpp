@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_query_rewriter.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:07                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     290                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     322                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8b4fb3109  2026-02-22  Add prompt-content tests for LlmQueryRewriter (vocabulary... ║
+    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -267,4 +271,56 @@ TEST(LlmQueryRewriterParsing, BlankLinesSkipped) {
     ASSERT_EQ(result.rewrites.size(), 2u);
     EXPECT_EQ(result.rewrites[0], "first rewrite");
     EXPECT_EQ(result.rewrites[1], "second rewrite");
+}
+
+// ============================================================================
+// buildPrompt() — prompt content validation
+// ============================================================================
+
+TEST(LlmQueryRewriterPrompt, PromptContainsQuery) {
+    std::string captured_prompt;
+    LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
+        captured_prompt = prompt;
+        return "1. a rewrite\n";
+    }};
+    rw.rewrite("database indexing performance");
+    EXPECT_NE(captured_prompt.find("database indexing performance"), std::string::npos);
+}
+
+TEST(LlmQueryRewriterPrompt, PromptContainsNumRewrites) {
+    std::string captured_prompt;
+    LlmQueryRewriter::Config cfg;
+    cfg.num_rewrites = 5;
+    LlmQueryRewriter rw{cfg, [&](const std::string& prompt) {
+        captured_prompt = prompt;
+        return "1. a rewrite\n";
+    }};
+    rw.rewrite("query");
+    // The prompt should embed num_rewrites in context, e.g. "5 alternative phrasings"
+    EXPECT_NE(captured_prompt.find("5 alternative"), std::string::npos);
+}
+
+TEST(LlmQueryRewriterPrompt, PromptContainsVocabularyStrategyGuidance) {
+    std::string captured_prompt;
+    LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
+        captured_prompt = prompt;
+        return "1. a rewrite\n";
+    }};
+    rw.rewrite("fast db insert");
+    // Prompt must instruct the LLM to apply distinct vocabulary strategies
+    // so that rewrites cover different vocabulary spaces and improve recall.
+    EXPECT_NE(captured_prompt.find("vocabulary"), std::string::npos);
+    EXPECT_NE(captured_prompt.find("synonyms"), std::string::npos);
+    EXPECT_NE(captured_prompt.find("abbreviations"), std::string::npos);
+}
+
+TEST(LlmQueryRewriterPrompt, PromptContainsNumberedLineInstruction) {
+    std::string captured_prompt;
+    LlmQueryRewriter rw{{}, [&](const std::string& prompt) {
+        captured_prompt = prompt;
+        return "1. a rewrite\n";
+    }};
+    rw.rewrite("test query");
+    // Prompt must explicitly show the numbered-line format, e.g. "1. rewrite here"
+    EXPECT_NE(captured_prompt.find("1. rewrite here"), std::string::npos);
 }

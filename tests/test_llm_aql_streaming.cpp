@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_streaming.cpp                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-22 08:56:48                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-23 03:59:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
