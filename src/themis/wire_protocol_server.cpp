@@ -312,77 +312,107 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             const OpCode opcode = header.get_opcode();
             const int    isz    = static_cast<int>(payload.size());
 #ifdef THEMIS_WIRE_V1_PROTO_AVAILABLE
+            // Helper lambda: log a parse failure and send an error response.
+            auto on_parse_fail = [this](const char* name) {
+                std::cerr << "[WireV1:" << session_id_
+                          << "] protobuf parse failed for " << name << '\n';
+                send_error(0x06, std::string("Malformed protobuf message: ") + name);
+            };
             switch (opcode) {
                 case OpCode::HELLO: {
                     v1::HelloRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_hello(req);
+                    else
+                        on_parse_fail("HelloRequest");
                     break;
                 }
                 case OpCode::AUTH_RESPONSE: {
                     v1::AuthResponse req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_auth_response(req);
+                    else
+                        on_parse_fail("AuthResponse");
                     break;
                 }
                 case OpCode::GET: {
                     v1::GetRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_get(req);
+                    else
+                        on_parse_fail("GetRequest");
                     break;
                 }
                 case OpCode::PUT: {
                     v1::PutRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_put(req);
+                    else
+                        on_parse_fail("PutRequest");
                     break;
                 }
                 case OpCode::DELETE: {
                     v1::DeleteRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_delete(req);
+                    else
+                        on_parse_fail("DeleteRequest");
                     break;
                 }
                 case OpCode::QUERY_AQL: {
                     v1::QueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_query_aql(req);
+                    else
+                        on_parse_fail("QueryRequest");
                     break;
                 }
                 case OpCode::VECTOR_SEARCH: {
                     v1::VectorSearchRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_vector_search(req);
+                    else
+                        on_parse_fail("VectorSearchRequest");
                     break;
                 }
                 case OpCode::GEO_QUERY: {
                     v1::GeoQueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_geo_query(req);
+                    else
+                        on_parse_fail("GeoQueryRequest");
                     break;
                 }
                 case OpCode::TIMESERIES_QUERY: {
                     v1::TimeSeriesQueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_timeseries_query(req);
+                    else
+                        on_parse_fail("TimeSeriesQueryRequest");
                     break;
                 }
                 case OpCode::BPMN_START_PROCESS: {
                     v1::BpmnStartProcessRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_bpmn_start(req);
+                    else
+                        on_parse_fail("BpmnStartProcessRequest");
                     break;
                 }
                 case OpCode::PING: {
                     v1::PingRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_ping(req);
+                    else
+                        on_parse_fail("PingRequest");
                     break;
                 }
                 case OpCode::CLOSE: {
                     v1::CloseRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_close(req);
+                    else
+                        on_parse_fail("CloseRequest");
                     break;
                 }
                 default:
