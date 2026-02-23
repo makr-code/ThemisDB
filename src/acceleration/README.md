@@ -29,6 +29,11 @@ In practice, this module is responsible for:
 - **CPU fallback**  
   - `cpu_backend.cpp`, `cpu_backend_mt.cpp`: reference implementations used when accelerators are unavailable and as correctness baselines.
 
+- **Kernel dispatch & fallback/retry** (`include/acceleration/kernel_fallback_dispatcher.h`)  
+  - `ANNKernelFallbackDispatcher`: wraps a primary `ANNKernelDispatch` table (GPU) and a fallback table (CPU). Null slots in the primary are routed directly to the fallback (unsupported kernel). Transient device errors (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) are retried with exponential back-off; all other errors and exhausted retries also fall back.  
+  - `GeoKernelFallbackDispatcher`: same semantics for the two geospatial kernel slots.  
+  - `RetryPolicy`: configures `maxAttempts`, initial/max delay (ms), and back-off multiplier.
+
 - **Plugins / security**  
   - `plugin_loader.cpp`: loads optional backend plugins.  
   - `plugin_security.cpp`: enforces the sandbox/allow-list for dynamically loaded GPU backends.

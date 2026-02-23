@@ -21,6 +21,7 @@
  */
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/batch_validator.h"
 #include "acceleration/kernel_invocation.h"
 #include <cmath>
 #include <algorithm>
@@ -74,6 +75,12 @@ std::vector<float> CPUVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
+    }
+
     std::vector<float> distances(numQueries * numVectors);
     
     for (size_t q = 0; q < numQueries; ++q) {
@@ -98,6 +105,15 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
     size_t k,
     bool useL2
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateVectorBatch(name(), queries, numQueries, dim,
+                                             vectors, numVectors, sink)) {
+        return {};
+    }
+    if (!BatchValidator::validateK(name(), k, sink)) {
+        return {};
+    }
+
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
     
     for (size_t q = 0; q < numQueries; ++q) {
@@ -114,13 +130,21 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CPUVectorBackend::batchKnnS
             distances.emplace_back(static_cast<uint32_t>(v), dist);
         }
         
-        // Partial sort to get k nearest neighbors
+        // Partial sort to get k nearest neighbors.
+        // Tie-breaking rule: when two candidates share the same distance the one
+        // with the lower vector index is placed first (deterministic ordering).
+        // Note: exact float equality is intentional — two entries are considered
+        // tied only when their distance values are bit-for-bit identical, which
+        // happens when the same computational path is applied to equal inputs.
         size_t actualK = std::min(k, distances.size());
         std::partial_sort(
             distances.begin(),
             distances.begin() + actualK,
             distances.end(),
-            [](const auto& a, const auto& b) { return a.second < b.second; }
+            [](const auto& a, const auto& b) {
+                if (a.second != b.second) return a.second < b.second;
+                return a.first < b.first; // tie-break: lower index wins
+            }
         );
         
         results[q].assign(distances.begin(), distances.begin() + actualK);
@@ -140,6 +164,12 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
     size_t numStarts,
     uint32_t maxDepth
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices,
+                                               startVertices, numStarts, sink)) {
+        return {};
+    }
+
     (void)adjacency; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
     
@@ -177,6 +207,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
     const uint32_t* endVertices,
     size_t numPairs
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights,
+                                                   numVertices, startVertices,
+                                                   endVertices, numPairs, sink)) {
+        return {};
+    }
+
     (void)adjacency; (void)weights; (void)numVertices;
     (void)startVertices; (void)endVertices; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
@@ -227,6 +264,12 @@ std::vector<float> CPUGeoBackend::batchDistances(
     size_t count,
     bool useHaversine
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1,
+                                          latitudes2, longitudes2, count, sink)) {
+        return {};
+    }
+
     std::vector<float> distances(count);
     
     for (size_t i = 0; i < count; ++i) {
@@ -246,6 +289,13 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    auto sink = [this](ErrorContext e){ setError(std::move(e)); };
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons,
+                                                     numPoints, polygonCoords,
+                                                     numPolygonVertices, sink)) {
+        return {};
+    }
+
     std::vector<bool> results(numPoints);
     
     // Ray casting algorithm for point-in-polygon test
@@ -371,6 +421,11 @@ static int cpu_ann_topk(
     const float* distances, uint32_t* topk_indices, float* topk_dists,
     int numQueries, int numVectors, int topK, void* /*stream*/)
 {
+    // Comparator: (distance, index) where lower distance wins; lower index breaks ties.
+    // The max-heap keeps the topK smallest pairs by ejecting the largest.
+    // Using pair<float,uint32_t> directly: pair comparison is lexicographic, so
+    // equal distances resolve by index (higher index is "larger" and gets ejected).
+    // This guarantees that for equal distances, the lower index is always kept.
     using Pair = std::pair<float, uint32_t>; // (distance, index)
     for (int q = 0; q < numQueries; ++q) {
         const float* row = distances + q * numVectors;
@@ -379,7 +434,7 @@ static int cpu_ann_topk(
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
             if (static_cast<int>(heap.size()) > topK) {
-                heap.pop();
+                heap.pop(); // ejects largest (highest dist, or equal dist + highest index)
             }
         }
         // Drain heap in ascending order
@@ -457,6 +512,40 @@ GeoKernelDispatch CPUGeoBackend::populateGeoDispatch() const {
     GeoKernelDispatch d;
     d.launchDistance    = cpu_geo_distance;
     d.launchContainment = cpu_geo_containment;
+    return d;
+}
+
+// =============================================================================
+// CPUMatrixBackend Implementation
+// =============================================================================
+
+int CPUMatrixBackend::matmul(const MatrixKernelParams& params, void* /*opaque_stream*/)
+{
+    return tensor_core::launchCPUMatmulKernel(
+        static_cast<const float*>(params.A),
+        static_cast<const float*>(params.B),
+        static_cast<float*>(params.C),
+        static_cast<int>(params.M),
+        static_cast<int>(params.K),
+        static_cast<int>(params.N),
+        params.alpha,
+        params.beta
+    );
+}
+
+namespace {
+
+static int cpu_matrix_matmul(const MatrixKernelParams& params, void* stream)
+{
+    CPUMatrixBackend backend;
+    return backend.matmul(params, stream);
+}
+
+} // anonymous namespace
+
+MatrixKernelDispatch CPUMatrixBackend::populateMatrixDispatch() const {
+    MatrixKernelDispatch d;
+    d.launchMatmul = cpu_matrix_matmul;
     return d;
 }
 

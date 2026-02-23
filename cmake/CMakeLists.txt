@@ -1710,8 +1710,10 @@ set(THEMIS_CORE_SOURCES
     ../src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
+    ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
@@ -2162,11 +2164,13 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/tensor_core_matmul.cu
+    ../src/acceleration/cuda/geo_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
-    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver CUDA::cublas)
     
     # Link NCCL if available
     if(NCCL_FOUND)

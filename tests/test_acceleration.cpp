@@ -4,6 +4,7 @@
 #include "acceleration/cuda_backend.h"
 #include <vector>
 #include <cmath>
+#include <limits>
 
 using namespace themis::acceleration;
 
@@ -350,6 +351,370 @@ TEST_F(AccelerationTest, BatchKnnSearchKClampsToNumVectors) {
 
     ASSERT_EQ(results.size(), 1u);
     EXPECT_LE(results[0].size(), 2u);
+
+    backend->shutdown();
+}
+
+// =============================================================================
+// Strict input validation tests — CPU backends (no GPU required)
+// These tests cover all three CPU backend types and verify that unsafe batches
+// are rejected early with an appropriate error set.
+// =============================================================================
+
+// --- CPUVectorBackend ---------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_NullQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(nullptr, 1, 2, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_NullVectorsReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 1, 2, nullptr, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_ZeroQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 0, 2, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_ComputeDistances_ZeroDimReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 1, 0, v, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_NullQueriesReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(nullptr, 1, 2, v, 1, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_ZeroKReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(q, 1, 2, v, 1, 0, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUVector_BatchKnnSearch_ZeroDimReturnsEmpty) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float q[] = {1.f, 0.f};
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(q, 1, 0, v, 1, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+// --- CPUGeoBackend ------------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUGeo_BatchDistances_NullLatsReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lons1[] = {0.0};
+    const double lats2[] = {10.0};
+    const double lons2[] = {10.0};
+    auto result = backend.batchDistances(nullptr, lons1, lats2, lons2, 1, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchDistances_ZeroCountReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lats1[] = {0.0};
+    const double lons1[] = {0.0};
+    const double lats2[] = {10.0};
+    const double lons2[] = {10.0};
+    auto result = backend.batchDistances(lats1, lons1, lats2, lons2, 0, true);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchPointInPolygon_NullPointsReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double polyCoords[] = {0.0,0.0, 1.0,0.0, 1.0,1.0, 0.0,1.0};
+    const double lons[] = {0.5};
+    auto result = backend.batchPointInPolygon(nullptr, lons, 1, polyCoords, 4);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGeo_BatchPointInPolygon_TooFewVerticesReturnsEmpty) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const double lats[] = {0.5};
+    const double lons[] = {0.5};
+    const double polyCoords[] = {0.0,0.0, 1.0,0.0}; // only 2 vertices
+    auto result = backend.batchPointInPolygon(lats, lons, 1, polyCoords, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+// --- CPUGraphBackend ---------------------------------------------------------
+
+TEST_F(AccelerationTest, CPUGraph_BatchBFS_NullAdjacencyReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(nullptr, 4, starts, 1, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchBFS_ZeroNumStartsReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t adj[] = {0u};
+    const uint32_t starts[] = {0u};
+    auto result = backend.batchBFS(adj, 4, starts, 0, 2);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_NullAdjacencyReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[] = {1u};
+    auto result = backend.batchShortestPath(nullptr, weights, 4, starts, ends, 1);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
+TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_ZeroNumPairsReturnsEmpty) {
+    CPUGraphBackend backend;
+    ASSERT_TRUE(backend.initialize());
+    const uint32_t adj[] = {0u};
+    const float weights[] = {1.f};
+    const uint32_t starts[] = {0u};
+    const uint32_t ends[] = {1u};
+    auto result = backend.batchShortestPath(adj, weights, 4, starts, ends, 0);
+    EXPECT_TRUE(result.empty());
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+// ============================================================================
+// Deterministic Tie-Breaking Tests (Issue #1388)
+// ============================================================================
+
+TEST_F(AccelerationTest, TieBreakingDeterminism_LowerIndexWins) {
+    // When two vectors are equidistant from the query, the one with the lower
+    // vector index must appear first in the results (deterministic ordering).
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    // Three vectors all at the same distance (1.0 squared L2) from the origin query.
+    // Indices 0, 1, and 2 all have squared L2 distance = 1.0 from (0,0).
+    std::vector<float> vectors = {
+        1.0f, 0.0f,  // index 0 — dist^2 = 1.0
+        0.0f, 1.0f,  // index 1 — dist^2 = 1.0
+        -1.0f, 0.0f, // index 2 — dist^2 = 1.0
+    };
+    std::vector<float> query = {0.0f, 0.0f};
+
+    auto results = backend->batchKnnSearch(
+        query.data(), 1, 2,
+        vectors.data(), 3,
+        3,  // k=3, all tie
+        true);
+
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_EQ(results[0].size(), 3u);
+
+    // All distances must be equal
+    EXPECT_FLOAT_EQ(results[0][0].second, results[0][1].second);
+    EXPECT_FLOAT_EQ(results[0][1].second, results[0][2].second);
+
+    // Tie-breaking: indices must appear in ascending order (lower index first)
+    EXPECT_LT(results[0][0].first, results[0][1].first);
+    EXPECT_LT(results[0][1].first, results[0][2].first);
+
+    backend->shutdown();
+}
+
+TEST_F(AccelerationTest, TieBreakingDeterminism_PartialTie) {
+    // Mixed case: nearest neighbour is unique; second and third tie.
+    // Confirms tie-breaking is applied only to equal-distance pairs.
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {
+        0.1f, 0.0f,  // index 0 — dist^2 = 0.01 (closest, unique)
+        1.0f, 0.0f,  // index 1 — dist^2 = 1.0  (tie for 2nd/3rd)
+        0.0f, 1.0f,  // index 2 — dist^2 = 1.0  (tie for 2nd/3rd)
+    };
+    std::vector<float> query = {0.0f, 0.0f};
+
+    auto results = backend->batchKnnSearch(
+        query.data(), 1, 2,
+        vectors.data(), 3,
+        3,
+        true);
+
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_EQ(results[0].size(), 3u);
+
+    // First result: index 0 (closest)
+    EXPECT_EQ(results[0][0].first, 0u);
+
+    // Second and third share the same distance; lower index (1) must come before 2
+    EXPECT_FLOAT_EQ(results[0][1].second, results[0][2].second);
+    EXPECT_EQ(results[0][1].first, 1u);
+    EXPECT_EQ(results[0][2].first, 2u);
+
+    backend->shutdown();
+}
+
+// ============================================================================
+// Partial Failure Handling Tests (Issue #1388)
+// ============================================================================
+
+TEST_F(AccelerationTest, PartialFailure_AllValid) {
+    // When all query vectors are valid, all queries succeed.
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {1.0f, 0.0f, 0.0f, 1.0f};
+    std::vector<float> queries = {0.5f, 0.5f, 0.0f, 0.0f};
+
+    auto result = backend->batchKnnSearchSafe(
+        queries.data(), 2, 2,
+        vectors.data(), 2,
+        1, true);
+
+    ASSERT_EQ(result.queryResults.size(), 2u);
+    EXPECT_EQ(result.successCount, 2u);
+    EXPECT_EQ(result.failureCount, 0u);
+
+    for (size_t i = 0; i < 2; ++i) {
+        EXPECT_EQ(result.queryResults[i].status, AccelerationErrorCode::Success);
+        EXPECT_FALSE(result.queryResults[i].neighbors.empty());
+    }
+
+    backend->shutdown();
+}
+
+TEST_F(AccelerationTest, PartialFailure_NaNQueryFails) {
+    // A query vector containing NaN must receive InputRangeViolation status
+    // while the other valid query succeeds.
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {1.0f, 0.0f, 0.0f, 1.0f};
+    std::vector<float> queries = {
+        std::numeric_limits<float>::quiet_NaN(), 0.5f,  // query 0: NaN → should fail
+        0.0f, 0.0f                                       // query 1: valid
+    };
+
+    auto result = backend->batchKnnSearchSafe(
+        queries.data(), 2, 2,
+        vectors.data(), 2,
+        1, true);
+
+    ASSERT_EQ(result.queryResults.size(), 2u);
+    EXPECT_EQ(result.successCount, 1u);
+    EXPECT_EQ(result.failureCount, 1u);
+
+    // Query 0 failed
+    EXPECT_EQ(result.queryResults[0].status, AccelerationErrorCode::InputRangeViolation);
+    EXPECT_TRUE(result.queryResults[0].neighbors.empty());
+
+    // Query 1 succeeded
+    EXPECT_EQ(result.queryResults[1].status, AccelerationErrorCode::Success);
+    EXPECT_FALSE(result.queryResults[1].neighbors.empty());
+
+    backend->shutdown();
+}
+
+TEST_F(AccelerationTest, PartialFailure_InfQueryFails) {
+    // A query vector containing Inf must receive InputRangeViolation status.
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {1.0f, 0.0f, 0.0f, 1.0f};
+    std::vector<float> queries = {
+        std::numeric_limits<float>::infinity(), 0.5f,  // query 0: Inf → should fail
+        0.0f, 0.0f                                      // query 1: valid
+    };
+
+    auto result = backend->batchKnnSearchSafe(
+        queries.data(), 2, 2,
+        vectors.data(), 2,
+        1, true);
+
+    ASSERT_EQ(result.queryResults.size(), 2u);
+    EXPECT_EQ(result.successCount, 1u);
+    EXPECT_EQ(result.failureCount, 1u);
+
+    EXPECT_EQ(result.queryResults[0].status, AccelerationErrorCode::InputRangeViolation);
+    EXPECT_TRUE(result.queryResults[0].neighbors.empty());
+    EXPECT_FALSE(result.queryResults[0].errorMessage.empty());
+
+    EXPECT_EQ(result.queryResults[1].status, AccelerationErrorCode::Success);
+
+    backend->shutdown();
+}
+
+TEST_F(AccelerationTest, PartialFailure_AllInvalidQueriesReturnZeroSuccess) {
+    // When every query vector is invalid, successCount must be 0 and
+    // failureCount must equal numQueries.
+    auto& registry = BackendRegistry::instance();
+    auto* backend = registry.getBestVectorBackend();
+    ASSERT_NE(backend, nullptr);
+    ASSERT_TRUE(backend->initialize());
+
+    std::vector<float> vectors = {1.0f, 0.0f};
+    const float kNaN = std::numeric_limits<float>::quiet_NaN();
+    std::vector<float> queries = {kNaN, kNaN,   // query 0
+                                   kNaN, kNaN};  // query 1
+
+    auto result = backend->batchKnnSearchSafe(
+        queries.data(), 2, 2,
+        vectors.data(), 1,
+        1, true);
+
+    EXPECT_EQ(result.successCount, 0u);
+    EXPECT_EQ(result.failureCount, 2u);
+
+    for (size_t i = 0; i < 2; ++i) {
+        EXPECT_EQ(result.queryResults[i].status, AccelerationErrorCode::InputRangeViolation);
+        EXPECT_TRUE(result.queryResults[i].neighbors.empty());
+    }
 
     backend->shutdown();
 }

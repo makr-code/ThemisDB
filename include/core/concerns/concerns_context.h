@@ -61,11 +61,16 @@ public:
         std::string logPattern = "[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v";
         /// When true, all structured log calls emit single-line JSON objects.
         bool jsonLogging = false;
+        /// Which logger adapter to use: "spdlog" (default) or "noop".
+        std::string loggerAdapter = "spdlog";
         
         // Tracer config
         bool tracingEnabled = false;
         std::string tracingServiceName = "themisdb";
         std::string tracingEndpoint = "http://localhost:4318";
+        /// Which tracer adapter to use: "otel", "noop", or "" (auto-select
+        /// based on tracingEnabled — "otel" when true, "noop" when false).
+        std::string tracerAdapter = "";
         
         // Metrics config
         bool metricsEnabled = true;
@@ -73,10 +78,15 @@ public:
         /// Prevents unbounded cardinality growth from high-cardinality labels.
         /// Set to 0 to disable the limit.
         size_t maxMetricCardinality = 1000;
+        /// Which metrics adapter to use: "prometheus", "noop", or "" (auto-select
+        /// based on metricsEnabled — "prometheus" when true, "noop" when false).
+        std::string metricsAdapter = "";
         
         // Cache config
         size_t cacheMaxSize = 10000;
         uint64_t cacheDefaultTTL = 0; // 0 = no TTL
+        /// Which cache adapter to use: "inmemory" (default) or "noop".
+        std::string cacheAdapter = "inmemory";
     };
 
     /**
@@ -119,6 +129,28 @@ public:
 
     std::unique_ptr<ITracer::ISpan> startSpan(const std::string& name) {
         return tracer_->startSpan(name);
+    }
+
+    /**
+     * @brief Extract W3C TraceContext from inbound headers and start a linked
+     *        span via the active tracer.
+     *
+     * Delegates to ITracer::startSpanFromHeaders().
+     */
+    std::unique_ptr<ITracer::ISpan> startSpanFromHeaders(
+            const std::string& name,
+            const std::map<std::string, std::string>& headers) {
+        return tracer_->startSpanFromHeaders(name, headers);
+    }
+
+    /**
+     * @brief Inject the active span's W3C TraceContext into outgoing headers
+     *        via the active tracer.
+     *
+     * Delegates to ITracer::injectContext().
+     */
+    void injectContext(std::map<std::string, std::string>& headers) {
+        tracer_->injectContext(headers);
     }
 
     void recordMetric(const std::string& name, double value) {
