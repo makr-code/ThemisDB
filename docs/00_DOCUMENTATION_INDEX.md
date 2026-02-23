@@ -134,6 +134,11 @@ ThemisDB is implementing GPU-accelerated vector indexing across multiple backend
 - [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md) - User migration guide and API examples
 - [GPU_VECTOR_INDEXING_ARCHITECTURE.md](GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Technical architecture and design
 
+**Runtime Behavior & Configuration:**
+- [acceleration/capability_negotiation.md](acceleration/capability_negotiation.md) - **Capability negotiation, fallback chain, and troubleshooting** (backend capability matrix, `initializeRuntime()`, kernel-level fallback/retry, health monitoring)
+- [acceleration/error_codes.md](acceleration/error_codes.md) - Error code reference with per-code resolution steps
+- [acceleration/production_readiness.md](acceleration/production_readiness.md) - Production readiness assessment
+
 **Backend-Specific Docs:**
 - [GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md](GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md) - CUDA backend (v2.1, Q3 2026)
 - [VULKAN_BACKEND_GUIDE.md](VULKAN_BACKEND_GUIDE.md) - Vulkan backend (v2.2, Q4 2026)
