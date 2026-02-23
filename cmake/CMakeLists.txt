@@ -1577,6 +1577,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
+    ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp

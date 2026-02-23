@@ -20,6 +20,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Audit log with tamper-evident chaining
 - [x] Compliance features (eIDAS, GDPR-related controls)
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
+- [x] Zero-trust network policy enforcement (per-request identity verification)
 
 ## In Progress 🚧
 - [P] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
@@ -36,7 +37,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
 
 ### Long-term (6-12 months)
-- [I] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
+- [x] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
 - [!] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
 - [P] Dynamic data masking for PII fields in query results (Issue: #2463)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
@@ -71,8 +72,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [ ] Row-level security policies in AQL execution
 - [ ] Secret scanning pre-commit hook for CI pipelines
 
-### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: Planned 📋)
-- [ ] Zero-trust network policy enforcement (per-request identity verification)
+### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
+- [x] Zero-trust network policy enforcement (per-request identity verification)
 - [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [P] Dynamic data masking for PII fields in query results
 - [ ] SOC 2 Type II compliance evidence collection
@@ -90,6 +91,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
 - FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
 - AQL injection detection uses pattern matching; semantic analysis planned for v1.5.0.
+- Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
 
 ## Breaking Changes
 - SecurityManager API is stable from v1.x.
