@@ -58,6 +58,8 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
+#include "scheduler/task_audit_event.h"
+#include "scheduler/task_result_store.h"
 
 namespace themis {
 
@@ -65,6 +67,7 @@ namespace themis {
 class QueryEngine;
 class EventTriggerManager;
 class CronExpression;
+class RocksDBWrapper;
 
 namespace utils {
     class AuditLogger;
@@ -302,23 +305,32 @@ public:
         bool enable_audit_logging = true;      // Enable comprehensive audit logging
         bool enable_anomaly_detection = true;  // Enable anomaly detection
         bool enable_gdpr_mode = false;         // Enable GDPR-compliant data masking
+
+        // Result store configuration
+        bool   enable_result_store = false;         // Store task output in ThemisDB after each run
+        size_t result_store_max_results_per_task = 100;  // Max results retained per task
     };
     
     /**
      * @brief Construct a task scheduler
-     * @param query_engine Query engine for executing AQL queries
-     * @param config Scheduler configuration
-     * @param changefeed Optional changefeed for CDC event triggers (nullptr = no CDC support)
-     * @param audit_logger Optional audit logger for tamper-evident logging (nullptr = basic logging)
-     * 
+     * @param query_engine   Query engine for executing AQL queries
+     * @param config         Scheduler configuration
+     * @param changefeed     Optional changefeed for CDC event triggers (nullptr = no CDC support)
+     * @param audit_logger   Optional audit logger for tamper-evident logging (nullptr = basic logging)
+     * @param result_storage Optional RocksDB instance used to persist task execution results.
+     *                       Required when config.enable_result_store == true.
+     *                       Must outlive this TaskScheduler instance.
+     *
      * Note: The optional parameters maintain backward compatibility.
      * Existing code using TaskScheduler(query_engine, config) continues to work.
-     * New code can add changefeed for CDC event trigger support and audit_logger for comprehensive auditing.
+     * New code can add changefeed for CDC event trigger support, audit_logger for comprehensive
+     * auditing, and result_storage for persistent task output storage.
      */
     explicit TaskScheduler(QueryEngine* query_engine, 
                           const Config& config,
                           Changefeed* changefeed = nullptr,
-                          std::shared_ptr<utils::AuditLogger> audit_logger = nullptr);
+                          std::shared_ptr<utils::AuditLogger> audit_logger = nullptr,
+                          RocksDBWrapper* result_storage = nullptr);
     ~TaskScheduler();
     
     // Lifecycle management
@@ -483,6 +495,44 @@ public:
         return audit_manager_;
     }
 
+    /**
+     * @brief Get execution history for a specific task (or all tasks)
+     *
+     * Convenience wrapper around TaskAuditManager::queryAuditEvents() that
+     * pre-populates the task_id filter and sensible defaults for browsing
+     * the searchable audit log.
+     *
+     * @param task_id  Task ID to filter on (empty string = all tasks)
+     * @param limit    Maximum number of results to return (default 100)
+     * @param offset   Pagination offset (default 0)
+     * @return Vector of audit events ordered by timestamp descending,
+     *         or empty vector if audit logging is disabled
+     */
+    std::vector<scheduler::TaskAuditEvent> getExecutionHistory(
+        const std::string& task_id = "",
+        size_t limit = 100,
+        size_t offset = 0) const;
+     * @brief Retrieve recent execution results for a task from the result store.
+     *
+     * Returns up to `limit` results, newest first.
+     * Returns an empty vector if result storage is disabled or no results exist.
+     *
+     * @param task_id  Task identifier.
+     * @param limit    Maximum number of records to return (default: 10).
+     */
+    std::vector<scheduler::TaskExecutionResult> getTaskResults(
+        const std::string& task_id, size_t limit = 10) const;
+
+    /**
+     * @brief Retrieve the most-recent execution result for a task.
+     *
+     * Returns std::nullopt if result storage is disabled or no results exist.
+     *
+     * @param task_id  Task identifier.
+     */
+    std::optional<scheduler::TaskExecutionResult> getLatestTaskResult(
+        const std::string& task_id) const;
+
 private:
     // Core components
     QueryEngine* query_engine_;
@@ -492,6 +542,9 @@ private:
     
     // Audit and anomaly detection
     std::shared_ptr<scheduler::TaskAuditManager> audit_manager_;
+
+    // Execution result store (optional – only active when enable_result_store == true)
+    std::unique_ptr<scheduler::TaskResultStore> result_store_;
     
     // Function registry
     std::map<std::string, TaskFunction> functions_;

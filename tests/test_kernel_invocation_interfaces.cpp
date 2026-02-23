@@ -425,16 +425,17 @@ TEST(KernelInvocationInterfaces, ANNDispatch_DistanceLauncherFor_RoutesCorrectly
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
 
-TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_L2AndTopKNonNull) {
+TEST(KernelInvocationInterfaces, CUDAVectorBackend_PopulateANNDispatch_AllSlotsNonNull) {
     CUDAVectorBackend backend;
     // Skip if CUDA hardware is unavailable; only test dispatch table population
     if (!backend.isAvailable()) {
         GTEST_SKIP() << "CUDA backend not available";
     }
     ANNKernelDispatch d = backend.populateANNDispatch();
-    EXPECT_NE(d.launchL2Distance, nullptr);
-    EXPECT_NE(d.launchCosine,     nullptr);
-    EXPECT_NE(d.launchTopK,       nullptr);
+    EXPECT_NE(d.launchL2Distance,   nullptr);
+    EXPECT_NE(d.launchCosine,       nullptr);
+    EXPECT_NE(d.launchInnerProduct, nullptr);
+    EXPECT_NE(d.launchTopK,         nullptr);
 }
 
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
@@ -449,9 +450,14 @@ TEST(KernelInvocationInterfaces, CUDAGeoBackend_PopulateGeoDispatch_AllSlotsNonN
 
 TEST(KernelInvocationInterfaces, CUDAVectorBackend_DispatchReturnsValidStructure) {
     // Verifies the method exists and returns a well-formed struct (even without GPU).
+    // All 4 ANN slots must be non-null when compiled with THEMIS_ENABLE_CUDA because
+    // the adapters are static functions assigned unconditionally at compile time.
     CUDAVectorBackend backend;
     ANNKernelDispatch d = backend.populateANNDispatch();
-    (void)d; // Structural / compilation check
+    EXPECT_NE(d.launchL2Distance,   nullptr);
+    EXPECT_NE(d.launchCosine,       nullptr);
+    EXPECT_NE(d.launchInnerProduct, nullptr);
+    EXPECT_NE(d.launchTopK,         nullptr);
 }
 
 TEST(KernelInvocationInterfaces, CUDAGeoBackend_DispatchReturnsValidStructure) {

@@ -170,6 +170,27 @@ TEST_F(ReplicationConfigTest, ValidConfigInitializesSuccessfully) {
     mgr.shutdown();
 }
 
+TEST_F(ReplicationConfigTest, InvalidWALCompressionLevelFails) {
+    TempWALDir wd("/tmp/themis_repl_cfg_compress_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_wal_compression  = true;
+    cfg.wal_compression_level   = 0;  // Out of range (must be 1-9)
+
+    ReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.initialize());
+}
+
+TEST_F(ReplicationConfigTest, ValidWALCompressionLevelSucceeds) {
+    TempWALDir wd("/tmp/themis_repl_cfg_compress_ok");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_wal_compression  = true;
+    cfg.wal_compression_level   = 6;
+
+    ReplicationManager mgr(cfg);
+    EXPECT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}
+
 // ============================================================================
 // 2. WAL Checksum Verification
 // ============================================================================
@@ -1694,6 +1715,89 @@ TEST(CompressedStreamTest, DefaultConstructorWorks) {
 TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
     CompressedReplicationStream stream("localhost:9001");
     EXPECT_TRUE(stream.sendBatch({}));
+}
+
+// ============================================================================
+// 19b. ReplicationStream WAL compression integration
+// ============================================================================
+
+class ReplicationStreamCompressionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        wal_dir_ = "/tmp/themis_rs_compress_test";
+        std::filesystem::remove_all(wal_dir_);
+        std::filesystem::create_directories(wal_dir_);
+    }
+    void TearDown() override {
+        std::filesystem::remove_all(wal_dir_);
+    }
+    std::string wal_dir_;
+};
+
+TEST_F(ReplicationStreamCompressionTest, CompressionDisabledByDefault) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    EXPECT_FALSE(cfg.enable_wal_compression);
+    EXPECT_EQ(cfg.wal_compression_algorithm, "zstd");
+    EXPECT_EQ(cfg.wal_compression_level, 3);
+    EXPECT_EQ(cfg.wal_compression_min_batch_bytes, 1024u);
+}
+
+TEST_F(ReplicationStreamCompressionTest, ZstdConfigConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "zstd";
+    cfg.wal_compression_level           = 3;
+    cfg.wal_compression_min_batch_bytes = 0;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9100", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, LZ4ConfigConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "lz4";
+    cfg.wal_compression_min_batch_bytes = 0;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9101", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, CompressionDisabledConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression = false;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9102", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, UnknownAlgorithmDefaultsToZstd) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression    = true;
+    cfg.wal_compression_algorithm = "unknown_algo";
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    // Should construct without throwing; unknown algo falls back to ZSTD
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9103", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, AutoAlgorithmConfig) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "auto";
+    cfg.wal_compression_min_batch_bytes = 512;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9104", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, SnappyAlgorithmConfig) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression    = true;
+    cfg.wal_compression_algorithm = "snappy";
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9105", wal, cfg));
 }
 
 // ============================================================================
