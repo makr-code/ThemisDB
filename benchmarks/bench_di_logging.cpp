@@ -10,7 +10,8 @@
  *   5. logWithContext throughput (trace/span ID injection)
  *   6. ConcernsContext convenience logging wrappers (logInfo / logError)
  *   7. NoOpMetrics counter/histogram overhead
- *   8. InMemoryCache get/put overhead via ConcernsContext
+ *   8. NoOpCache get/put overhead via ConcernsContext (dispatch-only baseline)
+ *   9. InMemoryCacheImpl get-hit, get-miss, and put throughput (real LRU)
  */
 
 #include <benchmark/benchmark.h>
@@ -193,7 +194,8 @@ public:
             std::make_unique<NoOpLogger>(),
             std::make_unique<NoOpTracer>(),
             std::make_unique<NoOpMetrics>(),
-            std::make_unique<NoOpCache>()
+            std::make_unique<NoOpCache>(),
+            std::make_unique<NoOpCircuitBreaker>()
         );
     }
     void TearDown(const benchmark::State&) override {
@@ -241,6 +243,67 @@ BENCHMARK_F(DIConcernsBenchFixture, CacheGetMiss)(benchmark::State& state) {
     for (auto _ : state) {
         auto result = ctx_->cache().get("nonexistent_key");
         benchmark::DoNotOptimize(result);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+
+BENCHMARK_F(DIConcernsBenchFixture, CachePut)(benchmark::State& state) {
+    const CacheEntry entry{"bench_payload", 1, 0};
+    int64_t i = 0;
+    for (auto _ : state) {
+        // Use distinct keys to avoid eviction masking real put cost.
+        std::string key = "bench_key_" + std::to_string(i++);
+        ctx_->cache().put(key, entry);
+        benchmark::ClobberMemory();
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+
+// ============================================================================
+// 8. InMemoryCacheImpl overhead (real LRU cache, no NoOp)
+// ============================================================================
+
+class InMemoryCacheBenchFixture : public benchmark::Fixture {
+public:
+    void SetUp(const benchmark::State&) override {
+        cache_ = std::make_unique<InMemoryCacheImpl>(/*maxSize=*/10000, /*defaultTTL=*/0);
+        // Pre-populate for get-hit benchmark
+        for (int i = 0; i < 100; ++i) {
+            cache_->put("preloaded_" + std::to_string(i),
+                        CacheEntry{"value_" + std::to_string(i), 1, 0});
+        }
+    }
+    void TearDown(const benchmark::State&) override {
+        cache_.reset();
+    }
+protected:
+    std::unique_ptr<InMemoryCacheImpl> cache_;
+};
+
+BENCHMARK_F(InMemoryCacheBenchFixture, GetHit)(benchmark::State& state) {
+    int i = 0;
+    for (auto _ : state) {
+        auto result = cache_->get("preloaded_" + std::to_string(i % 100));
+        benchmark::DoNotOptimize(result);
+        ++i;
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+
+BENCHMARK_F(InMemoryCacheBenchFixture, GetMiss)(benchmark::State& state) {
+    for (auto _ : state) {
+        auto result = cache_->get("nonexistent_key");
+        benchmark::DoNotOptimize(result);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+
+BENCHMARK_F(InMemoryCacheBenchFixture, Put)(benchmark::State& state) {
+    const CacheEntry entry{"bench_payload", 1, 0};
+    int64_t i = 0;
+    for (auto _ : state) {
+        cache_->put("bench_key_" + std::to_string(i++), entry);
+        benchmark::ClobberMemory();
     }
     state.SetItemsProcessed(state.iterations());
 }
