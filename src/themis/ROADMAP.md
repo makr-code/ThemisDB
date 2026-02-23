@@ -72,9 +72,24 @@ v1.6.x – Phase 3 in progress: `wire_protocol_server.cpp` added to `src/themis/
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- The `src/themis/` directory is currently empty; the monolithic build distributes this logic elsewhere.
+- `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
+  map grows monotonically and `active_sessions()` never decreases. Fixing this
+  requires adding a disconnect-callback member to `WireProtocolSession`, which
+  would change the frozen v1.x public header ABI.
+- `WireProtocolServer` members (`sessions_`, `running_`, `total_connections_`) are
+  not protected by a mutex. Thread-safety depends on the caller using a
+  single-threaded `io_context` or providing external synchronisation. Fixing this
+  requires adding a `std::mutex` member to the frozen header.
+- `WireProtocolSession::write_buffer_` is shared across `send_error`, `send_ok`, and
+  `async_write_response`. Concurrent calls from multiple threads are unsafe; within
+  a single-threaded `io_context` event loop the design is correct.
+- LZ4 compress/decompress stubs return empty vectors; full implementation deferred
+  until the LZ4 dependency is unconditionally available across all build targets.
+- `OpCode::PING` and `OpCode::PONG` share the same wire value (`0xFE`) in the
+  frozen header; this is a pre-existing design decision.
 - Modularization is blocked on the v1.7.0 architectural refactor.
-- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned but not yet implemented here.
+- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned
+  but not yet implemented here.
 
 ## Breaking Changes
 - No existing code in this directory; all APIs are new.

@@ -310,3 +310,101 @@ TEST(WireFrameHeader, SizeAndAlignment) {
     EXPECT_EQ(h.flags,   0xCCDDu);
     EXPECT_EQ(h.payload_length, 0x11223344u);
 }
+
+// ===========================================================================
+// WireProtocolSession – initial state tests
+// ===========================================================================
+
+TEST(WireProtocolSession, InitialState) {
+    boost::asio::io_context ioc;
+    auto client = make_client_socket(ioc);
+    auto session = std::make_shared<WireProtocolSession>(std::move(client));
+
+    // A fresh session must not be authenticated.
+    EXPECT_FALSE(session->is_authenticated());
+
+    // The session_id must be a non-empty string produced from the
+    // remote endpoint + timestamp.
+    EXPECT_FALSE(session->session_id().empty());
+}
+
+TEST(WireProtocolSession, CloseIsIdempotent) {
+    boost::asio::io_context ioc;
+    auto client = make_client_socket(ioc);
+    auto session = std::make_shared<WireProtocolSession>(std::move(client));
+
+    // Calling close() multiple times must not throw.
+    EXPECT_NO_THROW({
+        session->close("first close");
+        session->close("second close");
+    });
+}
+
+// ===========================================================================
+// WireProtocolServer – lifecycle tests
+// (mirrors the V2Server tests in test_wire_protocol_v2.cpp)
+// ===========================================================================
+
+TEST(WireProtocolServer, ConstructDestruct) {
+    boost::asio::io_context ioc;
+    // Port 0 lets the OS choose an ephemeral port; we won't call start().
+    EXPECT_NO_THROW({
+        WireProtocolServer server(ioc, 0);
+    });
+}
+
+TEST(WireProtocolServer, InitialStatistics) {
+    boost::asio::io_context ioc;
+    WireProtocolServer server(ioc, 0);
+
+    EXPECT_EQ(server.active_sessions(),    0u);
+    EXPECT_EQ(server.total_connections(),  0u);
+    EXPECT_EQ(server.total_messages(),     0u);
+}
+
+TEST(WireProtocolServer, StartStop) {
+    boost::asio::io_context ioc;
+    WireProtocolServer server(ioc, 0);
+
+    // start() must not throw; stop() must be safe to call after start().
+    EXPECT_NO_THROW({
+        server.start();
+        server.stop();
+    });
+}
+
+TEST(WireProtocolServer, StopBeforeStart) {
+    // stop() on a server that was never started must not throw.
+    boost::asio::io_context ioc;
+    WireProtocolServer server(ioc, 0);
+    EXPECT_NO_THROW(server.stop());
+}
+
+TEST(WireProtocolServer, DoubleStart) {
+    // start() called twice must be safe (idempotent).
+    boost::asio::io_context ioc;
+    WireProtocolServer server(ioc, 0);
+    EXPECT_NO_THROW({
+        server.start();
+        server.start();  // second call should be a no-op
+        server.stop();
+    });
+}
+
+// ===========================================================================
+// Checksum – public-facing coverage notes
+// ===========================================================================
+// WireProtocolSession::compute_checksum and ::verify_checksum are private
+// members; direct unit testing is not possible from outside the class.
+// Correctness is covered by the async read pipeline integration test path:
+// when a frame with a correct CRC32 checksum is sent over the loopback
+// socket, the session accepts it; when the checksum is wrong, it sends back
+// an ERROR frame (0x03 "Checksum mismatch").
+//
+// The CHECKSUM_SIZE constant (4 bytes / CRC32) is verified below.
+
+TEST(WireProtocolConstants, ChecksumSizeIsCrc32Width) {
+    // CRC32 is 32 bits = 4 bytes.
+    EXPECT_EQ(CHECKSUM_SIZE, 4u);
+    EXPECT_EQ(CHECKSUM_SIZE, sizeof(uint32_t));
+}
