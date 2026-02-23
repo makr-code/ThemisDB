@@ -293,6 +293,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/aql_query_builder.cpp
     ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
     ../src/aql/aql_conversation_context.cpp
     ../src/aql/aql_migration_assistant.cpp

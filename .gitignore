@@ -393,3 +393,6 @@ build/.audit-reports/*.log
 !build/.audit-reports/.gitkeep
 !build/.audit-reports/README.md
 a.out
+
+# CI-generated benchmark results (never commit raw run data)
+benchmark_results/

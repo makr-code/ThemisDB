@@ -346,6 +346,218 @@ TEST(CircuitBreakerTest, StateToString) {
 
 #endif // 0
 
+// ============================================================================
+// Core ICircuitBreaker / DefaultCircuitBreaker Tests (Issue #1415)
+// ============================================================================
+
+#include "core/concerns/i_circuit_breaker.h"
+#include "core/concerns/noop_implementations.h"
+#include "core/concerns/concerns_context.h"
+#include <thread>
+#include <chrono>
+
+using namespace themis::core::concerns;
+
+// ---------------------------------------------------------------------------
+// DefaultCircuitBreaker — state machine
+
+TEST(CoreCircuitBreakerTest, InitialStateClosed) {
+    DefaultCircuitBreaker cb;
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+    EXPECT_TRUE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, ClosedToOpenAfterFailureThreshold) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 3;
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+    EXPECT_FALSE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, OpenBlocksRequests) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 2;
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+    EXPECT_FALSE(cb.allowRequest());
+    EXPECT_FALSE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, OpenToHalfOpenAfterTimeout) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 2;
+    cfg.timeout = std::chrono::seconds(1);
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    EXPECT_TRUE(cb.allowRequest());
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::HALF_OPEN);
+}
+
+TEST(CoreCircuitBreakerTest, HalfOpenToClosedAfterSuccesses) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold  = 2;
+    cfg.success_threshold  = 2;
+    cfg.timeout            = std::chrono::seconds(1);
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    EXPECT_TRUE(cb.allowRequest());
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::HALF_OPEN);
+
+    cb.recordSuccess();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::HALF_OPEN);
+    cb.recordSuccess();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+}
+
+TEST(CoreCircuitBreakerTest, HalfOpenToOpenOnFailure) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 2;
+    cfg.timeout = std::chrono::seconds(1);
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    EXPECT_TRUE(cb.allowRequest());
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::HALF_OPEN);
+
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+}
+
+TEST(CoreCircuitBreakerTest, Reset) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 2;
+    DefaultCircuitBreaker cb(cfg);
+
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+
+    cb.reset();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+    EXPECT_EQ(cb.getFailureCount(), 0u);
+    EXPECT_TRUE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, ForceOpen) {
+    DefaultCircuitBreaker cb;
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+
+    cb.forceOpen();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+    EXPECT_FALSE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, StateToString) {
+    EXPECT_EQ("CLOSED",    ICircuitBreaker::stateToString(ICircuitBreaker::State::CLOSED));
+    EXPECT_EQ("OPEN",      ICircuitBreaker::stateToString(ICircuitBreaker::State::OPEN));
+    EXPECT_EQ("HALF_OPEN", ICircuitBreaker::stateToString(ICircuitBreaker::State::HALF_OPEN));
+}
+
+// ---------------------------------------------------------------------------
+// NoOpCircuitBreaker — always allows requests
+
+TEST(CoreCircuitBreakerTest, NoOpAlwaysAllows) {
+    NoOpCircuitBreaker cb;
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+    EXPECT_TRUE(cb.allowRequest());
+    cb.recordFailure();
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::CLOSED);
+    EXPECT_TRUE(cb.allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, NoOpIsHealthy) {
+    NoOpCircuitBreaker cb;
+    auto result = cb.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+// ---------------------------------------------------------------------------
+// ICircuitBreaker::isHealthy default implementation
+
+TEST(CoreCircuitBreakerTest, DefaultIsHealthyOpenUnhealthy) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 1;
+    DefaultCircuitBreaker cb(cfg);
+
+    EXPECT_TRUE(cb.isHealthy().ok);
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), ICircuitBreaker::State::OPEN);
+    EXPECT_FALSE(cb.isHealthy().ok);
+}
+
+// ---------------------------------------------------------------------------
+// ConcernsContext integration
+
+TEST(CoreCircuitBreakerTest, ConcernsContextExposesCircuitBreaker) {
+    auto ctx = ConcernsContext::createNoOp();
+    // Accessor must be available and return CLOSED noop state
+    EXPECT_EQ(ctx->circuitBreaker().getState(), ICircuitBreaker::State::CLOSED);
+    EXPECT_TRUE(ctx->circuitBreaker().allowRequest());
+}
+
+TEST(CoreCircuitBreakerTest, ConcernsContextHealthCheckIncludesCircuitBreaker) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto status = ctx->healthCheck();
+    EXPECT_TRUE(status.circuit_breaker.ok);
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST(CoreCircuitBreakerTest, ConcernsContextCustomWithExplicitCircuitBreaker) {
+    ICircuitBreaker::Config cfg;
+    cfg.failure_threshold = 2;
+    auto cb = std::make_unique<DefaultCircuitBreaker>(cfg);
+    cb->recordFailure();
+    cb->recordFailure();
+    EXPECT_EQ(cb->getState(), ICircuitBreaker::State::OPEN);
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::move(cb)
+    );
+
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.circuit_breaker.ok);
+    EXPECT_FALSE(status.isHealthy());
+}
+
+TEST(CoreCircuitBreakerTest, ConcernsContextCircuitBreakerAdapter_Noop) {
+    ConcernsContext::Config cfg;
+    cfg.circuitBreakerAdapter = "noop";
+    cfg.metricsAdapter        = "noop";
+    cfg.tracerAdapter         = "noop";
+    // create() validates and instantiates — should not throw
+    EXPECT_NO_THROW({
+        auto ctx = ConcernsContext::create(cfg);
+        EXPECT_EQ(ctx->circuitBreaker().getState(), ICircuitBreaker::State::CLOSED);
+        EXPECT_TRUE(ctx->circuitBreaker().allowRequest());
+    });
+}
+
 TEST(CircuitBreakerDisabledTest, DISABLED_AllTestsSkipped) {
-    GTEST_SKIP() << "Circuit breaker tests are currently disabled";
+    GTEST_SKIP() << "Legacy sharding circuit breaker tests are currently disabled";
 }

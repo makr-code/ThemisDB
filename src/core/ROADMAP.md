@@ -41,7 +41,7 @@
 ### Long-term (6-12 months)
 - [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
 - [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
-- [I] Circuit breaker interface as a first-class concern (Issue: #1415)
+- [x] Circuit breaker interface as a first-class concern (Issue: #1415)
 - [x] Feature flag interface (enable/disable features without redeployment) (Issue: #1416)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
 - [I] Audit event interface for compliance logging (Issue: #1418)
