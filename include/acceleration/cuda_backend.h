@@ -295,5 +295,37 @@ private:
 #endif
 };
 
+// CUDA backend for Tensor Core FP16 / BF16 matrix multiply (NVIDIA)
+// Routes to cublasHgemm (FP16) or cublasGemmEx BF16 on SM 7.0+ hardware.
+// Falls back to FP32 CPU path when compiled without CUDA.
+class CUDAMatrixBackend : public IMatrixBackend {
+public:
+    CUDAMatrixBackend() = default;
+    ~CUDAMatrixBackend() override;
+
+    const char* name() const noexcept override { return "CUDA"; }
+    BackendType type() const noexcept override { return BackendType::CUDA; }
+    bool isAvailable() const noexcept override;
+
+    BackendCapabilities getCapabilities() const override;
+    bool initialize() override;
+    void shutdown() override;
+
+    // IMatrixBackend interface
+    int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) override;
+
+    // Frozen kernel dispatch — wires CUDA matmul launcher to the interface contract
+    MatrixKernelDispatch populateMatrixDispatch() const override;
+
+private:
+    bool initialized_ = false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;
+#endif
+};
+
 } // namespace acceleration
 } // namespace themis

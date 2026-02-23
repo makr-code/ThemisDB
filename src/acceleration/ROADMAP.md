@@ -96,8 +96,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA and Vulkan backends are currently stub/scaffolding implementations
-- Actual GPU kernels have not yet been written; all operations fall through to CPU
+- `CUDAGraphBackend` (graph traversal — BFS / shortest path) is still a stub; actual CUDA graph-traversal kernels have not yet been written
 - No runtime device capability detection yet
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - Some backend source files are staged but not feature-complete for production traffic
