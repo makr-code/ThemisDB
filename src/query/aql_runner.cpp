@@ -482,7 +482,13 @@ Result<nlohmann::json> executeAqlWithRLS(
         if (pr) {
             auto tr = AQLTranslator::translate(pr.value());
             if (tr.success) {
-                if (tr.join.has_value()) {
+                if (tr.vector_geo.has_value()) {
+                    collection = tr.vector_geo->table;
+                } else if (tr.content_geo.has_value()) {
+                    collection = tr.content_geo->table;
+                } else if (tr.traversal.has_value()) {
+                    collection = tr.traversal->graphName;
+                } else if (tr.join.has_value()) {
                     // For joins, apply RLS against the primary (first) FOR target.
                     if (!tr.join->for_nodes.empty()) {
                         collection = tr.join->for_nodes.front().collection;

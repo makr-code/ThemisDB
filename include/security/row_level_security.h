@@ -13,11 +13,9 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 #include <mutex>
 #include <unordered_map>
 #include <optional>
-#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
