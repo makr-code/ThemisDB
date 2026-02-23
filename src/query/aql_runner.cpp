@@ -25,6 +25,8 @@
 #include "query/query_plan_visualizer.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
+#include "security/row_level_security.h"
+#include "security/access_control_manager.h"
 #include <fmt/format.h>
 
 namespace themis {
@@ -451,6 +453,61 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEng
     }
 
     return Ok(nlohmann::json({{"type", "commit"}, {"results", results}}));
+}
+
+// ── Row-level security (RLS) wrapper ─────────────────────────────────────────
+
+Result<nlohmann::json> executeAqlWithRLS(
+    const std::string& aql,
+    QueryEngine& engine,
+    security::RLSManager& rls,
+    const security::SecurityContext& ctx
+) {
+    // Execute the AQL query normally first.
+    auto result = executeAql(aql, engine);
+    if (!result) {
+        return result;
+    }
+
+    nlohmann::json& doc = *result;
+
+    // Determine the queried collection from the translated query so that
+    // the correct RLS policies are applied.  We re-parse the AQL to get
+    // the table name.  This is cheap because parseAndTranslateForExplain()
+    // is already called for EXPLAIN paths.
+    std::string collection;
+    {
+        query::AQLParser parser;
+        auto pr = parser.parse(aql);
+        if (pr) {
+            auto tr = AQLTranslator::translate(pr.value());
+            if (tr.success) {
+                if (tr.vector_geo.has_value()) {
+                    collection = tr.vector_geo->table;
+                } else if (tr.content_geo.has_value()) {
+                    collection = tr.content_geo->table;
+                } else if (tr.traversal.has_value()) {
+                    collection = tr.traversal->graphName;
+                } else if (tr.join.has_value()) {
+                    // For joins, apply RLS against the primary (first) FOR target.
+                    if (!tr.join->for_nodes.empty()) {
+                        collection = tr.join->for_nodes.front().collection;
+                    }
+                } else if (tr.disjunctive.has_value()) {
+                    collection = tr.disjunctive->table;
+                } else {
+                    collection = tr.query.table;
+                }
+            }
+        }
+    }
+
+    // Apply RLS filtering to the "results" array inside the response object.
+    if (doc.is_object() && doc.contains("results") && doc["results"].is_array()) {
+        doc["results"] = rls.filterRows(collection, ctx, doc["results"]);
+    }
+
+    return Ok(std::move(doc));
 }
 
 } // namespace themis

@@ -93,6 +93,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/serverless_function_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -849,6 +850,9 @@ private:
 
     // GraphQL API Handler
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
+
+    // Serverless function hosting – in-process user function registry + executor
+    std::unique_ptr<themis::server::ServerlessFunctionApiHandler> serverless_fn_handler_;
 
     // Metadata sub-components owned alongside SchemaApiHandler
     std::unique_ptr<StatisticsCollector>      stats_collector_;

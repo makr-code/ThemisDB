@@ -32,6 +32,7 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 - **Query Parsing**: Natural language query parsing and expansion
 - **Result Ranking**: Configurable scoring and ranking algorithms
 - **LLM Query Rewriting**: LLM-based alternative query generation for improved recall (`LlmQueryRewriter`)
+- **LLM Re-ranking**: Configurable re-ranking with LLM feedback loop (`LlmReranker`)
 
 ## Features
 
@@ -273,6 +274,9 @@ For detailed implementation documentation, see:
   `QueryExpander::suggestSpellingCorrections()` (ranked multi-candidate word corrections with
   confidence scores), `QueryExpander::suggestQueryCorrections()` (ranked full-query correction
   suggestions with per-token substitution and all-corrected variants)
+- **v1.8.0**: `LlmReranker` — Configurable re-ranking with LLM feedback loop (batched prompting,
+  per-document 0–10 score parsing, configurable score blending, `toClickEvents()` bridge to
+  `LearningToRank` for closed-loop LTR training from LLM relevance judgments)
 
 ## Examples
 

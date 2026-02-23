@@ -1421,6 +1421,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/entity_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
+    ../src/server/chunked_response_writer.cpp
     ../src/server/wal_api_handler.cpp
     ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
@@ -1572,10 +1573,12 @@ set(THEMIS_CORE_SOURCES
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
+    ../src/search/llm_reranker.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
+    ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -1589,16 +1592,20 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
+    ../src/security/row_level_security.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
+    ../src/security/confidential_computing.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
     ../src/auth/oidc_provider.cpp
+    ../src/auth/auth_rate_limiter.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp

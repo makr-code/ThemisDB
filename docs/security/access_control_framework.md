@@ -12,17 +12,26 @@ ThemisDB's Access Control Framework provides a comprehensive security layer that
 
 ### Components
 
-1. **AccessControlManager** - Central coordinator for authentication and authorization
-2. **RBAC** - Role and permission management system
-3. **AuthMiddleware** - Token validation and authentication
-4. **UserRoleStore** - User-to-role mappings
-5. **SecurityContext** - Per-request security information
+1. **ZeroTrustPolicyEnforcer** - Per-request network identity gate (zero-trust layer)
+2. **AccessControlManager** - Central coordinator for authentication and authorization
+3. **RBAC** - Role and permission management system
+4. **AuthMiddleware** - Token validation and authentication
+5. **UserRoleStore** - User-to-role mappings
+6. **SecurityContext** - Per-request security information
 
 ### Flow
 
 ```
-Request → AuthMiddleware (authenticate) → AccessControlManager → RBAC → Decision
+Request → ZeroTrustPolicyEnforcer (network+identity gate)
+        → AuthMiddleware (authenticate)
+        → AccessControlManager → RBAC/ABAC
+        → Decision
 ```
+
+> **Zero-trust gate**: `ZeroTrustPolicyEnforcer::verify()` must be called for every
+> inbound request *before* RBAC/ABAC evaluation.  It independently re-verifies the
+> caller's identity and enforces per-identity IPv4/CIDR network policies.
+> See [zero_trust_policy_enforcer.md](./zero_trust_policy_enforcer.md) for details.
 
 ## Quick Start
 
@@ -432,6 +441,7 @@ grpc::Status CheckAuthorization(
 
 ## See Also
 
+- [Zero-Trust Policy Enforcer](./zero_trust_policy_enforcer.md)
 - [RBAC Documentation](./rbac.md)
 - [Authentication Middleware](./auth_middleware.md)
 - [Security Overview](../../SECURITY.md)
