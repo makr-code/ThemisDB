@@ -1,0 +1,191 @@
+{
+  "version": "1.0.0",
+  "branch": "main",
+  "commit": "initial",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "description": "Baseline for CPU acceleration benchmarks (bench_cuda_vs_cpu). Values are representative for a standard CI runner (2-core, ~3 GHz). Update by running the benchmark with --benchmark_format=json and saving as this file.",
+  "benchmarks": {
+    "BM_CPU_ANN_L2Distance/1000/64": {
+      "real_time": 500.0,
+      "cpu_time": 500.0,
+      "iterations": 1000,
+      "items_per_second": 2000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_L2Distance/1000/128": {
+      "real_time": 900.0,
+      "cpu_time": 900.0,
+      "iterations": 800,
+      "items_per_second": 1100000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_L2Distance/1000/256": {
+      "real_time": 1700.0,
+      "cpu_time": 1700.0,
+      "iterations": 500,
+      "items_per_second": 590000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_L2Distance/1000/512": {
+      "real_time": 3200.0,
+      "cpu_time": 3200.0,
+      "iterations": 200,
+      "items_per_second": 313000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_CosineDistance/1000/64": {
+      "real_time": 600.0,
+      "cpu_time": 600.0,
+      "iterations": 1000,
+      "items_per_second": 1670000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_CosineDistance/1000/128": {
+      "real_time": 1100.0,
+      "cpu_time": 1100.0,
+      "iterations": 700,
+      "items_per_second": 910000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_CosineDistance/1000/256": {
+      "real_time": 2100.0,
+      "cpu_time": 2100.0,
+      "iterations": 400,
+      "items_per_second": 476000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_CosineDistance/1000/512": {
+      "real_time": 4000.0,
+      "cpu_time": 4000.0,
+      "iterations": 200,
+      "items_per_second": 250000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_InnerProduct/1000/64": {
+      "real_time": 500.0,
+      "cpu_time": 500.0,
+      "iterations": 1000,
+      "items_per_second": 2000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_InnerProduct/1000/128": {
+      "real_time": 900.0,
+      "cpu_time": 900.0,
+      "iterations": 800,
+      "items_per_second": 1100000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_InnerProduct/1000/256": {
+      "real_time": 1700.0,
+      "cpu_time": 1700.0,
+      "iterations": 500,
+      "items_per_second": 590000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_InnerProduct/1000/512": {
+      "real_time": 3200.0,
+      "cpu_time": 3200.0,
+      "iterations": 200,
+      "items_per_second": 313000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_TopK/1000/10": {
+      "real_time": 50.0,
+      "cpu_time": 50.0,
+      "iterations": 10000,
+      "items_per_second": 20000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_TopK/1000/50": {
+      "real_time": 90.0,
+      "cpu_time": 90.0,
+      "iterations": 8000,
+      "items_per_second": 11100000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_TopK/5000/10": {
+      "real_time": 200.0,
+      "cpu_time": 200.0,
+      "iterations": 4000,
+      "items_per_second": 25000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_ANN_TopK/5000/50": {
+      "real_time": 400.0,
+      "cpu_time": 400.0,
+      "iterations": 2000,
+      "items_per_second": 12500000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_BatchKNN/500/128/10": {
+      "real_time": 2000.0,
+      "cpu_time": 2000.0,
+      "iterations": 300,
+      "items_per_second": 1000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_BatchKNN/1000/128/10": {
+      "real_time": 3700.0,
+      "cpu_time": 3700.0,
+      "iterations": 200,
+      "items_per_second": 1080000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_BatchKNN/1000/256/10": {
+      "real_time": 7000.0,
+      "cpu_time": 7000.0,
+      "iterations": 100,
+      "items_per_second": 570000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_BatchKNN/1000/512/10": {
+      "real_time": 13000.0,
+      "cpu_time": 13000.0,
+      "iterations": 50,
+      "items_per_second": 308000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_HaversineDistance/1000": {
+      "real_time": 50.0,
+      "cpu_time": 50.0,
+      "iterations": 15000,
+      "items_per_second": 20000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_HaversineDistance/10000": {
+      "real_time": 450.0,
+      "cpu_time": 450.0,
+      "iterations": 2000,
+      "items_per_second": 22200000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_HaversineDistance/100000": {
+      "real_time": 4500.0,
+      "cpu_time": 4500.0,
+      "iterations": 200,
+      "items_per_second": 22200000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_PointInPolygon/1000": {
+      "real_time": 30.0,
+      "cpu_time": 30.0,
+      "iterations": 20000,
+      "items_per_second": 33000000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_PointInPolygon/10000": {
+      "real_time": 280.0,
+      "cpu_time": 280.0,
+      "iterations": 2500,
+      "items_per_second": 35700000.0,
+      "bytes_per_second": null
+    },
+    "BM_CPU_Geo_PointInPolygon/100000": {
+      "real_time": 2800.0,
+      "cpu_time": 2800.0,
+      "iterations": 300,
+      "items_per_second": 35700000.0,
+      "bytes_per_second": null
+    }
+  }
+}

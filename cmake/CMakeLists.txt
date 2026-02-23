@@ -1713,6 +1713,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/multi_gpu_backend.cpp
     ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
@@ -3912,6 +3913,33 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         ${THEMIS_ROOT_DIR}/benchmarks/bench_sanity.cpp
     )
     target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Acceleration (CUDA vs CPU) Benchmark — Issue #1375 / #1392 / #1393
+    # CPU kernels always built; CUDA kernels activated via THEMIS_ENABLE_CUDA.
+    # Benchmark gracefully skips CUDA cases at runtime when no GPU is detected.
+    if(EXISTS "${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp")
+        add_executable(bench_cuda_vs_cpu
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_cuda_vs_cpu.cpp
+        )
+        target_link_libraries(bench_cuda_vs_cpu PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+            Threads::Threads
+        )
+        target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+        if(THEMIS_ENABLE_CUDA)
+            target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+                THEMIS_ENABLE_CUDA=1
+            )
+        endif()
+        if(CMAKE_BUILD_TYPE STREQUAL "Release" AND NOT MSVC)
+            target_compile_options(bench_cuda_vs_cpu PRIVATE -O3 -DNDEBUG)
+        endif()
+        message(STATUS "Added bench_cuda_vs_cpu (acceleration benchmarks)")
+    endif()
 
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance

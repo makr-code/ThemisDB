@@ -166,6 +166,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         std::move(metrics),
         std::move(cache),
         std::move(circuit_breaker)
+        std::make_unique<NoOpFeatureFlags>()
     ));
 }
 
@@ -185,6 +186,23 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
         std::move(metrics),
         std::move(cache),
         std::move(circuit_breaker)
+        std::make_unique<NoOpFeatureFlags>()
+    ));
+}
+
+std::shared_ptr<ConcernsContext> ConcernsContext::createCustom(
+    std::unique_ptr<ILogger> logger,
+    std::unique_ptr<ITracer> tracer,
+    std::unique_ptr<IMetrics> metrics,
+    std::unique_ptr<ICache> cache,
+    std::unique_ptr<IFeatureFlags> featureFlags
+) {
+    return std::shared_ptr<ConcernsContext>(new ConcernsContext(
+        std::move(logger),
+        std::move(tracer),
+        std::move(metrics),
+        std::move(cache),
+        std::move(featureFlags)
     ));
 }
 
@@ -204,6 +222,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
         std::make_unique<NoOpMetrics>(),
         std::make_unique<NoOpCache>(),
         std::make_unique<NoOpCircuitBreaker>()
+        std::make_unique<NoOpFeatureFlags>()
     ));
 }
 
