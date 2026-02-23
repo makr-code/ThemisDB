@@ -182,6 +182,104 @@ TEST(HipAnnKernels, DeviceInfo_WhenInitialized_IsPopulated) {
     backend.shutdown();
 }
 
+// =============================================================================
+// HIPGeoBackend structural tests (no GPU required)
+// =============================================================================
+
+TEST(HipGeoBackend, NameIsHIP) {
+    HIPGeoBackend backend;
+    EXPECT_STREQ(backend.name(), "HIP");
+}
+
+TEST(HipGeoBackend, TypeIsHIP) {
+    HIPGeoBackend backend;
+    EXPECT_EQ(backend.type(), BackendType::HIP);
+}
+
+TEST(HipGeoBackend, Capabilities_SupportsGeoOps) {
+    HIPGeoBackend backend;
+    BackendCapabilities caps = backend.getCapabilities();
+    EXPECT_TRUE(caps.supportsGeoOps);
+    EXPECT_TRUE(caps.supportsBatchProcessing);
+}
+
+TEST(HipGeoBackend, GeoDispatch_AllSlotsPopulated) {
+    HIPGeoBackend backend;
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+
+    // Under THEMIS_ENABLE_HIP both slots must be non-null; no GPU required.
+    EXPECT_NE(d.launchDistance,    nullptr);
+    EXPECT_NE(d.launchContainment, nullptr);
+}
+
+// =============================================================================
+// HIPGeoBackend hardware-dependent correctness tests (skip when no AMD GPU)
+// =============================================================================
+
+TEST(HipGeoBackend, BatchDistances_ZeroCountReturnsEmpty) {
+    HIPGeoBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "HIP hardware not available";
+    }
+    auto result = backend.batchDistances(nullptr, nullptr, nullptr, nullptr, 0, true);
+    EXPECT_TRUE(result.empty());
+    backend.shutdown();
+}
+
+TEST(HipGeoBackend, BatchPointInPolygon_ZeroPointsReturnsEmpty) {
+    HIPGeoBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "HIP hardware not available";
+    }
+    auto result = backend.batchPointInPolygon(nullptr, nullptr, 0, nullptr, 0);
+    EXPECT_TRUE(result.empty());
+    backend.shutdown();
+}
+
+TEST(HipGeoBackend, BatchDistances_HaversineKnownPair) {
+    HIPGeoBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "HIP hardware not available";
+    }
+
+    // New York (40.7128 N, 74.0060 W) → Los Angeles (34.0522 N, 118.2437 W)
+    // Approximate great-circle distance: ~3940 km
+    const double lats1[] = {40.7128};
+    const double lons1[] = {-74.0060};
+    const double lats2[] = {34.0522};
+    const double lons2[] = {-118.2437};
+
+    auto dist = backend.batchDistances(lats1, lons1, lats2, lons2, 1, /*haversine=*/true);
+
+    ASSERT_EQ(dist.size(), 1u);
+    EXPECT_NEAR(dist[0], 3940.f, 100.f);  // ±100 km tolerance
+
+    backend.shutdown();
+}
+
+TEST(HipGeoBackend, BatchPointInPolygon_InsideAndOutside) {
+    HIPGeoBackend backend;
+    if (!backend.isAvailable() || !backend.initialize()) {
+        GTEST_SKIP() << "HIP hardware not available";
+    }
+
+    // Unit square with vertices at (lat=0,lon=0)→(1,0)→(1,1)→(0,1)
+    // Coordinates interleaved as [lat0, lon0, lat1, lon1, …] per GeoContainmentParams.
+    const double polygon[] = {0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0};
+
+    // Inside: (0.5, 0.5); Outside: (2.0, 2.0)
+    const double pLats[] = {0.5, 2.0};
+    const double pLons[] = {0.5, 2.0};
+
+    auto result = backend.batchPointInPolygon(pLats, pLons, 2, polygon, 4);
+
+    ASSERT_EQ(result.size(), 2u);
+    EXPECT_TRUE(result[0]);   // inside
+    EXPECT_FALSE(result[1]);  // outside
+
+    backend.shutdown();
+}
+
 #endif // THEMIS_ENABLE_HIP
 
 // =============================================================================
