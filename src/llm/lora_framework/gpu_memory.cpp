@@ -29,6 +29,10 @@
 #include <hip/hip_runtime.h>
 #endif
 
+#ifdef THEMIS_ENABLE_VULKAN
+#include <vulkan/vulkan.h>
+#endif
+
 namespace themis {
 namespace llm {
 namespace lora {
@@ -282,13 +286,88 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
     }
 #endif
     
-    // Detect Vulkan
+    // Detect Vulkan — enumerate physical devices and pick the best compute-capable one.
+    // Prefers non-NVIDIA discrete GPUs so that Vulkan serves as the primary fallback
+    // for AMD, Intel, ARM, and other non-CUDA hardware.
     {
         BackendInfo info;
         info.type = acceleration::BackendType::VULKAN;
-        // TODO: Implement Vulkan detection via vkEnumeratePhysicalDevices
-        // For now, mark as potentially available
-        info.available = false;  // Will be implemented in Vulkan phase
+
+#ifdef THEMIS_ENABLE_VULKAN
+        VkApplicationInfo appInfo{};
+        appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+        appInfo.apiVersion = VK_API_VERSION_1_0;
+        VkInstanceCreateInfo ci{};
+        ci.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        ci.pApplicationInfo = &appInfo;
+
+        VkInstance vkInst = VK_NULL_HANDLE;
+        if (vkCreateInstance(&ci, nullptr, &vkInst) == VK_SUCCESS) {
+            uint32_t devCount = 0;
+            vkEnumeratePhysicalDevices(vkInst, &devCount, nullptr);
+            if (devCount > 0) {
+                std::vector<VkPhysicalDevice> vkDevs(devCount);
+                vkEnumeratePhysicalDevices(vkInst, &devCount, vkDevs.data());
+
+                // Select best device: non-NVIDIA discrete > NVIDIA discrete > integrated > other
+                VkPhysicalDevice chosen = VK_NULL_HANDLE;
+                VkPhysicalDeviceProperties chosenProps{};
+                int bestScore = -1;
+                for (const auto& d : vkDevs) {
+                    VkPhysicalDeviceProperties p;
+                    vkGetPhysicalDeviceProperties(d, &p);
+
+                    // Check for at least one compute queue family
+                    uint32_t qfCount = 0;
+                    vkGetPhysicalDeviceQueueFamilyProperties(d, &qfCount, nullptr);
+                    std::vector<VkQueueFamilyProperties> qfProps(qfCount);
+                    vkGetPhysicalDeviceQueueFamilyProperties(d, &qfCount, qfProps.data());
+                    bool hasCompute = false;
+                    for (uint32_t qi = 0; qi < qfCount; ++qi) {
+                        if (qfProps[qi].queueFlags & VK_QUEUE_COMPUTE_BIT) {
+                            hasCompute = true;
+                            break;
+                        }
+                    }
+                    if (!hasCompute) continue;
+
+                    int score = 0;
+                    if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+                        score = (p.vendorID != vendor_id::NVIDIA) ? 30 : 20;
+                    } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
+                        score = (p.vendorID != vendor_id::NVIDIA) ? 12 : 10;
+                    } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) {
+                        score = 5;
+                    } else {
+                        score = 1;
+                    }
+
+                    if (score > bestScore) {
+                        bestScore   = score;
+                        chosen      = d;
+                        chosenProps = p;
+                    }
+                }
+
+                if (chosen != VK_NULL_HANDLE) {
+                    info.available   = true;
+                    info.device_name = std::string(chosenProps.deviceName);
+
+                    // Report device-local memory
+                    VkPhysicalDeviceMemoryProperties memProps{};
+                    vkGetPhysicalDeviceMemoryProperties(chosen, &memProps);
+                    for (uint32_t i = 0; i < memProps.memoryHeapCount; ++i) {
+                        if (memProps.memoryHeaps[i].flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
+                            info.vram_bytes = memProps.memoryHeaps[i].size;
+                            break;
+                        }
+                    }
+                }
+            }
+            vkDestroyInstance(vkInst, nullptr);
+        }
+#endif // THEMIS_ENABLE_VULKAN
+
         backends.push_back(info);
     }
     
