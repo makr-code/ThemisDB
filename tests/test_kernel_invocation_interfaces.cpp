@@ -174,9 +174,9 @@ TEST(KernelInvocationInterfaces, ANNKernelDispatchDistanceLauncherForReturnsNull
 
 TEST(KernelInvocationInterfaces, ANNKernelDispatchDistanceLauncherForReturnsCorrectEntry) {
     // Use lambdas converted to plain function pointers via a trampoline type.
-    static int stub_l2(const float*, const float*, float*, int, int, int, void*) { return 0; }
-    static int stub_cos(const float*, const float*, float*, int, int, int, void*) { return 1; }
-    static int stub_ip(const float*, const float*, float*, int, int, int, void*) { return 2; }
+    auto stub_l2 = +[](const float*, const float*, float*, int, int, int, void*) { return 0; };
+    auto stub_cos = +[](const float*, const float*, float*, int, int, int, void*) { return 1; };
+    auto stub_ip = +[](const float*, const float*, float*, int, int, int, void*) { return 2; };
 
     ANNKernelDispatch d;
     d.launchL2Distance   = stub_l2;

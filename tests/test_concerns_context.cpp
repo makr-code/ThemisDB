@@ -421,7 +421,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
     EXPECT_EQ("",         cfg.metricsAdapter);
     EXPECT_EQ("inmemory", cfg.cacheAdapter);
 
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         cfg.loggerAdapter, cfg.tracerAdapter,
         cfg.metricsAdapter, cfg.cacheAdapter);
     EXPECT_TRUE(result.valid);
@@ -429,21 +429,21 @@ TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterNoopValuesAreValid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "noop", "noop", "noop", "noop");
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterKnownValuesAreValid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "otel", "prometheus", "inmemory");
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownLoggerAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "log4cpp", "", "", "inmemory");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -452,7 +452,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownLoggerAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownTracerAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "jaeger", "", "inmemory");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -461,7 +461,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownTracerAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownMetricsAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "", "datadog", "inmemory");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -470,7 +470,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownMetricsAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "", "", "redis");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -479,7 +479,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterMultipleInvalidAdaptersReportAllErrors) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "log4cpp", "jaeger", "datadog", "redis");
     EXPECT_FALSE(result.valid);
     EXPECT_EQ(4u, result.errors.size());
@@ -860,7 +860,7 @@ TEST(IAsyncLoggerTest, DefaultAsyncImplCallsSyncMethod) {
 TEST(IAsyncCacheTest, NoOpAsyncCacheSyncMethodsReturnSafeDefaults) {
     NoOpAsyncCache cache;
     EXPECT_FALSE(cache.get("key").has_value());
-    EXPECT_TRUE(cache.put("key", CacheEntry{"v", 1, 0}));
+    EXPECT_TRUE(cache.put("key", CacheEntry{"v", 1, 0}, 0));
     EXPECT_EQ(0u, cache.size());
     EXPECT_EQ(0u, cache.hitCount());
     EXPECT_EQ(0u, cache.missCount());
@@ -880,7 +880,7 @@ TEST(IAsyncCacheTest, NoOpAsyncCacheGetAsyncReturnsMiss) {
 TEST(IAsyncCacheTest, NoOpAsyncCachePutAsyncReturnsTrue) {
     NoOpAsyncCache cache;
     CacheEntry entry{"data", 1, 0};
-    auto f = cache.putAsync("user:42", entry, 10000);
+    auto f = cache.putAsync(std::string_view{"user:42"}, entry, static_cast<uint64_t>(10000));
     EXPECT_TRUE(f.get());
 }
 

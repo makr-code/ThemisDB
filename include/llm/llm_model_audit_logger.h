@@ -209,6 +209,8 @@ struct LLMModelInferenceAudit {
  */
 class LLMModelAuditLogger {
 public:
+    class Impl;
+
     explicit LLMModelAuditLogger(const utils::AuditLoggerConfig& config = utils::AuditLoggerConfig{});
     ~LLMModelAuditLogger();
     
@@ -352,7 +354,6 @@ public:
     );
 
 private:
-    class Impl;
     std::unique_ptr<Impl> impl_;
 };
 

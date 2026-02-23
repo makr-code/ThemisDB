@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LLM vision encoder tests not runnable in current build.
+// Disabled: LLM vision encoder tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlmVisionEncoder, Skipped)

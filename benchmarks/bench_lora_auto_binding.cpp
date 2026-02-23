@@ -43,7 +43,6 @@
 #include <thread>
 
 using namespace themis::llm;
-using namespace themis::llm::lora;
 
 namespace {
 

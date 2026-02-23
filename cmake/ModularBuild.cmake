@@ -317,6 +317,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
+    ../src/security/row_level_security.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -832,6 +833,7 @@ function(themis_build_modular)
         themis_base
         themis_storage
         themis_transaction
+        themis_security
         ${THEMIS_ARROW_TARGET}
         ${THEMIS_PARQUET_TARGET}
     )

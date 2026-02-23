@@ -23,6 +23,7 @@ message(STATUS "Google Benchmark found - building benchmarks")
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_BINARY_DIR}/proto_generated
 )
 
 # Common benchmark libraries

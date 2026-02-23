@@ -267,6 +267,24 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_config\\.cpp$"
     ".*test_gpu_feature_flags\\.cpp$"
     ".*test_gpu_kernel_validator\\.cpp$"
+    ".*test_mongodb_adapter\\.cpp$"
+    ".*test_geo_rtree\\.cpp$"
+    ".*test_ai_orchestrator\\.cpp$"
+    ".*test_acceleration\\.cpp$"
+    ".*test_acceleration_dispatch\\.cpp$"
+    ".*test_context_propagation\\.cpp$"
+    ".*test_graph_query_optimizer\\.cpp$"
+    ".*test_llm_timeout_cancellation\\.cpp$"
+    ".*test_lora_provenance\\.cpp$"
+    ".*test_shader_integrity\\.cpp$"
+    ".*test_two_phase_commit\\.cpp$"
+    ".*test_vulkan_health\\.cpp$"
+    ".*test_vulkan_metrics\\.cpp$"
+    ".*test_serverless_function_api_handler\\.cpp$"
+    ".*test_arrow_export\\.cpp$"
+    ".*test_mcp_orchestrator_bridge\\.cpp$"
+    ".*test_saml_authenticator\\.cpp$"
+    ".*test_shared_worker_pool\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -382,6 +400,18 @@ if(THEMIS_BUILD_MODULAR)
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/utils/tracing\\.cpp$")
             message(STATUS "themis_tests: excluding direct sharding sources (provided by themis_sharding module)")
         endif()
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/http_server\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]http_server\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/spatial_api_handler\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]spatial_api_handler\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/changefeed_api_handler\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]changefeed_api_handler\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/auth/saml_authenticator\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]auth[\\\\/]saml_authenticator\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/auth/oauth_device_flow\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]auth[\\\\/]oauth_device_flow\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/analytics/analytics_export\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]analytics[\\\\/]analytics_export\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")

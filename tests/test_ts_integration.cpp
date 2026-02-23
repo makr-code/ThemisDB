@@ -35,6 +35,7 @@
 #include <thread>
 #include <vector>
 #include <limits>
+#include <cstddef>
 
 using namespace themis;
 namespace fs = std::filesystem;
@@ -82,7 +83,7 @@ struct IntegrationFixture : ::testing::Test {
             auto r = store->putDataPoint(makePoint(metric, entity,
                                                     static_cast<double>(i),
                                                     base_ms + i * step_ms));
-            ASSERT_TRUE(r.ok);
+            ASSERT_TRUE(r.has_value());
         }
     }
 
@@ -234,7 +235,7 @@ TEST_F(IntegrationFixture, E2E_WALCrashRecovery) {
         TSAutoBufferConfig cfg;
         cfg.async_flush = false;
         TSAutoBuffer buf(store.get(), cfg);
-        ssize_t restored = buf.restoreFromWAL(wal);
+        std::ptrdiff_t restored = buf.restoreFromWAL(wal);
         EXPECT_EQ(restored, 5);
         buf.flush();
         TSAutoBuffer::removeWAL(wal);
@@ -283,21 +284,21 @@ TEST_F(IntegrationFixture, Chaos_RandomValueRange) {
     for (int i = 0; i < 100; ++i) {
         auto r = store->putDataPoint(makePoint("chaos_rand", "s0",
                                                 dist(rng), base_ms + i * 1000));
-        EXPECT_TRUE(r.ok);
+        EXPECT_TRUE(r.has_value());
     }
     EXPECT_EQ(queryCount("chaos_rand", "s0", base_ms, base_ms + 100000), 100u);
 }
 
 TEST_F(IntegrationFixture, Chaos_InfinityValues) {
     EXPECT_TRUE(store->putDataPoint(
-        makePoint("chaos_inf", "s0", std::numeric_limits<double>::infinity(), base_ms)).ok);
+        makePoint("chaos_inf", "s0", std::numeric_limits<double>::infinity(), base_ms)).has_value());
     EXPECT_TRUE(store->putDataPoint(
-        makePoint("chaos_inf", "s0", -std::numeric_limits<double>::infinity(), base_ms + 1)).ok);
+        makePoint("chaos_inf", "s0", -std::numeric_limits<double>::infinity(), base_ms + 1)).has_value());
 }
 
 TEST_F(IntegrationFixture, Chaos_NaNValue) {
     EXPECT_TRUE(store->putDataPoint(
-        makePoint("chaos_nan", "s0", std::numeric_limits<double>::quiet_NaN(), base_ms)).ok);
+        makePoint("chaos_nan", "s0", std::numeric_limits<double>::quiet_NaN(), base_ms)).has_value());
 }
 
 TEST_F(IntegrationFixture, Chaos_HighCardinality) {

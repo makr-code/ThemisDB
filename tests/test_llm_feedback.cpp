@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LLM feedback tests not runnable in current build.
+// Disabled: LLM feedback tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlmFeedback, Skipped)

@@ -133,6 +133,8 @@ public:
      * @return HTTP response with entity version
      */
     http::response<http::string_body> handleGetVersion(const http::request<http::string_body>& req);
+
+    /**
      * @brief Handle GET /transaction/{id}/explain request
      *
      * Returns the locks currently held and the write set (MVCC version chain
