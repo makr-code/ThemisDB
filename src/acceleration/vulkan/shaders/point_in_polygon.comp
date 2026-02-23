@@ -1,0 +1,58 @@
+#version 450
+
+// Point-in-polygon test using the ray-casting algorithm
+// ThemisDB Vulkan Compute Shader
+//
+// For each test point, counts edge crossings along +longitude ray.
+// Odd count → inside.  Vulkan compute equivalent of
+// cuda/geo_kernels.cu pointInPolygonKernel.
+//
+// Bindings:
+//   0: float pointLats[]     — test-point latitudes  [numPoints]
+//   1: float pointLons[]     — test-point longitudes [numPoints]
+//   2: float polygonCoords[] — interleaved [lat, lon] vertices [numVertices × 2]
+//   3: uint  results[]       — 1 = inside, 0 = outside [numPoints]
+//
+// Push constants:
+//   numPoints   — number of test points
+//   numVertices — number of polygon vertices
+//
+// Thread layout: 1-D, local_size_x = 256; dispatch ceil(numPoints/256) groups.
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) readonly  buffer PointLats     { float pointLats[];     };
+layout(std430, binding = 1) readonly  buffer PointLons     { float pointLons[];     };
+layout(std430, binding = 2) readonly  buffer PolygonCoords { float polygonCoords[]; };
+layout(std430, binding = 3) writeonly buffer Results       { uint  results[];       };
+
+layout(push_constant) uniform PushConstants {
+    uint numPoints;
+    uint numVertices;
+} pc;
+
+void main() {
+    uint p = gl_GlobalInvocationID.x;
+    if (p >= pc.numPoints) return;
+
+    float testLat = pointLats[p];
+    float testLon = pointLons[p];
+
+    bool inside = false;
+    uint j = pc.numVertices - 1u;
+
+    for (uint i = 0u; i < pc.numVertices; i++) {
+        float lat_i = polygonCoords[i * 2u];
+        float lon_i = polygonCoords[i * 2u + 1u];
+        float lat_j = polygonCoords[j * 2u];
+        float lon_j = polygonCoords[j * 2u + 1u];
+
+        if (((lon_i > testLon) != (lon_j > testLon)) &&
+            (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+            inside = !inside;
+        }
+        j = i;
+    }
+
+    results[p] = inside ? 1u : 0u;
+}

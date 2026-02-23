@@ -216,7 +216,7 @@ static int cmdListSnapshots(const std::vector<std::string>& args) {
         if (line.empty()) continue;
         try {
             snaps.push_back(AdapterSnapshot::fromJSON(json::parse(line)));
-        } catch (...) {}
+        } catch (...) { std::cerr << "warning: skipping malformed snapshot entry for adapter '" << adapter_id << "'\n"; }
     }
 
     if (snaps.empty()) {
@@ -272,7 +272,7 @@ static int cmdVerify(const std::vector<std::string>& args) {
         try {
             auto e = InferenceAuditEntry::fromJSON(json::parse(line));
             entries.push_back(std::move(e));
-        } catch (...) {}
+        } catch (...) { std::cerr << "warning: skipping malformed audit entry for adapter '" << adapter_id << "'\n"; }
     }
 
     if (entries.empty()) {

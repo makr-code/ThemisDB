@@ -76,6 +76,17 @@ inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
     return 1u << static_cast<uint32_t>(m);
 }
 
+// PCI vendor IDs for common GPU vendors — used by Vulkan and other backends
+// for device selection and capability reporting.
+namespace vendor_id {
+    static constexpr uint32_t NVIDIA   = 0x10DE;
+    static constexpr uint32_t AMD      = 0x1002;
+    static constexpr uint32_t INTEL    = 0x8086;
+    static constexpr uint32_t ARM      = 0x13B5;
+    static constexpr uint32_t QUALCOMM = 0x5143;
+    static constexpr uint32_t IMGTEC   = 0x1010;
+} // namespace vendor_id
+
 // Capability contract for a compute backend.
 // Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
@@ -83,6 +94,7 @@ struct BackendCapabilities {
     bool supportsVectorOps = false;
     bool supportsGraphOps = false;
     bool supportsGeoOps = false;
+    bool supportsMatrixOps = false;    ///< FP16/BF16 matrix multiply via Tensor Core
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
 
@@ -98,6 +110,9 @@ struct BackendCapabilities {
     size_t maxMemoryBytes = 0;      // Available VRAM/memory
     int computeUnits = 0;            // Number of compute units/SMs
     std::string deviceName;
+    // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
+    // Empty string means unknown or CPU backend.
+    std::string vendorName;
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()
@@ -217,6 +232,25 @@ protected:
     ErrorContext lastError_;
 };
 
+// Per-query result with deterministic ordering and partial-failure status.
+// On success: neighbors is sorted ascending by distance (lower index breaks ties).
+// On failure: neighbors is empty; status holds the error code; errorMessage describes
+//             the failure (e.g. NaN in input vector, Inf in input vector).
+struct KnnQueryResult {
+    std::vector<std::pair<uint32_t, float>> neighbors;
+    AccelerationErrorCode status   = AccelerationErrorCode::Success;
+    std::string           errorMessage;
+};
+
+// Batch KNN result supporting partial failures.
+// Queries that fail validation receive a non-Success status in queryResults[i].status
+// while other queries that succeed return their neighbors normally.
+struct PartialBatchResult {
+    std::vector<KnnQueryResult> queryResults;
+    size_t successCount = 0;
+    size_t failureCount = 0;
+};
+
 // Vector operations backend interface
 class IVectorBackend : public IComputeBackend {
 public:
@@ -232,7 +266,9 @@ public:
         bool useL2 = true
     ) = 0;
     
-    // Batch KNN search
+    // Batch KNN search — results sorted ascending by distance.
+    // Tie-breaking rule: when two candidates share the same distance the one
+    // with the lower vector index is placed first (deterministic ordering).
     virtual std::vector<std::vector<std::pair<uint32_t, float>>> batchKnnSearch(
         const float* queries,
         size_t numQueries,
@@ -242,6 +278,22 @@ public:
         size_t k,
         bool useL2 = true
     ) = 0;
+
+    // Batch KNN search with per-query partial-failure handling.
+    // Each query is validated before execution; queries whose input vectors
+    // contain NaN or Inf values receive AccelerationErrorCode::InputRangeViolation
+    // and an empty neighbors list, while the remaining valid queries are processed
+    // normally.  This default implementation delegates to batchKnnSearch for valid
+    // queries; backends may override for tighter integration.
+    virtual PartialBatchResult batchKnnSearchSafe(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2 = true
+    );
 
     // Populate the frozen kernel dispatch table for this backend.
     // Backends override this to expose their kernel function pointers.
@@ -304,6 +356,25 @@ public:
     virtual GeoKernelDispatch populateGeoDispatch() const { return {}; }
 };
 
+// Matrix backend — FP16 / BF16 matrix multiply with Tensor Core acceleration.
+// Backends that do not support Tensor Cores (e.g. CPUMatrixBackend) implement
+// the FP32 path and declare MatrixPrecision::FP32 as their supported precision.
+class IMatrixBackend : public IComputeBackend {
+public:
+    virtual ~IMatrixBackend() = default;
+
+    /// Compute C = alpha * A × B + beta * C.
+    /// A is [M × K], B is [K × N], C is [M × N] (row-major).
+    /// Inputs/outputs are host pointers for CPU backends and device pointers
+    /// for GPU backends.  @p precision selects the arithmetic type; the
+    /// implementation is free to fall back to a wider type if unsupported.
+    /// Returns 0 on success, non-zero on failure.
+    virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
+
+    /// Populate the frozen kernel dispatch table for this backend.
+    virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -329,6 +400,7 @@ public:
     IVectorBackend* getBestVectorBackend() const;
     IGraphBackend* getBestGraphBackend() const;
     IGeoBackend* getBestGeoBackend() const;
+    IMatrixBackend* getBestMatrixBackend() const;
     
     // Auto-detect and initialize all available backends
     void autoDetect();
@@ -351,6 +423,7 @@ public:
         bool needsVectorOps = false;        ///< Must support vector (ANN) operations
         bool needsGraphOps  = false;        ///< Must support graph traversal operations
         bool needsGeoOps    = false;        ///< Must support geospatial operations
+        bool needsMatrixOps = false;        ///< Must support FP16/BF16 matrix multiply
         bool needsBatch     = false;        ///< Must support batch processing
         bool needsAsync     = false;        ///< Must support asynchronous execution
 
@@ -368,6 +441,7 @@ public:
         if (reqs.needsVectorOps && !caps.supportsVectorOps) return false;
         if (reqs.needsGraphOps  && !caps.supportsGraphOps)  return false;
         if (reqs.needsGeoOps    && !caps.supportsGeoOps)    return false;
+        if (reqs.needsMatrixOps && !caps.supportsMatrixOps) return false;
         if (reqs.needsBatch     && !caps.supportsBatchProcessing) return false;
         if (reqs.needsAsync     && !caps.supportsAsync)     return false;
         const auto reqP = static_cast<uint32_t>(reqs.requiredPrecisions);
@@ -389,7 +463,55 @@ public:
 
     /// Like selectBackendFor() but restricted to IGeoBackend instances.
     IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
-    
+
+    // ---------------------------------------------------------------------------
+    // Runtime startup initialization
+    // ---------------------------------------------------------------------------
+
+    /// Perform capability-driven backend selection at runtime startup.
+    ///
+    /// Calls autoDetect() to discover all available backends, then runs
+    /// selectVectorBackendFor(), selectGraphBackendFor(), and
+    /// selectGeoBackendFor() with the provided requirements (defaulting to
+    /// FP32 vector+ANN metrics when no requirements are specified).  The
+    /// selected backends are cached and returned by the getSelected*Backend()
+    /// accessors below.
+    ///
+    /// Safe to call multiple times; subsequent calls re-run detection and
+    /// overwrite the cached selections.
+    ///
+    /// @param vectorReqs  Capability requirements for the vector backend.
+    ///                    Defaults to { needsVectorOps=true, FP32, L2|COSINE|IP }.
+    /// @param graphReqs   Capability requirements for the graph backend.
+    ///                    Defaults to { needsGraphOps=true }.
+    /// @param geoReqs     Capability requirements for the geo backend.
+    ///                    Defaults to { needsGeoOps=true, FP32 }.
+    void initializeRuntime(
+        const CapabilityRequirements& vectorReqs = defaultVectorRequirements(),
+        const CapabilityRequirements& graphReqs  = defaultGraphRequirements(),
+        const CapabilityRequirements& geoReqs    = defaultGeoRequirements());
+
+    /// Returns the vector backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IVectorBackend* getSelectedVectorBackend() const noexcept;
+
+    /// Returns the graph backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IGraphBackend* getSelectedGraphBackend() const noexcept;
+
+    /// Returns the geo backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IGeoBackend* getSelectedGeoBackend() const noexcept;
+
+    /// Returns true if initializeRuntime() has been called at least once.
+    bool isRuntimeInitialized() const noexcept;
+
+    // Default capability requirements used by initializeRuntime() when the
+    // caller does not supply explicit requirements.
+    static CapabilityRequirements defaultVectorRequirements() noexcept;
+    static CapabilityRequirements defaultGraphRequirements() noexcept;
+    static CapabilityRequirements defaultGeoRequirements() noexcept;
+
     // Shutdown all backends
     void shutdownAll();
     
@@ -401,6 +523,13 @@ private:
     
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unique_ptr<PluginLoader> pluginLoader_;
+
+    // Backends selected at the last initializeRuntime() call (nullptr until
+    // initializeRuntime() has been called).
+    IVectorBackend* selectedVectorBackend_ = nullptr;
+    IGraphBackend*  selectedGraphBackend_  = nullptr;
+    IGeoBackend*    selectedGeoBackend_    = nullptr;
+    bool            runtimeInitialized_    = false;
 };
 
 } // namespace acceleration

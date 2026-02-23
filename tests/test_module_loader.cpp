@@ -28,6 +28,9 @@
 
 #include <gtest/gtest.h>
 #include "themis/base/module_loader.h"
+#include "themis/module_hash_verifier.h"
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -832,6 +835,100 @@ TEST(ModuleLoader, MetadataCacheAvoidsDoubleLoading) {
     SUCCEED();
 }
 
+// ===== SHA-256 Hash Manifest Tests (Issue #2471) =====
+
+TEST(ModuleLoader, SetHashManifestReturnsFalseForMissingFile) {
+    ModuleLoader loader;
+    EXPECT_FALSE(loader.setHashManifest("/no/such/manifest.json"));
+}
+
+TEST(ModuleLoader, SetHashManifestReturnsTrueForValidFile) {
+    // Write a minimal valid manifest to a temp file
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    std::ofstream f(manifestPath);
+    f << R"({"themis_test":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"})";
+    f.close();
+
+    ModuleLoader loader;
+    EXPECT_TRUE(loader.setHashManifest(manifestPath));
+
+    std::remove(manifestPath.c_str());
+}
+
+TEST(ModuleLoader, LoadModuleHashMismatchRejected) {
+    // Create a real (small) shared library content substitute: just a binary file.
+    // The module file exists but its hash won't match the "expected" value in
+    // the manifest, so the load must be rejected with HASH_MISMATCH before
+    // dlopen() is attempted.
+    const std::string modPath = (std::filesystem::temp_directory_path() /
+        ("themis_test_mismatch_" +
+         std::to_string(static_cast<long>(::getpid())) + ".so")).string();
+
+    // Write arbitrary content so the file exists.
+    {
+        std::ofstream f(modPath, std::ios::binary);
+        f.write("\x7f" "ELF FAKE", 8);
+    }
+
+    // Compute the actual hash so we can supply a WRONG one in the manifest.
+    const std::string actualHash =
+        themis::modules::ModuleHashVerifier::computeSHA256(modPath);
+    ASSERT_FALSE(actualHash.empty());
+
+    const std::string wrongHash(64, '0');  // all-zero hash, guaranteed wrong
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_mismatch_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    {
+        std::ofstream f(manifestPath);
+        f << "{\"themis_test_mismatch\":\"" << wrongHash << "\"}";
+    }
+
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    loader.setRequireSignature(false);
+    ASSERT_TRUE(loader.setHashManifest(manifestPath));
+
+    auto result = loader.loadModule(modPath, "themis_test_mismatch");
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::HASH_MISMATCH);
+    EXPECT_FALSE(result.errorMessage.empty());
+
+    std::remove(modPath.c_str());
+    std::remove(manifestPath.c_str());
+}
+
+TEST(ModuleLoader, LoadModuleNotInManifestIsAllowed) {
+    // A module whose name is NOT in the manifest should not be blocked.
+    // (Manifest acts as integrity pin for listed modules, not a global allowlist.)
+    // We verify this by checking that loadModule() fails with MODULE_NOT_FOUND
+    // (i.e., it gets past the manifest check and fails for the normal reason).
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_partial_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    {
+        std::ofstream f(manifestPath);
+        f << R"({"some_other_module":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"})";
+    }
+
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    loader.setRequireSignature(false);
+    ASSERT_TRUE(loader.setHashManifest(manifestPath));
+
+    // "unlisted_module" is NOT in the manifest → should pass manifest check.
+    auto result = loader.loadModule("/nonexistent_unlisted.so", "unlisted_module");
+    EXPECT_FALSE(result.success);
+    // Should fail with MODULE_NOT_FOUND (file doesn't exist), not HASH_MISMATCH
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+
+    std::remove(manifestPath.c_str());
+}
 // ===== Phase 4 Tests: Platform-Specific Signature Verification =====
 
 #ifdef _WIN32

@@ -24,12 +24,16 @@
  */
 
 #include "acceleration/graphics_backends.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 #include "acceleration/shader_integrity.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 #include <memory>
+#include <queue>
 #include <stdexcept>
 #include <cstring>
 #include <chrono>
@@ -59,17 +63,20 @@ public:
     VkCommandPool commandPool = VK_NULL_HANDLE;
     VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
 
-    // Compute pipelines (L2 squared distance and cosine distance)
+    // Compute pipelines (L2 squared distance, cosine distance, inner product)
     VkPipeline l2Pipeline = VK_NULL_HANDLE;
     VkPipeline cosinePipeline = VK_NULL_HANDLE;
+    VkPipeline innerProductPipeline = VK_NULL_HANDLE;
     VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
     VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
 
     VkShaderModule l2ShaderModule = VK_NULL_HANDLE;
     VkShaderModule cosineShaderModule = VK_NULL_HANDLE;
+    VkShaderModule innerProductShaderModule = VK_NULL_HANDLE;
 
     VkPhysicalDeviceProperties deviceProps{};
     VkPhysicalDeviceMemoryProperties memoryProps{};
+    std::string vendorName;  // Human-readable vendor (e.g. "AMD", "Intel", "NVIDIA", "ARM")
 
     // ---- Buffer helper ------------------------------------------------
     struct BufMem {
@@ -185,19 +192,57 @@ public:
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(instance, &count, devs.data());
 
-        // Prefer discrete GPU, fall back to first device
-        physicalDevice = devs[0];
-        vkGetPhysicalDeviceProperties(devs[0], &deviceProps);
+        // Prefer a non-NVIDIA discrete GPU so that Vulkan acts as the primary
+        // fallback for AMD, Intel, ARM, and other non-CUDA hardware.
+        // When only NVIDIA discrete GPUs are present (CUDA is the better choice),
+        // we still accept them rather than fail.
+        // Selection priority: non-NVIDIA discrete > NVIDIA discrete > any integrated > first device.
+
+        VkPhysicalDevice bestDevice = VK_NULL_HANDLE;
+        VkPhysicalDeviceProperties bestProps{};
+        int bestScore = -1;
+
         for (const auto& d : devs) {
             VkPhysicalDeviceProperties p;
             vkGetPhysicalDeviceProperties(d, &p);
+
+            int score = 0;
             if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-                physicalDevice = d;
-                deviceProps    = p;
-                break;
+                score = (p.vendorID != vendor_id::NVIDIA) ? 30 : 20;
+            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
+                score = (p.vendorID != vendor_id::NVIDIA) ? 12 : 10;
+            } else if (p.deviceType == VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU) {
+                score = 5;
+            } else {
+                score = 1; // CPU or other
+            }
+
+            if (score > bestScore) {
+                bestScore  = score;
+                bestDevice = d;
+                bestProps  = p;
             }
         }
+
+        if (bestDevice == VK_NULL_HANDLE) {
+            bestDevice = devs[0];
+            vkGetPhysicalDeviceProperties(bestDevice, &bestProps);
+        }
+
+        physicalDevice = bestDevice;
+        deviceProps    = bestProps;
         vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProps);
+
+        // Resolve human-readable vendor name from vendorID
+        switch (deviceProps.vendorID) {
+            case vendor_id::NVIDIA:   vendorName = "NVIDIA";   break;
+            case vendor_id::AMD:      vendorName = "AMD";      break;
+            case vendor_id::INTEL:    vendorName = "Intel";    break;
+            case vendor_id::ARM:      vendorName = "ARM";      break;
+            case vendor_id::QUALCOMM: vendorName = "Qualcomm"; break;
+            case vendor_id::IMGTEC:   vendorName = "ImgTec";   break;
+            default:                  vendorName = "Unknown";  break;
+        }
 
         // Find compute queue family
         uint32_t qfCount = 0;
@@ -287,8 +332,10 @@ public:
         try {
             auto l2spv  = loadSPIRV(shaderDir + "/l2_distance.comp.spv");
             auto cosSpv = loadSPIRV(shaderDir + "/cosine_distance.comp.spv");
-            l2ShaderModule     = createShaderModule(l2spv);
-            cosineShaderModule = createShaderModule(cosSpv);
+            auto ipSpv  = loadSPIRV(shaderDir + "/inner_product_distance.comp.spv");
+            l2ShaderModule           = createShaderModule(l2spv);
+            cosineShaderModule       = createShaderModule(cosSpv);
+            innerProductShaderModule = createShaderModule(ipSpv);
         } catch (const std::exception& e) {
             std::cerr << "[Vulkan] Shader load failed: " << e.what()
                       << " – compile with: glslc shader.comp -o shader.spv" << std::endl;
@@ -310,13 +357,14 @@ public:
         };
 
         return makePipeline(l2ShaderModule, l2Pipeline) &&
-               makePipeline(cosineShaderModule, cosinePipeline);
+               makePipeline(cosineShaderModule, cosinePipeline) &&
+               makePipeline(innerProductShaderModule, innerProductPipeline);
     }
 
     // ---- Compute dispatch ---------------------------------------------
     std::vector<float> dispatch(const float* queries, uint32_t nq,
                                 const float* vectors, uint32_t nv,
-                                uint32_t dim, bool useL2) {
+                                uint32_t dim, DistanceMetric metric) {
         const VkDeviceSize qSize  = static_cast<VkDeviceSize>(nq) * dim * sizeof(float);
         const VkDeviceSize vSize  = static_cast<VkDeviceSize>(nv) * dim * sizeof(float);
         const VkDeviceSize outSz  = static_cast<VkDeviceSize>(nq) * nv * sizeof(float);
@@ -411,8 +459,13 @@ public:
         }
         vkUpdateDescriptorSets(device, 3, writes, 0, nullptr);
 
-        // Bind pipeline and dispatch
-        VkPipeline pipeline = useL2 ? l2Pipeline : cosinePipeline;
+        // Bind pipeline and dispatch — select based on distance metric
+        VkPipeline pipeline;
+        switch (metric) {
+            case DistanceMetric::COSINE:        pipeline = cosinePipeline;       break;
+            case DistanceMetric::INNER_PRODUCT: pipeline = innerProductPipeline; break;
+            default:                            pipeline = l2Pipeline;           break;
+        }
         vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
         vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE,
                                 pipelineLayout, 0, 1, &ds, 0, nullptr);
@@ -483,13 +536,15 @@ public:
         if (device == VK_NULL_HANDLE) return;
         vkDeviceWaitIdle(device);
 
-        if (l2Pipeline != VK_NULL_HANDLE)      vkDestroyPipeline(device, l2Pipeline, nullptr);
-        if (cosinePipeline != VK_NULL_HANDLE)  vkDestroyPipeline(device, cosinePipeline, nullptr);
-        if (pipelineLayout != VK_NULL_HANDLE)  vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        if (l2Pipeline != VK_NULL_HANDLE)             vkDestroyPipeline(device, l2Pipeline, nullptr);
+        if (cosinePipeline != VK_NULL_HANDLE)         vkDestroyPipeline(device, cosinePipeline, nullptr);
+        if (innerProductPipeline != VK_NULL_HANDLE)   vkDestroyPipeline(device, innerProductPipeline, nullptr);
+        if (pipelineLayout != VK_NULL_HANDLE)         vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
         if (descriptorSetLayout != VK_NULL_HANDLE)
             vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
-        if (l2ShaderModule != VK_NULL_HANDLE)     vkDestroyShaderModule(device, l2ShaderModule, nullptr);
-        if (cosineShaderModule != VK_NULL_HANDLE) vkDestroyShaderModule(device, cosineShaderModule, nullptr);
+        if (l2ShaderModule != VK_NULL_HANDLE)             vkDestroyShaderModule(device, l2ShaderModule, nullptr);
+        if (cosineShaderModule != VK_NULL_HANDLE)         vkDestroyShaderModule(device, cosineShaderModule, nullptr);
+        if (innerProductShaderModule != VK_NULL_HANDLE)   vkDestroyShaderModule(device, innerProductShaderModule, nullptr);
         if (descriptorPool != VK_NULL_HANDLE)  vkDestroyDescriptorPool(device, descriptorPool, nullptr);
         if (commandPool != VK_NULL_HANDLE)     vkDestroyCommandPool(device, commandPool, nullptr);
 
@@ -617,12 +672,17 @@ bool VulkanVectorBackend::isAvailable() const noexcept {
 BackendCapabilities VulkanVectorBackend::getCapabilities() const {
     BackendCapabilities caps;
 #ifdef THEMIS_ENABLE_VULKAN
-    caps.supportsVectorOps     = true;
+    caps.supportsVectorOps       = true;
     caps.supportsBatchProcessing = true;
-    caps.supportsAsync         = true;
+    caps.supportsAsync           = true;
+    caps.supportedPrecisions     = PrecisionMode::FP32;
+    caps.supportedMetrics        = metricBit(DistanceMetric::L2)
+                                 | metricBit(DistanceMetric::COSINE)
+                                 | metricBit(DistanceMetric::INNER_PRODUCT);
 
     if (initialized_ && impl_ && impl_->device != VK_NULL_HANDLE) {
         caps.deviceName    = std::string(impl_->deviceProps.deviceName);
+        caps.vendorName    = impl_->vendorName;
         caps.computeUnits  = static_cast<int>(
             impl_->deviceProps.limits.maxComputeWorkGroupCount[0]);
         // Report device-local heap size
@@ -759,7 +819,8 @@ BackendHealthStatus VulkanVectorBackend::getHealthStatus() const {
 
     s.alive = true;
     s.ready = (impl_->l2Pipeline != VK_NULL_HANDLE &&
-               impl_->cosinePipeline != VK_NULL_HANDLE);
+               impl_->cosinePipeline != VK_NULL_HANDLE &&
+               impl_->innerProductPipeline != VK_NULL_HANDLE);
 
     if (!s.ready) {
         s.status  = "degraded";
@@ -796,22 +857,42 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     size_t dim,
     const float* vectors,
     size_t numVectors,
-    bool useL2
+    bool useL2  // true → L2, false → cosine (inner-product available via populateANNDispatch())
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "Vulkan",
+            "Vulkan backend not initialized",
+            "Call initialize() before using the backend"));
         std::cerr << "[Vulkan] computeDistances: backend not initialized" << std::endl;
         metrics_.recordError("not_initialized");
         return {};
     }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        metrics_.recordError("null_input");
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, and dim must all be > 0"));
+        metrics_.recordError("zero_dimension");
+        return {};
+    }
     auto opStart = std::chrono::steady_clock::now();
     try {
+        const DistanceMetric metric = useL2 ? DistanceMetric::L2 : DistanceMetric::COSINE;
         auto result = impl_->dispatch(queries,
                                       static_cast<uint32_t>(numQueries),
                                       vectors,
                                       static_cast<uint32_t>(numVectors),
                                       static_cast<uint32_t>(dim),
-                                      useL2);
+                                      metric);
         double elapsed = std::chrono::duration<double>(
             std::chrono::steady_clock::now() - opStart).count();
         if (useL2) {
@@ -819,9 +900,15 @@ std::vector<float> VulkanVectorBackend::computeDistances(
         } else {
             metrics_.recordCosineOperation(elapsed, numQueries * numVectors);
         }
+        clearError();
         return result;
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] computeDistances error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "Vulkan",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
         metrics_.recordError("dispatch_failed");
         metrics_.recordKernelLaunchFailure();
         return {};
@@ -842,8 +929,27 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "Vulkan",
+            "Vulkan backend not initialized",
+            "Call initialize() before using the backend"));
         std::cerr << "[Vulkan] batchKnnSearch: backend not initialized" << std::endl;
         metrics_.recordError("not_initialized");
+        return {};
+    }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        metrics_.recordError("null_input");
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, dim, and k must all be > 0"));
+        metrics_.recordError("zero_dimension");
         return {};
     }
 
@@ -851,12 +957,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     auto opStart = std::chrono::steady_clock::now();
     std::vector<float> distances;
     try {
+        const DistanceMetric metric = useL2 ? DistanceMetric::L2 : DistanceMetric::COSINE;
         distances = impl_->dispatch(queries,
                                     static_cast<uint32_t>(numQueries),
                                     vectors,
                                     static_cast<uint32_t>(numVectors),
                                     static_cast<uint32_t>(dim),
-                                    useL2);
+                                    metric);
         double elapsed = std::chrono::duration<double>(
             std::chrono::steady_clock::now() - opStart).count();
         if (useL2) {
@@ -866,14 +973,20 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
         }
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] batchKnnSearch dispatch error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "Vulkan",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
         metrics_.recordError("dispatch_failed");
         metrics_.recordKernelLaunchFailure();
         return {};
     }
 
     // CPU top-k selection from the distance matrix
+    // Clamp k to available vectors to prevent out-of-bounds indexing
+    const size_t effectiveK = std::min(k, numVectors);
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
-    const size_t actualK = std::min(k, numVectors);
     for (size_t q = 0; q < numQueries; ++q) {
         const float* row = distances.data() + q * numVectors;
         std::vector<std::pair<float, uint32_t>> row_pairs(numVectors);
@@ -881,13 +994,14 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
             row_pairs[v] = {row[v], static_cast<uint32_t>(v)};
 
         std::partial_sort(row_pairs.begin(),
-                          row_pairs.begin() + static_cast<std::ptrdiff_t>(actualK),
+                          row_pairs.begin() + static_cast<std::ptrdiff_t>(effectiveK),
                           row_pairs.end());
 
-        results[q].resize(actualK);
-        for (size_t i = 0; i < actualK; ++i)
+        results[q].resize(effectiveK);
+        for (size_t i = 0; i < effectiveK; ++i)
             results[q][i] = {row_pairs[i].second, row_pairs[i].first};
     }
+    clearError();
     return results;
 #else
     return {};
@@ -962,6 +1076,346 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     bool /*useL2*/
 ) {
     return {}; // Stub
+}
+
+// ============================================================================
+// VulkanVectorBackend::populateANNDispatch
+//
+// Provides the frozen ANN kernel dispatch table for the Vulkan backend.
+// All four slots (L2, cosine, inner product, top-K) are populated when
+// compiled with THEMIS_ENABLE_VULKAN so the BackendRegistry can identify
+// Vulkan as supporting all three distance metrics.
+//
+// The dispatch functions operate on host memory (the opaque_stream parameter
+// is ignored).  GPU acceleration is provided through computeDistances() and
+// batchKnnSearch() which manage Vulkan device memory internally.
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_VULKAN
+
+namespace {
+
+static int vulkan_ann_l2_dispatch(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float sum = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                float diff = queries[q * dim + d] - vectors[v * dim + d];
+                sum += diff * diff;
+            }
+            distances[q * numVectors + v] = sum;
+        }
+    }
+    return 0;
+}
+
+static int vulkan_ann_cosine_dispatch(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    constexpr float kEps = 1e-10f;
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float dot = 0.f, nq = 0.f, nv = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                float qv = queries[q * dim + d];
+                float vv = vectors[v * dim + d];
+                dot += qv * vv;
+                nq  += qv * qv;
+                nv  += vv * vv;
+            }
+            const float denom = std::sqrt(nq) * std::sqrt(nv);
+            distances[q * numVectors + v] = (denom > kEps) ? 1.f - dot / denom : 1.f;
+        }
+    }
+    return 0;
+}
+
+static int vulkan_ann_inner_product_dispatch(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float dot = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                dot += queries[q * dim + d] * vectors[v * dim + d];
+            }
+            distances[q * numVectors + v] = -dot;
+        }
+    }
+    return 0;
+}
+
+static int vulkan_ann_topk_dispatch(
+    const float* distances, uint32_t* topk_indices, float* topk_dists,
+    int numQueries, int numVectors, int topK, void* /*stream*/)
+{
+    using Pair = std::pair<float, uint32_t>;
+    for (int q = 0; q < numQueries; ++q) {
+        const float* row = distances + q * numVectors;
+        std::priority_queue<Pair> heap;
+        for (int v = 0; v < numVectors; ++v) {
+            heap.emplace(row[v], static_cast<uint32_t>(v));
+            if (static_cast<int>(heap.size()) > topK) heap.pop();
+        }
+        int slot = static_cast<int>(heap.size()) - 1;
+        while (!heap.empty()) {
+            topk_indices[q * topK + slot] = heap.top().second;
+            topk_dists  [q * topK + slot] = heap.top().first;
+            heap.pop();
+            --slot;
+        }
+    }
+    return 0;
+}
+
+// ---- Geospatial dispatch helpers (used by VulkanGeoBackend) ----
+
+inline double vulkan_haversine_km(double lat1, double lon1,
+                                   double lat2, double lon2) noexcept {
+    constexpr double R   = 6371.0;
+    constexpr double kPi = 3.141592653589793238462643383279502884;
+    lat1 *= kPi / 180.0;
+    lon1 *= kPi / 180.0;
+    lat2 *= kPi / 180.0;
+    lon2 *= kPi / 180.0;
+    const double dlat = lat2 - lat1;
+    const double dlon = lon2 - lon1;
+    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
+                     std::cos(lat1) * std::cos(lat2) *
+                     std::sin(dlon / 2) * std::sin(dlon / 2);
+    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+}
+
+static int vulkan_geo_distance(
+    const double* lats1, const double* lons1,
+    const double* lats2, const double* lons2,
+    float* out_distances, int count,
+    GeoDistanceFormula /*formula*/,
+    void* /*stream*/)
+{
+    for (int i = 0; i < count; ++i) {
+        out_distances[i] = static_cast<float>(
+            vulkan_haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
+    }
+    return 0;
+}
+
+static int vulkan_geo_containment(
+    const double* point_lats, const double* point_lons, int numPoints,
+    const double* polygon_coords, int numVertices,
+    uint8_t* results, void* /*stream*/)
+{
+    for (int p = 0; p < numPoints; ++p) {
+        const double testLat = point_lats[p];
+        const double testLon = point_lons[p];
+        bool inside = false;
+        int  j = numVertices - 1;
+        for (int i = 0; i < numVertices; ++i) {
+            const double lat_i = polygon_coords[i * 2];
+            const double lon_i = polygon_coords[i * 2 + 1];
+            const double lat_j = polygon_coords[j * 2];
+            const double lon_j = polygon_coords[j * 2 + 1];
+            if (((lon_i > testLon) != (lon_j > testLon)) &&
+                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+                inside = !inside;
+            }
+            j = i;
+        }
+        results[p] = inside ? 1u : 0u;
+    }
+    return 0;
+}
+
+} // anonymous namespace
+
+#endif // THEMIS_ENABLE_VULKAN
+
+ANNKernelDispatch VulkanVectorBackend::populateANNDispatch() const {
+#ifdef THEMIS_ENABLE_VULKAN
+    ANNKernelDispatch d;
+    d.launchL2Distance   = vulkan_ann_l2_dispatch;
+    d.launchCosine       = vulkan_ann_cosine_dispatch;
+    d.launchInnerProduct = vulkan_ann_inner_product_dispatch;
+    d.launchTopK         = vulkan_ann_topk_dispatch;
+    return d;
+#else
+    return {}; // Vulkan not compiled — all null; BackendRegistry falls back to CPU table
+#endif
+}
+
+// ============================================================================
+// VulkanGeoBackend — geospatial compute backend
+// ============================================================================
+
+VulkanGeoBackend::VulkanGeoBackend() = default;
+
+VulkanGeoBackend::~VulkanGeoBackend() {
+    shutdown();
+}
+
+bool VulkanGeoBackend::isAvailable() const noexcept {
+#ifdef THEMIS_ENABLE_VULKAN
+    // Reuse the same Vulkan instance probe as VulkanVectorBackend
+    VkApplicationInfo appInfo{};
+    appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.apiVersion = VK_API_VERSION_1_0;
+    VkInstanceCreateInfo ci{};
+    ci.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    ci.pApplicationInfo = &appInfo;
+    VkInstance probe = VK_NULL_HANDLE;
+    if (vkCreateInstance(&ci, nullptr, &probe) == VK_SUCCESS) {
+        vkDestroyInstance(probe, nullptr);
+        return true;
+    }
+    return false;
+#else
+    return false;
+#endif
+}
+
+BackendCapabilities VulkanGeoBackend::getCapabilities() const {
+    BackendCapabilities caps;
+#ifdef THEMIS_ENABLE_VULKAN
+    caps.supportsGeoOps          = true;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync           = true;
+    caps.supportedPrecisions     = PrecisionMode::FP32;
+    caps.deviceName              = initialized_ ? "Vulkan Geo" : "Vulkan Geo (not initialized)";
+    caps.computeUnits            = 1;
+#endif
+    return caps;
+}
+
+bool VulkanGeoBackend::initialize() {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (!isAvailable()) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DriverNotInstalled,
+            "VulkanGeo",
+            "Vulkan ICD not available on this system",
+            "Install Vulkan drivers (e.g. mesa-vulkan-drivers) and try again"));
+        return false;
+    }
+    initialized_ = true;
+    clearError();
+    return true;
+#else
+    return false;
+#endif
+}
+
+void VulkanGeoBackend::shutdown() {
+    initialized_ = false;
+}
+
+std::vector<float> VulkanGeoBackend::batchDistances(
+    const double* latitudes1,
+    const double* longitudes1,
+    const double* latitudes2,
+    const double* longitudes2,
+    size_t count,
+    bool /*useHaversine*/
+) {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "VulkanGeo",
+            "VulkanGeo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (latitudes1 == nullptr || longitudes1 == nullptr ||
+        latitudes2 == nullptr || longitudes2 == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "coordinate pointers must be non-null"));
+        return {};
+    }
+    if (count == 0) { clearError(); return {}; }
+
+    std::vector<float> out(count);
+    for (size_t i = 0; i < count; ++i) {
+        out[i] = static_cast<float>(
+            vulkan_haversine_km(latitudes1[i], longitudes1[i],
+                                latitudes2[i], longitudes2[i]));
+    }
+    return out;
+#else
+    return {};
+#endif
+}
+
+std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
+    const double* pointLats,
+    const double* pointLons,
+    size_t numPoints,
+    const double* polygonCoords,
+    size_t numPolygonVertices
+) {
+#ifdef THEMIS_ENABLE_VULKAN
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "VulkanGeo",
+            "VulkanGeo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (pointLats == nullptr || pointLons == nullptr || polygonCoords == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "point and polygon coordinate pointers must be non-null"));
+        return {};
+    }
+    if (numPoints == 0) { clearError(); return {}; }
+    if (numPolygonVertices < 3) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "polygon must have at least 3 vertices"));
+        return {};
+    }
+
+    std::vector<bool> out(numPoints, false);
+    const int nv = static_cast<int>(numPolygonVertices);
+    for (size_t p = 0; p < numPoints; ++p) {
+        const double testLat = pointLats[p];
+        const double testLon = pointLons[p];
+        bool inside = false;
+        int  j = nv - 1;
+        for (int i = 0; i < nv; ++i) {
+            const double lat_i = polygonCoords[i * 2];
+            const double lon_i = polygonCoords[i * 2 + 1];
+            const double lat_j = polygonCoords[j * 2];
+            const double lon_j = polygonCoords[j * 2 + 1];
+            if (((lon_i > testLon) != (lon_j > testLon)) &&
+                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+                inside = !inside;
+            }
+            j = i;
+        }
+        out[p] = inside;
+    }
+    return out;
+#else
+    return {};
+#endif
+}
+
+GeoKernelDispatch VulkanGeoBackend::populateGeoDispatch() const {
+#ifdef THEMIS_ENABLE_VULKAN
+    GeoKernelDispatch d;
+    d.launchDistance    = vulkan_geo_distance;
+    d.launchContainment = vulkan_geo_containment;
+    return d;
+#else
+    return {}; // Vulkan not compiled — all null; BackendRegistry falls back to CPU table
+#endif
 }
 
 } // namespace acceleration
