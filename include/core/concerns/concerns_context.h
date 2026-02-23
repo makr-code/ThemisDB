@@ -318,8 +318,8 @@ private:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ISecrets> secrets
-        std::unique_ptr<ICircuitBreaker> circuit_breaker
+        std::unique_ptr<ISecrets> secrets,
+        std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),

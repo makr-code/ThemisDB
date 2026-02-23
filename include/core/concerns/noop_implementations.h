@@ -173,6 +173,9 @@ public:
     void        flush()    noexcept override {}
     void        shutdown() noexcept override {}
     ProbeResult isHealthy() const   override { return ProbeResult::healthy(); }
+};
+
+/**
  * @brief No-op feature flag provider — all flags are always disabled.
  *
  * Use in unit tests or builds where feature-flag evaluation is not needed.
