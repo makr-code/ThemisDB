@@ -88,6 +88,20 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v1.7.0
+
+### Ranked Spelling Correction Suggestions (`include/search/query_expander.h`)
+- `SpellingCorrection` struct: `suggestion`, `edit_distance`, `confidence` (normalized [0,1])
+- `QueryExpander::suggestSpellingCorrections(word, max_suggestions)` — returns up to
+  `max_suggestions` ranked candidates from the registered vocabulary within `max_edit_distance`,
+  sorted by ascending edit distance (alphabetical tiebreak); confidence decays linearly with distance
+- `QueryExpander::suggestQueryCorrections(query, max_suggestions)` — tokenizes the query,
+  builds per-token substitution variants and one all-corrected variant, deduplicates, and sorts
+  by total edit distance ascending
+- Tests: `tests/test_query_expander.cpp` (14 new test cases)
+
+---
+
 ## Planned Features
 
 ### Query Expansion and Rewriting
@@ -251,5 +265,5 @@ Real-time query suggestions.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.6.0*  
-*Next Review: v1.7.0 Release*
+*Module Version: v1.7.0*  
+*Next Review: v1.8.0 Release*
