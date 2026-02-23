@@ -59,7 +59,8 @@ SseConnectionManager::~SseConnectionManager() {
 
 uint64_t SseConnectionManager::registerConnection(
     uint64_t from_seq,
-    const std::string& key_prefix
+    const std::string& key_prefix,
+    const std::set<Changefeed::ChangeEventType>& event_types
 ) {
     uint64_t conn_id = 0;
     bool start_background = false;
@@ -71,6 +72,7 @@ uint64_t SseConnectionManager::registerConnection(
         conn->id = next_conn_id_++;
         conn->current_sequence = from_seq;
         conn->key_prefix = key_prefix;
+        conn->event_types = event_types;
         conn->last_activity = std::chrono::steady_clock::now();
         conn->last_heartbeat = std::chrono::steady_clock::now();
 
@@ -275,6 +277,10 @@ void SseConnectionManager::backgroundPollTask() {
             
             if (!conn->key_prefix.empty()) {
                 options.key_prefix = conn->key_prefix;
+            }
+            
+            if (!conn->event_types.empty()) {
+                options.event_types = conn->event_types;
             }
             
             auto events = changefeed_->listEvents(options);
