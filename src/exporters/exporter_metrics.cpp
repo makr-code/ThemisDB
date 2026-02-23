@@ -61,6 +61,14 @@ void ExporterMetrics::reset() {
     schema_validations_total_ = 0;
     schema_validations_passed_ = 0;
     schema_validations_failed_ = 0;
+
+    pii_detections_ = 0;
+    pii_redactions_ = 0;
+
+    compression_uncompressed_bytes_ = 0;
+    compression_compressed_bytes_ = 0;
+
+    parquet_bytes_written_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -197,6 +205,14 @@ double ExporterMetrics::getCompressionRatio() const {
     return static_cast<double>(compressed) / uncompressed;
 }
 
+void ExporterMetrics::recordParquetBytesWritten(size_t bytes) {
+    parquet_bytes_written_ += bytes;
+}
+
+size_t ExporterMetrics::getParquetBytesWritten() const {
+    return parquet_bytes_written_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -251,6 +267,9 @@ json ExporterMetrics::toJson() const {
         {"compressed_bytes", compression_compressed_bytes_.load()},
         {"ratio", getCompressionRatio()}
     };
+
+    // P3: Parquet export (exporter_parquet_bytes_written_total)
+    j["exporter_parquet_bytes_written_total"] = parquet_bytes_written_.load();
     
     return j;
 }

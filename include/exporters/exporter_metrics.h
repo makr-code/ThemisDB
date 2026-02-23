@@ -109,6 +109,12 @@ public:
     
     /// P2: Get compression ratio
     double getCompressionRatio() const;
+
+    /// P3: Record Parquet bytes written (exporter_parquet_bytes_written_total)
+    void recordParquetBytesWritten(size_t bytes);
+
+    /// P3: Get total Parquet bytes written
+    size_t getParquetBytesWritten() const;
     
     /// Export metrics as JSON
     nlohmann::json toJson() const;
@@ -156,6 +162,9 @@ private:
     // P2: Compression
     std::atomic<size_t> compression_uncompressed_bytes_{0};
     std::atomic<size_t> compression_compressed_bytes_{0};
+
+    // P3: Parquet export bytes (exporter_parquet_bytes_written_total)
+    std::atomic<size_t> parquet_bytes_written_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

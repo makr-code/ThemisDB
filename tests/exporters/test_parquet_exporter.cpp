@@ -532,6 +532,45 @@ TEST_F(ParquetExporterTest, MetricsResetWorks) {
     EXPECT_GT(stats.exported_entities, 0u);
 }
 
+TEST_F(ParquetExporterTest, ParquetBytesWrittenCounterTracked) {
+    // Verifies the exporter_parquet_bytes_written_total counter is updated
+    ParquetExporter exporter;
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/bytes_counter.parquet";
+
+    exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(exporter.getMetrics()->getParquetBytesWritten(), 0u);
+}
+
+TEST_F(ParquetExporterTest, ParquetBytesCounterMatchesBytesWritten) {
+    ParquetExporter exporter;
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/bytes_match.parquet";
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // The Parquet bytes counter must equal the reported bytes_written
+    EXPECT_EQ(exporter.getMetrics()->getParquetBytesWritten(),
+              stats.bytes_written);
+}
+
+TEST_F(ParquetExporterTest, ParquetBytesCounterAccumulatesAcrossExports) {
+    ParquetExporter exporter;
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/accum1.parquet";
+    auto stats1 = exporter.exportEntities(test_entities_, options);
+
+    options.output_path = test_dir_ + "/accum2.parquet";
+    auto stats2 = exporter.exportEntities(test_entities_, options);
+
+    size_t expected = stats1.bytes_written + stats2.bytes_written;
+    EXPECT_EQ(exporter.getMetrics()->getParquetBytesWritten(), expected);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Interface tests
 // ─────────────────────────────────────────────────────────────────────────────

@@ -530,6 +530,7 @@ ExportStats ParquetExporter::exportEntities(
     metrics_->recordExport(result.exported_entities,
                            result.bytes_written,
                            result.duration);
+    metrics_->recordParquetBytesWritten(result.bytes_written);
     return result;
 }
 
