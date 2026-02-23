@@ -23,6 +23,7 @@
 #include "themis/base/module_loader.h"
 #include "acceleration/plugin_security.h"
 #include <filesystem>
+#include <fstream>
 #include <chrono>
 #include <iostream>
 #include <algorithm>
@@ -31,8 +32,18 @@
 
 #ifdef _WIN32
     #include <windows.h>
+    #include <wintrust.h>
+    #include <softpub.h>
+    #include <wincrypt.h>
+    #pragma comment(lib, "wintrust.lib")
+    #pragma comment(lib, "crypt32.lib")
 #else
     #include <dlfcn.h>
+#endif
+
+#ifdef __linux__
+    #include <sys/xattr.h>
+    #include <elf.h>
 #endif
 
 namespace themis {
@@ -1097,6 +1108,416 @@ ModuleMetadata ModuleLoader::getCachedMetadata(const std::string& modulePath) {
 void ModuleRegistry::clear() {
     modules_.clear();
 }
+
+// ============================================================================
+// Platform-Specific Signature Verification (Phase 4)
+// ============================================================================
+
+#ifdef _WIN32
+
+static constexpr DWORD kZoneIdBufferSize  = 256;
+static constexpr DWORD kCertNameBufferSize = 256;
+
+int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
+    // Read NTFS Zone.Identifier alternate data stream
+    std::string adsPath = modulePath + ":Zone.Identifier";
+    HANDLE hFile = CreateFileA(adsPath.c_str(), GENERIC_READ, FILE_SHARE_READ,
+                               nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        spdlog::debug("No Zone.Identifier ADS for: {}", modulePath);
+        return -1;
+    }
+
+    char buffer[kZoneIdBufferSize] = {};
+    DWORD bytesRead = 0;
+    ReadFile(hFile, buffer, kZoneIdBufferSize - 1, &bytesRead, nullptr);
+    CloseHandle(hFile);
+
+    std::string content(buffer, bytesRead);
+    // Zone.Identifier format: "[ZoneTransfer]\r\nZoneId=<N>"
+    const std::string zoneIdKey = "ZoneId=";
+    auto pos = content.find(zoneIdKey);
+    if (pos == std::string::npos) {
+        return -1;
+    }
+    try {
+        return std::stoi(content.substr(pos + zoneIdKey.size()));
+    } catch (...) {
+        return -1;
+    }
+}
+
+bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
+    std::string adsPath = modulePath + ":Zone.Identifier";
+    if (DeleteFileA(adsPath.c_str())) {
+        spdlog::info("Removed Zone.Identifier ADS from: {}", modulePath);
+        return true;
+    }
+    DWORD err = GetLastError();
+    if (err == ERROR_FILE_NOT_FOUND) {
+        // Already absent – treat as success
+        return true;
+    }
+    spdlog::warn("Failed to remove Zone.Identifier from {}: error {}", modulePath, err);
+    return false;
+}
+
+bool ModuleLoader::verifyAuthenticodeSignature(const std::string& modulePath,
+                                               std::string& signerInfo) const {
+    // Convert UTF-8 path to wide string for Windows API
+    int wideLen = MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
+                                      static_cast<int>(modulePath.size()), nullptr, 0);
+    if (wideLen == 0) {
+        spdlog::error("verifyAuthenticodeSignature: path conversion failed for: {}", modulePath);
+        return false;
+    }
+    std::wstring widePath(wideLen, L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
+                        static_cast<int>(modulePath.size()), &widePath[0], wideLen);
+
+    WINTRUST_FILE_INFO fileInfo = {};
+    fileInfo.cbStruct      = sizeof(WINTRUST_FILE_INFO);
+    fileInfo.pcwszFilePath = widePath.c_str();
+
+    GUID actionId = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+    WINTRUST_DATA trustData = {};
+    trustData.cbStruct          = sizeof(WINTRUST_DATA);
+    trustData.dwUIChoice        = WTD_UI_NONE;
+    trustData.fdwRevocationChecks = WTD_REVOKE_NONE;
+    trustData.dwUnionChoice     = WTD_CHOICE_FILE;
+    trustData.pFile             = &fileInfo;
+    trustData.dwStateAction     = WTD_STATEACTION_VERIFY;
+    trustData.dwProvFlags       = WTD_SAFER_FLAG;
+
+    LONG status = WinVerifyTrust(nullptr, &actionId, &trustData);
+
+    // Retrieve signer subject CN when verification succeeded
+    if (status == ERROR_SUCCESS) {
+        CRYPT_PROVIDER_DATA* provData = WTHelperProvDataFromStateData(trustData.hWVTStateData);
+        if (provData) {
+            CRYPT_PROVIDER_SGNR* signer = WTHelperGetProvSignerFromChain(provData, 0, FALSE, 0);
+            if (signer && signer->pChainContext &&
+                signer->pChainContext->rgpChain &&
+                signer->pChainContext->rgpChain[0]->rgpElement &&
+                signer->pChainContext->rgpChain[0]->cElement > 0) {
+                PCCERT_CONTEXT cert =
+                    signer->pChainContext->rgpChain[0]->rgpElement[0]->pCertContext;
+                if (cert) {
+                    char nameBuffer[kCertNameBufferSize] = {};
+                    CertGetNameStringA(cert, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0,
+                                       nullptr, nameBuffer, kCertNameBufferSize);
+                    signerInfo = nameBuffer;
+                }
+            }
+        }
+    }
+
+    // Always close the state handle
+    trustData.dwStateAction = WTD_STATEACTION_CLOSE;
+    WinVerifyTrust(nullptr, &actionId, &trustData);
+
+    if (status == ERROR_SUCCESS) {
+        spdlog::info("Authenticode verification PASSED for: {} (signer: {})",
+                     modulePath, signerInfo);
+        return true;
+    }
+
+    switch (status) {
+        case TRUST_E_NOSIGNATURE:
+            spdlog::warn("Authenticode: no signature on: {}", modulePath);
+            break;
+        case TRUST_E_EXPLICIT_DISTRUST:
+            spdlog::error("Authenticode: signature explicitly distrusted: {}", modulePath);
+            break;
+        case TRUST_E_SUBJECT_NOT_TRUSTED:
+            spdlog::error("Authenticode: subject not trusted: {}", modulePath);
+            break;
+        default:
+            spdlog::error("Authenticode verification failed (code {}) for: {}", status, modulePath);
+            break;
+    }
+    return false;
+}
+#endif // _WIN32
+
+#ifdef __linux__
+
+static constexpr size_t kGpgOutputBufferSize = 256;
+static constexpr uint64_t kMaxCommentSectionSize = 4096;
+
+bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
+                                      const std::string& signaturePath) const {
+    // Reject paths with shell-unsafe characters to prevent injection.
+    // Single quote is the primary risk (breaks out of '-quoted argument),
+    // but backslash, parentheses, and tab can also be exploited.
+    static const std::string kForbidden = "'\";&|`$\n\r\\()\t";
+    for (char c : modulePath) {
+        if (kForbidden.find(c) != std::string::npos) {
+            spdlog::error("verifyGPGSignature: invalid characters in module path: {}", modulePath);
+            return false;
+        }
+    }
+
+    // Locate the detached signature file
+    std::string sigFile = signaturePath;
+    if (sigFile.empty()) {
+        for (const auto& ext : {".asc", ".sig", ".gpg"}) {
+            std::string candidate = modulePath + ext;
+            if (std::filesystem::exists(candidate)) {
+                sigFile = candidate;
+                break;
+            }
+        }
+    }
+
+    if (sigFile.empty()) {
+        spdlog::warn("verifyGPGSignature: no signature file found for: {}", modulePath);
+        return false;
+    }
+
+    for (char c : sigFile) {
+        if (kForbidden.find(c) != std::string::npos) {
+            spdlog::error("verifyGPGSignature: invalid characters in signature path: {}", sigFile);
+            return false;
+        }
+    }
+
+    // Use gpg --verify with explicit paths (no shell expansion)
+    std::string command = "gpg --verify '" + sigFile + "' '" + modulePath + "' 2>&1";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) {
+        spdlog::error("verifyGPGSignature: failed to run gpg for: {}", modulePath);
+        return false;
+    }
+
+    char buf[kGpgOutputBufferSize];
+    std::string output;
+    while (fgets(buf, sizeof(buf), pipe) != nullptr) {
+        output += buf;
+    }
+    int exitCode = pclose(pipe);
+
+    if (exitCode == 0 && output.find("Good signature") != std::string::npos) {
+        spdlog::info("GPG signature verification PASSED for: {}", modulePath);
+        return true;
+    }
+
+    spdlog::warn("GPG signature verification FAILED for: {} - {}", modulePath, output);
+    return false;
+}
+
+std::map<std::string, std::string>
+ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
+    std::map<std::string, std::string> result;
+
+    // First, list all attribute names
+    ssize_t listSize = listxattr(modulePath.c_str(), nullptr, 0);
+    if (listSize <= 0) {
+        return result;
+    }
+
+    std::string namesBuf(static_cast<size_t>(listSize), '\0');
+    listSize = listxattr(modulePath.c_str(), &namesBuf[0], static_cast<size_t>(listSize));
+    if (listSize <= 0) {
+        return result;
+    }
+
+    // Parse null-separated attribute names and read each value
+    size_t pos = 0;
+    while (pos < static_cast<size_t>(listSize)) {
+        std::string name = &namesBuf[pos];
+        pos += name.size() + 1;
+
+        ssize_t valueSize = getxattr(modulePath.c_str(), name.c_str(), nullptr, 0);
+        if (valueSize < 0) {
+            continue;
+        }
+        std::string value(static_cast<size_t>(valueSize), '\0');
+        if (getxattr(modulePath.c_str(), name.c_str(), &value[0],
+                     static_cast<size_t>(valueSize)) >= 0) {
+            result[name] = value;
+        }
+    }
+
+    return result;
+}
+
+std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
+    std::ifstream file(modulePath, std::ios::binary);
+    if (!file) {
+        spdlog::warn("readELFMetadata: cannot open: {}", modulePath);
+        return {};
+    }
+
+    // Verify ELF magic number
+    unsigned char magic[4];
+    file.read(reinterpret_cast<char*>(magic), 4);
+    if (file.gcount() < 4 ||
+        magic[0] != 0x7f || magic[1] != 'E' || magic[2] != 'L' || magic[3] != 'F') {
+        return {};
+    }
+
+    file.seekg(0, std::ios::beg);
+
+    // Read ELF class (32 or 64-bit)
+    unsigned char elfClass;
+    file.seekg(4);
+    file.read(reinterpret_cast<char*>(&elfClass), 1);
+    file.seekg(0, std::ios::beg);
+
+    std::string metadata;
+
+    auto processNoteSection = [&](uint64_t offset, uint64_t size) {
+        file.seekg(static_cast<std::streamoff>(offset));
+        uint64_t remaining = size;
+        while (remaining >= sizeof(Elf64_Nhdr)) {
+            Elf64_Nhdr nhdr = {};
+            file.read(reinterpret_cast<char*>(&nhdr), sizeof(nhdr));
+            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) break;
+            remaining -= sizeof(nhdr);
+
+            uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3u;
+            uint64_t descSize  = (nhdr.n_descsz + 3) & ~3u;
+
+            if (nameSize > remaining) break;
+            // n_namesz includes the null terminator; exclude it for the string data
+            uint32_t nameDataLen = nhdr.n_namesz > 0 ? nhdr.n_namesz - 1 : 0;
+            std::string name(nameDataLen, '\0');
+            file.read(&name[0], nameDataLen);
+            // skip null terminator and alignment padding
+            file.seekg(static_cast<std::streamoff>(
+                file.tellg()) + static_cast<std::streamoff>(nameSize - nameDataLen));
+            remaining -= nameSize;
+
+            if (descSize > remaining) break;
+            if (nhdr.n_type == NT_GNU_BUILD_ID && name == "GNU") {
+                // Build ID: hex-encode raw bytes
+                std::vector<unsigned char> buildId(nhdr.n_descsz);
+                file.read(reinterpret_cast<char*>(buildId.data()), nhdr.n_descsz);
+                // Skip padding to reach next note entry
+                uint64_t padding = descSize - nhdr.n_descsz;
+                if (padding > 0) {
+                    file.seekg(static_cast<std::streamoff>(file.tellg()) +
+                               static_cast<std::streamoff>(padding));
+                }
+                std::string buildIdHex;
+                static const char hex[] = "0123456789abcdef";
+                for (unsigned char b : buildId) {
+                    buildIdHex += hex[b >> 4];
+                    buildIdHex += hex[b & 0xf];
+                }
+                if (!metadata.empty()) metadata += "; ";
+                metadata += "BuildID=" + buildIdHex;
+            } else {
+                file.seekg(static_cast<std::streamoff>(file.tellg()) +
+                           static_cast<std::streamoff>(descSize));
+            }
+            remaining -= descSize;
+        }
+    };
+
+    if (elfClass == ELFCLASS64) {
+        Elf64_Ehdr ehdr = {};
+        file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));
+
+        uint64_t shOffset = ehdr.e_shoff;
+        uint16_t shEntSize = ehdr.e_shentsize;
+        uint16_t shNum = ehdr.e_shnum;
+        uint16_t shStrIdx = ehdr.e_shstrndx;
+
+        if (shOffset == 0 || shNum == 0) return metadata;
+
+        // Load section name string table
+        file.seekg(static_cast<std::streamoff>(shOffset +
+                   static_cast<uint64_t>(shStrIdx) * shEntSize));
+        Elf64_Shdr strShdr = {};
+        file.read(reinterpret_cast<char*>(&strShdr), sizeof(strShdr));
+        std::string strtab(strShdr.sh_size, '\0');
+        file.seekg(static_cast<std::streamoff>(strShdr.sh_offset));
+        file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));
+
+        // Iterate sections to find NOTE and .comment
+        for (uint16_t i = 0; i < shNum; ++i) {
+            file.seekg(static_cast<std::streamoff>(shOffset +
+                       static_cast<uint64_t>(i) * shEntSize));
+            Elf64_Shdr shdr = {};
+            file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
+
+            std::string secName;
+            if (shdr.sh_name < strtab.size()) {
+                secName = &strtab[shdr.sh_name];
+            }
+
+            if (shdr.sh_type == SHT_NOTE) {
+                processNoteSection(shdr.sh_offset, shdr.sh_size);
+            } else if (secName == ".comment" && shdr.sh_size > 0 && shdr.sh_size < kMaxCommentSectionSize) {
+                std::string comment(shdr.sh_size, '\0');
+                file.seekg(static_cast<std::streamoff>(shdr.sh_offset));
+                file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
+                // Null bytes serve as separators; replace with spaces
+                for (char& c : comment) {
+                    if (c == '\0') c = ' ';
+                }
+                // Trim trailing spaces
+                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                if (!comment.empty()) {
+                    if (!metadata.empty()) metadata += "; ";
+                    metadata += "Comment=" + comment;
+                }
+            }
+        }
+    } else if (elfClass == ELFCLASS32) {
+        Elf32_Ehdr ehdr = {};
+        file.seekg(0);
+        file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));
+
+        uint32_t shOffset = ehdr.e_shoff;
+        uint16_t shEntSize = ehdr.e_shentsize;
+        uint16_t shNum = ehdr.e_shnum;
+        uint16_t shStrIdx = ehdr.e_shstrndx;
+
+        if (shOffset == 0 || shNum == 0) return metadata;
+
+        file.seekg(static_cast<std::streamoff>(shOffset +
+                   static_cast<uint32_t>(shStrIdx) * shEntSize));
+        Elf32_Shdr strShdr = {};
+        file.read(reinterpret_cast<char*>(&strShdr), sizeof(strShdr));
+        std::string strtab(strShdr.sh_size, '\0');
+        file.seekg(static_cast<std::streamoff>(strShdr.sh_offset));
+        file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));
+
+        for (uint16_t i = 0; i < shNum; ++i) {
+            file.seekg(static_cast<std::streamoff>(shOffset +
+                       static_cast<uint32_t>(i) * shEntSize));
+            Elf32_Shdr shdr = {};
+            file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
+
+            std::string secName;
+            if (shdr.sh_name < strtab.size()) {
+                secName = &strtab[shdr.sh_name];
+            }
+
+            if (shdr.sh_type == SHT_NOTE) {
+                processNoteSection(shdr.sh_offset, shdr.sh_size);
+            } else if (secName == ".comment" && shdr.sh_size > 0 && shdr.sh_size < kMaxCommentSectionSize) {
+                std::string comment(shdr.sh_size, '\0');
+                file.seekg(static_cast<std::streamoff>(shdr.sh_offset));
+                file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
+                for (char& c : comment) {
+                    if (c == '\0') c = ' ';
+                }
+                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                if (!comment.empty()) {
+                    if (!metadata.empty()) metadata += "; ";
+                    metadata += "Comment=" + comment;
+                }
+            }
+        }
+    }
+
+    return metadata;
+}
+#endif // __linux__
 
 } // namespace modules
 } // namespace themis

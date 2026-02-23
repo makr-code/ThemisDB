@@ -165,6 +165,9 @@ set(THEMIS_BASE_SOURCES
     # Module dependency resolver (load-order management)
     ../src/themis/module_dependency_resolver.cpp
     
+    # Edition manager (Community / Enterprise / Hyperscaler feature gating)
+    ../src/themis/edition_manager.cpp
+    
     # Stubs for missing symbols
     ../src/stubs.cpp
 )
