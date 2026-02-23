@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.cpp                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1193                                           ║
+    • Total Lines:     1363                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 139394c19  2026-02-22  Style fix: expand single-line if/else in ingestAll() disa... ║
+    • aac34c402  2026-02-22  Fix pre-existing test failures: include disabled sources ... ║
+    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
+    • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
+    • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

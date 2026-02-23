@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wal_storage.cpp                                    ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-02-23 03:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

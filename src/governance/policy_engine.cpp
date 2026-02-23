@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:18                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     204                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ffb05a96d  2026-02-22  fix: update metrics collector namespace and adjust source... ║
+    • 35bbe7c5a  2026-02-22  feat(governance): add Prometheus counter and audit entry ... ║
+    • e58f4c7a6  2026-02-22  feat(governance): add hot-reload for policy YAML with Pol... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

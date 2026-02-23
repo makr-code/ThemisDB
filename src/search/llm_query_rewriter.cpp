@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_query_rewriter.cpp                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:21                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     211                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • aebcdeacb  2026-02-22  Improve LLM query rewriting for better recall: diversifie... ║
+    • f3592ccbe  2026-02-22  Audit fixes: restore test in MINIMAL builds, clean up unu... ║
+    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

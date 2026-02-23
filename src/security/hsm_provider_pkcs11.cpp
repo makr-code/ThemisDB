@@ -3,17 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   35.0/100                                       ║
-    • Total Lines:     768                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     930                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 24                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
+  Revision History:                                                   ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
+    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

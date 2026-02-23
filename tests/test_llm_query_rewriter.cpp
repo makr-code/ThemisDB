@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_query_rewriter.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:07                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     322                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8b4fb3109  2026-02-22  Add prompt-content tests for LlmQueryRewriter (vocabulary... ║
+    • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

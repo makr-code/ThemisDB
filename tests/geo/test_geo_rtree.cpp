@@ -3,9 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_rtree.cpp                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     277                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 32b7c1baa  2026-02-22  fix(geo): Fix memoryBytes test expectation and update ROA... ║
+    • 90f7ef343  2026-02-22  feat(geo): Add in-memory R-tree spatial index (GeoRTree) ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

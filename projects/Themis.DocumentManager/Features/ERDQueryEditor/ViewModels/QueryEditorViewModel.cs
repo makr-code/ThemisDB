@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            QueryEditorViewModel.cs                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:08                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

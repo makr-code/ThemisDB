@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.h                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-02-22 11:29:21                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-23 03:57:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
+    • Total Lines:     218                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
+    • d80551ba8  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
