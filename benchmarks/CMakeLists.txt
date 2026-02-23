@@ -1191,3 +1191,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cuda_vs_cpu.cpp")
         message(STATUS "  CUDA benchmarks: DISABLED (THEMIS_ENABLE_CUDA not set; CPU-only benchmarks active)")
     endif()
 endif()
+
+# ============================================================================
+# DI Overhead and Logging Throughput Benchmarks (Issue #1420)
+# Measures ConcernsContext creation cost, NoOpLogger/SpdlogLoggerAdapter
+# throughput, structured log and trace-context injection overhead, and
+# convenience wrapper dispatch cost.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_di_logging.cpp")
+    message(STATUS "Adding DI overhead and logging throughput benchmarks")
+
+    add_executable(bench_di_logging
+        bench_di_logging.cpp
+    )
+
+    target_link_libraries(bench_di_logging PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_di_logging PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_di_logging PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_di_logging
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DI overhead: ConcernsContext creation (NoOp, custom)")
+    message(STATUS "  Logging throughput: NoOpLogger, SpdlogAdapter (plain-text, JSON), logStructured, logWithContext")
+endif()
