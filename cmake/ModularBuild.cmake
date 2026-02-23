@@ -166,6 +166,9 @@ set(THEMIS_BASE_SOURCES
     # Module dependency resolver (load-order management)
     ../src/themis/module_dependency_resolver.cpp
     
+    # Module hash verifier (SHA-256 integrity verification)
+    ../src/themis/module_hash_verifier.cpp
+    
     # Edition manager (Community / Enterprise / Hyperscaler feature gating)
     ../src/themis/edition_manager.cpp
     

@@ -22,7 +22,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Short-term (Next 3-6 months)
 - [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
 - [I] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372)
-- [I] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
 - [I] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
