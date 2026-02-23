@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grafana_metrics.cpp                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   79.0/100                                       ║
-    • Total Lines:     1339                                           ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     1398                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
+    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

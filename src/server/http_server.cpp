@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:25                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8334                                           ║
+    • Total Lines:     8361                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
-    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
+    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
+    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
+    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
+    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

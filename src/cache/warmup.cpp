@@ -1,25 +1,25 @@
 /*
- * ThemisDB - Hybrid Database System
- *
- * File:    warmup.cpp
- * Module:  cache
- *
- * Implements AdaptiveQueryCache::warmupFromLog() and exportSnapshot().
- *
- * Log format (newline-delimited JSON):
- *   {"key":"<sha256-hex-64>","value_b64":"<base64>",
- *    "ttl_remaining_s":<int>,"tenant":"<tenant_id>"}
- *
- * Design:
- *  - warmupFromLog() fills L1 up to config_.l1_max_entries / 2 to leave
- *    headroom for live traffic; excess entries fall through to L2.
- *  - The rate limiter is bypassed (warmup is an internal operation).
- *  - Per-tenant quota checks are still enforced.
- *  - Invalid or malformed entries are skipped with a warning.
- *  - Entry key must be a 64-character hex string (SHA-256).
- *  - Decoded value must not exceed config_.l1_max_entry_size per entry.
- *  - Prometheus gauge: themis_cache_warmup_entries_loaded_total
- *    (tracked via enhanced_metrics_.warmup_entries_loaded)
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            warmup.cpp                                         ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-23 03:58:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     438                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
+    • a01131277  2026-02-22  fix(cache): fix 3 bugs in warmup.cpp found during code audit ║
+    • b3ba0e0e3  2026-02-22  feat(cache): implement cache warmup with bulk operations ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "cache/adaptive_query_cache.h"

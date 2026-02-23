@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_faceted_search.cpp                            ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-22 08:56:41                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23 03:58:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     167                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     200                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 573f0f4bb  2026-02-22  feat(search): add dynamic facet counting with discoverFac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

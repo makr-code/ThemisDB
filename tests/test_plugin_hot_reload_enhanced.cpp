@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_hot_reload_enhanced.cpp                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:52                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     465                                            ║
+    • Total Lines:     640                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • facf306eb  2026-02-22  feat(plugins): atomic hot-reload with rollback, dependenc... ║
+    • f0de4a6e8  2026-02-22  feat(plugins): implement hot-reload with state preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

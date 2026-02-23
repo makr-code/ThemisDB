@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:56                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2153                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     2478                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a44a64287  2026-02-22  Add unit tests for getTopologySnapshot and fix stale meta... ║
+    • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
+    • 3e791276b  2026-02-22  fix(replication): fix lease read test assertion for empty... ║
+    • 573513108  2026-02-22  feat(replication): implement Raft leader lease reads for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

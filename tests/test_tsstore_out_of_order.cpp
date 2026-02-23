@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_tsstore_out_of_order.cpp                      ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     335                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Tests for out-of-order write support with configurable late-arrival window.
  *
  * The late-arrival window (TSStore::Config::late_arrival_window_ms) controls

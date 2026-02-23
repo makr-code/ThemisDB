@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lock_manager.h                                     ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-02-23 03:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     206                                            ║
+    • Total Lines:     254                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5e89a0730  2026-02-22  audit(transaction): fix ROADMAP inconsistencies, docstrin... ║
+    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

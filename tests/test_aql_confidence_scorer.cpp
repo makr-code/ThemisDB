@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_confidence_scorer.cpp                     ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-02-22 08:56:37                                ║
+  Version:         0.0.24                                             ║
+  Last Modified:   2026-02-23 03:58:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

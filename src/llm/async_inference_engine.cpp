@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.cpp                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     451                                            ║
+    • Quality Score:   83.0/100                                       ║
+    • Total Lines:     738                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ae39c0e57  2026-02-22  fix(llm): shared-pool cancel re-check after processReques... ║
+    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
+    • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
+    • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
+    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -111,6 +111,23 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
 endif()
 
+# PDF support requires poppler-cpp
+if(THEMIS_ENABLE_PDF)
+    find_package(Poppler CONFIG COMPONENTS cpp QUIET)
+    if(NOT Poppler_FOUND)
+        find_package(Poppler COMPONENTS cpp QUIET)
+    endif()
+
+    if(Poppler_FOUND)
+        message(STATUS "PDF support enabled - poppler-cpp found")
+        add_compile_definitions(THEMIS_ENABLE_PDF)
+    else()
+        message(WARNING "poppler-cpp not found - Install with: vcpkg install poppler")
+        message(WARNING "Disabling PDF layout preservation due to missing dependencies")
+        set(THEMIS_ENABLE_PDF OFF CACHE BOOL "PDF support disabled - missing poppler-cpp" FORCE)
+    endif()
+endif()
+
 # FFmpeg support for video processing (optional)
 # Priority: 1) Local Submodule, 2) vcpkg, 3) System
 find_package(FFmpeg CONFIG QUIET)
@@ -191,6 +208,10 @@ option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
+
+# PDF Document Processing (Q2 2026)
+# Enables poppler-cpp integration for layout-preserving PDF text extraction
+option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
 
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
@@ -2334,6 +2355,18 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     endif()
     
     message(STATUS "Office support linked: libzip and pugixml")
+endif()
+
+# Link poppler-cpp (for PDF layout-preserving extraction) if enabled
+if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
+    if(TARGET Poppler::cpp)
+        target_link_libraries(themis_core PUBLIC Poppler::cpp)
+    elseif(TARGET poppler-cpp)
+        target_link_libraries(themis_core PUBLIC poppler-cpp)
+    else()
+        message(WARNING "Poppler::cpp target not found - please check poppler installation")
+    endif()
+    message(STATUS "PDF support linked: poppler-cpp")
 endif()
 
 # Link Kerberos/GSSAPI if enabled
