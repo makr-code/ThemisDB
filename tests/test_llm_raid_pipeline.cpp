@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: LLM RAID pipeline tests not runnable in current build.
+// Disabled: LLM RAID pipeline tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlmRaidPipeline, Skipped)

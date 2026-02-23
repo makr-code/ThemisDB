@@ -163,7 +163,7 @@ TEST(RuntimeLicenseGate, ExpiredLicense_ErrorMessageContainsStatus) {
     gate.isFeatureAllowed("enterprise_plugins", err);
     EXPECT_FALSE(err.empty());
     // The message must mention either the edition or the expired status.
-    bool mentions_edition  = err.find(edition::EDITION_STRING) != std::string::npos;
+    bool mentions_edition  = err.find(themis::edition::EDITION_STRING) != std::string::npos;
     bool mentions_expired  = err.find("expired") != std::string::npos;
     bool mentions_edition2 = err.find("Edition") != std::string::npos;
     EXPECT_TRUE(mentions_edition || mentions_expired || mentions_edition2)
@@ -222,7 +222,7 @@ TEST(RuntimeLicenseGate, InvalidLicense_ErrorMessageContainsContact) {
     // Only applies when the runtime gate fires (compile-time ON features).
     // Skip if we're in a Community build where the compile-time gate fires
     // before the runtime gate (different message format).
-    if (edition::GetEditionType() == edition::EditionType::COMMUNITY) {
+    if (themis::edition::GetEditionType() == themis::edition::EditionType::COMMUNITY) {
         GTEST_SKIP() << "Skipping runtime-gate message check in Community build";
     }
 

@@ -193,9 +193,9 @@ public:
                     data = exportToCSV(batch);
                     break;
                 
-                case ExportFormat::ARROW_IPC:
-                case ExportFormat::ARROW_PARQUET:
-                case ExportFormat::ARROW_FEATHER:
+                case ExportFormat::FMT_ARROW_IPC:
+                case ExportFormat::FMT_ARROW_PARQUET:
+                case ExportFormat::FMT_ARROW_FEATHER:
 #ifdef THEMIS_HAS_ARROW
                 {
                     // Real Arrow implementation
@@ -255,9 +255,9 @@ public:
             case ExportFormat::CSV:
                 return exportToCSV(batch);
             
-            case ExportFormat::ARROW_IPC:
-            case ExportFormat::ARROW_PARQUET:
-            case ExportFormat::ARROW_FEATHER:
+            case ExportFormat::FMT_ARROW_IPC:
+            case ExportFormat::FMT_ARROW_PARQUET:
+            case ExportFormat::FMT_ARROW_FEATHER:
 #ifdef THEMIS_HAS_ARROW
             {
                 spdlog::debug("Arrow string export requested for {} rows", batch.rowCount());
@@ -323,9 +323,9 @@ public:
             case ExportFormat::JSON:
             case ExportFormat::CSV:
                 return true;
-            case ExportFormat::ARROW_IPC:
-            case ExportFormat::ARROW_PARQUET:
-            case ExportFormat::ARROW_FEATHER:
+            case ExportFormat::FMT_ARROW_IPC:
+            case ExportFormat::FMT_ARROW_PARQUET:
+            case ExportFormat::FMT_ARROW_FEATHER:
                 return false;
         }
         return false;
@@ -422,7 +422,7 @@ private:
             auto arrow_batch = arrow_batch_result.ValueOrDie();
             
             switch (options.format) {
-                case ExportFormat::ARROW_IPC: {
+                case ExportFormat::FMT_ARROW_IPC: {
                     // Arrow IPC Stream format
                     std::shared_ptr<arrow::io::FileOutputStream> outfile;
                     auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
@@ -468,7 +468,7 @@ private:
                     break;
                 }
                 
-                case ExportFormat::ARROW_PARQUET: {
+                case ExportFormat::FMT_ARROW_PARQUET: {
                     // Parquet format
                     std::shared_ptr<arrow::io::FileOutputStream> outfile;
                     auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
@@ -520,7 +520,7 @@ private:
                     break;
                 }
                 
-                case ExportFormat::ARROW_FEATHER: {
+                case ExportFormat::FMT_ARROW_FEATHER: {
                     // Feather format (Arrow IPC File format)
                     std::shared_ptr<arrow::io::FileOutputStream> outfile;
                     auto outfile_result = arrow::io::FileOutputStream::Open(output_path);
@@ -607,7 +607,7 @@ private:
             auto buffer = buffer_result.ValueOrDie();
             
             switch (options.format) {
-                case ExportFormat::ARROW_IPC: {
+                case ExportFormat::FMT_ARROW_IPC: {
                     auto writer_result = arrow::ipc::MakeStreamWriter(buffer, arrow_batch->schema());
                     if (!writer_result.ok()) {
                         return "# ERROR: Failed to create IPC writer";
@@ -623,7 +623,7 @@ private:
                     break;
                 }
                 
-                case ExportFormat::ARROW_FEATHER: {
+                case ExportFormat::FMT_ARROW_FEATHER: {
                     auto writer_result = arrow::ipc::MakeFileWriter(buffer, arrow_batch->schema());
                     if (!writer_result.ok()) {
                         return "# ERROR: Failed to create Feather writer";
@@ -639,7 +639,7 @@ private:
                     break;
                 }
                 
-                case ExportFormat::ARROW_PARQUET: {
+                case ExportFormat::FMT_ARROW_PARQUET: {
                     // Parquet to string is not practical due to binary format
                     return "# ERROR: Parquet format cannot be exported to string (use file export instead)";
                 }

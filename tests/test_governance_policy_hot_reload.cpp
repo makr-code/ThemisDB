@@ -401,7 +401,7 @@ enforcement:
     ASSERT_TRUE(pe.loadFromYAML(yaml_path_));
 
     // Reset the global metrics collector so we start from zero
-    themis::MetricsCollector::getInstance().reset();
+    themis::observability::MetricsCollector::getInstance().reset();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
@@ -428,7 +428,7 @@ enforcement:
     // The governance_policy_reload_total{result="success"} counter must have
     // been incremented exactly once.
     const std::string prometheus_text =
-        themis::MetricsCollector::getInstance().getPrometheusMetrics();
+        themis::observability::MetricsCollector::getInstance().getPrometheusMetrics();
     // Verify the metric name and the success label appear in the output
     const bool has_metric = prometheus_text.find("governance_policy_reload_total") != std::string::npos;
     const bool has_success = prometheus_text.find("governance_policy_reload_total") != std::string::npos &&
@@ -461,7 +461,9 @@ enforcement:
     ASSERT_TRUE(pe.loadFromYAML(yaml_path_));
 
     // Install an audit logger so the reload event is recorded
-    auto logger = std::make_shared<themis::utils::AuditLogger>();
+    themis::utils::AuditLoggerConfig audit_cfg;
+    audit_cfg.enabled = false;
+    auto logger = std::make_shared<themis::utils::AuditLogger>(nullptr, nullptr, audit_cfg);
     pe.setAuditLogger(logger);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(50));

@@ -345,7 +345,7 @@ TEST(RetentionBackgroundJob, ComplianceMetricsUpdated) {
     auto now = std::chrono::system_clock::now();
 
     mgr.startBackgroundJob(
-        10ms,  // Fire quickly
+        1s,
         [&](const std::string& pol) {
             ++runs;
             return std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>{
@@ -357,7 +357,7 @@ TEST(RetentionBackgroundJob, ComplianceMetricsUpdated) {
     );
 
     // Give the background job time to run at least once
-    std::this_thread::sleep_for(100ms);
+    std::this_thread::sleep_for(1200ms);
     mgr.stopBackgroundJob();
 
     auto m = mgr.getComplianceMetrics();

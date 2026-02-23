@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: dependency injection index manager tests not runnable in current build.
+// Disabled: dependency injection index manager tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_IndexManagerDI, Skipped)

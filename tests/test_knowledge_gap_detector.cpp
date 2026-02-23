@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿/**
+/**
  * @file test_knowledge_gap_detector.cpp
  * @brief Unit tests for the Knowledge Gap Detector
  */

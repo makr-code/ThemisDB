@@ -257,13 +257,13 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
         ++messages_received_;
         // Dispatch with empty payload inline (captures `this`).
         const OpCode opcode = header.get_opcode();
-#ifndef THEMIS_WIRE_V1_PROTO_AVAILABLE
+#if !defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) || !THEMIS_WIRE_V1_PB_HEADER_FOUND
         (void)opcode;
         send_error(0xFF, "Protobuf not compiled in this build");
 #else
         switch (opcode) {
-            case OpCode::PING:   handle_ping(v1::PingRequest{});     break;
-            case OpCode::CLOSE:  handle_close(v1::CloseRequest{});   break;
+            case OpCode::OP_PING:   handle_ping(v1::PingRequest{});     break;
+            case OpCode::OP_CLOSE:  handle_close(v1::CloseRequest{});   break;
             default:
                 send_error(0x04, "Unsupported opcode for empty payload");
                 break;
@@ -311,7 +311,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             // captures `this` (as `self`), private members are accessible.
             const OpCode opcode = header.get_opcode();
             const int    isz    = static_cast<int>(payload.size());
-#ifdef THEMIS_WIRE_V1_PROTO_AVAILABLE
+#if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
             // Helper lambda: log a parse failure and send an error response.
             auto on_parse_fail = [this](const char* name) {
                 std::cerr << "[WireV1:" << session_id_
@@ -319,7 +319,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                 send_error(0x06, std::string("Malformed protobuf message: ") + name);
             };
             switch (opcode) {
-                case OpCode::HELLO: {
+                case OpCode::OP_HELLO: {
                     v1::HelloRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_hello(req);
@@ -327,7 +327,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("HelloRequest");
                     break;
                 }
-                case OpCode::AUTH_RESPONSE: {
+                case OpCode::OP_AUTH_RESPONSE: {
                     v1::AuthResponse req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_auth_response(req);
@@ -335,7 +335,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("AuthResponse");
                     break;
                 }
-                case OpCode::GET: {
+                case OpCode::OP_GET: {
                     v1::GetRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_get(req);
@@ -343,7 +343,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("GetRequest");
                     break;
                 }
-                case OpCode::PUT: {
+                case OpCode::OP_PUT: {
                     v1::PutRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_put(req);
@@ -351,7 +351,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("PutRequest");
                     break;
                 }
-                case OpCode::DELETE: {
+                case OpCode::OP_DELETE: {
                     v1::DeleteRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_delete(req);
@@ -359,7 +359,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("DeleteRequest");
                     break;
                 }
-                case OpCode::QUERY_AQL: {
+                case OpCode::OP_QUERY_AQL: {
                     v1::QueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_query_aql(req);
@@ -367,7 +367,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("QueryRequest");
                     break;
                 }
-                case OpCode::VECTOR_SEARCH: {
+                case OpCode::OP_VECTOR_SEARCH: {
                     v1::VectorSearchRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_vector_search(req);
@@ -375,7 +375,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("VectorSearchRequest");
                     break;
                 }
-                case OpCode::GEO_QUERY: {
+                case OpCode::OP_GEO_QUERY: {
                     v1::GeoQueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_geo_query(req);
@@ -383,7 +383,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("GeoQueryRequest");
                     break;
                 }
-                case OpCode::TIMESERIES_QUERY: {
+                case OpCode::OP_TIMESERIES_QUERY: {
                     v1::TimeSeriesQueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_timeseries_query(req);
@@ -391,7 +391,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("TimeSeriesQueryRequest");
                     break;
                 }
-                case OpCode::BPMN_START_PROCESS: {
+                case OpCode::OP_BPMN_START_PROCESS: {
                     v1::BpmnStartProcessRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_bpmn_start(req);
@@ -399,7 +399,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("BpmnStartProcessRequest");
                     break;
                 }
-                case OpCode::PING: {
+                case OpCode::OP_PING: {
                     v1::PingRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_ping(req);
@@ -407,7 +407,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("PingRequest");
                     break;
                 }
-                case OpCode::CLOSE: {
+                case OpCode::OP_CLOSE: {
                     v1::CloseRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_close(req);
@@ -430,7 +430,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
 
 void WireProtocolSession::async_write_response(
     OpCode opcode, const google::protobuf::Message& message) {
-#ifdef THEMIS_WIRE_V1_PROTO_AVAILABLE
+#if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
     std::string serialized;
     if (!message.SerializeToString(&serialized)) {
         send_error(0x05, "Failed to serialize response");
@@ -495,7 +495,7 @@ void WireProtocolSession::send_error(uint32_t           err_code,
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
     hdr.version        = WIRE_VERSION_1;
-    hdr.opcode         = static_cast<uint8_t>(OpCode::ERROR);
+    hdr.opcode         = static_cast<uint8_t>(OpCode::OP_ERROR);
     hdr.flags          = static_cast<uint16_t>(MessageFlags::SKIP_CHECKSUM);
     hdr.payload_length = static_cast<uint32_t>(payload.size());
 
@@ -522,7 +522,7 @@ void WireProtocolSession::send_ok(const std::string& message) {
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
     hdr.version        = WIRE_VERSION_1;
-    hdr.opcode         = static_cast<uint8_t>(OpCode::OK);
+    hdr.opcode         = static_cast<uint8_t>(OpCode::OP_OK);
     hdr.flags          = static_cast<uint16_t>(MessageFlags::SKIP_CHECKSUM);
     hdr.payload_length = static_cast<uint32_t>(message.size());
 
@@ -579,7 +579,7 @@ std::vector<uint8_t> WireProtocolSession::compress_lz4(
 
 // ---- message handlers ----
 
-#ifdef THEMIS_WIRE_V1_PROTO_AVAILABLE
+#if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
 
 void WireProtocolSession::handle_hello(const v1::HelloRequest& /*req*/) {
     send_ok("HELLO_ACK");
@@ -640,7 +640,7 @@ void WireProtocolSession::handle_close(const v1::CloseRequest& /*req*/) {
     close("client requested close");
 }
 
-#endif  // THEMIS_WIRE_V1_PROTO_AVAILABLE
+#endif  // THEMIS_WIRE_V1_PROTO_AVAILABLE && THEMIS_WIRE_V1_PB_HEADER_FOUND
 
 // ============================================================================
 // WireProtocolServer
