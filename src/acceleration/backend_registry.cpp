@@ -29,6 +29,9 @@
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
 #endif
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/hip_backend.h"
+#endif
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -68,6 +71,14 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // (AMD, Intel, ARM, Qualcomm) that has no CUDA but supports Vulkan 1.x.
 #ifdef THEMIS_ENABLE_VULKAN
     registerBackend(std::make_unique<VulkanVectorBackend>());
+#endif
+
+    // Register HIP vector and geo backends for AMD GPUs.
+    // registerBackend() checks isAvailable() at runtime; both are silently
+    // skipped when no ROCm-capable GPU is present.
+#ifdef THEMIS_ENABLE_HIP
+    registerBackend(std::make_unique<HIPVectorBackend>());
+    registerBackend(std::make_unique<HIPGeoBackend>());
 #endif
 }
 

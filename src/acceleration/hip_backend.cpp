@@ -703,6 +703,291 @@ std::string HIPVectorBackend::getROCmVersion() {
     return getHIPVersion();
 }
 
+// Forward declarations for launchers compiled in hip/ann_kernels.hip.
+// These conform to the ANNDistanceFn / ANNTopKFn typedefs in
+// include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
+extern "C" {
+int hip_launchL2DistanceKernel(const float*, const float*, float*,
+                                int, int, int, void*);
+int hip_launchCosineDistanceKernel(const float*, const float*, float*,
+                                    int, int, int, void*);
+int hip_launchInnerProductKernel(const float*, const float*, float*,
+                                  int, int, int, void*);
+int hip_launchTopKKernel(const float*, uint32_t*, float*,
+                          int, int, int, void*);
+} // extern "C"
+
+ANNKernelDispatch HIPVectorBackend::populateANNDispatch() const {
+    ANNKernelDispatch d;
+    d.launchL2Distance   = &hip_launchL2DistanceKernel;
+    d.launchCosine       = &hip_launchCosineDistanceKernel;
+    d.launchInnerProduct = &hip_launchInnerProductKernel;
+    d.launchTopK         = &hip_launchTopKKernel;
+    return d;
+}
+
+// ============================================================================
+// HIPGeoBackend Implementation
+// ============================================================================
+
+// Forward declarations for launchers compiled in hip/geo_kernels.hip.
+// These conform to the GeoDistanceFn / GeoContainmentFn typedefs in
+// include/acceleration/kernel_invocation.h (INTERFACE_VERSION 100).
+extern "C" {
+int hip_launchGeoDistanceKernel(const double*, const double*, const double*, const double*,
+                                 float*, int, GeoDistanceFormula, void*);
+int hip_launchGeoContainmentKernel(const double*, const double*, int,
+                                    const double*, int, uint8_t*, void*);
+} // extern "C"
+
+HIPGeoBackend::~HIPGeoBackend() {
+    shutdown();
+}
+
+bool HIPGeoBackend::isAvailable() const noexcept {
+    int deviceCount = 0;
+    hipError_t err = hipGetDeviceCount(&deviceCount);
+    return (err == hipSuccess && deviceCount > 0);
+}
+
+BackendCapabilities HIPGeoBackend::getCapabilities() const {
+    BackendCapabilities caps;
+    caps.supportsGeoOps = true;
+    caps.supportsBatchProcessing = true;
+    caps.supportsAsync = true;
+    caps.supportedPrecisions = PrecisionMode::FP32;
+
+    if (isAvailable()) {
+        hipDeviceProp_t prop;
+        if (hipGetDeviceProperties(&prop, 0) == hipSuccess) {
+            caps.deviceName = std::string(prop.name) + " (HIP)";
+            caps.maxMemoryBytes = prop.totalGlobalMem;
+            caps.computeUnits = prop.multiProcessorCount;
+        }
+    } else {
+        caps.deviceName = "AMD GPU (HIP - not available)";
+    }
+    return caps;
+}
+
+bool HIPGeoBackend::initialize() {
+    if (initialized_) {
+        return true;
+    }
+
+    if (!isAvailable()) {
+        int deviceCount = 0;
+        hipError_t err = hipGetDeviceCount(&deviceCount);
+        if (deviceCount == 0) {
+            setError(ErrorContextHelpers::createNoDevicesError("HIP"));
+        } else {
+            setError(ErrorContextHelpers::createDriverError("HIP"));
+        }
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    hipError_t setDeviceErr = hipSetDevice(0);
+    if (setDeviceErr != hipSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "HIP",
+            "Failed to set device 0: " + std::string(hipGetErrorString(setDeviceErr)),
+            "Check if device is available and not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    try {
+        stream_.create();
+    } catch (const std::exception& e) {
+        setError(ErrorContextHelpers::createQueueError("HIP", e.what()));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    hipDeviceProp_t prop;
+    hipError_t propErr = hipGetDeviceProperties(&prop, 0);
+    if (propErr != hipSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "HIP",
+            "Failed to query device properties: " + std::string(hipGetErrorString(propErr)),
+            "Ensure ROCm runtime is properly installed and device is accessible"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+
+    std::cout << "HIP Geo Backend initialized successfully:" << std::endl;
+    std::cout << "  Device: " << prop.name << std::endl;
+    std::cout << "  GCN Arch: " << prop.gcnArchName << std::endl;
+    std::cout << "  Global Memory: " << (prop.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
+
+    clearError();
+    initialized_ = true;
+    return true;
+}
+
+void HIPGeoBackend::shutdown() {
+    if (initialized_) {
+        // stream_ automatically destroyed by RAII destructor
+        initialized_ = false;
+    }
+}
+
+std::vector<float> HIPGeoBackend::batchDistances(
+    const double* latitudes1,
+    const double* longitudes1,
+    const double* latitudes2,
+    const double* longitudes2,
+    size_t count,
+    bool useHaversine
+) {
+    if (!initialized_) {
+        std::cerr << "HIP Geo backend not initialized" << std::endl;
+        return {};
+    }
+    if (count == 0) return {};
+
+    hipStream_t stream = stream_.get();
+
+    double *d_lats1 = nullptr, *d_lons1 = nullptr;
+    double *d_lats2 = nullptr, *d_lons2 = nullptr;
+    float  *d_distances = nullptr;
+
+    const size_t coordBytes = count * sizeof(double);
+    const size_t distBytes  = count * sizeof(float);
+
+    try {
+        HIP_CHECK_THROW(hipMalloc(&d_lats1,     coordBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_lons1,     coordBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_lats2,     coordBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_lons2,     coordBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_distances, distBytes));
+
+        HIP_CHECK_THROW(hipMemcpyAsync(d_lats1, latitudes1,  coordBytes, hipMemcpyHostToDevice, stream));
+        HIP_CHECK_THROW(hipMemcpyAsync(d_lons1, longitudes1, coordBytes, hipMemcpyHostToDevice, stream));
+        HIP_CHECK_THROW(hipMemcpyAsync(d_lats2, latitudes2,  coordBytes, hipMemcpyHostToDevice, stream));
+        HIP_CHECK_THROW(hipMemcpyAsync(d_lons2, longitudes2, coordBytes, hipMemcpyHostToDevice, stream));
+
+        // HAVERSINE: fast, ~0.5% error; suitable for most use-cases.
+        // VINCENTY:  iterative ellipsoidal model, higher precision for nearly-antipodal points.
+        const GeoDistanceFormula formula = useHaversine
+            ? GeoDistanceFormula::HAVERSINE
+            : GeoDistanceFormula::VINCENTY;
+
+        const int rc = hip_launchGeoDistanceKernel(
+            d_lats1, d_lons1, d_lats2, d_lons2,
+            d_distances, static_cast<int>(count),
+            formula, static_cast<void*>(stream));
+
+        if (rc != 0) {
+            throw std::runtime_error("hip_launchGeoDistanceKernel failed with code " +
+                                     std::to_string(rc));
+        }
+
+        std::vector<float> distances(count);
+        HIP_CHECK_THROW(hipMemcpyAsync(distances.data(), d_distances, distBytes,
+                                       hipMemcpyDeviceToHost, stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(stream));
+
+        hipFree(d_lats1);
+        hipFree(d_lons1);
+        hipFree(d_lats2);
+        hipFree(d_lons2);
+        hipFree(d_distances);
+
+        return distances;
+
+    } catch (const std::exception& e) {
+        if (d_lats1)     hipFree(d_lats1);
+        if (d_lons1)     hipFree(d_lons1);
+        if (d_lats2)     hipFree(d_lats2);
+        if (d_lons2)     hipFree(d_lons2);
+        if (d_distances) hipFree(d_distances);
+        std::cerr << "HIP batchDistances error: " << e.what() << std::endl;
+        return {};
+    }
+}
+
+std::vector<bool> HIPGeoBackend::batchPointInPolygon(
+    const double* pointLats,
+    const double* pointLons,
+    size_t numPoints,
+    const double* polygonCoords,
+    size_t numPolygonVertices
+) {
+    if (!initialized_) {
+        std::cerr << "HIP Geo backend not initialized" << std::endl;
+        return {};
+    }
+    if (numPoints == 0) return {};
+
+    hipStream_t stream = stream_.get();
+
+    double  *d_point_lats = nullptr, *d_point_lons = nullptr;
+    double  *d_polygon_coords = nullptr;
+    uint8_t *d_results = nullptr;
+
+    const size_t pointBytes  = numPoints          * sizeof(double);
+    const size_t polyBytes   = numPolygonVertices * 2 * sizeof(double);
+    const size_t resultBytes = numPoints          * sizeof(uint8_t);
+
+    try {
+        HIP_CHECK_THROW(hipMalloc(&d_point_lats,    pointBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_point_lons,    pointBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_polygon_coords, polyBytes));
+        HIP_CHECK_THROW(hipMalloc(&d_results,        resultBytes));
+
+        HIP_CHECK_THROW(hipMemcpyAsync(d_point_lats,     pointLats,     pointBytes, hipMemcpyHostToDevice, stream));
+        HIP_CHECK_THROW(hipMemcpyAsync(d_point_lons,     pointLons,     pointBytes, hipMemcpyHostToDevice, stream));
+        HIP_CHECK_THROW(hipMemcpyAsync(d_polygon_coords, polygonCoords, polyBytes,  hipMemcpyHostToDevice, stream));
+
+        const int rc = hip_launchGeoContainmentKernel(
+            d_point_lats, d_point_lons, static_cast<int>(numPoints),
+            d_polygon_coords, static_cast<int>(numPolygonVertices),
+            d_results, static_cast<void*>(stream));
+
+        if (rc != 0) {
+            throw std::runtime_error("hip_launchGeoContainmentKernel failed with code " +
+                                     std::to_string(rc));
+        }
+
+        std::vector<uint8_t> rawResults(numPoints);
+        HIP_CHECK_THROW(hipMemcpyAsync(rawResults.data(), d_results, resultBytes,
+                                       hipMemcpyDeviceToHost, stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(stream));
+
+        hipFree(d_point_lats);
+        hipFree(d_point_lons);
+        hipFree(d_polygon_coords);
+        hipFree(d_results);
+
+        std::vector<bool> results(numPoints);
+        for (size_t i = 0; i < numPoints; ++i) {
+            results[i] = (rawResults[i] != 0);
+        }
+        return results;
+
+    } catch (const std::exception& e) {
+        if (d_point_lats)     hipFree(d_point_lats);
+        if (d_point_lons)     hipFree(d_point_lons);
+        if (d_polygon_coords) hipFree(d_polygon_coords);
+        if (d_results)        hipFree(d_results);
+        std::cerr << "HIP batchPointInPolygon error: " << e.what() << std::endl;
+        return {};
+    }
+}
+
+GeoKernelDispatch HIPGeoBackend::populateGeoDispatch() const {
+    GeoKernelDispatch d;
+    d.launchDistance    = &hip_launchGeoDistanceKernel;
+    d.launchContainment = &hip_launchGeoContainmentKernel;
+    return d;
+}
+
 } // namespace acceleration
 } // namespace themis
 

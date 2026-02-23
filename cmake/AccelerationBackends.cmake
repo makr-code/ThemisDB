@@ -20,6 +20,8 @@ endif()
 if(THEMIS_ENABLE_HIP)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/acceleration/hip_backend.cpp
+        ../src/acceleration/hip/ann_kernels.hip
+        ../src/acceleration/hip/geo_kernels.hip
         ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp
         ../src/index/rotary_embeddings_hip.cpp
     )
