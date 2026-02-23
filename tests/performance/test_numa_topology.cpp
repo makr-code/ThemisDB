@@ -19,6 +19,8 @@
 
 #include "performance/numa_topology.h"
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <atomic>
 #include <thread>
 #include <vector>
 
@@ -134,9 +136,11 @@ TEST(ThreadPinnerTest, PinToCpuAndVerify) {
     if (!ok) {
         GTEST_SKIP() << "Thread pinning not available on this platform / insufficient permissions";
     }
-    // Current affinity should contain the pinned CPU
+    // Current affinity should contain exactly the pinned CPU
     auto affinity = ThreadPinner::current_affinity();
     EXPECT_FALSE(affinity.empty());
+    EXPECT_NE(std::find(affinity.begin(), affinity.end(), target_cpu), affinity.end())
+        << "Pinned CPU " << target_cpu << " not found in affinity set after pin_to_cpu()";
 
     // Restore
     ThreadPinner::unpin();
@@ -144,6 +148,11 @@ TEST(ThreadPinnerTest, PinToCpuAndVerify) {
 
 TEST(ThreadPinnerTest, PinToInvalidCpuReturnsFalse) {
     EXPECT_FALSE(ThreadPinner::pin_to_cpu(-1));
+}
+
+TEST(ThreadPinnerTest, PinToInvalidNodeReturnsFalse) {
+    EXPECT_FALSE(ThreadPinner::pin_to_node(-1));
+    EXPECT_FALSE(ThreadPinner::pin_to_node(99999));
 }
 
 TEST(ThreadPinnerTest, PinToNodeAndVerify) {
@@ -184,18 +193,17 @@ TEST(ThreadPinnerTest, MultiThreadedPinning) {
         GTEST_SKIP() << "Need at least 2 CPUs for multi-thread pinning test";
     }
 
+    // Collect all CPUs across nodes into a flat list (once, outside the loop)
+    std::vector<int> all_cpus;
+    for (const auto& node : topo.nodes)
+        for (int c : node.cpu_ids) all_cpus.push_back(c);
+
     std::vector<std::thread> threads;
     std::atomic<int> success_count{0};
 
-    for (int i = 0; i < std::min(topo.num_cpus, 4); ++i) {
-        // Collect all CPUs across nodes into a flat list
-        std::vector<int> all_cpus;
-        for (const auto& node : topo.nodes)
-            for (int c : node.cpu_ids) all_cpus.push_back(c);
-
-        if (i >= static_cast<int>(all_cpus.size())) break;
+    int n_threads = std::min(static_cast<int>(all_cpus.size()), 4);
+    for (int i = 0; i < n_threads; ++i) {
         int target = all_cpus[static_cast<size_t>(i)];
-
         threads.emplace_back([target, &success_count]() {
             if (ThreadPinner::pin_to_cpu(target)) {
                 ++success_count;
