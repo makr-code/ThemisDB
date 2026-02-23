@@ -1928,6 +1928,8 @@ if(THEMIS_ENABLE_LLM)
     # Phase 2: Streaming Retrieval & Re-Ranking
     ../src/rag/streaming_retriever.cpp
     ../src/rag/reranker.cpp
+    # Phase 2: Hallucination Rate Tracking Dashboard
+    ../src/rag/hallucination_dashboard.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
@@ -2780,6 +2782,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/bayesian_optimizer.cpp
         ../src/rag/ab_testing_framework.cpp
         ../src/rag/continuous_learning_orchestrator.cpp
+
+        # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
+        ../src/rag/hallucination_dashboard.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
