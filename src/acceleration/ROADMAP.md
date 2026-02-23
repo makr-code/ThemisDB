@@ -54,8 +54,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
-- [I] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392)
-- [I] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393)
+- [P] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) — `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`
+- [P] Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) — regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`
 - [I] Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394)
 
 ### Phase 6: Dokumentation & Abnahme
@@ -89,8 +89,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
-- [P] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` added: 14 GTest cases across 5 fixtures (CUDA ANN, CUDA Geo, Vulkan ANN, Vulkan Geo, Registry); tests skip gracefully when backend not compiled in or no device present
-- [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
+- [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
+- [P] Performance benchmarks with regression thresholds in CI (Issue: #1400)
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
 - [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402) — `docs/acceleration/capability_negotiation.md` published
 - [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
