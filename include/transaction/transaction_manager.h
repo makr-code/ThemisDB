@@ -31,6 +31,7 @@
 #include <optional>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 #include <mutex>
 #include <atomic>
 #include <chrono>
@@ -342,6 +343,42 @@ public:
          */
         bool hasSavepoint(std::string_view name) const;
         
+        // ── Bulk API ──────────────────────────────────────────────────────────
+
+        /**
+         * @brief Insert or update multiple entities in a single batch.
+         *
+         * Equivalent to calling putEntity() for each entity in @p entities,
+         * but with only one active/timed-out check for the whole batch instead
+         * of one per row.  All writes are accumulated inside the same underlying
+         * MVCC transaction and committed atomically together with any other
+         * operations in this transaction.
+         *
+         * @param table    Table name.
+         * @param entities Entities to insert or update.  Each entity must have
+         *                 a non-empty primary key.  An empty vector is a no-op.
+         * @return Status::OK() on success; the first error encountered,
+         *         including the (0-based) index of the failing entity in the
+         *         message.
+         */
+        Status bulkPutEntities(std::string_view table,
+                               const std::vector<BaseEntity>& entities);
+
+        /**
+         * @brief Delete multiple entities in a single batch.
+         *
+         * Equivalent to calling eraseEntity() for each primary key in @p pks,
+         * but with only one active/timed-out check for the whole batch.  All
+         * deletes are accumulated inside the same underlying MVCC transaction.
+         *
+         * @param table  Table name.
+         * @param pks    Primary keys of entities to delete.  Each key must be
+         *               non-empty.  An empty vector is a no-op.
+         * @return Status::OK() on success; the first error encountered.
+         */
+        Status bulkEraseEntities(std::string_view table,
+                                 const std::vector<std::string>& pks);
+
         // SAGA support
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }

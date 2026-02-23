@@ -1135,6 +1135,92 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     return Status::OK();
 }
 
+// ---------------------------------------------------------------------------
+// Bulk API
+// ---------------------------------------------------------------------------
+
+TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
+    std::string_view table, const std::vector<BaseEntity>& entities)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("bulkPutEntities: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("bulkPutEntities: transaction timed out");
+    if (entities.empty())
+        return Status::OK();
+
+    for (size_t i = 0; i < entities.size(); ++i) {
+        const auto& entity = entities[i];
+        const std::string pk = entity.getPrimaryKey();
+        if (pk.empty()) {
+            return Status::Error("bulkPutEntities: entity[" + std::to_string(i) +
+                                 "] has empty primary key");
+        }
+        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+
+        // SSI: check for predicate conflict before writing
+        auto conflict = checkSerializableWriteConflict(key);
+        if (!conflict.empty()) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) + "]: " + conflict);
+        }
+
+        // Write entity data
+        if (!mvcc_txn_->put(key, entity.serialize())) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) +
+                                 "]: MVCC conflict detected for pk=" + pk);
+        }
+
+        // Update secondary indexes within the same MVCC transaction
+        auto st = secIdx_.put(table, entity, *mvcc_txn_);
+        if (!st.ok) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) + "]: " + st.message);
+        }
+    }
+
+    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table, entities.size());
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
+    std::string_view table, const std::vector<std::string>& pks)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("bulkEraseEntities: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("bulkEraseEntities: transaction timed out");
+    if (pks.empty())
+        return Status::OK();
+
+    for (size_t i = 0; i < pks.size(); ++i) {
+        const auto& pk = pks[i];
+        if (pk.empty()) {
+            return Status::Error("bulkEraseEntities: pk[" + std::to_string(i) + "] is empty");
+        }
+        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+
+        // SSI: check for predicate conflict before writing
+        auto conflict = checkSerializableWriteConflict(key);
+        if (!conflict.empty()) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) + "]: " + conflict);
+        }
+
+        // Delete entity
+        if (!mvcc_txn_->del(key)) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) +
+                                 "]: MVCC conflict detected for pk=" + pk);
+        }
+
+        // Update secondary indexes within the same MVCC transaction
+        auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+        if (!st.ok) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) + "]: " + st.message);
+        }
+    }
+
+    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table, pks.size());
+    return Status::OK();
+}
+
 TransactionManager::Status TransactionManager::Transaction::trackPredicateRead(
     const std::string& start_key, const std::string& end_key)
 {

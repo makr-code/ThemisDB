@@ -23,6 +23,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
 - [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
 - [x] Optimistic concurrency control (OCC) – `getEntityVersion`, `optimisticPut`, `optimisticErase` with per-entity version numbers
+- [x] Bulk transaction API – `bulkPutEntities`, `bulkEraseEntities` for batch insert/update/delete without per-row overhead
 
 ## In Progress 🚧
 - [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
@@ -34,7 +35,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ### Short-term (Next 3-6 months)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
 - [x] Transaction timeout with automatic rollback
-- [!] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
+- [x] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
 - [I] Per-tenant transaction isolation namespace (Issue: #2325)
 
@@ -67,10 +68,10 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [~] Transaction savepoints (partial rollback within a transaction)
 
-### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
+### Phase 3: OCC Mode & Bulk API (Status: In Progress 🚧)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
-- [ ] Bulk transaction API (batch insert/update without per-row overhead)
+- [x] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
 
