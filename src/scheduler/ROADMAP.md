@@ -37,7 +37,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ### Long-term (6-12 months)
 - [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
 - [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
-- [!] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
+- [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
 - [!] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
@@ -70,7 +70,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
 - [ ] Distributed cron leader election (one runner per cluster)
 - [x] Workflow engine (multi-step DAG with conditional branching)
-- [ ] Event-triggered tasks (changefeed → task execution)
+- [X] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth
 - [ ] Integration with external schedulers (Kubernetes CronJob, Airflow)
 

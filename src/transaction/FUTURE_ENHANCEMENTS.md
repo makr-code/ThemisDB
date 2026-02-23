@@ -292,22 +292,24 @@ validate_customer ──┘
 ---
 
 ### Transaction Savepoints
+**Status: ✅ Implemented** (v1.x)  
 **Priority:** Medium  
 **Target Version:** v1.8.0
 
-Add nested transaction support with savepoints for partial rollback.
+Named savepoint support with partial rollback is fully implemented in `TransactionManager::Transaction`.
 
-**Features:**
-- Named savepoints within transaction
-- Rollback to savepoint (not full transaction)
-- Automatic savepoint cleanup on commit
-- Savepoint stacking
+**Implemented Features:**
+- Named savepoints within transaction (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`)
+- Rollback to savepoint — undoes writes without aborting the full transaction
+- Automatic savepoint cleanup on rollback/release
+- Savepoint stacking with correct LIFO ordering
+- SAGA step trimming — compensating actions added after a savepoint are discarded on rollback
 
 **Architecture:**
 ```cpp
 class Transaction {
 public:
-    // Savepoint API
+    // Savepoint API — implemented in transaction_manager.h
     Status createSavepoint(std::string_view name);
     Status rollbackToSavepoint(std::string_view name);
     Status releaseSavepoint(std::string_view name);
@@ -342,9 +344,9 @@ txn.commit();
 - Nested logic with partial rollback
 
 **Implementation:**
-- Multiple WriteBatch layers
-- Savepoint stack with batch snapshots
-- SAGA integration (savepoints affect compensation)
+- Backed by RocksDB `SetSavePoint` / `RollbackToSavePoint` / `PopSavePoint`
+- `savepoints_` vector in `Transaction` tracks named entries in creation order
+- SAGA `trimToSize` removes compensating actions added after the rollback point
 
 ---
 
