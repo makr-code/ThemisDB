@@ -73,7 +73,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: Planned 📋)
 - [ ] Zero-trust network policy enforcement (per-request identity verification)
-- [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [ ] Dynamic data masking for PII fields in query results
 - [ ] SOC 2 Type II compliance evidence collection
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
