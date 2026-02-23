@@ -40,6 +40,7 @@ TEST(PerformanceFeatureFlagsTest, DefaultState) {
     EXPECT_NO_THROW(flags.cicada_cc_enabled());
     EXPECT_NO_THROW(flags.diskann_enabled());
     EXPECT_NO_THROW(flags.bw_tree_enabled());
+    EXPECT_NO_THROW(flags.pmem_enabled());
 }
 
 TEST(PerformanceFeatureFlagsTest, RuntimeToggle) {
@@ -107,6 +108,7 @@ TEST(PerformanceFeatureFlagsTest, GetAllFlags) {
     EXPECT_TRUE(all_flags.find("cicada_cc") != all_flags.end());
     EXPECT_TRUE(all_flags.find("diskann") != all_flags.end());
     EXPECT_TRUE(all_flags.find("bw_tree") != all_flags.end());
+    EXPECT_TRUE(all_flags.find("pmem") != all_flags.end());
     
     // Verify states
     EXPECT_TRUE(all_flags["mimalloc"]);
@@ -136,6 +138,7 @@ TEST(PerformanceFeatureFlagsTest, MacroAccess) {
         (void)THEMIS_PERF_CICADA_CC_ENABLED();
         (void)THEMIS_PERF_DISKANN_ENABLED();
         (void)THEMIS_PERF_BW_TREE_ENABLED();
+        (void)THEMIS_PERF_PMEM_ENABLED();
     });
 }
 
@@ -170,6 +173,10 @@ TEST(PerformanceFeatureFlagsTest, CompileTimeFlags) {
     
     #ifdef THEMIS_ENABLE_LIRS_CACHE
     EXPECT_TRUE(flags.lirs_cache_enabled());
+    #endif
+
+    #ifdef THEMIS_ENABLE_PMEM
+    EXPECT_TRUE(flags.pmem_enabled());
     #endif
 }
 

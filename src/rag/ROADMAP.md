@@ -28,9 +28,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] Fast (~100 ms), Balanced (~500 ms), and Thorough (~2 s) evaluation modes
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
+- [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
 
 ## In Progress 🚧
-- [I] Hallucination rate tracking dashboard (Target: Q3 2026) (Issue: #2438)
 
 ## Planned Features 📋
 
@@ -64,7 +64,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 ### Phase 2: Streaming Retrieval & Re-Ranking (Status: Completed ✅)
 - [x] Streaming retrieval with incremental context window filling
 - [x] Re-ranking layer with cross-encoder model integration
-- [~] Hallucination rate tracking dashboard
+- [x] Hallucination rate tracking dashboard
 
 ### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Planned 📋)
 - [ ] Hybrid retrieval (BM25 + vector) with configurable RRF weights
