@@ -175,15 +175,22 @@ private:
     // Internal helpers
     // -------------------------------------------------------------------------
 
+    /// Snapshot of declared_fields_ taken under the lock for a single masking
+    /// operation.  Avoids accessing the shared map without a lock from deep in
+    /// the recursive call chain.
+    using DeclaredFieldsSnapshot = std::unordered_map<std::string, FieldMaskConfig>;
+
     /**
      * @brief Recursively mask a JSON value (object, array, or scalar).
      *
-     * @param node     JSON node to process (modified in-place on copy).
-     * @param key      The JSON key that owns this node (empty for root).
+     * @param node      JSON node to process.
+     * @param key       The JSON key that owns this node (empty for root).
+     * @param snapshot  Immutable snapshot of declared_fields_ for this call.
      */
     nlohmann::json maskNode(
         const nlohmann::json& node,
-        const std::string& key) const;
+        const std::string& key,
+        const DeclaredFieldsSnapshot& snapshot) const;
 
     /**
      * @brief Mask a single string value.
@@ -191,13 +198,15 @@ private:
      * Applies explicit field config, field-name hints, and auto-detection in
      * that priority order.
      *
-     * @param value  Original string value.
-     * @param key    The JSON key that owns this value.
-     * @return       Masked string.
+     * @param value     Original string value.
+     * @param key       The JSON key that owns this value.
+     * @param snapshot  Immutable snapshot of declared_fields_ for this call.
+     * @return          Masked string.
      */
     std::string maskStringValue(
         const std::string& value,
-        const std::string& key) const;
+        const std::string& key,
+        const DeclaredFieldsSnapshot& snapshot) const;
 
     // -------------------------------------------------------------------------
     // Members

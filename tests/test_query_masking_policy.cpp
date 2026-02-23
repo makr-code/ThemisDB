@@ -261,3 +261,41 @@ TEST_F(QueryMaskingPolicyTest, EmptyArrayReturnedAsEmptyArray) {
     EXPECT_TRUE(result.is_array());
     EXPECT_TRUE(result.empty());
 }
+
+// ---------------------------------------------------------------------------
+// Feature: thread-safety – concurrent declareField and maskResult
+// ---------------------------------------------------------------------------
+
+#include <thread>
+#include <atomic>
+
+TEST_F(QueryMaskingPolicyTest, ConcurrentMaskAndDeclareFieldIsSafe) {
+    // Repeatedly mask entities from one thread while another thread adds and
+    // removes declared fields.  The test verifies there is no crash or
+    // sanitizer error (the actual masked output may legitimately vary by
+    // ordering, but no undefined behaviour must occur).
+    const int iterations = 200;
+    std::atomic<bool> stop{false};
+
+    std::thread writer([&]() {
+        for (int i = 0; !stop.load() && i < iterations * 2; ++i) {
+            policy_->declareField("concurrent_field", "strict");
+            policy_->undeclareField("concurrent_field");
+        }
+    });
+
+    for (int i = 0; i < iterations; ++i) {
+        json entity = {
+            {"concurrent_field", "test_value_12345"},
+            {"email", "race@example.com"}
+        };
+        // Must not crash or abort – outcome may be masked or not depending on timing.
+        auto result = policy_->maskResult(entity);
+        EXPECT_TRUE(result.is_object());
+        EXPECT_TRUE(result.contains("concurrent_field"));
+        EXPECT_TRUE(result.contains("email"));
+    }
+
+    stop.store(true);
+    writer.join();
+}

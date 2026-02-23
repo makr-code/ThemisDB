@@ -1581,7 +1581,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         nlohmann::json entities = nlohmann::json::array();
                         for (const auto& e : out) entities.push_back(e.toJson());
                         nlohmann::json response_body = {
-                            {"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", entities}
+                            {"table_left", table1}, {"table_right", table2}, {"count", out.size()}, {"entities", applyMasking(entities, req)}
                         };
                         if (explain) {
                             response_body["query"] = aql_query;
@@ -2641,7 +2641,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             nlohmann::json response_body = {
                 {"table", table},
                 {"count", groups.size()},
-                {"groups", groups}
+                {"groups", applyMasking(groups, req)}
             };
             if (explain) {
                 response_body["query"] = aql_query;

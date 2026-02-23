@@ -101,6 +101,7 @@ nlohmann::json QueryMaskingPolicy::maskResult(
     const nlohmann::json& result,
     const std::vector<std::string>& user_roles) const
 {
+    DeclaredFieldsSnapshot snapshot;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.enabled) {
@@ -111,15 +112,19 @@ nlohmann::json QueryMaskingPolicy::maskResult(
                 return result;  // privileged roles see unmasked data
             }
         }
+        // Take a consistent snapshot of declared_fields_ under the lock so
+        // that maskNode/maskStringValue can read it without holding the mutex.
+        snapshot = declared_fields_;
     }
 
-    return maskNode(result, "");
+    return maskNode(result, "", snapshot);
 }
 
 nlohmann::json QueryMaskingPolicy::maskResultSet(
     const nlohmann::json& results,
     const std::vector<std::string>& user_roles) const
 {
+    DeclaredFieldsSnapshot snapshot;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!config_.enabled) {
@@ -130,16 +135,17 @@ nlohmann::json QueryMaskingPolicy::maskResultSet(
                 return results;
             }
         }
+        snapshot = declared_fields_;
     }
 
     if (!results.is_array()) {
-        return maskNode(results, "");
+        return maskNode(results, "", snapshot);
     }
 
     nlohmann::json masked = nlohmann::json::array();
     masked.reserve(results.size());
     for (const auto& item : results) {
-        masked.push_back(maskNode(item, ""));
+        masked.push_back(maskNode(item, "", snapshot));
     }
     return masked;
 }
@@ -150,12 +156,13 @@ nlohmann::json QueryMaskingPolicy::maskResultSet(
 
 nlohmann::json QueryMaskingPolicy::maskNode(
     const nlohmann::json& node,
-    const std::string& key) const
+    const std::string& key,
+    const DeclaredFieldsSnapshot& snapshot) const
 {
     if (node.is_object()) {
         nlohmann::json out = nlohmann::json::object();
         for (auto it = node.begin(); it != node.end(); ++it) {
-            out[it.key()] = maskNode(it.value(), it.key());
+            out[it.key()] = maskNode(it.value(), it.key(), snapshot);
         }
         return out;
     }
@@ -164,14 +171,14 @@ nlohmann::json QueryMaskingPolicy::maskNode(
         nlohmann::json out = nlohmann::json::array();
         out.reserve(node.size());
         for (const auto& elem : node) {
-            out.push_back(maskNode(elem, key));
+            out.push_back(maskNode(elem, key, snapshot));
         }
         return out;
     }
 
     if (node.is_string()) {
         std::string val = node.get<std::string>();
-        return maskStringValue(val, key);
+        return maskStringValue(val, key, snapshot);
     }
 
     // Non-string scalars (numbers, booleans, null) pass through unchanged.
@@ -180,12 +187,13 @@ nlohmann::json QueryMaskingPolicy::maskNode(
 
 std::string QueryMaskingPolicy::maskStringValue(
     const std::string& value,
-    const std::string& key) const
+    const std::string& key,
+    const DeclaredFieldsSnapshot& snapshot) const
 {
     // 1. Explicit declared field takes highest priority.
     {
-        auto it = declared_fields_.find(key);
-        if (it != declared_fields_.end()) {
+        auto it = snapshot.find(key);
+        if (it != snapshot.end()) {
             const auto& cfg = it->second;
             utils::PIIType type = cfg.pii_type;
             // If no explicit type given, try to infer from field name.
