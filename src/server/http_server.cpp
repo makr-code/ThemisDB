@@ -1832,6 +1832,7 @@ namespace {
         EntitiesBatchPost,
         QueryPost,
         QueryAqlPost,
+        QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
         IndexCreatePost,
         IndexDropPost,
         IndexStatsGet,
@@ -2142,6 +2143,8 @@ namespace {
         }
         if (target == "/query" && method == http::verb::post) return Route::QueryPost;
     if (target == "/query/aql" && method == http::verb::post) return Route::QueryAqlPost;
+    // SSE streaming query result endpoint (v2)
+    if (path_only == "/v2/query/stream" && method == http::verb::get) return Route::QueryStreamSseGet;
     // Backward compatibility alias
     if (target == "/api/aql" && method == http::verb::post) return Route::QueryAqlPost;
         if (target == "/index/create" && method == http::verb::post) return Route::IndexCreatePost;
@@ -2872,6 +2875,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = query_api_->handleQueryAql(req);
             break;
         }
+        case Route::QueryStreamSseGet:
+            response = query_api_->handleQueryStreamSse(req);
+            break;
         case Route::IndexCreatePost:
             response = index_api_->handleCreate(req);
             break;
@@ -7435,11 +7441,17 @@ void HttpServer::Session::processRequest() {
             websocket::is_upgrade(request_)) {
             THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
             
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
+
             // Create WebSocket session and transfer socket ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(socket_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
             
             // Add to manager
             if (server_->websocket_manager_) {
@@ -7629,12 +7641,18 @@ void HttpServer::SslSession::processRequest() {
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
             THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+
+            // Capture the request path before moving the request
+            std::string ws_path = std::string(request_.target());
+            auto qs = ws_path.find('?');
+            if (qs != std::string::npos) ws_path = ws_path.substr(0, qs);
             
             // Create WebSocket session and transfer SSL stream ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(stream_),
                 server_
             );
+            ws_session->setRequestPath(ws_path);
             
             // Add to manager
             if (server_->websocket_manager_) {

@@ -177,7 +177,21 @@ void WebSocketSession::processMessage(const std::string& message) {
     try {
         // Parse JSON message
         auto msg = json::parse(message);
-        
+
+        // "/v2/changes" endpoint uses {"action":"subscribe","collection":"..."} frame format;
+        // normalise to the generic {"type":"subscribe","channel":"..."} convention so the
+        // rest of the handler remains path-agnostic.
+        if (request_path_ == "/v2/changes") {
+            if (msg.contains("action") && !msg.contains("type")) {
+                msg["type"] = msg["action"];
+            }
+            if (msg.contains("collection") && !msg.contains("channel")) {
+                // Map "collection" to the "changefeed" channel; also preserve as key_prefix
+                msg["channel"]    = "changefeed";
+                msg["key_prefix"] = msg["collection"].get<std::string>() + ":";
+            }
+        }
+
         std::string type = msg.value("type", "unknown");
         
         if (type == "ping") {

@@ -83,6 +83,14 @@ public:
     void run(http::request<http::string_body> req);
     
     /**
+     * @brief Set the request path for path-specific behaviour.
+     *
+     * Called before run() to inform the session which endpoint was requested,
+     * e.g. "/v2/changes" for the dedicated changefeed WebSocket endpoint.
+     */
+    void setRequestPath(const std::string& path) { request_path_ = path; }
+    
+    /**
      * @brief Send a text message to the client
      */
     void send(const std::string& message);
@@ -152,6 +160,7 @@ private:
     HttpServer* server_;
     beast::flat_buffer buffer_;
     std::string session_id_;
+    std::string request_path_;   ///< Target path from the HTTP upgrade request
     bool active_;
     bool is_tls_;
     
