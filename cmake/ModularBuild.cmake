@@ -340,6 +340,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/mfa_authenticator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
+    ../src/server/policy_engine.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp
@@ -664,7 +665,6 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/reports_api_handler.cpp
     ../src/server/schema_api_handler.cpp
     ../src/server/ranger_adapter.cpp
-    ../src/server/policy_engine.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
     ../src/server/load_shedder.cpp
