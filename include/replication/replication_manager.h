@@ -62,6 +62,7 @@ namespace replication {
 class WALEntry;
 class ReplicationStream;
 class LeaderElection;
+class CompressedReplicationStream;
 
 /**
  * Replication Role
@@ -210,7 +211,17 @@ struct ReplicationConfig {
     // Lease duration must be strictly less than election_timeout_min_ms to guarantee
     // that no follower can start a new election while the leader's lease is valid.
     uint32_t leader_lease_duration_ms = 2500;
-    
+
+    // WAL compression settings (Zstd for bandwidth reduction)
+    bool enable_wal_compression = false;
+    // Compression algorithm used when enable_wal_compression is true.
+    // Valid values: "none", "lz4", "zstd", "snappy", "auto" (default: "zstd")
+    std::string wal_compression_algorithm = "zstd";
+    // Compression level for Zstd (1-9); ignored by LZ4/Snappy.
+    int wal_compression_level = 3;
+    // Minimum uncompressed batch size (bytes) below which compression is skipped.
+    uint32_t wal_compression_min_batch_bytes = 1024;
+
     // TLS/Security
     std::string cert_path;
     std::string key_path;
@@ -511,7 +522,10 @@ private:
     static constexpr uint32_t kMaxRetries = 3;
     static constexpr uint32_t kBaseBackoffMs = 100;
     static constexpr uint32_t kMaxBackoffMs = 5000;
-    
+
+    // Optional WAL compression stream (non-null when compression is enabled)
+    std::unique_ptr<CompressedReplicationStream> compress_stream_;
+
     void streamLoop();
     bool sendBatch(const std::vector<WALEntry>& entries);
     uint32_t computeBackoffMs() const;

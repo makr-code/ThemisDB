@@ -3,7 +3,7 @@
 # Replication Module Roadmap
 
 ## Current Status
-v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping, CDC, and automatic failover are all implemented.
+v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping with Zstd compression, CDC, and automatic failover are all implemented.
 
 ## Completed ✅
 - [x] ReplicationManager – Raft-like leader election and follower management
@@ -24,9 +24,9 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Prometheus metrics export
 - [x] Raft leader lease reads for linearizable read-scale-out (Issue: #2258)
 - [x] Replication topology visualizer (web UI) (Issue: #2443)
+- [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 
 ## In Progress 🚧
-- [!] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026) (Issue: #2444)
 
 ## Planned Features 📋
 
@@ -64,10 +64,10 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Selective replication (filter by collection, tenant, or pattern)
 - [x] Prometheus metrics export
 
-### Phase 2: Raft Lease Reads & WAL Compression (Status: In Progress 🚧)
+### Phase 2: Raft Lease Reads & WAL Compression (Status: Completed ✅)
 - [x] Raft leader lease reads for linearizable read-scale-out
 - [x] Replication topology visualizer (web UI)
-- [~] Compressed WAL shipping (Zstd) for bandwidth reduction
+- [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
 ### Phase 3: Witness Nodes & Slot Management (Status: Planned 📋)
 - [ ] Witness node support (vote-only, no data) for quorum in 2-node clusters
