@@ -329,7 +329,8 @@ static void parseWavMetadata(const std::vector<uint8_t>& blob, MediaExtractionDa
     while (pos + 8 <= blob.size()) {
         if (blob[pos] == 'f' && blob[pos+1] == 'm' && blob[pos+2] == 't' && blob[pos+3] == ' ') {
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            if (chunk_size >= 16 && pos + 8 + chunk_size <= blob.size()) {
+            if (chunk_size >= 16 &&
+                static_cast<size_t>(chunk_size) <= blob.size() - pos - 8) {
                 // audio_format at pos+8: 1=PCM, 3=IEEE float, 6=alaw, 7=ulaw
                 uint16_t num_channels    = readLE16(blob, pos + 10);
                 uint32_t sample_rate     = readLE32(blob, pos + 12);
@@ -351,7 +352,7 @@ static void parseWavMetadata(const std::vector<uint8_t>& blob, MediaExtractionDa
                     );
                 }
             }
-            pos += 8 + chunk_size;
+            pos += 8 + static_cast<size_t>(chunk_size);
             if (chunk_size % 2 != 0) pos++; // word-align
         } else if (blob[pos] == 'd' && blob[pos+1] == 'a' && blob[pos+2] == 't' && blob[pos+3] == 'a') {
             uint32_t data_size = readLE32(blob, pos + 4);
@@ -364,7 +365,8 @@ static void parseWavMetadata(const std::vector<uint8_t>& blob, MediaExtractionDa
             // Skip unknown chunk
             if (pos + 8 > blob.size()) break;
             uint32_t chunk_size = readLE32(blob, pos + 4);
-            pos += 8 + chunk_size;
+            if (static_cast<size_t>(chunk_size) > blob.size() - pos - 8) break; // guard overflow
+            pos += 8 + static_cast<size_t>(chunk_size);
             if (chunk_size % 2 != 0) pos++; // word-align
         }
     }
@@ -550,7 +552,8 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t>& blob, MediaExtrac
     size_t vorbis_id_offset = 27 + num_segments; // packet body starts after segment table
 
     // Vorbis ID header: packet type (1 byte) + "vorbis" (6 bytes) + version (4) + channels (1) + sample_rate (4) ...
-    if (vorbis_id_offset + 23 > blob.size()) return;
+    // Minimum: 1+6+4+1+4+4+4+4 = 28 bytes; we need at least 24 for channels+sample_rate+bitrates
+    if (vorbis_id_offset + 24 > blob.size()) return;
 
     // Check for Vorbis identification header magic
     if (blob[vorbis_id_offset] != 0x01) return; // packet type 1 = identification
@@ -706,7 +709,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
             }
             pos += 10; // skip frame header
 
-            if (frame_size == 0 || pos + frame_size > tag_end) break;
+            if (frame_size == 0 || static_cast<size_t>(frame_size) > tag_end - pos) break;
 
             const char* tag_name = id3FrameToTagName(frame_id);
             if (tag_name != nullptr && frame_size >= 1) {
@@ -737,7 +740,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
                 }
             }
 
-            pos += frame_size;
+            pos += static_cast<size_t>(frame_size);
         }
     }
 
@@ -759,24 +762,31 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
                              static_cast<uint32_t>(blob[pos+3]);
             pos += 4;
 
-            if (btype == 4 && pos + blen <= blob.size()) {
+            if (btype == 4 && pos + static_cast<size_t>(blen) <= blob.size()) {
                 // Vorbis comment block
                 // Format: vendor_length (4 LE) + vendor_string + user_comment_list_length (4 LE) + comments
-                if (blen < 4) { pos += blen; continue; }
+                if (blen < 4) { pos += static_cast<size_t>(blen); continue; }
                 uint32_t vendor_len = readLE32(blob, pos);
-                size_t comment_list_start = pos + 4 + vendor_len;
-                if (comment_list_start + 4 > pos + blen) { pos += blen; continue; }
+                // Guard against vendor_len overflow before adding to pos
+                if (static_cast<size_t>(vendor_len) > static_cast<size_t>(blen) - 4) {
+                    pos += static_cast<size_t>(blen); continue;
+                }
+                size_t comment_list_start = pos + 4 + static_cast<size_t>(vendor_len);
+                if (comment_list_start + 4 > pos + static_cast<size_t>(blen)) {
+                    pos += static_cast<size_t>(blen); continue;
+                }
 
                 uint32_t num_comments = readLE32(blob, comment_list_start);
                 size_t c_pos = comment_list_start + 4;
+                size_t block_end = pos + static_cast<size_t>(blen);
 
-                for (uint32_t ci = 0; ci < num_comments && c_pos + 4 <= pos + blen; ci++) {
+                for (uint32_t ci = 0; ci < num_comments && c_pos + 4 <= block_end; ci++) {
                     uint32_t clen = readLE32(blob, c_pos);
                     c_pos += 4;
-                    if (c_pos + clen > pos + blen) break;
+                    if (static_cast<size_t>(clen) > block_end - c_pos) break;
 
                     std::string comment(reinterpret_cast<const char*>(&blob[c_pos]), clen);
-                    c_pos += clen;
+                    c_pos += static_cast<size_t>(clen);
 
                     size_t eq = comment.find('=');
                     if (eq == std::string::npos) continue;
@@ -799,7 +809,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
                 }
             }
 
-            pos += blen;
+            pos += static_cast<size_t>(blen);
         }
     }
 
