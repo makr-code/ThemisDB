@@ -162,6 +162,9 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     
+    # Module dependency resolver (load-order management)
+    ../src/themis/module_dependency_resolver.cpp
+    
     # Stubs for missing symbols
     ../src/stubs.cpp
 )
