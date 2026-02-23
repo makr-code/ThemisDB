@@ -27,6 +27,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/i_feature_flags.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
@@ -97,12 +98,26 @@ public:
 
     /**
      * @brief Create a context with custom implementations (for testing).
+     *
+     * The 4-argument overload automatically installs a NoOpFeatureFlags so
+     * that existing call-sites do not need to be updated.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache
+    );
+
+    /**
+     * @brief Create a context with custom implementations including feature flags.
+     */
+    static std::shared_ptr<ConcernsContext> createCustom(
+        std::unique_ptr<ILogger> logger,
+        std::unique_ptr<ITracer> tracer,
+        std::unique_ptr<IMetrics> metrics,
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<IFeatureFlags> featureFlags
     );
 
     /**
@@ -115,11 +130,13 @@ public:
     ITracer& tracer() { return *tracer_; }
     IMetrics& metrics() { return *metrics_; }
     ICache& cache() { return *cache_; }
+    IFeatureFlags& featureFlags() { return *featureFlags_; }
 
     const ILogger& logger() const { return *logger_; }
     const ITracer& tracer() const { return *tracer_; }
     const IMetrics& metrics() const { return *metrics_; }
     const ICache& cache() const { return *cache_; }
+    const IFeatureFlags& featureFlags() const { return *featureFlags_; }
 
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
@@ -193,6 +210,7 @@ public:
         tracer_->flush();
         metrics_->flush();
         cache_->flush();
+        featureFlags_->flush();
     }
 
     /**
@@ -213,10 +231,12 @@ public:
         logger_->flush();
         tracer_->flush();
         metrics_->flush();
+        featureFlags_->flush();
 
         tracer_->shutdown();
         metrics_->shutdown();
         cache_->shutdown();
+        featureFlags_->shutdown();
         logger_->shutdown();
     }
 
@@ -240,7 +260,8 @@ public:
             logger_->isHealthy(),
             tracer_->isHealthy(),
             metrics_->isHealthy(),
-            cache_->isHealthy()
+            cache_->isHealthy(),
+            featureFlags_->isHealthy()
         };
     }
 
@@ -268,16 +289,19 @@ private:
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
-        std::unique_ptr<ICache> cache
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
-        cache_(std::move(cache)) {}
+        cache_(std::move(cache)),
+        featureFlags_(std::move(featureFlags)) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
     std::unique_ptr<IMetrics> metrics_;
     std::unique_ptr<ICache> cache_;
+    std::unique_ptr<IFeatureFlags> featureFlags_;
 };
 
 } // namespace concerns
