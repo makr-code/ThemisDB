@@ -1,0 +1,24 @@
+# Copilot Issue Dispatcher Configuration
+# See .github/copilot-dispatcher.md for full documentation.
+
+# Maximum number of active Copilot PRs (PRs with pr/copilot label that do NOT
+# carry the copilot/status-ready label).
+wip_limit: 5
+
+# Base branch that every Copilot-created PR will target.
+base_branch: develop
+
+# Logins that are recognised as the "Copilot reviewer" when the readiness gate
+# evaluates submitted reviews.  The gate looks for an APPROVED review from any
+# login in this list.
+#
+# Common values:
+#   - "copilot-pull-request-reviewer[bot]"  (GitHub Copilot PR review bot)
+#   - "github-actions[bot]"                 (actions-triggered review)
+#   - "<your-org-copilot-service-account>"
+#
+# If this list is empty the gate skips the review check (useful during initial
+# rollout). Set it to at least one login in production.
+copilot_reviewer_logins:
+  - "copilot-pull-request-reviewer[bot]"
+  - "github-actions[bot]"

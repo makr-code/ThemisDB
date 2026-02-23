@@ -1,0 +1,200 @@
+name: Copilot Readiness Gate
+
+on:
+  # React immediately when a PR label is added (Copilot sets ready-requested).
+  pull_request:
+    types: [labeled]
+
+  # React when CI check suites complete (checks may have just gone green).
+  check_suite:
+    types: [completed]
+
+  # Alternative trigger for CI that surfaces results via workflow_run.
+  workflow_run:
+    workflows: ['*']
+    types: [completed]
+
+  # Manual trigger for testing / recovery.
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to evaluate (leave empty to scan all eligible PRs)'
+        required: false
+        default: ''
+
+# Only one gate run at a time to prevent races on label updates.
+concurrency:
+  group: copilot-readiness-gate
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write  # add/remove labels
+  issues: write         # add/remove labels (PRs share the issues API)
+  checks: read          # read check suites / runs
+
+jobs:
+  evaluate:
+    name: Evaluate Copilot PR readiness
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository (needed to read config)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Run readiness gate
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+
+            // ── Load configuration ──────────────────────────────────────────
+            let config = { copilot_reviewer_logins: ['copilot-pull-request-reviewer[bot]', 'github-actions[bot]'] };
+            try {
+              const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
+              config = { ...config, ...yaml.load(raw) };
+            } catch (e) {
+              core.warning(`Could not read .github/copilot-dispatcher.yml: ${e.message}. Using defaults.`);
+            }
+
+            const REVIEWER_LOGINS = new Set(config.copilot_reviewer_logins ?? []);
+            const OWNER           = context.repo.owner;
+            const REPO            = context.repo.repo;
+
+            core.info(`Allowed Copilot reviewer logins: ${[...REVIEWER_LOGINS].join(', ') || '(none – review check skipped)'}`);
+
+            // ── Determine which PRs to evaluate ────────────────────────────
+            // If manually triggered with a PR number, evaluate only that PR.
+            // Otherwise scan all open Copilot PRs that carry ready-requested.
+            let prsToEvaluate = [];
+
+            const manualPR = context.payload?.inputs?.pr_number;
+            if (manualPR) {
+              const { data: pr } = await github.rest.pulls.get({
+                owner: OWNER,
+                repo: REPO,
+                pull_number: parseInt(manualPR, 10),
+              });
+              prsToEvaluate = [pr];
+            } else {
+              // Find all open pr/copilot PRs that are awaiting readiness promotion.
+              const candidates = await github.paginate(
+                github.rest.search.issuesAndPullRequests,
+                {
+                  q: `repo:${OWNER}/${REPO} is:pr is:open label:pr/copilot label:copilot/status-ready-requested -label:copilot/status-ready`,
+                  per_page: 100,
+                }
+              );
+              // The search endpoint returns issue-shaped objects; fetch full PR data.
+              for (const item of candidates) {
+                const { data: pr } = await github.rest.pulls.get({
+                  owner: OWNER,
+                  repo: REPO,
+                  pull_number: item.number,
+                }).catch(() => ({ data: null }));
+                if (pr) prsToEvaluate.push(pr);
+              }
+            }
+
+            core.info(`PRs to evaluate: ${prsToEvaluate.map(p => `#${p.number}`).join(', ') || 'none'}`);
+
+            // ── Evaluate each PR ────────────────────────────────────────────
+            for (const pr of prsToEvaluate) {
+              const prNumber = pr.number;
+              const headSha  = pr.head.sha;
+              core.info(`Evaluating PR #${prNumber} (head=${headSha})`);
+
+              // ── Gate 1: all required checks must be successful ────────────
+              const { data: checkRuns } = await github.rest.checks.listForRef({
+                owner: OWNER,
+                repo: REPO,
+                ref: headSha,
+                per_page: 100,
+              });
+
+              const runs = checkRuns.check_runs;
+              const pending = runs.filter(r => r.status !== 'completed');
+              const failed  = runs.filter(r => r.status === 'completed' && r.conclusion !== 'success' && r.conclusion !== 'skipped' && r.conclusion !== 'neutral');
+
+              if (pending.length > 0) {
+                core.info(`PR #${prNumber}: ${pending.length} check(s) still pending – skipping.`);
+                continue;
+              }
+              if (failed.length > 0) {
+                core.info(`PR #${prNumber}: ${failed.length} check(s) failed (${failed.map(r => r.name).join(', ')}) – skipping.`);
+                continue;
+              }
+              core.info(`PR #${prNumber}: all ${runs.length} check(s) passed.`);
+
+              // ── Gate 2: Copilot review approval ──────────────────────────
+              if (REVIEWER_LOGINS.size > 0) {
+                const reviews = await github.paginate(
+                  github.rest.pulls.listReviews,
+                  { owner: OWNER, repo: REPO, pull_number: prNumber, per_page: 100 }
+                );
+
+                // Find the latest review state per reviewer login.
+                const latestByLogin = new Map();
+                for (const review of reviews) {
+                  const login = review.user?.login ?? '';
+                  if (REVIEWER_LOGINS.has(login)) {
+                    const existing = latestByLogin.get(login);
+                    if (!existing || review.submitted_at > existing.submitted_at) {
+                      latestByLogin.set(login, review);
+                    }
+                  }
+                }
+
+                const approved = [...latestByLogin.values()].some(r => r.state === 'APPROVED');
+                if (!approved) {
+                  core.info(`PR #${prNumber}: no APPROVED review from a configured Copilot reviewer – skipping.`);
+                  continue;
+                }
+                core.info(`PR #${prNumber}: Copilot review approval confirmed.`);
+              } else {
+                core.info(`PR #${prNumber}: reviewer list empty – skipping review check.`);
+              }
+
+              // ── All gates passed – promote the PR ─────────────────────────
+              core.info(`PR #${prNumber}: promoting to copilot/status-ready.`);
+
+              // Add copilot/status-ready.
+              await github.rest.issues.addLabels({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: prNumber,
+                labels: ['copilot/status-ready'],
+              }).catch(e => core.warning(`Could not add copilot/status-ready to PR #${prNumber}: ${e.message}`));
+
+              // Remove copilot/status-working.
+              await github.rest.issues.removeLabel({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: prNumber,
+                name: 'copilot/status-working',
+              }).catch(() => { /* label may not be present */ });
+
+              // Remove copilot/status-ready-requested.
+              await github.rest.issues.removeLabel({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: prNumber,
+                name: 'copilot/status-ready-requested',
+              }).catch(() => { /* label may not be present */ });
+
+              core.info(`PR #${prNumber}: promoted to copilot/status-ready. Capacity freed.`);
+
+              // ── Trigger the dispatcher to fill the freed slot ─────────────
+              await github.rest.actions.createWorkflowDispatch({
+                owner: OWNER,
+                repo: REPO,
+                workflow_id: 'copilot-dispatcher.yml',
+                ref: context.payload?.repository?.default_branch ?? 'develop',
+              }).catch(e => core.warning(`Could not trigger dispatcher: ${e.message}`));
+            }
+
+            core.info('Readiness gate evaluation complete.');
