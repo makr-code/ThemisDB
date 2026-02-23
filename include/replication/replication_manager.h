@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1272                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
@@ -1341,6 +1341,10 @@ public:
     // Manually inject a WAL entry (for testing or replay)
     void publish(const WALEntry& entry);
 
+    // Export Prometheus-format metrics for this publication
+    // Includes: published_total, subscriber_count
+    std::string exportPrometheusMetrics() const;
+
     // -------------------------------------------------------------------
     // IReplicationListener – feed entries from WALManager / CDCManager
     // -------------------------------------------------------------------
@@ -1424,6 +1428,10 @@ public:
 
     // Total entries skipped due to apply errors since construction
     uint64_t errorCount() const { return error_count_.load(); }
+
+    // Export Prometheus-format metrics for this subscription
+    // Includes: applied_total, error_total, last_applied_sequence
+    std::string exportPrometheusMetrics() const;
 
 private:
     void applyEntry(const WALEntry& entry);

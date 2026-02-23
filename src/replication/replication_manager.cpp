@@ -4191,6 +4191,22 @@ void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
     publish(entry);
 }
 
+std::string CrossClusterPublication::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    oss << "# HELP themisdb_cross_cluster_publication_published_total"
+           " Total WAL entries published by this publication\n"
+        << "# TYPE themisdb_cross_cluster_publication_published_total counter\n"
+        << "themisdb_cross_cluster_publication_published_total{publication=\"" << name_ << "\"} "
+        << published_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_publication_subscribers"
+           " Number of active remote subscribers\n"
+        << "# TYPE themisdb_cross_cluster_publication_subscribers gauge\n"
+        << "themisdb_cross_cluster_publication_subscribers{publication=\"" << name_ << "\"} "
+        << subscriberCount() << "\n";
+    return oss.str();
+}
+
 // ---------------------------------------------------------------------------
 // CrossClusterSubscription
 // ---------------------------------------------------------------------------
@@ -4237,6 +4253,28 @@ void CrossClusterSubscription::applyEntry(const WALEntry& entry) {
         THEMIS_ERROR("CrossClusterSubscription '{}': apply threw unknown exception for seq={}",
                      name_, entry.sequence_number);
     }
+}
+
+std::string CrossClusterSubscription::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    oss << "# HELP themisdb_cross_cluster_subscription_applied_total"
+           " Total WAL entries applied by this subscription\n"
+        << "# TYPE themisdb_cross_cluster_subscription_applied_total counter\n"
+        << "themisdb_cross_cluster_subscription_applied_total{subscription=\"" << name_ << "\"} "
+        << applied_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_subscription_errors_total"
+           " Total apply errors in this subscription\n"
+        << "# TYPE themisdb_cross_cluster_subscription_errors_total counter\n"
+        << "themisdb_cross_cluster_subscription_errors_total{subscription=\"" << name_ << "\"} "
+        << error_count_.load() << "\n";
+
+    oss << "# HELP themisdb_cross_cluster_subscription_last_applied_sequence"
+           " Last successfully applied WAL sequence number\n"
+        << "# TYPE themisdb_cross_cluster_subscription_last_applied_sequence gauge\n"
+        << "themisdb_cross_cluster_subscription_last_applied_sequence{subscription=\"" << name_ << "\"} "
+        << last_applied_seq_.load() << "\n";
+    return oss.str();
 }
 
 } // namespace replication

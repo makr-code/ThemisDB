@@ -348,6 +348,15 @@ themisdb_network_partitions_detected_total  # Network partitions
 themisdb_leader_elections_total             # Leader elections
 ```
 
+#### Cross-Cluster Pub/Sub Metrics
+```
+themisdb_cross_cluster_publication_published_total{publication}  # Entries published
+themisdb_cross_cluster_publication_subscribers{publication}      # Active subscribers
+themisdb_cross_cluster_subscription_applied_total{subscription}  # Entries applied
+themisdb_cross_cluster_subscription_errors_total{subscription}   # Apply errors
+themisdb_cross_cluster_subscription_last_applied_sequence{subscription}  # Last seq
+```
+
 ### Topology Visualizer (Web UI)
 
 The built-in topology visualizer provides a live, auto-refreshing view of the
@@ -505,6 +514,92 @@ curl -X POST http://localhost:8765/api/v1/replication/replicas \
 ```bash
 curl -X DELETE http://localhost:8765/api/v1/replication/replicas/node-04
 ```
+
+## Cross-Cluster Publish/Subscribe Replication
+
+Cross-cluster logical replication allows one ThemisDB cluster (the *publisher*)
+to stream filtered WAL changes to one or more remote clusters (the *subscribers*)
+using an asynchronous publish/subscribe model.
+
+### How It Works
+
+```
+Publisher Cluster                   Subscriber Cluster
+─────────────────                   ──────────────────
+WALManager                          CrossClusterSubscription
+     │ onWALEntryApplied()               │ applyEntry(WALEntry)
+     ▼                                   │
+CrossClusterPublication ──callback──────▶│
+  (filter: collection/op)            local storage
+```
+
+1. A `CrossClusterPublication` is attached to the publisher's `WALManager` via
+   `addListener()`.  The publication applies an optional `PublicationFilter`
+   and fans out matching entries to all registered subscriber callbacks.
+2. A `CrossClusterSubscription` on the target cluster registers its delivery
+   callback with the publication and applies each received entry locally.
+
+### Publisher Configuration
+
+```cpp
+// Create a named publication
+auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+
+// Optional: filter by collection and/or operation type
+PublicationFilter filter;
+filter.include_collections = {"orders", "customers"};  // empty = all collections
+filter.include_operations  = {"INSERT", "UPDATE"};      // empty = all operations
+pub->setFilter(filter);
+
+// Attach to the WAL pipeline so every committed entry flows in automatically
+replication_manager.addListener(pub);
+```
+
+### Subscriber Configuration
+
+```cpp
+// Create a subscription that applies incoming entries to a local WAL/store
+CrossClusterSubscription sub(
+    "orders_sub",          // unique name
+    pub,                   // shared pointer to the publication
+    [&](const WALEntry& e) {
+        local_storage.apply(e);  // user-supplied apply function
+    }
+);
+sub.enable();
+
+// Monitor progress
+uint64_t last_seq = sub.lastAppliedSequence();  // last applied WAL seq
+uint64_t errors   = sub.errorCount();           // apply errors (non-fatal)
+```
+
+### Prometheus Metrics
+
+Cross-cluster publications and subscriptions expose Prometheus metrics via
+`exportPrometheusMetrics()`:
+
+```
+# Publication
+themisdb_cross_cluster_publication_published_total{publication="orders_pub"}
+themisdb_cross_cluster_publication_subscribers{publication="orders_pub"}
+
+# Subscription
+themisdb_cross_cluster_subscription_applied_total{subscription="orders_sub"}
+themisdb_cross_cluster_subscription_errors_total{subscription="orders_sub"}
+themisdb_cross_cluster_subscription_last_applied_sequence{subscription="orders_sub"}
+```
+
+### Constraints & Notes
+
+- **Asynchronous delivery**: Cross-cluster pub/sub is inherently asynchronous.
+  There is no back-pressure or flow-control between publisher and subscriber.
+- **Apply errors are non-fatal**: A failed `applyEntry` call is counted in
+  `error_count` and logged, but the subscription continues processing subsequent
+  entries.
+- **Multiple subscribers**: A single publication supports any number of
+  independent subscriber callbacks.
+- **CDC stream authentication**: Authentication of the CDC stream is the
+  responsibility of downstream consumers (see [SECURITY.md](./SECURITY.md)).
 
 ## Performance Tuning
 

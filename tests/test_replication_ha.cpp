@@ -2890,3 +2890,157 @@ TEST(CrossClusterE2ETest, WALEntryAppliedIntegrationPath) {
     EXPECT_EQ(replicated_ops[2], "DELETE");
     EXPECT_EQ(sub.lastAppliedSequence(), 102u);
 }
+
+// ============================================================================
+// Cross-Cluster Pub/Sub Integration Tests – via ReplicationManager.addListener
+// ============================================================================
+
+// Re-use the makeConfig() helper defined earlier in this file.
+// These tests mirror the CDCManager integration test pattern:
+// single-node cluster elects itself leader, then replicate() flows through
+// addListener → onWALEntryApplied → CrossClusterPublication → subscription.
+
+TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManager) {
+    TempWALDir wd("/tmp/themis_cc_intg_basic");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    auto pub = std::make_shared<CrossClusterPublication>("intg_pub");
+
+    std::vector<std::string> replicated_ids;
+    std::mutex ids_mutex;
+    CrossClusterSubscription sub("intg_sub", pub, [&](const WALEntry& e) {
+        std::lock_guard<std::mutex> lk(ids_mutex);
+        replicated_ids.push_back(e.document_id);
+    });
+    sub.enable();
+    mgr.addListener(pub);
+
+    // Wait for single-node leader election
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "docs";
+    entry.document_id = "doc-001";
+    entry.data        = R"({"v":1})";
+    bool ok = mgr.replicate(entry);
+
+    mgr.shutdown();
+    ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
+    ASSERT_EQ(replicated_ids.size(), 1u);
+    EXPECT_EQ(replicated_ids[0], "doc-001");
+    EXPECT_EQ(sub.appliedCount(), 1u);
+    EXPECT_EQ(sub.lastAppliedSequence(), entry.sequence_number);
+}
+
+TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationManager) {
+    TempWALDir wd("/tmp/themis_cc_intg_filter");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    auto pub = std::make_shared<CrossClusterPublication>("filtered_intg_pub");
+
+    // Only replicate "orders" collection
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+    pub->setFilter(f);
+
+    std::vector<std::string> replicated_collections;
+    std::mutex col_mutex;
+    CrossClusterSubscription sub("filtered_intg_sub", pub, [&](const WALEntry& e) {
+        std::lock_guard<std::mutex> lk(col_mutex);
+        replicated_collections.push_back(e.collection);
+    });
+    sub.enable();
+    mgr.addListener(pub);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    // Replicate two entries: one passes the filter, one doesn't
+    WALEntry e_orders;
+    e_orders.operation   = "INSERT";
+    e_orders.collection  = "orders";
+    e_orders.document_id = "ord-1";
+    e_orders.data        = R"({"v":1})";
+    mgr.replicate(e_orders);
+
+    WALEntry e_users;
+    e_users.operation   = "INSERT";
+    e_users.collection  = "users";
+    e_users.document_id = "usr-1";
+    e_users.data        = R"({"v":1})";
+    mgr.replicate(e_users);
+
+    mgr.shutdown();
+
+    // Only the "orders" entry should have been delivered
+    ASSERT_EQ(replicated_collections.size(), 1u);
+    EXPECT_EQ(replicated_collections[0], "orders");
+    EXPECT_EQ(sub.appliedCount(), 1u);
+}
+
+// ============================================================================
+// Prometheus Metrics Tests
+// ============================================================================
+
+TEST(CrossClusterPrometheusTest, PublicationMetricsCorrect) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub");
+
+    std::vector<WALEntry> sink;
+    pub->addRemoteSubscriber([&](const WALEntry& e) { sink.push_back(e); });
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));
+    pub->publish(makeWALEntry(2, "col", "INSERT"));
+
+    std::string m = pub->exportPrometheusMetrics();
+
+    EXPECT_NE(m.find("themisdb_cross_cluster_publication_published_total"), std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_publication_subscribers"),     std::string::npos);
+    // published_total = 2
+    EXPECT_NE(m.find("{publication=\"prom_pub\"} 2"), std::string::npos);
+    // subscribers = 1
+    EXPECT_NE(m.find("{publication=\"prom_pub\"} 1"), std::string::npos);
+}
+
+TEST(CrossClusterPrometheusTest, SubscriptionMetricsCorrect) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub2");
+    CrossClusterSubscription sub("prom_sub", pub, [](const WALEntry&) {});
+    sub.enable();
+
+    pub->publish(makeWALEntry(10, "col", "INSERT"));
+    pub->publish(makeWALEntry(11, "col", "INSERT"));
+
+    std::string m = sub.exportPrometheusMetrics();
+
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_applied_total"),          std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_errors_total"),           std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_last_applied_sequence"),  std::string::npos);
+    // applied_total = 2
+    EXPECT_NE(m.find("{subscription=\"prom_sub\"} 2"), std::string::npos);
+    // last_applied_sequence = 11
+    EXPECT_NE(m.find("{subscription=\"prom_sub\"} 11"), std::string::npos);
+}
+
+TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub3");
+
+    int calls = 0;
+    CrossClusterSubscription sub("err_sub", pub, [&](const WALEntry& e) {
+        ++calls;
+        if (calls == 1) throw std::runtime_error("simulated error");
+    });
+    sub.enable();
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));  // error
+    pub->publish(makeWALEntry(2, "col", "INSERT"));  // ok
+
+    std::string m = sub.exportPrometheusMetrics();
+
+    // errors_total = 1
+    EXPECT_NE(m.find("{subscription=\"err_sub\"} 1"), std::string::npos);
+}
