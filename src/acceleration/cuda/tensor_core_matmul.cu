@@ -12,13 +12,27 @@
 // Storage layout note
 // -------------------
 // The public API uses row-major matrices (C convention).
-// cuBLAS is column-major (Fortran convention).  We exploit the identity
-//   A_row * B_row = (B_col * A_col)^T
-// and compute  C^T = B^T * A^T  by swapping A/B and transposing both,
-// which requires no additional memory copies.  Specifically we call:
-//   cublasHgemm(handle, CUBLAS_OP_T, CUBLAS_OP_T, N, M, K, alpha, B, K, A, M,
-//               beta, C, N)
-// This is equivalent to the row-major GEMM C = alpha * A * B + beta * C.
+// cuBLAS uses column-major (Fortran convention).  The standard identity is:
+//
+//   C_row = alpha * A_row * B_row + beta * C_row
+//
+// is computed as:
+//
+//   C^T_col = alpha * B^T_col * A^T_col + beta * C^T_col
+//
+// Memory equivalences (a row-major [m×n] matrix stored in memory is
+// identical to the column-major transpose [n×m] with leading dimension n):
+//
+//   d_A  [M×K] row-major  ==  A^T_col [K×M] col-major,  lda = K
+//   d_B  [K×N] row-major  ==  B^T_col [N×K] col-major,  lda = N
+//   d_C  [M×N] row-major  ==  C^T_col [N×M] col-major,  ldc = N
+//
+// Therefore the cuBLAS call is:
+//   cublasXgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N,
+//               N, M, K, alpha, d_B, N, d_A, K, beta, d_C, N)
+//
+// No explicit CUBLAS_OP_T is required; the row/column-major reinterpretation
+// of the same memory handles the transposition automatically.
 // =============================================================================
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -80,17 +94,24 @@ int launchFP16MatmulKernel(
     __half h_alpha = __float2half(alpha);
     __half h_beta  = __float2half(beta);
 
-    // Row-major A[M×K] * B[K×N] = C[M×N]
-    // Equivalent column-major call: C^T[N×M] = B^T[N×K] * A^T[K×M]
-    //   => cublasHgemm(CUBLAS_OP_T, CUBLAS_OP_T, N, M, K, alpha, B, K, A, M,
-    //                  beta, C, N)
+    // Row-major GEMM via the column-major cuBLAS identity:
+    //   C_row[M×N] = A_row[M×K] * B_row[K×N]
+    //   ⟺  C^T_col[N×M] = B^T_col[N×K] * A^T_col[K×M]
+    //
+    // Memory equivalences (row-major X_row == X^T_col):
+    //   d_B (B_row[K×N]) as B^T_col[N×K]  → lda = N
+    //   d_A (A_row[M×K]) as A^T_col[K×M]  → lda = K
+    //   d_C (C_row[M×N]) as C^T_col[N×M]  → ldc = N
+    //
+    // No explicit transpose is needed (CUBLAS_OP_N); the column/row-major
+    // equivalence handles the reinterpretation transparently.
     st = cublasHgemm(
         handle,
-        CUBLAS_OP_T, CUBLAS_OP_T,
+        CUBLAS_OP_N, CUBLAS_OP_N,
         N, M, K,
         &h_alpha,
-        d_B, K,
-        d_A, M,
+        d_B, N,
+        d_A, K,
         &h_beta,
         d_C, N
     );
@@ -118,14 +139,15 @@ int launchBF16MatmulKernel(
 
     if (stream) cublasSetStream(handle, stream);
 
-    // Row-major: C^T = B^T * A^T  (see layout note in file header)
+    // Row-major: C^T_col[N×M] = B^T_col[N×K] * A^T_col[K×M]
+    // d_B (B_row[K×N]) as B^T_col lda=N; d_A (A_row[M×K]) as A^T_col lda=K.
     st = cublasGemmEx(
         handle,
-        CUBLAS_OP_T, CUBLAS_OP_T,
+        CUBLAS_OP_N, CUBLAS_OP_N,
         N, M, K,
         &alpha,
-        d_B, CUDA_R_16BF, K,
-        d_A, CUDA_R_16BF, M,
+        d_B, CUDA_R_16BF, N,
+        d_A, CUDA_R_16BF, K,
         &beta,
         d_C, CUDA_R_16BF, N,
         CUBLAS_COMPUTE_32F,          // Accumulate in FP32 for accuracy
@@ -155,14 +177,15 @@ int launchFP32MatmulKernel(
 
     if (stream) cublasSetStream(handle, stream);
 
-    // Row-major: C^T = B^T * A^T  (see layout note in file header)
+    // Row-major: C^T_col[N×M] = B^T_col[N×K] * A^T_col[K×M]
+    // d_B (B_row[K×N]) as B^T_col lda=N; d_A (A_row[M×K]) as A^T_col lda=K.
     st = cublasSgemm(
         handle,
-        CUBLAS_OP_T, CUBLAS_OP_T,
+        CUBLAS_OP_N, CUBLAS_OP_N,
         N, M, K,
         &alpha,
-        d_B, K,
-        d_A, M,
+        d_B, N,
+        d_A, K,
         &beta,
         d_C, N
     );

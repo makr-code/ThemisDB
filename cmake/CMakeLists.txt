@@ -2167,7 +2167,7 @@ if(THEMIS_ENABLE_CUDA)
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
-    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver CUDA::cublas)
     
     # Link NCCL if available
     if(NCCL_FOUND)
