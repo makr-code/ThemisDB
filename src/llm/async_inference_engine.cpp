@@ -318,7 +318,8 @@ std::string AsyncInferenceEngine::submitAsync(
         RequestQueueItem item;
         item.request = async_req;
         item.promise = std::move(promise);
-        request_queue_.push(std::move(item));
+        request_queue_.push_back(std::move(item));
+        std::push_heap(request_queue_.begin(), request_queue_.end());
         stats_.total_submitted++;
         queue_cv_.notify_one();
     }

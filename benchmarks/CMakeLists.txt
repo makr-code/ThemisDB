@@ -1135,3 +1135,59 @@ message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
 message(STATUS "  - Performance benchmarks: bench_storage_performance, bench_olap_performance,")
 message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance, bench_rotary_embeddings, bench_gpu_vram_allocation")
+
+# ============================================================================
+# CUDA vs CPU Acceleration Benchmarks (Issue #1375 / Q3 2026)
+# Compares CPU and CUDA kernels for ANN (L2, Cosine, Inner-Product, Top-K)
+# and geospatial (Haversine distance, Point-in-polygon) operations.
+# CPU benchmarks always build; CUDA benchmarks activate when
+# THEMIS_ENABLE_CUDA is set and skip gracefully at runtime when no GPU
+# is present.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cuda_vs_cpu.cpp")
+    message(STATUS "Adding CUDA vs CPU acceleration benchmarks")
+
+    add_executable(bench_cuda_vs_cpu
+        bench_cuda_vs_cpu.cpp
+    )
+
+    target_link_libraries(bench_cuda_vs_cpu PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_cuda_vs_cpu PRIVATE
+            THEMIS_ENABLE_CUDA=1
+        )
+    endif()
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_cuda_vs_cpu PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_cuda_vs_cpu
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  CUDA vs CPU: ANN L2/Cosine/InnerProduct/TopK, Geo Haversine/PointInPolygon")
+    if(THEMIS_ENABLE_CUDA)
+        message(STATUS "  CUDA benchmarks: ENABLED (THEMIS_ENABLE_CUDA is set)")
+    else()
+        message(STATUS "  CUDA benchmarks: DISABLED (THEMIS_ENABLE_CUDA not set; CPU-only benchmarks active)")
+    endif()
+endif()
