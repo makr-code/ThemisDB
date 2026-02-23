@@ -89,7 +89,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)
-- [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
+- [P] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` added: 14 GTest cases across 5 fixtures (CUDA ANN, CUDA Geo, Vulkan ANN, Vulkan Geo, Registry); tests skip gracefully when backend not compiled in or no device present
 - [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
 - [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
 - [x] Documentation complete for capability negotiation and fallback behavior (Issue: #1402) — `docs/acceleration/capability_negotiation.md` published
