@@ -162,6 +162,9 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     
+    # Module dependency resolver (load-order management)
+    ../src/themis/module_dependency_resolver.cpp
+    
     # Stubs for missing symbols
     ../src/stubs.cpp
 )
@@ -572,6 +575,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
     ../src/rag/reranker.cpp
+    ../src/rag/hallucination_dashboard.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>

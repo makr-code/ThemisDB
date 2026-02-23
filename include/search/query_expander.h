@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     175                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     225                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +25,15 @@
 #include <unordered_set>
 
 namespace themis {
+
+/**
+ * @brief A single ranked spelling correction candidate.
+ */
+struct SpellingCorrection {
+    std::string suggestion;   ///< Corrected word or query string
+    int edit_distance = 0;    ///< Levenshtein distance from input (lower is better)
+    double confidence = 0.0;  ///< Normalized confidence score in [0,1] (higher is better)
+};
 
 /**
  * @brief Expanded query produced by QueryExpander::expand().
@@ -132,6 +141,44 @@ public:
      * @return Corrected word, or `word` unchanged if no correction found.
      */
     std::string correctSpelling(const std::string& word) const;
+
+    /**
+     * @brief Return ranked spelling correction candidates for a single word.
+     *
+     * Returns up to `max_suggestions` candidates from the registered vocabulary,
+     * sorted by ascending edit distance then alphabetically for stability.  Each
+     * candidate carries a normalized confidence score: the word with edit distance 1
+     * has higher confidence than one with edit distance 2, etc.
+     *
+     * An empty list is returned when the word is already in the vocabulary,
+     * spelling correction is disabled, or the vocabulary is empty.
+     *
+     * @param word           Single word to find corrections for.
+     * @param max_suggestions Maximum number of candidates to return (default 5).
+     * @return Ranked list of SpellingCorrection candidates; may be empty.
+     */
+    std::vector<SpellingCorrection> suggestSpellingCorrections(
+        const std::string& word,
+        size_t max_suggestions = 5) const;
+
+    /**
+     * @brief Return ranked full-query spelling correction suggestions.
+     *
+     * Tokenizes the query, independently gathers up to `max_suggestions`
+     * corrections per token, and returns full-query strings formed by
+     * substituting one token at a time with its best correction.  Results
+     * are sorted by total edit distance (ascending).
+     *
+     * An empty list is returned when no token needs correction.
+     *
+     * @param query          Raw user query (may contain multiple tokens).
+     * @param max_suggestions Maximum number of full-query suggestions (default 5).
+     * @return Ranked list of SpellingCorrection structs where `suggestion` is a
+     *         full query string; may be empty.
+     */
+    std::vector<SpellingCorrection> suggestQueryCorrections(
+        const std::string& query,
+        size_t max_suggestions = 5) const;
 
     /**
      * @brief Suggest alternative phrasings for the whole query.
