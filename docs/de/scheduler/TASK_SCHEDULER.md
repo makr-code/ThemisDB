@@ -252,6 +252,36 @@ config.persist_tasks = true;
 
 Siehe `tests/test_task_scheduler.cpp` für umfassende Unit-Tests.
 
+## Task-Abhängigkeiten und DAG-Ausführung
+
+Ab v1.7.0 unterstützt der TaskScheduler Aufgaben-Abhängigkeiten (Dependency Graph).
+
+### Konfiguration
+
+```cpp
+ScheduledTask schritt_b;
+schritt_b.id = "schritt_b";
+schritt_b.dependencies = {"schritt_a"};   // schritt_b läuft erst nach schritt_a
+```
+
+### DAG-Ausführung
+
+```cpp
+auto result = scheduler.executeDAG({"step_a", "step_b", "step_c"});
+
+// result.succeeded  — map<task_id, json_result>
+// result.failed     — map<task_id, error_message>
+// result.skipped    — vector<task_id>  (Abhängige fehlgeschlagener Tasks)
+```
+
+### Verhalten
+- Topologische Sortierung (Kahns Algorithmus) bestimmt die Ausführungsreihenfolge.
+- Tasks ohne ausstehende Abhängigkeiten laufen **parallel** innerhalb jeder Welle.
+- Schlägt ein Task fehl, werden alle transitiv abhängigen Tasks **übersprungen** (Kaskadenfehler-Schutz).
+- Ein Zyklus im Abhängigkeitsgraphen wirft `std::runtime_error`.
+- Eine unbekannte Task-ID wirft `std::invalid_argument`.
+- Die `dependencies`-Liste wird in `tasks.json` **persistiert** und beim Neustart vollständig wiederhergestellt.
+
 ## Referenzen
 
 - `include/scheduler/task_scheduler.h` - API Dokumentation

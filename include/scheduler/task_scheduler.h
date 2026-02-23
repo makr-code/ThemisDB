@@ -201,6 +201,9 @@ struct ScheduledTask {
 
     std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
 
+    // Task dependency configuration
+    std::vector<std::string> dependencies;  // IDs of tasks that must complete before this task runs
+
     // Hooks for notifications (optional)
     std::function<void(const std::string& task_id, const nlohmann::json& result)> on_success;
     std::function<void(const std::string& task_id, const std::string& error)> on_failure;
@@ -353,6 +356,35 @@ public:
      * Can be abused for DoS attacks or unauthorized data access.
      */
     nlohmann::json executeTaskNow(const std::string& task_id);
+
+    /**
+     * @brief Result of a DAG execution
+     */
+    struct DagExecutionResult {
+        std::map<std::string, nlohmann::json> succeeded;  // task_id -> result
+        std::map<std::string, std::string>    failed;     // task_id -> error message
+        std::vector<std::string>              skipped;    // task_ids skipped due to failed deps
+    };
+
+    /**
+     * @brief Execute a set of registered tasks respecting their dependency order.
+     *
+     * Tasks are executed in topological order derived from each task's
+     * `dependencies` list.  Tasks whose dependencies have all succeeded are
+     * dispatched in parallel (up to max_concurrent_tasks).  If a task fails,
+     * all tasks that (transitively) depend on it are skipped rather than
+     * executed.
+     *
+     * @param task_ids  IDs of the tasks to include in this DAG execution.
+     *                  Tasks not in this set are ignored even if they appear
+     *                  in a dependency list.
+     * @return DagExecutionResult with per-task outcomes.
+     * @throws std::invalid_argument if task_ids contains an unknown task ID.
+     * @throws std::runtime_error    if the dependency graph contains a cycle.
+     *
+     * ⚠️ SECURITY: This method MUST be protected by authentication and authorization.
+     */
+    DagExecutionResult executeDAG(const std::vector<std::string>& task_ids);
     
     // Function registration (for custom post-processing logic)
     using TaskFunction = std::function<nlohmann::json(const nlohmann::json& params)>;
@@ -504,6 +536,13 @@ private:
     ScheduledTask sanitizeTask(const ScheduledTask& task) const;
     void enforceQueryComplexityLimits(const std::string& aql) const;
     bool checkRateLimit(const std::string& task_id);  // Non-const since it logs security events
+
+    // DAG execution helpers
+    // Returns tasks in topological order (dependencies first).
+    // Throws std::runtime_error if a cycle is detected.
+    std::vector<std::string> topologicalSort(
+        const std::vector<std::string>& task_ids,
+        const std::map<std::string, std::vector<std::string>>& adj) const;
 };
 
 } // namespace themis

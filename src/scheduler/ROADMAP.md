@@ -23,7 +23,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 
 ## In Progress 🚧
 - [x] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
-- [I] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
+- [x] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
 
 ## Planned Features 📋
 
@@ -58,7 +58,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ### Phase 2: Full Cron & Distributed Coordination (Status: In Progress 🚧)
 - [x] Full cron expression parsing (v1.5.0)
 - [x] Distributed task coordination across nodes
-- [~] Task dependency DAG execution
+- [x] Task dependency DAG execution
 
 ### Phase 3: Web UI & Retry Policies (Status: Planned 📋)
 - [ ] Web UI for task management (create, monitor, pause, delete)
@@ -83,8 +83,8 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- Task dependencies and DAG execution are not yet implemented.
 - Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.
+- DAG execution: conditional execution based on task results is not yet implemented (planned for a future phase).
 
 ## Breaking Changes
 - `TaskScheduler` public API is stable from v1.x.
