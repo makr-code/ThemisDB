@@ -27,7 +27,7 @@ ThemisDB is a **multi-model database** (scientific research) that combines relat
 - 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
 - 📊 **Observability & Automation (v1.4.1+)** - Health checks, alerting interface, automated backup scheduling (K8s-ready)
 
-**📚 [Full Documentation](docs/home.md)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)** · **[📁 Projektstruktur](INDEX.md)**
+**📚 [Full Documentation](docs/Home.md)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)** · **[📁 Projektstruktur](INDEX.md)**
 
 ---
 
