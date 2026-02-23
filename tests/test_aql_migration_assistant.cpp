@@ -405,3 +405,69 @@ TEST_F(AQLMigrationAssistantTest, IdentifierWithV8SubstringNotTouched) {
     EXPECT_TRUE(result.is_fully_automatable);
     EXPECT_FALSE(hasIssueWithSeverity(result.issues, MigrationIssue::Severity::ERROR));
 }
+
+// ---------------------------------------------------------------------------
+// Multi-occurrence rewrites (regression for first-only bug)
+// ---------------------------------------------------------------------------
+
+TEST_F(AQLMigrationAssistantTest, TwoNearCallsBothRewritten) {
+    const std::string aql =
+        "FOR x IN NEAR(col1, 1.0, 2.0, 5) "
+        "FOR y IN NEAR(col2, 3.0, 4.0, 3) "
+        "RETURN {x, y}";
+    auto result = assistant.migrate(aql);
+    // Neither NEAR() should remain
+    EXPECT_EQ(findCI(result.migrated_query, "NEAR("), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("col1"), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("col2"), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("LIMIT 5"), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("LIMIT 3"), std::string::npos);
+}
+
+TEST_F(AQLMigrationAssistantTest, TwoFulltextCallsBothRewritten) {
+    const std::string aql =
+        "LET a = FULLTEXT(col1, 'title', 'foo') "
+        "LET b = FULLTEXT(col2, 'body', 'bar') "
+        "RETURN {a, b}";
+    auto result = assistant.migrate(aql);
+    EXPECT_EQ(findCI(result.migrated_query, "FULLTEXT("), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("col1"), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("col2"), std::string::npos);
+}
+
+TEST_F(AQLMigrationAssistantTest, TwoDocumentCallsBothRewritten) {
+    const std::string aql =
+        "LET u = DOCUMENT(users, @uk) "
+        "LET o = DOCUMENT(orders, @ok) "
+        "RETURN {u, o}";
+    auto result = assistant.migrate(aql);
+    EXPECT_EQ(findCI(result.migrated_query, "DOCUMENT("), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("users"), std::string::npos);
+    EXPECT_NE(result.migrated_query.find("orders"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// False-early-exit regression: identifier matching keyword before actual call
+// ---------------------------------------------------------------------------
+
+TEST_F(AQLMigrationAssistantTest, NearestIdentifierBeforeNearCallIsHandled) {
+    // "NEAREST" (not a function call) appears before an actual "NEAR()" call.
+    // The old first-only implementation would match "NEAR" inside "NEAREST",
+    // then exit because no '(' followed; the actual NEAR() was never rewritten.
+    const std::string aql =
+        "LET NEAREST = NEAR(col, 0.0, 0.0, 1) RETURN NEAREST";
+    auto result = assistant.migrate(aql);
+    // The NEAR() call must be rewritten
+    EXPECT_EQ(findCI(result.migrated_query, "NEAR("), std::string::npos)
+        << "NEAR() should be rewritten even when preceded by 'NEAREST' identifier";
+    EXPECT_NE(result.migrated_query.find("ST_DISTANCE"), std::string::npos);
+}
+
+TEST_F(AQLMigrationAssistantTest, WithinIdentifierBeforeWithinCallIsHandled) {
+    const std::string aql =
+        "LET WITHIN_RADIUS = WITHIN(parks, 0.0, 0.0, 500) RETURN WITHIN_RADIUS";
+    auto result = assistant.migrate(aql);
+    EXPECT_EQ(findCI(result.migrated_query, "WITHIN("), std::string::npos)
+        << "WITHIN() should be rewritten even when preceded by 'WITHIN_RADIUS' identifier";
+    EXPECT_NE(result.migrated_query.find("ST_DISTANCE"), std::string::npos);
+}

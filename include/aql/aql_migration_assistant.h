@@ -123,7 +123,7 @@ private:
         std::vector<MigrationIssue>& issues
     ) const;
 
-    /// Rewrite WITHIN(collection, lat, lng, radius) → ST_WITHIN-based pattern
+    /// Rewrite WITHIN(collection, lat, lng, radius) → ST_DISTANCE-based FILTER
     std::string rewriteWithin(
         const std::string& query,
         std::vector<MigrationIssue>& issues
@@ -176,9 +176,6 @@ private:
         const std::string& query,
         std::vector<MigrationIssue>& issues
     ) const;
-
-    /// Case-insensitive substring search helper
-    static bool containsCI(const std::string& haystack, const std::string& needle);
 
     /// Extract a balanced-parentheses argument list starting at position @p open_paren
     /// Returns the content between the parentheses or empty string on failure.
