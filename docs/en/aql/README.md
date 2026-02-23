@@ -32,6 +32,7 @@ ThemisDB v1.4 bietet umfassende AQL-Dokumentation mit Performance-Optimierung un
 - **[AQL Best Practices](AQL_BEST_PRACTICES.md)** - Query-Struktur, Index-Nutzung, Performance-Optimierung, Sicherheit, Edge Cases, Testing
 - **[AQL Performance Guide](AQL_PERFORMANCE_GUIDE.md)** - Query Optimizer Internals, Index-Strategien, Execution Plans, Profiling, Monitoring
 - **[AQL Query Templates](aql_query_templates.md)** - Fluent builder and pre-built templates for common AQL patterns (Go client)
+- **[AQL Functions Reference](aql_functions_reference.md)** - Auto-generated reference for all 346+ built-in functions (name, signature, parameters, examples)
 
 ## Source Code Reference
 
