@@ -263,9 +263,9 @@ class ResourceController {
 
 ---
 
-### Advanced Retry Policies
+### ~~Advanced Retry Policies~~ ✅ Implemented (v0.0.32)
 **Priority:** Medium  
-**Target Version:** v1.6.0
+**Target Version:** v1.6.0 → Delivered in v0.0.32
 
 Sophisticated retry logic beyond simple max_retries counter.
 

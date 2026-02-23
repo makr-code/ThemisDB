@@ -32,6 +32,8 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <fstream>
+#include <filesystem>
 
 using namespace themis::modules;
 
@@ -927,4 +929,103 @@ TEST(ModuleLoader, LoadModuleNotInManifestIsAllowed) {
 
     std::remove(manifestPath.c_str());
 }
+// ===== Phase 4 Tests: Platform-Specific Signature Verification =====
+
+#ifdef _WIN32
+TEST(ModuleLoader, VerifyAuthenticodeSignatureNonExistent) {
+    ModuleLoader loader;
+    std::string signerInfo;
+    
+    // Non-existent file: should return false
+    bool result = loader.verifyAuthenticodeSignature("/nonexistent.dll", signerInfo);
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, GetZoneIdentifierNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: no ADS stream, return -1
+    int zone = loader.getZoneIdentifier("C:\\nonexistent_path\\module.dll");
+    EXPECT_EQ(zone, -1);
+}
+
+TEST(ModuleLoader, RemoveZoneIdentifierNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: Zone.Identifier also absent, should succeed
+    bool result = loader.removeZoneIdentifier("C:\\nonexistent_path\\module.dll");
+    EXPECT_TRUE(result);
+}
+#endif // _WIN32
+
+#ifdef __linux__
+TEST(ModuleLoader, VerifyGPGSignatureNoSigFile) {
+    ModuleLoader loader;
+    
+    // Module without any .asc/.sig/.gpg file should return false
+    bool result = loader.verifyGPGSignature("/nonexistent_module.so");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, VerifyGPGSignatureInvalidPath) {
+    ModuleLoader loader;
+    
+    // Path with shell-unsafe characters should be rejected
+    bool result = loader.verifyGPGSignature("/path/with'quote/module.so");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, VerifyGPGSignatureExplicitSigPath) {
+    ModuleLoader loader;
+    
+    // Non-existent explicit signature path should return false
+    bool result = loader.verifyGPGSignature("/nonexistent.so", "/nonexistent.so.asc");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, GetExtendedAttributesNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: empty attribute map
+    auto attrs = loader.getExtendedAttributes("/nonexistent_module.so");
+    EXPECT_TRUE(attrs.empty());
+}
+
+TEST(ModuleLoader, ReadELFMetadataNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: empty metadata
+    std::string metadata = loader.readELFMetadata("/nonexistent_module.so");
+    EXPECT_TRUE(metadata.empty());
+}
+
+TEST(ModuleLoader, ReadELFMetadataNonELF) {
+    // Create a temporary non-ELF file
+    std::string tmpPath = "/tmp/test_non_elf.bin";
+    {
+        std::ofstream f(tmpPath, std::ios::binary);
+        f << "This is not an ELF file";
+    }
+    
+    ModuleLoader loader;
+    std::string metadata = loader.readELFMetadata(tmpPath);
+    EXPECT_TRUE(metadata.empty());
+    
+    // Clean up
+    std::filesystem::remove(tmpPath);
+}
+
+TEST(ModuleLoader, ReadELFMetadataCurrentLibrary) {
+    // /proc/self/exe is a valid ELF binary on Linux (the test executable itself)
+    ModuleLoader loader;
+    
+    // Should not crash; result may be empty or contain build info
+    EXPECT_NO_THROW({
+        std::string metadata = loader.readELFMetadata("/proc/self/exe");
+        // Metadata may be empty or contain BuildID / Comment sections
+        // Just verify it doesn't throw
+        (void)metadata;
+    });
+}
+#endif // __linux__
 

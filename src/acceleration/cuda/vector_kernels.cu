@@ -103,6 +103,44 @@ __global__ void computeCosineDistanceKernel(
     distances[qIdx * numVectors + vIdx] = 1.0f - cosineSim;
 }
 
+/**
+ * Compute Inner Product distance between query vectors and database vectors
+ * Distance = -dot(query, vector) (negative so smaller = more similar)
+ *
+ * @param queries      Query vectors (numQueries x dim)
+ * @param vectors      Database vectors (numVectors x dim)
+ * @param distances    Output distances (numQueries x numVectors)
+ * @param numQueries   Number of query vectors
+ * @param numVectors   Number of database vectors
+ * @param dim          Vector dimension
+ */
+__global__ void computeInnerProductKernel(
+    const float* queries,
+    const float* vectors,
+    float* distances,
+    int numQueries,
+    int numVectors,
+    int dim
+) {
+    int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
+    int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (qIdx >= numQueries || vIdx >= numVectors) return;
+
+    const float* query  = queries + qIdx * dim;
+    const float* vector = vectors + vIdx * dim;
+
+    float dot = 0.0f;
+
+    #pragma unroll 4
+    for (int i = 0; i < dim; i++) {
+        dot += query[i] * vector[i];
+    }
+
+    // Store negative dot product so smaller values correspond to more similar vectors
+    distances[qIdx * numVectors + vIdx] = -dot;
+}
+
 // ============================================================================
 // Top-K Selection Kernels (for KNN)
 // ============================================================================
@@ -283,6 +321,30 @@ void launchCosineDistanceKernel(
 }
 
 /**
+ * Launch Inner Product distance computation kernel
+ */
+void launchInnerProductKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+) {
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
+        (numVectors + blockDim.x - 1) / blockDim.x,
+        (numQueries + blockDim.y - 1) / blockDim.y
+    );
+
+    computeInnerProductKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_queries, d_vectors, d_distances,
+        numQueries, numVectors, dim
+    );
+}
+
+/**
  * Launch top-k extraction kernel
  */
 void launchTopKKernel(
@@ -300,6 +362,30 @@ void launchTopKKernel(
     extractTopKKernel<<<numQueries, threadsPerBlock, sharedMemSize, stream>>>(
         d_distances, d_topkIndices, d_topkDistances,
         numQueries, numVectors, k
+    );
+}
+
+/**
+ * Launch Inner Product distance computation kernel
+ */
+void launchInnerProductDistanceKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+) {
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
+        (numVectors + blockDim.x - 1) / blockDim.x,
+        (numQueries + blockDim.y - 1) / blockDim.y
+    );
+
+    computeInnerProductDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_queries, d_vectors, d_distances,
+        numQueries, numVectors, dim
     );
 }
 

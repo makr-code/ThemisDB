@@ -168,6 +168,9 @@ set(THEMIS_BASE_SOURCES
     # Module hash verifier (SHA-256 integrity verification)
     ../src/themis/module_hash_verifier.cpp
     
+    # Edition manager (Community / Enterprise / Hyperscaler feature gating)
+    ../src/themis/edition_manager.cpp
+    
     # Stubs for missing symbols
     ../src/stubs.cpp
 )
@@ -726,6 +729,9 @@ set(THEMIS_GEO_SOURCES
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
     ../src/gpu/audit_log.cpp
+    # Geo acceleration bridge: integrates the geo GPU spatial backend with the
+    # acceleration module's IGeoBackend / BackendRegistry interface.
+    ../src/acceleration/geo_acceleration_bridge.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES
