@@ -274,10 +274,99 @@ void BackendRegistry::shutdownAll() {
         backend->shutdown();
     }
     backends_.clear();
+
+    // Clear cached startup selections; the backends they pointed to are gone.
+    selectedVectorBackend_ = nullptr;
+    selectedGraphBackend_  = nullptr;
+    selectedGeoBackend_    = nullptr;
+    runtimeInitialized_    = false;
     
     if (pluginLoader_) {
         pluginLoader_->unloadAllPlugins();
     }
+}
+
+// ---------------------------------------------------------------------------
+// Default capability requirements
+// ---------------------------------------------------------------------------
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultVectorRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsVectorOps      = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    reqs.requiredMetrics     = metricBit(DistanceMetric::L2)
+                             | metricBit(DistanceMetric::COSINE)
+                             | metricBit(DistanceMetric::INNER_PRODUCT);
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGraphRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGraphOps = true;
+    return reqs;
+}
+
+// static
+BackendRegistry::CapabilityRequirements BackendRegistry::defaultGeoRequirements() noexcept {
+    CapabilityRequirements reqs;
+    reqs.needsGeoOps         = true;
+    reqs.requiredPrecisions  = PrecisionMode::FP32;
+    return reqs;
+}
+
+// ---------------------------------------------------------------------------
+// Runtime startup initialization
+// ---------------------------------------------------------------------------
+
+void BackendRegistry::initializeRuntime(
+    const CapabilityRequirements& vectorReqs,
+    const CapabilityRequirements& graphReqs,
+    const CapabilityRequirements& geoReqs)
+{
+    std::cout << "Initializing acceleration runtime with capability-driven backend selection..." << std::endl;
+
+    // Discover and load all available backends.
+    autoDetect();
+
+    // Capability-driven selection for each operation category.
+    selectedVectorBackend_ = selectVectorBackendFor(vectorReqs);
+    selectedGraphBackend_  = selectGraphBackendFor(graphReqs);
+    selectedGeoBackend_    = selectGeoBackendFor(geoReqs);
+    runtimeInitialized_    = true;
+
+    // Log the selected backends so operators can confirm the startup choice.
+    auto logSelection = [](const char* category, const IComputeBackend* b) {
+        if (b) {
+            std::cout << "  [acceleration] Selected " << category
+                      << " backend: " << b->name()
+                      << " (type=" << static_cast<int>(b->type()) << ")" << std::endl;
+        } else {
+            std::cout << "  [acceleration] No suitable " << category
+                      << " backend found — operation category unavailable." << std::endl;
+        }
+    };
+
+    logSelection("vector", selectedVectorBackend_);
+    logSelection("graph",  selectedGraphBackend_);
+    logSelection("geo",    selectedGeoBackend_);
+}
+
+IVectorBackend* BackendRegistry::getSelectedVectorBackend() const noexcept {
+    return selectedVectorBackend_;
+}
+
+IGraphBackend* BackendRegistry::getSelectedGraphBackend() const noexcept {
+    return selectedGraphBackend_;
+}
+
+IGeoBackend* BackendRegistry::getSelectedGeoBackend() const noexcept {
+    return selectedGeoBackend_;
+}
+
+bool BackendRegistry::isRuntimeInitialized() const noexcept {
+    return runtimeInitialized_;
 }
 
 } // namespace acceleration

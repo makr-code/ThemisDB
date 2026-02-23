@@ -41,7 +41,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 2: Core-Implementierung
 - [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
 - [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
-- [P] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `supportedPrecisions`/`supportedMetrics` now populated in `CUDAVectorBackend::getCapabilities()`
+- [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [P] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to `computeDistances()`/`batchKnnSearch()`

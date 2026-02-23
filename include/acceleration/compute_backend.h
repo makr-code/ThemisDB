@@ -388,7 +388,55 @@ public:
 
     /// Like selectBackendFor() but restricted to IGeoBackend instances.
     IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
-    
+
+    // ---------------------------------------------------------------------------
+    // Runtime startup initialization
+    // ---------------------------------------------------------------------------
+
+    /// Perform capability-driven backend selection at runtime startup.
+    ///
+    /// Calls autoDetect() to discover all available backends, then runs
+    /// selectVectorBackendFor(), selectGraphBackendFor(), and
+    /// selectGeoBackendFor() with the provided requirements (defaulting to
+    /// FP32 vector+ANN metrics when no requirements are specified).  The
+    /// selected backends are cached and returned by the getSelected*Backend()
+    /// accessors below.
+    ///
+    /// Safe to call multiple times; subsequent calls re-run detection and
+    /// overwrite the cached selections.
+    ///
+    /// @param vectorReqs  Capability requirements for the vector backend.
+    ///                    Defaults to { needsVectorOps=true, FP32, L2|COSINE|IP }.
+    /// @param graphReqs   Capability requirements for the graph backend.
+    ///                    Defaults to { needsGraphOps=true }.
+    /// @param geoReqs     Capability requirements for the geo backend.
+    ///                    Defaults to { needsGeoOps=true, FP32 }.
+    void initializeRuntime(
+        const CapabilityRequirements& vectorReqs = defaultVectorRequirements(),
+        const CapabilityRequirements& graphReqs  = defaultGraphRequirements(),
+        const CapabilityRequirements& geoReqs    = defaultGeoRequirements());
+
+    /// Returns the vector backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IVectorBackend* getSelectedVectorBackend() const noexcept;
+
+    /// Returns the graph backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IGraphBackend* getSelectedGraphBackend() const noexcept;
+
+    /// Returns the geo backend selected by the last initializeRuntime() call,
+    /// or nullptr if initializeRuntime() has not been called yet.
+    IGeoBackend* getSelectedGeoBackend() const noexcept;
+
+    /// Returns true if initializeRuntime() has been called at least once.
+    bool isRuntimeInitialized() const noexcept;
+
+    // Default capability requirements used by initializeRuntime() when the
+    // caller does not supply explicit requirements.
+    static CapabilityRequirements defaultVectorRequirements() noexcept;
+    static CapabilityRequirements defaultGraphRequirements() noexcept;
+    static CapabilityRequirements defaultGeoRequirements() noexcept;
+
     // Shutdown all backends
     void shutdownAll();
     
@@ -400,6 +448,13 @@ private:
     
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unique_ptr<PluginLoader> pluginLoader_;
+
+    // Backends selected at the last initializeRuntime() call (nullptr until
+    // initializeRuntime() has been called).
+    IVectorBackend* selectedVectorBackend_ = nullptr;
+    IGraphBackend*  selectedGraphBackend_  = nullptr;
+    IGeoBackend*    selectedGeoBackend_    = nullptr;
+    bool            runtimeInitialized_    = false;
 };
 
 } // namespace acceleration
