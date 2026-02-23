@@ -165,6 +165,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
+#include "api/ws_handler.h"
 #endif
 
 #include "query/query_engine.h"
@@ -7433,6 +7434,48 @@ void HttpServer::Session::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(socket_), server_);
+                // Pre-configure CDC subscription from URL parameters.
+                ws_session->subscribeToCDC(decision.from_sequence,
+                                           decision.key_prefix);
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
             
             // Create WebSocket session and transfer socket ownership
@@ -7628,6 +7671,48 @@ void HttpServer::SslSession::processRequest() {
         // Check for WebSocket upgrade request
         if (server_->config_.enable_websocket && 
             websocket::is_upgrade(request_)) {
+            // Extract path_only for route-specific WebSocket handling.
+            const std::string ws_target(request_.target());
+            const auto ws_qpos = ws_target.find('?');
+            const std::string ws_path = (ws_qpos == std::string::npos)
+                                            ? ws_target
+                                            : ws_target.substr(0, ws_qpos);
+
+            if (api::WsChangeHandler::isChangeStreamPath(ws_path)) {
+                // Dedicated /v2/changes endpoint: validate auth and CDC params
+                // before accepting the WebSocket handshake.
+                api::WsChangeHandler ws_handler(server_->auth_,
+                                                server_->changefeed_.get());
+                const auto decision = ws_handler.validate(request_);
+                if (!decision.should_upgrade) {
+                    THEMIS_WARN("WebSocket /v2/changes (TLS) rejected ({}): {}",
+                                static_cast<int>(decision.reject_status),
+                                decision.reject_reason);
+                    response_.result(decision.reject_status);
+                    response_.set(http::field::content_type, "application/json");
+                    nlohmann::json err = {{"error", decision.reject_reason}};
+                    response_.body() = err.dump();
+                    response_.prepare_payload();
+                    return;
+                }
+                THEMIS_INFO("WebSocket /v2/changes (TLS) upgrade accepted "
+                            "(user={}, from_seq={}, prefix='{}')",
+                            decision.user_id, decision.from_sequence,
+                            decision.key_prefix);
+
+                auto ws_session = std::make_shared<WebSocketSession>(
+                    std::move(stream_), server_);
+                // Pre-configure CDC subscription from URL parameters.
+                ws_session->subscribeToCDC(decision.from_sequence,
+                                           decision.key_prefix);
+                if (server_->websocket_manager_) {
+                    server_->websocket_manager_->addSession(ws_session);
+                }
+                ws_session->run(std::move(request_));
+                return;
+            }
+
+            // Generic WebSocket upgrade (any path other than /v2/changes)
             THEMIS_INFO("WebSocket upgrade requested from HTTPS");
             
             // Create WebSocket session and transfer SSL stream ownership
