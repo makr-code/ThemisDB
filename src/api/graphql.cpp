@@ -1038,6 +1038,7 @@ Schema ThemisSchemaBuilder::build() {
     addTimeseriesTypes(schema);
     addQueryType(schema);
     addMutationType(schema);
+    addSubscriptionType(schema);
     
     return schema;
 }
@@ -1317,7 +1318,38 @@ void ThemisSchemaBuilder::addQueryType(Schema& schema) {
     graphQuery.arguments["depth"] = {"Int", false, false, nullptr};
     graphQuery.arguments["direction"] = {"String", false, false, nullptr};
     queryType.fields.push_back(graphQuery);
-    
+
+    // timeseriesRange(series: String!, from: String!, to: String!, limit: Int): [TimeseriesPoint!]!
+    FieldDefinition tsRangeQuery;
+    tsRangeQuery.name = "timeseriesRange";
+    tsRangeQuery.description = "Query timeseries data points within a time range";
+    tsRangeQuery.type = {"TimeseriesPoint", true, true, nullptr};
+    tsRangeQuery.arguments["series"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["from"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["to"] = {"String", true, false, nullptr};
+    tsRangeQuery.arguments["limit"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(tsRangeQuery);
+
+    // timeseriesLatest(series: String!, count: Int): [TimeseriesPoint!]!
+    FieldDefinition tsLatestQuery;
+    tsLatestQuery.name = "timeseriesLatest";
+    tsLatestQuery.description = "Query the most recent timeseries data points for a series";
+    tsLatestQuery.type = {"TimeseriesPoint", true, true, nullptr};
+    tsLatestQuery.arguments["series"] = {"String", true, false, nullptr};
+    tsLatestQuery.arguments["count"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(tsLatestQuery);
+
+    // nearbyDocuments(collection: String!, center: GeoPointInput!, radiusKm: Float!, limit: Int): [Document!]!
+    FieldDefinition geoQuery;
+    geoQuery.name = "nearbyDocuments";
+    geoQuery.description = "Query documents within a geographic radius";
+    geoQuery.type = {"Document", true, true, nullptr};
+    geoQuery.arguments["collection"] = {"String", true, false, nullptr};
+    geoQuery.arguments["center"] = {"GeoPointInput", true, false, nullptr};
+    geoQuery.arguments["radiusKm"] = {"Float", true, false, nullptr};
+    geoQuery.arguments["limit"] = {"Int", false, false, nullptr};
+    queryType.fields.push_back(geoQuery);
+
     schema.addType(queryType);
 }
 
@@ -1362,7 +1394,95 @@ void ThemisSchemaBuilder::addMutationType(Schema& schema) {
     createEdge.arguments["properties"] = {"JSON", false, false, nullptr};
     mutationType.fields.push_back(createEdge);
     
+    // insertTimeseriesPoint(series: String!, timestamp: String!, value: Float!, tags: JSON): TimeseriesPoint!
+    FieldDefinition insertTsPoint;
+    insertTsPoint.name = "insertTimeseriesPoint";
+    insertTsPoint.description = "Insert a single timeseries data point";
+    insertTsPoint.type = {"TimeseriesPoint", true, false, nullptr};
+    insertTsPoint.arguments["series"] = {"String", true, false, nullptr};
+    insertTsPoint.arguments["timestamp"] = {"String", true, false, nullptr};
+    insertTsPoint.arguments["value"] = {"Float", true, false, nullptr};
+    insertTsPoint.arguments["tags"] = {"JSON", false, false, nullptr};
+    mutationType.fields.push_back(insertTsPoint);
+
     schema.addType(mutationType);
+}
+
+void ThemisSchemaBuilder::addSubscriptionType(Schema& schema) {
+    // ChangeType enum
+    TypeDefinition changeTypeEnum;
+    changeTypeEnum.kind = TypeDefinition::Kind::Enum;
+    changeTypeEnum.name = "ChangeType";
+    changeTypeEnum.description = "The type of change event on a document";
+    changeTypeEnum.enum_values = {"CREATED", "UPDATED", "DELETED"};
+    schema.addType(changeTypeEnum);
+
+    // ChangeFilter input type
+    TypeDefinition changeFilterInput;
+    changeFilterInput.kind = TypeDefinition::Kind::InputObject;
+    changeFilterInput.name = "ChangeFilter";
+    changeFilterInput.description = "Filter criteria for change event subscriptions";
+    FieldDefinition filterTypeField;
+    filterTypeField.name = "type";
+    filterTypeField.description = "Only receive events of this change type";
+    filterTypeField.type = {"ChangeType", false, false, nullptr};
+    changeFilterInput.fields.push_back(filterTypeField);
+    schema.addType(changeFilterInput);
+
+    // ChangeEvent object type
+    TypeDefinition changeEventType;
+    changeEventType.kind = TypeDefinition::Kind::Object;
+    changeEventType.name = "ChangeEvent";
+    changeEventType.description = "A change event emitted when a document is created, updated, or deleted";
+
+    FieldDefinition seqField;
+    seqField.name = "sequence";
+    seqField.description = "Monotonically increasing sequence number for ordering events";
+    seqField.type = {"Int", true, false, nullptr};
+    changeEventType.fields.push_back(seqField);
+
+    FieldDefinition evtTypeField;
+    evtTypeField.name = "type";
+    evtTypeField.description = "The type of change (CREATED, UPDATED, DELETED)";
+    evtTypeField.type = {"ChangeType", true, false, nullptr};
+    changeEventType.fields.push_back(evtTypeField);
+
+    FieldDefinition keyField;
+    keyField.name = "key";
+    keyField.description = "The document key that was changed";
+    keyField.type = {"String", true, false, nullptr};
+    changeEventType.fields.push_back(keyField);
+
+    FieldDefinition docField;
+    docField.name = "document";
+    docField.description = "The new document state (null for DELETED events)";
+    docField.type = {"JSON", false, false, nullptr};
+    changeEventType.fields.push_back(docField);
+
+    FieldDefinition tsField;
+    tsField.name = "timestampMs";
+    tsField.description = "Unix timestamp in milliseconds when the change occurred";
+    tsField.type = {"Int", true, false, nullptr};
+    changeEventType.fields.push_back(tsField);
+
+    schema.addType(changeEventType);
+
+    // Subscription type
+    TypeDefinition subscriptionType;
+    subscriptionType.kind = TypeDefinition::Kind::Object;
+    subscriptionType.name = "Subscription";
+    subscriptionType.description = "ThemisDB real-time change subscriptions";
+
+    // onChange(collection: String!, filter: ChangeFilter): ChangeEvent!
+    FieldDefinition onChangeField;
+    onChangeField.name = "onChange";
+    onChangeField.description = "Subscribe to document change events in a collection";
+    onChangeField.type = {"ChangeEvent", true, false, nullptr};
+    onChangeField.arguments["collection"] = {"String", true, false, nullptr};
+    onChangeField.arguments["filter"] = {"ChangeFilter", false, false, nullptr};
+    subscriptionType.fields.push_back(onChangeField);
+
+    schema.addType(subscriptionType);
 }
 
 } // namespace graphql
