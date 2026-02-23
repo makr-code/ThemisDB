@@ -18,6 +18,7 @@
 #include <gtest/gtest.h>
 #include "acceleration/device_manager.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/cpu_backend.h"
 
 using namespace themis::acceleration;
 
@@ -251,4 +252,44 @@ TEST(DeviceManagerTest, PrecisionFlags_CUDACompute80_SupportsBF16) {
 TEST(DeviceManagerTest, LogDeviceInfo_DoesNotCrash) {
     // Just verify the method doesn't throw or abort.
     EXPECT_NO_THROW(DeviceManager::instance().logDeviceInfo());
+}
+
+// =============================================================================
+// BackendRegistry::deviceInfo() observability API
+// =============================================================================
+
+TEST(DeviceManagerTest, BackendRegistry_DeviceInfo_EmptyBeforeInit) {
+    // A freshly obtained (but not yet re-initialized) registry may or may not
+    // have device info already cached from a previous test.  What we can
+    // guarantee is that deviceInfo() never throws and always returns a vector.
+    EXPECT_NO_THROW(BackendRegistry::instance().deviceInfo());
+}
+
+TEST(DeviceManagerTest, BackendRegistry_DeviceInfo_NonEmptyAfterInit) {
+    BackendRegistry::instance().initializeRuntime();
+    const auto info = BackendRegistry::instance().deviceInfo();
+    // After initializeRuntime() there must be at least the CPU fallback device.
+    EXPECT_FALSE(info.empty());
+}
+
+TEST(DeviceManagerTest, BackendRegistry_DeviceInfo_AllDevicesHaveNames) {
+    BackendRegistry::instance().initializeRuntime();
+    const auto info = BackendRegistry::instance().deviceInfo();
+    for (const auto& d : info) {
+        EXPECT_FALSE(d.name.empty())
+            << "Device at index " << d.index << " has no name";
+    }
+}
+
+TEST(DeviceManagerTest, BackendRegistry_DeviceInfo_CPUFallbackAlwaysPresent) {
+    BackendRegistry::instance().initializeRuntime();
+    const auto info = BackendRegistry::instance().deviceInfo();
+    bool cpu_found = false;
+    for (const auto& d : info) {
+        if (d.backend_type == BackendType::CPU) {
+            cpu_found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(cpu_found) << "CPU fallback sentinel missing from deviceInfo()";
 }

@@ -11,29 +11,6 @@ namespace themis {
 namespace acceleration {
 
 /**
- * @brief Per-device capability snapshot as seen by the acceleration module.
- *
- * Populated by DeviceManager::probeDevices().  Fields are translated from
- * themis::gpu::DeviceInfo and augmented with acceleration-specific capability
- * flags derived from the device's compute capability.
- */
-struct DeviceCapabilityInfo {
-    int         index             = -1;      ///< Driver device index (-1 for CPU fallback)
-    std::string name;                        ///< Human-readable device name
-    BackendType backend_type      = BackendType::CPU;
-    uint64_t    total_vram_bytes  = 0;       ///< Total VRAM reported by driver
-    uint64_t    free_vram_bytes   = 0;       ///< Free VRAM at probe time
-    int         compute_major     = 0;       ///< Compute capability major (CUDA/ROCm)
-    int         compute_minor     = 0;       ///< Compute capability minor
-    bool        is_healthy        = true;    ///< false when the device reported an error
-    std::string error_message;              ///< Non-empty when is_healthy == false
-
-    // Derived precision support flags
-    bool        supports_fp16     = false;   ///< true for CUDA sm_70+ / ROCm gfx900+
-    bool        supports_bf16     = false;   ///< true for CUDA sm_80+ (Ampere and newer)
-};
-
-/**
  * @brief Acceleration-layer runtime device capability manager.
  *
  * Wraps themis::gpu::DeviceDiscovery to provide the acceleration module with

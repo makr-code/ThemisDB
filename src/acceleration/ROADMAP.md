@@ -76,7 +76,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
 - [P] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461) — `src/acceleration/cuda/ann_kernels.cu` implemented; ANN kernels (L2, cosine, inner-product, top-K) complete with frozen `ANNDistanceFn`/`ANNTopKFn` interface; dispatch table wired via `populateCUDAANNDispatch`
 - [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
-- [!] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164)
+- [P] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164) — `DeviceManager` singleton (`include/acceleration/device_manager.h`, `src/acceleration/device_manager.cpp`): 60s TTL probe cache, CUDA/ROCm/Vulkan/CPU BackendType mapping, FP16/BF16 precision flags from compute capability, `getBestDevice()` VRAM-ranked selection, `logDeviceInfo()` for startup observability; `BackendRegistry::deviceInfo()` observability accessor; integrated into `BackendRegistry::initializeRuntime()`; tests in `tests/test_device_manager.cpp`
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
 - [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
@@ -98,7 +98,6 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ## Known Issues & Limitations
 - CUDA ANN / geospatial backends are currently stub/scaffolding implementations; all ANN/geo operations fall through to CPU
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- No runtime device capability detection yet
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - Some backend source files are staged but not feature-complete for production traffic
 

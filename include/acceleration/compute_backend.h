@@ -106,6 +106,29 @@ namespace vendor_id {
     static constexpr uint32_t IMGTEC   = 0x1010;
 } // namespace vendor_id
 
+/**
+ * @brief Per-device capability snapshot produced by DeviceManager::probeDevices().
+ *
+ * Fields are translated from themis::gpu::DeviceInfo and augmented with
+ * acceleration-specific precision support flags derived from the device's
+ * compute capability.  CPU-fallback sentinels use index == -1.
+ */
+struct DeviceCapabilityInfo {
+    int         index             = -1;      ///< Driver device index (-1 for CPU fallback)
+    std::string name;                        ///< Human-readable device name
+    BackendType backend_type      = BackendType::CPU;
+    uint64_t    total_vram_bytes  = 0;       ///< Total VRAM reported by driver
+    uint64_t    free_vram_bytes   = 0;       ///< Free VRAM at probe time
+    int         compute_major     = 0;       ///< Compute capability major (CUDA/ROCm)
+    int         compute_minor     = 0;       ///< Compute capability minor
+    bool        is_healthy        = true;    ///< false when the device reported an error
+    std::string error_message;              ///< Non-empty when is_healthy == false
+
+    // Derived precision support flags
+    bool        supports_fp16     = false;   ///< true for CUDA sm_70+ / ROCm gfx900+
+    bool        supports_bf16     = false;   ///< true for CUDA sm_80+ (Ampere and newer)
+};
+
 // Capability contract for a compute backend.
 // Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
@@ -534,6 +557,15 @@ public:
     static CapabilityRequirements defaultGraphRequirements() noexcept;
     static CapabilityRequirements defaultGeoRequirements() noexcept;
 
+    /// Return the list of compute devices probed at the last initializeRuntime()
+    /// call.  Each entry contains the device name, BackendType, VRAM, compute
+    /// capability, and derived precision support flags.  Returns an empty vector
+    /// if initializeRuntime() has not been called yet.
+    ///
+    /// The returned snapshot is immutable; call initializeRuntime() again to
+    /// refresh the device list.
+    std::vector<DeviceCapabilityInfo> deviceInfo() const noexcept;
+
     // Shutdown all backends
     void shutdownAll();
     
@@ -552,6 +584,9 @@ private:
     IGraphBackend*  selectedGraphBackend_  = nullptr;
     IGeoBackend*    selectedGeoBackend_    = nullptr;
     bool            runtimeInitialized_    = false;
+
+    // Device info snapshot captured at the last initializeRuntime() call.
+    std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;
 };
 
 } // namespace acceleration
