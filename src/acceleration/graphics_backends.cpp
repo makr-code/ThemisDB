@@ -24,6 +24,8 @@
  */
 
 #include "acceleration/graphics_backends.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 #include "acceleration/shader_integrity.h"
 #include <iostream>
 #include <fstream>
@@ -819,8 +821,27 @@ std::vector<float> VulkanVectorBackend::computeDistances(
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "Vulkan",
+            "Vulkan backend not initialized",
+            "Call initialize() before using the backend"));
         std::cerr << "[Vulkan] computeDistances: backend not initialized" << std::endl;
         metrics_.recordError("not_initialized");
+        return {};
+    }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        metrics_.recordError("null_input");
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, and dim must all be > 0"));
+        metrics_.recordError("zero_dimension");
         return {};
     }
     auto opStart = std::chrono::steady_clock::now();
@@ -839,9 +860,15 @@ std::vector<float> VulkanVectorBackend::computeDistances(
         } else {
             metrics_.recordCosineOperation(elapsed, numQueries * numVectors);
         }
+        clearError();
         return result;
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] computeDistances error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "Vulkan",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
         metrics_.recordError("dispatch_failed");
         metrics_.recordKernelLaunchFailure();
         return {};
@@ -862,10 +889,31 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "Vulkan",
+            "Vulkan backend not initialized",
+            "Call initialize() before using the backend"));
         std::cerr << "[Vulkan] batchKnnSearch: backend not initialized" << std::endl;
         metrics_.recordError("not_initialized");
         return {};
     }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        metrics_.recordError("null_input");
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "Vulkan", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, dim, and k must all be > 0"));
+        metrics_.recordError("zero_dimension");
+        return {};
+    }
+    // Clamp k to available vectors to prevent out-of-bounds indexing
+    const size_t effectiveK = std::min(k, numVectors);
 
     // Compute all pairwise distances on the GPU
     auto opStart = std::chrono::steady_clock::now();
@@ -887,6 +935,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
         }
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] batchKnnSearch dispatch error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "Vulkan",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
         metrics_.recordError("dispatch_failed");
         metrics_.recordKernelLaunchFailure();
         return {};
@@ -894,7 +947,6 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
 
     // CPU top-k selection from the distance matrix
     std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
-    const size_t actualK = std::min(k, numVectors);
     for (size_t q = 0; q < numQueries; ++q) {
         const float* row = distances.data() + q * numVectors;
         std::vector<std::pair<float, uint32_t>> row_pairs(numVectors);
@@ -902,13 +954,14 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
             row_pairs[v] = {row[v], static_cast<uint32_t>(v)};
 
         std::partial_sort(row_pairs.begin(),
-                          row_pairs.begin() + static_cast<std::ptrdiff_t>(actualK),
+                          row_pairs.begin() + static_cast<std::ptrdiff_t>(effectiveK),
                           row_pairs.end());
 
-        results[q].resize(actualK);
-        for (size_t i = 0; i < actualK; ++i)
+        results[q].resize(effectiveK);
+        for (size_t i = 0; i < effectiveK; ++i)
             results[q][i] = {row_pairs[i].second, row_pairs[i].first};
     }
+    clearError();
     return results;
 #else
     return {};
@@ -1200,6 +1253,14 @@ BackendCapabilities VulkanGeoBackend::getCapabilities() const {
 
 bool VulkanGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
+    if (!isAvailable()) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DriverNotInstalled,
+            "VulkanGeo",
+            "Vulkan ICD not available on this system",
+            "Install Vulkan drivers (e.g. mesa-vulkan-drivers) and try again"));
+        return false;
+    }
     initialized_ = true;
     clearError();
     return true;
@@ -1221,6 +1282,23 @@ std::vector<float> VulkanGeoBackend::batchDistances(
     bool /*useHaversine*/
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "VulkanGeo",
+            "VulkanGeo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (latitudes1 == nullptr || longitudes1 == nullptr ||
+        latitudes2 == nullptr || longitudes2 == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "coordinate pointers must be non-null"));
+        return {};
+    }
+    if (count == 0) return {};
+
     std::vector<float> out(count);
     for (size_t i = 0; i < count; ++i) {
         out[i] = static_cast<float>(
@@ -1241,6 +1319,28 @@ std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
     size_t numPolygonVertices
 ) {
 #ifdef THEMIS_ENABLE_VULKAN
+    if (!initialized_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "VulkanGeo",
+            "VulkanGeo backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (pointLats == nullptr || pointLons == nullptr || polygonCoords == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "point and polygon coordinate pointers must be non-null"));
+        return {};
+    }
+    if (numPoints == 0) return {};
+    if (numPolygonVertices < 3) {
+        setError(ErrorContextHelpers::createValidationError(
+            "VulkanGeo", AccelerationErrorCode::InvalidInputShape,
+            "polygon must have at least 3 vertices"));
+        return {};
+    }
+
     std::vector<bool> out(numPoints, false);
     const int nv = static_cast<int>(numPolygonVertices);
     for (size_t p = 0; p < numPoints; ++p) {

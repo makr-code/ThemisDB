@@ -293,6 +293,119 @@ TEST(VulkanComputeEquivalents, VulkanVectorBackend_GPU_ComputeDistances_Cosine) 
     backend.shutdown();
 }
 
+// =============================================================================
+// Input validation tests — VulkanVectorBackend (no hardware required)
+// =============================================================================
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_ComputeDistances_NullQuery_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    // Validation must work even without initialization
+    const float v[] = {1.f, 0.f};
+    auto result = backend.computeDistances(nullptr, 1, 2, v, 1);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_ComputeDistances_NullVectors_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    const float q[] = {1.f, 0.f};
+    auto result = backend.computeDistances(q, 1, 2, nullptr, 1);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_ComputeDistances_ZeroDim_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    const float q[] = {1.f};
+    auto result = backend.computeDistances(q, 1, 0, q, 1);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_ComputeDistances_ZeroQueries_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    const float q[] = {1.f};
+    auto result = backend.computeDistances(q, 0, 1, q, 1);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_BatchKnnSearch_NullQuery_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(nullptr, 1, 2, v, 1, 1);
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(VulkanComputeEquivalents, VulkanVectorBackend_BatchKnnSearch_ZeroK_ReturnsEmpty) {
+    VulkanVectorBackend backend;
+    const float v[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearch(v, 1, 2, v, 1, 0);
+    EXPECT_TRUE(result.empty());
+}
+
+// =============================================================================
+// Input validation tests — VulkanGeoBackend (no hardware required)
+// =============================================================================
+
+TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchDistances_NullPointer_ReturnsEmpty) {
+    VulkanGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    const double lat[] = {48.8566};
+    const double lon[] = {2.3522};
+    auto result = backend.batchDistances(nullptr, lon, lat, lon, 1);
+    EXPECT_TRUE(result.empty());
+
+    backend.shutdown();
+}
+
+TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchDistances_ZeroCount_ReturnsEmpty) {
+    VulkanGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    const double lat[] = {48.8566};
+    const double lon[] = {2.3522};
+    auto result = backend.batchDistances(lat, lon, lat, lon, 0);
+    EXPECT_TRUE(result.empty());
+
+    backend.shutdown();
+}
+
+TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchPointInPolygon_NullPointer_ReturnsEmpty) {
+    VulkanGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    const double polygon[] = {0.0, 0.0, 0.0, 2.0, 2.0, 2.0, 2.0, 0.0};
+    const double lats[] = {1.0};
+    auto result = backend.batchPointInPolygon(nullptr, lats, 1, polygon, 4);
+    EXPECT_TRUE(result.empty());
+
+    backend.shutdown();
+}
+
+TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchPointInPolygon_TooFewVertices_ReturnsEmpty) {
+    VulkanGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    const double polygon[] = {0.0, 0.0, 1.0, 1.0};  // only 2 vertices — invalid
+    const double lats[] = {0.5};
+    const double lons[] = {0.5};
+    auto result = backend.batchPointInPolygon(lats, lons, 1, polygon, 2);
+    EXPECT_TRUE(result.empty());
+
+    backend.shutdown();
+}
+
+TEST(VulkanComputeEquivalents, VulkanGeoBackend_BatchPointInPolygon_ZeroPoints_ReturnsEmpty) {
+    VulkanGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    const double polygon[] = {0.0, 0.0, 0.0, 2.0, 2.0, 2.0, 2.0, 0.0};
+    const double lats[] = {1.0};
+    const double lons[] = {1.0};
+    auto result = backend.batchPointInPolygon(lats, lons, 0, polygon, 4);
+    EXPECT_TRUE(result.empty());
+
+    backend.shutdown();
+}
+
 #else // !THEMIS_ENABLE_VULKAN
 
 TEST(VulkanComputeEquivalents, VulkanNotCompiled_ANNDispatchAllNull) {
