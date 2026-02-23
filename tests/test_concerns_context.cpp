@@ -26,6 +26,7 @@
 #include "core/concerns/i_context.h"
 #include "core/concerns/i_async_logger.h"
 #include "core/concerns/i_async_cache.h"
+#include "core/config_validator.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
@@ -408,6 +409,161 @@ TEST_F(ConcernsContextTest, FullIntegration) {
     EXPECT_NO_THROW(ctx->flush());
     auto status = ctx->healthCheck();
     EXPECT_TRUE(status.isHealthy());
+}
+
+// ===== Configuration-Driven Adapter Selection Tests =====
+
+TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
+    // Default Config should pass adapter validation without throwing
+    ConcernsContext::Config cfg;
+    EXPECT_EQ("spdlog",   cfg.loggerAdapter);
+    EXPECT_EQ("",         cfg.tracerAdapter);
+    EXPECT_EQ("",         cfg.metricsAdapter);
+    EXPECT_EQ("inmemory", cfg.cacheAdapter);
+
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        cfg.loggerAdapter, cfg.tracerAdapter,
+        cfg.metricsAdapter, cfg.cacheAdapter);
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterNoopValuesAreValid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "noop", "noop", "noop", "noop");
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterKnownValuesAreValid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "otel", "prometheus", "inmemory");
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownLoggerAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "log4cpp", "", "", "inmemory");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("loggerAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("log4cpp"));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownTracerAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "jaeger", "", "inmemory");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("tracerAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("jaeger"));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownMetricsAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "datadog", "inmemory");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("metricsAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("datadog"));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "redis");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("cacheAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("redis"));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterMultipleInvalidAdaptersReportAllErrors) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "log4cpp", "jaeger", "datadog", "redis");
+    EXPECT_FALSE(result.valid);
+    EXPECT_EQ(4u, result.errors.size());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopLoggerSelection) {
+    // Selecting loggerAdapter="noop" via create(Config) must not throw
+    // and the resulting logger must be a no-op (no crash on any call).
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter = "noop";
+    // Use noop for everything else so we don't need a real OTel/Prometheus setup
+    cfg.tracingEnabled  = false;
+    cfg.metricsEnabled  = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_NO_THROW(ctx->logger().info("should not crash"));
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopTracerSelection) {
+    // Explicitly setting tracerAdapter="noop" must override tracingEnabled=true
+    // (we can't reach a real OTLP endpoint in unit tests).
+    ConcernsContext::Config cfg;
+    cfg.tracerAdapter  = "noop";
+    cfg.tracingEnabled = true; // would normally require OTel, but adapter overrides
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    auto span = ctx->tracer().startSpan("test_span");
+    EXPECT_FALSE(span->isValid()); // NoOp span is never valid
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopMetricsSelection) {
+    // Explicitly setting metricsAdapter="noop" must override metricsEnabled=true.
+    ConcernsContext::Config cfg;
+    cfg.metricsAdapter = "noop";
+    cfg.metricsEnabled = true;
+    cfg.tracingEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    // NoOp metrics export returns empty string
+    EXPECT_TRUE(ctx->metrics().exportMetrics().empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopCacheSelection) {
+    // Selecting cacheAdapter="noop" must result in a cache that never stores data.
+    ConcernsContext::Config cfg;
+    cfg.cacheAdapter   = "noop";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    ctx->cache().put("key", CacheEntry{"value"});
+    EXPECT_EQ(0u, ctx->cache().size()); // NoOp cache stores nothing
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenInMemoryCacheSelection) {
+    // Selecting cacheAdapter="inmemory" (explicit default) must work normally.
+    ConcernsContext::Config cfg;
+    cfg.cacheAdapter    = "inmemory";
+    cfg.cacheMaxSize    = 50;
+    cfg.tracingEnabled  = false;
+    cfg.metricsEnabled  = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    ctx->cache().put("k1", CacheEntry{"v1"});
+    EXPECT_EQ(1u, ctx->cache().size());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenInvalidAdapterThrows) {
+    // An unrecognised adapter name must cause create() to throw.
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter = "unknown_logger";
+
+    EXPECT_THROW(ConcernsContext::create(cfg), std::runtime_error);
 }
 
 // ===== MetricLabels Tests =====
