@@ -25,6 +25,7 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "acceleration/geo_acceleration_bridge.h"
+#include "acceleration/compute_backend.h"
 #include <memory>
 #include <string_view>
 #include <thread>
@@ -983,4 +984,37 @@ TEST(GeoAccelerationBridge, AgreesWith_GpuSpatialBackend_PointInPolygon) {
     ASSERT_EQ(bridge_res.size(), 2u);
     EXPECT_TRUE(bridge_res[0])  << "centre inside square";
     EXPECT_FALSE(bridge_res[1]) << "point outside square";
+}
+
+// ============================================================
+// BackendRegistry integration — self-registration verification
+// ============================================================
+
+// Verifies that the static initializer in geo_acceleration_bridge.cpp
+// registers the bridge with BackendRegistry.  getBestGeoBackend() must
+// return a non-null IGeoBackend that supports geo operations; it will be
+// the GeoAccelerationBridge if a CUDA device is present (type CUDA wins over
+// CPUGeoBackend in kFallbackOrder), or CPUGeoBackend when on CPU-only CI.
+// Either way, the backend must report supportsGeoOps == true.
+TEST(GeoAccelerationBridge, RegisteredInBackendRegistry) {
+    auto& registry = themis::acceleration::BackendRegistry::instance();
+
+    auto* geo = registry.getBestGeoBackend();
+    ASSERT_NE(geo, nullptr) << "BackendRegistry must return a geo backend";
+    EXPECT_TRUE(geo->getCapabilities().supportsGeoOps)
+        << "Selected geo backend must support geo operations";
+}
+
+// When the bridge is registered, BackendRegistry::selectGeoBackendFor() must
+// satisfy a request that needs geo operations.
+TEST(GeoAccelerationBridge, SelectGeoBackendFor_GeoOps) {
+    auto& registry = themis::acceleration::BackendRegistry::instance();
+
+    themis::acceleration::BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGeoOps = true;
+
+    auto* geo = registry.selectGeoBackendFor(reqs);
+    ASSERT_NE(geo, nullptr)
+        << "selectGeoBackendFor(needsGeoOps=true) must return a non-null backend";
+    EXPECT_TRUE(geo->getCapabilities().supportsGeoOps);
 }
