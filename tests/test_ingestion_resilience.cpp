@@ -622,6 +622,13 @@ TEST(QuarantineRetryTest, RetryConfigHasMaxQuarantineRetries) {
     EXPECT_EQ(cfg.max_quarantine_retries, 5);
 }
 
+TEST(QuarantineRetryTest, RetryConfigDefaultBackOffValues) {
+    RetryConfig cfg;
+    EXPECT_DOUBLE_EQ(cfg.initial_delay_ms, 500.0);
+    EXPECT_DOUBLE_EQ(cfg.backoff_factor,   2.0);
+    EXPECT_DOUBLE_EQ(cfg.max_delay_ms,     30000.0);
+}
+
 TEST(QuarantineRetryTest, RetryItemNotFound) {
     IngestionManager mgr("test_db");
     IngestionAdminApi admin(mgr);
