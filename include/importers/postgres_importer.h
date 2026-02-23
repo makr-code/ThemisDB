@@ -58,6 +58,11 @@ public:
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
     ) override;
+    ImportStats importDataStreaming(
+        const std::string& source_path,
+        const ImportOptions& options,
+        RowCallback row_callback
+    ) override;
     std::shared_ptr<ImportHandle> importDataAsync(
         const std::string& source_path,
         const ImportOptions& options
