@@ -848,7 +848,9 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
         }
 
         if (wave.empty()) {
-            // No progress possible – remaining tasks must be in failed_or_skipped
+            // No progress possible – all remaining tasks must have already been
+            // processed as condition-skipped, failure-skipped, or have unresolvable
+            // deps (should not occur with a cycle-free graph).
             for (const auto& id : order) {
                 if (!processed.count(id)) {
                     result.skipped.push_back(id);

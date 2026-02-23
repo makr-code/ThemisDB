@@ -69,7 +69,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 
 ### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
 - [ ] Distributed cron leader election (one runner per cluster)
-- [ ] Workflow engine (multi-step DAG with conditional branching)
+- [x] Workflow engine (multi-step DAG with conditional branching)
 - [ ] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth
 - [ ] Integration with external schedulers (Kubernetes CronJob, Airflow)

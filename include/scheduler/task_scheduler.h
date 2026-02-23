@@ -392,12 +392,15 @@ public:
      * `dependencies` list.  Tasks whose dependencies have all succeeded are
      * dispatched in parallel (up to max_concurrent_tasks).  If a task fails,
      * all tasks that (transitively) depend on it are skipped rather than
-     * executed.
+     * executed.  If a task's `branch_condition` predicate returns false, the
+     * task is condition-skipped and its dependents are condition-skipped
+     * transitively (reported in DagExecutionResult::condition_skipped).
      *
      * @param task_ids  IDs of the tasks to include in this DAG execution.
      *                  Tasks not in this set are ignored even if they appear
      *                  in a dependency list.
-     * @return DagExecutionResult with per-task outcomes.
+     * @return DagExecutionResult with per-task outcomes (succeeded, failed,
+     *         skipped, condition_skipped).
      * @throws std::invalid_argument if task_ids contains an unknown task ID.
      * @throws std::runtime_error    if the dependency graph contains a cycle.
      *
