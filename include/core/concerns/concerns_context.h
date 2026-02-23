@@ -131,6 +131,28 @@ public:
         return tracer_->startSpan(name);
     }
 
+    /**
+     * @brief Extract W3C TraceContext from inbound headers and start a linked
+     *        span via the active tracer.
+     *
+     * Delegates to ITracer::startSpanFromHeaders().
+     */
+    std::unique_ptr<ITracer::ISpan> startSpanFromHeaders(
+            const std::string& name,
+            const std::map<std::string, std::string>& headers) {
+        return tracer_->startSpanFromHeaders(name, headers);
+    }
+
+    /**
+     * @brief Inject the active span's W3C TraceContext into outgoing headers
+     *        via the active tracer.
+     *
+     * Delegates to ITracer::injectContext().
+     */
+    void injectContext(std::map<std::string, std::string>& headers) {
+        tracer_->injectContext(headers);
+    }
+
     void recordMetric(const std::string& name, double value) {
         metrics_->observeHistogram(name, value);
     }

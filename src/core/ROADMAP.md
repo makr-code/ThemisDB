@@ -20,6 +20,7 @@
 - [x] OpenTelemetry tracer adapter with circuit-breaker guarded OTLP export
 - [x] Prometheus metrics adapter — all IMetrics methods forwarded to MetricsCollector
 - [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
+- [x] OpenTelemetry trace and span propagation — `ITracer::startSpanFromHeaders()` (W3C TraceContext inbound extraction) and `ITracer::injectContext()` (outbound header injection + W3C Baggage); implemented in `OpenTelemetryTracerAdapter` with circuit-breaker guard; convenience wrappers on `ConcernsContext`
 - [x] Health check interface in ConcernsContext — `ProbeResult`/`HealthStatus` in `lifecycle.h`; `isHealthy()` on all four concern interfaces; `ConcernsContext::healthCheck()` and `readinessCheck()` aggregate per-concern results; `MonitoringApiHandler` exposes per-concern health in `/health/live` and `/health/ready` JSON responses (Issue: #1410)
 
 ## In Progress 🚧
@@ -30,7 +31,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OpenTelemetry trace and span propagation (Issue: #1407)
+- [x] OpenTelemetry trace and span propagation (Issue: #1407)
 - [x] Prometheus-compatible metrics adapter (Issue: #1408)
 - [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
@@ -67,7 +68,7 @@
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [x] Health check interface in ConcernsContext
 - [x] Structured log correlation (trace ID injection into log records)
-- [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
+- [x] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [I] Feature flag interface for runtime enable/disable (Issue: #1707)
 - [ ] Secrets interface for credential injection into components
@@ -81,7 +82,8 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- Context propagation across async/thread boundaries requires manual passing
+- Prometheus adapter not yet implemented; metrics are in-memory only
+- Context propagation across async/thread boundaries is supported via `startSpanFromHeaders` / `injectContext`; caller is responsible for passing headers across async boundaries
 - Feature flags are not yet a first-class concern in the DI system
 
 ## Breaking Changes
