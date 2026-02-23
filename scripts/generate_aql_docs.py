@@ -134,12 +134,6 @@ def extract_string_literals(text: str) -> list:
     return [v for _, v in results]
 
 
-def first_string_literal(text: str) -> str:
-    """Return the first string literal found in *text*, or ''."""
-    vals = extract_string_literals(text)
-    return vals[0] if vals else ''
-
-
 # ---------------------------------------------------------------------------
 # ArgType normalisation
 # ---------------------------------------------------------------------------
@@ -413,14 +407,9 @@ def parse_signature_block(block: str) -> Optional[FunctionEntry]:
 # Brief comment extraction
 # ---------------------------------------------------------------------------
 
-_BRIEF_RE = re.compile(
-    r'/\*\*\s*\n\s*\*\s*@brief\s+(\S+.*?)\s*\n',
-    re.MULTILINE
-)
-_ONELINE_BRIEF_RE = re.compile(
-    r'/\*\*\s*@brief\s+(\S+.*?)\s*\*/',
-    re.DOTALL
-)
+# ---------------------------------------------------------------------------
+# Brief comment extraction
+# ---------------------------------------------------------------------------
 
 
 def extract_brief(comment_block: str) -> str:
@@ -534,7 +523,7 @@ def _arg_table(entry: FunctionEntry) -> str:
     return '\n'.join(rows)
 
 
-def generate_markdown(entries: list, generated_from: str = '') -> str:
+def generate_markdown(entries: list) -> str:
     """Convert a list of :class:`FunctionEntry` to a Markdown reference document."""
     now = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
@@ -666,7 +655,6 @@ def main(argv=None) -> int:
         return 1
 
     # Exclude infrastructure headers and files that use a different FunctionSignature struct
-
     all_entries = []
     for header in sorted(headers_dir.glob('*.h')):
         if header.name in SKIP_HEADERS:
@@ -680,7 +668,7 @@ def main(argv=None) -> int:
 
     print(f'Parsed {len(all_entries)} AQL functions from {headers_dir}', file=sys.stderr)
 
-    markdown = generate_markdown(all_entries, generated_from=str(headers_dir))
+    markdown = generate_markdown(all_entries)
 
     if args.dry_run:
         print(markdown)
