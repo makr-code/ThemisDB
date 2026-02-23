@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.h                                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:59                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     304                                            ║
+    • Total Lines:     324                                            ║
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -209,6 +212,26 @@ public:
      * @return Certificate in PEM format, or empty optional if not found
      */
     std::optional<std::string> getCertificate(const std::string& key_label);
+
+    /**
+     * Encrypt data using HSM-backed public key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK wrapping in the key management hierarchy.
+     * @param data: Plaintext to encrypt (max ~245 bytes for RSA-2048)
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Encrypted bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> encryptData(const std::vector<uint8_t>& data,
+                                     const std::string& key_label = "");
+
+    /**
+     * Decrypt data using HSM-backed private key (RSA-PKCS#1 v1.5 or OAEP)
+     * Intended for DEK unwrapping in the key management hierarchy.
+     * @param encrypted: Ciphertext produced by encryptData()
+     * @param key_label: Key label in HSM (optional, uses config default if empty)
+     * @return Decrypted plaintext bytes, empty on failure (check getLastError())
+     */
+    std::vector<uint8_t> decryptData(const std::vector<uint8_t>& encrypted,
+                                     const std::string& key_label = "");
 
     /**
      * Check if HSM is initialized and ready

@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:57:00                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     882                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1482                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -329,7 +329,43 @@ TEST_F(TaskSchedulerTest, IntervalTaskExecutesAfterInterval) {
     EXPECT_GE(count.load(), 1);
 }
 
-// ===== Security validation =====
+TEST_F(TaskSchedulerTest, SchedulerLoopFailedTaskIncrementsTotalExecutions) {
+    // Verifies that task->total_executions is incremented even when a scheduled
+    // (background) execution fails.  Previously executeTask() only incremented
+    // total_executions in the success branch, unlike executeTaskNow/executeDAG.
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("always_fail_loop", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("deliberate scheduled failure");
+    });
+
+    ScheduledTask task;
+    task.name = "sched_fail_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "always_fail_loop";
+    task.trigger_type = ScheduledTask::TriggerType::INTERVAL;
+    task.interval = 80ms;
+    task.max_retries = 0;  // No retries so the loop fires fast
+    // Schedule for immediate execution
+    task.next_run = std::chrono::system_clock::now();
+
+    std::string id = scheduler_->registerTask(task);
+    scheduler_->start();
+
+    // Wait long enough for at least one scheduled execution
+    std::this_thread::sleep_for(350ms);
+    scheduler_->stop();
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_GE(call_count.load(), 1) << "task should have been called at least once";
+    // total_executions must equal failed_executions: each failure increments both
+    EXPECT_EQ(t->total_executions, t->failed_executions)
+        << "total_executions should equal failed_executions when task always fails";
+    EXPECT_GE(t->total_executions, 1u);
+}
+
+
 
 TEST_F(TaskSchedulerTest, EmptyAqlQueryThrows) {
     ScheduledTask task;
@@ -606,6 +642,86 @@ TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
     EXPECT_EQ(call_count.load(), 2);
 }
 
+TEST_F(TaskSchedulerTest, RetryPolicyExponentialBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("exp_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 3) throw std::runtime_error("transient error");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "exp_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "exp_backoff_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy           = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    policy.max_retries        = 3;
+    policy.initial_delay      = std::chrono::milliseconds{5};
+    policy.max_delay          = std::chrono::milliseconds{50};
+    policy.backoff_multiplier = 2.0;
+    task.retry_policy         = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 3);  // Succeeded on 3rd attempt
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
+    auto persist_path = db_path_ + "/persist_retry_test";
+    std::filesystem::create_directories(persist_path);
+
+    TaskScheduler::Config pcfg;
+    pcfg.persist_tasks = true;
+    pcfg.persistence_path = persist_path;
+    pcfg.enable_audit_logging = false;
+    pcfg.enable_anomaly_detection = false;
+    auto sched = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+
+    ScheduledTask task;
+    task.id = "persist_retry_task";
+    task.name = task.id;
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy rp;
+    rp.strategy           = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    rp.max_retries        = 5;
+    rp.initial_delay      = std::chrono::milliseconds{250};
+    rp.max_delay          = std::chrono::milliseconds{8000};
+    rp.backoff_multiplier = 3.0;
+    rp.jitter_factor      = 0.05;
+    task.retry_policy     = rp;
+
+    sched->registerFunction("noop_fn", [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    sched->registerTask(task);
+    sched.reset();  // destructor triggers saveTasks()
+
+    // Load from disk in a fresh scheduler instance
+    auto sched2 = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+    sched2->registerFunction("noop_fn", [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    auto loaded = sched2->getTask("persist_retry_task");
+    ASSERT_NE(loaded, nullptr);
+    ASSERT_TRUE(loaded->retry_policy.has_value());
+
+    const auto& loaded_rp = *loaded->retry_policy;
+    EXPECT_EQ(loaded_rp.strategy, ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF);
+    EXPECT_EQ(loaded_rp.max_retries, 5u);
+    EXPECT_EQ(loaded_rp.initial_delay, std::chrono::milliseconds{250});
+    EXPECT_EQ(loaded_rp.max_delay, std::chrono::milliseconds{8000});
+    EXPECT_DOUBLE_EQ(loaded_rp.backoff_multiplier, 3.0);
+    EXPECT_DOUBLE_EQ(loaded_rp.jitter_factor, 0.05);
+}
+
 // ===== exportMetrics() tests =====
 
 TEST_F(TaskSchedulerTest, ExportMetricsReturnsNonEmptyString) {
@@ -879,4 +995,604 @@ TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
     auto t_ok = scheduler_->getTask(id);
     ASSERT_NE(t_ok, nullptr);
     EXPECT_EQ(t_ok->last_error_category, ScheduledTask::ErrorCategory::NONE);
+}
+
+// ===== Conditional branching tests =====
+
+// Helper: register a FUNCTION task that stores its result in a shared variable and optionally
+// records execution order, with an optional branch_condition.
+static std::string registerConditionalTask(
+    TaskScheduler* sched,
+    const std::string& name,
+    const std::vector<std::string>& deps,
+    std::function<bool(const std::map<std::string, nlohmann::json>&)> condition,
+    std::vector<std::string>& exec_log,
+    std::mutex& log_mu)
+{
+    ScheduledTask t;
+    t.id = name;
+    t.name = name;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = name + "_cond_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    t.dependencies = deps;
+    t.branch_condition = std::move(condition);
+    sched->registerFunction(name + "_cond_fn", [name, &exec_log, &log_mu](const nlohmann::json&) {
+        std::lock_guard<std::mutex> lk(log_mu);
+        exec_log.push_back(name);
+        return nlohmann::json{{"task", name}, {"status", "ok"}};
+    });
+    return sched->registerTask(t);
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchTrueExecutesTask) {
+    // Task with branch_condition returning true should execute normally.
+    std::vector<std::string> log;
+    std::mutex mu;
+    registerConditionalTask(scheduler_.get(), "cond_always_true", {},
+        [](const std::map<std::string, nlohmann::json>&) { return true; },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cond_always_true"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    EXPECT_TRUE(res.condition_skipped.empty());
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cond_always_true");
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchFalseSkipsTask) {
+    // Task with branch_condition returning false should be condition-skipped.
+    std::vector<std::string> log;
+    std::mutex mu;
+    registerConditionalTask(scheduler_.get(), "cond_always_false", {},
+        [](const std::map<std::string, nlohmann::json>&) { return false; },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cond_always_false"});
+    EXPECT_TRUE(res.succeeded.empty());
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(res.condition_skipped.size(), 1u);
+    EXPECT_EQ(res.condition_skipped[0], "cond_always_false");
+    EXPECT_TRUE(log.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalBranchEvaluatesDepResult) {
+    // root → branch_ok (condition: root result status == "ok")
+    // root → branch_err (condition: root result status == "error")
+    // Only branch_ok should execute since root returns status "ok".
+    std::vector<std::string> log;
+    std::mutex mu;
+
+    // Root task returns {"status": "ok"}
+    ScheduledTask root;
+    root.id = "cb_root"; root.name = root.id;
+    root.type = ScheduledTask::TaskType::FUNCTION;
+    root.function_name = "cb_root_fn";
+    root.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerFunction("cb_root_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {{"status", "ok"}};
+    });
+    scheduler_->registerTask(root);
+
+    registerConditionalTask(scheduler_.get(), "cb_branch_ok", {"cb_root"},
+        [](const std::map<std::string, nlohmann::json>& deps) {
+            auto it = deps.find("cb_root");
+            return it != deps.end() && it->second.value("status", "") == "ok";
+        },
+        log, mu);
+
+    registerConditionalTask(scheduler_.get(), "cb_branch_err", {"cb_root"},
+        [](const std::map<std::string, nlohmann::json>& deps) {
+            auto it = deps.find("cb_root");
+            return it != deps.end() && it->second.value("status", "") == "error";
+        },
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cb_root", "cb_branch_ok", "cb_branch_err"});
+    EXPECT_EQ(res.succeeded.size(), 2u);   // root + branch_ok
+    EXPECT_TRUE(res.succeeded.count("cb_root"));
+    EXPECT_TRUE(res.succeeded.count("cb_branch_ok"));
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(res.condition_skipped.size(), 1u);
+    EXPECT_EQ(res.condition_skipped[0], "cb_branch_err");
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cb_branch_ok");
+}
+
+TEST_F(TaskSchedulerTest, DAG_ConditionalSkipPropagatesTransitively) {
+    // A → B (condition: false) → C
+    // B is condition-skipped, C should be condition-skipped transitively.
+    std::vector<std::string> log;
+    std::mutex mu;
+
+    // Register root task A inline (no branch_condition)
+    scheduler_->registerFunction("cs_a_fn", [&log, &mu](const nlohmann::json&) -> nlohmann::json {
+        std::lock_guard<std::mutex> lk(mu);
+        log.push_back("cs_a");
+        return nlohmann::json{{"task", "cs_a"}, {"status", "ok"}};
+    });
+    ScheduledTask ta;
+    ta.id = "cs_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cs_a_fn";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(ta);
+
+    registerConditionalTask(scheduler_.get(), "cs_b", {"cs_a"},
+        [](const std::map<std::string, nlohmann::json>&) { return false; },
+        log, mu);
+    registerConditionalTask(scheduler_.get(), "cs_c", {"cs_b"},
+        nullptr,  // no branch_condition – should be skipped transitively
+        log, mu);
+
+    auto res = scheduler_->executeDAG({"cs_a", "cs_b", "cs_c"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.succeeded.count("cs_a"));
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    EXPECT_EQ(res.condition_skipped.size(), 2u);
+    // Both B and C should be in condition_skipped
+    auto& cs = res.condition_skipped;
+    EXPECT_NE(std::find(cs.begin(), cs.end(), "cs_b"), cs.end());
+    EXPECT_NE(std::find(cs.begin(), cs.end(), "cs_c"), cs.end());
+    // Only A executed
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0], "cs_a");
+}
+
+// Helper: register a FUNCTION task that records execution order
+static std::string registerOrderTask(
+    TaskScheduler* sched,
+    const std::string& name,
+    const std::vector<std::string>& deps,
+    std::vector<std::string>& order_log,
+    std::mutex& log_mu)
+{
+    ScheduledTask t;
+    t.id = name;
+    t.name = name;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = name + "_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    t.dependencies = deps;
+    sched->registerFunction(name + "_fn", [name, &order_log, &log_mu](const nlohmann::json&) {
+        std::lock_guard<std::mutex> lk(log_mu);
+        order_log.push_back(name);
+        return nlohmann::json{{"task", name}};
+    });
+    return sched->registerTask(t);
+}
+
+TEST_F(TaskSchedulerTest, DAG_EmptySetReturnsEmptyResult) {
+    auto res = scheduler_->executeDAG({});
+    EXPECT_TRUE(res.succeeded.empty());
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_UnknownTaskIdThrows) {
+    EXPECT_THROW(scheduler_->executeDAG({"does_not_exist"}), std::invalid_argument);
+}
+
+TEST_F(TaskSchedulerTest, DAG_SingleTask) {
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "solo", {}, order, mu);
+
+    auto res = scheduler_->executeDAG({"solo"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+    ASSERT_EQ(order.size(), 1u);
+    EXPECT_EQ(order[0], "solo");
+}
+
+TEST_F(TaskSchedulerTest, DAG_LinearChainRespectsDependencyOrder) {
+    // a -> b -> c   (b depends on a; c depends on b)
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "dag_a", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "dag_b", {"dag_a"}, order, mu);
+    registerOrderTask(scheduler_.get(), "dag_c", {"dag_b"}, order, mu);
+
+    auto res = scheduler_->executeDAG({"dag_a", "dag_b", "dag_c"});
+    EXPECT_EQ(res.succeeded.size(), 3u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+
+    // Order must be a before b before c
+    auto pos = [&](const std::string& id) {
+        return std::find(order.begin(), order.end(), id) - order.begin();
+    };
+    EXPECT_LT(pos("dag_a"), pos("dag_b"));
+    EXPECT_LT(pos("dag_b"), pos("dag_c"));
+}
+
+TEST_F(TaskSchedulerTest, DAG_ParallelIndependentTasksAllSucceed) {
+    // p1, p2, p3 have no dependencies – all run independently
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "par1", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "par2", {}, order, mu);
+    registerOrderTask(scheduler_.get(), "par3", {}, order, mu);
+
+    auto res = scheduler_->executeDAG({"par1", "par2", "par3"});
+    EXPECT_EQ(res.succeeded.size(), 3u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_CascadingFailureSkipsDependents) {
+    // root -> child -> grandchild; root fails → child and grandchild skipped
+    scheduler_->registerFunction("fail_fn", [](const nlohmann::json&) -> nlohmann::json {
+        throw std::runtime_error("intentional failure");
+    });
+    scheduler_->registerFunction("child_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {};
+    });
+    scheduler_->registerFunction("grandchild_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {};
+    });
+
+    ScheduledTask root;
+    root.id = "dag_root_fail"; root.name = root.id;
+    root.type = ScheduledTask::TaskType::FUNCTION;
+    root.function_name = "fail_fn";
+    root.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    root.max_retries = 0;
+    scheduler_->registerTask(root);
+
+    ScheduledTask child;
+    child.id = "dag_child"; child.name = child.id;
+    child.type = ScheduledTask::TaskType::FUNCTION;
+    child.function_name = "child_fn";
+    child.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    child.dependencies = {"dag_root_fail"};
+    scheduler_->registerTask(child);
+
+    ScheduledTask grand;
+    grand.id = "dag_grandchild"; grand.name = grand.id;
+    grand.type = ScheduledTask::TaskType::FUNCTION;
+    grand.function_name = "grandchild_fn";
+    grand.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    grand.dependencies = {"dag_child"};
+    scheduler_->registerTask(grand);
+
+    auto res = scheduler_->executeDAG({"dag_root_fail", "dag_child", "dag_grandchild"});
+    EXPECT_EQ(res.failed.size(), 1u);
+    EXPECT_TRUE(res.failed.count("dag_root_fail"));
+    EXPECT_EQ(res.skipped.size(), 2u);
+    EXPECT_TRUE(res.succeeded.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_CycleDetectionThrows) {
+    // a depends on b, b depends on a → cycle
+    // Cycle is detected during topological sort, before any task executes.
+    scheduler_->registerFunction("cyc_noop", [](const nlohmann::json&) { return nlohmann::json{}; });
+
+    ScheduledTask ta;
+    ta.id = "cyc_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cyc_noop";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.dependencies = {"cyc_b"};
+    scheduler_->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "cyc_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "cyc_noop";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.dependencies = {"cyc_a"};
+    scheduler_->registerTask(tb);
+
+    EXPECT_THROW(scheduler_->executeDAG({"cyc_a", "cyc_b"}), std::runtime_error);
+}
+
+TEST_F(TaskSchedulerTest, DAG_DependencyOutsideSetIsIgnored) {
+    // task_x depends on task_y, but only task_x is in the execution set
+    std::vector<std::string> order;
+    std::mutex mu;
+    registerOrderTask(scheduler_.get(), "only_x", {"nonexistent_y"}, order, mu);
+
+    // Should not throw and should succeed (out-of-set dep is silently ignored)
+    auto res = scheduler_->executeDAG({"only_x"});
+    EXPECT_EQ(res.succeeded.size(), 1u);
+    EXPECT_TRUE(res.failed.empty());
+    EXPECT_TRUE(res.skipped.empty());
+}
+
+TEST_F(TaskSchedulerTest, DAG_DependenciesPersistedAndRestoredFromDisk) {
+    // Verify that the `dependencies` field survives a save/load round-trip.
+    auto persist_path = db_path_ + "/persist_dag_test";
+    std::filesystem::create_directories(persist_path);
+
+    TaskScheduler::Config pcfg;
+    pcfg.persist_tasks = true;
+    pcfg.persistence_path = persist_path;
+    pcfg.enable_audit_logging = false;
+    pcfg.enable_anomaly_detection = false;
+    auto sched = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+
+    ScheduledTask task;
+    task.id = "persist_dep_task";
+    task.name = task.id;
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.dependencies = {"dep_a", "dep_b"};
+    sched->registerTask(task);
+    sched.reset();  // destructor triggers saveTasks()
+
+    // Create a fresh scheduler that loads from disk
+    auto sched2 = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+    auto loaded = sched2->getTask("persist_dep_task");
+    ASSERT_NE(loaded, nullptr);
+    ASSERT_EQ(loaded->dependencies.size(), 2u);
+    EXPECT_EQ(loaded->dependencies[0], "dep_a");
+    EXPECT_EQ(loaded->dependencies[1], "dep_b");
+}
+
+// ===== Task Result Store tests =====
+
+class TaskResultStoreTest : public ::testing::Test {
+protected:
+    static std::string makeDbPath() {
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_rs_test_" + std::to_string(now))).string();
+    }
+
+    void SetUp() override {
+        db_path_ = makeDbPath();
+        std::filesystem::create_directories(db_path_);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_ + "/db";
+        cfg.enable_blobdb = false;
+        storage_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        idx_ = std::make_unique<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
+
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.max_concurrent_tasks = 4;
+        sched_cfg.check_interval = 50ms;
+        sched_cfg.persist_tasks = false;
+        sched_cfg.enable_audit_logging = false;
+        sched_cfg.enable_anomaly_detection = false;
+        sched_cfg.enable_result_store = true;
+        sched_cfg.result_store_max_results_per_task = 5;
+
+        scheduler_ = std::make_unique<TaskScheduler>(
+            engine_.get(), sched_cfg,
+            /*changefeed=*/nullptr,
+            /*audit_logger=*/nullptr,
+            storage_.get());
+    }
+
+    void TearDown() override {
+        if (scheduler_) {
+            scheduler_->stop();
+            scheduler_.reset();
+        }
+        engine_.reset();
+        idx_.reset();
+        storage_->close();
+        storage_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper> storage_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
+    std::unique_ptr<QueryEngine> engine_;
+    std::unique_ptr<TaskScheduler> scheduler_;
+};
+
+TEST_F(TaskResultStoreTest, ResultStoredAfterSuccessfulExecution) {
+    // Register a simple function task and execute it manually.
+    scheduler_->registerFunction("store_fn",
+        [](const nlohmann::json&) -> nlohmann::json {
+            return {{"status", "ok"}, {"value", 42}};
+        });
+
+    ScheduledTask t;
+    t.id   = "rs_task1"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "store_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(t);
+
+    auto res = scheduler_->executeTaskNow("rs_task1");
+    EXPECT_FALSE(res.contains("error"));
+
+    // Result should be stored.
+    auto latest = scheduler_->getLatestTaskResult("rs_task1");
+    ASSERT_TRUE(latest.has_value());
+    EXPECT_EQ(latest->task_id, "rs_task1");
+    EXPECT_TRUE(latest->success);
+    EXPECT_TRUE(latest->error.empty());
+    EXPECT_EQ(latest->output.value("value", 0), 42);
+    EXPECT_GT(latest->duration_ms, 0.0);
+}
+
+TEST_F(TaskResultStoreTest, ResultStoredAfterFailedExecution) {
+    scheduler_->registerFunction("fail_fn",
+        [](const nlohmann::json&) -> nlohmann::json {
+            throw std::runtime_error("intentional failure");
+        });
+
+    ScheduledTask t;
+    t.id   = "rs_fail_task"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "fail_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    scheduler_->executeTaskNow("rs_fail_task");
+
+    auto latest = scheduler_->getLatestTaskResult("rs_fail_task");
+    ASSERT_TRUE(latest.has_value());
+    EXPECT_FALSE(latest->success);
+    EXPECT_FALSE(latest->error.empty());
+    EXPECT_EQ(latest->task_id, "rs_fail_task");
+}
+
+TEST_F(TaskResultStoreTest, GetTaskResultsReturnsNewestFirst) {
+    scheduler_->registerFunction("cnt_fn",
+        [](const nlohmann::json& p) -> nlohmann::json {
+            return {{"n", p.value("n", 0)}};
+        });
+
+    ScheduledTask t;
+    t.id   = "rs_multi"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "cnt_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.parameters    = {{"n", 0}};
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    // Execute 3 times – each call succeeds.
+    for (int i = 1; i <= 3; ++i) {
+        // Patch parameters for each run so results differ.
+        auto task = scheduler_->getTask("rs_multi");
+        ASSERT_NE(task, nullptr);
+        task->parameters = {{"n", i}};
+        scheduler_->executeTaskNow("rs_multi");
+        // Small sleep to ensure distinct timestamps.
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    }
+
+    auto results = scheduler_->getTaskResults("rs_multi", 10);
+    ASSERT_EQ(results.size(), 3u);
+    // Newest first → n == 3, 2, 1
+    EXPECT_EQ(results[0].output.value("n", 0), 3);
+    EXPECT_EQ(results[1].output.value("n", 0), 2);
+    EXPECT_EQ(results[2].output.value("n", 0), 1);
+}
+
+TEST_F(TaskResultStoreTest, RetentionLimitPrunesOldestRecords) {
+    // max_results_per_task is set to 5 in SetUp.
+    scheduler_->registerFunction("prune_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    ScheduledTask t;
+    t.id   = "rs_prune"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "prune_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    // Execute 7 times (cap is 5).
+    for (int i = 0; i < 7; ++i) {
+        scheduler_->executeTaskNow("rs_prune");
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    }
+
+    auto results = scheduler_->getTaskResults("rs_prune", 100);
+    EXPECT_LE(results.size(), 5u);
+}
+
+TEST_F(TaskResultStoreTest, NoResultsWhenDisabled) {
+    // Build a scheduler WITHOUT result store.
+    TaskScheduler::Config cfg;
+    cfg.enable_audit_logging    = false;
+    cfg.enable_anomaly_detection = false;
+    cfg.enable_result_store     = false;
+
+    auto sched_no_store = std::make_unique<TaskScheduler>(engine_.get(), cfg);
+    sched_no_store->registerFunction("noop_rs",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask t;
+    t.id   = "rs_disabled"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "noop_rs";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    sched_no_store->registerTask(t);
+    sched_no_store->executeTaskNow("rs_disabled");
+
+    EXPECT_FALSE(sched_no_store->getLatestTaskResult("rs_disabled").has_value());
+    EXPECT_TRUE(sched_no_store->getTaskResults("rs_disabled", 10).empty());
+}
+
+TEST_F(TaskResultStoreTest, ResultSurvivesSchedulerRestart) {
+    // Verify that results stored in RocksDB are readable after recreating the scheduler.
+    scheduler_->registerFunction("survive_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"persisted", true}}; });
+
+    ScheduledTask t;
+    t.id   = "rs_survive"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "survive_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(t);
+    scheduler_->executeTaskNow("rs_survive");
+
+    // Destroy and recreate the scheduler (same storage).
+    scheduler_.reset();
+
+    TaskScheduler::Config cfg2;
+    cfg2.enable_audit_logging    = false;
+    cfg2.enable_anomaly_detection = false;
+    cfg2.enable_result_store     = true;
+    auto sched2 = std::make_unique<TaskScheduler>(
+        engine_.get(), cfg2,
+        nullptr, nullptr, storage_.get());
+
+    auto latest = sched2->getLatestTaskResult("rs_survive");
+    ASSERT_TRUE(latest.has_value());
+    EXPECT_TRUE(latest->success);
+    EXPECT_EQ(latest->output.value("persisted", false), true);
+    scheduler_ = std::move(sched2);
+}
+
+TEST_F(TaskResultStoreTest, DAGExecutionPersistsResults) {
+    // All three tasks in a linear DAG should have their results stored.
+    scheduler_->registerFunction("dag_rs_fn",
+        [](const nlohmann::json& p) -> nlohmann::json {
+            return {{"step", p.value("step", 0)}};
+        });
+
+    auto make_task = [&](const std::string& id, const std::vector<std::string>& deps, int step) {
+        ScheduledTask t;
+        t.id   = id;
+        t.name = id;
+        t.type = ScheduledTask::TaskType::FUNCTION;
+        t.function_name = "dag_rs_fn";
+        t.parameters    = {{"step", step}};
+        t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+        t.dependencies  = deps;
+        t.max_retries   = 0;
+        scheduler_->registerTask(t);
+    };
+
+    make_task("dag_rs_a", {}, 1);
+    make_task("dag_rs_b", {"dag_rs_a"}, 2);
+    make_task("dag_rs_c", {"dag_rs_b"}, 3);
+
+    auto dag_result = scheduler_->executeDAG({"dag_rs_a", "dag_rs_b", "dag_rs_c"});
+    ASSERT_EQ(dag_result.succeeded.size(), 3u);
+    EXPECT_TRUE(dag_result.failed.empty());
+
+    // All three tasks should have a stored result.
+    for (const auto& id : {"dag_rs_a", "dag_rs_b", "dag_rs_c"}) {
+        auto r = scheduler_->getLatestTaskResult(id);
+        ASSERT_TRUE(r.has_value()) << "Missing result for " << id;
+        EXPECT_TRUE(r->success);
+        EXPECT_EQ(r->task_id, id);
+    }
+    // Verify output values
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_a")->output.value("step", 0), 1);
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_b")->output.value("step", 0), 2);
+    EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_c")->output.value("step", 0), 3);
 }

@@ -13,18 +13,18 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
 
 ## In Progress 🚧
-- [I] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
+- [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
 - [I] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
-- [I] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
+- [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
+- [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
 - [I] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372)
-- [I] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
-- [I] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
+- [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
 - [!] ROCm/HIP support for AMD GPU acceleration (Issue: #1370)
 - [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
@@ -39,19 +39,19 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
 
 ### Phase 2: Core-Implementierung
-- [I] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383)
+- [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
 - [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
-- [I] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385)
+- [P] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `supportedPrecisions`/`supportedMetrics` now populated in `CUDAVectorBackend::getCapabilities()`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [I] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386)
+- [P] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to `computeDistances()`/`batchKnnSearch()`
 - [I] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)
 - [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
 
 ### Phase 4: Tests
-- [I] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389)
-- [I] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390)
-- [I] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391)
+- [P] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_cuda_ann_search.cpp` added
+- [P] Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) — CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`
+- [P] Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) — null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`
 
 ### Phase 5: Performance/Hardening
 - [I] Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392)
@@ -78,14 +78,14 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
 - [!] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164)
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
-- [!] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
+- [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
 - [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
-- [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
+- [P] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vector_index.cpp                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:42                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -520,8 +520,8 @@ TEST_F(GPUVectorIndexTest, CUDACosineMetric) {
     index.shutdown();
 }
 
-TEST_F(GPUVectorIndexTest, CUDAInnerProductFallback) {
-    // Test that INNER_PRODUCT falls back to CPU when CUDA is requested
+TEST_F(GPUVectorIndexTest, CUDAInnerProductSearch) {
+    // Test that INNER_PRODUCT metric works with the CUDA backend
     GPUVectorIndex::Config config;
     config.backend = GPUVectorIndex::Backend::CUDA;
     config.metric = GPUVectorIndex::DistanceMetric::INNER_PRODUCT;
@@ -534,7 +534,6 @@ TEST_F(GPUVectorIndexTest, CUDAInnerProductFallback) {
     ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
     
     // Search with INNER_PRODUCT metric
-    // This should work but will use CPU fallback internally
     size_t k = 5;
     auto results = index.search(queryVector, k);
     

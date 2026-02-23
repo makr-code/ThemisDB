@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:27                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     759                                            ║
+    • Total Lines:     822                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -141,6 +142,12 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     }
     else if (path == "/api/v1/voice/command" && method == http::verb::post) {
         return handleVoiceCommand(req);
+    }
+    else if (path == "/api/v1/voice/command/stream" && method == http::verb::post) {
+        return handleStreamCommand(req);
+    }
+    else if (path == "/api/v1/voice/wake-word/detect" && method == http::verb::post) {
+        return handleWakeWordDetect(req);
     }
     else if (path == "/api/v1/voice/call/record" && method == http::verb::post) {
         return handleRecordCall(req);
@@ -338,6 +345,89 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
         "Bad Request",
         "Missing text or audio_base64 field"
     );
+}
+
+http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
+    const http::request<http::string_body>& req
+) {
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "Invalid JSON body"
+        );
+    }
+
+    if (!body->contains("audio_base64")) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "Missing audio_base64 field"
+        );
+    }
+
+    std::string session_id = body->value("session_id", "default");
+    auto audio_data = decodeBase64((*body)["audio_base64"]);
+
+    // Collect all segments delivered by the streaming STT pipeline.
+    // streamProcessVoiceCommand invokes the callback synchronously from the
+    // calling thread (the sliding-window loop in STTProcessor::streamTranscribe
+    // is single-threaded), so no additional synchronization is needed here.
+    json segments_json = json::array();
+    std::string full_transcript;
+
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+        json seg_obj;
+        seg_obj["text"]       = seg.text;
+        seg_obj["start_ms"]   = seg.start_ms;
+        seg_obj["end_ms"]     = seg.end_ms;
+        seg_obj["confidence"] = seg.confidence;
+        if (seg.speaker_id >= 0) {
+            seg_obj["speaker_id"] = seg.speaker_id;
+        }
+        segments_json.push_back(std::move(seg_obj));
+        if (!full_transcript.empty()) {
+            full_transcript += ' ';
+        }
+        full_transcript += seg.text;
+    };
+
+    auto tts_audio = voice_assistant_->streamProcessVoiceCommand(
+        audio_data, session_id, on_segment);
+
+    json result;
+    result["success"]      = true;
+    result["session_id"]   = session_id;
+    result["transcript"]   = full_transcript;
+    result["segments"]     = segments_json;
+    result["audio_base64"] = encodeBase64(tts_audio);
+    result["mime_type"]    = "audio/wav";
+
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
+    const http::request<http::string_body>& req
+) {
+    auto audio_data = extractAudioData(req);
+    if (audio_data.empty()) {
+        return createErrorResponse(
+            http::status::bad_request,
+            "Bad Request",
+            "Audio data is required for wake-word detection"
+        );
+    }
+
+    auto detection = voice_assistant_->detectWakeWord(audio_data);
+
+    json result;
+    result["detected"]               = detection.detected;
+    result["wake_word_id"]           = detection.wake_word_id;
+    result["confidence"]             = detection.confidence;
+    result["detection_timestamp_ms"] = detection.detection_timestamp_ms;
+
+    return createJsonResponse(result);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleRecordCall(

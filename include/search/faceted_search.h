@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faceted_search.h                                   ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23 03:57:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
+    • Total Lines:     201                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 573f0f4bb  2026-02-22  feat(search): add dynamic facet counting with discoverFac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -160,6 +163,38 @@ public:
         const std::string& table,
         const std::vector<std::string>& candidate_pks,
         const std::vector<ActiveFacet>& active_facets
+    ) const;
+
+    /**
+     * @brief Discover all columns in a table that are suitable for faceting.
+     *
+     * Queries the index metadata to find columns with regular, range, or sparse
+     * indexes.  Geo, TTL, fulltext, and composite indexes are excluded because
+     * they do not produce meaningful categorical or numeric range facets.
+     *
+     * @param table  Table name.
+     * @return Pair of Status and list of column names suitable for faceting.
+     */
+    std::pair<SecondaryIndexManager::Status, std::vector<std::string>> discoverFacetableColumns(
+        const std::string& table
+    ) const;
+
+    /**
+     * @brief Compute dynamic facets for all discoverable columns in a table.
+     *
+     * Automatically calls discoverFacetableColumns() and then computeFacet() for
+     * each discovered column.  This provides "dynamic" facet counting — callers
+     * do not need to know which columns are indexed in advance.
+     *
+     * @param table          Table name.
+     * @param candidate_pks  Optional set of PKs to restrict counting (search results).
+     * @param max_values     Maximum distinct values per facet (0 = no limit).
+     * @return Pair of Status and list of FacetResult (one per discoverable column).
+     */
+    std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>> computeDynamicFacets(
+        const std::string& table,
+        const std::vector<std::string>& candidate_pks = {},
+        size_t max_values = 100
     ) const;
 
 private:

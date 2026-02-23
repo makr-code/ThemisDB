@@ -19,6 +19,8 @@ The ThemisDB Voice Module provides a full production-ready speech pipeline cover
 | 9 | `VoiceAccessibility` | Closed captions (VTT, SRT, plain text, HTML, JSON) |
 | 10 | `VoiceModelCache` | LRU model cache with memory limits and auto-eviction |
 | 10 | `VoiceBatchProcessor` | Batch audio processing, WER, PESQ-like quality metrics |
+| 11 | `VoiceBiometricAuthenticator` | Voice biometric authentication: enrollment, 1:1 verification, 1:N identification, liveness detection |
+| 2b | `WakeWordDetector` | Hands-free activation via configurable wake-word phrases |
 
 ---
 
@@ -285,6 +287,181 @@ if (model) {
     use_model(model->handle);
 }
 ```
+
+### Wake-Word Detection
+
+The `WakeWordDetector` enables hands-free activation: audio is continuously scanned for a
+keyword phrase; when detected, the full voice pipeline is triggered.
+
+```cpp
+#include "voice/wake_word_detector.h"
+
+themis::voice::WakeWordConfig ww_cfg;
+ww_cfg.sensitivity        = 0.5f;   // 0 = permissive, 1 = strict
+ww_cfg.buffer_length_ms   = 1500;   // Rolling audio window
+ww_cfg.cooldown_ms        = 1000;   // Time between re-detections (ms)
+ww_cfg.vad_min_energy     = 0.005f; // RMS gate – silence is skipped for free
+ww_cfg.continuous_listen  = true;   // Keep listening after a hit
+
+themis::voice::WakeWordDetector detector(ww_cfg);
+detector.addWakeWord("hey-themis", "hey themis");
+detector.addWakeWord("themis",     "themis");
+
+detector.setDetectionCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    std::cout << "Wake word fired: " << r.wake_word_id
+              << "  confidence=" << r.confidence << "\n";
+});
+
+// Microphone loop — feed raw 16-bit PCM chunks
+while (mic.isOpen()) {
+    auto chunk = mic.read(160);          // e.g. 10 ms @ 16 kHz
+    auto res   = detector.processAudioChunk(chunk);
+    if (res.detected) {
+        start_voice_command_pipeline();
+    }
+}
+```
+
+Integration into `VoiceAssistant` via `detectWakeWord()` / `setWakeWordCallback()`:
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_wake_word            = true;
+cfg.wake_word_config.sensitivity = 0.5f;
+cfg.wake_words = {{"hey-themis", "hey themis"}};
+
+themis::voice::VoiceAssistant va(cfg);
+va.setWakeWordCallback([](const themis::voice::WakeWordDetectionResult& r) {
+    // Trigger UI or pipeline here
+});
+
+// Per microphone chunk:
+va.detectWakeWord(pcm_chunk);
+```
+
+**Detection pipeline (two stages):**
+
+| Stage | Description | CPU cost |
+|-------|-------------|----------|
+| VAD gate | RMS energy vs. `vad_min_energy` | ~0% in silence |
+| Keyword scoring | Phrase density × centroid proxy × crest factor | < 0.1 ms/chunk |
+
+**Statistics:**
+
+```cpp
+auto stats = detector.getStatistics();
+// {
+//   "total_chunks_processed": 84000,
+//   "total_detections": 12,
+//   "registered_wake_words": 2,
+//   "buffer_samples": 24000
+// }
+```
+
+---
+
+### Voice Biometric Authentication
+
+`VoiceBiometricAuthenticator` (Phase 11) provides speaker enrollment, 1:1 verification, 1:N
+identification, liveness detection, and a combined `authenticate()` helper.  All operations are
+thread-safe.  The feature extractor is model-free; a future neural i-vector/x-vector backend can
+be plugged in without changing the public API.
+
+**Enrollment**
+
+```cpp
+#include "voice/voice_auth.h"
+
+themis::voice::VoiceAuthConfig cfg;
+cfg.verification_threshold   = 0.72f; // Min cosine similarity for a match
+cfg.identification_threshold = 0.68f; // Min score for 1:N candidates
+cfg.liveness_threshold       = 0.55f; // Min score to accept as live speech
+
+themis::voice::VoiceBiometricAuthenticator auth(cfg);
+
+// Collect ≥ 3 audio samples from the speaker (real microphone audio).
+std::vector<std::vector<uint8_t>> samples = {
+    record_audio_pcm(3000),   // 3-second PCM clip
+    record_audio_pcm(3000),
+    record_audio_pcm(3000),
+};
+
+themis::voice::VoiceProfileID profile_id;
+bool ok = auth.enroll_voice("alice", samples, profile_id);
+// profile_id is set on success; persists as long as auth object is alive.
+```
+
+**1:1 Verification**
+
+```cpp
+auto probe = record_audio_pcm(2000);
+auto result = auth.verify_speaker(profile_id, probe);
+if (result.verified) {
+    // result.match_score  – cosine similarity [0, 1]
+    // result.threshold    – decision threshold used
+}
+```
+
+**1:N Identification**
+
+```cpp
+std::vector<themis::voice::VoiceProfileID> candidates = {profile_a, profile_b, profile_c};
+auto id_result = auth.identify_speaker(candidates, probe);
+if (id_result.identified) {
+    // id_result.matches  – sorted by score desc, each with rank, profile_id, user_id
+    // id_result.top_match_id / top_match_score
+}
+```
+
+**Full authentication (liveness + verification)**
+
+```cpp
+// Looks up the profile by user_id, checks liveness first, then verifies.
+auto auth_result = auth.authenticate("alice", probe);
+if (auth_result.authenticated) {
+    // auth_result.confidence_score, auth_result.timestamp_ms
+} else {
+    // auth_result.decision_reason: "liveness_failed", "profile_not_found",
+    //                               "verification_failed", …
+}
+```
+
+**Liveness detection (standalone)**
+
+```cpp
+auto liveness = auth.detect_liveness(probe);
+// liveness.is_live   – true when the sample appears to be genuine live speech
+// liveness.score     – confidence [0, 1]
+// liveness.reason    – "live_speech" | "suspected_replay" | "empty_audio"
+```
+
+**Profile management**
+
+```cpp
+auth.list_profiles();                   // → std::vector<VoiceProfileID>
+auth.has_profile(profile_id);           // → bool
+auth.get_user_id(profile_id);           // → std::optional<std::string>
+auth.delete_profile(profile_id);        // → bool
+```
+
+**Statistics**
+
+```cpp
+auto stats = auth.get_statistics();
+// {
+//   "enrolled_profiles":        1,
+//   "total_enrollments":        1,
+//   "total_verifications":      5,
+//   "total_identifications":    2,
+//   "successful_authentications": 3
+// }
+```
+
+> **Note:** The default `EnrollmentConfig` has `require_liveness = true`, which rejects synthetic
+> or replayed audio during enrollment.  Disable this only for unit-test purposes with artificial
+> audio.
 
 ---
 

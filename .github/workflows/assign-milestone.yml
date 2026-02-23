@@ -1,0 +1,47 @@
+name: Assign Issues to Milestone
+
+# Manually triggered via the GitHub Actions UI or GitHub CLI.
+# Run once to assign all open issues that have no milestone.
+on:
+  workflow_dispatch:
+    inputs:
+      milestone:
+        description: >
+          Milestone number (e.g. "3") or exact milestone title
+          (e.g. "v1.5.0").  The workflow will fail if the value
+          does not match exactly one milestone.
+        required: true
+        type: string
+      dry_run:
+        description: 'Dry-run only (show what would change, no writes)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  issues: write   # needed to update issue milestones
+  contents: read  # needed for actions/checkout
+
+jobs:
+  assign:
+    name: Assign milestone to unassigned issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Assign milestone
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MILESTONE_INPUT: ${{ github.event.inputs.milestone }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: python .github/scripts/assign_milestone.py

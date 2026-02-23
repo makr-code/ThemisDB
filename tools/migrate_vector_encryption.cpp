@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            migrate_vector_encryption.cpp                      ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:57:06                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -102,6 +102,7 @@ public:
                 }
             } catch (...) {
                 ++stats_.errors;
+                std::cerr << "warning: error processing entity '" << pk << "' during scan\n";
             }
             
             return true;  // Continue scanning

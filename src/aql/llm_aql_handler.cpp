@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:16                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1298                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1397                                           ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7a0f10c19  2026-02-22  feat(llm/aql): cooperative cancellation in LLMTimeoutManager ║
+    • 20b191f78  2026-02-22  Code audit and bugfix: fix LLMException propagation, miss... ║
     • a8e12692a  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
     • 849800c79  2026-02-22  Add streaming natural language responses for long AQL exp... ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • fa9dfde79  2026-02-22  Implement streaming natural language responses for AQL ex... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,9 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongo_importer.cpp                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:58:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     847                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 477e08400  2026-02-22  fix(importers): audit and fix 3 bugs in MongoDB importer ... ║
+    • 0729043db  2026-02-22  feat(importers): implement MongoDB importer for document ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

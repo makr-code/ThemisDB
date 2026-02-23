@@ -23,18 +23,21 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
 - [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
 - [x] Optimistic concurrency control (OCC) – `getEntityVersion`, `optimisticPut`, `optimisticErase` with per-entity version numbers
+- [x] Bulk transaction API – `bulkPutEntities`, `bulkEraseEntities` for batch insert/update/delete without per-row overhead
 
 ## In Progress 🚧
+> All Phase 2 items are now complete.
+
 - [x] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
-- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
+- [x] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #2479)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking (Issue: #2475)
 - [x] Transaction timeout with automatic rollback
-- [!] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
+- [x] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
 - [I] Per-tenant transaction isolation namespace (Issue: #2325)
 
@@ -43,7 +46,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
 - [I] Calvin protocol for deterministic distributed transactions (Issue: #2328)
 - [I] Time-travel queries against snapshot history (Issue: #2329)
-- [I] Branch merge conflict resolution UI (Issue: #2478)
+- [x] Branch merge conflict resolution UI (Issue: #2478)
 
 ## Implementation Phases
 
@@ -65,12 +68,12 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 ### Phase 2: Serializable Isolation & Two-Phase Commit (Status: Completed ✅)
 - [x] Serializable isolation level (full SSI via predicate locking)
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
-- [~] Transaction savepoints (partial rollback within a transaction)
+- [x] Transaction savepoints (partial rollback within a transaction)
 
-### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
+### Phase 3: OCC Mode & Bulk API (Status: In Progress 🚧)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
-- [ ] Bulk transaction API (batch insert/update without per-row overhead)
+- [x] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
 
@@ -79,7 +82,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Global transaction manager for multi-region ACID guarantees
 - [ ] Calvin protocol for deterministic distributed transactions
 - [ ] Time-travel queries against snapshot history
-- [ ] Branch merge conflict resolution UI
+- [x] Branch merge conflict resolution UI
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

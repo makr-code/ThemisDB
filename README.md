@@ -1,90 +1,12 @@
 <div align="center">
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
-  
-  <!-- CI/CD Status -->
-  [![AI Guardrails](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml)
-  [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-  
-  <!-- Distribution -->
-  [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Docker Version](https://img.shields.io/docker/v/themisdb/themisdb/latest?label=version&logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  
-  <!-- Meta -->
-  [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
-  [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-  
-  <!-- Code Statistics -->
-  ![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json)
-  ![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/file-count.json)
 
-  <!-- Technology Stack -->
-  [![C++17/20](https://img.shields.io/badge/C%2B%2B-17%2F20-blue?logo=cplusplus)](src/core)
-  [![CUDA](https://img.shields.io/badge/CUDA-GPU%20Acceleration-76b900?logo=nvidia)](src/acceleration)
-  [![Vulkan](https://img.shields.io/badge/Vulkan-Compute-red?logo=vulkan)](src/acceleration)
-  [![RocksDB](https://img.shields.io/badge/RocksDB-Storage%20Engine-orange)](src/storage)
-  [![llama.cpp](https://img.shields.io/badge/llama.cpp-LLM%20Backend-8a2be2)](src/llm)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml/badge.svg)](docs/en/badges/ci-status.md)
+  [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](docs/en/badges/version.md)
+  [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
 
-  <!-- Multi-Model Capabilities -->
-  [![Relational AQL](https://img.shields.io/badge/Relational-AQL-0078d7)](src/aql)
-  [![Vector HNSW+FAISS](https://img.shields.io/badge/Vector-HNSW%2BFAISS-00b4d8)](src/index)
-  [![Graph](https://img.shields.io/badge/Graph-Property%20Graphs-6a0dad)](src/graph)
-  [![Document](https://img.shields.io/badge/Document-JSON%20Store-009900)](src/storage)
-  [![Geospatial](https://img.shields.io/badge/Geospatial-GeoJSON%2FR--tree-1e8bc3)](src/geo)
-  [![TimeSeries](https://img.shields.io/badge/TimeSeries-Optimized%20Storage-e67e22)](src/timeseries)
-
-  <!-- Enterprise & Security -->
-  [![ACID MVCC](https://img.shields.io/badge/ACID-MVCC-critical)](src/transaction)
-  [![TLS 1.3](https://img.shields.io/badge/TLS-1.3-red)](src/security)
-  [![PKI](https://img.shields.io/badge/PKI-X.509%2FGPG-cc0000)](src/security)
-  [![RBAC](https://img.shields.io/badge/RBAC-Role%20Based%20Access-b22222)](src/auth)
-  [![Encryption](https://img.shields.io/badge/Encryption-AES--256--GCM-darkred)](src/security)
-
-  <!-- AI/ML Integration -->
-  [![LLM-Ready](https://img.shields.io/badge/LLM-Ready-8a2be2)](src/llm)
-  [![RAG](https://img.shields.io/badge/RAG-Retrieval%20Augmented-7b2fbe)](src/rag)
-  [![Vector Search](https://img.shields.io/badge/Vector%20Search-HNSW-6a0dad)](src/index)
-  [![Embeddings](https://img.shields.io/badge/Embeddings-Native-5a189a)](src/llm)
-  [![LoRA](https://img.shields.io/badge/LoRA-Fine--Tuning-4a0e8f)](src/training)
-
-  <!-- Performance -->
-  [![GPU-Accelerated](https://img.shields.io/badge/GPU-Accelerated-76b900?logo=nvidia)](src/acceleration)
-  [![SIMD](https://img.shields.io/badge/SIMD-CPU%20Optimized-ff6600)](src/performance)
-  [![45K WPS](https://img.shields.io/badge/Writes-45K%2Fs-ff6600)](src/storage)
-  [![120K RPS](https://img.shields.io/badge/Reads-120K%2Fs-ff8800)](src/storage)
-
-  <!-- Distributed Systems -->
-  [![Sharding](https://img.shields.io/badge/Sharding-Horizontal%20Scale-1e6091)](src/sharding)
-  [![Raft Replication](https://img.shields.io/badge/Replication-Raft-154360)](src/replication)
-  [![CDC](https://img.shields.io/badge/CDC-Change%20Data%20Capture-1a5276)](src/cdc)
-
-  <!-- Query & Analytics -->
-  [![AQL](https://img.shields.io/badge/Query-AQL-0066cc)](src/aql)
-  [![GraphQL](https://img.shields.io/badge/Query-GraphQL-e10098?logo=graphql)](src/api)
-  [![OLAP](https://img.shields.io/badge/Analytics-OLAP-003087)](src/analytics)
-  [![FullText Search](https://img.shields.io/badge/Search-Full%20Text%20BM25-0055a5)](src/search)
-
-  <!-- Data Integration -->
-  [![PostgreSQL Import](https://img.shields.io/badge/Import-PostgreSQL%20Wire-336791?logo=postgresql)](src/importers)
-  [![Multi-Format Export](https://img.shields.io/badge/Export-Multi--Format-f39c12)](src/exporters)
-  [![Content Pipeline](https://img.shields.io/badge/Pipeline-Content%20Ingestion-d68910)](src/content)
-
-  <!-- Observability -->
-  [![Prometheus](https://img.shields.io/badge/Metrics-Prometheus-e6522c?logo=prometheus)](src/observability)
-  [![OpenTelemetry](https://img.shields.io/badge/Tracing-OpenTelemetry-425cc7?logo=opentelemetry)](src/observability)
-  [![Audit Logging](https://img.shields.io/badge/Audit-Logging-5d6d7e)](src/observability)
-
-  <!-- Quality Metrics -->
-  [![41 Modules](https://img.shields.io/badge/Modules-41-brightgreen)](src)
-  [![500K+ LOC](https://img.shields.io/badge/LOC-500K%2B-brightgreen)](src)
-  [![Production Ready](https://img.shields.io/badge/Production%20Ready-3%20Core%20Modules-brightgreen)](src/core)
-
-  <!-- Community -->
-  [![Chat](https://img.shields.io/badge/Chat-Slack-4a154b?logo=slack)](SUPPORT.md)
-  [![Forum](https://img.shields.io/badge/Forum-GitHub%20Discussions-181717?logo=github)](https://github.com/makr-code/ThemisDB/discussions)
-  [![Contributing](https://img.shields.io/badge/Contributing-Guide-0075ca)](CONTRIBUTING.md)
+  <sub>ℹ️ Each badge above links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for details.</sub>
 </div>
 
 ## What is ThemisDB?
@@ -105,7 +27,7 @@ ThemisDB is a **multi-model database** (scientific research) that combines relat
 - 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
 - 📊 **Observability & Automation (v1.4.1+)** - Health checks, alerting interface, automated backup scheduling (K8s-ready)
 
-**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)** · **[📁 Projektstruktur](INDEX.md)**
+**📚 [Full Documentation](docs/Home.md)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)** · **[📁 Projektstruktur](INDEX.md)**
 
 ---
 

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_key_provider_adapter.cpp                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:44                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     397                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   86.0/100                                       ║
+    • Total Lines:     484                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 7                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -393,5 +396,92 @@ TEST_F(HSMKeyProviderAdapterTest, GetStats) {
     EXPECT_TRUE(stats.contains("total_key_versions"));
 }
 
-// Integration test with FieldEncryption would go here
-// but requires more setup and is better as a separate integration test
+// ============================================================================
+// Stub-mode tests: do NOT require SoftHSM2, validate wrap/unwrap round-trip
+// ============================================================================
+
+class HSMKeyProviderAdapterStubTest : public ::testing::Test {
+protected:
+    std::shared_ptr<HSMProvider> createStubHSM() {
+        HSMConfig cfg;
+        cfg.library_path = ""; // Force stub mode (no real PKCS#11 library)
+        auto hsm = std::make_shared<HSMProvider>(cfg);
+        if (!hsm->initialize()) {
+            return nullptr; // production-mode env may block stub
+        }
+        return hsm;
+    }
+};
+
+TEST_F(HSMKeyProviderAdapterStubTest, WrapUnwrapRoundTrip) {
+    auto hsm = createStubHSM();
+    if (!hsm) {
+        GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
+    }
+    ASSERT_TRUE(hsm->isStubProvider());
+
+    HSMKeyProviderAdapter adapter(hsm);
+
+    std::vector<uint8_t> original_key(32);
+    for (uint8_t i = 0; i < 32; ++i) original_key[i] = i;
+
+    KeyMetadata meta;
+    meta.status = KeyStatus::ACTIVE;
+    meta.algorithm = "AES-256-GCM";
+    adapter.createKeyFromBytes("round-trip-key", original_key, meta);
+
+    auto retrieved = adapter.getKey("round-trip-key");
+    ASSERT_EQ(retrieved.size(), 32u);
+    EXPECT_EQ(retrieved, original_key) << "DEK round-trip failed: unwrapped key does not match original";
+}
+
+TEST_F(HSMKeyProviderAdapterStubTest, MultipleKeysIndependentWrap) {
+    auto hsm = createStubHSM();
+    if (!hsm) {
+        GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
+    }
+
+    HSMKeyProviderAdapter adapter(hsm);
+
+    std::vector<uint8_t> key_a(32, 0xAA);
+    std::vector<uint8_t> key_b(32, 0xBB);
+
+    KeyMetadata meta;
+    meta.status = KeyStatus::ACTIVE;
+
+    adapter.createKeyFromBytes("key-a", key_a, meta);
+    adapter.createKeyFromBytes("key-b", key_b, meta);
+
+    EXPECT_EQ(adapter.getKey("key-a"), key_a);
+    EXPECT_EQ(adapter.getKey("key-b"), key_b);
+    EXPECT_NE(adapter.getKey("key-a"), adapter.getKey("key-b"));
+}
+
+TEST_F(HSMKeyProviderAdapterStubTest, RotatedKeyRoundTrip) {
+    auto hsm = createStubHSM();
+    if (!hsm) {
+        GTEST_SKIP() << "Stub HSM could not initialize (production mode env?)";
+    }
+
+    HSMKeyProviderAdapter adapter(hsm);
+
+    std::vector<uint8_t> initial_key(32, 0x11);
+    KeyMetadata meta;
+    meta.status = KeyStatus::ACTIVE;
+    adapter.createKeyFromBytes("rot-key", initial_key, meta);
+
+    // Rotate key
+    uint32_t new_version = adapter.rotateKey("rot-key");
+    EXPECT_EQ(new_version, 2u);
+
+    // Both versions should be retrievable with correct content
+    auto v1 = adapter.getKey("rot-key", 1);
+    ASSERT_EQ(v1.size(), 32u);
+    EXPECT_EQ(v1, initial_key);
+
+    // New (rotated) version is a fresh random key, should be 32 bytes
+    auto v2 = adapter.getKey("rot-key", 2);
+    ASSERT_EQ(v2.size(), 32u);
+    // Rotated key is random; just verify it is distinct from v1
+    EXPECT_NE(v2, v1);
+}

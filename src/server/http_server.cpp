@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:25                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8334                                           ║
+    • Total Lines:     8361                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
-    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
+    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
+    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
+    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
+    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,6 +152,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/serverless_function_api_handler.h"
 #include "metadata/schema_manager.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
@@ -697,6 +700,18 @@ HttpServer::HttpServer(
         shard_topology_, redundancy_manager_, auth_
     );
     THEMIS_INFO("Geo Topology API Handler initialized");
+
+    // Initialize Replication Topology API Handler (web UI visualizer)
+    {
+        std::string repl_primary_id;
+        if (const char* pid = std::getenv("THEMIS_WAL_PRIMARY_ID")) {
+            repl_primary_id = pid;
+        }
+        replication_topology_api_ = std::make_unique<themis::server::ReplicationTopologyApiHandler>(
+            replication_coordinator_, wal_manager_, repl_primary_id, auth_
+        );
+        THEMIS_INFO("Replication Topology API Handler initialized");
+    }
     
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
@@ -1019,6 +1034,10 @@ HttpServer::HttpServer(
     // Initialize GraphQL API Handler
     graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
+
+    // Initialize Serverless Function Hosting Handler
+    serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
+    THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
@@ -1890,6 +1909,8 @@ namespace {
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        TransactionVersionGet,
+        TransactionExplainGet,
         // Distributed (cross-shard) 2PC transaction endpoints
         DtxnBeginPost,
         DtxnOperationPost,
@@ -2038,6 +2059,11 @@ namespace {
     GeoTopologyShardDelete,   // DELETE /api/v1/geo/topology/shard/{shard_id}
     GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
     GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
+
+    // Replication Topology API (web UI visualizer)
+    ReplicationTopologyGet,   // GET  /api/v1/replication/topology
+    ReplicationHealthGet,     // GET  /api/v1/replication/health
+    ReplicationTopologyUiGet, // GET  /ui/replication/topology
        
     // MVCC versioning API
     MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
@@ -2050,6 +2076,15 @@ namespace {
     // GraphQL endpoint
     GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
     GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
+
+    // Serverless function hosting
+    ServerlessFnPost,        // POST /api/v1/functions
+    ServerlessFnListGet,     // GET  /api/v1/functions
+    ServerlessFnGet,         // GET  /api/v1/functions/{id}
+    ServerlessFnPut,         // PUT  /api/v1/functions/{id}
+    ServerlessFnDelete,      // DELETE /api/v1/functions/{id}
+    ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
+    ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
 
         NotFound
     };
@@ -2321,12 +2356,21 @@ namespace {
     if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
+
+    // Replication Topology API
+    if (path_only == "/api/v1/replication/topology" && method == http::verb::get) return Route::ReplicationTopologyGet;
+    if (path_only == "/api/v1/replication/health"   && method == http::verb::get) return Route::ReplicationHealthGet;
+    if (path_only == "/ui/replication/topology"     && method == http::verb::get) return Route::ReplicationTopologyUiGet;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
+        if (target == "/transaction/version" && method == http::verb::get) return Route::TransactionVersionGet;
+        // /transaction/{id}/explain  (GET)
+        if (path_only.starts_with("/transaction/") && path_only.ends_with("/explain") &&
+            method == http::verb::get) return Route::TransactionExplainGet;
 
         // Distributed (cross-shard) 2PC transaction endpoints
         if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
@@ -2431,6 +2475,38 @@ namespace {
         method == http::verb::post) return Route::GraphQLPost;
     if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
+
+    // Serverless function hosting
+    if (path_only == "/api/v1/functions" && method == http::verb::post)
+        return Route::ServerlessFnPost;
+    if (path_only == "/api/v1/functions" && method == http::verb::get)
+        return Route::ServerlessFnListGet;
+    {
+        // /api/v1/functions/{id}/invoke  (POST)
+        static constexpr std::string_view kFnInvokePrefix{"/api/v1/functions/"};
+        static constexpr std::string_view kInvokeSuffix{"/invoke"};
+        if (method == http::verb::post &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
+            path_only.substr(path_only.size() - kInvokeSuffix.size()) == kInvokeSuffix)
+            return Route::ServerlessFnInvokePost;
+
+        // /api/v1/functions/{id}/versions  (GET)
+        static constexpr std::string_view kVersionsSuffix{"/versions"};
+        if (method == http::verb::get &&
+            path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
+            path_only.substr(path_only.size() - kVersionsSuffix.size()) == kVersionsSuffix)
+            return Route::ServerlessFnVersionsGet;
+
+        // /api/v1/functions/{id}  (GET / PUT / DELETE)
+        if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
+            path_only.size() > kFnInvokePrefix.size()) {
+            if (method == http::verb::get)    return Route::ServerlessFnGet;
+            if (method == http::verb::put)    return Route::ServerlessFnPut;
+            if (method == http::verb::delete_) return Route::ServerlessFnDelete;
+        }
+    }
 
         return Route::NotFound;
     }
@@ -3711,8 +3787,14 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
             break;
+        case Route::TransactionVersionGet:
+            response = transaction_api_->handleGetVersion(req);
+            break;
 
         // Distributed (cross-shard) 2PC transaction endpoints
+        case Route::TransactionExplainGet:
+            response = transaction_api_->handleExplain(req);
+            break;
         case Route::DtxnBeginPost:
             response = distributed_txn_api_->handleBegin(req);
             break;
@@ -3873,6 +3955,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GeoConfigPut:
             response = geo_topology_api_->handleConfigPut(req);
+            break;
+
+        // ── Replication Topology API ──────────────────────────────────────────
+        case Route::ReplicationTopologyGet:
+            response = replication_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::ReplicationHealthGet:
+            response = replication_topology_api_->handleHealthGet(req);
+            break;
+        case Route::ReplicationTopologyUiGet:
+            response = replication_topology_api_->handleUiGet(req);
             break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);
@@ -4044,6 +4137,54 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         case Route::GraphQLSchemaGet: {
             response = graphql_api_handler_->handleSchemaGet(req);
+            break;
+        }
+
+        // ── Serverless function hosting ──────────────────────────────────────
+        case Route::ServerlessFnPost: {
+            response = serverless_fn_handler_->handleRegister(req);
+            break;
+        }
+        case Route::ServerlessFnListGet: {
+            response = serverless_fn_handler_->handleList(req);
+            break;
+        }
+        case Route::ServerlessFnGet:
+        case Route::ServerlessFnPut:
+        case Route::ServerlessFnDelete:
+        case Route::ServerlessFnInvokePost:
+        case Route::ServerlessFnVersionsGet: {
+            // Extract function {id} from /api/v1/functions/{id}[/invoke|/versions]
+            static constexpr std::string_view kFnPrefix{"/api/v1/functions/"};
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            std::string id = path_only.substr(kFnPrefix.size());
+            // Strip trailing sub-resource segment if present
+            for (const auto* suffix : {"/invoke", "/versions"}) {
+                const std::string_view sv{suffix};
+                if (id.size() > sv.size() &&
+                    id.substr(id.size() - sv.size()) == sv) {
+                    id = id.substr(0, id.size() - sv.size());
+                    break;
+                }
+            }
+            const auto method = req.method();
+            const bool has_invoke  = path_only.size() > 7 &&
+                path_only.substr(path_only.size() - 7) == "/invoke";
+            const bool has_versions = path_only.size() > 9 &&
+                path_only.substr(path_only.size() - 9) == "/versions";
+            if (has_invoke)
+                response = serverless_fn_handler_->handleInvoke(req, id);
+            else if (has_versions)
+                response = serverless_fn_handler_->handleVersions(req, id);
+            else if (method == http::verb::get)
+                response = serverless_fn_handler_->handleGet(req, id);
+            else if (method == http::verb::put)
+                response = serverless_fn_handler_->handleUpdate(req, id);
+            else
+                response = serverless_fn_handler_->handleDelete(req, id);
             break;
         }
 
@@ -5136,6 +5277,9 @@ http::response<http::string_body> HttpServer::handleConfig(
             {"runtime", {
                 {"compression_active", storage_->getCompressionType()},
                 {"db_size_bytes", storage_->getApproximateSize()}
+            }},
+            {"logging", {
+                {"level", themis::utils::Logger::levelToString(themis::utils::Logger::getLevel())}
             }},
             {"metrics", {
                 {"total_requests", request_count_.load(std::memory_order_relaxed)},

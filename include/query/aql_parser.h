@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_parser.h                                       ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:57                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -586,6 +586,39 @@ struct ParseError {
 // Note: ParseResult struct removed - now using Result<std::shared_ptr<Query>> directly
 
 // ============================================================================
+// Multi-Statement Transaction AQL
+// ============================================================================
+
+/// Terminal action for a multi-statement transaction block.
+enum class AqlTransactionAction {
+    Commit,   ///< COMMIT – execute all statements atomically
+    Rollback  ///< ROLLBACK – discard all statements
+};
+
+/// A parsed multi-statement AQL transaction block.
+/// Syntax:
+///   BEGIN
+///     <AQL statement 1>
+///     <AQL statement 2> ...
+///   COMMIT | ROLLBACK
+struct AqlTransactionBlock {
+    std::vector<std::shared_ptr<Query>> statements; ///< Individual AQL queries in order
+    AqlTransactionAction action = AqlTransactionAction::Commit;
+
+    nlohmann::json toJSON() const {
+        nlohmann::json j;
+        j["type"] = "transaction_block";
+        j["action"] = (action == AqlTransactionAction::Commit) ? "COMMIT" : "ROLLBACK";
+        nlohmann::json stmts = nlohmann::json::array();
+        for (const auto& stmt : statements) {
+            stmts.push_back(stmt ? stmt->toJSON() : nlohmann::json());
+        }
+        j["statements"] = stmts;
+        return j;
+    }
+};
+
+// ============================================================================
 // AQL Parser
 // ============================================================================
 
@@ -608,6 +641,23 @@ public:
      *   }
      */
     Result<std::shared_ptr<Query>> parse(const std::string& query_string);
+
+    /**
+     * Parse a multi-statement transaction block.
+     *
+     * Expects input of the form:
+     *   BEGIN
+     *     <AQL statement 1>
+     *     <AQL statement 2>
+     *     ...
+     *   COMMIT | ROLLBACK
+     *
+     * Each statement must be a valid AQL query (starting with FOR or WITH).
+     *
+     * @param input  The full multi-statement AQL transaction string.
+     * @return       Result<AqlTransactionBlock> or an error.
+     */
+    Result<AqlTransactionBlock> parseTransactionBlock(const std::string& input);
     
 private:
     // Helper methods (implemented in aql_parser.cpp)

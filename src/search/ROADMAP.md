@@ -25,7 +25,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 
 ## In Progress 🚧
-- [I] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
+- [x] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
 ## Planned Features 📋
@@ -33,9 +33,9 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [I] Configurable re-ranking with LLM feedback loop (Issue: #2454)
+- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
 - [I] Search analytics (top queries, zero-result queries) (Issue: #2275)
-- [I] Spelling correction suggestions (Issue: #2455)
+- [x] Spelling correction suggestions (Issue: #2455)
 
 ### Long-term (6-12 months)
 - [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
@@ -60,15 +60,15 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 
 ### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
-- [~] Faceted search with dynamic facet counting
+- [x] Faceted search with dynamic facet counting
 - [~] Highlight / snippet generation for matched terms
 
 ### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)
 - [ ] Multi-field boosting (title > body > tags)
 - [ ] Negative keyword filtering (`NOT` operator)
-- [ ] Configurable re-ranking with LLM feedback loop
+- [x] Configurable re-ranking with LLM feedback loop
 - [ ] Search analytics (top queries, zero-result queries)
-- [ ] Spelling correction suggestions
+- [x] Spelling correction suggestions
 
 ### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
 - [ ] Neural sparse retrieval (SPLADE / BERT-based)
@@ -88,7 +88,6 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ## Known Issues & Limitations
 - Synonym expansion dictionary must be manually provided; no automatic synonym discovery.
 - Phonetic search accuracy varies by language; optimized for English.
-- Re-ranking with LLM feedback is not yet implemented; planned for a future release.
 
 ## Breaking Changes
 - HybridSearch API (RRF weights, mode selection) is stable from v1.2.0.

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pkcs11_minimal.h                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:59                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     197                                            ║
+    • Total Lines:     224                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -97,9 +101,32 @@ typedef struct CK_ATTRIBUTE {
 
 // Mechanism constants (subset)
 #define CKM_RSA_PKCS 0x00000001U
+#define CKM_RSA_PKCS_OAEP 0x00000009U
 #define CKM_SHA256_RSA_PKCS 0x00000040U
 #define CKM_ECDSA 0x00001041U
 #define CKM_RSA_PKCS_KEY_PAIR_GEN 0x00000000U
+#define CKM_SHA_1 0x00000220U
+#define CKM_SHA256 0x00000250U
+
+// MGF (Mask Generation Function) types for RSA-OAEP
+typedef uint32_t CK_RSA_PKCS_MGF_TYPE;
+#define CKG_MGF1_SHA1   0x00000001U
+#define CKG_MGF1_SHA256 0x00000002U
+#define CKG_MGF1_SHA384 0x00000003U
+#define CKG_MGF1_SHA512 0x00000004U
+
+// OAEP source type
+typedef uint32_t CK_RSA_PKCS_OAEP_SOURCE_TYPE;
+#define CKZ_DATA_SPECIFIED 0x00000001U
+
+// RSA-OAEP mechanism parameters (PKCS#11 v2.20 §12.1.7)
+typedef struct CK_RSA_PKCS_OAEP_PARAMS {
+    uint32_t               hashAlg;       // Hash algorithm (e.g. CKM_SHA256)
+    CK_RSA_PKCS_MGF_TYPE   mgf;           // Mask generation function
+    CK_RSA_PKCS_OAEP_SOURCE_TYPE source;  // Source of encoding parameter
+    void*                  pSourceData;   // Encoding parameter (NULL for CKZ_DATA_SPECIFIED with no label)
+    CK_ULONG               ulSourceDataLen; // Length of encoding parameter
+} CK_RSA_PKCS_OAEP_PARAMS;
 
 // Object classes (subset)
 #define CKO_PRIVATE_KEY 0x00000003U
@@ -160,6 +187,10 @@ struct CK_FUNCTION_LIST {
     CK_RV (*C_Sign)(CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t*);
     CK_RV (*C_VerifyInit)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_OBJECT_HANDLE);
     CK_RV (*C_Verify)(CK_SESSION_HANDLE, CK_BYTE_PTR, uint32_t, CK_BYTE_PTR, uint32_t);
+    CK_RV (*C_EncryptInit)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_OBJECT_HANDLE);
+    CK_RV (*C_Encrypt)(CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG*);
+    CK_RV (*C_DecryptInit)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_OBJECT_HANDLE);
+    CK_RV (*C_Decrypt)(CK_SESSION_HANDLE, CK_BYTE_PTR, CK_ULONG, CK_BYTE_PTR, CK_ULONG*);
     CK_RV (*C_GetAttributeValue)(CK_SESSION_HANDLE, CK_OBJECT_HANDLE, CK_ATTRIBUTE*, uint32_t);
     CK_RV (*C_GenerateKeyPair)(CK_SESSION_HANDLE, CK_MECHANISM*, CK_ATTRIBUTE*, uint32_t, CK_ATTRIBUTE*, uint32_t, CK_OBJECT_HANDLE*, CK_OBJECT_HANDLE*);
     CK_RV (*C_CreateObject)(CK_SESSION_HANDLE, CK_ATTRIBUTE*, uint32_t, CK_OBJECT_HANDLE*);

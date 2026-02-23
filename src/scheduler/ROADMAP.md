@@ -22,24 +22,24 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Full cron expression parsing (v1.5.0): wildcards, ranges, lists (with embedded ranges/steps), start/step syntax, month and weekday name aliases (JAN–DEC, MON–SUN), 6-field year constraint, timezone-aware scheduling, @-specials
 
 ## In Progress 🚧
-- [I] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
-- [I] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
+- [x] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
+- [x] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
-- [!] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
-- [!] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
+- [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
+- [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
 - [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
-- [!] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
-- [!] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
+- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+- [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
-- [!] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
+- [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
 ## Implementation Phases
 
@@ -57,22 +57,22 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 
 ### Phase 2: Full Cron & Distributed Coordination (Status: In Progress 🚧)
 - [x] Full cron expression parsing (v1.5.0)
-- [~] Distributed task coordination across nodes
-- [~] Task dependency DAG execution
+- [x] Distributed task coordination across nodes
+- [x] Task dependency DAG execution
 
 ### Phase 3: Web UI & Retry Policies (Status: Planned 📋)
 - [ ] Web UI for task management (create, monitor, pause, delete)
-- [ ] Task retry policies (max attempts, exponential back-off)
-- [ ] Scheduled task output persistence (store results in ThemisDB)
+- [x] Task retry policies (max attempts, exponential back-off)
+- [X] Scheduled task output persistence (store results in ThemisDB)
 - [ ] Task execution history with searchable audit log
 - [ ] Alert on task failure or SLA breach
 
 ### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
 - [ ] Distributed cron leader election (one runner per cluster)
-- [ ] Workflow engine (multi-step DAG with conditional branching)
-- [ ] Event-triggered tasks (changefeed → task execution)
+- [x] Workflow engine (multi-step DAG with conditional branching)
+- [X] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth
-- [ ] Integration with external schedulers (Kubernetes CronJob, Airflow)
+- [~] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%
@@ -83,8 +83,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- Task dependencies and DAG execution are not yet implemented.
-- Distributed coordination is not available; single-node scheduler only.
+- Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.
 
 ## Breaking Changes
 - `TaskScheduler` public API is stable from v1.x.

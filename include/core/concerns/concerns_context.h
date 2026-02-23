@@ -3,9 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.h                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:20                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:18                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
@@ -14,7 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 7f17c52b6  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -60,11 +61,16 @@ public:
         std::string logPattern = "[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v";
         /// When true, all structured log calls emit single-line JSON objects.
         bool jsonLogging = false;
+        /// Which logger adapter to use: "spdlog" (default) or "noop".
+        std::string loggerAdapter = "spdlog";
         
         // Tracer config
         bool tracingEnabled = false;
         std::string tracingServiceName = "themisdb";
         std::string tracingEndpoint = "http://localhost:4318";
+        /// Which tracer adapter to use: "otel", "noop", or "" (auto-select
+        /// based on tracingEnabled — "otel" when true, "noop" when false).
+        std::string tracerAdapter = "";
         
         // Metrics config
         bool metricsEnabled = true;
@@ -72,10 +78,15 @@ public:
         /// Prevents unbounded cardinality growth from high-cardinality labels.
         /// Set to 0 to disable the limit.
         size_t maxMetricCardinality = 1000;
+        /// Which metrics adapter to use: "prometheus", "noop", or "" (auto-select
+        /// based on metricsEnabled — "prometheus" when true, "noop" when false).
+        std::string metricsAdapter = "";
         
         // Cache config
         size_t cacheMaxSize = 10000;
         uint64_t cacheDefaultTTL = 0; // 0 = no TTL
+        /// Which cache adapter to use: "inmemory" (default) or "noop".
+        std::string cacheAdapter = "inmemory";
     };
 
     /**

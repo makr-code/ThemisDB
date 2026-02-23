@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_key_provider_adapter.cpp                       ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     510                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     487                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -20,9 +23,6 @@
 #include "security/hsm_key_provider_adapter.h"
 #include <nlohmann/json.hpp>
 #include <openssl/rand.h>
-#include <openssl/evp.h>
-#include <openssl/rsa.h>
-#include <openssl/pem.h>
 #include <openssl/err.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
@@ -355,28 +355,20 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
     stats_.hsm_encrypt_operations++;
     
     try {
-        // Use HSM to sign the DEK (which effectively encrypts it with the private key)
-        // Note: HSMProvider's sign() operation is used for encryption here
-        // In a real HSM, you would use C_WrapKey or similar PKCS#11 function
-        // For now, we use sign as a proxy for encryption
-        auto result = hsm_->sign(dek, config_.kek_label);
+        // Use HSM to encrypt the DEK with the KEK stored in the HSM.
+        // For real HSMs: uses PKCS#11 C_Encrypt (RSA-PKCS#1 v1.5) with the HSM public key.
+        // For stub/fallback: uses AES-256-GCM with an in-memory stub KEK.
+        auto encrypted = hsm_->encryptData(dek, config_.kek_label);
         
-        if (!result.success) {
+        if (encrypted.empty()) {
             stats_.hsm_errors++;
-            throw KeyOperationException("HSM failed to wrap DEK: " + result.error_message);
+            throw KeyOperationException("HSM failed to wrap DEK: " + hsm_->getLastError());
         }
         
-        // Decode base64 signature to get encrypted DEK
-        // Base64 decode (simplified - in production use proper base64 library)
-        std::string b64 = result.signature_b64;
-        std::vector<uint8_t> encrypted_dek;
+        return encrypted;
         
-        // Simple base64 decode placeholder - in production use proper implementation
-        // For now, just store the base64 string as bytes
-        encrypted_dek.assign(b64.begin(), b64.end());
-        
-        return encrypted_dek;
-        
+    } catch (const KeyOperationException&) {
+        throw;
     } catch (const std::exception& e) {
         stats_.hsm_errors++;
         throw KeyOperationException("Failed to wrap DEK with HSM: " + std::string(e.what()));
@@ -387,32 +379,20 @@ std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>
     stats_.hsm_decrypt_operations++;
     
     try {
-        // In a real implementation, we would use HSM's C_UnwrapKey or decrypt operation
-        // For now, we use a simplified approach
+        // Use HSM to decrypt the wrapped DEK using the KEK stored in the HSM.
+        // For real HSMs: uses PKCS#11 C_Decrypt (RSA-PKCS#1 v1.5) with the HSM private key.
+        // For stub/fallback: uses AES-256-GCM with the same in-memory stub KEK used for wrapping.
+        auto dek = hsm_->decryptData(encrypted_dek, config_.kek_label);
         
-        // Convert encrypted_dek back to string (base64)
-        std::string b64_signature(encrypted_dek.begin(), encrypted_dek.end());
-        
-        // For this adapter implementation, we store the original DEK alongside encrypted version
-        // In production, HSM would decrypt using private key
-        // This is a limitation of using sign/verify for encryption - we need actual encrypt/decrypt
-        
-        // As a workaround, we'll generate a deterministic key from the encrypted data
-        // This is NOT secure and is only for demonstration purposes
-        // Real implementation MUST use HSM's decrypt/unwrap functionality
-        
-        // For now, return a dummy DEK (in production this would be decrypted by HSM)
-        spdlog::warn("HSMKeyProviderAdapter: Using simplified unwrap - production deployment requires proper HSM decrypt");
-        
-        // Return a deterministic but not the original key
-        // This demonstrates the flow but is not cryptographically secure
-        std::vector<uint8_t> dek(32);
-        if (RAND_bytes(dek.data(), dek.size()) != 1) {
-            throw std::runtime_error("Failed to generate DEK");
+        if (dek.empty()) {
+            stats_.hsm_errors++;
+            throw KeyOperationException("HSM failed to unwrap DEK: " + hsm_->getLastError());
         }
         
         return dek;
         
+    } catch (const KeyOperationException&) {
+        throw;
     } catch (const std::exception& e) {
         stats_.hsm_errors++;
         throw KeyOperationException("Failed to unwrap DEK with HSM: " + std::string(e.what()));

@@ -10,7 +10,7 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 
 **In scope:** Inverted index construction and management, BM25/TF-IDF scoring, hybrid search (vector similarity + keyword), search result ranking and pagination.
 
-**Out of scope:** Vector index construction (handled by index module), language-specific stemming/stopwords (handled by utils module), LLM-based query expansion (handled by aql module).
+**Out of scope:** Vector index construction (handled by index module), language-specific stemming/stopwords (handled by utils module).
 
 ## Relevant Interfaces
 
@@ -31,6 +31,8 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 - **Search Indexing**: Tokenization, stemming, and inverted index management
 - **Query Parsing**: Natural language query parsing and expansion
 - **Result Ranking**: Configurable scoring and ranking algorithms
+- **LLM Query Rewriting**: LLM-based alternative query generation for improved recall (`LlmQueryRewriter`)
+- **LLM Re-ranking**: Configurable re-ranking with LLM feedback loop (`LlmReranker`)
 
 ## Features
 
@@ -266,7 +268,15 @@ For detailed implementation documentation, see:
   `AutocompleteEngine` (prefix-index suggestions, popular-query suggestions),
   `LearningToRank` (linear re-ranker, click-through training, A/B variant selector),
   `MultiModalSearch` (text + embedding RRF fusion, searchTextAndImage convenience)
-- **v1.6.0**: Planned - Personalized autocomplete, neural LTR, multi-namespace vector index
+- **v1.6.0**: `LlmQueryRewriter` — LLM-based query rewriting for improved recall (injected backend,
+  multi-strategy prompt, numbered-line parsing, deduplication, fallback)
+- **v1.7.0**: Ranked spelling correction suggestions — `SpellingCorrection` struct,
+  `QueryExpander::suggestSpellingCorrections()` (ranked multi-candidate word corrections with
+  confidence scores), `QueryExpander::suggestQueryCorrections()` (ranked full-query correction
+  suggestions with per-token substitution and all-corrected variants)
+- **v1.8.0**: `LlmReranker` — Configurable re-ranking with LLM feedback loop (batched prompting,
+  per-document 0–10 score parsing, configurable score blending, `toClickEvents()` bridge to
+  `LearningToRank` for closed-loop LTR training from LLM relevance judgments)
 
 ## Examples
 

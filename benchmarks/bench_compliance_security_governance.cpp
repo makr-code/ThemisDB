@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:09                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:03                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   52.0/100                                       ║
-    • Total Lines:     702                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   55.0/100                                       ║
+    • Total Lines:     722                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,12 +41,17 @@
 
 #include <benchmark/benchmark.h>
 #include "governance/policy_engine.h"
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
+#include "security/hsm_provider.h"
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <random>
 #include <string>
+#include <memory>
 
 using namespace themis::governance;
+using namespace themis;
 using json = nlohmann::json;
 
 // ============================================================================
@@ -82,12 +89,13 @@ std::string generateRandomString(size_t length) {
 
 static void BM_FieldEncryption_SmallData(benchmark::State& state) {
     auto data = generateTestData(256); // 256 bytes
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        // Simulate field-level encryption
-        // In real implementation, this would encrypt the data
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -97,10 +105,13 @@ BENCHMARK(BM_FieldEncryption_SmallData);
 
 static void BM_FieldEncryption_MediumData(benchmark::State& state) {
     auto data = generateTestData(4096); // 4 KB
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -110,10 +121,13 @@ BENCHMARK(BM_FieldEncryption_MediumData);
 
 static void BM_FieldEncryption_LargeData(benchmark::State& state) {
     auto data = generateTestData(1024 * 1024); // 1 MB
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
     
     for (auto _ : state) {
-        std::vector<uint8_t> encrypted = data;
-        benchmark::DoNotOptimize(encrypted);
+        auto blob = enc.encrypt(data, key_id);
+        benchmark::DoNotOptimize(blob);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -124,10 +138,14 @@ BENCHMARK(BM_FieldEncryption_LargeData);
 static void BM_FieldDecryption_Performance(benchmark::State& state) {
     size_t data_size = state.range(0) * 1024;
     auto data = generateTestData(data_size);
+    auto provider = std::make_shared<MockKeyProvider>();
+    FieldEncryption enc(provider);
+    const std::string key_id = "bench-key";
+    // Pre-encrypt data outside the benchmark loop
+    auto blob = enc.encrypt(data, key_id);
     
     for (auto _ : state) {
-        // Simulate decryption
-        std::vector<uint8_t> decrypted = data;
+        auto decrypted = enc.decryptToBytes(blob);
         benchmark::DoNotOptimize(decrypted);
     }
     
@@ -492,55 +510,56 @@ BENCHMARK(BM_MalwareScanning_LargeFile)
 // ============================================================================
 
 static void BM_KeyManagement_KeyRetrieval(benchmark::State& state) {
-    // Simulate key retrieval from cache/provider
-    
-    std::map<std::string, std::string> key_cache;
-    key_cache["key1"] = generateRandomString(32);
-    key_cache["key2"] = generateRandomString(32);
-    key_cache["key3"] = generateRandomString(32);
-    
+    // Benchmark key retrieval from MockKeyProvider (simulates cache/provider lookup)
+    auto provider = std::make_shared<MockKeyProvider>();
+    const std::string key_ids[] = {"key1", "key2", "key3"};
+
     int idx = 0;
     for (auto _ : state) {
-        std::string key_id = "key" + std::to_string((idx % 3) + 1);
-        std::string key = key_cache[key_id];
+        auto key = provider->getKey(key_ids[idx % 3]);
         benchmark::DoNotOptimize(key);
         idx++;
     }
-    
+
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_KeyManagement_KeyRetrieval);
 
 static void BM_KeyManagement_KeyRotation(benchmark::State& state) {
-    // Simulate key rotation process
-    
+    // Benchmark key rotation: create new version and verify old remains accessible
+    auto provider = std::make_shared<MockKeyProvider>();
+    const std::string key_id = "rotation-bench-key";
+
     for (auto _ : state) {
-        // Generate new key
-        std::string new_key = generateRandomString(32);
-        
-        // Re-encrypt data with new key (simulated)
-        auto data = generateTestData(1024);
-        
-        benchmark::DoNotOptimize(new_key);
-        benchmark::DoNotOptimize(data);
+        provider->rotateKey(key_id);
+        auto key = provider->getKey(key_id);
+        benchmark::DoNotOptimize(key);
     }
-    
+
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_KeyManagement_KeyRotation);
 
 static void BM_KeyManagement_HSMOperation(benchmark::State& state) {
-    // Simulate HSM operation (typically slower than software)
-    
+    // Benchmark real HSM stub sign/encrypt operations (stub mode, no hardware required)
+    themis::security::HSMConfig cfg;
+    cfg.library_path = ""; // use stub provider
+    cfg.key_label = "bench-kek";
+    cfg.signature_algorithm = "RSA-SHA256";
+    themis::security::HSMProvider hsm(cfg);
+    hsm.initialize();
+
+    const std::vector<uint8_t> dek(32, 0x42); // 32-byte DEK to wrap
+
     for (auto _ : state) {
-        // Simulate HSM key operation latency
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
-        
-        bool success = true;
-        benchmark::DoNotOptimize(success);
+        // Wrap DEK (encrypt) then unwrap (decrypt) - measures stub HSM overhead
+        auto wrapped = hsm.encryptData(dek);
+        auto unwrapped = hsm.decryptData(wrapped);
+        benchmark::DoNotOptimize(unwrapped);
     }
-    
+
     state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * dek.size());
 }
 BENCHMARK(BM_KeyManagement_HSMOperation);
 

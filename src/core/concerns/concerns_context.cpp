@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.cpp                               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:18                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -60,54 +60,90 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     if (!cache_validation.valid) {
         throw std::runtime_error("Invalid cache configuration:\n" + cache_validation.formatErrors());
     }
+
+    auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
+        config.loggerAdapter, config.tracerAdapter,
+        config.metricsAdapter, config.cacheAdapter);
+    if (!adapter_validation.valid) {
+        throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
+    }
     
     // Initialize logger
     auto logLevel = ILogger::levelFromString(config.logLevel);
     utils::Logger::init(config.logFile, static_cast<utils::Logger::Level>(
         static_cast<int>(logLevel)));
-    auto logger = std::make_unique<SpdlogLoggerAdapter>(nullptr, config.jsonLogging);
-    if (!config.jsonLogging) {
-        logger->setPattern(config.logPattern);
+    std::unique_ptr<ILogger> logger;
+    if (config.loggerAdapter == "noop") {
+        logger = std::make_unique<NoOpLogger>();
+    } else {
+        // "spdlog" — only reachable after validation passes
+        auto spdlogger = std::make_unique<SpdlogLoggerAdapter>(nullptr, config.jsonLogging);
+        if (!config.jsonLogging) {
+            spdlogger->setPattern(config.logPattern);
+        }
+        logger = std::move(spdlogger);
+    }
+
+    // Resolve effective tracer adapter name:
+    // explicit non-empty tracerAdapter overrides tracingEnabled.
+    std::string effective_tracer = config.tracerAdapter;
+    if (effective_tracer.empty()) {
+        effective_tracer = config.tracingEnabled ? "otel" : "noop";
     }
 
     // Initialize tracer
     std::unique_ptr<ITracer> tracer;
-    if (config.tracingEnabled) {
+    if (effective_tracer == "otel") {
         auto otelTracer = std::make_unique<OpenTelemetryTracerAdapter>();
         otelTracer->initialize(config.tracingServiceName, config.tracingEndpoint);
         tracer = std::move(otelTracer);
     } else {
-        if (production_mode) {
+        // "noop" — only reachable after validation passes
+        if (production_mode && effective_tracer != "otel") {
             throw std::runtime_error(
                 "Production mode violation: Tracing is disabled. "
-                "Set tracingEnabled=true in ConcernsContext::Config for production deployments."
+                "Set tracingEnabled=true or tracerAdapter=\"otel\" in ConcernsContext::Config for production deployments."
             );
         }
         tracer = std::make_unique<NoOpTracer>();
     }
 
+    // Resolve effective metrics adapter name:
+    // explicit non-empty metricsAdapter overrides metricsEnabled.
+    std::string effective_metrics = config.metricsAdapter;
+    if (effective_metrics.empty()) {
+        effective_metrics = config.metricsEnabled ? "prometheus" : "noop";
+    }
+
     // Initialize metrics
     std::unique_ptr<IMetrics> metrics;
-    if (config.metricsEnabled) {
+    if (effective_metrics == "prometheus") {
         if (config.maxMetricCardinality > 0) {
             observability::MetricsCollector::getInstance().setCardinalityLimit(config.maxMetricCardinality);
         }
         metrics = std::make_unique<PrometheusMetricsAdapter>();
     } else {
-        if (production_mode) {
+        // "noop" — only reachable after validation passes
+        if (production_mode && effective_metrics != "prometheus") {
             throw std::runtime_error(
                 "Production mode violation: Metrics are disabled. "
-                "Set metricsEnabled=true in ConcernsContext::Config for production deployments."
+                "Set metricsEnabled=true or metricsAdapter=\"prometheus\" in ConcernsContext::Config for production deployments."
             );
         }
         metrics = std::make_unique<NoOpMetrics>();
     }
 
     // Initialize cache
-    auto cache = std::make_unique<InMemoryCacheImpl>(
-        config.cacheMaxSize,
-        config.cacheDefaultTTL
-    );
+    std::unique_ptr<ICache> cache;
+    if (config.cacheAdapter == "noop") {
+        cache = std::make_unique<NoOpCache>();
+    } else {
+        // "inmemory" — only reachable after validation passes
+        cache = std::make_unique<InMemoryCacheImpl>(
+            config.cacheMaxSize,
+            config.cacheDefaultTTL
+        );
+    }
 
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),

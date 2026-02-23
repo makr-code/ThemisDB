@@ -3,7 +3,7 @@
 # Replication Module Roadmap
 
 ## Current Status
-v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping, CDC, and automatic failover are all implemented.
+v1.x – Production-grade high-availability infrastructure. Leader-follower replication with Raft-like consensus, multi-master with CRDT conflict resolution, WAL shipping with Zstd compression, CDC, and automatic failover are all implemented.
 
 ## Completed ✅
 - [x] ReplicationManager – Raft-like leader election and follower management
@@ -23,10 +23,10 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Selective replication (filter by collection, tenant, or pattern)
 - [x] Prometheus metrics export
 - [x] Raft leader lease reads for linearizable read-scale-out (Issue: #2258)
+- [x] Replication topology visualizer (web UI) (Issue: #2443)
+- [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
 
 ## In Progress 🚧
-- [!] Replication topology visualizer (web UI) (Target: Q2 2026) (Issue: #2443)
-- [!] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026) (Issue: #2444)
 
 ## Planned Features 📋
 
@@ -35,7 +35,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 - [I] CDC event filtering by operation type (INSERT/UPDATE/DELETE) (Issue: #2439)
 - [I] Automated lag-based read traffic shifting (Issue: #2251)
-- [!] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
+- [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
 
 ### Long-term (6-12 months)
 - [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
@@ -64,17 +64,17 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Selective replication (filter by collection, tenant, or pattern)
 - [x] Prometheus metrics export
 
-### Phase 2: Raft Lease Reads & WAL Compression (Status: In Progress 🚧)
+### Phase 2: Raft Lease Reads & WAL Compression (Status: Completed ✅)
 - [x] Raft leader lease reads for linearizable read-scale-out
-- [~] Replication topology visualizer (web UI)
-- [~] Compressed WAL shipping (Zstd) for bandwidth reduction
+- [x] Replication topology visualizer (web UI)
+- [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
 ### Phase 3: Witness Nodes & Slot Management (Status: Planned 📋)
 - [ ] Witness node support (vote-only, no data) for quorum in 2-node clusters
 - [ ] Replication slot management API (pause/resume individual slots)
 - [ ] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
 - [ ] Automated lag-based read traffic shifting
-- [ ] Cross-cluster logical replication (publish/subscribe model)
+- [x] Cross-cluster logical replication (publish/subscribe model)
 
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)

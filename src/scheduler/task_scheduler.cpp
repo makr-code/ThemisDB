@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler.cpp                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1881                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 1                             ║
+    • Total Lines:     2260                                           ║
+    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 200439b85  2026-02-22  feat(scheduler): implement full cron expression parsing v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +24,7 @@
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/task_audit_event.h"
+#include "scheduler/task_result_store.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
 #include "security/aql_injection_detector.h"
@@ -29,6 +33,7 @@
 #include "utils/audit_logger.h"
 #include "utils/cron_parser.h"
 #include "cdc/changefeed.h"
+#include "storage/rocksdb_wrapper.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
@@ -206,7 +211,8 @@ static ScheduledTask::ErrorCategory categorizeError(const std::string& error_mes
 
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
-                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger)
+                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger,
+                             RocksDBWrapper* result_storage)
     : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
@@ -232,6 +238,19 @@ TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config,
         THEMIS_INFO("TaskScheduler initialized with CDC event support");
     } else {
         THEMIS_INFO("TaskScheduler initialized without CDC event support");
+    }
+
+    // Initialize result store if enabled and storage is provided
+    if (config_.enable_result_store) {
+        if (result_storage) {
+            result_store_ = std::make_unique<scheduler::TaskResultStore>(
+                *result_storage, config_.result_store_max_results_per_task);
+            THEMIS_INFO("TaskScheduler result store enabled (max_per_task={})",
+                        config_.result_store_max_results_per_task);
+        } else {
+            THEMIS_WARN("TaskScheduler: enable_result_store=true but no result_storage provided; "
+                        "result store is disabled");
+        }
     }
     
     if (config_.persist_tasks) {
@@ -581,6 +600,8 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         );
     }
     
+    auto start_time = std::chrono::steady_clock::now();
+
     // Execute synchronously with retry logic (same as scheduled execution)
     const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
     const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
@@ -629,6 +650,9 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         }
     }
 
+    auto end_time = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+
     if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
@@ -653,7 +677,325 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     task->total_executions++;
     total_executions_++;
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = getCurrentTimeMs();
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
+    }
     
+    return result;
+}
+
+// ===== DAG Execution =====
+
+std::vector<std::string> TaskScheduler::topologicalSort(
+    const std::vector<std::string>& task_ids,
+    const std::map<std::string, std::vector<std::string>>& adj) const
+{
+    // Kahn's algorithm: compute in-degrees, then process nodes with zero in-degree.
+    std::map<std::string, int> in_degree;
+    for (const auto& id : task_ids) {
+        in_degree[id] = 0;
+    }
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            in_degree[id]++;  // 'id' depends on 'dep', so it has higher in-degree
+        }
+    }
+
+    // Queue nodes with no dependencies
+    std::deque<std::string> ready;
+    for (const auto& [id, deg] : in_degree) {
+        if (deg == 0) {
+            ready.push_back(id);
+        }
+    }
+
+    // Build reverse adjacency: for each node, which nodes depend on it
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    std::vector<std::string> order;
+    order.reserve(task_ids.size());
+
+    while (!ready.empty()) {
+        std::string cur = ready.front();
+        ready.pop_front();
+        order.push_back(cur);
+
+        auto it = dependents.find(cur);
+        if (it != dependents.end()) {
+            for (const auto& dependent : it->second) {
+                if (--in_degree[dependent] == 0) {
+                    ready.push_back(dependent);
+                }
+            }
+        }
+    }
+
+    if (order.size() != task_ids.size()) {
+        throw std::runtime_error(
+            "TaskScheduler::executeDAG: dependency graph contains a cycle");
+    }
+
+    return order;
+}
+
+TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
+    const std::vector<std::string>& task_ids)
+{
+    if (task_ids.empty()) {
+        return {};
+    }
+
+    // Build set of requested IDs for O(1) lookup
+    std::set<std::string> id_set(task_ids.begin(), task_ids.end());
+
+    // Resolve tasks and validate all IDs exist
+    std::map<std::string, std::shared_ptr<ScheduledTask>> task_map;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        for (const auto& id : task_ids) {
+            auto it = tasks_.find(id);
+            if (it == tasks_.end()) {
+                throw std::invalid_argument(
+                    "TaskScheduler::executeDAG: unknown task id '" + id + "'");
+            }
+            task_map[id] = it->second;
+        }
+    }
+
+    // Build adjacency: task -> list of its deps that are within the requested set.
+    // adj[task] = [dep1, dep2, ...] means task depends on dep1, dep2, ...
+    std::map<std::string, std::vector<std::string>> adj;
+    for (const auto& id : task_ids) {
+        adj[id] = {};
+        for (const auto& dep : task_map[id]->dependencies) {
+            if (id_set.count(dep)) {
+                adj[id].push_back(dep);
+            }
+        }
+    }
+
+    // Determine execution order via topological sort
+    std::vector<std::string> order = topologicalSort(task_ids, adj);
+
+    // Build reverse adjacency for propagating failures (dep -> [dependents])
+    std::map<std::string, std::vector<std::string>> dependents;
+    for (const auto& [id, deps] : adj) {
+        for (const auto& dep : deps) {
+            dependents[dep].push_back(id);
+        }
+    }
+
+    DagExecutionResult result;
+    std::set<std::string> failed_or_skipped;    // Tasks we should NOT execute (dep failure)
+    std::set<std::string> condition_skipped_set; // Tasks skipped by branch_condition
+
+    // Execute wave by wave: gather tasks whose dependencies are all done,
+    // run them in parallel, then repeat.
+    std::set<std::string> completed;  // succeeded tasks
+    std::set<std::string> processed;  // all tasks we have decided about
+
+    while (processed.size() < task_ids.size()) {
+        // Collect tasks that are ready (all deps completed successfully)
+        std::vector<std::string> wave;
+        for (const auto& id : order) {
+            if (processed.count(id)) {
+                continue;
+            }
+            // Check if it should be condition-skipped
+            if (condition_skipped_set.count(id)) {
+                result.condition_skipped.push_back(id);
+                processed.insert(id);
+                // Propagate condition-skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        condition_skipped_set.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if it should be skipped due to a failed dep
+            if (failed_or_skipped.count(id)) {
+                result.skipped.push_back(id);
+                processed.insert(id);
+                // Propagate skip to dependents
+                auto dit = dependents.find(id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+                continue;
+            }
+            // Check if all deps are in completed
+            bool deps_ready = true;
+            for (const auto& dep : adj[id]) {
+                if (!completed.count(dep)) {
+                    deps_ready = false;
+                    break;
+                }
+            }
+            if (deps_ready) {
+                // Evaluate branch_condition if set
+                auto& task = task_map[id];
+                if (task->branch_condition) {
+                    // Build dep_results map from succeeded dependency results
+                    std::map<std::string, nlohmann::json> dep_results;
+                    for (const auto& dep : adj[id]) {
+                        auto it = result.succeeded.find(dep);
+                        if (it != result.succeeded.end()) {
+                            dep_results[dep] = it->second;
+                        }
+                    }
+                    if (!task->branch_condition(dep_results)) {
+                        // Condition not met – condition-skip this task
+                        result.condition_skipped.push_back(id);
+                        processed.insert(id);
+                        condition_skipped_set.insert(id);
+                        // Propagate condition-skip to direct dependents
+                        auto dit = dependents.find(id);
+                        if (dit != dependents.end()) {
+                            for (const auto& dep : dit->second) {
+                                condition_skipped_set.insert(dep);
+                            }
+                        }
+                        continue;
+                    }
+                }
+                wave.push_back(id);
+            }
+        }
+
+        if (wave.empty()) {
+            // No progress possible – all remaining tasks must have already been
+            // processed as condition-skipped, failure-skipped, or have unresolvable
+            // deps (should not occur with a cycle-free graph).
+            for (const auto& id : order) {
+                if (!processed.count(id)) {
+                    result.skipped.push_back(id);
+                    processed.insert(id);
+                }
+            }
+            break;
+        }
+
+        // Execute wave tasks in parallel
+        struct WaveResult {
+            std::string id;
+            bool succeeded = false;
+            nlohmann::json result;
+            std::string error;
+        };
+        std::vector<WaveResult> wave_results(wave.size());
+        std::vector<std::thread> threads;
+        threads.reserve(wave.size());
+
+        for (size_t i = 0; i < wave.size(); ++i) {
+            wave_results[i].id = wave[i];
+            threads.emplace_back([this, &wave_results, i, &task_map]() {
+                const auto& id = wave_results[i].id;
+                auto task = task_map[id];
+                const int64_t exec_start_ms = getCurrentTimeMs();
+                const auto exec_start = std::chrono::steady_clock::now();
+                try {
+                    nlohmann::json r;
+                    if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                        r = executeAqlQuery(task->aql_query);
+                    } else {
+                        r = executeFunction(task->function_name, task->parameters);
+                    }
+                    // Update task stats
+                    task->total_executions++;
+                    task->successful_executions++;
+                    task->last_run_ms = exec_start_ms;
+                    task->last_success_time = std::chrono::system_clock::now();
+                    task->last_error_category = ScheduledTask::ErrorCategory::NONE;
+                    wave_results[i].succeeded = true;
+                    wave_results[i].result = std::move(r);
+                    if (task->on_success) {
+                        task->on_success(id, wave_results[i].result);
+                    }
+                } catch (const std::exception& e) {
+                    task->total_executions++;
+                    task->failed_executions++;
+                    task->last_error = e.what();
+                    task->last_error_category = categorizeError(e.what());
+                    task->last_failure_time = std::chrono::system_clock::now();
+                    wave_results[i].error = e.what();
+                    if (task->on_failure) {
+                        task->on_failure(id, e.what());
+                    }
+                } catch (...) {
+                    task->total_executions++;
+                    task->failed_executions++;
+                    task->last_error = "unknown non-exception thrown";
+                    task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
+                    task->last_failure_time = std::chrono::system_clock::now();
+                    wave_results[i].error = "unknown non-exception thrown";
+                    if (task->on_failure) {
+                        task->on_failure(id, wave_results[i].error);
+                    }
+                }
+                // Persist execution result to ThemisDB (if result store is enabled).
+                // Duration is computed once here, after all branches.
+                if (result_store_) {
+                    const double dur_ms = std::chrono::duration<double, std::milli>(
+                        std::chrono::steady_clock::now() - exec_start).count();
+                    scheduler::TaskExecutionResult exec_result;
+                    exec_result.task_id      = task->id;
+                    exec_result.task_name    = task->name;
+                    exec_result.timestamp_ms = exec_start_ms;
+                    exec_result.duration_ms  = dur_ms;
+                    exec_result.success      = wave_results[i].succeeded;
+                    exec_result.output       = wave_results[i].succeeded
+                                                   ? wave_results[i].result
+                                                   : nlohmann::json{};
+                    exec_result.error        = wave_results[i].error;
+                    result_store_->store(exec_result);
+                }
+            });
+        }
+        for (auto& t : threads) {
+            t.join();
+        }
+        total_executions_ += wave.size();
+
+        // Collect wave results
+        for (auto& wr : wave_results) {
+            processed.insert(wr.id);
+            if (wr.succeeded) {
+                completed.insert(wr.id);
+                result.succeeded[wr.id] = std::move(wr.result);
+            } else {
+                failed_executions_++;
+                result.failed[wr.id] = wr.error;
+                failed_or_skipped.insert(wr.id);
+                // Propagate failure to direct dependents
+                auto dit = dependents.find(wr.id);
+                if (dit != dependents.end()) {
+                    for (const auto& dep : dit->second) {
+                        failed_or_skipped.insert(dep);
+                    }
+                }
+            }
+        }
+    }
+
     return result;
 }
 
@@ -871,6 +1213,26 @@ std::shared_ptr<ScheduledTask> TaskScheduler::getTask(const std::string& task_id
     return nullptr;
 }
 
+std::vector<scheduler::TaskAuditEvent> TaskScheduler::getExecutionHistory(
+    const std::string& task_id,
+    size_t limit,
+    size_t offset) const {
+    
+    if (!audit_manager_) {
+        return {};
+    }
+    
+    scheduler::AuditQueryParams params;
+    if (!task_id.empty()) {
+        params.task_id = task_id;
+    }
+    params.limit = limit;
+    params.offset = offset;
+    params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
+    
+    return audit_manager_->queryAuditEvents(params);
+}
+
 // ===== Scheduler Loop =====
 
 void TaskScheduler::schedulerLoop() {
@@ -965,6 +1327,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     span.setAttribute("task_name", task->name);
     
     auto start = std::chrono::steady_clock::now();
+    const int64_t exec_timestamp_ms = getCurrentTimeMs();  // captured for result store
     
     // Create audit event for task start
     scheduler::TaskAuditEvent start_event;
@@ -1098,6 +1461,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         }
     } else {
         // All attempts failed
+        task->total_executions++;  // Mirror executeTaskNow/executeDAG behaviour
         task->failed_executions++;
         task->last_error = last_error;
         task->last_error_category = categorizeError(last_error);
@@ -1157,6 +1521,19 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_failure) {
             task->on_failure(task->id, last_error);
         }
+    }
+
+    // Persist execution result to ThemisDB (if result store is enabled)
+    if (result_store_) {
+        scheduler::TaskExecutionResult exec_result;
+        exec_result.task_id      = task->id;
+        exec_result.task_name    = task->name;
+        exec_result.timestamp_ms = exec_timestamp_ms;
+        exec_result.duration_ms  = elapsed_ms;
+        exec_result.success      = succeeded;
+        exec_result.output       = succeeded ? result : nlohmann::json{};
+        exec_result.error        = succeeded ? "" : last_error;
+        result_store_->store(exec_result);
     }
     
     task->running = false;
@@ -1301,6 +1678,9 @@ void TaskScheduler::saveTasks() {
         } else {
             task_json["max_retries"] = task->max_retries;
         }
+
+        // Save dependency list
+        task_json["dependencies"] = task->dependencies;
         
         tasks_json.push_back(task_json);
     }
@@ -1412,6 +1792,11 @@ void TaskScheduler::loadTasks() {
                 task.retry_policy = rp;
             } else {
                 task.max_retries = task_json.value("max_retries", size_t{3});
+            }
+
+            // Restore dependency list (backward-compatible: absent = no deps)
+            if (task_json.contains("dependencies")) {
+                task.dependencies = task_json["dependencies"].get<std::vector<std::string>>();
             }
             
             registerTask(task);
@@ -1788,7 +2173,7 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     config.condition = task->cdc_trigger.condition;
     config.debounce_ms = task->cdc_trigger.debounce_ms;
     
-    // Create callback that triggers task execution
+    // Create callback that triggers task execution via onCDCEvent
     auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
         // Retrieve task inside the callback to avoid capturing by value
         std::shared_ptr<ScheduledTask> task_ptr;
@@ -1801,64 +2186,7 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
             }
             task_ptr = it->second;
         }
-        
-        THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
-                    task_id, event.key, static_cast<int>(event.type));
-        
-        // Audit log CDC trigger activation
-        if (config_.enable_audit_logging && audit_logger_) {
-            nlohmann::json details = {
-                {"task_name", task_ptr->name},
-                {"trigger_type", "CDC_EVENT"},
-                {"cdc_key", event.key},
-                {"cdc_event_type", static_cast<int>(event.type)},
-                {"cdc_key_prefix", task_ptr->cdc_trigger.key_prefix}
-            };
-            
-            audit_logger_->logTaskSchedulerEvent(
-                utils::SecurityEventType::TASK_CDC_TRIGGERED,
-                task_id,
-                "system",
-                details
-            );
-        }
-        
-        // Check if task is enabled
-        if (!task_ptr->enabled) {
-            THEMIS_DEBUG("Task {} is disabled, skipping execution", task_id);
-            return;
-        }
-        
-        // Atomic check-and-set for task running state
-        bool expected = false;
-        if (!config_.allow_task_overlap) {
-            // Try to set running to true atomically
-            std::lock_guard<std::mutex> lock(tasks_mutex_);
-            if (task_ptr->running) {
-                THEMIS_DEBUG("Task {} is already running, skipping execution", task_id);
-                return;
-            }
-            task_ptr->running = true;
-        } else {
-            task_ptr->running = true;
-        }
-        
-        // Execute task asynchronously
-        std::thread task_thread([this, task_ptr]() {
-            executeTask(task_ptr);
-            
-            // Remove from running threads
-            {
-                std::lock_guard<std::mutex> lock(running_mutex_);
-                running_task_threads_.erase(task_ptr->id);
-            }
-        });
-        
-        // Store thread for cleanup
-        {
-            std::lock_guard<std::mutex> lock(running_mutex_);
-            running_task_threads_[task_id] = std::move(task_thread);
-        }
+        onCDCEvent(task_ptr, event);
     };
     
     // Register trigger with manager
@@ -1871,11 +2199,83 @@ void TaskScheduler::removeEventTrigger(const std::string& task_id) {
     }
 }
 
-void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task, const void* event) {
-    // This method is called by EventTrigger callback
-    // The actual implementation is in setupEventTrigger's callback
+void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
+                               const Changefeed::ChangeEvent& event) {
+    THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
+                task->id, event.key, static_cast<int>(event.type));
+
+    // Audit log CDC trigger activation
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", task->name},
+            {"trigger_type", "CDC_EVENT"},
+            {"cdc_key", event.key},
+            {"cdc_event_type", static_cast<int>(event.type)},
+            {"cdc_key_prefix", task->cdc_trigger.key_prefix}
+        };
+
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_CDC_TRIGGERED,
+            task->id,
+            "system",
+            details
+        );
+    }
+
+    // Check if task is enabled
+    if (!task->enabled) {
+        THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        return;
+    }
+
+    // Check-and-set running state (guard against concurrent triggers)
+    if (!config_.allow_task_overlap) {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        if (task->running) {
+            THEMIS_DEBUG("Task {} is already running, skipping execution", task->id);
+            return;
+        }
+        task->running = true;
+    } else {
+        task->running = true;
+    }
+
+    // Execute task asynchronously
+    std::thread task_thread([this, task]() {
+        executeTask(task);
+
+        // Remove from running threads
+        {
+            std::lock_guard<std::mutex> lock(running_mutex_);
+            running_task_threads_.erase(task->id);
+        }
+    });
+
+    // Store thread for cleanup
+    {
+        std::lock_guard<std::mutex> lock(running_mutex_);
+        running_task_threads_[task->id] = std::move(task_thread);
+    }
 }
 
 // ===== Update shouldExecute and updateNextRun =====
+
+// ===== Result Store Public APIs =====
+
+std::vector<scheduler::TaskExecutionResult> TaskScheduler::getTaskResults(
+        const std::string& task_id, size_t limit) const {
+    if (!result_store_) {
+        return {};
+    }
+    return result_store_->getResults(task_id, limit);
+}
+
+std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult(
+        const std::string& task_id) const {
+    if (!result_store_) {
+        return std::nullopt;
+    }
+    return result_store_->getLatestResult(task_id);
+}
 
 } // namespace themis

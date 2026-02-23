@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.h                                       ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:57                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -29,6 +29,14 @@
 #include "query/aql_translator.h"
 #include "query_engine.h"
 #include "utils/expected.h"
+
+// Forward declarations for RLS
+namespace themis {
+namespace security {
+    class RLSManager;
+    struct SecurityContext;
+} // namespace security
+} // namespace themis
 
 namespace themis {
 
@@ -58,5 +66,40 @@ Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine,
 /// Returns the execution plan as a Graphviz DOT digraph string.
 /// The output can be piped to `dot -Tpng -o plan.png` for a visual diagram.
 Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
+
+/// Execute a multi-statement AQL transaction block.
+///
+/// The @p aql string must have the form:
+///   BEGIN
+///     <AQL statement 1>
+///     <AQL statement 2>
+///     ...
+///   COMMIT | ROLLBACK
+///
+/// If the block ends with COMMIT, every statement is executed in order and the
+/// combined results are returned as a JSON array (one entry per statement).
+/// If the block ends with ROLLBACK, no statement is executed and a JSON object
+/// @c {"type":"rollback","statements":N} is returned.
+///
+/// On parse or execution failure the function returns an Err.
+Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine);
+
+// ── Row-level security (RLS) wrappers ────────────────────────────────────────
+//
+// These functions execute AQL normally and then apply row-level security
+// policies from @p rls to filter the result rows based on @p ctx.
+//
+// If no policies match the queried collection and security context, the result
+// is returned unchanged (no filtering overhead).
+
+/// Execute AQL with row-level security filtering applied to the result.
+/// Only rows that satisfy the applicable RLS policies for the user described
+/// by @p ctx are included in the returned result set.
+Result<nlohmann::json> executeAqlWithRLS(
+    const std::string& aql,
+    QueryEngine& engine,
+    security::RLSManager& rls,
+    const security::SecurityContext& ctx
+);
 
 } // namespace themis

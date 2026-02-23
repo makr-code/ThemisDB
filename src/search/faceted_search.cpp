@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faceted_search.cpp                                 ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23 03:58:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     179                                            ║
+    • Total Lines:     229                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 573f0f4bb  2026-02-22  feat(search): add dynamic facet counting with discoverFac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,22 +48,26 @@ FacetedSearch::computeFacet(const std::string& table,
 
     const bool has_filter = !candidate_pks.empty();
 
-    // Get all PKs that have a secondary-index entry for this column via open range scan
-    constexpr size_t kScanLimit = 10'000;
-    auto [scan_status, all_pks] = index_->scanKeysRange(
-        table, column,
-        std::nullopt, std::nullopt,
-        true, true,
-        kScanLimit
-    );
-    if (!scan_status.ok) {
-        THEMIS_DEBUG("FacetedSearch::computeFacet: no index for {}.{}: {}",
-                     table, column, scan_status.message);
-        return {SecondaryIndexManager::Status::OK(), result};
+    std::vector<std::string> all_pks;
+    if (!has_filter) {
+        // No filter — enumerate all PKs from the range index.
+        constexpr size_t kScanLimit = 10'000;
+        auto [scan_status, scanned_pks] = index_->scanKeysRange(
+            table, column,
+            std::nullopt, std::nullopt,
+            true, true,
+            kScanLimit
+        );
+        if (!scan_status.ok) {
+            THEMIS_DEBUG("FacetedSearch::computeFacet: no index for {}.{}: {}",
+                         table, column, scan_status.message);
+            return {SecondaryIndexManager::Status::OK(), result};
+        }
+        all_pks = std::move(scanned_pks);
     }
 
-    // Determine the working PK universe: candidate_pks when a filter is active,
-    // all indexed PKs otherwise.
+    // When a filter is active we iterate the caller-supplied PKs directly;
+    // otherwise we iterate the PKs discovered via the range-index scan above.
     const std::vector<std::string>& working_pks = has_filter ? candidate_pks : all_pks;
 
     for (const auto& pk : working_pks) {
@@ -174,6 +181,52 @@ FacetedSearch::applyFacetFilters(const std::string& table,
 
     return {SecondaryIndexManager::Status::OK(),
             std::vector<std::string>(remaining.begin(), remaining.end())};
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+FacetedSearch::discoverFacetableColumns(const std::string& table) const {
+    if (!index_) {
+        return {SecondaryIndexManager::Status::Error("FacetedSearch: null index"), {}};
+    }
+    if (table.empty()) {
+        return {SecondaryIndexManager::Status::Error(
+            "FacetedSearch: table must not be empty"), {}};
+    }
+
+    auto all_stats = index_->getAllIndexStats(table);
+    std::vector<std::string> columns;
+    columns.reserve(all_stats.size());
+    for (const auto& stats : all_stats) {
+        // Only regular, range, and sparse indexes produce meaningful categorical
+        // or numeric facets.  Geo, TTL, fulltext, and composite indexes are skipped.
+        if (stats.type == "regular" || stats.type == "range" || stats.type == "sparse") {
+            columns.push_back(stats.column);
+        }
+    }
+
+    THEMIS_DEBUG("FacetedSearch::discoverFacetableColumns({}): {} facetable columns",
+                 table, columns.size());
+    return {SecondaryIndexManager::Status::OK(), std::move(columns)};
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<FacetResult>>
+FacetedSearch::computeDynamicFacets(const std::string& table,
+                                     const std::vector<std::string>& candidate_pks,
+                                     size_t max_values) const {
+    auto [st, columns] = discoverFacetableColumns(table);
+    if (!st.ok) return {st, {}};
+
+    std::vector<FacetResult> facets;
+    facets.reserve(columns.size());
+    for (const auto& col : columns) {
+        auto [fst, facet] = computeFacet(table, col, candidate_pks, max_values);
+        if (!fst.ok) return {fst, {}};
+        facets.push_back(std::move(facet));
+    }
+
+    THEMIS_DEBUG("FacetedSearch::computeDynamicFacets({}): {} facets computed",
+                 table, facets.size());
+    return {SecondaryIndexManager::Status::OK(), std::move(facets)};
 }
 
 } // namespace themis

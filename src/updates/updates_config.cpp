@@ -3,21 +3,27 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            updates_config.cpp                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     317                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     405                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
+    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
+    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "updates/updates_config.h"
+#include "updates/canary_rollout.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -29,6 +35,27 @@
 
 namespace themis {
 namespace updates {
+
+// ---------------------------------------------------------------------------
+// UpdatesConfig::CanaryConfig bridge
+// ---------------------------------------------------------------------------
+
+::themis::updates::CanaryConfig
+UpdatesConfig::CanaryConfig::toCanaryConfig(const std::string& version) const {
+    ::themis::updates::CanaryConfig runtime;
+    runtime.version = version;
+    runtime.node_id = node_id;
+    runtime.error_rate_threshold = error_rate_threshold;
+    runtime.min_sample_count = min_sample_count;
+    runtime.stages.reserve(stages.size());
+    for (const auto& s : stages) {
+        CanaryStage stage;
+        stage.percentage = s.percentage;
+        stage.observation_duration = std::chrono::seconds{s.observation_seconds};
+        runtime.stages.push_back(stage);
+    }
+    return runtime;
+}
 
 UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
     try {
@@ -108,7 +135,25 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
                 result.notifications.email_to = notifications["email_to"].as<std::string>();
             }
         }
-        
+
+        // Load canary rollout settings
+        if (config["updates"] && config["updates"]["canary"]) {
+            auto canary_yaml = config["updates"]["canary"];
+            result.canary.enabled = canary_yaml["enabled"].as<bool>(false);
+            result.canary.node_id = canary_yaml["node_id"].as<std::string>("");
+            result.canary.error_rate_threshold = canary_yaml["error_rate_threshold"].as<double>(0.05);
+            result.canary.min_sample_count = canary_yaml["min_sample_count"].as<size_t>(20);
+            if (canary_yaml["stages"]) {
+                result.canary.stages.clear();
+                for (const auto& s : canary_yaml["stages"]) {
+                    UpdatesConfig::CanaryConfig::Stage stage;
+                    stage.percentage = s["percentage"].as<double>(1.0);
+                    stage.observation_seconds = s["observation_seconds"].as<int>(0);
+                    result.canary.stages.push_back(stage);
+                }
+            }
+        }
+
         LOG_INFO("Loaded updates configuration from {}", yaml_path);
         return result;
     } catch (const std::exception& e) {
@@ -179,6 +224,24 @@ UpdatesConfig UpdatesConfig::fromJson(const json& j) {
             result.notifications.webhook_url = notifications.value("webhook_url", "");
             result.notifications.email_to = notifications.value("email_to", "");
         }
+
+        // Load canary rollout settings
+        if (j.contains("canary")) {
+            auto canary_json = j["canary"];
+            result.canary.enabled = canary_json.value("enabled", false);
+            result.canary.node_id = canary_json.value("node_id", "");
+            result.canary.error_rate_threshold = canary_json.value("error_rate_threshold", 0.05);
+            result.canary.min_sample_count = canary_json.value("min_sample_count", static_cast<size_t>(20));
+            if (canary_json.contains("stages")) {
+                result.canary.stages.clear();
+                for (const auto& s : canary_json["stages"]) {
+                    UpdatesConfig::CanaryConfig::Stage stage;
+                    stage.percentage = s.value("percentage", 1.0);
+                    stage.observation_seconds = s.value("observation_seconds", 0);
+                    result.canary.stages.push_back(stage);
+                }
+            }
+        }
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to parse updates configuration from JSON: {}", e.what());
     }
@@ -234,7 +297,20 @@ json UpdatesConfig::toJson() const {
     if (!notifications.email_to.empty()) {
         j["notifications"]["email_to"] = notifications.email_to;
     }
-    
+
+    // Canary rollout config
+    j["canary"]["enabled"] = canary.enabled;
+    j["canary"]["node_id"] = canary.node_id;
+    j["canary"]["error_rate_threshold"] = canary.error_rate_threshold;
+    j["canary"]["min_sample_count"] = canary.min_sample_count;
+    j["canary"]["stages"] = json::array();
+    for (const auto& s : canary.stages) {
+        json stage_json;
+        stage_json["percentage"] = s.percentage;
+        stage_json["observation_seconds"] = s.observation_seconds;
+        j["canary"]["stages"].push_back(stage_json);
+    }
+
     return j;
 }
 
@@ -300,7 +376,24 @@ void UpdatesConfig::saveToYaml(const std::string& yaml_path) const {
             out << YAML::Key << "email_to" << YAML::Value << notifications.email_to;
         }
         out << YAML::EndMap;
-        
+
+        // Canary rollout config
+        out << YAML::Key << "canary";
+        out << YAML::Value << YAML::BeginMap;
+        out << YAML::Key << "enabled" << YAML::Value << canary.enabled;
+        out << YAML::Key << "node_id" << YAML::Value << canary.node_id;
+        out << YAML::Key << "error_rate_threshold" << YAML::Value << canary.error_rate_threshold;
+        out << YAML::Key << "min_sample_count" << YAML::Value << canary.min_sample_count;
+        out << YAML::Key << "stages" << YAML::Value << YAML::BeginSeq;
+        for (const auto& s : canary.stages) {
+            out << YAML::BeginMap;
+            out << YAML::Key << "percentage" << YAML::Value << s.percentage;
+            out << YAML::Key << "observation_seconds" << YAML::Value << s.observation_seconds;
+            out << YAML::EndMap;
+        }
+        out << YAML::EndSeq;
+        out << YAML::EndMap;
+
         out << YAML::EndMap;  // updates
         out << YAML::EndMap;  // root
         

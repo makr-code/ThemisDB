@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            edition.h                                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -148,6 +148,27 @@ constexpr bool FEATURE_HSM = THEMIS_ENABLE_HSM;
 #else
 constexpr bool FEATURE_HSM = false;
 #endif
+
+// ============================================================================
+// GATED FEATURE NAMES (single source of truth)
+// ============================================================================
+// All Enterprise/Hyperscaler-only feature names that are subject to runtime
+// license gating.  Any consumer that needs to enumerate or iterate over gated
+// features should reference this array rather than duplicating the list.
+//
+// Note: std::array<std::string_view, N> is not constexpr-initializable until
+// C++20 in all major compilers, so we use a plain C array.
+
+static constexpr std::string_view kGatedFeatureNames[] = {
+    "enterprise_plugins",
+    "multi_master",
+    "field_encryption",
+    "rbac",
+    "hsm",
+};
+
+static constexpr std::size_t kGatedFeatureCount =
+    sizeof(kGatedFeatureNames) / sizeof(kGatedFeatureNames[0]);
 
 // ============================================================================
 // UTILITY FUNCTIONS FOR RUNTIME CHECKS

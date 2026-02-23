@@ -1724,6 +1724,79 @@ paths:
                     example: 'Cache cleared'
         '500': { $ref: '#/components/responses/InternalError' }
 
+  /api/v1/replication/topology:
+    get:
+      summary: Get live replication topology snapshot
+      operationId: getReplicationTopology
+      tags: [Replication Topology]
+      responses:
+        '200':
+          description: Full replication topology with nodes and WAL-stream edges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_node_id:
+                    type: string
+                    example: primary-1
+                  primary_lsn:
+                    type: integer
+                    format: int64
+                    example: 42000
+                  nodes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        node_id:              { type: string }
+                        role:                 { type: string, enum: [PRIMARY, REPLICA] }
+                        is_primary:           { type: boolean }
+                        health_status:        { type: string, enum: [HEALTHY, FAILED] }
+                        replication_lag_ms:   { type: integer, format: int64 }
+                        replication_lag_bytes: { type: integer, format: int64 }
+                        endpoint:             { type: string }
+                        last_confirmed_lsn:   { type: integer, format: int64 }
+                  edges:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        from: { type: string }
+                        to:   { type: string }
+                        type: { type: string, example: WAL_STREAM }
+                  total_nodes:   { type: integer }
+                  replica_count: { type: integer }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/replication/health:
+    get:
+      summary: Get aggregated replication cluster health summary
+      operationId: getReplicationHealth
+      tags: [Replication Topology]
+      responses:
+        '200':
+          description: Cluster health summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_node_id:              { type: string }
+                  has_quorum:                   { type: boolean }
+                  total_nodes:                  { type: integer }
+                  healthy_replicas:             { type: integer }
+                  failed_replicas:              { type: integer }
+                  max_replication_lag_ms:       { type: integer, format: int64 }
+                  max_replication_lag_bytes:    { type: integer, format: int64 }
+                  total_entries_shipped:        { type: integer, format: int64 }
+                  total_bytes_shipped:          { type: integer, format: int64 }
+                  failed_ships:                 { type: integer, format: int64 }
+                  overall_status:
+                    type: string
+                    enum: [HEALTHY, DEGRADED, CRITICAL]
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
   /api/v1/geo/topology:
     get:
       summary: List all shards with region/zone/health metadata
@@ -4614,28 +4687,74 @@ paths:
 
   /transaction:
     post:
-      summary: Begin transaction (legacy)
-      operationId: beginTransactionLegacy
+      summary: Execute atomic transaction operations
+      operationId: executeTransaction
       tags: [transactions]
+      description: >
+        Execute one or more operations atomically within a single transaction.
+        Supported operation types: `put`, `delete`, `optimistic_put`, `optimistic_erase`.
+        Use `optimistic_put` / `optimistic_erase` for Optimistic Concurrency Control (OCC) –
+        the operation only succeeds when the stored entity version matches `expected_version`.
       security:
         - bearerAuth: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required: [operations]
               properties:
-                isolation_level: { type: string, enum: [read_committed, repeatable_read, serializable] }
+                isolation:
+                  type: string
+                  enum: [read_committed, snapshot, serializable]
+                  default: read_committed
+                operations:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required: [type, table, key]
+                    properties:
+                      type:
+                        type: string
+                        enum: [put, delete, optimistic_put, optimistic_erase]
+                      table:    { type: string }
+                      key:      { type: string }
+                      data:
+                        type: object
+                        description: Entity fields (required for put / optimistic_put)
+                      expected_version:
+                        type: integer
+                        format: int64
+                        description: >
+                          Required for optimistic_put and optimistic_erase.
+                          The operation fails with an OCC conflict error when the
+                          stored version differs from this value.
       responses:
         '200':
-          description: Transaction started
+          description: Transaction committed
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  txn_id: { type: string }
-                  status: { type: string }
+                  transaction_id: { type: integer, format: int64 }
+                  status: { type: string, enum: [committed] }
+                  applied: { type: integer }
+                  errors:  { type: array }
+        '409':
+          description: Transaction rolled back due to operation errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: integer, format: int64 }
+                  status: { type: string, enum: [rolled_back] }
+                  applied: { type: integer }
+                  errors:  { type: array }
+        '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
   /transaction/begin:
@@ -4651,8 +4770,11 @@ paths:
             schema:
               type: object
               properties:
-                isolation_level: { type: string, enum: [read_committed, repeatable_read, serializable] }
-                read_only: { type: boolean, default: false }
+                isolation:
+                  type: string
+                  enum: [read_committed, snapshot, serializable]
+                  default: read_committed
+                  description: Isolation level for the transaction
       responses:
         '200':
           description: Transaction started
@@ -4661,8 +4783,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  txn_id: { type: string }
-                  status: { type: string }
+                  transaction_id: { type: integer, format: int64 }
+                  isolation: { type: string }
+                  status: { type: string, enum: [active] }
+        '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
   /transaction/commit:
@@ -4741,6 +4865,59 @@ paths:
                   committed_total: { type: integer, format: int64 }
                   rolled_back_total: { type: integer, format: int64 }
         '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /transaction/version:
+    get:
+      summary: Get OCC entity version
+      operationId: getTransactionEntityVersion
+      tags: [transactions]
+      description: >
+        Returns the current Optimistic Concurrency Control (OCC) version of an
+        entity within an active transaction, without acquiring a pessimistic lock.
+        Pass the result as `expected_version` in a subsequent `optimistic_put` or
+        `optimistic_erase` operation to perform a conditional write.
+        Returns version 0 when the entity does not exist yet.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transaction_id, table, key]
+              properties:
+                transaction_id:
+                  type: integer
+                  format: int64
+                  description: Active transaction ID (from /transaction/begin)
+                table:
+                  type: string
+                  description: Table name
+                key:
+                  type: string
+                  description: Primary key of the entity
+      responses:
+        '200':
+          description: Entity version retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: integer, format: int64 }
+                  table:          { type: string }
+                  key:            { type: string }
+                  version:
+                    type: integer
+                    format: int64
+                    description: Current entity version (0 = entity does not exist)
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: Transaction not found or already completed
+        '410':
+          description: Transaction is no longer active
 
   /dtxn/begin:
     post:

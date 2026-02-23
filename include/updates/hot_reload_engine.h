@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_engine.h                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     227                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
+    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -101,32 +105,32 @@ public:
         const Config& config = defaultConfig()
     );
     
-    ~HotReloadEngine();
-    
+    virtual ~HotReloadEngine();
+
     /**
      * @brief Download and verify a release
      * @param version Version to download (e.g., "1.2.3")
      * @return Download result
      */
     DownloadResult downloadRelease(const std::string& version);
-    
+
     /**
      * @brief Apply hot-reload (atomic operation)
      * @param version Version to apply
      * @param verify_only Dry-run mode (don't actually apply)
      * @return Reload result
      */
-    ReloadResult applyHotReload(
+    virtual ReloadResult applyHotReload(
         const std::string& version,
         bool verify_only = false
     );
-    
+
     /**
      * @brief Rollback to previous version
      * @param rollback_id Rollback ID from previous reload
      * @return true if successful
      */
-    bool rollback(const std::string& rollback_id);
+    virtual bool rollback(const std::string& rollback_id);
     
     /**
      * @brief Verify release before applying

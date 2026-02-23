@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_builder.cpp                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:45                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
+    • Total Lines:     446                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -336,4 +339,111 @@ TEST(IngestionBuilderTest, PriorityPropagated) {
     }
     EXPECT_TRUE(found_high);
     EXPECT_TRUE(found_low);
+}
+
+// ============================================================================
+// IngestionBuilder – withApiSource (cursor/offset pagination)
+// ============================================================================
+
+TEST(IngestionBuilderApiSourceTest, RegistersApiSource) {
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("my_api", "https://api.example.com/v1/docs")
+        .build();
+
+    ASSERT_NE(mgr, nullptr);
+    auto sources = mgr->getRegisteredSources();
+    ASSERT_EQ(sources.size(), 1u);
+    EXPECT_EQ(sources[0].source_id, "my_api");
+    EXPECT_EQ(sources[0].type,      SourceType::API);
+    EXPECT_EQ(sources[0].location,  "https://api.example.com/v1/docs");
+}
+
+TEST(IngestionBuilderApiSourceTest, OffsetModeOptions) {
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("offset_api", "https://api.example.com/items",
+                       {{"pagination_mode", "offset"},
+                        {"cursor_param",    "offset"},
+                        {"page_size",       "50"},
+                        {"text_field",      "content"}})
+        .build();
+
+    auto sources = mgr->getRegisteredSources();
+    ASSERT_EQ(sources.size(), 1u);
+    EXPECT_EQ(sources[0].options.at("pagination_mode"), "offset");
+    EXPECT_EQ(sources[0].options.at("page_size"),       "50");
+    EXPECT_EQ(sources[0].options.at("text_field"),      "content");
+}
+
+TEST(IngestionBuilderApiSourceTest, CursorModeOptions) {
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("cursor_api", "https://api.example.com/v2/docs",
+                       {{"pagination_mode",       "cursor"},
+                        {"cursor_param",          "page_token"},
+                        {"cursor_response_field", "next_page_token"},
+                        {"page_size",             "100"},
+                        {"max_pages",             "5"}})
+        .build();
+
+    auto sources = mgr->getRegisteredSources();
+    ASSERT_EQ(sources.size(), 1u);
+    EXPECT_EQ(sources[0].type,                                SourceType::API);
+    EXPECT_EQ(sources[0].options.at("pagination_mode"),       "cursor");
+    EXPECT_EQ(sources[0].options.at("cursor_param"),          "page_token");
+    EXPECT_EQ(sources[0].options.at("cursor_response_field"), "next_page_token");
+    EXPECT_EQ(sources[0].options.at("max_pages"),             "5");
+}
+
+TEST(IngestionBuilderApiSourceTest, PriorityPropagated) {
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("api_high", "https://api.example.com/a", {}, 9)
+        .withApiSource("api_low",  "https://api.example.com/b", {}, 2)
+        .build();
+
+    auto sources = mgr->getRegisteredSources();
+    ASSERT_EQ(sources.size(), 2u);
+    for (const auto& s : sources) {
+        if (s.source_id == "api_high") EXPECT_EQ(s.priority, 9);
+        if (s.source_id == "api_low")  EXPECT_EQ(s.priority, 2);
+    }
+}
+
+TEST(IngestionBuilderApiSourceTest, MixedSourceTypes) {
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("api_src",  "https://api.example.com/docs",
+                       {{"pagination_mode", "cursor"}})
+        .withFilesystemSource("fs_src", "/tmp/docs")
+        .withHuggingFaceSource("hf_src", "dataset/name")
+        .build();
+
+    auto sources = mgr->getRegisteredSources();
+    EXPECT_EQ(sources.size(), 3u);
+
+    bool found_api = false, found_fs = false, found_hf = false;
+    for (const auto& s : sources) {
+        if (s.source_id == "api_src") { EXPECT_EQ(s.type, SourceType::API);        found_api = true; }
+        if (s.source_id == "fs_src")  { EXPECT_EQ(s.type, SourceType::FILESYSTEM); found_fs  = true; }
+        if (s.source_id == "hf_src")  { EXPECT_EQ(s.type, SourceType::HUGGINGFACE);found_hf  = true; }
+    }
+    EXPECT_TRUE(found_api);
+    EXPECT_TRUE(found_fs);
+    EXPECT_TRUE(found_hf);
+}
+
+TEST(IngestionBuilderApiSourceTest, IngestsViaManager) {
+    // End-to-end: build a manager with a cursor-mode API source and ingest.
+    // The simulated HTTP layer always returns 3 docs per page.
+    auto mgr = IngestionBuilder("test_db")
+        .withApiSource("e2e_api", "https://api.example.com/v2/docs",
+                       {{"pagination_mode",       "cursor"},
+                        {"cursor_response_field", "next_cursor"},
+                        {"page_size",             "3"},
+                        {"max_pages",             "2"}})
+        .build();
+
+    ASSERT_NE(mgr, nullptr);
+    auto stats = mgr->ingestSource("e2e_api");
+    EXPECT_EQ(stats.documents_failed,    0u);
+    // Two pages × 3 docs each
+    EXPECT_EQ(stats.documents_processed, 6u);
+    EXPECT_TRUE(stats.errors.empty());
 }

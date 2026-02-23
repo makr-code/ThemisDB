@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:21                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:23                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     259                                            ║
+    • Total Lines:     312                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
+    • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
+    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
+    • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
+    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -76,6 +80,12 @@ struct AsyncInferenceRequest {
 
     // Per-request deadline (steady_clock); zero() means no timeout.
     std::chrono::steady_clock::time_point deadline;
+
+    // Shared promise — owned jointly by the queue item (or pool task lambda)
+    // and the timeout monitor so that the monitor can resolve the future
+    // immediately when the deadline expires, even while the worker is still
+    // executing the plugin call.
+    std::shared_ptr<std::promise<InferenceResponse>> shared_promise;
 };
 
 /**
@@ -247,7 +257,9 @@ private:
     // Request queue (priority-based)
     struct RequestQueueItem {
         std::shared_ptr<AsyncInferenceRequest> request;
-        std::promise<InferenceResponse> promise;
+        // Shared with async_req->shared_promise so the timeout monitor can
+        // resolve the future early even while this item is being processed.
+        std::shared_ptr<std::promise<InferenceResponse>> promise;
         
         // For priority queue ordering
         bool operator<(const RequestQueueItem& other) const {

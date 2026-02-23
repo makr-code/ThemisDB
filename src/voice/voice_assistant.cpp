@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:30                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     464                                            ║
+    • Total Lines:     554                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 313664710  2026-02-22  fix(voice): audit gaps – wake-word stats, config, docs, c... ║
+    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
+    • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
+    • 2b12bc7d3  2026-02-22  impl: real-time streaming STT for audio arrival ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,6 +41,12 @@ namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
     : config_(config) {
+    // Initialise wake-word detector regardless of the enable flag so that
+    // detectWakeWord() is always safe to call; the caller can gate on the flag.
+    wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
+    for (const auto& entry : config_.wake_words) {
+        wake_word_detector_->addWakeWord(entry.first, entry.second);
+    }
 }
 
 VoiceAssistant::~VoiceAssistant() {
@@ -205,6 +217,76 @@ std::string VoiceAssistant::processTextCommand(
     }
     
     return llm_response;
+}
+
+std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
+    const std::vector<uint8_t>& audio_data,
+    const std::string& session_id,
+    std::function<void(const content::TranscriptionSegment&)> segment_callback
+) {
+    if (!initialized_) {
+        return {};
+    }
+
+    auto session = getSession(session_id);
+
+    // Accumulate all segments delivered by the streaming transcription.
+    std::string full_transcript;
+    std::mutex transcript_mutex;
+
+    auto on_segment = [&](const content::TranscriptionSegment& seg) {
+        {
+            std::lock_guard<std::mutex> lock(transcript_mutex);
+            if (!full_transcript.empty()) {
+                full_transcript += ' ';
+            }
+            full_transcript += seg.text;
+        }
+        // Forward to caller's callback if provided.
+        if (segment_callback) {
+            segment_callback(seg);
+        }
+    };
+
+    bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
+
+    if (!ok || full_transcript.empty()) {
+        // Fall back to batch transcription so the pipeline always returns audio.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            full_transcript = transcription.full_text;
+        }
+    }
+
+    if (full_transcript.empty()) {
+        content::TTSOptions tts_options;
+        tts_options.voice_id = config_.tts_voice;
+        tts_options.format = "wav";
+        auto tts_result = tts_processor_->synthesize(
+            "I'm sorry, I couldn't understand that. Please try again.",
+            tts_options
+        );
+        return tts_result.audio_data;
+    }
+
+    session.history.push_back("User: " + full_transcript);
+
+    std::string llm_response = generateLLMResponse(full_transcript, session);
+
+    session.history.push_back("Assistant: " + llm_response);
+
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_[session_id] = session;
+    }
+
+    content::TTSOptions tts_options;
+    tts_options.voice_id = config_.tts_voice;
+    tts_options.speed    = config_.tts_speed;
+    tts_options.format   = "wav";
+
+    auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
+    return tts_result.audio_data;
 }
 
 json VoiceAssistant::recordPhoneCall(
@@ -431,6 +513,10 @@ json VoiceAssistant::getStatistics() const {
         stats["llm"]["vram_used_mb"] = llm_stats.vram_used_mb;
     }
     
+    if (wake_word_detector_) {
+        stats["wake_word"] = wake_word_detector_->getStatistics();
+    }
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();
@@ -458,6 +544,16 @@ std::string VoiceAssistant::createRevisionEntry(
     std::stringstream ss;
     ss << "revision:" << std::hex << now;
     return ss.str();
+}
+
+WakeWordDetectionResult VoiceAssistant::detectWakeWord(
+    const std::vector<uint8_t>& audio_chunk
+) {
+    return wake_word_detector_->processAudioChunk(audio_chunk);
+}
+
+void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback(std::move(callback));
 }
 
 } // namespace voice

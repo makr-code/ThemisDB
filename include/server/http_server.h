@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:59                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     964                                            ║
+    • Total Lines:     978                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
-    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
+    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
+    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,6 +73,7 @@
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
 #include "server/geo_topology_api_handler.h"
+#include "server/replication_topology_api_handler.h"
 #include "server/cache_api_handler.h"
 #include "server/cache_admin_api_handler.h"
 #include "server/pii_api_handler.h"
@@ -91,6 +93,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/serverless_function_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -755,6 +758,9 @@ private:
 
     // Geo Topology API Handler
     std::unique_ptr<themis::server::GeoTopologyApiHandler> geo_topology_api_;
+
+    // Replication Topology API Handler (web UI visualizer)
+    std::unique_ptr<themis::server::ReplicationTopologyApiHandler> replication_topology_api_;
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
@@ -844,6 +850,9 @@ private:
 
     // GraphQL API Handler
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
+
+    // Serverless function hosting – in-process user function registry + executor
+    std::unique_ptr<themis::server::ServerlessFunctionApiHandler> serverless_fn_handler_;
 
     // Metadata sub-components owned alongside SchemaApiHandler
     std::unique_ptr<StatisticsCollector>      stats_collector_;

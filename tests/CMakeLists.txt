@@ -68,6 +68,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_judge.*\\.cpp$"
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
+        ".*test_rag_hallucination_dashboard\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -88,6 +89,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"
         ".*test_ai_decision_auditor\\.cpp$"
+        ".*test_ai_orchestrator\\.cpp$"
+        ".*test_mcp_orchestrator_bridge\\.cpp$"
         ".*test_byzantine_detector\\.cpp$"
         ".*test_continuous_batch_scheduler\\.cpp$"
         ".*test_data_loader\\.cpp$"
@@ -162,6 +165,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_http_content\\.cpp$"
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
+        ".*test_pdf_processor\\.cpp$"
     )
 endif()
 
@@ -186,6 +190,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
     ".*test_jsonl_llm_exporter\\.cpp$"
+    ".*test_huggingface_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -201,7 +206,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_erasure_coding.*\\.cpp$"
     ".*test_auth_error\\.cpp$"
     ".*test_auth_metrics\\.cpp$"
-    ".*test_auth_rate_limiter\\.cpp$"
     ".*test_jwks_security\\.cpp$"
     ".*test_kerberos_security\\.cpp$"
     ".*test_principal_validator\\.cpp$"
@@ -229,6 +233,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
+    ".*test_pmem_storage\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
@@ -286,6 +291,7 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_auto_optimize.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_detector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_multimodal.cpp
 )
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
@@ -307,6 +313,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU metrics test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates the in-process Prometheus-compatible counter/gauge
+# registry (GPUMetrics) and the CUDA Nsight-compatible JSON export (nsight_export).
+# It exercises only CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_metrics.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -315,6 +331,7 @@ endif()
 if(NOT THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_reranker.cpp
     )
 endif()
 
@@ -336,7 +353,10 @@ endif()
 # Voice module production components for testing (compile standalone, not gated by THEMIS_ENABLE_VOICE_ASSISTANT)
 if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
     target_sources(themis_tests PRIVATE
+        ../src/content/stt_processor.cpp
+        ../src/content/tts_processor.cpp
         ../src/voice/audio_preprocessing.cpp
+        ../src/voice/wake_word_detector.cpp
         ../src/voice/voice_intent_detector.cpp
         ../src/voice/voice_session_manager.cpp
         ../src/voice/voice_security.cpp
@@ -347,6 +367,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_accessibility.cpp
         ../src/voice/voice_model_cache.cpp
         ../src/voice/voice_batch_processor.cpp
+        ../src/voice/voice_authenticator.cpp
     )
 endif()
 
@@ -401,6 +422,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
             ${THEMIS_ROOT_DIR}/src/server/mvcc_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
         )
@@ -529,6 +551,12 @@ target_include_directories(themis_tests PRIVATE
 
 if(TARGET themis_shard_proto)
     add_dependencies(themis_tests themis_shard_proto)
+endif()
+
+# Wire Protocol V1 protobuf: add dependency so the generated .pb.h is ready
+# before the test that includes wire_protocol_server.hpp compiles.
+if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_compile_definitions(themis_tests PRIVATE THEMIS_WIRE_V1_PROTO_AVAILABLE)
 endif()
 
 # Copy DLLs to test directory on Windows after build
@@ -1184,6 +1212,44 @@ else()
 endif()
 
 # ============================================================================
+# Serverless Function API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serverless_function_api_handler.cpp")
+    message(STATUS "Adding Serverless Function API Handler tests")
+
+    add_executable(test_serverless_function_api_handler
+        test_serverless_function_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/serverless_function_api_handler.cpp
+    )
+
+    target_include_directories(test_serverless_function_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_serverless_function_api_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_serverless_function_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ServerlessFunctionApiHandlerTests
+             COMMAND test_serverless_function_api_handler)
+
+    set_tests_properties(ServerlessFunctionApiHandlerTests PROPERTIES
+        LABELS "server;serverless;functions;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Serverless Function Handler: CRUD, invocation DSL, version history")
+else()
+    message(STATUS "Serverless Function API Handler tests not found")
+endif()
+
+# ============================================================================
 # Inverted Index (standalone full-text search module) Tests
 # ============================================================================
 
@@ -1355,6 +1421,38 @@ else()
     message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
 endif()
 
+# Transaction Savepoint Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_savepoints.cpp")
+    message(STATUS "Adding Transaction Savepoint tests")
+
+    add_executable(test_savepoints
+        test_savepoints.cpp
+    )
+
+    target_link_libraries(test_savepoints PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_savepoints PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionSavepointTests COMMAND test_savepoints)
+
+    set_tests_properties(TransactionSavepointTests PROPERTIES
+        LABELS "transaction;savepoint;acid;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Savepoints: named partial rollback, SAGA trimming, error handling")
+else()
+    message(STATUS "Transaction Savepoint tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_savepoints.cpp")
+endif()
+
 # Transaction Manager Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
     message(STATUS "Adding Transaction Manager comprehensive tests")
@@ -1385,6 +1483,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cp
     message(STATUS "  Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints")
 else()
     message(STATUS "Transaction Manager comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager_comprehensive.cpp")
+endif()
+
+# Transaction OCC Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
+    message(STATUS "Adding Transaction OCC tests")
+
+    add_executable(test_transaction_occ
+        test_transaction_occ.cpp
+    )
+
+    target_link_libraries(test_transaction_occ PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_occ PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionOccTests COMMAND test_transaction_occ)
+
+    set_tests_properties(TransactionOccTests PROPERTIES
+        LABELS "transaction;occ;optimistic;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction OCC: getEntityVersion, optimisticPut, optimisticErase, retry pattern")
+else()
+    message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
 endif()
 
 # Utilities Comprehensive Tests
@@ -1474,6 +1604,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
         TIMEOUT 60
     )
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
+endif()
+
+# Phase 3 – Structured log correlation (trace ID injection into structured logs)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
+    message(STATUS "Adding Structured Log Correlation tests (Phase 3)")
+    add_executable(test_structured_log_correlation test_structured_log_correlation.cpp)
+    target_link_libraries(test_structured_log_correlation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_structured_log_correlation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StructuredLogCorrelationTests COMMAND test_structured_log_correlation)
+    set_tests_properties(StructuredLogCorrelationTests PROPERTIES
+        LABELS "core;logging;tracing;trace-id;structured-log;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Structured Log Correlation: TraceContext, logWithContext(), logWithTrace(), JSON and plain-text injection")
+endif()
+
+# Phase 3 – Distributed tracing unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_tracing.cpp")
+    message(STATUS "Adding Distributed Tracing tests (Phase 3)")
+    add_executable(test_distributed_tracing test_distributed_tracing.cpp)
+    target_link_libraries(test_distributed_tracing PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_distributed_tracing PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedTracingTests COMMAND test_distributed_tracing)
+    set_tests_properties(DistributedTracingTests PROPERTIES
+        LABELS "core;tracing;distributed;spans;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Distributed Tracing: span lifecycle, child spans, error recording, W3C propagation")
 endif()
 
 # Phase 2 – Sampling strategy unit tests (replaces stub)

@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:17                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:11                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     405                                            ║
+    • Total Lines:     403                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • b2265b9b9  2026-02-21  feat(acceleration): Phase 3.3 — BackendHealthStatus + Vul... ║
+    • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
+    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -72,6 +75,17 @@ inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
     return 1u << static_cast<uint32_t>(m);
 }
 
+// PCI vendor IDs for common GPU vendors — used by Vulkan and other backends
+// for device selection and capability reporting.
+namespace vendor_id {
+    static constexpr uint32_t NVIDIA   = 0x10DE;
+    static constexpr uint32_t AMD      = 0x1002;
+    static constexpr uint32_t INTEL    = 0x8086;
+    static constexpr uint32_t ARM      = 0x13B5;
+    static constexpr uint32_t QUALCOMM = 0x5143;
+    static constexpr uint32_t IMGTEC   = 0x1010;
+} // namespace vendor_id
+
 // Capability contract for a compute backend.
 // Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
@@ -94,6 +108,9 @@ struct BackendCapabilities {
     size_t maxMemoryBytes = 0;      // Available VRAM/memory
     int computeUnits = 0;            // Number of compute units/SMs
     std::string deviceName;
+    // Vendor name for GPU/hardware identification (e.g. "NVIDIA", "AMD", "Intel", "ARM")
+    // Empty string means unknown or CPU backend.
+    std::string vendorName;
 };
 
 // Backend health status — returned by IComputeBackend::getHealthStatus()

@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:21                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     892                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1034                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
+    • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
+    • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
+    • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,6 +30,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <utility>
 #include <unordered_map>
 #include <chrono>
 #include <atomic>
@@ -225,6 +230,18 @@ using ProgressCallback = std::function<void(const std::string& source_id,
                                             size_t processed, 
                                             size_t total,
                                             const std::string& status)>;
+
+/**
+ * @brief Function type for injecting a mock HTTP GET response in tests.
+ *
+ * Returns `{status_code, response_body}`.  When injected via
+ * `GenericApiConnector::setHttpGetForTesting()` or
+ * `IngestionManager::setApiHttpGetForTesting()`, this function is called
+ * instead of a real libcurl request.  Intended for unit tests only.
+ */
+using ApiHttpGetFn =
+    std::function<std::pair<int, std::string>(const std::string& url,
+                                              const std::string& auth)>;
 
 /**
  * @brief Ingestion statistics
@@ -623,6 +640,15 @@ public:
      */
     bool clearCheckpoint(const std::string& source_id);
 
+    /**
+     * @brief Inject a mock HTTP GET function for all API connectors (testing only)
+     *
+     * When set, every `GenericApiConnector` created by this manager will have
+     * the supplied function installed via `setHttpGetForTesting()` before its
+     * first use.  Pass an empty `ApiHttpGetFn{}` to restore real HTTP.
+     */
+    void setApiHttpGetForTesting(ApiHttpGetFn fn);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -786,6 +812,34 @@ public:
     IngestionBuilder& withFilesystemSource(
         const std::string& source_id,
         const std::string& path,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a REST API source (supports cursor and offset/limit pagination)
+     *
+     * Registers a `GenericApiConnector` source.  Pagination behaviour is
+     * controlled through the `options` map:
+     *
+     * | Key                     | Description                                        | Default       |
+     * |-------------------------|----------------------------------------------------|---------------|
+     * | `api_key`               | Bearer token for `Authorization: Bearer <token>`   | (none)        |
+     * | `page_size`             | Items per page                                     | `100`         |
+     * | `pagination_mode`       | `"offset"` (numeric) or `"cursor"` (opaque token)  | `"offset"`    |
+     * | `cursor_param`          | Query-parameter name for the cursor / offset       | `"offset"`    |
+     * | `cursor_response_field` | JSON key in response containing the next cursor    | `"next_cursor"`|
+     * | `text_field`            | JSON key whose value is the document text          | `"text"`      |
+     * | `max_pages`             | Maximum pages to fetch (0 = unlimited)             | `0`           |
+     *
+     * @param source_id Unique source identifier
+     * @param endpoint  Base URL of the REST API endpoint
+     * @param options   Optional key/value options (see table above)
+     * @param priority  Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withApiSource(
+        const std::string& source_id,
+        const std::string& endpoint,
         std::unordered_map<std::string, std::string> options = {},
         int priority = 5);
 

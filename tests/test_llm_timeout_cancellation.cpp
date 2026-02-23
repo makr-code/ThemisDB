@@ -3,11 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_timeout_cancellation.cpp                  ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-23 03:59:08                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Tests: Per-request timeout and cancellation propagation for         ║
-         AsyncInferenceEngine and InferenceEngineEnhanced             ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     506                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
+    • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
+    • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
+    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -180,33 +192,42 @@ TEST_F(AsyncEngineTimeoutCancelTest, HandleCancelPropagatesForQueuedRequest) {
     (void)threw;
 }
 
-// Test 2: Per-request timeout fires and the future resolves.
+// Test 2: Per-request timeout fires and the future resolves promptly.
 // We use a very short timeout with a slow plugin.
 TEST_F(AsyncEngineTimeoutCancelTest, PerRequestTimeoutFires) {
+    // The timeout monitor polls every 50 ms; allow generous headroom.
+    constexpr int PER_REQUEST_TIMEOUT_MS      = 150;
+    constexpr int SLOW_PLUGIN_TOTAL_MS        = 900; // 30 tokens × 30 ms
+    constexpr int TIMEOUT_RESOLUTION_WINDOW_MS = 500; // must resolve well before plugin finishes
+
     auto slow_plugin = std::make_shared<SlowStreamingPlugin>(30, 30); // ~900 ms
     AsyncInferenceEngine engine(slow_plugin, cfg);
 
     InferenceRequest req;
     req.prompt = "will timeout";
-    // 150 ms timeout against a ~900 ms plugin
-    auto handle = engine.submit(req, 0, std::chrono::milliseconds(150));
+    auto handle = engine.submit(req, 0, std::chrono::milliseconds(PER_REQUEST_TIMEOUT_MS));
 
+    auto t0 = std::chrono::steady_clock::now();
     bool threw = false;
     try {
-        // After timeout the cancel token is set; the worker will finish the
-        // current plugin call but stream tokens are dropped.  The future
-        // is fulfilled with whatever the plugin returned.
         auto resp = handle.get();
         (void)resp;
     } catch (const std::runtime_error& e) {
         threw = true;
         spdlog::info("AsyncEngine timeout test: caught exception: {}", e.what());
     }
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0).count();
 
-    SUCCEED(); // Must not deadlock; both exception and normal return are valid.
+    // The future must resolve well before the plugin would naturally finish.
+    EXPECT_LT(elapsed_ms, TIMEOUT_RESOLUTION_WINDOW_MS)
+        << "handle.get() should resolve promptly after timeout, not block until plugin finishes ("
+        << SLOW_PLUGIN_TOTAL_MS << " ms)";
+
+    // The promise must have been resolved with a cancellation exception.
+    EXPECT_TRUE(threw) << "Expected a timeout exception from handle.get()";
 
     engine.shutdown();
-    (void)threw;
 }
 
 // Test 3: Streaming tokens stop being delivered after cancel().

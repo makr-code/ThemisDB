@@ -111,6 +111,23 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
 endif()
 
+# PDF support requires poppler-cpp
+if(THEMIS_ENABLE_PDF)
+    find_package(Poppler CONFIG COMPONENTS cpp QUIET)
+    if(NOT Poppler_FOUND)
+        find_package(Poppler COMPONENTS cpp QUIET)
+    endif()
+
+    if(Poppler_FOUND)
+        message(STATUS "PDF support enabled - poppler-cpp found")
+        add_compile_definitions(THEMIS_ENABLE_PDF)
+    else()
+        message(WARNING "poppler-cpp not found - Install with: vcpkg install poppler")
+        message(WARNING "Disabling PDF layout preservation due to missing dependencies")
+        set(THEMIS_ENABLE_PDF OFF CACHE BOOL "PDF support disabled - missing poppler-cpp" FORCE)
+    endif()
+endif()
+
 # FFmpeg support for video processing (optional)
 # Priority: 1) Local Submodule, 2) vcpkg, 3) System
 find_package(FFmpeg CONFIG QUIET)
@@ -192,6 +209,10 @@ option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
 
+# PDF Document Processing (Q2 2026)
+# Enables poppler-cpp integration for layout-preserving PDF text extraction
+option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
+
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
 option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
@@ -253,6 +274,10 @@ option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
 option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+
+# Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
+# Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
+option(THEMIS_ENABLE_PMEM "Enable Persistent Memory (Optane) aware storage layout (+50-200%)" OFF)
 
 # Build options
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
@@ -1314,6 +1339,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
+    ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
     
@@ -1336,6 +1362,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
     ../src/query/query_plan_visualizer.cpp
+    ../src/query/sql_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1394,7 +1421,9 @@ set(THEMIS_CORE_SOURCES
     ../src/server/entity_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
+    ../src/server/chunked_response_writer.cpp
     ../src/server/wal_api_handler.cpp
+    ../src/server/replication_topology_api_handler.cpp
     ../src/server/audit_api_handler.cpp
     ../src/server/pki_api_handler.cpp
     ../src/server/saga_api_handler.cpp
@@ -1524,6 +1553,10 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
+    ../src/updates/schema_migration_tester.cpp
+    ../src/updates/in_place_schema_migrator.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1541,10 +1574,12 @@ set(THEMIS_CORE_SOURCES
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
+    ../src/search/llm_reranker.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
+    ../src/security/zero_trust_policy_enforcer.cpp
     ../src/security/access_control.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -1558,15 +1593,20 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
+    ../src/security/row_level_security.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
+    ../src/security/confidential_computing.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oidc_provider.cpp
+    ../src/auth/auth_rate_limiter.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
@@ -1674,6 +1714,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/cpu_backend.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
+    ../src/acceleration/geo_acceleration_bridge.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -1693,10 +1734,15 @@ set(THEMIS_CORE_SOURCES
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+
+    # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
+    ../src/themis/wire_protocol_server.cpp
+    ../src/themis/module_dependency_resolver.cpp
     
-    # Observability (GAP-008: Alertmanager integration)
+    # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
+    ../src/observability/continuous_profiler.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1704,6 +1750,7 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/parquet_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
@@ -1806,6 +1853,17 @@ if(THEMIS_ENABLE_BAO)
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 endif()
 
+# Phase 4 Performance Optimizations (Issue #2424)
+# Conditionally add Phase 4 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/performance/phase4/feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_PMEM)
+    message(STATUS "Including Persistent Memory aware storage layout (THEMIS_ENABLE_PMEM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
+endif()
+
 # ============================================================================
 # MODULAR SOURCE FILES (organized by feature/component)
 # ============================================================================
@@ -1898,6 +1956,11 @@ if(THEMIS_ENABLE_LLM)
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Phase 2: Streaming Retrieval & Re-Ranking
+    ../src/rag/streaming_retriever.cpp
+    ../src/rag/reranker.cpp
+    # Phase 2: Hallucination Rate Tracking Dashboard
+    ../src/rag/hallucination_dashboard.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
@@ -1916,6 +1979,42 @@ if(NOT THEMIS_ENABLE_LLM)
 endif()
 
 _themis_normalize_sources(THEMIS_CORE_SOURCES)
+
+# ============================================================================
+# Wire Protocol V1 Protobuf Generation
+# (required by src/themis/wire_protocol_server.cpp)
+# ============================================================================
+find_package(Protobuf CONFIG QUIET)
+if(NOT Protobuf_FOUND)
+    find_package(Protobuf MODULE QUIET)
+endif()
+
+if(Protobuf_FOUND)
+    set(WIRE_V1_PROTO ${THEMIS_ROOT_DIR}/src/network/themis_wire_v1.proto)
+    set(WIRE_V1_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+    file(MAKE_DIRECTORY ${WIRE_V1_PROTO_GEN_DIR})
+
+    set(WIRE_V1_PROTO_SRC ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.cc)
+    set(WIRE_V1_PROTO_HDR ${WIRE_V1_PROTO_GEN_DIR}/themis_wire_v1.pb.h)
+
+    add_custom_command(
+        OUTPUT  ${WIRE_V1_PROTO_SRC} ${WIRE_V1_PROTO_HDR}
+        COMMAND $<TARGET_FILE:protobuf::protoc>
+        ARGS    --cpp_out ${WIRE_V1_PROTO_GEN_DIR}
+                -I ${THEMIS_ROOT_DIR}/src/network
+                ${WIRE_V1_PROTO}
+        DEPENDS ${WIRE_V1_PROTO} protobuf::protoc
+        COMMENT "Generating protobuf C++ sources for themis_wire_v1.proto"
+        VERBATIM
+    )
+
+    list(APPEND THEMIS_CORE_SOURCES ${WIRE_V1_PROTO_SRC})
+    set(THEMIS_WIRE_V1_PROTO_AVAILABLE ON)
+    message(STATUS "themis_wire_v1.proto: protobuf generation configured")
+else()
+    message(STATUS "Protobuf not found – themis_wire_v1.pb.h will not be generated; "
+                   "wire_protocol_server (themis::wire) compiles without proto handlers")
+endif()
 
 # ============================================================================
 # BUILD MODE SELECTION: Modular vs Monolithic
@@ -2063,6 +2162,7 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
     ../src/acceleration/cuda_backend.cpp
     ../src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda/geo_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
@@ -2221,6 +2321,13 @@ if(THEMIS_ENABLE_HSM_REAL)
     target_sources(themis_core PRIVATE ../src/security/hsm_provider_pkcs11.cpp)
 endif()
 
+# Wire Protocol V1 protobuf compile flag and link
+if(THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+    target_link_libraries(themis_core PRIVATE protobuf::libprotobuf)
+    message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled (themis::wire protobuf handlers active)")
+endif()
+
 # Geo feature flags and Boost.Geometry support
 if(THEMIS_GEO)
     target_compile_definitions(themis_core PUBLIC THEMIS_GEO_ENABLED)
@@ -2328,6 +2435,18 @@ if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     message(STATUS "Office support linked: libzip and pugixml")
 endif()
 
+# Link poppler-cpp (for PDF layout-preserving extraction) if enabled
+if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
+    if(TARGET Poppler::cpp)
+        target_link_libraries(themis_core PUBLIC Poppler::cpp)
+    elseif(TARGET poppler-cpp)
+        target_link_libraries(themis_core PUBLIC poppler-cpp)
+    else()
+        message(WARNING "Poppler::cpp target not found - please check poppler installation")
+    endif()
+    message(STATUS "PDF support linked: poppler-cpp")
+endif()
+
 # Link Kerberos/GSSAPI if enabled
 if(THEMIS_ENABLE_KERBEROS)
     if(TARGET KRB5::krb5)
@@ -2432,6 +2551,9 @@ if(THEMIS_ENABLE_GUNROCK)
 endif()
 if(THEMIS_ENABLE_BAO)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
+endif()
+if(THEMIS_ENABLE_PMEM)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PMEM)
 endif()
 
 if(THEMIS_ENABLE_GPU)
@@ -2717,7 +2839,14 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
-        
+
+        # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
+        ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
+        ../src/llm/ai_orchestrator.cpp            # Orchestrator runtime with ToolRegistry and mode pipelines
+
+        # MCP ↔ Orchestrator bridge (compiled when both THEMIS_ENABLE_LLM and THEMIS_ENABLE_MCP are active)
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/llm/mcp_tool_bridge.cpp>
+
         # RAG Enhancement: Quality Evaluation and Gap Detection
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
@@ -2731,6 +2860,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/bayesian_optimizer.cpp
         ../src/rag/ab_testing_framework.cpp
         ../src/rag/continuous_learning_orchestrator.cpp
+
+        # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
+        ../src/rag/hallucination_dashboard.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -3139,7 +3271,25 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
-    
+
+    # Phase 4 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_PMEM)
+        add_executable(test_pmem_storage
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmem_storage.cpp
+        )
+        target_link_libraries(test_pmem_storage
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmem_storage
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
         add_executable(test_gpu_vector_index

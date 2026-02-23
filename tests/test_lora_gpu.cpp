@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_gpu.cpp                                  ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:49                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -294,6 +294,41 @@ TEST_F(LoRAGPUTest, GPUMemoryManager_DeviceDetection) {
         }
     }
     EXPECT_TRUE(found_cpu);
+}
+
+TEST_F(LoRAGPUTest, GPUMemoryManager_DetectBackends_IncludesVulkanEntry) {
+    auto backends = GPUMemoryManager::detect_backends();
+
+    bool found_vulkan = false;
+    for (const auto& backend : backends) {
+        if (backend.type == BackendType::VULKAN) {
+            found_vulkan = true;
+            // When available, device_name must be non-empty
+            if (backend.available) {
+                EXPECT_FALSE(backend.device_name.empty());
+            }
+            break;
+        }
+    }
+    EXPECT_TRUE(found_vulkan) << "Vulkan entry must always be present in detect_backends()";
+}
+
+TEST_F(LoRAGPUTest, GPUMemoryManager_DetectBackends_IncludesDirectXEntry) {
+    auto backends = GPUMemoryManager::detect_backends();
+
+    bool found_directx = false;
+    for (const auto& backend : backends) {
+        if (backend.type == BackendType::DIRECTX) {
+            found_directx = true;
+            // When available (Windows + DirectX enabled), device_name must be non-empty
+            if (backend.available) {
+                EXPECT_FALSE(backend.device_name.empty());
+            }
+            break;
+        }
+    }
+    // DirectX entry is always emitted (available=false on non-Windows/non-DirectX builds)
+    EXPECT_TRUE(found_directx) << "DirectX entry must always be present in detect_backends()";
 }
 
 TEST_F(LoRAGPUTest, GPUMemoryManager_AvailableDevices) {

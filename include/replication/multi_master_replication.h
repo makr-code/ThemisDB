@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_master_replication.h                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
+    • Total Lines:     523                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -427,7 +430,39 @@ public:
         std::chrono::milliseconds avg_replication_latency;
     };
     Stats getStats() const;
-    
+
+    // Topology Snapshot for web UI visualization
+    struct TopologyNode {
+        std::string node_id;
+        std::string endpoint;
+        std::string datacenter;
+        std::string region;
+        std::string state;          // "ACTIVE", "SYNCING", "PARTITIONED", "RECOVERING", "OFFLINE"
+        uint64_t replication_lag_ms;
+        bool is_local;              // True for this node
+    };
+
+    struct TopologyEdge {
+        std::string from;
+        std::string to;
+        std::string type;           // "PEER"
+    };
+
+    struct TopologySnapshot {
+        std::string local_node_id;
+        std::vector<TopologyNode> nodes;
+        std::vector<TopologyEdge> edges;
+        uint64_t max_lag_ms;
+        std::string replication_mode; // "MULTI_MASTER"
+    };
+
+    /**
+     * Build a topology snapshot for visualization (web UI / REST API).
+     * Returns the local node and all known peers with their current state
+     * and estimated replication lag.
+     */
+    TopologySnapshot getTopologySnapshot() const;
+
     // Prometheus Metrics Export
     std::string exportPrometheusMetrics() const;
     

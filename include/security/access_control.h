@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control.h                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     542                                            ║
+    • Total Lines:     580                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f0228555e  2026-02-22  fix(security): code-audit: add user_agent to Authorizatio... ║
+    • 3371af473  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +36,7 @@
 
 #include "security/rbac.h"
 #include "security/user_registration_plugin.h"
+#include "server/policy_engine.h"
 #include "utils/expected.h"
 
 // Forward declarations
@@ -124,6 +129,12 @@ public:
             std::string client_secret;
             std::vector<std::string> scopes;
         } oauth_config;
+        
+        // ABAC Configuration
+        struct ABACConfig {
+            bool enable_abac = false;
+            std::string abac_policy_path;
+        } abac_config;
     };
     
     /**
@@ -187,6 +198,7 @@ public:
         std::string action;
         std::unordered_map<std::string, std::string> attributes;
         std::string ip_address;
+        std::optional<std::string> user_agent; // HTTP User-Agent (used by ABAC UA conditions)
         std::chrono::system_clock::time_point timestamp;
     };
     
@@ -485,6 +497,35 @@ public:
         return *user_registration_plugin_manager_; 
     }
 
+    // ========================================================================
+    // ABAC Policy Management
+    // ========================================================================
+
+    /**
+     * @brief Get the ABAC policy engine
+     * @return PolicyEngine instance
+     * @note PolicyEngine is internally thread-safe via its own mutex.
+     *       Do not modify the engine concurrently with ongoing authorization calls
+     *       unless relying solely on PolicyEngine's own synchronization.
+     */
+    PolicyEngine& getABACEngine() { return policy_engine_; }
+    const PolicyEngine& getABACEngine() const { return policy_engine_; }
+
+    /**
+     * @brief Add an ABAC policy at runtime
+     * @param policy PolicyEngine policy to add
+     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     */
+    void addABACPolicy(const PolicyEngine::Policy& policy);
+
+    /**
+     * @brief Remove an ABAC policy by id
+     * @param policy_id Policy identifier
+     * @return true if the policy was removed
+     * @note Thread-safe: PolicyEngine serialises all policy mutations internally.
+     */
+    bool removeABACPolicy(const std::string& policy_id);
+
 private:
     Config config_;
     mutable std::mutex mutex_;
@@ -496,6 +537,7 @@ private:
     std::unique_ptr<auth::MFAAuthenticator> mfa_authenticator_;
     std::unique_ptr<utils::AuditLogger> audit_logger_;
     std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
+    PolicyEngine policy_engine_;  ///< ABAC policy engine (evaluated alongside RBAC)
     
     // NOTE: ThemisDB does NOT store user passwords locally.
     // All user authentication is delegated to plugins:

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     224                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 29                            ║
+    • Total Lines:     356                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 44                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,12 +32,26 @@
 #include "security/hsm_provider.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
+#include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <sstream>
 #include <chrono>
+#include <atomic>
 
 namespace themis { namespace security {
 
-class HSMProvider::Impl { };
+class HSMProvider::Impl {
+public:
+    std::vector<uint8_t> stub_kek; // 32-byte AES-256 KEK for stub wrap/unwrap
+
+    // Performance stats (atomic for thread safety)
+    std::atomic<uint64_t> sign_count{0};
+    std::atomic<uint64_t> verify_count{0};
+    std::atomic<uint64_t> sign_errors{0};
+    std::atomic<uint64_t> verify_errors{0};
+    std::atomic<uint64_t> total_sign_time_us{0};
+    std::atomic<uint64_t> total_verify_time_us{0};
+};
 
 static std::string to_hex(const std::vector<uint8_t>& data) {
     static const char* d = "0123456789abcdef";
@@ -44,6 +62,61 @@ static std::string to_hex(const std::vector<uint8_t>& data) {
 
 static std::string pseudo_b64(const std::vector<uint8_t>& data) {
     return std::string("hex:") + to_hex(data);
+}
+
+// AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
+    if (key.size() != 32) return {};
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), 12) != 1) return {};
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+    bool ok =
+        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+    ct_len = len;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    ct_len += len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    ciphertext.resize(ct_len);
+    std::vector<uint8_t> result;
+    result.insert(result.end(), iv.begin(), iv.end());
+    result.insert(result.end(), ciphertext.begin(), ciphertext.end());
+    result.insert(result.end(), tag.begin(), tag.end());
+    return result;
+}
+
+// AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
+    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    const uint8_t* iv  = encrypted.data();
+    size_t ct_len      = encrypted.size() - 12 - 16;
+    const uint8_t* ct  = encrypted.data() + 12;
+    const uint8_t* tag = encrypted.data() + 12 + ct_len;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> plaintext(ct_len);
+    int len = 0, pt_len = 0;
+    bool ok =
+        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+    pt_len = len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
+    pt_len += len;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    plaintext.resize(pt_len);
+    return plaintext;
 }
 
 HSMProvider::HSMProvider(HSMConfig config)
@@ -97,6 +170,20 @@ bool HSMProvider::initialize() {
     
     initialized_ = true;
     
+    // Recreate Impl if finalize() was called previously (impl_ would be nullptr)
+    if (!impl_) {
+        impl_ = std::make_unique<Impl>();
+    }
+    
+    // Generate stub KEK for consistent wrap/unwrap operations
+    impl_->stub_kek.resize(32);
+    if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
+        last_error_ = "Failed to generate stub KEK";
+        THEMIS_ERROR("HSMProvider stub: {}", last_error_);
+        initialized_ = false;
+        return false;
+    }
+    
     // CRITICAL SECURITY WARNING: Stub provider active
     THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
     THEMIS_WARN("║  ⚠️  INSECURE CONFIGURATION: HSM STUB PROVIDER ACTIVE!  ⚠️   ║");
@@ -129,8 +216,13 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 }
 
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
+    auto startTime = std::chrono::high_resolution_clock::now();
     HSMSignatureResult r;
-    if (!initialized_) { r.error_message = "HSM stub not initialized"; return r; }
+    if (!initialized_ || !impl_) {
+        r.error_message = "HSM stub not initialized";
+        if (impl_) impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+        return r;
+    }
     THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
     r.success = true;
     r.signature_b64 = pseudo_b64(hash);
@@ -139,13 +231,25 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     r.cert_serial = "STUB-CERT";
     r.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
+    impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+    auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::high_resolution_clock::now() - startTime).count();
+    impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
     return r;
 }
 
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
+    auto startTime = std::chrono::high_resolution_clock::now();
     auto expected = pseudo_b64(data);
     bool ok = (expected == signature_b64);
     THEMIS_DEBUG("HSMProvider stub verify key='{}' ok={}", key_label.empty()?config_.key_label:key_label, ok);
+    if (impl_) {
+        if (ok) impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+        else impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now() - startTime).count();
+        impl_->total_verify_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
+    }
     return ok;
 }
 
@@ -159,6 +263,24 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     info.extractable = false;
     info.key_size = 0;
     return {info};
+}
+
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
+    (void)key_label;
+    if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
+    auto result = stub_aes_encrypt(impl_->stub_kek, data);
+    if (result.empty()) { last_error_ = "Stub AES encrypt failed"; }
+    return result;
+}
+
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
+    (void)key_label;
+    if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
+    THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
+    auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
+    if (result.empty()) { last_error_ = "Stub AES decrypt failed (bad ciphertext or key mismatch)"; }
+    return result;
 }
 
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
@@ -181,19 +303,33 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
 bool HSMProvider::isReady() const { return initialized_; }
 
 std::string HSMProvider::getTokenInfo() const {
-    std::ostringstream oss; oss << "HSM STUB label=" << config_.key_label << " ready=" << (initialized_?"true":"false");
+    std::ostringstream oss; oss << "HSM stub/fallback label=" << config_.key_label << " ready=" << (initialized_?"true":"false");
     return oss.str();
 }
 
 std::string HSMProvider::getLastError() const { return last_error_; }
 
 HSMPerformanceStats HSMProvider::getStats() const {
-    // Stub: return empty stats
-    return HSMPerformanceStats{};
+    HSMPerformanceStats stats;
+    stats.sign_count = impl_ ? impl_->sign_count.load(std::memory_order_relaxed) : 0;
+    stats.verify_count = impl_ ? impl_->verify_count.load(std::memory_order_relaxed) : 0;
+    stats.sign_errors = impl_ ? impl_->sign_errors.load(std::memory_order_relaxed) : 0;
+    stats.verify_errors = impl_ ? impl_->verify_errors.load(std::memory_order_relaxed) : 0;
+    stats.total_sign_time_us = impl_ ? impl_->total_sign_time_us.load(std::memory_order_relaxed) : 0;
+    stats.total_verify_time_us = impl_ ? impl_->total_verify_time_us.load(std::memory_order_relaxed) : 0;
+    stats.pool_size = 0; // No real pool in stub
+    stats.pool_round_robin_hits = 0;
+    return stats;
 }
 
 void HSMProvider::resetStats() {
-    // Stub: no-op
+    if (!impl_) return;
+    impl_->sign_count.store(0, std::memory_order_relaxed);
+    impl_->verify_count.store(0, std::memory_order_relaxed);
+    impl_->sign_errors.store(0, std::memory_order_relaxed);
+    impl_->verify_errors.store(0, std::memory_order_relaxed);
+    impl_->total_sign_time_us.store(0, std::memory_order_relaxed);
+    impl_->total_verify_time_us.store(0, std::memory_order_relaxed);
 }
 
 bool HSMProvider::isStubProvider() const {

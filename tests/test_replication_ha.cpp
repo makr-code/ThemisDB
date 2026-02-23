@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:56                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2153                                           ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     2478                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a44a64287  2026-02-22  Add unit tests for getTopologySnapshot and fix stale meta... ║
+    • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
+    • 3e791276b  2026-02-22  fix(replication): fix lease read test assertion for empty... ║
+    • 573513108  2026-02-22  feat(replication): implement Raft leader lease reads for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -158,6 +164,27 @@ TEST_F(ReplicationConfigTest, LeaseDisabledIgnoresLeaseDuration) {
 TEST_F(ReplicationConfigTest, ValidConfigInitializesSuccessfully) {
     TempWALDir wd("/tmp/themis_repl_cfg_test5");
     ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    EXPECT_TRUE(mgr.initialize());
+    mgr.shutdown();
+}
+
+TEST_F(ReplicationConfigTest, InvalidWALCompressionLevelFails) {
+    TempWALDir wd("/tmp/themis_repl_cfg_compress_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_wal_compression  = true;
+    cfg.wal_compression_level   = 0;  // Out of range (must be 1-9)
+
+    ReplicationManager mgr(cfg);
+    EXPECT_FALSE(mgr.initialize());
+}
+
+TEST_F(ReplicationConfigTest, ValidWALCompressionLevelSucceeds) {
+    TempWALDir wd("/tmp/themis_repl_cfg_compress_ok");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.enable_wal_compression  = true;
+    cfg.wal_compression_level   = 6;
 
     ReplicationManager mgr(cfg);
     EXPECT_TRUE(mgr.initialize());
@@ -1123,6 +1150,92 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
     mgr.stop();
 }
 
+TEST(MMReplicationManagerTest, TopologySnapshotLocalNodeOnly) {
+    auto cfg = makeMMConfig("topology-node");
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    auto snap = mgr.getTopologySnapshot();
+
+    EXPECT_EQ(snap.local_node_id,    "topology-node");
+    EXPECT_EQ(snap.replication_mode, "MULTI_MASTER");
+    ASSERT_EQ(snap.nodes.size(), 1u) << "Only the local node with no peers";
+    EXPECT_EQ(snap.nodes[0].node_id,  "topology-node");
+    EXPECT_TRUE(snap.nodes[0].is_local);
+    EXPECT_EQ(snap.nodes[0].state,    "ACTIVE");
+    EXPECT_EQ(snap.nodes[0].replication_lag_ms, 0u);
+    EXPECT_TRUE(snap.edges.empty()) << "No edges without peers";
+    EXPECT_EQ(snap.max_lag_ms, 0u);
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TopologySnapshotWithPeer) {
+    MultiMasterReplicationManager mgr(makeMMConfig("node-a"));
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id             = "node-b";
+    peer.endpoint            = "192.168.1.2:9002";
+    peer.datacenter          = "dc1";
+    peer.region              = "eu-west";
+    peer.state               = MMNodeState::ACTIVE;
+    peer.replication_lag_ms  = 42;
+    peer.priority            = 10;
+    peer.is_local_datacenter = true;
+    mgr.addPeer(peer);
+
+    auto snap = mgr.getTopologySnapshot();
+
+    ASSERT_EQ(snap.nodes.size(), 2u) << "Local + one peer";
+
+    // Find local node
+    auto local_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return n.is_local; });
+    ASSERT_NE(local_it, snap.nodes.end());
+    EXPECT_EQ(local_it->node_id, "node-a");
+    EXPECT_EQ(local_it->state,   "ACTIVE");
+
+    // Find peer node
+    auto peer_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return !n.is_local; });
+    ASSERT_NE(peer_it, snap.nodes.end());
+    EXPECT_EQ(peer_it->node_id,            "node-b");
+    EXPECT_EQ(peer_it->endpoint,           "192.168.1.2:9002");
+    EXPECT_EQ(peer_it->replication_lag_ms, 42u);
+    EXPECT_EQ(peer_it->state,              "ACTIVE");
+    EXPECT_FALSE(peer_it->is_local);
+
+    // Bidirectional edges (multi-master)
+    ASSERT_EQ(snap.edges.size(), 2u) << "One edge per direction";
+    bool has_a_to_b = false, has_b_to_a = false;
+    for (const auto& e : snap.edges) {
+        EXPECT_EQ(e.type, "PEER");
+        if (e.from == "node-a" && e.to == "node-b") has_a_to_b = true;
+        if (e.from == "node-b" && e.to == "node-a") has_b_to_a = true;
+    }
+    EXPECT_TRUE(has_a_to_b) << "Edge from local to peer must exist";
+    EXPECT_TRUE(has_b_to_a) << "Reverse edge from peer to local must exist";
+
+    EXPECT_EQ(snap.max_lag_ms, 42u);
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TopologySnapshotReportsOfflineWhenStopped) {
+    auto cfg = makeMMConfig("stopped-node");
+    MultiMasterReplicationManager mgr(cfg);
+    // Do not call start() – manager is in stopped state
+
+    auto snap = mgr.getTopologySnapshot();
+
+    ASSERT_GE(snap.nodes.size(), 1u);
+    auto local_it = std::find_if(snap.nodes.begin(), snap.nodes.end(),
+        [](const auto& n){ return n.is_local; });
+    ASSERT_NE(local_it, snap.nodes.end());
+    EXPECT_EQ(local_it->state, "OFFLINE");
+}
+
 // ============================================================================
 // 15. ParallelReplicationWorker
 // ============================================================================
@@ -1602,6 +1715,89 @@ TEST(CompressedStreamTest, DefaultConstructorWorks) {
 TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
     CompressedReplicationStream stream("localhost:9001");
     EXPECT_TRUE(stream.sendBatch({}));
+}
+
+// ============================================================================
+// 19b. ReplicationStream WAL compression integration
+// ============================================================================
+
+class ReplicationStreamCompressionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        wal_dir_ = "/tmp/themis_rs_compress_test";
+        std::filesystem::remove_all(wal_dir_);
+        std::filesystem::create_directories(wal_dir_);
+    }
+    void TearDown() override {
+        std::filesystem::remove_all(wal_dir_);
+    }
+    std::string wal_dir_;
+};
+
+TEST_F(ReplicationStreamCompressionTest, CompressionDisabledByDefault) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    EXPECT_FALSE(cfg.enable_wal_compression);
+    EXPECT_EQ(cfg.wal_compression_algorithm, "zstd");
+    EXPECT_EQ(cfg.wal_compression_level, 3);
+    EXPECT_EQ(cfg.wal_compression_min_batch_bytes, 1024u);
+}
+
+TEST_F(ReplicationStreamCompressionTest, ZstdConfigConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "zstd";
+    cfg.wal_compression_level           = 3;
+    cfg.wal_compression_min_batch_bytes = 0;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9100", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, LZ4ConfigConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "lz4";
+    cfg.wal_compression_min_batch_bytes = 0;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9101", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, CompressionDisabledConstructsStream) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression = false;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9102", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, UnknownAlgorithmDefaultsToZstd) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression    = true;
+    cfg.wal_compression_algorithm = "unknown_algo";
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    // Should construct without throwing; unknown algo falls back to ZSTD
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9103", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, AutoAlgorithmConfig) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression          = true;
+    cfg.wal_compression_algorithm       = "auto";
+    cfg.wal_compression_min_batch_bytes = 512;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9104", wal, cfg));
+}
+
+TEST_F(ReplicationStreamCompressionTest, SnappyAlgorithmConfig) {
+    ReplicationConfig cfg = makeConfig(wal_dir_);
+    cfg.enable_wal_compression    = true;
+    cfg.wal_compression_algorithm = "snappy";
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    EXPECT_NO_THROW(ReplicationStream stream("localhost:9105", wal, cfg));
 }
 
 // ============================================================================
@@ -2389,4 +2585,566 @@ TEST(LeaderLeaseTest, PrometheusMetricsContainLeaseCounters) {
 
         mgr2.shutdown();
     }
+}
+
+// ============================================================================
+// Cross-Cluster Publish/Subscribe Replication Tests (v1.7.0)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// Helper: build a WALEntry with a given sequence, collection, and operation
+// ---------------------------------------------------------------------------
+static WALEntry makeWALEntry(uint64_t seq, const std::string& collection,
+                              const std::string& op, const std::string& doc_id = "doc1") {
+    WALEntry e;
+    e.sequence_number = seq;
+    e.collection      = collection;
+    e.operation       = op;
+    e.document_id     = doc_id;
+    e.data            = R"({"value":1})";
+    return e;
+}
+
+// ============================================================================
+// PublicationFilter Tests
+// ============================================================================
+
+class PublicationFilterTest : public ::testing::Test {};
+
+TEST_F(PublicationFilterTest, EmptyFilterMatchesAll) {
+    PublicationFilter f;  // No restrictions
+    EXPECT_TRUE(f.matches(makeWALEntry(1, "users",    "INSERT")));
+    EXPECT_TRUE(f.matches(makeWALEntry(2, "orders",   "UPDATE")));
+    EXPECT_TRUE(f.matches(makeWALEntry(3, "products", "DELETE")));
+}
+
+TEST_F(PublicationFilterTest, CollectionFilterIncludesOnly) {
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+
+    EXPECT_TRUE(f.matches(makeWALEntry(1, "orders", "INSERT")));
+    EXPECT_FALSE(f.matches(makeWALEntry(2, "users",  "INSERT")));
+}
+
+TEST_F(PublicationFilterTest, MultipleCollectionsFilter) {
+    PublicationFilter f;
+    f.include_collections = {"orders", "customers"};
+
+    EXPECT_TRUE(f.matches(makeWALEntry(1, "orders",    "INSERT")));
+    EXPECT_TRUE(f.matches(makeWALEntry(2, "customers", "UPDATE")));
+    EXPECT_FALSE(f.matches(makeWALEntry(3, "products", "DELETE")));
+}
+
+TEST_F(PublicationFilterTest, OperationFilterIncludesOnly) {
+    PublicationFilter f;
+    f.include_operations = {"INSERT", "UPDATE"};
+
+    EXPECT_TRUE(f.matches(makeWALEntry(1, "users", "INSERT")));
+    EXPECT_TRUE(f.matches(makeWALEntry(2, "users", "UPDATE")));
+    EXPECT_FALSE(f.matches(makeWALEntry(3, "users", "DELETE")));
+}
+
+TEST_F(PublicationFilterTest, CollectionAndOperationFilterCombined) {
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+    f.include_operations  = {"INSERT"};
+
+    EXPECT_TRUE(f.matches(makeWALEntry(1, "orders", "INSERT")));
+    EXPECT_FALSE(f.matches(makeWALEntry(2, "orders", "DELETE")));
+    EXPECT_FALSE(f.matches(makeWALEntry(3, "users",  "INSERT")));
+}
+
+// ============================================================================
+// CrossClusterPublication Tests
+// ============================================================================
+
+class CrossClusterPublicationTest : public ::testing::Test {};
+
+TEST_F(CrossClusterPublicationTest, NameIsPreserved) {
+    CrossClusterPublication pub("orders_pub");
+    EXPECT_EQ(pub.name(), "orders_pub");
+}
+
+TEST_F(CrossClusterPublicationTest, InitialStateHasNoSubscribersAndZeroPublished) {
+    CrossClusterPublication pub("test_pub");
+    EXPECT_EQ(pub.subscriberCount(), 0u);
+    EXPECT_EQ(pub.publishedCount(), 0u);
+}
+
+TEST_F(CrossClusterPublicationTest, AddAndRemoveRemoteSubscriber) {
+    CrossClusterPublication pub("test_pub");
+
+    auto id1 = pub.addRemoteSubscriber([](const WALEntry&) {});
+    EXPECT_EQ(pub.subscriberCount(), 1u);
+
+    auto id2 = pub.addRemoteSubscriber([](const WALEntry&) {});
+    EXPECT_EQ(pub.subscriberCount(), 2u);
+
+    pub.removeRemoteSubscriber(id1);
+    EXPECT_EQ(pub.subscriberCount(), 1u);
+
+    pub.removeRemoteSubscriber(id2);
+    EXPECT_EQ(pub.subscriberCount(), 0u);
+}
+
+TEST_F(CrossClusterPublicationTest, PublishDeliversEntryToSubscriber) {
+    CrossClusterPublication pub("test_pub");
+
+    std::vector<WALEntry> received;
+    pub.addRemoteSubscriber([&](const WALEntry& e) { received.push_back(e); });
+
+    pub.publish(makeWALEntry(1, "users", "INSERT"));
+    pub.publish(makeWALEntry(2, "users", "UPDATE"));
+
+    ASSERT_EQ(received.size(), 2u);
+    EXPECT_EQ(received[0].sequence_number, 1u);
+    EXPECT_EQ(received[1].sequence_number, 2u);
+    EXPECT_EQ(pub.publishedCount(), 2u);
+}
+
+TEST_F(CrossClusterPublicationTest, FilteredPublishDropsNonMatchingEntries) {
+    CrossClusterPublication pub("filtered_pub");
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+    pub.setFilter(f);
+
+    std::vector<WALEntry> received;
+    pub.addRemoteSubscriber([&](const WALEntry& e) { received.push_back(e); });
+
+    pub.publish(makeWALEntry(1, "users",  "INSERT"));  // filtered out
+    pub.publish(makeWALEntry(2, "orders", "INSERT"));  // passes
+
+    ASSERT_EQ(received.size(), 1u);
+    EXPECT_EQ(received[0].collection, "orders");
+    EXPECT_EQ(pub.publishedCount(), 1u);
+}
+
+TEST_F(CrossClusterPublicationTest, PublishDeliversToMultipleSubscribers) {
+    CrossClusterPublication pub("multi_pub");
+
+    std::atomic<int> count1{0}, count2{0};
+    pub.addRemoteSubscriber([&](const WALEntry&) { ++count1; });
+    pub.addRemoteSubscriber([&](const WALEntry&) { ++count2; });
+
+    pub.publish(makeWALEntry(1, "col", "INSERT"));
+
+    EXPECT_EQ(count1.load(), 1);
+    EXPECT_EQ(count2.load(), 1);
+}
+
+TEST_F(CrossClusterPublicationTest, OnWALEntryAppliedFeedsPublish) {
+    CrossClusterPublication pub("wal_pub");
+
+    std::vector<std::string> ops;
+    pub.addRemoteSubscriber([&](const WALEntry& e) { ops.push_back(e.operation); });
+
+    pub.onWALEntryApplied(makeWALEntry(10, "col", "INSERT"));
+    pub.onWALEntryApplied(makeWALEntry(11, "col", "DELETE"));
+
+    ASSERT_EQ(ops.size(), 2u);
+    EXPECT_EQ(ops[0], "INSERT");
+    EXPECT_EQ(ops[1], "DELETE");
+}
+
+TEST_F(CrossClusterPublicationTest, SetFilterThreadSafe) {
+    // Verifies that setFilter / getFilter don't race under concurrent access
+    CrossClusterPublication pub("thread_pub");
+
+    std::atomic<bool> stop{false};
+    std::vector<WALEntry> received;
+    std::mutex recv_mutex;
+
+    pub.addRemoteSubscriber([&](const WALEntry& e) {
+        std::lock_guard<std::mutex> lk(recv_mutex);
+        received.push_back(e);
+    });
+
+    // Writer thread: continuously updates filter
+    std::thread writer([&] {
+        for (int i = 0; i < 200 && !stop.load(); ++i) {
+            PublicationFilter f;
+            if (i % 2 == 0) f.include_collections = {"col"};
+            pub.setFilter(f);
+        }
+    });
+
+    // Publisher thread: continuously publishes
+    std::thread publisher([&] {
+        for (int i = 0; i < 200; ++i) {
+            pub.publish(makeWALEntry(static_cast<uint64_t>(i), "col", "INSERT"));
+        }
+        stop.store(true);
+    });
+
+    writer.join();
+    publisher.join();
+
+    // Should not crash; counts may vary due to filter changes
+    EXPECT_GE(pub.publishedCount(), 0u);
+}
+
+// ============================================================================
+// CrossClusterSubscription Tests
+// ============================================================================
+
+class CrossClusterSubscriptionTest : public ::testing::Test {};
+
+TEST_F(CrossClusterSubscriptionTest, NameIsPreserved) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+    CrossClusterSubscription sub("orders_sub", pub, [](const WALEntry&) {});
+    EXPECT_EQ(sub.name(), "orders_sub");
+}
+
+TEST_F(CrossClusterSubscriptionTest, InitiallyDisabled) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+    CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+    EXPECT_FALSE(sub.isEnabled());
+    EXPECT_EQ(sub.appliedCount(), 0u);
+    EXPECT_EQ(sub.lastAppliedSequence(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, EnableRegistersWithPublication) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+    EXPECT_EQ(pub->subscriberCount(), 0u);
+
+    CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+    sub.enable();
+
+    EXPECT_TRUE(sub.isEnabled());
+    EXPECT_EQ(pub->subscriberCount(), 1u);
+
+    sub.disable();
+    EXPECT_FALSE(sub.isEnabled());
+    EXPECT_EQ(pub->subscriberCount(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, EnabledSubscriptionReceivesEntries) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+
+    std::vector<WALEntry> applied;
+    CrossClusterSubscription sub("sub", pub, [&](const WALEntry& e) { applied.push_back(e); });
+    sub.enable();
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));
+    pub->publish(makeWALEntry(2, "col", "UPDATE"));
+
+    ASSERT_EQ(applied.size(), 2u);
+    EXPECT_EQ(applied[0].sequence_number, 1u);
+    EXPECT_EQ(applied[1].sequence_number, 2u);
+    EXPECT_EQ(sub.appliedCount(), 2u);
+    EXPECT_EQ(sub.lastAppliedSequence(), 2u);
+    EXPECT_EQ(sub.errorCount(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, DisabledSubscriptionReceivesNothing) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+
+    int count = 0;
+    CrossClusterSubscription sub("sub", pub, [&](const WALEntry&) { ++count; });
+    // Do not enable
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));
+
+    EXPECT_EQ(count, 0);
+    EXPECT_EQ(sub.appliedCount(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, ApplyErrorCountedAndDoesNotStop) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+
+    int call_count = 0;
+    CrossClusterSubscription sub("sub", pub, [&](const WALEntry& e) {
+        ++call_count;
+        if (e.sequence_number == 1) throw std::runtime_error("apply error");
+    });
+    sub.enable();
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));  // throws
+    pub->publish(makeWALEntry(2, "col", "INSERT"));  // succeeds
+
+    EXPECT_EQ(call_count, 2);
+    EXPECT_EQ(sub.errorCount(), 1u);
+    EXPECT_EQ(sub.appliedCount(), 1u);
+    EXPECT_EQ(sub.lastAppliedSequence(), 2u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, LastAppliedSequenceTracksHighestApplied) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+
+    CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+    sub.enable();
+
+    pub->publish(makeWALEntry(5, "col", "INSERT"));
+    EXPECT_EQ(sub.lastAppliedSequence(), 5u);
+
+    pub->publish(makeWALEntry(10, "col", "UPDATE"));
+    EXPECT_EQ(sub.lastAppliedSequence(), 10u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, DestructorAutoDisables) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+
+    {
+        CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+        sub.enable();
+        EXPECT_EQ(pub->subscriberCount(), 1u);
+    }  // sub destroyed here
+
+    EXPECT_EQ(pub->subscriberCount(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, EnableIdempotent) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+    CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+
+    sub.enable();
+    sub.enable();  // second enable is a no-op
+
+    EXPECT_EQ(pub->subscriberCount(), 1u);
+
+    sub.disable();
+    EXPECT_EQ(pub->subscriberCount(), 0u);
+}
+
+TEST_F(CrossClusterSubscriptionTest, DisableIdempotent) {
+    auto pub = std::make_shared<CrossClusterPublication>("p");
+    CrossClusterSubscription sub("sub", pub, [](const WALEntry&) {});
+
+    sub.enable();
+    sub.disable();
+    sub.disable();  // second disable is a no-op
+
+    EXPECT_EQ(pub->subscriberCount(), 0u);
+}
+
+// ============================================================================
+// End-to-End: publication + subscription with filter
+// ============================================================================
+
+TEST(CrossClusterE2ETest, FilteredPublicationDeliversOnlyMatchingEntries) {
+    auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+
+    // Only replicate INSERT operations on the "orders" collection
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+    f.include_operations  = {"INSERT"};
+    pub->setFilter(f);
+
+    std::vector<WALEntry> applied;
+    CrossClusterSubscription sub("orders_sub", pub, [&](const WALEntry& e) {
+        applied.push_back(e);
+    });
+    sub.enable();
+
+    pub->publish(makeWALEntry(1, "orders",   "INSERT"));  // ✓
+    pub->publish(makeWALEntry(2, "orders",   "DELETE"));  // filtered (operation)
+    pub->publish(makeWALEntry(3, "users",    "INSERT"));  // filtered (collection)
+    pub->publish(makeWALEntry(4, "orders",   "INSERT"));  // ✓
+    pub->publish(makeWALEntry(5, "products", "UPDATE"));  // filtered
+
+    ASSERT_EQ(applied.size(), 2u);
+    EXPECT_EQ(applied[0].sequence_number, 1u);
+    EXPECT_EQ(applied[1].sequence_number, 4u);
+    EXPECT_EQ(sub.appliedCount(), 2u);
+    EXPECT_EQ(sub.errorCount(), 0u);
+}
+
+TEST(CrossClusterE2ETest, MultipleSubscriptionsReceiveIndependently) {
+    auto pub = std::make_shared<CrossClusterPublication>("shared_pub");
+
+    std::vector<WALEntry> recv1, recv2;
+    CrossClusterSubscription sub1("sub1", pub, [&](const WALEntry& e) { recv1.push_back(e); });
+    CrossClusterSubscription sub2("sub2", pub, [&](const WALEntry& e) { recv2.push_back(e); });
+
+    sub1.enable();
+    sub2.enable();
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));
+    pub->publish(makeWALEntry(2, "col", "INSERT"));
+
+    EXPECT_EQ(recv1.size(), 2u);
+    EXPECT_EQ(recv2.size(), 2u);
+
+    // Disable one subscription mid-stream
+    sub2.disable();
+    pub->publish(makeWALEntry(3, "col", "INSERT"));
+
+    EXPECT_EQ(recv1.size(), 3u);
+    EXPECT_EQ(recv2.size(), 2u);  // sub2 stopped receiving
+}
+
+TEST(CrossClusterE2ETest, WALEntryAppliedIntegrationPath) {
+    // Simulates the full chain: WAL entry → publication → subscription apply
+    auto pub = std::make_shared<CrossClusterPublication>("wal_pub");
+
+    std::vector<std::string> replicated_ops;
+    CrossClusterSubscription sub("wal_sub", pub, [&](const WALEntry& e) {
+        replicated_ops.push_back(e.operation);
+    });
+    sub.enable();
+
+    // Feed through the IReplicationListener interface (as WALManager would do)
+    pub->onWALEntryApplied(makeWALEntry(100, "docs", "INSERT"));
+    pub->onWALEntryApplied(makeWALEntry(101, "docs", "UPDATE"));
+    pub->onWALEntryApplied(makeWALEntry(102, "docs", "DELETE"));
+
+    ASSERT_EQ(replicated_ops.size(), 3u);
+    EXPECT_EQ(replicated_ops[0], "INSERT");
+    EXPECT_EQ(replicated_ops[1], "UPDATE");
+    EXPECT_EQ(replicated_ops[2], "DELETE");
+    EXPECT_EQ(sub.lastAppliedSequence(), 102u);
+}
+
+// ============================================================================
+// Cross-Cluster Pub/Sub Integration Tests – via ReplicationManager.addListener
+// ============================================================================
+
+// Re-use the makeConfig() helper defined earlier in this file.
+// These tests mirror the CDCManager integration test pattern:
+// single-node cluster elects itself leader, then replicate() flows through
+// addListener → onWALEntryApplied → CrossClusterPublication → subscription.
+
+TEST(CrossClusterIntegrationTest, PublicationReceivesEntriesViaReplicationManager) {
+    TempWALDir wd("/tmp/themis_cc_intg_basic");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    auto pub = std::make_shared<CrossClusterPublication>("intg_pub");
+
+    std::vector<std::string> replicated_ids;
+    std::mutex ids_mutex;
+    CrossClusterSubscription sub("intg_sub", pub, [&](const WALEntry& e) {
+        std::lock_guard<std::mutex> lk(ids_mutex);
+        replicated_ids.push_back(e.document_id);
+    });
+    sub.enable();
+    mgr.addListener(pub);
+
+    // Wait for single-node leader election
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "docs";
+    entry.document_id = "doc-001";
+    entry.data        = R"({"v":1})";
+    bool ok = mgr.replicate(entry);
+
+    mgr.shutdown();
+    ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
+    ASSERT_EQ(replicated_ids.size(), 1u);
+    EXPECT_EQ(replicated_ids[0], "doc-001");
+    EXPECT_EQ(sub.appliedCount(), 1u);
+    EXPECT_EQ(sub.lastAppliedSequence(), entry.sequence_number);
+}
+
+TEST(CrossClusterIntegrationTest, FilterDropsNonMatchingEntriesViaReplicationManager) {
+    TempWALDir wd("/tmp/themis_cc_intg_filter");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    auto pub = std::make_shared<CrossClusterPublication>("filtered_intg_pub");
+
+    // Only replicate "orders" collection
+    PublicationFilter f;
+    f.include_collections = {"orders"};
+    pub->setFilter(f);
+
+    std::vector<std::string> replicated_collections;
+    std::mutex col_mutex;
+    CrossClusterSubscription sub("filtered_intg_sub", pub, [&](const WALEntry& e) {
+        std::lock_guard<std::mutex> lk(col_mutex);
+        replicated_collections.push_back(e.collection);
+    });
+    sub.enable();
+    mgr.addListener(pub);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    // Replicate two entries: one passes the filter, one doesn't
+    WALEntry e_orders;
+    e_orders.operation   = "INSERT";
+    e_orders.collection  = "orders";
+    e_orders.document_id = "ord-1";
+    e_orders.data        = R"({"v":1})";
+    mgr.replicate(e_orders);
+
+    WALEntry e_users;
+    e_users.operation   = "INSERT";
+    e_users.collection  = "users";
+    e_users.document_id = "usr-1";
+    e_users.data        = R"({"v":1})";
+    mgr.replicate(e_users);
+
+    mgr.shutdown();
+
+    // Only the "orders" entry should have been delivered
+    ASSERT_EQ(replicated_collections.size(), 1u);
+    EXPECT_EQ(replicated_collections[0], "orders");
+    EXPECT_EQ(sub.appliedCount(), 1u);
+}
+
+// ============================================================================
+// Prometheus Metrics Tests
+// ============================================================================
+
+TEST(CrossClusterPrometheusTest, PublicationMetricsCorrect) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub");
+
+    std::vector<WALEntry> sink;
+    pub->addRemoteSubscriber([&](const WALEntry& e) { sink.push_back(e); });
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));
+    pub->publish(makeWALEntry(2, "col", "INSERT"));
+
+    std::string m = pub->exportPrometheusMetrics();
+
+    EXPECT_NE(m.find("themisdb_cross_cluster_publication_published_total"), std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_publication_subscribers"),     std::string::npos);
+    // published_total = 2
+    EXPECT_NE(m.find("{publication=\"prom_pub\"} 2"), std::string::npos);
+    // subscribers = 1
+    EXPECT_NE(m.find("{publication=\"prom_pub\"} 1"), std::string::npos);
+}
+
+TEST(CrossClusterPrometheusTest, SubscriptionMetricsCorrect) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub2");
+    CrossClusterSubscription sub("prom_sub", pub, [](const WALEntry&) {});
+    sub.enable();
+
+    pub->publish(makeWALEntry(10, "col", "INSERT"));
+    pub->publish(makeWALEntry(11, "col", "INSERT"));
+
+    std::string m = sub.exportPrometheusMetrics();
+
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_applied_total"),          std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_errors_total"),           std::string::npos);
+    EXPECT_NE(m.find("themisdb_cross_cluster_subscription_last_applied_sequence"),  std::string::npos);
+    // applied_total = 2
+    EXPECT_NE(m.find("{subscription=\"prom_sub\"} 2"), std::string::npos);
+    // last_applied_sequence = 11
+    EXPECT_NE(m.find("{subscription=\"prom_sub\"} 11"), std::string::npos);
+}
+
+TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
+    auto pub = std::make_shared<CrossClusterPublication>("prom_pub3");
+
+    int calls = 0;
+    CrossClusterSubscription sub("err_sub", pub, [&](const WALEntry& e) {
+        ++calls;
+        if (calls == 1) throw std::runtime_error("simulated error");
+    });
+    sub.enable();
+
+    pub->publish(makeWALEntry(1, "col", "INSERT"));  // error
+    pub->publish(makeWALEntry(2, "col", "INSERT"));  // ok
+
+    std::string m = sub.exportPrometheusMetrics();
+
+    // errors_total = 1
+    EXPECT_NE(m.find("{subscription=\"err_sub\"} 1"), std::string::npos);
 }

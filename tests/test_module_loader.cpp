@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_loader.cpp                             ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:50                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -28,7 +28,12 @@
 
 #include <gtest/gtest.h>
 #include "themis/base/module_loader.h"
+#include "themis/module_hash_verifier.h"
+#include <filesystem>
+#include <fstream>
 #include <string>
+#include <fstream>
+#include <filesystem>
 
 using namespace themis::modules;
 
@@ -829,4 +834,198 @@ TEST(ModuleLoader, MetadataCacheAvoidsDoubleLoading) {
     // This optimization eliminates the double-loading issue
     SUCCEED();
 }
+
+// ===== SHA-256 Hash Manifest Tests (Issue #2471) =====
+
+TEST(ModuleLoader, SetHashManifestReturnsFalseForMissingFile) {
+    ModuleLoader loader;
+    EXPECT_FALSE(loader.setHashManifest("/no/such/manifest.json"));
+}
+
+TEST(ModuleLoader, SetHashManifestReturnsTrueForValidFile) {
+    // Write a minimal valid manifest to a temp file
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    std::ofstream f(manifestPath);
+    f << R"({"themis_test":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"})";
+    f.close();
+
+    ModuleLoader loader;
+    EXPECT_TRUE(loader.setHashManifest(manifestPath));
+
+    std::remove(manifestPath.c_str());
+}
+
+TEST(ModuleLoader, LoadModuleHashMismatchRejected) {
+    // Create a real (small) shared library content substitute: just a binary file.
+    // The module file exists but its hash won't match the "expected" value in
+    // the manifest, so the load must be rejected with HASH_MISMATCH before
+    // dlopen() is attempted.
+    const std::string modPath = (std::filesystem::temp_directory_path() /
+        ("themis_test_mismatch_" +
+         std::to_string(static_cast<long>(::getpid())) + ".so")).string();
+
+    // Write arbitrary content so the file exists.
+    {
+        std::ofstream f(modPath, std::ios::binary);
+        f.write("\x7f" "ELF FAKE", 8);
+    }
+
+    // Compute the actual hash so we can supply a WRONG one in the manifest.
+    const std::string actualHash =
+        themis::modules::ModuleHashVerifier::computeSHA256(modPath);
+    ASSERT_FALSE(actualHash.empty());
+
+    const std::string wrongHash(64, '0');  // all-zero hash, guaranteed wrong
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_mismatch_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    {
+        std::ofstream f(manifestPath);
+        f << "{\"themis_test_mismatch\":\"" << wrongHash << "\"}";
+    }
+
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    loader.setRequireSignature(false);
+    ASSERT_TRUE(loader.setHashManifest(manifestPath));
+
+    auto result = loader.loadModule(modPath, "themis_test_mismatch");
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::HASH_MISMATCH);
+    EXPECT_FALSE(result.errorMessage.empty());
+
+    std::remove(modPath.c_str());
+    std::remove(manifestPath.c_str());
+}
+
+TEST(ModuleLoader, LoadModuleNotInManifestIsAllowed) {
+    // A module whose name is NOT in the manifest should not be blocked.
+    // (Manifest acts as integrity pin for listed modules, not a global allowlist.)
+    // We verify this by checking that loadModule() fails with MODULE_NOT_FOUND
+    // (i.e., it gets past the manifest check and fails for the normal reason).
+    const std::string manifestPath = (std::filesystem::temp_directory_path() /
+        ("themis_loader_partial_manifest_" +
+         std::to_string(static_cast<long>(::getpid())) + ".json")).string();
+
+    {
+        std::ofstream f(manifestPath);
+        f << R"({"some_other_module":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"})";
+    }
+
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    loader.setRequireSignature(false);
+    ASSERT_TRUE(loader.setHashManifest(manifestPath));
+
+    // "unlisted_module" is NOT in the manifest → should pass manifest check.
+    auto result = loader.loadModule("/nonexistent_unlisted.so", "unlisted_module");
+    EXPECT_FALSE(result.success);
+    // Should fail with MODULE_NOT_FOUND (file doesn't exist), not HASH_MISMATCH
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+
+    std::remove(manifestPath.c_str());
+}
+// ===== Phase 4 Tests: Platform-Specific Signature Verification =====
+
+#ifdef _WIN32
+TEST(ModuleLoader, VerifyAuthenticodeSignatureNonExistent) {
+    ModuleLoader loader;
+    std::string signerInfo;
+    
+    // Non-existent file: should return false
+    bool result = loader.verifyAuthenticodeSignature("/nonexistent.dll", signerInfo);
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, GetZoneIdentifierNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: no ADS stream, return -1
+    int zone = loader.getZoneIdentifier("C:\\nonexistent_path\\module.dll");
+    EXPECT_EQ(zone, -1);
+}
+
+TEST(ModuleLoader, RemoveZoneIdentifierNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: Zone.Identifier also absent, should succeed
+    bool result = loader.removeZoneIdentifier("C:\\nonexistent_path\\module.dll");
+    EXPECT_TRUE(result);
+}
+#endif // _WIN32
+
+#ifdef __linux__
+TEST(ModuleLoader, VerifyGPGSignatureNoSigFile) {
+    ModuleLoader loader;
+    
+    // Module without any .asc/.sig/.gpg file should return false
+    bool result = loader.verifyGPGSignature("/nonexistent_module.so");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, VerifyGPGSignatureInvalidPath) {
+    ModuleLoader loader;
+    
+    // Path with shell-unsafe characters should be rejected
+    bool result = loader.verifyGPGSignature("/path/with'quote/module.so");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, VerifyGPGSignatureExplicitSigPath) {
+    ModuleLoader loader;
+    
+    // Non-existent explicit signature path should return false
+    bool result = loader.verifyGPGSignature("/nonexistent.so", "/nonexistent.so.asc");
+    EXPECT_FALSE(result);
+}
+
+TEST(ModuleLoader, GetExtendedAttributesNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: empty attribute map
+    auto attrs = loader.getExtendedAttributes("/nonexistent_module.so");
+    EXPECT_TRUE(attrs.empty());
+}
+
+TEST(ModuleLoader, ReadELFMetadataNonExistent) {
+    ModuleLoader loader;
+    
+    // Non-existent file: empty metadata
+    std::string metadata = loader.readELFMetadata("/nonexistent_module.so");
+    EXPECT_TRUE(metadata.empty());
+}
+
+TEST(ModuleLoader, ReadELFMetadataNonELF) {
+    // Create a temporary non-ELF file
+    std::string tmpPath = "/tmp/test_non_elf.bin";
+    {
+        std::ofstream f(tmpPath, std::ios::binary);
+        f << "This is not an ELF file";
+    }
+    
+    ModuleLoader loader;
+    std::string metadata = loader.readELFMetadata(tmpPath);
+    EXPECT_TRUE(metadata.empty());
+    
+    // Clean up
+    std::filesystem::remove(tmpPath);
+}
+
+TEST(ModuleLoader, ReadELFMetadataCurrentLibrary) {
+    // /proc/self/exe is a valid ELF binary on Linux (the test executable itself)
+    ModuleLoader loader;
+    
+    // Should not crash; result may be empty or contain build info
+    EXPECT_NO_THROW({
+        std::string metadata = loader.readELFMetadata("/proc/self/exe");
+        // Metadata may be empty or contain BuildID / Comment sections
+        // Just verify it doesn't throw
+        (void)metadata;
+    });
+}
+#endif // __linux__
 

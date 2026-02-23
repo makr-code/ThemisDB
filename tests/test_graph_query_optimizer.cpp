@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 13:18:11                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:57                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1433                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     1493                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
+    • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
+    • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
+    • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
+    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -525,6 +532,27 @@ TEST_F(GraphQueryOptimizerTest, StructuralPlanReuse_CachingDisabled_NoStructural
         << "Structural plan reuse must be disabled when plan caching is off";
 }
 
+TEST_F(GraphQueryOptimizerTest, ExactCacheKey_EnableParallelDistinguishesCachedPlans) {
+    optimizer_->setPlanCachingEnabled(true);
+
+    // First query: same vertex pair, enable_parallel = false
+    themis::graph::GraphQueryOptimizer::QueryConstraints c_no_par;
+    c_no_par.enable_parallel = false;
+    auto plan_seq = optimizer_->optimizeShortestPath("A", "D", c_no_par);
+    ASSERT_TRUE(plan_seq.has_value());
+    EXPECT_FALSE(plan_seq->enable_parallel);
+
+    // Second query: same vertex pair, enable_parallel = true
+    // Must NOT return the cached plan from the first query (which had enable_parallel=false).
+    themis::graph::GraphQueryOptimizer::QueryConstraints c_par;
+    c_par.enable_parallel = true;
+    auto plan_par = optimizer_->optimizeShortestPath("A", "D", c_par);
+    ASSERT_TRUE(plan_par.has_value());
+    EXPECT_TRUE(plan_par->enable_parallel)
+        << "enable_parallel=true must yield a plan with enable_parallel=true, "
+           "not a stale cached plan built without the parallel flag";
+}
+
 TEST_F(GraphQueryOptimizerTest, ExplainPlan_GeneratesExplanation) {
     auto result = optimizer_->optimizeShortestPath("A", "D");
     ASSERT_TRUE(result);
@@ -535,6 +563,24 @@ TEST_F(GraphQueryOptimizerTest, ExplainPlan_GeneratesExplanation) {
     EXPECT_NE(explanation.find("Query Pattern"), std::string::npos);
     EXPECT_NE(explanation.find("Selected Algorithm"), std::string::npos);
     EXPECT_NE(explanation.find("Estimated Cost"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, KHop_EnableParallel_RespectedInPlan) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    auto plan = optimizer_->optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan.has_value());
+    EXPECT_TRUE(plan->enable_parallel)
+        << "optimizeKHopNeighborhood must set enable_parallel=true when constraints.enable_parallel=true";
+}
+
+TEST_F(GraphQueryOptimizerTest, Reachability_EnableParallel_RespectedInPlan) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan.has_value());
+    EXPECT_TRUE(plan->enable_parallel)
+        << "optimizeReachability must set enable_parallel=true when constraints.enable_parallel=true";
 }
 
 // ============================================================================

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_audit_event.h                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:58                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -279,6 +279,13 @@ std::string taskEventTypeToString(TaskEventType type);
  * @brief Convert security event type to string
  */
 std::string taskSecurityEventTypeToString(TaskSecurityEventType type);
+
+/**
+ * @brief Parse event type from string (reverse of taskEventTypeToString)
+ * @param s String representation of the event type
+ * @return Corresponding TaskEventType, or TASK_COMPLETED as default for unknown values
+ */
+TaskEventType taskEventTypeFromString(const std::string& s);
 
 } // namespace scheduler
 } // namespace themis

@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — JSONL export optimized for LLM training data, configurable field selection, batch export, and LoRA adapter metadata generation are functional. Parquet and Apache Arrow export, and Hugging Face Hub push are planned.
+**Production** — JSONL export optimized for LLM training data, configurable field selection, batch export, LoRA adapter metadata generation, and Parquet columnar export are functional. Apache Arrow IPC export and Hugging Face Hub push are planned.
 
 ## Completed ✅
 - [x] JSONL exporter for LLM training data
@@ -11,10 +11,11 @@
 - [x] LoRA adapter metadata generation
 - [x] Export pipeline infrastructure
 - [x] vLLM multi-LoRA integration support
+- [x] Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 
 ## In Progress 🚧
 - [I] Parquet export for training datasets (Target: Q2 2026) (Issue: #1710)
-- [I] Hugging Face Datasets-compatible export format (Target: Q2 2026) (Issue: #1711)
+- [P] Hugging Face Datasets-compatible export format (Target: Q2 2026) (Issue: #1711)
 - [I] Streaming export for large collections (Target: Q3 2026) (Issue: #1712)
 
 ## Planned Features 📋
@@ -48,8 +49,8 @@
 - [I] Implement streaming export for collections exceeding available memory (`exporters/streaming_exporter.cpp`) (Issue: #1732)
 - [I] Add progress callbacks reporting records exported, bytes written, and estimated ETA (Issue: #1733)
 
-### Phase 3: Parquet, Incremental Export, and Security (Status: Planned)
-- [I] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`) (Issue: #1725)
+### Phase 3: Parquet, Incremental Export, and Security (Status: In Progress)
+- [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 - [I] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
 - [I] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
 - [I] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
@@ -63,7 +64,6 @@
 - [x] API stability guaranteed for JSONL exporter
 
 ## Known Issues & Limitations
-- Only JSONL format is currently implemented; Parquet and Arrow are planned
 - No streaming export for very large collections; full batch only
 - No delta/incremental export; each run exports the full selection
 - No built-in deduplication of training examples

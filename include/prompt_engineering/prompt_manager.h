@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_manager.h                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:57                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     132                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     172                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,6 +37,32 @@ namespace prompt_engineering {
 
 class PromptManager {
 public:
+    /// @brief Describes a single image attached to a multi-modal prompt.
+    struct ImageDescription {
+        std::string url;          ///< Optional URL or base64 data URI for the image
+        std::string alt_text;     ///< Short descriptive text (required for multi-modal prompts)
+        std::string description;  ///< Optional longer human-readable description (text fallback)
+        std::string mime_type;    ///< MIME type, e.g. "image/jpeg" (defaults to "image/jpeg")
+
+        nlohmann::json toJson() const {
+            nlohmann::json j;
+            j["url"]         = url;
+            j["alt_text"]    = alt_text;
+            j["description"] = description;
+            j["mime_type"]   = mime_type.empty() ? "image/jpeg" : mime_type;
+            return j;
+        }
+
+        static ImageDescription fromJson(const nlohmann::json& j) {
+            ImageDescription img;
+            img.url         = j.value("url", "");
+            img.alt_text    = j.value("alt_text", "");
+            img.description = j.value("description", "");
+            img.mime_type   = j.value("mime_type", "image/jpeg");
+            return img;
+        }
+    };
+
     struct PromptTemplate {
         std::string id;           // generated id
         std::string name;         // human readable name
@@ -45,6 +71,7 @@ public:
         std::string description;  // description of the prompt
         nlohmann::json metadata;  // arbitrary metadata (experiment flags etc.)
         bool active = true;
+        std::vector<ImageDescription> images; // optional multi-modal image descriptions
 
         nlohmann::json toJson() const {
             nlohmann::json j;
@@ -55,6 +82,11 @@ public:
             j["description"] = description;
             j["metadata"] = metadata;
             j["active"] = active;
+            nlohmann::json imgs = nlohmann::json::array();
+            for (const auto& img : images) {
+                imgs.push_back(img.toJson());
+            }
+            j["images"] = imgs;
             return j;
         }
     };
@@ -113,6 +145,14 @@ public:
         SchemaManager* schema_mgr,
         const std::string& edition = "Community",
         const std::string& version = "1.5.0");
+
+    // Build a multi-modal prompt string from a template.
+    // Injects context variables into the text content and appends a structured
+    // image-description block when the template contains ImageDescription entries.
+    // The returned string is suitable for dispatch to a multi-modal LLM.
+    static std::string buildMultiModalPrompt(
+        const PromptTemplate& t,
+        const std::unordered_map<std::string, std::string>& context = {});
 
 private:
     std::string generateId() const;

@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     606                                            ║
+    • Total Lines:     714                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
+    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
     • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
-    • 546b8caf9  2026-02-21  docs(transaction): warn against mixing anonymous and name... ║
-    • 6c2da643a  2026-02-21  fix(transaction): clamp negative timeout to 0 in setTimeo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +31,7 @@
 #include <optional>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 #include <mutex>
 #include <atomic>
 #include <chrono>
@@ -342,11 +343,96 @@ public:
          */
         bool hasSavepoint(std::string_view name) const;
         
+        // ── Bulk API ──────────────────────────────────────────────────────────
+
+        /**
+         * @brief Insert or update multiple entities in a single batch.
+         *
+         * Equivalent to calling putEntity() for each entity in @p entities,
+         * but with only one active/timed-out check for the whole batch instead
+         * of one per row.  All writes are accumulated inside the same underlying
+         * MVCC transaction and committed atomically together with any other
+         * operations in this transaction.
+         *
+         * @param table    Table name.
+         * @param entities Entities to insert or update.  Each entity must have
+         *                 a non-empty primary key.  An empty vector is a no-op.
+         * @return Status::OK() on success; the first error encountered,
+         *         including the (0-based) index of the failing entity in the
+         *         message.
+         */
+        Status bulkPutEntities(std::string_view table,
+                               const std::vector<BaseEntity>& entities);
+
+        /**
+         * @brief Delete multiple entities in a single batch.
+         *
+         * Equivalent to calling eraseEntity() for each primary key in @p pks,
+         * but with only one active/timed-out check for the whole batch.  All
+         * deletes are accumulated inside the same underlying MVCC transaction.
+         *
+         * @param table  Table name.
+         * @param pks    Primary keys of entities to delete.  Each key must be
+         *               non-empty.  An empty vector is a no-op.
+         * @return Status::OK() on success; the first error encountered.
+         */
+        Status bulkEraseEntities(std::string_view table,
+                                 const std::vector<std::string>& pks);
+
         // SAGA support
         Saga& getSaga() { return *saga_; }
         const Saga& getSaga() const { return *saga_; }
 
+        // ── Transaction Explain ───────────────────────────────────────────────
+
+        /**
+         * @brief One lock entry in the explain report.
+         */
+        struct ExplainLockEntry {
+            std::string key;       ///< Storage key that is locked
+            std::string lock_type; ///< "SHARED", "EXCLUSIVE", "INTENT_SHARED", or "INTENT_EXCLUSIVE"
+        };
+
+        /**
+         * @brief One write-set entry in the explain report.
+         *
+         * Each key written or deleted by this transaction is recorded here,
+         * representing the MVCC version chain entries that will be created
+         * on commit.
+         */
+        struct ExplainWriteEntry {
+            std::string key;       ///< Storage key written or deleted
+            std::string operation; ///< "put" or "delete"
+        };
+
+        /**
+         * @brief Full explain report for a transaction.
+         *
+         * Returned by explain() and by TransactionManager::explainTransaction().
+         * Contains the current lock set, write set (MVCC version chain entries),
+         * isolation level, and elapsed duration.
+         */
+        struct ExplainResult {
+            TransactionId txn_id{0};
+            std::string   isolation_level;  ///< Human-readable isolation level name
+            uint64_t      duration_ms{0};
+            bool          is_finished{false};
+            std::vector<ExplainLockEntry>  locks_held; ///< Locks currently held by this transaction
+            std::vector<ExplainWriteEntry> write_set;  ///< Keys written/deleted (MVCC chain entries)
+        };
+
+        /**
+         * @brief Produce an explain report for this transaction.
+         *
+         * Collects the locks currently held (via LockManager) and the write set
+         * accumulated since the transaction started.  Safe to call on both active
+         * and finished transactions.
+         */
+        ExplainResult explain() const;
+
     private:
+        /// Track a key written or deleted by this transaction (for explain()).
+        void trackWrite(std::string key, std::string operation);
         TransactionId id_;
         RocksDBWrapper& db_;
         SecondaryIndexManager& secIdx_;
@@ -375,6 +461,8 @@ public:
             size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
         };
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
+
+        std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
     };
 
     // Session-based transaction management
@@ -388,6 +476,18 @@ public:
      * @return false if no active transaction with this ID exists (already completed).
      */
     bool rollbackTransaction(TransactionId id);
+
+    /**
+     * @brief Return an explain report for an active or recently completed transaction.
+     *
+     * The report includes the locks currently held by the transaction and the
+     * write set (MVCC version chain entries) accumulated since begin.
+     *
+     * @param id  Transaction ID returned by beginTransaction().
+     * @return    ExplainResult on success, std::nullopt if no transaction with
+     *            @p id is found in the active or completed maps.
+     */
+    std::optional<Transaction::ExplainResult> explainTransaction(TransactionId id) const;
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);

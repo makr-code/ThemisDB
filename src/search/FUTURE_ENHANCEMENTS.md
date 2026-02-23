@@ -88,7 +88,38 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
-## Planned Features
+## Delivered in v1.7.0
+
+### Ranked Spelling Correction Suggestions (`include/search/query_expander.h`)
+- `SpellingCorrection` struct: `suggestion`, `edit_distance`, `confidence` (normalized [0,1])
+- `QueryExpander::suggestSpellingCorrections(word, max_suggestions)` — returns up to
+  `max_suggestions` ranked candidates from the registered vocabulary within `max_edit_distance`,
+  sorted by ascending edit distance (alphabetical tiebreak); confidence decays linearly with distance
+- `QueryExpander::suggestQueryCorrections(query, max_suggestions)` — tokenizes the query,
+  builds per-token substitution variants and one all-corrected variant, deduplicates, and sorts
+  by total edit distance ascending
+- Tests: `tests/test_query_expander.cpp` (14 new test cases)
+
+---
+
+## Delivered in v1.8.0
+
+### LlmReranker (`include/search/llm_reranker.h`)
+- Configurable re-ranking with LLM feedback loop, closing Phase 3 of the Search Roadmap
+- Injected `LlmBackend` callable (same pattern as `LlmQueryRewriter`) — no hard LLM library dependency
+- `LlmRerankCandidate` and `LlmRerankResult` value types; `rerank()` accepts any result source
+- Batched prompting: splits candidates into configurable `batch_size` groups for cost control
+- Score parsing: per-document 0–10 integer scores from the LLM response, normalised to [0, 1]
+- Out-of-range score clamping (values outside [0, 10] clamped before normalisation)
+- Configurable blending: `final = llm_weight * llm_score + (1 - llm_weight) * initial_score`
+- `min_score_threshold` filter: removes low-confidence results from the output
+- Graceful fallback: returns original order when backend is absent, throws, or produces no output
+- `setBackend()`: runtime backend replacement (e.g. after model load)
+- `toClickEvents()` static method: converts LLM relevance judgments to `ClickEvent` objects
+  for direct consumption by `LearningToRank::recordClick()`, closing the feedback loop
+- Tests: `tests/test_llm_reranker.cpp`
+
+---
 
 ### Query Expansion and Rewriting
 **Priority:** High  
@@ -251,5 +282,5 @@ Real-time query suggestions.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.5.0*  
-*Next Review: v1.6.0 Release*
+*Module Version: v1.7.0*  
+*Next Review: v1.8.0 Release*

@@ -32,11 +32,11 @@ Implementation tasks:
 **Target:** v1.7.0
 
 Implementation tasks:
-- [ ] Task dependency graph data structure
-- [ ] Topological sort for execution order
-- [ ] Parallel execution of independent tasks
-- [ ] Cascading failure handling
-- [ ] Conditional execution based on results
+- [x] Task dependency graph data structure
+- [x] Topological sort for execution order
+- [x] Parallel execution of independent tasks
+- [x] Cascading failure handling
+- [x] Conditional execution based on results
 
 ### Dynamic Resource Allocation
 **Target:** v1.8.0
@@ -60,14 +60,17 @@ Implementation tasks:
 ## Medium Priority
 
 ### Cron Expression Parser
-**Target:** v1.6.0
+**Target:** v1.5.0 ✅ Completed
 
 Implementation tasks:
-- [ ] Cron syntax parser (6-field format)
-- [ ] Next run time calculation
-- [ ] Timezone support
-- [ ] Special expressions (@daily, @hourly, etc.)
-- [ ] Validation and error messages
+- [x] Cron syntax parser (6-field format): wildcards, ranges, lists (with embedded ranges/steps), start/step syntax
+- [x] Month name aliases (JAN–DEC, JANUARY–DECEMBER, case-insensitive)
+- [x] Weekday name aliases (SUN–SAT, SUNDAY–SATURDAY, case-insensitive)
+- [x] Next run time calculation (`getNextExecution`)
+- [x] Timezone support (`getNextExecution` with `tz_offset_seconds`)
+- [x] Special expressions (@daily, @midnight, @hourly, @weekly, @monthly, @yearly, @annually, @reboot)
+- [x] Validation and error messages (`CronExpression::validate`)
+- [x] 6-field year constraint (optional year field, range 1970–2199)
 
 ### Advanced Retry Policies
 **Target:** v1.6.0

@@ -19,6 +19,7 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 - `totp_auth.cpp` — TOTP MFA
 - `rbac_enforcer.cpp` — role-based access control
 - `oauth_device_flow.cpp` — OAuth 2.0 device authorization flow (RFC 8628)
+- `oidc_provider.cpp` — OIDC Provider Discovery and federated identity integration
 
 ## Current Delivery Status
 
@@ -42,6 +43,7 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
 ### Key Features
 
 - **JWT Authentication**: OpenID Connect integration with Keycloak
+- **OIDC Provider Federation**: Auto-configure from any OIDC provider's discovery endpoint
 - **Kerberos/GSSAPI**: Enterprise SSO for Active Directory environments
 - **Multi-Factor Authentication**: TOTP-based MFA with recovery codes
 - **OAuth 2.0 Device Flow**: Headless device / CLI authentication (RFC 8628)

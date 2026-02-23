@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sse_connection_manager.h                           ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:00                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -23,13 +23,13 @@
 #include <atomic>
 #include <mutex>
 #include <unordered_map>
+#include <set>
 #include <chrono>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
+#include "cdc/changefeed.h"
 
 namespace themis {
-
-class Changefeed;
 
 namespace server {
 
@@ -82,11 +82,13 @@ public:
      * @brief Register a new SSE connection
      * @param from_seq Starting sequence number for this connection
      * @param key_prefix Optional key prefix filter
+     * @param event_types Optional set of event types to filter (empty = all types)
      * @return Unique connection ID
      */
     uint64_t registerConnection(
         uint64_t from_seq,
-        const std::string& key_prefix = ""
+        const std::string& key_prefix = "",
+        const std::set<Changefeed::ChangeEventType>& event_types = {}
     );
 
     /**
@@ -131,6 +133,7 @@ private:
         uint64_t id;
         uint64_t current_sequence;
         std::string key_prefix;
+        std::set<Changefeed::ChangeEventType> event_types;
         std::chrono::steady_clock::time_point last_activity;
         std::chrono::steady_clock::time_point last_heartbeat;
         std::vector<std::string> buffered_events;

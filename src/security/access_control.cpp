@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control.cpp                                 ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     839                                            ║
+    • Total Lines:     893                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f0228555e  2026-02-22  fix(security): code-audit: add user_agent to Authorizatio... ║
+    • 3371af473  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -63,6 +67,17 @@ AccessControl::AccessControl(const Config& config)
     // Configure audit logger
     if (config_.audit_config.enable_audit_logging) {
         THEMIS_INFO("Audit logging enabled: {}", config_.audit_config.audit_log_path);
+    }
+    
+    // Load ABAC policies if configured
+    if (config_.abac_config.enable_abac && !config_.abac_config.abac_policy_path.empty()) {
+        std::string err;
+        if (!policy_engine_.loadFromFile(config_.abac_config.abac_policy_path, &err)) {
+            THEMIS_WARN("Failed to load ABAC policies from {}: {}",
+                config_.abac_config.abac_policy_path, err);
+        } else {
+            THEMIS_INFO("Loaded ABAC policies from {}", config_.abac_config.abac_policy_path);
+        }
     }
     
     // Log initialization
@@ -383,6 +398,32 @@ bool AccessControl::authorize(const AuthorizationContext& context) {
     // RBAC check
     bool authorized = rbac_->checkPermission(context.roles, context.resource, context.action);
     
+    if (authorized && config_.abac_config.enable_abac) {
+        // ABAC check: evaluate policies alongside RBAC
+        std::optional<std::string> client_ip = context.ip_address.empty()
+            ? std::nullopt
+            : std::make_optional(context.ip_address);
+        
+        auto abac_decision = policy_engine_.authorize(
+            context.user_id, context.action, context.resource,
+            client_ip, context.user_agent);
+        
+        if (!abac_decision.allowed) {
+            authorized = false;
+            
+            logSecurityEvent(
+                utils::SecurityEventType::PERMISSION_DENIED,
+                context.user_id,
+                context.resource,
+                {{"action", context.action}, {"reason", "ABAC policy denied"},
+                 {"policy_id", abac_decision.policy_id}}
+            );
+            
+            stats_.denied_authorizations++;
+            return false;
+        }
+    }
+    
     if (authorized) {
         stats_.successful_authorizations++;
         
@@ -488,6 +529,23 @@ Result<void> AccessControl::revokeRole(const std::string& user_id, const std::st
 std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     return user_role_store_->getUserRoles(user_id);
+}
+
+// ============================================================================
+// ABAC Policy Management
+// ============================================================================
+
+void AccessControl::addABACPolicy(const PolicyEngine::Policy& policy) {
+    policy_engine_.addPolicy(policy);
+    THEMIS_INFO("Added ABAC policy '{}' to AccessControl", policy.id);
+}
+
+bool AccessControl::removeABACPolicy(const std::string& policy_id) {
+    bool removed = policy_engine_.removePolicy(policy_id);
+    if (removed) {
+        THEMIS_INFO("Removed ABAC policy '{}' from AccessControl", policy_id);
+    }
+    return removed;
 }
 
 // ============================================================================

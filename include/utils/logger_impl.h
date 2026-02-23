@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger_impl.h                                      ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:05                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -27,7 +27,7 @@ namespace utils {
 
 template<typename FormatString, typename... Args>
 void Logger::trace(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::trace)) {
         logger_->trace(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.trace_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -36,7 +36,7 @@ void Logger::trace(FormatString&& fmt, Args&&... args) {
 
 template<typename FormatString, typename... Args>
 void Logger::debug(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::debug)) {
         logger_->debug(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.debug_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -45,7 +45,7 @@ void Logger::debug(FormatString&& fmt, Args&&... args) {
 
 template<typename FormatString, typename... Args>
 void Logger::info(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::info)) {
         logger_->info(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.info_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -54,7 +54,7 @@ void Logger::info(FormatString&& fmt, Args&&... args) {
 
 template<typename FormatString, typename... Args>
 void Logger::warn(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::warn)) {
         logger_->warn(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.warn_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -63,7 +63,7 @@ void Logger::warn(FormatString&& fmt, Args&&... args) {
 
 template<typename FormatString, typename... Args>
 void Logger::error(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::err)) {
         logger_->error(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.error_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
@@ -72,7 +72,7 @@ void Logger::error(FormatString&& fmt, Args&&... args) {
 
 template<typename FormatString, typename... Args>
 void Logger::critical(FormatString&& fmt, Args&&... args) {
-    if (logger_) {
+    if (logger_ && logger_->should_log(spdlog::level::critical)) {
         logger_->critical(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
         metrics_.critical_count.fetch_add(1, std::memory_order_relaxed);
         metrics_.total_count.fetch_add(1, std::memory_order_relaxed);

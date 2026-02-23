@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            updates_config.h                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     111                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     152                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f53829d2  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
+    • 1121f3d4a  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
+    • ca631bad0  2026-02-22  Implement canary rollout mode: CanaryRollout class, confi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +32,12 @@ namespace themis {
 namespace updates {
 
 using json = nlohmann::json;
+
+// Forward declaration: runtime CanaryConfig lives in canary_rollout.h.
+// We forward-declare it here to avoid a circular include chain and to allow
+// UpdatesConfig::CanaryConfig::toCanaryConfig() to return it by value in
+// the header.  The full definition is included by users who need CanaryRollout.
+struct CanaryConfig;
 
 /**
  * @brief Configuration for update checker and hot-reload system
@@ -85,6 +96,41 @@ struct UpdatesConfig {
         std::string webhook_url;                        // Webhook URL for notifications
         std::string email_to;                           // Email address for notifications
     } notifications;
+
+    // Canary Rollout Settings
+    struct CanaryConfig {
+        bool enabled = false;                           // Enable canary rollout mode
+        std::string node_id;                            // Stable identifier for this node
+        double error_rate_threshold = 0.05;             // Error rate triggering auto-rollback
+        size_t min_sample_count = 20;                   // Minimum events before threshold check
+
+        // Rollout stages: each entry is (fraction_0_to_1, observation_seconds).
+        // Default four-stage: 1% → 5% → 25% → 100%
+        struct Stage {
+            double percentage = 1.0;
+            int observation_seconds = 0;
+        };
+        std::vector<Stage> stages = {
+            {0.01, 3600},
+            {0.05, 7200},
+            {0.25, 21600},
+            {1.00, 0},
+        };
+
+        /**
+         * @brief Convert to the runtime CanaryConfig used by CanaryRollout.
+         *
+         * @param version  Target version string to roll out (e.g., "1.5.0").
+         * @return         Runtime CanaryConfig ready for constructing a CanaryRollout.
+         *
+         * Usage:
+         * @code
+         *   auto cfg = updates_config.canary.toCanaryConfig("1.5.0");
+         *   CanaryRollout rollout(engine, cfg);
+         * @endcode
+         */
+        ::themis::updates::CanaryConfig toCanaryConfig(const std::string& version) const;
+    } canary;
     
     /**
      * @brief Load configuration from YAML file

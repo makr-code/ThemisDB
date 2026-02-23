@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_coordinator.h                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:01                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     150                                            ║
+    • Total Lines:     161                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
+    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -74,6 +78,17 @@ public:
      * Get current replica count (for quorum calculation)
      */
     size_t getReplicaCount() const;
+
+    /**
+     * Get current replica topology info (delegates to WALShipper)
+     * Returns an empty vector if no shipper is configured.
+     */
+    std::vector<ReplicaInfo> getReplicaInfo() const;
+
+    /**
+     * Get WAL shipper statistics (delegates to WALShipper)
+     */
+    WALShipperStats getShipperStats() const;
 
     /**
      * Enable/disable coordinator (useful for testing)

@@ -3,17 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   35.0/100                                       ║
-    • Total Lines:     768                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     930                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 24                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
+  Revision History:                                                   ║
+    • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
+    • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
+    • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
+    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -105,6 +111,61 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
     return decoded;
 }
 
+// AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
+    if (key.size() != 32) return {};
+    std::vector<uint8_t> iv(12);
+    if (RAND_bytes(iv.data(), 12) != 1) return {};
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> ciphertext(data.size() + 16);
+    std::vector<uint8_t> tag(16);
+    int len = 0, ct_len = 0;
+    bool ok =
+        EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data()) == 1 &&
+        EVP_EncryptUpdate(ctx, ciphertext.data(), &len, data.data(), (int)data.size()) == 1;
+    ct_len = len;
+    if (ok) ok = EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &len) == 1;
+    ct_len += len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag.data()) == 1;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    ciphertext.resize(ct_len);
+    std::vector<uint8_t> result;
+    result.insert(result.end(), iv.begin(), iv.end());
+    result.insert(result.end(), ciphertext.begin(), ciphertext.end());
+    result.insert(result.end(), tag.begin(), tag.end());
+    return result;
+}
+
+// AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
+static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
+    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    const uint8_t* iv  = encrypted.data();
+    size_t ct_len      = encrypted.size() - 12 - 16;
+    const uint8_t* ct  = encrypted.data() + 12;
+    const uint8_t* tag = encrypted.data() + 12 + ct_len;
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx) return {};
+    std::vector<uint8_t> plaintext(ct_len);
+    int len = 0, pt_len = 0;
+    bool ok =
+        EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, nullptr, nullptr) == 1 &&
+        EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr) == 1 &&
+        EVP_DecryptInit_ex(ctx, nullptr, nullptr, key.data(), iv) == 1 &&
+        EVP_DecryptUpdate(ctx, plaintext.data(), &len, ct, (int)ct_len) == 1;
+    pt_len = len;
+    if (ok) ok = EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (void*)tag) == 1;
+    if (ok) ok = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &len) > 0;
+    pt_len += len;
+    EVP_CIPHER_CTX_free(ctx);
+    if (!ok) return {};
+    plaintext.resize(pt_len);
+    return plaintext;
+}
+
 class HSMProvider::Impl {
 public:
     explicit Impl(HSMConfig cfg): config(cfg), next_session_idx(0) {}
@@ -124,6 +185,7 @@ public:
     std::mutex mtx;
     std::string cert_serial_cache_;
     std::atomic<uint32_t> next_session_idx; // Lock-free round-robin counter
+    std::vector<uint8_t> stub_kek; // Fallback AES-256 KEK when real HSM unavailable
 
     // Performance metrics
     std::atomic<uint64_t> sign_count{0};
@@ -230,6 +292,16 @@ bool HSMProvider::initialize(){
     initialized_ = true;
     THEMIS_INFO("HSMProvider init (real_ready={})", impl_->real_ready?"true":"false");
     
+    // Generate fallback stub KEK for consistent wrap/unwrap when real HSM is unavailable
+    if (!impl_->real_ready) {
+        impl_->stub_kek.resize(32);
+        if (RAND_bytes(impl_->stub_kek.data(), 32) != 1) {
+            THEMIS_ERROR("HSMProvider: failed to generate stub KEK - aborting initialization");
+            initialized_ = false;
+            return false;
+        }
+    }
+    
     // Security warning if using fallback stub
     if (!impl_->real_ready) {
         THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
@@ -305,6 +377,17 @@ static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
     std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(), digest.size());
     return di;
+}
+
+// Build RSA-OAEP mechanism parameters (SHA-256 hash + MGF1-SHA-256, no label)
+static CK_RSA_PKCS_OAEP_PARAMS makeOaepParams() {
+    CK_RSA_PKCS_OAEP_PARAMS p{};
+    p.hashAlg = CKM_SHA256;
+    p.mgf = CKG_MGF1_SHA256;
+    p.source = CKZ_DATA_SPECIFIED;
+    p.pSourceData = nullptr;
+    p.ulSourceDataLen = 0;
+    return p;
 }
 
 // Key discovery helper
@@ -516,6 +599,91 @@ bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& si
 std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
+}
+
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    if (!initialized_) { last_error_ = "Not initialized"; return {}; }
+    if (!impl_->real_ready || !impl_->loader.api()) {
+        // Fallback: AES-256-GCM with stub KEK
+        auto result = pkcs11_stub_aes_encrypt(impl_->stub_kek, data);
+        if (result.empty()) last_error_ = "Stub AES encrypt failed";
+        return result;
+    }
+    auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
+    auto sess = acquireSession();
+    if (!sess || sess->pubKey == 0) {
+        last_error_ = "No public key available for encryption";
+        return {};
+    }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) for secure DEK wrapping
+    auto oaep_params = makeOaepParams();
+    CK_MECHANISM mech{};
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
+    CK_RV rv = api->C_EncryptInit(sess->handle, &mech, sess->pubKey);
+    if (rv != CKR_OK) {
+        last_error_ = "C_EncryptInit failed: " + mapError(rv);
+        releaseSession(sess);
+        return {};
+    }
+    // Pre-allocate output buffer: RSA output size equals modulus size (max 512 bytes for RSA-4096)
+    const CK_ULONG kMaxRsaBytes = 512;
+    std::vector<uint8_t> ciphertext(kMaxRsaBytes);
+    CK_ULONG outLen = kMaxRsaBytes;
+    rv = api->C_Encrypt(sess->handle, (CK_BYTE_PTR)data.data(), (CK_ULONG)data.size(), ciphertext.data(), &outLen);
+    releaseSession(sess);
+    if (rv != CKR_OK) {
+        last_error_ = "C_Encrypt failed: " + mapError(rv);
+        return {};
+    }
+    ciphertext.resize(outLen);
+    (void)key_label;
+    return ciphertext;
+}
+
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    if (!initialized_) { last_error_ = "Not initialized"; return {}; }
+    if (!impl_->real_ready || !impl_->loader.api()) {
+        // Fallback: AES-256-GCM with stub KEK
+        auto result = pkcs11_stub_aes_decrypt(impl_->stub_kek, encrypted);
+        if (result.empty()) last_error_ = "Stub AES decrypt failed (bad ciphertext or mismatched key)";
+        return result;
+    }
+    auto api = impl_->loader.api();
+    if (!api) { last_error_ = "PKCS#11 API not available"; return {}; }
+    auto sess = acquireSession();
+    if (!sess || sess->privKey == 0) {
+        last_error_ = "No private key available for decryption";
+        return {};
+    }
+    // Use RSA-OAEP (SHA-256 + MGF1-SHA-256) matching the encryption mechanism
+    auto oaep_params = makeOaepParams();
+    CK_MECHANISM mech{};
+    mech.mechanism = CKM_RSA_PKCS_OAEP;
+    mech.pParameter = &oaep_params;
+    mech.ulParameterLen = sizeof(oaep_params);
+    CK_RV rv = api->C_DecryptInit(sess->handle, &mech, sess->privKey);
+    if (rv != CKR_OK) {
+        last_error_ = "C_DecryptInit failed: " + mapError(rv);
+        releaseSession(sess);
+        return {};
+    }
+    // Pre-allocate output buffer: plaintext <= ciphertext size (RSA modulus size)
+    std::vector<uint8_t> plaintext(encrypted.size());
+    CK_ULONG outLen = (CK_ULONG)encrypted.size();
+    rv = api->C_Decrypt(sess->handle, (CK_BYTE_PTR)encrypted.data(), (CK_ULONG)encrypted.size(), plaintext.data(), &outLen);
+    releaseSession(sess);
+    if (rv != CKR_OK) {
+        last_error_ = "C_Decrypt failed: " + mapError(rv);
+        return {};
+    }
+    plaintext.resize(outLen);
+    (void)key_label;
+    return plaintext;
 }
 
 bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable){

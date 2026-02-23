@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_batch_processor.h                            ║
-  Version:         0.0.22                                             ║
-  Last Modified:   2026-02-22 08:56:05                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-23 03:57:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     182                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -26,8 +26,10 @@
 #include <future>
 #include <atomic>
 #include <mutex>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include "voice/audio_preprocessing.h"
+#include "content/stt_processor.h"
 
 namespace themis { namespace voice {
 using json = nlohmann::json;
@@ -147,9 +149,21 @@ public:
     json getStatistics() const;
     BatchSummary getJobSummary(const std::string& job_id) const;
 
+    /**
+     * @brief Attach an STT processor for real-time streaming transcription.
+     *
+     * When set, @p processItem will call @c STTProcessor::streamTranscribe on
+     * each audio item and populate @c BatchItemResult::transcript with the
+     * word-by-word result.  Pass @c nullptr to detach.
+     *
+     * @param stt  Initialized STTProcessor instance, or nullptr to disable.
+     */
+    void setSTTProcessor(std::shared_ptr<content::STTProcessor> stt);
+
 private:
     BatchProcessorConfig config_;
     AudioPreprocessingPipeline preprocessor_;
+    std::shared_ptr<content::STTProcessor> stt_processor_;
     mutable std::mutex mutex_;
 
     std::atomic<uint64_t> jobs_submitted_{0};

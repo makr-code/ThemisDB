@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:29                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1218                                           ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1447                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
+    • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
+    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
     • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
-    • f97d172cc  2026-02-21  fix(transaction): updateVector and removeVector SAGA step... ║
-    • 6c2da643a  2026-02-21  fix(transaction): clamp negative timeout to 0 in setTimeo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -767,6 +767,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
         return Status::Error(st.message);
     }
     
+    trackWrite(key, "put");
     return Status::OK();
 }
 
@@ -791,6 +792,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
         return Status::Error(st.message);
     }
     
+    trackWrite(key, "delete");
     return Status::OK();
 }
 
@@ -817,6 +819,7 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
         return Status::Error(st.message);
     }
     
+    trackWrite(edge_key, "put");
     return Status::OK();
 }
 
@@ -840,6 +843,7 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
         return Status::Error(st.message);
     }
     
+    trackWrite(edge_key, "delete");
     return Status::OK();
 }
 
@@ -876,7 +880,8 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
             THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
         }
     });
-    
+
+    trackWrite(vector_key, "put");
     return Status::OK();
 }
 
@@ -927,7 +932,8 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
             vecIdx_.removeByPk(pk);
         });
     }
-    
+
+    trackWrite(vector_key, "put");
     return Status::OK();
 }
 
@@ -978,7 +984,8 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
             THEMIS_DEBUG("SAGA: Vector remove compensation skipped (no old data) for '{}'", pk_str);
         });
     }
-    
+
+    trackWrite(vector_key, "delete");
     return Status::OK();
 }
 
@@ -1132,6 +1139,92 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     if (!st.ok) return Status::Error(st.message);
 
     THEMIS_DEBUG("OCC optimisticErase: table={} pk={} version={}", table, pk, expected_version);
+    return Status::OK();
+}
+
+// ---------------------------------------------------------------------------
+// Bulk API
+// ---------------------------------------------------------------------------
+
+TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
+    std::string_view table, const std::vector<BaseEntity>& entities)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("bulkPutEntities: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("bulkPutEntities: transaction timed out");
+    if (entities.empty())
+        return Status::OK();
+
+    for (size_t i = 0; i < entities.size(); ++i) {
+        const auto& entity = entities[i];
+        const std::string pk = entity.getPrimaryKey();
+        if (pk.empty()) {
+            return Status::Error("bulkPutEntities: entity[" + std::to_string(i) +
+                                 "] has empty primary key");
+        }
+        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+
+        // SSI: check for predicate conflict before writing
+        auto conflict = checkSerializableWriteConflict(key);
+        if (!conflict.empty()) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) + "]: " + conflict);
+        }
+
+        // Write entity data
+        if (!mvcc_txn_->put(key, entity.serialize())) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) +
+                                 "]: MVCC conflict detected for pk=" + pk);
+        }
+
+        // Update secondary indexes within the same MVCC transaction
+        auto st = secIdx_.put(table, entity, *mvcc_txn_);
+        if (!st.ok) {
+            return Status::Error("bulkPutEntities[" + std::to_string(i) + "]: " + st.message);
+        }
+    }
+
+    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table, entities.size());
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
+    std::string_view table, const std::vector<std::string>& pks)
+{
+    if (!mvcc_txn_ || !mvcc_txn_->isActive())
+        return Status::Error("bulkEraseEntities: keine aktive Transaktion");
+    if (isTimedOut())
+        return Status::Error("bulkEraseEntities: transaction timed out");
+    if (pks.empty())
+        return Status::OK();
+
+    for (size_t i = 0; i < pks.size(); ++i) {
+        const auto& pk = pks[i];
+        if (pk.empty()) {
+            return Status::Error("bulkEraseEntities: pk[" + std::to_string(i) + "] is empty");
+        }
+        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+
+        // SSI: check for predicate conflict before writing
+        auto conflict = checkSerializableWriteConflict(key);
+        if (!conflict.empty()) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) + "]: " + conflict);
+        }
+
+        // Delete entity
+        if (!mvcc_txn_->del(key)) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) +
+                                 "]: MVCC conflict detected for pk=" + pk);
+        }
+
+        // Update secondary indexes within the same MVCC transaction
+        auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+        if (!st.ok) {
+            return Status::Error("bulkEraseEntities[" + std::to_string(i) + "]: " + st.message);
+        }
+    }
+
+    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table, pks.size());
     return Status::OK();
 }
 
@@ -1441,6 +1534,67 @@ TransactionManager::crashRecover() {
         return r;
     }
     return crash_recovery_mgr_->recover(db_);
+}
+
+// ── Transaction Explain ───────────────────────────────────────────────────────
+
+void TransactionManager::Transaction::trackWrite(std::string key, std::string operation) {
+    write_set_.push_back({std::move(key), std::move(operation)});
+}
+
+static std::string isolationLevelName(IsolationLevel level) {
+    switch (level) {
+    case IsolationLevel::READ_UNCOMMITTED: return "READ_UNCOMMITTED";
+    case IsolationLevel::READ_COMMITTED:   return "READ_COMMITTED";
+    case IsolationLevel::REPEATABLE_READ:  return "REPEATABLE_READ";
+    case IsolationLevel::SERIALIZABLE:     return "SERIALIZABLE";
+    default:                               return "UNKNOWN";
+    }
+}
+
+static std::string lockTypeName(LockType t) {
+    switch (t) {
+    case LockType::SHARED:           return "SHARED";
+    case LockType::EXCLUSIVE:        return "EXCLUSIVE";
+    case LockType::INTENT_SHARED:    return "INTENT_SHARED";
+    case LockType::INTENT_EXCLUSIVE: return "INTENT_EXCLUSIVE";
+    default:                         return "UNKNOWN";
+    }
+}
+
+TransactionManager::Transaction::ExplainResult
+TransactionManager::Transaction::explain() const {
+    ExplainResult result;
+    result.txn_id         = id_;
+    result.isolation_level = isolationLevelName(isolation_);
+    result.duration_ms    = getDurationMs();
+    result.is_finished    = finished_.load(std::memory_order_acquire);
+
+    // Collect locks held via LockManager
+    if (lock_manager_) {
+        for (const auto& [key, lock_type] : lock_manager_->getLocksHeld(id_)) {
+            result.locks_held.push_back({key, lockTypeName(lock_type)});
+        }
+    }
+
+    // Copy the write set (MVCC version chain entries)
+    result.write_set = write_set_;
+
+    return result;
+}
+
+std::optional<TransactionManager::Transaction::ExplainResult>
+TransactionManager::explainTransaction(TransactionId id) const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    auto it = active_transactions_.find(id);
+    if (it != active_transactions_.end() && it->second) {
+        return it->second->explain();
+    }
+    auto cit = completed_transactions_.find(id);
+    if (cit != completed_transactions_.end() && cit->second) {
+        return cit->second->explain();
+    }
+    return std::nullopt;
 }
 
 } // namespace themis

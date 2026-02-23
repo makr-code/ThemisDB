@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_manager.h                                   ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:04                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -23,6 +23,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
+#include "transaction/merge_engine.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -32,15 +33,7 @@
 
 namespace themis {
 
-// Forward declaration
-namespace analytics {
-class DiffEngine;
-}
-
 namespace transaction {
-
-// Forward declaration
-class MergeEngine;
 
 using json = nlohmann::json;
 
@@ -248,6 +241,39 @@ public:
     );
     
     /**
+     * @brief Preview a branch merge (dry-run) with full conflict details
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param base_branch   Optional common ancestor branch name.
+     *                      When empty, base = min(source_seq, target_seq).
+     * @return MergeEngine::MergeResult with full conflict details (base/source/target values)
+     * 
+     * Does not apply any changes. Returns conflict detail sufficient for a
+     * conflict resolution UI to present per-key choices to the user.
+     */
+    MergeEngine::MergeResult previewBranchMerge(
+        const std::string& source_branch,
+        const std::string& target_branch,
+        const std::string& base_branch = ""
+    ) const;
+
+    /**
+     * @brief Resolve conflicts and complete a branch merge
+     * @param source_branch Branch to merge from
+     * @param target_branch Branch to merge into
+     * @param resolutions   Per-key conflict resolutions from the user
+     * @param base_branch   Optional common ancestor branch name.
+     *                      When empty, base = min(source_seq, target_seq).
+     * @return MergeEngine::MergeResult with success status and applied changes
+     */
+    MergeEngine::MergeResult resolveAndMergeBranches(
+        const std::string& source_branch,
+        const std::string& target_branch,
+        const std::vector<MergeEngine::ConflictResolution>& resolutions,
+        const std::string& base_branch = ""
+    );
+
+    /**
      * @brief Check if a branch exists
      * @param branch_name Branch to check
      * @return true if exists, false otherwise
@@ -354,10 +380,11 @@ private:
     BranchGCPolicy gc_policy_;
 
     // Key prefixes for branch storage in RocksDB
-    static constexpr const char* BRANCH_PREFIX   = "branch:";
-    static constexpr const char* BRANCH_HIST_PREFIX = "branch_hist:";
-    static constexpr const char* ACTIVE_BRANCH_KEY = "branch:_active";
-    static constexpr const char* DEFAULT_BRANCH  = "main";
+    static constexpr const char* BRANCH_PREFIX        = "branch:";
+    static constexpr const char* BRANCH_HIST_PREFIX   = "branch_hist:";
+    static constexpr const char* BRANCH_MERGED_PREFIX = "branch_merged:";
+    static constexpr const char* ACTIVE_BRANCH_KEY    = "branch:_active";
+    static constexpr const char* DEFAULT_BRANCH       = "main";
     
     /**
      * @brief Make RocksDB key for a branch
@@ -398,6 +425,12 @@ private:
      * @brief Check if branch is fully merged into another branch
      */
     bool isBranchMerged(const std::string& branch_name, const std::string& target_branch) const;
+
+    /**
+     * @brief Persist a marker indicating source_branch was merged into target_branch.
+     * Must be called after a successful merge to enable isBranchMerged() checks.
+     */
+    void recordMergeStatus(const std::string& source_branch, const std::string& target_branch);
 
     /**
      * @brief Append a history entry for @p branch_name.

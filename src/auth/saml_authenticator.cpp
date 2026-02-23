@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saml_authenticator.cpp                             ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-23 03:58:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     943                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d7c4a035d  2026-02-22  Fix SAML encrypted assertion stub: enforce EncryptedAsser... ║
+    • 7f9832271  2026-02-22  feat(auth): implement SAML 2.0 identity provider integration ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "auth/saml_authenticator.h"
 #include "auth/auth_error.h"
 #include "utils/logger.h"
@@ -508,12 +531,31 @@ SAMLClaims SAMLAuthenticator::processResponse(
     // Find Response-level signature
     auto response_sig = findSignature(response_node);
 
-    // Find Assertion element (may be inside EncryptedAssertion in future)
+    // Detect EncryptedAssertion elements (decryption is not yet supported)
+    auto encrypted_assertion_node = findDescendantByLocalName(response_node, "EncryptedAssertion");
+    if (encrypted_assertion_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
+                         "Encrypted assertion not supported",
+                         "SAMLResponse contains an EncryptedAssertion element. "
+                         "XML assertion decryption (requiring SP private key) is not yet implemented. "
+                         "Configure the IdP to send unencrypted assertions.");
+    }
+
+    // Find plain Assertion element
     auto assertion_node = findDescendantByLocalName(response_node, "Assertion");
     if (!assertion_node) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION,
                          "Invalid SAML response",
                          "No Assertion element found in SAMLResponse");
+    }
+
+    // Enforce require_encrypted_assertion: reject plain assertions when encryption is required
+    if (config_.require_encrypted_assertion) {
+        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
+                         "Encrypted assertion required but not supported",
+                         "require_encrypted_assertion=true is set but XML assertion decryption "
+                         "(requiring SP private key) is not yet implemented. "
+                         "Set require_encrypted_assertion=false or integrate an XML decryption library.");
     }
 
     auto assertion_sig = findSignature(assertion_node);

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_logger_production.cpp                         ║
-  Version:         0.0.25                                             ║
-  Last Modified:   2026-02-22 08:56:49                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-02-23 03:59:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -229,6 +229,58 @@ TEST(LoggerProduction, SetLevelDynamic) {
     Logger::shutdown();
 }
 
+TEST(LoggerProduction, GetLevelReflectsSetLevel) {
+    Logger::shutdown();
+    Logger::init(tmpPath("getlevel.log"), Logger::Level::INFO);
+
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::INFO);
+
+    Logger::setLevel(Logger::Level::DEBUG);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::DEBUG);
+
+    Logger::setLevel(Logger::Level::WARN);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::WARN);
+
+    Logger::setLevel(Logger::Level::ERROR);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::ERROR);
+
+    Logger::setLevel(Logger::Level::TRACE);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::TRACE);
+
+    Logger::setLevel(Logger::Level::CRITICAL);
+    EXPECT_EQ(Logger::getLevel(), Logger::Level::CRITICAL);
+
+    Logger::shutdown();
+}
+
+TEST(LoggerProduction, FilteredMessagesNotCounted) {
+    Logger::shutdown();
+    Logger::resetMetrics();
+    Logger::init(tmpPath("filtered.log"), Logger::Level::ERROR);
+
+    // All messages below ERROR are filtered and must not increment counters
+    Logger::trace("trace filtered");
+    Logger::debug("debug filtered");
+    Logger::info("info filtered");
+    Logger::warn("warn filtered");
+
+    auto snap = Logger::getMetrics().snapshot();
+    EXPECT_EQ(snap.trace_count, 0u);
+    EXPECT_EQ(snap.debug_count, 0u);
+    EXPECT_EQ(snap.info_count,  0u);
+    EXPECT_EQ(snap.warn_count,  0u);
+
+    // ERROR and CRITICAL should still be counted
+    Logger::error("error counted");
+    Logger::critical("critical counted");
+
+    snap = Logger::getMetrics().snapshot();
+    EXPECT_EQ(snap.error_count,    1u);
+    EXPECT_EQ(snap.critical_count, 1u);
+
+    Logger::shutdown();
+}
+
 // ============================================================================
 // Trace-context injection
 // ============================================================================
@@ -260,6 +312,55 @@ TEST(LoggerProduction, ClearTraceContext) {
     auto content = readFile(path);
     // The line "no trace context" should exist but without "to-be-cleared"
     EXPECT_NE(content.find("no trace context"), std::string::npos);
+}
+
+TEST(LoggerProduction, GetTraceContext) {
+    Logger::shutdown();
+    Logger::init(tmpPath("get_trace.log"), Logger::Level::INFO);
+
+    EXPECT_TRUE(Logger::getTraceContext().empty());
+    Logger::setTraceContext("trace-xyz");
+    EXPECT_EQ(Logger::getTraceContext(), "trace-xyz");
+    Logger::setTraceContext("");
+    EXPECT_TRUE(Logger::getTraceContext().empty());
+
+    Logger::shutdown();
+}
+
+TEST(LoggerProduction, InitJsonWithTraceContextEmitsTraceIdField) {
+    Logger::shutdown();
+    auto path = tmpPath("json_trace.log");
+    Logger::initJson(path, Logger::Level::INFO);
+
+    Logger::setTraceContext("cafebabe0123456789abcdef01234567");
+    Logger::info("json trace test");
+    Logger::setTraceContext("");  // clear after use
+    Logger::shutdown();
+
+    auto content = readFile(path);
+    // The trace_id field must appear in the JSON output.
+    EXPECT_NE(content.find("cafebabe0123456789abcdef01234567"), std::string::npos);
+    // JSON structural keys must still be present — format not corrupted.
+    EXPECT_NE(content.find("\"level\""), std::string::npos);
+    EXPECT_NE(content.find("\"msg\""), std::string::npos);
+    EXPECT_NE(content.find("json trace test"), std::string::npos);
+}
+
+TEST(LoggerProduction, InitJsonClearTraceContextRestoresJsonFormat) {
+    Logger::shutdown();
+    auto path = tmpPath("json_trace_clear.log");
+    Logger::initJson(path, Logger::Level::INFO);
+
+    Logger::setTraceContext("deadbeef00000000deadbeef00000000");
+    Logger::setTraceContext("");  // clear — JSON format must be restored
+    Logger::info("after clear");
+    Logger::shutdown();
+
+    auto content = readFile(path);
+    // Message must appear in JSON format without the old trace ID.
+    EXPECT_NE(content.find("\"msg\""), std::string::npos);
+    EXPECT_NE(content.find("after clear"), std::string::npos);
+    EXPECT_EQ(content.find("deadbeef00000000deadbeef00000000"), std::string::npos);
 }
 
 // ============================================================================

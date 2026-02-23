@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.h                                ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 11:29:18                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:15                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     299                                            ║
+    • Total Lines:     302                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • c97d719  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,10 +25,12 @@
 #include "server/rate_limiter.h"
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <chrono>
 #include <memory>
 #include <optional>
+#include <functional>
 
 namespace themis {
 namespace auth {
@@ -55,7 +57,39 @@ struct AuthRateLimitConfig {
     
     // Whitelist IPs (no rate limiting)
     std::vector<std::string> whitelist_ips;
+
+    // ── Credential-stuffing detection ────────────────────────────────────
+    // When a single IP attempts authentication against at least
+    // credential_stuffing_user_threshold distinct usernames within
+    // credential_stuffing_window_seconds, a CREDENTIAL_STUFFING_SUSPECTED
+    // anomaly event is fired.
+    bool   enable_credential_stuffing_detection = true;
+    size_t credential_stuffing_user_threshold   = 10;  ///< distinct usernames per IP
+    uint32_t credential_stuffing_window_seconds = 60;  ///< rolling window (seconds)
 };
+
+/**
+ * @brief Anomaly event emitted by AuthRateLimiter when a suspicious authentication
+ *        pattern is detected (brute-force, credential stuffing, account lockout).
+ *
+ * Register a handler via AuthRateLimiter::setAnomalyCallback() to forward events
+ * to an audit log, SIEM, or alerting system.
+ */
+struct AuthAnomalyEvent {
+    enum class Type {
+        BRUTE_FORCE_DETECTED,           ///< Account locked after repeated failures from an IP
+        CREDENTIAL_STUFFING_SUSPECTED,  ///< Many distinct usernames tried from one IP
+        ACCOUNT_LOCKOUT_TRIGGERED,      ///< Account locked due to failed-attempt threshold
+    };
+    Type        type;
+    std::string ip;
+    std::string user_id;   ///< empty for IP-level events
+    std::string detail;
+    std::chrono::system_clock::time_point timestamp;
+};
+
+/// Callback invoked (outside internal mutex) on each detected auth anomaly.
+using AuthAnomalyCallback = std::function<void(const AuthAnomalyEvent&)>;
 
 /**
  * @brief Failed authentication attempt record
@@ -250,6 +284,20 @@ public:
      * @brief Check if IP is whitelisted
      */
     bool isWhitelisted(const std::string& ip_address) const;
+
+    /**
+     * @brief Register a callback invoked whenever an authentication anomaly is detected.
+     *
+     * The callback is invoked outside the internal mutex, so performing I/O (e.g.
+     * writing to an audit log or forwarding to a SIEM) is safe without risking a
+     * deadlock.  Pass nullptr or an empty function to deregister.
+     *
+     * Detected anomaly types:
+     *   - ACCOUNT_LOCKOUT_TRIGGERED  – account locked after repeated failures
+     *   - BRUTE_FORCE_DETECTED       – same IP responsible for locking an account
+     *   - CREDENTIAL_STUFFING_SUSPECTED – one IP tried many distinct usernames
+     */
+    void setAnomalyCallback(AuthAnomalyCallback callback);
     
     /**
      * @brief Update configuration at runtime
@@ -292,7 +340,30 @@ private:
     
     // Account lockout management
     std::unique_ptr<AccountLockoutManager> lockout_manager_;
-    
+
+    // ── Credential-stuffing detection state ─────────────────────────────
+    struct CredentialStuffingEntry {
+        std::unordered_set<std::string> usernames;  ///< distinct usernames tried
+        // Timestamps of each attempt (for rolling-window pruning)
+        std::vector<std::chrono::steady_clock::time_point> attempt_times;
+        bool alerted = false;  ///< prevent duplicate alerts per penalty window
+    };
+    std::unordered_map<std::string, CredentialStuffingEntry> stuffing_state_;
+
+    // Anomaly detection callback – protected by a separate mutex so it can be
+    // called safely while stats_mutex_ is held.
+    mutable std::mutex callback_mutex_;
+    AuthAnomalyCallback anomaly_callback_;
+    void fireAuthAnomaly(AuthAnomalyEvent::Type type,
+                         const std::string& ip,
+                         const std::string& user_id,
+                         const std::string& detail) const;
+
+    // Track credential-stuffing for a given (ip, user_id) pair.
+    // Returns true if the credential-stuffing alert threshold was just crossed.
+    // Must be called with stats_mutex_ held.
+    bool trackCredentialStuffing(const std::string& ip, const std::string& user_id);
+
     // Statistics
     mutable Statistics stats_;
     mutable std::mutex stats_mutex_;

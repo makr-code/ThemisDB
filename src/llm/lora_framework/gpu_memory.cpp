@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory.cpp                                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:21                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
     • Total Lines:     390                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,18 @@
 
 #ifdef THEMIS_ENABLE_HIP
 #include <hip/hip_runtime.h>
+#endif
+
+#ifdef THEMIS_ENABLE_VULKAN
+#include <vulkan/vulkan.h>
+#include <vector>
+#endif
+
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
+#include <dxgi1_4.h>
+#include <d3d12.h>
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3d12.lib")
 #endif
 
 namespace themis {
@@ -283,28 +295,112 @@ std::vector<GPUMemoryManager::BackendInfo> GPUMemoryManager::detect_backends() {
 #endif
     
     // Detect Vulkan
+#ifdef THEMIS_ENABLE_VULKAN
     {
         BackendInfo info;
         info.type = acceleration::BackendType::VULKAN;
-        // TODO: Implement Vulkan detection via vkEnumeratePhysicalDevices
-        // For now, mark as potentially available
-        info.available = false;  // Will be implemented in Vulkan phase
+
+        VkApplicationInfo appInfo{};
+        appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+        appInfo.apiVersion = VK_API_VERSION_1_0;
+
+        VkInstanceCreateInfo instCI{};
+        instCI.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        instCI.pApplicationInfo = &appInfo;
+
+        VkInstance instance = VK_NULL_HANDLE;
+        if (vkCreateInstance(&instCI, nullptr, &instance) == VK_SUCCESS) {
+            uint32_t deviceCount = 0;
+            if (vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr) == VK_SUCCESS &&
+                deviceCount > 0) {
+                std::vector<VkPhysicalDevice> physDevices(deviceCount);
+                if (vkEnumeratePhysicalDevices(instance, &deviceCount, physDevices.data()) == VK_SUCCESS) {
+                    // Use first physical device's properties
+                    VkPhysicalDeviceProperties props{};
+                    vkGetPhysicalDeviceProperties(physDevices[0], &props);
+
+                    info.available   = true;
+                    info.device_name = props.deviceName;
+                    info.version     = std::to_string(VK_VERSION_MAJOR(props.apiVersion)) + "." +
+                                       std::to_string(VK_VERSION_MINOR(props.apiVersion)) + "." +
+                                       std::to_string(VK_VERSION_PATCH(props.apiVersion));
+
+                    // Report device-local heap size as VRAM
+                    VkPhysicalDeviceMemoryProperties memProps{};
+                    vkGetPhysicalDeviceMemoryProperties(physDevices[0], &memProps);
+                    for (uint32_t i = 0; i < memProps.memoryHeapCount; ++i) {
+                        if (memProps.memoryHeaps[i].flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
+                            info.vram_bytes = memProps.memoryHeaps[i].size;
+                            break;
+                        }
+                    }
+                }
+            }
+            vkDestroyInstance(instance, nullptr);
+        }
+
         backends.push_back(info);
     }
+#else
+    {
+        BackendInfo info;
+        info.type      = acceleration::BackendType::VULKAN;
+        info.available = false;
+        backends.push_back(info);
+    }
+#endif
     
     // Detect DirectX
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
     {
         BackendInfo info;
         info.type = acceleration::BackendType::DIRECTX;
-        // TODO: Implement DirectX detection via D3D12
-        // For now, mark as potentially available on Windows
-#ifdef _WIN32
-        info.available = false;  // Will be implemented in DirectX phase
-#else
-        info.available = false;
-#endif
+
+        IDXGIFactory1* factory = nullptr;
+        if (SUCCEEDED(CreateDXGIFactory1(__uuidof(IDXGIFactory1),
+                                         reinterpret_cast<void**>(&factory)))) {
+            IDXGIAdapter1* adapter = nullptr;
+            for (UINT i = 0;
+                 factory->EnumAdapters1(i, &adapter) != DXGI_ERROR_NOT_FOUND;
+                 ++i) {
+                DXGI_ADAPTER_DESC1 desc{};
+                if (SUCCEEDED(adapter->GetDesc1(&desc)) &&
+                    !(desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)) {
+                    // Verify D3D12 support (nullptr device — no object created)
+                    if (SUCCEEDED(D3D12CreateDevice(adapter,
+                                                     D3D_FEATURE_LEVEL_11_0,
+                                                     __uuidof(ID3D12Device),
+                                                     nullptr))) {
+                        info.available = true;
+                        // Convert UTF-16 device name to UTF-8 using WideCharToMultiByte
+                        int len = WideCharToMultiByte(CP_UTF8, 0, desc.Description, -1,
+                                                       nullptr, 0, nullptr, nullptr);
+                        if (len > 0) {
+                            info.device_name.resize(static_cast<size_t>(len) - 1);
+                            WideCharToMultiByte(CP_UTF8, 0, desc.Description, -1,
+                                                &info.device_name[0], len, nullptr, nullptr);
+                        }
+                        info.vram_bytes  = static_cast<size_t>(
+                            desc.DedicatedVideoMemory);
+                        adapter->Release();
+                        break;
+                    }
+                }
+                adapter->Release();
+            }
+            factory->Release();
+        }
+
         backends.push_back(info);
     }
+#else
+    {
+        BackendInfo info;
+        info.type      = acceleration::BackendType::DIRECTX;
+        info.available = false;
+        backends.push_back(info);
+    }
+#endif
     
     // CPU always available
     {

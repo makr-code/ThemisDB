@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_resilience.cpp                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:49                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     339                                            ║
+    • Total Lines:     411                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7a0f10c19  2026-02-22  feat(llm/aql): cooperative cancellation in LLMTimeoutManager ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

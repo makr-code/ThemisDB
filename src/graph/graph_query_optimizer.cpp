@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22 13:18:11                                ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:58:06                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1567                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     1576                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
+    • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
+    • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
+    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
+    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -178,7 +185,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     plan.use_index = statistics_.has_edge_index;
     plan.use_cache = statistics_.has_adjacency_cache;
     plan.enable_early_termination = true; // Stop at depth k
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
 
@@ -297,7 +305,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     plan.use_index = statistics_.has_edge_index;
     plan.use_cache = statistics_.has_adjacency_cache;
     plan.enable_early_termination = true; // Stop as soon as path found
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     plan.explanation = explainPlan(plan);
 
@@ -1392,6 +1401,13 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     
     if (constraints.edge_type.has_value()) {
         key += ":type=" + constraints.edge_type.value();
+    }
+
+    // enable_parallel affects plan.enable_parallel directly; include it so that
+    // the same vertex pair queried with and without parallel yields distinct
+    // cache entries.
+    if (constraints.enable_parallel) {
+        key += ":par";
     }
     
     return key;

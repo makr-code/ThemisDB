@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_cli.cpp                                     ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:57:06                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:59:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -209,7 +209,7 @@ static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     std::string line;
     while (std::getline(f, line)) {
         if (!line.empty()) {
-            try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) {}
+            try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) { std::cerr << "warning: skipping malformed hash line: '" << line << "'\n"; }
         }
     }
     return hs;

@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_expander.cpp                                 ║
-  Version:         0.0.23                                             ║
-  Last Modified:   2026-02-22 08:56:24                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-02-23 03:58:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     258                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     420                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -156,6 +156,155 @@ std::string QueryExpander::correctSpelling(const std::string& word) const {
         }
     }
     return best;
+}
+
+std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections(
+    const std::string& word,
+    size_t max_suggestions) const {
+
+    if (!config_.correct_spelling || vocabulary_.empty() || max_suggestions == 0) {
+        return {};
+    }
+    const std::string lower = toLower(word);
+    // If the word is already correct, no suggestions needed
+    if (vocabulary_.count(lower)) {
+        return {};
+    }
+
+    // Collect all candidates within max_edit_distance
+    std::vector<SpellingCorrection> candidates;
+    for (const auto& vocab_word : vocabulary_) {
+        int d = editDistance(lower, vocab_word);
+        if (d <= config_.max_edit_distance) {
+            SpellingCorrection sc;
+            sc.suggestion = vocab_word;
+            sc.edit_distance = d;
+            candidates.push_back(sc);
+        }
+    }
+
+    if (candidates.empty()) {
+        return {};
+    }
+
+    // Sort by edit distance ascending, then alphabetically for stability
+    std::sort(candidates.begin(), candidates.end(),
+              [](const SpellingCorrection& a, const SpellingCorrection& b) {
+                  if (a.edit_distance != b.edit_distance) {
+                      return a.edit_distance < b.edit_distance;
+                  }
+                  return a.suggestion < b.suggestion;
+              });
+
+    // Assign confidence scores: linearly decaying with edit distance
+    // distance 0 → 1.0, distance max_edit_distance → 1/(max_edit_distance+1)
+    const double max_d = static_cast<double>(config_.max_edit_distance);
+    for (auto& sc : candidates) {
+        sc.confidence = 1.0 - (static_cast<double>(sc.edit_distance) / (max_d + 1.0));
+    }
+
+    if (candidates.size() > max_suggestions) {
+        candidates.resize(max_suggestions);
+    }
+
+    THEMIS_DEBUG("QueryExpander::suggestSpellingCorrections('{}') -> {} candidates",
+                 word, candidates.size());
+    return candidates;
+}
+
+std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
+    const std::string& query,
+    size_t max_suggestions) const {
+
+    if (!config_.correct_spelling || vocabulary_.empty() || max_suggestions == 0) {
+        return {};
+    }
+
+    auto tokens = tokenize(query);
+    if (tokens.empty()) {
+        return {};
+    }
+
+    // For each token, get its top correction (if any)
+    bool any_token_needs_correction = false;
+    std::vector<std::string> best_corrections(tokens.size());
+    std::vector<int> best_distances(tokens.size(), 0);
+
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        const std::string lower = toLower(tokens[i]);
+        if (vocabulary_.count(lower)) {
+            best_corrections[i] = tokens[i];
+        } else {
+            auto candidates = suggestSpellingCorrections(tokens[i], 1);
+            if (!candidates.empty()) {
+                best_corrections[i] = candidates[0].suggestion;
+                best_distances[i]   = candidates[0].edit_distance;
+                any_token_needs_correction = true;
+            } else {
+                best_corrections[i] = tokens[i];
+            }
+        }
+    }
+
+    if (!any_token_needs_correction) {
+        return {};
+    }
+
+    // Build full-query suggestions: substitute each corrected token one at a time,
+    // then produce an "all corrected" variant.
+    std::vector<SpellingCorrection> results;
+    std::unordered_set<std::string> seen;
+
+    auto addSuggestion = [&](const std::vector<std::string>& parts, int total_dist) {
+        std::ostringstream oss;
+        for (size_t i = 0; i < parts.size(); ++i) {
+            if (i) oss << ' ';
+            oss << parts[i];
+        }
+        std::string full = oss.str();
+        if (full == query || seen.count(full)) return;
+        seen.insert(full);
+        SpellingCorrection sc;
+        sc.suggestion   = full;
+        sc.edit_distance = total_dist;
+        const double max_d = static_cast<double>(config_.max_edit_distance);
+        sc.confidence = std::max(0.0, 1.0 - (static_cast<double>(total_dist) / (max_d + 1.0)));
+        results.push_back(sc);
+    };
+
+    // Per-token substitution variants
+    for (size_t i = 0; i < tokens.size(); ++i) {
+        if (best_distances[i] == 0) continue;
+        std::vector<std::string> parts = tokens;
+        parts[i] = best_corrections[i];
+        addSuggestion(parts, best_distances[i]);
+    }
+
+    // All-corrected variant
+    {
+        int total = 0;
+        for (int d : best_distances) total += d;
+        if (total > 0) {
+            addSuggestion(best_corrections, total);
+        }
+    }
+
+    // Sort by total edit distance ascending
+    std::sort(results.begin(), results.end(),
+              [](const SpellingCorrection& a, const SpellingCorrection& b) {
+                  if (a.edit_distance != b.edit_distance) {
+                      return a.edit_distance < b.edit_distance;
+                  }
+                  return a.suggestion < b.suggestion;
+              });
+
+    if (results.size() > max_suggestions) {
+        results.resize(max_suggestions);
+    }
+
+    THEMIS_DEBUG("QueryExpander::suggestQueryCorrections('{}') -> {} suggestions",
+                 query, results.size());
+    return results;
 }
 
 std::vector<std::string> QueryExpander::suggestAlternatives(const std::string& query) const {

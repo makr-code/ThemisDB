@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            branch_api_handler.h                               ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:55:59                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-02-23 03:57:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -36,9 +36,13 @@ using json = nlohmann::json;
  * - Creating branches
  * - Listing branches
  * - Switching branches
- * - Merging branches
+ * - Merging branches (including conflict preview and per-key resolution)
  * - Deleting branches
  * - Getting branch statistics
+ * 
+ * Conflict resolution endpoints:
+ * - POST /api/v1/branches/merge/preview  – dry-run merge with full conflict details
+ * - POST /api/v1/branches/merge/resolve  – apply per-key resolutions and complete merge
  */
 class BranchApiHandler {
 public:
@@ -63,6 +67,39 @@ public:
     void handleDeleteBranch(const httplib::Request& req, httplib::Response& res);
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
     void handleGetActiveBranch(const httplib::Request& req, httplib::Response& res);
+
+    /**
+     * @brief Handle POST /api/v1/branches/merge/preview
+     * 
+     * Returns full conflict details (base, source, and target values per key)
+     * without applying any changes. Used by conflict resolution UIs.
+     * 
+     * Request body:
+     * {
+     *   "source_branch": "feature-x",
+     *   "target_branch": "main",
+     *   "base_branch": "common-ancestor"   // optional; enables true 3-way merge detection
+     * }
+     */
+    void handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res);
+
+    /**
+     * @brief Handle POST /api/v1/branches/merge/resolve
+     * 
+     * Applies per-key conflict resolutions and completes the merge.
+     * 
+     * Request body:
+     * {
+     *   "source_branch": "feature-x",
+     *   "target_branch": "main",
+     *   "base_branch": "common-ancestor",  // optional; enables true 3-way merge
+     *   "resolutions": [
+     *     { "key": "users:1", "resolved_value": "Alice" },
+     *     { "key": "users:2" }   // omit resolved_value to delete the key
+     *   ]
+     * }
+     */
+    void handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res);
 
 private:
     transaction::BranchManager& branch_manager_;
