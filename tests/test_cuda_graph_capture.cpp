@@ -334,4 +334,21 @@ TEST(CudaGraphCapture, BatchKnnSearchWithGraph_ReplayProducesSameResultAsFirstCa
     backend.shutdown();
 }
 
+// =============================================================================
+// Backend-state guard — no GPU hardware required
+// =============================================================================
+
+// Calling batchKnnSearchWithGraph on an uninitialized backend must return an
+// empty result without crashing or invoking any CUDA runtime API.  This test
+// runs without GPU hardware whenever THEMIS_ENABLE_CUDA is defined.
+TEST(CudaGraphCapture, BatchKnnSearchWithGraph_NotInitializedReturnsEmpty) {
+    CUDAVectorBackend backend; // constructed but NOT initialized
+    const float data[] = {1.f, 0.f};
+    auto result = backend.batchKnnSearchWithGraph(
+        data, 1, 2, data, 1, 1, DistanceMetric::L2);
+    EXPECT_TRUE(result.empty());
+    // Last error should be set (not Success) — BackendNotInitialized
+    EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
 #endif // THEMIS_ENABLE_CUDA
