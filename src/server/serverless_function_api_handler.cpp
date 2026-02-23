@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <atomic>
+#include <climits>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -109,10 +110,20 @@ bool ServerlessFunctionApiHandler::executeFunction(
     json& output,
     std::string& error) const
 {
-    // Run the pipeline inside a timed task to enforce timeout_ms.
-    auto pipeline = [&]() -> bool {
-        json current = input;
-        for (const auto& op : fn.code["operations"]) {
+    // The async task owns its own result state to avoid sharing references
+    // across threads.  This eliminates potential data races between the
+    // timeout path on the main thread and a still-running async thread.
+    struct TaskResult {
+        bool        ok{false};
+        json        output;
+        std::string error;
+    };
+
+    // Capture only by value so the lambda has no references to caller locals.
+    auto pipeline = [fn_code = fn.code, input_copy = input]() -> TaskResult {
+        TaskResult r;
+        json current = input_copy;
+        for (const auto& op : fn_code["operations"]) {
             const std::string type = op["type"].get<std::string>();
 
             if (type == "passthrough") {
@@ -152,25 +163,37 @@ bool ServerlessFunctionApiHandler::executeFunction(
                 for (const auto& req : op["required"]) {
                     const std::string key = req.get<std::string>();
                     if (!current.contains(key)) {
-                        error = "validation failed: required field '" + key + "' is missing";
-                        return false;
+                        r.error = "validation failed: required field '" + key + "' is missing";
+                        return r;
                     }
                 }
             }
         }
-        output = std::move(current);
-        return true;
+        r.ok     = true;
+        r.output = std::move(current);
+        return r;
     };
 
     // Enforce timeout via std::async + wait_for.
-    auto future = std::async(std::launch::async, pipeline);
-    auto deadline = std::chrono::milliseconds(fn.timeout_ms);
+    // The lambda captures all state by value (no shared references), so there
+    // is no data race between the main thread and the async thread regardless
+    // of when the future is settled.  The future's destructor (std::launch::async)
+    // blocks until the thread completes, ensuring safe cleanup on all paths.
+    auto future = std::async(std::launch::async, std::move(pipeline));
+    const auto deadline = std::chrono::milliseconds(fn.timeout_ms);
     if (future.wait_for(deadline) == std::future_status::timeout) {
         error = "function execution timed out after " +
                 std::to_string(fn.timeout_ms) + "ms";
+        return false; // future destructor blocks until the thread finishes
+    }
+
+    TaskResult r = future.get();
+    if (!r.ok) {
+        error  = std::move(r.error);
         return false;
     }
-    return future.get();
+    output = std::move(r.output);
+    return true;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -349,11 +372,17 @@ ServerlessFunctionApiHandler::handleUpdate(
         }
         fn.code = body["code"];
     }
-    if (body.contains("timeout_ms") && body["timeout_ms"].is_number_unsigned()) {
-        fn.timeout_ms = body["timeout_ms"].get<uint32_t>();
+    if (body.contains("timeout_ms") && body["timeout_ms"].is_number()) {
+        const int64_t v = body["timeout_ms"].get<int64_t>();
+        if (v > 0 && v <= static_cast<int64_t>(UINT32_MAX)) {
+            fn.timeout_ms = static_cast<uint32_t>(v);
+        }
     }
-    if (body.contains("memory_limit_kb") && body["memory_limit_kb"].is_number_unsigned()) {
-        fn.memory_limit_kb = body["memory_limit_kb"].get<uint32_t>();
+    if (body.contains("memory_limit_kb") && body["memory_limit_kb"].is_number()) {
+        const int64_t v = body["memory_limit_kb"].get<int64_t>();
+        if (v > 0 && v <= static_cast<int64_t>(UINT32_MAX)) {
+            fn.memory_limit_kb = static_cast<uint32_t>(v);
+        }
     }
 
     fn.version++;

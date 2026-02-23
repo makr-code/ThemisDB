@@ -499,3 +499,97 @@ TEST_F(ServerlessFunctionApiHandlerTest, RegisterResponse_ContentTypeIsJson) {
     const std::string ct{res[http::field::content_type]};
     EXPECT_NE(ct.find("application/json"), std::string::npos);
 }
+
+// ---------------------------------------------------------------------------
+// Bug-fix regression tests
+// ---------------------------------------------------------------------------
+
+// Bug: timeout_ms and memory_limit_kb updates were silently ignored because
+// nlohmann::json parses integer literals as number_integer, not number_unsigned,
+// so is_number_unsigned() returned false.  Fixed to use is_number() + positive check.
+TEST_F(ServerlessFunctionApiHandlerTest, UpdateTimeout_IntegerJson_IsApplied) {
+    json body = {{"name", "timeout-fn"}, {"code", passthroughCode()}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    // 1000 is a JSON integer (number_integer), not number_unsigned
+    json upd = {{"timeout_ms", 1000}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/" + id, upd.dump()), id);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto resp = parseBody(res);
+    EXPECT_EQ(resp["timeout_ms"].get<int>(), 1000);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, UpdateMemoryLimit_IntegerJson_IsApplied) {
+    json body = {{"name", "memlimit-fn"}, {"code", passthroughCode()}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    json upd = {{"memory_limit_kb", 8192}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/" + id, upd.dump()), id);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto resp = parseBody(res);
+    EXPECT_EQ(resp["memory_limit_kb"].get<int>(), 8192);
+}
+
+// Bug: executeFunction lambda captured output/error by reference and wrote to
+// them from an async thread; the timeout path on the main thread also wrote to
+// error, creating a data race.  Fixed by owning all result state inside the
+// task (TaskResult) and only propagating after the future is settled.
+TEST_F(ServerlessFunctionApiHandlerTest, InvokeValidation_ErrorMessagePropagatedCorrectly) {
+    // validate op writes to its local error string; verify it reaches the caller
+    json code = {{"operations", json::array({
+        json{{"type", "validate"}, {"required", json::array({"required_key"})}}
+    })}};
+    json body = {{"name", "race-fix-fn"}, {"code", code}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    json input = {{"other", "x"}};
+    auto res = handler.handleInvoke(
+        makeRequest(http::verb::post, "/api/v1/functions/" + id + "/invoke",
+                    input.dump()),
+        id);
+    EXPECT_EQ(res.result(), http::status::internal_server_error);
+    auto resp = parseBody(res);
+    EXPECT_TRUE(resp.contains("error"));
+    // Error message should mention the missing field name
+    EXPECT_NE(resp["error"].get<std::string>().find("required_key"), std::string::npos);
+}
+
+// Overflow guard: values > UINT32_MAX should be ignored (not silently wrap)
+TEST_F(ServerlessFunctionApiHandlerTest, UpdateTimeout_OverflowValue_IsIgnored) {
+    json body = {{"name", "overflow-fn"}, {"code", passthroughCode()},
+                 {"timeout_ms", 5000}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    // 2^33 exceeds UINT32_MAX – must be ignored, leaving the previous value
+    json upd = {{"timeout_ms", static_cast<int64_t>(1LL << 33)}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/" + id, upd.dump()), id);
+    EXPECT_EQ(res.result(), http::status::ok);
+    // Should still be 5000 (unchanged), not a wrapped-around value
+    EXPECT_EQ(parseBody(res)["timeout_ms"].get<int>(), 5000);
+}
+
+TEST_F(ServerlessFunctionApiHandlerTest, UpdateTimeout_ZeroValue_IsIgnored) {
+    json body = {{"name", "zero-timeout-fn"}, {"code", passthroughCode()},
+                 {"timeout_ms", 3000}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    json upd = {{"timeout_ms", 0}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/" + id, upd.dump()), id);
+    EXPECT_EQ(res.result(), http::status::ok);
+    // 0 is not a positive value – should be ignored
+    EXPECT_EQ(parseBody(res)["timeout_ms"].get<int>(), 3000);
+}
