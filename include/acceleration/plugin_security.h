@@ -27,6 +27,7 @@
 #include <cstdint>
 #include <optional>
 #include <chrono>
+#include <mutex>
 #include <openssl/x509.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -142,20 +143,13 @@ public:
     // OCSP (Online Certificate Status Protocol) check (public for testing)
     bool checkOCSP(const std::string& certificate);
     
+    // Validate plugin path to prevent path traversal attacks.
+    // Returns true if path is safe, false if it contains traversal sequences
+    // or other disallowed patterns.
+    static bool validatePluginPath(const std::string& path, std::string& errorMessage);
+    
 private:
     PluginSecurityPolicy policy_;
-    
-    // OpenSSL integration for signature verification
-    bool verifyRSASignature(const std::vector<uint8_t>& data, 
-                           const std::vector<uint8_t>& signature,
-                           const std::string& publicKey);
-    
-    bool verifyECDSASignature(const std::vector<uint8_t>& data,
-                             const std::vector<uint8_t>& signature, 
-                             const std::string& publicKey);
-    
-    // Load and verify X.509 certificate
-    bool loadCertificate(const std::string& certPEM);
 };
 
 // ============================================================================
@@ -319,16 +313,16 @@ class PluginSecurityAuditor {
 public:
     static PluginSecurityAuditor& instance();
     
-    // Log security event
+    // Log security event (thread-safe)
     void logEvent(const PluginSecurityEvent& event);
     
-    // Get security events for a specific plugin
+    // Get security events for a specific plugin (thread-safe, returns copy)
     std::vector<PluginSecurityEvent> getEventsForPlugin(const std::string& pluginPath) const;
     
-    // Get all security events
-    const std::vector<PluginSecurityEvent>& getAllEvents() const { return events_; }
+    // Get a snapshot of all security events (thread-safe, returns copy)
+    std::vector<PluginSecurityEvent> getAllEvents() const;
     
-    // Clear event log
+    // Clear event log (thread-safe)
     void clearEvents();
     
     // Export events to file (for compliance/audit)
@@ -340,6 +334,7 @@ private:
     PluginSecurityAuditor(const PluginSecurityAuditor&) = delete;
     PluginSecurityAuditor& operator=(const PluginSecurityAuditor&) = delete;
     
+    mutable std::mutex mutex_;
     std::vector<PluginSecurityEvent> events_;
 };
 

@@ -27,6 +27,8 @@
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
 #include "core/concerns/i_secrets.h"
+#include "core/concerns/i_circuit_breaker.h"
+#include "core/concerns/i_feature_flags.h"
 
 namespace themis {
 namespace core {
@@ -152,6 +154,34 @@ public:
     }
     bool hasSecret(std::string_view name) const override { return false; }
     std::vector<std::string> listSecretNames() const override { return {}; }
+ * @brief No-op circuit breaker implementation for testing or when the
+ *        circuit breaker concern is disabled.
+ *
+ * Always reports CLOSED state and allows every request.
+ */
+class NoOpCircuitBreaker : public ICircuitBreaker {
+public:
+    bool   allowRequest()          override { return true; }
+    void   recordSuccess()         override {}
+    void   recordFailure()         override {}
+    State  getState()        const override { return State::CLOSED; }
+    size_t getFailureCount() const override { return 0; }
+    size_t getSuccessCount() const override { return 0; }
+    void   reset()                 override {}
+    void   forceOpen()             override {}
+
+    void        flush()    noexcept override {}
+    void        shutdown() noexcept override {}
+    ProbeResult isHealthy() const   override { return ProbeResult::healthy(); }
+ * @brief No-op feature flag provider — all flags are always disabled.
+ *
+ * Use in unit tests or builds where feature-flag evaluation is not needed.
+ */
+class NoOpFeatureFlags : public IFeatureFlags {
+public:
+    bool isEnabled(std::string_view /*name*/) const override { return false; }
+    void setValue(std::string_view /*name*/, bool /*value*/) override {}
+    std::unordered_map<std::string, bool> getAllFlags() const override { return {}; }
 
     void flush() noexcept override {}
     void shutdown() noexcept override {}
