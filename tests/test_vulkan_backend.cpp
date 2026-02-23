@@ -31,6 +31,7 @@
 #include <vector>
 #include <random>
 #include <cmath>
+#include <algorithm>
 
 using namespace themis::acceleration;
 
@@ -350,10 +351,70 @@ TEST_F(VulkanBackendTest, ConsistentResults) {
     }
 }
 
+// ===== Non-NVIDIA Fallback Tests =====
+
+// Verify that getCapabilities() populates vendorName after initialization.
+// This validates the vendor detection path used for non-NVIDIA hardware.
+TEST_F(VulkanBackendTest, CapabilitiesReportVendorName) {
+    auto caps = backend_->getCapabilities();
+    EXPECT_FALSE(caps.vendorName.empty())
+        << "vendorName must be populated after initialization";
+    // Device name must also be non-empty
+    EXPECT_FALSE(caps.deviceName.empty())
+        << "deviceName must be populated after initialization";
+}
+
+// When the backend has been successfully initialized, the reported vendor
+// must be one of the recognized strings (not the raw "Unknown" fallback
+// on any real GPU) or "Unknown" for virtual/software devices.
+TEST_F(VulkanBackendTest, CapabilitiesVendorNameIsKnown) {
+    auto caps = backend_->getCapabilities();
+    static const std::vector<std::string> kKnownVendors = {
+        "NVIDIA", "AMD", "Intel", "ARM", "Qualcomm", "ImgTec", "Unknown"
+    };
+    bool found = false;
+    for (const auto& v : kKnownVendors) {
+        if (caps.vendorName == v) { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Unexpected vendorName: " << caps.vendorName;
+}
+
+// Confirm that the backend fallback chain includes VULKAN after CUDA/HIP,
+// meaning non-NVIDIA users will transparently receive Vulkan acceleration.
+TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
+    const auto& order = BackendRegistry::getFallbackOrder();
+    auto cudaIt   = std::find(order.begin(), order.end(), BackendType::CUDA);
+    auto vulkanIt = std::find(order.begin(), order.end(), BackendType::VULKAN);
+    auto cpuIt    = std::find(order.begin(), order.end(), BackendType::CPU);
+
+    ASSERT_NE(vulkanIt, order.end()) << "VULKAN must be present in the fallback chain";
+    ASSERT_NE(cpuIt, order.end())    << "CPU must be present in the fallback chain";
+    // Vulkan must come before CPU (fallback to CPU only when no GPU available)
+    EXPECT_LT(vulkanIt, cpuIt)
+        << "VULKAN must appear before CPU in the fallback chain";
+    // Vulkan must come after CUDA (CUDA is preferred for NVIDIA users)
+    if (cudaIt != order.end()) {
+        EXPECT_LT(cudaIt, vulkanIt)
+            << "CUDA must appear before VULKAN (NVIDIA users get CUDA first)";
+    }
+}
+
 #else
 
 TEST(VulkanBackendTest, VulkanNotCompiled) {
     GTEST_SKIP() << "Vulkan backend not compiled";
+}
+
+// Even without Vulkan SDK, the fallback chain must include VULKAN entry.
+TEST(VulkanFallbackOrder, VulkanInFallbackChain) {
+    const auto& order = BackendRegistry::getFallbackOrder();
+    auto vulkanIt = std::find(order.begin(), order.end(), BackendType::VULKAN);
+    auto cpuIt    = std::find(order.begin(), order.end(), BackendType::CPU);
+
+    ASSERT_NE(vulkanIt, order.end()) << "VULKAN must be present in the fallback chain";
+    ASSERT_NE(cpuIt, order.end())    << "CPU must be present in the fallback chain";
+    EXPECT_LT(vulkanIt, cpuIt)
+        << "VULKAN must appear before CPU in the fallback chain";
 }
 
 #endif // THEMIS_ENABLE_VULKAN

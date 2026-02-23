@@ -195,8 +195,9 @@ using GeoContainmentFn = int (*)(
 // Kernel dispatch tables
 //
 // Backends fill one of these structs during initialization.  Null entries
-// indicate unsupported operations; the BackendRegistry will fall back to
-// the CPU table for any null slot.
+// indicate unsupported operations; use ANNKernelFallbackDispatcher /
+// GeoKernelFallbackDispatcher (kernel_fallback_dispatcher.h) to route null
+// slots to a CPU fallback table and retry transient device errors.
 // =============================================================================
 
 /// ANN kernel dispatch table — one per backend instance.
@@ -221,6 +222,59 @@ struct ANNKernelDispatch {
 struct GeoKernelDispatch {
     GeoDistanceFn    launchDistance    = nullptr; ///< Haversine / Vincenty distance kernel
     GeoContainmentFn launchContainment = nullptr; ///< Point-in-polygon kernel
+};
+
+// =============================================================================
+// Matrix kernel parameters and results (FP16 / BF16 / Tensor Core)
+// =============================================================================
+
+/// Precision tag used to select the arithmetic type for a matrix kernel call.
+/// Values are stable and will not be renumbered.
+enum class MatrixPrecision : uint32_t {
+    FP32 = 0, ///< 32-bit IEEE 754 single precision (CPU fallback)
+    FP16 = 1, ///< 16-bit IEEE 754 half precision  (Tensor Core on SM 7.0+)
+    BF16 = 2, ///< bfloat16                         (Tensor Core on SM 8.0+)
+};
+
+/// Describes one batched matrix-multiply call: C = alpha * A × B + beta * C.
+/// All pointer fields are device pointers (GPU) or host pointers (CPU backend).
+/// A is [M × K], B is [K × N], C is [M × N]; all stored row-major.
+struct MatrixKernelParams {
+    const void* A         = nullptr;               ///< Input matrix A  [M × K]
+    const void* B         = nullptr;               ///< Input matrix B  [K × N]
+    void*       C         = nullptr;               ///< Output matrix C [M × N]
+    size_t      M         = 0;                     ///< Rows of A and C
+    size_t      K         = 0;                     ///< Cols of A / rows of B
+    size_t      N         = 0;                     ///< Cols of B and C
+    float       alpha     = 1.0f;                  ///< Scaling factor for A × B
+    float       beta      = 0.0f;                  ///< Scaling factor for existing C
+    MatrixPrecision precision = MatrixPrecision::FP32; ///< Arithmetic precision
+};
+
+// =============================================================================
+// Frozen matrix kernel-launcher function-pointer typedef
+//
+// opaque_stream convention (same as ANN/Geo launchers):
+//   CUDA: cudaStream_t, CPU: ignored (pass nullptr)
+//
+// Return value: 0 on success, non-zero error code on failure.
+// =============================================================================
+
+/// Computes C = alpha * A × B + beta * C for the precision specified in params.
+/// @p params.A, B, C must be allocated in the address space matching the backend.
+using MatrixKernelFn = int (*)(
+    const MatrixKernelParams& params,
+    void* opaque_stream
+);
+
+// =============================================================================
+// Matrix kernel dispatch table
+// =============================================================================
+
+/// Matrix kernel dispatch table — one per backend instance.
+/// A null @c launchMatmul means the backend does not support matrix ops.
+struct MatrixKernelDispatch {
+    MatrixKernelFn launchMatmul = nullptr; ///< General GEMM launcher (FP32/FP16/BF16)
 };
 
 } // namespace acceleration
