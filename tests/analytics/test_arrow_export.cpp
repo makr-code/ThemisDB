@@ -199,11 +199,11 @@ TEST_F(ArrowExportTest, ExporterSupportsFormats) {
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::CSV));
 
 #ifdef THEMIS_HAS_ARROW
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
 #else
-    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
-    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
 #endif
 }
 
@@ -346,7 +346,7 @@ TEST_F(ArrowExportTest, ExportPlaceholderArrowFormat) {
     auto exporter = ExporterFactory::createDefaultExporter();
     
     ExportOptions options;
-    options.format = ExportFormat::ARROW_IPC;
+    options.format = ExportFormat::FMT_ARROW_IPC;
     
     std::string result = exporter->exportToString(batch, options);
     
@@ -420,7 +420,7 @@ TEST_F(ArrowExportTest, ArrowIPCExport) {
     auto exporter = ExporterFactory::createDefaultExporter();
     
     ExportOptions options;
-    options.format = ExportFormat::ARROW_IPC;
+    options.format = ExportFormat::FMT_ARROW_IPC;
     
     std::string output_path = test_dir_ + "/test_arrow.ipc";
     auto result = exporter->exportToFile(batch, output_path, options);
@@ -458,7 +458,7 @@ TEST_F(ArrowExportTest, ParquetExport) {
     auto exporter = ExporterFactory::createDefaultExporter();
     
     ExportOptions options;
-    options.format = ExportFormat::ARROW_PARQUET;
+    options.format = ExportFormat::FMT_ARROW_PARQUET;
     options.compress = true;
     options.compression_codec = "snappy";
     
@@ -494,7 +494,7 @@ TEST_F(ArrowExportTest, FeatherExport) {
     auto exporter = ExporterFactory::createDefaultExporter();
     
     ExportOptions options;
-    options.format = ExportFormat::ARROW_FEATHER;
+    options.format = ExportFormat::FMT_ARROW_FEATHER;
     
     std::string output_path = test_dir_ + "/test_data.feather";
     auto result = exporter->exportToFile(batch, output_path, options);
@@ -520,7 +520,7 @@ TEST_F(ArrowExportTest, ArrowStringExport) {
     auto exporter = ExporterFactory::createDefaultExporter();
     
     ExportOptions options;
-    options.format = ExportFormat::ARROW_IPC;
+    options.format = ExportFormat::FMT_ARROW_IPC;
     
     std::string result = exporter->exportToString(batch, options);
     
@@ -563,13 +563,13 @@ TEST_F(ArrowExportTest, FormatSupportCheck) {
     
     // Arrow formats depend on compile flag
 #ifdef THEMIS_HAS_ARROW
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
-    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_FEATHER));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
 #else
-    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
-    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
-    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_FEATHER));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_PARQUET));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::FMT_ARROW_FEATHER));
 #endif
 }
 
@@ -617,7 +617,7 @@ TEST_F(ArrowExportTest, NullBitmapHandling) {
 #ifdef THEMIS_HAS_ARROW
     // Test Arrow export with nulls
     ExportOptions arrow_options;
-    arrow_options.format = ExportFormat::ARROW_IPC;
+    arrow_options.format = ExportFormat::FMT_ARROW_IPC;
     std::string arrow_path = test_dir_ + "/nulls_test.ipc";
     auto arrow_result = exporter->exportToFile(batch, arrow_path, arrow_options);
     EXPECT_EQ(arrow_result.status, ExportStatus::SUCCESS);
@@ -673,7 +673,7 @@ TEST_F(ArrowExportTest, LargeDatasetExport) {
 #ifdef THEMIS_HAS_ARROW
     // Test Parquet export with compression
     ExportOptions parquet_options;
-    parquet_options.format = ExportFormat::ARROW_PARQUET;
+    parquet_options.format = ExportFormat::FMT_ARROW_PARQUET;
     parquet_options.compress = true;
     parquet_options.compression_codec = "zstd";
     parquet_options.compression_level = 3;

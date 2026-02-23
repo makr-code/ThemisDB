@@ -421,6 +421,12 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request,
             "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+            "Error: " + std::string(e.what()), req);
+    }
+}
+
 http::response<http::string_body> TransactionApiHandler::handleExplain(
     const http::request<http::string_body>& req
 ) {
@@ -428,11 +434,11 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
     // Extract the transaction ID from the URL path: /transaction/<id>/explain
     try {
         std::string target = std::string(req.target());
-        // Strip query string if present
         auto qpos = target.find('?');
-        if (qpos != std::string::npos) target = target.substr(0, qpos);
+        if (qpos != std::string::npos) {
+            target = target.substr(0, qpos);
+        }
 
-        // Find the numeric ID between /transaction/ and /explain
         const std::string prefix = "/transaction/";
         const std::string suffix = "/explain";
         if (target.size() < prefix.size() + suffix.size()) {
@@ -440,8 +446,8 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
                 "Invalid path: expected /transaction/{id}/explain", req);
         }
 
-        auto id_start = prefix.size();
-        auto id_end   = target.find(suffix, id_start);
+        const auto id_start = prefix.size();
+        const auto id_end = target.find(suffix, id_start);
         if (id_end == std::string::npos) {
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);

@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:24                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-02-22 08:56:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1684                                           ║
+    • Total Lines:     1679                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 67d9f1550  2026-02-22  fix: adjust optimization pragmas for MSVC and qualify Aut... ║
     • 2c738eadf  2026-02-21  Add versioning headers to OpenAPI spec and deprecation us... ║
     • deb41540b  2026-02-21  Code audit: fix 4 bugs found in review (query-string, mut... ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

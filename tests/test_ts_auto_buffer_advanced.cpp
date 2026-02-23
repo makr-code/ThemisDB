@@ -25,7 +25,9 @@
 #include "storage/rocksdb_wrapper.h"
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 #include <memory>
+#include <cstddef>
 
 namespace themis {
 namespace {
@@ -232,7 +234,7 @@ TEST_F(TSAutoBufferAdvFixture, PersistAndRestoreRoundtrip) {
 
     // Restore into a fresh buffer
     TSAutoBuffer buf2(tsstore.get(), cfg);
-    ssize_t restored = buf2.restoreFromWAL(wal);
+    std::ptrdiff_t restored = buf2.restoreFromWAL(wal);
     EXPECT_EQ(restored, 3);
 
     TSAutoBuffer::removeWAL(wal);
@@ -242,7 +244,7 @@ TEST_F(TSAutoBufferAdvFixture, RestoreFromMissingFileReturnsMinusOne) {
     TSAutoBufferConfig cfg;
     cfg.async_flush = false;
     TSAutoBuffer buf(tsstore.get(), cfg);
-    ssize_t r = buf.restoreFromWAL("/nonexistent/path/wal.jsonl");
+    std::ptrdiff_t r = buf.restoreFromWAL("/nonexistent/path/wal.jsonl");
     EXPECT_EQ(r, -1);
 }
 
@@ -279,7 +281,7 @@ TEST_F(TSAutoBufferAdvFixture, RestoreFromEmptyFileReturnsZero) {
     TSAutoBufferConfig cfg;
     cfg.async_flush = false;
     TSAutoBuffer buf(tsstore.get(), cfg);
-    ssize_t r = buf.restoreFromWAL(wal);
+    std::ptrdiff_t r = buf.restoreFromWAL(wal);
     EXPECT_EQ(r, 0);
     TSAutoBuffer::removeWAL(wal);
 }

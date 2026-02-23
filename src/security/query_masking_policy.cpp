@@ -143,7 +143,6 @@ nlohmann::json QueryMaskingPolicy::maskResultSet(
     }
 
     nlohmann::json masked = nlohmann::json::array();
-    masked.reserve(results.size());
     for (const auto& item : results) {
         masked.push_back(maskNode(item, "", snapshot));
     }
@@ -169,7 +168,6 @@ nlohmann::json QueryMaskingPolicy::maskNode(
 
     if (node.is_array()) {
         nlohmann::json out = nlohmann::json::array();
-        out.reserve(node.size());
         for (const auto& elem : node) {
             out.push_back(maskNode(elem, key, snapshot));
         }

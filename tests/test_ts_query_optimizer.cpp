@@ -66,7 +66,7 @@ struct QueryOptimizerFixture : ::testing::Test {
             p.entity       = entity;
             p.timestamp_ms = base_ms + i * 10000;  // 10s intervals
             p.value        = static_cast<double>(i);
-            ASSERT_TRUE(store->putDataPoint(p).ok);
+            ASSERT_TRUE(store->putDataPoint(p).has_value());
         }
     }
 

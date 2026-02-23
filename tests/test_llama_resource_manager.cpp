@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Disabled: llama resource manager tests not runnable in current build.
+// Disabled: llama resource manager tests not runnable in current build.
 #include <gtest/gtest.h>
 
 TEST(DISABLED_LlamaResourceManager, Skipped)

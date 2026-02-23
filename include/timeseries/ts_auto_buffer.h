@@ -47,7 +47,7 @@
 #include <chrono>
 #include <memory>
 #include <string>
-#include <sys/types.h>  // ssize_t
+#include <cstddef>
 
 namespace themis {
 
@@ -245,7 +245,7 @@ public:
      * @param wal_path  File path of the WAL snapshot to restore
      * @return Number of points restored (-1 on error)
      */
-    ssize_t restoreFromWAL(const std::string& wal_path);
+    std::ptrdiff_t restoreFromWAL(const std::string& wal_path);
 
     /**
      * Delete a WAL file (call after a successful flush to avoid replaying

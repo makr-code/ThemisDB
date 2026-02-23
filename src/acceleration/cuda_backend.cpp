@@ -8,10 +8,10 @@
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   35.0/100                                       ║
-    • Total Lines:     622                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+    • Maturity Level:  🟡 BETA                                         ║
+    • Quality Score:   65.0/100                                       ║
+    • Total Lines:     1433                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║

@@ -192,7 +192,7 @@ TEST_F(SchemaMigrationTesterTest, UserTestCase_Pass) {
     tester.addTestCase({
         "check_sku_column",
         [](const SchemaManager& sm, const SchemaVersionManager&, std::string& err) {
-            auto t = sm.getTable("products");
+            auto t = const_cast<SchemaManager&>(sm).getTable("products");
             if (!t) { err = "table 'products' not found"; return false; }
             for (const auto& p : t->properties)
                 if (p.name == "sku") return true;
