@@ -91,7 +91,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Unit tests coverage > 80% (Issue: #1398)
 - [I] Integration tests for CPU/GPU parity across supported backends (Issue: #1399)
 - [I] Performance benchmarks with regression thresholds in CI (Issue: #1400)
-- [I] Security audit for backend plugin loading and runtime probes (Issue: #1401)
+- [P] Security audit for backend plugin loading and runtime probes (Issue: #1401) — Thread-safe `PluginSecurityAuditor` (mutex-guarded events + snapshot API); `validatePluginPath()` static helper for path-traversal prevention; logger integration via THEMIS macros; symlink-escape guard in `loadPluginsFromDirectory`; audit tests in `tests/test_plugin_security_audit.cpp`
 - [I] Documentation complete for capability negotiation and fallback behavior (Issue: #1402)
 - [I] API stability guaranteed for acceleration backend contracts (Issue: #1403)
 
