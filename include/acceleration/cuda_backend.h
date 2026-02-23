@@ -289,39 +289,9 @@ private:
     bool initialized_ = false;
 
 #ifdef THEMIS_ENABLE_CUDA
-    // RAII-managed CUDA stream (automatic cleanup)
     raii::CudaStream stream_;
 #else
-    void* deviceContext_ = nullptr;  // Fallback for non-CUDA builds
-#endif
-};
-
-// CUDA Tensor Core backend for FP16/BF16 matrix operations.
-// Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) under
-// THEMIS_ENABLE_CUDA; falls back to a no-op stub otherwise.
-class CUDAMatrixBackend : public IMatrixBackend {
-public:
-    CUDAMatrixBackend() = default;
-    ~CUDAMatrixBackend() override;
-
-    const char* name() const noexcept override { return "CUDA"; }
-    BackendType type() const noexcept override { return BackendType::CUDA; }
-    bool isAvailable() const noexcept override;
-
-    BackendCapabilities getCapabilities() const override;
-    bool initialize() override;
-    void shutdown() override;
-
-    // IMatrixBackend interface — dispatches to cuBLAS Tensor Core launchers
-    int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) override;
-
-    // Frozen kernel dispatch — exposes the unified dispatchMatmul entry point
-    MatrixKernelDispatch populateMatrixDispatch() const override;
-
-private:
-    bool initialized_ = false;
-#ifdef THEMIS_ENABLE_CUDA
-    raii::CudaStream stream_;
+    void* deviceContext_ = nullptr;
 #endif
 };
 
