@@ -59,6 +59,21 @@ enum class BinaryMimeType {
 BinaryMimeType detectBinaryMimeType(const std::string& raw);
 
 /**
+ * @brief Check whether a converter program name/path is safe to use in a shell command
+ *
+ * Rejects any value that contains shell metacharacters (`|`, `;`, `&`, `$`,
+ * `<`, `>`, `` ` ``, `!`, newlines, or NUL) that could enable command injection
+ * through the `popen()` call used to invoke external converters.
+ *
+ * An empty string returns `true` because an empty converter path means conversion
+ * is disabled (the file is silently skipped without spawning any process).
+ *
+ * @param converter  Converter name or path as stored in `BinaryConverter`
+ * @return `true` if safe to pass to popen(); `false` if dangerous characters found
+ */
+bool isConverterSafe(const std::string& converter);
+
+/**
  * @brief Configuration for external binary-format converters
  *
  * When set on `FileSystemIngester`, the ingester calls the specified
@@ -72,6 +87,9 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw);
  *
  * When a converter is not found on PATH or exits with a non-zero status,
  * the file is silently skipped (no error added to `IngestionStats`).
+ *
+ * Converter paths are validated with `isConverterSafe()` before use;
+ * values containing shell metacharacters are rejected silently.
  */
 struct BinaryConverter {
     std::string pdf_converter  = "pdftotext";  ///< Converter for PDF (e.g. "pdftotext", "/usr/bin/pdftotext", or "")
