@@ -30,7 +30,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ### Short-term (Next 3-6 months)
 - [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 - [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
-- [!] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
+- [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
@@ -63,7 +63,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ### Phase 3: Web UI & Retry Policies (Status: Planned 📋)
 - [ ] Web UI for task management (create, monitor, pause, delete)
 - [x] Task retry policies (max attempts, exponential back-off)
-- [ ] Scheduled task output persistence (store results in ThemisDB)
+- [X] Scheduled task output persistence (store results in ThemisDB)
 - [ ] Task execution history with searchable audit log
 - [ ] Alert on task failure or SLA breach
 
