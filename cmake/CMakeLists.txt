@@ -275,6 +275,10 @@ option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
 
+# Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
+# Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
+option(THEMIS_ENABLE_PMEM "Enable Persistent Memory (Optane) aware storage layout (+50-200%)" OFF)
+
 # Build options
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
 
@@ -1335,6 +1339,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
+    ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
     
@@ -1831,6 +1836,17 @@ endif()
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
+endif()
+
+# Phase 4 Performance Optimizations (Issue #2424)
+# Conditionally add Phase 4 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/performance/phase4/feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_PMEM)
+    message(STATUS "Including Persistent Memory aware storage layout (THEMIS_ENABLE_PMEM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
 endif()
 
 # ============================================================================
@@ -2474,6 +2490,9 @@ if(THEMIS_ENABLE_GUNROCK)
 endif()
 if(THEMIS_ENABLE_BAO)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
+endif()
+if(THEMIS_ENABLE_PMEM)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PMEM)
 endif()
 
 if(THEMIS_ENABLE_GPU)
@@ -3188,7 +3207,25 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
-    
+
+    # Phase 4 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_PMEM)
+        add_executable(test_pmem_storage
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmem_storage.cpp
+        )
+        target_link_libraries(test_pmem_storage
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmem_storage
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
         add_executable(test_gpu_vector_index
