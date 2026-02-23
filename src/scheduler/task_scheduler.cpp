@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1881                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 1                             ║
+    • Total Lines:     2133                                           ║
+    • Open Issues:     TODOs: 9, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 200439b85  2026-02-22  feat(scheduler): implement full cron expression parsing v... ║
