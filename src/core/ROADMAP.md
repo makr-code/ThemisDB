@@ -25,7 +25,7 @@
 ## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
-- [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
+- [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
 ## Planned Features 📋
 
@@ -61,7 +61,7 @@
 ### Phase 2: Observability Adapters (Status: In Progress 🚧)
 - [I] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
 - [I] Prometheus metrics adapter (`core/adapters/prometheus_metrics.cpp`, Target: Q2 2026) (Issue: #1709)
-- [ ] Context propagation across async boundaries (Target: Q3 2026)
+- [x] Context propagation across async boundaries (Target: Q3 2026)
 
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
@@ -81,7 +81,7 @@
 
 ## Known Issues & Limitations
 - Prometheus adapter not yet implemented; metrics are in-memory only
-- Context propagation across async/thread boundaries requires manual passing
+- Context propagation across async/thread boundaries is provided by `ContextPropagation` and `ContextScope` in `include/core/concerns/context_propagation.h`
 - Feature flags are not yet a first-class concern in the DI system
 
 ## Breaking Changes
