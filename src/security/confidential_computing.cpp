@@ -61,7 +61,6 @@
 
 #include <array>
 #include <cstring>
-#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -314,13 +313,14 @@ std::vector<uint8_t> aes256gcm_decrypt(
 
         int final_len = 0;
         int ret = EVP_DecryptFinal_ex(ctx, plaintext.data() + len, &final_len);
-        EVP_CIPHER_CTX_free(ctx);
         if (ret <= 0)
             throw std::runtime_error("ConfidentialComputing: authentication tag verification failed"
                                      " — data may have been tampered with");
         plaintext.resize(static_cast<size_t>(len + final_len));
-    } catch (...) {
         EVP_CIPHER_CTX_free(ctx);
+        ctx = nullptr; // prevent double-free in catch if code above ever throws
+    } catch (...) {
+        EVP_CIPHER_CTX_free(ctx); // no-op when ctx == nullptr (OpenSSL guarantees this)
         throw;
     }
     return plaintext;

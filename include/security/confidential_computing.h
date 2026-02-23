@@ -23,7 +23,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
 
 namespace themis {
 namespace security {
