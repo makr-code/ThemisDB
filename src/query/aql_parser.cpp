@@ -1157,9 +1157,25 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 );
             }
 
-            // Find the end of this statement (next FOR/WITH/COMMIT/ROLLBACK/EOF)
+            // Find the end of this statement, tracking nesting depth so that
+            // FOR/WITH tokens inside parentheses (e.g. CTE subqueries in WITH
+            // clauses) are not mistakenly treated as new statement boundaries.
             size_t end = start + 1;
-            while (end < n && !isStatementStart(tokens[end].type) && !isTerminator(tokens[end].type)) {
+            int depth = 0; // tracks LPAREN/RPAREN nesting
+            while (end < n) {
+                const auto& tok = tokens[end];
+                if (tok.type == TokenType::LPAREN) {
+                    ++depth;
+                } else if (tok.type == TokenType::RPAREN) {
+                    // Clamp to 0: an extra ')' at top level means the
+                    // statement is malformed, which the sub-parser will
+                    // report when we hand it the slice below.
+                    if (depth > 0) --depth;
+                }
+                // Only recognise statement/block boundaries at the top level
+                if (depth == 0 && (isStatementStart(tok.type) || isTerminator(tok.type))) {
+                    break;
+                }
                 ++end;
             }
 

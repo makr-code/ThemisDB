@@ -117,6 +117,25 @@ TEST(AqlMultiStatementTransactionParser, ToJsonRollback) {
     EXPECT_EQ(j["action"], "ROLLBACK");
 }
 
+TEST(AqlMultiStatementTransactionParser, ParseWithCteSingleStatement) {
+    // Verifies that a FOR inside a CTE subquery is not mistaken for a
+    // new top-level statement (parenthesis-depth tracking fix).
+    AQLParser parser;
+    std::string aql = R"(
+        BEGIN
+          WITH expensive AS (FOR x IN products FILTER x.price > 100 RETURN x)
+          FOR doc IN expensive RETURN doc
+        COMMIT
+    )";
+    auto result = parser.parseTransactionBlock(aql);
+    ASSERT_TRUE(result) << (result ? "" : result.error().message());
+    EXPECT_EQ(result->action, AqlTransactionAction::Commit);
+    // The WITH clause + its FOR loop must be parsed as ONE statement
+    ASSERT_EQ(result->statements.size(), 1u);
+    EXPECT_NE(result->statements[0], nullptr);
+    EXPECT_NE(result->statements[0]->with_clause, nullptr);
+}
+
 // ============================================================================
 // Runner tests (require DB)
 // ============================================================================
