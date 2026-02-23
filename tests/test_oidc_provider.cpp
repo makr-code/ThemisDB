@@ -367,13 +367,18 @@ TEST(OIDCProviderTest, CreateDeviceFlowNoEndpointThrows) {
     EXPECT_THROW(provider.createDeviceFlow(), AuthException);
 }
 
-TEST(OIDCProviderTest, CreateDeviceFlowBeforeDiscoverThrows) {
+TEST(OIDCProviderTest, CreateDeviceFlowAutoDiscoversAndThrowsOnHttpError) {
     OIDCProviderConfig cfg;
     cfg.issuer_url = "https://idp.example.com";
     cfg.client_id  = "myapp";
 
     OIDCProvider provider(cfg);
-    // Don't call discover() or setDiscoveryDocumentForTesting()
+    // Inject a failing HTTP mock – createDeviceFlow() must trigger discover() and
+    // surface the AuthException from the failed HTTP request.
+    provider.setHttpGetForTesting([](const std::string&) -> std::string {
+        throw std::runtime_error("connection refused");
+    });
+
     EXPECT_THROW(provider.createDeviceFlow(), AuthException);
 }
 
@@ -417,4 +422,26 @@ TEST(OIDCProviderTest, DefaultScopeIsOpenid) {
 
     // Verify createDeviceFlow succeeds (scope handling exercised internally)
     EXPECT_NO_THROW(provider.createDeviceFlow());
+}
+
+// ── createDeviceFlow() auto-discovers ────────────────────────────────────────
+
+TEST(OIDCProviderTest, CreateDeviceFlowAutoDiscovery) {
+    const std::string issuer = "https://idp.example.com";
+    OIDCProviderConfig cfg;
+    cfg.issuer_url = issuer;
+    cfg.client_id  = "myapp";
+    cfg.scopes     = {"openid", "email"};
+
+    OIDCProvider provider(cfg);
+    // Inject a mock so no real HTTP call is made; createDeviceFlow() must
+    // trigger discover() automatically before constructing the flow.
+    provider.setHttpGetForTesting([&](const std::string&) -> std::string {
+        return makeDiscoveryJson(issuer, issuer + "/jwks").dump();
+    });
+
+    // No explicit discover() call – must succeed via lazy auto-discovery
+    EXPECT_NO_THROW(provider.createDeviceFlow());
+    // Discovery document should now be cached
+    EXPECT_EQ(provider.discoveryDocument().issuer, issuer);
 }

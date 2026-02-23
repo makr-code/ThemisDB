@@ -134,15 +134,9 @@ JWTValidator& OIDCProvider::validator() {
 // Device flow
 // ---------------------------------------------------------------------------
 
-OAuthDeviceFlow OIDCProvider::createDeviceFlow() const {
+OAuthDeviceFlow OIDCProvider::createDeviceFlow() {
     if (!discovery_doc_.has_value()) {
-        // const method – caller must call discover() or validateToken() first,
-        // or use the non-const discoveryDocument() overload.
-        throw AuthException(AuthError(
-            AuthErrorCode::AUTH_CONFIG_INVALID,
-            "OIDC discovery not yet performed",
-            "Call discover() or validateToken() before createDeviceFlow()"
-        ));
+        discover();
     }
 
     if (discovery_doc_->device_authorization_endpoint.empty()) {

@@ -15,6 +15,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Rate limiting for brute force and replay attack prevention
 - [x] Configurable JWKS cache TTL and audience/issuer validation
 - [x] Fallback from Kerberos to basic authentication
+- [x] OIDC Provider Discovery and federated identity integration (`auth/oidc_provider.cpp`)
 
 ## In Progress 🚧
 - [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
@@ -54,6 +55,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
 - [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
 - [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
+- [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)

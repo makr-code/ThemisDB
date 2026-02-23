@@ -5,6 +5,7 @@
 #include "auth/auth_error.h"
 
 #include <string>
+#include <vector>
 #include <memory>
 #include <functional>
 #include <chrono>
@@ -152,12 +153,14 @@ public:
     /**
      * @brief Create an OAuthDeviceFlow configured from the discovery document.
      *
+     * Calls discover() automatically if not yet fetched.
      * Requires the provider to support the device_authorization_endpoint.
      *
      * @throws AuthException(AUTH_CONFIG_INVALID) if the provider does not
      *         advertise a device_authorization_endpoint
+     * @throws AuthException(AUTH_INTERNAL_ERROR) if discovery fails
      */
-    OAuthDeviceFlow createDeviceFlow() const;
+    OAuthDeviceFlow createDeviceFlow();
 
     // -----------------------------------------------------------------------
     // Testing helpers
