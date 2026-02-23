@@ -34,6 +34,7 @@ TEST(ContextPropagationTest, CurrentIsNullWithNoScope) {
 
 TEST(ContextScopeTest, InstallsContext) {
     auto ctx = SimpleContext::create("trace-1", "req-1");
+    ASSERT_NE(nullptr, ctx);
     {
         ContextScope scope(ctx);
         EXPECT_EQ(ctx, ContextPropagation::current());
@@ -95,6 +96,7 @@ TEST(ContextScopeTest, ThreeLevelNesting) {
 
 TEST(ContextPropagationTest, PropagateFlowsContextToAsyncTask) {
     auto ctx = SimpleContext::create("trace-async", "req-async");
+    ASSERT_NE(nullptr, ctx);
     ctx->set(context_keys::kService, "test-service");
 
     ContextScope scope(ctx);
@@ -102,11 +104,13 @@ TEST(ContextPropagationTest, PropagateFlowsContextToAsyncTask) {
     auto fut = ContextPropagation::propagate([]() -> std::string {
         auto c = ContextPropagation::current();
         if (!c) return "";
-        auto val = c->get(context_keys::kTraceId);
-        return val.value_or("missing");
+        // Verify both trace_id and kService are propagated.
+        auto trace = c->get(context_keys::kTraceId).value_or("missing-trace");
+        auto svc   = c->get(context_keys::kService).value_or("missing-svc");
+        return trace + "|" + svc;
     });
 
-    EXPECT_EQ("trace-async", fut.get());
+    EXPECT_EQ("trace-async|test-service", fut.get());
 }
 
 TEST(ContextPropagationTest, PropagateCreatesChildContext) {
