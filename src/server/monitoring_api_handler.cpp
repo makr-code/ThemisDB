@@ -1398,7 +1398,8 @@ json MonitoringApiHandler::buildConcernsJson(
         {"logger",  {{"ok", status.logger.ok},  {"message", status.logger.message}}},
         {"tracer",  {{"ok", status.tracer.ok},  {"message", status.tracer.message}}},
         {"metrics", {{"ok", status.metrics.ok}, {"message", status.metrics.message}}},
-        {"cache",   {{"ok", status.cache.ok},   {"message", status.cache.message}}}
+        {"cache",   {{"ok", status.cache.ok},   {"message", status.cache.message}}},
+        {"secrets", {{"ok", status.secrets.ok}, {"message", status.secrets.message}}}
     };
     if (!status.isHealthy()) {
         ok = false;
