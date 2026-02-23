@@ -196,6 +196,19 @@ void Logger::setLevel(Level level) {
     logger_->set_level(toSpdlogLevel(level));
 }
 
+Logger::Level Logger::getLevel() {
+    if (!logger_) { init(); }
+    switch (logger_->level()) {
+        case spdlog::level::trace: return Level::TRACE;
+        case spdlog::level::debug: return Level::DEBUG;
+        case spdlog::level::info:  return Level::INFO;
+        case spdlog::level::warn:  return Level::WARN;
+        case spdlog::level::err:   return Level::ERROR;
+        case spdlog::level::critical: return Level::CRITICAL;
+        default: return Level::INFO;
+    }
+}
+
 void Logger::setPattern(const std::string& pattern) {
     if (!logger_) { init(); }
     logger_->set_pattern(pattern);
