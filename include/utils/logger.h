@@ -97,6 +97,7 @@ public:
     static std::shared_ptr<spdlog::logger> get();
 
     static void setLevel(Level level);
+    static Level getLevel();
     static void setPattern(const std::string& pattern);
     static void setTraceContext(const std::string& trace_id);
 
