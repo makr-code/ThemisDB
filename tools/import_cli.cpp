@@ -209,7 +209,7 @@ static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& path) {
     std::string line;
     while (std::getline(f, line)) {
         if (!line.empty()) {
-            try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) {}
+            try { hs.insert(std::stoull(line, nullptr, 16)); } catch (...) { std::cerr << "warning: skipping malformed hash line: '" << line << "'\n"; }
         }
     }
     return hs;

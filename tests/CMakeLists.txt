@@ -1622,6 +1622,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
         TIMEOUT 60
     )
     message(STATUS "  OtelPropagation: startSpanFromHeaders, injectContext, baggage round-trip")
+    
+# Phase 3 – Structured log correlation (trace ID injection into structured logs)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
+    message(STATUS "Adding Structured Log Correlation tests (Phase 3)")
+    add_executable(test_structured_log_correlation test_structured_log_correlation.cpp)
+    target_link_libraries(test_structured_log_correlation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_structured_log_correlation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StructuredLogCorrelationTests COMMAND test_structured_log_correlation)
+    set_tests_properties(StructuredLogCorrelationTests PROPERTIES
+        LABELS "core;logging;tracing;trace-id;structured-log;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Structured Log Correlation: TraceContext, logWithContext(), logWithTrace(), JSON and plain-text injection")
+endif()
+
+# Phase 3 – Distributed tracing unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_tracing.cpp")
+    message(STATUS "Adding Distributed Tracing tests (Phase 3)")
+    add_executable(test_distributed_tracing test_distributed_tracing.cpp)
+    target_link_libraries(test_distributed_tracing PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_distributed_tracing PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedTracingTests COMMAND test_distributed_tracing)
+    set_tests_properties(DistributedTracingTests PROPERTIES
+        LABELS "core;tracing;distributed;spans;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Distributed Tracing: span lifecycle, child spans, error recording, W3C propagation")
 endif()
 
 # Phase 2 – Sampling strategy unit tests (replaces stub)

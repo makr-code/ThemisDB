@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include "themis/module_hash_verifier.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -465,6 +467,23 @@ public:
     void setStagedLoadingEnabled(bool enable);
     
     /**
+     * @brief Load a SHA-256 hash manifest for module integrity verification.
+     *
+     * When a manifest is set, every call to loadModule() verifies the module's
+     * SHA-256 hash against the manifest entry for that module name.  If the
+     * module name is present in the manifest and the hashes do not match, the
+     * load is rejected with HASH_MISMATCH.  Modules not listed in the manifest
+     * are still loaded — the manifest acts as an integrity verification list
+     * for known modules, not a global block/allowlist.
+     *
+     * @param manifestPath Path to JSON manifest file
+     *                     (format: { "moduleName": "hex-sha256", … }).
+     * @return true if manifest was loaded successfully, false on I/O or
+     *         parse error.
+     */
+    bool setHashManifest(const std::string& manifestPath);
+
+    /**
      * @brief Export security audit log
      * @param outputPath Path to export JSON audit log
      * @return true if successful, false otherwise
@@ -543,6 +562,9 @@ public:
 private:
     std::vector<LoadedModule> loadedModules_;
     std::unique_ptr<ModuleSecurityVerifier> verifier_;
+    
+    // SHA-256 hash manifest for integrity verification (Issue #2471)
+    ModuleHashVerifier hashVerifier_;
     
     // Quarantine and backoff tracking
     std::map<std::string, ModuleFailureHistory> failureHistory_;
