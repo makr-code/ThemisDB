@@ -71,6 +71,24 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
     const std::string upper = toUpper(query);
     const auto& nlp = getNlpAnalyzer();
 
+    // Detect AQL-specific keyword groups once (reused across multiple checks)
+    const bool has_vector = queryContains(upper, "SIMILARITY") ||
+                            queryContains(upper, "NEAREST");
+    const bool has_geo    = queryContains(upper, "PROXIMITY")        ||
+                            queryContains(upper, "GEO_CONTAINS")     ||
+                            queryContains(upper, "ST_WITHIN")        ||
+                            queryContains(upper, "WITHIN_RECTANGLE");
+    const bool has_fulltext = queryContains(upper, "FULLTEXT") ||
+                              queryContains(upper, "SEARCH")   ||
+                              queryContains(upper, "LIKE");
+    // AQL graph traversal: direction keyword (OUTBOUND/INBOUND) is the canonical
+    // indicator; TRAVERSE / SHORTEST_PATH / K_SHORTEST_PATHS are also accepted.
+    const bool has_traverse = queryContains(upper, "OUTBOUND")         ||
+                              queryContains(upper, "INBOUND")          ||
+                              queryContains(upper, "TRAVERSE")         ||
+                              queryContains(upper, "SHORTEST_PATH")    ||
+                              queryContains(upper, "K_SHORTEST_PATHS");
+
     // ------------------------------------------------------------------
     // 1. Query complexity warning
     // ------------------------------------------------------------------
@@ -87,9 +105,22 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
     }
 
     // ------------------------------------------------------------------
-    // 2. Index suggestions from NLP analysis
+    // 2. Index suggestions
+    //    Start with NLP-based suggestions then supplement with direct AQL
+    //    keyword detection: NlpTextAnalyzer only matches generic terms like
+    //    "geo", "distance", "similarity" — not AQL-specific function names
+    //    such as PROXIMITY, ST_WITHIN, or SIMILARITY.
     // ------------------------------------------------------------------
     std::vector<std::string> index_hints = nlp.suggestIndexes(query);
+
+    auto containsIndexHint = [&](const std::string& h) {
+        return std::find(index_hints.begin(), index_hints.end(), h)
+               != index_hints.end();
+    };
+
+    if (has_geo     && !containsIndexHint("spatial")) { index_hints.push_back("spatial"); }
+    if (has_vector  && !containsIndexHint("hnsw"))    { index_hints.push_back("hnsw"); }
+
     for (const auto& idx : index_hints) {
         std::string msg;
         if (idx == "fulltext") {
@@ -114,16 +145,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
 
     // ------------------------------------------------------------------
     // 3. Vector + Geo hybrid plan ordering
-    //    Detected by presence of SIMILARITY (or LET … SIMILARITY / NEAREST)
-    //    and PROXIMITY (or GEO_CONTAINS / ST_WITHIN / WITHIN_RECTANGLE)
     // ------------------------------------------------------------------
-    bool has_vector = queryContains(upper, "SIMILARITY") ||
-                      queryContains(upper, "NEAREST");
-    bool has_geo    = queryContains(upper, "PROXIMITY")    ||
-                      queryContains(upper, "GEO_CONTAINS") ||
-                      queryContains(upper, "ST_WITHIN")    ||
-                      queryContains(upper, "WITHIN_RECTANGLE");
-
     if (has_vector && has_geo) {
         QueryOptimizer::VectorGeoCostInput cost_in;
         cost_in.hasVectorIndex   = true;
@@ -148,12 +170,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
 
     // ------------------------------------------------------------------
     // 4. Fulltext + Geo hybrid plan ordering
-    //    Detected by FULLTEXT / SEARCH / LIKE and geo keywords
     // ------------------------------------------------------------------
-    bool has_fulltext = queryContains(upper, "FULLTEXT") ||
-                        queryContains(upper, "SEARCH")   ||
-                        queryContains(upper, "LIKE");
-
     if (has_fulltext && has_geo) {
         QueryOptimizer::ContentGeoCostInput cost_in;
         cost_in.hasFulltextIndex = true;
@@ -176,12 +193,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(
 
     // ------------------------------------------------------------------
     // 5. Graph traversal depth risk
-    //    Warn when a depth range like 1..10 or 1..20 is used
     // ------------------------------------------------------------------
-    bool has_traverse = queryContains(upper, "TRAVERSE") ||
-                        queryContains(upper, "SHORTEST_PATH") ||
-                        queryContains(upper, "K_SHORTEST_PATHS");
-
     if (has_traverse) {
         size_t max_depth = extractMaxTraversalDepth(query);
         if (max_depth == 0) max_depth = 5; // default when no range found
