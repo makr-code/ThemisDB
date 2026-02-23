@@ -15,7 +15,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ## In Progress 🚧
 - [I] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
 - [I] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
-- [I] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
+- [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
 
 ## Planned Features 📋
 
@@ -78,7 +78,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
 - [!] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164)
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
-- [!] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
+- [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)

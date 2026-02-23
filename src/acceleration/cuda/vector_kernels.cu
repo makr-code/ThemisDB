@@ -366,6 +366,30 @@ void launchTopKKernel(
     );
 }
 
+/**
+ * Launch Inner Product distance computation kernel
+ */
+void launchInnerProductDistanceKernel(
+    const float* d_queries,
+    const float* d_vectors,
+    float* d_distances,
+    int numQueries,
+    int numVectors,
+    int dim,
+    cudaStream_t stream
+) {
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
+        (numVectors + blockDim.x - 1) / blockDim.x,
+        (numQueries + blockDim.y - 1) / blockDim.y
+    );
+
+    computeInnerProductDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_queries, d_vectors, d_distances,
+        numQueries, numVectors, dim
+    );
+}
+
 } // extern "C"
 
 } // namespace cuda
