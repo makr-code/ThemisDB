@@ -318,6 +318,7 @@ TEST_F(ConcernsContextTest, HealthCheckAllHealthy) {
     EXPECT_TRUE(status.tracer.ok);
     EXPECT_TRUE(status.metrics.ok);
     EXPECT_TRUE(status.cache.ok);
+    EXPECT_TRUE(status.circuit_breaker.ok);
     EXPECT_TRUE(status.isHealthy());
 }
 
@@ -420,17 +421,19 @@ TEST_F(ConcernsContextTest, ConfigAdapterDefaultsAreValid) {
     EXPECT_EQ("",         cfg.tracerAdapter);
     EXPECT_EQ("",         cfg.metricsAdapter);
     EXPECT_EQ("inmemory", cfg.cacheAdapter);
+    EXPECT_EQ("default",  cfg.circuitBreakerAdapter);
 
     auto result = core::ConfigValidator::validateAdapterConfig(
         cfg.loggerAdapter, cfg.tracerAdapter,
-        cfg.metricsAdapter, cfg.cacheAdapter);
+        cfg.metricsAdapter, cfg.cacheAdapter,
+        cfg.circuitBreakerAdapter);
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterNoopValuesAreValid) {
     auto result = core::ConfigValidator::validateAdapterConfig(
-        "noop", "noop", "noop", "noop");
+        "noop", "noop", "noop", "noop", "noop");
     EXPECT_TRUE(result.valid);
     EXPECT_TRUE(result.errors.empty());
 }
@@ -478,11 +481,20 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
     EXPECT_NE(std::string::npos, result.errors[0].find("redis"));
 }
 
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownCircuitBreakerAdapterIsInvalid) {
+    auto result = core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "inmemory", "hystrix");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("circuitBreakerAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("hystrix"));
+}
+
 TEST_F(ConcernsContextTest, ConfigAdapterMultipleInvalidAdaptersReportAllErrors) {
     auto result = core::ConfigValidator::validateAdapterConfig(
-        "log4cpp", "jaeger", "datadog", "redis");
+        "log4cpp", "jaeger", "datadog", "redis", "hystrix");
     EXPECT_FALSE(result.valid);
-    EXPECT_EQ(4u, result.errors.size());
+    EXPECT_EQ(5u, result.errors.size());
 }
 
 TEST_F(ConcernsContextTest, ConfigDrivenNoopLoggerSelection) {
@@ -934,4 +946,116 @@ TEST(IAsyncCacheTest, DefaultAsyncImplCallsSyncMethod) {
     // Async invalidate — entry should be gone
     cache.invalidateAsync("k1").get();
     EXPECT_FALSE(cache.getAsync("k1").get().has_value());
+}
+
+// ===== ISecrets / NoOpSecrets Tests =====
+
+TEST(ISecretsTest, NoOpSecretsGetReturnsNullopt) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.getSecret("api.key").has_value());
+    EXPECT_FALSE(s.getSecret("db.password").has_value());
+}
+
+TEST(ISecretsTest, NoOpSecretsHasSecretReturnsFalse) {
+    NoOpSecrets s;
+    EXPECT_FALSE(s.hasSecret("any.secret"));
+}
+
+TEST(ISecretsTest, NoOpSecretsListSecretNamesIsEmpty) {
+    NoOpSecrets s;
+    EXPECT_TRUE(s.listSecretNames().empty());
+}
+
+TEST(ISecretsTest, NoOpSecretsLifecycleDoesNotCrash) {
+    NoOpSecrets s;
+    EXPECT_NO_THROW(s.flush());
+    EXPECT_NO_THROW(s.shutdown());
+}
+
+TEST(ISecretsTest, NoOpSecretsIsHealthy) {
+    NoOpSecrets s;
+    auto result = s.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
+    // createNoOp() should return a NoOpSecrets provider
+    EXPECT_FALSE(context->secrets().hasSecret("api.key"));
+    EXPECT_FALSE(context->secrets().getSecret("db.password").has_value());
+    EXPECT_TRUE(context->secrets().listSecretNames().empty());
+}
+
+TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
+    // A custom ISecrets implementation for injection testing
+    class StubSecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view name) const override {
+            if (name == "db.password") return "hunter2";
+            if (name == "api.key")     return "sk-test-123";
+            return std::nullopt;
+        }
+        bool hasSecret(std::string_view name) const override {
+            return name == "db.password" || name == "api.key";
+        }
+        std::vector<std::string> listSecretNames() const override {
+            return {"api.key", "db.password"};
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<StubSecrets>()
+    );
+
+    ASSERT_TRUE(ctx->secrets().hasSecret("db.password"));
+    ASSERT_EQ("hunter2", ctx->secrets().getSecret("db.password").value());
+    ASSERT_TRUE(ctx->secrets().hasSecret("api.key"));
+    ASSERT_EQ("sk-test-123", ctx->secrets().getSecret("api.key").value());
+    EXPECT_FALSE(ctx->secrets().hasSecret("unknown"));
+    ASSERT_EQ(2u, ctx->secrets().listSecretNames().size());
+}
+
+TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
+    // createCustom() with no secrets argument falls back to NoOpSecrets
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>()
+    );
+
+    EXPECT_FALSE(ctx->secrets().hasSecret("anything"));
+    EXPECT_FALSE(ctx->secrets().getSecret("anything").has_value());
+}
+
+TEST(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.secrets.ok);
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
+    class UnhealthySecrets : public ISecrets {
+    public:
+        std::optional<std::string> getSecret(std::string_view) const override { return std::nullopt; }
+        bool hasSecret(std::string_view) const override { return false; }
+        std::vector<std::string> listSecretNames() const override { return {}; }
+        ProbeResult isHealthy() const override { return ProbeResult::unhealthy("vault unreachable"); }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<UnhealthySecrets>()
+    );
+
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.secrets.ok);
+    EXPECT_EQ("vault unreachable", status.secrets.message);
+    EXPECT_FALSE(status.isHealthy());
 }
