@@ -31,7 +31,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ### Short-term (Next 3-6 months)
 - [!] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2458)
 - [I] Session token revocation list with real-time invalidation (Issue: #2286)
-- [!] Anomaly detection on authentication patterns (brute-force, credential stuffing) (Issue: #2459)
+- [!] Anomaly detection on authentication patterns (brute-force, credential stuffing) (Issue: #2459) ✅
 - [!] Row-level security policies in AQL execution (Issue: #2460)
 - [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
 
@@ -67,7 +67,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ### Phase 3: Federated Auth & Anomaly Detection (Status: Planned 📋)
 - [ ] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [ ] Session token revocation list with real-time invalidation
-- [ ] Anomaly detection on authentication patterns (brute-force, credential stuffing)
+- [x] Anomaly detection on authentication patterns (brute-force, credential stuffing)
 - [ ] Row-level security policies in AQL execution
 - [ ] Secret scanning pre-commit hook for CI pipelines
 
