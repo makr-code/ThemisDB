@@ -27,8 +27,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
 - [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
-- [I] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376)
-- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `cublasHgemm` (FP16) and `cublasGemmEx+CUDA_R_16BF` (BF16) launchers complete; `CUDAMatrixBackend` + `CPUMatrixBackend` registered in `BackendRegistry`; tests in `tests/test_tensor_core_matmul.cpp`
+- [P] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
+- [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
 - [P] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378)
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
 ## Implementation Phases
@@ -82,8 +82,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
-- [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
-- [x] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458) — `launchFP16MatmulKernel` (`cublasHgemm`), `launchBF16MatmulKernel` (`cublasGemmEx+CUDA_R_16BF`), and `launchFP32MatmulKernel` (`cublasSgemm`) implemented in `cuda/tensor_core_matmul.cu`; `CUDAMatrixBackend` declared in `cuda_backend.h`, implemented in `cuda_backend.cpp`, and auto-registered in `BackendRegistry`; CPU fallback via `CPUMatrixBackend` always available
+- [P] Implement multi-GPU sharding for large embedding datasets (Issue: #1457) — `MultiGPUVectorBackend` (`include/acceleration/multi_gpu_backend.h`, `src/acceleration/multi_gpu_backend.cpp`): range-based sharding across N devices, fan-out `batchKnnSearch`, host-side top-k merge, NCCL/RCCL comm backend with CPU fallback; registered in `BackendRegistry::autoDetect()`; comprehensive tests in `tests/test_multi_gpu_backend.cpp`
+- [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [P] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`
 - [x] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460) — `bench_cuda_vs_cpu` harness with CPU ANN (L2/Cosine/InnerProduct/TopK/BatchKNN) and Geo (Haversine/PointInPolygon) benchmarks; CUDA benchmarks skipped gracefully without GPU; JSON output with regression detection via CI workflow `acceleration-benchmark-ci.yml`
 
