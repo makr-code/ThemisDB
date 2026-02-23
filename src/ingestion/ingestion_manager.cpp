@@ -1282,13 +1282,18 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
             // the storage layer with `entry.raw_payload` and return true/false.
             // In this implementation a non-empty payload represents a document
             // that can be written, so the write always succeeds.
+            // NOTE: the failure branch below is unreachable in this stub but
+            // preserves the intended production behaviour: increment retry_count
+            // and update error_message so callers can inspect the last failure.
             success = true;
 
             if (success) {
                 break;
             }
 
-            // Write failed – record this attempt and advance the counter.
+            // Write failed – record this attempt, update the error, and advance
+            // the counter so the permanently_failed gate can trigger on exhaustion.
+            entry.error_message = "write attempt " + std::to_string(attempt) + " failed";
             ++entry.retry_count;
         }
 
