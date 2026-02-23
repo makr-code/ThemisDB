@@ -71,6 +71,24 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw) {
 }
 
 // ---------------------------------------------------------------------------
+// Converter path safety validation (free function – implementation)
+// ---------------------------------------------------------------------------
+
+bool isConverterSafe(const std::string& converter) {
+    if (converter.empty()) return true;  // empty = disabled, skip silently
+    for (char c : converter) {
+        switch (c) {
+            case '|': case ';': case '&': case '$': case '<': case '>':
+            case '`': case '!': case '\n': case '\r': case '\0':
+                return false;
+            default:
+                break;
+        }
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
 
@@ -232,6 +250,7 @@ static const char* stderrRedirect() {
 static std::string extractPdfWithConverter(const std::string& file_path,
                                            const std::string& converter) {
     if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
     // pdftotext syntax: pdftotext <input> - (dash = stdout)
     std::string cmd = converter + " " + shellEscapePath(file_path) + " -" + stderrRedirect();
     return runExternalConverter(cmd);
@@ -245,6 +264,7 @@ static std::string extractPdfWithConverter(const std::string& file_path,
 static std::string extractDocxWithConverter(const std::string& file_path,
                                             const std::string& converter) {
     if (converter.empty()) return "";
+    if (!isConverterSafe(converter)) return "";
     // pandoc syntax: pandoc -f docx -t plain <input>
     std::string cmd = converter + " -f docx -t plain " + shellEscapePath(file_path) + stderrRedirect();
     return runExternalConverter(cmd);

