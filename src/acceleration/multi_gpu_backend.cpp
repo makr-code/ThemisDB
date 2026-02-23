@@ -158,23 +158,28 @@ public:
 
     // -------------------------------------------------------------------------
     // Range assignment: split [0, numVectors) evenly across shards
+    //
+    // Returns a local vector — does NOT mutate shardDescs, so concurrent
+    // calls to computeDistances / batchKnnSearch are safe.
     // -------------------------------------------------------------------------
 
-    void assignRanges(size_t numVectors) {
+    std::vector<ShardDescriptor> buildRanges(size_t numVectors) const {
         size_t n = shardDescs.size();
-        if (n == 0) return;
+        std::vector<ShardDescriptor> ranges(n);
 
-        size_t base    = numVectors / n;
-        size_t remainder = numVectors % n;
-        size_t offset  = 0;
+        size_t base      = (n > 0) ? numVectors / n : 0;
+        size_t remainder = (n > 0) ? numVectors % n : 0;
+        size_t offset    = 0;
 
         for (size_t i = 0; i < n; ++i) {
             size_t count = base + (i < remainder ? 1 : 0);
-            shardDescs[i].startIdx = offset;
-            shardDescs[i].endIdx   = offset + count;
+            ranges[i]          = shardDescs[i];  // copy shard descriptor (deviceId + zero-initialised range fields)
+            ranges[i].startIdx = offset;
+            ranges[i].endIdx   = offset + count;
             offset += count;
         }
-        assert(offset == numVectors);
+        assert(n == 0 || offset == numVectors);
+        return ranges;
     }
 
     // -------------------------------------------------------------------------
@@ -193,14 +198,14 @@ public:
             return {};
         }
 
-        // Assign vector ranges to shards
-        assignRanges(numVectors);
+        // Build per-call ranges without mutating shared state
+        const auto ranges = buildRanges(numVectors);
 
         // Output: [numQueries × numVectors]
         std::vector<float> result(numQueries * numVectors, 0.0f);
 
-        for (size_t s = 0; s < shardDescs.size(); ++s) {
-            const auto& shard = shardDescs[s];
+        for (size_t s = 0; s < ranges.size(); ++s) {
+            const auto& shard = ranges[s];
             size_t shardSize = shard.numVectors();
             if (shardSize == 0) continue;
 
@@ -238,15 +243,15 @@ public:
             return std::vector<std::vector<std::pair<uint32_t, float>>>(numQueries);
         }
 
-        // Assign vector ranges to shards
-        assignRanges(numVectors);
+        // Build per-call ranges without mutating shared state
+        const auto ranges = buildRanges(numVectors);
 
         // Per-query merged result buffer
         std::vector<std::vector<std::pair<uint32_t, float>>> merged(numQueries);
 
         // Fan out to each shard
-        for (size_t s = 0; s < shardDescs.size(); ++s) {
-            const auto& shard = shardDescs[s];
+        for (size_t s = 0; s < ranges.size(); ++s) {
+            const auto& shard = ranges[s];
             size_t shardSize = shard.numVectors();
             if (shardSize == 0) continue;
 
@@ -362,6 +367,7 @@ public:
 #endif
             case CommBackend::CPU:
             default:
+                (void)deviceIds;  // unused when NCCL/RCCL are not compiled in
                 activeComm = CommBackend::CPU;
                 success = true;
                 break;

@@ -80,11 +80,11 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 `nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`.
 
 **Implementation Notes:**
-- `[ ]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
-- `[ ]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[ ]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers.
-- `[ ]` RCCL mirror: `rccl_vector_backend.cpp` must expose the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
-- `[ ]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
+- `[x]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
+- `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
+- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring is v2.5+ pending real CUDA kernels)
+- `[x]` RCCL mirror: `rccl_vector_backend.cpp` must expose the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
+- `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
 
 **Performance Targets:**
 - 100M × 128-dim index distributed across 4× A100 80GB; query latency < 15 ms @ 99th percentile for k=100.

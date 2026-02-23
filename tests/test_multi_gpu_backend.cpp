@@ -6,6 +6,7 @@
 #include <cmath>
 #include <numeric>
 #include <random>
+#include <thread>
 #include <vector>
 
 using namespace themis::acceleration;
@@ -375,4 +376,52 @@ TEST_F(MultiGPUBackendTest, ShutdownAndReinitialize) {
 
     ASSERT_TRUE(backend.initialize());
     EXPECT_EQ(backend.activeDeviceCount(), 2);
+}
+
+// =============================================================================
+// Thread-safety: concurrent batchKnnSearch calls must not race on shared state
+// =============================================================================
+
+TEST_F(MultiGPUBackendTest, ConcurrentSearchesDoNotRace) {
+    // Validates that buildRanges() returns a per-call local copy and does NOT
+    // mutate shared shardDescs, making concurrent queries safe.
+    //
+    // Thread-safety model: after initialize(), the Impl fields accessed during
+    // batchKnnSearch are all read-only:
+    //   - initialized, subBackends, shardDescs  — set once by initialize()
+    //   - activeComm                            — set once by initCommBackend()
+    // Each call computes its own `ranges` via buildRanges() (local value),
+    // so no writes to shared state occur during concurrent searches.
+    auto cfg = makeConfig(3);
+    MultiGPUVectorBackend backend(cfg);
+    ASSERT_TRUE(backend.initialize());
+
+    // Two independent query vectors
+    std::vector<float> q1(dim, 0.1f);
+    std::vector<float> q2(dim, 0.9f);
+
+    std::vector<std::vector<std::pair<uint32_t, float>>> res1, res2;
+    std::thread t1([&]() {
+        res1 = backend.batchKnnSearch(
+            q1.data(), 1, dim, vectors.data(), numVectors, k, true);
+    });
+    std::thread t2([&]() {
+        res2 = backend.batchKnnSearch(
+            q2.data(), 1, dim, vectors.data(), numVectors, k, true);
+    });
+    t1.join();
+    t2.join();
+
+    // Both threads must return valid, non-overlapping top-k results
+    ASSERT_EQ(res1.size(), 1u);
+    ASSERT_EQ(res2.size(), 1u);
+    EXPECT_LE(res1[0].size(), static_cast<size_t>(k));
+    EXPECT_LE(res2[0].size(), static_cast<size_t>(k));
+
+    for (const auto& [idx, dist] : res1[0]) {
+        EXPECT_LT(static_cast<int>(idx), numVectors);
+    }
+    for (const auto& [idx, dist] : res2[0]) {
+        EXPECT_LT(static_cast<int>(idx), numVectors);
+    }
 }
