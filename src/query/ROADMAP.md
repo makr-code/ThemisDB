@@ -25,7 +25,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ## In Progress 🚧
 - [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
 - [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
-- [I] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
+- [P] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
 ## Planned Features 📋
 
@@ -63,7 +63,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
 - [~] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
 - [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
-- [~] Incremental view maintenance for materialized CTEs
+- [x] Incremental view maintenance for materialized CTEs
 
 ### Phase 3: Resource Management & UDF (Status: Planned 📋)
 - [x] Query result type annotations for client SDK code generation

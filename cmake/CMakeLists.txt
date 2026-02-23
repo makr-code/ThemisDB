@@ -1368,6 +1368,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
 
@@ -1771,6 +1772,7 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/arrow_export.cpp
     ../src/analytics/analytics_export.cpp
+    ../src/analytics/incremental_view.cpp
 
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
