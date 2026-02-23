@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     882                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -604,6 +604,86 @@ TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
 
     EXPECT_FALSE(result.contains("error")) << result.dump();
     EXPECT_EQ(call_count.load(), 2);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyExponentialBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("exp_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 3) throw std::runtime_error("transient error");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "exp_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "exp_backoff_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy           = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    policy.max_retries        = 3;
+    policy.initial_delay      = std::chrono::milliseconds{5};
+    policy.max_delay          = std::chrono::milliseconds{50};
+    policy.backoff_multiplier = 2.0;
+    task.retry_policy         = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 3);  // Succeeded on 3rd attempt
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
+    auto persist_path = db_path_ + "/persist_retry_test";
+    std::filesystem::create_directories(persist_path);
+
+    TaskScheduler::Config pcfg;
+    pcfg.persist_tasks = true;
+    pcfg.persistence_path = persist_path;
+    pcfg.enable_audit_logging = false;
+    pcfg.enable_anomaly_detection = false;
+    auto sched = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+
+    ScheduledTask task;
+    task.id = "persist_retry_task";
+    task.name = task.id;
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy rp;
+    rp.strategy           = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    rp.max_retries        = 5;
+    rp.initial_delay      = std::chrono::milliseconds{250};
+    rp.max_delay          = std::chrono::milliseconds{8000};
+    rp.backoff_multiplier = 3.0;
+    rp.jitter_factor      = 0.05;
+    task.retry_policy     = rp;
+
+    sched->registerFunction("noop_fn", [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    sched->registerTask(task);
+    sched.reset();  // destructor triggers saveTasks()
+
+    // Load from disk in a fresh scheduler instance
+    auto sched2 = std::make_unique<TaskScheduler>(engine_.get(), pcfg);
+    sched2->registerFunction("noop_fn", [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    auto loaded = sched2->getTask("persist_retry_task");
+    ASSERT_NE(loaded, nullptr);
+    ASSERT_TRUE(loaded->retry_policy.has_value());
+
+    const auto& loaded_rp = *loaded->retry_policy;
+    EXPECT_EQ(loaded_rp.strategy, ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF);
+    EXPECT_EQ(loaded_rp.max_retries, 5u);
+    EXPECT_EQ(loaded_rp.initial_delay, std::chrono::milliseconds{250});
+    EXPECT_EQ(loaded_rp.max_delay, std::chrono::milliseconds{8000});
+    EXPECT_DOUBLE_EQ(loaded_rp.backoff_multiplier, 3.0);
+    EXPECT_DOUBLE_EQ(loaded_rp.jitter_factor, 0.05);
 }
 
 // ===== exportMetrics() tests =====
