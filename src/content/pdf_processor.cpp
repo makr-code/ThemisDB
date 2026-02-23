@@ -31,6 +31,7 @@
  */
 
 #include "content/pdf_processor.h"
+#include "content/content_metrics.h"
 #include <regex>
 #include <sstream>
 #include <cstring>
@@ -143,12 +144,18 @@ ExtractionResult PDFProcessor::extract(
         
         if (!doc) {
             result.error_message = "Failed to parse PDF with poppler";
+            if (config_.metrics) {
+                config_.metrics->recordExtractError();
+            }
             return result;
         }
         
         if (doc->is_locked()) {
             result.error_message = "PDF is encrypted and password is incorrect";
             result.metadata["is_encrypted"] = true;
+            if (config_.metrics) {
+                config_.metrics->recordExtractError();
+            }
             return result;
         }
         
@@ -166,35 +173,59 @@ ExtractionResult PDFProcessor::extract(
         result.metadata["is_encrypted"] = metadata.is_encrypted;
         result.metadata["is_linearized"] = metadata.is_linearized;
         
-        // Extract text from each page
+        // Extract pages using the already-loaded doc (avoids redundant PDF loading)
         std::ostringstream all_text;
-        int max_pages = config_.max_pages > 0 
-            ? std::min(config_.max_pages, doc->pages()) 
+        int max_pages = config_.max_pages > 0
+            ? std::min(config_.max_pages, doc->pages())
             : doc->pages();
-        
+
+        json pages_array = json::array();
         for (int i = 0; i < max_pages; ++i) {
             std::unique_ptr<poppler::page> page(doc->create_page(i));
             if (!page) continue;
-            
-            // Get page text
-            poppler::byte_array page_text_bytes = page->text().to_utf8();
-            std::string page_text(page_text_bytes.data(), page_text_bytes.size());
-            
+
+            std::string page_text;
+            if (config_.maintain_layout) {
+                // Layout-preserving: use positioned text boxes
+                auto text_boxes = page->text_list();
+                std::vector<std::pair<float, float>> positions;
+                page_text = assembleTextWithLayout(text_boxes, positions);
+            } else {
+                // Simple reading-order extraction
+                poppler::byte_array bytes = page->text().to_utf8();
+                page_text = std::string(bytes.data(), bytes.size());
+            }
+
+            poppler::rectf rect = page->page_rect();
+
             if (!page_text.empty()) {
                 all_text << page_text;
                 if (i + 1 < max_pages) {
                     all_text << "\n\n--- Page " << (i + 2) << " ---\n\n";
                 }
             }
+
+            json page_obj;
+            page_obj["page"] = i + 1;
+            page_obj["text"] = page_text;
+            page_obj["width"] = static_cast<int>(rect.width());
+            page_obj["height"] = static_cast<int>(rect.height());
+            page_obj["rotation"] = page->orientation() * 90;
+            pages_array.push_back(std::move(page_obj));
         }
-        
+
         result.text = all_text.str();
         result.metadata["extracted_pages"] = max_pages;
+        result.metadata["pages"] = pages_array;
+        result.metadata["layout_preserved"] = config_.maintain_layout;
         result.metadata["token_count"] = countTokens(result.text);
         result.ok = true;
         
     } catch (const std::exception& e) {
         result.error_message = std::string("PDF extraction error: ") + e.what();
+        if (config_.metrics) {
+            config_.metrics->recordExtractError();
+        }
         return result;
     }
 #else
@@ -221,9 +252,19 @@ ExtractionResult PDFProcessor::extract(
     result.text = extracted.str();
     result.metadata["extraction_method"] = "basic_regex";
     result.metadata["note"] = "Full PDF extraction requires building with -DTHEMIS_ENABLE_PDF=ON";
+    result.metadata["layout_preserved"] = false;
     result.metadata["token_count"] = countTokens(result.text);
     result.ok = true;
 #endif
+
+    // Report metrics if a ContentMetrics instance was configured
+    if (config_.metrics) {
+        if (result.ok) {
+            config_.metrics->recordPdfExtracted();
+        } else {
+            config_.metrics->recordExtractError();
+        }
+    }
 
     return result;
 }
@@ -316,9 +357,15 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
         PDFPageInfo info;
         info.page_number = i + 1;
         
-        // Get text
-        poppler::byte_array text_bytes = page->text().to_utf8();
-        info.text = std::string(text_bytes.data(), text_bytes.size());
+        if (config_.maintain_layout) {
+            // Layout-preserving extraction: use text_list() to get positioned text boxes
+            auto text_boxes = page->text_list();
+            info.text = assembleTextWithLayout(text_boxes, info.text_positions);
+        } else {
+            // Simple text extraction (reading order from poppler)
+            poppler::byte_array text_bytes = page->text().to_utf8();
+            info.text = std::string(text_bytes.data(), text_bytes.size());
+        }
         
         // Get dimensions
         poppler::rectf rect = page->page_rect();
@@ -332,6 +379,101 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
 
     return pages;
 }
+
+#ifdef THEMIS_ENABLE_PDF
+// static
+std::string PDFProcessor::assembleTextWithLayout(
+    const std::vector<poppler::text_box>& boxes,
+    std::vector<std::pair<float, float>>& positions_out
+) {
+    if (boxes.empty()) {
+        return {};
+    }
+
+    // Collect text boxes with their bounding box coordinates
+    struct Item {
+        float x, y, w, h;
+        std::string text;
+        bool has_space_after;
+    };
+
+    std::vector<Item> items;
+    items.reserve(boxes.size());
+
+    for (const auto& box : boxes) {
+        poppler::byte_array bytes = box.text().to_utf8();
+        std::string text(bytes.data(), bytes.size());
+        if (text.empty()) continue;
+
+        poppler::rectf r = box.bbox();
+        items.push_back({
+            static_cast<float>(r.x()),
+            static_cast<float>(r.y()),
+            static_cast<float>(r.width()),
+            static_cast<float>(r.height()),
+            std::move(text),
+            box.has_space_after()
+        });
+    }
+
+    if (items.empty()) {
+        return {};
+    }
+
+    // Sort top-to-bottom, then left-to-right within the same visual line.
+    // Two items are on the same line when their y-distance is less than
+    // 40% of the average of their heights (accounts for baseline variation).
+    std::sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+        float line_thr = (a.h + b.h) * 0.4f;
+        if (std::abs(a.y - b.y) < line_thr) {
+            return a.x < b.x;
+        }
+        return a.y < b.y;
+    });
+
+    // Store (x, y) positions for each item
+    positions_out.reserve(positions_out.size() + items.size());
+    for (const auto& item : items) {
+        positions_out.push_back({item.x, item.y});
+    }
+
+    // Assemble text inserting spaces and newlines based on position
+    std::ostringstream oss;
+    float prev_y = items[0].y;
+    float prev_h = items[0].h;
+
+    oss << items[0].text;
+    if (items[0].has_space_after) {
+        oss << ' ';
+    }
+
+    for (std::size_t i = 1; i < items.size(); ++i) {
+        const Item& cur = items[i];
+        float dy = std::abs(cur.y - prev_y);
+        float line_thr = (cur.h + prev_h) * 0.4f;
+
+        if (dy >= line_thr) {
+            // New line: use a blank line for paragraph-sized vertical gaps
+            if (dy >= prev_h * 1.5f) {
+                oss << "\n\n";
+            } else {
+                oss << '\n';
+            }
+        }
+        // (On the same line, spaces are handled by has_space_after above)
+
+        oss << cur.text;
+        if (cur.has_space_after) {
+            oss << ' ';
+        }
+
+        prev_y = cur.y;
+        prev_h = cur.h;
+    }
+
+    return oss.str();
+}
+#endif
 
 std::string PDFProcessor::extractAllText(const std::vector<PDFPageInfo>& pages) {
     std::ostringstream oss;

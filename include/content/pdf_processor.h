@@ -39,8 +39,14 @@
 #include <memory>
 #include <optional>
 
+#ifdef THEMIS_ENABLE_PDF
+#include <poppler/cpp/poppler-page.h>
+#endif
+
 namespace themis {
 namespace content {
+
+class ContentMetrics;  // forward declaration
 
 /**
  * @brief PDF Page Information
@@ -97,6 +103,7 @@ public:
         bool detect_tables = false;       // Basic table detection
         int max_pages = 0;                // 0 = no limit
         std::string password;             // For encrypted PDFs
+        ContentMetrics* metrics = nullptr; // Optional: report pdf_extracted / extract_error counters
     };
 
     PDFProcessor();
@@ -173,6 +180,16 @@ private:
 
     // Check PDF header/signature
     bool isPDFValid(const std::string& blob);
+
+#ifdef THEMIS_ENABLE_PDF
+    // Assemble text from positioned poppler text boxes preserving reading order.
+    // Sorts boxes top-to-bottom then left-to-right and inserts newlines at line breaks.
+    // Populates positions_out with (x, y) of each box for downstream use.
+    static std::string assembleTextWithLayout(
+        const std::vector<poppler::text_box>& boxes,
+        std::vector<std::pair<float, float>>& positions_out
+    );
+#endif
 };
 
 /**

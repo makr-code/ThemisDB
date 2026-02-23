@@ -162,6 +162,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_http_content\\.cpp$"
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
+        ".*test_pdf_processor\\.cpp$"
     )
 endif()
 
