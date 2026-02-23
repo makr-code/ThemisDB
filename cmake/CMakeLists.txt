@@ -1710,6 +1710,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
+    ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
     ../src/acceleration/cpu_backend.cpp
     ../src/acceleration/plugin_loader.cpp
