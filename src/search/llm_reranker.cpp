@@ -88,6 +88,11 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
             r.llm_scored   = false;
             out.push_back(r);
         }
+        // Sort by final_score descending for consistent ordering regardless of input order
+        std::sort(out.begin(), out.end(),
+                  [](const LlmRerankResult& a, const LlmRerankResult& b) {
+                      return a.final_score > b.final_score;
+                  });
         return out;
     }
 

@@ -116,17 +116,20 @@ TEST(LlmRerankerRerank, EmptyCandidatesReturnsEmpty) {
 // rerank() — no backend
 // ============================================================================
 
-TEST(LlmRerankerNoBackend, FallbackReturnsOriginalOrder) {
+TEST(LlmRerankerNoBackend, FallbackSortsByInitialScore) {
     LlmReranker rr; // no backend
+    // Input intentionally in WRONG order (low score first) to verify sorting
     auto candidates = {
-        makeCandidate("doc1", "content A", 0.9),
-        makeCandidate("doc2", "content B", 0.5)
+        makeCandidate("doc_low",  "content B", 0.3),
+        makeCandidate("doc_high", "content A", 0.9)
     };
     auto results = rr.rerank("query", candidates);
     ASSERT_EQ(results.size(), 2u);
-    // Without LLM, final_score == initial_score; highest initial first
-    EXPECT_EQ(results[0].document_id, "doc1");
+    // Fallback must sort by initial_score descending — doc_high should come first
+    EXPECT_EQ(results[0].document_id, "doc_high");
     EXPECT_DOUBLE_EQ(results[0].final_score, 0.9);
+    EXPECT_EQ(results[1].document_id, "doc_low");
+    EXPECT_DOUBLE_EQ(results[1].final_score, 0.3);
     EXPECT_FALSE(results[0].llm_scored);
 }
 
