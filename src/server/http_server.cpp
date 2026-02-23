@@ -1904,6 +1904,7 @@ namespace {
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        TransactionVersionGet,
         TransactionExplainGet,
         // Distributed (cross-shard) 2PC transaction endpoints
         DtxnBeginPost,
@@ -2352,6 +2353,7 @@ namespace {
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
+        if (target == "/transaction/version" && method == http::verb::get) return Route::TransactionVersionGet;
         // /transaction/{id}/explain  (GET)
         if (path_only.starts_with("/transaction/") && path_only.ends_with("/explain") &&
             method == http::verb::get) return Route::TransactionExplainGet;
@@ -3739,6 +3741,11 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
             break;
+        case Route::TransactionVersionGet:
+            response = transaction_api_->handleGetVersion(req);
+            break;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
         case Route::TransactionExplainGet:
             response = transaction_api_->handleExplain(req);
             break;

@@ -33,6 +33,36 @@ namespace server {
 
 using json = nlohmann::json;
 
+// ── Internal helpers ─────────────────────────────────────────────────────────
+
+static constexpr const char* INVALID_ISOLATION_MSG =
+    "Invalid isolation level. Use 'read_committed', 'snapshot', or 'serializable'";
+
+/// Parse the "isolation" field from a JSON body.
+/// Returns ReadCommitted when the field is absent.
+/// Returns Status::Error(...) via the out-param on invalid value.
+static IsolationLevel parseIsolationLevel(const json& body, bool* valid,
+                                           std::string* error_msg) {
+    *valid = true;
+    if (!body.contains("isolation")) return IsolationLevel::ReadCommitted;
+    const std::string iso_str = body["isolation"].get<std::string>();
+    if (iso_str == "read_committed")  return IsolationLevel::ReadCommitted;
+    if (iso_str == "snapshot")        return IsolationLevel::Snapshot;
+    if (iso_str == "serializable")    return IsolationLevel::SERIALIZABLE;
+    *valid = false;
+    *error_msg = INVALID_ISOLATION_MSG;
+    return IsolationLevel::ReadCommitted;
+}
+
+/// Convert an IsolationLevel to its JSON string representation.
+static const char* isolationLevelToString(IsolationLevel iso) noexcept {
+    switch (iso) {
+        case IsolationLevel::SERIALIZABLE: return "serializable";
+        case IsolationLevel::Snapshot:     return "snapshot";
+        default:                           return "read_committed";
+    }
+}
+
 TransactionApiHandler::TransactionApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
     std::shared_ptr<TransactionManager> tx_manager,
@@ -74,15 +104,11 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
         json body = json::parse(req.body());
 
         // --- Parse isolation level ---
-        IsolationLevel isolation = IsolationLevel::ReadCommitted;
-        if (body.contains("isolation")) {
-            const std::string iso_str = body["isolation"].get<std::string>();
-            if (iso_str == "snapshot") {
-                isolation = IsolationLevel::Snapshot;
-            } else if (iso_str != "read_committed") {
-                return makeErrorResponse(http::status::bad_request,
-                    "Invalid isolation level. Use 'read_committed' or 'snapshot'", req);
-            }
+        bool iso_valid = true;
+        std::string iso_error;
+        IsolationLevel isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
+        if (!iso_valid) {
+            return makeErrorResponse(http::status::bad_request, iso_error, req);
         }
 
         // --- Validate operations array ---
@@ -136,9 +162,29 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
                 status = txn->putEntity(table, entity);
             } else if (op_type == "delete") {
                 status = txn->eraseEntity(table, key);
+            } else if (op_type == "optimistic_put") {
+                // OCC: write entity only if version matches expected_version
+                if (!op.contains("expected_version") || !op["expected_version"].is_number_unsigned()) {
+                    errors_array.push_back({{"index", i},
+                        {"error", "optimistic_put requires 'expected_version' (unsigned int)"}});
+                    continue;
+                }
+                const uint64_t expected_version = op["expected_version"].get<uint64_t>();
+                const json& data = op.value("data", json::object());
+                BaseEntity entity = BaseEntity::fromJson(key, data.dump());
+                status = txn->optimisticPut(table, entity, expected_version);
+            } else if (op_type == "optimistic_erase") {
+                // OCC: delete entity only if version matches expected_version
+                if (!op.contains("expected_version") || !op["expected_version"].is_number_unsigned()) {
+                    errors_array.push_back({{"index", i},
+                        {"error", "optimistic_erase requires 'expected_version' (unsigned int)"}});
+                    continue;
+                }
+                const uint64_t expected_version = op["expected_version"].get<uint64_t>();
+                status = txn->optimisticErase(table, key, expected_version);
             } else {
                 errors_array.push_back({{"index", i},
-                    {"error", "Unknown op type '" + op_type + "'. Use 'put' or 'delete'"}});
+                    {"error", "Unknown op type '" + op_type + "'. Use 'put', 'delete', 'optimistic_put', or 'optimistic_erase'"}});
                 continue;
             }
 
@@ -197,28 +243,25 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
     try {
         // Parse optional isolation level from request body
         IsolationLevel isolation = IsolationLevel::ReadCommitted;
-        
+
         if (!req.body().empty()) {
             json body = json::parse(req.body());
-            if (body.contains("isolation")) {
-                std::string isolation_str = body["isolation"];
-                if (isolation_str == "snapshot") {
-                    isolation = IsolationLevel::Snapshot;
-                } else if (isolation_str != "read_committed") {
-                    return makeErrorResponse(http::status::bad_request, 
-                        "Invalid isolation level. Use 'read_committed' or 'snapshot'", req);
-                }
+            bool iso_valid = true;
+            std::string iso_error;
+            isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
+            if (!iso_valid) {
+                return makeErrorResponse(http::status::bad_request, iso_error, req);
             }
         }
-        
+
         auto txn_id = tx_manager_->beginTransaction(isolation);
-        
+
         json response = {
             {"transaction_id", txn_id},
-            {"isolation", isolation == IsolationLevel::ReadCommitted ? "read_committed" : "snapshot"},
+            {"isolation", isolationLevelToString(isolation)},
             {"status", "active"}
         };
-        
+
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const json::exception& e) {
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
@@ -318,6 +361,66 @@ http::response<http::string_body> TransactionApiHandler::handleStats(
     }
 }
 
+http::response<http::string_body> TransactionApiHandler::handleGetVersion(
+    const http::request<http::string_body>& req
+) {
+    // GET /transaction/version
+    //
+    // Request body:
+    // {
+    //   "transaction_id": 42,
+    //   "table": "users",
+    //   "key": "u1"
+    // }
+    //
+    // Response body:
+    // { "transaction_id": 42, "table": "users", "key": "u1", "version": 3 }
+    //
+    // Returns version 0 when the entity does not exist.
+    try {
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                "Request body is required", req);
+        }
+        json body = json::parse(req.body());
+
+        if (!body.contains("transaction_id")) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
+        }
+        if (!body.contains("table") || !body["table"].is_string()) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
+        }
+        if (!body.contains("key") || !body["key"].is_string()) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'key'", req);
+        }
+
+        TransactionManager::TransactionId txn_id = body["transaction_id"];
+        const std::string table = body["table"].get<std::string>();
+        const std::string key   = body["key"].get<std::string>();
+
+        auto txn = tx_manager_->getTransaction(txn_id);
+        if (!txn) {
+            return makeErrorResponse(http::status::not_found,
+                "Transaction " + std::to_string(txn_id) + " not found or already completed", req);
+        }
+
+        auto version = txn->getEntityVersion(table, key);
+        if (!version.has_value()) {
+            return makeErrorResponse(http::status::gone,
+                "Transaction " + std::to_string(txn_id) + " is no longer active", req);
+        }
+
+        json response = {
+            {"transaction_id", txn_id},
+            {"table", table},
+            {"key", key},
+            {"version", *version}
+        };
+        return makeResponse(http::status::ok, response.dump(2), req);
+
+    } catch (const json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
 http::response<http::string_body> TransactionApiHandler::handleExplain(
     const http::request<http::string_body>& req
 ) {
