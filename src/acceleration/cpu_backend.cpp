@@ -473,5 +473,39 @@ GeoKernelDispatch CPUGeoBackend::populateGeoDispatch() const {
     return d;
 }
 
+// =============================================================================
+// CPUMatrixBackend Implementation
+// =============================================================================
+
+int CPUMatrixBackend::matmul(const MatrixKernelParams& params, void* /*opaque_stream*/)
+{
+    return tensor_core::launchCPUMatmulKernel(
+        static_cast<const float*>(params.A),
+        static_cast<const float*>(params.B),
+        static_cast<float*>(params.C),
+        static_cast<int>(params.M),
+        static_cast<int>(params.K),
+        static_cast<int>(params.N),
+        params.alpha,
+        params.beta
+    );
+}
+
+namespace {
+
+static int cpu_matrix_matmul(const MatrixKernelParams& params, void* stream)
+{
+    CPUMatrixBackend backend;
+    return backend.matmul(params, stream);
+}
+
+} // anonymous namespace
+
+MatrixKernelDispatch CPUMatrixBackend::populateMatrixDispatch() const {
+    MatrixKernelDispatch d;
+    d.launchMatmul = cpu_matrix_matmul;
+    return d;
+}
+
 } // namespace acceleration
 } // namespace themis

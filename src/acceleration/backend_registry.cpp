@@ -194,6 +194,10 @@ IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& 
     return selectTyped<IGeoBackend>(backends_, reqs);
 }
 
+IMatrixBackend* BackendRegistry::selectMatrixBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IMatrixBackend>(backends_, reqs);
+}
+
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
     for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
@@ -229,6 +233,20 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
                 auto* geoBackend = dynamic_cast<IGeoBackend*>(backend.get());
                 if (geoBackend) {
                     return geoBackend;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+IMatrixBackend* BackendRegistry::getBestMatrixBackend() const {
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends_) {
+            if (backend->type() == type && backend->getCapabilities().supportsMatrixOps) {
+                auto* matrixBackend = dynamic_cast<IMatrixBackend*>(backend.get());
+                if (matrixBackend) {
+                    return matrixBackend;
                 }
             }
         }

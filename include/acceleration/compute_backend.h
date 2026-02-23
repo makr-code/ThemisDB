@@ -93,6 +93,7 @@ struct BackendCapabilities {
     bool supportsVectorOps = false;
     bool supportsGraphOps = false;
     bool supportsGeoOps = false;
+    bool supportsMatrixOps = false;    ///< FP16/BF16 matrix multiply via Tensor Core
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
 
@@ -354,6 +355,25 @@ public:
     virtual GeoKernelDispatch populateGeoDispatch() const { return {}; }
 };
 
+// Matrix backend — FP16 / BF16 matrix multiply with Tensor Core acceleration.
+// Backends that do not support Tensor Cores (e.g. CPUMatrixBackend) implement
+// the FP32 path and declare MatrixPrecision::FP32 as their supported precision.
+class IMatrixBackend : public IComputeBackend {
+public:
+    virtual ~IMatrixBackend() = default;
+
+    /// Compute C = alpha * A × B + beta * C.
+    /// A is [M × K], B is [K × N], C is [M × N] (row-major).
+    /// Inputs/outputs are host pointers for CPU backends and device pointers
+    /// for GPU backends.  @p precision selects the arithmetic type; the
+    /// implementation is free to fall back to a wider type if unsupported.
+    /// Returns 0 on success, non-zero on failure.
+    virtual int matmul(const MatrixKernelParams& params, void* opaque_stream = nullptr) = 0;
+
+    /// Populate the frozen kernel dispatch table for this backend.
+    virtual MatrixKernelDispatch populateMatrixDispatch() const { return {}; }
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -379,6 +399,7 @@ public:
     IVectorBackend* getBestVectorBackend() const;
     IGraphBackend* getBestGraphBackend() const;
     IGeoBackend* getBestGeoBackend() const;
+    IMatrixBackend* getBestMatrixBackend() const;
     
     // Auto-detect and initialize all available backends
     void autoDetect();
@@ -401,6 +422,7 @@ public:
         bool needsVectorOps = false;        ///< Must support vector (ANN) operations
         bool needsGraphOps  = false;        ///< Must support graph traversal operations
         bool needsGeoOps    = false;        ///< Must support geospatial operations
+        bool needsMatrixOps = false;        ///< Must support FP16/BF16 matrix multiply
         bool needsBatch     = false;        ///< Must support batch processing
         bool needsAsync     = false;        ///< Must support asynchronous execution
 
@@ -418,6 +440,7 @@ public:
         if (reqs.needsVectorOps && !caps.supportsVectorOps) return false;
         if (reqs.needsGraphOps  && !caps.supportsGraphOps)  return false;
         if (reqs.needsGeoOps    && !caps.supportsGeoOps)    return false;
+        if (reqs.needsMatrixOps && !caps.supportsMatrixOps) return false;
         if (reqs.needsBatch     && !caps.supportsBatchProcessing) return false;
         if (reqs.needsAsync     && !caps.supportsAsync)     return false;
         const auto reqP = static_cast<uint32_t>(reqs.requiredPrecisions);
@@ -439,6 +462,9 @@ public:
 
     /// Like selectBackendFor() but restricted to IGeoBackend instances.
     IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IMatrixBackend instances.
+    IMatrixBackend* selectMatrixBackendFor(const CapabilityRequirements& reqs) const;
     
     // Shutdown all backends
     void shutdownAll();
