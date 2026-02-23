@@ -25,6 +25,7 @@
 
 #include "acceleration/compute_backend.h"
 #include "acceleration/cpu_backend.h"
+#include "acceleration/multi_gpu_backend.h"
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
 #endif
@@ -517,5 +518,58 @@ static void BM_ThroughputComparison(benchmark::State& state) {
 BENCHMARK(BM_ThroughputComparison)
     ->Unit(benchmark::kMillisecond)
     ->Iterations(5);
+
+// ============================================================================
+// MultiGPUVectorBackend: sharding overhead vs single-GPU CPU baseline
+// ============================================================================
+
+static void BM_MultiGPUBackend_DistanceComputation(benchmark::State& state) {
+    const int    numShards  = static_cast<int>(state.range(0));
+    const size_t numQueries = 10;
+    const size_t numVectors = 10000;
+    const size_t dim        = 128;
+
+    BenchmarkData data(numQueries, numVectors, dim);
+
+    MultiGPUVectorBackend::Config cfg;
+    cfg.numDevices      = numShards;
+    cfg.minDevices      = 0;       // 0: always considered available so the benchmark
+                                   // runs in non-GPU CI environments using CPU sub-backends
+    cfg.allowCPUFallback = true;
+    cfg.commBackend     = MultiGPUVectorBackend::CommBackend::CPU;
+    for (int i = 0; i < numShards; ++i) {
+        cfg.deviceIds.push_back(i);
+    }
+
+    MultiGPUVectorBackend backend(cfg);
+    if (!backend.initialize()) {
+        state.SkipWithError("MultiGPUVectorBackend init failed");
+        return;
+    }
+
+    for (auto _ : state) {
+        auto distances = backend.computeDistances(
+            data.queries.data(),
+            data.num_queries,
+            data.dim,
+            data.vectors.data(),
+            data.num_vectors,
+            /*useL2=*/true);
+        benchmark::DoNotOptimize(distances);
+    }
+
+    backend.shutdown();
+
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(numQueries) *
+        static_cast<int64_t>(numVectors));
+    state.counters["shards"]  = numShards;
+    state.counters["backend"] = static_cast<int>(BackendType::MULTI_GPU);
+}
+
+BENCHMARK(BM_MultiGPUBackend_DistanceComputation)
+    ->Arg(1)->Arg(2)->Arg(4)
+    ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
