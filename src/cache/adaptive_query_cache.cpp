@@ -22,6 +22,7 @@
  */
 
 #include "cache/adaptive_query_cache.h"
+#include "cache/eviction_policy.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
@@ -79,6 +80,12 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         THEMIS_INFO("Circuit breaker enabled for L3 cache (threshold={}, timeout={}ms)",
                     cb_config.failure_threshold, cb_config.timeout_ms);
     }
+
+    // Initialize configurable eviction strategies for L1 and L2
+    l1_eviction_strategy_ = cache::makeEvictionStrategy(
+        config_.l1_eviction_policy, config_.l1_max_entries);
+    l2_eviction_strategy_ = cache::makeEvictionStrategy(
+        config_.l2_eviction_policy, config_.l2_max_entries);
     
     // Initialize L3 (RocksDB) cache with retry logic
     int retry_count = 0;
@@ -178,6 +185,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             
             // Check expiration
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
+                l1_eviction_strategy_->onRemove(key);
                 l1_cache_.erase(it);
                 stats_.evictions++;
                 enhanced_metrics_.evictions++;
@@ -185,6 +193,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 // Cache hit!
                 entry.last_accessed_ms = now_ms;
                 entry.access_count++;
+                l1_eviction_strategy_->onAccess(key);
                 
                 // Phase 3: Update TTL based on new access pattern
                 if (config_.enable_adaptive_ttl) {
@@ -220,6 +229,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             
             // Check expiration
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 l2_cache_.erase(it);
                 stats_.evictions++;
                 enhanced_metrics_.evictions++;
@@ -233,6 +243,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     // Update stats
                     entry.last_accessed_ms = now_ms;
                     entry.access_count++;
+                    l2_eviction_strategy_->onAccess(it->first);
                     
                     // Phase 3: Update TTL based on new access pattern
                     if (config_.enable_adaptive_ttl) {
@@ -256,7 +267,9 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         if (l1_cache_.size() >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
+                        l2_eviction_strategy_->onRemove(key);
                         l1_cache_[key] = std::move(l1_entry);
+                        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
                         l2_cache_.erase(it);
                         stats_.promotions++;
                         enhanced_metrics_.promotions++;
@@ -454,6 +467,7 @@ bool AdaptiveQueryCache::put(
         entry.ttl_seconds = ttl_seconds;
         
         l1_cache_[key] = std::move(entry);
+        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         
         // Phase 2: Update tenant size tracking
@@ -490,6 +504,7 @@ bool AdaptiveQueryCache::put(
         
         size_t compressed_size = entry.compressed_result.size();
         l2_cache_[fingerprint] = std::move(entry);
+        l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
@@ -569,6 +584,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (std::regex_search(it->first, re)) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -582,6 +598,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (std::regex_search(it->first, re)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -645,11 +662,13 @@ void AdaptiveQueryCache::clear() {
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         l1_cache_.clear();
+        l1_eviction_strategy_->clear();
     }
     
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         l2_cache_.clear();
+        l2_eviction_strategy_->clear();
     }
     
     if (l3_db_) {
@@ -682,6 +701,7 @@ uint64_t AdaptiveQueryCache::clearExpired() {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (isExpired(it->second.created_at_ms, it->second.ttl_seconds)) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -695,6 +715,7 @@ uint64_t AdaptiveQueryCache::clearExpired() {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (isExpired(it->second.created_at_ms, it->second.ttl_seconds)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -804,44 +825,56 @@ AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t resul
 
 void AdaptiveQueryCache::evictLRU(CacheLevel level) {
     if (level == CacheLevel::HOT) {
-        // Find LRU entry in L1
         if (l1_cache_.empty()) return;
-        
-        auto lru_it = l1_cache_.begin();
-        double min_score = calculateLRUScore(lru_it->second.last_accessed_ms, 
-                                             lru_it->second.access_count);
-        
-        for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {
-            double score = calculateLRUScore(it->second.last_accessed_ms, 
-                                            it->second.access_count);
-            if (score < min_score) {
-                min_score = score;
-                lru_it = it;
+
+        // Use the configured eviction strategy to select the victim key
+        auto victim = l1_eviction_strategy_->selectVictim();
+        if (victim && l1_cache_.count(*victim)) {
+            l1_eviction_strategy_->onRemove(*victim);
+            l1_cache_.erase(*victim);
+        } else {
+            // Fallback: score-based scan (strategy out of sync or returned nothing)
+            auto lru_it = l1_cache_.begin();
+            double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
+                                                 lru_it->second.access_count);
+            for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {
+                double score = calculateLRUScore(it->second.last_accessed_ms,
+                                                it->second.access_count);
+                if (score < min_score) {
+                    min_score = score;
+                    lru_it = it;
+                }
             }
+            l1_eviction_strategy_->onRemove(lru_it->first);
+            l1_cache_.erase(lru_it);
         }
-        
-        l1_cache_.erase(lru_it);
         stats_.evictions++;
         enhanced_metrics_.evictions++;
-        
+
     } else if (level == CacheLevel::WARM) {
-        // Find LRU entry in L2
         if (l2_cache_.empty()) return;
-        
-        auto lru_it = l2_cache_.begin();
-        double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
-                                             lru_it->second.access_count);
-        
-        for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {
-            double score = calculateLRUScore(it->second.last_accessed_ms,
-                                            it->second.access_count);
-            if (score < min_score) {
-                min_score = score;
-                lru_it = it;
+
+        // Use the configured eviction strategy to select the victim key
+        auto victim = l2_eviction_strategy_->selectVictim();
+        if (victim && l2_cache_.count(*victim)) {
+            l2_eviction_strategy_->onRemove(*victim);
+            l2_cache_.erase(*victim);
+        } else {
+            // Fallback: score-based scan
+            auto lru_it = l2_cache_.begin();
+            double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
+                                                 lru_it->second.access_count);
+            for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {
+                double score = calculateLRUScore(it->second.last_accessed_ms,
+                                                it->second.access_count);
+                if (score < min_score) {
+                    min_score = score;
+                    lru_it = it;
+                }
             }
+            l2_eviction_strategy_->onRemove(lru_it->first);
+            l2_cache_.erase(lru_it);
         }
-        
-        l2_cache_.erase(lru_it);
         stats_.evictions++;
         enhanced_metrics_.evictions++;
     }
@@ -1190,6 +1223,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (it->first.find(tenant_prefix) == 0) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -1203,6 +1237,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (it->first.find(tenant_prefix) == 0) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -1469,7 +1504,9 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
+            int64_t insert_ms = entry.created_at_ms;
             l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(insert_ms));
         }
 
         ++result.entries_loaded;

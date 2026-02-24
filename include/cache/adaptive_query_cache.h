@@ -34,6 +34,8 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/eviction_policy.h"
+#include "core/concerns/eviction_strategies.h"
 
 namespace themis {
 
@@ -93,6 +95,10 @@ public:
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
+
+        // Configurable eviction policies (L1 and L2 can use LRU, LFU, or ARC)
+        cache::EvictionPolicy l1_eviction_policy = cache::EvictionPolicy::LRU;
+        cache::EvictionPolicy l2_eviction_policy = cache::EvictionPolicy::LRU;
         
         // Size limits (Phase 1: Security)
         size_t max_total_entry_size = 10485760; // 10MB absolute max per entry
@@ -405,6 +411,10 @@ private:
     // L2: Compressed in-memory
     std::unordered_map<std::string, L2Entry> l2_cache_;
     mutable std::mutex l2_mutex_;
+
+    // Eviction strategy trackers (initialised from Config::l1/l2_eviction_policy)
+    std::unique_ptr<core::concerns::IEvictionStrategy> l1_eviction_strategy_;
+    std::unique_ptr<core::concerns::IEvictionStrategy> l2_eviction_strategy_;
     
     // L3: RocksDB persistent cache
     std::unique_ptr<RocksDBWrapper> l3_db_;

@@ -104,11 +104,11 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 `bounded_lru_cache.cpp` implements LRU only. For scan-heavy workloads (large analytics queries visiting all cache entries), LRU causes cache pollution. Add Least-Frequently-Used (LFU) and Adaptive Replacement Cache (ARC) policies selectable via config.
 
 **Implementation Notes:**
-- `[ ]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
-- `[ ]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
-- `[ ]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
-- `[ ]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
-- `[ ]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
+- `[x]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
+- `[x]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
+- `[x]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
+- `[x]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
+- `[x]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
 
 **Performance Targets:**
 - ARC policy achieves ≥ 10% higher hit rate than LRU on a scan-heavy TPC-H query replay workload.
