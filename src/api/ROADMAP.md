@@ -17,7 +17,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## In Progress 🚧
 - [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
-- [I] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
+- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
 
 ## Planned Features 📋
 
