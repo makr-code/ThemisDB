@@ -28,6 +28,7 @@
 #include <chrono>
 #include <ctime>
 #include <mutex>
+#include <regex>
 #include <sstream>
 #include <spdlog/spdlog.h>
 
@@ -161,9 +162,26 @@ http::response<http::string_body> APIGateway::handleRequest(
             return makeErrorResponse(http::status::service_unavailable, 
                                     "Service temporarily unavailable due to high load", req);
         }
+
+        // Build a path-normalized request: strip /v{N}/ prefix so downstream
+        // handlers and route-target logic work with unversioned paths.
+        // The original request is preserved for auth/rate-limit/versioning checks.
+        http::request<http::string_body> normalized_req = req;
+        if (config_.enable_api_versioning) {
+            std::string raw_target = std::string(req.target());
+            auto qpos = raw_target.find('?');
+            std::string path = (qpos != std::string::npos) ? raw_target.substr(0, qpos) : raw_target;
+            std::string query = (qpos != std::string::npos) ? raw_target.substr(qpos) : "";
+            std::string stripped = stripVersionPrefix(path);
+            if (stripped != path) {
+                normalized_req.target(stripped + query);
+                spdlog::debug("APIGateway: normalized versioned path '{}' to '{}'",
+                              path, stripped);
+            }
+        }
         
-        // 4. Determine routing target
-        RouteTarget target = determineRouteTarget(req);
+        // 4. Determine routing target (uses normalized path)
+        RouteTarget target = determineRouteTarget(normalized_req);
         
         // 5. Execute request based on target
         http::response<http::string_body> response;
@@ -171,27 +189,27 @@ http::response<http::string_body> APIGateway::handleRequest(
         switch (target) {
             case RouteTarget::LOCAL:
                 local_requests_++;
-                response = executeLocal(req, local_handler);
+                response = executeLocal(normalized_req, local_handler);
                 break;
                 
             case RouteTarget::SHARD:
                 distributed_requests_++;
                 if (shard_router_) {
-                    auto urn = extractUrnFromPath(std::string(req.target()));
+                    auto urn = extractUrnFromPath(std::string(normalized_req.target()));
                     if (urn) {
-                        response = dispatchShardOperation(*urn, req);
+                        response = dispatchShardOperation(*urn, normalized_req);
                     } else {
                         // No valid URN — fall back to local execution
-                        response = executeLocal(req, local_handler);
+                        response = executeLocal(normalized_req, local_handler);
                     }
                 } else {
-                    response = executeLocal(req, local_handler);
+                    response = executeLocal(normalized_req, local_handler);
                 }
                 break;
                 
             case RouteTarget::SCATTER_GATHER:
                 distributed_requests_++;
-                response = executeScatterGather(req);
+                response = executeScatterGather(normalized_req);
                 break;
                 
             case RouteTarget::FEDERATION:
@@ -202,7 +220,7 @@ http::response<http::string_body> APIGateway::handleRequest(
                 break;
         }
         
-        // 6. Process API versioning
+        // 6. Process API versioning (uses original req to read version from URL/header)
         if (config_.enable_api_versioning) {
             APIVersion version = processVersionHeaders(req, response);
             addDeprecationHeaders(req, response, version);
@@ -753,17 +771,31 @@ APIVersion APIGateway::processVersionHeaders(
             APIVersionConfig::CURRENT_PATCH
         };
     }
-    
-    // Parse Accept-Version header
+
+    // 1. Try URL path-based version (takes precedence over Accept-Version header)
+    std::string raw_path = std::string(req.target());
+    auto qpos = raw_path.find('?');
+    std::string path_only = (qpos != std::string::npos) ? raw_path.substr(0, qpos) : raw_path;
+    auto url_version_str = extractVersionFromPath(path_only);
+
+    // 2. Fall back to Accept-Version header
     std::string version_header;
     auto it = req.find(APIHeaders::ACCEPT_VERSION);
     if (it != req.end()) {
         version_header = std::string(it->value());
     }
-    
-    // Resolve version
-    APIVersion version = version_manager_->resolveVersion(version_header);
-    
+
+    // Resolve version: URL path prefix takes precedence over Accept-Version header.
+    // The raw URL token (e.g. "v1", "v1.4") is passed directly to resolveVersion so
+    // that partial versions resolve to the latest matching release (v1 → v1.4.1, etc.)
+    APIVersion version;
+    if (url_version_str) {
+        version = version_manager_->resolveVersion(*url_version_str);
+        spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
+    } else {
+        version = version_manager_->resolveVersion(version_header);
+    }
+
     // Add API-Version response header
     response.set(APIHeaders::API_VERSION, version.toString());
     
@@ -795,6 +827,10 @@ void APIGateway::addDeprecationHeaders(
     if (qpos != std::string::npos) {
         endpoint = endpoint.substr(0, qpos);
     }
+
+    // Normalize: strip version prefix so registrations like "/entities" match
+    // both "/entities" and "/v1/entities" requests
+    endpoint = stripVersionPrefix(endpoint);
     
     // Check if endpoint is deprecated
     auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);
@@ -824,6 +860,45 @@ void APIGateway::addDeprecationHeaders(
     // Log deprecation warning
     spdlog::warn("Deprecated endpoint accessed: {} (version {}), will be removed in version {}", 
                  endpoint, version.toString(), deprecation->removed_in.toString());
+}
+
+std::optional<std::string> APIGateway::extractVersionFromPath(const std::string& path) const {
+    // Match /v{major}/, /v{major}.{minor}/, /v{major}.{minor}.{patch}/ at path start.
+    // The trailing delimiter can be '/' (more path follows) or end-of-string.
+    // Capture group 1 holds the raw version token (e.g., "v1", "v1.4", "v1.4.1") so it can
+    // be forwarded as-is to resolveVersion() for correct partial-version resolution.
+    static const std::regex kVersionPrefixRegex(
+        R"(^(/v\d+(?:\.\d+){0,2})(?:/|$))"
+    );
+
+    std::smatch m;
+    if (!std::regex_search(path, m, kVersionPrefixRegex)) {
+        return std::nullopt;
+    }
+
+    // Return the raw token starting with 'v', dropping the leading '/'
+    return m[1].str().substr(1); // e.g. "/v1" → "v1", "/v1.4" → "v1.4"
+}
+
+std::string APIGateway::stripVersionPrefix(const std::string& path) const {
+    // Remove leading /v{N}/ (or /v{N}.{M}/ etc.) segment.
+    // "/v1/entities/foo"  → "/entities/foo"
+    // "/v2"               → "/"
+    // "/entities/foo"     → "/entities/foo"  (no-op)
+    static const std::regex kVersionPrefixStripRegex(
+        R"(^/v\d+(?:\.\d+)*(?=/|$))"
+    );
+
+    std::smatch m;
+    if (!std::regex_search(path, m, kVersionPrefixStripRegex)) {
+        return path;
+    }
+
+    std::string stripped = path.substr(m[0].length());
+    if (stripped.empty()) {
+        stripped = "/";
+    }
+    return stripped;
 }
 
 } // namespace themis::server
