@@ -227,6 +227,7 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
     {"config/mime_types.yaml", "config/data_management/mime_types.yaml"},
     {"config/storage_redundancy.yaml", "config/data_management/storage_redundancy.yaml"},
     {"config/retention_policies.yaml", "config/data_management/retention_policies.yaml"},
+    {"config/cdc_retention.yaml", "config/data_management/cdc_retention.yaml"},
     
     // Performance Configurations
     {"config/scaling_optimizations.yaml", "config/performance/scaling_optimizations.yaml"},
