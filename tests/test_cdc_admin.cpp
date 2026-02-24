@@ -24,7 +24,7 @@
 #include "cdc/cdc_admin.h"
 #include "cdc/changefeed.h"
 #include <memory>
-#include <rocksdb/db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 
 using namespace themis::cdc;
@@ -32,7 +32,7 @@ namespace fs = std::filesystem;
 
 class CDCAdminTest : public ::testing::Test {
 protected:
-    std::unique_ptr<rocksdb::DB> db;
+    std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
     std::unique_ptr<CDCAdmin> admin;
     std::string test_db_path;
@@ -46,8 +46,10 @@ protected:
         options.create_if_missing = true;
         options.error_if_exists = false;
         
-        rocksdb::DB* db_ptr;
-        rocksdb::Status s = rocksdb::DB::Open(options, test_db_path, &db_ptr);
+        rocksdb::TransactionDBOptions txn_options;
+        rocksdb::TransactionDB* db_ptr;
+        rocksdb::Status s = rocksdb::TransactionDB::Open(
+            options, txn_options, test_db_path, &db_ptr);
         ASSERT_TRUE(s.ok()) << "Failed to open test database: " << s.ToString();
         db.reset(db_ptr);
         
