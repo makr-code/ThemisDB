@@ -1,6 +1,7 @@
 #include "config/config_metrics_exporter.h"
 #include "config/config_path_resolver.h"
 #include "observability/metrics_collector.h"
+#include <map>
 #include <sstream>
 
 namespace themis {
@@ -90,6 +91,23 @@ std::string ConfigMetricsExporter::collect() {
         << "# TYPE themis_config_cache_ttl_seconds gauge\n"
         << "themis_config_cache_ttl_seconds " << ConfigPathResolver::kCacheTtlSeconds << "\n";
 
+    // Per-category legacy fallback counters (derived from deprecation aggregator)
+    const auto dep_report = ConfigPathResolver::deprecationReport();
+    if (!dep_report.empty()) {
+        // Aggregate usage_count by category
+        std::map<std::string, uint64_t> by_category;
+        for (const auto& entry : dep_report) {
+            by_category[entry.category.empty() ? "unknown" : entry.category] += entry.usage_count;
+        }
+        out << "# HELP themis_config_legacy_fallbacks_by_category_total "
+               "Total legacy config path fallbacks broken down by config category.\n"
+            << "# TYPE themis_config_legacy_fallbacks_by_category_total counter\n";
+        for (const auto& [cat, count] : by_category) {
+            out << "themis_config_legacy_fallbacks_by_category_total{category=\"" << cat << "\"} "
+                << count << "\n";
+        }
+    }
+
     return out.str();
 }
 
@@ -125,6 +143,17 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     collector.setGauge("themis_config_cache_size",                 static_cast<double>(cache_stats.size));
     collector.setGauge("themis_config_cache_capacity",             static_cast<double>(cache_stats.capacity));
     collector.setGauge("themis_config_cache_ttl_seconds",          static_cast<double>(ConfigPathResolver::kCacheTtlSeconds));
+
+    // Per-category legacy fallback gauges
+    const auto dep_report = ConfigPathResolver::deprecationReport();
+    std::map<std::string, uint64_t> by_category;
+    for (const auto& entry : dep_report) {
+        by_category[entry.category.empty() ? "unknown" : entry.category] += entry.usage_count;
+    }
+    for (const auto& [cat, count] : by_category) {
+        collector.setGauge("themis_config_legacy_fallbacks_by_category_current",
+                           static_cast<double>(count), {{"category", cat}});
+    }
 }
 
 } // namespace config

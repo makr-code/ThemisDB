@@ -144,7 +144,9 @@ public:
      */
     static constexpr int kCacheTtlSeconds = 300;
 
-
+    /**
+     * Entry in the deprecation usage report.
+     */
     struct DeprecationEntry {
         std::string legacy_path;
         std::string new_path;

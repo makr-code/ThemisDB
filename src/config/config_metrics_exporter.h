@@ -26,6 +26,7 @@ namespace config {
  *   themis_config_cache_size                 - gauge
  *   themis_config_cache_capacity             - gauge (info)
  *   themis_config_cache_ttl_seconds          - gauge (info)
+ *   themis_config_legacy_fallbacks_by_category_total{category} - counter (per-category breakdown)
  */
 class ConfigMetricsExporter {
 public:

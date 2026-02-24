@@ -575,6 +575,48 @@ TEST_F(ConfigMetricsExporterTest, CollectIsIdempotent) {
     EXPECT_EQ(first, second);
 }
 
+TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
+    // Trigger a legacy fallback so the deprecation aggregator gets data.
+    // Set up a temp dir with only the legacy file (no new path).
+    std::filesystem::path test_dir =
+        std::filesystem::temp_directory_path() / "themisdb_category_metric_test";
+
+    // RAII cleanup – removed unconditionally even on early return or throw
+    struct Cleanup {
+        std::filesystem::path dir;
+        std::filesystem::path prev_cwd;
+        ~Cleanup() {
+            std::error_code ec;
+            std::filesystem::current_path(prev_cwd, ec);
+            std::filesystem::remove_all(dir, ec);
+        }
+    } cleanup{test_dir, std::filesystem::current_path()};
+
+    std::filesystem::create_directories(test_dir / "config");
+    {
+        std::ofstream f(test_dir / "config" / "pii_patterns.yaml");
+        f << "test: data\n";
+    }
+
+    // The deprecation aggregator records usage unconditionally (regardless of
+    // setAggregationEnabled); per-call warnings are suppressed when disabled.
+    std::filesystem::current_path(test_dir);
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(cleanup.prev_cwd);
+
+    // Verify aggregator has data
+    const auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_FALSE(report.empty()) << "Deprecation aggregator should have recorded the legacy fallback";
+
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("themis_config_legacy_fallbacks_by_category_total{category="), std::string::npos)
+        << "Expected per-category fallback metric in output:\n" << output;
+    // pii_patterns.yaml maps to config/security/ → category "security"
+    EXPECT_NE(output.find("category=\"security\""), std::string::npos)
+        << "Expected 'security' category in output:\n" << output;
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis
