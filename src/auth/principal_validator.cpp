@@ -18,6 +18,7 @@
  */
 
 #include "auth/principal_validator.h"
+#include "server/policy_engine.h"
 #include "utils/logger.h"
 #include "utils/audit_logger.h"
 #include <algorithm>
@@ -48,7 +49,8 @@ PrincipalValidator::PrincipalValidator(const Config& config)
     utils::Logger::info("  Mapping rules: {}", config_.mapping_rules.size());
 }
 
-PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string& principal) {
+PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string& principal,
+                                                                  const ValidationContext& ctx) {
     stats_.total_validations++;
     
     ValidationResult result;
@@ -98,11 +100,28 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
         stats_.whitelisted++;
     }
     
-    // If allowed, apply mapping rules
+    // If allowed, apply mapping rules to assign RBAC roles
     if (result.allowed) {
         result.roles = applyMappingRules(principal);
     }
-    
+
+    // ABAC evaluation: additive to RBAC, only when RBAC allows
+    if (result.allowed && abac_engine_) {
+        const std::string action   = ctx.action.value_or("authenticate");
+        const std::string resource = ctx.resource.value_or("auth/principal");
+        auto abac = abac_engine_->authorize(principal, action, resource,
+                                            ctx.ip_address, ctx.user_agent);
+        if (!abac.allowed) {
+            result.allowed       = false;
+            result.denial_reason = "ABAC policy denied: " + abac.reason;
+            result.abac_policy_id = abac.policy_id;
+            stats_.denied++;
+            logAudit(result);
+            return result;
+        }
+        result.abac_policy_id = abac.policy_id;
+    }
+
     logAudit(result);
     return result;
 }
@@ -266,6 +285,8 @@ void PrincipalValidator::logAudit(const ValidationResult& result) const {
         d["matched_rule"]   = result.matched_rule;
         d["denial_reason"]  = result.denial_reason;
         d["roles"]          = result.roles;
+        if (!result.abac_policy_id.empty())
+            d["abac_policy_id"] = result.abac_policy_id;
         auto event = result.allowed
             ? utils::SecurityEventType::LOGIN_SUCCESS
             : utils::SecurityEventType::PERMISSION_DENIED;

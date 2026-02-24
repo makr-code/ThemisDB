@@ -216,7 +216,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_auth_metrics\\.cpp$"
     ".*test_jwks_security\\.cpp$"
     ".*test_kerberos_security\\.cpp$"
-    ".*test_principal_validator\\.cpp$"
     ".*test_totp_replay_cache\\.cpp$"
     ".*test_totp_secret_encryption\\.cpp$"
     ".*test_mfa_authenticator.*\\.cpp$"
