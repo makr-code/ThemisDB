@@ -11,7 +11,10 @@
 
 #include <gtest/gtest.h>
 #include "cdc/cdc_ws_handler.h"
+#include "cdc/changefeed.h"
+#include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
 
 using namespace themis::cdc;
 using json = nlohmann::json;
@@ -240,4 +243,68 @@ TEST(CdcWsHandlerTest, HasSubscriptionsFalseAfterAllUnsubscribed) {
     handler.handleFrame({{"action", "subscribe"}, {"id", "s1"}, {"collection", "c"}});
     handler.handleFrame({{"action", "unsubscribe"}, {"id", "s1"}});
     EXPECT_FALSE(handler.hasSubscriptions());
+}
+
+// ============================================================================
+// cdc_ws_overflow_total metric — unit tests (no RocksDB needed)
+// ============================================================================
+
+TEST(CdcWsHandlerTest, OverflowCounterStartsAtZero) {
+    CdcWebSocketHandler handler;
+    EXPECT_EQ(handler.getWsOverflowTotal(), 0u);
+}
+
+TEST(CdcWsHandlerTest, OverflowCounterUnchangedWithoutBackpressure) {
+    CdcWebSocketHandler handler;
+    handler.handleFrame({{"action", "subscribe"}, {"id", "s1"}, {"collection", "c"}});
+    // No events polled; counter should remain 0.
+    EXPECT_EQ(handler.getWsOverflowTotal(), 0u);
+}
+
+// ============================================================================
+// cdc_ws_overflow_total metric — integration test (RocksDB-backed)
+// ============================================================================
+
+class CdcWsOverflowTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = "./data/test_cdc_ws_handler_overflow";
+        std::filesystem::remove_all(test_db_path_);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
+
+        changefeed_ = std::make_unique<themis::Changefeed>(db_->getDB(), nullptr);
+    }
+
+    void TearDown() override {
+        changefeed_.reset();
+        db_->close();
+        db_.reset();
+        std::filesystem::remove_all(test_db_path_);
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<themis::Changefeed> changefeed_;
+};
+
+TEST_F(CdcWsOverflowTest, OverflowCounterIncrementsWhenPendingAckQueueFull) {
+    // Create handler with max_pending_ack = 0 to trigger back-pressure immediately
+    // on every pollEvents() call for any subscription.
+    CdcWebSocketHandler handler(/*max_pending_ack=*/0);
+
+    handler.handleFrame({{"action", "subscribe"}, {"id", "s1"}, {"collection", "items"}});
+
+    EXPECT_EQ(handler.getWsOverflowTotal(), 0u);
+
+    // First poll: pending_ack.size() (0) >= max_pending_ack_ (0) → overflow fires
+    handler.pollEvents(*changefeed_);
+    EXPECT_EQ(handler.getWsOverflowTotal(), 1u);
+
+    // Second poll: counter keeps incrementing
+    handler.pollEvents(*changefeed_);
+    EXPECT_EQ(handler.getWsOverflowTotal(), 2u);
 }

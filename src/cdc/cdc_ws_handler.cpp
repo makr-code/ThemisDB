@@ -156,9 +156,13 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed& feed) {
 
     for (auto& [id, sub] : subscriptions_) {
         // Back-pressure: pause delivery when the pending-ack window is full.
-        if (sub.pending_ack.size() >= kMaxPendingAck) {
+        // Record the cdc_ws_overflow_total metric each time this fires.
+        if (sub.pending_ack.size() >= max_pending_ack_) {
+            ws_overflow_total_.fetch_add(1, std::memory_order_relaxed);
             THEMIS_WARN("CdcWebSocketHandler: subscription '{}' pending_ack full "
-                        "({}), pausing delivery", id, sub.pending_ack.size());
+                        "({}), pausing delivery (cdc_ws_overflow_total={})",
+                        id, sub.pending_ack.size(),
+                        ws_overflow_total_.load(std::memory_order_relaxed));
             continue;
         }
 
@@ -179,7 +183,7 @@ std::vector<json> CdcWebSocketHandler::pollEvents(Changefeed& feed) {
 
             for (const auto& ev : events) {
                 // Re-check back-pressure within the batch.
-                if (sub.pending_ack.size() >= kMaxPendingAck) break;
+                if (sub.pending_ack.size() >= max_pending_ack_) break;
 
                 auto event_frame = buildEventFrame(ev, id);
                 sub.pending_ack.push_back({event_frame, now});

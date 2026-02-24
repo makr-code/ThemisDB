@@ -56,7 +56,15 @@ public:
     /// Time after which unacked events are redelivered (milliseconds).
     static constexpr int64_t kRedeliveryTimeoutMs = 5000;
 
-    CdcWebSocketHandler() = default;
+    /**
+     * @brief Construct with optional test overrides.
+     *
+     * @param max_pending_ack  Override for the pending-ack queue limit (default:
+     *                         kMaxPendingAck).  Pass a small value in unit tests
+     *                         to trigger back-pressure without 1,000 events.
+     */
+    explicit CdcWebSocketHandler(size_t max_pending_ack = kMaxPendingAck)
+        : max_pending_ack_(max_pending_ack) {}
 
     /**
      * @brief Process a client control frame.
@@ -91,6 +99,16 @@ public:
     std::vector<nlohmann::json> checkRedelivery();
 
     /**
+     * @brief Return the total number of times delivery was paused due to
+     *        back-pressure (pending-ack queue full).
+     *
+     * Exposed as the `cdc_ws_overflow_total` metric.
+     */
+    uint64_t getWsOverflowTotal() const {
+        return ws_overflow_total_.load(std::memory_order_relaxed);
+    }
+
+    /**
      * @brief Return true if at least one subscription is active.
      */
     bool hasSubscriptions() const;
@@ -115,6 +133,8 @@ private:
 
     std::unordered_map<std::string, Subscription> subscriptions_;
     mutable std::mutex mu_;
+    std::atomic<uint64_t> ws_overflow_total_{0};
+    size_t max_pending_ack_{kMaxPendingAck};
 };
 
 } // namespace cdc
