@@ -1502,6 +1502,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/consumer_group.cpp
     
     # Replication
