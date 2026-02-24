@@ -4324,6 +4324,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             else
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Async job API not available", req);
+            break;
+
         // ── API Key Management ───────────────────────────────────────────────
         case Route::ApiKeyPost:
             response = handleApiKeyCreate(req);
