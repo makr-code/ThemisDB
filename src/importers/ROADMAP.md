@@ -30,7 +30,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 ### Long-term (6-12 months)
 - [I] Kafka consumer importer for real-time streaming ingestion (Issue: #1843)
 - [I] Oracle Database importer (Issue: #1844)
-- [I] Microsoft SQL Server importer (Issue: #1845)
+- [~] Microsoft SQL Server importer (Issue: #1845)
 - [I] Plugin API for third-party importer extensions (Issue: #1846)
 - [I] GUI-based import wizard (web UI) (Issue: #1847)
 - [I] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
