@@ -33,10 +33,6 @@ namespace {
 // Helpers
 // ---------------------------------------------------------------------------
 
-ApiKeyAuthenticator makeAuth() {
-    return ApiKeyAuthenticator{};
-}
-
 ApiKeyCredential makeCredential(
     const std::string& key_id = "sk_live_test123",
     const std::string& secret = "super-secret",
