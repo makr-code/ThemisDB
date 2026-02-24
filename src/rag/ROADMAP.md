@@ -3,7 +3,7 @@
 # RAG Module Roadmap
 
 ## Current Status
-v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementation files (~8,400 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, and cross-encoder re-ranking.
+v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementation files (~8,700 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, and hybrid BM25+vector retrieval.
 
 ## Completed ✅
 - [x] RAGJudge – main orchestrator for multi-dimensional evaluation
@@ -30,6 +30,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
 - [x] DocumentSummarizer – multi-document summarization before context injection (Issue: #2239)
+- [x] KnowledgeGraphRetriever – knowledge graph-augmented retrieval with entity linking (Issue: #2242)
+- [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
+- [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
 
 ## In Progress 🚧
 
@@ -40,11 +43,15 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 - [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
 - [x] Multi-document summarization before context injection (Issue: #2239)
+- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
+- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
+- [x] Configurable chunk size and overlap for document splitting (Issue: #2238)
+- [I] Multi-document summarization before context injection (Issue: #2239)
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Long-term (6-12 months)
-- [I] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [I] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
+- [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
+- [x] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
 - [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
 - [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
@@ -67,35 +74,33 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] Re-ranking layer with cross-encoder model integration
 - [x] Hallucination rate tracking dashboard
 
-### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Planned 📋)
-- [ ] Hybrid retrieval (BM25 + vector) with configurable RRF weights
-- [ ] Citation highlighting (map answer sentences to source chunks)
-- [ ] Configurable chunk size and overlap for document splitting
+### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: In Progress 🚧)
+- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
+- [x] Citation highlighting (map answer sentences to source chunks)
+- [x] Configurable chunk size and overlap for document splitting
 - [x] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
-- [ ] Agentic RAG with iterative retrieval loops
-- [ ] Knowledge graph-augmented retrieval (entity linking)
+- [P] Agentic RAG with iterative retrieval loops
+- [x] Knowledge graph-augmented retrieval (entity linking)
 - [ ] Multi-modal RAG (image + text retrieval)
 - [ ] Online learning from evaluation feedback (adaptive retrieval)
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_summarizer: 27 test cases)
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)
-- [x] Documentation complete (streaming_retriever.h, reranker.h, document_summarizer.h: full Doxygen API docs)
-- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; DocumentSummarizerConfig: stable)
+- [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)
+- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; HybridRetrieverConfig: stable)
 
 ## Known Issues & Limitations
 - Evaluation accuracy depends on quality of the injected LLM judge model.
 - Thorough mode (~2 s latency) is not suitable for real-time interactive use.
-- No built-in document chunking strategy; callers manage chunk boundaries.
-- DocumentSummarizer abstractive mode: document content is embedded verbatim in
-  the LLM prompt; callers are responsible for sanitizing retrieved content to
-  mitigate prompt-injection attacks before passing it to `summarizeMultiple()`.
+- No built-in document chunking strategy: now provided by `DocumentSplitter` (configurable chunk size, overlap, and strategy).
 
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.

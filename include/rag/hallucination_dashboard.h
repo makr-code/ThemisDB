@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hallucination_dashboard.h                          ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     274                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -127,6 +127,8 @@ struct HallucinationDashboardConfig {
     /// Maximum number of evaluations retained in the rolling window.
     size_t window_size = 200;
 
+    /// Hallucination rate that triggers an INFO alert.
+    double alert_threshold_info     = 0.05; ///< 5 % rate → INFO
     /// Hallucination rate that triggers a WARNING alert.
     double alert_threshold_warning  = 0.15; ///< 15 % rate → WARNING
     /// Hallucination rate that triggers a CRITICAL alert.
