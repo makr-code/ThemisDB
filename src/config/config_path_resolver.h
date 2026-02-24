@@ -155,6 +155,25 @@ public:
     static const size_t kCacheSize;
 
     /**
+     * Snapshot of the effective cache configuration.
+     * Useful for observability endpoints and tests that need to confirm which
+     * values are actually in use.
+     */
+    struct CacheConfig {
+        size_t capacity;
+        int    ttl_seconds;
+    };
+
+    /**
+     * Return the effective LRU cache configuration (capacity and TTL).
+     * Values reflect what was read from the environment at startup (or the
+     * hardcoded defaults when the variables were absent/invalid).
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {kCacheSize, kCacheTtlSeconds};
+    }
+
+    /**
      * Entry in the deprecation usage report.
      */
     struct DeprecationEntry {
@@ -198,7 +217,7 @@ private:
     // Metrics tracking
     static Metrics metrics_;
     
-    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes)
+    // Cache for resolved paths (capacity and TTL configurable via env vars)
     static LRUCacheWithTTL<std::string, std::string> cache_;
     static std::atomic<bool> caching_enabled_;
     

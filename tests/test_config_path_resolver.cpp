@@ -655,6 +655,32 @@ TEST_F(CacheEnvConfigTest, KCacheTtlSecondsIsPositive) {
     EXPECT_GT(ConfigPathResolver::kCacheTtlSeconds, 0);
 }
 
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigReturnsKConstants) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    EXPECT_EQ(cfg.capacity,    ConfigPathResolver::kCacheSize);
+    EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kCacheTtlSeconds);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigCapacityIsWithinValidRange) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    // Valid range for THEMIS_CONFIG_CACHE_SIZE is [10, 100000]
+    EXPECT_GE(cfg.capacity, 10u);
+    EXPECT_LE(cfg.capacity, 100000u);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigTtlIsWithinValidRange) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    // Valid range for THEMIS_CONFIG_CACHE_TTL is [1, 86400]
+    EXPECT_GE(cfg.ttl_seconds, 1);
+    EXPECT_LE(cfg.ttl_seconds, 86400);
+}
+
+TEST_F(CacheEnvConfigTest, CacheStatsCapacityMatchesCurrentCacheConfig) {
+    auto stats = ConfigPathResolver::cacheStats();
+    auto cfg   = ConfigPathResolver::currentCacheConfig();
+    EXPECT_EQ(stats.capacity, cfg.capacity);
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

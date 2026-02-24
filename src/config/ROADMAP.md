@@ -7,7 +7,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Completed ✅
 - [x] Legacy-to-new config path mapping with 60+ path mappings
 - [x] Filesystem fallback: tries new path first, then legacy path with deprecation warning
-- [x] LRU cache (capacity 1000, TTL 5 min) for resolved paths
+- [x] LRU cache (capacity and TTL configurable via `THEMIS_CONFIG_CACHE_SIZE` / `THEMIS_CONFIG_CACHE_TTL` env vars, defaults: 1000 / 300 s) for resolved paths
 - [x] Path traversal prevention and normalization
 - [x] Deprecation and removal-date metadata per mapped path
 - [x] Migration guide links per deprecated path
@@ -58,7 +58,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ### Phase 4: Tooling and Observability (Status: Planned)
 - [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
 - [I] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
-- [I] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
+- [x] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
 - [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
@@ -77,4 +77,4 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ## Breaking Changes
 - Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires
-- Cache size and TTL will become configurable (currently hardcoded)
+- Cache size and TTL are now configurable via `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` environment variables (defaults: 1000 entries / 300 s)
