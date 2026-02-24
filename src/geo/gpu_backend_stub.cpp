@@ -412,6 +412,34 @@ private:
             return ringsIntersect(outerRing(g1), outerRing(g2));
         }
 
+        // MultiPolygon: intersects if any constituent polygon intersects
+        if (g1.isMultiPolygon()) {
+            for (const auto& sub : g1.geometries) {
+                if (computeExactIntersects(sub, g2)) return true;
+            }
+            return false;
+        }
+        if (g2.isMultiPolygon()) {
+            for (const auto& sub : g2.geometries) {
+                if (computeExactIntersects(g1, sub)) return true;
+            }
+            return false;
+        }
+
+        // GeometryCollection: intersects if any member intersects
+        if (g1.isGeometryCollection()) {
+            for (const auto& sub : g1.geometries) {
+                if (computeExactIntersects(sub, g2)) return true;
+            }
+            return false;
+        }
+        if (g2.isGeometryCollection()) {
+            for (const auto& sub : g2.geometries) {
+                if (computeExactIntersects(g1, sub)) return true;
+            }
+            return false;
+        }
+
         // Unsupported combination — conservative false
         return false;
     }
