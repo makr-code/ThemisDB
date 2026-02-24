@@ -37,12 +37,25 @@ The Config module provides backward-compatible configuration path resolution for
 Static utility that resolves legacy config paths to their new hierarchical locations. Checks the new path first, then falls back to the legacy path with a deprecation warning.
 
 **Features:**
-- **Path Mapping Table**: 60+ mappings covering AI/ML, security, compliance, performance, platform, networking, and monitoring categories
+- **Path Mapping Table**: 50+ mappings covering AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 - **Filesystem Fallback**: Tries the new path first; if absent, uses the legacy path and emits a `spdlog` warning
 - **Optional API**: `tryResolve()` returns `std::nullopt` instead of throwing on failure
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
 - **Thread-Safe Metrics**: All counters use `std::atomic` — safe for concurrent reads with no locking
+
 - **LRU Cache**: Resolved paths are cached to avoid repeated filesystem `exists()` calls. Capacity and TTL are configurable via environment variables (see [Environment Variables](#environment-variables) below).
+- **Symlink Hardening**: `validatePath()` rejects symlinks that resolve outside the config root
+- **Deprecation Aggregation**: `deprecationReport()` returns a usage-sorted snapshot of all legacy paths accessed since startup
+
+**Environment Variables:**
+
+| Variable | Default | Valid Range | Description |
+|---|---|---|---|
+| `THEMIS_CONFIG_CACHE_CAPACITY` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
+| `THEMIS_CONFIG_CACHE_TTL_SECONDS` | 300 | 1–86 400 | Entry TTL in seconds; 0 forces every resolve to hit the filesystem |
+
+Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
+
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access
@@ -135,6 +148,15 @@ if (meta && meta->isDeprecated()) {
 const auto& m = ConfigPathResolver::metrics();
 // m.new_path_hits, m.legacy_fallbacks, m.cache_hits, etc.
 
+// Query the active cache configuration (may differ from defaults if env vars are set)
+auto cfg = ConfigPathResolver::currentCacheConfig();
+// cfg.capacity, cfg.ttl_seconds
+
+// Enumerate all known legacy paths (e.g. for tooling)
+for (const auto& [legacy, new_path] : ConfigPathResolver::legacyPathMappings()) {
+    // ...
+}
+
 // Disable caching (e.g., in tests)
 ConfigPathResolver::setCachingEnabled(false);
 ConfigPathResolver::resetMetrics();
@@ -163,17 +185,45 @@ When a variable is absent, empty, not a valid integer, or outside its valid rang
 THEMIS_CONFIG_CACHE_SIZE=5000 THEMIS_CONFIG_CACHE_TTL=60 ./themisdb
 ```
 
+## Migration Scanner Tool
+
+**Location:** `tools/config_migration_scanner.cpp`
+
+A standalone CLI tool that scans a deployment directory tree for files referencing legacy config paths and outputs a migration report.
+
+```bash
+# Text report (default)
+config_migration_scanner --root /srv/themis
+
+# JSON report
+config_migration_scanner --root /srv/themis --output json
+
+# CSV report
+config_migration_scanner --root /srv/themis --output csv
+
+# Dry-run: show what --fix would change
+config_migration_scanner --root /srv/themis --dry-run --fix
+
+# Rewrite files in-place (creates .bak backups)
+config_migration_scanner --root /srv/themis --fix
+```
+
+**Exit codes:**
+- `0` – No overdue (past removal_date) legacy paths found
+- `1` – At least one path past its `removal_date` was found (usable as a CI gate)
+- `2` – Argument / usage error
+
 ## Production Readiness
 
-**Current Status: Beta**
+**Current Status: Production Ready**
 
 - All public methods are thread-safe for concurrent read access
-- Path-traversal prevention is enforced via `validatePath()`
-- LRU cache avoids repeated filesystem calls under load
+- Path-traversal prevention and symlink escape hardening are enforced via `validatePath()`
+- LRU cache avoids repeated filesystem calls under load; capacity and TTL are configurable at runtime via env vars
+- Complete deprecation metadata for all 50+ mapped paths in `METADATA_TABLE`
 - Known limitations:
-  - The metadata table (`METADATA_TABLE`) only contains entries for a small subset of mapped paths; remaining paths have auto-generated metadata with no deprecation dates
-  - Absolute path validation in `validatePath()` is basic; production deployments should harden this check for their filesystem layout
   - HTTP/network config paths are not validated for reachability; only filesystem presence is checked
+  - Migration tooling (`config_migration_scanner`) scans for path references but does not handle binary files
 
 ## Scientific References
 

@@ -683,3 +683,119 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughStatsByTierDisabledFlag) {
     ASSERT_TRUE(stats.contains("write_through"));
     EXPECT_FALSE(stats["write_through"]["enabled"].get<bool>());
 }
+
+// ============================================================================
+// Phase 3: Adaptive TTL Tuning Tests
+// ============================================================================
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLDisabledByDefault) {
+    // Adaptive TTL must be opt-in and off by default.
+    EXPECT_FALSE(config_.enable_adaptive_ttl);
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("adaptive_ttl"));
+    EXPECT_FALSE(info["adaptive_ttl"]["enabled"].get<bool>());
+}
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLReportedInDetailedInfo) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 30;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("adaptive_ttl"));
+    EXPECT_TRUE(info["adaptive_ttl"]["enabled"].get<bool>());
+    EXPECT_EQ(info["adaptive_ttl"]["min_seconds"].get<int>(), 30);
+    EXPECT_EQ(info["adaptive_ttl"]["max_seconds"].get<int>(), 3600);
+    EXPECT_DOUBLE_EQ(info["adaptive_ttl"]["scaling_factor"].get<double>(), 5.0);
+    EXPECT_EQ(info["adaptive_ttl"]["ttl_extended_total"].get<uint64_t>(), 0u);
+    EXPECT_EQ(info["adaptive_ttl"]["ttl_shortened_total"].get<uint64_t>(), 0u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLInitialEntryGetsMinTTL) {
+    // New entries (access_count=0) should receive the minimum TTL.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 86400;
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp = cache.generateFingerprint("SELECT 1", {});
+    EXPECT_TRUE(cache.put(fp, {}, json({{"v", 1}})));
+
+    auto entry = cache.get(fp);
+    ASSERT_TRUE(entry.has_value());
+    // First access: TTL should be at least the configured minimum.
+    EXPECT_GE(entry->ttl_seconds, config_.adaptive_ttl_min_seconds);
+}
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLHotKeyExtendsOnFrequentAccess) {
+    // Accessing the same entry >= 10 times within one window should trigger
+    // the hot-key policy and increment ttl_extended_total.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 86400;
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp = cache.generateFingerprint("SELECT hot", {});
+    EXPECT_TRUE(cache.put(fp, {}, json({{"row", 1}})));
+
+    // Access the entry 12 times within the same 5-minute window.
+    // Hot-key threshold is >= 10 accesses per window; 12 ensures we exceed it.
+    for (int i = 0; i < 12; i++) {
+        auto hit = cache.get(fp);
+        ASSERT_TRUE(hit.has_value()) << "miss on access " << i;
+    }
+
+    EXPECT_GE(cache.getEnhancedMetrics().ttl_extended_total.load(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLCalculateLargerTTLForHighAccessCount) {
+    // Entries with higher access counts should receive a longer TTL via the
+    // logarithmic scaling formula.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 86400;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+
+    // Put two entries; access the second one many more times.
+    std::string fp_low  = cache.generateFingerprint("SELECT low",  {});
+    std::string fp_high = cache.generateFingerprint("SELECT high", {});
+    cache.put(fp_low,  {}, json({{"v", 0}}));
+    cache.put(fp_high, {}, json({{"v", 1}}));
+
+    // Access fp_high many times to build up access_count.
+    for (int i = 0; i < 20; i++) {
+        auto h = cache.get(fp_high);
+        ASSERT_TRUE(h.has_value());
+    }
+    // Access fp_low just once.
+    auto low_hit = cache.get(fp_low);
+    ASSERT_TRUE(low_hit.has_value());
+
+    auto high_hit = cache.get(fp_high);
+    ASSERT_TRUE(high_hit.has_value());
+
+    EXPECT_GE(high_hit->ttl_seconds, low_hit->ttl_seconds);
+}
+
+TEST_F(AdaptiveQueryCacheTest, AdaptiveTTLBoundedByConfiguredLimits) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 10;
+    config_.adaptive_ttl_max_seconds = 120;
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp = cache.generateFingerprint("SELECT bounded", {});
+    EXPECT_TRUE(cache.put(fp, {}, json({{"v", 42}})));
+
+    // Access many times – TTL must never exceed max.
+    for (int i = 0; i < 50; i++) {
+        auto h = cache.get(fp);
+        ASSERT_TRUE(h.has_value());
+        EXPECT_GE(h->ttl_seconds, config_.adaptive_ttl_min_seconds);
+        EXPECT_LE(h->ttl_seconds, config_.adaptive_ttl_max_seconds);
+    }
+}

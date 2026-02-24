@@ -536,7 +536,7 @@ TEST_F(TrainingQueryBuilderTest, ToAQLContainsWhereClause) {
 }
 
 TEST_F(TrainingQueryBuilderTest, ToAQLContainsDistributed) {
-    DistributedTrainingConfig dist;
+    AQLDistributedTrainingConfig dist;
     dist.enabled           = true;
     dist.coordinator_shard = "shard-0";
 

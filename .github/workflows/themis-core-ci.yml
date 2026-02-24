@@ -347,10 +347,16 @@ jobs:
           SEC_FILTER="${SEC_FILTER}:RBACNegativeTest*:RBACTest*:PermissionTest*"
           SEC_FILTER="${SEC_FILTER}:RBACBuiltinRolesTest*:RBACInheritanceTest*:RBACSerializationTest*"
           SEC_FILTER="${SEC_FILTER}:VaultNegativeTest*:VaultSigningProviderErrorTest*"
+          # Auth module unit tests
+          AUTH_FILTER="MFAAuthenticatorTest*:AuthMetricsTest*:AuthErrorTest*"
+          AUTH_FILTER="${AUTH_FILTER}:JWKSSecurityConfigTest*:JWKSSecureFetcherTest*:CertificateUtilsTest*"
+          AUTH_FILTER="${AUTH_FILTER}:KerberosSecurityValidatorTest*:ChannelBindingGeneratorTest*"
+          AUTH_FILTER="${AUTH_FILTER}:TOTPReplayCacheTest*:SecureMFAValidatorTest*"
+          AUTH_FILTER="${AUTH_FILTER}:TOTPSecretEncryptionTest*:KeyRotationTest*"
           cd build
           ./tests/themis_tests \
             --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*:WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*:AbiChecker*:ModuleSandbox*:ModuleLoader*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*:WirePerfBenchmark*" \
-            --gtest_filter="${CORE_FILTER}:${SEC_FILTER}" \
+            --gtest_filter="${CORE_FILTER}:${SEC_FILTER}:${AUTH_FILTER}" \
             2>&1 | tee coverage_test_output.txt || true
 
       - name: Capture lcov data
