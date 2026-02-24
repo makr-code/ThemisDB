@@ -1790,6 +1790,9 @@ set(THEMIS_CORE_SOURCES
 
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
+
+    # ML Serving Integration – ONNX Runtime + TF Serving (Issue #1476)
+    ../src/analytics/ml_serving.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2439,6 +2442,11 @@ target_link_libraries(themis_core
     ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
+
+# Link ONNX Runtime when available (ML Serving backend)
+if(onnxruntime_FOUND)
+    target_link_libraries(themis_core PUBLIC onnxruntime::onnxruntime)
+endif()
 
 if(WIN32)
     target_link_libraries(themis_core PUBLIC Secur32)

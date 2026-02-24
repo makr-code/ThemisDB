@@ -283,6 +283,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
+    ../src/analytics/ml_serving.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
@@ -861,6 +862,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+    endif()
+    if(onnxruntime_FOUND)
+        list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
     
     themis_add_module(query

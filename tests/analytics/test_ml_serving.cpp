@@ -258,12 +258,11 @@ TEST(MLServingClientTest, ActiveBackendNameIsNonEmpty) {
 
 TEST(MLServingClientTest, IsBackendAvailableAutoReflectsActiveBackend) {
     MLServingClient client;
-    bool auto_avail = client.isBackendAvailable(MLBackendType::AUTO);
     // Consistency: AUTO availability matches the active backend
 #if defined(THEMIS_HAS_ONNX) || (defined(THEMIS_HAS_TF_SERVING) && defined(THEMIS_HAS_CURL))
-    EXPECT_TRUE(auto_avail);
+    EXPECT_TRUE(client.isBackendAvailable(MLBackendType::AUTO));
 #else
-    EXPECT_FALSE(auto_avail);
+    EXPECT_FALSE(client.isBackendAvailable(MLBackendType::AUTO));
 #endif
 }
 
