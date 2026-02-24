@@ -20,9 +20,11 @@ using json = nlohmann::json;
 
 // ── Construction / destruction ────────────────────────────────────────────────
 
-WsTransport::WsTransport(Changefeed* changefeed, uint32_t poll_interval_ms)
+WsTransport::WsTransport(Changefeed* changefeed, uint32_t poll_interval_ms,
+                         cdc::CDCMetrics* metrics)
     : changefeed_(changefeed)
     , poll_interval_ms_(poll_interval_ms)
+    , metrics_(metrics)
 {
     THEMIS_INFO("WsTransport created (poll_interval={}ms)", poll_interval_ms_);
 }
@@ -206,6 +208,9 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
             try {
                 send_fn(delivery.session_id, frame.dump());
                 total_events_delivered_++;
+                if (metrics_) {
+                    metrics_->ws_events_delivered++;
+                }
             } catch (const std::exception& ex) {
                 THEMIS_ERROR("WsTransport: send_fn threw for session {}: {}",
                              delivery.session_id, ex.what());
@@ -230,6 +235,9 @@ void WsTransport::pollAndDeliver(const SendFn& send_fn, const CloseFn& close_fn)
     // Phase 5: close and remove overflow sessions.
     for (const auto& sid : overflow_sessions) {
         total_overflow_closes_++;
+        if (metrics_) {
+            metrics_->ws_overflow_total++;
+        }
         if (close_fn) {
             try {
                 close_fn(sid);

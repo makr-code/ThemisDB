@@ -222,6 +222,7 @@ TEST(WebSocketQueryTest, QueryErrorResponseFormat) {
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "cdc/ws_transport.h"
+#include "cdc/cdc_metrics.h"
 
 using namespace themis::cdc;
 
@@ -431,6 +432,48 @@ TEST(WsTransportTest, SubscribeAckFrameHasRequiredFields) {
 
     EXPECT_EQ(ack["action"], "subscribed");
     EXPECT_EQ(ack["id"],     "sub-1");
+}
+
+// ── CDCMetrics integration ────────────────────────────────────────────────────
+
+TEST(WsTransportTest, MetricsCountersStartAtZero) {
+    // CDCMetrics WS counters must be zero-initialised.
+    CDCMetrics m;
+    EXPECT_EQ(m.ws_events_delivered.load(), 0u);
+    EXPECT_EQ(m.ws_overflow_total.load(), 0u);
+}
+
+TEST(WsTransportTest, NullMetricsParameterIsAccepted) {
+    // Constructing with null metrics pointer must not throw.
+    EXPECT_NO_THROW(WsTransport transport(nullptr, WsTransport::kDefaultPollIntervalMs, nullptr));
+}
+
+TEST(WsTransportTest, MetricsParameterExposedViaConstructor) {
+    // Verify the constructor accepts a non-null CDCMetrics pointer.
+    CDCMetrics m;
+    EXPECT_NO_THROW(WsTransport transport(nullptr, WsTransport::kDefaultPollIntervalMs, &m));
+}
+
+TEST(WsTransportTest, MetricsResetClearsWsCounters) {
+    CDCMetrics m;
+    m.ws_events_delivered = 42;
+    m.ws_overflow_total   = 7;
+
+    m.reset();
+
+    EXPECT_EQ(m.ws_events_delivered.load(), 0u);
+    EXPECT_EQ(m.ws_overflow_total.load(), 0u);
+}
+
+TEST(WsTransportTest, MetricsToJsonContainsWsFields) {
+    CDCMetrics m;
+    m.ws_events_delivered = 100;
+    m.ws_overflow_total   = 3;
+
+    auto j = m.toJson();
+    EXPECT_TRUE(j.contains("counters"));
+    EXPECT_EQ(j["counters"]["ws_events_delivered"], 100u);
+    EXPECT_EQ(j["counters"]["ws_overflow_total"],   3u);
 }
 
 #endif // THEMIS_ENABLE_WEBSOCKET

@@ -34,6 +34,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "cdc/changefeed.h"
+#include "cdc/cdc_metrics.h"
 #include <atomic>
 #include <boost/asio.hpp>
 #include <functional>
@@ -70,11 +71,14 @@ public:
     };
 
     /// Transport-level statistics.
+    /// Note: total_overflow_closes maps to the Prometheus counter
+    /// cdc_ws_overflow_total; total_events_delivered maps to
+    /// cdc_ws_events_delivered_total.
     struct Stats {
         size_t active_sessions = 0;
         size_t total_subscriptions = 0;
-        uint64_t total_events_delivered = 0;
-        uint64_t total_overflow_closes = 0;
+        uint64_t total_events_delivered = 0;  ///< cdc_ws_events_delivered_total
+        uint64_t total_overflow_closes = 0;   ///< cdc_ws_overflow_total
         uint64_t total_poll_cycles = 0;
     };
 
@@ -88,9 +92,13 @@ public:
      * @brief Construct WsTransport.
      * @param changefeed  Changefeed instance (not owned; must outlive transport).
      * @param poll_interval_ms  Background polling interval in milliseconds.
+     * @param metrics     Optional CDCMetrics instance for Prometheus counter
+     *                    updates (ws_overflow_total, ws_events_delivered).
+     *                    Not owned; must outlive transport if non-null.
      */
     explicit WsTransport(Changefeed* changefeed,
-                         uint32_t poll_interval_ms = kDefaultPollIntervalMs);
+                         uint32_t poll_interval_ms = kDefaultPollIntervalMs,
+                         cdc::CDCMetrics* metrics = nullptr);
 
     ~WsTransport();
 
@@ -199,6 +207,7 @@ private:
 
     Changefeed* changefeed_;
     uint32_t poll_interval_ms_;
+    cdc::CDCMetrics* metrics_; ///< Optional external metrics sink (not owned)
 
     mutable std::mutex mutex_;
     std::unordered_map<std::string, Session> sessions_; ///< session_id → Session

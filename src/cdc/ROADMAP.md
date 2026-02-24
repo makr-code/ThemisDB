@@ -21,7 +21,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
+- [P] WebSocket transport for bidirectional change feeds (Issue: #1607)
 - [I] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
@@ -66,7 +66,7 @@
 - [x] API stability guaranteed for changefeed and subscription APIs
 
 ## Known Issues & Limitations
-- WebSocket transport not yet implemented; SSE only
+- WebSocket transport implemented (`cdc/ws_transport.cpp`); endpoint wiring to `/v2/cdc/stream` is a follow-up task (Issue: #1607)
 - No consumer offset tracking; replay requires full log scan
 - Change log retention policies are not configurable at runtime
 - At-least-once delivery is not yet guaranteed for SSE connections

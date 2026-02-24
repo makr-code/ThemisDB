@@ -277,6 +277,10 @@ struct CDCMetrics {
     std::atomic<uint64_t> decompression_count{0};
     std::atomic<uint64_t> errors{0};
     std::atomic<uint64_t> retries{0};
+
+    // WebSocket transport counters (cdc_ws_* Prometheus metric names)
+    std::atomic<uint64_t> ws_events_delivered{0};   ///< cdc_ws_events_delivered_total
+    std::atomic<uint64_t> ws_overflow_total{0};     ///< cdc_ws_overflow_total
     
     /**
      * @brief Convert all metrics to JSON
@@ -297,7 +301,9 @@ struct CDCMetrics {
                 {"compression_count", compression_count.load()},
                 {"decompression_count", decompression_count.load()},
                 {"errors", errors.load()},
-                {"retries", retries.load()}
+                {"retries", retries.load()},
+                {"ws_events_delivered", ws_events_delivered.load()},
+                {"ws_overflow_total", ws_overflow_total.load()}
             }}
         };
     }
@@ -319,6 +325,8 @@ struct CDCMetrics {
         decompression_count = 0;
         errors = 0;
         retries = 0;
+        ws_events_delivered = 0;
+        ws_overflow_total = 0;
     }
 };
 
