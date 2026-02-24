@@ -127,6 +127,15 @@ public:
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
         
+        // Phase 4: Write-through cache mode for read-heavy workloads
+        // When enabled, put() writes to ALL applicable tiers simultaneously (L1+L2+L3)
+        // instead of selecting a single tier based on entry size.
+        // This increases write cost but guarantees that every entry is immediately
+        // available at the closest tier, eliminating inter-tier promotion latency for
+        // subsequent reads. Recommended for read-heavy workloads where writes are
+        // infrequent relative to reads.
+        bool enable_write_through = false;
+        
         /**
          * @brief Validate configuration parameters
          * @return true if config is valid, false otherwise

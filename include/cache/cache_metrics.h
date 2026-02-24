@@ -85,6 +85,10 @@ struct CacheMetrics {
     std::atomic<uint64_t> ttl_extended_total{0};
     std::atomic<uint64_t> ttl_shortened_total{0};
 
+    // Phase 4: Write-through cache mode metrics
+    // themis_cache_write_through_total: total writes that went to multiple tiers
+    std::atomic<uint64_t> write_through_writes{0};
+
     CacheMetrics() = default;
 
     CacheMetrics(const CacheMetrics& other) {
@@ -114,6 +118,7 @@ struct CacheMetrics {
         warmup_entries_failed.store(other.warmup_entries_failed.load());
         ttl_extended_total.store(other.ttl_extended_total.load());
         ttl_shortened_total.store(other.ttl_shortened_total.load());
+        write_through_writes.store(other.write_through_writes.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -144,6 +149,7 @@ struct CacheMetrics {
             warmup_entries_failed.store(other.warmup_entries_failed.load());
             ttl_extended_total.store(other.ttl_extended_total.load());
             ttl_shortened_total.store(other.ttl_shortened_total.load());
+            write_through_writes.store(other.write_through_writes.load());
         }
         return *this;
     }
@@ -223,6 +229,9 @@ struct CacheMetrics {
         // Phase 3: Adaptive TTL tuning metrics
         j["adaptive_ttl"]["ttl_extended_total"] = ttl_extended_total.load();
         j["adaptive_ttl"]["ttl_shortened_total"] = ttl_shortened_total.load();
+
+        // Phase 4: Write-through cache mode metrics
+        j["write_through"]["writes"] = write_through_writes.load();
         
         return j;
     }
@@ -255,6 +264,7 @@ struct CacheMetrics {
         warmup_entries_failed = 0;
         ttl_extended_total = 0;
         ttl_shortened_total = 0;
+        write_through_writes = 0;
     }
 };
 
