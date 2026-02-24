@@ -14,19 +14,19 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ## In Progress 🚧
 - [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
-- [I] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
+- [P] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
 - [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
-- [I] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372)
+- [P] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
 - [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
-- [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
+- [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
 - [P] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
@@ -39,7 +39,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
 
 ### Phase 2: Core-Implementierung
-- [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
+- [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`
 - [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
@@ -75,13 +75,13 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
 - [P] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461) — `src/acceleration/cuda/ann_kernels.cu` implemented; ANN kernels (L2, cosine, inner-product, top-K) complete with frozen `ANNDistanceFn`/`ANNTopKFn` interface; dispatch table wired via `populateCUDAANNDispatch`
-- [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
+- [P] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462) — GLSL compute shaders (L2, cosine, inner-product, top-K, haversine, point-in-polygon) implemented in `src/acceleration/vulkan/shaders/`; CPU fallback dispatch tables wired via `populateANNDispatch`/`populateGeoDispatch`; `VulkanGeoBackend` initializes in CPU-fallback mode when no Vulkan ICD is present; tests in `tests/test_vulkan_compute_equivalents.cpp`
 - [P] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164) — `DeviceManager` singleton (`include/acceleration/device_manager.h`, `src/acceleration/device_manager.cpp`): 60s TTL probe cache, CUDA/ROCm/Vulkan/CPU BackendType mapping, FP16/BF16 precision flags from compute capability, `getBestDevice()` VRAM-ranked selection, `logDeviceInfo()` for startup observability; `BackendRegistry::deviceInfo()` observability accessor; integrated into `BackendRegistry::initializeRuntime()`; tests in `tests/test_device_manager.cpp`
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
 - [x] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134) — `GeoAccelerationBridge::populateGeoDispatch()` implemented in `src/acceleration/geo_acceleration_bridge.cpp`; wires `bridge_geo_distance` (Haversine, CPU path) and `bridge_geo_containment` (delegates to `GpuBatchBackend::batchIntersects` with CPU fallback) into the frozen `GeoKernelDispatch` table; self-registration unchanged; tests in `tests/test_geo_gpu_backend.cpp`
 
-### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
-- [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
+### Phase 3: Extended Hardware and Advanced Features (Status: In Progress)
+- [x] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`; non-HIP fallback stubs added to `hip_backend.cpp` matching CUDA backend pattern
 - [P] Implement multi-GPU sharding for large embedding datasets (Issue: #1457) — `MultiGPUVectorBackend` (`include/acceleration/multi_gpu_backend.h`, `src/acceleration/multi_gpu_backend.cpp`): range-based sharding across N devices, fan-out `batchKnnSearch`, host-side top-k merge, NCCL/RCCL comm backend with CPU fallback; registered in `BackendRegistry::autoDetect()`; comprehensive tests in `tests/test_multi_gpu_backend.cpp`
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [x] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; LRU eviction at 32 entries; tests in `tests/test_cuda_graph_capture.cpp`
@@ -96,7 +96,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA ANN / geospatial backends are currently stub/scaffolding implementations; all ANN/geo operations fall through to CPU
+- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
 - Some backend source files are staged but not feature-complete for production traffic
