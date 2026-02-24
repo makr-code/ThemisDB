@@ -455,6 +455,30 @@ private:
     );
 
     /**
+     * @brief Extract API version from URL path prefix
+     *
+     * Parses a leading /v{N}/ or /v{N}.{M}/ segment from the path.
+     * Example: "/v1/entities/foo" → "v1"
+     *
+     * @param path HTTP target path
+     * @return Version string (e.g. "v1") if a version prefix is present, nullopt otherwise
+     */
+    std::optional<std::string> extractVersionFromPath(const std::string& path) const;
+
+    /**
+     * @brief Strip API version prefix from URL path
+     *
+     * Removes a leading /v{N}/ or /v{N}.{M}/ segment from the path so that
+     * downstream handlers and deprecation registry lookups work with
+     * canonical paths regardless of the version prefix used.
+     * Example: "/v1/entities/foo" → "/entities/foo"
+     *
+     * @param path HTTP target path
+     * @return Path with version prefix removed, or original path if no prefix found
+     */
+    std::string stripVersionPrefix(const std::string& path) const;
+
+    /**
      * @brief Record request metrics
      * 
      * @param req Request

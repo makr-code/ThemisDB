@@ -6282,6 +6282,116 @@ paths:
         '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
+  /v2/jobs:
+    post:
+      summary: Submit async AQL job
+      operationId: submitAsyncJob
+      tags: [async-jobs]
+      description: |
+        Submits a long-running AQL query as an asynchronous background job.
+        The response immediately returns a `job_id` that can be polled with
+        `GET /v2/jobs/{id}`. The job runs in a background thread; results are
+        available once `status` transitions to `completed`.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncJobSubmitRequest'
+            examples:
+              simple:
+                summary: Long-running AQL scan
+                value:
+                  query: "FOR doc IN large_collection FILTER doc.active == true RETURN doc"
+      responses:
+        '202':
+          description: Job accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncJobAccepted'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    get:
+      summary: List all async jobs
+      operationId: listAsyncJobs
+      tags: [async-jobs]
+      description: Returns a JSON array of all known async job records (pending, running, completed, failed, cancelled).
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Array of async job records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AsyncJobRecord'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /v2/jobs/{id}:
+    get:
+      summary: Poll async job status / result
+      operationId: getAsyncJob
+      tags: [async-jobs]
+      description: |
+        Returns the full `AsyncJobRecord` for the given `id`. Poll this endpoint
+        until `status` is `completed`, `failed`, or `cancelled`.
+        On `completed`, the response includes a `result` field with the AQL output.
+        On `failed`, the response includes an `error` field with the error message.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+          description: Job ID returned by `POST /v2/jobs`
+      responses:
+        '200':
+          description: Full async job record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncJobRecord'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Cancel async job
+      operationId: cancelAsyncJob
+      tags: [async-jobs]
+      description: |
+        Signals cancellation of the specified job. If the job is already in a
+        terminal state (`completed`, `failed`, `cancelled`), the endpoint returns
+        HTTP 409 Conflict. Pending jobs are cancelled immediately; running jobs
+        receive a cooperative cancellation signal.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+          description: Job ID to cancel
+      responses:
+        '200':
+          description: Cancellation requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncJobCancelResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Job is already in a terminal state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 
 components:
   securitySchemes:
@@ -6290,6 +6400,86 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    AsyncJobSubmitRequest:
+      type: object
+      description: Request body for submitting an async AQL job.
+      required: [query]
+      properties:
+        query:
+          type: string
+          description: AQL query string to execute asynchronously.
+          example: "FOR doc IN large_collection FILTER doc.active == true RETURN doc"
+        bind_vars:
+          type: object
+          description: Bind variables for the AQL query. Accepted for forward compatibility; note that runtime substitution is not yet applied by the background executor.
+          additionalProperties: true
+    AsyncJobAccepted:
+      type: object
+      description: Immediate response after job submission.
+      required: [job_id, status]
+      properties:
+        job_id:
+          type: string
+          description: Unique job identifier; use with GET /v2/jobs/{id} to poll status.
+          example: "job-18c3f2a1-0"
+        status:
+          type: string
+          enum: [pending]
+          description: Initial status of the submitted job.
+          example: "pending"
+    AsyncJobRecord:
+      type: object
+      description: Full record of an async AQL job, including status and results.
+      required: [job_id, status, query, created_at, updated_at]
+      properties:
+        job_id:
+          type: string
+          description: Unique job identifier.
+          example: "job-18c3f2a1-0"
+        status:
+          type: string
+          enum: [pending, running, completed, failed, cancelled]
+          description: Current lifecycle state of the job.
+          example: "completed"
+        query:
+          type: string
+          description: The original AQL query string.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC timestamp when the job was submitted.
+          example: "2026-02-24T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC timestamp of the last status transition.
+          example: "2026-02-24T10:00:01Z"
+        result:
+          description: AQL query result; present only when status is `completed`.
+          oneOf:
+            - type: array
+              items: {}
+            - type: object
+              additionalProperties: true
+        error:
+          type: string
+          description: Error message; present only when status is `failed`.
+          example: "AQL parse error at column 5"
+    AsyncJobCancelResponse:
+      type: object
+      description: Response to a DELETE /v2/jobs/{id} cancellation request.
+      required: [job_id, status, message]
+      properties:
+        job_id:
+          type: string
+          description: The cancelled job ID.
+        status:
+          type: string
+          enum: [pending, running, cancelled]
+          description: Job status after the cancellation request was processed.
+        message:
+          type: string
+          example: "Cancellation requested"
     RateLimitError:
       type: object
       properties:

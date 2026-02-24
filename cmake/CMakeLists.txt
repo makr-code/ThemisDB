@@ -1610,6 +1610,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
@@ -1763,6 +1764,7 @@ set(THEMIS_CORE_SOURCES
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
@@ -1788,8 +1790,16 @@ set(THEMIS_CORE_SOURCES
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
 
+    # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
+    ../src/analytics/columnar_execution.cpp
+
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
+
+    # ML Serving Integration – ONNX Runtime + TF Serving (Issue #1476)
+    ../src/analytics/ml_serving.cpp
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -1988,6 +1998,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/reranker.cpp
     # Phase 2: Hallucination Rate Tracking Dashboard
     ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Citation Highlighting
+    ../src/rag/citation_highlighter.cpp
     # Phase 3: Configurable chunk size and overlap for document splitting
     ../src/rag/document_splitter.cpp
     # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
@@ -2439,6 +2451,11 @@ target_link_libraries(themis_core
     ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
+
+# Link ONNX Runtime when available (ML Serving backend)
+if(onnxruntime_FOUND)
+    target_link_libraries(themis_core PUBLIC onnxruntime::onnxruntime)
+endif()
 
 if(WIN32)
     target_link_libraries(themis_core PUBLIC Secur32)
@@ -2952,6 +2969,9 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
+
+        # RAG Enhancement: Citation Highlighting (Phase 3)
+        ../src/rag/citation_highlighter.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION

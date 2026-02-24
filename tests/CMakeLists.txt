@@ -69,6 +69,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_rag_hallucination_dashboard\\.cpp$"
+        ".*test_rag_citation_highlighter\\.cpp$"
         ".*test_rag_document_summarizer\\.cpp$"
         ".*test_rag_citation_highlighter\\.cpp$"
         ".*test_rag_knowledge_graph_retriever\\.cpp$"
@@ -291,7 +292,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_oauth_device_flow\\.cpp$"
-    ".*test_oauth_pkce_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
@@ -914,6 +914,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
     )
 
     message(STATUS "  gRPC API Server: lifecycle, TLS config, service registration")
+endif()
+
+# ============================================================================
+# ThemisDB gRPC Service wrapper Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
+    message(STATUS "Adding ThemisDB gRPC Service wrapper tests")
+
+    add_executable(test_themisdb_grpc_service
+        test_themisdb_grpc_service.cpp
+    )
+
+    target_link_libraries(test_themisdb_grpc_service PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_themisdb_grpc_service PRIVATE gRPC::grpc++)
+        target_compile_definitions(test_themisdb_grpc_service PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
+
+    target_compile_definitions(test_themisdb_grpc_service PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    target_include_directories(test_themisdb_grpc_service PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    add_test(NAME ThemisDBGrpcServiceTests COMMAND test_themisdb_grpc_service)
+
+    set_tests_properties(ThemisDBGrpcServiceTests PROPERTIES
+        LABELS "api;grpc;service;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ThemisDB gRPC Service: construction, service() accessor")
 endif()
 
 # ============================================================================

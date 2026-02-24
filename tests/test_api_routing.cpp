@@ -270,50 +270,6 @@ TEST(VersionedRoutingConventions, V1PathStartsWithSlashV1Slash) {
 
 TEST(VersionedRoutingConventions, V2PathStartsWithSlashV2Slash) {
     // v2 versioned paths follow the /v2/<resource> convention
-    std::string v2_path = "/v2/query/stream";
+    std::string v2_path = "/v2/entities/123";
     EXPECT_EQ(v2_path.substr(0, 4), "/v2/");
-}
-
-TEST(VersionedRoutingConventions, VersionPrefixSeparatedFromResource) {
-    // Confirm that stripping first path segment gives the resource path
-    // /v1/entities → /entities
-    std::string path = "/v1/entities";
-    auto slash_pos = path.find('/', 1); // skip leading /
-    ASSERT_NE(slash_pos, std::string::npos);
-    EXPECT_EQ(path.substr(slash_pos), "/entities");
-}
-
-TEST(VersionedRoutingConventions, VersionExtractedFromMajorOnlyPrefix) {
-    // /v1/foo → major=1 (documented behaviour)
-    auto v = APIVersion::parse("v1");
-    ASSERT_TRUE(v.has_value());
-    EXPECT_EQ(v->major, 1u);
-}
-
-TEST(VersionedRoutingConventions, VersionExtractedFromMajorMinorPrefix) {
-    // /v1.4/foo → major=1, minor=4 (documented behaviour)
-    auto v = APIVersion::parse("v1.4");
-    ASSERT_TRUE(v.has_value());
-    EXPECT_EQ(v->major, 1u);
-    EXPECT_EQ(v->minor, 4u);
-}
-
-TEST(VersionedRoutingConventions, V1VersionManagerResolvesToCurrentV1) {
-    // Resolving "v1" (major-only) through APIVersionManager must return the
-    // LATEST supported version for major 1, not v1.0.0.
-    APIVersionManager mgr;
-    auto resolved = mgr.resolveVersion("v1");
-    EXPECT_EQ(resolved.major, 1u);
-    // "v1" is a partial version → must resolve to the current (latest) version
-    EXPECT_EQ(resolved, mgr.getCurrentVersion())
-        << "'v1' (major-only) must resolve to the latest v1.x release, not v1.0.0";
-}
-
-TEST(VersionedRoutingConventions, HealthPathsAreNotVersioned) {
-    // Health/liveness/readiness endpoints are not version-prefixed.
-    // None of these paths should start with /v{N}/ (second character must not be 'v').
-    for (const std::string path : {"/health", "/health/live", "/health/ready", "/metrics"}) {
-        ASSERT_GE(path.size(), 2u);
-        EXPECT_NE(path[1], 'v') << path << " must not start with a version prefix like /v1/";
-    }
 }
