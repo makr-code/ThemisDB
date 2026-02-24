@@ -1,0 +1,6 @@
+# Maps release version tags to human-readable milestone names.
+# When MILESTONE_INPUT matches a key here, the corresponding value is used as
+# the target milestone title.  If no mapping is found the raw input is used
+# directly.
+v1.5.0: Q2 2026
+v1.6.0: Q3 2026

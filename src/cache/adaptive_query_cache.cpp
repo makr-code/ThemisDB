@@ -1073,43 +1073,80 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     nlohmann::json health;
     health["healthy"] = true;
     health["warnings"] = nlohmann::json::array();
-    
-    // Check L1 utilization
+
+    // Per-tier status
+    nlohmann::json tiers;
+
+    // L1 tier
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
-        double util = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
+        size_t entries = l1_cache_.size();
+        double util = static_cast<double>(entries) / config_.l1_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l1"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l1_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l1_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L1 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check L2 utilization
+
+    // L2 tier
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        double util = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
+        size_t entries = l2_cache_.size();
+        double util = static_cast<double>(entries) / config_.l2_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l2"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l2_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l2_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L2 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check circuit breaker
-    if (enhanced_metrics_.l3_circuit_breaker_open.load()) {
-        health["healthy"] = false;
-        health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+
+    // L3 tier
+    {
+        bool l3_open = enhanced_metrics_.l3_circuit_breaker_open.load();
+        bool l3_enabled = (l3_db_ != nullptr);
+        std::string tier_status = l3_open ? "UNAVAILABLE" : (l3_enabled ? "OK" : "DISABLED");
+        tiers["l3"] = {
+            {"status",      tier_status},
+            {"enabled",     l3_enabled},
+            {"path",        config_.l3_db_path},
+            {"ttl_seconds", config_.l3_ttl_seconds}
+        };
+        if (l3_open) {
+            health["healthy"] = false;
+            health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+        }
     }
-    
+
+    health["tiers"] = tiers;
+
+    // Embed circuit breaker details
+    health["circuit_breaker"] = getCircuitBreakerStatus();
+
     // Check hit rate
     double hit_rate = enhanced_metrics_.getHitRate();
     if (hit_rate < 0.5) {
         health["warnings"].push_back("Low cache hit rate: " + std::to_string(hit_rate * 100) + "%");
     }
-    
+
     // Check rate limiting
     uint64_t rate_limited = enhanced_metrics_.rate_limited_requests.load();
     if (rate_limited > 1000) {
         health["warnings"].push_back("High rate limiting: " + std::to_string(rate_limited) + " requests rejected");
     }
-    
+
     return health;
 }
 
