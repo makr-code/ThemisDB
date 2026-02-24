@@ -10,7 +10,7 @@
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
 
   <!-- Row 2: Code Metrics -->
-  [![Lines of Code](https://tokei.rs/b1/github/makr-code/ThemisDB)](docs/en/badges/loc.md)
+  [![Lines of Code](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json&query=%24.message&label=Lines%20of%20Code&color=blue)](https://github.com/makr-code/ThemisDB)
   [![Repo Size](https://img.shields.io/github/repo-size/makr-code/ThemisDB)](docs/en/badges/repo-size.md)
   [![Last Commit](https://img.shields.io/github/last-commit/makr-code/ThemisDB/develop)](docs/en/badges/last-commit.md)
   [![Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=flat)](docs/en/badges/stars.md)
