@@ -220,10 +220,8 @@ TEST(SessionManagerLimitTest, MaxConcurrentSessions_OldestEvicted) {
 }
 
 TEST(SessionManagerLimitTest, MaxConcurrentSessions_Zero_DoesNotCrash) {
-    // max_concurrent_sessions = 0 means enforcement runs before the new session is inserted
-    // (the user has 0 sessions at enforcement time), so the first session is stored.
-    // On subsequent creates the previous session is evicted, keeping exactly 1 session
-    // at all times. The primary goal is no UB / infinite loop.
+    // When max_concurrent_sessions is 0, exactly one session is retained at a time:
+    // new sessions evict previous ones and the guard prevents UB in the loop.
     SessionManager::SessionLimits lim;
     lim.max_concurrent_sessions = 0;
     lim.idle_timeout             = std::chrono::seconds(3600);
