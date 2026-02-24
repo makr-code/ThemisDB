@@ -1987,6 +1987,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/reranker.cpp
     # Phase 2: Hallucination Rate Tracking Dashboard
     ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Citation Highlighting
+    ../src/rag/citation_highlighter.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
@@ -2943,6 +2945,9 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
+
+        # RAG Enhancement: Citation Highlighting (Phase 3)
+        ../src/rag/citation_highlighter.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION

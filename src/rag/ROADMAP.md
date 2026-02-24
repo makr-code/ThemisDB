@@ -36,7 +36,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 
 ### Short-term (Next 3-6 months)
 - [I] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
-- [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
+- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 - [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
 - [I] Multi-document summarization before context injection (Issue: #2239)
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
@@ -68,7 +68,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 
 ### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Planned 📋)
 - [ ] Hybrid retrieval (BM25 + vector) with configurable RRF weights
-- [ ] Citation highlighting (map answer sentences to source chunks)
+- [x] Citation highlighting (map answer sentences to source chunks)
 - [ ] Configurable chunk size and overlap for document splitting
 - [ ] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
