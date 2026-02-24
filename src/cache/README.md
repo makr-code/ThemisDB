@@ -186,11 +186,32 @@ json health = cache.getHealthStatus();
 
 **Tenant Management:**
 ```cpp
-// Get tenant usage
+// Get per-tenant statistics (all tenants): bytes_used, hits, misses, evictions, hit_rate
 json tenant_stats = cache.getTenantStats();
+// Returns: {"enabled": true, "quota_per_tenant": 104857600,
+//           "tenants": {"acme": {"bytes_used": 1024, "hits": 9, "misses": 1,
+//                                "evictions": 0, "hit_rate": 0.9, ...}}}
+
+// Get statistics for a single tenant
+json t = cache.getTenantStatsForTenant("acme");
+// Returns: {"found": true, "tenant_id": "acme", "hits": 9, "misses": 1,
+//           "hit_rate": 0.9, "evictions": 0, "bytes_used": 1024,
+//           "quota": 104857600, "utilization": 0.0}
+// Returns: {"found": false} when tenant has no recorded activity
 
 // Invalidate all entries for a tenant
 size_t count = cache.invalidateTenant("tenant_123");
+```
+
+**Tenant Statistics REST API:**
+```bash
+# List all known tenants with stats
+GET /v1/admin/cache/tenants
+# Response: {"enabled": true, "quota_per_tenant": ..., "tenants": {...}}
+
+# Per-tenant stats for a single tenant (404 if unknown)
+GET /v1/admin/cache/tenant/{tenant_id}/stats
+# Response: {"found": true, "tenant_id": "acme", "hits": 9, ...}
 ```
 
 **Cache Warmup:**

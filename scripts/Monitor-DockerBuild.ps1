@@ -38,6 +38,7 @@ function Get-BuildMetrics {
         }
     } catch {
         # docker might not be accessible
+        Write-Warning "Docker not accessible: $_"
     }
     
     return @{ Active = $false }
@@ -120,6 +121,7 @@ while ($true) {
         }
     } catch {
         # docker command might fail
+        Write-Warning "Docker command failed: $_"
     }
     
     $metrics.LastUpdate = Get-Date
