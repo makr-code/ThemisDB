@@ -111,6 +111,22 @@ public:
     /** SAML assertion was rejected. */
     void logSAMLFailure(const std::string& reason);
 
+    // -----------------------------------------------------------------------
+    // Zero-trust continuous verification events
+    // -----------------------------------------------------------------------
+
+    /** Zero-trust continuous verification passed for a request. */
+    void logZeroTrustAllowed(const std::string& user_id,
+                             const std::string& resource,
+                             double trust_score,
+                             const std::string& request_id = "");
+
+    /** Zero-trust continuous verification denied a request. */
+    void logZeroTrustDenied(const std::string& user_id,
+                            const std::string& resource,
+                            const std::string& reason,
+                            const std::string& request_id = "");
+
 private:
     utils::AuditLogger* logger_;  ///< Non-owning; may be nullptr.
 

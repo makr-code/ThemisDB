@@ -166,6 +166,18 @@ TEST_F(AuthAuditLoggerTest, LogSAMLFailure_WritesEntry) {
     EXPECT_GE(countLines(log_path_), 1u);
 }
 
+TEST_F(AuthAuditLoggerTest, LogZeroTrustAllowed_WritesEntry) {
+    facade_->logZeroTrustAllowed("alice", "data", 0.9, "req-001");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, LogZeroTrustDenied_WritesEntry) {
+    facade_->logZeroTrustDenied("eve", "data", "network policy denied", "req-002");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
 TEST_F(AuthAuditLoggerTest, NullLogger_NoOp) {
     AuthAuditLogger noop(nullptr);
     // None of these should crash or write anything
@@ -177,6 +189,8 @@ TEST_F(AuthAuditLoggerTest, NullLogger_NoOp) {
     EXPECT_NO_THROW(noop.logTOTPFailure("u"));
     EXPECT_NO_THROW(noop.logRecoveryCodeUsed("u"));
     EXPECT_NO_THROW(noop.logMFAEnrolled("u"));
+    EXPECT_NO_THROW(noop.logZeroTrustAllowed("u", "res", 1.0, "req"));
+    EXPECT_NO_THROW(noop.logZeroTrustDenied("u", "res", "reason", "req"));
 }
 
 TEST_F(AuthAuditLoggerTest, SetLogger_DetachReattach) {

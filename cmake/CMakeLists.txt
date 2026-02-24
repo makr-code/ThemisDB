@@ -1434,10 +1434,12 @@ set(THEMIS_CORE_SOURCES
     ../src/server/retention_api_handler.cpp
     ../src/server/keys_api_handler.cpp
     ../src/server/api_key_mgmt_handler.cpp
+    ../src/server/session_api_handler.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
     ../src/server/policy_engine.cpp
+    ../src/server/opa_adapter.cpp
     ../src/server/auth_middleware.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
@@ -1611,9 +1613,14 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
+    ../src/auth/federated_identity_manager.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
+    ../src/auth/session_manager.cpp
+    ../src/auth/zero_trust_auth_verifier.cpp
+    ../src/auth/auth_audit_logger.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
@@ -1795,6 +1802,11 @@ set(THEMIS_CORE_SOURCES
 
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
+
+    # ML Serving Integration – ONNX Runtime + TF Serving (Issue #1476)
+    ../src/analytics/ml_serving.cpp
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2446,6 +2458,11 @@ target_link_libraries(themis_core
     ZLIB::ZLIB
     $<$<BOOL:${prometheus-cpp_FOUND}>:prometheus-cpp::core>
 )
+
+# Link ONNX Runtime when available (ML Serving backend)
+if(onnxruntime_FOUND)
+    target_link_libraries(themis_core PUBLIC onnxruntime::onnxruntime)
+endif()
 
 if(WIN32)
     target_link_libraries(themis_core PUBLIC Secur32)

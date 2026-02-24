@@ -39,7 +39,9 @@ namespace utils { class AuditLogger; }
 // - Subject: users or wildcard "*"
 // - Actions: read, write, delete, query, admin, vector.search, vector.write
 // - Resources: path patterns (e.g., "/entities/users:*", "/query", "/vector/*")
-// - Conditions (optional): allowed_ip_prefixes (e.g., "10.0.", "192.168."), time window (TODO)
+// - Conditions (optional): allowed_ip_prefixes (e.g., "10.0.", "192.168."),
+//   UTC time-window, User-Agent substring allowlist
+// - Optional OPA (Open Policy Agent) integration via IPolicyEvaluator/OpaAdapter
 //
 // Configuration formats:
 // - Supports JSON and YAML files for loading policies. Saving currently writes JSON.
@@ -75,10 +77,30 @@ public:
         std::string reason;             // explanation
     };
 
+    /**
+     * @brief Pluggable policy evaluator interface for external engines (e.g. OPA).
+     *
+     * Implement this interface and pass it to setOpaEvaluator() to route
+     * authorization decisions through an external policy agent.
+     * evaluate() returns std::nullopt when the external evaluator is
+     * unavailable so PolicyEngine can fall back to native evaluation.
+     */
+    struct IPolicyEvaluator {
+        virtual ~IPolicyEvaluator() = default;
+        virtual std::optional<Decision> evaluate(
+            const std::string& user_id,
+            const std::string& action,
+            const std::string& resource_path,
+            const std::optional<std::string>& client_ip,
+            const std::optional<std::string>& user_agent) const = 0;
+    };
+
     struct Metrics {
         std::atomic<uint64_t> policy_allow_total{0};
         std::atomic<uint64_t> policy_deny_total{0};
         std::atomic<uint64_t> policy_eval_total{0};
+        /// Incremented each time OPA is unavailable and native evaluation is used instead.
+        std::atomic<uint64_t> opa_fallback_total{0};
     };
 
     PolicyEngine() = default;
@@ -131,6 +153,19 @@ public:
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
+    /**
+     * @brief Attach an external policy evaluator (e.g. OPA) for fine-grained ABAC.
+     *
+     * When set, authorize() calls evaluator->evaluate() first.  If the
+     * evaluator returns std::nullopt (OPA unreachable / timeout), native
+     * PolicyEngine evaluation is used as a fallback and
+     * metrics_.opa_fallback_total is incremented.
+     *
+     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
+     * caller must ensure the evaluator outlives the engine.
+     */
+    void setOpaEvaluator(IPolicyEvaluator* evaluator) { opa_evaluator_ = evaluator; }
+
     // JSON helpers
     static nlohmann::json toJson(const Policy& p);
     static std::optional<Policy> fromJson(const nlohmann::json& j);
@@ -148,6 +183,7 @@ private:
     std::vector<Policy> policies_;
     mutable Metrics metrics_;
     utils::AuditLogger* audit_logger_ = nullptr;  // optional; non-owning
+    IPolicyEvaluator*   opa_evaluator_ = nullptr;  // optional OPA evaluator; non-owning
 
     // Hot-reload state
     std::string loaded_file_path_;
