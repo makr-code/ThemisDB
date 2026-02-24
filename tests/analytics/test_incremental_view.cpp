@@ -658,6 +658,45 @@ TEST(MaterializedViewIncrementalTest, IncrementalRefreshNotFullRescan) {
     EXPECT_TRUE(found_eu);
 }
 
+TEST(MaterializedViewIncrementalTest, QueryWithFilter) {
+    using namespace themis::analytics;
+
+    MaterializedView::Definition def;
+    def.name = "filter_mv";
+    def.source_collection = "orders";
+    def.dimensions = {{"region"}};
+    def.measures = {{"total", "amount", Measure::Function::Sum}};
+
+    MaterializedView view(def);
+
+    using Row = std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>;
+    view.incrementalRefresh({
+        Row{{"region", std::string("EU")}, {"amount", 100.0}},
+        Row{{"region", std::string("US")}, {"amount", 200.0}},
+        Row{{"region", std::string("EU")}, {"amount",  50.0}},
+    });
+
+    EXPECT_EQ(view.rowCount(), 2); // EU and US groups
+
+    // Filter to only EU rows
+    Filter f;
+    f.field = "region";
+    f.op    = Filter::Operator::Eq;
+    f.value = std::string("EU");
+
+    auto result = view.query({f});
+    EXPECT_EQ(result.rows.size(), 1u);
+    ASSERT_FALSE(result.rows.empty());
+
+    auto tot = result.rows[0].values.find("total");
+    ASSERT_NE(tot, result.rows[0].values.end());
+    if (auto* d = std::get_if<double>(&tot->second)) {
+        EXPECT_DOUBLE_EQ(*d, 150.0); // 100 + 50
+    } else {
+        FAIL() << "Expected 'total' to be of type double";
+    }
+}
+
 // ============================================================================
 // Utility
 // ============================================================================
