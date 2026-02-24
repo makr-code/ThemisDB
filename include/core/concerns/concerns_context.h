@@ -127,14 +127,24 @@ public:
     );
 
     /**
-     * @brief Create a context with custom implementations including feature flags.
+     * @brief Create a context with custom secrets implementation.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ISecrets> secrets = nullptr
+        std::unique_ptr<ISecrets> secrets
+    );
+
+    /**
+     * @brief Create a context with custom feature-flag implementation.
+     */
+    static std::shared_ptr<ConcernsContext> createCustom(
+        std::unique_ptr<ILogger> logger,
+        std::unique_ptr<ITracer> tracer,
+        std::unique_ptr<IMetrics> metrics,
+        std::unique_ptr<ICache> cache,
         std::unique_ptr<IFeatureFlags> featureFlags
     );
 
@@ -287,8 +297,8 @@ public:
             tracer_->isHealthy(),
             metrics_->isHealthy(),
             cache_->isHealthy(),
-            secrets_->isHealthy()
-            circuit_breaker_->isHealthy()
+            secrets_->isHealthy(),
+            circuit_breaker_->isHealthy(),
             featureFlags_->isHealthy()
         };
     }
@@ -318,15 +328,15 @@ private:
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ISecrets> secrets,
         std::unique_ptr<ICircuitBreaker> circuit_breaker,
+        std::unique_ptr<ISecrets> secrets,
         std::unique_ptr<IFeatureFlags> featureFlags
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
         cache_(std::move(cache)),
-        secrets_(std::move(secrets)) {}
-        circuit_breaker_(std::move(circuit_breaker)) {}
+        secrets_(std::move(secrets)),
+        circuit_breaker_(std::move(circuit_breaker)),
         featureFlags_(std::move(featureFlags)) {}
 
     std::unique_ptr<ILogger> logger_;

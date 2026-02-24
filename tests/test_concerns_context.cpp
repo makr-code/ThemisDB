@@ -482,7 +482,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownCircuitBreakerAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "", "", "inmemory", "hystrix");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -978,14 +978,14 @@ TEST(ISecretsTest, NoOpSecretsIsHealthy) {
     EXPECT_TRUE(result.ok);
 }
 
-TEST(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
+TEST_F(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
     // createNoOp() should return a NoOpSecrets provider
     EXPECT_FALSE(context->secrets().hasSecret("api.key"));
     EXPECT_FALSE(context->secrets().getSecret("db.password").has_value());
     EXPECT_TRUE(context->secrets().listSecretNames().empty());
 }
 
-TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
+TEST_F(ConcernsContextTest, CustomSecretsCanBeInjected) {
     // A custom ISecrets implementation for injection testing
     class StubSecrets : public ISecrets {
     public:
@@ -1018,7 +1018,7 @@ TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
     ASSERT_EQ(2u, ctx->secrets().listSecretNames().size());
 }
 
-TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
+TEST_F(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
     // createCustom() with no secrets argument falls back to NoOpSecrets
     auto ctx = ConcernsContext::createCustom(
         std::make_unique<NoOpLogger>(),
@@ -1031,13 +1031,13 @@ TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
     EXPECT_FALSE(ctx->secrets().getSecret("anything").has_value());
 }
 
-TEST(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
+TEST_F(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
     auto status = context->healthCheck();
     EXPECT_TRUE(status.secrets.ok);
     EXPECT_TRUE(status.isHealthy());
 }
 
-TEST(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
+TEST_F(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
     class UnhealthySecrets : public ISecrets {
     public:
         std::optional<std::string> getSecret(std::string_view) const override { return std::nullopt; }

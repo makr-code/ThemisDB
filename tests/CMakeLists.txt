@@ -1660,6 +1660,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
         TIMEOUT 60
     )
     message(STATUS "  OtelPropagation: startSpanFromHeaders, injectContext, baggage round-trip")
+endif()
     
 # Phase 3 – Structured log correlation (trace ID injection into structured logs)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
