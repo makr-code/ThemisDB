@@ -63,9 +63,9 @@ struct HealthStatus {
     ProbeResult tracer;
     ProbeResult metrics;
     ProbeResult cache;
-    ProbeResult secrets;
-    ProbeResult circuit_breaker;
-    ProbeResult featureFlags;
+    ProbeResult secrets = ProbeResult::healthy();
+  ProbeResult circuit_breaker = ProbeResult::healthy();
+  ProbeResult featureFlags = ProbeResult::healthy();
 
     /// @return true only when every concern reports healthy/ready.
     bool isHealthy() const noexcept {

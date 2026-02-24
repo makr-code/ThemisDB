@@ -26,7 +26,7 @@
 #include "cdc/cdc_admin.h"
 #include "cdc/cdc_error.h"
 #include "cdc/tenant_buffer_manager.h"
-#include "themis_log.h"
+#include "utils/logger.h"
 #include <algorithm>
 
 namespace themis {

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
     • Total Lines:     697                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -996,3 +996,28 @@ GeoKernelDispatch HIPGeoBackend::populateGeoDispatch() const {
 } // namespace themis
 
 #endif // THEMIS_ENABLE_HIP
+
+// =============================================================================
+// Non-HIP fallback stubs
+//
+// When THEMIS_ENABLE_HIP is not defined the class methods below return empty
+// dispatch tables so that BackendRegistry falls back to the CPU table.
+// This mirrors the cuda_backend.cpp pattern for THEMIS_ENABLE_CUDA.
+// =============================================================================
+#ifndef THEMIS_ENABLE_HIP
+
+namespace themis {
+namespace acceleration {
+
+ANNKernelDispatch HIPVectorBackend::populateANNDispatch() const {
+    return {}; // No HIP — all null; BackendRegistry falls back to CPU table
+}
+
+GeoKernelDispatch HIPGeoBackend::populateGeoDispatch() const {
+    return {}; // No HIP — all null; BackendRegistry falls back to CPU table
+}
+
+} // namespace acceleration
+} // namespace themis
+
+#endif // !THEMIS_ENABLE_HIP

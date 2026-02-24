@@ -82,7 +82,7 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 **Implementation Notes:**
 - `[x]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
 - `[x]` Shard by contiguous vector-ID ranges; store shard metadata in a `std::vector<ShardDescriptor>` on the host.
-- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring is deferred pending real CUDA kernels — v2.5+)
+- `[~]` Use `ncclGroupStart` / `ncclGroupEnd` to batch cross-GPU transfers. (NCCL/RCCL backends initialized; actual group-call wiring is v2.5+ pending real CUDA kernels)
 - `[x]` RCCL mirror: `rccl_vector_backend.cpp` must expose the same `IVectorBackend` interface; `BackendRegistry` selects NCCL vs RCCL at runtime via `cudaGetDeviceProperties`.
 - `[x]` Graceful degradation: if NCCL init fails, fall back to single-GPU or CPU backend.
 
@@ -101,13 +101,13 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 **Implementation Notes:**
 - `[x]` Add `CUDAGraphCache` struct to `cuda_backend.h`/`cuda_backend.cpp`; keyed by a `QueryShape` tuple (`numQueries`, `numVectors`, `dim`, `topK`, `metric`), value is a `CUDAGraphEntry` owning a `cudaGraph_t` + `cudaGraphExec_t` pair plus pre-allocated device buffers.
 - `[x]` On cache miss: record a graph with `cudaStreamBeginCapture` / `cudaStreamEndCapture` on a temporary non-blocking capture stream; instantiate via `cudaGraphInstantiate` (CUDA 11/12 API variant guarded by `CUDART_VERSION`).
-- `[x]` On cache hit: copy new input data into the entry's pre-allocated device buffers via `cudaMemcpyAsync` on the main stream, then replay with `cudaGraphLaunch`. This is functionally equivalent to `cudaGraphExecMemcpyNodeSetParams`: by keeping the device-pointer addresses constant (pre-allocated at capture time), no node-parameter update is required on every replay. Approach chosen for simplicity and broader driver compatibility.
+- `[x]` On cache hit: copy new input data into the entry's pre-allocated device buffers via `cudaMemcpyAsync` on the main stream, then replay with `cudaGraphLaunch`. Device-pointer addresses remain constant (pre-allocated at capture time) so no node-parameter update is required on every replay.
 - `[x]` LRU evict graphs when cache exceeds 32 entries to bound device memory usage (`CUDAGraphCache::evictLRU` traverses all entries in O(n) — acceptable since n ≤ 32).
-- `[x]` Variable-shape batches: no `SearchOptions` struct exists at this stage. Callers with variable-length batches are directed to use `batchKnnSearch()` instead; this is documented in the `batchKnnSearchWithGraph()` method comment. A future `SearchOptions::dynamicShapes` field can be wired in when the options API is added.
+- `[x]` Variable-shape batches: callers with variable-length batches are directed to use `batchKnnSearch()` instead; documented in the `batchKnnSearchWithGraph()` method comment.
 
 **Performance Targets:**
 - ≥ 30% reduction in end-to-end ANN query latency for fixed-shape repeated queries (benchmarked via `benchmarks/vector_bench.cpp`).
-- Zero CUDA API error rate under 10-thread concurrent graph replay (validated by `tests/acceleration/cuda_graph_test.cpp`).
+- Zero CUDA API error rate under 10-thread concurrent graph replay (validated by `tests/test_cuda_graph_capture.cpp`).
 
 ---
 
@@ -118,11 +118,11 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 `BackendRegistry` currently selects backends at startup without probing device capabilities (compute capability, available VRAM, driver version). Add a `DeviceCapabilityProbe` that queries all visible GPUs and ranks them, allowing `BackendRegistry::selectBestBackend()` to make an informed choice.
 
 **Implementation Notes:**
-- `[ ]` Create `device_capability_probe.cpp` / `.h`; expose `DeviceInfo` struct with `computeCapabilityMajor`, `computeCapabilityMinor`, `totalMemoryBytes`, `driverVersion`, `backendType`.
-- `[ ]` Probe order: CUDA → HIP → Vulkan → Metal → OpenCL → CPU.
-- `[ ]` Cache probe results for 60 s; re-probe on explicit `BackendRegistry::refresh()` call.
-- `[ ]` Emit structured log line via `utils/logger.h` listing selected backend and device name on startup.
-- `[ ]` Expose probe results via `BackendRegistry::deviceInfo()` for observability.
+- `[x]` Create `device_capability_probe.cpp` / `.h`; expose `DeviceInfo` struct with `computeCapabilityMajor`, `computeCapabilityMinor`, `totalMemoryBytes`, `driverVersion`, `backendType`. — implemented as `device_manager.h` / `device_manager.cpp`; `DeviceCapabilityInfo` struct in `compute_backend.h`
+- `[x]` Probe order: CUDA → HIP → Vulkan → Metal → OpenCL → CPU. — delegated to `themis::gpu::DeviceDiscovery::Enumerate()` which follows this order
+- `[x]` Cache probe results for 60 s; re-probe on explicit `BackendRegistry::refresh()` call. — `DeviceManager::probeDevices()` caches for `kCacheTTL = 60 s`; `DeviceManager::refresh()` forces re-probe; `BackendRegistry::initializeRuntime()` calls `DeviceManager::refresh()`
+- `[x]` Emit structured log line via `utils/logger.h` listing selected backend and device name on startup. — `DeviceManager::logDeviceInfo()` emits structured output; called from `BackendRegistry::initializeRuntime()` (consistent with existing std::cout pattern in backend_registry.cpp)
+- `[x]` Expose probe results via `BackendRegistry::deviceInfo()` for observability. — `BackendRegistry::deviceInfo()` returns the `DeviceCapabilityInfo` snapshot captured at `initializeRuntime()` time
 
 **Performance Targets:**
 - Probe completes in < 50 ms on a system with 4 GPUs.

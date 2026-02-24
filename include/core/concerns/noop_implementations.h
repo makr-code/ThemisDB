@@ -154,7 +154,6 @@ public:
     }
     bool hasSecret(std::string_view name) const override { return false; }
     std::vector<std::string> listSecretNames() const override { return {}; }
-
     void flush() noexcept override {}
     void shutdown() noexcept override {}
     ProbeResult isHealthy() const override { return ProbeResult::healthy(); }

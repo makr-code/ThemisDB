@@ -483,7 +483,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCacheAdapterIsInvalid) {
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownCircuitBreakerAdapterIsInvalid) {
-    auto result = core::ConfigValidator::validateAdapterConfig(
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "spdlog", "", "", "inmemory", "hystrix");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
@@ -986,7 +986,7 @@ TEST_F(ConcernsContextTest, SecretsAccessorReturnsNoOpByDefault) {
     EXPECT_TRUE(context->secrets().listSecretNames().empty());
 }
 
-TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
+TEST_F(ConcernsContextTest, CustomSecretsCanBeInjected) {
     // A custom ISecrets implementation for injection testing
     class StubSecrets : public ISecrets {
     public:
@@ -1019,7 +1019,7 @@ TEST(ConcernsContextTest, CustomSecretsCanBeInjected) {
     ASSERT_EQ(2u, ctx->secrets().listSecretNames().size());
 }
 
-TEST(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
+TEST_F(ConcernsContextTest, CreateCustomWithoutSecretsUsesNoOp) {
     // createCustom() with no secrets argument falls back to NoOpSecrets
     auto ctx = ConcernsContext::createCustom(
         std::make_unique<NoOpLogger>(),
@@ -1038,7 +1038,7 @@ TEST_F(ConcernsContextTest, HealthCheckIncludesSecretsProbe) {
     EXPECT_TRUE(status.isHealthy());
 }
 
-TEST(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
+TEST_F(ConcernsContextTest, UnhealthySecretsMarksContextUnhealthy) {
     class UnhealthySecrets : public ISecrets {
     public:
         std::optional<std::string> getSecret(std::string_view) const override { return std::nullopt; }
