@@ -52,7 +52,7 @@ namespace themis {
  * cfg.timeout_ms   = 50;
  *
  * auto adapter = std::make_shared<OpaAdapter>(cfg);
- * engine.setOpaEvaluator(adapter);
+ * engine.setOpaEvaluator(adapter.get());
  * @endcode
  */
 class OpaAdapter : public PolicyEngine::IPolicyEvaluator {

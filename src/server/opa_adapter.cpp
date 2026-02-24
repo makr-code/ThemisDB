@@ -13,16 +13,23 @@
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
+#include <mutex>
 
 namespace themis {
 
 namespace {
 
 /// libcurl write callback: appends received data to a std::string.
-static size_t curl_write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t curl_write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(static_cast<char*>(ptr), size * nmemb);
     return size * nmemb;
+}
+
+/// Guard that calls curl_global_init exactly once per process.
+void ensure_curl_global_init() {
+    static std::once_flag flag;
+    std::call_once(flag, [] { curl_global_init(CURL_GLOBAL_DEFAULT); });
 }
 
 } // anonymous namespace
@@ -39,6 +46,7 @@ OpaAdapter::OpaAdapter(const Config& config) : config_(config) {
     if (config_.timeout_ms <= 0) {
         throw std::invalid_argument("OpaAdapter: timeout_ms must be positive");
     }
+    ensure_curl_global_init();
 }
 
 OpaAdapter::~OpaAdapter() = default;
