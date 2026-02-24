@@ -19,11 +19,12 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 - `totp_auth.cpp` — TOTP MFA
 - `rbac_enforcer.cpp` — role-based access control
 - `oauth_device_flow.cpp` — OAuth 2.0 device authorization flow (RFC 8628)
+- `oauth_pkce_flow.cpp` — OAuth 2.0 Authorization Code Grant with PKCE for public clients (RFC 7636)
 - `oidc_provider.cpp` — OIDC Provider Discovery and federated identity integration
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — JWT, Kerberos, TOTP, and RBAC operational; OAuth 2.0 device flow and SAML 2.0 in progress.
+**Maturity:** 🟡 Beta — JWT, Kerberos, TOTP, and RBAC operational; OAuth 2.0 PKCE flow production-ready; OAuth 2.0 device flow and SAML 2.0 in progress.
 
 ## Table of Contents
 
@@ -47,6 +48,7 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
 - **Kerberos/GSSAPI**: Enterprise SSO for Active Directory environments
 - **Multi-Factor Authentication**: TOTP-based MFA with recovery codes
 - **OAuth 2.0 Device Flow**: Headless device / CLI authentication (RFC 8628)
+- **OAuth 2.0 PKCE Flow**: Authorization Code Grant with PKCE for public clients (RFC 7636)
 - **Signature Verification**: RS256 with JWKS caching
 - **Principal-to-Role Mapping**: Flexible authorization system
 - **Clock Skew Tolerance**: Distributed system friendly
@@ -216,6 +218,24 @@ req.action     = "read";
 auto decision = verifier.verify(req);
 if (!decision.allowed) { return http_403(decision.reason); }
 ```
+### OAuth 2.0 PKCE Flow (`oauth_pkce_flow.cpp`)
+
+OAuth 2.0 Authorization Code Grant with Proof Key for Code Exchange (RFC 7636) for public clients (native/mobile/SPA apps) that cannot safely store a client secret.
+
+**Features:**
+- RFC 7636-compliant PKCE with S256 challenge method (SHA-256)
+- CSPRNG-based `code_verifier` generation (96 random bytes → 128 Base64URL chars)
+- `code_verifier` is never sent to the authorization endpoint
+- `id_token` validation via existing `JWTValidator` (OIDC)
+- TLS certificate verification always enforced
+- Testable via injected HTTP mock (`setHttpPostForTesting`) and random source (`setRandBytesForTesting`)
+
+**Flow Steps:**
+1. Client calls `generateChallenge()` → receives `code_verifier` / `code_challenge` pair
+2. Client redirects user to `buildAuthorizationUrl(challenge)` at the authorization endpoint
+3. User authenticates; authorization server redirects back with `authorization_code`
+4. Client calls `exchangeCode(authorization_code, code_verifier)` to obtain tokens
+5. Optionally, call `validateIdToken(token_response)` to extract and verify identity claims
 
 ## Authentication Flows
 
@@ -477,6 +497,25 @@ cfg.http_timeout_seconds           = 10;
 cfg.max_poll_interval_seconds      = 30;
 
 OAuthDeviceFlow flow(cfg);
+```
+
+### OAuth PKCE Flow Configuration
+
+```cpp
+#include "auth/oauth_pkce_flow.h"
+
+using namespace themis::auth;
+
+OAuthPKCEFlow::Config cfg;
+cfg.authorization_endpoint = "https://auth.example.com/realms/prod/protocol/openid-connect/auth";
+cfg.token_endpoint         = "https://auth.example.com/realms/prod/protocol/openid-connect/token";
+cfg.client_id              = "myapp-public";
+cfg.redirect_uri           = "myapp://callback";
+cfg.scopes                 = {"openid", "email", "profile"};
+cfg.jwks_url               = "https://auth.example.com/realms/prod/protocol/openid-connect/certs";
+cfg.http_timeout_seconds   = 10;
+
+OAuthPKCEFlow flow(cfg);
 ```
 
 ## Security Features
@@ -930,6 +969,62 @@ while (true) {
 }
 ```
 
+### Example 7: OAuth 2.0 PKCE Flow (Native/SPA Authentication)
+
+```cpp
+#include "auth/oauth_pkce_flow.h"
+#include <iostream>
+
+using namespace themis::auth;
+
+int main() {
+    // Configure PKCE flow (Keycloak example, public client)
+    OAuthPKCEFlow::Config cfg;
+    cfg.authorization_endpoint =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/auth";
+    cfg.token_endpoint =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/token";
+    cfg.client_id  = "myapp-public";
+    cfg.redirect_uri = "myapp://callback";
+    cfg.scopes     = {"openid", "email"};
+    cfg.jwks_url   =
+        "https://auth.example.com/realms/prod/protocol/openid-connect/certs";
+
+    OAuthPKCEFlow flow(cfg);
+
+    try {
+        // Step 1: generate code_verifier and code_challenge
+        auto challenge = flow.generateChallenge();
+
+        // Step 2: redirect the user to the authorization URL
+        std::string state = "random-csrf-state";
+        std::string auth_url = flow.buildAuthorizationUrl(challenge, state);
+        std::cout << "Open this URL in a browser:\n  " << auth_url << std::endl;
+
+        // Step 3: receive the authorization_code from the redirect URI (out of band)
+        std::string auth_code;
+        std::cout << "Enter the authorization code from the redirect: ";
+        std::cin >> auth_code;
+
+        // Step 4: exchange code for tokens
+        auto token = flow.exchangeCode(auth_code, challenge.code_verifier);
+
+        // Step 5: validate id_token and extract identity claims
+        auto claims = flow.validateIdToken(token);
+
+        std::cout << "Authenticated as: " << claims.email << std::endl;
+        std::cout << "User ID:          " << claims.sub   << std::endl;
+
+    } catch (const AuthException& ex) {
+        std::cerr << "Authentication failed: "
+                  << ex.error().publicMessage() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
+```
+
 ## Best Practices
 
 ### 1. JWT Token Management
@@ -1057,6 +1152,23 @@ while (true) {
 - ❌ Cache access tokens beyond their `expires_in` lifetime
 - ❌ Request broader scopes than needed (principle of least privilege)
 
+### 8. OAuth 2.0 PKCE Flow
+
+**DO:**
+- ✅ Always set `jwks_url` when using `openid` scope so `id_token` signatures are verified
+- ✅ Generate a fresh `PKCEChallenge` for every authorization request
+- ✅ Keep `code_verifier` secret; store it only for the duration of the flow
+- ✅ Use a random `state` parameter to prevent CSRF attacks
+- ✅ Catch `AuthException` and surface `publicMessage()` to the user
+- ✅ Use HTTPS redirect URIs in production
+
+**DON'T:**
+- ❌ Log or persist `code_verifier`, `access_token`, or `refresh_token`
+- ❌ Reuse a `code_verifier` across multiple authorization requests
+- ❌ Disable TLS certificate verification (`SSL_VERIFYPEER`)
+- ❌ Use the `plain` challenge method — only `S256` is accepted
+- ❌ Request broader scopes than needed (principle of least privilege)
+
 ## Testing
 
 ### Unit Tests
@@ -1071,6 +1183,7 @@ cmake --build build --target test_auth
 ./build/tests/test_mfa_authenticator
 ./build/tests/test_gssapi_authenticator
 ./build/tests/test_oauth_device_flow
+./build/tests/test_oauth_pkce_flow
 ```
 
 ### Integration Tests
