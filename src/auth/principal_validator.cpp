@@ -19,6 +19,7 @@
 
 #include "auth/principal_validator.h"
 #include "utils/logger.h"
+#include "utils/audit_logger.h"
 #include <algorithm>
 #include <sstream>
 
@@ -258,6 +259,18 @@ void PrincipalValidator::logAudit(const ValidationResult& result) const {
         utils::Logger::info(ss.str());
     } else {
         utils::Logger::warn(ss.str());
+    }
+
+    if (audit_logger_) {
+        nlohmann::json d;
+        d["matched_rule"]   = result.matched_rule;
+        d["denial_reason"]  = result.denial_reason;
+        d["roles"]          = result.roles;
+        auto event = result.allowed
+            ? utils::SecurityEventType::LOGIN_SUCCESS
+            : utils::SecurityEventType::PERMISSION_DENIED;
+        audit_logger_->logSecurityEvent(event, result.principal,
+            "principal/" + result.principal, d);
     }
 }
 

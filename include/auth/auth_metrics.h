@@ -76,6 +76,7 @@ enum class AuthMethod {
     GSSAPI,
     MFA,
     OAUTH_DEVICE,
+    API_KEY,
     UNKNOWN
 };
 

@@ -281,6 +281,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
     ../src/analytics/anomaly_detection.cpp
+    ../src/analytics/forecasting.cpp
+    ../src/analytics/automl.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
@@ -349,6 +351,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
@@ -709,6 +712,9 @@ set(THEMIS_NETWORK_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+
+    # gRPC API server alongside REST (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp

@@ -489,6 +489,61 @@ void registerAuthErrors() {
         {},
         {"saml", "issuer", "entity-id"}
     });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::API_KEY_INVALID),
+        "Authentication",
+        "Error",
+        "Invalid API key",
+        "The presented API key identifier is unknown",
+        "Verify the API key identifier is correct",
+        {},
+        {"api-key", "authentication"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::API_KEY_SECRET_MISMATCH),
+        "Authentication",
+        "Error",
+        "Invalid API key secret",
+        "The presented API key secret does not match the stored credential",
+        "Verify the API key secret is correct",
+        {},
+        {"api-key", "authentication", "secret"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::API_KEY_EXPIRED),
+        "Authentication",
+        "Error",
+        "API key expired",
+        "The API key has passed its expiry date",
+        "Request a new API key from your administrator",
+        {},
+        {"api-key", "expiry"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::API_KEY_INACTIVE),
+        "Authentication",
+        "Error",
+        "API key inactive",
+        "The API key has been deactivated or revoked",
+        "Contact your administrator to reactivate or replace the key",
+        {},
+        {"api-key", "revocation"}
+    });
+
+    registry.registerError({
+        toErrorCode(AuthErrorCode::API_KEY_SCOPE_DENIED),
+        "Authorization",
+        "Error",
+        "API key scope denied",
+        "The API key does not have the required scope for this operation",
+        "Request a key with the required scope from your administrator",
+        {},
+        {"api-key", "scope", "authorization"}
+    });
 }
 
 } // namespace auth

@@ -31,6 +31,8 @@
 
 #include "auth/token_blacklist.h"
 
+namespace themis { namespace utils { class AuditLogger; } }
+
 namespace themis {
 namespace auth {
 
@@ -137,6 +139,12 @@ public:
     void setTokenBlacklist(TokenBlacklist* bl);
 
     /**
+     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
+     * Pass nullptr to detach.  The validator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
+    /**
      * @brief Add a key ID to the revocation list
      * @param kid Key ID to revoke
      */
@@ -182,6 +190,7 @@ private:
     std::chrono::system_clock::time_point jwks_cache_time_;
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
+    utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
 };
 
 } // namespace auth

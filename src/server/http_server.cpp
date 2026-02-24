@@ -100,6 +100,7 @@
 // Now include http_server.h which has forward declarations
 #include "server/http_server.h"
 #include "server/keys_api_handler.h"
+#include "server/api_key_mgmt_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
@@ -615,6 +616,10 @@ HttpServer::HttpServer(
     // Initialize Keys API Handler with KeyProvider
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
+
+    // Initialize API Key Management Handler
+    api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
+    THEMIS_INFO("API Key Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
         pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
@@ -1040,6 +1045,30 @@ HttpServer::HttpServer(
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
     THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
+    // Initialize Async Job API Handler – long-running AQL query submission/polling
+    {
+        // Executor: builds a synthetic Beast request and delegates to
+        // the existing QueryApiHandler so all existing AQL machinery
+        // (validation, caching, masking) is reused.
+        auto* qapi = query_api_.get();
+        server::AsyncJobApiHandler::AqlExecutor executor =
+            [qapi](const std::string& aql_query,
+                   const std::string& auth_header) -> nlohmann::json {
+                http::request<http::string_body> inner{
+                    http::verb::post, "/query/aql", 11};
+                inner.set(http::field::content_type,  "application/json");
+                inner.set(http::field::authorization, auth_header);
+                nlohmann::json body = {{"query", aql_query}};
+                inner.body() = body.dump();
+                inner.prepare_payload();
+                auto response = qapi->handleQueryAql(inner);
+                return nlohmann::json::parse(response.body());
+            };
+        async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
+            std::move(executor), auth_);
+        THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+    }
+
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
     try {
@@ -1295,6 +1324,9 @@ HttpServer::HttpServer(
     // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
     request_validator_->registerSchema("POST", "/query/aql", aql_schema);
     request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
+
+    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
 
     // POST /index/create – create index
     request_validator_->registerSchema("POST", "/index/create", {
@@ -2117,6 +2149,18 @@ namespace {
     ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
     ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
 
+    // Async job API – long-running AQL query submission and polling
+    AsyncJobSubmitPost,      // POST   /v2/jobs
+    AsyncJobListGet,         // GET    /v2/jobs
+    AsyncJobStatusGet,       // GET    /v2/jobs/{id}
+    AsyncJobCancelDelete,    // DELETE /v2/jobs/{id}
+    // API Key Management
+    ApiKeyPost,              // POST   /api/keys
+    ApiKeyListGet,           // GET    /api/keys
+    ApiKeyGet,               // GET    /api/keys/{id}
+    ApiKeyPut,               // PUT    /api/keys/{id}
+    ApiKeyDelete,            // DELETE /api/keys/{id}
+
         NotFound
     };
 
@@ -2539,6 +2583,31 @@ namespace {
             if (method == http::verb::put)    return Route::ServerlessFnPut;
             if (method == http::verb::delete_) return Route::ServerlessFnDelete;
         }
+    }
+
+    // Async job API  (/v2/jobs  and  /v2/jobs/{id})
+    {
+        static constexpr std::string_view kJobsPath{"/v2/jobs"};
+        static constexpr std::string_view kJobsPrefix{"/v2/jobs/"};
+
+        if (path_only == kJobsPath.data()) {
+            if (method == http::verb::post) return Route::AsyncJobSubmitPost;
+            if (method == http::verb::get)  return Route::AsyncJobListGet;
+        }
+        if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
+            path_only.size() > kJobsPrefix.size()) {
+            if (method == http::verb::get)    return Route::AsyncJobStatusGet;
+            if (method == http::verb::delete_) return Route::AsyncJobCancelDelete;
+        }
+    // API Key Management: /api/keys and /api/keys/{id}
+    if (path_only == "/api/keys") {
+        if (method == http::verb::post) return Route::ApiKeyPost;
+        if (method == http::verb::get)  return Route::ApiKeyListGet;
+    }
+    if (path_only.rfind("/api/keys/", 0) == 0 && path_only.size() > 10) {
+        if (method == http::verb::get)    return Route::ApiKeyGet;
+        if (method == http::verb::put)    return Route::ApiKeyPut;
+        if (method == http::verb::delete_) return Route::ApiKeyDelete;
     }
 
         return Route::NotFound;
@@ -4224,6 +4293,54 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
 
+        // ── Async job API ────────────────────────────────────────────────────
+        case Route::AsyncJobSubmitPost:
+            if (async_job_api_)
+                response = async_job_api_->handleSubmit(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobListGet:
+            if (async_job_api_)
+                response = async_job_api_->handleList(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobStatusGet:
+            if (async_job_api_)
+                response = async_job_api_->handleGetStatus(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobCancelDelete:
+            if (async_job_api_)
+                response = async_job_api_->handleCancel(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+        // ── API Key Management ───────────────────────────────────────────────
+        case Route::ApiKeyPost:
+            response = handleApiKeyCreate(req);
+            break;
+        case Route::ApiKeyListGet:
+            response = handleApiKeyList(req);
+            break;
+        case Route::ApiKeyGet:
+            response = handleApiKeyGet(req);
+            break;
+        case Route::ApiKeyPut:
+            response = handleApiKeyUpdate(req);
+            break;
+        case Route::ApiKeyDelete:
+            response = handleApiKeyDelete(req);
+            break;
+
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
@@ -4620,6 +4737,133 @@ http::response<http::string_body> HttpServer::handleKeysRotateKey(
         json body_json;
         try { if (!req.body().empty()) body_json = json::parse(req.body()); } catch (...) {}
         auto result = keys_api_->rotateKey(key_id, body_json);
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// API Key Management Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleApiKeyCreate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.create", "/api/keys")) return *resp;
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing JSON body", req);
+        }
+        json body;
+        try { body = json::parse(req.body()); } catch (...) {
+            return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+        }
+        auto result = api_key_mgmt_->createKey(body);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::created, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.list", "/api/keys")) return *resp;
+        auto result = api_key_mgmt_->listKeys();
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyGet(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.get", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        auto result = api_key_mgmt_->getKey(key_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyUpdate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.update", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        json body;
+        try { if (!req.body().empty()) body = json::parse(req.body()); } catch (...) {
+            return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+        }
+        auto result = api_key_mgmt_->updateKey(key_id, body);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleApiKeyDelete(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!api_key_mgmt_) {
+            return makeErrorResponse(http::status::service_unavailable, "API Key Management not available", req);
+        }
+        if (auto resp = requireAccess(req, "admin:all", "api_key.delete", "/api/keys")) return *resp;
+        auto key_id = extractPathParam(std::string(req.target()), "/api/keys/");
+        if (key_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing key id", req);
+        }
+        if (validator_ && !validator_->validatePathSegment(key_id)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
+        }
+        auto result = api_key_mgmt_->deleteKey(key_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
         return makeResponse(http::status::ok, result.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -7581,6 +7825,24 @@ void HttpServer::Session::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -7866,6 +8128,24 @@ void HttpServer::SslSession::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         

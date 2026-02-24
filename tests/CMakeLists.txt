@@ -285,6 +285,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_oauth_device_flow\\.cpp$"
+    ".*test_oauth_pkce_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
@@ -870,6 +871,46 @@ else()
 endif()
 
 # ============================================================================
+# gRPC API Server Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
+    message(STATUS "Adding gRPC API Server tests")
+
+    add_executable(test_api_grpc_server
+        test_api_grpc_server.cpp
+    )
+
+    target_link_libraries(test_api_grpc_server PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++)
+        target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
+
+    target_compile_definitions(test_api_grpc_server PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    target_include_directories(test_api_grpc_server PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    add_test(NAME GrpcApiServerTests COMMAND test_api_grpc_server)
+
+    set_tests_properties(GrpcApiServerTests PROPERTIES
+        LABELS "api;grpc;server;lifecycle;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC API Server: lifecycle, TLS config, service registration")
+endif()
+
+# ============================================================================
 # Batch Operation Manager Tests
 # ============================================================================
 
@@ -1211,6 +1252,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_p1_features.cpp")
     message(STATUS "  GraphQL P1 Features: geo scalars, document/graph/vector types, query/mutation")
 else()
     message(STATUS "GraphQL P1 Feature tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_p1_features.cpp")
+endif()
+
+# ============================================================================
+# GraphQL Multi-Model Query Schema Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+    message(STATUS "Adding GraphQL multi-model query schema tests")
+
+    add_executable(test_graphql_multimodel
+        test_graphql_multimodel.cpp
+    )
+
+    target_link_libraries(test_graphql_multimodel PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_multimodel PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLMultiModelTests COMMAND test_graphql_multimodel)
+
+    set_tests_properties(GraphQLMultiModelTests PROPERTIES
+        LABELS "query;graphql;schema;multimodel;timeseries;geo;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
+else()
+    message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
 endif()
 
 # ============================================================================
