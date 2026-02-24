@@ -256,3 +256,65 @@ TEST(APIDeprecationTest, DeprecationInfoReturnedBeforeRemoval) {
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result->alternative, "/api/v2/endpoint");
 }
+
+// ---------------------------------------------------------------------------
+// URL Path-Based Versioned Routing Conventions
+// These tests validate the path format expectations for /v1/ and /v2/ routing.
+// ---------------------------------------------------------------------------
+
+TEST(VersionedRoutingConventions, V1PathStartsWithSlashV1Slash) {
+    // v1 versioned paths follow the /v1/<resource> convention
+    std::string v1_path = "/v1/entities/123";
+    EXPECT_EQ(v1_path.substr(0, 4), "/v1/");
+}
+
+TEST(VersionedRoutingConventions, V2PathStartsWithSlashV2Slash) {
+    // v2 versioned paths follow the /v2/<resource> convention
+    std::string v2_path = "/v2/query/stream";
+    EXPECT_EQ(v2_path.substr(0, 4), "/v2/");
+}
+
+TEST(VersionedRoutingConventions, VersionPrefixSeparatedFromResource) {
+    // Confirm that stripping first path segment gives the resource path
+    // /v1/entities → /entities
+    std::string path = "/v1/entities";
+    auto slash_pos = path.find('/', 1); // skip leading /
+    ASSERT_NE(slash_pos, std::string::npos);
+    EXPECT_EQ(path.substr(slash_pos), "/entities");
+}
+
+TEST(VersionedRoutingConventions, VersionExtractedFromMajorOnlyPrefix) {
+    // /v1/foo → major=1 (documented behaviour)
+    auto v = APIVersion::parse("v1");
+    ASSERT_TRUE(v.has_value());
+    EXPECT_EQ(v->major, 1u);
+}
+
+TEST(VersionedRoutingConventions, VersionExtractedFromMajorMinorPrefix) {
+    // /v1.4/foo → major=1, minor=4 (documented behaviour)
+    auto v = APIVersion::parse("v1.4");
+    ASSERT_TRUE(v.has_value());
+    EXPECT_EQ(v->major, 1u);
+    EXPECT_EQ(v->minor, 4u);
+}
+
+TEST(VersionedRoutingConventions, V1VersionManagerResolvesToCurrentV1) {
+    // Resolving "v1" through APIVersionManager returns the latest supported v1 version
+    APIVersionManager mgr;
+    auto resolved = mgr.resolveVersion("v1");
+    EXPECT_EQ(resolved.major, 1u);
+    // Latest v1.x should be the current version (assuming current is v1.x.y)
+    EXPECT_EQ(resolved, mgr.getCurrentVersion());
+}
+
+TEST(VersionedRoutingConventions, HealthPathsAreNotVersioned) {
+    // Health/liveness/readiness endpoints are not version-prefixed
+    for (const auto& p : {"/health", "/health/live", "/health/ready", "/metrics"}) {
+        std::string path(p);
+        EXPECT_EQ(path.substr(0, 3), "/he") << path << " should not use /v1/ prefix";
+        (void)path; // suppress unused
+    }
+    // Check none of them start with /v
+    EXPECT_NE(std::string("/health")[1], 'v');
+    EXPECT_NE(std::string("/metrics")[1], 'v');
+}

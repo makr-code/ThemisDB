@@ -394,6 +394,34 @@ private:
     );
 
     /**
+     * @brief Extract API version from URL path prefix (e.g., /v1/ or /v2/)
+     *
+     * Recognises paths starting with /v{major}/ or /v{major}.{minor}/
+     * or /v{major}.{minor}.{patch}/ at the beginning of the path.
+     * Query strings must already be stripped by the caller.
+     *
+     * @param path URL path without query string (e.g., "/v1/entities/123")
+     * @return Parsed version if a version prefix is present, std::nullopt otherwise
+     */
+    std::optional<APIVersion> extractVersionFromPath(const std::string& path) const;
+
+    /**
+     * @brief Strip version prefix from URL path
+     *
+     * Removes the leading /v{N}/ (or /v{N}.{M}/ etc.) segment so that
+     * downstream handlers and URN extractors see a clean, unversioned path.
+     *
+     * Examples:
+     *  - "/v1/entities/foo"  → "/entities/foo"
+     *  - "/v2/query/aql"     → "/query/aql"
+     *  - "/entities/foo"     → "/entities/foo"   (no-op)
+     *
+     * @param path URL path (e.g., "/v1/entities/123")
+     * @return Path without version prefix (e.g., "/entities/123")
+     */
+    std::string stripVersionPrefix(const std::string& path) const;
+
+    /**
      * @brief Extract a urn:themis: URN from an HTTP request path
      *
      * Looks for either:
