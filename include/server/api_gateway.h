@@ -394,16 +394,19 @@ private:
     );
 
     /**
-     * @brief Extract API version from URL path prefix (e.g., /v1/ or /v2/)
+     * @brief Extract the raw version string from a URL path prefix (e.g., /v1/ or /v2/)
      *
-     * Recognises paths starting with /v{major}/ or /v{major}.{minor}/
+     * Recognises paths starting with /v{major}/, /v{major}.{minor}/,
      * or /v{major}.{minor}.{patch}/ at the beginning of the path.
+     * Returns the raw version token as it appears in the URL (e.g., "v1", "v1.4",
+     * "v1.4.1") so that it can be passed directly to APIVersionManager::resolveVersion()
+     * for proper partial-version resolution (major-only → latest minor.patch).
      * Query strings must already be stripped by the caller.
      *
      * @param path URL path without query string (e.g., "/v1/entities/123")
-     * @return Parsed version if a version prefix is present, std::nullopt otherwise
+     * @return Raw version string (e.g., "v1") if a version prefix is found, std::nullopt otherwise
      */
-    std::optional<APIVersion> extractVersionFromPath(const std::string& path) const;
+    std::optional<std::string> extractVersionFromPath(const std::string& path) const;
 
     /**
      * @brief Strip version prefix from URL path

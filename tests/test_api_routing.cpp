@@ -299,12 +299,14 @@ TEST(VersionedRoutingConventions, VersionExtractedFromMajorMinorPrefix) {
 }
 
 TEST(VersionedRoutingConventions, V1VersionManagerResolvesToCurrentV1) {
-    // Resolving "v1" through APIVersionManager returns the latest supported v1 version
+    // Resolving "v1" (major-only) through APIVersionManager must return the
+    // LATEST supported version for major 1, not v1.0.0.
     APIVersionManager mgr;
     auto resolved = mgr.resolveVersion("v1");
     EXPECT_EQ(resolved.major, 1u);
-    // Latest v1.x should be the current version (assuming current is v1.x.y)
-    EXPECT_EQ(resolved, mgr.getCurrentVersion());
+    // "v1" is a partial version → must resolve to the current (latest) version
+    EXPECT_EQ(resolved, mgr.getCurrentVersion())
+        << "'v1' (major-only) must resolve to the latest v1.x release, not v1.0.0";
 }
 
 TEST(VersionedRoutingConventions, HealthPathsAreNotVersioned) {

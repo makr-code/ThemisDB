@@ -776,7 +776,7 @@ APIVersion APIGateway::processVersionHeaders(
     std::string raw_path = std::string(req.target());
     auto qpos = raw_path.find('?');
     std::string path_only = (qpos != std::string::npos) ? raw_path.substr(0, qpos) : raw_path;
-    auto url_version = extractVersionFromPath(path_only);
+    auto url_version_str = extractVersionFromPath(path_only);
 
     // 2. Fall back to Accept-Version header
     std::string version_header;
@@ -785,10 +785,12 @@ APIVersion APIGateway::processVersionHeaders(
         version_header = std::string(it->value());
     }
 
-    // Resolve version: URL path prefix takes precedence over Accept-Version header
+    // Resolve version: URL path prefix takes precedence over Accept-Version header.
+    // The raw URL token (e.g. "v1", "v1.4") is passed directly to resolveVersion so
+    // that partial versions resolve to the latest matching release (v1 → v1.4.1, etc.)
     APIVersion version;
-    if (url_version) {
-        version = version_manager_->resolveVersion(url_version->toString());
+    if (url_version_str) {
+        version = version_manager_->resolveVersion(*url_version_str);
         spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
     } else {
         version = version_manager_->resolveVersion(version_header);
@@ -860,11 +862,13 @@ void APIGateway::addDeprecationHeaders(
                  endpoint, version.toString(), deprecation->removed_in.toString());
 }
 
-std::optional<APIVersion> APIGateway::extractVersionFromPath(const std::string& path) const {
+std::optional<std::string> APIGateway::extractVersionFromPath(const std::string& path) const {
     // Match /v{major}/, /v{major}.{minor}/, /v{major}.{minor}.{patch}/ at path start.
-    // The trailing delimiter can be '/' (more path follows) or end-of-string (just the prefix).
+    // The trailing delimiter can be '/' (more path follows) or end-of-string.
+    // Capture group 1 holds the raw version token (e.g., "v1", "v1.4", "v1.4.1") so it can
+    // be forwarded as-is to resolveVersion() for correct partial-version resolution.
     static const std::regex kVersionPrefixRegex(
-        R"(^/v(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:/|$))"
+        R"(^(/v\d+(?:\.\d+){0,2})(?:/|$))"
     );
 
     std::smatch m;
@@ -872,11 +876,8 @@ std::optional<APIVersion> APIGateway::extractVersionFromPath(const std::string& 
         return std::nullopt;
     }
 
-    APIVersion v;
-    v.major = static_cast<uint32_t>(std::stoul(m[1].str()));
-    v.minor = m[2].matched ? static_cast<uint32_t>(std::stoul(m[2].str())) : 0u;
-    v.patch = m[3].matched ? static_cast<uint32_t>(std::stoul(m[3].str())) : 0u;
-    return v;
+    // Return the raw token starting with 'v', dropping the leading '/'
+    return m[1].str().substr(1); // e.g. "/v1" → "v1", "/v1.4" → "v1.4"
 }
 
 std::string APIGateway::stripVersionPrefix(const std::string& path) const {

@@ -373,7 +373,7 @@ TEST_F(APIGatewayTest, DeprecationHeadersWithQueryString) {
 
 /**
  * @brief Versioned URL routing: /v1/{path} sets the API-Version response header
- *        to the resolved v1 version.
+ *        to the latest resolved v1 version (not v1.0.0 specifically).
  */
 TEST_F(APIGatewayTest, VersionedPathV1SetsApiVersionHeader) {
     namespace http = boost::beast::http;
@@ -391,15 +391,18 @@ TEST_F(APIGatewayTest, VersionedPathV1SetsApiVersionHeader) {
     auto response = gateway_->handleRequest(req, local_handler);
     EXPECT_EQ(response.result(), http::status::ok);
 
-    // API-Version response header must be present and reflect a v1.x.x version
+    // API-Version response header must be present and reflect the CURRENT version.
+    // /v1/ is a partial (major-only) version → resolves to the latest v1.x.x (= current).
     auto it = response.find(APIHeaders::API_VERSION);
     ASSERT_NE(it, response.end()) << "API-Version header must be set for /v1/ requests";
     std::string api_version = std::string(it->value());
-    EXPECT_EQ(api_version[0], 'v') << "API-Version value must start with 'v'";
-    // Version resolved from /v1/ prefix must be in the v1.x.x range
     auto parsed = APIVersion::parse(api_version);
     ASSERT_TRUE(parsed.has_value());
     EXPECT_EQ(parsed->major, 1u) << "URL /v1/ must resolve to a v1.x.x API version";
+    // Partial version /v1/ must resolve to the current (latest) version, not v1.0.0
+    APIVersionManager mgr;
+    EXPECT_EQ(*parsed, mgr.getCurrentVersion())
+        << "URL /v1/ (major-only) must resolve to the latest supported v1.x version, not v1.0.0";
 }
 
 /**
