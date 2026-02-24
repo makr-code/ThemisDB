@@ -59,7 +59,7 @@ env:
   APT_DEPS: >-
     cmake ninja-build
     libgtest-dev libssl-dev libcurl4-openssl-dev
-    libboost-all-dev libnlohmann-json3-dev
+    libboost-all-dev nlohmann-json3-dev
     pkg-config git
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -308,7 +308,7 @@ jobs:
           sudo apt-get install -y \
             cmake ninja-build gcc-12 g++-12 \
             libssl-dev libcurl4-openssl-dev \
-            libboost-all-dev libnlohmann-json3-dev \
+            libboost-all-dev nlohmann-json3-dev \
             pkg-config git
 
       - name: Configure (${{ matrix.edition }} edition)
@@ -445,7 +445,7 @@ jobs:
           sudo apt-get install -y \
             clang-15 clang++-15 \
             libssl-dev libcurl4-openssl-dev \
-            libnlohmann-json3-dev \
+            nlohmann-json3-dev \
             pkg-config git
 
       - name: Build JWT/RBAC fuzz harness with libFuzzer
