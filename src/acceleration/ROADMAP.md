@@ -26,7 +26,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
-- [P] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented
+- [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
 - [P] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
@@ -80,8 +80,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
 - [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
 
-### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
-- [P] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`
+### Phase 3: Extended Hardware and Advanced Features (Status: In Progress)
+- [x] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; ANN kernels (L2, cosine, inner-product, top-K) and geospatial kernels (Haversine, point-in-polygon) complete; dispatch tables wired via `populateHIPANNDispatch`/`populateHIPGeoDispatch`; non-HIP fallback stubs added to `hip_backend.cpp` matching CUDA backend pattern
 - [P] Implement multi-GPU sharding for large embedding datasets (Issue: #1457) — `MultiGPUVectorBackend` (`include/acceleration/multi_gpu_backend.h`, `src/acceleration/multi_gpu_backend.cpp`): range-based sharding across N devices, fan-out `batchKnnSearch`, host-side top-k merge, NCCL/RCCL comm backend with CPU fallback; registered in `BackendRegistry::autoDetect()`; comprehensive tests in `tests/test_multi_gpu_backend.cpp`
 - [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
 - [x] Implement CUDA graph capture for recurring query workloads (Issue: #1459) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; LRU eviction at 32 entries; tests in `tests/test_cuda_graph_capture.cpp`
