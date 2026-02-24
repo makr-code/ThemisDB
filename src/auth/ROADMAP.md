@@ -25,7 +25,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
+- [P] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [I] API key authentication (static key + secret) (Issue: #1544)
 - [I] Session management and revocation endpoint (Issue: #1983)
 - [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
@@ -59,7 +59,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
-- [ ] OAuth 2.0 PKCE flow for public clients
+- [x] OAuth 2.0 PKCE flow for public clients (`auth/oauth_pkce_flow.cpp`)
 - [ ] API key authentication (static key + secret)
 - [ ] WebAuthn/FIDO2 hardware token support
 - [ ] Session management and revocation endpoint
