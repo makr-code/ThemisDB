@@ -32,6 +32,7 @@
 #include <chrono>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
 #include "cache/eviction_policy.h"
@@ -212,12 +213,17 @@ public:
      * @param query_params Original query parameters (for debugging)
      * @param result Query result to cache
      * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
+     * @param pii_uuids Optional list of PII UUIDs whose data appears in the
+     *                  cached result.  When non-empty, the entry is registered
+     *                  in the GDPR PII index so that invalidatePII() can
+     *                  remove it upon a right-to-erasure request.
      * @return True if successfully cached
      */
     bool put(const std::string& fingerprint,
              const nlohmann::json& query_params,
              const nlohmann::json& result,
-             const std::string& tenant_id = "");
+             const std::string& tenant_id = "",
+             const std::vector<std::string>& pii_uuids = {});
     
     /**
      * @brief Invalidate cache entries matching a pattern
@@ -308,6 +314,25 @@ public:
      * @return Number of entries invalidated
      */
     size_t invalidateTenant(const std::string& tenant_id);
+
+    /**
+     * @brief Invalidate all cache entries associated with a PII UUID.
+     *
+     * Implements GDPR Art. 17 ("Right to Erasure") cache propagation: when a
+     * data subject's PII is erased from the underlying store, any query result
+     * that was tagged with the corresponding PII UUID during put() must be
+     * removed from all three cache tiers immediately.
+     *
+     * - L1 / L2: removed via the in-memory PII reverse index.
+     * - L3 (RocksDB): removed by scanning the `pii_ref:{pii_uuid}:` prefix
+     *   that was written alongside the original cache entry.
+     * - An audit-log entry is emitted for every call (regardless of how many
+     *   entries were actually purged) to satisfy compliance requirements.
+     *
+     * @param pii_uuid  UUID that identifies the erased data-subject record.
+     * @return Number of cache entries purged across all tiers.
+     */
+    size_t invalidatePII(const std::string& pii_uuid);
 
     /**
      * @brief Update the cache quota for a specific tenant.
@@ -445,6 +470,13 @@ private:
     // Per-tenant quota overrides (0 = use global config_.per_tenant_max_bytes)
     std::unordered_map<std::string, size_t> tenant_quota_overrides_;
     mutable std::mutex tenant_mutex_;
+
+    // GDPR: PII reverse index (L1 / L2 in-memory tier)
+    // Maps pii_uuid → set of cache keys that carry that UUID's data.
+    // Protected by pii_index_mutex_. Entries are lazily cleaned; stale
+    // references (to already-evicted keys) are harmless.
+    std::unordered_map<std::string, std::unordered_set<std::string>> pii_key_index_;
+    mutable std::mutex pii_index_mutex_;
     
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;

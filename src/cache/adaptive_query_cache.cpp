@@ -512,7 +512,8 @@ bool AdaptiveQueryCache::put(
     const std::string& fingerprint,
     const nlohmann::json& query_params,
     const nlohmann::json& result,
-    const std::string& tenant_id
+    const std::string& tenant_id,
+    const std::vector<std::string>& pii_uuids
 ) {
     // Phase 2: Check rate limiter
     if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
@@ -599,6 +600,14 @@ bool AdaptiveQueryCache::put(
             std::lock_guard<std::mutex> lock(tenant_mutex_);
             tenant_metrics_[tenant_id].bytes_used += result_size;
         }
+
+        // GDPR: Register PII tags in reverse index for L1 entry
+        if (!pii_uuids.empty()) {
+            std::lock_guard<std::mutex> plock(pii_index_mutex_);
+            for (const auto& pii_uuid : pii_uuids) {
+                pii_key_index_[pii_uuid].insert(key);
+            }
+        }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
         return true;
@@ -633,6 +642,15 @@ bool AdaptiveQueryCache::put(
         l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         enhanced_metrics_.total_bytes_compressed += compressed_size;
+
+        // GDPR: Register PII tags in reverse index for L2 entry
+        if (!pii_uuids.empty()) {
+            std::lock_guard<std::mutex> plock(pii_index_mutex_);
+            for (const auto& pii_uuid : pii_uuids) {
+                pii_key_index_[pii_uuid].insert(fingerprint);
+            }
+        }
+
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
         return true;
@@ -671,6 +689,10 @@ bool AdaptiveQueryCache::put(
                     enhanced_metrics_.l3_circuit_breaker_open = false;
                 }
                 enhanced_metrics_.total_bytes_cached += result_size;
+                // GDPR: Write PII reference index entries for L3
+                for (const auto& pii_uuid : pii_uuids) {
+                    l3_db_->put("pii_ref:" + pii_uuid + ":" + fingerprint, "");
+                }
                 THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
                 return true;
             }
@@ -799,6 +821,12 @@ void AdaptiveQueryCache::clear() {
         l2_eviction_strategy_->clear();
     }
     
+    // GDPR: Clear in-memory PII reverse index
+    {
+        std::lock_guard<std::mutex> plock(pii_index_mutex_);
+        pii_key_index_.clear();
+    }
+    
     if (l3_db_) {
         std::lock_guard<std::mutex> lock(l3_mutex_);
         // Clear L3 by deleting all keys with prefix
@@ -810,6 +838,15 @@ void AdaptiveQueryCache::clear() {
                 return true;
             });
             for (const auto& key : keys) {
+                l3_db_->del(key);
+            }
+            // GDPR: Also clear L3 PII reference index entries
+            std::vector<std::string> pii_ref_keys;
+            l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
+                pii_ref_keys.emplace_back(key);
+                return true;
+            });
+            for (const auto& key : pii_ref_keys) {
                 l3_db_->del(key);
             }
         } catch (const std::exception& e) {
@@ -1514,6 +1551,105 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
+    return count;
+}
+
+size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
+    if (pii_uuid.empty()) {
+        THEMIS_WARN("invalidatePII called with empty pii_uuid");
+        return 0;
+    }
+
+    size_t count = 0;
+
+    // --- L1 / L2: use in-memory PII reverse index ---
+    std::unordered_set<std::string> keys_to_purge;
+    {
+        std::lock_guard<std::mutex> plock(pii_index_mutex_);
+        auto it = pii_key_index_.find(pii_uuid);
+        if (it != pii_key_index_.end()) {
+            keys_to_purge = std::move(it->second);
+            pii_key_index_.erase(it);
+        }
+    }
+
+    if (!keys_to_purge.empty()) {
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            for (const auto& k : keys_to_purge) {
+                auto it = l1_cache_.find(k);
+                if (it != l1_cache_.end()) {
+                    l1_eviction_strategy_->onRemove(it->first);
+                    l1_cache_.erase(it);
+                    count++;
+                }
+            }
+        }
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            for (const auto& k : keys_to_purge) {
+                auto it = l2_cache_.find(k);
+                if (it != l2_cache_.end()) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    l2_cache_.erase(it);
+                    count++;
+                }
+            }
+        }
+    }
+
+    // --- L3: scan pii_ref:{pii_uuid}: prefix in RocksDB ---
+    if (l3_db_) {
+        std::lock_guard<std::mutex> lock(l3_mutex_);
+
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_WARN("L3 circuit breaker open, skipping L3 PII invalidation for uuid={}", pii_uuid);
+            enhanced_metrics_.l3_circuit_breaker_open = true;
+        } else {
+            try {
+                const std::string pii_ref_prefix = "pii_ref:" + pii_uuid + ":";
+                std::vector<std::string> pii_ref_keys;
+                std::vector<std::string> cache_keys;
+
+                l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
+                    pii_ref_keys.emplace_back(key);
+                    // Extract fingerprint: pii_ref:{uuid}:{fingerprint}
+                    std::string k(key);
+                    if (k.size() > pii_ref_prefix.size()) {
+                        cache_keys.emplace_back(
+                            QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
+                    }
+                    return true;
+                });
+
+                for (const auto& ck : cache_keys) {
+                    if (l3_db_->del(ck)) {
+                        count++;
+                    }
+                }
+                for (const auto& rk : pii_ref_keys) {
+                    l3_db_->del(rk);
+                }
+
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordSuccess();
+                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed L3 PII invalidation for uuid={}: {}", pii_uuid, e.what());
+                enhanced_metrics_.l3_read_errors++;
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                    if (l3_circuit_breaker_->isOpen()) {
+                        enhanced_metrics_.l3_circuit_breaker_trips++;
+                        enhanced_metrics_.l3_circuit_breaker_open = true;
+                    }
+                }
+            }
+        }
+    }
+
+    THEMIS_INFO("GDPR PII purge: invalidated {} cache entries for pii_uuid={}", count, pii_uuid);
     return count;
 }
 
