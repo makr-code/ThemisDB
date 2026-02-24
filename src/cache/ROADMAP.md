@@ -18,6 +18,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Token bucket rate limiting
 - [x] Tenant isolation and namespace enforcement
 - [x] Per-tenant size quotas
+- [x] GDPR-aware cache invalidation – PII purge propagation via `invalidatePII()` (GDPR Art. 17)
 
 ## In Progress 🚧
 - [x] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
@@ -38,9 +39,9 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 ### Long-term (6-12 months)
 - [I] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
 - [I] Write-through cache mode for read-heavy workloads (Issue: #1588)
-- [I] Predictive pre-fetching based on query history (Issue: #1589)
+- [x] Predictive pre-fetching based on query history (Issue: #1589)
 - [I] Cache replication for high-availability deployments (Issue: #1590)
-- [I] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
+- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
 
 ## Implementation Phases
 
@@ -67,10 +68,10 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [I] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
 - [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
 
-### Phase 4: Distributed Cache and Predictive Features (Status: Planned)
+### Phase 4: Distributed Cache and Predictive Features (Status: In Progress)
 - [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
-- [I] Add write-through cache mode for read-heavy workloads (Issue: #1593)
-- [I] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
+- [x] Add write-through cache mode for read-heavy workloads (Issue: #1593)
+- [x] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
 - [I] Add cache replication for high-availability multi-node deployments (Issue: #1595)
 
 ## Production Readiness Checklist
@@ -85,7 +86,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - Admin API is implemented (`/v1/admin/cache/` endpoints); tenant management API is still in progress
 - Adaptive TTL tuning is not yet active
 - Distributed cache coordination requires external Redis or future built-in cluster mode
-- Predictive pre-fetching is not yet implemented
+- Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller
 
 ## Breaking Changes
 - Admin API will be introduced as a new endpoint (non-breaking to existing cache API)
