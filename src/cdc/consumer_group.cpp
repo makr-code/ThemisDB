@@ -201,6 +201,10 @@ void ConsumerGroupManager::deleteGroup(const std::string& group_id) {
         throw error::dbOperationFailed("Delete group offset", s2.ToString());
     }
 
+    // Also clear any in-flight state for this group so stale records don't
+    // surface if the group is recreated with the same ID.
+    inflight_.erase(group_id);
+
     THEMIS_INFO("CDC ConsumerGroup deleted: group={}", group_id);
 }
 
@@ -427,6 +431,9 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnc
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
     }
+    if (consumer_id.empty()) {
+        throw error::invalidArgument("consumer_id", "must not be empty");
+    }
 
     const size_t effective_limit = (limit == 0) ? 100 : limit;
     const auto   timeout         = std::chrono::milliseconds(ack_timeout_ms);
@@ -534,6 +541,9 @@ void ConsumerGroupManager::acknowledgeEvents(const std::string& group_id,
                                               uint64_t up_to_sequence) {
     if (group_id.empty()) {
         throw error::invalidArgument("group_id", "must not be empty");
+    }
+    if (consumer_id.empty()) {
+        throw error::invalidArgument("consumer_id", "must not be empty");
     }
 
     std::lock_guard<std::mutex> lock(mutex_);

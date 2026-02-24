@@ -67,9 +67,13 @@
 
 ## Known Issues & Limitations
 - WebSocket transport not yet implemented; SSE only
-- No consumer offset tracking; replay requires full log scan
+- Consumer offset tracking is available via `ConsumerGroupManager`;
+  full log scan is no longer required for existing groups
 - Change log retention policies are not configurable at runtime
-- At-least-once delivery is not yet guaranteed for SSE connections
+- At-least-once delivery is implemented via
+  `ConsumerGroupManager::fetchEventsAtLeastOnce`;
+  in-flight state is in-memory and resets on server restart
+  (consumers resume from the last durably committed offset)
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)

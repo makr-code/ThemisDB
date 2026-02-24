@@ -594,6 +594,37 @@ TEST_F(ConsumerGroupTest, AtLeastOnce_NonExistentGroupThrows) {
         CDCException);
 }
 
+TEST_F(ConsumerGroupTest, AtLeastOnce_EmptyConsumerIdThrows) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-empty-consumer";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    EXPECT_THROW(
+        manager_->fetchEventsAtLeastOnce("alo-empty-consumer", "", *changefeed_, 10),
+        CDCException);
+    EXPECT_THROW(
+        manager_->acknowledgeEvents("alo-empty-consumer", "", 1),
+        CDCException);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_DeleteGroupClearsInflightState) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-delete-group";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(3, "dg");
+
+    // Fetch so there is in-flight state
+    manager_->fetchEventsAtLeastOnce("alo-delete-group", "worker-0", *changefeed_, 10);
+    ASSERT_EQ(manager_->getInFlightCount("alo-delete-group", "worker-0"), 3u);
+
+    // Delete group: in-flight state must be cleared
+    manager_->deleteGroup("alo-delete-group");
+    EXPECT_EQ(manager_->getInFlightCount("alo-delete-group", "worker-0"), 0u);
+}
+
 TEST_F(ConsumerGroupTest, AtLeastOnce_AcknowledgeDoesNotGoBackward) {
     ConsumerGroupConfig cfg;
     cfg.group_id       = "alo-no-backward";
