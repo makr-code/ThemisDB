@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     297                                            ║
+    • Total Lines:     341                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -39,10 +39,8 @@
 #include <algorithm>
 #include <chrono>
 #include <cctype>
-#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
-#include <unordered_set>
 
 namespace themis::rag {
 
