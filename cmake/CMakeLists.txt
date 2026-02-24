@@ -1499,10 +1499,15 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
+    ../src/cache/cache_hit_rate_slo_monitor.cpp
+    
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     ../src/cdc/dead_letter_queue.cpp
-        # Replication
+    
+    # Replication
+    ../src/cdc/cdc_ws_handler.cpp
+    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal conflict resolution
@@ -1616,11 +1621,13 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
+    ../src/auth/mtls_authenticator.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/session_manager.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp

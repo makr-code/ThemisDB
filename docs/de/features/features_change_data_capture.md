@@ -54,7 +54,9 @@ Themis' Change Data Capture (CDC) implementation provides a minimal, append-only
   "metadata": {
     "table": "user",
     "pk": "alice"
-  }
+  },
+  "before_snapshot": "{\"name\":\"Alice\",\"email\":\"alice@old.com\"}",
+  "after_snapshot":  "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"
 }
 ```
 
@@ -65,6 +67,8 @@ Hinweise zu Feldern:
 - `value`: JSON-String bei PUT, `null` bei DELETE
 - `timestamp_ms`: Millisekunden seit Epoch
 - `metadata`: Freies JSON (z. B. `table`, `pk`)
+- `before_snapshot` *(optional)*: Zustand des Dokuments **vor** der Änderung; fehlt bei INSERT (neues Dokument, kein Vorzustand)
+- `after_snapshot` *(optional)*: Zustand des Dokuments **nach** der Änderung; fehlt bei DELETE
 
 ### Storage
 
@@ -113,7 +117,9 @@ curl "http://localhost:8765/changefeed?from_seq=100&limit=10&long_poll_ms=5000"
       "key": "user:alice",
       "value": "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}",
       "timestamp_ms": 1730294567123,
-      "metadata": {"table": "user", "pk": "alice"}
+      "metadata": {"table": "user", "pk": "alice"},
+      "before_snapshot": "{\"name\":\"Alice\",\"email\":\"alice@old.com\"}",
+      "after_snapshot":  "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"
     },
     {
       "sequence": 2,
@@ -121,7 +127,8 @@ curl "http://localhost:8765/changefeed?from_seq=100&limit=10&long_poll_ms=5000"
       "key": "user:bob",
       "value": null,
       "timestamp_ms": 1730294568456,
-      "metadata": {"table": "user", "pk": "bob"}
+      "metadata": {"table": "user", "pk": "bob"},
+      "before_snapshot": "{\"name\":\"Bob\",\"email\":\"bob@example.com\"}"
     }
   ],
   "count": 2,
@@ -547,5 +554,6 @@ Zusammenfassung:
 - Automatisches Tracking für PUT/DELETE
 - GET /changefeed mit Filter/Pagination + Long-Poll
 - SSE-Streaming (`/changefeed/stream`) mit Keep-Alive/Heartbeats, Drop-Oldest-Backpressure, Retry/Resume über Last-Event-ID
+- **Before/After-Snapshots:** PUT-Events enthalten `before_snapshot` (Dokument vor der Änderung, fehlt bei INSERT) und `after_snapshot` (Dokument nach der Änderung); DELETE-Events enthalten `before_snapshot`
 
 Einsatz: Echtzeit-Sync, Audit-Trails, Event Sourcing – produktionsnah nutzbar; für sehr hohe Last ggf. Erweiterungen einplanen.

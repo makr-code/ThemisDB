@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1604                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1294                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
@@ -22,6 +22,7 @@
  */
 
 #include "cache/adaptive_query_cache.h"
+#include "cache/eviction_policy.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
@@ -41,6 +42,7 @@ namespace themis {
 constexpr size_t QUERY_CACHE_PREFIX_LEN = 12;  // Length of "query_cache:"
 constexpr const char* QUERY_CACHE_PREFIX = "query_cache:";
 constexpr int RETRY_BACKOFF_MULTIPLIER = 2;    // Exponential backoff multiplier
+constexpr int64_t ADAPTIVE_TTL_WINDOW_MS = 5 * 60 * 1000;  // 5-minute sliding window
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     : config_(config) {
@@ -79,6 +81,12 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         THEMIS_INFO("Circuit breaker enabled for L3 cache (threshold={}, timeout={}ms)",
                     cb_config.failure_threshold, cb_config.timeout_ms);
     }
+
+    // Initialize configurable eviction strategies for L1 and L2
+    l1_eviction_strategy_ = cache::makeEvictionStrategy(
+        config_.l1_eviction_policy, config_.l1_max_entries);
+    l2_eviction_strategy_ = cache::makeEvictionStrategy(
+        config_.l2_eviction_policy, config_.l2_max_entries);
     
     // Initialize L3 (RocksDB) cache with retry logic
     int retry_count = 0;
@@ -178,6 +186,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             
             // Check expiration
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
+                l1_eviction_strategy_->onRemove(key);
                 l1_cache_.erase(it);
                 stats_.evictions++;
                 enhanced_metrics_.evictions++;
@@ -185,15 +194,49 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 // Cache hit!
                 entry.last_accessed_ms = now_ms;
                 entry.access_count++;
+                l1_eviction_strategy_->onAccess(key);
                 
-                // Phase 3: Update TTL based on new access pattern
+                // Phase 3: Adaptive TTL tuning via sliding 5-minute window
                 if (config_.enable_adaptive_ttl) {
-                    entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
-                    entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                    if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                        // Window elapsed: apply cold-key policy on previous window count
+                        if (entry.window_start_ms > 0 && entry.window_count <= 1) {
+                            int old_ttl = entry.ttl_seconds;
+                            entry.ttl_seconds = std::max(
+                                static_cast<int>(entry.ttl_seconds * 0.5),
+                                config_.adaptive_ttl_min_seconds);
+                            if (entry.ttl_seconds < old_ttl) {
+                                enhanced_metrics_.ttl_shortened_total++;
+                            }
+                        }
+                        entry.window_start_ms = now_ms;
+                        entry.window_count = 1;
+                    } else {
+                        entry.window_count++;
+                        // Hot-key policy: extend TTL when heavily accessed in window
+                        if (entry.window_count >= 10) {
+                            int old_ttl = entry.ttl_seconds;
+                            entry.ttl_seconds = std::min(
+                                static_cast<int>(entry.ttl_seconds * 1.5),
+                                config_.adaptive_ttl_max_seconds);
+                            if (entry.ttl_seconds > old_ttl) {
+                                enhanced_metrics_.ttl_extended_total++;
+                            }
+                        } else {
+                            entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                        }
+                    }
+                    entry.created_at_ms = now_ms;  // Reset TTL window on each access
                 }
                 
                 stats_.l1_hits++;
                 enhanced_metrics_.l1_hits++;
+                
+                // Phase 3: Track per-tenant hit
+                if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                    std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                    tenant_metrics_[tenant_id].hits++;
+                }
                 
                 // Return entry
                 CacheEntry result;
@@ -220,6 +263,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             
             // Check expiration
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 l2_cache_.erase(it);
                 stats_.evictions++;
                 enhanced_metrics_.evictions++;
@@ -233,15 +277,49 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     // Update stats
                     entry.last_accessed_ms = now_ms;
                     entry.access_count++;
+                    l2_eviction_strategy_->onAccess(it->first);
                     
-                    // Phase 3: Update TTL based on new access pattern
+                    // Phase 3: Adaptive TTL tuning via sliding 5-minute window
                     if (config_.enable_adaptive_ttl) {
-                        entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
-                        entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                        if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                            // Window elapsed: apply cold-key policy on previous window count
+                            if (entry.window_start_ms > 0 && entry.window_count <= 1) {
+                                int old_ttl = entry.ttl_seconds;
+                                entry.ttl_seconds = std::max(
+                                    static_cast<int>(entry.ttl_seconds * 0.5),
+                                    config_.adaptive_ttl_min_seconds);
+                                if (entry.ttl_seconds < old_ttl) {
+                                    enhanced_metrics_.ttl_shortened_total++;
+                                }
+                            }
+                            entry.window_start_ms = now_ms;
+                            entry.window_count = 1;
+                        } else {
+                            entry.window_count++;
+                            // Hot-key policy: extend TTL when heavily accessed in window
+                            if (entry.window_count >= 10) {
+                                int old_ttl = entry.ttl_seconds;
+                                entry.ttl_seconds = std::min(
+                                    static_cast<int>(entry.ttl_seconds * 1.5),
+                                    config_.adaptive_ttl_max_seconds);
+                                if (entry.ttl_seconds > old_ttl) {
+                                    enhanced_metrics_.ttl_extended_total++;
+                                }
+                            } else {
+                                entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                            }
+                        }
+                        entry.created_at_ms = now_ms;  // Reset TTL window on each access
                     }
                     
                     stats_.l2_hits++;
                     enhanced_metrics_.l2_hits++;
+
+                    // Phase 3: Track per-tenant hit
+                    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                        tenant_metrics_[tenant_id].hits++;
+                    }
                     
                     // Promote to L1 if accessed frequently
                     if (entry.access_count >= 3 && decompressed.size() < config_.l1_max_entry_size) {
@@ -251,12 +329,16 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         l1_entry.last_accessed_ms = now_ms;
                         l1_entry.access_count = entry.access_count;
                         l1_entry.ttl_seconds = entry.ttl_seconds;
+                        l1_entry.window_start_ms = entry.window_start_ms;
+                        l1_entry.window_count = entry.window_count;
                         
                         std::lock_guard<std::mutex> l1_lock(l1_mutex_);
                         if (l1_cache_.size() >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
+                        l2_eviction_strategy_->onRemove(key);
                         l1_cache_[key] = std::move(l1_entry);
+                        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
                         l2_cache_.erase(it);
                         stats_.promotions++;
                         enhanced_metrics_.promotions++;
@@ -335,10 +417,58 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     int64_t access_count = entry_json["access_count"].get<int64_t>() + 1;
                     entry_json["access_count"] = access_count;
                     entry_json["last_accessed_ms"] = now_ms;
+
+                    // Phase 3: Adaptive TTL tuning via sliding 5-minute window
+                    if (config_.enable_adaptive_ttl) {
+                        int64_t window_start_ms = entry_json.value("window_start_ms", (int64_t)0);
+                        uint32_t window_count = entry_json.value("window_count", (uint32_t)0);
+
+                        if (now_ms - window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                            // Window elapsed: apply cold-key policy on previous window count
+                            if (window_start_ms > 0 && window_count <= 1) {
+                                int old_ttl = ttl_seconds;
+                                ttl_seconds = std::max(
+                                    static_cast<int>(ttl_seconds * 0.5),
+                                    config_.adaptive_ttl_min_seconds);
+                                if (ttl_seconds < old_ttl) {
+                                    enhanced_metrics_.ttl_shortened_total++;
+                                }
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            }
+                            entry_json["window_start_ms"] = now_ms;
+                            entry_json["window_count"] = 1;
+                        } else {
+                            window_count++;
+                            entry_json["window_count"] = window_count;
+                            // Hot-key policy: extend TTL when heavily accessed in window
+                            if (window_count >= 10) {
+                                int old_ttl = ttl_seconds;
+                                ttl_seconds = std::min(
+                                    static_cast<int>(ttl_seconds * 1.5),
+                                    config_.adaptive_ttl_max_seconds);
+                                if (ttl_seconds > old_ttl) {
+                                    enhanced_metrics_.ttl_extended_total++;
+                                }
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            } else {
+                                ttl_seconds = calculateAdaptiveTTL(access_count);
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            }
+                        }
+                        entry_json["created_at_ms"] = now_ms;  // Reset TTL window on each access
+                        created_at_ms = now_ms;
+                    }
+
                     l3_db_->put(key, entry_json.dump());
                     
                     stats_.l3_hits++;
                     enhanced_metrics_.l3_hits++;
+
+                    // Phase 3: Track per-tenant hit
+                    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                        tenant_metrics_[tenant_id].hits++;
+                    }
                     
                     // Phase 1: Record success for circuit breaker
                     if (l3_circuit_breaker_) {
@@ -369,6 +499,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     // Cache miss
     stats_.misses++;
     enhanced_metrics_.misses++;
+    // Phase 3: Track per-tenant miss
+    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+        tenant_metrics_[tenant_id].misses++;
+    }
     THEMIS_DEBUG("Cache miss: fingerprint={}", fingerprint.substr(0, 16));
     return std::nullopt;
 }
@@ -452,14 +587,17 @@ bool AdaptiveQueryCache::put(
         entry.last_accessed_ms = now_ms;
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
+        entry.window_start_ms = now_ms;
+        entry.window_count = 0;
         
         l1_cache_[key] = std::move(entry);
+        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         
-        // Phase 2: Update tenant size tracking
+        // Phase 2/3: Update tenant size tracking
         if (config_.enable_tenant_isolation && !tenant_id.empty()) {
             std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_sizes_[tenant_id] += result_size;
+            tenant_metrics_[tenant_id].bytes_used += result_size;
         }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
@@ -487,9 +625,12 @@ bool AdaptiveQueryCache::put(
         entry.last_accessed_ms = now_ms;
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
+        entry.window_start_ms = now_ms;
+        entry.window_count = 0;
         
         size_t compressed_size = entry.compressed_result.size();
         l2_cache_[fingerprint] = std::move(entry);
+        l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
@@ -514,6 +655,8 @@ bool AdaptiveQueryCache::put(
         entry_json["last_accessed_ms"] = now_ms;
         entry_json["access_count"] = 1;
         entry_json["ttl_seconds"] = ttl_seconds;
+        entry_json["window_start_ms"] = now_ms;
+        entry_json["window_count"] = 0;
         
         std::string key = QUERY_CACHE_PREFIX + fingerprint;
         bool ok = false;
@@ -569,6 +712,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (std::regex_search(it->first, re)) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -582,6 +726,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (std::regex_search(it->first, re)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -645,11 +790,13 @@ void AdaptiveQueryCache::clear() {
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         l1_cache_.clear();
+        l1_eviction_strategy_->clear();
     }
     
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         l2_cache_.clear();
+        l2_eviction_strategy_->clear();
     }
     
     if (l3_db_) {
@@ -682,6 +829,7 @@ uint64_t AdaptiveQueryCache::clearExpired() {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (isExpired(it->second.created_at_ms, it->second.ttl_seconds)) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -695,6 +843,7 @@ uint64_t AdaptiveQueryCache::clearExpired() {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (isExpired(it->second.created_at_ms, it->second.ttl_seconds)) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -736,7 +885,8 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         info["l1"] = {
             {"entries", l1_cache_.size()},
             {"max_entries", config_.l1_max_entries},
-            {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries}
+            {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries},
+            {"eviction_policy", std::string(l1_eviction_strategy_->getName())}
         };
     }
     
@@ -745,7 +895,8 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         info["l2"] = {
             {"entries", l2_cache_.size()},
             {"max_entries", config_.l2_max_entries},
-            {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries}
+            {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries},
+            {"eviction_policy", std::string(l2_eviction_strategy_->getName())}
         };
     }
     
@@ -753,6 +904,20 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         {"enabled", l3_db_ != nullptr},
         {"path", config_.l3_db_path}
     };
+    
+    // Phase 3: Adaptive TTL tuning metrics
+    if (config_.enable_adaptive_ttl) {
+        info["adaptive_ttl"] = {
+            {"enabled", true},
+            {"min_seconds", config_.adaptive_ttl_min_seconds},
+            {"max_seconds", config_.adaptive_ttl_max_seconds},
+            {"scaling_factor", config_.adaptive_ttl_scaling_factor},
+            {"ttl_extended_total", enhanced_metrics_.ttl_extended_total.load()},
+            {"ttl_shortened_total", enhanced_metrics_.ttl_shortened_total.load()}
+        };
+    } else {
+        info["adaptive_ttl"] = {{"enabled", false}};
+    }
     
     return info;
 }
@@ -804,44 +969,56 @@ AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t resul
 
 void AdaptiveQueryCache::evictLRU(CacheLevel level) {
     if (level == CacheLevel::HOT) {
-        // Find LRU entry in L1
         if (l1_cache_.empty()) return;
-        
-        auto lru_it = l1_cache_.begin();
-        double min_score = calculateLRUScore(lru_it->second.last_accessed_ms, 
-                                             lru_it->second.access_count);
-        
-        for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {
-            double score = calculateLRUScore(it->second.last_accessed_ms, 
-                                            it->second.access_count);
-            if (score < min_score) {
-                min_score = score;
-                lru_it = it;
+
+        // Use the configured eviction strategy to select the victim key
+        auto victim = l1_eviction_strategy_->selectVictim();
+        if (victim && l1_cache_.count(*victim)) {
+            l1_eviction_strategy_->onRemove(*victim);
+            l1_cache_.erase(*victim);
+        } else {
+            // Fallback: score-based scan (strategy out of sync or returned nothing)
+            auto lru_it = l1_cache_.begin();
+            double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
+                                                 lru_it->second.access_count);
+            for (auto it = l1_cache_.begin(); it != l1_cache_.end(); ++it) {
+                double score = calculateLRUScore(it->second.last_accessed_ms,
+                                                it->second.access_count);
+                if (score < min_score) {
+                    min_score = score;
+                    lru_it = it;
+                }
             }
+            l1_eviction_strategy_->onRemove(lru_it->first);
+            l1_cache_.erase(lru_it);
         }
-        
-        l1_cache_.erase(lru_it);
         stats_.evictions++;
         enhanced_metrics_.evictions++;
-        
+
     } else if (level == CacheLevel::WARM) {
-        // Find LRU entry in L2
         if (l2_cache_.empty()) return;
-        
-        auto lru_it = l2_cache_.begin();
-        double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
-                                             lru_it->second.access_count);
-        
-        for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {
-            double score = calculateLRUScore(it->second.last_accessed_ms,
-                                            it->second.access_count);
-            if (score < min_score) {
-                min_score = score;
-                lru_it = it;
+
+        // Use the configured eviction strategy to select the victim key
+        auto victim = l2_eviction_strategy_->selectVictim();
+        if (victim && l2_cache_.count(*victim)) {
+            l2_eviction_strategy_->onRemove(*victim);
+            l2_cache_.erase(*victim);
+        } else {
+            // Fallback: score-based scan
+            auto lru_it = l2_cache_.begin();
+            double min_score = calculateLRUScore(lru_it->second.last_accessed_ms,
+                                                 lru_it->second.access_count);
+            for (auto it = l2_cache_.begin(); it != l2_cache_.end(); ++it) {
+                double score = calculateLRUScore(it->second.last_accessed_ms,
+                                                it->second.access_count);
+                if (score < min_score) {
+                    min_score = score;
+                    lru_it = it;
+                }
             }
+            l2_eviction_strategy_->onRemove(lru_it->first);
+            l2_cache_.erase(lru_it);
         }
-        
-        l2_cache_.erase(lru_it);
         stats_.evictions++;
         enhanced_metrics_.evictions++;
     }
@@ -1018,7 +1195,7 @@ bool AdaptiveQueryCache::checkTenantQuota(
     }
     
     std::lock_guard<std::mutex> lock(tenant_mutex_);
-    size_t current_size = tenant_sizes_[tenant_id];
+    size_t current_size = tenant_metrics_[tenant_id].bytes_used;
     
     if (current_size + additional_bytes > config_.per_tenant_max_bytes) {
         THEMIS_WARN("Tenant {} quota exceeded: current={}, additional={}, limit={}",
@@ -1043,6 +1220,7 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
         stats["l1"]["max_entries"] = config_.l1_max_entries;
         stats["l1"]["utilization"] = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
         stats["l1"]["hits"] = enhanced_metrics_.l1_hits.load();
+        stats["l1"]["eviction_policy"] = std::string(l1_eviction_strategy_->getName());
     }
     
     // L2 statistics
@@ -1052,6 +1230,7 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
         stats["l2"]["max_entries"] = config_.l2_max_entries;
         stats["l2"]["utilization"] = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
         stats["l2"]["hits"] = enhanced_metrics_.l2_hits.load();
+        stats["l2"]["eviction_policy"] = std::string(l2_eviction_strategy_->getName());
     }
     
     // L3 statistics
@@ -1073,43 +1252,80 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     nlohmann::json health;
     health["healthy"] = true;
     health["warnings"] = nlohmann::json::array();
-    
-    // Check L1 utilization
+
+    // Per-tier status
+    nlohmann::json tiers;
+
+    // L1 tier
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
-        double util = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
+        size_t entries = l1_cache_.size();
+        double util = static_cast<double>(entries) / config_.l1_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l1"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l1_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l1_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L1 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check L2 utilization
+
+    // L2 tier
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        double util = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
+        size_t entries = l2_cache_.size();
+        double util = static_cast<double>(entries) / config_.l2_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l2"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l2_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l2_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L2 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check circuit breaker
-    if (enhanced_metrics_.l3_circuit_breaker_open.load()) {
-        health["healthy"] = false;
-        health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+
+    // L3 tier
+    {
+        bool l3_open = enhanced_metrics_.l3_circuit_breaker_open.load();
+        bool l3_enabled = (l3_db_ != nullptr);
+        std::string tier_status = l3_open ? "UNAVAILABLE" : (l3_enabled ? "OK" : "DISABLED");
+        tiers["l3"] = {
+            {"status",      tier_status},
+            {"enabled",     l3_enabled},
+            {"path",        config_.l3_db_path},
+            {"ttl_seconds", config_.l3_ttl_seconds}
+        };
+        if (l3_open) {
+            health["healthy"] = false;
+            health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+        }
     }
-    
+
+    health["tiers"] = tiers;
+
+    // Embed circuit breaker details
+    health["circuit_breaker"] = getCircuitBreakerStatus();
+
     // Check hit rate
     double hit_rate = enhanced_metrics_.getHitRate();
     if (hit_rate < 0.5) {
         health["warnings"].push_back("Low cache hit rate: " + std::to_string(hit_rate * 100) + "%");
     }
-    
+
     // Check rate limiting
     uint64_t rate_limited = enhanced_metrics_.rate_limited_requests.load();
     if (rate_limited > 1000) {
         health["warnings"].push_back("High rate limiting: " + std::to_string(rate_limited) + " requests rejected");
     }
-    
+
     return health;
 }
 
@@ -1150,15 +1366,51 @@ nlohmann::json AdaptiveQueryCache::getTenantStats() const {
     tenant_stats["quota_per_tenant"] = config_.per_tenant_max_bytes;
     
     std::lock_guard<std::mutex> lock(tenant_mutex_);
-    for (const auto& [tenant_id, size_bytes] : tenant_sizes_) {
+    for (const auto& [tenant_id, metrics] : tenant_metrics_) {
         nlohmann::json tenant_info;
-        tenant_info["bytes_used"] = size_bytes;
-        tenant_info["quota"] = config_.per_tenant_max_bytes;
-        tenant_info["utilization"] = static_cast<double>(size_bytes) / config_.per_tenant_max_bytes;
+        uint64_t total = metrics.hits + metrics.misses;
+        tenant_info["bytes_used"]   = metrics.bytes_used;
+        tenant_info["quota"]        = config_.per_tenant_max_bytes;
+        tenant_info["utilization"]  = static_cast<double>(metrics.bytes_used) / config_.per_tenant_max_bytes;
+        tenant_info["hits"]         = metrics.hits;
+        tenant_info["misses"]       = metrics.misses;
+        tenant_info["evictions"]    = metrics.evictions;
+        tenant_info["hit_rate"]     = total > 0 ? static_cast<double>(metrics.hits) / total : 0.0;
         tenant_stats["tenants"][tenant_id] = tenant_info;
     }
     
     return tenant_stats;
+}
+
+nlohmann::json AdaptiveQueryCache::getTenantStatsForTenant(const std::string& tenant_id) const {
+    if (!config_.enable_tenant_isolation || tenant_id.empty()) {
+        nlohmann::json result;
+        result["found"] = false;
+        result["reason"] = "tenant isolation is disabled";
+        return result;
+    }
+
+    std::lock_guard<std::mutex> lock(tenant_mutex_);
+    auto it = tenant_metrics_.find(tenant_id);
+    if (it == tenant_metrics_.end()) {
+        nlohmann::json result;
+        result["found"] = false;
+        return result;
+    }
+
+    const auto& m = it->second;
+    uint64_t total = m.hits + m.misses;
+    nlohmann::json result;
+    result["found"]       = true;
+    result["tenant_id"]   = tenant_id;
+    result["bytes_used"]  = m.bytes_used;
+    result["quota"]       = config_.per_tenant_max_bytes;
+    result["utilization"] = static_cast<double>(m.bytes_used) / config_.per_tenant_max_bytes;
+    result["hits"]        = m.hits;
+    result["misses"]      = m.misses;
+    result["evictions"]   = m.evictions;
+    result["hit_rate"]    = total > 0 ? static_cast<double>(m.hits) / total : 0.0;
+    return result;
 }
 
 size_t AdaptiveQueryCache::bulkPut(
@@ -1190,6 +1442,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         std::lock_guard<std::mutex> lock(l1_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (it->first.find(tenant_prefix) == 0) {
+                l1_eviction_strategy_->onRemove(it->first);
                 it = l1_cache_.erase(it);
                 count++;
             } else {
@@ -1203,6 +1456,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         std::lock_guard<std::mutex> lock(l2_mutex_);
         for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
             if (it->first.find(tenant_prefix) == 0) {
+                l2_eviction_strategy_->onRemove(it->first);
                 it = l2_cache_.erase(it);
                 count++;
             } else {
@@ -1245,10 +1499,11 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         }
     }
     
-    // Update tenant size tracking
+    // Update tenant metrics: record evictions and reset byte count
     if (config_.enable_tenant_isolation) {
         std::lock_guard<std::mutex> lock(tenant_mutex_);
-        tenant_sizes_[tenant_id] = 0;
+        tenant_metrics_[tenant_id].evictions += count;
+        tenant_metrics_[tenant_id].bytes_used = 0;
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
@@ -1432,6 +1687,8 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
         try {
             value_json = nlohmann::json::parse(decoded);
         } catch (...) {
+            THEMIS_WARN("Cache warmup: skipping entry {} – invalid JSON after base64 decode",
+                        fingerprint.substr(0, 16));
             ++result.entries_skipped;
             continue;
         }
@@ -1469,15 +1726,17 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
             if (l1_cache_.size() >= config_.l1_max_entries) {
                 evictLRU(CacheLevel::HOT);
             }
+            int64_t insert_ms = entry.created_at_ms;
             l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(insert_ms));
         }
 
         ++result.entries_loaded;
 
-        // Update tenant size tracking
+        // Update tenant metrics (bytes only; warmup does not count as a hit)
         if (config_.enable_tenant_isolation && !tenant_id.empty()) {
             std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_sizes_[tenant_id] += decoded.size();
+            tenant_metrics_[tenant_id].bytes_used += decoded.size();
         }
     }
 
@@ -1568,7 +1827,12 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
             std::string value_str(raw.begin(), raw.end());
 
             // Validate JSON
-            try { nlohmann::json::parse(value_str); } catch (...) { continue; }
+            try {
+                nlohmann::json::parse(value_str);
+            } catch (...) {
+                THEMIS_WARN("Cache snapshot export: skipping L2 entry with invalid JSON for key={}", key.substr(0, 16));
+                continue;
+            }
 
             // Derive fingerprint and tenant
             std::string fp = key;

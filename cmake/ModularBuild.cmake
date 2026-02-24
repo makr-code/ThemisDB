@@ -244,6 +244,7 @@ set(THEMIS_STORAGE_SOURCES
     # Change data capture (used by metadata/schema manager)
     ../src/cdc/changefeed.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/cdc_ws_handler.cpp
 )
 
 set(THEMIS_QUERY_SOURCES
@@ -267,6 +268,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/cache/adaptive_query_cache.cpp
+    ../src/cache/cache_hit_rate_slo_monitor.cpp
+    ../src/cache/warmup.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -363,6 +366,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/webauthn_authenticator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp

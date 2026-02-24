@@ -277,6 +277,118 @@ paths:
                   # TYPE vccdb_requests_total counter
                   vccdb_requests_total 1
                   ...
+  /auth/sessions:
+    post:
+      summary: Session erstellen
+      operationId: createSession
+      tags: [auth]
+      description: |
+        Erstellt eine neue authentifizierte Session für den aufrufenden Benutzer.
+        Die Session-ID wird nur einmal zurückgegeben und dient als Sitzungs-Token.
+      security:
+        - bearerAuth: [auth:sessions]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+            examples:
+              with_fingerprint:
+                summary: Session mit Gerätefingerabdruck
+                value:
+                  device_fingerprint: "fp-abc123"
+                  user_agent: "Mozilla/5.0 ..."
+      responses:
+        '200':
+          description: Session erfolgreich erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionInfo'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    get:
+      summary: Aktive Sessions auflisten
+      operationId: listSessions
+      tags: [auth]
+      description: |
+        Listet alle aktiven (nicht abgelaufenen) Sessions des authentifizierten Benutzers auf.
+        Optionaler Query-Parameter `current_session_id` markiert die aktuelle Session.
+      security:
+        - bearerAuth: [auth:sessions]
+      parameters:
+        - in: query
+          name: current_session_id
+          schema: { type: string }
+          description: Optional – Session-ID der aktuellen Sitzung (wird in der Ausgabe als `is_current` markiert)
+      responses:
+        '200':
+          description: Liste der aktiven Sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    delete:
+      summary: Alle anderen Sessions widerrufen
+      operationId: revokeAllOtherSessions
+      tags: [auth]
+      description: |
+        Widerruft alle aktiven Sessions des authentifizierten Benutzers außer der angegebenen
+        aktuellen Session ("Logout Everywhere").
+      security:
+        - bearerAuth: [auth:sessions]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_session_id:
+                  type: string
+                  description: Session-ID, die beibehalten werden soll.
+                  example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+      responses:
+        '200':
+          description: Alle anderen Sessions widerrufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeAllSessionsResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /auth/sessions/{session_id}:
+    delete:
+      summary: Einzelne Session widerrufen
+      operationId: revokeSession
+      tags: [auth]
+      description: |
+        Widerruft eine spezifische Session. Ein Benutzer kann nur eigene Sessions widerrufen.
+        Admins (Scope `admin:all`) können beliebige Sessions widerrufen.
+      security:
+        - bearerAuth: [auth:sessions]
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema: { type: string }
+          description: ID der zu widerrufenden Session
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+      responses:
+        '200':
+          description: Session erfolgreich widerrufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeSessionResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/InternalError' }
   /api/keys:
     post:
       summary: API-Key erstellen
@@ -6392,6 +6504,192 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /v1/admin/cache/stats:
+    get:
+      summary: Get cache statistics
+      description: Returns a JSON snapshot of all cache metrics, health status, tenant stats, and circuit breaker state. Requires `admin:cache:read` scope.
+      operationId: adminCacheStats
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:read]
+      responses:
+        '200':
+          description: Cache statistics snapshot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheAdminStatsResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/key/{encoded_key}:
+    delete:
+      summary: Evict cache entry by key
+      description: Evicts all cache entries (L1, L2, and L3) whose fingerprint matches the provided key. The key must be base64-encoded SHA-256 fingerprint. Requires `admin:cache:write` scope.
+      operationId: adminCacheEvictKey
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      parameters:
+        - in: path
+          name: encoded_key
+          required: true
+          schema:
+            type: string
+          description: Base64-encoded SHA-256 fingerprint of the cache key
+      responses:
+        '200':
+          description: Key evicted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheEvictKeyResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/tenant/{tenant_id}:
+    delete:
+      summary: Evict all cache entries for a tenant
+      description: Evicts all cache entries belonging to the specified tenant across all cache tiers (L1, L2, L3). Requires `admin:cache:write` scope.
+      operationId: adminCacheEvictTenant
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      parameters:
+        - in: path
+          name: tenant_id
+          required: true
+          schema:
+            type: string
+          description: Tenant ID whose cache entries should be evicted
+      responses:
+        '200':
+          description: Tenant cache evicted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheEvictTenantResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/circuit-breaker:
+    get:
+      summary: Get circuit breaker status
+      description: Returns the current state of the L3 (RocksDB) circuit breaker. Requires `admin:cache:read` scope.
+      operationId: adminCacheCircuitBreakerStatus
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:read]
+      responses:
+        '200':
+          description: Circuit breaker status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CircuitBreakerStatus'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/circuit-breaker/reset:
+    post:
+      summary: Reset circuit breaker to CLOSED state
+      description: Forces the L3 circuit breaker back to CLOSED state and resets the failure counter. Requires `admin:cache:write` scope.
+      operationId: adminCacheCircuitBreakerReset
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      responses:
+        '200':
+          description: Circuit breaker reset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  circuit_breaker:
+                    $ref: '#/components/schemas/CircuitBreakerStatus'
+                required: [status, circuit_breaker]
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/warmup:
+    post:
+      summary: Warm up cache from NDJSON log file
+      description: |
+        Loads cache entries from a newline-delimited JSON (NDJSON) log file.
+        Each line must be a JSON object with fields: `key` (SHA-256 hex), `value_b64` (base64-encoded JSON result), `ttl_remaining_s` (seconds), and optionally `tenant`.
+        Requires `admin:cache:write` scope.
+      operationId: adminCacheWarmup
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CacheWarmupRequest'
+            examples:
+              basic:
+                value:
+                  log_path: /var/lib/themis/cache_warmup.ndjson
+                  max_entries: 10000
+      responses:
+        '200':
+          description: Warmup completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheWarmupResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/snapshot:
+    post:
+      summary: Export live cache entries to NDJSON file
+      description: |
+        Exports all non-expired L1 and L2 cache entries to a newline-delimited JSON file.
+        The output format is compatible with `/v1/admin/cache/warmup` for cache pre-population after a restart.
+        Requires `admin:cache:write` scope.
+      operationId: adminCacheSnapshot
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CacheSnapshotRequest'
+            examples:
+              basic:
+                value:
+                  out_path: /var/lib/themis/cache_snapshot.ndjson
+      responses:
+        '200':
+          description: Snapshot exported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheSnapshotResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
 
 components:
   securitySchemes:
@@ -6400,6 +6698,250 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    # ── Cache Admin API schemas ──────────────────────────────────────────────
+    CircuitBreakerStatus:
+      type: object
+      description: Current state of the L3 (RocksDB) circuit breaker.
+      required: [state, enabled]
+      properties:
+        state:
+          type: string
+          enum: [CLOSED, OPEN, HALF_OPEN]
+          description: Circuit breaker state.
+          example: CLOSED
+        failure_count:
+          type: integer
+          format: int64
+          description: Number of consecutive failures recorded.
+          example: 0
+        enabled:
+          type: boolean
+          description: Whether the circuit breaker is configured and active.
+          example: true
+
+    CacheAdminStatsResponse:
+      type: object
+      description: Full cache statistics snapshot returned by GET /v1/admin/cache/stats.
+      properties:
+        stats:
+          type: object
+          description: Per-tier hit/miss and size counters.
+          additionalProperties: true
+        health:
+          type: object
+          description: Health status summary with per-tier status and warnings.
+          additionalProperties: true
+        tenant_stats:
+          type: object
+          description: Per-tenant byte usage.
+          additionalProperties: true
+        circuit_breaker:
+          $ref: '#/components/schemas/CircuitBreakerStatus'
+        rate_limiter:
+          type: object
+          properties:
+            total_hits:
+              type: integer
+              format: int64
+            throttled:
+              type: integer
+              format: int64
+
+    CacheEvictKeyResponse:
+      type: object
+      description: Response after evicting a single cache key.
+      required: [evicted, key]
+      properties:
+        evicted:
+          type: integer
+          format: int64
+          description: Number of cache entries removed across all tiers.
+          example: 1
+        key:
+          type: string
+          description: The decoded SHA-256 fingerprint that was evicted.
+          example: a1b2c3d4e5f60718293a4b5c6d7e8f9001234567890abcdef1234567890abcd
+
+    CacheEvictTenantResponse:
+      type: object
+      description: Response after evicting all entries for a tenant.
+      required: [evicted, tenant_id]
+      properties:
+        evicted:
+          type: integer
+          format: int64
+          description: Total number of cache entries removed for the tenant.
+          example: 42
+        tenant_id:
+          type: string
+          description: The tenant whose entries were evicted.
+          example: acme
+
+    CacheWarmupRequest:
+      type: object
+      description: Request body for POST /v1/admin/cache/warmup.
+      required: [log_path]
+      properties:
+        log_path:
+          type: string
+          description: Absolute path to the NDJSON warmup log file on the server.
+          example: /var/lib/themis/cache_warmup.ndjson
+        max_entries:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Maximum number of entries to load (0 = no cap).
+          example: 10000
+
+    CacheWarmupResponse:
+      type: object
+      description: Result of the warmup operation.
+      required: [status, entries_loaded, entries_skipped, entries_total, log_path]
+      properties:
+        status:
+          type: string
+          example: ok
+        entries_loaded:
+          type: integer
+          format: int64
+          description: Number of entries successfully inserted into the cache.
+          example: 9850
+        entries_skipped:
+          type: integer
+          format: int64
+          description: Number of entries skipped (malformed, expired, or duplicate).
+          example: 150
+        entries_total:
+          type: integer
+          format: int64
+          description: Total number of lines processed.
+          example: 10000
+        log_path:
+          type: string
+          description: Path of the log file that was processed.
+
+    CacheSnapshotRequest:
+      type: object
+      description: Request body for POST /v1/admin/cache/snapshot.
+      required: [out_path]
+      properties:
+        out_path:
+          type: string
+          description: Absolute path on the server where the NDJSON snapshot will be written.
+          example: /var/lib/themis/cache_snapshot.ndjson
+
+    CacheSnapshotResponse:
+      type: object
+      description: Result of the snapshot export operation.
+      required: [status, entries_exported, out_path]
+      properties:
+        status:
+          type: string
+          example: ok
+        entries_exported:
+          type: integer
+          format: int64
+          description: Number of non-expired entries written to the snapshot file.
+          example: 1234
+        out_path:
+          type: string
+          description: Path of the snapshot file that was written.
+
+    # ── End Cache Admin API schemas ──────────────────────────────────────────
+    CreateSessionRequest:
+      type: object
+      description: Optionaler Anfragekörper beim Erstellen einer Session.
+      properties:
+        device_fingerprint:
+          type: string
+          description: Optionaler Gerätefingerabdruck für Anzeigezwecke.
+          example: "fp-abc123"
+        user_agent:
+          type: string
+          description: HTTP User-Agent-String des Clients.
+          example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    SessionInfo:
+      type: object
+      description: Metadaten einer aktiven Session.
+      required: [session_id, user_id, created_at, last_accessed_at]
+      properties:
+        session_id:
+          type: string
+          description: Eindeutige Session-ID (Prefix "sess_" + 32 Hex-Zeichen).
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+        user_id:
+          type: string
+          description: Benutzer-ID des Session-Eigentümers.
+          example: "alice"
+        device_fingerprint:
+          type: string
+          description: Gerätefingerabdruck (sofern beim Erstellen angegeben).
+          example: "fp-abc123"
+        ip_address:
+          type: string
+          description: Client-IP-Adresse beim Erstellen der Session.
+          example: "192.168.1.1"
+        user_agent:
+          type: string
+          description: HTTP User-Agent des Clients beim Erstellen.
+          example: "curl/7.88"
+        created_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt der Session-Erstellung (ISO 8601, UTC).
+          example: "2026-02-24T12:00:00Z"
+        last_accessed_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt des letzten Zugriffs (ISO 8601, UTC).
+          example: "2026-02-24T12:05:00Z"
+        expires_at:
+          type: string
+          format: date-time
+          description: Absolutes Ablaufdatum der Session (optional; fehlt bei unbegrenzter Lebensdauer).
+          example: "2026-03-25T12:00:00Z"
+        is_current:
+          type: boolean
+          description: Gibt an, ob dies die aktuell verwendete Session ist (nur in listSessions).
+          example: true
+    ListSessionsResponse:
+      type: object
+      description: Liste aktiver Sessions des Benutzers.
+      required: [sessions, total]
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionInfo'
+          description: Aktive Sessions, sortiert nach Erstellungszeit (älteste zuerst).
+        total:
+          type: integer
+          description: Gesamtanzahl aktiver Sessions.
+          example: 3
+    RevokeSessionResponse:
+      type: object
+      description: Ergebnis eines Einzel-Session-Widerrufs.
+      required: [success, session_id]
+      properties:
+        success:
+          type: boolean
+          example: true
+        session_id:
+          type: string
+          description: ID der widerrufenen Session.
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+    RevokeAllSessionsResponse:
+      type: object
+      description: Ergebnis eines Massen-Session-Widerrufs.
+      required: [success, terminated]
+      properties:
+        success:
+          type: boolean
+          example: true
+        terminated:
+          type: integer
+          description: Anzahl der widerrufenen Sessions.
+          example: 4
     AsyncJobSubmitRequest:
       type: object
       description: Request body for submitting an async AQL job.

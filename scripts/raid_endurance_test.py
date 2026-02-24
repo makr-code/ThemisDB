@@ -122,7 +122,7 @@ class RAIDTester:
                 if response.status_code == 200:
                     healthy_shards.append(shard_url)
             except Exception as e:
-                self.log(f"  WARNING: Shard {shard_url} unhealthy: {e}")
+                print(f"  WARNING: Shard {shard_url} unhealthy: {e}")
                 
         all_healthy = len(healthy_shards) == len(config["shards"])
         return all_healthy, healthy_shards
@@ -160,7 +160,7 @@ class RAIDTester:
                     if attempts == max_attempts:
                         self.sync_stats[raid_mode]["checks"] += 1
                         self.sync_stats[raid_mode]["failures"] += 1
-                        self.log(f"  Sync error ({raid_mode}) on {shard_url}: {e}")
+                        print(f"  Sync error ({raid_mode}) on {shard_url}: {e}")
                     else:
                         time.sleep(0.5 * attempts)
 
@@ -188,7 +188,7 @@ class RAIDTester:
                             except ValueError:
                                 pass
             except Exception as e:
-                self.log(f"  Prom scrape failed {url}: {e}")
+                print(f"  Prom scrape failed {url}: {e}")
 
     def write_test(self, raid_mode: str, batch_size: int) -> int:
         """Führt Schreibtest auf RAID-Modus durch"""
@@ -229,7 +229,7 @@ class RAIDTester:
                     
             except Exception as e:
                 self.stats[raid_mode]["errors"] += 1
-                self.log(f"  Write error ({raid_mode}): {e}")
+                print(f"  Write error ({raid_mode}): {e}")
                 
         return success_count
         
@@ -268,7 +268,8 @@ class RAIDTester:
                     
             except Exception as e:
                 self.stats[raid_mode]["errors"] += 1
-                
+                print(f"  Read error ({raid_mode}): {e}")
+        
         return success_count
         
     def print_statistics(self):

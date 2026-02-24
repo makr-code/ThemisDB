@@ -208,8 +208,8 @@ class SymbolChecker:
                     timeout=1
                 )
                 return result.stdout.strip()
-            except:
-                pass
+            except Exception:
+                print(f"[WARN] Symbol lookup via subprocess failed for '{name}'")
         return name
     
     def verify_exports(self, binary_path: Path, expected_exports: Set[str]) -> Dict:

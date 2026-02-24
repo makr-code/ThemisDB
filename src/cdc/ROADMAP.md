@@ -15,9 +15,9 @@
 - [x] Dead-letter queue for failed event deliveries (Issue: #1610)
 
 ## In Progress 🚧
-- [I] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
-- [I] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
-- [I] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
+- [x] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
+- [x] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
+- [x] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
 
 ## Planned Features 📋
 
@@ -26,6 +26,8 @@
 - [I] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
 - [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
+- [I] Dead-letter queue for failed event deliveries (Issue: #1610)
+- [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)
@@ -47,9 +49,9 @@
 - [x] Integrated with analytics diff engine for before/after document snapshots
 
 ### Phase 2: WebSocket Transport and Delivery Guarantees (Status: In Progress)
-- [I] Implement WebSocket transport as alternative to SSE (`cdc/ws_transport.cpp`) (Issue: #1626)
-- [I] Implement change log compaction to merge superseded entries by key (Issue: #1627)
-- [I] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
+- [x] Implement WebSocket transport as alternative to SSE (`cdc/cdc_ws_handler.cpp`, `/v2/cdc/stream`) (Issue: #1626)
+- [x] Implement change log compaction to merge superseded entries by key (Issue: #1627)
+- [x] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
 - [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)

@@ -36,7 +36,7 @@ namespace http  = beast::http;
  * is accepted.  Responsibilities:
  *  1. Confirm the target URL is /v2/changes.
  *  2. Authenticate the caller using the Authorization header (Bearer token
- *     or JWT), requiring the "cdc:read" scope via AuthMiddleware.
+ *     or JWT), requiring the "cdc:subscribe" scope via AuthMiddleware.
  *  3. Extract CDC filter parameters from the URL query string
  *     (from_sequence, key_prefix).
  *
