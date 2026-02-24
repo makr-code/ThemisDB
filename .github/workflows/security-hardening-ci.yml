@@ -53,16 +53,6 @@ concurrency:
   cancel-in-progress: true
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Common install step shared across jobs
-# ─────────────────────────────────────────────────────────────────────────────
-env:
-  APT_DEPS: >-
-    cmake ninja-build
-    libgtest-dev libssl-dev libcurl4-openssl-dev
-    libboost-all-dev libnlohmann-json3-dev
-    pkg-config git
-
-# ─────────────────────────────────────────────────────────────────────────────
 # Jobs
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -113,41 +103,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            ${{ matrix.cc }} ${{ matrix.cxx }}
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev
 
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
-
-      - name: Configure (${{ matrix.edition }} edition)
-        env:
-          CC:  ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} \
-            -DTHEMIS_EDITION=${{ matrix.edition }} \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_TRACING=OFF \
-            -DTHEMIS_ENABLE_GRPC=OFF \
-            -S cmake
-
-      - name: Build test binary
-        run: cmake --build build --target themis_tests -- -j$(nproc)
+      - name: Configure and build (${{ matrix.edition }})
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:      ${{ matrix.cc }}
+          cxx:     ${{ matrix.cxx }}
+          edition: ${{ matrix.edition }}
 
       # ── Negative integration tests (required for merge) ──────────────────
       - name: Run JWT negative tests
@@ -206,42 +174,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            gcc-12 g++-12 clang-15 clang++-15
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             gcc-12
+          cxx:            g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-15 clang++-15
 
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_C_COMPILER=gcc-12 \
-              -DCMAKE_CXX_COMPILER=g++-12 .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
-
-      - name: Configure with ASan + UBSan
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=clang-15 \
-            -DCMAKE_CXX_COMPILER=clang++-15 \
-            -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -g" \
-            -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer -g" \
-            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_TRACING=OFF \
-            -DTHEMIS_ENABLE_GRPC=OFF \
-            -S cmake
-
-      - name: Build test binary
-        run: cmake --build build --target themis_tests -- -j$(nproc)
+      - name: Configure and build (ASan + UBSan)
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:                clang-15
+          cxx:               clang++-15
+          enable-sanitizers: 'true'
 
       - name: Run security tests under sanitizers
         env:
@@ -302,33 +247,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y \
-            cmake ninja-build gcc-12 g++-12 \
-            libssl-dev libcurl4-openssl-dev \
-            libboost-all-dev libnlohmann-json3-dev \
-            pkg-config git
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             gcc-12
+          cxx:            g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev
 
-      - name: Configure (${{ matrix.edition }} edition)
-        env:
-          CC:  gcc-12
-          CXX: g++-12
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=gcc-12 \
-            -DCMAKE_CXX_COMPILER=g++-12 \
-            -DTHEMIS_EDITION=${{ matrix.edition }} \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_TRACING=OFF \
-            -DTHEMIS_ENABLE_GRPC=OFF \
-            -S cmake
-
-      - name: Build themis_core (security sources included)
-        run: cmake --build build --target themis_core -- -j$(nproc)
+      - name: Configure and build themis_core (${{ matrix.edition }})
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:           gcc-12
+          cxx:          g++-12
+          edition:      ${{ matrix.edition }}
+          build-tests:  'OFF'
+          build-target: 'themis_core'
 
   # ───────────────────────────────────────────────────────────────────────────
   # 4. Static analysis with clang-tidy
@@ -348,35 +281,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            clang-15 clang++-15 clang-tidy-15
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             clang-15
+          cxx:            clang++-15
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-tidy-15
 
       - name: Configure (generate compile_commands.json)
-        run: |
-          cmake -B build -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_C_COMPILER=clang-15 \
-            -DCMAKE_CXX_COMPILER=clang++-15 \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_ENABLE_LLM=OFF \
-            -DTHEMIS_ENABLE_GPU=OFF \
-            -DTHEMIS_ENABLE_TRACING=OFF \
-            -DTHEMIS_ENABLE_GRPC=OFF \
-            -S cmake
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:               clang-15
+          cxx:              clang++-15
+          extra-cmake-flags: '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
+          build-target:     ''
 
       - name: Run clang-tidy on security sources
         run: |
@@ -445,7 +363,7 @@ jobs:
           sudo apt-get install -y \
             clang-15 clang++-15 \
             libssl-dev libcurl4-openssl-dev \
-            libnlohmann-json3-dev \
+            nlohmann-json3-dev \
             pkg-config git
 
       - name: Build JWT/RBAC fuzz harness with libFuzzer

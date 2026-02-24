@@ -56,7 +56,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Harden absolute path validation to reject symlinks outside the config root (Issue: #1677)
 
 ### Phase 4: Tooling and Observability (Status: Planned)
-- [I] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
+- [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
 - [I] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
 - [I] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
 - [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)

@@ -23,7 +23,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ### Short-term (Next 3-6 months)
 - [x] GraphQL schema for multi-model queries (Issue: #1493)
-- [I] WebSocket support for real-time change subscriptions (Issue: #1494)
+- [x] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)

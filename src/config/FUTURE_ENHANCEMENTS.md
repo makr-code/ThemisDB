@@ -30,11 +30,11 @@ This document covers implementation-specific future enhancements for the Config 
 `ConfigPathResolver::Metrics` tracks `resolution_hits`, `resolution_misses`, `legacy_fallbacks`, `cache_hits`, `cache_misses`, and `unmapped_requests` via `std::atomic<uint64_t>`. Expose these as Prometheus gauges/counters so operations teams can detect when legacy paths are still in use and monitor migration progress.
 
 **Implementation Notes:**
-- `[ ]` Create `config_metrics_exporter.cpp`; register with the server's Prometheus registry at startup (`prometheus/registry.h`).
-- `[ ]` Metric names: `themis_config_resolution_hits_total`, `themis_config_resolution_misses_total`, `themis_config_legacy_fallbacks_total`, `themis_config_cache_hit_ratio` (derived), `themis_config_unmapped_requests_total`.
-- `[ ]` Add label `category` to `themis_config_legacy_fallbacks_total` using `ConfigPathResolver::inferCategory()` (already private method) to show which config category has the most legacy usage.
-- `[ ]` Export function called every scrape interval (pull model); read from `ConfigPathResolver::metrics()` atomics — no mutex needed.
-- `[ ]` Add `themis_config_cache_capacity` and `themis_config_cache_ttl_seconds` info metrics for dashboard context.
+- `[x]` Create `config_metrics_exporter.cpp`; register with the server's Prometheus registry at startup (`prometheus/registry.h`).
+- `[x]` Metric names: `themis_config_resolution_hits_total`, `themis_config_resolution_misses_total`, `themis_config_legacy_fallbacks_total`, `themis_config_cache_hit_ratio` (derived), `themis_config_unmapped_requests_total`.
+- `[x]` Add label `category` to `themis_config_legacy_fallbacks_total` using `ConfigPathResolver::inferCategory()` (already private method) to show which config category has the most legacy usage.
+- `[x]` Export function called every scrape interval (pull model); read from `ConfigPathResolver::metrics()` atomics — no mutex needed.
+- `[x]` Add `themis_config_cache_capacity` and `themis_config_cache_ttl_seconds` info metrics for dashboard context.
 
 **Performance Targets:**
 - Metrics scrape completes in < 1 ms (atomic reads, no cache iteration).
