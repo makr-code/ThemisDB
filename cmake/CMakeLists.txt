@@ -2108,6 +2108,24 @@ if(THEMIS_BUILD_MODULAR)
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)
     target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    foreach(_themis_mod IN ITEMS
+        themis_base
+        themis_storage
+        themis_query
+        themis_security
+        themis_transaction
+        themis_network
+        themis_sharding
+        themis_timeseries
+        themis_llm
+        themis_geo
+        themis_graph
+        themis_content
+    )
+        if(TARGET ${_themis_mod})
+            target_link_libraries(themis_core INTERFACE ${_themis_mod})
+        endif()
+    endforeach()
     
     message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
     

@@ -142,8 +142,10 @@ PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     auto start = steady_clock::now();
     PurgeResult result;
     
-    // Flush and remove tenant (will purge its data)
-    tenant_manager_->removeTenant(tenant_id);
+    // Tenant purge via TenantBufferManager is currently unavailable in modular build.
+    // Keep API deterministic and fail explicitly instead of linking against unavailable implementation.
+    throw error::internalError(
+        "Tenant purge requires tenant buffer manager implementation in current build");
     
     auto end = steady_clock::now();
     result.elapsed_time_ms = duration_cast<milliseconds>(end - start).count();

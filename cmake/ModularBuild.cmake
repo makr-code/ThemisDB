@@ -26,7 +26,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_LLM "Include LLM inference module (optional)" ON)
     option(THEMIS_MODULE_GEO "Include geospatial module (optional)" ON)
     option(THEMIS_MODULE_GRAPH "Include graph analytics module (optional)" ON)
-    option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" OFF)
+    option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
 endif()
@@ -179,6 +179,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
     # WAL for durability and crash recovery
@@ -329,6 +330,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/access_control_manager.cpp
     ../src/security/row_level_security.cpp
     ../src/security/access_control.cpp
+    ../src/auth/auth_audit_logger.cpp
+    ../src/auth/principal_validator.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp
@@ -512,6 +515,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/paged_kv_cache.cpp
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
+    ../src/llm/model_downloader.cpp
+    ../src/llm/aql_train_parser.cpp
     ../src/llm/llama_wrapper.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
@@ -632,6 +637,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES
@@ -663,6 +669,8 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/branch_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/merge_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/rope_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/bpmn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/geo_topology_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/replication_topology_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cache_admin_api_handler.cpp>
@@ -780,6 +788,10 @@ set(THEMIS_GRAPH_SOURCES
 # Function to build modular architecture (post-v1.3.0)
 function(themis_build_modular)
     message(STATUS "Building ThemisDB with modular architecture")
+    if(THEMIS_ENABLE_CONTENT AND NOT THEMIS_MODULE_CONTENT)
+        set(THEMIS_MODULE_CONTENT ON CACHE BOOL "Include content processors module (optional)" FORCE)
+        message(STATUS "THEMIS_ENABLE_CONTENT is ON -> forcing THEMIS_MODULE_CONTENT=ON for modular consistency")
+    endif()
     
     # Core modules (always required)
     set(_themis_base_deps
@@ -1021,11 +1033,32 @@ function(themis_build_modular)
     endif()
     
     if(THEMIS_MODULE_CONTENT)
+        set(_themis_content_deps
+            themis_base
+            themis_storage
+            themis_security
+        )
+        if(THEMIS_MODULE_GRAPH)
+            list(APPEND _themis_content_deps themis_graph)
+        endif()
+        if(TARGET libzip::zip)
+            list(APPEND _themis_content_deps libzip::zip)
+        elseif(TARGET libzip::libzip)
+            list(APPEND _themis_content_deps libzip::libzip)
+        endif()
+        if(THEMIS_ENABLE_OFFICE)
+            if(TARGET pugixml::pugixml)
+                list(APPEND _themis_content_deps pugixml::pugixml)
+            elseif(TARGET pugixml::static)
+                list(APPEND _themis_content_deps pugixml::static)
+            elseif(TARGET pugixml)
+                list(APPEND _themis_content_deps pugixml)
+            endif()
+        endif()
+
         themis_add_module(content
             SOURCES ${THEMIS_CONTENT_SOURCES}
-            DEPENDENCIES 
-                themis_base 
-                themis_storage
+            DEPENDENCIES ${_themis_content_deps}
         )
     endif()
 

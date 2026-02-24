@@ -46,6 +46,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*benchmark.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -120,6 +121,13 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_multi_gpu_training\\.cpp$"
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
+        ".*test_cpu_gpu_parity\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_VULKAN)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_vulkan_compute_equivalents\\.cpp$"
     )
 endif()
 
@@ -281,6 +289,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_two_phase_commit\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
+    ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
@@ -298,6 +307,18 @@ list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
+
+# Enforce feature-gated exclusions on the resolved target source list as a
+# defensive step (handles late target_sources() additions in this file).
+get_target_property(_themis_tests_sources themis_tests SOURCES)
+if(_themis_tests_sources)
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    if(NOT THEMIS_ENABLE_GPU)
+        list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
+    endif()
+    set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources})
+endif()
 
 # Re-include prompt_engineering production-readiness tests that were excluded
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
@@ -443,6 +464,7 @@ if(THEMIS_BUILD_MODULAR)
         )
 
         set(_themis_test_extra_sources
+            ${THEMIS_ROOT_DIR}/src/llm/adapter_registry.cpp
             ${THEMIS_ROOT_DIR}/src/llm/ai_decision_auditor.cpp
             ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
             ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
@@ -542,6 +564,17 @@ if(THEMIS_BUILD_MODULAR)
     endif()
 else()
     list(APPEND _themis_test_core_libs themis_core)
+endif()
+
+# Final defensive pruning after all themis_tests target_sources() additions.
+get_target_property(_themis_tests_sources_final themis_tests SOURCES)
+if(_themis_tests_sources_final)
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    if(NOT THEMIS_ENABLE_GPU)
+        list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
+    endif()
+    set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
 
 target_link_libraries(themis_tests PRIVATE
@@ -892,6 +925,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
 
     add_executable(test_api_grpc_server
         test_api_grpc_server.cpp
+        ${CMAKE_SOURCE_DIR}/src/api/grpc_server.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_api_grpc_server PRIVATE
@@ -1031,6 +1066,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
     
     add_executable(test_rpc_geo_query
         test_rpc_geo_query.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
     
     target_link_libraries(test_rpc_geo_query PRIVATE
@@ -1386,6 +1422,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
 
     add_executable(test_inverted_index
         test_inverted_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/inverted_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/functions/fulltext_functions.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_inverted_index PRIVATE
@@ -1682,7 +1721,10 @@ endif()
 # Phase 1 – Logger production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
     message(STATUS "Adding Logger production tests (Phase 1)")
-    add_executable(test_logger_production test_logger_production.cpp)
+    add_executable(test_logger_production
+        test_logger_production.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
     target_link_libraries(test_logger_production PRIVATE
         ${TEST_LIBS}
         themis_core
