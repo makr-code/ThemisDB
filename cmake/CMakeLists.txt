@@ -1785,6 +1785,9 @@ set(THEMIS_CORE_SOURCES
 
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
+
+    # Predictive Analytics & Time-Series Forecasting (Phase 3)
+    ../src/analytics/forecasting.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
