@@ -60,7 +60,6 @@
 
 #include <string>
 #include <vector>
-#include <optional>
 
 namespace themis::rag {
 

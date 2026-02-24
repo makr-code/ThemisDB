@@ -3,7 +3,7 @@
 # RAG Module Roadmap
 
 ## Current Status
-v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementation files (~8,400 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, and cross-encoder re-ranking.
+v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementation files (~8,700 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, and hybrid BM25+vector retrieval.
 
 ## Completed ✅
 - [x] RAGJudge – main orchestrator for multi-dimensional evaluation
@@ -29,14 +29,14 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
 
 ## In Progress 🚧
-- [~] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
+- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
 - [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 - [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
 - [I] Multi-document summarization before context injection (Issue: #2239)
@@ -68,7 +68,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] Hallucination rate tracking dashboard
 
 ### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: In Progress 🚧)
-- [~] Hybrid retrieval (BM25 + vector) with configurable RRF weights
+- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
 - [ ] Citation highlighting (map answer sentences to source chunks)
 - [ ] Configurable chunk size and overlap for document splitting
 - [ ] Multi-document summarization before context injection
@@ -82,12 +82,12 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases)
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)
-- [x] Documentation complete (streaming_retriever.h, reranker.h: full Doxygen API docs)
-- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable)
+- [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)
+- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; HybridRetrieverConfig: stable)
 
 ## Known Issues & Limitations
 - Evaluation accuracy depends on quality of the injected LLM judge model.

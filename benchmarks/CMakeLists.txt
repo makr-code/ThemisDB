@@ -698,6 +698,53 @@ else()
 endif()
 
 # ============================================================================
+# RAG Hybrid Retriever Benchmarks (Phase 3: BM25 + vector, configurable RRF)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_hybrid_retriever.cpp")
+    message(STATUS "Adding RAG Hybrid Retriever benchmarks")
+
+    add_executable(bench_rag_hybrid_retriever
+        bench_rag_hybrid_retriever.cpp
+    )
+
+    target_link_libraries(bench_rag_hybrid_retriever PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_rag_hybrid_retriever PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_rag_hybrid_retriever PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_rag_hybrid_retriever
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    add_custom_target(run_benchmark_rag_hybrid_retriever
+        COMMAND bench_rag_hybrid_retriever --benchmark_min_time=0.5
+        DEPENDS bench_rag_hybrid_retriever
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running RAG Hybrid Retriever benchmarks..."
+    )
+
+    message(STATUS "  RAG Hybrid Retriever: RRF fusion, linear combination, disjoint candidates, factory")
+else()
+    message(STATUS "RAG Hybrid Retriever benchmarks not found")
+endif()
+
+# ============================================================================
 # Advanced Patterns Benchmarks (Sharding Strategy)
 # ============================================================================
 
