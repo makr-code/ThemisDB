@@ -469,6 +469,15 @@ TEST_F(CacheAdminApiHandlerTest, ListTenantsReturns503WhenCacheIsNull) {
 // Tests: GET /v1/admin/cache/tenant/{tenant_id}/stats
 // ---------------------------------------------------------------------------
 
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+    auto req = makeRequest(http::verb::get,
+                           "/v1/admin/cache/tenant/acme/stats");
+    EXPECT_EQ(handler_no_cache->handleTenantStats(req).result(),
+              http::status::service_unavailable);
+}
+
 TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns404ForUnknownTenant) {
     auto req = makeRequest(http::verb::get,
                            "/v1/admin/cache/tenant/no_such_tenant/stats");

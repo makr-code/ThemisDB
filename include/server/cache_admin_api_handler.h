@@ -43,13 +43,15 @@ namespace server {
  *
  * Exposes the following REST endpoints (all under /v1/admin/cache/):
  *
- *   GET    /v1/admin/cache/stats                 – JSON snapshot of cache metrics
- *   DELETE /v1/admin/cache/key/{encoded_key}     – Evict one entry (key base64-encoded)
- *   DELETE /v1/admin/cache/tenant/{tenant_id}    – Evict all entries for a tenant
- *   POST   /v1/admin/cache/circuit-breaker/reset – Force circuit breaker to CLOSED
- *   GET    /v1/admin/cache/circuit-breaker       – Current circuit breaker state
- *   POST   /v1/admin/cache/warmup                – Load entries from NDJSON log file
- *   POST   /v1/admin/cache/snapshot              – Export live entries to NDJSON file
+ *   GET    /v1/admin/cache/stats                       – JSON snapshot of cache metrics
+ *   DELETE /v1/admin/cache/key/{encoded_key}           – Evict one entry (key base64-encoded)
+ *   DELETE /v1/admin/cache/tenant/{tenant_id}          – Evict all entries for a tenant
+ *   POST   /v1/admin/cache/circuit-breaker/reset       – Force circuit breaker to CLOSED
+ *   GET    /v1/admin/cache/circuit-breaker             – Current circuit breaker state
+ *   POST   /v1/admin/cache/warmup                      – Load entries from NDJSON log file
+ *   POST   /v1/admin/cache/snapshot                    – Export live entries to NDJSON file
+ *   GET    /v1/admin/cache/tenants                     – Per-tenant stats (all tenants)
+ *   GET    /v1/admin/cache/tenant/{tenant_id}/stats    – Per-tenant stats (single tenant)
  *
  * Authentication: requires JWT with "admin:cache:read" scope for read endpoints
  * and "admin:cache:write" scope for write/mutation endpoints.
