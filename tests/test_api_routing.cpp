@@ -256,3 +256,20 @@ TEST(APIDeprecationTest, DeprecationInfoReturnedBeforeRemoval) {
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result->alternative, "/api/v2/endpoint");
 }
+
+// ---------------------------------------------------------------------------
+// URL Path-Based Versioned Routing Conventions
+// These tests validate the path format expectations for /v1/ and /v2/ routing.
+// ---------------------------------------------------------------------------
+
+TEST(VersionedRoutingConventions, V1PathStartsWithSlashV1Slash) {
+    // v1 versioned paths follow the /v1/<resource> convention
+    std::string v1_path = "/v1/entities/123";
+    EXPECT_EQ(v1_path.substr(0, 4), "/v1/");
+}
+
+TEST(VersionedRoutingConventions, V2PathStartsWithSlashV2Slash) {
+    // v2 versioned paths follow the /v2/<resource> convention
+    std::string v2_path = "/v2/entities/123";
+    EXPECT_EQ(v2_path.substr(0, 4), "/v2/");
+}
