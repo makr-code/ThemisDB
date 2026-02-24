@@ -571,7 +571,25 @@ bool AdaptiveQueryCache::put(
             ttl_seconds = config_.l3_ttl_seconds;
         }
     }
-    
+
+    // Phase 4: Capture coordinator pointer once before acquiring any cache mutex.
+    // Graceful degradation: failures in the coordinator never block the local store.
+    std::shared_ptr<cache::ICacheCoordinator> repl_coord;
+    if (config_.enable_replication) {
+        std::lock_guard<std::mutex> lk(coordinator_mutex_);
+        repl_coord = coordinator_;
+    }
+    // Use the tenant-scoped key so peer caches with the same isolation config
+    // can look the entry up via get(fingerprint, tenant_id) without ambiguity.
+    auto notifyCoordinator = [&]() {
+        if (!repl_coord) return;
+        try {
+            repl_coord->publishEntry(key, result, ttl_seconds, tenant_id);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Cache replication publish failed: {}", e.what());
+        }
+    };
+
     // Store in appropriate level
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
         std::lock_guard<std::mutex> lock(l1_mutex_);
@@ -601,6 +619,7 @@ bool AdaptiveQueryCache::put(
         }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        notifyCoordinator();
         return true;
         
     } else if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {
@@ -635,6 +654,7 @@ bool AdaptiveQueryCache::put(
         enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
+        notifyCoordinator();
         return true;
         
     } else if (l3_db_) {
@@ -672,6 +692,7 @@ bool AdaptiveQueryCache::put(
                 }
                 enhanced_metrics_.total_bytes_cached += result_size;
                 THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                notifyCoordinator();
                 return true;
             }
         } catch (const std::exception& e) {
@@ -783,6 +804,19 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     }
     
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
+
+    // Phase 4: Propagate invalidation to peer nodes via replication coordinator
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try { coord->publishInvalidation(pattern); }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication invalidation publish failed: {}", e.what());
+            }
+        }
+    }
+
     return count;
 }
 
@@ -1514,6 +1548,19 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
+
+    // Phase 4: Propagate tenant invalidation to peer nodes
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try { coord->publishInvalidation(tenant_id, tenant_id); }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication tenant invalidation publish failed: {}", e.what());
+            }
+        }
+    }
+
     return count;
 }
 
@@ -1899,6 +1946,149 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
 
     THEMIS_INFO("Cache snapshot exported: {} entries to {}", result.entries_written, out_path);
     return result;
+}
+
+// ============================================================================
+// Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+// ============================================================================
+
+void AdaptiveQueryCache::setCoordinator(
+    std::shared_ptr<cache::ICacheCoordinator> coordinator)
+{
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    coordinator_ = coordinator;
+
+    if (!coordinator_) {
+        THEMIS_INFO("AdaptiveQueryCache: replication coordinator removed");
+        return;
+    }
+
+    // Subscribe for entries replicated from peer nodes
+    coordinator_->subscribeEntries(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedEntry(msg);
+        });
+
+    // Subscribe for invalidations propagated from peer nodes
+    coordinator_->subscribeInvalidations(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedInvalidation(msg);
+        });
+
+    THEMIS_INFO("AdaptiveQueryCache: replication coordinator registered ({})",
+                coordinator_->name());
+}
+
+nlohmann::json AdaptiveQueryCache::getReplicationStats() const {
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    if (!coordinator_) {
+        return {{"enabled", false}};
+    }
+    auto stats = coordinator_->getStats();
+    stats["enabled"] = true;
+    return stats;
+}
+
+void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage& msg) {
+    // Replicate only L1/L2; L3 (RocksDB) is assumed shared or node-local
+    // and does not need replication from the coordinator bus.
+    if (msg.result.is_null() || !msg.result.is_object()) {
+        return;
+    }
+
+    int64_t now_ms = getCurrentTimeMs();
+    std::string result_str = msg.result.dump();
+    size_t result_size = result_str.size();
+
+    // Honour per-entry size limit and tenant quota checks
+    if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
+        return;
+    }
+    if (!checkTenantQuota(msg.tenant_id, result_size)) {
+        return;
+    }
+
+    const std::string& key = msg.key;
+    int ttl_seconds = msg.ttl_seconds > 0 ? msg.ttl_seconds : config_.l1_ttl_seconds;
+
+    if (result_size < config_.l1_max_entry_size) {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        if (l1_cache_.count(key) == 0) {   // Don't overwrite a locally fresher entry
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            L1Entry entry;
+            entry.result           = msg.result;
+            entry.created_at_ms    = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count     = 0;
+            entry.ttl_seconds      = ttl_seconds;
+            entry.window_start_ms  = now_ms;
+            entry.window_count     = 0;
+            l1_cache_[key]         = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    } else if (result_size < config_.l2_max_entry_size) {
+        auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
+        if (compressed.empty()) return;
+
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        if (l2_cache_.count(key) == 0) {
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms     = now_ms;
+            entry.last_accessed_ms  = now_ms;
+            entry.access_count      = 0;
+            entry.ttl_seconds       = ttl_seconds;
+            entry.window_start_ms   = now_ms;
+            entry.window_count      = 0;
+            l2_cache_[key]          = std::move(entry);
+            l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    }
+}
+
+void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMessage& msg) {
+    // Peer invalidated a key/pattern – evict matching entries from L1 and L2 only.
+    // L3 (RocksDB) is considered either shared or independently managed per-node.
+    const std::string& pattern = msg.key;
+    if (pattern.empty()) return;
+
+    try {
+        std::regex re(pattern);
+
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l1_eviction_strategy_->onRemove(it->first);
+                    it = l1_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    it = l2_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+    } catch (const std::regex_error& e) {
+        THEMIS_WARN("CacheReplication: invalid pattern received from peer: {} ({})",
+                    pattern, e.what());
+    }
 }
 
 } // namespace themis

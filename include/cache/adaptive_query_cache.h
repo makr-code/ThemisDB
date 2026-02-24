@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
 #include "cache/eviction_policy.h"
+#include "cache/cache_replication_coordinator.h"
 #include "core/concerns/eviction_strategies.h"
 
 namespace themis {
@@ -126,7 +127,10 @@ public:
         int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
-        
+
+        // Phase 4: Cache replication for high-availability multi-node deployments
+        bool enable_replication = false;         // Enable cache replication via coordinator
+
         /**
          * @brief Validate configuration parameters
          * @return true if config is valid, false otherwise
@@ -345,6 +349,34 @@ public:
     void resetCircuitBreaker();
 
     // ========================================================================
+    // Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+    // ========================================================================
+
+    /**
+     * @brief Register a replication coordinator for multi-node cache synchronisation.
+     *
+     * Once a coordinator is registered the cache will:
+     *  - Call `coordinator->publishEntry()` after every successful `put()` when
+     *    `config_.enable_replication` is true.
+     *  - Call `coordinator->publishInvalidation()` inside `invalidate()` and
+     *    `invalidateTenant()` so peer nodes evict the same entries.
+     *  - Subscribe to incoming entry/invalidation messages from remote peers
+     *    and apply them to the local L1/L2 cache.
+     *
+     * Graceful degradation: any exception thrown by the coordinator is caught
+     * and demoted to a warning log; the local cache operation always completes.
+     *
+     * @param coordinator  Shared coordinator instance (nullptr removes current).
+     */
+    void setCoordinator(std::shared_ptr<cache::ICacheCoordinator> coordinator);
+
+    /**
+     * @brief Return replication coordinator statistics, or an empty JSON object
+     *        when no coordinator is registered.
+     */
+    nlohmann::json getReplicationStats() const;
+
+    // ========================================================================
     // Phase 3: Cache Warmup and Snapshot
     // ========================================================================
 
@@ -431,6 +463,15 @@ private:
     
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
+
+    // Phase 4: Replication coordinator for HA multi-node deployments
+    std::shared_ptr<cache::ICacheCoordinator> coordinator_;
+    mutable std::mutex coordinator_mutex_;
+
+    // Internal: apply a replicated entry received from a peer
+    void applyReplicatedEntry(const cache::ReplicationMessage& msg);
+    // Internal: apply a replicated invalidation received from a peer
+    void applyReplicatedInvalidation(const cache::ReplicationMessage& msg);
     
     // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
     struct TenantMetrics {

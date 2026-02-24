@@ -71,7 +71,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
 - [I] Add write-through cache mode for read-heavy workloads (Issue: #1593)
 - [I] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
-- [I] Add cache replication for high-availability multi-node deployments (Issue: #1595)
+- [P] Add cache replication for high-availability multi-node deployments (Issue: #1595)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1596)
