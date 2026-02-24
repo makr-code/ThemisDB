@@ -27,8 +27,10 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <condition_variable>
+#include <cstdlib>
 #include <mutex>
 #include <sstream>
+#include <cstdio>
 #include <iomanip>
 #include <thread>
 #include <unordered_map>
@@ -189,11 +191,64 @@ private:
 };
 
 // ═══════════════════════════════════════════════════════════
+// Cache Configuration: read env vars once at startup
+// ═══════════════════════════════════════════════════════════
+
+static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
+    size_t capacity = static_cast<size_t>(ConfigPathResolver::kCacheCapacity);
+    int ttl_seconds = ConfigPathResolver::kCacheTtlSeconds;
+
+    if (const char* env = std::getenv("THEMIS_CONFIG_CACHE_CAPACITY")) {
+        try {
+            int val = std::stoi(env);
+            if (val >= 10 && val <= 100000) {
+                capacity = static_cast<size_t>(val);
+            } else {
+                // Warn at startup; use fprintf because spdlog may not be initialized yet
+                fprintf(stderr,
+                    "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY=%d is out of range [10, 100000];"
+                    " using default %d\n",
+                    val, ConfigPathResolver::kCacheCapacity);
+            }
+        } catch (...) {
+            fprintf(stderr,
+                "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY='%s' is not a valid integer;"
+                " using default %d\n",
+                env, ConfigPathResolver::kCacheCapacity);
+        }
+    }
+
+    if (const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL_SECONDS")) {
+        try {
+            int val = std::stoi(env);
+            if (val >= 1 && val <= 86400) {
+                ttl_seconds = val;
+            } else {
+                fprintf(stderr,
+                    "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS=%d is out of range [1, 86400];"
+                    " using default %d\n",
+                    val, ConfigPathResolver::kCacheTtlSeconds);
+            }
+        } catch (...) {
+            fprintf(stderr,
+                "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS='%s' is not a valid integer;"
+                " using default %d\n",
+                env, ConfigPathResolver::kCacheTtlSeconds);
+        }
+    }
+
+    return {capacity, ttl_seconds};
+}
+
+// ═══════════════════════════════════════════════════════════
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
-LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
+ConfigPathResolver::CacheConfig ConfigPathResolver::cache_config_ = readCacheEnvConfig();
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
+    ConfigPathResolver::cache_config_.capacity,
+    ConfigPathResolver::cache_config_.ttl_seconds);
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
@@ -300,18 +355,63 @@ static std::chrono::system_clock::time_point parseDate(const std::string& iso_da
 }
 
 const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TABLE = {
-    // Example entries with deprecation dates (Phase 1 paths - deprecated June 30, 2026)
+    // ── AI/ML Configurations ─────────────────────────────────────────────────
     {
         "config/lora_training_config.yaml",
         {
             "config/lora_training_config.yaml",
             "config/ai_ml/lora_training_config.yaml",
             "ai_ml",
-            parseDate("2024-01-01"),  // Deprecated
-            parseDate("2026-06-30"),  // Removal
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
             "docs/config_migration_guide.md"
         }
     },
+    {
+        "config/vision_config.yaml",
+        {
+            "config/vision_config.yaml",
+            "config/ai_ml/vision/config.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/llm_system_prompts.yaml",
+        {
+            "config/llm_system_prompts.yaml",
+            "config/ai_ml/llm/system_prompts.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/rag_judge.yaml",
+        {
+            "config/rag_judge.yaml",
+            "config/ai_ml/rag_judge.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/voice_assistant.yaml",
+        {
+            "config/voice_assistant.yaml",
+            "config/ai_ml/voice_assistant.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Security Configurations ───────────────────────────────────────────────
     {
         "config/pii_patterns.yaml",
         {
@@ -323,7 +423,503 @@ const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TA
             "docs/config_migration_guide.md"
         }
     },
-    // Add more entries as needed for paths with specific deprecation timelines
+    {
+        "config/rbac_roles.json",
+        {
+            "config/rbac_roles.json",
+            "config/security/rbac_roles.json",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/user_roles.json",
+        {
+            "config/user_roles.json",
+            "config/security/user_roles.json",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/graph_protection.yaml",
+        {
+            "config/graph_protection.yaml",
+            "config/security/graph_protection.yaml",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/auth_kerberos.example.yaml",
+        {
+            "config/auth_kerberos.example.yaml",
+            "config/security/auth_kerberos.example.yaml",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Compliance & Ethics ───────────────────────────────────────────────────
+    {
+        "config/ethical_guidelines.yaml",
+        {
+            "config/ethical_guidelines.yaml",
+            "config/compliance/ethical_guidelines.yaml",
+            "compliance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/governance.yaml",
+        {
+            "config/governance.yaml",
+            "config/compliance/governance.yaml",
+            "compliance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/audit.yaml",
+        {
+            "config/audit.yaml",
+            "config/compliance/audit/audit.yaml",
+            "compliance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/ai_audit_config.yaml",
+        {
+            "config/ai_audit_config.yaml",
+            "config/compliance/audit/ai_audit_config.yaml",
+            "compliance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Data Management ───────────────────────────────────────────────────────
+    {
+        "config/mime_types.yaml",
+        {
+            "config/mime_types.yaml",
+            "config/data_management/mime_types.yaml",
+            "data_management",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/storage_redundancy.yaml",
+        {
+            "config/storage_redundancy.yaml",
+            "config/data_management/storage_redundancy.yaml",
+            "data_management",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/retention_policies.yaml",
+        {
+            "config/retention_policies.yaml",
+            "config/data_management/retention_policies.yaml",
+            "data_management",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/cdc_retention.yaml",
+        {
+            "config/cdc_retention.yaml",
+            "config/data_management/cdc_retention.yaml",
+            "data_management",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Performance Configurations ────────────────────────────────────────────
+    {
+        "config/scaling_optimizations.yaml",
+        {
+            "config/scaling_optimizations.yaml",
+            "config/performance/scaling_optimizations.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/acceleration.yaml",
+        {
+            "config/acceleration.yaml",
+            "config/performance/acceleration.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config_2ssd_performance.yaml",
+        {
+            "config/config_2ssd_performance.yaml",
+            "config/performance/config_2ssd_performance.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config_multi_ssd.yaml",
+        {
+            "config/config_multi_ssd.yaml",
+            "config/performance/config_multi_ssd.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/query_cache_mixed.yaml",
+        {
+            "config/query_cache_mixed.yaml",
+            "config/performance/query_cache/mixed.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/query_cache_olap.yaml",
+        {
+            "config/query_cache_olap.yaml",
+            "config/performance/query_cache/olap.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/query_cache_oltp.yaml",
+        {
+            "config/query_cache_oltp.yaml",
+            "config/performance/query_cache/oltp.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Deprecated/Backup Files ───────────────────────────────────────────────
+    {
+        "config/phase2_optimizations.json",
+        {
+            "config/phase2_optimizations.json",
+            "config/deprecated/phase2_optimizations.json",
+            "deprecated",
+            parseDate("2023-01-01"),
+            parseDate("2025-12-31"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/phase3_optimizations.json",
+        {
+            "config/phase3_optimizations.json",
+            "config/deprecated/phase3_optimizations.json",
+            "deprecated",
+            parseDate("2023-01-01"),
+            parseDate("2025-12-31"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/policies.json.backup",
+        {
+            "config/policies.json.backup",
+            "config/deprecated/policies.json.backup",
+            "deprecated",
+            parseDate("2023-01-01"),
+            parseDate("2025-12-31"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Core Configurations ───────────────────────────────────────────────────
+    {
+        "config/config.yaml",
+        {
+            "config/config.yaml",
+            "config/core/config.yaml",
+            "core",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config-minimal.yaml",
+        {
+            "config/config-minimal.yaml",
+            "config/core/config-minimal.yaml",
+            "core",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/security.yaml",
+        {
+            "config/security.yaml",
+            "config/core/security.yaml",
+            "core",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/updates.yaml",
+        {
+            "config/updates.yaml",
+            "config/core/updates.yaml",
+            "core",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Platform Configurations ───────────────────────────────────────────────
+    {
+        "config/config.rpi3.json",
+        {
+            "config/config.rpi3.json",
+            "config/platform/rpi3.json",
+            "platform",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config.rpi4.json",
+        {
+            "config/config.rpi4.json",
+            "config/platform/rpi4.json",
+            "platform",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config.rpi5.json",
+        {
+            "config/config.rpi5.json",
+            "config/platform/rpi5.json",
+            "platform",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config.qnap.json",
+        {
+            "config/config.qnap.json",
+            "config/platform/qnap.json",
+            "platform",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Networking ────────────────────────────────────────────────────────────
+    {
+        "config/connection_pool_config.yaml",
+        {
+            "config/connection_pool_config.yaml",
+            "config/networking/connection_pool_config.yaml",
+            "networking",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Content Processing ────────────────────────────────────────────────────
+    {
+        "config/content_processors.yaml",
+        {
+            "config/content_processors.yaml",
+            "config/content/processors.yaml",
+            "content",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/fem_edge_type_defaults.yaml",
+        {
+            "config/fem_edge_type_defaults.yaml",
+            "config/content/fem_edge_type_defaults.yaml",
+            "content",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Monitoring ────────────────────────────────────────────────────────────
+    {
+        "config/prometheus_arm.yml",
+        {
+            "config/prometheus_arm.yml",
+            "config/monitoring/prometheus/arm.yml",
+            "monitoring",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/prometheus_ethics.yml",
+        {
+            "config/prometheus_ethics.yml",
+            "config/monitoring/prometheus/ethics.yml",
+            "monitoring",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Features ──────────────────────────────────────────────────────────────
+    {
+        "config/features.yaml.example",
+        {
+            "config/features.yaml.example",
+            "config/features/features.example.yaml",
+            "features",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/capability_auto_generation.yaml",
+        {
+            "config/capability_auto_generation.yaml",
+            "config/features/capability_auto_generation.yaml",
+            "features",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Assistants ────────────────────────────────────────────────────────────
+    {
+        "config/docs_assistant.yaml",
+        {
+            "config/docs_assistant.yaml",
+            "config/assistants/docs_assistant.yaml",
+            "assistants",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/feedback_config.yaml",
+        {
+            "config/feedback_config.yaml",
+            "config/assistants/feedback_config.yaml",
+            "assistants",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Processing ────────────────────────────────────────────────────────────
+    {
+        "config/cep_rules.yaml",
+        {
+            "config/cep_rules.yaml",
+            "config/processing/cep_rules.yaml",
+            "processing",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Licensing ─────────────────────────────────────────────────────────────
+    {
+        "config/community_license.default.json",
+        {
+            "config/community_license.default.json",
+            "config/licensing/community/default.json",
+            "licensing",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/community_license.example.json",
+        {
+            "config/community_license.example.json",
+            "config/licensing/community/example.json",
+            "licensing",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/enterprise_license.example.json",
+        {
+            "config/enterprise_license.example.json",
+            "config/licensing/enterprise/example.json",
+            "licensing",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/enterprise_license.test.json",
+        {
+            "config/enterprise_license.test.json",
+            "config/licensing/enterprise/test.json",
+            "licensing",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -449,6 +1045,10 @@ bool ConfigPathResolver::isLegacyPath(const std::string& path) {
     return PATH_MAPPING.find(normalized) != PATH_MAPPING.end();
 }
 
+const std::map<std::string, std::string>& ConfigPathResolver::legacyPathMappings() {
+    return PATH_MAPPING;
+}
+
 std::optional<PathMappingMetadata> ConfigPathResolver::getMetadata(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     auto it = METADATA_TABLE.find(normalized);
@@ -500,13 +1100,43 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     if (path.find("..") != std::string::npos) {
         throw InvalidPathException(path, "path traversal not allowed");
     }
-    
-    // Check for absolute paths outside config directory
+
+    // Check for null bytes
+    if (path.find('\0') != std::string::npos) {
+        throw InvalidPathException(path, "null bytes not allowed in path");
+    }
+
+    // Reject absolute paths that are not rooted inside a config directory
     std::filesystem::path fs_path(path);
-    if (fs_path.is_absolute() && !path.starts_with("/config") && 
-        !path.starts_with("config") && path.find(":\\config") == std::string::npos) {
-        // Allow absolute paths that point to config directory
-        // This is a basic check; more sophisticated validation may be needed
+    if (fs_path.is_absolute()) {
+        std::string str = path;
+        std::replace(str.begin(), str.end(), '\\', '/');
+        // Accept paths that contain "/config/" as a component, or end with "/config"
+        constexpr std::string_view kConfigSuffix = "/config";
+        const bool ends_with_config =
+            str.size() >= kConfigSuffix.size() &&
+            str.compare(str.size() - kConfigSuffix.size(),
+                        kConfigSuffix.size(), kConfigSuffix) == 0;
+        if (str.find("/config/") == std::string::npos && !ends_with_config) {
+            throw InvalidPathException(path, "absolute path outside config directory");
+        }
+    }
+
+    // Reject symlinks that resolve outside the config root (prevents symlink escapes)
+    std::error_code ec;
+    if (std::filesystem::is_symlink(fs_path, ec) && !ec) {
+        auto canonical = std::filesystem::canonical(fs_path, ec);
+        if (!ec) {
+            auto cwd = std::filesystem::current_path(ec);
+            if (!ec) {
+                // The symlink target must reside under cwd (our effective config root)
+                auto cwd_str      = cwd.generic_string();
+                auto canonical_str = canonical.generic_string();
+                if (canonical_str.find(cwd_str) != 0) {
+                    throw InvalidPathException(path, "symlink escapes config root");
+                }
+            }
+        }
     }
 }
 
@@ -526,6 +1156,10 @@ void ConfigPathResolver::setCachingEnabled(bool enabled) {
     if (!enabled) {
         cache_.clear();
     }
+}
+
+ConfigPathResolver::CacheConfig ConfigPathResolver::currentCacheConfig() {
+    return cache_config_;
 }
 
 void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_seconds) {
