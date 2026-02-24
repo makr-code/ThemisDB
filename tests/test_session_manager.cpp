@@ -219,6 +219,18 @@ TEST(SessionManagerLimitTest, MaxConcurrentSessions_OldestEvicted) {
     EXPECT_TRUE(mgr.validateSession(s3).valid);
 }
 
+TEST(SessionManagerLimitTest, MaxConcurrentSessions_Zero_DoesNotCrash) {
+    // max_concurrent_sessions = 0 should safely terminate all sessions on create
+    SessionManager::SessionLimits lim;
+    lim.max_concurrent_sessions = 0;
+    lim.idle_timeout             = std::chrono::seconds(3600);
+    lim.absolute_timeout         = std::chrono::seconds(86400);
+    SessionManager mgr(lim);
+
+    // Should not crash or loop infinitely
+    EXPECT_NO_THROW(mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
+}
+
 // ===========================================================================
 // Termination
 // ===========================================================================
@@ -265,6 +277,22 @@ TEST_F(SessionManagerTest, TerminateAllSessions_RemovesAll) {
 
 TEST_F(SessionManagerTest, TerminateAllSessions_UnknownUser_ReturnsZero) {
     EXPECT_EQ(mgr_.terminateAllSessions("nobody"), 0);
+}
+
+TEST_F(SessionManagerTest, TerminateAllOtherSessions_EmptyKeepId_TerminatesAll) {
+    // When keep_session_id is empty, all sessions are terminated
+    // (equivalent to terminateAllSessions – deliberate "logout everywhere" behaviour)
+    auto s1 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
+    auto s2 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
+    EXPECT_EQ(mgr_.size(), 2u);
+
+    int terminated = mgr_.terminateAllOtherSessions("zara", "");
+    EXPECT_EQ(terminated, 2);
+    EXPECT_EQ(mgr_.size(), 0u);
+}
+
+TEST_F(SessionManagerTest, TerminateAllOtherSessions_UnknownUser_ReturnsZero) {
+    EXPECT_EQ(mgr_.terminateAllOtherSessions("nobody", "sess_fake"), 0);
 }
 
 // ===========================================================================

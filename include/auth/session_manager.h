@@ -216,7 +216,8 @@ public:
      */
     void pruneExpired();
 
-    /// Total number of active (not yet expired) sessions in the store.
+    /// Total number of sessions in the store (includes expired entries
+    /// not yet pruned; call pruneExpired() for an exact live count).
     size_t size() const;
 
 private:

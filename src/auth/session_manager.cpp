@@ -82,7 +82,7 @@ void SessionManager::enforceSessionLimits(const std::string& user_id) {
         }), ids.end());
 
     // While at or over the limit, remove the oldest session
-    while (static_cast<int>(ids.size()) >= limits_.max_concurrent_sessions) {
+    while (!ids.empty() && static_cast<int>(ids.size()) >= limits_.max_concurrent_sessions) {
         // Find the session with the oldest created_at
         auto oldest_it = ids.begin();
         auto oldest_time = sessions_[*oldest_it].created_at;
