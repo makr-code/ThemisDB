@@ -1452,6 +1452,12 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     // Embed circuit breaker details
     health["circuit_breaker"] = getCircuitBreakerStatus();
 
+    // Phase 4: Write-through mode status
+    health["write_through"] = {
+        {"enabled", config_.enable_write_through},
+        {"writes",  enhanced_metrics_.write_through_writes.load()}
+    };
+
     // Check hit rate
     double hit_rate = enhanced_metrics_.getHitRate();
     if (hit_rate < 0.5) {

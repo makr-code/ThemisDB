@@ -497,3 +497,26 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughDisabledDoesNotSetMetric) {
 
     EXPECT_EQ(cache.getEnhancedMetrics().write_through_writes.load(), 0u);
 }
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughStatsByTierShowsEnabled) {
+    // getStatsByTier() must expose write_through.enabled and write_through.writes.
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    cache.put("fp_st", {}, json({{"x", 2}}));
+
+    json stats = cache.getStatsByTier();
+    ASSERT_TRUE(stats.contains("write_through"));
+    EXPECT_TRUE(stats["write_through"]["enabled"].get<bool>());
+    EXPECT_GE(stats["write_through"]["writes"].get<uint64_t>(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughStatsByTierDisabledFlag) {
+    // When write-through is off, getStatsByTier() must report enabled=false.
+    config_.enable_write_through = false;
+    AdaptiveQueryCache cache(config_);
+
+    json stats = cache.getStatsByTier();
+    ASSERT_TRUE(stats.contains("write_through"));
+    EXPECT_FALSE(stats["write_through"]["enabled"].get<bool>());
+}
