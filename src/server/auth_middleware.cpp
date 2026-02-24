@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
     • Total Lines:     346                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+    • Open Issues:     TODOs: 2, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +21,7 @@
 #include "auth/jwt_validator.h"
 #include "auth/gssapi_authenticator.h"
 #include "auth/mtls_authenticator.h"
+#include "auth/api_key_authenticator.h"
 #include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
 #include <sstream>
@@ -80,6 +81,36 @@ void AuthMiddleware::enableMTLS(const auth::MTLSConfig& config) {
 
     THEMIS_INFO("mTLS certificate authentication enabled: {} subject mappings",
                 config.subject_mappings.size());
+}
+
+void AuthMiddleware::enableApiKeyAuth(const ApiKeyConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auth::ApiKeyAuthenticator::Config api_cfg;
+    api_cfg.check_expiry       = config.check_expiry;
+    api_cfg.max_key_id_length  = config.max_key_id_length;
+    api_cfg.max_secret_length  = config.max_secret_length;
+
+    api_key_auth_    = std::make_unique<auth::ApiKeyAuthenticator>(api_cfg);
+    api_key_enabled_ = true;
+
+    THEMIS_INFO("API key authentication enabled (check_expiry={})", config.check_expiry);
+}
+
+void AuthMiddleware::addApiKeyCredential(const auth::ApiKeyCredential& credential) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!api_key_auth_) {
+        THEMIS_WARN("addApiKeyCredential: API key auth not enabled; call enableApiKeyAuth() first");
+        return;
+    }
+    api_key_auth_->addCredential(credential);
+}
+
+void AuthMiddleware::removeApiKeyCredential(const std::string& key_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (api_key_auth_) {
+        api_key_auth_->removeCredential(key_id);
+    }
 }
 
 void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
@@ -165,7 +196,14 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         metrics_.authz_success_total++;
         return AuthResult::OK(config.user_id, config.tenant_id);
     }
-    
+
+    // If API key authentication is enabled, try combined "key_id.secret" format.
+    // API key tokens contain exactly one dot separator; skip tokens that have
+    // no dot to avoid unnecessary work (plain bearer tokens and JWTs fall through).
+    if (api_key_enabled_ && token.find('.') != std::string_view::npos) {
+        return authorizeViaApiKey(token, required_scope);
+    }
+
     // If JWT is enabled, try JWT validation as fallback
     if (jwt_enabled_) {
         return authorizeViaJWT(token, required_scope);
@@ -230,12 +268,23 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
 AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Try API token first
+    // Try static bearer token first
     auto it = tokens_.find(std::string(token));
     if (it != tokens_.end()) {
         return AuthResult::OK(it->second.user_id, it->second.tenant_id);
     }
-    
+
+    // Try API key (combined "key_id.secret" format)
+    if (api_key_enabled_ && api_key_auth_ && token.find('.') != std::string_view::npos) {
+        try {
+            auto claims = api_key_auth_->authenticateCombined(std::string(token));
+            metrics_.authz_success_total++;
+            return AuthResult::OK(claims.principal, claims.tenant_id, claims.roles);
+        } catch (const auth::AuthException&) {
+            // Fall through to JWT
+        }
+    }
+
     // Try JWT validation
     if (jwt_enabled_ && jwt_validator_) {
         try {
@@ -254,7 +303,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
 
 bool AuthMiddleware::isEnabled() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_ || mtls_enabled_;
+    return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_ || mtls_enabled_ || api_key_enabled_;
 }
 
 std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view auth_header) {
@@ -394,6 +443,43 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     } catch (const std::exception& e) {
         THEMIS_ERROR("mTLS authentication error: {}", e.what());
         return AuthResult::Denied(std::string("mTLS authentication error: ") + e.what());
+    }
+}
+
+AuthMiddleware::AuthResult AuthMiddleware::authorizeViaApiKey(
+    std::string_view combined_token,
+    std::string_view required_scope) const
+{
+    // Note: mutex is already locked by caller (authorize)
+
+    if (!api_key_auth_) {
+        return AuthResult::Denied("API key authentication not configured");
+    }
+
+    try {
+        auto claims = api_key_auth_->authenticateCombined(std::string(combined_token));
+
+        THEMIS_INFO("API key authenticated: key_id='{}' principal='{}' tenant='{}'",
+                    claims.key_id, claims.principal, claims.tenant_id);
+
+        // Scope check: if a scope is required, the key must carry it explicitly
+        if (!required_scope.empty() &&
+            !claims.hasScope(std::string(required_scope))) {
+            metrics_.authz_denied_total++;
+            return AuthResult::Denied(
+                std::string("API key missing required scope: ") + std::string(required_scope));
+        }
+
+        metrics_.authz_success_total++;
+        return AuthResult::OK(claims.principal, claims.tenant_id, claims.roles);
+
+    } catch (const auth::AuthException& e) {
+        THEMIS_WARN("API key authentication failed: {}", e.what());
+        metrics_.authz_invalid_token_total++;
+        return AuthResult::Denied(std::string("API key authentication failed: ") + e.what());
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("API key authentication error: {}", e.what());
+        return AuthResult::Denied(std::string("API key authentication error: ") + e.what());
     }
 }
 

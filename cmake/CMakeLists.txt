@@ -1503,6 +1503,8 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
+    ../src/cache/predictive_prefetcher.cpp
+    ../src/cache/cache_replication_coordinator.cpp
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -1634,6 +1636,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/webauthn_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
