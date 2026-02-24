@@ -29,6 +29,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
 - [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
 
 ## In Progress 🚧
@@ -38,7 +39,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ### Short-term (Next 3-6 months)
 - [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
 - [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
-- [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
+- [x] Configurable chunk size and overlap for document splitting (Issue: #2238)
 - [I] Multi-document summarization before context injection (Issue: #2239)
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
@@ -70,7 +71,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: In Progress 🚧)
 - [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
 - [ ] Citation highlighting (map answer sentences to source chunks)
-- [ ] Configurable chunk size and overlap for document splitting
+- [x] Configurable chunk size and overlap for document splitting
 - [ ] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
@@ -82,6 +83,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
@@ -92,7 +94,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ## Known Issues & Limitations
 - Evaluation accuracy depends on quality of the injected LLM judge model.
 - Thorough mode (~2 s latency) is not suitable for real-time interactive use.
-- No built-in document chunking strategy; callers manage chunk boundaries.
+- No built-in document chunking strategy: now provided by `DocumentSplitter` (configurable chunk size, overlap, and strategy).
 
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.

@@ -585,6 +585,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
     ../src/rag/reranker.cpp
+    ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
     
     # LLM server API handlers (conditional)

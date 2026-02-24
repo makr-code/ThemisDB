@@ -69,6 +69,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_rag_hallucination_dashboard\\.cpp$"
+        ".*test_rag_document_splitter\\.cpp$"
         ".*test_rag_hybrid_retriever\\.cpp$"
         ".*test_rag_agentic\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
