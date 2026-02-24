@@ -9,6 +9,49 @@ This directory contains utility scripts for deployment, operations, automation, 
 
 ## Script Categories
 
+### Milestone Sync from Roadmap
+
+Synchronise GitHub milestones with the `(Target: …)` and `(Issue: #NNN)` annotations
+found in every `src/**/ROADMAP.md` file.
+
+- **`sync-milestones-from-roadmap.py`** – Parse roadmaps, create missing milestones
+  (Q2 2026 / Q3 2026 / Q4 2026 / Q1 2027, …) and assign open issues to them.
+
+**Usage:**
+
+```bash
+# Preview what would happen (no GitHub API writes)
+python3 scripts/sync-milestones-from-roadmap.py --dry-run
+
+# Only generate the audit report (docs/issue-milestone-audit.md)
+python3 scripts/sync-milestones-from-roadmap.py --audit-only
+
+# Apply changes (requires GITHUB_TOKEN with issues:write scope)
+GITHUB_TOKEN=ghp_... python3 scripts/sync-milestones-from-roadmap.py
+
+# Verbose output (one line per issue)
+GITHUB_TOKEN=ghp_... python3 scripts/sync-milestones-from-roadmap.py --verbose
+```
+
+**Environment variables:**
+
+| Variable | Description |
+|----------|-------------|
+| `GITHUB_TOKEN` | PAT or `GITHUB_TOKEN` (Actions) with `repo` scope |
+| `GITHUB_REPOSITORY` | Fallback `owner/repo`; defaults to `makr-code/ThemisDB` |
+
+**Audit report:** `docs/issue-milestone-audit.md` is generated automatically and lists
+all 665 issue references found in roadmaps, including the 550 issues that lack an
+explicit `(Target: …)` annotation and require manual milestone assignment.
+
+**Tests:** `tests/test_sync_milestones.py`
+
+```bash
+python3 -m pytest tests/test_sync_milestones.py -v
+```
+
+---
+
 ### Release Scripts
 
 #### Retroactive Release Builder (NEW)
