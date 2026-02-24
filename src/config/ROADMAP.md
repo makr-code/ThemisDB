@@ -33,7 +33,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
 - [I] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
-- [I] Config audit trail: log which paths were accessed and when (Issue: #1668)
+- [~] Config audit trail: log which paths were accessed and when (Issue: #1668)
 - [I] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## Implementation Phases

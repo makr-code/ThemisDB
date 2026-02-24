@@ -29,6 +29,7 @@
 #include <optional>
 #include <atomic>
 #include <chrono>
+#include "config/config_audit_log.h"
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
 #include "config/path_mapping_metadata.h"
@@ -178,6 +179,41 @@ public:
      */
     static std::vector<DeprecationEntry> deprecationReport();
 
+    // ── Audit log API ────────────────────────────────────────────────────
+
+    /**
+     * Enable or disable config path audit logging.
+     *
+     * When enabled, every successful path resolution is appended to the
+     * audit log with the requested path, the resolved path, a timestamp,
+     * and flags indicating whether the result was a legacy fallback or a
+     * cache hit.  Audit logging is disabled by default.
+     *
+     * @param enabled  true to enable, false to disable.
+     */
+    static void setAuditLogEnabled(bool enabled);
+
+    /**
+     * Return a snapshot of all audit entries recorded since the last
+     * clearAuditLog() call (oldest entry first).
+     *
+     * @return Vector of AuditEntry objects.
+     */
+    static std::vector<AuditEntry> auditLog();
+
+    /**
+     * Clear all entries from the audit log.
+     */
+    static void clearAuditLog();
+
+    /**
+     * Set the maximum number of audit entries retained in memory.
+     * Entries beyond this limit are evicted oldest-first.
+     *
+     * @param max  Maximum number of entries (clamped to >= 1).
+     */
+    static void setAuditLogMaxEntries(std::size_t max);
+
 private:
     // Mapping table from legacy paths to new hierarchical paths
     static const std::map<std::string, std::string> PATH_MAPPING;
@@ -205,6 +241,9 @@ private:
     class DeprecationAggregator;
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
+
+    // Audit log (records all successful path resolutions with timestamps)
+    static ConfigAuditLog audit_log_;
 };
 
 } // namespace config

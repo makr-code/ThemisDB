@@ -22,6 +22,7 @@
  */
 
 #include "config/config_path_resolver.h"
+#include "config/config_audit_log.h"
 #include "config/config_errors.h"
 #include "config/path_mapping_metadata.h"
 #include <spdlog/spdlog.h>
@@ -197,6 +198,7 @@ LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300);
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
+ConfigAuditLog ConfigPathResolver::audit_log_;
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -359,6 +361,14 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         auto cached = cache_.get(normalized);
         if (cached) {
             metrics_.cache_hits++;
+            if (audit_log_.isEnabled()) {
+                // is_legacy: the path is a known legacy key AND the cached
+                // resolved path is the legacy path itself (meaning the new path
+                // was absent when first resolved, so legacy fallback was used).
+                bool is_legacy = isLegacyPath(normalized) && (*cached == normalized);
+                audit_log_.record({legacy_path, *cached,
+                    std::chrono::system_clock::now(), is_legacy, true});
+            }
             return *cached;
         }
         metrics_.cache_misses++;
@@ -374,6 +384,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     // Try new path first
     std::string new_path = mapLegacyToNew(normalized);
     std::string resolved_path;
+    bool was_legacy_fallback = false;
     
     if (!new_path.empty() && std::filesystem::exists(new_path)) {
         if (normalized != new_path) {
@@ -388,6 +399,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         if (!new_path.empty() && new_path != normalized) {
             // Track usage for aggregation report
             aggregator_.incrementUsage(normalized);
+            was_legacy_fallback = true;
 
             if (!aggregation_enabled_.load()) {
                 // Per-call warning (only when aggregation is disabled)
@@ -420,7 +432,13 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     if (caching_enabled_.load()) {
         cache_.put(normalized, resolved_path);
     }
-    
+
+    // Record audit entry for this successful resolution
+    if (audit_log_.isEnabled()) {
+        audit_log_.record({legacy_path, resolved_path,
+            std::chrono::system_clock::now(), was_legacy_fallback, false});
+    }
+
     return resolved_path;
 }
 
@@ -546,6 +564,26 @@ std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
     }
     
     return new_path.substr(first_slash + 1, second_slash - first_slash - 1);
+}
+
+void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
+    if (enabled) {
+        audit_log_.enable();
+    } else {
+        audit_log_.disable();
+    }
+}
+
+std::vector<AuditEntry> ConfigPathResolver::auditLog() {
+    return audit_log_.getEntries();
+}
+
+void ConfigPathResolver::clearAuditLog() {
+    audit_log_.clear();
+}
+
+void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
+    audit_log_.setMaxEntries(max);
 }
 
 } // namespace config
