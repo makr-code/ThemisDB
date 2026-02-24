@@ -21,6 +21,21 @@ This document covers implementation-specific future enhancements for the CDC (Ch
 | `TenantBufferManager` | Multi-tenant CDC paths | Per-tenant buffer size quota must be enforced |
 | `cdc::error::invalidArgument()` / error hierarchy | All CDC callers | Typed error codes must propagate to API error responses |
 
+## Implemented Features
+
+### At-Least-Once Delivery Tracker ✅ (Implemented - PR #2797)
+
+`DeliveryTracker` (`include/cdc/delivery_tracker.h`, `src/cdc/delivery_tracker.cpp`) provides
+transport-agnostic at-least-once delivery semantics for CDC change events.
+
+- `trackDelivery(consumer_id, events)` — register dispatched events as pending per consumer
+- `acknowledge(consumer_id, sequence)` — single-event point acknowledgement
+- `acknowledgeUpTo(consumer_id, sequence)` — cumulative (TCP-style) acknowledgement
+- `getPendingRedelivery(consumer_id)` — poll for events past `ack_timeout`; enforces `max_redelivery_attempts`
+- Optional `RedeliveryCallback` + background thread for automatic redelivery without polling
+- Configurable back-pressure limit (`max_pending_per_consumer`)
+- All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport

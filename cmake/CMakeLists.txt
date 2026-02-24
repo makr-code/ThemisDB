@@ -1503,6 +1503,7 @@ set(THEMIS_CORE_SOURCES
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
     
     # Replication
