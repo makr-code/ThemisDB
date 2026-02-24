@@ -275,13 +275,14 @@ TEST(HallucinationDashboardTest, StdDevNonNegative) {
 // Alert thresholds
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(HallucinationDashboardTest, NoAlertBelowWarningThreshold) {
+TEST(HallucinationDashboardTest, NoAlertBelowInfoThreshold) {
     HallucinationDashboardConfig cfg;
-    cfg.alert_threshold_warning  = 0.2;
-    cfg.alert_threshold_critical = 0.4;
+    cfg.alert_threshold_info     = 0.2;
+    cfg.alert_threshold_warning  = 0.4;
+    cfg.alert_threshold_critical = 0.6;
     HallucinationDashboard dashboard(cfg);
 
-    // 1 hallucination out of 10 = 10% → below warning threshold
+    // 1 hallucination out of 10 = 10% → below all thresholds
     dashboard.recordFaithfulness(0.1);
     for (int i = 1; i < 10; ++i) {
         dashboard.recordFaithfulness(0.9);
@@ -291,8 +292,27 @@ TEST(HallucinationDashboardTest, NoAlertBelowWarningThreshold) {
     EXPECT_TRUE(snap.active_alerts.empty());
 }
 
+TEST(HallucinationDashboardTest, InfoAlertTriggered) {
+    HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
+    cfg.alert_threshold_warning  = 0.2;
+    cfg.alert_threshold_critical = 0.4;
+    HallucinationDashboard dashboard(cfg);
+
+    // 1 hallucination out of 10 = 10% → above info, below warning
+    dashboard.recordFaithfulness(0.1);
+    for (int i = 1; i < 10; ++i) {
+        dashboard.recordFaithfulness(0.9);
+    }
+    auto snap = dashboard.snapshot();
+    EXPECT_TRUE(snap.alert_triggered);
+    ASSERT_FALSE(snap.active_alerts.empty());
+    EXPECT_EQ(snap.active_alerts[0].severity, AlertSeverity::INFO);
+}
+
 TEST(HallucinationDashboardTest, WarningAlertTriggered) {
     HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
     cfg.alert_threshold_warning  = 0.2;
     cfg.alert_threshold_critical = 0.4;
     HallucinationDashboard dashboard(cfg);
@@ -312,6 +332,7 @@ TEST(HallucinationDashboardTest, WarningAlertTriggered) {
 
 TEST(HallucinationDashboardTest, CriticalAlertTriggered) {
     HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
     cfg.alert_threshold_warning  = 0.2;
     cfg.alert_threshold_critical = 0.3;
     HallucinationDashboard dashboard(cfg);

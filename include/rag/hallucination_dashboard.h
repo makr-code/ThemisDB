@@ -127,6 +127,8 @@ struct HallucinationDashboardConfig {
     /// Maximum number of evaluations retained in the rolling window.
     size_t window_size = 200;
 
+    /// Hallucination rate that triggers an INFO alert.
+    double alert_threshold_info     = 0.05; ///< 5 % rate → INFO
     /// Hallucination rate that triggers a WARNING alert.
     double alert_threshold_warning  = 0.15; ///< 15 % rate → WARNING
     /// Hallucination rate that triggers a CRITICAL alert.
