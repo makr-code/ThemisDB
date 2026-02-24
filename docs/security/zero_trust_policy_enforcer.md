@@ -180,6 +180,54 @@ Request
 
 All counters are `std::atomic<uint64_t>` and can be polled for Prometheus integration.
 
+## Auth-Layer Bridge: ZeroTrustAuthVerifier
+
+`security::ZeroTrustPolicyEnforcer` is the **network-layer** zero-trust gate.  For the
+**auth-module** integration — where the token callback is wired to `JWTValidator` and a
+configurable *minimum trust score* threshold can deny requests that score too low even after
+token and network checks pass — use `auth::ZeroTrustAuthVerifier`:
+
+```cpp
+#include "auth/zero_trust_auth_verifier.h"
+#include "auth/jwt_validator.h"
+
+// 1. Create the auth-layer verifier
+JWTValidator jwt(jwks_url);
+
+themis::auth::ZeroTrustAuthVerifier::Config cfg;
+cfg.min_trust_score = 0.8; // require at least 0.8 composite score
+
+themis::auth::ZeroTrustAuthVerifier verifier(
+    cfg,
+    [&jwt](const std::string& token, const std::string& user_id) {
+        try { return jwt.parseAndValidate(token).sub == user_id; }
+        catch (...) { return false; }
+    });
+
+// 2. Register network policies
+verifier.addNetworkPolicy({"corp", "alice", {"10.0.0.0/8"}, {}, true});
+
+// 3. Verify every request (no session cache — continuous verification)
+themis::auth::ZeroTrustAuthVerifier::Request req;
+req.request_id = generate_uuid();
+req.user_id    = claims.sub;
+req.token      = bearer_token;
+req.client_ip  = peer_ip;
+req.resource   = "data";
+req.action     = "read";
+
+auto d = verifier.verify(req);
+if (!d.allowed) { return http_403(d.reason); }
+```
+
+The class also forwards `getMetrics()` from the underlying enforcer and emits
+`logZeroTrustAllowed` / `logZeroTrustDenied` events via `auth::AuthAuditLogger` when an
+`AuditLogger` is attached via `setAuditLogger()`.
+
+- Header: `include/auth/zero_trust_auth_verifier.h`
+- Implementation: `src/auth/zero_trust_auth_verifier.cpp`
+- Tests: `tests/test_zero_trust_auth_verifier.cpp`
+
 ## Known Limitations
 
 - IPv4 CIDR notation only (`w.x.y.z/prefix`). IPv6 support is planned for a follow-up.
