@@ -43,7 +43,7 @@ namespace cdc {
  */
 struct DeliveryTrackerConfig {
     /// Time after which an unacknowledged event is eligible for redelivery.
-    std::chrono::seconds ack_timeout{30};
+    std::chrono::milliseconds ack_timeout{30000};
 
     /// How often the background redelivery thread checks for timed-out events.
     std::chrono::milliseconds recheck_interval{5000};

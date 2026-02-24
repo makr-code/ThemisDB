@@ -165,7 +165,7 @@ TEST(DeliveryTrackerTest, EmptyDeliveryAlwaysSucceeds) {
 
 TEST(DeliveryTrackerTest, NoPendingRedeliveryBeforeTimeout) {
     DeliveryTrackerConfig cfg;
-    cfg.ack_timeout = std::chrono::seconds{60}; // very long timeout
+    cfg.ack_timeout = std::chrono::milliseconds{60000}; // very long timeout
     DeliveryTracker tracker(cfg);
 
     tracker.trackDelivery("c1", makeEventRange(1, 3));
@@ -177,7 +177,7 @@ TEST(DeliveryTrackerTest, NoPendingRedeliveryBeforeTimeout) {
 
 TEST(DeliveryTrackerTest, PendingRedeliveryAfterTimeout) {
     DeliveryTrackerConfig cfg;
-    cfg.ack_timeout = std::chrono::seconds{0}; // immediate timeout for test
+    cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     DeliveryTracker tracker(cfg);
 
     tracker.trackDelivery("c1", makeEventRange(1, 3));
@@ -194,7 +194,7 @@ TEST(DeliveryTrackerTest, PendingRedeliveryAfterTimeout) {
 
 TEST(DeliveryTrackerTest, AckedEventsNotRedelivered) {
     DeliveryTrackerConfig cfg;
-    cfg.ack_timeout = std::chrono::seconds{0};
+    cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     DeliveryTracker tracker(cfg);
 
     tracker.trackDelivery("c1", makeEventRange(1, 3));
@@ -209,7 +209,7 @@ TEST(DeliveryTrackerTest, AckedEventsNotRedelivered) {
 
 TEST(DeliveryTrackerTest, ExpiredEventsRemovedAfterMaxAttempts) {
     DeliveryTrackerConfig cfg;
-    cfg.ack_timeout = std::chrono::seconds{0};
+    cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     cfg.max_redelivery_attempts = 2;
     DeliveryTracker tracker(cfg);
 
@@ -244,7 +244,7 @@ TEST(DeliveryTrackerTest, RedeliveryCallbackInvokedByBackgroundThread) {
     std::atomic<uint64_t> last_sequence{0};
 
     DeliveryTrackerConfig cfg;
-    cfg.ack_timeout = std::chrono::seconds{0};   // immediate
+    cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     cfg.recheck_interval = std::chrono::milliseconds{50};
 
     DeliveryTracker tracker(cfg, [&](const std::string& cid,

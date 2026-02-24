@@ -1,8 +1,6 @@
 #include "cdc/delivery_tracker.h"
 #include "utils/logger.h"
 
-#include <algorithm>
-
 namespace themis {
 namespace cdc {
 
@@ -24,8 +22,8 @@ void DeliveryTracker::start() {
 
     redelivery_thread_ = std::thread(&DeliveryTracker::redeliveryThreadFunc, this);
     THEMIS_INFO("DeliveryTracker: background redelivery thread started "
-                "(ack_timeout={}s, recheck_interval={}ms)",
-                std::chrono::duration_cast<std::chrono::seconds>(config_.ack_timeout).count(),
+                "(ack_timeout={}ms, recheck_interval={}ms)",
+                std::chrono::duration_cast<std::chrono::milliseconds>(config_.ack_timeout).count(),
                 std::chrono::duration_cast<std::chrono::milliseconds>(config_.recheck_interval).count());
 }
 
@@ -143,7 +141,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
     std::vector<uint64_t> to_expire;
 
     for (auto& [seq, pending] : state.pending) {
-        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - pending.delivered_at);
 
         if (elapsed >= config_.ack_timeout) {
