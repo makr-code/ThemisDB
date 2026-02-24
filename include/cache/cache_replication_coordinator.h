@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <mutex>
+#include <algorithm>
 #include <nlohmann/json.hpp>
 
 namespace themis {

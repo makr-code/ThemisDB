@@ -237,6 +237,43 @@ TEST_F(CacheReplicationIntegrationTest, PutWithReplicationDisabledNoMessagesPubl
 // ---------------------------------------------------------------------------
 // Test: three-node bus – entry put on A replicates to B and C
 // ---------------------------------------------------------------------------
+TEST_F(CacheReplicationIntegrationTest, InvalidateTenantPropagatesToB) {
+    // Both caches use tenant isolation
+    auto cfg_a = makeTestConfig("tena");
+    auto cfg_b = makeTestConfig("tenb");
+    cfg_a.enable_tenant_isolation = true;
+    cfg_b.enable_tenant_isolation = true;
+    std::string dp_a = cfg_a.l3_db_path;
+    std::string dp_b = cfg_b.l3_db_path;
+
+    auto ta = std::make_unique<AdaptiveQueryCache>(cfg_a);
+    auto tb = std::make_unique<AdaptiveQueryCache>(cfg_b);
+
+    auto bus2   = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto ca_ten = std::make_shared<cache::InProcessCacheCoordinator>(bus2);
+    auto cb_ten = std::make_shared<cache::InProcessCacheCoordinator>(bus2);
+    ta->setCoordinator(ca_ten);
+    tb->setCoordinator(cb_ten);
+
+    const std::string tenant = "acme";
+    json result = {{"v", 42}};
+    std::string fp = ta->generateFingerprint("SELECT v", {}, tenant);
+
+    // Put into tb directly with tenant isolation
+    tb->put(fp, {}, result, tenant);
+    ASSERT_TRUE(tb->get(fp, tenant).has_value());
+
+    // Invalidate tenant on ta → should propagate to tb
+    ta->invalidateTenant(tenant);
+
+    // tb must have evicted the tenant-scoped entry from L1/L2
+    EXPECT_FALSE(tb->get(fp, tenant).has_value());
+
+    ta.reset(); tb.reset();
+    std::filesystem::remove_all(dp_a);
+    std::filesystem::remove_all(dp_b);
+}
+
 TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
     auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);

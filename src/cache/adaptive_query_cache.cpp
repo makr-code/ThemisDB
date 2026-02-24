@@ -126,6 +126,11 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
+    // Phase 4: Deregister coordinator callbacks before releasing memory.
+    // Any coordinator that outlives this cache would otherwise hold a [this]
+    // lambda pointing to freed memory, causing use-after-free on the next
+    // publication.
+    setCoordinator(nullptr);
     clear();
 }
 
@@ -1549,12 +1554,18 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
 
-    // Phase 4: Propagate tenant invalidation to peer nodes
+    // Phase 4: Propagate tenant invalidation to peer nodes.
+    // Use the same tenant-prefix pattern that the local invalidation uses
+    // ("tenant:<id>:") so peer nodes performing regex matching evict exactly
+    // the same set of L1/L2 keys.
     if (config_.enable_replication) {
         std::shared_ptr<cache::ICacheCoordinator> coord;
         { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
         if (coord) {
-            try { coord->publishInvalidation(tenant_id, tenant_id); }
+            try {
+                std::string tenant_pattern = "^tenant:" + tenant_id + ":";
+                coord->publishInvalidation(tenant_pattern, tenant_id);
+            }
             catch (const std::exception& e) {
                 THEMIS_WARN("Cache replication tenant invalidation publish failed: {}", e.what());
             }
