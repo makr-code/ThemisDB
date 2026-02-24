@@ -208,16 +208,19 @@ public:
      *  1. Base64-decode the response
      *  2. Parse XML with pugixml
      *  3. Verify top-level Status is Success
+     *  3b. Validate Response-level InResponseTo against in_response_to (SP-initiated)
      *  4. Verify XML signature on Response (if require_signed_response)
      *  5. Verify XML signature on Assertion (if require_signed_assertion)
      *  6. Validate Issuer against configured idp_entity_id
      *  7. Validate Conditions: NotBefore / NotOnOrAfter / AudienceRestriction
-     *  8. Validate InResponseTo (if provided) against stored request ID
+     *  8. Validate SubjectConfirmationData InResponseTo / Recipient / NotOnOrAfter
      *  9. Replay detection on AssertionID
      * 10. Extract SAMLClaims from Assertion
      *
      * @param saml_response_b64 Raw Base64-encoded SAMLResponse POST body value
-     * @param in_response_to    If non-empty, the AssertionID from the original AuthnRequest
+     * @param in_response_to    If non-empty, the ID of the original AuthnRequest
+     *                          (from AuthnRequestParams::request_id); enables
+     *                          SP-initiated InResponseTo validation
      * @return Validated SAMLClaims
      * @throws AuthException (SAML_*) on any validation failure
      */
