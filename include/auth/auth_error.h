@@ -113,7 +113,12 @@ enum class AuthErrorCode {
     API_KEY_SECRET_MISMATCH = 9393,
     API_KEY_EXPIRED = 9394,
     API_KEY_INACTIVE = 9395,
-    API_KEY_SCOPE_DENIED = 9396
+    API_KEY_SCOPE_DENIED = 9396,
+
+    // mTLS / certificate errors (9397-9399)
+    MTLS_CERT_INVALID = 9397,
+    MTLS_CERT_EXPIRED = 9398,
+    MTLS_CERT_REVOKED = 9399
 };
 
 /**
