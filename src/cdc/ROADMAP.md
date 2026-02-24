@@ -69,6 +69,13 @@
 
 ## Known Issues & Limitations
 - WebSocket transport not yet implemented; SSE only
+- Consumer offset tracking is available via `ConsumerGroupManager`;
+  full log scan is no longer required for existing groups
+- Change log retention policies are not configurable at runtime
+- At-least-once delivery is implemented via
+  `ConsumerGroupManager::fetchEventsAtLeastOnce`;
+  in-flight state is in-memory and resets on server restart
+  (consumers resume from the last durably committed offset)
 - No consumer offset tracking; replay requires full log scan
 - At-least-once delivery is not yet guaranteed for SSE connections
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
