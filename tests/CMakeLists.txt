@@ -1054,6 +1054,41 @@ else()
     message(STATUS "Enhanced Query Cache tests not found")
 endif()
 
+# ============================================================================
+# Cache Warmup Tests (Phase 3 – bulk warmup from query log / snapshot)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_warmup.cpp")
+    message(STATUS "Adding Cache Warmup tests")
+
+    add_executable(test_cache_warmup
+        test_cache_warmup.cpp
+    )
+
+    target_link_libraries(test_cache_warmup PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_warmup PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheWarmupTests COMMAND test_cache_warmup)
+
+    set_tests_properties(CacheWarmupTests PROPERTIES
+        LABELS "cache;warmup;snapshot;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Warmup: warmupFromLog, exportSnapshot, tenant isolation, metrics")
+else()
+    message(STATUS "Cache Warmup tests not found")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 

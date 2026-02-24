@@ -62,7 +62,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 
 ### Phase 3: Operational Excellence and Admin API (Status: In Progress)
 - [I] Implement Admin API for cache inspection, eviction, and reload (`cache/admin_api.cpp`) (Issue: #1599)
-- [I] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
+- [P] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
 - [I] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601)
 - [I] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
 - [I] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
