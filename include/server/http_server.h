@@ -80,6 +80,7 @@
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
 #include "server/api_key_mgmt_handler.h"
+#include "server/session_api_handler.h"
 #include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -557,6 +558,12 @@ private:
     http::response<http::string_body> handleApiKeyUpdate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleApiKeyDelete(const http::request<http::string_body>& req);
 
+    // Session Management endpoints
+    http::response<http::string_body> handleSessionCreate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSessionList(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSessionRevokeById(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSessionRevokeOthers(const http::request<http::string_body>& req);
+
     // PKI endpoints (sign/verify)
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePkiVerify(const http::request<http::string_body>& req);
@@ -822,6 +829,9 @@ private:
     std::unique_ptr<themis::server::KeysApiHandler> keys_api_;
     // API Key Management Handler
     std::unique_ptr<themis::server::ApiKeyMgmtHandler> api_key_mgmt_;
+    // Session Management Handler
+    std::shared_ptr<themis::auth::SessionManager> session_manager_;
+    std::unique_ptr<themis::server::SessionApiHandler> session_api_;
     // PKI API Handler
     std::unique_ptr<themis::server::PkiApiHandler> pki_api_;
     
