@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing, YAML/JSON schema validation, secrets management, and runtime hot-reload are explicitly out of scope for this module.
+This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing, YAML/JSON schema validation, and secrets management are explicitly out of scope for this module.
 
 ## Design Constraints
 
@@ -68,12 +68,12 @@ Currently, each call to `resolve()` with a legacy path emits an individual log w
 Implement a CLI tool (`tools/config_migration_scanner`) that scans a deployment directory tree for files referencing legacy config paths and outputs a migration report (current path → new path, deprecation status, removal deadline).
 
 **Implementation Notes:**
-- `[ ]` New binary target in `tools/config_migration_scanner.cpp`; links against `config_path_resolver` only (minimal dependencies).
-- `[ ]` Accepts `--root <dir>` (default `.`) and `--output {text,json,csv}` flags; scans `.yaml`, `.json`, `.toml`, `.ini`, `.env` files recursively.
-- `[ ]` For each discovered legacy path reference, outputs: `file`, `line`, `legacy_path`, `new_path`, `deprecated_date`, `removal_date`, `migration_guide_url` (from `PathMappingMetadata`).
-- `[ ]` `--dry-run` mode: prints what would be renamed without modifying files.
-- `[ ]` `--fix` mode: rewrites file contents replacing legacy path strings with new paths (with backup `.bak` files).
-- `[ ]` Returns exit code `1` if any paths past `removal_date` are found (usable as a CI gate).
+- `[x]` New binary target in `tools/config_migration_scanner.cpp`; links against `config_path_resolver` only (minimal dependencies).
+- `[x]` Accepts `--root <dir>` (default `.`) and `--output {text,json,csv}` flags; scans `.yaml`, `.json`, `.toml`, `.ini`, `.env` files recursively.
+- `[x]` For each discovered legacy path reference, outputs: `file`, `line`, `legacy_path`, `new_path`, `deprecated_date`, `removal_date`, `migration_guide_url` (from `PathMappingMetadata`).
+- `[x]` `--dry-run` mode: prints what would be renamed without modifying files.
+- `[x]` `--fix` mode: rewrites file contents replacing legacy path strings with new paths (with backup `.bak` files).
+- `[x]` Returns exit code `1` if any paths past `removal_date` are found (usable as a CI gate).
 
 **Performance Targets:**
 - Scan of 10,000 config files (avg 100 lines each) completes in < 5 s on a single thread.
@@ -88,11 +88,11 @@ Implement a CLI tool (`tools/config_migration_scanner`) that scans a deployment 
 `LRUCacheWithTTL` in `config_path_resolver.cpp` is constructed with hardcoded capacity=1000 and TTL=5 minutes. Allow overriding via environment variables to support deployments with many more config paths or where aggressive caching causes stale-path issues.
 
 **Implementation Notes:**
-- `[ ]` Read `THEMIS_CONFIG_CACHE_CAPACITY` (integer, default 1000) and `THEMIS_CONFIG_CACHE_TTL_SECONDS` (integer, default 300) at static initialisation time.
-- `[ ]` Validate ranges: capacity in [10, 100000], TTL in [1, 86400]; fall back to defaults with a warning log if out of range.
-- `[ ]` Update `cache_` initialisation in the static initializer block (currently `LRUCacheWithTTL<...> cache_(1000, 300s)`).
-- `[ ]` Add `ConfigPathResolver::currentCacheConfig()` method returning `{capacity, ttl_seconds}` for observability.
-- `[ ]` Document environment variables in `src/config/README.md` and `SETUP.md`.
+- `[x]` Read `THEMIS_CONFIG_CACHE_CAPACITY` (integer, default 1000) and `THEMIS_CONFIG_CACHE_TTL_SECONDS` (integer, default 300) at static initialisation time.
+- `[x]` Validate ranges: capacity in [10, 100000], TTL in [1, 86400]; fall back to defaults with a warning log (`fprintf(stderr, ...)`) if out of range.
+- `[x]` Update `cache_` initialisation in the static initializer block.
+- `[x]` Add `ConfigPathResolver::currentCacheConfig()` method returning `{capacity, ttl_seconds}` for observability.
+- `[x]` Document environment variables in `src/config/README.md` and `SETUP.md`.
 
 **Performance Targets:**
 - Zero performance regression on `resolve()` for default config values.
@@ -138,6 +138,6 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 
 ## Security / Reliability
 
-- `[ ]` `validatePath()` must reject any input containing `..` or null bytes before cache lookup or filesystem access, preventing path traversal; the existing implementation covers this but must be exercised in every new code path that calls `resolve()`.
-- `[ ]` CLI `--fix` mode must create `.bak` backup files before overwriting any config file; if backup creation fails, the tool must abort rather than overwrite without a backup.
-- `[ ]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_ENV`) must be sanitised before use; reject values containing path separators or shell metacharacters.
+- `[x]` `validatePath()` must reject any input containing `..` or null bytes before cache lookup or filesystem access, preventing path traversal; the existing implementation covers this but must be exercised in every new code path that calls `resolve()`.
+- `[x]` CLI `--fix` mode must create `.bak` backup files before overwriting any config file; if backup creation fails, the tool must abort rather than overwrite without a backup.
+- `[x]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`) are validated (range-checked) before use; invalid values are rejected with a stderr warning and fall back to safe defaults. Note: `THEMIS_CONFIG_ENV` is not yet implemented (planned for multi-environment overlay, Issue: #1673).

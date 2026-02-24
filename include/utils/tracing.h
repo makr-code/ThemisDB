@@ -300,7 +300,24 @@ public:
      * as a 16-character hex string, or empty string when unavailable.
      */
     static std::string getCurrentSpanId();
-    
+
+    /**
+     * Flush any buffered or in-flight spans to the exporter.
+     *
+     * Calls ForceFlush() on the underlying SDK TracerProvider so that all
+     * spans queued in the processor's internal buffer are exported before the
+     * call returns (subject to @p timeout).  When THEMIS_ENABLE_TRACING is
+     * not defined this is a no-op and always returns true.
+     *
+     * @param timeout  Maximum time to wait for the flush to complete.
+     *                 Defaults to 5 seconds.
+     * @return true if all pending spans were exported within the timeout,
+     *         false if the timeout expired or no provider is active.
+     */
+    static bool flush(std::chrono::microseconds timeout =
+                          std::chrono::duration_cast<std::chrono::microseconds>(
+                              std::chrono::seconds(5))) noexcept;
+
 private:
 #ifdef THEMIS_ENABLE_TRACING
     static otel::nostd::shared_ptr<otel::trace::Tracer> getTracer();

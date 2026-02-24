@@ -246,10 +246,10 @@ MultiModelEnrichment MultiModelEnrichment::fromJSON(const nlohmann::json& j) {
 }
 
 // ============================================================================
-// DistributedTrainingConfig – JSON serialisation
+// AQLDistributedTrainingConfig – JSON serialisation
 // ============================================================================
 
-nlohmann::json DistributedTrainingConfig::toJSON() const {
+nlohmann::json AQLDistributedTrainingConfig::toJSON() const {
     return {
         {"enabled",             enabled},
         {"sync_strategy",       sync_strategy},
@@ -259,8 +259,8 @@ nlohmann::json DistributedTrainingConfig::toJSON() const {
     };
 }
 
-DistributedTrainingConfig DistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
-    DistributedTrainingConfig cfg;
+AQLDistributedTrainingConfig AQLDistributedTrainingConfig::fromJSON(const nlohmann::json& j) {
+    AQLDistributedTrainingConfig cfg;
     if (j.contains("enabled"))            cfg.enabled            = j["enabled"];
     if (j.contains("sync_strategy"))      cfg.sync_strategy      = j["sync_strategy"];
     if (j.contains("coordinator_shard"))  cfg.coordinator_shard  = j["coordinator_shard"];
@@ -290,7 +290,7 @@ TrainAdapterStmt TrainAdapterStmt::fromJSON(const nlohmann::json& j) {
     if (j.contains("source_collection")) s.source_collection = j["source_collection"];
     if (j.contains("enrichment"))        s.enrichment        = MultiModelEnrichment::fromJSON(j["enrichment"]);
     if (j.contains("config"))            s.config            = TrainStatementConfig::fromJSON(j["config"]);
-    if (j.contains("distributed"))       s.distributed       = DistributedTrainingConfig::fromJSON(j["distributed"]);
+    if (j.contains("distributed"))       s.distributed       = AQLDistributedTrainingConfig::fromJSON(j["distributed"]);
     if (j.contains("output_path"))       s.output_path       = j["output_path"];
     return s;
 }
@@ -556,8 +556,8 @@ MultiModelEnrichment AQLTrainParser::parseEnrichment(const std::string& using_cl
     return e;
 }
 
-DistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string& aql) {
-    DistributedTrainingConfig cfg;
+AQLDistributedTrainingConfig AQLTrainParser::parseDistributed(const std::string& aql) {
+    AQLDistributedTrainingConfig cfg;
     if (findKeyword(aql, "DISTRIBUTED") == std::string::npos) return cfg;
     cfg.enabled = true;
 
@@ -847,7 +847,7 @@ TrainingQueryBuilder& TrainingQueryBuilder::signAdapter(bool sign) {
     stmt_.config.sign_adapter = sign; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::distributed(const DistributedTrainingConfig& cfg) {
+TrainingQueryBuilder& TrainingQueryBuilder::distributed(const AQLDistributedTrainingConfig& cfg) {
     stmt_.distributed = cfg; return *this;
 }
 
