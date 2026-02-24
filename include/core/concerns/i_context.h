@@ -46,15 +46,16 @@ using IContextPtr = std::shared_ptr<IContext>;
  *
  * ### Well-known attribute keys (use `context_keys::k*` constants)
  *
- * | Key constant   | Meaning                               |
- * |----------------|---------------------------------------|
- * | `kTraceId`     | OpenTelemetry trace-id (hex string)   |
- * | `kRequestId`   | Per-request / per-RPC correlation id  |
- * | `kUserId`      | Authenticated user identifier         |
- * | `kTenantId`    | Multi-tenant partition identifier     |
- * | `kOperation`   | Logical operation name                |
- * | `kService`     | Originating service name              |
- * | `kSessionId`   | Session identifier                    |
+ * | Key constant   | Meaning                                              |
+ * |----------------|------------------------------------------------------|
+ * | `kTraceId`     | OpenTelemetry/W3C trace-id (32 hex chars)            |
+ * | `kSpanId`      | OpenTelemetry/W3C span-id / parent-id (16 hex chars) |
+ * | `kRequestId`   | Per-request / per-RPC correlation id                 |
+ * | `kUserId`      | Authenticated user identifier                        |
+ * | `kTenantId`    | Multi-tenant partition identifier                    |
+ * | `kOperation`   | Logical operation name                               |
+ * | `kService`     | Originating service name                             |
+ * | `kSessionId`   | Session identifier                                   |
  *
  * ### Lifecycle
  *
@@ -170,8 +171,10 @@ public:
  */
 namespace context_keys {
 
-/// OpenTelemetry trace ID (hex string, e.g. "a3b2c1...").
+/// OpenTelemetry trace ID (hex string, 32 lowercase hex chars, e.g. "4bf92f35...").
 inline constexpr std::string_view kTraceId   = "trace_id";
+/// OpenTelemetry span ID / W3C parent-id (hex string, 16 lowercase hex chars, e.g. "00f067aa0ba902b7").
+inline constexpr std::string_view kSpanId    = "span_id";
 /// Per-request / per-RPC correlation identifier.
 inline constexpr std::string_view kRequestId = "request_id";
 /// Authenticated user identifier.
@@ -285,6 +288,7 @@ public:
     TraceContext toTraceContext() const override {
         TraceContext tc;
         if (auto v = get(context_keys::kTraceId))   tc.trace_id   = *v;
+        if (auto v = get(context_keys::kSpanId))    tc.span_id    = *v;
         if (auto v = get(context_keys::kRequestId)) tc.request_id = *v;
         return tc;
     }

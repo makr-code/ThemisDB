@@ -237,3 +237,173 @@ TEST(ContextScopeTest, RestoredAfterException) {
     // Context must be restored to nullptr despite the exception.
     EXPECT_EQ(nullptr, ContextPropagation::current());
 }
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext — kSpanId key and toTraceContext()
+// ---------------------------------------------------------------------------
+
+TEST(W3CTraceContextTest, SpanIdKeyStoresAndRetrieves) {
+    auto ctx = SimpleContext::create("abc123", "req-1");
+    ctx->set(context_keys::kSpanId, "def456");
+
+    EXPECT_EQ("def456", ctx->get(context_keys::kSpanId).value_or(""));
+}
+
+TEST(W3CTraceContextTest, ToTraceContextIncludesSpanId) {
+    auto ctx = SimpleContext::create("trace-id-val", "req-id-val");
+    ctx->set(context_keys::kSpanId, "span-id-val");
+
+    const auto tc = ctx->toTraceContext();
+
+    EXPECT_EQ("trace-id-val", tc.trace_id);
+    EXPECT_EQ("span-id-val",  tc.span_id);
+    EXPECT_EQ("req-id-val",   tc.request_id);
+}
+
+TEST(W3CTraceContextTest, ToTraceContextSpanIdEmptyWhenNotSet) {
+    auto ctx = SimpleContext::create("t", "r");
+    // kSpanId is never set.
+    EXPECT_TRUE(ctx->toTraceContext().span_id.empty());
+}
+
+TEST(W3CTraceContextTest, SpanIdInheritedByChild) {
+    auto parent = SimpleContext::create("trace-abc", "req-42");
+    parent->set(context_keys::kSpanId, "span-ff00");
+
+    auto child = parent->createChild();
+    EXPECT_EQ("span-ff00", child->get(context_keys::kSpanId).value_or(""));
+    EXPECT_EQ("span-ff00", child->toTraceContext().span_id);
+}
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext — formatTraceparent()
+// ---------------------------------------------------------------------------
+
+TEST(W3CTraceContextTest, FormatTraceparentProducesCorrectHeader) {
+    auto ctx = SimpleContext::create("4bf92f3577b34da6a3ce929d0e0e4736", "req-1");
+    ctx->set(context_keys::kSpanId, "00f067aa0ba902b7");
+
+    const auto tp = w3c_trace_context::formatTraceparent(*ctx);
+
+    EXPECT_EQ("00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01", tp);
+}
+
+TEST(W3CTraceContextTest, FormatTraceparentEmptyWhenTraceIdMissing) {
+    auto ctx = SimpleContext::create();
+    ctx->set(context_keys::kSpanId, "00f067aa0ba902b7");
+    // kTraceId not set → empty result.
+    EXPECT_TRUE(w3c_trace_context::formatTraceparent(*ctx).empty());
+}
+
+TEST(W3CTraceContextTest, FormatTraceparentEmptyWhenSpanIdMissing) {
+    auto ctx = SimpleContext::create("4bf92f3577b34da6a3ce929d0e0e4736", "");
+    // kSpanId not set → empty result.
+    EXPECT_TRUE(w3c_trace_context::formatTraceparent(*ctx).empty());
+}
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext — parseTraceparent()
+// ---------------------------------------------------------------------------
+
+TEST(W3CTraceContextTest, ParseValidTraceparent) {
+    const std::string tp = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
+    auto ctx = w3c_trace_context::parseTraceparent(tp);
+
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_EQ("4bf92f3577b34da6a3ce929d0e0e4736",
+              ctx->get(context_keys::kTraceId).value_or(""));
+    EXPECT_EQ("00f067aa0ba902b7",
+              ctx->get(context_keys::kSpanId).value_or(""));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsTooShort) {
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent("00-abc-def-01"));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsAllZeroTraceId) {
+    const std::string tp = "00-00000000000000000000000000000000-00f067aa0ba902b7-01";
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent(tp));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsAllZeroSpanId) {
+    const std::string tp = "00-4bf92f3577b34da6a3ce929d0e0e4736-0000000000000000-01";
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent(tp));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsWrongTraceIdLength) {
+    // trace-id has 31 chars instead of 32.
+    const std::string tp = "00-4bf92f3577b34da6a3ce929d0e047-00f067aa0ba902b7-01";
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent(tp));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsWrongSpanIdLength) {
+    // parent-id has 15 chars instead of 16.
+    const std::string tp = "00-4bf92f3577b34da6a3ce929d0e0e4736-0f067aa0ba902b7-01";
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent(tp));
+}
+
+TEST(W3CTraceContextTest, ParseTraceparentRejectsEmptyString) {
+    EXPECT_EQ(nullptr, w3c_trace_context::parseTraceparent(""));
+}
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext — round-trip encode/decode
+// ---------------------------------------------------------------------------
+
+TEST(W3CTraceContextTest, RoundTripFormatParse) {
+    const std::string trace_id = "4bf92f3577b34da6a3ce929d0e0e4736";
+    const std::string span_id  = "00f067aa0ba902b7";
+
+    auto ctx = SimpleContext::create(trace_id, "");
+    ctx->set(context_keys::kSpanId, span_id);
+
+    const auto header = w3c_trace_context::formatTraceparent(*ctx);
+    ASSERT_FALSE(header.empty());
+
+    const auto parsed = w3c_trace_context::parseTraceparent(header);
+    ASSERT_NE(nullptr, parsed);
+
+    EXPECT_EQ(trace_id, parsed->get(context_keys::kTraceId).value_or(""));
+    EXPECT_EQ(span_id,  parsed->get(context_keys::kSpanId).value_or(""));
+}
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext — propagation through async boundary
+// ---------------------------------------------------------------------------
+
+TEST(W3CTraceContextTest, TraceparentPropagatesAcrossAsyncBoundary) {
+    // Install a context with W3C trace/span IDs.
+    const std::string trace_id = "1234567890abcdef1234567890abcdef";
+    const std::string span_id  = "fedcba0987654321";
+
+    auto ctx = SimpleContext::create(trace_id, "req-99");
+    ctx->set(context_keys::kSpanId, span_id);
+
+    ContextScope scope(ctx);
+
+    // Spawn async task — the child context inherits trace_id and span_id.
+    auto fut = ContextPropagation::propagate([]() -> std::string {
+        auto c = ContextPropagation::current();
+        if (!c) return "";
+        return w3c_trace_context::formatTraceparent(*c);
+    });
+
+    const auto result = fut.get();
+    EXPECT_EQ("00-" + trace_id + "-" + span_id + "-01", result);
+}
+
+TEST(W3CTraceContextTest, ParsedContextInstalledViaScope) {
+    // Simulate an inbound HTTP handler that receives a traceparent header.
+    const std::string header =
+        "00-aabbccddeeff00112233445566778899-0102030405060708-01";
+
+    auto incoming = w3c_trace_context::parseTraceparent(header);
+    ASSERT_NE(nullptr, incoming);
+
+    ContextScope scope(incoming);
+
+    EXPECT_EQ("aabbccddeeff00112233445566778899",
+              ContextPropagation::current()->get(context_keys::kTraceId).value_or(""));
+    EXPECT_EQ("0102030405060708",
+              ContextPropagation::current()->get(context_keys::kSpanId).value_or(""));
+}

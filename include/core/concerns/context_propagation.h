@@ -3,6 +3,8 @@
 #include "core/concerns/i_context.h"
 #include <future>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <utility>
 
 namespace themis {
@@ -186,6 +188,136 @@ auto ContextPropagation::propagate(Fn&& fn)
             return f();
         });
 }
+
+} // namespace concerns
+} // namespace core
+} // namespace themis
+
+// ---------------------------------------------------------------------------
+// W3C TraceContext helpers for async context propagation
+// ---------------------------------------------------------------------------
+
+namespace themis {
+namespace core {
+namespace concerns {
+
+/**
+ * @namespace themis::core::concerns::w3c_trace_context
+ * @brief Utilities for encoding and decoding W3C Trace Context headers
+ *        to/from `IContext`.
+ *
+ * These helpers connect the thread-local async context propagation mechanism
+ * (`ContextPropagation` / `ContextScope`) with the W3C Trace Context Level 1
+ * standard so that distributed traces can cross async/thread boundaries
+ * without losing the upstream trace and span identifiers.
+ *
+ * ### Typical usage — inbound request
+ * @code
+ *   // At the HTTP handler entry point:
+ *   auto ctx = w3c_trace_context::parseTraceparent(
+ *       request.header("traceparent"));
+ *   if (!ctx) ctx = SimpleContext::create();
+ *   ContextScope scope(ctx);
+ *
+ *   // Spawn async work — W3C trace/span IDs propagate automatically.
+ *   auto fut = ContextPropagation::propagate([]() { ... });
+ * @endcode
+ *
+ * ### Typical usage — outbound call
+ * @code
+ *   // Inside any async task that has an active ContextScope:
+ *   auto traceparent = w3c_trace_context::formatTraceparent(
+ *       *ContextPropagation::current());
+ *   if (!traceparent.empty()) {
+ *       outboundHeaders["traceparent"] = traceparent;
+ *   }
+ * @endcode
+ */
+namespace w3c_trace_context {
+
+/**
+ * @brief Generate a W3C `traceparent` header value from an `IContext`.
+ *
+ * Reads `context_keys::kTraceId` (32 hex chars) and
+ * `context_keys::kSpanId` (16 hex chars) from @p ctx and formats them as a
+ * W3C Trace Context Level 1 `traceparent` header:
+ * @code
+ *   "00-{trace-id}-{span-id}-01"
+ * @endcode
+ *
+ * The sampled flag is fixed at `01` (sampled).  If you need to propagate
+ * the original flags, store them under `context_keys::kSpanId` or extend
+ * this utility.
+ *
+ * @param ctx  Source context.  Must have `kTraceId` and `kSpanId` set.
+ * @return     A `traceparent` header value string, or an empty string if
+ *             either `kTraceId` or `kSpanId` is absent or empty.
+ */
+inline std::string formatTraceparent(const IContext& ctx) {
+    const auto trace_id = ctx.get(context_keys::kTraceId);
+    const auto span_id  = ctx.get(context_keys::kSpanId);
+    if (!trace_id || trace_id->empty() || !span_id || span_id->empty()) {
+        return {};
+    }
+    return "00-" + *trace_id + "-" + *span_id + "-01";
+}
+
+/**
+ * @brief Parse a W3C `traceparent` header and create an `IContext` with the
+ *        extracted trace and span identifiers.
+ *
+ * Parses the W3C Trace Context Level 1 format:
+ * @code
+ *   "{version}-{trace-id}-{parent-id}-{trace-flags}"
+ *   e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+ * @endcode
+ *
+ * On success returns a `SimpleContext` with:
+ *   - `context_keys::kTraceId`  set to the 32-char trace-id
+ *   - `context_keys::kSpanId`   set to the 16-char parent-id
+ *
+ * The returned context can be installed with `ContextScope` so that
+ * `ContextPropagation::propagate()` automatically flows the W3C trace
+ * context into every spawned async task.
+ *
+ * @param header  The value of an inbound `traceparent` HTTP header.
+ * @return        An `IContextPtr` with `kTraceId` and `kSpanId` populated,
+ *                or `nullptr` if @p header is absent, shorter than 55 chars,
+ *                does not match the expected dash-separated format, has
+ *                wrong field lengths, or carries all-zero trace / span IDs
+ *                (which are invalid per the W3C spec).
+ */
+inline IContextPtr parseTraceparent(std::string_view header) {
+    // Minimum valid length: "00-{32hex}-{16hex}-{2hex}" = 55 chars.
+    if (header.size() < 55) return nullptr;
+
+    const auto d1 = header.find('-');
+    if (d1 == std::string_view::npos) return nullptr;
+
+    const auto d2 = header.find('-', d1 + 1);
+    if (d2 == std::string_view::npos) return nullptr;
+
+    const auto d3 = header.find('-', d2 + 1);
+    if (d3 == std::string_view::npos) return nullptr;
+
+    const auto trace_id  = header.substr(d1 + 1, d2 - d1 - 1);
+    const auto parent_id = header.substr(d2 + 1, d3 - d2 - 1);
+
+    // W3C spec: trace-id must be 32 hex chars; parent-id must be 16 hex chars.
+    if (trace_id.size()  != 32) return nullptr;
+    if (parent_id.size() != 16) return nullptr;
+
+    // W3C spec: all-zero IDs are invalid.
+    if (trace_id  == "00000000000000000000000000000000") return nullptr;
+    if (parent_id == "0000000000000000") return nullptr;
+
+    auto ctx = SimpleContext::create();
+    ctx->set(context_keys::kTraceId, trace_id);
+    ctx->set(context_keys::kSpanId,  parent_id);
+    return ctx;
+}
+
+} // namespace w3c_trace_context
 
 } // namespace concerns
 } // namespace core
