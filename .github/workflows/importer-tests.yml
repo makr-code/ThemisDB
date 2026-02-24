@@ -82,24 +82,12 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install build dependencies (${{ matrix.compiler }})
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y \
-            cmake ninja-build \
-            ${{ matrix.cc }} ${{ matrix.cxx }} \
-            nlohmann-json3-dev \
-            libgtest-dev \
-            pkg-config
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || sudo cp *.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: nlohmann-json3-dev
 
       - name: Configure (importer tests only)
         env:

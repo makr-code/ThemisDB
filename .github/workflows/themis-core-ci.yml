@@ -154,30 +154,12 @@ jobs:
         with:
           fetch-depth: 0   # full history so git commit metadata is captured
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y \
-            cmake ninja-build \
-            ${{ matrix.cc }} ${{ matrix.cxx }} \
-            libgtest-dev \
-            libssl-dev \
-            libcurl4-openssl-dev \
-            libboost-all-dev \
-            pkg-config \
-            git
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ] && \
-             [ ! -f /usr/lib/aarch64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
-            sudo cp *.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev
 
       - name: Configure (core framework, tests only)
         env:
@@ -344,20 +326,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y \
-            cmake ninja-build gcc-12 g++-12 \
-            libgtest-dev libssl-dev libcurl4-openssl-dev \
-            libboost-all-dev lcov pkg-config git
-
-      - name: Build GTest
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ]; then
-            cd /usr/src/gtest && sudo cmake . && sudo make -j$(nproc) && \
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             gcc-12
+          cxx:            g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev lcov
 
       - name: Configure with coverage flags
         env:

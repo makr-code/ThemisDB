@@ -53,16 +53,6 @@ concurrency:
   cancel-in-progress: true
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Common install step shared across jobs
-# ─────────────────────────────────────────────────────────────────────────────
-env:
-  APT_DEPS: >-
-    cmake ninja-build
-    libgtest-dev libssl-dev libcurl4-openssl-dev
-    libboost-all-dev nlohmann-json3-dev
-    pkg-config git
-
-# ─────────────────────────────────────────────────────────────────────────────
 # Jobs
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -113,21 +103,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            ${{ matrix.cc }} ${{ matrix.cxx }}
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             ${{ matrix.cc }}
+          cxx:            ${{ matrix.cxx }}
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev
 
       - name: Configure (${{ matrix.edition }} edition)
         env:
@@ -206,23 +187,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            gcc-12 g++-12 clang-15 clang++-15
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_C_COMPILER=gcc-12 \
-              -DCMAKE_CXX_COMPILER=g++-12 .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             gcc-12
+          cxx:            g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-15 clang++-15
 
       - name: Configure with ASan + UBSan
         run: |
@@ -348,21 +318,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ${{ env.APT_DEPS }} \
-            clang-15 clang++-15 clang-tidy-15
-
-      - name: Build GTest from source (if needed)
-        run: |
-          if [ ! -f /usr/lib/libgtest.a ] && \
-             [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
-            cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
-            sudo make -j$(nproc)
-            sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
-          fi
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:             clang-15
+          cxx:            clang++-15
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-tidy-15
 
       - name: Configure (generate compile_commands.json)
         run: |
