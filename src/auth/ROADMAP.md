@@ -26,7 +26,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
+- [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
 - [I] Session management and revocation endpoint (Issue: #1983)
 - [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
@@ -34,7 +34,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] Configurable password policy enforcement (Issue: #2013)
 
 ### Long-term (6-12 months)
-- [I] SAML 2.0 SP-initiated and IdP-initiated SSO (Issue: #1536)
+- [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
 - [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 - [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)

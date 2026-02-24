@@ -190,6 +190,8 @@ set(THEMIS_STORAGE_SOURCES
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    # Atomic history and conflict layer
+    ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
@@ -283,6 +285,10 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
+    ../src/analytics/ml_serving.cpp
+
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
     ../src/analytics/distributed_analytics.cpp
     
     # AQL handlers
@@ -865,6 +871,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+    endif()
+    if(onnxruntime_FOUND)
+        list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
     
     themis_add_module(query
