@@ -117,5 +117,24 @@ private:
     std::string config_path_;
 };
 
+/**
+ * Thrown when a config or schema file cannot be read or parsed during
+ * schema validation (ConfigSchemaValidator).
+ */
+class SchemaValidationException : public ConfigException {
+public:
+    SchemaValidationException(const std::string& file_path, const std::string& reason)
+        : ConfigException("Schema validation error for '" + file_path + "': " + reason),
+          file_path_(file_path),
+          reason_(reason) {}
+
+    const std::string& file_path() const { return file_path_; }
+    const std::string& reason() const { return reason_; }
+
+private:
+    std::string file_path_;
+    std::string reason_;
+};
+
 } // namespace config
 } // namespace themis
