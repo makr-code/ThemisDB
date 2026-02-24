@@ -363,6 +363,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/webauthn_authenticator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp

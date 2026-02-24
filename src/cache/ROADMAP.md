@@ -20,17 +20,17 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Per-tenant size quotas
 
 ## In Progress 🚧
-- [I] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
-- [I] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
+- [x] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
+- [x] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
 - [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
 - [I] Health checks and cache diagnostics endpoint (Target: Q3 2026) (Issue: #1580)
-- [I] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
+- [x] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
-- [I] Bulk warmup from query logs or snapshot (Issue: #1583)
+- [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
+- [x] Bulk warmup from query logs or snapshot (Issue: #1583)
 - [I] Tenant-level cache statistics dashboard (Issue: #1584)
 - [I] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
 - [I] Cache hit rate SLO alerting (Issue: #1586)
@@ -61,11 +61,11 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Implemented per-tenant size quotas with configurable byte limits
 
 ### Phase 3: Operational Excellence and Admin API (Status: In Progress)
-- [I] Implement Admin API for cache inspection, eviction, and reload (`cache/admin_api.cpp`) (Issue: #1599)
-- [P] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
+- [x] Implement Admin API for cache inspection, eviction, and reload (`server/cache_admin_api_handler.cpp`) (Issue: #1599)
+- [x] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
 - [I] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601)
 - [I] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
-- [I] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
+- [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
 
 ### Phase 4: Distributed Cache and Predictive Features (Status: Planned)
 - [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
@@ -82,7 +82,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] API stability guaranteed for cache read/write/invalidate
 
 ## Known Issues & Limitations
-- Admin API is not yet implemented (Phase 3 in progress)
+- Admin API is implemented (`/v1/admin/cache/` endpoints); tenant management API is still in progress
 - Adaptive TTL tuning is not yet active
 - Distributed cache coordination requires external Redis or future built-in cluster mode
 - Predictive pre-fetching is not yet implemented

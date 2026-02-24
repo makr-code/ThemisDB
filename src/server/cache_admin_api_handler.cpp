@@ -131,6 +131,34 @@ bool CacheAdminApiHandler::checkAuth(
 // Endpoint handlers
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// GET /v1/admin/cache/health
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleHealth(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:read", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    try {
+        nlohmann::json body = cache_->getHealthStatus();
+        bool healthy = body.value("healthy", true);
+        auto status = healthy ? http::status::ok : http::status::service_unavailable;
+        return makeResponse(status, body.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin health error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> CacheAdminApiHandler::handleStats(
     const http::request<http::string_body>& req)
 {
