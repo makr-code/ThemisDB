@@ -19,7 +19,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
 
 ## In Progress 🚧
-- [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
+- [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (Target: Q2 2026)
 - [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
@@ -54,7 +54,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
-- [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
+- [x] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
 - [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
 - [x] Attribute-based access control (ABAC) engine (Target: Q3 2026)
