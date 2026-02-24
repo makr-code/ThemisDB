@@ -29,7 +29,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
 - [x] Session management and revocation endpoint (Issue: #1983)
-- [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
+- [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
 - [I] Audit logging for all authentication events (Issue: #1534)
 - [I] Configurable password policy enforcement (Issue: #2013)
 
@@ -63,7 +63,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
 - [x] OAuth 2.0 PKCE flow for public clients
 - [x] API key authentication (static key + secret)
-- [ ] WebAuthn/FIDO2 hardware token support
+- [x] WebAuthn/FIDO2 hardware token support
 - [x] Session management and revocation endpoint
 - [x] Configurable password policy enforcement
 - [ ] Audit logging for all authentication events
@@ -78,6 +78,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
 
 ## Known Issues & Limitations
+- ABAC (attribute-based) access control is limited to role-based rules currently
 - WebAuthn support is planned but not started
 - LDAP direct bind is not supported; only Kerberos-based AD integration
 
