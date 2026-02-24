@@ -110,6 +110,26 @@ public:
     http::response<http::string_body> handleSnapshot(
         const http::request<http::string_body>& req);
 
+    /**
+     * GET /v1/admin/cache/tenants
+     *
+     * Returns an array of all known tenants with aggregated statistics
+     * (bytes_used, quota, utilization, hits, misses, hit_rate, evictions).
+     * Requires "admin:cache:read" scope.
+     */
+    http::response<http::string_body> handleListTenants(
+        const http::request<http::string_body>& req);
+
+    /**
+     * GET /v1/admin/cache/tenant/{tenant_id}/stats
+     *
+     * Returns per-tenant statistics for the given tenant_id.
+     * Requires "admin:cache:read" scope.
+     * Returns 404 when the tenant has no recorded cache activity.
+     */
+    http::response<http::string_body> handleTenantStats(
+        const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<AdaptiveQueryCache> cache_;
     std::shared_ptr<AuthMiddleware> auth_;
