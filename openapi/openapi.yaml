@@ -277,6 +277,118 @@ paths:
                   # TYPE vccdb_requests_total counter
                   vccdb_requests_total 1
                   ...
+  /auth/sessions:
+    post:
+      summary: Session erstellen
+      operationId: createSession
+      tags: [auth]
+      description: |
+        Erstellt eine neue authentifizierte Session für den aufrufenden Benutzer.
+        Die Session-ID wird nur einmal zurückgegeben und dient als Sitzungs-Token.
+      security:
+        - bearerAuth: [auth:sessions]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+            examples:
+              with_fingerprint:
+                summary: Session mit Gerätefingerabdruck
+                value:
+                  device_fingerprint: "fp-abc123"
+                  user_agent: "Mozilla/5.0 ..."
+      responses:
+        '200':
+          description: Session erfolgreich erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionInfo'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    get:
+      summary: Aktive Sessions auflisten
+      operationId: listSessions
+      tags: [auth]
+      description: |
+        Listet alle aktiven (nicht abgelaufenen) Sessions des authentifizierten Benutzers auf.
+        Optionaler Query-Parameter `current_session_id` markiert die aktuelle Session.
+      security:
+        - bearerAuth: [auth:sessions]
+      parameters:
+        - in: query
+          name: current_session_id
+          schema: { type: string }
+          description: Optional – Session-ID der aktuellen Sitzung (wird in der Ausgabe als `is_current` markiert)
+      responses:
+        '200':
+          description: Liste der aktiven Sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    delete:
+      summary: Alle anderen Sessions widerrufen
+      operationId: revokeAllOtherSessions
+      tags: [auth]
+      description: |
+        Widerruft alle aktiven Sessions des authentifizierten Benutzers außer der angegebenen
+        aktuellen Session ("Logout Everywhere").
+      security:
+        - bearerAuth: [auth:sessions]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_session_id:
+                  type: string
+                  description: Session-ID, die beibehalten werden soll.
+                  example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+      responses:
+        '200':
+          description: Alle anderen Sessions widerrufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeAllSessionsResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /auth/sessions/{session_id}:
+    delete:
+      summary: Einzelne Session widerrufen
+      operationId: revokeSession
+      tags: [auth]
+      description: |
+        Widerruft eine spezifische Session. Ein Benutzer kann nur eigene Sessions widerrufen.
+        Admins (Scope `admin:all`) können beliebige Sessions widerrufen.
+      security:
+        - bearerAuth: [auth:sessions]
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema: { type: string }
+          description: ID der zu widerrufenden Session
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+      responses:
+        '200':
+          description: Session erfolgreich widerrufen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevokeSessionResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/InternalError' }
   /api/keys:
     post:
       summary: API-Key erstellen
@@ -6400,6 +6512,100 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    CreateSessionRequest:
+      type: object
+      description: Optionaler Anfragekörper beim Erstellen einer Session.
+      properties:
+        device_fingerprint:
+          type: string
+          description: Optionaler Gerätefingerabdruck für Anzeigezwecke.
+          example: "fp-abc123"
+        user_agent:
+          type: string
+          description: HTTP User-Agent-String des Clients.
+          example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    SessionInfo:
+      type: object
+      description: Metadaten einer aktiven Session.
+      required: [session_id, user_id, created_at, last_accessed_at]
+      properties:
+        session_id:
+          type: string
+          description: Eindeutige Session-ID (Prefix "sess_" + 32 Hex-Zeichen).
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+        user_id:
+          type: string
+          description: Benutzer-ID des Session-Eigentümers.
+          example: "alice"
+        device_fingerprint:
+          type: string
+          description: Gerätefingerabdruck (sofern beim Erstellen angegeben).
+          example: "fp-abc123"
+        ip_address:
+          type: string
+          description: Client-IP-Adresse beim Erstellen der Session.
+          example: "192.168.1.1"
+        user_agent:
+          type: string
+          description: HTTP User-Agent des Clients beim Erstellen.
+          example: "curl/7.88"
+        created_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt der Session-Erstellung (ISO 8601, UTC).
+          example: "2026-02-24T12:00:00Z"
+        last_accessed_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt des letzten Zugriffs (ISO 8601, UTC).
+          example: "2026-02-24T12:05:00Z"
+        expires_at:
+          type: string
+          format: date-time
+          description: Absolutes Ablaufdatum der Session (optional; fehlt bei unbegrenzter Lebensdauer).
+          example: "2026-03-25T12:00:00Z"
+        is_current:
+          type: boolean
+          description: Gibt an, ob dies die aktuell verwendete Session ist (nur in listSessions).
+          example: true
+    ListSessionsResponse:
+      type: object
+      description: Liste aktiver Sessions des Benutzers.
+      required: [sessions, total]
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionInfo'
+          description: Aktive Sessions, sortiert nach Erstellungszeit (älteste zuerst).
+        total:
+          type: integer
+          description: Gesamtanzahl aktiver Sessions.
+          example: 3
+    RevokeSessionResponse:
+      type: object
+      description: Ergebnis eines Einzel-Session-Widerrufs.
+      required: [success, session_id]
+      properties:
+        success:
+          type: boolean
+          example: true
+        session_id:
+          type: string
+          description: ID der widerrufenen Session.
+          example: "sess_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+    RevokeAllSessionsResponse:
+      type: object
+      description: Ergebnis eines Massen-Session-Widerrufs.
+      required: [success, terminated]
+      properties:
+        success:
+          type: boolean
+          example: true
+        terminated:
+          type: integer
+          description: Anzahl der widerrufenen Sessions.
+          example: 4
     AsyncJobSubmitRequest:
       type: object
       description: Request body for submitting an async AQL job.
