@@ -32,11 +32,14 @@ This document summarizes the implementation of API versioning and compatibility 
 
 #### API Gateway Integration (`include/server/api_gateway.h`, `src/server/api_gateway.cpp`)
 
-- **Accept-Version header parsing**: Extracts and validates API version from requests
-- **API-Version response header**: Indicates version used to process request
-- **Deprecation headers**: RFC-compliant warning headers
-  - `Deprecation`: Indicates deprecated status
-  - `Sunset`: RFC 8594 - removal date
+- **URL path-based version routing**: Extracts version from `/v1/`, `/v2/` path prefixes (takes precedence over header)
+  - `extractVersionFromPath()`: parses leading `/v{N}[.M[.P]]/` segments (semver-style, max 3 components)
+  - `stripVersionPrefix()`: removes the version prefix so handlers receive canonical paths (e.g. `/v1/entities/123` → `/entities/123`); query strings are preserved
+- **Accept-Version header parsing**: Fallback when no URL path prefix is present
+- **API-Version response header**: Indicates the resolved version used to process the request
+- **Deprecation headers**: RFC-compliant warning headers on deprecated endpoints
+  - `Deprecation`: Indicates deprecated status with version metadata
+  - `Sunset`: RFC 8594 — removal date
   - `Link`: Migration guide URL
 - **Version resolution**: Automatic fallback to current version if not specified
 
@@ -106,7 +109,21 @@ Modified existing files to integrate versioning:
 
 ## Key Features
 
-### ✅ Accept-Version Header
+### ✅ URL Path-Based Versioning (Primary)
+
+```http
+GET /v1/entities/urn:themis:entity:123
+```
+
+Response:
+```http
+HTTP/1.1 200 OK
+API-Version: v1.4.1
+```
+
+The `/v1/` prefix is stripped before the request reaches the handler; handlers see `/entities/urn:themis:entity:123`. Query strings are preserved.
+
+### ✅ Accept-Version Header (Fallback)
 
 ```http
 GET /api/entities/123

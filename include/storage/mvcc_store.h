@@ -110,6 +110,37 @@ public:
     HLCTimestamp put(std::string_view key, const std::vector<uint8_t>& value);
 
     /**
+     * @brief Write a versioned history entry for @p key within an existing transaction.
+     *
+     * Both the live-key write and this call share @p txn so they commit
+     * atomically.  The HLC clock is advanced and the timestamp is returned.
+     *
+     * @param txn   Active RocksDB transaction.
+     * @param key   The base (live) key whose value is being recorded.
+     * @param value The value bytes to store in the history entry.
+     * @return The HLC timestamp assigned to this history entry.
+     */
+    HLCTimestamp putInTxn(
+        RocksDBWrapper::TransactionWrapper& txn,
+        std::string_view key,
+        const std::vector<uint8_t>& value
+    );
+
+    /**
+     * @brief Write a tombstone history entry for @p key within an existing transaction.
+     *
+     * Records a deletion event in the history keyspace (op = "del").
+     *
+     * @param txn  Active RocksDB transaction.
+     * @param key  The base (live) key that was deleted.
+     * @return The HLC timestamp assigned to this tombstone entry.
+     */
+    HLCTimestamp delInTxn(
+        RocksDBWrapper::TransactionWrapper& txn,
+        std::string_view key
+    );
+
+    /**
      * @brief Write a new version of @p key with an explicit timestamp.
      *
      * Useful when the caller already holds a commit timestamp, e.g. from

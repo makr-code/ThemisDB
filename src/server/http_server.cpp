@@ -620,6 +620,10 @@ HttpServer::HttpServer(
     // Initialize API Key Management Handler
     api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
     THEMIS_INFO("API Key Management Handler initialized");
+    // Initialize Session Management Handler
+    session_manager_ = std::make_shared<themis::auth::SessionManager>();
+    session_api_ = std::make_unique<themis::server::SessionApiHandler>(auth_, session_manager_);
+    THEMIS_INFO("Session Management Handler initialized");
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
         pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
@@ -1920,6 +1924,8 @@ namespace {
     AdminCacheCbStatusGet,          // GET  /v1/admin/cache/circuit-breaker
     AdminCacheWarmupPost,           // POST /v1/admin/cache/warmup
     AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
+    AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
+    AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2160,6 +2166,11 @@ namespace {
     ApiKeyGet,               // GET    /api/keys/{id}
     ApiKeyPut,               // PUT    /api/keys/{id}
     ApiKeyDelete,            // DELETE /api/keys/{id}
+    // Session Management
+    SessionPost,             // POST   /auth/sessions
+    SessionListGet,          // GET    /auth/sessions
+    SessionDeleteById,       // DELETE /auth/sessions/{id}
+    SessionDeleteOthers,     // DELETE /auth/sessions  (revoke all others)
 
         NotFound
     };
@@ -2250,6 +2261,12 @@ namespace {
     if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
     if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
     if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
+    if (path_only == "/v1/admin/cache/tenants" && method == http::verb::get) return Route::AdminCacheTenantsGet;
+    // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/stats") == path_only.size() - 6 &&
+        method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
@@ -2608,6 +2625,15 @@ namespace {
         if (method == http::verb::get)    return Route::ApiKeyGet;
         if (method == http::verb::put)    return Route::ApiKeyPut;
         if (method == http::verb::delete_) return Route::ApiKeyDelete;
+    }
+    // Session Management: /auth/sessions and /auth/sessions/{id}
+    if (path_only == "/auth/sessions") {
+        if (method == http::verb::post)    return Route::SessionPost;
+        if (method == http::verb::get)     return Route::SessionListGet;
+        if (method == http::verb::delete_) return Route::SessionDeleteOthers;
+    }
+    if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
+        if (method == http::verb::delete_) return Route::SessionDeleteById;
     }
 
         return Route::NotFound;
@@ -3161,6 +3187,20 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AdminCacheSnapshotPost:
             if (cache_admin_api_) {
                 response = cache_admin_api_->handleSnapshot(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleListTenants(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleTenantStats(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
@@ -4324,6 +4364,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             else
                 response = makeErrorResponse(http::status::service_unavailable,
                     "Async job API not available", req);
+            break;
+
         // ── API Key Management ───────────────────────────────────────────────
         case Route::ApiKeyPost:
             response = handleApiKeyCreate(req);
@@ -4339,6 +4381,20 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ApiKeyDelete:
             response = handleApiKeyDelete(req);
+            break;
+
+        // ── Session Management ────────────────────────────────────────────────
+        case Route::SessionPost:
+            response = handleSessionCreate(req);
+            break;
+        case Route::SessionListGet:
+            response = handleSessionList(req);
+            break;
+        case Route::SessionDeleteById:
+            response = handleSessionRevokeById(req);
+            break;
+        case Route::SessionDeleteOthers:
+            response = handleSessionRevokeOthers(req);
             break;
 
         case Route::NotFound:
@@ -4860,6 +4916,155 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
             return makeErrorResponse(http::status::bad_request, "Invalid key id", req);
         }
         auto result = api_key_mgmt_->deleteKey(key_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Session Management Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleSessionCreate(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        json body;
+        if (!req.body().empty()) {
+            try { body = json::parse(req.body()); } catch (...) {
+                return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+            }
+        }
+        // Extract client IP from X-Forwarded-For or remote endpoint
+        std::string client_ip;
+        auto fwd = req.find("X-Forwarded-For");
+        if (fwd != req.end()) {
+            client_ip = std::string(fwd->value());
+            auto comma = client_ip.find(',');
+            if (comma != std::string::npos) client_ip = client_ip.substr(0, comma);
+            // Trim leading and trailing whitespace
+            auto first = client_ip.find_first_not_of(" \t");
+            auto last  = client_ip.find_last_not_of(" \t");
+            client_ip = (first == std::string::npos) ? "" : client_ip.substr(first, last - first + 1);
+        }
+        auto result = session_api_->createSession(*token, body, client_ip);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::created, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        // Optionally accept current session from a header or query param
+        std::string current_session;
+        auto cs_hdr = req.find("X-Session-Id");
+        if (cs_hdr != req.end()) current_session = std::string(cs_hdr->value());
+        auto result = session_api_->listSessions(*token, current_session);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionRevokeById(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        auto session_id = extractPathParam(std::string(req.target()), "/auth/sessions/");
+        if (session_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing session id", req);
+        }
+        auto result = session_api_->revokeSession(*token, session_id);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!session_api_) {
+            return makeErrorResponse(http::status::service_unavailable, "Session management not available", req);
+        }
+        auto it = req.find(http::field::authorization);
+        if (it == req.end()) {
+            return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
+        }
+        auto token = themis::AuthMiddleware::extractBearerToken(
+            std::string_view(it->value().data(), it->value().size()));
+        if (!token) {
+            return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
+        }
+        std::string current_session;
+        if (!req.body().empty()) {
+            try {
+                auto body = json::parse(req.body());
+                if (body.contains("current_session_id") && body["current_session_id"].is_string()) {
+                    current_session = body["current_session_id"].get<std::string>();
+                }
+            } catch (...) {
+                return makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+            }
+        }
+        auto result = session_api_->revokeAllOtherSessions(*token, current_session);
         if (result.contains("status_code")) {
             int sc = result.value("status_code", 500);
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);

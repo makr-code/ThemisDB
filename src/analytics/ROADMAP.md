@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, and real-time anomaly detection.
+Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, real-time anomaly detection, and model serving / online inference pipeline.
 
 ## Completed ✅
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS
@@ -27,6 +27,8 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
 - [x] AutoML integration for automated model selection: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
 - [x] CEP engine-level backpressure handling and buffer management: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics (`analytics/cep_engine.cpp`)
+- [x] Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` abstraction with `DataPoint` integration and graceful degradation when backends are absent (`analytics/ml_serving.cpp`)
+- [x] Model serving and online inference pipeline: thread-safe named+versioned model registry, online/batch inference, class-probability output, per-model health metrics, serialization round-trip (`analytics/model_serving.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
@@ -41,9 +43,9 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Long-term (6-12 months)
 - [I] Predictive analytics and time-series forecasting (Issue: #1473)
 - [I] AutoML integration for automated model selection (Issue: #1485) ✅
-- [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
-- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
-- [I] Model serving and online inference pipeline (Issue: #1477)
+- [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
+- [x] Model serving and online inference pipeline (Issue: #1477)
 - [I] Multi-language NLP support (beyond English) (Issue: #1478)
 - [I] Full morphological lemmatization (Issue: #1479)
 
@@ -70,11 +72,12 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
 - [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
-- [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
+- [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [x] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [x] AutoML integration for automated model selection
+- [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) (Issue: #1477)
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
@@ -91,7 +94,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - LLM analyzer requires external API keys; responses are non-deterministic
 - Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
 - Basic lemmatization only; full morphological analysis not yet supported
-- Graph analytics limited to PageRank and basic algorithms; advanced algorithms planned for v1.8.0
+- Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
 
 ## Breaking Changes
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)

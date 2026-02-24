@@ -18,6 +18,8 @@
 #include "auth/saml_authenticator.h"
 #include "auth/oauth_device_flow.h"
 #include "auth/principal_validator.h"
+#include "auth/token_blacklist.h"
+#include "auth/api_key_authenticator.h"
 #include "utils/audit_logger.h"
 
 #include <filesystem>
@@ -166,6 +168,18 @@ TEST_F(AuthAuditLoggerTest, LogSAMLFailure_WritesEntry) {
     EXPECT_GE(countLines(log_path_), 1u);
 }
 
+TEST_F(AuthAuditLoggerTest, LogZeroTrustAllowed_WritesEntry) {
+    facade_->logZeroTrustAllowed("alice", "data", 0.9, "req-001");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, LogZeroTrustDenied_WritesEntry) {
+    facade_->logZeroTrustDenied("eve", "data", "network policy denied", "req-002");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
 TEST_F(AuthAuditLoggerTest, NullLogger_NoOp) {
     AuthAuditLogger noop(nullptr);
     // None of these should crash or write anything
@@ -177,6 +191,8 @@ TEST_F(AuthAuditLoggerTest, NullLogger_NoOp) {
     EXPECT_NO_THROW(noop.logTOTPFailure("u"));
     EXPECT_NO_THROW(noop.logRecoveryCodeUsed("u"));
     EXPECT_NO_THROW(noop.logMFAEnrolled("u"));
+    EXPECT_NO_THROW(noop.logZeroTrustAllowed("u", "res", 1.0, "req"));
+    EXPECT_NO_THROW(noop.logZeroTrustDenied("u", "res", "reason", "req"));
 }
 
 TEST_F(AuthAuditLoggerTest, SetLogger_DetachReattach) {
@@ -385,4 +401,124 @@ TEST_F(AuthAuditLoggerTest, PrincipalValidator_NoAuditLogger_DoesNotCrash) {
     PrincipalValidator validator(cfg);
     // No setAuditLogger – should not crash
     EXPECT_NO_THROW(validator.validate("alice@REALM.COM"));
+}
+
+// ============================================================================
+// AuthAuditLogger – API Key facade methods
+// ============================================================================
+
+TEST_F(AuthAuditLoggerTest, LogApiKeySuccess_WritesEntry) {
+    facade_->logApiKeySuccess("sk_live_abc123", "alice@example.com");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, LogApiKeyFailure_WritesEntry) {
+    facade_->logApiKeyFailure("sk_live_abc123", "secret_mismatch");
+    logger_->flush();
+    EXPECT_GE(countLines(log_path_), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, LogApiKeyFailure_NullLogger_NoOp) {
+    AuthAuditLogger noop(nullptr);
+    EXPECT_NO_THROW(noop.logApiKeySuccess("key-1", "alice"));
+    EXPECT_NO_THROW(noop.logApiKeyFailure("key-1", "not_found"));
+}
+
+// ============================================================================
+// TokenBlacklist integration
+// ============================================================================
+
+TEST_F(AuthAuditLoggerTest, TokenBlacklist_SetAuditLogger_AcceptsNull) {
+    TokenBlacklist bl;
+    EXPECT_NO_THROW(bl.setAuditLogger(nullptr));
+    EXPECT_NO_THROW(bl.setAuditLogger(logger_.get()));
+    EXPECT_NO_THROW(bl.setAuditLogger(nullptr));
+}
+
+TEST_F(AuthAuditLoggerTest, TokenBlacklist_RevokeLogged) {
+    std::string path2 = (tmp_dir_ / "bl.jsonl").string();
+    AuditLogger logger2(nullptr, nullptr, makeTestConfig(path2));
+
+    TokenBlacklist bl;
+    bl.setAuditLogger(&logger2);
+
+    auto expires = std::chrono::system_clock::now() + std::chrono::hours(1);
+    bl.revoke("jti-revoke-test", expires);
+    logger2.flush();
+    EXPECT_GE(countLines(path2), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, TokenBlacklist_NoAuditLogger_DoesNotCrash) {
+    TokenBlacklist bl;
+    // No setAuditLogger – should not crash
+    auto expires = std::chrono::system_clock::now() + std::chrono::hours(1);
+    EXPECT_NO_THROW(bl.revoke("jti-noaudit", expires));
+}
+
+// ============================================================================
+// ApiKeyAuthenticator integration
+// ============================================================================
+
+TEST_F(AuthAuditLoggerTest, ApiKeyAuthenticator_SetAuditLogger_AcceptsNull) {
+    ApiKeyAuthenticator auth;
+    EXPECT_NO_THROW(auth.setAuditLogger(nullptr));
+    EXPECT_NO_THROW(auth.setAuditLogger(logger_.get()));
+    EXPECT_NO_THROW(auth.setAuditLogger(nullptr));
+}
+
+TEST_F(AuthAuditLoggerTest, ApiKeyAuthenticator_SuccessLogged) {
+    std::string path2 = (tmp_dir_ / "apikey_ok.jsonl").string();
+    AuditLogger logger2(nullptr, nullptr, makeTestConfig(path2));
+
+    ApiKeyAuthenticator auth;
+    auth.setAuditLogger(&logger2);
+
+    auto cred = ApiKeyAuthenticator::createCredential(
+        "sk_live_test", "s3cr3t", "alice@example.com", {"data:read"});
+    auth.addCredential(cred);
+
+    auto claims = auth.authenticate("sk_live_test", "s3cr3t");
+    EXPECT_EQ(claims.principal, "alice@example.com");
+    logger2.flush();
+    EXPECT_GE(countLines(path2), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, ApiKeyAuthenticator_FailureLogged) {
+    std::string path2 = (tmp_dir_ / "apikey_fail.jsonl").string();
+    AuditLogger logger2(nullptr, nullptr, makeTestConfig(path2));
+
+    ApiKeyAuthenticator auth;
+    auth.setAuditLogger(&logger2);
+
+    // Authenticate with unknown key → LOGIN_FAILED
+    EXPECT_THROW(auth.authenticate("unknown_key", "any_secret"), AuthException);
+    logger2.flush();
+    EXPECT_GE(countLines(path2), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, ApiKeyAuthenticator_SecretMismatchLogged) {
+    std::string path2 = (tmp_dir_ / "apikey_mismatch.jsonl").string();
+    AuditLogger logger2(nullptr, nullptr, makeTestConfig(path2));
+
+    ApiKeyAuthenticator auth;
+    auth.setAuditLogger(&logger2);
+
+    auto cred = ApiKeyAuthenticator::createCredential(
+        "sk_live_mismatch", "correct-secret", "bob@example.com");
+    auth.addCredential(cred);
+
+    EXPECT_THROW(auth.authenticate("sk_live_mismatch", "wrong-secret"), AuthException);
+    logger2.flush();
+    EXPECT_GE(countLines(path2), 1u);
+}
+
+TEST_F(AuthAuditLoggerTest, ApiKeyAuthenticator_NoAuditLogger_DoesNotCrash) {
+    ApiKeyAuthenticator auth;
+    // No setAuditLogger – should not crash on success or failure
+    auto cred = ApiKeyAuthenticator::createCredential(
+        "sk_live_noaudit", "pass", "carol@example.com");
+    auth.addCredential(cred);
+    EXPECT_NO_THROW(auth.authenticate("sk_live_noaudit", "pass"));
+    EXPECT_THROW(auth.authenticate("sk_live_noaudit", "wrong"), AuthException);
 }

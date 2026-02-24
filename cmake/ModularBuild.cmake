@@ -190,6 +190,8 @@ set(THEMIS_STORAGE_SOURCES
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    # Atomic history and conflict layer
+    ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
@@ -264,6 +266,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/cache/adaptive_query_cache.cpp
+    ../src/cache/warmup.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -283,6 +286,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
+    ../src/analytics/ml_serving.cpp
+
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
+    ../src/analytics/distributed_analytics.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
@@ -352,6 +360,10 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
+    ../src/auth/oidc_provider.cpp
+    ../src/auth/federated_identity_manager.cpp
+    ../src/auth/oauth_device_flow.cpp
+    ../src/auth/webauthn_authenticator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
@@ -585,6 +597,8 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
     ../src/rag/reranker.cpp
+    ../src/rag/document_splitter.cpp
+    ../src/rag/hybrid_retriever.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -859,6 +873,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+    endif()
+    if(onnxruntime_FOUND)
+        list(APPEND _themis_query_deps onnxruntime::onnxruntime)
     endif()
     
     themis_add_module(query

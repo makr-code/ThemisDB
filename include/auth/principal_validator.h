@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     241                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -28,9 +28,12 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <unordered_map>
 
 namespace themis {
+// Forward declarations
 namespace utils { class AuditLogger; }
+class PolicyEngine;
 namespace auth {
 
 /**
@@ -93,6 +96,22 @@ public:
     };
     
     /**
+     * @brief Runtime context for ABAC evaluation (all fields optional)
+     *
+     * When provided to validate() and an ABAC engine is attached, these
+     * attributes are evaluated alongside the RBAC whitelist/blacklist rules.
+     * Fields left empty are ignored by the policy engine.
+     */
+    struct ValidationContext {
+        std::optional<std::string> ip_address;   ///< Client IP address
+        std::optional<std::string> user_agent;   ///< HTTP User-Agent header
+        std::optional<std::string> action;       ///< Action being performed (default: "authenticate")
+        std::optional<std::string> resource;     ///< Resource being accessed
+        /// Custom key-value attributes forwarded to the policy engine
+        std::unordered_map<std::string, std::string> attributes;
+    };
+
+    /**
      * @brief Validation result
      */
     struct ValidationResult {
@@ -101,6 +120,7 @@ public:
         std::vector<std::string> roles;
         std::string denial_reason;      // If not allowed, why?
         std::string matched_rule;       // Which rule matched
+        std::string abac_policy_id;     // Matched ABAC policy id (if ABAC evaluated)
     };
     
     struct Config {
@@ -127,18 +147,36 @@ public:
      * Pass nullptr to detach.  The validator does NOT take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
+    /**
+     * @brief Attach a PolicyEngine for ABAC evaluation (additive to RBAC rules).
+     *
+     * When set, validate() evaluates ABAC policies after the RBAC check passes.
+     * A RBAC deny always wins; ABAC is only evaluated when RBAC allows.
+     * Pass nullptr to detach.  The validator does NOT take ownership.
+     */
+    void setAbacEngine(PolicyEngine* engine) { abac_engine_ = engine; }
+
+    /**
+     * @brief Get the attached ABAC policy engine (may be nullptr).
+     */
+    const PolicyEngine* getAbacEngine() const { return abac_engine_; }
     
     /**
      * @brief Validate a principal name
      * 
      * Checks against whitelist/blacklist and validation rules.
      * Maps to roles if validation succeeds.
+     * If an ABAC engine is attached and ctx is provided, ABAC policies are
+     * evaluated after the RBAC check (additive, non-breaking).
      * Logs audit trail of decision.
      * 
      * @param principal Principal name to validate (e.g., "alice@REALM.COM")
+     * @param ctx       Optional runtime context for ABAC evaluation
      * @return ValidationResult with allow/deny decision and roles
      */
-    ValidationResult validate(const std::string& principal);
+    ValidationResult validate(const std::string& principal,
+                              const ValidationContext& ctx = {});
     
     /**
      * @brief Add a validation rule
@@ -185,6 +223,7 @@ private:
     Config config_;
     mutable Statistics stats_;
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
+    PolicyEngine*       abac_engine_{nullptr};   ///< Non-owning, optional ABAC engine.
     
     // Check if principal matches a rule
     bool matchesRule(const std::string& principal, const Rule& rule) const;

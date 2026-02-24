@@ -180,7 +180,7 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     try {
         return std::stoll(str);
     } catch (...) {
-        // Not a number, try ISO 8601
+        spdlog::debug("DiffApiHandler::parseTimestamp: '{}' is not a numeric millisecond timestamp, trying ISO 8601", str);
     }
     
     // Parse ISO 8601 format: YYYY-MM-DDTHH:MM:SS or YYYY-MM-DD

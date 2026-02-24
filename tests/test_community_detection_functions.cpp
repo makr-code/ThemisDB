@@ -312,6 +312,98 @@ TEST_F(CommunityDetectionTest, CompareAlgorithms_SameGraph) {
 }
 
 // ============================================================================
+// Betweenness Centrality Tests (via function registry)
+// ============================================================================
+
+TEST_F(CommunityDetectionTest, BetweennessCentrality_EmptyGraph) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    auto result = reg.call("BETWEENNESS_CENTRALITY", {edges}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.size(), 0);
+}
+
+TEST_F(CommunityDetectionTest, BetweennessCentrality_TwoNodes) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+
+    auto result = reg.call("BETWEENNESS_CENTRALITY", {edges}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.size(), 2);
+    EXPECT_TRUE(result.contains("A"));
+    EXPECT_TRUE(result.contains("B"));
+
+    // A is a source with no incoming shortest-path dependencies; B is a sink
+    EXPECT_GE(result["A"].get<double>(), 0.0);
+    EXPECT_GE(result["B"].get<double>(), 0.0);
+}
+
+TEST_F(CommunityDetectionTest, BetweennessCentrality_HubNode) {
+    auto& reg = FunctionRegistry::instance();
+
+    // Graph: A->Hub->B, C->Hub->D — Hub lies on all inter-cluster shortest paths
+    json edges = json::array();
+    edges.push_back(makeEdge("A",   "Hub"));
+    edges.push_back(makeEdge("C",   "Hub"));
+    edges.push_back(makeEdge("Hub", "B"));
+    edges.push_back(makeEdge("Hub", "D"));
+
+    auto result = reg.call("BETWEENNESS_CENTRALITY", {edges}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.size(), 5);  // A, C, Hub, B, D
+
+    // Hub must have the highest betweenness score
+    double hub_bc = result["Hub"].get<double>();
+    EXPECT_GT(hub_bc, 0.0);
+
+    for (const auto& [node, score] : result.items()) {
+        if (node != "Hub") {
+            EXPECT_LE(score.get<double>(), hub_bc);
+        }
+    }
+}
+
+TEST_F(CommunityDetectionTest, BetweennessCentrality_NormalizeOption) {
+    auto& reg = FunctionRegistry::instance();
+
+    json edges = json::array();
+    edges.push_back(makeEdge("A", "B"));
+    edges.push_back(makeEdge("B", "C"));
+    edges.push_back(makeEdge("A", "C"));
+
+    // Without normalization
+    auto raw = reg.call("BETWEENNESS_CENTRALITY", {edges}, ctx);
+    // With normalization
+    json opts = json{{"normalize", true}};
+    auto normalized = reg.call("BETWEENNESS_CENTRALITY", {edges, opts}, ctx);
+
+    EXPECT_TRUE(raw.is_object());
+    EXPECT_TRUE(normalized.is_object());
+
+    // Normalized scores must be <= raw scores for n>=3
+    for (const auto& [node, raw_score] : raw.items()) {
+        EXPECT_GE(raw_score.get<double>(), normalized[node].get<double>());
+    }
+}
+
+TEST_F(CommunityDetectionTest, BetweennessCentrality_InvalidInput) {
+    auto& reg = FunctionRegistry::instance();
+
+    // Non-array input should return empty object
+    json invalid = json::object();
+    auto result = reg.call("BETWEENNESS_CENTRALITY", {invalid}, ctx);
+
+    EXPECT_TRUE(result.is_object());
+    EXPECT_EQ(result.size(), 0);
+}
+
+// ============================================================================
 // Edge Case Tests
 // ============================================================================
 

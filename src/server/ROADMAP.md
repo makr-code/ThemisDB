@@ -24,11 +24,12 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Model Context Protocol (MCP) server for AI integrations
 - [x] Graceful shutdown and connection draining
 - [x] Throughput: 50K–200K req/sec; p50 < 5 ms, p99 < 50 ms
+- [x] Async job API for long-running AQL queries with polling endpoint (`POST/GET/DELETE /v2/jobs[/{id}]`)
 
 ## In Progress 🚧
 - [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
 - [I] GraphQL endpoint for schema-driven API access (Target: Q2 2026) (Issue: #1437)
-- [I] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026) (Issue: #2308)
+- [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`) (Issue: #2308)
 
 ## Planned Features 📋
 
@@ -70,7 +71,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ### Phase 2: HTTP/3 Hardening & GraphQL (Status: In Progress 🚧)
 - [~] HTTP/3 QUIC performance tuning and production hardening
 - [~] GraphQL endpoint for schema-driven API access
-- [~] API versioning strategy (deprecation headers, sunset dates)
+- [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`)
 
 ### Phase 3: OpenAPI & Request Validation (Status: In Progress 🚧)
 - [x] OpenAPI 3.1 spec auto-generation from handler annotations
