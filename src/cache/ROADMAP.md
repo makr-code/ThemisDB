@@ -24,7 +24,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [I] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
 - [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
 - [I] Health checks and cache diagnostics endpoint (Target: Q3 2026) (Issue: #1580)
-- [I] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
+- [x] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
 
 ## Planned Features 📋
 
@@ -65,7 +65,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [I] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
 - [I] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601)
 - [I] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
-- [I] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
+- [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
 
 ### Phase 4: Distributed Cache and Predictive Features (Status: Planned)
 - [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
@@ -83,7 +83,6 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 
 ## Known Issues & Limitations
 - Admin API is not yet implemented (Phase 3 in progress)
-- Adaptive TTL tuning is not yet active
 - Distributed cache coordination requires external Redis or future built-in cluster mode
 - Predictive pre-fetching is not yet implemented
 

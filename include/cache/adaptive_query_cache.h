@@ -374,6 +374,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     struct L2Entry {
@@ -382,6 +385,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     Config config_;
