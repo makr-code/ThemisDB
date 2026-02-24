@@ -1434,6 +1434,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/retention_api_handler.cpp
     ../src/server/keys_api_handler.cpp
     ../src/server/api_key_mgmt_handler.cpp
+    ../src/server/session_api_handler.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
@@ -1613,6 +1614,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oidc_provider.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
+    ../src/auth/session_manager.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
