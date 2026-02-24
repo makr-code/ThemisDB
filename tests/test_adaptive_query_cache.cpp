@@ -404,3 +404,80 @@ TEST_F(AdaptiveQueryCacheTest, PolicyClearResetState) {
     EXPECT_FALSE(cache.get("fp1").has_value());
     EXPECT_FALSE(cache.get("fp2").has_value());
 }
+
+// ============================================================================
+// Phase 4: Write-Through Cache Mode Tests
+// ============================================================================
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughDisabledByDefault) {
+    // Verify write-through is off by default
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("write_through"));
+    EXPECT_FALSE(info["write_through"]["enabled"].get<bool>());
+    EXPECT_EQ(info["write_through"]["total"].get<uint64_t>(), 0u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughL1EntryPersistedToL3) {
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    std::string query = "SELECT * FROM users WHERE id = 1";
+    json params = {{"id", 1}};
+    json result = {{"id", 1}, {"name", "Alice"}};
+    std::string fingerprint = cache.generateFingerprint(query, params);
+
+    // Put a small entry (goes to L1) with write-through enabled
+    EXPECT_TRUE(cache.put(fingerprint, params, result));
+
+    // Verify L1 hit
+    auto cached = cache.get(fingerprint);
+    ASSERT_TRUE(cached.has_value());
+    EXPECT_EQ(cached->result, result);
+    EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::HOT);
+
+    // Verify write-through metric incremented
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GE(metrics.write_through_total.load(), 1u);
+
+    // Verify write-through info in getDetailedInfo
+    json info = cache.getDetailedInfo();
+    EXPECT_TRUE(info["write_through"]["enabled"].get<bool>());
+    EXPECT_GE(info["write_through"]["total"].get<uint64_t>(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughL2EntryPersistedToL3) {
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    // Build a result that exceeds l1_max_entry_size (1 KB) to land in L2
+    json large_result;
+    for (int i = 0; i < 200; i++) {
+        large_result["rows"].push_back({{"id", i}, {"name", "User " + std::to_string(i)}});
+    }
+
+    std::string fingerprint = cache.generateFingerprint("SELECT * FROM orders");
+    EXPECT_TRUE(cache.put(fingerprint, {}, large_result));
+
+    // Verify L2 hit
+    auto cached = cache.get(fingerprint);
+    ASSERT_TRUE(cached.has_value());
+    EXPECT_EQ(cached->result, large_result);
+    EXPECT_EQ(cached->level, AdaptiveQueryCache::CacheLevel::WARM);
+
+    // Verify write-through metric incremented
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GE(metrics.write_through_total.load(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughModeReportedInDetailedInfo) {
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("write_through"));
+    EXPECT_TRUE(info["write_through"]["enabled"].get<bool>());
+    EXPECT_TRUE(info["write_through"].contains("total"));
+    EXPECT_TRUE(info["write_through"].contains("errors"));
+}

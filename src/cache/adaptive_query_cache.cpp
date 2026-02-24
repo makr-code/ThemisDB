@@ -63,6 +63,9 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     if (config_.enable_tenant_isolation) {
         THEMIS_INFO("Tenant isolation enabled: {} bytes per tenant", config_.per_tenant_max_bytes);
     }
+    if (config_.enable_write_through) {
+        THEMIS_INFO("Write-through cache mode enabled: L1/L2 entries will also be persisted to L3");
+    }
     
     // Phase 2: Initialize rate limiter
     if (config_.enable_rate_limiting) {
@@ -601,6 +604,12 @@ bool AdaptiveQueryCache::put(
         }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+
+        // Phase 4: Write-through mode - also persist to L3 for durability
+        if (config_.enable_write_through && l3_db_) {
+            writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
+        }
+
         return true;
         
     } else if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {
@@ -635,6 +644,12 @@ bool AdaptiveQueryCache::put(
         enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
+
+        // Phase 4: Write-through mode - also persist to L3 for durability
+        if (config_.enable_write_through && l3_db_) {
+            writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
+        }
+
         return true;
         
     } else if (l3_db_) {
@@ -918,6 +933,13 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
     } else {
         info["adaptive_ttl"] = {{"enabled", false}};
     }
+
+    // Phase 4: Write-through mode info
+    info["write_through"] = {
+        {"enabled", config_.enable_write_through},
+        {"total", enhanced_metrics_.write_through_total.load()},
+        {"errors", enhanced_metrics_.write_through_errors.load()}
+    };
     
     return info;
 }
@@ -1209,6 +1231,68 @@ bool AdaptiveQueryCache::checkTenantQuota(
     }
     
     return true;
+}
+
+// ============================================================================
+// Phase 4: Write-Through Cache Mode
+// ============================================================================
+
+bool AdaptiveQueryCache::writeThroughToL3(
+    const std::string& fingerprint,
+    const nlohmann::json& query_params,
+    const nlohmann::json& result,
+    int64_t now_ms,
+    int ttl_seconds
+) {
+    if (!l3_db_) {
+        return false;
+    }
+
+    // Check circuit breaker before L3 operation
+    if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+        THEMIS_WARN("L3 circuit breaker is open, skipping write-through for fingerprint={}",
+                    fingerprint.substr(0, 16));
+        enhanced_metrics_.write_through_errors++;
+        return false;
+    }
+
+    nlohmann::json entry_json;
+    entry_json["result"] = result;
+    entry_json["query_params"] = query_params;
+    entry_json["created_at_ms"] = now_ms;
+    entry_json["last_accessed_ms"] = now_ms;
+    entry_json["access_count"] = 1;
+    entry_json["ttl_seconds"] = ttl_seconds;
+    entry_json["window_start_ms"] = now_ms;
+    entry_json["window_count"] = 0;
+
+    std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
+
+    try {
+        std::lock_guard<std::mutex> lock(l3_mutex_);
+        bool ok = l3_db_->put(l3_key, entry_json.dump());
+        if (ok) {
+            if (l3_circuit_breaker_) {
+                l3_circuit_breaker_->recordSuccess();
+                enhanced_metrics_.l3_circuit_breaker_open = false;
+            }
+            enhanced_metrics_.write_through_total++;
+            THEMIS_DEBUG("Write-through: persisted fingerprint={} to L3", fingerprint.substr(0, 16));
+            return true;
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Write-through L3 write exception: {}", e.what());
+        if (l3_circuit_breaker_) {
+            l3_circuit_breaker_->recordFailure();
+            if (l3_circuit_breaker_->isOpen()) {
+                enhanced_metrics_.l3_circuit_breaker_trips++;
+                enhanced_metrics_.l3_circuit_breaker_open = true;
+            }
+        }
+    }
+
+    enhanced_metrics_.write_through_errors++;
+    return false;
 }
 
 // ============================================================================
