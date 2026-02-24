@@ -61,7 +61,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1623)
 - [x] Integration tests (SSE streaming, change replay, subscription filtering)
 - [I] Performance benchmarks (event throughput, latency) (Issue: #1624)
-- [I] Security audit (subscription authorization, data leakage) (Issue: #1625)
+- [x] Security audit (subscription authorization, data leakage) (Issue: #1625)
 - [x] Documentation complete
 - [x] API stability guaranteed for changefeed and subscription APIs
 
