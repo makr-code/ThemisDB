@@ -20,6 +20,7 @@
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
 #include "auth/gssapi_authenticator.h"
+#include "auth/mtls_authenticator.h"
 #include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
 #include <sstream>
@@ -62,6 +63,23 @@ void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
     
     THEMIS_INFO("Kerberos/GSSAPI authentication enabled: service_principal='{}', fallback={}",
                 config.service_principal, config.fallback_to_basic);
+}
+
+void AuthMiddleware::enableMTLS(const auth::MTLSConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    mtls_auth_ = std::make_unique<auth::MTLSAuthenticator>();
+
+    if (!mtls_auth_->initialize(config)) {
+        THEMIS_ERROR("Failed to initialize mTLS authentication");
+        mtls_auth_.reset();
+        return;
+    }
+
+    mtls_enabled_ = true;
+
+    THEMIS_INFO("mTLS certificate authentication enabled: {} subject mappings",
+                config.subject_mappings.size());
 }
 
 void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
@@ -157,7 +175,12 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     if (kerberos_enabled_) {
         return authorizeViaKerberos(token, required_scope);
     }
-    
+
+    // If mTLS is enabled, try certificate-based authentication
+    if (mtls_enabled_) {
+        return authorizeViaMTLS(token, required_scope);
+    }
+
     // No match found
     metrics_.authz_invalid_token_total++;
     return AuthResult::Denied("Invalid or missing token");
@@ -231,7 +254,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
 
 bool AuthMiddleware::isEnabled() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_;
+    return !tokens_.empty() || jwt_enabled_ || kerberos_enabled_ || mtls_enabled_;
 }
 
 std::optional<std::string> AuthMiddleware::extractBearerToken(std::string_view auth_header) {
@@ -340,6 +363,37 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
     } catch (const std::exception& e) {
         THEMIS_ERROR("Kerberos authentication error: {}", e.what());
         return AuthResult::Denied(std::string("Kerberos authentication error: ") + e.what());
+    }
+}
+
+AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
+    std::string_view cert_pem,
+    std::string_view required_scope) const {
+
+    (void)required_scope;  // Scope is role-based via subject_mappings; checked by caller chain
+
+    // Note: mutex is already locked by caller (authorize)
+
+    if (!mtls_auth_) {
+        return AuthResult::Denied("mTLS authentication not configured");
+    }
+
+    try {
+        auto claims = mtls_auth_->authenticate(std::string(cert_pem));
+
+        THEMIS_INFO("mTLS authentication successful for principal '{}' tenant='{}' roles={}",
+                    claims.principal, claims.tenant_id, claims.roles.size());
+
+        metrics_.authz_success_total++;
+        return AuthResult::OK(claims.principal, claims.tenant_id, claims.roles);
+
+    } catch (const auth::AuthException& e) {
+        THEMIS_WARN("mTLS authentication failed: {}", e.what());
+        metrics_.authz_invalid_token_total++;
+        return AuthResult::Denied(std::string("mTLS authentication failed: ") + e.what());
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("mTLS authentication error: {}", e.what());
+        return AuthResult::Denied(std::string("mTLS authentication error: ") + e.what());
     }
 }
 

@@ -35,6 +35,8 @@ namespace auth {
     class JWTValidator;
     class GSSAPIAuthenticator;
     struct KerberosConfig;
+    class MTLSAuthenticator;
+    struct MTLSConfig;
 }
 namespace security {
     class USBAdminAuthenticator;
@@ -93,7 +95,13 @@ public:
     /// Enable Kerberos/GSSAPI authentication
     /// @param config Kerberos configuration
     void enableKerberos(const auth::KerberosConfig& config);
-    
+
+    /// Enable certificate-based mutual TLS (mTLS) authentication
+    /// When enabled, PEM-encoded X.509 client certificates may be passed as
+    /// tokens and will be validated against the configured CA.
+    /// @param config mTLS configuration (CA certificate, subject mappings, etc.)
+    void enableMTLS(const auth::MTLSConfig& config);
+
     /// Enable USB-based admin authentication
     /// When enabled, configured admin scopes require a valid USB device to be present
     /// @param mount_path Path where encrypted USB is mounted
@@ -153,6 +161,10 @@ private:
     std::unique_ptr<auth::GSSAPIAuthenticator> kerberos_auth_;
     bool kerberos_enabled_ = false;
     
+    // mTLS certificate authentication
+    std::unique_ptr<auth::MTLSAuthenticator> mtls_auth_;
+    bool mtls_enabled_ = false;
+
     // USB Admin Authentication
     std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
     bool usb_admin_enabled_ = false;
@@ -166,6 +178,9 @@ private:
     
     // Helper: try to authorize via Kerberos
     AuthResult authorizeViaKerberos(std::string_view token, std::string_view required_scope) const;
+
+    // Helper: try to authorize via mTLS client certificate
+    AuthResult authorizeViaMTLS(std::string_view cert_pem, std::string_view required_scope) const;
 };
 
 } // namespace themis

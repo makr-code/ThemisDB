@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "auth/principal_validator.h"
+#include "server/policy_engine.h"
 
 using namespace themis::auth;
 
@@ -485,4 +486,180 @@ TEST(PrincipalValidatorTest, ValidationResultComplete) {
     EXPECT_EQ(result.roles.size(), 1);
     EXPECT_EQ(result.roles[0], "admin");
     EXPECT_TRUE(result.denial_reason.empty());
+}
+
+// ============================================================================
+// ABAC integration tests
+// ============================================================================
+
+/// Helper: whitelist-allow validator for ABAC tests
+static PrincipalValidator makeAllowAllValidator() {
+    PrincipalValidator::Config cfg;
+    cfg.default_allow = true;
+    return PrincipalValidator(cfg);
+}
+
+/// Build a minimal ABAC policy that allows a specific IP prefix.
+static themis::PolicyEngine::Policy makeIPAllowPolicy(const std::string& ip_prefix) {
+    themis::PolicyEngine::Policy p;
+    p.id             = "ip-allow";
+    p.subjects       = {"*"};
+    p.actions        = {"authenticate"};
+    p.resources      = {"auth/principal"};
+    p.effect_allow   = true;
+    p.allowed_ip_prefixes = {ip_prefix};
+    return p;
+}
+
+TEST(PrincipalValidatorABACTest, NoAbacEngine_NoEffect) {
+    // Without an ABAC engine, validate() should behave as before
+    auto validator = makeAllowAllValidator();
+    auto result = validator.validate("alice@EXAMPLE.COM");
+    EXPECT_TRUE(result.allowed);
+    EXPECT_TRUE(result.abac_policy_id.empty());
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_NoContext_NoPolicies_DefaultAllow) {
+    // With an empty PolicyEngine (no policies) the default is allow
+    auto validator = makeAllowAllValidator();
+    themis::PolicyEngine engine;
+    validator.setAbacEngine(&engine);
+
+    auto result = validator.validate("alice@EXAMPLE.COM");
+    EXPECT_TRUE(result.allowed);
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_IPAllow_MatchingIP_Granted) {
+    auto validator = makeAllowAllValidator();
+    themis::PolicyEngine engine;
+    engine.addPolicy(makeIPAllowPolicy("10.0."));
+    validator.setAbacEngine(&engine);
+
+    PrincipalValidator::ValidationContext ctx;
+    ctx.ip_address = "10.0.1.5";
+    auto result = validator.validate("alice@EXAMPLE.COM", ctx);
+    EXPECT_TRUE(result.allowed);
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_IPAllow_NonMatchingIP_Denied) {
+    auto validator = makeAllowAllValidator();
+    themis::PolicyEngine engine;
+    engine.addPolicy(makeIPAllowPolicy("10.0."));
+    validator.setAbacEngine(&engine);
+
+    PrincipalValidator::ValidationContext ctx;
+    ctx.ip_address = "192.168.1.1";
+    auto result = validator.validate("alice@EXAMPLE.COM", ctx);
+    EXPECT_FALSE(result.allowed);
+    EXPECT_FALSE(result.denial_reason.empty());
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_RBACDenyNotOverriddenByABAC) {
+    // RBAC deny (blacklist) wins even if ABAC would allow
+    PrincipalValidator::Config cfg;
+    cfg.default_allow = false;
+    PrincipalValidator::Rule blacklist;
+    blacklist.type     = PrincipalValidator::RuleType::BLACKLIST;
+    blacklist.pattern  = "banned@EXAMPLE.COM";
+    blacklist.priority = 1000;
+    cfg.rules.push_back(blacklist);
+    PrincipalValidator validator(cfg);
+
+    themis::PolicyEngine engine;  // no policies – default allow
+    validator.setAbacEngine(&engine);
+
+    auto result = validator.validate("banned@EXAMPLE.COM");
+    EXPECT_FALSE(result.allowed);
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_DenyPolicy_BlocksRBACAllowed) {
+    auto validator = makeAllowAllValidator();
+
+    themis::PolicyEngine engine;
+    themis::PolicyEngine::Policy deny;
+    deny.id           = "deny-all";
+    deny.subjects     = {"*"};
+    deny.actions      = {"authenticate"};
+    deny.resources    = {"auth/principal"};
+    deny.effect_allow = false;
+    engine.addPolicy(deny);
+    validator.setAbacEngine(&engine);
+
+    auto result = validator.validate("alice@EXAMPLE.COM");
+    EXPECT_FALSE(result.allowed);
+    EXPECT_EQ(result.abac_policy_id, "deny-all");
+}
+
+TEST(PrincipalValidatorABACTest, AbacEngine_UserAgentCondition) {
+    auto validator = makeAllowAllValidator();
+
+    themis::PolicyEngine engine;
+    themis::PolicyEngine::Policy p;
+    p.id             = "ua-allow";
+    p.subjects       = {"*"};
+    p.actions        = {"authenticate"};
+    p.resources      = {"auth/principal"};
+    p.effect_allow   = true;
+    p.allowed_user_agent_patterns = {"ThemisClient"};
+    engine.addPolicy(p);
+    validator.setAbacEngine(&engine);
+
+    // Matching UA – allowed
+    PrincipalValidator::ValidationContext ctx_ok;
+    ctx_ok.user_agent = "ThemisClient/2.0";
+    EXPECT_TRUE(validator.validate("alice@EXAMPLE.COM", ctx_ok).allowed);
+
+    // Non-matching UA – denied
+    PrincipalValidator::ValidationContext ctx_bad;
+    ctx_bad.user_agent = "curl/7.68";
+    EXPECT_FALSE(validator.validate("alice@EXAMPLE.COM", ctx_bad).allowed);
+}
+
+TEST(PrincipalValidatorABACTest, DetachAbacEngine_RestoresDefault) {
+    auto validator = makeAllowAllValidator();
+
+    themis::PolicyEngine engine;
+    themis::PolicyEngine::Policy deny;
+    deny.id           = "deny-all";
+    deny.subjects     = {"*"};
+    deny.actions      = {"authenticate"};
+    deny.resources    = {"auth/principal"};
+    deny.effect_allow = false;
+    engine.addPolicy(deny);
+    validator.setAbacEngine(&engine);
+
+    // ABAC denies
+    EXPECT_FALSE(validator.validate("alice@EXAMPLE.COM").allowed);
+
+    // Detach engine
+    validator.setAbacEngine(nullptr);
+    EXPECT_EQ(validator.getAbacEngine(), nullptr);
+
+    // RBAC-only: default allow
+    EXPECT_TRUE(validator.validate("alice@EXAMPLE.COM").allowed);
+}
+
+TEST(PrincipalValidatorABACTest, Statistics_ABACDeny_NoDoubleCount) {
+    // When ABAC denies after RBAC allows, (allowed + denied) must equal total_validations
+    auto validator = makeAllowAllValidator();
+
+    themis::PolicyEngine engine;
+    themis::PolicyEngine::Policy deny;
+    deny.id           = "deny-all";
+    deny.subjects     = {"*"};
+    deny.actions      = {"authenticate"};
+    deny.resources    = {"auth/principal"};
+    deny.effect_allow = false;
+    engine.addPolicy(deny);
+    validator.setAbacEngine(&engine);
+
+    validator.validate("alice@EXAMPLE.COM");  // RBAC allow, ABAC deny
+    validator.validate("bob@EXAMPLE.COM");    // RBAC allow, ABAC deny
+
+    auto stats = validator.getStatistics();
+    EXPECT_EQ(stats.total_validations, 2u);
+    EXPECT_EQ(stats.allowed, 0u);
+    EXPECT_EQ(stats.denied, 2u);
+    // Invariant: allowed + denied == total_validations
+    EXPECT_EQ(stats.allowed + stats.denied, stats.total_validations);
 }
