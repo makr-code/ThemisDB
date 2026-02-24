@@ -1832,6 +1832,10 @@ CEPEngine::Stats CEPEngine::getStats() const {
     s.pattern_matches   = pattern_matches_.load();
     s.alerts_generated  = alerts_generated_.load();
     {
+        std::lock_guard lk(queue_mutex_);
+        s.queue_depth = event_queue_.size();
+    }
+    {
         std::shared_lock lk(streams_mutex_);
         s.active_streams = streams_.size();
     }
@@ -1867,7 +1871,10 @@ std::string CEPEngine::toPrometheusFormat() const {
         << "themisdb_cep_active_streams " << s.active_streams << "\n"
         << "# HELP themisdb_cep_active_rules Number of active rules\n"
         << "# TYPE themisdb_cep_active_rules gauge\n"
-        << "themisdb_cep_active_rules " << s.active_rules << "\n";
+        << "themisdb_cep_active_rules " << s.active_rules << "\n"
+        << "# HELP themisdb_cep_queue_depth Current event queue depth\n"
+        << "# TYPE themisdb_cep_queue_depth gauge\n"
+        << "themisdb_cep_queue_depth " << s.queue_depth << "\n";
     return oss.str();
 }
 
@@ -2025,8 +2032,9 @@ void CEPEngine::metricsLoop() {
         std::this_thread::sleep_for(config_.metrics_interval);
         if (!running_) break;
         auto s = getStats();
-        spdlog::debug("CEP metrics: recv={} proc={} drop={} alerts={} streams={} rules={}",
+        spdlog::debug("CEP metrics: recv={} proc={} drop={} bp={} queue={} alerts={} streams={} rules={}",
             s.events_received, s.events_processed, s.events_dropped,
+            s.backpressure_events, s.queue_depth,
             s.alerts_generated, s.active_streams, s.active_rules);
     }
 }

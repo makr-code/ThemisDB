@@ -1036,3 +1036,30 @@ TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
 
     engine.shutdown();
 }
+
+TEST(CEPEngineBackpressureTest, QueueDepthReflectsUnprocessedEvents) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 0;   // No workers: events accumulate
+    cfg.metrics_enabled       = false;
+    cfg.checkpointing_enabled = false;
+    cfg.backpressure_enabled  = true;
+    cfg.max_queue_depth       = 64;
+    engine.initialize(cfg);
+
+    constexpr int N = 5;
+    for (int i = 0; i < N; ++i) {
+        engine.submitEvent(makeEvent("q-" + std::to_string(i)));
+    }
+
+    auto stats = engine.getStats();
+    EXPECT_EQ(stats.queue_depth, static_cast<size_t>(N));
+
+    // Queue depth should appear in Prometheus output
+    std::string prom = engine.toPrometheusFormat();
+    EXPECT_NE(prom.find("themisdb_cep_queue_depth"), std::string::npos);
+
+    engine.shutdown();
+}

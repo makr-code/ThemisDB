@@ -975,6 +975,7 @@ public:
         uint64_t pattern_matches = 0;
         uint64_t rules_triggered = 0;
         uint64_t alerts_generated = 0;
+        size_t queue_depth = 0;
         size_t active_streams = 0;
         size_t active_rules = 0;
         std::chrono::milliseconds avg_latency{0};
@@ -1056,7 +1057,7 @@ private:
     
     // Processing
     std::queue<std::pair<std::string, Event>> event_queue_;
-    std::mutex queue_mutex_;
+    mutable std::mutex queue_mutex_;
     
     void workerLoop();
     void metricsLoop();
