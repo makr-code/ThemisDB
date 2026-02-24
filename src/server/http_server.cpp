@@ -1872,7 +1872,7 @@ namespace {
         Health,
         HealthLive,    // GET /health/live  – liveness probe
         HealthReady,   // GET /health/ready – readiness probe
-        OpenApi,       // GET /api/openapi.json – OpenAPI 3.0 spec export
+        OpenApi,       // GET /api/openapi.json – OpenAPI 3.1 spec export
         Version,
         Stats,
         CapabilitiesGet,
