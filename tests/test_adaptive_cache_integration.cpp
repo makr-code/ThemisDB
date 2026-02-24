@@ -388,6 +388,72 @@ TEST_F(AdaptiveCacheIntegrationTest, RocksDBUnavailableGracefulDegradation) {
     EXPECT_TRUE(cached.has_value());
 }
 
+// ============================================================================
+// Phase 4: Write-Through Cache Mode Integration Tests
+// ============================================================================
+
+TEST_F(AdaptiveCacheIntegrationTest, WriteThroughSmallEntryInL1OnFirstRead) {
+    // A small entry stored with write-through should be immediately available
+    // in L1 (HOT tier) on the very first get(), without any promotion needed.
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    json result = {{"value", 42}};
+    std::string fp = cache.generateFingerprint("wt_small_entry", {});
+    EXPECT_TRUE(cache.put(fp, {}, result));
+
+    auto hit = cache.get(fp);
+    ASSERT_TRUE(hit.has_value());
+    EXPECT_EQ(hit->result, result);
+    EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
+    EXPECT_GE(cache.getEnhancedMetrics().write_through_writes.load(), 1u);
+}
+
+TEST_F(AdaptiveCacheIntegrationTest, WriteThroughL1ExpiryFallsBackToL2) {
+    // With write-through enabled and a short L1 TTL, the entry should remain
+    // accessible from L2 (WARM tier) after the L1 entry expires.
+    config_.enable_write_through = true;
+    config_.l1_ttl_seconds = 1;   // L1 expires quickly
+    config_.l2_ttl_seconds = 30;  // L2 stays available
+    AdaptiveQueryCache cache(config_);
+
+    json result = {{"value", 99}};
+    std::string fp = cache.generateFingerprint("wt_l1_fallback", {});
+    EXPECT_TRUE(cache.put(fp, {}, result));
+
+    // Immediately available from L1
+    {
+        auto hit = cache.get(fp);
+        ASSERT_TRUE(hit.has_value());
+        EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
+    }
+
+    // After L1 TTL expires, L2 fallback ensures no cache miss
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    {
+        auto hit = cache.get(fp);
+        ASSERT_TRUE(hit.has_value());
+        EXPECT_EQ(hit->result, result);
+        EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::WARM);
+    }
+}
+
+TEST_F(AdaptiveCacheIntegrationTest, WriteThroughMetricsCountsAllPuts) {
+    // write_through_writes must be incremented for every successful put()
+    // in write-through mode.
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    const int n = 3;
+    for (int i = 0; i < n; i++) {
+        std::string fp = cache.generateFingerprint("wt_metric_" + std::to_string(i), {});
+        EXPECT_TRUE(cache.put(fp, {}, json({{"i", i}})));
+    }
+
+    EXPECT_EQ(cache.getEnhancedMetrics().write_through_writes.load(),
+              static_cast<uint64_t>(n));
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
