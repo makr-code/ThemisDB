@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSSAPI, and TOTP-based MFA. RBAC and principal-to-role mapping are implemented.
+Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSSAPI, TOTP-based MFA, and WebAuthn/FIDO2 hardware token support. RBAC and principal-to-role mapping are implemented.
 
 ## Completed ✅
 - [x] JWT validation with OpenID Connect (Keycloak integration)
@@ -18,6 +18,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] OIDC Provider Discovery and federated identity integration (`auth/oidc_provider.cpp`)
 - [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
 - [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
+- [x] WebAuthn/FIDO2 hardware token support (`auth/webauthn_authenticator.cpp`)
 
 ## In Progress 🚧
 - [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
