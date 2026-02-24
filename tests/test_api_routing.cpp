@@ -308,13 +308,10 @@ TEST(VersionedRoutingConventions, V1VersionManagerResolvesToCurrentV1) {
 }
 
 TEST(VersionedRoutingConventions, HealthPathsAreNotVersioned) {
-    // Health/liveness/readiness endpoints are not version-prefixed
-    for (const auto& p : {"/health", "/health/live", "/health/ready", "/metrics"}) {
-        std::string path(p);
-        EXPECT_EQ(path.substr(0, 3), "/he") << path << " should not use /v1/ prefix";
-        (void)path; // suppress unused
+    // Health/liveness/readiness endpoints are not version-prefixed.
+    // None of these paths should start with /v{N}/ (second character must not be 'v').
+    for (const std::string path : {"/health", "/health/live", "/health/ready", "/metrics"}) {
+        ASSERT_GE(path.size(), 2u);
+        EXPECT_NE(path[1], 'v') << path << " must not start with a version prefix like /v1/";
     }
-    // Check none of them start with /v
-    EXPECT_NE(std::string("/health")[1], 'v');
-    EXPECT_NE(std::string("/metrics")[1], 'v');
 }
