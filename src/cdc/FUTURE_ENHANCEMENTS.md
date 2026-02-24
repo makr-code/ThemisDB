@@ -45,7 +45,7 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 Replace or supplement the SSE transport with a bidirectional WebSocket endpoint (`/v2/cdc/stream`) that supports both server-push change events and client-sent subscription management frames. WebSocket allows the client to change subscriptions without reconnecting.
 
 **Implementation Notes:**
-- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
+- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`. (transport implemented as `cdc/ws_transport.cpp`; endpoint wiring is a follow-up)
 - `[x]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
 - `[x]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
 - `[x]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
@@ -118,12 +118,12 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 The change log grows unboundedly. Implement size-based and TTL-based retention policies managed by `CDCAdmin`, exposed via both the admin REST API and a background compaction thread.
 
 **Implementation Notes:**
-- `[ ]` Add `RetentionPolicy` struct to `cdc_admin.h`: `max_age_seconds`, `max_bytes`, `max_entries`; load from `config/data_management/cdc_retention.yaml`.
-- `[ ]` Background compaction thread in `changefeed.cpp` (similar to L3 eviction thread in `adaptive_query_cache.cpp`): runs every `compaction_interval_s` (default 300 s).
-- `[ ]` Compaction deletes events older than `max_age_seconds` using `CDCAdmin::purgeOlderThan(timestamp)` (new method).
-- `[ ]` Size-based trigger: if change log RocksDB column family exceeds `max_bytes`, compact oldest entries until under 80% of limit.
-- `[ ]` `CDCAdmin::getRetentionStatus()` returns current log size, oldest event age, and next scheduled compaction time.
-- `[ ]` Admin endpoint: `GET /v1/admin/cdc/retention` and `PUT /v1/admin/cdc/retention` to read/update policy at runtime.
+- `[x]` Add `RetentionPolicy` struct to `cdc_admin.h`: `max_age_seconds`, `max_bytes`, `max_entries`; load from `config/data_management/cdc_retention.yaml`.
+- `[x]` Background compaction thread in `changefeed.cpp` (similar to L3 eviction thread in `adaptive_query_cache.cpp`): runs every `compaction_interval_s` (default 300 s).
+- `[x]` Compaction deletes events older than `max_age_seconds` using `CDCAdmin::purgeOlderThan(timestamp)` (new method).
+- `[x]` Size-based trigger: if change log RocksDB column family exceeds `max_bytes`, compact oldest entries until under 80% of limit.
+- `[x]` `CDCAdmin::getRetentionStatus()` returns current log size, oldest event age, and next scheduled compaction time.
+- `[x]` Admin endpoint: `GET /v1/admin/cdc/retention` and `PUT /v1/admin/cdc/retention` to read/update policy at runtime.
 
 **Performance Targets:**
 - Compaction of 1M expired events completes in < 30 s (background, no query impact).

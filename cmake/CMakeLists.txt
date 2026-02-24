@@ -1342,6 +1342,7 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1505,6 +1506,8 @@ set(THEMIS_CORE_SOURCES
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/consumer_group.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
     
