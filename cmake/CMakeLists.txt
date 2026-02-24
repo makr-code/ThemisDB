@@ -1438,6 +1438,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
     ../src/server/policy_engine.cpp
+    ../src/server/opa_adapter.cpp
     ../src/server/auth_middleware.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
