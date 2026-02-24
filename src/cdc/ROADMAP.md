@@ -16,7 +16,7 @@
 ## In Progress 🚧
 - [I] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
 - [I] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
-- [I] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
+- [P] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
 
 ## Planned Features 📋
 
@@ -49,7 +49,7 @@
 ### Phase 2: WebSocket Transport and Delivery Guarantees (Status: In Progress)
 - [I] Implement WebSocket transport as alternative to SSE (`cdc/ws_transport.cpp`) (Issue: #1626)
 - [I] Implement change log compaction to merge superseded entries by key (Issue: #1627)
-- [I] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
+- [P] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
 - [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
@@ -69,7 +69,7 @@
 - WebSocket transport not yet implemented; SSE only
 - No consumer offset tracking; replay requires full log scan
 - Change log retention policies are not configurable at runtime
-- At-least-once delivery is not yet guaranteed for SSE connections
+- At-least-once delivery is guaranteed via `DeliveryTracker` for consumers that call `acknowledge()`
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)
