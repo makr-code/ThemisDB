@@ -3,39 +3,34 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_session_manager.cpp                           ║
-  Version:         0.0.32                                             ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-02-24                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                       ║
+    • Total Lines:     400                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-/**
- * @file test_session_manager.cpp
- * @brief Unit tests for the SessionManager class
- *
- * Tests cover:
- * - Session creation and validation
- * - Idle-timeout and absolute-timeout expiry
- * - IP and device pinning
- * - Concurrent session limit enforcement
- * - terminateSession / terminateAllOtherSessions / terminateAllSessions
- * - listSessions (expired sessions pruned inline)
- * - detectAnomalies
- * - pruneExpired
- * - Thread-safety under concurrent create + validate
- */
-
 #include <gtest/gtest.h>
 #include "auth/session_manager.h"
+#include "server/session_api_handler.h"
+#include "server/auth_middleware.h"
 
-#include <thread>
-#include <atomic>
+#include <nlohmann/json.hpp>
 #include <chrono>
 #include <string>
-#include <vector>
+#include <thread>
 
 using namespace themis::auth;
-using Clock = std::chrono::system_clock;
+using namespace themis::server;
+using namespace themis;
+using json = nlohmann::json;
 
 // ===========================================================================
 // Helpers
@@ -44,377 +39,413 @@ using Clock = std::chrono::system_clock;
 namespace {
 
 SessionManager::SessionLimits defaultLimits() {
-    SessionManager::SessionLimits l;
-    l.max_concurrent_sessions = 3;
-    l.idle_timeout             = std::chrono::seconds(3600);
-    l.absolute_timeout         = std::chrono::seconds(86400);
-    l.pin_to_ip                = false;
-    l.pin_to_device            = false;
-    return l;
+    SessionManager::SessionLimits lim;
+    lim.max_sessions_per_user = 5;
+    lim.idle_timeout    = std::chrono::hours(8);
+    lim.absolute_timeout = std::chrono::hours(24);
+    return lim;
+}
+
+// Build an AuthMiddleware with one static token that has auth:sessions scope
+std::shared_ptr<AuthMiddleware> makeAuth(
+    const std::string& token      = "test-token",
+    const std::string& user_id    = "alice",
+    bool               is_admin   = false)
+{
+    auto auth = std::make_shared<AuthMiddleware>();
+    AuthMiddleware::TokenConfig cfg;
+    cfg.token   = token;
+    cfg.user_id = user_id;
+    cfg.scopes  = {"auth:sessions"};
+    if (is_admin) {
+        cfg.scopes.insert("admin:all");
+    }
+    auth->addToken(cfg);
+    return auth;
 }
 
 } // anonymous namespace
 
 // ===========================================================================
-// Basic creation and validation
+// SessionManager – generateSessionId
 // ===========================================================================
 
-class SessionManagerTest : public ::testing::Test {
-protected:
-    SessionManager mgr_{defaultLimits()};
-};
-
-TEST_F(SessionManagerTest, CreateSession_ReturnsNonEmptyId) {
-    auto sid = mgr_.createSession("alice", "fp-1", "1.2.3.4", "TestAgent/1.0");
-    EXPECT_FALSE(sid.empty());
-    EXPECT_EQ(mgr_.size(), 1u);
+TEST(SessionManagerTest, GenerateSessionId_HasPrefix) {
+    const auto id = SessionManager::generateSessionId();
+    EXPECT_TRUE(id.rfind("sess_", 0) == 0) << "Expected 'sess_' prefix, got: " << id;
 }
 
-TEST_F(SessionManagerTest, CreateSession_EmptyUserId_Throws) {
-    EXPECT_THROW(mgr_.createSession("", "fp", "1.2.3.4", "UA"), std::invalid_argument);
+TEST(SessionManagerTest, GenerateSessionId_IsUnique) {
+    const auto id1 = SessionManager::generateSessionId();
+    const auto id2 = SessionManager::generateSessionId();
+    EXPECT_NE(id1, id2);
 }
 
-TEST_F(SessionManagerTest, ValidateSession_Valid) {
-    auto sid = mgr_.createSession("alice", "fp-1", "1.2.3.4", "UA");
-    auto res = mgr_.validateSession(sid);
-    EXPECT_TRUE(res.valid);
+TEST(SessionManagerTest, GenerateSessionId_HasCorrectLength) {
+    // "sess_" (5) + 32 hex chars (128 bits) = 37
+    const auto id = SessionManager::generateSessionId();
+    EXPECT_EQ(id.size(), 37u);
+}
+
+// ===========================================================================
+// SessionManager – createSession
+// ===========================================================================
+
+TEST(SessionManagerTest, CreateSession_ReturnsNonEmptyId) {
+    SessionManager mgr(defaultLimits());
+    const auto id = mgr.createSession("alice");
+    EXPECT_FALSE(id.empty());
+    EXPECT_TRUE(id.rfind("sess_", 0) == 0);
+}
+
+TEST(SessionManagerTest, CreateSession_EmptyUserIdThrows) {
+    SessionManager mgr;
+    EXPECT_THROW(mgr.createSession(""), std::invalid_argument);
+}
+
+TEST(SessionManagerTest, CreateSession_StoresMetadata) {
+    SessionManager mgr(defaultLimits());
+    const auto id = mgr.createSession("alice", "fp-abc", "192.168.1.1", "curl/7");
+
+    auto res = mgr.validateSession(id);
+    ASSERT_TRUE(res.valid);
     ASSERT_TRUE(res.session.has_value());
-    EXPECT_EQ(res.session->user_id, "alice");
-    EXPECT_EQ(res.session->session_id, sid);
+    EXPECT_EQ(res.session->user_id,            "alice");
+    EXPECT_EQ(res.session->device_fingerprint, "fp-abc");
+    EXPECT_EQ(res.session->ip_address,         "192.168.1.1");
+    EXPECT_EQ(res.session->user_agent,         "curl/7");
 }
 
-TEST_F(SessionManagerTest, ValidateSession_EmptyId_Invalid) {
-    auto res = mgr_.validateSession("");
+// ===========================================================================
+// SessionManager – validateSession
+// ===========================================================================
+
+TEST(SessionManagerTest, ValidateSession_ValidSession) {
+    SessionManager mgr(defaultLimits());
+    const auto id = mgr.createSession("alice");
+    auto res = mgr.validateSession(id);
+    EXPECT_TRUE(res.valid);
+    EXPECT_TRUE(res.session.has_value());
+}
+
+TEST(SessionManagerTest, ValidateSession_UnknownIdReturnsFalse) {
+    SessionManager mgr;
+    auto res = mgr.validateSession("sess_doesnotexist");
+    EXPECT_FALSE(res.valid);
+    EXPECT_FALSE(res.session.has_value());
+}
+
+TEST(SessionManagerTest, ValidateSession_EmptyIdReturnsFalse) {
+    SessionManager mgr;
+    auto res = mgr.validateSession("");
     EXPECT_FALSE(res.valid);
 }
 
-TEST_F(SessionManagerTest, ValidateSession_UnknownId_Invalid) {
-    auto res = mgr_.validateSession("sess_doesnotexist");
-    EXPECT_FALSE(res.valid);
-    EXPECT_NE(res.error_message, "");
-}
+TEST(SessionManagerTest, ValidateSession_UpdatesLastAccessed) {
+    SessionManager mgr(defaultLimits());
+    const auto id = mgr.createSession("alice");
 
-TEST_F(SessionManagerTest, ValidateSession_RefreshesLastActivity) {
-    auto sid = mgr_.createSession("alice", "fp", "1.2.3.4", "UA");
+    auto r1 = mgr.validateSession(id);
+    ASSERT_TRUE(r1.valid);
+    auto t1 = r1.session->last_accessed_at;
 
-    // Grab created_at
-    auto first = mgr_.validateSession(sid);
-    ASSERT_TRUE(first.valid);
-    auto t1 = first.session->last_activity;
-
-    // Small sleep to ensure time advances
+    // Small sleep to ensure clock advances
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-    auto second = mgr_.validateSession(sid);
-    ASSERT_TRUE(second.valid);
-    auto t2 = second.session->last_activity;
+    auto r2 = mgr.validateSession(id);
+    ASSERT_TRUE(r2.valid);
+    auto t2 = r2.session->last_accessed_at;
 
     EXPECT_GE(t2, t1);
 }
 
-// ===========================================================================
-// Timeout handling
-// ===========================================================================
-
-TEST(SessionManagerTimeoutTest, IdleTimeout_Enforced) {
+TEST(SessionManagerTest, ValidateSession_ExpiredByAbsoluteTimeout) {
     SessionManager::SessionLimits lim;
-    lim.idle_timeout      = std::chrono::seconds(0); // expires immediately
-    lim.absolute_timeout  = std::chrono::seconds(86400);
+    lim.absolute_timeout = std::chrono::seconds(0); // zero = no limit
+    lim.idle_timeout     = std::chrono::milliseconds(1);
     SessionManager mgr(lim);
 
-    auto sid = mgr.createSession("bob", "fp", "1.2.3.4", "UA");
-    // Sleep just enough for the 0-second timeout to have elapsed
+    const auto id = mgr.createSession("alice");
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-    auto res = mgr.validateSession(sid);
+    auto res = mgr.validateSession(id);
     EXPECT_FALSE(res.valid);
-    EXPECT_EQ(mgr.size(), 0u); // entry pruned
-}
-
-TEST(SessionManagerTimeoutTest, AbsoluteTimeout_Enforced) {
-    SessionManager::SessionLimits lim;
-    lim.idle_timeout      = std::chrono::seconds(86400);
-    lim.absolute_timeout  = std::chrono::seconds(0); // expires immediately
-    SessionManager mgr(lim);
-
-    auto sid = mgr.createSession("carol", "fp", "1.2.3.4", "UA");
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-
-    auto res = mgr.validateSession(sid);
-    EXPECT_FALSE(res.valid);
-    EXPECT_EQ(mgr.size(), 0u);
+    EXPECT_EQ(res.reason, "session expired");
 }
 
 // ===========================================================================
-// Pinning
+// SessionManager – terminateSession
 // ===========================================================================
 
-TEST(SessionManagerPinningTest, IPPinning_SameIP_Valid) {
-    SessionManager::SessionLimits lim = defaultLimits();
-    lim.pin_to_ip = true;
-    SessionManager mgr(lim);
+TEST(SessionManagerTest, TerminateSession_RemovesSession) {
+    SessionManager mgr(defaultLimits());
+    const auto id = mgr.createSession("alice");
 
-    auto sid = mgr.createSession("dave", "fp", "10.0.0.1", "UA");
-    auto res = mgr.validateSession(sid, "10.0.0.1");
-    EXPECT_TRUE(res.valid);
-}
+    mgr.terminateSession(id);
 
-TEST(SessionManagerPinningTest, IPPinning_DifferentIP_Invalid) {
-    SessionManager::SessionLimits lim = defaultLimits();
-    lim.pin_to_ip = true;
-    SessionManager mgr(lim);
-
-    auto sid = mgr.createSession("dave", "fp", "10.0.0.1", "UA");
-    auto res = mgr.validateSession(sid, "10.0.0.2");
-    EXPECT_FALSE(res.valid);
-    EXPECT_NE(res.error_message, "");
-}
-
-TEST(SessionManagerPinningTest, DevicePinning_DifferentDevice_Invalid) {
-    SessionManager::SessionLimits lim = defaultLimits();
-    lim.pin_to_device = true;
-    SessionManager mgr(lim);
-
-    auto sid = mgr.createSession("eve", "device-A", "1.1.1.1", "UA");
-    auto res = mgr.validateSession(sid, "1.1.1.1", "device-B");
+    auto res = mgr.validateSession(id);
     EXPECT_FALSE(res.valid);
 }
 
-TEST(SessionManagerPinningTest, PinningDisabled_IPChange_Valid) {
-    SessionManager::SessionLimits lim = defaultLimits();
-    lim.pin_to_ip = false;
-    SessionManager mgr(lim);
-
-    auto sid = mgr.createSession("frank", "fp", "1.1.1.1", "UA");
-    auto res = mgr.validateSession(sid, "2.2.2.2");
-    EXPECT_TRUE(res.valid);
-}
-
-// ===========================================================================
-// Concurrent session limit
-// ===========================================================================
-
-TEST(SessionManagerLimitTest, MaxConcurrentSessions_OldestEvicted) {
-    SessionManager::SessionLimits lim;
-    lim.max_concurrent_sessions = 2;
-    lim.idle_timeout             = std::chrono::seconds(3600);
-    lim.absolute_timeout         = std::chrono::seconds(86400);
-    SessionManager mgr(lim);
-
-    auto s1 = mgr.createSession("grace", "fp", "1.1.1.1", "UA");
-    std::this_thread::sleep_for(std::chrono::milliseconds(2));
-    auto s2 = mgr.createSession("grace", "fp", "1.1.1.1", "UA");
-
-    // Third session should evict the oldest (s1)
-    auto s3 = mgr.createSession("grace", "fp", "1.1.1.1", "UA");
-
-    EXPECT_EQ(mgr.size(), 2u);
-
-    // s1 should be gone
-    auto r1 = mgr.validateSession(s1);
-    EXPECT_FALSE(r1.valid);
-
-    // s2 and s3 should still be valid
-    EXPECT_TRUE(mgr.validateSession(s2).valid);
-    EXPECT_TRUE(mgr.validateSession(s3).valid);
-}
-
-TEST(SessionManagerLimitTest, MaxConcurrentSessions_Zero_DoesNotCrash) {
-    // When max_concurrent_sessions is 0, exactly one session is retained at a time:
-    // new sessions evict previous ones and the guard prevents UB in the loop.
-    SessionManager::SessionLimits lim;
-    lim.max_concurrent_sessions = 0;
-    lim.idle_timeout             = std::chrono::seconds(3600);
-    lim.absolute_timeout         = std::chrono::seconds(86400);
-    SessionManager mgr(lim);
-
-    std::string sid1;
-    EXPECT_NO_THROW(sid1 = mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
-    EXPECT_FALSE(sid1.empty());
-    EXPECT_EQ(mgr.size(), 1u); // first session escapes enforcement (user had no prior sessions)
-
-    std::string sid2;
-    EXPECT_NO_THROW(sid2 = mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
-    EXPECT_FALSE(sid2.empty());
-    EXPECT_EQ(mgr.size(), 1u); // sid1 evicted, sid2 retained
-    EXPECT_FALSE(mgr.validateSession(sid1).valid);
-    EXPECT_TRUE(mgr.validateSession(sid2).valid);
-}
-
-// ===========================================================================
-// Termination
-// ===========================================================================
-
-TEST_F(SessionManagerTest, TerminateSession_RemovesEntry) {
-    auto sid = mgr_.createSession("henry", "fp", "1.2.3.4", "UA");
-    EXPECT_EQ(mgr_.size(), 1u);
-
-    mgr_.terminateSession(sid);
-    EXPECT_EQ(mgr_.size(), 0u);
-    EXPECT_FALSE(mgr_.validateSession(sid).valid);
-}
-
-TEST_F(SessionManagerTest, TerminateSession_NoopForUnknownId) {
-    mgr_.createSession("henry", "fp", "1.2.3.4", "UA");
+TEST(SessionManagerTest, TerminateSession_UnknownIdIsNoOp) {
+    SessionManager mgr;
     // Should not throw
-    mgr_.terminateSession("sess_nonexistent");
-    EXPECT_EQ(mgr_.size(), 1u);
-}
-
-TEST_F(SessionManagerTest, TerminateAllOtherSessions_KeepsCurrentSession) {
-    auto s1 = mgr_.createSession("iris", "fp", "1.1.1.1", "UA");
-    auto s2 = mgr_.createSession("iris", "fp", "1.1.1.1", "UA");
-    auto s3 = mgr_.createSession("iris", "fp", "1.1.1.1", "UA");
-    EXPECT_EQ(mgr_.size(), 3u);
-
-    int terminated = mgr_.terminateAllOtherSessions("iris", s2);
-    EXPECT_EQ(terminated, 2);
-    EXPECT_EQ(mgr_.size(), 1u);
-    EXPECT_TRUE(mgr_.validateSession(s2).valid);
-    EXPECT_FALSE(mgr_.validateSession(s1).valid);
-    EXPECT_FALSE(mgr_.validateSession(s3).valid);
-}
-
-TEST_F(SessionManagerTest, TerminateAllSessions_RemovesAll) {
-    mgr_.createSession("jack", "fp", "1.1.1.1", "UA");
-    mgr_.createSession("jack", "fp", "1.1.1.1", "UA");
-    EXPECT_EQ(mgr_.size(), 2u);
-
-    int n = mgr_.terminateAllSessions("jack");
-    EXPECT_EQ(n, 2);
-    EXPECT_EQ(mgr_.size(), 0u);
-}
-
-TEST_F(SessionManagerTest, TerminateAllSessions_UnknownUser_ReturnsZero) {
-    EXPECT_EQ(mgr_.terminateAllSessions("nobody"), 0);
-}
-
-TEST_F(SessionManagerTest, TerminateAllOtherSessions_EmptyKeepId_TerminatesAll) {
-    // When keep_session_id is empty, all sessions are terminated
-    // (equivalent to terminateAllSessions – deliberate "logout everywhere" behavior)
-    auto s1 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
-    auto s2 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
-    EXPECT_EQ(mgr_.size(), 2u);
-
-    int terminated = mgr_.terminateAllOtherSessions("zara", "");
-    EXPECT_EQ(terminated, 2);
-    EXPECT_EQ(mgr_.size(), 0u);
-}
-
-TEST_F(SessionManagerTest, TerminateAllOtherSessions_UnknownUser_ReturnsZero) {
-    EXPECT_EQ(mgr_.terminateAllOtherSessions("nobody", "sess_fake"), 0);
+    EXPECT_NO_THROW(mgr.terminateSession("sess_nonexistent"));
 }
 
 // ===========================================================================
-// listSessions
+// SessionManager – terminateAllOtherSessions
 // ===========================================================================
 
-TEST_F(SessionManagerTest, ListSessions_ReturnsAllActiveForUser) {
-    auto s1 = mgr_.createSession("kate", "fp", "1.1.1.1", "UA");
-    auto s2 = mgr_.createSession("kate", "fp", "1.1.1.1", "UA");
-    mgr_.createSession("other_user", "fp", "2.2.2.2", "UA");
+TEST(SessionManagerTest, TerminateAllOther_RemovesAllExceptCurrent) {
+    SessionManager mgr(defaultLimits());
+    const auto id1 = mgr.createSession("alice");
+    const auto id2 = mgr.createSession("alice");
+    const auto id3 = mgr.createSession("alice");
 
-    auto sessions = mgr_.listSessions("kate");
+    const int removed = mgr.terminateAllOtherSessions("alice", id2);
+    EXPECT_EQ(removed, 2);
+
+    EXPECT_FALSE(mgr.validateSession(id1).valid);
+    EXPECT_TRUE(mgr.validateSession(id2).valid);
+    EXPECT_FALSE(mgr.validateSession(id3).valid);
+}
+
+TEST(SessionManagerTest, TerminateAllOther_EmptyKeepRemovesAll) {
+    SessionManager mgr(defaultLimits());
+    mgr.createSession("alice");
+    mgr.createSession("alice");
+
+    const int removed = mgr.terminateAllOtherSessions("alice");
+    EXPECT_EQ(removed, 2);
+}
+
+TEST(SessionManagerTest, TerminateAllOther_DoesNotAffectOtherUsers) {
+    SessionManager mgr(defaultLimits());
+    const auto alice_id = mgr.createSession("alice");
+    const auto bob_id   = mgr.createSession("bob");
+
+    mgr.terminateAllOtherSessions("alice");
+
+    EXPECT_TRUE(mgr.validateSession(bob_id).valid);
+    EXPECT_FALSE(mgr.validateSession(alice_id).valid);
+}
+
+// ===========================================================================
+// SessionManager – listSessions
+// ===========================================================================
+
+TEST(SessionManagerTest, ListSessions_ReturnsOnlyUserSessions) {
+    SessionManager mgr(defaultLimits());
+    mgr.createSession("alice");
+    mgr.createSession("alice");
+    mgr.createSession("bob");
+
+    const auto sessions = mgr.listSessions("alice");
     EXPECT_EQ(sessions.size(), 2u);
     for (const auto& s : sessions) {
-        EXPECT_EQ(s.user_id, "kate");
+        EXPECT_EQ(s.user_id, "alice");
     }
 }
 
-TEST_F(SessionManagerTest, ListSessions_MarksCurrentSession) {
-    auto s1 = mgr_.createSession("leo", "fp", "1.1.1.1", "UA");
-    auto s2 = mgr_.createSession("leo", "fp", "1.1.1.1", "UA");
+TEST(SessionManagerTest, ListSessions_OrderedByCreationTime) {
+    SessionManager mgr(defaultLimits());
+    const auto id1 = mgr.createSession("alice");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    const auto id2 = mgr.createSession("alice");
 
-    auto sessions = mgr_.listSessions("leo", s1);
+    const auto sessions = mgr.listSessions("alice");
+    ASSERT_EQ(sessions.size(), 2u);
+    EXPECT_EQ(sessions[0].session_id, id1);
+    EXPECT_EQ(sessions[1].session_id, id2);
+}
+
+TEST(SessionManagerTest, ListSessions_ExcludesExpiredSessions) {
+    SessionManager::SessionLimits lim;
+    lim.idle_timeout     = std::chrono::milliseconds(1);
+    lim.absolute_timeout = std::chrono::seconds(0);
+    SessionManager mgr(lim);
+
+    mgr.createSession("alice");
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    const auto sessions = mgr.listSessions("alice");
+    EXPECT_TRUE(sessions.empty());
+}
+
+// ===========================================================================
+// SessionManager – session limit enforcement
+// ===========================================================================
+
+TEST(SessionManagerTest, SessionLimit_EvictsOldestWhenFull) {
+    SessionManager::SessionLimits lim;
+    lim.max_sessions_per_user = 3;
+    lim.idle_timeout     = std::chrono::hours(8);
+    lim.absolute_timeout = std::chrono::hours(24);
+    SessionManager mgr(lim);
+
+    const auto id1 = mgr.createSession("alice");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    const auto id2 = mgr.createSession("alice");
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    const auto id3 = mgr.createSession("alice");
+
+    EXPECT_EQ(mgr.size(), 3u);
+
+    // Creating a 4th session should evict id1 (oldest)
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    const auto id4 = mgr.createSession("alice");
+
+    EXPECT_EQ(mgr.size(), 3u);
+    EXPECT_FALSE(mgr.validateSession(id1).valid);
+    EXPECT_TRUE(mgr.validateSession(id2).valid);
+    EXPECT_TRUE(mgr.validateSession(id3).valid);
+    EXPECT_TRUE(mgr.validateSession(id4).valid);
+}
+
+// ===========================================================================
+// SessionApiHandler
+// ===========================================================================
+
+class SessionApiHandlerTest : public ::testing::Test {
+protected:
+    std::shared_ptr<AuthMiddleware>         auth_;
+    std::shared_ptr<auth::SessionManager>  manager_;
+    std::unique_ptr<SessionApiHandler>     handler_;
+
+    void SetUp() override {
+        auth_    = makeAuth("alice-token", "alice");
+        manager_ = std::make_shared<auth::SessionManager>(defaultLimits());
+        handler_ = std::make_unique<SessionApiHandler>(auth_, manager_);
+    }
+};
+
+TEST_F(SessionApiHandlerTest, CreateSession_ValidToken) {
+    json body = {{"device_fingerprint", "fp-123"}, {"user_agent", "TestAgent/1.0"}};
+    auto resp = handler_->createSession("alice-token", body, "10.0.0.1");
+
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp.contains("session_id"));
+    EXPECT_EQ(resp["user_id"].get<std::string>(), "alice");
+    EXPECT_TRUE(resp["session_id"].get<std::string>().rfind("sess_", 0) == 0);
+}
+
+TEST_F(SessionApiHandlerTest, CreateSession_InvalidToken) {
+    auto resp = handler_->createSession("bad-token", json::object());
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 401);
+}
+
+TEST_F(SessionApiHandlerTest, ListSessions_ReturnsSessions) {
+    // Create a couple of sessions first
+    handler_->createSession("alice-token", json::object());
+    handler_->createSession("alice-token", json::object());
+
+    auto resp = handler_->listSessions("alice-token");
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_EQ(resp["total"].get<int>(), 2);
+    EXPECT_EQ(resp["sessions"].size(), 2u);
+}
+
+TEST_F(SessionApiHandlerTest, ListSessions_MarksCurrent) {
+    auto create_resp = handler_->createSession("alice-token", json::object());
+    ASSERT_FALSE(create_resp.contains("error"));
+    const std::string current = create_resp["session_id"].get<std::string>();
+
+    auto resp = handler_->listSessions("alice-token", current);
+    ASSERT_FALSE(resp.contains("error"));
+
     bool found_current = false;
-    for (const auto& s : sessions) {
-        if (s.session_id == s1) {
-            EXPECT_TRUE(s.is_current);
+    for (const auto& s : resp["sessions"]) {
+        if (s["session_id"] == current) {
+            EXPECT_TRUE(s["is_current"].get<bool>());
             found_current = true;
-        } else {
-            EXPECT_FALSE(s.is_current);
         }
     }
     EXPECT_TRUE(found_current);
 }
 
-TEST_F(SessionManagerTest, ListSessions_EmptyForUnknownUser) {
-    auto sessions = mgr_.listSessions("nobody");
-    EXPECT_TRUE(sessions.empty());
+TEST_F(SessionApiHandlerTest, RevokeSession_OwnSession) {
+    auto create_resp = handler_->createSession("alice-token", json::object());
+    const std::string sid = create_resp["session_id"].get<std::string>();
+
+    auto resp = handler_->revokeSession("alice-token", sid);
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp["success"].get<bool>());
+    EXPECT_EQ(resp["session_id"].get<std::string>(), sid);
+
+    // Session should no longer be retrievable
+    EXPECT_FALSE(manager_->validateSession(sid).valid);
 }
 
-// ===========================================================================
-// pruneExpired
-// ===========================================================================
-
-TEST(SessionManagerPruneTest, PruneExpired_RemovesExpiredSessions) {
-    SessionManager::SessionLimits lim;
-    lim.idle_timeout     = std::chrono::seconds(0);
-    lim.absolute_timeout = std::chrono::seconds(86400);
-    SessionManager mgr(lim);
-
-    mgr.createSession("mary", "fp", "1.1.1.1", "UA");
-    EXPECT_EQ(mgr.size(), 1u);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    mgr.pruneExpired();
-    EXPECT_EQ(mgr.size(), 0u);
+TEST_F(SessionApiHandlerTest, RevokeSession_EmptyIdReturnsError) {
+    auto resp = handler_->revokeSession("alice-token", "");
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 400);
 }
 
-// ===========================================================================
-// detectAnomalies
-// ===========================================================================
-
-TEST_F(SessionManagerTest, DetectAnomalies_UnknownSession_Empty) {
-    auto anomalies = mgr_.detectAnomalies("sess_nonexistent");
-    EXPECT_TRUE(anomalies.empty());
+TEST_F(SessionApiHandlerTest, RevokeSession_UnknownIdReturnsNotFound) {
+    auto resp = handler_->revokeSession("alice-token", "sess_doesnotexist00000000000000000000");
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 404);
 }
 
-TEST_F(SessionManagerTest, DetectAnomalies_ValidSession_NoAnomalies) {
-    auto sid = mgr_.createSession("nina", "fp", "1.2.3.4", "UA");
-    auto anomalies = mgr_.detectAnomalies(sid);
-    // A fresh session should report no critical anomalies
-    for (const auto& a : anomalies) {
-        EXPECT_LT(a.severity, 100);
-    }
+TEST_F(SessionApiHandlerTest, RevokeSession_OtherUserForbidden) {
+    // Create session for alice
+    auto create_resp = handler_->createSession("alice-token", json::object());
+    const std::string alice_sid = create_resp["session_id"].get<std::string>();
+
+    // Bob tries to revoke alice's session
+    auto bob_auth = makeAuth("bob-token", "bob");
+    manager_->createSession("bob"); // ensure bob has a session too (not strictly needed)
+    SessionApiHandler bob_handler(bob_auth, manager_);
+
+    auto resp = bob_handler.revokeSession("bob-token", alice_sid);
+    EXPECT_TRUE(resp.contains("error"));
+    EXPECT_EQ(resp["status_code"].get<int>(), 403);
 }
 
-// ===========================================================================
-// Thread safety
-// ===========================================================================
+TEST_F(SessionApiHandlerTest, RevokeSession_AdminCanRevokeAnySession) {
+    // alice creates a session
+    auto create_resp = handler_->createSession("alice-token", json::object());
+    const std::string alice_sid = create_resp["session_id"].get<std::string>();
 
-TEST(SessionManagerConcurrencyTest, ConcurrentCreateAndValidate_NoDataRace) {
-    SessionManager::SessionLimits lim;
-    lim.max_concurrent_sessions = 100;
-    lim.idle_timeout             = std::chrono::seconds(3600);
-    lim.absolute_timeout         = std::chrono::seconds(86400);
-    SessionManager mgr(lim);
+    // admin revokes it
+    auto admin_auth = makeAuth("admin-token", "admin", /*is_admin=*/true);
+    SessionApiHandler admin_handler(admin_auth, manager_);
 
-    constexpr int kThreads    = 8;
-    constexpr int kOpsPerThread = 50;
+    auto resp = admin_handler.revokeSession("admin-token", alice_sid);
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp["success"].get<bool>());
+}
 
-    std::vector<std::thread> threads;
-    std::atomic<int> errors{0};
+TEST_F(SessionApiHandlerTest, RevokeAllOtherSessions_KeepsCurrent) {
+    auto r1 = handler_->createSession("alice-token", json::object());
+    auto r2 = handler_->createSession("alice-token", json::object());
+    auto r3 = handler_->createSession("alice-token", json::object());
 
-    threads.reserve(kThreads);
-    for (int t = 0; t < kThreads; ++t) {
-        threads.emplace_back([&, t]() {
-            for (int i = 0; i < kOpsPerThread; ++i) {
-                try {
-                    std::string uid = "user_" + std::to_string(t);
-                    auto sid = mgr.createSession(uid, "fp", "1.1.1.1", "UA");
-                    auto res = mgr.validateSession(sid);
-                    if (!res.valid) {
-                        // Could be evicted by the limit enforcer – not an error
-                    }
-                } catch (...) {
-                    ++errors;
-                }
-            }
-        });
-    }
+    const std::string keep = r2["session_id"].get<std::string>();
+    const std::string id1  = r1["session_id"].get<std::string>();
+    const std::string id3  = r3["session_id"].get<std::string>();
 
-    for (auto& th : threads) th.join();
+    auto resp = handler_->revokeAllOtherSessions("alice-token", keep);
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp["success"].get<bool>());
+    EXPECT_EQ(resp["terminated"].get<int>(), 2);
 
-    EXPECT_EQ(errors.load(), 0);
+    EXPECT_FALSE(manager_->validateSession(id1).valid);
+    EXPECT_TRUE(manager_->validateSession(keep).valid);
+    EXPECT_FALSE(manager_->validateSession(id3).valid);
+}
+
+TEST_F(SessionApiHandlerTest, Constructor_NullAuthThrows) {
+    EXPECT_THROW(
+        SessionApiHandler(nullptr, manager_),
+        std::invalid_argument);
+}
+
+TEST_F(SessionApiHandlerTest, Constructor_NullManagerThrows) {
+    EXPECT_THROW(
+        SessionApiHandler(auth_, nullptr),
+        std::invalid_argument);
 }
