@@ -138,11 +138,27 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
-     * Default LRU cache TTL in seconds.
+     * Effective LRU cache TTL in seconds.
+     * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
+     * variable; falls back to the default of 300 seconds (5 minutes) when the
+     * variable is absent or invalid.
+     *
      * Exposed as a named constant so the metrics exporter and other consumers
      * can reference the single source of truth rather than duplicating the value.
      */
-    static constexpr int kCacheTtlSeconds = 300;
+    static const int kCacheTtlSeconds;
+
+    /**
+     * Default LRU cache TTL in seconds (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_TTL is not set.
+     */
+    static constexpr int kDefaultCacheTtlSeconds = 300;
+
+    /**
+     * Default LRU cache capacity (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_SIZE is not set.
+     */
+    static constexpr size_t kDefaultCacheSize = 1000;
 
     /**
      * Entry in the deprecation usage report.

@@ -27,6 +27,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <condition_variable>
+#include <cstdlib>
 #include <mutex>
 #include <sstream>
 #include <iomanip>
@@ -189,11 +190,49 @@ private:
 };
 
 // ═══════════════════════════════════════════════════════════
+// Env-var helpers for cache configuration
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+
+/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent/invalid.
+size_t initCacheSize() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0' && val > 0) {
+            return static_cast<size_t>(val);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheSize;
+}
+
+/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent/invalid.
+int initCacheTtl() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0' && val > 0) {
+            return static_cast<int>(val);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheTtlSeconds;
+}
+
+} // anonymous namespace
+
+// ═══════════════════════════════════════════════════════════
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
+// kCacheTtlSeconds must be defined before cache_ so the cache constructor
+// receives the correct TTL at program startup.
+const int ConfigPathResolver::kCacheTtlSeconds = initCacheTtl();
+
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
-LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(initCacheSize(), ConfigPathResolver::kCacheTtlSeconds); // env-configurable size and TTL
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
