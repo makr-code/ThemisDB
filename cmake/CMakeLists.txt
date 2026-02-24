@@ -1987,6 +1987,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/reranker.cpp
     # Phase 2: Hallucination Rate Tracking Dashboard
     ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
+    ../src/rag/hybrid_retriever.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
