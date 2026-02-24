@@ -22,6 +22,7 @@
  */
 
 #include "cache/adaptive_query_cache.h"
+#include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
@@ -520,6 +521,13 @@ bool AdaptiveQueryCache::put(
         THEMIS_DEBUG("Put request rate limited for fingerprint: {}", fingerprint.substr(0, 16));
         return false;
     }
+
+    // Phase 4: Capture replication listener (avoid holding replication_mutex_ during write)
+    std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+    {
+        std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+        rep_listener = replication_listener_;
+    }
     
     int64_t now_ms = getCurrentTimeMs();
     std::string result_str = result.dump();
@@ -601,6 +609,20 @@ bool AdaptiveQueryCache::put(
         }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+
+        // Phase 4: Notify replication listener
+        if (rep_listener) {
+            rep_listener->onReplicationEvent([&]() {
+                cache::CacheReplicationEvent ev;
+                ev.type = cache::CacheReplicationEventType::WRITE;
+                ev.key = key;
+                ev.payload = result_str;
+                ev.tenant_id = tenant_id;
+                ev.ttl_seconds = ttl_seconds;
+                return ev;
+            }());
+        }
+
         return true;
         
     } else if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {
@@ -635,6 +657,20 @@ bool AdaptiveQueryCache::put(
         enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
+
+        // Phase 4: Notify replication listener
+        if (rep_listener) {
+            rep_listener->onReplicationEvent([&]() {
+                cache::CacheReplicationEvent ev;
+                ev.type = cache::CacheReplicationEventType::WRITE;
+                ev.key = fingerprint;
+                ev.payload = result_str;
+                ev.tenant_id = tenant_id;
+                ev.ttl_seconds = ttl_seconds;
+                return ev;
+            }());
+        }
+
         return true;
         
     } else if (l3_db_) {
@@ -672,6 +708,20 @@ bool AdaptiveQueryCache::put(
                 }
                 enhanced_metrics_.total_bytes_cached += result_size;
                 THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+
+                // Phase 4: Notify replication listener
+                if (rep_listener) {
+                    rep_listener->onReplicationEvent([&]() {
+                        cache::CacheReplicationEvent ev;
+                        ev.type = cache::CacheReplicationEventType::WRITE;
+                        ev.key = key;
+                        ev.payload = entry_json.dump();
+                        ev.tenant_id = tenant_id;
+                        ev.ttl_seconds = ttl_seconds;
+                        return ev;
+                    }());
+                }
+
                 return true;
             }
         } catch (const std::exception& e) {
@@ -783,6 +833,22 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     }
     
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
+
+    // Phase 4: Notify replication listener
+    if (count > 0) {
+        std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+        {
+            std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+            rep_listener = replication_listener_;
+        }
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::INVALIDATE;
+            ev.pattern = pattern;
+            rep_listener->onReplicationEvent(ev);
+        }
+    }
+
     return count;
 }
 
@@ -1514,6 +1580,22 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
+
+    // Phase 4: Notify replication listener
+    {
+        std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+        {
+            std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+            rep_listener = replication_listener_;
+        }
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::INVALIDATE_TENANT;
+            ev.tenant_id = tenant_id;
+            rep_listener->onReplicationEvent(ev);
+        }
+    }
+
     return count;
 }
 
@@ -1899,6 +1981,22 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
 
     THEMIS_INFO("Cache snapshot exported: {} entries to {}", result.entries_written, out_path);
     return result;
+}
+
+// ============================================================================
+// Phase 4: Cache Replication for High-Availability
+// ============================================================================
+
+void AdaptiveQueryCache::setReplicationListener(
+        std::shared_ptr<cache::ICacheReplicationListener> listener) {
+    std::lock_guard<std::mutex> lock(replication_mutex_);
+    replication_listener_ = std::move(listener);
+    if (replication_listener_) {
+        THEMIS_INFO("AdaptiveQueryCache: replication listener registered ({})",
+                    replication_listener_->replicaId());
+    } else {
+        THEMIS_INFO("AdaptiveQueryCache: replication listener unregistered");
+    }
 }
 
 } // namespace themis

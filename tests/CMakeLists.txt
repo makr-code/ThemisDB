@@ -1093,6 +1093,41 @@ else()
     message(STATUS "Cache Warmup tests not found")
 endif()
 
+# ============================================================================
+# Cache Replication Tests (Phase 4 – HA cache replication)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
+    message(STATUS "Adding Cache Replication tests")
+
+    add_executable(test_cache_replication
+        test_cache_replication.cpp
+    )
+
+    target_link_libraries(test_cache_replication PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_replication PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheReplicationTests COMMAND test_cache_replication)
+
+    set_tests_properties(CacheReplicationTests PROPERTIES
+        LABELS "cache;replication;ha;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Replication: listener callbacks, snapshot, graceful degradation, replica health")
+else()
+    message(STATUS "Cache Replication tests not found")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 
