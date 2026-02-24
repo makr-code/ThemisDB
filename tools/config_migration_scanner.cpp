@@ -66,9 +66,9 @@ static bool shouldScanFile(const fs::path& p) {
 }
 
 static std::string formatTimePoint(
-        const std::optional<std::chrono::system_clock::time_point>& tp) {
-    if (!tp.has_value()) return "";
-    auto days = std::chrono::floor<std::chrono::days>(*tp);
+        const std::optional<std::chrono::system_clock::time_point>& timestamp) {
+    if (!timestamp.has_value()) return "";
+    auto days = std::chrono::floor<std::chrono::days>(*timestamp);
     std::chrono::year_month_day ymd{days};
     auto y = static_cast<int>(ymd.year());
     auto m = static_cast<unsigned>(ymd.month());

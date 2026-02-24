@@ -1086,8 +1086,13 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     if (fs_path.is_absolute()) {
         std::string str = path;
         std::replace(str.begin(), str.end(), '\\', '/');
-        if (str.find("/config/") == std::string::npos &&
-            str.find("/config") != str.size() - 7) {
+        // Accept paths that contain "/config/" as a component, or end with "/config"
+        constexpr std::string_view kConfigSuffix = "/config";
+        const bool ends_with_config =
+            str.size() >= kConfigSuffix.size() &&
+            str.compare(str.size() - kConfigSuffix.size(),
+                        kConfigSuffix.size(), kConfigSuffix) == 0;
+        if (str.find("/config/") == std::string::npos && !ends_with_config) {
             throw InvalidPathException(path, "absolute path outside config directory");
         }
     }
