@@ -292,7 +292,6 @@ TEST(MLServingClientTest, IsBackendAvailableTFServing) {
 TEST(MLServingClientTest, ForcedONNXBackendConstruction) {
     MLServingConfig cfg;
     cfg.backend = MLBackendType::ONNX_RUNTIME;
-    EXPECT_NO_THROW(MLServingClient client(cfg));
     MLServingClient client(cfg);
     EXPECT_FALSE(client.activeBackendName().empty());
 }
@@ -302,7 +301,6 @@ TEST(MLServingClientTest, ForcedTFServingBackendConstruction) {
     cfg.backend                 = MLBackendType::TF_SERVING;
     cfg.tf_config.base_url      = "http://localhost:8501";
     cfg.tf_config.timeout_ms    = 100;
-    EXPECT_NO_THROW(MLServingClient client(cfg));
     MLServingClient client(cfg);
     EXPECT_FALSE(client.activeBackendName().empty());
 }
