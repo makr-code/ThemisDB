@@ -1018,3 +1018,50 @@ TEST(GeoAccelerationBridge, SelectGeoBackendFor_GeoOps) {
         << "selectGeoBackendFor(needsGeoOps=true) must return a non-null backend";
     EXPECT_TRUE(geo->getCapabilities().supportsGeoOps);
 }
+
+// The bridge dispatch table must have non-null slots for both distance and
+// containment; the bridge always returns a CPU-backed dispatch at minimum.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_SlotsNonNull) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    EXPECT_NE(d.launchDistance,    nullptr) << "distance slot must be non-null";
+    EXPECT_NE(d.launchContainment, nullptr) << "containment slot must be non-null";
+}
+
+// Round-trip through the dispatch table: distance and containment should
+// produce correct results (CPU path guaranteed on any machine).
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_HaversineDistance) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    // London to Paris ≈ 340 km
+    const double lats1[] = {51.5074};
+    const double lons1[] = {-0.1278};
+    const double lats2[] = {48.8566};
+    const double lons2[] = {2.3522};
+    float dist = 0.f;
+
+    int rc = d.launchDistance(lats1, lons1, lats2, lons2, &dist, 1,
+                              themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                              nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NEAR(dist, 340.f, 10.f);
+}
+
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_PointInPolygon) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchContainment, nullptr);
+
+    // Unit square polygon: [0,0], [0,2], [2,2], [2,0]
+    const double poly[] = {0.0, 0.0,  0.0, 2.0,  2.0, 2.0,  2.0, 0.0};
+    const double pLats[] = {1.0, 3.0};  // inside, outside
+    const double pLons[] = {1.0, 3.0};
+    uint8_t results[2] = {};
+
+    int rc = d.launchContainment(pLats, pLons, 2, poly, 4, results, nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(results[0], 0u) << "(1,1) must be inside the square";
+    EXPECT_EQ(results[1], 0u) << "(3,3) must be outside the square";
+}

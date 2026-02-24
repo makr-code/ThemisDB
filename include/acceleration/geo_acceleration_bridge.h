@@ -59,8 +59,8 @@ public:
      *
      * Computes great-circle distances in kilometres between corresponding
      * (lat1,lon1) and (lat2,lon2) pairs.  The computation runs on CPU using
-     * the Haversine formula; GPU kernel dispatch for distance is a future
-     * enhancement (FUTURE_ENHANCEMENTS §CUDA_KERNEL_DISPATCH).
+     * the Haversine formula.  For GPU kernel dispatch use populateGeoDispatch()
+     * which returns CUDA launchers when a CUDA device is present.
      *
      * @param useHaversine  When true (default), applies the Haversine formula
      *                      for WGS-84 geodesic distances.  When false, returns
@@ -99,9 +99,10 @@ public:
     ) override;
 
     // -----------------------------------------------------------------------
-    // GeoKernelDispatch — null entries; future GPU kernels registered here
+    // GeoKernelDispatch — returns CUDA launchers when CUDA is available,
+    // CPU launchers otherwise so the dispatch table is always fully populated.
     // -----------------------------------------------------------------------
-    GeoKernelDispatch populateGeoDispatch() const override { return {}; }
+    GeoKernelDispatch populateGeoDispatch() const override;
 
 private:
     /// Haversine distance between two WGS-84 points; result in kilometres.
