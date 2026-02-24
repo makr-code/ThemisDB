@@ -209,3 +209,50 @@ class TestQuarterDueDateDynamic:
 
     def test_none_for_empty_string(self):
         assert sync._quarter_due_date("") is None
+
+
+# ---------------------------------------------------------------------------
+# generate_audit_report
+# ---------------------------------------------------------------------------
+
+
+class TestGenerateAuditReport:
+
+    def test_creates_file(self, tmp_path):
+        src_root = tmp_path / "src"
+        src_root.mkdir()
+        out = tmp_path / "audit.md"
+        mapped = {
+            42: {"milestone": "Q2 2026", "roadmap": "src/mod/ROADMAP.md", "line": "- line"},
+        }
+        all_refs = {
+            42: {"milestone": "Q2 2026", "roadmap": "src/mod/ROADMAP.md", "line": "- line"},
+            99: {"milestone": None, "roadmap": "src/mod/ROADMAP.md", "line": "- no target"},
+        }
+        sync.generate_audit_report(src_root, all_refs, mapped, [], out)
+        assert out.exists()
+        content = out.read_text()
+        assert "#42" in content
+        assert "#99" in content
+        assert "Q2 2026" in content
+
+    def test_milestone_marked_missing_when_not_in_existing(self, tmp_path):
+        src_root = tmp_path / "src"
+        src_root.mkdir()
+        out = tmp_path / "audit.md"
+        mapped = {1: {"milestone": "Q3 2026", "roadmap": "src/m/ROADMAP.md", "line": ""}}
+        all_refs = {1: {"milestone": "Q3 2026", "roadmap": "src/m/ROADMAP.md", "line": ""}}
+        sync.generate_audit_report(src_root, all_refs, mapped, [], out)
+        content = out.read_text()
+        assert "missing" in content
+
+    def test_milestone_marked_exists_when_in_existing(self, tmp_path):
+        src_root = tmp_path / "src"
+        src_root.mkdir()
+        out = tmp_path / "audit.md"
+        mapped = {1: {"milestone": "Q3 2026", "roadmap": "src/m/ROADMAP.md", "line": ""}}
+        all_refs = {1: {"milestone": "Q3 2026", "roadmap": "src/m/ROADMAP.md", "line": ""}}
+        existing = [{"title": "Q3 2026", "number": 5}]
+        sync.generate_audit_report(src_root, all_refs, mapped, existing, out)
+        content = out.read_text()
+        assert "exists" in content

@@ -141,19 +141,39 @@ class GitHubAPI:
                         return None
                     return json.loads(resp.read())
             except urllib.error.HTTPError as exc:
-                if exc.code == 403 and "rate limit" in exc.reason.lower():
-                    wait = max(0, self._rate_limit_reset - int(time.time())) + 5
-                    print(f"  ⏳ Rate-limited. Waiting {wait}s …", file=sys.stderr)
-                    time.sleep(wait)
+                # Read the body once so we can inspect it below.
+                try:
+                    body_text = exc.read().decode(errors="replace")
+                except Exception:
+                    body_text = ""
+
+                if exc.code == 403:
+                    # GitHub sends rate-limit 403s with X-RateLimit-Remaining: 0
+                    # and a JSON body containing "rate limit" or "secondary rate".
+                    remaining_hdr = int(exc.headers.get("X-RateLimit-Remaining", "1") if exc.headers else "1")
+                    is_rate_limit = (
+                        remaining_hdr == 0
+                        or "rate limit" in body_text.lower()
+                        or "secondary rate" in body_text.lower()
+                    )
+                    if is_rate_limit and attempt < retry - 1:
+                        reset_hdr = exc.headers.get("X-RateLimit-Reset", "0") if exc.headers else "0"
+                        wait = max(0, int(reset_hdr) - int(time.time())) + 5
+                        print(f"  ⏳ Rate-limited. Waiting {wait}s …", file=sys.stderr)
+                        time.sleep(wait)
+                    else:
+                        print(
+                            f"  ❌ HTTP 403 {method} {path}: {body_text[:300]}",
+                            file=sys.stderr,
+                        )
+                        return None
                 elif exc.code == 422:
                     # Unprocessable – e.g. milestone already exists
-                    body_text = exc.read().decode()
                     print(f"  ⚠️  422 Unprocessable for {method} {path}: {body_text[:200]}")
                     return None
                 elif exc.code in (502, 503, 504) and attempt < retry - 1:
                     time.sleep(2 ** attempt)
                 else:
-                    body_text = exc.read().decode()
                     print(
                         f"  ❌ HTTP {exc.code} {method} {path}: {body_text[:300]}",
                         file=sys.stderr,
