@@ -33,7 +33,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] gRPC API surface alongside REST (Issue: #1499)
 - [I] API gateway integration (Kong, Nginx) (Issue: #1500)
 - [I] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
-- [I] API key management endpoint (Issue: #1502)
+- [x] API key management endpoint (Issue: #1502)
 - [I] Multi-tenant namespace routing (Issue: #1503)
 - [I] Async job API for long-running queries (Issue: #1504)
 
