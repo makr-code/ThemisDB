@@ -1540,6 +1540,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/adapters/otel_tracer.cpp
+    ../src/core/concerns/prometheus_metrics.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1638,6 +1639,17 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
+    ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/auth_metrics.cpp
+    ../src/auth/auth_error.cpp
+    ../src/auth/jwks_security.cpp
+    ../src/auth/kerberos_security.cpp
+    ../src/auth/totp_replay_cache.cpp
+    ../src/auth/totp_secret_encryption.cpp
+    ../src/auth/jwt_key_rotation_manager.cpp
+    ../src/auth/principal_validator.cpp
     ../src/auth/webauthn_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp

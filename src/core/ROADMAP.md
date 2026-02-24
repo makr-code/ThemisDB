@@ -82,7 +82,6 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- Prometheus adapter not yet implemented; metrics are in-memory only
 - Context propagation across async/thread boundaries is supported via `startSpanFromHeaders` / `injectContext`; caller is responsible for passing headers across async boundaries
 - Feature flags are now a first-class concern in the DI system via `IFeatureFlags` / `InMemoryFeatureFlags`
 
