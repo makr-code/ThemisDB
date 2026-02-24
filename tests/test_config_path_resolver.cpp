@@ -477,6 +477,63 @@ TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// SIGHUP Hot-Reload Tests
+// ═══════════════════════════════════════════════════════════
+
+#ifndef _WIN32
+#include <csignal>
+
+TEST_F(ConfigPathResolverTest, RegisterSighupHandlerDoesNotThrow) {
+    EXPECT_NO_THROW(ConfigPathResolver::registerSighupHandler());
+}
+
+TEST_F(ConfigPathResolverTest, SighupClearsCache) {
+    // Populate the cache with a real file
+    auto temp_file = test_dir_ / "config" / "sighup_test.yaml";
+    createTestFile(temp_file);
+
+    ConfigPathResolver::setCachingEnabled(true);
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::registerSighupHandler();
+
+    // First resolution – cache miss then populated
+    auto result1 = ConfigPathResolver::tryResolve(temp_file.string());
+    ASSERT_TRUE(result1.has_value());
+
+    // Verify the entry is now in the cache (second call hits the cache)
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_GT(ConfigPathResolver::metrics().cache_hits, 0u);
+
+    // Send SIGHUP to ourselves – handler sets the pending flag
+    ::raise(SIGHUP);
+
+    // Next tryResolve() must detect the pending flag, clear the cache,
+    // and re-resolve (cache miss after the clear).
+    ConfigPathResolver::resetMetrics();
+    auto result2 = ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_TRUE(result2.has_value());
+    // After SIGHUP the cache was wiped, so this call must be a cache miss
+    EXPECT_EQ(ConfigPathResolver::metrics().cache_hits, 0u);
+}
+
+TEST_F(ConfigPathResolverTest, SighupHandlerIsSafeToCallRepeatedly) {
+    // Registering and signalling multiple times must not crash or deadlock
+    ConfigPathResolver::registerSighupHandler();
+    ConfigPathResolver::registerSighupHandler();
+
+    ::raise(SIGHUP);
+    ConfigPathResolver::clearCache(); // drain pending flag via tryResolve path
+    ConfigPathResolver::tryResolve("config/nonexistent_repeat.yaml");
+
+    ::raise(SIGHUP);
+    ConfigPathResolver::tryResolve("config/nonexistent_repeat2.yaml");
+
+    SUCCEED();
+}
+#endif // !_WIN32
+
+// ═══════════════════════════════════════════════════════════
 // ConfigMetricsExporter Tests
 // ═══════════════════════════════════════════════════════════
 

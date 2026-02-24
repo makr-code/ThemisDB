@@ -29,6 +29,7 @@
 #include <optional>
 #include <atomic>
 #include <chrono>
+#include <csignal>
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
 #include "config/path_mapping_metadata.h"
@@ -138,6 +139,23 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Register a SIGHUP signal handler that hot-reloads the resolved path cache.
+     *
+     * When the process receives SIGHUP, the LRU cache is cleared on the next
+     * call to resolve() or tryResolve().  This allows operators to trigger a
+     * cache flush at runtime (e.g. after moving config files) without restarting
+     * the process.
+     *
+     * On platforms that do not support SIGHUP (Windows), this function is a
+     * no-op.
+     *
+     * Thread-safety: safe to call from any thread.  The underlying signal
+     * handler only sets an async-signal-safe flag (volatile sig_atomic_t);
+     * the actual cache.clear() is executed on the next call to tryResolve().
+     */
+    static void registerSighupHandler();
+
+    /**
      * Default LRU cache TTL in seconds.
      * Exposed as a named constant so the metrics exporter and other consumers
      * can reference the single source of truth rather than duplicating the value.
@@ -205,6 +223,13 @@ private:
     class DeprecationAggregator;
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
+
+    // Async-signal-safe flag set by the SIGHUP handler.
+    // Checked at the top of tryResolve(); when set, the cache is cleared.
+    static volatile sig_atomic_t sighup_pending_;
+
+    // Signal handler installed by registerSighupHandler() (POSIX only).
+    static void handleSighup(int /*sig*/);
 };
 
 } // namespace config
