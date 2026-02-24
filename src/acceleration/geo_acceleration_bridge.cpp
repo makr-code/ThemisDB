@@ -25,9 +25,8 @@
 //    discovery / circuit-breaker machinery already wired into GpuBatchBackend.
 //
 // 2. batchDistances() implements Haversine on CPU.  GPU kernel dispatch for
-//    distance is a FUTURE_ENHANCEMENT (see geo/FUTURE_ENHANCEMENTS.md
-//    §CUDA_KERNEL_DISPATCH).  The bridge records a fallback metric via the geo
-//    GPU backend's audit log whenever the GPU is unavailable.
+//    distance is wired via populateGeoDispatch() when THEMIS_ENABLE_CUDA is
+//    defined (uses launchGeoDistanceKernel from cuda/geo_kernels.cu).
 //
 // 3. isAvailable() returns true always — the bridge itself is always usable
 //    because it falls back to CPU.  type() returns BackendType::CUDA when the
@@ -41,12 +40,38 @@
 //    themis_geo (GpuBatchBackend).
 
 #include "acceleration/geo_acceleration_bridge.h"
+#include "acceleration/cpu_backend.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
 
 #include <cmath>
 #include <stdexcept>
+
+#ifdef THEMIS_ENABLE_CUDA
+#include <cstdint>
+extern "C" {
+int launchGeoDistanceKernel(
+    const double* d_lats1,
+    const double* d_lons1,
+    const double* d_lats2,
+    const double* d_lons2,
+    float* d_distances,
+    int count,
+    themis::acceleration::GeoDistanceFormula formula,
+    void* opaque_stream
+);
+int launchGeoContainmentKernel(
+    const double* d_point_lats,
+    const double* d_point_lons,
+    int numPoints,
+    const double* d_polygon_coords,
+    int numPolygonVertices,
+    uint8_t* d_results,
+    void* opaque_stream
+);
+} // extern "C"
+#endif
 
 namespace themis {
 namespace acceleration {
@@ -208,6 +233,31 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
         out[i] = (res.mask[i] != 0u);
     }
     return out;
+}
+
+} // namespace acceleration
+} // namespace themis
+
+// ---------------------------------------------------------------------------
+// GeoKernelDispatch population
+// ---------------------------------------------------------------------------
+
+namespace themis {
+namespace acceleration {
+
+GeoKernelDispatch GeoAccelerationBridge::populateGeoDispatch() const {
+#ifdef THEMIS_ENABLE_CUDA
+    auto* geo = themis::geo::getGpuSpatialBackend();
+    if (geo && geo->isAvailable()) {
+        GeoKernelDispatch d;
+        d.launchDistance    = launchGeoDistanceKernel;
+        d.launchContainment = launchGeoContainmentKernel;
+        return d;
+    }
+#endif
+    // CPU fallback: always available, no GPU required.
+    CPUGeoBackend cpu;
+    return cpu.populateGeoDispatch();
 }
 
 } // namespace acceleration
