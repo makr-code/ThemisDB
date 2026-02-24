@@ -285,6 +285,8 @@ std::string AuthMetrics::authMethodToString(AuthMethod method) {
             return "mfa";
         case AuthMethod::OAUTH_DEVICE:
             return "oauth_device";
+        case AuthMethod::API_KEY:
+            return "api_key";
         case AuthMethod::UNKNOWN:
         default:
             return "unknown";

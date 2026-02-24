@@ -1,0 +1,270 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            api_key_authenticator.cpp                          ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-23                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     280                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "auth/api_key_authenticator.h"
+
+#include <openssl/sha.h>
+#include <openssl/crypto.h>
+#include <spdlog/spdlog.h>
+
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+
+namespace themis {
+namespace auth {
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+ApiKeyAuthenticator::ApiKeyAuthenticator(const Config& config)
+    : config_(config)
+{}
+
+// ============================================================================
+// Credential management
+// ============================================================================
+
+void ApiKeyAuthenticator::addCredential(const ApiKeyCredential& credential) {
+    if (credential.key_id.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "API key credential error",
+            "key_id must not be empty"
+        ));
+    }
+    // A valid SHA-256 hex digest is exactly 64 lower-case hex characters.
+    if (credential.secret_hash.size() != 64) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "API key credential error",
+            "secret_hash must be a 64-character SHA-256 hex digest"
+        ));
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    credentials_[credential.key_id] = credential;
+    spdlog::debug("ApiKeyAuthenticator: credential added for key_id='{}'",
+                  credential.key_id);
+}
+
+void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (credentials_.erase(key_id) > 0) {
+        spdlog::debug("ApiKeyAuthenticator: credential removed for key_id='{}'", key_id);
+    }
+}
+
+size_t ApiKeyAuthenticator::credentialCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return credentials_.size();
+}
+
+// ============================================================================
+// Authentication
+// ============================================================================
+
+ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
+                                                const std::string& secret)
+{
+    // --- Input validation ---------------------------------------------------
+    if (key_id.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "key_id must not be empty"
+        ));
+    }
+    if (key_id.size() > config_.max_key_id_length) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "key_id exceeds maximum allowed length"
+        ));
+    }
+    if (secret.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "secret must not be empty"
+        ));
+    }
+    if (secret.size() > config_.max_secret_length) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "secret exceeds maximum allowed length"
+        ));
+    }
+
+    // --- Look up credential -------------------------------------------------
+    ApiKeyCredential cred;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = credentials_.find(key_id);
+        if (it == credentials_.end()) {
+            spdlog::warn("ApiKeyAuthenticator: unknown key_id='{}'", key_id);
+            throw AuthException(AuthError(
+                AuthErrorCode::API_KEY_INVALID,
+                "Authentication failed",
+                "key_id not found: " + key_id
+            ));
+        }
+        cred = it->second;
+    }
+
+    // --- Check active flag --------------------------------------------------
+    if (!cred.active) {
+        spdlog::warn("ApiKeyAuthenticator: inactive key_id='{}'", key_id);
+        throw AuthException(AuthError(
+            AuthErrorCode::API_KEY_INACTIVE,
+            "Authentication failed",
+            "API key is inactive: " + key_id
+        ));
+    }
+
+    // --- Check expiry -------------------------------------------------------
+    if (config_.check_expiry) {
+        static const std::chrono::system_clock::time_point epoch{};
+        if (cred.expires_at != epoch &&
+            std::chrono::system_clock::now() > cred.expires_at)
+        {
+            spdlog::warn("ApiKeyAuthenticator: expired key_id='{}'", key_id);
+            throw AuthException(AuthError(
+                AuthErrorCode::API_KEY_EXPIRED,
+                "Authentication failed",
+                "API key has expired: " + key_id
+            ));
+        }
+    }
+
+    // --- Verify secret (constant-time comparison) ---------------------------
+    std::string presented_hash;
+    try {
+        presented_hash = hashSecret(secret);
+    } catch (const std::exception& ex) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Authentication failed",
+            std::string("Failed to hash presented secret: ") + ex.what()
+        ));
+    }
+
+    if (!constantTimeEqual(presented_hash, cred.secret_hash)) {
+        spdlog::warn("ApiKeyAuthenticator: secret mismatch for key_id='{}'", key_id);
+        throw AuthException(AuthError(
+            AuthErrorCode::API_KEY_SECRET_MISMATCH,
+            "Authentication failed",
+            "Secret mismatch for key_id: " + key_id
+        ));
+    }
+
+    spdlog::info("ApiKeyAuthenticator: authenticated key_id='{}' principal='{}'",
+                 key_id, cred.principal);
+    return claimsFromCredential(cred);
+}
+
+ApiKeyClaims ApiKeyAuthenticator::authenticateCombined(const std::string& combined) {
+    const auto dot = combined.find('.');
+    if (dot == std::string::npos || dot == 0 || dot + 1 >= combined.size()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "Combined API key must be in '<key_id>.<secret>' format"
+        ));
+    }
+    return authenticate(combined.substr(0, dot), combined.substr(dot + 1));
+}
+
+// ============================================================================
+// Static helpers
+// ============================================================================
+
+std::string ApiKeyAuthenticator::hashSecret(const std::string& secret) {
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    if (SHA256(reinterpret_cast<const unsigned char*>(secret.data()),
+               secret.size(), digest) == nullptr) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Internal error",
+            "OpenSSL SHA256 failed"
+        ));
+    }
+    return hexEncode(digest, SHA256_DIGEST_LENGTH);
+}
+
+ApiKeyCredential ApiKeyAuthenticator::createCredential(
+    const std::string& key_id,
+    const std::string& secret,
+    const std::string& principal,
+    const std::vector<std::string>& scopes,
+    const std::vector<std::string>& roles,
+    const std::string& tenant_id,
+    std::chrono::system_clock::time_point expires_at)
+{
+    ApiKeyCredential cred;
+    cred.key_id      = key_id;
+    cred.secret_hash = hashSecret(secret);
+    cred.principal   = principal;
+    cred.tenant_id   = tenant_id;
+    cred.scopes      = scopes;
+    cred.roles       = roles;
+    cred.expires_at  = expires_at;
+    cred.active      = true;
+    return cred;
+}
+
+// ============================================================================
+// Private helpers
+// ============================================================================
+
+bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
+                                             const std::string& b)
+{
+    if (a.size() != b.size()) {
+        return false;
+    }
+    return CRYPTO_memcmp(a.data(), b.data(), a.size()) == 0;
+}
+
+std::string ApiKeyAuthenticator::hexEncode(const unsigned char* data, size_t len) {
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (size_t i = 0; i < len; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(data[i]);
+    }
+    return oss.str();
+}
+
+ApiKeyClaims ApiKeyAuthenticator::claimsFromCredential(
+    const ApiKeyCredential& cred) const
+{
+    ApiKeyClaims claims;
+    claims.key_id     = cred.key_id;
+    claims.principal  = cred.principal;
+    claims.tenant_id  = cred.tenant_id;
+    claims.scopes     = cred.scopes;
+    claims.roles      = cred.roles;
+    claims.expires_at = cred.expires_at;
+    return claims;
+}
+
+} // namespace auth
+} // namespace themis

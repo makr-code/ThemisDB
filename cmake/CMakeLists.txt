@@ -1611,6 +1611,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oauth_device_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/auth_rate_limiter.cpp
+    ../src/auth/api_key_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
