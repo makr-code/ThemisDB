@@ -1404,6 +1404,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp

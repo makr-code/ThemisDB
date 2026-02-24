@@ -33,7 +33,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
+- [x] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
 - [x] Request validation middleware (JSON Schema per endpoint)
 - [x] Response streaming for large result sets (chunked transfer) (Issue: #2466)
 - [I] Per-tenant custom domain routing (Issue: #2301)
@@ -73,7 +73,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [~] API versioning strategy (deprecation headers, sunset dates)
 
 ### Phase 3: OpenAPI & Request Validation (Status: In Progress 🚧)
-- [ ] OpenAPI 3.1 spec auto-generation from handler annotations
+- [x] OpenAPI 3.1 spec auto-generation from handler annotations
 - [x] Request validation middleware (JSON Schema per endpoint)
 - [x] Response streaming for large result sets (chunked transfer)
 - [ ] Per-tenant custom domain routing

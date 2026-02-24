@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hallucination_dashboard.cpp                        ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -55,9 +55,10 @@ HallucinationDashboard::HallucinationDashboard(const HallucinationDashboardConfi
     : impl_(std::make_unique<Impl>()), config_(config) {
     THEMIS_INFO("HallucinationDashboard initialised "
                 "(window={}, faithfulness_threshold={:.2f}, "
-                "alert_warning={:.2f}, alert_critical={:.2f})",
+                "alert_info={:.2f}, alert_warning={:.2f}, alert_critical={:.2f})",
                 config_.window_size,
                 config_.faithfulness_threshold,
+                config_.alert_threshold_info,
                 config_.alert_threshold_warning,
                 config_.alert_threshold_critical);
 }
@@ -193,6 +194,19 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
                               std::to_string(static_cast<int>(config_.alert_threshold_warning * 100)) + "%";
         snap.active_alerts.push_back(std::move(alert));
         snap.alert_triggered = true;
+    } else if (snap.hallucination_rate >= config_.alert_threshold_info) {
+        HallucinationAlert alert;
+        alert.severity      = AlertSeverity::INFO;
+        alert.current_rate  = snap.hallucination_rate;
+        alert.threshold     = config_.alert_threshold_info;
+        alert.window_size   = snap.window_size;
+        alert.timestamp     = std::chrono::system_clock::now();
+        alert.message       = "INFO: hallucination rate " +
+                              std::to_string(static_cast<int>(snap.hallucination_rate * 100)) +
+                              "% exceeds info threshold " +
+                              std::to_string(static_cast<int>(config_.alert_threshold_info * 100)) + "%";
+        snap.active_alerts.push_back(std::move(alert));
+        snap.alert_triggered = true;
     }
 
     return snap;
@@ -223,7 +237,7 @@ std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {
 }
 
 void HallucinationDashboard::fireAlertsUnlocked(double rate) {
-    if (rate < config_.alert_threshold_warning) return;
+    if (rate < config_.alert_threshold_info) return;
 
     AlertCallback cb;
     {
@@ -246,11 +260,16 @@ void HallucinationDashboard::fireAlertsUnlocked(double rate) {
         alert.threshold = config_.alert_threshold_critical;
         alert.message   = "CRITICAL: hallucination rate exceeds critical threshold";
         THEMIS_WARN("HallucinationDashboard CRITICAL alert: rate={:.3f}", rate);
-    } else {
+    } else if (rate >= config_.alert_threshold_warning) {
         alert.severity  = AlertSeverity::WARNING;
         alert.threshold = config_.alert_threshold_warning;
         alert.message   = "WARNING: hallucination rate exceeds warning threshold";
         THEMIS_WARN("HallucinationDashboard WARNING alert: rate={:.3f}", rate);
+    } else {
+        alert.severity  = AlertSeverity::INFO;
+        alert.threshold = config_.alert_threshold_info;
+        alert.message   = "INFO: hallucination rate exceeds info threshold";
+        THEMIS_DEBUG("HallucinationDashboard INFO alert: rate={:.3f}", rate);
     }
 
     cb(alert);
@@ -306,7 +325,10 @@ void HallucinationDashboard::printReport(std::ostream& os) const {
 
     if (snap.alert_triggered) {
         for (const auto& alert : snap.active_alerts) {
-            os << "⚠ " << alert.message << "\n";
+            const char* icon = (alert.severity == AlertSeverity::CRITICAL) ? "🚨"
+                             : (alert.severity == AlertSeverity::WARNING)  ? "⚠"
+                             :                                               "ℹ";
+            os << icon << " " << alert.message << "\n";
         }
     } else {
         os << "✓ No alerts active\n";
