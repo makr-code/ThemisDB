@@ -55,7 +55,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
-- [~] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`) (Issue: #1505)
+- [~] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [I] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
 - [I] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
