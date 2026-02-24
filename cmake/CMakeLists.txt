@@ -1991,6 +1991,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/reranker.cpp
     # Phase 2: Hallucination Rate Tracking Dashboard
     ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Citation Highlighting
+    ../src/rag/citation_highlighter.cpp
     # Phase 3: Configurable chunk size and overlap for document splitting
     ../src/rag/document_splitter.cpp
     # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
@@ -2955,6 +2957,9 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
+
+        # RAG Enhancement: Citation Highlighting (Phase 3)
+        ../src/rag/citation_highlighter.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
