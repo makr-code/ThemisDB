@@ -436,11 +436,44 @@ TEST_F(RouteRegistryTest, ComponentsContainsBearerAuth) {
 
 TEST_F(RouteRegistryTest, MonitoringRoutesRegisteredViaRegisterRoutes) {
     themis::server::MonitoringApiHandler::registerRoutes();
-    const auto& entries = themis::server::RouteRegistry::instance().entries();
+    const auto entries = themis::server::RouteRegistry::instance().entries();
     EXPECT_FALSE(entries.empty());
     bool has_health = false;
     for (const auto& e : entries) {
         if (e.path == "/health" && e.method == "get") { has_health = true; break; }
     }
     EXPECT_TRUE(has_health);
+}
+
+TEST_F(RouteRegistryTest, DeprecatedRouteMarkedInSpec) {
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/old/endpoint", "get",
+        {"Old endpoint", "", "getOld", {"legacy"}, {}, {},
+         {{"200", {{"description", "OK"}}}},
+         /*deprecated=*/true}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    ASSERT_TRUE(spec["paths"].contains("/old/endpoint"));
+    const auto& op = spec["paths"]["/old/endpoint"]["get"];
+    ASSERT_TRUE(op.contains("deprecated"));
+    EXPECT_TRUE(op["deprecated"].get<bool>());
+}
+
+TEST_F(RouteRegistryTest, QueryParameterAppearsInParameters) {
+    using themis::server::RouteParam;
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/search", "get",
+        {"Search resources", "", "searchResources", {"search"},
+         {RouteParam{"q", "query", false, "Search query string", {{"type","string"}}}},
+         {},
+         {{"200", {{"description", "OK"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    ASSERT_TRUE(spec["paths"].contains("/search"));
+    const auto& params = spec["paths"]["/search"]["get"]["parameters"];
+    ASSERT_TRUE(params.is_array());
+    ASSERT_FALSE(params.empty());
+    EXPECT_EQ(params[0]["name"], "q");
+    EXPECT_EQ(params[0]["in"], "query");
+    EXPECT_FALSE(params[0]["required"].get<bool>());
 }

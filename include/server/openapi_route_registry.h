@@ -84,9 +84,12 @@ public:
     void registerRoute(RouteEntry entry);
 
     /**
-     * @brief Read-only access to all currently registered entries.
+     * @brief Returns a snapshot copy of all currently registered entries.
+     *
+     * Returns a value (not a reference) so the caller does not need to hold
+     * the registry mutex during iteration.  Safe to call from any thread.
      */
-    const std::vector<RouteEntry>& entries() const;
+    std::vector<RouteEntry> entries() const;
 
     /**
      * @brief Build and return a complete OpenAPI 3.1.0 JSON document.

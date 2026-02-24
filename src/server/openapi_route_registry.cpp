@@ -41,10 +41,8 @@ void RouteRegistry::registerRoute(RouteEntry entry) {
     }
 }
 
-const std::vector<RouteEntry>& RouteRegistry::entries() const {
-    // Callers must not hold mutex when they call entries() and simultaneously
-    // modify the registry, but for read-only access during spec generation the
-    // caller already holds the lock via buildOpenApiSpec().
+std::vector<RouteEntry> RouteRegistry::entries() const {
+    std::lock_guard<std::mutex> lock(mutex_);
     return entries_;
 }
 
