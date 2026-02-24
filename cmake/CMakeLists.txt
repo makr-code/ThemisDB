@@ -1404,6 +1404,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
@@ -1787,6 +1788,9 @@ set(THEMIS_CORE_SOURCES
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
 
+    # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
+    ../src/analytics/columnar_execution.cpp
+
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
     
@@ -1989,11 +1993,19 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/hallucination_dashboard.cpp
     # Phase 3: Citation Highlighting
     ../src/rag/citation_highlighter.cpp
+    # Phase 3: Configurable chunk size and overlap for document splitting
+    ../src/rag/document_splitter.cpp
+    # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
+    ../src/rag/hybrid_retriever.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
+    # Phase 3: Citation Highlighting
+    ../src/rag/citation_highlighter.cpp
+    # Phase 4: Agentic RAG with iterative retrieval loops
+    ../src/rag/agentic_rag.cpp
     )
 endif()
 

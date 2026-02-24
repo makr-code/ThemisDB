@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_hallucination_dashboard.cpp               ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                            ║
+    • Total Lines:     527                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -275,13 +275,14 @@ TEST(HallucinationDashboardTest, StdDevNonNegative) {
 // Alert thresholds
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(HallucinationDashboardTest, NoAlertBelowWarningThreshold) {
+TEST(HallucinationDashboardTest, NoAlertBelowInfoThreshold) {
     HallucinationDashboardConfig cfg;
-    cfg.alert_threshold_warning  = 0.2;
-    cfg.alert_threshold_critical = 0.4;
+    cfg.alert_threshold_info     = 0.2;
+    cfg.alert_threshold_warning  = 0.4;
+    cfg.alert_threshold_critical = 0.6;
     HallucinationDashboard dashboard(cfg);
 
-    // 1 hallucination out of 10 = 10% → below warning threshold
+    // 1 hallucination out of 10 = 10% → below all thresholds
     dashboard.recordFaithfulness(0.1);
     for (int i = 1; i < 10; ++i) {
         dashboard.recordFaithfulness(0.9);
@@ -291,8 +292,27 @@ TEST(HallucinationDashboardTest, NoAlertBelowWarningThreshold) {
     EXPECT_TRUE(snap.active_alerts.empty());
 }
 
+TEST(HallucinationDashboardTest, InfoAlertTriggered) {
+    HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
+    cfg.alert_threshold_warning  = 0.2;
+    cfg.alert_threshold_critical = 0.4;
+    HallucinationDashboard dashboard(cfg);
+
+    // 1 hallucination out of 10 = 10% → above info, below warning
+    dashboard.recordFaithfulness(0.1);
+    for (int i = 1; i < 10; ++i) {
+        dashboard.recordFaithfulness(0.9);
+    }
+    auto snap = dashboard.snapshot();
+    EXPECT_TRUE(snap.alert_triggered);
+    ASSERT_FALSE(snap.active_alerts.empty());
+    EXPECT_EQ(snap.active_alerts[0].severity, AlertSeverity::INFO);
+}
+
 TEST(HallucinationDashboardTest, WarningAlertTriggered) {
     HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
     cfg.alert_threshold_warning  = 0.2;
     cfg.alert_threshold_critical = 0.4;
     HallucinationDashboard dashboard(cfg);
@@ -312,6 +332,7 @@ TEST(HallucinationDashboardTest, WarningAlertTriggered) {
 
 TEST(HallucinationDashboardTest, CriticalAlertTriggered) {
     HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
     cfg.alert_threshold_warning  = 0.2;
     cfg.alert_threshold_critical = 0.3;
     HallucinationDashboard dashboard(cfg);
@@ -335,6 +356,7 @@ TEST(HallucinationDashboardTest, CriticalAlertTriggered) {
 
 TEST(HallucinationDashboardTest, AlertCallbackInvokedOnThresholdBreached) {
     HallucinationDashboardConfig cfg;
+    cfg.alert_threshold_info     = 0.05;
     cfg.alert_threshold_warning  = 0.2;
     cfg.alert_threshold_critical = 0.5;
     HallucinationDashboard dashboard(cfg);
@@ -342,7 +364,7 @@ TEST(HallucinationDashboardTest, AlertCallbackInvokedOnThresholdBreached) {
     std::atomic<int> callback_count{0};
     dashboard.setAlertCallback([&](const HallucinationAlert& alert) {
         ++callback_count;
-        EXPECT_GE(alert.current_rate, cfg.alert_threshold_warning);
+        EXPECT_GE(alert.current_rate, cfg.alert_threshold_info);
     });
 
     // Drive rate above warning threshold
