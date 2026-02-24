@@ -1059,6 +1059,41 @@ else()
 endif()
 
 # ============================================================================
+# Cache Admin API Handler Tests (Phase 3 – health endpoint, stats, eviction)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_admin_api_handler.cpp")
+    message(STATUS "Adding Cache Admin API Handler tests")
+
+    add_executable(test_cache_admin_api_handler
+        test_cache_admin_api_handler.cpp
+    )
+
+    target_link_libraries(test_cache_admin_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_admin_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheAdminApiHandlerTests COMMAND test_cache_admin_api_handler)
+
+    set_tests_properties(CacheAdminApiHandlerTests PROPERTIES
+        LABELS "cache;admin;health;circuit-breaker;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Admin API Handler: health endpoint, per-tier status, circuit breaker state")
+else()
+    message(STATUS "Cache Admin API Handler tests not found")
+endif()
+
+# ============================================================================
 # Cache Warmup Tests (Phase 3 – bulk warmup from query log / snapshot)
 # ============================================================================
 

@@ -91,6 +91,18 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         config_.l1_eviction_policy, config_.l1_max_entries);
     l2_eviction_strategy_ = cache::makeEvictionStrategy(
         config_.l2_eviction_policy, config_.l2_max_entries);
+
+    // Phase 4: Initialize predictive pre-fetcher
+    if (config_.enable_predictive_prefetch) {
+        cache::PredictivePrefetcher::Config pf_config;
+        pf_config.max_tracked_keys       = config_.prefetch_max_tracked_keys;
+        pf_config.max_predictions        = config_.prefetch_max_predictions;
+        pf_config.min_transition_count   = config_.prefetch_min_transition_count;
+        pf_config.min_confidence         = config_.prefetch_min_confidence;
+        prefetcher_ = std::make_unique<cache::PredictivePrefetcher>(pf_config);
+        THEMIS_INFO("Predictive pre-fetcher enabled: max_keys={}, max_predictions={}",
+                    pf_config.max_tracked_keys, pf_config.max_predictions);
+    }
     
     // Initialize L3 (RocksDB) cache with retry logic
     int retry_count = 0;
@@ -130,6 +142,11 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
+    // Phase 4: Deregister coordinator callbacks before releasing memory.
+    // Any coordinator that outlives this cache would otherwise hold a [this]
+    // lambda pointing to freed memory, causing use-after-free on the next
+    // publication.
+    setCoordinator(nullptr);
     clear();
 }
 
@@ -241,6 +258,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     std::lock_guard<std::mutex> tlock(tenant_mutex_);
                     tenant_metrics_[tenant_id].hits++;
                 }
+
+                // Phase 4: Record access for predictive pre-fetching
+                if (prefetcher_) {
+                    prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+                }
                 
                 // Return entry
                 CacheEntry result;
@@ -323,6 +345,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     if (config_.enable_tenant_isolation && !tenant_id.empty()) {
                         std::lock_guard<std::mutex> tlock(tenant_mutex_);
                         tenant_metrics_[tenant_id].hits++;
+                    }
+
+                    // Phase 4: Record access for predictive pre-fetching
+                    if (prefetcher_) {
+                        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
                     }
                     
                     // Promote to L1 if accessed frequently
@@ -479,6 +506,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         l3_circuit_breaker_->recordSuccess();
                         enhanced_metrics_.l3_circuit_breaker_open = false;
                     }
+
+                    // Phase 4: Record access for predictive pre-fetching
+                    if (prefetcher_) {
+                        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+                    }
                     
                     // Return entry
                     CacheEntry cache_entry;
@@ -507,6 +539,10 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     if (config_.enable_tenant_isolation && !tenant_id.empty()) {
         std::lock_guard<std::mutex> tlock(tenant_mutex_);
         tenant_metrics_[tenant_id].misses++;
+    }
+    // Phase 4: Record access for predictive pre-fetching even on miss
+    if (prefetcher_) {
+        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
     }
     THEMIS_DEBUG("Cache miss: fingerprint={}", fingerprint.substr(0, 16));
     return std::nullopt;
@@ -583,7 +619,25 @@ bool AdaptiveQueryCache::put(
             ttl_seconds = config_.l3_ttl_seconds;
         }
     }
-    
+
+    // Phase 4: Capture coordinator pointer once before acquiring any cache mutex.
+    // Graceful degradation: failures in the coordinator never block the local store.
+    std::shared_ptr<cache::ICacheCoordinator> repl_coord;
+    if (config_.enable_replication) {
+        std::lock_guard<std::mutex> lk(coordinator_mutex_);
+        repl_coord = coordinator_;
+    }
+    // Use the tenant-scoped key so peer caches with the same isolation config
+    // can look the entry up via get(fingerprint, tenant_id) without ambiguity.
+    auto notifyCoordinator = [&]() {
+        if (!repl_coord) return;
+        try {
+            repl_coord->publishEntry(key, result, ttl_seconds, tenant_id);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Cache replication publish failed: {}", e.what());
+        }
+    };
+
     // Store in appropriate level
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
         {
@@ -783,6 +837,7 @@ bool AdaptiveQueryCache::put(
         }  // l1_mutex_ released before notification
 
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        notifyCoordinator();
 
         // Phase 4: Notify replication listener (outside tier lock)
         if (rep_listener) {
@@ -871,6 +926,7 @@ bool AdaptiveQueryCache::put(
 
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
+        notifyCoordinator();
 
         // Phase 4: Notify replication listener (outside tier lock)
         if (rep_listener) {
@@ -941,6 +997,7 @@ bool AdaptiveQueryCache::put(
                     l3_db_->put("pii_ref:" + pii_uuid + ":" + fingerprint, "");
                 }
                 THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                notifyCoordinator();
                 return true;
             }
         } catch (const std::exception& e) {
@@ -1065,6 +1122,15 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
 
+    // Phase 4: Propagate invalidation to peer nodes via replication coordinator
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try { coord->publishInvalidation(pattern); }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication invalidation publish failed: {}", e.what());
+            }
     // Phase 4: Notify replication listener
     if (count > 0) {
         std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
@@ -1907,6 +1973,24 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
 
+    // Phase 4: Propagate tenant invalidation to peer nodes.
+    // Use the same tenant-prefix pattern that the local invalidation uses
+    // ("tenant:<id>:") so peer nodes performing regex matching evict exactly
+    // the same set of L1/L2 keys.
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try {
+                std::string tenant_pattern = "^tenant:" + tenant_id + ":";
+                coord->publishInvalidation(tenant_pattern, tenant_id);
+            }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication tenant invalidation publish failed: {}", e.what());
+            }
+        }
+    }
+
     // Phase 4: Notify replication listener
     {
         std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
@@ -2408,7 +2492,182 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
     return result;
 }
 
+// ---------------------------------------------------------------------------
+// Phase 4: Predictive Pre-Fetching
+// ---------------------------------------------------------------------------
+
+void AdaptiveQueryCache::recordQueryAccess(const std::string& fingerprint,
+                                            const std::string& tenant_id) {
+    if (prefetcher_) {
+        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+    }
+}
+
+std::vector<std::string> AdaptiveQueryCache::getPrefetchCandidates(
+    const std::string& fingerprint,
+    const std::string& tenant_id) const {
+    if (!prefetcher_) return {};
+
+    auto candidates = prefetcher_->getPrefetchCandidates(fingerprint, tenant_id);
+    if (!candidates.empty()) {
+        // enhanced_metrics_ is exposed via getEnhancedMetrics() (CacheMetrics format);
+        // the prefetcher's internal counter is returned by getPrefetchStats().
+        // Both are kept in sync here so each API surface is self-consistent.
+        enhanced_metrics_.prefetch_candidates_generated++;
+        prefetcher_->recordCandidatesGenerated();
+    }
+    return candidates;
+}
+
+nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
+    if (!prefetcher_) {
+        return {{"enabled", false}};
+    }
+    nlohmann::json j = prefetcher_->getStats();
+    j["enabled"] = true;
+    // Enrich with the hit counter maintained in enhanced_metrics_
+    j["prefetch_hits_from_metrics"] = enhanced_metrics_.prefetch_hits.load();
+    return j;
 // ============================================================================
+// Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+// ============================================================================
+
+void AdaptiveQueryCache::setCoordinator(
+    std::shared_ptr<cache::ICacheCoordinator> coordinator)
+{
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    coordinator_ = coordinator;
+
+    if (!coordinator_) {
+        THEMIS_INFO("AdaptiveQueryCache: replication coordinator removed");
+        return;
+    }
+
+    // Subscribe for entries replicated from peer nodes
+    coordinator_->subscribeEntries(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedEntry(msg);
+        });
+
+    // Subscribe for invalidations propagated from peer nodes
+    coordinator_->subscribeInvalidations(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedInvalidation(msg);
+        });
+
+    THEMIS_INFO("AdaptiveQueryCache: replication coordinator registered ({})",
+                coordinator_->name());
+}
+
+nlohmann::json AdaptiveQueryCache::getReplicationStats() const {
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    if (!coordinator_) {
+        return {{"enabled", false}};
+    }
+    auto stats = coordinator_->getStats();
+    stats["enabled"] = true;
+    return stats;
+}
+
+void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage& msg) {
+    // Replicate only L1/L2; L3 (RocksDB) is assumed shared or node-local
+    // and does not need replication from the coordinator bus.
+    if (msg.result.is_null() || !msg.result.is_object()) {
+        return;
+    }
+
+    int64_t now_ms = getCurrentTimeMs();
+    std::string result_str = msg.result.dump();
+    size_t result_size = result_str.size();
+
+    // Honour per-entry size limit and tenant quota checks
+    if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
+        return;
+    }
+    if (!checkTenantQuota(msg.tenant_id, result_size)) {
+        return;
+    }
+
+    const std::string& key = msg.key;
+    int ttl_seconds = msg.ttl_seconds > 0 ? msg.ttl_seconds : config_.l1_ttl_seconds;
+
+    if (result_size < config_.l1_max_entry_size) {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        if (l1_cache_.count(key) == 0) {   // Don't overwrite a locally fresher entry
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            L1Entry entry;
+            entry.result           = msg.result;
+            entry.created_at_ms    = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count     = 0;
+            entry.ttl_seconds      = ttl_seconds;
+            entry.window_start_ms  = now_ms;
+            entry.window_count     = 0;
+            l1_cache_[key]         = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    } else if (result_size < config_.l2_max_entry_size) {
+        auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
+        if (compressed.empty()) return;
+
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        if (l2_cache_.count(key) == 0) {
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms     = now_ms;
+            entry.last_accessed_ms  = now_ms;
+            entry.access_count      = 0;
+            entry.ttl_seconds       = ttl_seconds;
+            entry.window_start_ms   = now_ms;
+            entry.window_count      = 0;
+            l2_cache_[key]          = std::move(entry);
+            l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    }
+}
+
+void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMessage& msg) {
+    // Peer invalidated a key/pattern – evict matching entries from L1 and L2 only.
+    // L3 (RocksDB) is considered either shared or independently managed per-node.
+    const std::string& pattern = msg.key;
+    if (pattern.empty()) return;
+
+    try {
+        std::regex re(pattern);
+
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l1_eviction_strategy_->onRemove(it->first);
+                    it = l1_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    it = l2_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+    } catch (const std::regex_error& e) {
+        THEMIS_WARN("CacheReplication: invalid pattern received from peer: {} ({})",
+                    pattern, e.what());
 // Phase 4: Cache Replication for High-Availability
 // ============================================================================
 

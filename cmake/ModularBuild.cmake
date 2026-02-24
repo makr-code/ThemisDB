@@ -271,6 +271,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/warmup.cpp
+    ../src/cache/predictive_prefetcher.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -362,6 +363,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/ldap_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/oidc_provider.cpp

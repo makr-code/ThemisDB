@@ -37,6 +37,8 @@
 #include "cache/cache_metrics.h"
 #include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
+#include "cache/predictive_prefetcher.h"
+#include "cache/cache_replication_coordinator.h"
 #include "core/concerns/eviction_strategies.h"
 
 namespace themis {
@@ -129,6 +131,15 @@ public:
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
 
+        // Phase 4: Predictive pre-fetching based on query sequence history
+        bool enable_predictive_prefetch = false; // Enable Markov-chain prefetch predictor
+        size_t prefetch_max_tracked_keys = 5000; // Max distinct source keys in transition table
+        size_t prefetch_max_predictions = 3;     // Max candidate fingerprints per prediction
+        uint32_t prefetch_min_transition_count = 2; // Min observed transitions for a candidate
+        double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
+        // Phase 4: Cache replication for high-availability multi-node deployments
+        bool enable_replication = false;         // Enable cache replication via coordinator
+        
         // Phase 4: Write-through cache mode for read-heavy workloads
         // When enabled, put() writes to ALL applicable tiers simultaneously (L1+L2+L3)
         // instead of selecting a single tier based on entry size.
@@ -383,6 +394,34 @@ public:
     void resetCircuitBreaker();
 
     // ========================================================================
+    // Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+    // ========================================================================
+
+    /**
+     * @brief Register a replication coordinator for multi-node cache synchronisation.
+     *
+     * Once a coordinator is registered the cache will:
+     *  - Call `coordinator->publishEntry()` after every successful `put()` when
+     *    `config_.enable_replication` is true.
+     *  - Call `coordinator->publishInvalidation()` inside `invalidate()` and
+     *    `invalidateTenant()` so peer nodes evict the same entries.
+     *  - Subscribe to incoming entry/invalidation messages from remote peers
+     *    and apply them to the local L1/L2 cache.
+     *
+     * Graceful degradation: any exception thrown by the coordinator is caught
+     * and demoted to a warning log; the local cache operation always completes.
+     *
+     * @param coordinator  Shared coordinator instance (nullptr removes current).
+     */
+    void setCoordinator(std::shared_ptr<cache::ICacheCoordinator> coordinator);
+
+    /**
+     * @brief Return replication coordinator statistics, or an empty JSON object
+     *        when no coordinator is registered.
+     */
+    nlohmann::json getReplicationStats() const;
+
+    // ========================================================================
     // Phase 3: Cache Warmup and Snapshot
     // ========================================================================
 
@@ -438,6 +477,47 @@ public:
     WarmupResult exportSnapshot(const std::string& out_path) const;
 
     // ========================================================================
+    // Phase 4: Predictive Pre-Fetching
+    // ========================================================================
+
+    /**
+     * @brief Record a query access in the predictive pre-fetcher.
+     *
+     * Should be called each time a query is executed (hit or miss) so the
+     * Markov-chain model can learn query sequence patterns.
+     *
+     * This is a no-op when `config_.enable_predictive_prefetch` is false.
+     *
+     * @param fingerprint  SHA-256 hex fingerprint of the query.
+     * @param tenant_id    Optional tenant identifier.
+     */
+    void recordQueryAccess(const std::string& fingerprint,
+                           const std::string& tenant_id = "");
+
+    /**
+     * @brief Return candidate fingerprints likely to be accessed next.
+     *
+     * Uses the Markov-chain model built by recordQueryAccess() to predict
+     * which queries are likely to follow the current one.
+     *
+     * Returns an empty vector when `config_.enable_predictive_prefetch` is
+     * false or when there is insufficient history for the given fingerprint.
+     *
+     * @param fingerprint  Current query fingerprint.
+     * @param tenant_id    Optional tenant identifier.
+     * @return Up to `config_.prefetch_max_predictions` candidate fingerprints.
+     */
+    std::vector<std::string> getPrefetchCandidates(
+        const std::string& fingerprint,
+        const std::string& tenant_id = "") const;
+
+    /**
+     * @brief Get predictive pre-fetcher statistics as JSON.
+     *
+     * Returns {"enabled": false} when `config_.enable_predictive_prefetch` is
+     * false.
+     */
+    nlohmann::json getPrefetchStats() const;
     // Phase 4: Cache Replication for High-Availability
     // ========================================================================
 
@@ -493,6 +573,15 @@ private:
     
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
+
+    // Phase 4: Replication coordinator for HA multi-node deployments
+    std::shared_ptr<cache::ICacheCoordinator> coordinator_;
+    mutable std::mutex coordinator_mutex_;
+
+    // Internal: apply a replicated entry received from a peer
+    void applyReplicatedEntry(const cache::ReplicationMessage& msg);
+    // Internal: apply a replicated invalidation received from a peer
+    void applyReplicatedInvalidation(const cache::ReplicationMessage& msg);
     
     // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
     struct TenantMetrics {
@@ -531,6 +620,8 @@ private:
     std::unique_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
 
+    // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)
+    std::unique_ptr<cache::PredictivePrefetcher> prefetcher_;
     // Phase 4: Cache replication listener for HA deployments
     std::shared_ptr<cache::ICacheReplicationListener> replication_listener_;
     mutable std::mutex replication_mutex_;
