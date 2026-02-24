@@ -271,8 +271,8 @@ public:
      * @c "[REDACTED]" and @c redacted = true.  Audit-critical fields
      * (@p sequence, @p type, @p key, @p timestamp_ms) are preserved.
      *
-     * An audit entry is written to the change log's backing store under the
-     * @c "cdc_redact_audit:" key-space and is also emitted at INFO level.
+     * The operation and its outcome are recorded at INFO level in the
+     * structured application log (tenant, key_prefix, counts, operator).
      *
      * @param tenant_id    Tenant scope (informational; used in the audit log).
      * @param key_prefix   Non-empty key prefix identifying the data subject.

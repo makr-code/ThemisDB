@@ -604,7 +604,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key
     return result;
 }
 
-
+size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
     std::unique_ptr<rocksdb::Iterator> it;
