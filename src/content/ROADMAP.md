@@ -34,7 +34,7 @@
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
 - [I] Multi-language text detection and routing (Issue: #1690)
-- [I] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
+- [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 - [I] Content versioning and delta storage (Issue: #1692)
 
 ## Implementation Phases
@@ -58,7 +58,7 @@
 - [I] Add Office document text extraction via LibreOffice headless subprocess (Issue: #1694)
 - [I] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
-- [I] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
+- [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)

@@ -10,6 +10,10 @@
 #include <chrono>
 #include <functional>
 
+// Forward declaration — avoids pulling in the full content_metrics.h header
+// from headers that only include embedding_pipeline.h.
+namespace themis { namespace content { class ContentMetrics; } }
+
 namespace themis {
 namespace content {
 
@@ -37,6 +41,13 @@ struct EmbeddingPipelineConfig {
 
     /// Expected embedding dimension (0 = auto-detect from first response).
     int embedding_dim = 0;
+
+    /// Optional metrics sink.  When non-null, every embedding failure
+    /// (timeout or model error) calls ContentMetrics::recordEmbeddingFailure()
+    /// so that the `content_embedding_failures_total` Prometheus counter is
+    /// updated.  Follows the same optional-pointer pattern used by
+    /// PDFProcessor::Config::metrics.
+    ContentMetrics* metrics = nullptr;
 };
 
 /**
@@ -46,6 +57,7 @@ struct EmbeddingPipelineConfig {
  *  - Batch accumulation up to `config.batch_size` texts
  *  - Per-call timeout enforcement (`config.timeout_ms`)
  *  - Failure tracking via an atomic counter
+ *  - Optional ContentMetrics integration for Prometheus export
  *
  * Thread-safety: `generateEmbedding` and `generateEmbeddingBatch` are
  * individually thread-safe (each call is independent).  `getFailureCount`
@@ -76,7 +88,8 @@ public:
      * @brief Generate an embedding vector for a single text.
      *
      * Returns an empty vector on timeout or model failure; the internal
-     * failure counter is incremented in that case.
+     * failure counter is incremented in that case, and if a ContentMetrics
+     * sink was configured, ContentMetrics::recordEmbeddingFailure() is called.
      *
      * @param text  Input text (UTF-8).
      * @return Normalised float vector, or empty on failure.
@@ -115,8 +128,12 @@ private:
     mutable std::atomic<int> embedding_dim_{0};
 
     /// Core embed call wrapped with timeout enforcement.
-    /// Returns empty vector on timeout/error and increments failure_count_.
+    /// Returns empty vector on timeout/error, increments failure_count_, and
+    /// calls config_.metrics->recordEmbeddingFailure() if metrics is set.
     std::vector<float> embedWithTimeout(const std::string& text);
+
+    /// Notify the optional metrics sink of a failure.
+    void notifyFailure() const;
 };
 
 } // namespace content

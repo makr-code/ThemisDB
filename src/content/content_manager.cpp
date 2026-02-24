@@ -652,6 +652,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         // Chunks verarbeiten
         std::vector<std::string> chunk_ids;
         int embedding_dim = 0;
+        std::vector<float> first_chunk_embedding;  // For content-level emb:<id> storage
         
         // Load fulltext index configuration from DB: key config:content
         bool auto_fulltext_index = false;
@@ -708,15 +709,15 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 
                 // EmbeddingStage: generate embedding for text chunks that do
                 // not yet carry one, when the pipeline is attached and enabled.
+                // Failures are tracked by EmbeddingPipeline::getFailureCount()
+                // and, when EmbeddingPipelineConfig::metrics is set, also
+                // propagated to ContentMetrics::recordEmbeddingFailure().
                 if (embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
                     c.embedding.empty() && !c.text.empty()) {
                     auto emb = embedding_pipeline_->generateEmbedding(c.text);
                     if (!emb.empty()) {
                         c.embedding = std::move(emb);
                     }
-                    // Failures are tracked internally by EmbeddingPipeline::getFailureCount().
-                    // Use ContentMetrics::recordEmbeddingFailure() in calling code
-                    // to propagate failures to the global metrics system.
                 }
 
                 chunk_ids.push_back(c.id);
@@ -760,9 +761,24 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
                         embedding_dim = static_cast<int>(c.embedding.size());
                     }
+                    // Keep the first chunk's embedding for content-level storage.
+                    if (first_chunk_embedding.empty()) {
+                        first_chunk_embedding = c.embedding;
+                    }
                 }
             }
     }
+        // Store content-level embedding under emb:<content_id> for direct lookup
+        // by ContentId (spec: "cf_embeddings keyed by ContentId").
+        if (!first_chunk_embedding.empty()) {
+            json emb_json = first_chunk_embedding;
+            std::string emb_str = emb_json.dump();
+            std::string emb_key = std::string("emb:") + meta.id;
+            if (!storage_->put(emb_key, std::vector<uint8_t>(emb_str.begin(), emb_str.end()))) {
+                THEMIS_WARN("Failed to store content-level embedding for content:{}", meta.id);
+            }
+        }
+
         // Optionale Verschlüsselung von Metadaten-Feldern (vector metadata encryption)
         try {
             bool meta_encrypt_enabled = false;

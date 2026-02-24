@@ -17,6 +17,7 @@
  */
 
 #include "content/embedding_pipeline.h"
+#include "content/content_metrics.h"
 #include "llm/embedded_llm.h"
 
 #include <future>
@@ -50,6 +51,14 @@ EmbeddingPipeline::EmbeddingPipeline(const EmbeddingPipelineConfig& config)
 // Private helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+void EmbeddingPipeline::notifyFailure() const
+{
+    failure_count_.fetch_add(1, std::memory_order_relaxed);
+    if (config_.metrics) {
+        config_.metrics->recordEmbeddingFailure();
+    }
+}
+
 std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
 {
     if (text.empty()) {
@@ -63,21 +72,16 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
 
     auto status = future.wait_for(std::chrono::milliseconds(config_.timeout_ms));
     if (status != std::future_status::ready) {
-        // Timeout – count failure; the future will continue in the background
-        // and be discarded when it eventually resolves (safe because the lambda
-        // only captures a reference that lives for the duration of this call;
-        // however wait_for returns deferred status if async could not launch.
-        // In practice the future destructor blocks until the thread finishes,
-        // which is bounded by the OS scheduler.  For production use, consider
-        // a thread-pool to avoid this edge-case).
-        failure_count_.fetch_add(1, std::memory_order_relaxed);
+        // Timeout – count failure; the future destructor blocks until the
+        // thread finishes (bounded by the OS scheduler).
+        notifyFailure();
         return {};
     }
 
     try {
         auto embedding = future.get();
         if (embedding.empty()) {
-            failure_count_.fetch_add(1, std::memory_order_relaxed);
+            notifyFailure();
             return {};
         }
 
@@ -90,7 +94,7 @@ std::vector<float> EmbeddingPipeline::embedWithTimeout(const std::string& text)
 
         return embedding;
     } catch (...) {
-        failure_count_.fetch_add(1, std::memory_order_relaxed);
+        notifyFailure();
         return {};
     }
 }

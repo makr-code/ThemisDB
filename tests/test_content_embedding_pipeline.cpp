@@ -8,6 +8,8 @@
 
 #include <gtest/gtest.h>
 #include "content/embedding_pipeline.h"
+#include "content/content_metrics.h"
+#include "content/content_policy.h"
 
 using namespace themis::content;
 
@@ -166,4 +168,77 @@ TEST(EmbeddingPipelineTest, GetConfigReturnsCorrectValues) {
     EXPECT_EQ(stored.batch_size, 8);
     EXPECT_EQ(stored.timeout_ms, 3000);
     EXPECT_EQ(stored.embedding_dim, 768);
+}
+
+// ============================================================================
+// ContentMetrics integration — new counter
+// ============================================================================
+
+TEST(EmbeddingPipelineTest, MetricsPointer_NullByDefault) {
+    EmbeddingPipelineConfig cfg;
+    cfg.model_name = "test-model";
+    EXPECT_EQ(cfg.metrics, nullptr);
+}
+
+TEST(EmbeddingPipelineTest, MetricsPointer_CanBeSet) {
+    themis::content::ContentMetrics metrics;
+    EmbeddingPipelineConfig cfg;
+    cfg.model_name = "test-model";
+    cfg.metrics = &metrics;
+
+    EmbeddingPipeline pipeline(cfg);
+    EXPECT_EQ(pipeline.getConfig().metrics, &metrics);
+}
+
+// ============================================================================
+// ContentMetrics::recordEmbeddingFailure / getEmbeddingFailuresTotal
+// ============================================================================
+
+TEST(ContentMetricsTest_Embedding, InitialEmbeddingFailuresIsZero) {
+    themis::content::ContentMetrics metrics;
+    EXPECT_EQ(metrics.getEmbeddingFailuresTotal(), 0u);
+}
+
+TEST(ContentMetricsTest_Embedding, RecordEmbeddingFailureIncrementsCounter) {
+    themis::content::ContentMetrics metrics;
+    metrics.recordEmbeddingFailure();
+    EXPECT_EQ(metrics.getEmbeddingFailuresTotal(), 1u);
+
+    metrics.recordEmbeddingFailure();
+    metrics.recordEmbeddingFailure();
+    EXPECT_EQ(metrics.getEmbeddingFailuresTotal(), 3u);
+}
+
+TEST(ContentMetricsTest_Embedding, ResetClearsEmbeddingFailureCounter) {
+    themis::content::ContentMetrics metrics;
+    metrics.recordEmbeddingFailure();
+    metrics.recordEmbeddingFailure();
+    EXPECT_EQ(metrics.getEmbeddingFailuresTotal(), 2u);
+
+    metrics.reset();
+    EXPECT_EQ(metrics.getEmbeddingFailuresTotal(), 0u);
+}
+
+TEST(ContentMetricsTest_Embedding, PrometheusOutputContainsEmbeddingFailuresCounter) {
+    themis::content::ContentMetrics metrics;
+    metrics.recordEmbeddingFailure();
+
+    std::string prom = metrics.toPrometheusFormat();
+    EXPECT_NE(prom.find("content_embedding_failures_total"), std::string::npos);
+    EXPECT_NE(prom.find("content_embedding_failures_total 1"), std::string::npos);
+}
+
+// ============================================================================
+// ContentPolicy::embedding_model field
+// ============================================================================
+
+TEST(ContentPolicyTest_Embedding, DefaultEmbeddingModelIsEmpty) {
+    themis::content::ContentPolicy policy;
+    EXPECT_TRUE(policy.embedding_model.empty());
+}
+
+TEST(ContentPolicyTest_Embedding, EmbeddingModelCanBeSet) {
+    themis::content::ContentPolicy policy;
+    policy.embedding_model = "all-minilm-l6-v2";
+    EXPECT_EQ(policy.embedding_model, "all-minilm-l6-v2");
 }
