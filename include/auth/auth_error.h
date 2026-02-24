@@ -106,7 +106,14 @@ enum class AuthErrorCode {
 
     // Internal errors (9390-9399)
     AUTH_INTERNAL_ERROR = 9390,
-    AUTH_NOT_IMPLEMENTED = 9391
+    AUTH_NOT_IMPLEMENTED = 9391,
+
+    // API key errors (9392-9396)
+    API_KEY_INVALID = 9392,
+    API_KEY_SECRET_MISMATCH = 9393,
+    API_KEY_EXPIRED = 9394,
+    API_KEY_INACTIVE = 9395,
+    API_KEY_SCOPE_DENIED = 9396
 };
 
 /**

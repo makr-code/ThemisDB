@@ -486,6 +486,123 @@ auto csvExporter = ExporterFactory::createExporter(ExportFormat::CSV);
 bool supportsArrow = exporter->supportsFormat(ExportFormat::ARROW_IPC);
 ```
 
+### 10. Real-Time Anomaly Detection (`anomaly_detection.h`)
+
+Streaming and batch anomaly detection with multiple algorithms and adaptive learning.
+
+**Key Types:**
+- `DataPoint`: Heterogeneous record (fields: string, double, int64_t, bool)
+- `AnomalyMethod`: Algorithm selector (Z_SCORE, MODIFIED_Z_SCORE, IQR, ISOLATION_FOREST, LOF, ENSEMBLE)
+- `AnomalyDetector`: Batch training + single-point and batch prediction
+- `AnomalyResult`: Detection result with anomaly score, flag, and feature contributions
+- `AnomalyExplanation`: Sorted feature contributions
+- `StreamingAnomalyDetector`: Rolling-window, online anomaly detection
+- `AnomalyDetectorStats`: Statistics about the trained model
+
+**Features:**
+- Six algorithms: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble
+- Adaptive incremental learning via `update()`
+- Permutation-based feature explanation
+- Serialise/deserialise model state
+- Thread-safe streaming detector with configurable window
+
+**Usage Example:**
+```cpp
+#include "analytics/anomaly_detection.h"
+
+using namespace themisdb::analytics;
+
+// Batch detector
+AnomalyDetector detector(AnomalyMethod::ISOLATION_FOREST);
+detector.train(training_data);
+
+// Predict single point
+auto result = detector.predict(point);
+if (result.is_anomaly) {
+    auto exp = detector.explain(point);
+    for (auto& [feat, score] : exp.feature_contributions)
+        std::cout << feat << ": " << score << "\n";
+}
+
+// Streaming detector
+StreamingAnomalyDetector::Config cfg;
+cfg.window_size = 1000;
+cfg.method = AnomalyMethod::ENSEMBLE;
+StreamingAnomalyDetector stream_det(cfg);
+
+stream_det.process(point);
+auto anomalies = stream_det.getAnomalies();
+```
+
+### 11. AutoML Engine (`automl.h`)
+
+Automated Machine Learning for classification and regression tasks.
+
+**Key Types:**
+- `AutoMLTask`: CLASSIFICATION or REGRESSION
+- `ModelAlgorithm`: LOGISTIC_REGRESSION, LINEAR_REGRESSION, DECISION_TREE, RANDOM_FOREST, GRADIENT_BOOSTING, KNN, ENSEMBLE
+- `AutoMLMetric`: Primary optimisation metric (ACCURACY, F1, PRECISION, RECALL, AUC_ROC, R2, RMSE, MAE, MAPE)
+- `AutoMLConfig`: Training budget, algorithm selection, feature engineering, ensemble settings
+- `EvalMetrics`: Cross-validated metrics for all algorithms
+- `CandidateModelInfo`: Metadata for each evaluated candidate (hyperparameters, CV score)
+- `ModelExplanation`: SHAP-approximated per-sample feature contributions
+- `AutoMLModel`: Trained, predict-ready model (move-only)
+- `AutoML`: Training façade (trainClassifier / trainRegressor / crossValidate)
+
+**Features:**
+- Automated algorithm selection via random hyperparameter search
+- k-fold cross-validation for unbiased evaluation
+- Time/trial budget control
+- Standard scaling + optional degree-2 polynomial feature expansion
+- Soft-voting ensemble from top-k candidates
+- Permutation-based SHAP feature importance
+- Full metric suite: accuracy, F1, precision, recall, AUC-ROC; R², RMSE, MAE, MAPE
+- Serialisation / deserialisation
+- Optional progress callback
+
+**Usage Example:**
+```cpp
+#include "analytics/automl.h"
+
+using namespace themisdb::analytics;
+
+// Prepare data points (reuses DataPoint from anomaly_detection.h)
+std::vector<DataPoint> data = loadData();
+
+// Classification
+AutoML automl;
+auto model = automl.trainClassifier(data, {
+    .target              = "churn",
+    .metric              = AutoMLMetric::F1,
+    .max_time_minutes    = 60,
+    .feature_engineering = true,
+    .ensemble            = true,
+    .ensemble_top_k      = 3
+});
+
+// Predict
+auto predictions = model.predict(test_data);
+
+// Explain
+auto explanations = model.explain(test_data);
+for (const auto& exp : explanations)
+    std::cout << exp.predicted_label << " | top: " << exp.top_features << "\n";
+
+// Feature importance (normalised to [0, 1])
+for (const auto& [feat, imp] : model.featureImportance())
+    std::cout << feat << ": " << imp << "\n";
+
+// Regression
+auto reg = automl.trainRegressor(data, {
+    .target = "price",
+    .metric = AutoMLMetric::R2
+});
+```
+
+**Thread Safety:**
+- `AutoML::trainClassifier` / `trainRegressor` – NOT thread-safe (modifies no global state; callers can use separate `AutoML` instances).
+- `AutoMLModel::predict` / `explain` – thread-safe after construction.
+
 ## Integration with Other Modules
 
 ### With Query Module
@@ -737,6 +854,10 @@ Specific test suites:
 ./build/tests/analytics/test_arrow_export
 ./build/tests/analytics/test_process_mining_llm
 ./build/tests/analytics/test_cep_engine
+./build/tests/analytics/test_incremental_view
+./build/tests/analytics/test_streaming_window
+./build/tests/analytics/test_anomaly_detection
+./build/tests/analytics/test_automl
 ./build/tests/analytics/test_diff_engine
 ```
 

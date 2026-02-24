@@ -18,6 +18,7 @@
  */
 
 #include "auth/mfa_authenticator.h"
+#include "utils/audit_logger.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -93,6 +94,10 @@ MFAAuthenticator::EnrollmentData MFAAuthenticator::generateEnrollment(const std:
     data.enabled = false;  // Require explicit activation
     
     spdlog::info("Generated MFA enrollment for user: {}", user_id);
+    if (audit_logger_) {
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_ENROLLED,
+            user_id, "mfa/enrollment", {});
+    }
     return data;
 }
 
@@ -136,11 +141,19 @@ bool MFAAuthenticator::validateTOTP(
         
         if (expected == code) {
             spdlog::debug("TOTP validated successfully (offset: {})", offset);
+            if (audit_logger_) {
+                audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_TOTP_SUCCESS,
+                    "", "mfa/totp", {});
+            }
             return true;
         }
     }
     
     spdlog::debug("TOTP validation failed");
+    if (audit_logger_) {
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_TOTP_FAILED,
+            "", "mfa/totp", {});
+    }
     return false;
 }
 
@@ -156,6 +169,10 @@ bool MFAAuthenticator::validateRecoveryCode(
         // Remove used recovery code
         enrollment.recovery_codes.erase(it);
         spdlog::info("Recovery code validated for user: {}", enrollment.user_id);
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_RECOVERY_CODE_USED,
+                enrollment.user_id, "mfa/recovery_code", {});
+        }
         return true;
     }
     
