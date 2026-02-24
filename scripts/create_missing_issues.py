@@ -33,6 +33,7 @@ def run_command(cmd):
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         return result.returncode, result.stdout.strip(), result.stderr.strip()
     except Exception as e:
+        print(f"[ERROR] Command execution failed: {e}", file=sys.stderr)
         return 1, "", str(e)
 
 def create_issue(title, labels, body):

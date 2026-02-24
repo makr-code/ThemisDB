@@ -74,6 +74,7 @@ try {
     echo "   After: Alice = ${alice['balance']}, Bob = ${bob['balance']}\n\n";
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     $tx->rollback();
     echo "   ✗ Transaction rolled back: {$e->getMessage()}\n\n";
 }
@@ -103,6 +104,7 @@ try {
     $tx->commit();
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     $tx->rollback();
     echo "   ✗ Transaction rolled back: {$e->getMessage()}\n";
     
@@ -138,6 +140,7 @@ try {
     echo "   ✓ Transaction committed\n\n";
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     $tx->rollback();
     echo "   ✗ Transaction rolled back: {$e->getMessage()}\n\n";
 }
@@ -172,17 +175,16 @@ try {
         $tx2->commit();
         echo "   TX2 committed (added $30)\n";
     } catch (TransactionException $e) {
+        error_log($e->getMessage());
         echo "   TX2 failed: Write-write conflict detected\n";
         $tx2->rollback();
     }
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Error: {$e->getMessage()}\n";
 }
 
-echo "\n";
-
-// Cleanup
 echo "Cleanup: Deleting accounts...\n";
 $client->delete('relational', 'accounts', 'alice');
 $client->delete('relational', 'accounts', 'bob');

@@ -139,7 +139,7 @@ class TestTransactionContextManager:
             with tx:
                 pass  # No exception
         except Exception:
-            pass  # Network error expected without server
+            print("[INFO] Network error expected without server; ignored")
         
         # Transaction should have attempted commit
         # (marked as committed or failed network call)
@@ -156,7 +156,7 @@ class TestTransactionContextManager:
         except ValueError:
             pass  # Expected
         except Exception:
-            pass  # Network error also possible
+            print("[INFO] Network error also possible; ignored")
         
         # Transaction should have attempted rollback
 
