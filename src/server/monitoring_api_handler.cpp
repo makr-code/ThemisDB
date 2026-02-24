@@ -801,6 +801,8 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 out += "\n# === Config Path Resolution Metrics ===\n";
                 out += config_metrics;
             }
+            // Also sync into MetricsCollector so Grafana dashboard gauges stay current
+            themis::config::ConfigMetricsExporter::updateMetricsCollector();
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to collect config path resolution metrics: {}", e.what());
         } catch (...) {
