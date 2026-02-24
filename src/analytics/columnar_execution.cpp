@@ -51,6 +51,7 @@
 #include <cmath>
 #include <limits>
 #include <numeric>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>

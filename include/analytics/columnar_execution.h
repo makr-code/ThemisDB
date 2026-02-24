@@ -40,9 +40,7 @@
 #pragma once
 
 #include <cstdint>
-#include <functional>
 #include <memory>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
@@ -276,8 +274,6 @@ public:
 private:
     SelectionVector evalPredicate(const ColumnBatch& batch,
                                   const Predicate&   pred) const;
-    static SelectionVector intersect(const SelectionVector& a,
-                                     const SelectionVector& b);
 
     std::vector<Predicate> predicates_;
 };
