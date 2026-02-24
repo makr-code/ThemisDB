@@ -42,7 +42,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Long-term (6-12 months)
-- [I] Agentic RAG with iterative retrieval loops (Issue: #2241)
+- [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
 - [I] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
 - [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
 - [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
@@ -73,8 +73,8 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [ ] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
-- [ ] Agentic RAG with iterative retrieval loops
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
+- [P] Agentic RAG with iterative retrieval loops
 - [ ] Knowledge graph-augmented retrieval (entity linking)
 - [ ] Multi-modal RAG (image + text retrieval)
 - [ ] Online learning from evaluation feedback (adaptive retrieval)
