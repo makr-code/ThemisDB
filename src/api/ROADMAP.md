@@ -22,7 +22,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] GraphQL schema for multi-model queries (Issue: #1493)
+- [x] GraphQL schema for multi-model queries (Issue: #1493)
 - [I] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)

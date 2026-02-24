@@ -1214,6 +1214,42 @@ else()
 endif()
 
 # ============================================================================
+# GraphQL Multi-Model Query Schema Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+    message(STATUS "Adding GraphQL multi-model query schema tests")
+
+    add_executable(test_graphql_multimodel
+        test_graphql_multimodel.cpp
+    )
+
+    target_link_libraries(test_graphql_multimodel PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_multimodel PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphQLMultiModelTests COMMAND test_graphql_multimodel)
+
+    set_tests_properties(GraphQLMultiModelTests PROPERTIES
+        LABELS "query;graphql;schema;multimodel;timeseries;geo;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
+else()
+    message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+endif()
+
+# ============================================================================
 # GraphQL Cache Security Tests
 # ============================================================================
 
