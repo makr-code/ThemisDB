@@ -220,15 +220,27 @@ TEST(SessionManagerLimitTest, MaxConcurrentSessions_OldestEvicted) {
 }
 
 TEST(SessionManagerLimitTest, MaxConcurrentSessions_Zero_DoesNotCrash) {
-    // max_concurrent_sessions = 0 should safely terminate all sessions on create
+    // max_concurrent_sessions = 0 means enforcement runs before the new session is inserted
+    // (the user has 0 sessions at enforcement time), so the first session is stored.
+    // On subsequent creates the previous session is evicted, keeping exactly 1 session
+    // at all times. The primary goal is no UB / infinite loop.
     SessionManager::SessionLimits lim;
     lim.max_concurrent_sessions = 0;
     lim.idle_timeout             = std::chrono::seconds(3600);
     lim.absolute_timeout         = std::chrono::seconds(86400);
     SessionManager mgr(lim);
 
-    // Should not crash or loop infinitely
-    EXPECT_NO_THROW(mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
+    std::string sid1;
+    EXPECT_NO_THROW(sid1 = mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
+    EXPECT_FALSE(sid1.empty());
+    EXPECT_EQ(mgr.size(), 1u); // first session escapes enforcement (user had no prior sessions)
+
+    std::string sid2;
+    EXPECT_NO_THROW(sid2 = mgr.createSession("user_zero", "fp", "1.1.1.1", "UA"));
+    EXPECT_FALSE(sid2.empty());
+    EXPECT_EQ(mgr.size(), 1u); // sid1 evicted, sid2 retained
+    EXPECT_FALSE(mgr.validateSession(sid1).valid);
+    EXPECT_TRUE(mgr.validateSession(sid2).valid);
 }
 
 // ===========================================================================
@@ -281,7 +293,7 @@ TEST_F(SessionManagerTest, TerminateAllSessions_UnknownUser_ReturnsZero) {
 
 TEST_F(SessionManagerTest, TerminateAllOtherSessions_EmptyKeepId_TerminatesAll) {
     // When keep_session_id is empty, all sessions are terminated
-    // (equivalent to terminateAllSessions – deliberate "logout everywhere" behaviour)
+    // (equivalent to terminateAllSessions – deliberate "logout everywhere" behavior)
     auto s1 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
     auto s2 = mgr_.createSession("zara", "fp", "1.1.1.1", "UA");
     EXPECT_EQ(mgr_.size(), 2u);

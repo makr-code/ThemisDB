@@ -81,7 +81,10 @@ void SessionManager::enforceSessionLimits(const std::string& user_id) {
             return sessions_.find(sid) == sessions_.end();
         }), ids.end());
 
-    // While at or over the limit, remove the oldest session
+    // While at or over the limit, remove the oldest session.
+    // The `!ids.empty()` guard prevents UB when max_concurrent_sessions <= 0:
+    // in that degenerate case the new session is added after enforcement, so the
+    // first session per user always escapes the cap but subsequent ones evict it.
     while (!ids.empty() && static_cast<int>(ids.size()) >= limits_.max_concurrent_sessions) {
         // Find the session with the oldest created_at
         auto oldest_it = ids.begin();

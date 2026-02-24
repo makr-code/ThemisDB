@@ -4937,6 +4937,10 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             client_ip = std::string(fwd->value());
             auto comma = client_ip.find(',');
             if (comma != std::string::npos) client_ip = client_ip.substr(0, comma);
+            // Trim leading and trailing whitespace
+            auto first = client_ip.find_first_not_of(" \t");
+            auto last  = client_ip.find_last_not_of(" \t");
+            client_ip = (first == std::string::npos) ? "" : client_ip.substr(first, last - first + 1);
         }
         auto result = session_api_->createSession(*token, body, client_ip);
         if (result.contains("status_code")) {
