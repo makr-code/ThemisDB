@@ -82,6 +82,9 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
 
+        # RAG Enhancement: Configurable chunk size and overlap (Phase 3)
+        ../src/rag/document_splitter.cpp
+
         # RAG Enhancement: Continuous Learning Integration (Phase 6)
         ../src/rag/continuous_learning_client.cpp
         
