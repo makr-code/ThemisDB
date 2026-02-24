@@ -29,6 +29,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] DocumentSummarizer – multi-document summarization before context injection (Issue: #2239)
 - [x] KnowledgeGraphRetriever – knowledge graph-augmented retrieval with entity linking (Issue: #2242)
 - [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
 - [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
@@ -38,6 +39,10 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+- [I] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
+- [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
+- [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
+- [x] Multi-document summarization before context injection (Issue: #2239)
 - [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
 - [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 - [x] Configurable chunk size and overlap for document splitting (Issue: #2238)
@@ -73,7 +78,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
 - [x] Citation highlighting (map answer sentences to source chunks)
 - [x] Configurable chunk size and overlap for document splitting
-- [ ] Multi-document summarization before context injection
+- [x] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
