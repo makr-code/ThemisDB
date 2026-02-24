@@ -135,6 +135,22 @@ public:
     http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req);
 
     /**
+     * @brief Handle GET /v2/query/stream request (SSE streaming)
+     *
+     * Executes an AQL query and streams each result row as a Server-Sent Event.
+     * The AQL query string is passed via the `q` URL query parameter.
+     *
+     * Optional parameters:
+     *   - max_seconds (int, 1-60): maximum stream duration; default 30
+     *   - heartbeat_ms (int, 100-60000): heartbeat comment interval; default 15000
+     *   - retry_ms (int, 100-120000): SSE reconnect hint; default 3000
+     *
+     * @param req HTTP request
+     * @return HTTP response with Content-Type: text/event-stream
+     */
+    http::response<http::string_body> handleQueryStreamSse(const http::request<http::string_body>& req);
+
+    /**
      * @brief Inject a StatisticsCollector for cardinality-based predicate ordering.
      *
      * When set, every local QueryEngine created by this handler receives the

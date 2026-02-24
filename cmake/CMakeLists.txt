@@ -1432,6 +1432,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/pii_api_handler.cpp
     ../src/server/retention_api_handler.cpp
     ../src/server/keys_api_handler.cpp
+    ../src/server/api_key_mgmt_handler.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
@@ -1757,6 +1758,9 @@ set(THEMIS_CORE_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+
+    # gRPC API server alongside REST (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
@@ -1781,6 +1785,9 @@ set(THEMIS_CORE_SOURCES
 
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
+
+    # Predictive Analytics & Time-Series Forecasting (Phase 3)
+    ../src/analytics/forecasting.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2731,6 +2738,58 @@ if(THEMIS_ENABLE_GRPC)
         # duplicate static proto objects in final executables.
         if(TARGET themis_shard_proto AND NOT THEMIS_BUILD_MODULAR)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
+        endif()
+
+        # ── ThemisDB API proto (client-facing gRPC surface, api module) ──────
+        # Generates C++ stubs from proto/themisdb.proto.
+        # The library `themis_api_proto` is linked into themis_core so that
+        # GrpcApiServer can register ThemisDBService implementations.
+        if(COMMAND protobuf_generate)
+            set(THEMISDB_API_PROTO ${THEMIS_ROOT_DIR}/proto/themisdb.proto)
+            set(THEMISDB_API_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${THEMISDB_API_PROTO_GEN_DIR})
+
+            set(THEMISDB_API_PROTO_SRCS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.cc
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.cc
+            )
+            set(THEMISDB_API_PROTO_HDRS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.h
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${THEMISDB_API_PROTO_SRCS} ${THEMISDB_API_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --grpc_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto
+                     ${THEMISDB_API_PROTO}
+                DEPENDS ${THEMISDB_API_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for themisdb.proto (API service)"
+                VERBATIM
+            )
+
+            add_library(themis_api_proto STATIC
+                ${THEMISDB_API_PROTO_SRCS}
+                ${THEMISDB_API_PROTO_HDRS}
+            )
+            target_include_directories(themis_api_proto PUBLIC ${THEMISDB_API_PROTO_GEN_DIR})
+            target_link_libraries(themis_api_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            if(MSVC)
+                target_compile_options(themis_api_proto PRIVATE
+                    /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_api_proto PRIVATE
+                    -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            target_link_libraries(themis_core PUBLIC themis_api_proto)
+            message(STATUS "themis_api_proto library created for ThemisDB API gRPC service")
+        else()
+            message(WARNING "protobuf_generate() unavailable – themisdb.proto stubs will not be generated")
         endif()
     else()
         message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")

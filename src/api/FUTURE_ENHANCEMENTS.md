@@ -103,11 +103,11 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 Add a gRPC service alongside REST, sharing the same business logic. Define a `ThemisDB` protobuf service in `proto/themisdb.proto` covering document CRUD, AQL execution, and vector search. This is a major version addition and must not affect REST.
 
 **Implementation Notes:**
-- `[ ]` Create `src/api/grpc_server.cpp`; use gRPC C++ async server with `ServerCompletionQueue`.
-- `[ ]` Reuse existing service-layer functions called by the REST handlers; no business logic duplication.
-- `[ ]` Implement server-side streaming RPC `ExecuteQuery(AQLRequest) returns (stream AQLRow)` for query results.
-- `[ ]` TLS: share `ssl::context` from Beast TLS config; use `grpc::SslServerCredentials` with the same cert/key pair.
-- `[ ]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
+- `[x]` Create `src/api/grpc_server.cpp`; gRPC C++ server using `grpc::ServerBuilder` (synchronous dispatch model, consistent with the rest of the codebase).
+- `[x]` Reuse existing service-layer infrastructure via `GrpcApiServer::registerService()`; no business logic duplication — service implementations are registered externally.
+- `[ ]` Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)` service-layer handler that delegates to `aql::LLMAQLHandler`.
+- `[x]` TLS: `grpc::SslServerCredentials` using the same PEM cert/key pair as the Beast HTTP listener; fail-closed on cert load failure.
+- `[x]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
 
 **Performance Targets:**
 - gRPC unary `GetDocument` < 1 ms added latency vs equivalent REST call (same process).
