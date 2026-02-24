@@ -29,6 +29,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] KnowledgeGraphRetriever – knowledge graph-augmented retrieval with entity linking (Issue: #2242)
 - [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
 - [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
 
@@ -45,7 +46,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 
 ### Long-term (6-12 months)
 - [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [I] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
+- [x] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
 - [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
 - [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
@@ -75,9 +76,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [ ] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
 - [P] Agentic RAG with iterative retrieval loops
-- [ ] Knowledge graph-augmented retrieval (entity linking)
+- [x] Knowledge graph-augmented retrieval (entity linking)
 - [ ] Multi-modal RAG (image + text retrieval)
 - [ ] Online learning from evaluation feedback (adaptive retrieval)
 - [ ] Distributed RAG evaluation across multiple judge models

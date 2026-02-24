@@ -85,6 +85,8 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
 
+        # RAG Enhancement: Knowledge Graph-Augmented Retrieval with Entity Linking (Phase 4)
+        ../src/rag/knowledge_graph_retriever.cpp
         # RAG Enhancement: Configurable chunk size and overlap (Phase 3)
         ../src/rag/document_splitter.cpp
 
