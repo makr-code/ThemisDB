@@ -96,6 +96,16 @@ public:
      * @return Metadata if mapping exists, std::nullopt otherwise
      */
     static std::optional<PathMappingMetadata> getMetadata(const std::string& legacy_path);
+
+    /**
+     * Return the full legacy-to-new path mapping table.
+     *
+     * Provides read-only access to PATH_MAPPING for tooling (e.g. migration
+     * scanner) that needs to enumerate all known legacy paths.
+     *
+     * @return Const reference to the static mapping table.
+     */
+    static const std::map<std::string, std::string>& legacyPathMappings();
     
     /**
      * Metrics for config path resolution.
@@ -141,8 +151,35 @@ public:
      * Default LRU cache TTL in seconds.
      * Exposed as a named constant so the metrics exporter and other consumers
      * can reference the single source of truth rather than duplicating the value.
+     * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_TTL_SECONDS.
      */
     static constexpr int kCacheTtlSeconds = 300;
+
+    /**
+     * Default LRU cache capacity.
+     * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_CAPACITY.
+     */
+    static constexpr int kCacheCapacity = 1000;
+
+    /**
+     * Runtime cache configuration (may differ from defaults when env vars are set).
+     */
+    struct CacheConfig {
+        size_t capacity;    ///< Maximum number of cached entries
+        int ttl_seconds;    ///< Entry TTL in seconds
+    };
+
+    /**
+     * Returns the active cache configuration (capacity and TTL) as determined
+     * at startup from environment variables or defaults.
+     *
+     * Environment variables:
+     *   THEMIS_CONFIG_CACHE_CAPACITY  – integer in [10, 100000], default 1000
+     *   THEMIS_CONFIG_CACHE_TTL_SECONDS – integer in [1, 86400], default 300
+     *
+     * @return Current CacheConfig used by the path resolver cache.
+     */
+    static CacheConfig currentCacheConfig();
 
     /**
      * Entry in the deprecation usage report.
@@ -188,9 +225,12 @@ private:
     // Metrics tracking
     static Metrics metrics_;
     
-    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes)
+    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes by default)
     static LRUCacheWithTTL<std::string, std::string> cache_;
     static std::atomic<bool> caching_enabled_;
+
+    // Active cache configuration (set once at startup from env vars or defaults)
+    static CacheConfig cache_config_;
     
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);

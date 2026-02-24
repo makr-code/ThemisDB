@@ -338,9 +338,90 @@ TEST_F(ConfigPathResolverTest, RejectsRelativePathTraversal) {
     EXPECT_FALSE(result.has_value()) << "Relative path traversal should be rejected";
 }
 
+TEST_F(ConfigPathResolverTest, RejectsSymlinkOutsideConfigRoot) {
+    // Create a symlink pointing outside test_dir_ (if the platform supports symlinks)
+    auto link_target = std::filesystem::temp_directory_path() / "themisdb_outside_link_target.txt";
+    auto link_path   = test_dir_ / "config" / "symlink_escape.yaml";
+    std::filesystem::create_directories(link_path.parent_path());
+
+    // Write a real file outside the test dir
+    {
+        std::ofstream f(link_target);
+        f << "secret: data\n";
+    }
+
+    std::error_code ec;
+    std::filesystem::create_symlink(link_target, link_path, ec);
+    if (ec) {
+        // Symlinks not supported on this platform/filesystem – skip
+        GTEST_SKIP() << "Platform does not support symlinks; skipping symlink test";
+    }
+
+    // Temporarily cd into test_dir_ so that the relative path resolves
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    auto result = ConfigPathResolver::tryResolve("config/symlink_escape.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    // The symlink points outside the config root, so it should be rejected
+    EXPECT_FALSE(result.has_value()) << "Symlink escaping config root should be rejected";
+
+    // Cleanup
+    std::filesystem::remove(link_path, ec);
+    std::filesystem::remove(link_target, ec);
+}
+
 // ═══════════════════════════════════════════════════════════
-// Deprecation Aggregation Tests
+// METADATA_TABLE Completeness Tests
 // ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigPathResolverTest, MetadataTableCoversAllMappedPaths) {
+    // Every path in legacyPathMappings() must have metadata (getMetadata returns non-null)
+    for (const auto& [legacy, new_path] : ConfigPathResolver::legacyPathMappings()) {
+        auto meta = ConfigPathResolver::getMetadata(legacy);
+        EXPECT_TRUE(meta.has_value())
+            << "Missing metadata for legacy path: " << legacy;
+        if (meta) {
+            EXPECT_EQ(meta->legacy_path, legacy);
+            EXPECT_EQ(meta->new_path, new_path);
+            EXPECT_FALSE(meta->category.empty())
+                << "Category should not be empty for: " << legacy;
+            EXPECT_TRUE(meta->deprecated_date.has_value())
+                << "deprecated_date should be set for: " << legacy;
+            EXPECT_TRUE(meta->removal_date.has_value())
+                << "removal_date should be set for: " << legacy;
+            EXPECT_TRUE(meta->migration_guide_url.has_value())
+                << "migration_guide_url should be set for: " << legacy;
+        }
+    }
+}
+
+TEST_F(ConfigPathResolverTest, MetadataDeprecationMessageContainsBothPaths) {
+    auto meta = ConfigPathResolver::getMetadata("config/lora_training_config.yaml");
+    ASSERT_TRUE(meta.has_value());
+    auto msg = meta->getDeprecationMessage();
+    EXPECT_NE(msg.find("config/lora_training_config.yaml"), std::string::npos);
+    EXPECT_NE(msg.find("config/ai_ml/lora_training_config.yaml"), std::string::npos);
+}
+
+TEST_F(ConfigPathResolverTest, LegacyPathMappingsReturnsNonEmptyMap) {
+    const auto& mappings = ConfigPathResolver::legacyPathMappings();
+    EXPECT_FALSE(mappings.empty());
+    EXPECT_GE(mappings.size(), 50u) << "Expected at least 50 legacy path mappings";
+}
+
+// ═══════════════════════════════════════════════════════════
+// Cache Configuration Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigPathResolverTest, CurrentCacheConfigReturnsDefaults) {
+    // Without env var overrides, defaults must match the compile-time constants
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    EXPECT_EQ(cfg.capacity,   static_cast<size_t>(ConfigPathResolver::kCacheCapacity));
+    EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kCacheTtlSeconds);
+}
+
+
 
 TEST_F(ConfigPathResolverTest, DeprecationReportEmptyInitially) {
     ConfigPathResolver::resetMetrics();
