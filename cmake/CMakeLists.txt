@@ -1501,8 +1501,8 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/warmup.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
-    
-    # Replication
+    ../src/cdc/dead_letter_queue.cpp
+        # Replication
     ../src/replication/replication_manager.cpp
     
     # Temporal conflict resolution
