@@ -276,3 +276,97 @@ TEST_F(TwoTierEvictionStrategyTest, RemoveFromAnyTier) {
     
     EXPECT_EQ(strategy->size(), 1);
 }
+
+// ============================================================================
+// ARC Strategy Tests
+// ============================================================================
+
+class ARCEvictionStrategyTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        strategy = std::make_unique<ARCEvictionStrategy>(4);
+    }
+
+    std::unique_ptr<ARCEvictionStrategy> strategy;
+};
+
+TEST_F(ARCEvictionStrategyTest, BasicInsertionAndVictim) {
+    strategy->onInsert("key1", 1000);
+    strategy->onInsert("key2", 2000);
+    strategy->onInsert("key3", 3000);
+
+    EXPECT_EQ(strategy->size(), 3);
+
+    // All in T1; victim should be LRU of T1 (key1)
+    auto victim = strategy->selectVictim();
+    ASSERT_TRUE(victim.has_value());
+    EXPECT_EQ(*victim, "key1");
+}
+
+TEST_F(ARCEvictionStrategyTest, AccessPromotesT1ToT2) {
+    strategy->onInsert("key1", 1000);
+    strategy->onInsert("key2", 2000);
+    strategy->onInsert("key3", 3000);
+
+    // Access key1 → promoted from T1 to T2
+    strategy->onAccess("key1");
+
+    EXPECT_EQ(strategy->size(), 3);
+
+    // key2 is now the LRU of T1 (key1 was moved to T2)
+    auto victim = strategy->selectVictim();
+    ASSERT_TRUE(victim.has_value());
+    EXPECT_EQ(*victim, "key2");
+}
+
+TEST_F(ARCEvictionStrategyTest, RemoveMovesToGhost) {
+    strategy->onInsert("key1", 1000);
+    strategy->onInsert("key2", 2000);
+
+    EXPECT_EQ(strategy->size(), 2);
+
+    strategy->onRemove("key1");
+
+    EXPECT_EQ(strategy->size(), 1);
+
+    // After removal from T1, key1 is a ghost in B1
+    // Re-inserting key1 should trigger p adaptation (B1 ghost hit)
+    strategy->onInsert("key1", 3000);
+    EXPECT_EQ(strategy->size(), 2);
+}
+
+TEST_F(ARCEvictionStrategyTest, Clear) {
+    strategy->onInsert("key1", 1000);
+    strategy->onInsert("key2", 2000);
+
+    EXPECT_EQ(strategy->size(), 2);
+
+    strategy->clear();
+
+    EXPECT_EQ(strategy->size(), 0);
+    EXPECT_FALSE(strategy->selectVictim().has_value());
+}
+
+TEST_F(ARCEvictionStrategyTest, Name) {
+    EXPECT_EQ(strategy->getName(), "ARC");
+}
+
+TEST_F(ARCEvictionStrategyTest, CapacityEviction) {
+    // Insert 4 entries (capacity is 4)
+    strategy->onInsert("k1", 1000);
+    strategy->onInsert("k2", 2000);
+    strategy->onInsert("k3", 3000);
+    strategy->onInsert("k4", 4000);
+    EXPECT_EQ(strategy->size(), 4);
+
+    // Inserting a 5th should not crash; victim selection works
+    auto victim = strategy->selectVictim();
+    ASSERT_TRUE(victim.has_value());
+    strategy->onRemove(*victim);
+    strategy->onInsert("k5", 5000);
+    EXPECT_EQ(strategy->size(), 4);
+}
+
+TEST_F(ARCEvictionStrategyTest, EmptyReturnsNullopt) {
+    EXPECT_FALSE(strategy->selectVictim().has_value());
+}

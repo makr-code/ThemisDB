@@ -180,6 +180,7 @@ class ThemisClient
             
             return $response;
         } catch (NotFoundException $e) {
+            error_log("Entity not found: " . $e->getMessage());
             return null;
         }
     }
@@ -225,6 +226,7 @@ class ThemisClient
             $this->request('DELETE', "{$endpoint}/entities/{$key}");
             return true;
         } catch (NotFoundException $e) {
+            error_log("Entity not found during delete: " . $e->getMessage());
             return false;
         }
     }
@@ -258,6 +260,7 @@ class ThemisClient
                     $result['found'][$uuid] = $entity;
                 }
             } catch (Exception $e) {
+                error_log("Batch get error for {$uuid}: " . $e->getMessage());
                 $result['errors'][$uuid] = $e->getMessage();
             }
         }
@@ -292,6 +295,7 @@ class ThemisClient
                     $result['failed'][$uuid] = 'operation returned false';
                 }
             } catch (Exception $e) {
+                error_log("Batch put error for {$uuid}: " . $e->getMessage());
                 $result['failed'][$uuid] = $e->getMessage();
             }
         }
@@ -326,6 +330,7 @@ class ThemisClient
                     $result['failed'][$uuid] = 'operation returned false';
                 }
             } catch (Exception $e) {
+                error_log("Batch delete error for {$uuid}: " . $e->getMessage());
                 $result['failed'][$uuid] = $e->getMessage();
             }
         }
@@ -530,6 +535,7 @@ class ThemisClient
                 $response = $this->request('POST', "{$endpoint}/vector/search", $payload);
                 $responses[] = $response;
             } catch (Exception $e) {
+                error_log("Vector search failed on endpoint: " . $e->getMessage());
                 // Continue with other endpoints
             }
         }
@@ -612,6 +618,7 @@ class ThemisClient
             $this->request('DELETE', "{$endpoint}/vector/{$id}");
             return true;
         } catch (NotFoundException $e) {
+            error_log("Vector not found during delete: " . $e->getMessage());
             return false;
         }
     }
@@ -709,9 +716,9 @@ class ThemisClient
             $response = $this->request('GET', "{$endpoint}/llm/interaction/{$interactionId}");
             return Llm\LlmInteraction::fromArray($response);
         } catch (NotFoundException $e) {
+            error_log("LLM interaction not found: " . $e->getMessage());
             return null;
-        }
-    }
+        }    }
 
     /**
      * List LLM interactions with optional filtering.
@@ -954,6 +961,7 @@ class ThemisClient
         try {
             $this->refreshTopology();
         } catch (TopologyException $e) {
+            error_log("Topology refresh failed, using bootstrap endpoints: " . $e->getMessage());
             // Fallback to bootstrap endpoints
             $this->shardEndpoints = $this->endpoints;
         }

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     547                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b01c41c10  2026-02-22  fix(config): use thread-safe C++20 chrono date formatting... ║
@@ -197,6 +197,7 @@ LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300);
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
+volatile sig_atomic_t ConfigPathResolver::sighup_pending_{0};
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -227,6 +228,7 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
     {"config/mime_types.yaml", "config/data_management/mime_types.yaml"},
     {"config/storage_redundancy.yaml", "config/data_management/storage_redundancy.yaml"},
     {"config/retention_policies.yaml", "config/data_management/retention_policies.yaml"},
+    {"config/cdc_retention.yaml", "config/data_management/cdc_retention.yaml"},
     
     // Performance Configurations
     {"config/scaling_optimizations.yaml", "config/performance/scaling_optimizations.yaml"},
@@ -352,7 +354,14 @@ std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
 
 std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
-    
+
+    // Hot-reload: if SIGHUP was received, flush the cache before the lookup.
+    if (sighup_pending_) {
+        sighup_pending_ = 0;
+        cache_.clear();
+        spdlog::info("ConfigPathResolver: SIGHUP received – resolved path cache cleared");
+    }
+
     // Check cache first if enabled
     if (caching_enabled_.load()) {
         auto cached = cache_.get(normalized);
@@ -545,6 +554,33 @@ std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
     }
     
     return new_path.substr(first_slash + 1, second_slash - first_slash - 1);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SIGHUP Hot-Reload
+// ═══════════════════════════════════════════════════════════
+
+// Static signal handler – must be async-signal-safe; only sets a flag.
+void ConfigPathResolver::handleSighup(int /*sig*/) {
+    sighup_pending_ = 1;
+}
+
+void ConfigPathResolver::registerSighupHandler() {
+#if defined(_WIN32)
+    // SIGHUP is not defined on Windows; no-op.
+    spdlog::debug("ConfigPathResolver: SIGHUP hot-reload not supported on Windows");
+#else
+    struct sigaction sa{};
+    sa.sa_handler = ConfigPathResolver::handleSighup;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    if (sigaction(SIGHUP, &sa, nullptr) != 0) {
+        spdlog::warn("ConfigPathResolver: Failed to register SIGHUP handler");
+    } else {
+        spdlog::info("ConfigPathResolver: SIGHUP hot-reload registered – "
+                     "send SIGHUP to flush the resolved path cache at runtime");
+    }
+#endif
 }
 
 } // namespace config

@@ -231,7 +231,7 @@ std::string SAMLAuthenticator::urlEncode(const std::string& input) {
     return oss.str();
 }
 
-std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_state) const {
+AuthnRequestParams SAMLAuthenticator::buildAuthnRequest(const std::string& relay_state) const {
     const std::string request_id   = generateRequestId();
     const std::string issue_instant = formatDateTime(clock_());
     const std::string xml           = buildAuthnRequestXml(request_id, issue_instant);
@@ -242,7 +242,11 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_sta
     if (!relay_state.empty()) {
         url += "&RelayState=" + urlEncode(relay_state);
     }
-    return url;
+    return {url, request_id};
+}
+
+std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string& relay_state) const {
+    return buildAuthnRequest(relay_state).url;
 }
 
 // ============================================================================
@@ -546,6 +550,27 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
             THROW_AUTH_ERROR(AuthErrorCode::SAML_STATUS_FAILURE,
                              "Authentication failed",
                              "SAML Status is not Success: " + status_value);
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // Step 3b: Validate Response-level InResponseTo (SP-initiated flow)
+    // ----------------------------------------------------------------
+    // For SP-initiated flow the caller passes the AuthnRequest ID as
+    // in_response_to.  If the Response carries an InResponseTo attribute it
+    // MUST match that ID.  For IdP-initiated flow in_response_to is empty and
+    // this check is skipped.
+    if (!in_response_to.empty()) {
+        auto irt_attr = response_node.attribute("InResponseTo");
+        if (irt_attr) {
+            std::string irt = irt_attr.as_string("");
+            if (irt != in_response_to) {
+                THROW_AUTH_ERROR(AuthErrorCode::SAML_CONDITIONS_FAILED,
+                                 "Invalid SAML response",
+                                 "Response InResponseTo '" + irt +
+                                 "' does not match expected AuthnRequest ID '" +
+                                 in_response_to + "'");
+            }
         }
     }
 

@@ -324,6 +324,48 @@ CompactionResult CDCAdmin::compactLog() {
     return result;
 }
 
+GDPRRedactionResult CDCAdmin::redactByKeyPrefix(
+    const std::string& tenant_id,
+    const std::string& key_prefix,
+    const std::string& operator_id)
+{
+    THEMIS_INFO("CDC Admin: GDPR redaction — tenant='{}' key_prefix='{}' operator='{}'",
+                tenant_id, key_prefix, operator_id);
+
+    if (!changefeed_) {
+        throw error::internalError("No changefeed available for GDPR redaction");
+    }
+
+    if (key_prefix.empty()) {
+        throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
+    }
+
+    const auto now_ms = duration_cast<milliseconds>(
+        system_clock::now().time_since_epoch()).count();
+
+    const auto start = steady_clock::now();
+    Changefeed::RedactionResult inner = changefeed_->redactByKeyPrefix(key_prefix);
+    const auto end = steady_clock::now();
+
+    GDPRRedactionResult result;
+    result.events_scanned  = inner.events_scanned;
+    result.events_redacted = inner.events_redacted;
+    result.elapsed_time_ms = static_cast<uint64_t>(
+        duration_cast<milliseconds>(end - start).count());
+    result.key_prefix  = key_prefix;
+    result.tenant_id   = tenant_id;
+    result.operator_id = operator_id;
+    result.timestamp_ms = now_ms;
+
+    THEMIS_INFO("CDC Admin: GDPR redaction complete — "
+                "tenant='{}' key_prefix='{}' scanned={} redacted={} elapsed_ms={} operator='{}'",
+                tenant_id, key_prefix,
+                result.events_scanned, result.events_redacted,
+                result.elapsed_time_ms, operator_id);
+
+    return result;
+}
+
 RetentionStatus CDCAdmin::getRetentionStatus() {
     THEMIS_INFO("CDC Admin: Getting retention status");
 
@@ -354,6 +396,14 @@ RetentionStatus CDCAdmin::getRetentionStatus() {
         status.next_cleanup_time_ms = now_ms +
             duration_cast<milliseconds>(policy.cleanup_interval).count();
     }
+
+    // Expose the full retention policy configuration so callers can read it back
+    status.policy_enabled                = policy.enabled;
+    status.policy_max_age_hours          = static_cast<uint32_t>(policy.max_age_hours.count());
+    status.policy_max_event_count        = policy.max_event_count;
+    status.policy_max_size_bytes         = policy.max_size_bytes;
+    status.policy_cleanup_interval_minutes =
+        static_cast<uint32_t>(policy.cleanup_interval.count());
 
     return status;
 }

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     475                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5b89bdaa0  2026-02-22  audit(config): fix test gaps, update ROADMAP and FUTURE_E... ║
@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include "config/config_path_resolver.h"
+#include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
 #include <filesystem>
 #include <fstream>
@@ -473,6 +474,203 @@ TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
     // pii_patterns should be first with count >= 3
     EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
     EXPECT_GE(report[0].usage_count, 3u);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SIGHUP Hot-Reload Tests
+// ═══════════════════════════════════════════════════════════
+
+#ifndef _WIN32
+
+TEST_F(ConfigPathResolverTest, RegisterSighupHandlerDoesNotThrow) {
+    EXPECT_NO_THROW(ConfigPathResolver::registerSighupHandler());
+}
+
+TEST_F(ConfigPathResolverTest, SighupClearsCache) {
+    // Populate the cache with a real file
+    auto temp_file = test_dir_ / "config" / "sighup_test.yaml";
+    createTestFile(temp_file);
+
+    ConfigPathResolver::setCachingEnabled(true);
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::registerSighupHandler();
+
+    // First resolution – cache miss then populated
+    auto result1 = ConfigPathResolver::tryResolve(temp_file.string());
+    ASSERT_TRUE(result1.has_value());
+
+    // Verify the entry is now in the cache (second call hits the cache)
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_GT(ConfigPathResolver::metrics().cache_hits, 0u);
+
+    // Send SIGHUP to ourselves – handler sets the pending flag
+    ::raise(SIGHUP);
+
+    // Next tryResolve() must detect the pending flag, clear the cache,
+    // and re-resolve (cache miss after the clear).
+    ConfigPathResolver::resetMetrics();
+    auto result2 = ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_TRUE(result2.has_value());
+    // After SIGHUP the cache was wiped, so this call must be a cache miss
+    EXPECT_EQ(ConfigPathResolver::metrics().cache_hits, 0u);
+}
+
+TEST_F(ConfigPathResolverTest, SighupHandlerIsSafeToCallRepeatedly) {
+    // Registering and signalling multiple times must not crash or deadlock
+    ConfigPathResolver::registerSighupHandler();
+    ConfigPathResolver::registerSighupHandler();
+
+    ::raise(SIGHUP);
+    // sighup_pending_ is drained by the next tryResolve() call below
+    ConfigPathResolver::tryResolve("config/nonexistent_repeat.yaml");
+
+    ::raise(SIGHUP);
+    ConfigPathResolver::tryResolve("config/nonexistent_repeat2.yaml");
+
+    SUCCEED();
+}
+#endif // !_WIN32
+
+// ═══════════════════════════════════════════════════════════
+// ConfigMetricsExporter Tests
+// ═══════════════════════════════════════════════════════════
+
+class ConfigMetricsExporterTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::setCachingEnabled(true);
+    }
+};
+
+TEST_F(ConfigMetricsExporterTest, CollectReturnsNonEmptyString) {
+    std::string output = ConfigMetricsExporter::collect();
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectContainsRequiredMetricNames) {
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("themis_config_resolution_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_resolution_misses_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_legacy_fallbacks_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_new_path_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_unmapped_requests_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_misses_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_hit_ratio"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_capacity"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_ttl_seconds"), std::string::npos);
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectContainsHelpAndTypeAnnotations) {
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("# HELP themis_config_resolution_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_resolution_hits_total counter"), std::string::npos);
+    EXPECT_NE(output.find("# HELP themis_config_cache_hit_ratio"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_hit_ratio gauge"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_capacity gauge"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_ttl_seconds gauge"), std::string::npos);
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectReflectsResolutionMissCount) {
+    // Trigger a miss
+    try {
+        ConfigPathResolver::resolve("config/nonexistent_for_exporter_test.yaml");
+    } catch (const ConfigNotFoundException&) {
+        // expected
+    }
+
+    std::string output = ConfigMetricsExporter::collect();
+    // The output must contain "themis_config_resolution_misses_total" followed by a non-zero value
+    EXPECT_NE(output.find("themis_config_resolution_misses_total 1"), std::string::npos)
+        << "Expected 1 resolution miss in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheHitRatioIsZeroWithNoActivity) {
+    std::string output = ConfigMetricsExporter::collect();
+    // With no cache activity the ratio should be 0
+    EXPECT_NE(output.find("themis_config_cache_hit_ratio 0"), std::string::npos)
+        << "Expected cache_hit_ratio of 0 in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheCapacityIsPositive) {
+    std::string output = ConfigMetricsExporter::collect();
+    // Capacity should be reported as a positive integer (currently 1000)
+    EXPECT_NE(output.find("themis_config_cache_capacity 1000"), std::string::npos)
+        << "Expected cache_capacity of 1000 in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheTtlSecondsIsPositive) {
+    std::string output = ConfigMetricsExporter::collect();
+    // TTL must match the value from ConfigPathResolver::kCacheTtlSeconds (currently 300)
+    const std::string expected = "themis_config_cache_ttl_seconds " +
+                                 std::to_string(ConfigPathResolver::kCacheTtlSeconds);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "Expected '" << expected << "' in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, UpdateMetricsCollectorDoesNotThrow) {
+    EXPECT_NO_THROW(ConfigMetricsExporter::updateMetricsCollector());
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectIsIdempotent) {
+    // Trigger a resolution miss so counters are non-zero
+    try {
+        ConfigPathResolver::resolve("config/nonexistent_for_idempotency_test.yaml");
+    } catch (const ConfigNotFoundException&) {
+        // expected
+    }
+
+    // Two consecutive calls without intervening activity must produce identical output
+    std::string first  = ConfigMetricsExporter::collect();
+    std::string second = ConfigMetricsExporter::collect();
+    EXPECT_EQ(first, second);
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
+    // Trigger a legacy fallback so the deprecation aggregator gets data.
+    // Set up a temp dir with only the legacy file (no new path).
+    std::filesystem::path test_dir =
+        std::filesystem::temp_directory_path() / "themisdb_category_metric_test";
+
+    // RAII cleanup – removed unconditionally even on early return or throw
+    struct Cleanup {
+        std::filesystem::path dir;
+        std::filesystem::path prev_cwd;
+        ~Cleanup() {
+            std::error_code ec;
+            std::filesystem::current_path(prev_cwd, ec);
+            std::filesystem::remove_all(dir, ec);
+        }
+    } cleanup{test_dir, std::filesystem::current_path()};
+
+    std::filesystem::create_directories(test_dir / "config");
+    {
+        std::ofstream f(test_dir / "config" / "pii_patterns.yaml");
+        f << "test: data\n";
+    }
+
+    // The deprecation aggregator records usage unconditionally (regardless of
+    // setAggregationEnabled); per-call warnings are suppressed when disabled.
+    std::filesystem::current_path(test_dir);
+    ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(cleanup.prev_cwd);
+
+    // Verify aggregator has data
+    const auto report = ConfigPathResolver::deprecationReport();
+    ASSERT_FALSE(report.empty()) << "Deprecation aggregator should have recorded the legacy fallback";
+
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("themis_config_legacy_fallbacks_by_category_total{category="), std::string::npos)
+        << "Expected per-category fallback metric in output:\n" << output;
+    // pii_patterns.yaml maps to config/security/ → category "security"
+    EXPECT_NE(output.find("category=\"security\""), std::string::npos)
+        << "Expected 'security' category in output:\n" << output;
 }
 
 } // namespace test

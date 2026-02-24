@@ -23,7 +23,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ### Short-term (Next 3-6 months)
 - [x] GraphQL schema for multi-model queries (Issue: #1493)
-- [I] WebSocket support for real-time change subscriptions (Issue: #1494)
+- [x] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
@@ -35,7 +35,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [I] API key management endpoint (Issue: #1502)
 - [x] Multi-tenant namespace routing (Issue: #1503)
-- [I] Async job API for long-running queries (Issue: #1504)
+- [x] Async job API for long-running queries (Issue: #1504)
 
 ## Implementation Phases
 
@@ -55,10 +55,10 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
-- [~] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
+- [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [I] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
-- [~] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
+- [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1509)

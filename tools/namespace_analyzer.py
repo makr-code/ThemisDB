@@ -211,7 +211,7 @@ class NamespaceAnalyzer:
                 total_commits=len(commits)
             )
         except Exception as e:
-            self.log(f"Error getting git metadata: {e}")
+            print(f"Error getting git metadata: {e}")
             return None
     
     def read_file(self, file_path: Path) -> List[str]:
@@ -222,7 +222,7 @@ class NamespaceAnalyzer:
                 with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                     self.file_cache[file_str] = f.readlines()
             except Exception as e:
-                self.log(f"Error reading {file_path}: {e}")
+                print(f"Error reading {file_path}: {e}")
                 self.file_cache[file_str] = []
         return self.file_cache[file_str]
     

@@ -13,11 +13,9 @@ function Test-CommandExists {
         }
     }
     catch {
+        Write-Warning "Command check failed: $_"
         return $false
     }
-}
-
-# Function to print status messages
 function Write-Status {
     param($Message)
     Write-Host "==> $Message" -ForegroundColor Cyan

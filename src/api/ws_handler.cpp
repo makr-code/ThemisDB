@@ -38,7 +38,7 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<AuthMiddleware> auth,
 // ---------------------------------------------------------------------------
 
 bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
-    return path == "/v2/changes";
+    return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
 // ---------------------------------------------------------------------------
@@ -84,8 +84,8 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
             }
         }
 
-        // "cdc:read" scope is required for the change-stream endpoint.
-        const auto result = auth_->authorize(token, "cdc:read");
+        // "cdc:subscribe" scope is required for the change-stream endpoint.
+        const auto result = auth_->authorize(token, "cdc:subscribe");
         if (!result.authorized) {
             THEMIS_WARN("WsChangeHandler: auth rejected for /v2/changes – {}",
                         result.reason);

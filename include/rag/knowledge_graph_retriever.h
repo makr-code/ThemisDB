@@ -1,0 +1,494 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            knowledge_graph_retriever.h                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-24                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     396                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file knowledge_graph_retriever.h
+ * @brief Knowledge graph-augmented retrieval with entity linking
+ *
+ * Augments standard vector-search retrieval with a lightweight in-memory
+ * knowledge graph (KG).  Named entities are extracted from the query and
+ * from each candidate document, linked to KG nodes, and the neighbourhood
+ * of matched nodes is traversed to surface additional relevant documents.
+ *
+ * Architecture:
+ * @code
+ *   Query
+ *     ↓
+ *   EntityLinker  ──────────► KnowledgeGraph
+ *     │                           │  (BFS traversal)
+ *     │         neighbour nodes   │
+ *     ▼◄──────────────────────────┘
+ *   KG-boosted document scores
+ *     ↓
+ *   KGRetrievalResult (augmented candidates)
+ * @endcode
+ *
+ * Design goals:
+ * - Zero external dependencies: entity extraction uses a configurable
+ *   dictionary + capitalisation heuristic; no NLP library required.
+ * - Thread-safe graph operations via internal mutex.
+ * - Score fusion: original_score * (1 - kg_weight) + kg_score * kg_weight.
+ * - Pluggable: callers supply initial candidates; the retriever only adds
+ *   KG-derived signal on top of them.
+ * - Configurable traversal depth (default 2 hops).
+ *
+ * Integration example:
+ * @code
+ *   #include "rag/knowledge_graph_retriever.h"
+ *
+ *   using namespace themis::rag::kg;
+ *
+ *   // Build / load the knowledge graph
+ *   KnowledgeGraph graph;
+ *   graph.addNode({"ent-1", "HNSW Algorithm", {"HNSW", "Hierarchical NSW"},
+ *                  EntityType::CONCEPT});
+ *   graph.addNode({"ent-2", "Vector Index", {}, EntityType::CONCEPT});
+ *   graph.addEdge({"ent-1", "ent-2", RelationType::RELATED_TO, 0.9});
+ *
+ *   // Create retriever
+ *   KGRetrieverConfig cfg;
+ *   cfg.max_traversal_depth = 2;
+ *   cfg.kg_score_weight     = 0.3;
+ *
+ *   KnowledgeGraphRetriever retriever(graph, cfg);
+ *
+ *   // Augment existing vector-search results
+ *   auto result = retriever.retrieve(query, initial_docs);
+ * @endcode
+ */
+
+#pragma once
+
+#include "rag/rag_judge.h"
+
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+namespace themis::rag::kg {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Supporting enumerations
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Coarse category of a named entity.
+ */
+enum class EntityType {
+    PERSON,        ///< A human individual
+    ORGANIZATION,  ///< Company, institute, government body
+    LOCATION,      ///< Geographical location, place
+    CONCEPT,       ///< Abstract idea, algorithm, topic
+    PRODUCT,       ///< Software, hardware, brand
+    EVENT,         ///< Named event (conference, release, …)
+    OTHER          ///< Catch-all for unclassified entities
+};
+
+/**
+ * @brief Directed relation type between two knowledge-graph nodes.
+ */
+enum class RelationType {
+    IS_A,        ///< Subtype / instance-of relationship
+    HAS_PART,    ///< Meronymy (X has-part Y)
+    RELATED_TO,  ///< Generic semantic relatedness
+    CAUSES,      ///< Causal link (X causes Y)
+    MENTIONS,    ///< Document-level mention link
+    SYNONYM_OF,  ///< Lexical synonymy
+    DEFINED_BY   ///< X is defined / described by Y
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Data structures
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief A named entity extracted from text.
+ */
+struct Entity {
+    std::string  text;          ///< Surface form as it appears in the text
+    EntityType   type;          ///< Coarse semantic category
+    double       confidence;    ///< Extraction confidence in [0, 1]
+    size_t       start_offset;  ///< Byte offset of first character in source text
+    size_t       end_offset;    ///< Byte offset one past the last character
+};
+
+/**
+ * @brief A node in the knowledge graph representing a canonical entity.
+ */
+struct KGNode {
+    std::string              id;             ///< Unique stable identifier
+    std::string              canonical_name; ///< Preferred display name
+    std::vector<std::string> aliases;        ///< Alternative surface forms
+    EntityType               type;           ///< Entity type
+    /// Arbitrary key-value metadata (e.g. description, source, external URI).
+    std::unordered_map<std::string, std::string> properties;
+};
+
+/**
+ * @brief A directed, weighted edge in the knowledge graph.
+ */
+struct KGEdge {
+    std::string  from_id;  ///< Source node identifier
+    std::string  to_id;    ///< Target node identifier
+    RelationType relation; ///< Semantic relation type
+    double       weight;   ///< Edge weight / confidence in [0, 1]
+};
+
+/**
+ * @brief Result of linking a single extracted entity to a KG node.
+ */
+struct EntityLinkingMatch {
+    Entity      entity;          ///< The extracted surface entity
+    std::string node_id;         ///< Matched KG node identifier (empty if no match)
+    double      linking_score;   ///< Similarity score used for the link [0, 1]
+    bool        is_linked;       ///< True when a match was found
+};
+
+/**
+ * @brief A retrieved document augmented with entity-linking information.
+ */
+struct KGAugmentedDocument {
+    judge::RetrievedDocument     document;          ///< Original retrieved document
+    std::vector<EntityLinkingMatch> entity_links;   ///< Entities found in this document
+    double                       kg_boost;          ///< Score boost from graph traversal
+    double                       final_score;       ///< Fused relevance score
+};
+
+/**
+ * @brief Complete result of one KG-augmented retrieval pass.
+ */
+struct KGRetrievalResult {
+    /// Augmented and re-scored candidate documents, sorted by final_score DESC.
+    std::vector<KGAugmentedDocument> documents;
+
+    /// Entity links found in the query.
+    std::vector<EntityLinkingMatch> query_entity_links;
+
+    /// KG node IDs visited during graph traversal.
+    std::unordered_set<std::string> visited_nodes;
+
+    /// Fraction of query entities successfully linked to KG nodes.
+    double entity_linking_coverage = 0.0;
+
+    /// Wall-clock time for the entire augmentation pass (milliseconds).
+    double elapsed_ms = 0.0;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Configuration for the entity linker.
+ */
+struct EntityLinkerConfig {
+    /// Minimum token length to be considered a candidate entity (chars).
+    size_t min_entity_length = 3;
+
+    /// Minimum linking score for a match to be accepted [0, 1].
+    double min_linking_score = 0.5;
+
+    /// Maximum number of entities to extract per text block.
+    size_t max_entities_per_text = 20;
+
+    /// When true, also extract single capitalised words as potential entities
+    /// (in addition to multi-word capitalised sequences).
+    bool extract_single_word_entities = true;
+};
+
+/**
+ * @brief Configuration for KnowledgeGraphRetriever.
+ */
+struct KGRetrieverConfig {
+    /// Maximum BFS hops from a query-linked node during graph traversal.
+    size_t max_traversal_depth = 2;
+
+    /// Minimum edge weight to follow during traversal [0, 1].
+    double min_edge_weight = 0.3;
+
+    /// Weight given to the KG-derived score when fusing with the original
+    /// vector-search score.  Final score = orig * (1 - kg_score_weight)
+    ///                                   + kg_score * kg_score_weight.
+    double kg_score_weight = 0.3;
+
+    /// Maximum number of unique nodes to visit per query (circuit-breaker).
+    size_t max_nodes_visited = 256;
+
+    /// Entity linker configuration.
+    EntityLinkerConfig linker_config;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KnowledgeGraph
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Thread-safe in-memory knowledge graph.
+ *
+ * Stores nodes and directed edges and exposes BFS neighbourhood queries.
+ *
+ * Usage:
+ * @code
+ *   KnowledgeGraph g;
+ *   g.addNode({"n1", "HNSW", {}, EntityType::CONCEPT});
+ *   g.addNode({"n2", "ANN Search", {}, EntityType::CONCEPT});
+ *   g.addEdge({"n1", "n2", RelationType::RELATED_TO, 0.8});
+ *
+ *   auto neighbours = g.neighbours("n1", 1, 0.5);
+ * @endcode
+ */
+class KnowledgeGraph {
+public:
+    KnowledgeGraph();
+    ~KnowledgeGraph();
+
+    KnowledgeGraph(const KnowledgeGraph&)            = delete;
+    KnowledgeGraph& operator=(const KnowledgeGraph&) = delete;
+    KnowledgeGraph(KnowledgeGraph&&)                 = default;
+    KnowledgeGraph& operator=(KnowledgeGraph&&)      = default;
+
+    // ── Node management ────────────────────────────────────────────────────
+
+    /**
+     * @brief Add or replace a node.  Thread-safe.
+     * @param node The node to insert.
+     */
+    void addNode(KGNode node);
+
+    /**
+     * @brief Remove a node and all edges incident to it.  Thread-safe.
+     * @param node_id Identifier of the node to remove.
+     * @return true if the node existed.
+     */
+    bool removeNode(const std::string& node_id);
+
+    /**
+     * @brief Look up a node by identifier.  Thread-safe.
+     * @param node_id Identifier.
+     * @return Pointer to the node, or nullptr if not found.
+     */
+    const KGNode* findNode(const std::string& node_id) const;
+
+    /**
+     * @brief Find a node whose canonical_name or aliases match @p text
+     *        (case-insensitive normalised comparison).  Thread-safe.
+     * @param text Surface form to search.
+     * @return Pointer to the best-matching node, or nullptr.
+     */
+    const KGNode* findNodeByName(const std::string& text) const;
+
+    /**
+     * @brief Return the number of nodes.
+     */
+    size_t nodeCount() const;
+
+    // ── Edge management ────────────────────────────────────────────────────
+
+    /**
+     * @brief Add a directed edge.  Thread-safe.
+     * @param edge Edge to insert.
+     */
+    void addEdge(KGEdge edge);
+
+    /**
+     * @brief Remove a specific directed edge.  Thread-safe.
+     * @return true if the edge existed.
+     */
+    bool removeEdge(const std::string& from_id, const std::string& to_id,
+                    RelationType relation);
+
+    /**
+     * @brief Return the number of edges.
+     */
+    size_t edgeCount() const;
+
+    // ── Traversal ──────────────────────────────────────────────────────────
+
+    /**
+     * @brief BFS neighbourhood starting from @p start_id.
+     *
+     * Returns all nodes reachable within @p max_depth hops over edges whose
+     * weight is at least @p min_edge_weight.
+     *
+     * @param start_id       Starting node identifier.
+     * @param max_depth      Maximum BFS depth (1 = direct neighbours only).
+     * @param min_edge_weight Minimum edge weight to follow.
+     * @return               Set of reachable node IDs (excluding start_id).
+     */
+    std::unordered_set<std::string> neighbours(
+        const std::string& start_id,
+        size_t             max_depth      = 1,
+        double             min_edge_weight = 0.0) const;
+
+    /**
+     * @brief Return all outgoing edges from @p node_id.  Thread-safe.
+     */
+    std::vector<KGEdge> outEdges(const std::string& node_id) const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EntityLinker
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Extracts named entities from text and links them to KG nodes.
+ *
+ * Entity extraction uses two complementary strategies:
+ *  1. **Capitalisation heuristic**: sequences of capitalised words are
+ *     treated as entity candidates.
+ *  2. **Dictionary lookup**: nodes registered in the KnowledgeGraph are
+ *     matched by their canonical names and aliases via normalised string
+ *     comparison (case-fold + whitespace collapse).
+ *
+ * Linking uses normalised string similarity: exact matches score 1.0,
+ * prefix matches are penalised proportionally to the length difference.
+ */
+class EntityLinker {
+public:
+    /**
+     * @brief Construct with a reference to the knowledge graph and config.
+     * @param graph  Knowledge graph to use for dictionary-based linking.
+     * @param config Linker configuration.
+     */
+    explicit EntityLinker(const KnowledgeGraph&   graph,
+                          const EntityLinkerConfig& config = {});
+
+    /**
+     * @brief Extract entities from @p text and link them to KG nodes.
+     * @param text Source text.
+     * @return     Linking matches, one per extracted entity candidate.
+     */
+    std::vector<EntityLinkingMatch> link(const std::string& text) const;
+
+private:
+    const KnowledgeGraph&  graph_;
+    EntityLinkerConfig     config_;
+
+    /// Extract raw entity candidates (surface spans) from text.
+    std::vector<Entity> extract(const std::string& text) const;
+
+    /// Compute normalised string similarity between two strings.
+    static double similarity(const std::string& a, const std::string& b);
+
+    /// Case-fold and collapse whitespace for comparison.
+    static std::string normalise(const std::string& s);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// KnowledgeGraphRetriever
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Augments a set of retrieved documents using a knowledge graph.
+ *
+ * The retriever:
+ *  1. Links query entities to KG nodes.
+ *  2. Performs BFS traversal from linked nodes to collect a neighbourhood.
+ *  3. For each candidate document, links its entities to the same KG.
+ *  4. Computes a KG boost score = overlap between document entity neighbourhood
+ *     and query neighbourhood (normalised Jaccard).
+ *  5. Fuses the original similarity score with the KG boost using
+ *     @c KGRetrieverConfig::kg_score_weight.
+ *  6. Returns documents sorted by final fused score.
+ *
+ * Performance targets:
+ *  - <10 ms for 100 candidates with graph of 1 000 nodes / 5 000 edges.
+ *  - Linear in |candidates| × average entity count per document.
+ */
+class KnowledgeGraphRetriever {
+public:
+    /**
+     * @brief Construct with a shared knowledge graph and configuration.
+     * @param graph  Knowledge graph (must outlive this retriever).
+     * @param config Retrieval configuration.
+     */
+    explicit KnowledgeGraphRetriever(const KnowledgeGraph&   graph,
+                                     const KGRetrieverConfig& config = {});
+
+    ~KnowledgeGraphRetriever();
+
+    KnowledgeGraphRetriever(const KnowledgeGraphRetriever&)            = delete;
+    KnowledgeGraphRetriever& operator=(const KnowledgeGraphRetriever&) = delete;
+    KnowledgeGraphRetriever(KnowledgeGraphRetriever&&)                 = default;
+    KnowledgeGraphRetriever& operator=(KnowledgeGraphRetriever&&)      = default;
+
+    /**
+     * @brief Augment @p candidates with knowledge graph signal.
+     *
+     * @param query      Original user query.
+     * @param candidates Initial retrieval results (e.g. from vector search).
+     * @return           KG-augmented and re-ranked documents.
+     */
+    KGRetrievalResult retrieve(
+        const std::string&                           query,
+        const std::vector<judge::RetrievedDocument>& candidates) const;
+
+    /**
+     * @brief Access current configuration.
+     */
+    const KGRetrieverConfig& getConfig() const;
+
+    /**
+     * @brief Replace configuration.
+     */
+    void setConfig(const KGRetrieverConfig& config);
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Factory
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Factory helpers for common KG retriever configurations.
+ */
+class KnowledgeGraphRetrieverFactory {
+public:
+    /**
+     * @brief Shallow retriever: 1-hop traversal, low KG weight (0.2).
+     * Best for: quick augmentation with minimal latency overhead.
+     */
+    static std::unique_ptr<KnowledgeGraphRetriever> createShallow(
+        const KnowledgeGraph& graph);
+
+    /**
+     * @brief Balanced retriever: 2-hop traversal, moderate KG weight (0.3).
+     * Best for: general-purpose knowledge-graph augmented RAG.
+     */
+    static std::unique_ptr<KnowledgeGraphRetriever> createBalanced(
+        const KnowledgeGraph& graph);
+
+    /**
+     * @brief Deep retriever: 3-hop traversal, higher KG weight (0.45).
+     * Best for: entity-rich corpora where graph signal is highly informative.
+     */
+    static std::unique_ptr<KnowledgeGraphRetriever> createDeep(
+        const KnowledgeGraph& graph);
+};
+
+} // namespace themis::rag::kg

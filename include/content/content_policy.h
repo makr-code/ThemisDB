@@ -55,6 +55,11 @@ struct ContentPolicy {
     std::vector<MimePolicy> allowed;
     std::vector<MimePolicy> denied;
     std::map<std::string, CategoryPolicy> category_rules;
+
+    /// Local model identifier used to activate the embedding generation pipeline
+    /// for ingested text content.  An empty string disables embedding generation.
+    /// Matches FUTURE_ENHANCEMENTS.md: "activated when ContentPolicy::embeddingModel is set".
+    std::string embedding_model;
     
     /// Check if a MIME type is explicitly allowed
     bool isAllowed(const std::string& mime_type) const;

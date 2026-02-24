@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, and deprecation warning aggregation. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
+Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, and runtime hot-reload of the resolved path cache on SIGHUP. YAML/JSON parsing is out of scope for this module.
 
 ## Completed ✅
 - [x] Legacy-to-new config path mapping with 60+ path mappings
@@ -16,6 +16,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Typed exception hierarchy for config-related errors
 - [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 - [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
+- [x] Runtime hot-reload of resolved path cache on SIGHUP: `registerSighupHandler()` installs an async-signal-safe handler (Issue: #1667)
 
 ## In Progress 🚧
 - [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
@@ -32,7 +33,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
-- [I] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
+- [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
 - [I] Config audit trail: log which paths were accessed and when (Issue: #1668)
 - [I] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
@@ -56,7 +57,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Harden absolute path validation to reject symlinks outside the config root (Issue: #1677)
 
 ### Phase 4: Tooling and Observability (Status: Planned)
-- [I] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
+- [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
 - [I] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
 - [I] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
 - [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
@@ -71,7 +72,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ## Known Issues & Limitations
 - Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
-- Runtime hot-reload is not supported; cache is rebuilt on next access after TTL expiry
+- Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
 - Secrets management and credential injection are explicitly out of scope
 - Migration tooling is not yet implemented; teams must manually rename config files
 

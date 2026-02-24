@@ -66,10 +66,10 @@ Add a dedicated WebSocket endpoint `/v2/changes` that multiplexes multiple `cdc:
 
 **Implementation Notes:**
 - `[x]` Create `ws_handler.cpp` (`src/api/ws_handler.cpp`); register route `WS /v2/changes` in `src/server/http_server.cpp`.
-- `[ ]` Frame format: newline-delimited JSON, each frame matching `Changefeed::ChangeEvent::toJson()` output.
-- `[ ]` Client subscribes/unsubscribes by sending `{"action":"subscribe","collection":"orders","filter":{"type":"PUT"}}` control frames.
+- `[x]` Frame format: newline-delimited JSON, each frame matching `Changefeed::ChangeEvent::toJson()` output. (`WebSocketSession::pollCDCEvents` emits JSON via `ev.toJson()` / `buildEventFrame`; legacy path uses `cdc_message["type"]="cdc_event"`)
+- `[x]` Client subscribes/unsubscribes by sending `{"action":"subscribe","collection":"orders","filter":{"type":"PUT"}}` control frames. (`WebSocketSession::processMessage` handles `type="subscribe"/"unsubscribe"` for `/v2/changes`; `CdcWebSocketHandler::handleFrame` handles `action="subscribe"/"unsubscribe"/"ack"` for `/v2/cdc/stream`)
 - `[x]` Implement per-connection back-pressure: if the outbound frame queue exceeds 1,000 entries, close with `1011 Internal Error` and log tenant/connection ID. (`WebSocketSession::kMaxQueueDepth = 1000`)
-- `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:read` scope)
+- `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:subscribe` scope)
 
 **Performance Targets:**
 - ≥ 10,000 concurrent WebSocket connections on a single node with < 50 MB additional RSS.
@@ -88,7 +88,7 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 - `[ ]` `/v1/` routes: exact current behaviour; unversioned paths redirect 301 to `/v1/`.
 - `[ ]` `/v2/documents` — bulk insert endpoint accepting `application/x-ndjson` body (newline-delimited JSON documents, up to 10,000 per request).
 - `[ ]` `/v2/query/stream` — SSE endpoint returning result rows as they are produced by the AQL executor; wire to `aql::LLMAQLHandler` streaming API.
-- `[ ]` `/v2/jobs/{id}` — async job status for long-running queries; store job state in `cache::AdaptiveQueryCache` with TTL = 1 hour.
+- `[x]` `/v2/jobs/{id}` — async job status for long-running queries; store job state in `cache::AdaptiveQueryCache` with TTL = 1 hour.
 
 **Performance Targets:**
 - Bulk insert of 10,000 256-byte documents in < 500 ms end-to-end (network excluded).
@@ -105,7 +105,7 @@ Add a gRPC service alongside REST, sharing the same business logic. Define a `Th
 **Implementation Notes:**
 - `[x]` Create `src/api/grpc_server.cpp`; gRPC C++ server using `grpc::ServerBuilder` (synchronous dispatch model, consistent with the rest of the codebase).
 - `[x]` Reuse existing service-layer infrastructure via `GrpcApiServer::registerService()`; no business logic duplication — service implementations are registered externally.
-- `[ ]` Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)` service-layer handler that delegates to `aql::LLMAQLHandler`.
+- `[x]` Implement server-side streaming RPC `StreamAQL(AQLQueryRequest) returns (stream AQLRow)` service-layer handler that delegates to `aql::LLMAQLHandler`.
 - `[x]` TLS: `grpc::SslServerCredentials` using the same PEM cert/key pair as the Beast HTTP listener; fail-closed on cert load failure.
 - `[x]` Expose gRPC reflection service in debug builds only to prevent schema leakage in production.
 
@@ -151,6 +151,6 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 
 ## Security / Reliability
 
-- `[ ]` All WebSocket upgrade requests must be validated by `auth::JWTValidator` before the upgrade handshake completes; reject with HTTP 401 before protocol switch.
+- `[x]` All WebSocket upgrade requests must be validated by `auth::JWTValidator` before the upgrade handshake completes; reject with HTTP 401 before protocol switch. (`WsChangeHandler::validate()` checks Bearer token / JWT using `AuthMiddleware::authorize` with `cdc:subscribe` scope before any handshake)
 - `[ ]` GraphQL `__schema` introspection must be disabled via `QueryLimits::allowIntrospection = false` in production deployments; expose a config flag in `config/networking/`.
 - `[ ]` Rate limiting middleware (`auth::AuthRateLimiter`) must be applied to `/v2/` routes from first release to prevent bulk-insert abuse; default limit 100 req/s per tenant.

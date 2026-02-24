@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     428                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -32,8 +32,14 @@
 #include <chrono>
 #include <mutex>
 #include <unordered_map>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/cache_replication.h"
+#include "cache/eviction_policy.h"
+#include "cache/predictive_prefetcher.h"
+#include "cache/cache_replication_coordinator.h"
+#include "core/concerns/eviction_strategies.h"
 
 namespace themis {
 
@@ -93,6 +99,10 @@ public:
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
+
+        // Configurable eviction policies (L1 and L2 can use LRU, LFU, or ARC)
+        cache::EvictionPolicy l1_eviction_policy = cache::EvictionPolicy::LRU;
+        cache::EvictionPolicy l2_eviction_policy = cache::EvictionPolicy::LRU;
         
         // Size limits (Phase 1: Security)
         size_t max_total_entry_size = 10485760; // 10MB absolute max per entry
@@ -120,6 +130,24 @@ public:
         int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
+
+        // Phase 4: Predictive pre-fetching based on query sequence history
+        bool enable_predictive_prefetch = false; // Enable Markov-chain prefetch predictor
+        size_t prefetch_max_tracked_keys = 5000; // Max distinct source keys in transition table
+        size_t prefetch_max_predictions = 3;     // Max candidate fingerprints per prediction
+        uint32_t prefetch_min_transition_count = 2; // Min observed transitions for a candidate
+        double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
+        // Phase 4: Cache replication for high-availability multi-node deployments
+        bool enable_replication = false;         // Enable cache replication via coordinator
+        
+        // Phase 4: Write-through cache mode for read-heavy workloads
+        // When enabled, put() writes to ALL applicable tiers simultaneously (L1+L2+L3)
+        // instead of selecting a single tier based on entry size.
+        // This increases write cost but guarantees that every entry is immediately
+        // available at the closest tier, eliminating inter-tier promotion latency for
+        // subsequent reads. Recommended for read-heavy workloads where writes are
+        // infrequent relative to reads.
+        bool enable_write_through = false;
         
         /**
          * @brief Validate configuration parameters
@@ -206,12 +234,17 @@ public:
      * @param query_params Original query parameters (for debugging)
      * @param result Query result to cache
      * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
+     * @param pii_uuids Optional list of PII UUIDs whose data appears in the
+     *                  cached result.  When non-empty, the entry is registered
+     *                  in the GDPR PII index so that invalidatePII() can
+     *                  remove it upon a right-to-erasure request.
      * @return True if successfully cached
      */
     bool put(const std::string& fingerprint,
              const nlohmann::json& query_params,
              const nlohmann::json& result,
-             const std::string& tenant_id = "");
+             const std::string& tenant_id = "",
+             const std::vector<std::string>& pii_uuids = {});
     
     /**
      * @brief Invalidate cache entries matching a pattern
@@ -276,10 +309,18 @@ public:
     std::vector<std::string> exportKeys(size_t max_keys = 100) const;
     
     /**
-     * @brief Get tenant usage statistics
-     * @return JSON with per-tenant size usage
+     * @brief Get tenant usage statistics (all tenants)
+     * @return JSON with per-tenant size, hit/miss, and eviction statistics
      */
     nlohmann::json getTenantStats() const;
+
+    /**
+     * @brief Get cache statistics for a single tenant
+     * @param tenant_id Tenant identifier
+     * @return JSON with hit/miss/eviction/bytes statistics for the tenant,
+     *         or {"found": false} if the tenant has no recorded activity
+     */
+    nlohmann::json getTenantStatsForTenant(const std::string& tenant_id) const;
     
     /**
      * @brief Bulk put for cache warmup
@@ -294,6 +335,46 @@ public:
      * @return Number of entries invalidated
      */
     size_t invalidateTenant(const std::string& tenant_id);
+
+    /**
+     * @brief Invalidate all cache entries associated with a PII UUID.
+     *
+     * Implements GDPR Art. 17 ("Right to Erasure") cache propagation: when a
+     * data subject's PII is erased from the underlying store, any query result
+     * that was tagged with the corresponding PII UUID during put() must be
+     * removed from all three cache tiers immediately.
+     *
+     * - L1 / L2: removed via the in-memory PII reverse index.
+     * - L3 (RocksDB): removed by scanning the `pii_ref:{pii_uuid}:` prefix
+     *   that was written alongside the original cache entry.
+     * - A structured log entry (THEMIS_INFO) is emitted for every call,
+     *   regardless of how many entries were actually purged, to provide an
+     *   operational trace.  For a formal GDPR audit trail, the caller
+     *   (e.g. PIIPseudonymizer::erasePII) is responsible for logging to the
+     *   dedicated AuditLogger before invoking this method.
+     *
+     * @param pii_uuid  UUID that identifies the erased data-subject record.
+     * @return Number of cache entries purged across all tiers.
+     */
+    size_t invalidatePII(const std::string& pii_uuid);
+
+    /**
+     * @brief Update the cache quota for a specific tenant.
+     *
+     * Overrides the global `config_.per_tenant_max_bytes` for the given
+     * tenant.  The new quota is enforced immediately on the next `put()`
+     * that is attributed to that tenant.
+     *
+     * - A quota of 0 restores the global default (`config_.per_tenant_max_bytes`).
+     * - Reducing the quota below the current `bytes_used` does NOT evict
+     *   existing entries; it only prevents new ones from being accepted.
+     *
+     * @param tenant_id   Tenant identifier (must not be empty).
+     * @param quota_bytes New quota in bytes (0 = revert to global default).
+     * @return true on success; false when tenant_id is empty or tenant
+     *         isolation is disabled.
+     */
+    bool updateTenantQuota(const std::string& tenant_id, size_t quota_bytes);
 
     /**
      * @brief Get L3 circuit breaker status as JSON.
@@ -311,6 +392,34 @@ public:
      * Resets failure counters. No-op when the circuit breaker is not configured.
      */
     void resetCircuitBreaker();
+
+    // ========================================================================
+    // Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+    // ========================================================================
+
+    /**
+     * @brief Register a replication coordinator for multi-node cache synchronisation.
+     *
+     * Once a coordinator is registered the cache will:
+     *  - Call `coordinator->publishEntry()` after every successful `put()` when
+     *    `config_.enable_replication` is true.
+     *  - Call `coordinator->publishInvalidation()` inside `invalidate()` and
+     *    `invalidateTenant()` so peer nodes evict the same entries.
+     *  - Subscribe to incoming entry/invalidation messages from remote peers
+     *    and apply them to the local L1/L2 cache.
+     *
+     * Graceful degradation: any exception thrown by the coordinator is caught
+     * and demoted to a warning log; the local cache operation always completes.
+     *
+     * @param coordinator  Shared coordinator instance (nullptr removes current).
+     */
+    void setCoordinator(std::shared_ptr<cache::ICacheCoordinator> coordinator);
+
+    /**
+     * @brief Return replication coordinator statistics, or an empty JSON object
+     *        when no coordinator is registered.
+     */
+    nlohmann::json getReplicationStats() const;
 
     // ========================================================================
     // Phase 3: Cache Warmup and Snapshot
@@ -367,6 +476,71 @@ public:
      */
     WarmupResult exportSnapshot(const std::string& out_path) const;
 
+    // ========================================================================
+    // Phase 4: Predictive Pre-Fetching
+    // ========================================================================
+
+    /**
+     * @brief Record a query access in the predictive pre-fetcher.
+     *
+     * Should be called each time a query is executed (hit or miss) so the
+     * Markov-chain model can learn query sequence patterns.
+     *
+     * This is a no-op when `config_.enable_predictive_prefetch` is false.
+     *
+     * @param fingerprint  SHA-256 hex fingerprint of the query.
+     * @param tenant_id    Optional tenant identifier.
+     */
+    void recordQueryAccess(const std::string& fingerprint,
+                           const std::string& tenant_id = "");
+
+    /**
+     * @brief Return candidate fingerprints likely to be accessed next.
+     *
+     * Uses the Markov-chain model built by recordQueryAccess() to predict
+     * which queries are likely to follow the current one.
+     *
+     * Returns an empty vector when `config_.enable_predictive_prefetch` is
+     * false or when there is insufficient history for the given fingerprint.
+     *
+     * @param fingerprint  Current query fingerprint.
+     * @param tenant_id    Optional tenant identifier.
+     * @return Up to `config_.prefetch_max_predictions` candidate fingerprints.
+     */
+    std::vector<std::string> getPrefetchCandidates(
+        const std::string& fingerprint,
+        const std::string& tenant_id = "") const;
+
+    /**
+     * @brief Get predictive pre-fetcher statistics as JSON.
+     *
+     * Returns {"enabled": false} when `config_.enable_predictive_prefetch` is
+     * false.
+     */
+    nlohmann::json getPrefetchStats() const;
+    // Phase 4: Cache Replication for High-Availability
+    // ========================================================================
+
+    /**
+     * @brief Register a replication listener for high-availability deployments.
+     *
+     * Once registered, every successful put() and every invalidate() /
+     * invalidateTenant() call notifies the listener so that replica nodes can
+     * mirror the cache state.  Pass nullptr to unregister.
+     *
+     * Typical usage:
+     * @code
+     *   auto mgr = std::make_shared<cache::CacheReplicationManager>(repCfg);
+     *   mgr->addReplica(myTransportListener, snapshotNdjson);
+     *   cache.setReplicationListener(mgr);
+     * @endcode
+     *
+     * @param listener Shared pointer to an ICacheReplicationListener
+     *                 implementation; nullptr disables replication.
+     */
+    void setReplicationListener(
+        std::shared_ptr<cache::ICacheReplicationListener> listener);
+
 private:
     struct L1Entry {
         nlohmann::json result;
@@ -374,6 +548,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     struct L2Entry {
@@ -382,6 +559,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     Config config_;
@@ -393,10 +573,36 @@ private:
     
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
+
+    // Phase 4: Replication coordinator for HA multi-node deployments
+    std::shared_ptr<cache::ICacheCoordinator> coordinator_;
+    mutable std::mutex coordinator_mutex_;
+
+    // Internal: apply a replicated entry received from a peer
+    void applyReplicatedEntry(const cache::ReplicationMessage& msg);
+    // Internal: apply a replicated invalidation received from a peer
+    void applyReplicatedInvalidation(const cache::ReplicationMessage& msg);
     
-    // Phase 2: Tenant isolation - track per-tenant sizes
-    std::unordered_map<std::string, size_t> tenant_sizes_;
+    // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
+    struct TenantMetrics {
+        uint64_t hits     = 0;      ///< cache hits attributed to this tenant
+        uint64_t misses   = 0;      ///< cache misses attributed to this tenant
+        uint64_t evictions = 0;     ///< entries evicted (via invalidateTenant)
+        size_t   bytes_used = 0;    ///< estimated bytes currently consumed
+    };
+
+    // Phase 2/3: Tenant isolation – per-tenant metrics map
+    std::unordered_map<std::string, TenantMetrics> tenant_metrics_;
+    // Per-tenant quota overrides (0 = use global config_.per_tenant_max_bytes)
+    std::unordered_map<std::string, size_t> tenant_quota_overrides_;
     mutable std::mutex tenant_mutex_;
+
+    // GDPR: PII reverse index (L1 / L2 in-memory tier)
+    // Maps pii_uuid → set of cache keys that carry that UUID's data.
+    // Protected by pii_index_mutex_. Entries are lazily cleaned; stale
+    // references (to already-evicted keys) are harmless.
+    std::unordered_map<std::string, std::unordered_set<std::string>> pii_key_index_;
+    mutable std::mutex pii_index_mutex_;
     
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;
@@ -405,10 +611,20 @@ private:
     // L2: Compressed in-memory
     std::unordered_map<std::string, L2Entry> l2_cache_;
     mutable std::mutex l2_mutex_;
+
+    // Eviction strategy trackers (initialised from Config::l1/l2_eviction_policy)
+    std::unique_ptr<core::concerns::IEvictionStrategy> l1_eviction_strategy_;
+    std::unique_ptr<core::concerns::IEvictionStrategy> l2_eviction_strategy_;
     
     // L3: RocksDB persistent cache
     std::unique_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
+
+    // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)
+    std::unique_ptr<cache::PredictivePrefetcher> prefetcher_;
+    // Phase 4: Cache replication listener for HA deployments
+    std::shared_ptr<cache::ICacheReplicationListener> replication_listener_;
+    mutable std::mutex replication_mutex_;
     
     // Internal helper methods
     int64_t getCurrentTimeMs() const;
@@ -426,6 +642,15 @@ private:
     // Phase 2: Tenant isolation helpers
     std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
+    // Returns the effective quota for a tenant (override if set, else global default)
+    size_t getEffectiveTenantQuota(const std::string& tenant_id) const;
+
+    // Phase 4: Write-through helper - persist a result to L3 without modifying L1/L2
+    bool writeThroughToL3(const std::string& fingerprint,
+                          const nlohmann::json& query_params,
+                          const nlohmann::json& result,
+                          int64_t now_ms,
+                          int ttl_seconds);
 };
 
 } // namespace themis

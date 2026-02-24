@@ -1294,12 +1294,11 @@ BackendCapabilities VulkanGeoBackend::getCapabilities() const {
 bool VulkanGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (!isAvailable()) {
-        setError(ErrorContext(
-            AccelerationErrorCode::DriverNotInstalled,
-            "VulkanGeo",
-            "Vulkan ICD not available on this system",
-            "Install Vulkan drivers (e.g. mesa-vulkan-drivers) and try again"));
-        return false;
+        // Vulkan ICD not available; all batchDistances / batchPointInPolygon
+        // operations are implemented as CPU fallbacks so we can still
+        // initialize successfully and serve requests.
+        std::cerr << "[VulkanGeo] Vulkan ICD not available; running in CPU fallback mode"
+                  << std::endl;
     }
     initialized_ = true;
     clearError();

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     146                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -30,6 +30,7 @@
 #include <cstdint>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -70,6 +71,12 @@ public:
     TokenBlacklist& operator=(const TokenBlacklist&) = delete;
     TokenBlacklist(TokenBlacklist&&) = default;
     TokenBlacklist& operator=(TokenBlacklist&&) = default;
+
+    /**
+     * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.
+     * Pass nullptr to detach.  The blacklist does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     /**
      * @brief Revoke a token by its JTI.
@@ -138,6 +145,7 @@ private:
     mutable Statistics stats_;
     mutable std::mutex mutex_;
     std::chrono::steady_clock::time_point last_cleanup_;
+    utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 
     bool needsCleanup() const;
 };

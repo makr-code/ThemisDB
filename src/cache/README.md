@@ -54,6 +54,8 @@ Implements multi-level adaptive query result caching for ThemisDB with semantic-
   - Tenant management API
   - Health checks and diagnostics
   - Adaptive TTL tuning based on access patterns
+- **Phase 4 Distributed Cache and Predictive Features (2026):**
+  - Write-through cache mode for read-heavy workloads
 
 ## Phase 1 Production-Readiness Improvements
 
@@ -186,11 +188,32 @@ json health = cache.getHealthStatus();
 
 **Tenant Management:**
 ```cpp
-// Get tenant usage
+// Get per-tenant statistics (all tenants): bytes_used, hits, misses, evictions, hit_rate
 json tenant_stats = cache.getTenantStats();
+// Returns: {"enabled": true, "quota_per_tenant": 104857600,
+//           "tenants": {"acme": {"bytes_used": 1024, "hits": 9, "misses": 1,
+//                                "evictions": 0, "hit_rate": 0.9, ...}}}
+
+// Get statistics for a single tenant
+json t = cache.getTenantStatsForTenant("acme");
+// Returns: {"found": true, "tenant_id": "acme", "hits": 9, "misses": 1,
+//           "hit_rate": 0.9, "evictions": 0, "bytes_used": 1024,
+//           "quota": 104857600, "utilization": 0.0}
+// Returns: {"found": false} when tenant has no recorded activity
 
 // Invalidate all entries for a tenant
 size_t count = cache.invalidateTenant("tenant_123");
+```
+
+**Tenant Statistics REST API:**
+```bash
+# List all known tenants with stats
+GET /v1/admin/cache/tenants
+# Response: {"enabled": true, "quota_per_tenant": ..., "tenants": {...}}
+
+# Per-tenant stats for a single tenant (404 if unknown)
+GET /v1/admin/cache/tenant/{tenant_id}/stats
+# Response: {"found": true, "tenant_id": "acme", "hits": 9, ...}
 ```
 
 **Cache Warmup:**
@@ -209,6 +232,51 @@ for (const auto& key : keys) {
     std::cout << key << std::endl;
 }
 ```
+
+## Phase 4: Write-Through Cache Mode
+
+For read-heavy workloads where every written entry should be immediately available at the fastest tier without waiting for promotion:
+
+### Configuration
+
+```cpp
+AdaptiveQueryCache::Config config;
+config.enable_write_through = true;  // opt-in, default: false
+AdaptiveQueryCache cache(config);
+```
+
+### Behaviour
+
+| Mode              | `put()` writes to                      | First `get()` returns from                      |
+|-------------------|----------------------------------------|-------------------------------------------------|
+| Normal (default)  | Single tier (L1/L2/L3 by size)        | Nearest populated tier (may require promotion)  |
+| Write-through     | All applicable tiers simultaneously   | L1 immediately (if fits), L2 otherwise          |
+
+### When to use
+
+- **Read-heavy OLAP workloads** where results are queried many times after a single write.
+- **Low-latency SLO** requirements — eliminates the inter-tier promotion latency on the second read.
+- **Acceptable write overhead** — each `put()` compresses and writes to L2 in addition to L1/L3.
+
+### Monitoring
+
+```cpp
+json health = cache.getHealthStatus();
+// health["write_through"]["enabled"] → bool
+// health["write_through"]["writes"]  → uint64 (total write-through puts)
+
+json stats = cache.getStatsByTier();
+// stats["write_through"]["enabled"] → bool
+// stats["write_through"]["writes"]  → uint64
+
+json info = cache.getDetailedInfo();
+// info["write_through"]["enabled"] → bool
+// info["write_through"]["writes"]  → uint64
+```
+
+Prometheus metric: `themis_cache_write_through_total` (via `CacheMetrics::write_through_writes`).
+
+---
 
 ### Adaptive TTL Tuning
 

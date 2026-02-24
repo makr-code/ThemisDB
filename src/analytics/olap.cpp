@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
     • Total Lines:     1359                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
@@ -21,8 +21,10 @@
  */
 
 #include "analytics/olap.h"
+#include "themis/gpu/query_accelerator.h"
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <numeric>
 #include <chrono>
 #include <sstream>
@@ -52,6 +54,9 @@ class OLAPEngine::Impl {};
 
 OLAPEngine::OLAPEngine() : impl_(nullptr) {
     spdlog::warn("OLAPEngine: Using Windows stub implementation - full OLAP functionality not available");
+}
+OLAPEngine::OLAPEngine(const Config&) : impl_(nullptr) {
+    spdlog::warn("OLAPEngine: Using Windows stub implementation - GPU acceleration not available on Windows platform");
 }
 OLAPEngine::~OLAPEngine() = default;
 
@@ -148,9 +153,25 @@ class OLAPEngine::Impl {
 public:
     // In-memory data for testing (would connect to storage in production)
     std::unordered_map<std::string, std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>> collections;
+
+    // GPU acceleration
+    OLAPEngine::Config config;
+    std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
 };
 
 OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {}
+
+OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
+    impl_->config = config;
+    if (config.enable_gpu) {
+        themis::gpu::GPUQueryAccelerator::Config gpu_cfg;
+        gpu_cfg.gpu_threshold_rows = config.gpu_threshold_rows;
+        impl_->gpu_accelerator = std::make_unique<themis::gpu::GPUQueryAccelerator>(gpu_cfg);
+        spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)",
+                     config.gpu_device_id, config.gpu_threshold_rows);
+    }
+}
+
 OLAPEngine::~OLAPEngine() = default;
 
 OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
@@ -619,6 +640,14 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
         plan.parallel_execution = true;
         plan.optimization_notes.push_back("Parallel execution recommended");
     }
+
+    // GPU acceleration note
+    if (impl_->config.enable_gpu) {
+        plan.optimization_notes.push_back(
+            "GPU acceleration enabled (CUDA/ROCm, threshold " +
+            std::to_string(impl_->config.gpu_threshold_rows) + " rows)"
+        );
+    }
     
     return plan;
 }
@@ -634,7 +663,46 @@ double OLAPEngine::computeAggregate(
     double percentile
 ) {
     if (values.empty()) return 0.0;
-    
+
+    // GPU-accelerated path for basic aggregations when GPU is enabled and
+    // the value set is large enough to justify GPU dispatch overhead.
+    if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+        using AggFunc = themis::gpu::GPUQueryAccelerator::AggFunc;
+        using Row = themis::gpu::GPUQueryAccelerator::Row;
+
+        std::optional<AggFunc> gpu_func;
+        switch (function) {
+            case Measure::Function::Sum:   gpu_func = AggFunc::SUM;   break;
+            case Measure::Function::Count: gpu_func = AggFunc::COUNT; break;
+            case Measure::Function::Min:   gpu_func = AggFunc::MIN;   break;
+            case Measure::Function::Max:   gpu_func = AggFunc::MAX;   break;
+            case Measure::Function::Avg:   gpu_func = AggFunc::AVG;   break;
+            default: break;
+        }
+
+        if (gpu_func) {
+            std::vector<Row> gpu_rows;
+            gpu_rows.reserve(values.size());
+            for (size_t i = 0; i < values.size(); ++i) {
+                Row row;
+                row.id = static_cast<uint64_t>(i);
+                row.data.resize(sizeof(double));
+                std::memcpy(row.data.data(), &values[i], sizeof(double));
+                gpu_rows.push_back(std::move(row));
+            }
+
+            auto value_fn = [](const Row& r) -> double {
+                if (r.data.size() < sizeof(double)) return 0.0;
+                double v;
+                std::memcpy(&v, r.data.data(), sizeof(double));
+                return v;
+            };
+
+            auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
+            return agg_result.value;
+        }
+    }
+
     switch (function) {
         case Measure::Function::Count:
             return static_cast<double>(values.size());
@@ -1106,9 +1174,124 @@ OLAPResult MaterializedView::query(
     // Apply additional filters to cached result
     OLAPResult result = impl_->cached_result;
     
-    // Filter rows (simplified)
+    // Apply filters to cached result rows
     if (!filters.empty()) {
-        // Would apply filters here
+        using RowVal = std::variant<std::nullptr_t, bool, int64_t, double, std::string>;
+        auto fieldStr = [](const RowVal& v) -> std::string {
+            if (auto* s = std::get_if<std::string>(&v)) return *s;
+            if (auto* i = std::get_if<int64_t>(&v))    return std::to_string(*i);
+            if (auto* d = std::get_if<double>(&v))      return std::to_string(*d);
+            if (auto* b = std::get_if<bool>(&v))        return *b ? "true" : "false";
+            return "";
+        };
+        auto fieldDbl = [](const RowVal& v) -> double {
+            if (auto* d = std::get_if<double>(&v))   return *d;
+            if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
+            if (auto* b = std::get_if<bool>(&v))      return *b ? 1.0 : 0.0;
+            return 0.0;
+        };
+        auto filterDbl = [](const Filter& f) -> double {
+            if (auto* d = std::get_if<double>(&f.value))   return *d;
+            if (auto* i = std::get_if<int64_t>(&f.value))  return static_cast<double>(*i);
+            if (auto* b = std::get_if<bool>(&f.value))      return *b ? 1.0 : 0.0;
+            return 0.0;
+        };
+        auto filterStr = [](const Filter& f) -> std::string {
+            if (auto* s = std::get_if<std::string>(&f.value)) return *s;
+            if (auto* i = std::get_if<int64_t>(&f.value))    return std::to_string(*i);
+            if (auto* d = std::get_if<double>(&f.value))      return std::to_string(*d);
+            if (auto* b = std::get_if<bool>(&f.value))        return *b ? "true" : "false";
+            return "";
+        };
+
+        auto passesFilters = [&](const OLAPResult::Row& row) -> bool {
+            for (const auto& f : filters) {
+                auto it = row.values.find(f.field);
+                bool is_null = (it == row.values.end()) ||
+                               std::holds_alternative<std::nullptr_t>(it->second);
+
+                if (f.op == Filter::Operator::IsNull)    { if (!is_null) return false; continue; }
+                if (f.op == Filter::Operator::IsNotNull) { if (is_null)  return false; continue; }
+                if (is_null) return false;
+
+                const auto& fv = it->second;
+                switch (f.op) {
+                    case Filter::Operator::Eq:
+                        if (fieldStr(fv) != filterStr(f)) return false;
+                        break;
+                    case Filter::Operator::Ne:
+                        if (fieldStr(fv) == filterStr(f)) return false;
+                        break;
+                    case Filter::Operator::Lt:
+                        if (!(fieldDbl(fv) < filterDbl(f)))  return false;
+                        break;
+                    case Filter::Operator::Le:
+                        if (!(fieldDbl(fv) <= filterDbl(f))) return false;
+                        break;
+                    case Filter::Operator::Gt:
+                        if (!(fieldDbl(fv) > filterDbl(f)))  return false;
+                        break;
+                    case Filter::Operator::Ge:
+                        if (!(fieldDbl(fv) >= filterDbl(f))) return false;
+                        break;
+                    case Filter::Operator::In: {
+                        if (auto* vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                            std::string fs = fieldStr(fv);
+                            if (std::find(vec->begin(), vec->end(), fs) == vec->end())
+                                return false;
+                        }
+                        break;
+                    }
+                    case Filter::Operator::NotIn: {
+                        if (auto* vec = std::get_if<std::vector<std::string>>(&f.value)) {
+                            std::string fs = fieldStr(fv);
+                            if (std::find(vec->begin(), vec->end(), fs) != vec->end())
+                                return false;
+                        }
+                        break;
+                    }
+                    case Filter::Operator::Contains: {
+                        std::string fs = fieldStr(fv), fvs = filterStr(f);
+                        if (fs.find(fvs) == std::string::npos) return false;
+                        break;
+                    }
+                    case Filter::Operator::StartsWith: {
+                        std::string fs = fieldStr(fv), fvs = filterStr(f);
+                        if (fs.rfind(fvs, 0) != 0) return false;
+                        break;
+                    }
+                    case Filter::Operator::EndsWith: {
+                        std::string fs = fieldStr(fv), fvs = filterStr(f);
+                        if (fs.size() < fvs.size() ||
+                            fs.rfind(fvs) != fs.size() - fvs.size()) return false;
+                        break;
+                    }
+                    case Filter::Operator::Between: {
+                        double lo = filterDbl(f), hi = lo;
+                        if (f.value2) {
+                            if (auto* d = std::get_if<double>(&*f.value2))
+                                hi = *d;
+                            else if (auto* i = std::get_if<int64_t>(&*f.value2))
+                                hi = static_cast<double>(*i);
+                        }
+                        double fd = fieldDbl(fv);
+                        if (fd < lo || fd > hi) return false;
+                        break;
+                    }
+                    default: break;
+                }
+            }
+            return true;
+        };
+
+        result.rows.erase(
+            std::remove_if(result.rows.begin(), result.rows.end(),
+                [&passesFilters](const OLAPResult::Row& row) {
+                    return !passesFilters(row);
+                }),
+            result.rows.end()
+        );
+        result.total_rows = static_cast<int64_t>(result.rows.size());
     }
     
     // Apply sorting

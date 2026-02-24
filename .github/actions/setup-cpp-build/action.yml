@@ -1,0 +1,49 @@
+name: 'Setup C++ Build Environment'
+description: |
+  Installs standard C++ build dependencies (cmake, ninja-build, libgtest-dev,
+  pkg-config, git) plus the requested compiler and any optional extra packages,
+  then builds Google Test from source when the pre-built library files are
+  absent (required on Ubuntu runners where libgtest-dev ships source-only).
+
+inputs:
+  cc:
+    description: 'C compiler binary to install and use for the GTest build (e.g. gcc-12, clang-15)'
+    required: true
+  cxx:
+    description: 'C++ compiler binary to install and use for the GTest build (e.g. g++-12, clang++-15)'
+    required: true
+  extra-packages:
+    description: 'Space-separated list of additional apt packages to install (e.g. libssl-dev libboost-all-dev)'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install build dependencies
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        # Base packages required by every C++ CI job
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git"
+        # Append optional extra packages (guard against empty string)
+        EXTRA="${{ inputs.extra-packages }}"
+        # shellcheck disable=SC2086
+        sudo apt-get install -y $BASE_PKGS ${EXTRA:+$EXTRA}
+
+    - name: Build GTest from source (if needed)
+      shell: bash
+      run: |
+        # Some Ubuntu releases ship libgtest-dev as source-only; pre-build
+        # the library so that CMake find_package(GTest) works reliably.
+        if [ ! -f /usr/lib/libgtest.a ] && \
+           [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ] && \
+           [ ! -f /usr/lib/aarch64-linux-gnu/libgtest.a ]; then
+          cd /usr/src/gtest
+          sudo cmake -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=${{ inputs.cc }} \
+            -DCMAKE_CXX_COMPILER=${{ inputs.cxx }} .
+          sudo make -j$(nproc)
+          sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
+          sudo cp *.a     /usr/lib/ 2>/dev/null || true
+        fi

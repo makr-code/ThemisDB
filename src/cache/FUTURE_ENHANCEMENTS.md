@@ -65,12 +65,12 @@ Implement a REST Admin API (planned in ROADMAP Phase 3) that exposes cache inspe
 After a node restart, L1 and L2 are cold; queries that were hot before restart incur L3 or full re-execution latency. Implement a warmup path that replays a query log or imports a cache snapshot to pre-populate L1/L2.
 
 **Implementation Notes:**
-- `[ ]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
-- `[ ]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
-- `[ ]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
-- `[ ]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
-- `[ ]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
-- `[ ]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
+- `[x]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
+- `[x]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
+- `[x]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
+- `[x]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
+- `[x]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
+- `[x]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
 
 **Performance Targets:**
 - Warmup of 50,000 L1 entries from disk log in < 10 s on commodity SSD.
@@ -104,11 +104,11 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 `bounded_lru_cache.cpp` implements LRU only. For scan-heavy workloads (large analytics queries visiting all cache entries), LRU causes cache pollution. Add Least-Frequently-Used (LFU) and Adaptive Replacement Cache (ARC) policies selectable via config.
 
 **Implementation Notes:**
-- `[ ]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
-- `[ ]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
-- `[ ]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
-- `[ ]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
-- `[ ]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
+- `[x]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
+- `[x]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
+- `[x]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
+- `[x]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
+- `[x]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
 
 **Performance Targets:**
 - ARC policy achieves ≥ 10% higher hit rate than LRU on a scan-heavy TPC-H query replay workload.
@@ -116,10 +116,58 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 
 ---
 
+### GDPR-Aware Cache Invalidation (PII Purge Propagation) ✅ Implemented
+**Priority:** High
+**Target Version:** v1.7.0 — **Status: DONE**
+
+Implements GDPR Art. 17 ("Right to Erasure") propagation from the storage layer to the cache layer.
+When `PIIPseudonymizer::erasePII()` is called for a data-subject record, any cached query result
+that contains that subject's data must also be purged immediately from all three cache tiers.
+
+**Implemented in `adaptive_query_cache.cpp` / `adaptive_query_cache.h`:**
+- `[x]` Extended `put(fingerprint, params, result, tenant_id, pii_uuids = {})` with an optional
+  `pii_uuids` vector. When non-empty, the cache key is registered in a per-UUID reverse index
+  (`pii_key_index_`, mutex-protected) for L1/L2, and a `pii_ref:{uuid}:{fingerprint}` sentinel
+  key is written to RocksDB for L3.
+- `[x]` Added `invalidatePII(const std::string& pii_uuid)` which:
+  - Reads and clears the L1/L2 reverse-index set for the UUID in a single lock acquisition.
+  - Purges matching L1 and L2 entries using the eviction-strategy hooks.
+  - Scans the `pii_ref:{uuid}:` prefix in RocksDB, deletes both the sentinel keys and the
+    corresponding `query_cache:{fingerprint}` data entries.
+  - Respects the L3 circuit breaker; logs a warning when the breaker is open.
+  - Emits a structured `THEMIS_INFO` log after every call for operational traceability.
+    (Formal GDPR audit entries are written by the caller before invoking this method.)
+- `[x]` `clear()` updated to also flush `pii_key_index_` and all `pii_ref:` L3 entries.
+- `[x]` 7 unit tests added in `tests/test_adaptive_query_cache.cpp`.
+
+**Remaining follow-up items:**
+- `[ ]` Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
+  happens automatically on every erasure without requiring caller coordination.
+- `[ ]` Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
+### Write-Through Cache Mode
+**Priority:** Low
+**Target Version:** v2.0.0
+**Status:** ✅ Implemented (PR open)
+
+For read-heavy workloads with restart-safety requirements, L1/L2 in-memory entries can be simultaneously persisted to L3 (RocksDB) at write time, eliminating the need for warmup-from-log after a restart.
+
+**Implementation Notes:**
+- `[x]` `AdaptiveQueryCache::Config` gains `enable_write_through = false` (opt-in, backward-compatible).
+- `[x]` `put()` calls private `writeThroughToL3(fingerprint, params, result, now_ms, ttl_seconds)` after a successful L1 or L2 write.
+- `[x]` `writeThroughToL3()` checks the L3 circuit breaker before every write, records `write_through_total` / `write_through_errors` in `CacheMetrics`, and is a no-op when `l3_db_` is null.
+- `[x]` The write-through call is performed **outside** the L1/L2 `std::mutex` scope so that RocksDB disk I/O does not block concurrent in-memory reads.
+- `[x]` `getDetailedInfo()` exposes `write_through.{enabled, total, errors}` for monitoring.
+- `[x]` Initialization log message indicates when write-through mode is active.
+
+**Performance Targets:**
+- Write-through adds ≤ RocksDB sync write latency (typically < 2 ms on SSD) to `put()` calls; L1/L2 `get()` latency is unaffected (lock released before L3 write).
+- `write_through_errors` should remain 0 under normal operating conditions.
+
+---
+
 ### Distributed Cache Coordination (Redis-Compatible Protocol)
 **Priority:** Low
 **Target Version:** v2.0.0
-
 For multi-node deployments, L1/L2 caches are node-local, causing inconsistent results after writes. Add an optional distributed coordination layer that broadcasts invalidation messages over a Redis pub/sub channel or a native ThemisDB cluster bus.
 
 **Implementation Notes:**

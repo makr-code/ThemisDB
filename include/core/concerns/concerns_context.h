@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     364                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -34,6 +34,7 @@
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace themis {
 namespace core {
@@ -102,6 +103,13 @@ public:
         size_t circuitBreakerSuccessThreshold = 2;
         /// Rolling window for counting failures.
         std::chrono::seconds circuitBreakerFailureWindow = std::chrono::seconds(60);
+
+        // Feature flags config
+        /// Which feature flag adapter to use: "inmemory" (default) or "noop".
+        std::string featureFlagsAdapter = "inmemory";
+        /// Pre-populated flag values for the in-memory provider.
+        /// Ignored when featureFlagsAdapter is "noop".
+        std::unordered_map<std::string, bool> initialFeatureFlags;
     };
 
     /**

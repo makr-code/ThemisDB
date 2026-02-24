@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     722                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "server/auth_middleware.h"
+#include "auth/api_key_authenticator.h"
 
 using namespace themis;
 
@@ -719,4 +720,127 @@ TEST_F(AuthMiddlewareTest, TokenWithoutTenant) {
     EXPECT_TRUE(result.authorized);
     EXPECT_EQ(result.user_id, "user-no-tenant");
     EXPECT_EQ(result.tenant_id, "");  // Empty string when not specified
+}
+
+// ===========================================================================
+// API Key Authentication Tests
+// ===========================================================================
+
+class ApiKeyMiddlewareTest : public ::testing::Test {
+protected:
+    AuthMiddleware auth_;
+
+    void SetUp() override {
+        AuthMiddleware::ApiKeyConfig cfg;
+        cfg.check_expiry = true;
+        auth_.enableApiKeyAuth(cfg);
+
+        // Provision two credentials
+        auto cred_alice = auth::ApiKeyAuthenticator::createCredential(
+            "sk_alice", "secret-alice", "alice@example.com",
+            {"data:read", "data:write"}, {"user"}, "tenant-1");
+        auth_.addApiKeyCredential(cred_alice);
+
+        auto cred_bob = auth::ApiKeyAuthenticator::createCredential(
+            "sk_bob", "secret-bob", "bob@example.com",
+            {"data:read"}, {}, "tenant-2");
+        auth_.addApiKeyCredential(cred_bob);
+    }
+};
+
+TEST_F(ApiKeyMiddlewareTest, ValidateToken_ValidCombinedKey) {
+    auto result = auth_.validateToken("sk_alice.secret-alice");
+    EXPECT_TRUE(result.authorized);
+    EXPECT_EQ(result.user_id, "alice@example.com");
+    EXPECT_EQ(result.tenant_id, "tenant-1");
+}
+
+TEST_F(ApiKeyMiddlewareTest, ValidateToken_WrongSecret) {
+    auto result = auth_.validateToken("sk_alice.wrong-secret");
+    EXPECT_FALSE(result.authorized);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+TEST_F(ApiKeyMiddlewareTest, ValidateToken_UnknownKeyId) {
+    auto result = auth_.validateToken("sk_unknown.some-secret");
+    EXPECT_FALSE(result.authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, Authorize_ScopePresent) {
+    auto result = auth_.authorize("sk_alice.secret-alice", "data:read");
+    EXPECT_TRUE(result.authorized);
+    EXPECT_EQ(result.user_id, "alice@example.com");
+}
+
+TEST_F(ApiKeyMiddlewareTest, Authorize_ScopeMissing) {
+    auto result = auth_.authorize("sk_bob.secret-bob", "data:write");
+    EXPECT_FALSE(result.authorized);
+    EXPECT_FALSE(result.reason.empty());
+}
+
+TEST_F(ApiKeyMiddlewareTest, Authorize_MultipleScopes) {
+    // Alice has both read and write
+    EXPECT_TRUE(auth_.authorize("sk_alice.secret-alice", "data:read").authorized);
+    EXPECT_TRUE(auth_.authorize("sk_alice.secret-alice", "data:write").authorized);
+    // Bob only has read
+    EXPECT_TRUE(auth_.authorize("sk_bob.secret-bob", "data:read").authorized);
+    EXPECT_FALSE(auth_.authorize("sk_bob.secret-bob", "data:write").authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, RemoveCredential_RevokedKeyDenied) {
+    EXPECT_TRUE(auth_.validateToken("sk_alice.secret-alice").authorized);
+    auth_.removeApiKeyCredential("sk_alice");
+    EXPECT_FALSE(auth_.validateToken("sk_alice.secret-alice").authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, IsEnabled_ApiKeyOnly) {
+    AuthMiddleware fresh;
+    EXPECT_FALSE(fresh.isEnabled());
+    fresh.enableApiKeyAuth();
+    // No credentials yet but auth is enabled
+    EXPECT_TRUE(fresh.isEnabled());
+}
+
+TEST_F(ApiKeyMiddlewareTest, ExpiredKey_Rejected) {
+    auto cred = auth::ApiKeyAuthenticator::createCredential(
+        "sk_expired", "secret-expired", "expired@example.com",
+        {"data:read"}, {}, "tenant-x");
+    cred.expires_at = std::chrono::system_clock::now() - std::chrono::seconds(1);
+    auth_.addApiKeyCredential(cred);
+
+    auto result = auth_.validateToken("sk_expired.secret-expired");
+    EXPECT_FALSE(result.authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, InactiveKey_Rejected) {
+    auto cred = auth::ApiKeyAuthenticator::createCredential(
+        "sk_inactive", "secret-inactive", "inactive@example.com",
+        {"data:read"}, {}, "tenant-x");
+    cred.active = false;
+    auth_.addApiKeyCredential(cred);
+
+    auto result = auth_.validateToken("sk_inactive.secret-inactive");
+    EXPECT_FALSE(result.authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, StaticTokensCoexistWithApiKeyAuth) {
+    // Static bearer tokens still work alongside API key auth
+    AuthMiddleware::TokenConfig tok{
+        .token = "plain-bearer-token",
+        .user_id = "bearer-user",
+        .scopes = {"metrics:read"}
+    };
+    auth_.addToken(tok);
+
+    // Both authentication methods work
+    EXPECT_TRUE(auth_.validateToken("plain-bearer-token").authorized);
+    EXPECT_TRUE(auth_.validateToken("sk_alice.secret-alice").authorized);
+}
+
+TEST_F(ApiKeyMiddlewareTest, Roles_PropagatedToAuthResult) {
+    auto result = auth_.authorize("sk_alice.secret-alice", "data:read");
+    EXPECT_TRUE(result.authorized);
+    // Roles are returned in the groups field
+    ASSERT_EQ(result.groups.size(), 1u);
+    EXPECT_EQ(result.groups[0], "user");
 }

@@ -70,6 +70,13 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_rag_hallucination_dashboard\\.cpp$"
+        ".*test_rag_citation_highlighter\\.cpp$"
+        ".*test_rag_document_summarizer\\.cpp$"
+        ".*test_rag_citation_highlighter\\.cpp$"
+        ".*test_rag_knowledge_graph_retriever\\.cpp$"
+        ".*test_rag_document_splitter\\.cpp$"
+        ".*test_rag_hybrid_retriever\\.cpp$"
+        ".*test_rag_agentic\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -163,6 +170,8 @@ endif()
 if(NOT THEMIS_ENABLE_WEBSOCKET)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_wire_protocol_websocket\\.cpp$"
+        ".*test_ws_handler\\.cpp$"
+        ".*test_websocket_cdc\\.cpp$"
     )
 endif()
 
@@ -175,6 +184,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
         ".*test_pdf_processor\\.cpp$"
+        ".*test_content_embedding_pipeline\\.cpp$"
     )
 endif()
 
@@ -213,14 +223,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
-    ".*test_auth_error\\.cpp$"
-    ".*test_auth_metrics\\.cpp$"
-    ".*test_jwks_security\\.cpp$"
-    ".*test_kerberos_security\\.cpp$"
-    ".*test_principal_validator\\.cpp$"
-    ".*test_totp_replay_cache\\.cpp$"
-    ".*test_totp_secret_encryption\\.cpp$"
-    ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"
     ".*test_cross_functional_voice_observability\\.cpp$"
@@ -260,7 +262,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_admin_api\\.cpp$"
     ".*test_gpu_.*\\.cpp$"
     ".*test_graphql.*\\.cpp$"
-    ".*test_jwt_key_rotation_comprehensive\\.cpp$"
     ".*test_lora_router\\.cpp$"
     ".*test_lora_security\\.cpp$"
     ".*test_multi_gpu_management\\.cpp$"
@@ -293,10 +294,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
-    ".*test_oauth_device_flow\\.cpp$"
-    ".*test_oauth_pkce_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
-    ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
@@ -499,6 +497,8 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
@@ -959,6 +959,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
 endif()
 
 # ============================================================================
+# ThemisDB gRPC Service wrapper Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
+    message(STATUS "Adding ThemisDB gRPC Service wrapper tests")
+
+    add_executable(test_themisdb_grpc_service
+        test_themisdb_grpc_service.cpp
+    )
+
+    target_link_libraries(test_themisdb_grpc_service PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_themisdb_grpc_service PRIVATE gRPC::grpc++)
+        target_compile_definitions(test_themisdb_grpc_service PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
+
+    target_compile_definitions(test_themisdb_grpc_service PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    target_include_directories(test_themisdb_grpc_service PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    add_test(NAME ThemisDBGrpcServiceTests COMMAND test_themisdb_grpc_service)
+
+    set_tests_properties(ThemisDBGrpcServiceTests PROPERTIES
+        LABELS "api;grpc;service;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ThemisDB gRPC Service: construction, service() accessor")
+endif()
+
+# ============================================================================
 # Batch Operation Manager Tests
 # ============================================================================
 
@@ -1056,6 +1096,111 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
     message(STATUS "  Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction")
 else()
     message(STATUS "Enhanced Query Cache tests not found")
+endif()
+
+# ============================================================================
+# Cache Admin API Handler Tests (Phase 3 – health endpoint, stats, eviction)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_admin_api_handler.cpp")
+    message(STATUS "Adding Cache Admin API Handler tests")
+
+    add_executable(test_cache_admin_api_handler
+        test_cache_admin_api_handler.cpp
+    )
+
+    target_link_libraries(test_cache_admin_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_admin_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheAdminApiHandlerTests COMMAND test_cache_admin_api_handler)
+
+    set_tests_properties(CacheAdminApiHandlerTests PROPERTIES
+        LABELS "cache;admin;health;circuit-breaker;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Admin API Handler: health endpoint, per-tier status, circuit breaker state")
+else()
+    message(STATUS "Cache Admin API Handler tests not found")
+endif()
+
+# ============================================================================
+# Cache Warmup Tests (Phase 3 – bulk warmup from query log / snapshot)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_warmup.cpp")
+    message(STATUS "Adding Cache Warmup tests")
+
+    add_executable(test_cache_warmup
+        test_cache_warmup.cpp
+    )
+
+    target_link_libraries(test_cache_warmup PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_warmup PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheWarmupTests COMMAND test_cache_warmup)
+
+    set_tests_properties(CacheWarmupTests PROPERTIES
+        LABELS "cache;warmup;snapshot;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Warmup: warmupFromLog, exportSnapshot, tenant isolation, metrics")
+else()
+    message(STATUS "Cache Warmup tests not found")
+endif()
+
+# ============================================================================
+# Cache Replication Tests (Phase 4 – HA cache replication)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
+    message(STATUS "Adding Cache Replication tests")
+
+    add_executable(test_cache_replication
+        test_cache_replication.cpp
+    )
+
+    target_link_libraries(test_cache_replication PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_replication PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheReplicationTests COMMAND test_cache_replication)
+
+    set_tests_properties(CacheReplicationTests PROPERTIES
+        LABELS "cache;replication;ha;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Replication: listener callbacks, snapshot, graceful degradation, replica health")
+else()
+    message(STATUS "Cache Replication tests not found")
 endif()
 
 # RPC Geospatial Query Tests

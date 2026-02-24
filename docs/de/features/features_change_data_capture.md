@@ -54,7 +54,9 @@ Themis' Change Data Capture (CDC) implementation provides a minimal, append-only
   "metadata": {
     "table": "user",
     "pk": "alice"
-  }
+  },
+  "before_snapshot": "{\"name\":\"Alice\",\"email\":\"alice@old.com\"}",
+  "after_snapshot":  "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"
 }
 ```
 
@@ -65,6 +67,8 @@ Hinweise zu Feldern:
 - `value`: JSON-String bei PUT, `null` bei DELETE
 - `timestamp_ms`: Millisekunden seit Epoch
 - `metadata`: Freies JSON (z. B. `table`, `pk`)
+- `before_snapshot` *(optional)*: Zustand des Dokuments **vor** der Änderung; fehlt bei INSERT (neues Dokument, kein Vorzustand)
+- `after_snapshot` *(optional)*: Zustand des Dokuments **nach** der Änderung; fehlt bei DELETE
 
 ### Storage
 
@@ -113,7 +117,9 @@ curl "http://localhost:8765/changefeed?from_seq=100&limit=10&long_poll_ms=5000"
       "key": "user:alice",
       "value": "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}",
       "timestamp_ms": 1730294567123,
-      "metadata": {"table": "user", "pk": "alice"}
+      "metadata": {"table": "user", "pk": "alice"},
+      "before_snapshot": "{\"name\":\"Alice\",\"email\":\"alice@old.com\"}",
+      "after_snapshot":  "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"
     },
     {
       "sequence": 2,
@@ -121,7 +127,8 @@ curl "http://localhost:8765/changefeed?from_seq=100&limit=10&long_poll_ms=5000"
       "key": "user:bob",
       "value": null,
       "timestamp_ms": 1730294568456,
-      "metadata": {"table": "user", "pk": "bob"}
+      "metadata": {"table": "user", "pk": "bob"},
+      "before_snapshot": "{\"name\":\"Bob\",\"email\":\"bob@example.com\"}"
     }
   ],
   "count": 2,
@@ -254,6 +261,56 @@ Mögliche Erweiterungen (zukünftig):
 Aktuell: Admin-Endpoint `POST /changefeed/retention` mit Body `{ "before_sequence": <uint64> }` löscht Events mit kleinerer Sequence. Statistiken über `GET /changefeed/stats`.
 
 Zukünftig möglich: TTL-/Zeit-basierte Retention und automatische Bereinigung.
+
+---
+
+## Dead-Letter Queue (DLQ)
+
+Events, die nach Erschöpfung aller Wiederholungsversuche nicht zugestellt werden konnten, landen automatisch in der **Dead-Letter Queue** (`DeadLetterQueue`).
+
+### Funktionsweise
+
+Die DLQ ist RocksDB-gestützt (Schlüsselpräfix `dlq:`) und teilt dieselbe Datenbankinstanz wie der Changefeed (kein Schlüsselkonflikt: `changefeed:*` vs. `dlq:*`).
+
+Jeder DLQ-Eintrag (`DLQEntry`) enthält:
+- `dlq_sequence` — eindeutige Sequenz innerhalb der DLQ
+- `event` — das ursprüngliche `ChangeEvent` (vollständig erhalten)
+- `failure_reason` — lesbarer Grund (letzter Fehlermeldung)
+- `attempt_count` — Anzahl der unternommenen Zustellungsversuche
+- `enqueued_at_ms` — Zeitstempel der Einreihung (ms seit Epoch)
+
+### Aktivierung
+
+```cpp
+// DLQ an ChangefeedBuffer hängen (nicht owned)
+DeadLetterQueue dlq(db->getDB());
+buffer.setDeadLetterQueue(&dlq);
+```
+
+Ab diesem Moment werden Events, bei denen alle Retry-Versuche scheitern, automatisch in `dlq` eingereiht statt verworfen.
+
+### Inspektion und Wiedergabe
+
+```cpp
+// Alle fehlgeschlagenen Events auflisten
+for (const auto& entry : dlq.listEntries()) {
+    std::cout << "dlq_seq=" << entry.dlq_sequence
+              << " key=" << entry.event.key
+              << " reason=" << entry.failure_reason
+              << " attempts=" << entry.attempt_count << "\n";
+}
+
+// Einzelnen Eintrag nach Ursachenbehebung erneut zustellen
+Changefeed::ChangeEvent re_recorded = dlq.replay(dlq_seq, changefeed);
+// replay() entfernt den Eintrag automatisch nach Erfolg
+
+// Alle Einträge verwerfen
+dlq.drain();
+```
+
+### Bekannte Einschränkungen
+- Events, die aufgrund von Payload-Dekompressionsfehlern verworfen werden, landen **nicht** in der DLQ (die Daten sind in diesem Fall nicht wiederherstellbar).
+- Die DLQ teilt den RocksDB-Namespace mit dem Changefeed; eine separate Column Family ist optional über den `cf`-Parameter konfigurierbar.
 
 ---
 
@@ -497,5 +554,6 @@ Zusammenfassung:
 - Automatisches Tracking für PUT/DELETE
 - GET /changefeed mit Filter/Pagination + Long-Poll
 - SSE-Streaming (`/changefeed/stream`) mit Keep-Alive/Heartbeats, Drop-Oldest-Backpressure, Retry/Resume über Last-Event-ID
+- **Before/After-Snapshots:** PUT-Events enthalten `before_snapshot` (Dokument vor der Änderung, fehlt bei INSERT) und `after_snapshot` (Dokument nach der Änderung); DELETE-Events enthalten `before_snapshot`
 
 Einsatz: Echtzeit-Sync, Audit-Trails, Event Sourcing – produktionsnah nutzbar; für sehr hohe Last ggf. Erweiterungen einplanen.

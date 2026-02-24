@@ -46,6 +46,10 @@ TEST(WsChangeHandlerTest, IsChangeStreamPath_Exact) {
     EXPECT_TRUE(WsChangeHandler::isChangeStreamPath("/v2/changes"));
 }
 
+TEST(WsChangeHandlerTest, IsChangeStreamPath_CdcStream) {
+    EXPECT_TRUE(WsChangeHandler::isChangeStreamPath("/v2/cdc/stream"));
+}
+
 TEST(WsChangeHandlerTest, IsChangeStreamPath_WrongPath) {
     EXPECT_FALSE(WsChangeHandler::isChangeStreamPath("/v2/change"));
     EXPECT_FALSE(WsChangeHandler::isChangeStreamPath("/changes"));
@@ -75,6 +79,16 @@ TEST(WsChangeHandlerTest, ValidateRejectsWrongPath) {
 TEST(WsChangeHandlerTest, ValidateAcceptsCorrectPath_NoAuth) {
     WsChangeHandler handler(nullptr);   // auth bypassed (nullptr)
     auto req      = make_upgrade_request("/v2/changes");
+    auto decision = handler.validate(req);
+
+    EXPECT_TRUE(decision.should_upgrade);
+    EXPECT_EQ(decision.from_sequence, 0u);
+    EXPECT_TRUE(decision.key_prefix.empty());
+}
+
+TEST(WsChangeHandlerTest, ValidateAcceptsCdcStreamPath_NoAuth) {
+    WsChangeHandler handler(nullptr);   // auth bypassed (nullptr)
+    auto req      = make_upgrade_request("/v2/cdc/stream");
     auto decision = handler.validate(req);
 
     EXPECT_TRUE(decision.should_upgrade);

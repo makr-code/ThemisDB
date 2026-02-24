@@ -131,6 +131,34 @@ bool CacheAdminApiHandler::checkAuth(
 // Endpoint handlers
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// GET /v1/admin/cache/health
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleHealth(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:read", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    try {
+        nlohmann::json body = cache_->getHealthStatus();
+        bool healthy = body.value("healthy", true);
+        auto status = healthy ? http::status::ok : http::status::service_unavailable;
+        return makeResponse(status, body.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin health error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> CacheAdminApiHandler::handleStats(
     const http::request<http::string_body>& req)
 {
@@ -434,6 +462,148 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         THEMIS_WARN("Cache admin snapshot error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// GET /v1/admin/cache/tenants
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:read", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    try {
+        nlohmann::json body = cache_->getTenantStats();
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin list-tenants error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// GET /v1/admin/cache/tenant/{tenant_id}/stats
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:read", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    // Extract tenant_id from: /v1/admin/cache/tenant/{tenant_id}/stats
+    std::string_view target = req.target();
+    constexpr std::string_view prefix = "/v1/admin/cache/tenant/";
+    if (target.rfind(prefix, 0) != 0) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid path", req);
+    }
+    auto rest = target.substr(prefix.size());
+    auto slash = rest.rfind("/stats");
+    if (slash == std::string_view::npos) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Path must end with /stats", req);
+    }
+    std::string tenant_id(rest.substr(0, slash));
+    if (tenant_id.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Missing tenant_id path parameter", req);
+    }
+
+    try {
+        nlohmann::json body = cache_->getTenantStatsForTenant(tenant_id);
+        if (body.contains("found") && !body["found"].get<bool>()) {
+            return makeErrorResponse(http::status::not_found,
+                                     "Tenant not found: " + tenant_id, req);
+        }
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin tenant-stats error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:write", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    // Extract tenant_id from: /v1/admin/cache/tenant/{tenant_id}/quota
+    std::string_view target = req.target();
+    constexpr std::string_view prefix = "/v1/admin/cache/tenant/";
+    if (target.rfind(prefix, 0) != 0) {
+        return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+    }
+    auto rest = target.substr(prefix.size());
+    auto slash = rest.rfind("/quota");
+    if (slash == std::string_view::npos) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Path must end with /quota", req);
+    }
+    std::string tenant_id(rest.substr(0, slash));
+    if (tenant_id.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Missing tenant_id path parameter", req);
+    }
+
+    size_t quota_bytes = 0;
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        if (!body.contains("quota_bytes") || !body["quota_bytes"].is_number_unsigned()) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Missing or invalid field: quota_bytes (must be unsigned integer)", req);
+        }
+        quota_bytes = body["quota_bytes"].get<size_t>();
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON parse error: ") + e.what(), req);
+    }
+
+    try {
+        bool ok = cache_->updateTenantQuota(tenant_id, quota_bytes);
+        if (!ok) {
+            return makeErrorResponse(http::status::not_found,
+                                     "Tenant isolation is disabled or tenant_id is empty", req);
+        }
+
+        nlohmann::json resp = {
+            {"status",      "ok"},
+            {"tenant_id",   tenant_id},
+            {"quota_bytes", quota_bytes}
+        };
+        return makeResponse(http::status::ok, resp.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin update-tenant-quota error: {}", e.what());
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
