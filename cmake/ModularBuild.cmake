@@ -283,6 +283,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
+
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
