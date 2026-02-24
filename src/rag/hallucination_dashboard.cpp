@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hallucination_dashboard.cpp                        ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -325,7 +325,10 @@ void HallucinationDashboard::printReport(std::ostream& os) const {
 
     if (snap.alert_triggered) {
         for (const auto& alert : snap.active_alerts) {
-            os << "⚠ " << alert.message << "\n";
+            const char* icon = (alert.severity == AlertSeverity::CRITICAL) ? "🚨"
+                             : (alert.severity == AlertSeverity::WARNING)  ? "⚠"
+                             :                                               "ℹ";
+            os << icon << " " << alert.message << "\n";
         }
     } else {
         os << "✓ No alerts active\n";
