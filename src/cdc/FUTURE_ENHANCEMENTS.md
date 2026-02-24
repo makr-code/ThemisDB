@@ -45,7 +45,7 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 Replace or supplement the SSE transport with a bidirectional WebSocket endpoint (`/v2/cdc/stream`) that supports both server-push change events and client-sent subscription management frames. WebSocket allows the client to change subscriptions without reconnecting.
 
 **Implementation Notes:**
-- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
+- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`. (transport implemented as `cdc/ws_transport.cpp`; endpoint wiring is a follow-up)
 - `[x]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
 - `[x]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
 - `[x]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
