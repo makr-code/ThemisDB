@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     285                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -101,10 +101,7 @@ enum class AuthErrorCode {
     SAML_STATUS_FAILURE = 9388,
     SAML_ISSUER_MISMATCH = 9389,
 
-    // Password policy errors (9392-9394)
-    PASSWORD_POLICY_VIOLATION = 9392,
-
-    // Internal errors (9390-9399)
+    // Internal errors (9390-9391)
     AUTH_INTERNAL_ERROR = 9390,
     AUTH_NOT_IMPLEMENTED = 9391,
 
@@ -131,6 +128,8 @@ enum class AuthErrorCode {
     LDAP_NOT_INITIALIZED = 9407,
     LDAP_OPERATION_TIMEOUT = 9408,
     LDAP_INVALID_DN = 9409
+    // Password policy errors (9400-9409)
+    PASSWORD_POLICY_VIOLATION = 9400
 };
 
 /**
