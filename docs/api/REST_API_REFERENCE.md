@@ -193,6 +193,9 @@ DELETE /entities/:id
 
 #### Batch Operations
 
+Atomically execute up to **10,000** `put` or `delete` operations in a single request.
+
+**Request:**
 ```http
 POST /entities/batch
 Content-Type: application/json
@@ -201,13 +204,42 @@ Content-Type: application/json
   "operations": [
     {
       "op": "put",
-      "id": "user:123",
-      "data": {...}
+      "key": "users:123",
+      "blob": "{\"name\":\"Alice\",\"age\":30}"
     },
     {
       "op": "delete",
-      "id": "user:456"
+      "key": "users:456"
     }
+  ]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `op` | string | yes | `"put"` (insert/upsert) or `"delete"` |
+| `key` | string | yes | Entity key in `"table:pk"` format (e.g. `"users:123"`) |
+| `blob` | string | put only | JSON-encoded entity document as a string |
+
+**Response** `200 OK`:
+```json
+{
+  "success": true,
+  "total": 2,
+  "succeeded": 2,
+  "failed": 0
+}
+```
+
+When some operations fail the response includes an `"errors"` array with per-item details:
+```json
+{
+  "success": true,
+  "total": 3,
+  "succeeded": 2,
+  "failed": 1,
+  "errors": [
+    {"index": 1, "key": "users:bad", "error": "Key must be in format 'table:pk'"}
   ]
 }
 ```

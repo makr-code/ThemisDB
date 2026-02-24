@@ -27,7 +27,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
-- [I] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
+- [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
 
 ### Long-term (6-12 months)
 - [I] gRPC API surface alongside REST (Issue: #1499)
