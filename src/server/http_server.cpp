@@ -4786,6 +4786,8 @@ http::response<http::string_body> HttpServer::handleApiKeyDelete(
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
+
+http::response<http::string_body> HttpServer::handleClassificationListRules(
     const http::request<http::string_body>& req
 ) {
     try {
