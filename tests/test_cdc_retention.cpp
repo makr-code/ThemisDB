@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include "cdc/changefeed.h"
+#include "cdc/cdc_admin.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <thread>
@@ -518,4 +519,82 @@ TEST_F(CDCRetentionTest, GetEventBySequence) {
     EXPECT_EQ(fetched.sequence, recorded.sequence);
     EXPECT_EQ(fetched.key, "lookup:key");
     EXPECT_EQ(fetched.value, std::optional<std::string>("lookup_value"));
+}
+
+// ===== RetentionStatus Policy Exposure Tests =====
+
+TEST_F(CDCRetentionTest, RetentionStatusIncludesPolicy) {
+    // Construct a changefeed with a specific retention policy
+    Changefeed::RetentionPolicy policy;
+    policy.enabled = true;
+    policy.max_age_hours = std::chrono::hours(48);
+    policy.max_event_count = 500;
+    policy.max_size_bytes = 10 * 1024 * 1024; // 10 MB
+    policy.cleanup_interval = std::chrono::minutes(30);
+    policy.compact_on_cleanup = true;
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, policy);
+
+    themis::cdc::CDCAdmin admin(changefeed_.get());
+    auto status = admin.getRetentionStatus();
+
+    // Policy fields must be reflected in the status
+    EXPECT_EQ(status.policy_enabled, true);
+    EXPECT_EQ(status.policy_max_age_hours, 48u);
+    EXPECT_EQ(status.policy_max_event_count, 500u);
+    EXPECT_EQ(status.policy_max_size_bytes, 10u * 1024u * 1024u);
+    EXPECT_EQ(status.policy_cleanup_interval_minutes, 30u);
+    EXPECT_EQ(status.compact_on_cleanup, true);
+}
+
+TEST_F(CDCRetentionTest, RetentionStatusJsonIncludesPolicyObject) {
+    Changefeed::RetentionPolicy policy;
+    policy.enabled = true;
+    policy.max_age_hours = std::chrono::hours(72);
+    policy.max_event_count = 1000;
+    policy.cleanup_interval = std::chrono::minutes(15);
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, policy);
+
+    themis::cdc::CDCAdmin admin(changefeed_.get());
+    auto status = admin.getRetentionStatus();
+    auto j = status.toJson();
+
+    // JSON must contain a top-level "policy" object
+    ASSERT_TRUE(j.contains("policy")) << "RetentionStatus JSON must include 'policy' key";
+    const auto& p = j["policy"];
+    EXPECT_EQ(p["enabled"].get<bool>(), true);
+    EXPECT_EQ(p["max_age_hours"].get<uint32_t>(), 72u);
+    EXPECT_EQ(p["max_event_count"].get<uint64_t>(), 1000u);
+    EXPECT_EQ(p["cleanup_interval_minutes"].get<uint32_t>(), 15u);
+}
+
+TEST_F(CDCRetentionTest, RetentionStatusReflectsUpdatedPolicy) {
+    // Start with disabled retention
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = false;
+    initial.max_age_hours = std::chrono::hours(24);
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    themis::cdc::CDCAdmin admin(changefeed_.get());
+
+    auto before = admin.getRetentionStatus();
+    EXPECT_FALSE(before.policy_enabled);
+    EXPECT_EQ(before.policy_max_age_hours, 24u);
+
+    // Update policy at runtime
+    Changefeed::RetentionPolicy updated;
+    updated.enabled = true;
+    updated.max_age_hours = std::chrono::hours(96);
+    updated.max_event_count = 2000;
+    changefeed_->updateRetentionPolicy(updated);
+
+    auto after = admin.getRetentionStatus();
+    EXPECT_TRUE(after.policy_enabled);
+    EXPECT_EQ(after.policy_max_age_hours, 96u);
+    EXPECT_EQ(after.policy_max_event_count, 2000u);
 }

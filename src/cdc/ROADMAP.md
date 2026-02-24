@@ -23,7 +23,7 @@
 
 ### Short-term (Next 3-6 months)
 - [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
-- [I] Change log TTL and size-based retention policies (Issue: #1608)
+- [x] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
 - [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
@@ -70,7 +70,6 @@
 ## Known Issues & Limitations
 - WebSocket transport not yet implemented; SSE only
 - No consumer offset tracking; replay requires full log scan
-- Change log retention policies are not configurable at runtime
 - At-least-once delivery is not yet guaranteed for SSE connections
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 
