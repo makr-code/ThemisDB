@@ -1887,7 +1887,10 @@ endif()
 # Phase 7 – SelfAwareness production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
     message(STATUS "Adding SelfAwareness production tests (Phase 7)")
-    add_executable(test_self_awareness_production test_self_awareness_production.cpp)
+    add_executable(test_self_awareness_production
+        test_self_awareness_production.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/self_awareness.cpp
+    )
     target_link_libraries(test_self_awareness_production PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -1944,7 +1947,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.c
     )
     
     target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
-        GTest::gtest
+        ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
         spdlog::spdlog
