@@ -85,6 +85,11 @@ struct CacheMetrics {
     std::atomic<uint64_t> ttl_extended_total{0};
     std::atomic<uint64_t> ttl_shortened_total{0};
 
+    // Phase 4: Predictive pre-fetching metrics
+    // themis_cache_prefetch_candidates_generated_total: number of prefetch prediction calls
+    // themis_cache_prefetch_hits_total: candidates that were already warm in cache
+    std::atomic<uint64_t> prefetch_candidates_generated{0};
+    std::atomic<uint64_t> prefetch_hits{0};
     // Phase 4: Write-through metrics
     // themis_cache_write_through_total: entries written through from L1/L2 to L3
     std::atomic<uint64_t> write_through_total{0};
@@ -122,6 +127,8 @@ struct CacheMetrics {
         warmup_entries_failed.store(other.warmup_entries_failed.load());
         ttl_extended_total.store(other.ttl_extended_total.load());
         ttl_shortened_total.store(other.ttl_shortened_total.load());
+        prefetch_candidates_generated.store(other.prefetch_candidates_generated.load());
+        prefetch_hits.store(other.prefetch_hits.load());
         write_through_total.store(other.write_through_total.load());
         write_through_errors.store(other.write_through_errors.load());
         write_through_writes.store(other.write_through_writes.load());
@@ -155,6 +162,8 @@ struct CacheMetrics {
             warmup_entries_failed.store(other.warmup_entries_failed.load());
             ttl_extended_total.store(other.ttl_extended_total.load());
             ttl_shortened_total.store(other.ttl_shortened_total.load());
+            prefetch_candidates_generated.store(other.prefetch_candidates_generated.load());
+            prefetch_hits.store(other.prefetch_hits.load());
             write_through_total.store(other.write_through_total.load());
             write_through_errors.store(other.write_through_errors.load());
             write_through_writes.store(other.write_through_writes.load());
@@ -238,6 +247,9 @@ struct CacheMetrics {
         j["adaptive_ttl"]["ttl_extended_total"] = ttl_extended_total.load();
         j["adaptive_ttl"]["ttl_shortened_total"] = ttl_shortened_total.load();
 
+        // Phase 4: Predictive pre-fetching metrics
+        j["prefetch"]["candidates_generated"] = prefetch_candidates_generated.load();
+        j["prefetch"]["hits"]                 = prefetch_hits.load();
         // Phase 4: Write-through metrics
         j["write_through"]["total"] = write_through_total.load();
         j["write_through"]["errors"] = write_through_errors.load();
@@ -275,6 +287,8 @@ struct CacheMetrics {
         warmup_entries_failed = 0;
         ttl_extended_total = 0;
         ttl_shortened_total = 0;
+        prefetch_candidates_generated = 0;
+        prefetch_hits = 0;
         write_through_total = 0;
         write_through_errors = 0;
         write_through_writes = 0;
