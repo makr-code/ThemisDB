@@ -582,35 +582,37 @@ bool AdaptiveQueryCache::put(
     
     // Store in appropriate level
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
-        
-        // Evict LRU if full
-        if (l1_cache_.size() >= config_.l1_max_entries) {
-            evictLRU(CacheLevel::HOT);
-        }
-        
-        L1Entry entry;
-        entry.result = result;
-        entry.created_at_ms = now_ms;
-        entry.last_accessed_ms = now_ms;
-        entry.access_count = 1;
-        entry.ttl_seconds = ttl_seconds;
-        entry.window_start_ms = now_ms;
-        entry.window_count = 0;
-        
-        l1_cache_[key] = std::move(entry);
-        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
-        enhanced_metrics_.total_bytes_cached += result_size;
-        
-        // Phase 2/3: Update tenant size tracking
-        if (config_.enable_tenant_isolation && !tenant_id.empty()) {
-            std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_metrics_[tenant_id].bytes_used += result_size;
-        }
-        
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            
+            // Evict LRU if full
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            
+            L1Entry entry;
+            entry.result = result;
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            
+            // Phase 2/3: Update tenant size tracking
+            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                std::lock_guard<std::mutex> tenant_lock(tenant_mutex_);
+                tenant_metrics_[tenant_id].bytes_used += result_size;
+            }
+        }  // l1_mutex_ released before notification
+
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
 
-        // Phase 4: Notify replication listener
+        // Phase 4: Notify replication listener (outside tier lock)
         if (rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type = cache::CacheReplicationEventType::WRITE;
@@ -631,32 +633,36 @@ bool AdaptiveQueryCache::put(
             enhanced_metrics_.compression_failures++;
             return false;
         }
-        
-        std::lock_guard<std::mutex> lock(l2_mutex_);
-        
-        // Evict LRU if full
-        if (l2_cache_.size() >= config_.l2_max_entries) {
-            evictLRU(CacheLevel::WARM);
-        }
-        
-        L2Entry entry;
-        entry.compressed_result = std::move(compressed);
-        entry.created_at_ms = now_ms;
-        entry.last_accessed_ms = now_ms;
-        entry.access_count = 1;
-        entry.ttl_seconds = ttl_seconds;
-        entry.window_start_ms = now_ms;
-        entry.window_count = 0;
-        
-        size_t compressed_size = entry.compressed_result.size();
-        l2_cache_[fingerprint] = std::move(entry);
-        l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
-        enhanced_metrics_.total_bytes_cached += result_size;
-        enhanced_metrics_.total_bytes_compressed += compressed_size;
+
+        size_t compressed_size;
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            
+            // Evict LRU if full
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            compressed_size = entry.compressed_result.size();
+            l2_cache_[fingerprint] = std::move(entry);
+            l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            enhanced_metrics_.total_bytes_compressed += compressed_size;
+        }  // l2_mutex_ released before notification
+
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
 
-        // Phase 4: Notify replication listener
+        // Phase 4: Notify replication listener (outside tier lock)
         if (rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type = cache::CacheReplicationEventType::WRITE;
@@ -676,10 +682,7 @@ bool AdaptiveQueryCache::put(
             enhanced_metrics_.l3_circuit_breaker_open = true;
             return false;
         }
-        
-        // Store in L3 (RocksDB)
-        std::lock_guard<std::mutex> lock(l3_mutex_);
-        
+
         nlohmann::json entry_json;
         entry_json["result"] = result;
         entry_json["query_params"] = query_params;
@@ -689,58 +692,66 @@ bool AdaptiveQueryCache::put(
         entry_json["ttl_seconds"] = ttl_seconds;
         entry_json["window_start_ms"] = now_ms;
         entry_json["window_count"] = 0;
-        
+
         std::string key = QUERY_CACHE_PREFIX + fingerprint;
+        std::string entry_payload;
         bool ok = false;
-        
-        try {
-            ok = l3_db_->put(key, entry_json.dump());
-            
-            if (ok) {
-                // Phase 1: Record success for circuit breaker
+
+        {
+            // Store in L3 (RocksDB)
+            std::lock_guard<std::mutex> lock(l3_mutex_);
+
+            try {
+                entry_payload = entry_json.dump();
+                ok = l3_db_->put(key, entry_payload);
+
+                if (ok) {
+                    // Phase 1: Record success for circuit breaker
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordSuccess();
+                        enhanced_metrics_.l3_circuit_breaker_open = false;
+                    }
+                    enhanced_metrics_.total_bytes_cached += result_size;
+                    THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                } else {
+                    // Failed to write
+                    enhanced_metrics_.l3_write_errors++;
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordFailure();
+                        if (l3_circuit_breaker_->isOpen()) {
+                            enhanced_metrics_.l3_circuit_breaker_trips++;
+                            enhanced_metrics_.l3_circuit_breaker_open = true;
+                        }
+                    }
+                    THEMIS_WARN("Failed to store in L3 cache");
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("L3 cache write exception: {}", e.what());
+                enhanced_metrics_.l3_write_errors++;
                 if (l3_circuit_breaker_) {
-                    l3_circuit_breaker_->recordSuccess();
-                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                    l3_circuit_breaker_->recordFailure();
+                    if (l3_circuit_breaker_->isOpen()) {
+                        enhanced_metrics_.l3_circuit_breaker_trips++;
+                        enhanced_metrics_.l3_circuit_breaker_open = true;
+                    }
                 }
-                enhanced_metrics_.total_bytes_cached += result_size;
-                THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                return false;
+            }
+        }  // l3_mutex_ released before notification
 
-                // Phase 4: Notify replication listener
-                if (rep_listener) {
-                    cache::CacheReplicationEvent ev;
-                    ev.type = cache::CacheReplicationEventType::WRITE;
-                    ev.key = key;
-                    ev.payload = entry_json.dump();
-                    ev.tenant_id = tenant_id;
-                    ev.ttl_seconds = ttl_seconds;
-                    rep_listener->onReplicationEvent(ev);
-                }
-
-                return true;
+        if (ok) {
+            // Phase 4: Notify replication listener (outside tier lock)
+            if (rep_listener) {
+                cache::CacheReplicationEvent ev;
+                ev.type = cache::CacheReplicationEventType::WRITE;
+                ev.key = key;
+                ev.payload = entry_payload;
+                ev.tenant_id = tenant_id;
+                ev.ttl_seconds = ttl_seconds;
+                rep_listener->onReplicationEvent(ev);
             }
-        } catch (const std::exception& e) {
-            THEMIS_WARN("L3 cache write exception: {}", e.what());
-            enhanced_metrics_.l3_write_errors++;
-            if (l3_circuit_breaker_) {
-                l3_circuit_breaker_->recordFailure();
-                if (l3_circuit_breaker_->isOpen()) {
-                    enhanced_metrics_.l3_circuit_breaker_trips++;
-                    enhanced_metrics_.l3_circuit_breaker_open = true;
-                }
-            }
-            return false;
+            return true;
         }
-        
-        // Failed to write
-        enhanced_metrics_.l3_write_errors++;
-        if (l3_circuit_breaker_) {
-            l3_circuit_breaker_->recordFailure();
-            if (l3_circuit_breaker_->isOpen()) {
-                enhanced_metrics_.l3_circuit_breaker_trips++;
-                enhanced_metrics_.l3_circuit_breaker_open = true;
-            }
-        }
-        THEMIS_WARN("Failed to store in L3 cache");
         return false;
     }
     

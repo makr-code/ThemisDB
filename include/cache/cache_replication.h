@@ -94,10 +94,12 @@ public:
     /**
      * @brief Called on every cache mutation that must be replicated.
      *
-     * @note This callback is invoked while the cache tier's internal mutex is
-     *       held.  Implementations must not call back into the originating
-     *       AdaptiveQueryCache (doing so would deadlock).  For network-bound
-     *       transports, dispatch to a background queue and return immediately.
+     * @note This callback is invoked outside the cache tier's internal mutexes.
+     *       It is safe to call blocking operations here, although for
+     *       network-bound transports dispatching to a background queue is
+     *       recommended to keep cache write latency low.
+     *       Implementations must not call back into the originating
+     *       AdaptiveQueryCache to avoid potential re-entrancy issues.
      *
      * @param event  Structured replication event.
      * @return true on success; false signals a transient failure.
