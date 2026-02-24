@@ -193,7 +193,8 @@ class CapabilityYAMLGenerator:
         try:
             major, minor, patch = version.split('.')
             return f"{major}.{minor}.{int(patch) + 1}"
-        except:
+        except Exception:
+            logging.warning("Invalid version string '%s'; using default 1.0.1", version)
             return "1.0.1"
     
     def _generate_change_summary(self, existing: Dict, new_metadata: Dict) -> str:

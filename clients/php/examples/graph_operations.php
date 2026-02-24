@@ -95,6 +95,7 @@ try {
         echo "   - {$node}\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Note: Graph traversal requires graph edges to be properly configured\n";
     echo "   This is a simplified example. See ThemisDB docs for full graph setup.\n";
 }
@@ -111,6 +112,7 @@ try {
         echo "   No path found\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected path: alice → bob → diana → frank (3 hops)\n";
     echo "   Note: Requires proper graph configuration\n";
 }
@@ -125,6 +127,7 @@ try {
         echo "   - {$neighbor}\n";
     }
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected neighbors: bob, charlie\n";
     echo "   Note: Requires proper graph configuration\n";
 }
@@ -153,6 +156,7 @@ try {
     echo "   Friends of friends: " . implode(', ', $friendsOfFriends) . "\n";
     
 } catch (Exception $e) {
+    error_log($e->getMessage());
     echo "   Expected: diana, eve\n";
     echo "   Note: Requires proper graph configuration\n";
 }

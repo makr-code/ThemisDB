@@ -92,6 +92,7 @@ class ThemisDB_LLM_Integration {
                 ['namespace' => $namespace]
             );
         } catch (Exception $e) {
+            error_log("ThemisDB init error: " . $e->getMessage());
             add_action('admin_notices', function() use ($e) {
                 echo '<div class="error"><p><strong>ThemisDB Error:</strong> ' . 
                      esc_html($e->getMessage()) . '</p></div>';
@@ -275,6 +276,7 @@ class ThemisDB_LLM_Integration {
             wp_send_json_success($posts);
             
         } catch (Exception $e) {
+            error_log("ThemisDB AJAX error: " . $e->getMessage());
             wp_send_json_error($e->getMessage());
         }
     }
@@ -304,6 +306,7 @@ class ThemisDB_LLM_Integration {
             ]);
             
         } catch (Exception $e) {
+            error_log("ThemisDB RAG query error: " . $e->getMessage());
             wp_send_json_error($e->getMessage());
         }
     }
