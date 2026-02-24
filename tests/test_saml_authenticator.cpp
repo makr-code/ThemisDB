@@ -81,7 +81,8 @@ static std::string buildSAMLResponseB64(
     const std::string& assertion_id,
     std::chrono::system_clock::time_point anchor,
     std::chrono::seconds not_before_offset = std::chrono::seconds(-300),
-    std::chrono::seconds not_on_or_after_offset = std::chrono::seconds(600))
+    std::chrono::seconds not_on_or_after_offset = std::chrono::seconds(600),
+    const std::string& in_response_to = "")
 {
     auto fmt = [](std::chrono::system_clock::time_point tp) -> std::string {
         std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -100,12 +101,19 @@ static std::string buildSAMLResponseB64(
     std::string nb_str            = fmt(anchor + not_before_offset);
     std::string noa_str           = fmt(anchor + not_on_or_after_offset);
 
+    // Build optional InResponseTo attribute for SP-initiated responses
+    std::string irt_attr;
+    if (!in_response_to.empty()) {
+        irt_attr = " InResponseTo=\"" + in_response_to + "\"";
+    }
+
     std::string xml =
         R"(<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
         R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
         " ID=\"_resp001\""
         " Version=\"2.0\""
         " IssueInstant=\"" + issue_instant + "\""
+        + irt_attr +
         " Destination=\"" + recipient + "\">"
         "<saml:Issuer>" + issuer + "</saml:Issuer>"
         "<samlp:Status>"
@@ -602,6 +610,107 @@ TEST(SAMLAuthenticatorTest, ProcessResponseRequiresAssertionSignatureWhenConfigu
         FAIL() << "Expected AuthException for missing assertion signature";
     } catch (const AuthException& e) {
         EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_SIGNATURE);
+    }
+}
+
+// ============================================================================
+// SP-initiated and IdP-initiated flow tests
+// ============================================================================
+
+TEST(SAMLAuthenticatorTest, BuildAuthnRequestReturnsRequestId) {
+    SAMLAuthenticator auth(makeTestConfig());
+    auto params = auth.buildAuthnRequest();
+    EXPECT_FALSE(params.url.empty()) << "URL must not be empty";
+    EXPECT_FALSE(params.request_id.empty()) << "request_id must not be empty";
+    // NCName-safe: starts with '_'
+    EXPECT_EQ(params.request_id[0], '_') << "request_id must start with '_'";
+}
+
+TEST(SAMLAuthenticatorTest, BuildAuthnRequestUrlMatchesBuildAuthnRequest) {
+    SAMLAuthenticator auth(makeTestConfig());
+    // Both calls use independent random IDs, so just verify structure is consistent.
+    auto params = auth.buildAuthnRequest("/callback");
+    std::string url_only = params.url;
+    EXPECT_NE(url_only.find("SAMLRequest="), std::string::npos);
+    EXPECT_NE(url_only.find("RelayState="), std::string::npos);
+}
+
+TEST(SAMLAuthenticatorTest, IdPInitiatedFlowAcceptsResponseWithoutInResponseTo) {
+    // IdP-initiated: caller passes no in_response_to; response has no InResponseTo.
+    SAMLAuthenticator auth(makeTestConfig());
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    // in_response_to param defaults to "" → no InResponseTo in response XML
+    auto b64 = buildSAMLResponseB64(
+        "https://test-idp.example.com/metadata",
+        "https://myapp.example.com/saml/metadata",
+        "https://myapp.example.com/saml/acs",
+        "user@example.com",
+        "urn:oasis:names:tc:SAML:2.0:status:Success",
+        "_assert_idp_init_01",
+        now);
+
+    EXPECT_NO_THROW({
+        auto claims = auth.processResponse(b64); // no in_response_to
+        EXPECT_EQ(claims.subject_name_id, "user@example.com");
+    });
+}
+
+TEST(SAMLAuthenticatorTest, SPInitiatedFlowValidatesMatchingInResponseTo) {
+    // SP-initiated: buildAuthnRequest exposes request_id; response carries matching InResponseTo.
+    SAMLAuthenticator auth(makeTestConfig());
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    auto params = auth.buildAuthnRequest();
+    ASSERT_FALSE(params.request_id.empty());
+
+    // Build response that echoes the request ID in InResponseTo
+    auto b64 = buildSAMLResponseB64(
+        "https://test-idp.example.com/metadata",
+        "https://myapp.example.com/saml/metadata",
+        "https://myapp.example.com/saml/acs",
+        "user@example.com",
+        "urn:oasis:names:tc:SAML:2.0:status:Success",
+        "_assert_sp_init_01",
+        now,
+        std::chrono::seconds(-300),
+        std::chrono::seconds(600),
+        params.request_id);
+
+    EXPECT_NO_THROW({
+        auto claims = auth.processResponse(b64, params.request_id);
+        EXPECT_EQ(claims.subject_name_id, "user@example.com");
+    });
+}
+
+TEST(SAMLAuthenticatorTest, SPInitiatedFlowRejectsInResponseToMismatch) {
+    // SP-initiated: response carries InResponseTo that does not match the stored ID.
+    SAMLAuthenticator auth(makeTestConfig());
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    const std::string real_id  = "_real_authn_request_id";
+    const std::string wrong_id = "_wrong_authn_request_id";
+
+    auto b64 = buildSAMLResponseB64(
+        "https://test-idp.example.com/metadata",
+        "https://myapp.example.com/saml/metadata",
+        "https://myapp.example.com/saml/acs",
+        "user@example.com",
+        "urn:oasis:names:tc:SAML:2.0:status:Success",
+        "_assert_sp_mismatch_01",
+        now,
+        std::chrono::seconds(-300),
+        std::chrono::seconds(600),
+        wrong_id); // response claims a different request ID
+
+    try {
+        auth.processResponse(b64, real_id);
+        FAIL() << "Expected AuthException for InResponseTo mismatch";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_CONDITIONS_FAILED);
     }
 }
 

@@ -293,7 +293,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_oauth_device_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
-    ".*test_saml_authenticator\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
