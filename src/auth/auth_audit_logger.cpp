@@ -137,5 +137,33 @@ void AuthAuditLogger::logSAMLFailure(const std::string& reason)
     emit(utils::SecurityEventType::LOGIN_FAILED, "", "saml/assertion", d);
 }
 
+// ---------------------------------------------------------------------------
+// Zero-trust continuous verification events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logZeroTrustAllowed(const std::string& user_id,
+                                          const std::string& resource,
+                                          double trust_score,
+                                          const std::string& request_id)
+{
+    nlohmann::json d;
+    d["trust_score"] = trust_score;
+    if (!request_id.empty()) d["request_id"] = request_id;
+    emit(utils::SecurityEventType::LOGIN_SUCCESS, user_id,
+         "zero_trust/" + resource, d);
+}
+
+void AuthAuditLogger::logZeroTrustDenied(const std::string& user_id,
+                                          const std::string& resource,
+                                          const std::string& reason,
+                                          const std::string& request_id)
+{
+    nlohmann::json d;
+    d["reason"] = reason;
+    if (!request_id.empty()) d["request_id"] = request_id;
+    emit(utils::SecurityEventType::UNAUTHORIZED_ACCESS, user_id,
+         "zero_trust/" + resource, d);
+}
+
 } // namespace auth
 } // namespace themis
