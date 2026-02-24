@@ -541,5 +541,72 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     }
 }
 
+// ---------------------------------------------------------------------------
+// PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:write", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    // Extract tenant_id from: /v1/admin/cache/tenant/{tenant_id}/quota
+    std::string_view target = req.target();
+    constexpr std::string_view prefix = "/v1/admin/cache/tenant/";
+    if (target.rfind(prefix, 0) != 0) {
+        return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+    }
+    auto rest = target.substr(prefix.size());
+    auto slash = rest.rfind("/quota");
+    if (slash == std::string_view::npos) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Path must end with /quota", req);
+    }
+    std::string tenant_id(rest.substr(0, slash));
+    if (tenant_id.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Missing tenant_id path parameter", req);
+    }
+
+    size_t quota_bytes = 0;
+    try {
+        nlohmann::json body = nlohmann::json::parse(req.body());
+        if (!body.contains("quota_bytes") || !body["quota_bytes"].is_number_unsigned()) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Missing or invalid field: quota_bytes (must be unsigned integer)", req);
+        }
+        quota_bytes = body["quota_bytes"].get<size_t>();
+    } catch (const nlohmann::json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON parse error: ") + e.what(), req);
+    }
+
+    try {
+        bool ok = cache_->updateTenantQuota(tenant_id, quota_bytes);
+        if (!ok) {
+            return makeErrorResponse(http::status::not_found,
+                                     "Tenant isolation is disabled or tenant_id is empty", req);
+        }
+
+        nlohmann::json resp = {
+            {"status",      "ok"},
+            {"tenant_id",   tenant_id},
+            {"quota_bytes", quota_bytes}
+        };
+        return makeResponse(http::status::ok, resp.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin update-tenant-quota error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 } // namespace server
 } // namespace themis
