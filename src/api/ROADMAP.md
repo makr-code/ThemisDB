@@ -17,24 +17,24 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## In Progress 🚧
 - [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
-- [I] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
+- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] GraphQL schema for multi-model queries (Issue: #1493)
+- [x] GraphQL schema for multi-model queries (Issue: #1493)
 - [I] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
-- [I] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
+- [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
 
 ### Long-term (6-12 months)
 - [I] gRPC API surface alongside REST (Issue: #1499)
 - [I] API gateway integration (Kong, Nginx) (Issue: #1500)
 - [I] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [I] API key management endpoint (Issue: #1502)
-- [I] Multi-tenant namespace routing (Issue: #1503)
+- [x] Multi-tenant namespace routing (Issue: #1503)
 - [I] Async job API for long-running queries (Issue: #1504)
 
 ## Implementation Phases
@@ -55,10 +55,10 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
-- [I] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`) (Issue: #1505)
+- [~] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [I] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
-- [I] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
+- [~] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1509)

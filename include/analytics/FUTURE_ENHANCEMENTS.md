@@ -316,30 +316,41 @@ auto interpolated = spatial.kriging("temperature_sensors", {
 
 ### AutoML for Analytics
 **Priority:** Medium  
-**Target Version:** v1.9.0
+**Status:** ✅ Implemented in `src/analytics/automl.cpp` (v0.1.0)  
+**Target Version:** v1.9.0 (originally planned; delivered early)
 
 Automated machine learning for analytics tasks.
 
-**Features:**
-- Automatic feature engineering
-- Model selection and hyperparameter tuning
-- Ensemble model generation
+**Implemented Features:**
+- Automatic feature engineering (standard scaling, polynomial expansion)
+- Model selection and hyperparameter tuning (random search + k-fold CV)
+- Ensemble model generation (soft-voting / mean over top-k)
 - Automatic preprocessing (scaling, encoding)
-- Model interpretation (SHAP values)
-- Automatic model deployment
+- Model interpretation (permutation-based SHAP approximation)
+- Algorithms: Logistic Regression, Linear Regression, Decision Tree, Random Forest, Gradient Boosting, KNN
 
-**API Example:**
+**Planned Future Enhancements:**
+- Bayesian hyperparameter optimisation (TPE/GP)
+- Neural architecture search (lightweight)
+- Time-series forecasting support
+- ONNX export for model portability
+- Automatic model deployment pipeline
+
+**API (current):**
 ```cpp
 #include "analytics/automl.h"
+
+using namespace themisdb::analytics;
 
 AutoML automl;
 
 // Train classification model
 auto model = automl.trainClassifier(training_data, {
-    .target = "churn",
-    .max_time_minutes = 60,
-    .metric = "f1",
-    .feature_engineering = true
+    .target              = "churn",
+    .max_time_minutes    = 60,
+    .metric              = AutoMLMetric::F1,
+    .feature_engineering = true,
+    .ensemble            = true
 });
 
 // Automatic predictions
