@@ -25,6 +25,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Streaming aggregation windows: TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow with watermark support (`analytics/streaming_window.cpp`)
 - [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
 - [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
+- [x] AutoML integration for automated model selection: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
@@ -38,7 +39,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ### Long-term (6-12 months)
 - [I] Predictive analytics and time-series forecasting (Issue: #1473)
-- [I] AutoML integration for automated model selection (Issue: #1485)
+- [I] AutoML integration for automated model selection (Issue: #1485) ✅
 - [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
 - [I] Model serving and online inference pipeline (Issue: #1477)
@@ -72,7 +73,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
 - [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [I] Predictive analytics and time-series forecasting integration (Issue: #1484)
-- [ ] AutoML integration for automated model selection
+- [x] AutoML integration for automated model selection
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
