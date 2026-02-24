@@ -79,6 +79,7 @@
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
 #include "server/keys_api_handler.h"
+#include "server/api_key_mgmt_handler.h"
 #include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -549,6 +550,13 @@ private:
     http::response<http::string_body> handleKeysListKeys(const http::request<http::string_body>& req);
     http::response<http::string_body> handleKeysRotateKey(const http::request<http::string_body>& req);
 
+    // API Key Management endpoints
+    http::response<http::string_body> handleApiKeyCreate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleApiKeyList(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleApiKeyGet(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleApiKeyUpdate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleApiKeyDelete(const http::request<http::string_body>& req);
+
     // PKI endpoints (sign/verify)
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePkiVerify(const http::request<http::string_body>& req);
@@ -812,6 +820,8 @@ private:
     
     // Keys API Handler (Skeleton)
     std::unique_ptr<themis::server::KeysApiHandler> keys_api_;
+    // API Key Management Handler
+    std::unique_ptr<themis::server::ApiKeyMgmtHandler> api_key_mgmt_;
     // PKI API Handler
     std::unique_ptr<themis::server::PkiApiHandler> pki_api_;
     

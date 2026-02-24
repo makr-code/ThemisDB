@@ -3305,5 +3305,182 @@ QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::req
     return ctx;
 }
 
+http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
+    const http::request<http::string_body>& req
+) {
+    if (auth_ && auth_->isEnabled()) {
+        std::string path_only = std::string(req.target());
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (auto resp = requireAccess(req, "data:read", "query", path_only)) return *resp;
+    }
+
+    auto span = Tracer::startSpan("GET /v2/query/stream");
+
+    // Parse query parameters from URL
+    std::string aql_query;
+    int max_seconds   = 30;
+    int heartbeat_ms  = 15000;
+    int retry_ms      = 3000;
+
+    std::string target = std::string(req.target());
+    auto qpos = target.find('?');
+    if (qpos != std::string::npos) {
+        std::string qs = target.substr(qpos + 1);
+        // Parse 'q' parameter (URL-encoded AQL query)
+        auto extract = [&](const std::string& key) -> std::string {
+            std::string prefix = key + "=";
+            auto pos = qs.find(prefix);
+            if (pos == std::string::npos) return {};
+            auto end = qs.find('&', pos);
+            std::string raw = qs.substr(pos + prefix.size(),
+                end == std::string::npos ? std::string::npos : end - pos - prefix.size());
+            // Basic URL-decode: replace '+' with ' ' and %XX with char
+            std::string decoded;
+            decoded.reserve(raw.size());
+            for (size_t i = 0; i < raw.size(); ) {
+                if (raw[i] == '+') { decoded += ' '; ++i; }
+                else if (raw[i] == '%' && i + 2 < raw.size()) {
+                    char hex[3] = {raw[i+1], raw[i+2], '\0'};
+                    decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
+                    i += 3;
+                } else {
+                    decoded += raw[i++];
+                }
+            }
+            return decoded;
+        };
+
+        aql_query = extract("q");
+
+        auto extractInt = [&](const std::string& key, int def, int lo, int hi) -> int {
+            std::string v = extract(key);
+            if (v.empty()) return def;
+            try {
+                int n = std::stoi(v);
+                if (n < lo) n = lo;
+                if (n > hi) n = hi;
+                return n;
+            } catch (...) { return def; }
+        };
+        max_seconds  = extractInt("max_seconds",  30,    1,    60);
+        heartbeat_ms = extractInt("heartbeat_ms", 15000, 100, 60000);
+        retry_ms     = extractInt("retry_ms",     3000,  100, 120000);
+    }
+
+    if (aql_query.empty()) {
+        span.setStatus(false, "missing_query");
+        return makeErrorResponse(http::status::bad_request,
+            "Missing 'q' query parameter (AQL query string)", req);
+    }
+
+    span.setAttribute("aql.query", aql_query);
+
+    try {
+        // Execute the AQL query via the existing handler by building a synthetic request
+        http::request<http::string_body> aql_req{http::verb::post, "/query/aql", req.version()};
+        aql_req.set(http::field::content_type, "application/json");
+        // Forward Authorization header so auth is properly propagated
+        auto auth_it = req.find(http::field::authorization);
+        if (auth_it != req.end()) {
+            aql_req.set(http::field::authorization, auth_it->value());
+        }
+        json aql_body = {{"query", aql_query}};
+        aql_req.body() = aql_body.dump();
+        aql_req.prepare_payload();
+
+        http::response<http::string_body> aql_resp = handleQueryAql(aql_req);
+
+        // Parse the query result
+        json result;
+        try {
+            result = json::parse(aql_resp.body());
+        } catch (...) {
+            result = json::object();
+        }
+
+        // Build SSE response
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, "text/event-stream");
+        res.set(http::field::cache_control, "no-cache, no-transform");
+        res.set(http::field::connection, "keep-alive");
+        res.set(http::field::access_control_allow_origin, "*");
+        res.keep_alive(true);
+
+        std::ostringstream body;
+        body << "retry: " << retry_ms << "\n\n";
+
+        // Check for query-level error
+        if (aql_resp.result_int() >= 400) {
+            std::string err_msg = result.value("message", aql_resp.body());
+            json err_event = {{"error", true}, {"message", err_msg},
+                              {"status_code", aql_resp.result_int()}};
+            body << "event: error\n";
+            body << "data: " << err_event.dump() << "\n\n";
+            span.setStatus(false, "query_error");
+            res.body() = body.str();
+            res.prepare_payload();
+            return res;
+        }
+
+        // Extract rows/entities array from the result
+        json rows = json::array();
+        if (result.contains("entities") && result["entities"].is_array()) {
+            rows = result["entities"];
+        } else if (result.contains("rows") && result["rows"].is_array()) {
+            rows = result["rows"];
+        } else if (result.is_array()) {
+            rows = result;
+        }
+
+        // Stream rows as individual SSE events with sequence IDs
+        auto stream_start = std::chrono::steady_clock::now();
+        const auto max_duration = std::chrono::seconds(max_seconds);
+        size_t seq = 0;
+        auto last_hb = stream_start;
+
+        for (const auto& row : rows) {
+            // Respect time budget
+            if (std::chrono::steady_clock::now() - stream_start >= max_duration) {
+                break;
+            }
+
+            body << "id: " << seq << "\n";
+            body << "data: " << row.dump() << "\n\n";
+            ++seq;
+        }
+
+        // Emit a heartbeat if no rows were produced or after streaming
+        auto elapsed_hb = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - last_hb
+        ).count();
+        if (seq == 0 || elapsed_hb >= heartbeat_ms) {
+            body << ": heartbeat\n\n";
+        }
+
+        // Emit a terminal "done" event with metadata
+        json done_event = {
+            {"rows_streamed", seq},
+            {"total",         result.value("count", static_cast<int>(rows.size()))}
+        };
+        body << "event: done\n";
+        body << "data: " << done_event.dump() << "\n\n";
+
+        span.setAttribute("sse.rows_streamed", static_cast<int64_t>(seq));
+        span.setStatus(true);
+
+        res.body() = body.str();
+        res.prepare_payload();
+        return res;
+
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error,
+            std::string("Error: ") + e.what(), req);
+    }
+}
+
 } // namespace server
 } // namespace themis
