@@ -181,6 +181,7 @@ class DocumentationLinter:
         except UnicodeDecodeError:
             self.add_error(str(file_path), 0, "File encoding error (not UTF-8)")
         except Exception as e:
+            print(f"[ERROR] Unexpected error in {file_path}: {e}", file=sys.stderr)
             self.add_error(str(file_path), 0, f"Unexpected error: {str(e)}")
 
     def lint_directory(self, directory: Path, exclude_patterns: List[str] = None):

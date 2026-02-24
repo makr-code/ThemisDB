@@ -19,9 +19,11 @@
 
 #include <gtest/gtest.h>
 #include "cache/adaptive_query_cache.h"
+#include "cache/eviction_policy.h"
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <chrono>
+#include <filesystem>
 
 using namespace themis;
 using json = nlohmann::json;
@@ -321,4 +323,84 @@ TEST_F(AdaptiveQueryCacheTest, ConcurrentAccess) {
     auto stats = cache.getStats();
     EXPECT_GT(stats.l1_hits + stats.l2_hits + stats.l3_hits, 0);
     EXPECT_EQ(total_hits.load() + total_misses.load(), num_threads * ops_per_thread);
+}
+
+// ============================================================================
+// Configurable Eviction Policy Tests
+// ============================================================================
+
+TEST_F(AdaptiveQueryCacheTest, DefaultEvictionPolicyIsLRU) {
+    EXPECT_EQ(config_.l1_eviction_policy, cache::EvictionPolicy::LRU);
+    EXPECT_EQ(config_.l2_eviction_policy, cache::EvictionPolicy::LRU);
+}
+
+TEST_F(AdaptiveQueryCacheTest, LFUPolicyConfigures) {
+    config_.l1_eviction_policy = cache::EvictionPolicy::LFU;
+    config_.l2_eviction_policy = cache::EvictionPolicy::LFU;
+    // Cache must construct without throwing with LFU policy
+    EXPECT_NO_THROW(AdaptiveQueryCache cache(config_));
+}
+
+TEST_F(AdaptiveQueryCacheTest, ARCPolicyConfigures) {
+    config_.l1_eviction_policy = cache::EvictionPolicy::ARC;
+    config_.l2_eviction_policy = cache::EvictionPolicy::ARC;
+    // Cache must construct without throwing with ARC policy
+    EXPECT_NO_THROW(AdaptiveQueryCache cache(config_));
+}
+
+TEST_F(AdaptiveQueryCacheTest, LFUEvictsLeastFrequentEntry) {
+    config_.l1_eviction_policy = cache::EvictionPolicy::LFU;
+    config_.l1_max_entries = 3;
+    AdaptiveQueryCache cache(config_);
+
+    // Store 3 small entries
+    cache.put("fp1", {}, json({{"v", 1}}));
+    cache.put("fp2", {}, json({{"v", 2}}));
+    cache.put("fp3", {}, json({{"v", 3}}));
+
+    // Access fp2 and fp3 multiple times to raise their frequency
+    cache.get("fp2"); cache.get("fp2");
+    cache.get("fp3");
+
+    // Inserting fp4 should evict the least-frequently-used entry (fp1)
+    cache.put("fp4", {}, json({{"v", 4}}));
+
+    // fp1 should be gone; fp2, fp3, fp4 should still be present
+    EXPECT_FALSE(cache.get("fp1").has_value());
+    EXPECT_TRUE(cache.get("fp2").has_value());
+    EXPECT_TRUE(cache.get("fp3").has_value());
+    EXPECT_TRUE(cache.get("fp4").has_value());
+}
+
+TEST_F(AdaptiveQueryCacheTest, ARCPolicyEvictsCorrectly) {
+    config_.l1_eviction_policy = cache::EvictionPolicy::ARC;
+    config_.l1_max_entries = 3;
+    AdaptiveQueryCache cache(config_);
+
+    cache.put("fp1", {}, json({{"v", 1}}));
+    cache.put("fp2", {}, json({{"v", 2}}));
+    cache.put("fp3", {}, json({{"v", 3}}));
+
+    // Cache is now full. Inserting fp4 must evict one entry without crashing.
+    EXPECT_NO_THROW(cache.put("fp4", {}, json({{"v", 4}})));
+
+    // Exactly 3 entries should remain
+    int present = 0;
+    for (const auto& fp : {"fp1", "fp2", "fp3", "fp4"}) {
+        if (cache.get(fp).has_value()) ++present;
+    }
+    EXPECT_EQ(present, 3);
+}
+
+TEST_F(AdaptiveQueryCacheTest, PolicyClearResetState) {
+    config_.l1_eviction_policy = cache::EvictionPolicy::ARC;
+    AdaptiveQueryCache cache(config_);
+
+    cache.put("fp1", {}, json({{"v", 1}}));
+    cache.put("fp2", {}, json({{"v", 2}}));
+
+    // clear() must not crash and the cache must be empty afterwards
+    EXPECT_NO_THROW(cache.clear());
+    EXPECT_FALSE(cache.get("fp1").has_value());
+    EXPECT_FALSE(cache.get("fp2").has_value());
 }

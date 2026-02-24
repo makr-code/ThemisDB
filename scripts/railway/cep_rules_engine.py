@@ -196,6 +196,7 @@ class CEPRulesEngine:
                 return due_date < datetime.now()
             return False
         except Exception:
+            print("[WARN] CEP rule due-date check failed; assuming not overdue")
             return False
     
     def add_rule(self, rule: CEPRule):
