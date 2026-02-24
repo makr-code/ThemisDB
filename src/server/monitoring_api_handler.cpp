@@ -39,6 +39,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
+#include "config/config_metrics_exporter.h"
 #include <ctime>
 #include <sstream>
 #ifndef _WIN32
@@ -791,6 +792,19 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
         } catch (...) {
             THEMIS_WARN("Unknown error while collecting HSM security metrics");
+        }
+
+        // Config path resolution metrics (hit rate, miss rate, legacy fallback rate)
+        try {
+            std::string config_metrics = themis::config::ConfigMetricsExporter::collect();
+            if (!config_metrics.empty()) {
+                out += "\n# === Config Path Resolution Metrics ===\n";
+                out += config_metrics;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to collect config path resolution metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting config path resolution metrics");
         }
 
         // Append metrics from the central MetricsCollector (query latency, cache,
