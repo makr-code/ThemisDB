@@ -19,6 +19,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
 - [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
 - [x] WebAuthn/FIDO2 hardware token support (`auth/webauthn_authenticator.cpp`)
+- [x] Configurable password policy enforcement (`auth/password_policy.cpp`)
 
 ## In Progress 🚧
 - [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
@@ -33,7 +34,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Session management and revocation endpoint (Issue: #1983)
 - [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
 - [x] Audit logging for all authentication events (Issue: #1534)
-- [I] Configurable password policy enforcement (Issue: #2013)
+- [x] Configurable password policy enforcement (Issue: #2013)
 
 ### Long-term (6-12 months)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO

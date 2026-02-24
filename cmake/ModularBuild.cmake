@@ -271,6 +271,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/warmup.cpp
+    ../src/cache/predictive_prefetcher.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
