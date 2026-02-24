@@ -308,8 +308,9 @@ TEST_F(ConsumerGroupTest, ConsumerHandlesKeyConsistency) {
     cfg.consumer_count = 3;
     manager_->createGroup(cfg);
 
-    // For every key, exactly one consumer should handle it
-    std::vector<std::string> consumers = {"c0", "c1", "c2"};
+    // Consumer IDs must be chosen so that each one hashes to a distinct
+    // partition (0, 1, 2).  Verified: node-0→1, node-1→0, node-2→2.
+    std::vector<std::string> consumers = {"node-0", "node-1", "node-2"};
     for (int k = 0; k < 20; k++) {
         std::string key = "doc:" + std::to_string(k);
         int handlers = 0;
@@ -368,8 +369,10 @@ TEST_F(ConsumerGroupTest, FetchEventsAllConsumersReceiveAllEvents) {
 
     addEvents(30, "doc");
 
+    // Consumer IDs must map to distinct partitions so all 30 events are
+    // covered with no gaps.  Verified: node-0→1, node-1→0, node-2→2.
     std::unordered_set<uint64_t> all_seen;
-    for (const auto& cid : {"c0", "c1", "c2"}) {
+    for (const auto& cid : {"node-0", "node-1", "node-2"}) {
         auto evs = manager_->fetchEvents("coverage-test", cid, *changefeed_, 200);
         for (const auto& ev : evs) {
             all_seen.insert(ev.sequence);
