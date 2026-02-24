@@ -31,6 +31,7 @@
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
 #include "content/content_processor.h"
+#include "content/embedding_pipeline.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/vector_index.h"
@@ -455,6 +456,37 @@ public:
      */
     std::shared_ptr<themis::security::MalwareFilterManager> getMalwareFilter() const;
 
+    // =========================================================================
+    // Embedding Pipeline
+    // =========================================================================
+
+    /**
+     * @brief Attach an embedding pipeline to the content manager.
+     *
+     * When set and the pipeline is enabled (non-empty model_name), every
+     * text chunk without a pre-computed embedding that is imported via
+     * importContent() will automatically receive an embedding.
+     *
+     * @param pipeline  Shared pipeline instance (nullptr removes the pipeline).
+     */
+    void setEmbeddingPipeline(std::shared_ptr<EmbeddingPipeline> pipeline);
+
+    /**
+     * @brief Generate an embedding vector for arbitrary text.
+     *
+     * Delegates to the attached EmbeddingPipeline if present and enabled;
+     * otherwise falls back to the processor's generateEmbedding() for the
+     * TEXT category.  Returns an empty vector when no model is available.
+     *
+     * @param text        Input text (UTF-8).
+     * @param model_name  Optional model name override (forwarded to the
+     *                    pipeline configuration; ignored when the pipeline is
+     *                    not attached).
+     * @return Normalised embedding vector, or empty on failure.
+     */
+    std::vector<float> generateEmbedding(const std::string& text,
+                                          const std::string& model_name = "");
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
@@ -462,6 +494,7 @@ private:
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_;
+    std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;

@@ -705,6 +705,20 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 if (c.id.empty()) c.id = generateUuid();
                 if (c.content_id.empty()) c.content_id = meta.id;
                 if (c.created_at == 0) c.created_at = now;
+
+                // EmbeddingStage: generate embedding for text chunks that do
+                // not yet carry one, when the pipeline is attached and enabled.
+                if (embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
+                    c.embedding.empty() && !c.text.empty()) {
+                    auto emb = embedding_pipeline_->generateEmbedding(c.text);
+                    if (!emb.empty()) {
+                        c.embedding = std::move(emb);
+                    }
+                    // Failures are tracked internally by EmbeddingPipeline::getFailureCount().
+                    // Use ContentMetrics::recordEmbeddingFailure() in calling code
+                    // to propagate failures to the global metrics system.
+                }
+
                 chunk_ids.push_back(c.id);
                 // In RocksDB ablegen
                 std::string ckey = std::string("chunk:") + c.id;
