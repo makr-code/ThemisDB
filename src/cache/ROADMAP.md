@@ -32,7 +32,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
 - [x] Bulk warmup from query logs or snapshot (Issue: #1583)
 - [I] Tenant-level cache statistics dashboard (Issue: #1584)
-- [I] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
+- [x] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
 - [I] Cache hit rate SLO alerting (Issue: #1586)
 
 ### Long-term (6-12 months)
