@@ -415,3 +415,88 @@ TEST_F(CacheAdminApiHandlerTest, SnapshotExportsAndReloads) {
 
     std::filesystem::remove(snap_path);
 }
+
+// ---------------------------------------------------------------------------
+// Tests: GET /v1/admin/cache/health
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns200WithJsonBody) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    EXPECT_EQ(res[http::field::content_type], "application/json");
+
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body.contains("healthy"));
+    EXPECT_TRUE(body.contains("warnings"));
+    EXPECT_TRUE(body.contains("tiers"));
+    EXPECT_TRUE(body.contains("circuit_breaker"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthContainsPerTierStatus) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("tiers"));
+    const auto& tiers = body["tiers"];
+
+    // L1 tier
+    ASSERT_TRUE(tiers.contains("l1"));
+    EXPECT_TRUE(tiers["l1"].contains("status"));
+    EXPECT_TRUE(tiers["l1"].contains("entries"));
+    EXPECT_TRUE(tiers["l1"].contains("max_entries"));
+    EXPECT_TRUE(tiers["l1"].contains("utilization"));
+    EXPECT_TRUE(tiers["l1"].contains("ttl_seconds"));
+    EXPECT_EQ(tiers["l1"]["status"], "OK");
+
+    // L2 tier
+    ASSERT_TRUE(tiers.contains("l2"));
+    EXPECT_TRUE(tiers["l2"].contains("status"));
+    EXPECT_TRUE(tiers["l2"].contains("entries"));
+    EXPECT_TRUE(tiers["l2"].contains("max_entries"));
+    EXPECT_TRUE(tiers["l2"].contains("utilization"));
+    EXPECT_TRUE(tiers["l2"].contains("ttl_seconds"));
+    EXPECT_EQ(tiers["l2"]["status"], "OK");
+
+    // L3 tier
+    ASSERT_TRUE(tiers.contains("l3"));
+    EXPECT_TRUE(tiers["l3"].contains("status"));
+    EXPECT_TRUE(tiers["l3"].contains("enabled"));
+    EXPECT_TRUE(tiers["l3"].contains("path"));
+    EXPECT_TRUE(tiers["l3"].contains("ttl_seconds"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthContainsCircuitBreakerState) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("circuit_breaker"));
+    EXPECT_TRUE(body["circuit_breaker"].contains("state"));
+    EXPECT_TRUE(body["circuit_breaker"].contains("enabled"));
+    EXPECT_EQ(body["circuit_breaker"]["state"], "CLOSED");
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns200WhenHealthy) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body["healthy"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    EXPECT_EQ(handler_no_cache->handleHealth(req).result(),
+              http::status::service_unavailable);
+}
