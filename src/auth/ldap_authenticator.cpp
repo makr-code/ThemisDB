@@ -34,7 +34,6 @@
 #  include <windows.h>
 #  include <winldap.h>
 #  define THEMIS_HAS_LDAP 1
-#  define LDAP_OPT_TIMELIMIT LDAP_OPT_TIMELIMIT  // already defined by winldap
 #elif defined(THEMIS_HAS_LDAP)
 #  include <ldap.h>
 #  include <lber.h>
@@ -197,11 +196,9 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         return LDAPAuthResult::Failed("LDAP connection failed");
     }
 
-    // Set timeouts
-    ULONG timeout_ms = static_cast<ULONG>(config_.connection_timeout_seconds) * 1000;
-    ldap_set_option(ld, LDAP_OPT_TIMELIMIT,
-                    reinterpret_cast<void*>(
-                        static_cast<ULONG_PTR>(config_.search_timeout_seconds)));
+    // Set search time limit (seconds)
+    ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
+    ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
 
     // StartTLS if requested
     if (config_.use_tls) {
