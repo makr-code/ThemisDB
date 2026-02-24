@@ -2,9 +2,11 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
 
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml/badge.svg)](docs/en/badges/ci-status.md)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](docs/en/badges/ci-status.md)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
+  [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
+  [![Lines of Code](https://tokei.rs/b1/github/makr-code/ThemisDB)](docs/en/badges/loc.md)
 
   <sub>ℹ️ Each badge above links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for details.</sub>
 </div>
