@@ -29,6 +29,7 @@
 #include <optional>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -126,6 +127,12 @@ public:
      * @brief Construct with optional configuration
      */
     explicit ApiKeyAuthenticator(const Config& config = Config());
+
+    /**
+     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     // -------------------------------------------------------------------------
     // Credential management
@@ -233,6 +240,7 @@ private:
     Config config_;
     mutable std::mutex mutex_;
     std::unordered_map<std::string, ApiKeyCredential> credentials_;
+    utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
 
     static bool constantTimeEqual(const std::string& a, const std::string& b);
     static std::string hexEncode(const unsigned char* data, size_t len);
