@@ -870,6 +870,46 @@ else()
 endif()
 
 # ============================================================================
+# gRPC API Server Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
+    message(STATUS "Adding gRPC API Server tests")
+
+    add_executable(test_api_grpc_server
+        test_api_grpc_server.cpp
+    )
+
+    target_link_libraries(test_api_grpc_server PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(THEMIS_ENABLE_GRPC)
+        target_link_libraries(test_api_grpc_server PRIVATE gRPC::grpc++)
+        target_compile_definitions(test_api_grpc_server PRIVATE THEMIS_ENABLE_GRPC)
+    endif()
+
+    target_compile_definitions(test_api_grpc_server PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    target_include_directories(test_api_grpc_server PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    add_test(NAME GrpcApiServerTests COMMAND test_api_grpc_server)
+
+    set_tests_properties(GrpcApiServerTests PROPERTIES
+        LABELS "api;grpc;server;lifecycle;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC API Server: lifecycle, TLS config, service registration")
+endif()
+
+# ============================================================================
 # Batch Operation Manager Tests
 # ============================================================================
 
