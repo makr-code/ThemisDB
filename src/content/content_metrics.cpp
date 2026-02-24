@@ -72,6 +72,10 @@ void ContentMetrics::recordEmbedding(uint64_t count) {
     total_embeddings_ += count;
 }
 
+void ContentMetrics::recordEmbeddingFailure() {
+    embedding_failures_++;
+}
+
 void ContentMetrics::recordPdfExtracted() {
     pdf_extracted_total_++;
 }
@@ -253,6 +257,7 @@ json ContentMetrics::toJson() const {
     j["throughput"]["failed_extractions"] = failed_extractions_.load();
     j["throughput"]["total_chunks"] = total_chunks_.load();
     j["throughput"]["total_embeddings"] = total_embeddings_.load();
+    j["throughput"]["embedding_failures"] = embedding_failures_.load();
     
     // Success rates
     j["rates"]["validation_success_rate"] = getValidationSuccessRate();
@@ -363,6 +368,10 @@ std::string ContentMetrics::toPrometheusFormat() const {
     oss << "# HELP content_extract_errors_total Total PDF/document extraction errors\n";
     oss << "# TYPE content_extract_errors_total counter\n";
     oss << "content_extract_errors_total " << extract_errors_total_.load() << "\n\n";
+
+    oss << "# HELP content_embedding_failures_total Total embedding generation failures (timeout or model error)\n";
+    oss << "# TYPE content_embedding_failures_total counter\n";
+    oss << "content_embedding_failures_total " << embedding_failures_.load() << "\n\n";
     
     // Cache metrics
     oss << "# HELP content_cache_requests_total Total cache requests\n";
@@ -453,6 +462,7 @@ void ContentMetrics::reset() {
     total_timeouts_ = 0;
     pdf_extracted_total_ = 0;
     extract_errors_total_ = 0;
+    embedding_failures_ = 0;
     cache_hits_ = 0;
     cache_misses_ = 0;
     

@@ -1488,6 +1488,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
     
     # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
