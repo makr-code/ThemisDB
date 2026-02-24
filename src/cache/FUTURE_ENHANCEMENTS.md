@@ -31,12 +31,18 @@ This document covers implementation-specific future enhancements for the Cache m
 Implement a REST Admin API (planned in ROADMAP Phase 3) that exposes cache inspection, per-key eviction, tenant quota status, and circuit breaker control. The API must be protected by the existing `auth::JWTValidator` with a dedicated `admin:cache` scope claim.
 
 **Implementation Notes:**
-- `[ ]` Create `cache_admin_handler.cpp`; register routes under `/v1/admin/cache/` in `src/server/http_server.cpp`.
-- `[ ]` `GET /v1/admin/cache/stats` — returns JSON snapshot of `AdaptiveQueryCache::Metrics` (L1/L2/L3 hit rates, eviction counts, circuit breaker state, per-tenant quota usage).
-- `[ ]` `DELETE /v1/admin/cache/key/{encoded_key}` — evict a specific entry from all tiers; base64-encode key in path.
-- `[ ]` `DELETE /v1/admin/cache/tenant/{tenant_id}` — evict all entries for a tenant via L3 pattern-based invalidation (already implemented in `adaptive_query_cache.cpp`).
-- `[ ]` `POST /v1/admin/cache/circuit-breaker/reset` — force circuit breaker back to CLOSED; requires `admin:cache:write` scope.
-- `[ ]` `GET /v1/admin/cache/circuit-breaker` — returns current state, failure count, and last failure time.
+- `[x]` Create `cache_admin_handler.cpp`; register routes under `/v1/admin/cache/` in `src/server/http_server.cpp`.
+- `[x]` `GET /v1/admin/cache/stats` — returns JSON snapshot of `AdaptiveQueryCache::Metrics` (L1/L2/L3 hit rates, eviction counts, circuit breaker state, per-tenant quota usage).
+- `[x]` `DELETE /v1/admin/cache/key/{encoded_key}` — evict a specific entry from all tiers; base64-encode key in path.
+- `[x]` `DELETE /v1/admin/cache/tenant/{tenant_id}` — evict all entries for a tenant via L3 pattern-based invalidation (already implemented in `adaptive_query_cache.cpp`).
+- `[x]` `POST /v1/admin/cache/circuit-breaker/reset` — force circuit breaker back to CLOSED; requires `admin:cache:write` scope.
+- `[x]` `GET /v1/admin/cache/circuit-breaker` — returns current state, failure count, and last failure time.
+- `[x]` `GET /v1/admin/cache/health` — returns per-tier status (L1/L2/L3), circuit breaker state, overall health flag.
+- `[x]` `POST /v1/admin/cache/warmup` — load cache entries from NDJSON log file.
+- `[x]` `POST /v1/admin/cache/snapshot` — export live cache entries to NDJSON file.
+- `[x]` `GET /v1/admin/cache/tenants` — list all tenants with aggregated cache statistics.
+- `[x]` `GET /v1/admin/cache/tenant/{tenant_id}/stats` — per-tenant statistics (bytes used, quota, hits/misses, evictions).
+- `[x]` `PATCH /v1/admin/cache/tenant/{tenant_id}/quota` — update the cache size quota for a tenant.
 
 **Performance Targets:**
 - Admin API read endpoints (stats, circuit breaker) respond in < 5 ms regardless of L1 cache size.
@@ -202,6 +208,6 @@ For multi-node deployments, L1/L2 caches are node-local, causing inconsistent re
 
 ## Security / Reliability
 
-- `[ ]` Admin API write endpoints (`DELETE`, `POST`) must require `admin:cache:write` JWT scope; read endpoints require `admin:cache:read`; scope checks enforced at handler entry before any cache mutation.
+- `[x]` Admin API write endpoints (`DELETE`, `POST`) must require `admin:cache:write` JWT scope; read endpoints require `admin:cache:read`; scope checks enforced at handler entry before any cache mutation.
 - `[ ]` Distributed coordinator must validate that invalidation messages carry the originating node's signed token to prevent cache-flush attacks from unauthenticated nodes.
-- `[ ]` `AdaptiveQueryCache::warmupFromLog()` must validate each entry's key is a valid SHA-256 hex string and value size does not exceed `config_.l1_max_entry_bytes` (currently 1 KB) before insertion.
+- `[x]` `AdaptiveQueryCache::warmupFromLog()` must validate each entry's key is a valid SHA-256 hex string and value size does not exceed `config_.l1_max_entry_bytes` (currently 1 KB) before insertion.
