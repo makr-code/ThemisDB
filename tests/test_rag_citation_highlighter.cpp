@@ -327,7 +327,7 @@ TEST_F(CitationHighlightTest, SecondaryScoreRange) {
 
 TEST(CitationConfigTest, DefaultConfig) {
     CitationHighlighter hl;
-    const auto& cfg = hl.getConfig();
+    auto cfg = hl.getConfig();
     EXPECT_GT(cfg.min_similarity_threshold, 0.0);
     EXPECT_LE(cfg.min_similarity_threshold, 1.0);
 }

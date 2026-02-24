@@ -67,8 +67,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <optional>
-#include <functional>
 
 namespace themis::rag {
 
@@ -238,7 +236,7 @@ public:
     /**
      * @brief Return current configuration
      */
-    const CitationHighlighterConfig& getConfig() const;
+    CitationHighlighterConfig getConfig() const;
 
     /**
      * @brief Update configuration

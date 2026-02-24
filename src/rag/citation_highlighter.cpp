@@ -35,8 +35,6 @@
 #include <chrono>
 #include <cctype>
 #include <mutex>
-#include <numeric>
-#include <sstream>
 #include <unordered_set>
 
 namespace themis::rag {
@@ -97,7 +95,7 @@ CitationHighlighter::CitationHighlighter(CitationHighlighterConfig config)
 
 CitationHighlighter::~CitationHighlighter() = default;
 
-const CitationHighlighterConfig& CitationHighlighter::getConfig() const {
+CitationHighlighterConfig CitationHighlighter::getConfig() const {
     std::lock_guard<std::mutex> lock(impl_->mtx);
     return impl_->config;
 }
@@ -111,14 +109,10 @@ void CitationHighlighter::setConfig(const CitationHighlighterConfig& config) {
 // Public API
 // ---------------------------------------------------------------------------
 
-std::vector<std::string>
-CitationHighlighter::splitSentences(const std::string& text) const {
-    CitationHighlighterConfig cfg;
-    {
-        std::lock_guard<std::mutex> lock(impl_->mtx);
-        cfg = impl_->config;
-    }
-
+namespace {
+/// Core sentence-splitting logic; works on a pre-copied config snapshot.
+std::vector<std::string> doSplitSentences(const std::string&              text,
+                                          const CitationHighlighterConfig& cfg) {
     std::vector<std::string> sentences;
     std::string current;
 
@@ -130,13 +124,13 @@ CitationHighlighter::splitSentences(const std::string& text) const {
         bool atEnd   = (i + 1 == text.size());
 
         if (isDelim || atEnd) {
-            // Consume any trailing whitespace into this sentence boundary
+            // Consume any trailing whitespace up to the next sentence start
             size_t j = i + 1;
             while (j < text.size() && std::isspace(static_cast<unsigned char>(text[j]))) {
                 ++j;
             }
 
-            // Only emit if next char is uppercase or we are at end-of-string
+            // Emit only when the next char is uppercase or we are at end-of-string
             // (handles abbreviations like "Dr." or "e.g.").
             bool nextIsUpper = (j < text.size() &&
                                 std::isupper(static_cast<unsigned char>(text[j])));
@@ -153,13 +147,24 @@ CitationHighlighter::splitSentences(const std::string& text) const {
         }
     }
 
-    // Flush any remainder
+    // Flush any remainder (last sentence without a trailing delimiter)
     trim(current);
     if (current.size() >= cfg.min_sentence_length) {
         sentences.push_back(current);
     }
 
     return sentences;
+}
+} // anonymous namespace
+
+std::vector<std::string>
+CitationHighlighter::splitSentences(const std::string& text) const {
+    CitationHighlighterConfig cfg;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mtx);
+        cfg = impl_->config;
+    }
+    return doSplitSentences(text, cfg);
 }
 
 double CitationHighlighter::computeSimilarity(const std::string& a,
@@ -203,7 +208,7 @@ CitationHighlighter::highlight(const std::string&              answer,
         return result;
     }
 
-    auto sentences = splitSentences(answer);
+    auto sentences = doSplitSentences(answer, cfg);
     result.mappings.reserve(sentences.size());
 
     size_t cited_count  = 0;
