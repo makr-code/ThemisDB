@@ -2,7 +2,7 @@
 
 // Compute Inner Product distance between query vectors and database vectors
 // ThemisDB Vulkan Compute Shader
-// Distance = max(0, -dot_product)
+// Distance = -dot_product  (negative dot product; lower is more similar)
 
 layout(local_size_x = 16, local_size_y = 16) in;
 
@@ -42,6 +42,6 @@ void main() {
         dotProduct += queries[queryOffset + i] * vectors[vectorOffset + i];
     }
     
-    // Store max(0, -dot_product) as distance
-    distances[qIdx * pc.numVectors + vIdx] = max(0.0, -dotProduct);
+    // Store -dot_product as distance (consistent with CPU dispatch fallback)
+    distances[qIdx * pc.numVectors + vIdx] = -dotProduct;
 }
