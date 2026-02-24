@@ -40,7 +40,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: Core-Implementierung
 - [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
-- [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
+- [P] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — covered by Vulkan compute shaders implementation (Issue: #1462): GLSL shaders (L2, cosine, inner-product, top-K, haversine, point-in-polygon) with CPU fallback dispatch; tests in `tests/test_vulkan_compute_equivalents.cpp`
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
