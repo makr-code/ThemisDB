@@ -406,6 +406,14 @@ TEST(FederatedIdentityManagerTest, MalformedTokenThrows) {
     EXPECT_THROW(mgr.validateToken("not-a-jwt"), AuthException);
 }
 
+TEST(FederatedIdentityManagerTest, OversizedTokenThrows) {
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig("https://idp.example.com"));
+    // Build a token that exceeds MAX_JWT_TOKEN_SIZE (16KB) by 1KB
+    const std::string huge_token(MAX_JWT_TOKEN_SIZE + 1024, 'A');
+    EXPECT_THROW(mgr.validateToken(huge_token), AuthException);
+}
+
 TEST(FederatedIdentityManagerTest, TokenMissingIssuerClaimThrows) {
     RSAFixtureFed fix;
     FederatedIdentityManager mgr;

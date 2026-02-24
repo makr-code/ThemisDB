@@ -16,6 +16,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Configurable JWKS cache TTL and audience/issuer validation
 - [x] Fallback from Kerberos to basic authentication
 - [x] OIDC Provider Discovery and federated identity integration (`auth/oidc_provider.cpp`)
+- [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
 
 ## In Progress 🚧
 - [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
@@ -37,7 +38,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
 - [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 - [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
-- [I] Federated identity across multiple realms (Issue: #1540) [~]
+- [x] Federated identity across multiple realms (Issue: #1540)
 - [I] Zero-trust access model with continuous verification (Issue: #1541)
 
 ## Implementation Phases
@@ -56,6 +57,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
 - [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
 - [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
+- [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)

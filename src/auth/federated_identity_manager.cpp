@@ -31,6 +31,17 @@ std::string FederatedIdentityManager::extractIssuer(const std::string& raw_token
         token = token.substr(7);
     }
 
+    // Reject tokens that exceed the system-wide size limit early, before any
+    // allocation – consistent with JWTValidator::parseAndValidate().
+    if (token.size() > MAX_JWT_TOKEN_SIZE) {
+        throw AuthException(AuthError(
+            AuthErrorCode::JWT_INVALID_FORMAT,
+            "Token exceeds maximum allowed size",
+            "Token size " + std::to_string(token.size()) +
+                " exceeds limit " + std::to_string(MAX_JWT_TOKEN_SIZE)
+        ));
+    }
+
     // A JWT has the form: <base64url-header>.<base64url-payload>.<signature>
     const auto first_dot = token.find('.');
     if (first_dot == std::string::npos) {
