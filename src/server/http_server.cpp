@@ -1045,6 +1045,30 @@ HttpServer::HttpServer(
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
     THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
+    // Initialize Async Job API Handler – long-running AQL query submission/polling
+    {
+        // Executor: builds a synthetic Beast request and delegates to
+        // the existing QueryApiHandler so all existing AQL machinery
+        // (validation, caching, masking) is reused.
+        auto* qapi = query_api_.get();
+        server::AsyncJobApiHandler::AqlExecutor executor =
+            [qapi](const std::string& aql_query,
+                   const std::string& auth_header) -> nlohmann::json {
+                http::request<http::string_body> inner{
+                    http::verb::post, "/query/aql", 11};
+                inner.set(http::field::content_type,  "application/json");
+                inner.set(http::field::authorization, auth_header);
+                nlohmann::json body = {{"query", aql_query}};
+                inner.body() = body.dump();
+                inner.prepare_payload();
+                auto response = qapi->handleQueryAql(inner);
+                return nlohmann::json::parse(response.body());
+            };
+        async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
+            std::move(executor), auth_);
+        THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+    }
+
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
     try {
@@ -1300,6 +1324,9 @@ HttpServer::HttpServer(
     // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
     request_validator_->registerSchema("POST", "/query/aql", aql_schema);
     request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
+
+    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
 
     // POST /index/create – create index
     request_validator_->registerSchema("POST", "/index/create", {
@@ -2122,6 +2149,11 @@ namespace {
     ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
     ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
 
+    // Async job API – long-running AQL query submission and polling
+    AsyncJobSubmitPost,      // POST   /v2/jobs
+    AsyncJobListGet,         // GET    /v2/jobs
+    AsyncJobStatusGet,       // GET    /v2/jobs/{id}
+    AsyncJobCancelDelete,    // DELETE /v2/jobs/{id}
     // API Key Management
     ApiKeyPost,              // POST   /api/keys
     ApiKeyListGet,           // GET    /api/keys
@@ -2553,6 +2585,20 @@ namespace {
         }
     }
 
+    // Async job API  (/v2/jobs  and  /v2/jobs/{id})
+    {
+        static constexpr std::string_view kJobsPath{"/v2/jobs"};
+        static constexpr std::string_view kJobsPrefix{"/v2/jobs/"};
+
+        if (path_only == kJobsPath.data()) {
+            if (method == http::verb::post) return Route::AsyncJobSubmitPost;
+            if (method == http::verb::get)  return Route::AsyncJobListGet;
+        }
+        if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
+            path_only.size() > kJobsPrefix.size()) {
+            if (method == http::verb::get)    return Route::AsyncJobStatusGet;
+            if (method == http::verb::delete_) return Route::AsyncJobCancelDelete;
+        }
     // API Key Management: /api/keys and /api/keys/{id}
     if (path_only == "/api/keys") {
         if (method == http::verb::post) return Route::ApiKeyPost;
@@ -4247,6 +4293,37 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
 
+        // ── Async job API ────────────────────────────────────────────────────
+        case Route::AsyncJobSubmitPost:
+            if (async_job_api_)
+                response = async_job_api_->handleSubmit(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobListGet:
+            if (async_job_api_)
+                response = async_job_api_->handleList(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobStatusGet:
+            if (async_job_api_)
+                response = async_job_api_->handleGetStatus(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
+            break;
+
+        case Route::AsyncJobCancelDelete:
+            if (async_job_api_)
+                response = async_job_api_->handleCancel(req);
+            else
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Async job API not available", req);
         // ── API Key Management ───────────────────────────────────────────────
         case Route::ApiKeyPost:
             response = handleApiKeyCreate(req);

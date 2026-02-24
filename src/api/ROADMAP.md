@@ -35,7 +35,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [x] API key management endpoint (Issue: #1502)
 - [I] Multi-tenant namespace routing (Issue: #1503)
-- [I] Async job API for long-running queries (Issue: #1504)
+- [~] Async job API for long-running queries (Issue: #1504)
 
 ## Implementation Phases
 
@@ -58,7 +58,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [~] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [I] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
-- [I] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
+- [~] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1509)
