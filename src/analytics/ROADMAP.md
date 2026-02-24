@@ -27,6 +27,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
 - [x] AutoML integration for automated model selection: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
 - [x] CEP engine-level backpressure handling and buffer management: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics (`analytics/cep_engine.cpp`)
+- [x] Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` abstraction with `DataPoint` integration and graceful degradation when backends are absent (`analytics/ml_serving.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
@@ -42,7 +43,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [I] Predictive analytics and time-series forecasting (Issue: #1473)
 - [I] AutoML integration for automated model selection (Issue: #1485) ✅
 - [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
-- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
+- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [I] Model serving and online inference pipeline (Issue: #1477)
 - [I] Multi-language NLP support (beyond English) (Issue: #1478)
 - [I] Full morphological lemmatization (Issue: #1479)
