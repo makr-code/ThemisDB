@@ -12,6 +12,7 @@
 - [x] Filtered change subscriptions (table/key/event-type filters)
 - [x] Historical change replay from stored change log
 - [x] Integration with analytics diff engine
+- [x] Dead-letter queue for failed event deliveries (Issue: #1610)
 
 ## In Progress 🚧
 - [I] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
@@ -24,7 +25,6 @@
 - [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
 - [I] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
-- [~] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Outbox pattern support for transactional change publishing (Issue: #1612)
 
@@ -70,6 +70,7 @@
 - No consumer offset tracking; replay requires full log scan
 - Change log retention policies are not configurable at runtime
 - At-least-once delivery is not yet guaranteed for SSE connections
+- Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)
