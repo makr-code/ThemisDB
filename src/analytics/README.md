@@ -494,6 +494,57 @@ Automated Machine Learning for classification and regression.
 - Random Forest: O(k·n·d·log n) build; O(k·depth) predict
 - KNN: O(n·d) predict (brute-force; suitable for medium datasets)
 
+### 14. ML Serving Integration (`ml_serving.cpp`)
+
+**Status:** ✅ Production-ready
+
+Unified interface for integrating external ML inference engines with the analytics pipeline.
+
+**Backends:**
+
+| Backend | Build flag | Transport |
+|---|---|---|
+| ONNX Runtime | `THEMIS_HAS_ONNX=1` (auto-detected via `find_package(onnxruntime)`) | In-process C++ API |
+| TensorFlow Serving | `THEMIS_HAS_TF_SERVING=1` + `THEMIS_HAS_CURL=1` | REST/HTTP POST |
+
+**Key capabilities:**
+- `MLServingClient` – unified, thread-safe entry point; selects the best available backend automatically (`MLBackendType::AUTO`)
+- `ONNXServingBackend` – lazy model loading from `<model_directory>/<name>.onnx`, optional CUDA execution provider, configurable thread counts
+- `TFServingBackend` – TF Serving REST API (`/v1/models/<name>:predict`), configurable timeout and optional bearer-token auth
+- `IMLServingBackend` – extension interface for custom backends
+- `MLServingClient::inferFromDataPoint()` – seamless integration with `DataPoint` from the anomaly detection module; numeric fields are sorted alphabetically and packed into a `{1, N}` float32 input tensor
+- Graceful degradation: when a backend is absent at compile time, `infer()` returns `MLServingStatus::UNAVAILABLE` with a diagnostic message instead of crashing
+
+**Quick start:**
+```cpp
+#include "analytics/ml_serving.h"
+using namespace themisdb::analytics;
+
+// Auto-selects ONNX Runtime if available, else TF Serving
+MLServingClient client;
+
+// Low-level tensor API
+MLServingRequest req;
+req.model_name = "fraud_detector";
+req.inputs.push_back({ "input", {1, 30}, features_float32 });
+auto resp = client.infer(req);
+if (resp.ok()) {
+    float fraud_score = resp.outputs[0].data[0];
+}
+
+// DataPoint convenience API
+DataPoint dp;
+dp.set("amount", 1500.0);
+dp.set("frequency", 3.0);
+auto resp2 = client.inferFromDataPoint("fraud_detector", dp);
+```
+
+**Build flags:**
+```cmake
+cmake -B build -S . -DTHEMIS_ENABLE_TF_SERVING=ON   # enable TF Serving backend
+# ONNX Runtime is enabled automatically when onnxruntime is found via vcpkg
+```
+
 ## See [OLAP Guide](../../docs/de/analytics/olap_guide.md) for detailed documentation.
 
 ## Architecture
@@ -569,6 +620,7 @@ Or run specific tests:
 ./build/tests/analytics/test_streaming_window
 ./build/tests/analytics/test_anomaly_detection
 ./build/tests/analytics/test_automl
+./build/tests/analytics/test_ml_serving
 ```
 
 ## Integration with Query Module
@@ -1497,7 +1549,7 @@ std::cout << "Rows filtered: " << profile.rows_filtered << "\n";
 - [I] Predictive analytics and forecasting (Issue: #1473 – planned)
 - [x] AutoML for automated model selection (`analytics/automl.cpp`)
 - [I] Advanced statistical analysis – planned
-- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476 – planned)
+- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (`analytics/ml_serving.cpp`) ✅
 - [I] Model serving and inference (Issue: #1477 – planned)
 
 ## Contributing
