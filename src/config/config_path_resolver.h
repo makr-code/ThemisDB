@@ -169,6 +169,29 @@ public:
     static void setAggregationEnabled(bool enabled, int interval_seconds = 300);
 
     /**
+     * Set the legacy fallback rate warning threshold.
+     *
+     * When the ratio of legacy_fallbacks to total resolutions
+     * (legacy_fallbacks + new_path_hits) meets or exceeds @p threshold,
+     * a spdlog::warn is emitted.  Warnings use a doubling strategy to
+     * prevent log flooding: after the first warning the next fires only
+     * when the fallback count has at least doubled.
+     *
+     * Set to 0.0 (default) to disable threshold alerting.
+     *
+     * @param threshold Ratio in [0.0, 1.0].  Values outside this range are
+     *                  clamped to [0.0, 1.0].
+     */
+    static void setLegacyFallbackRateThreshold(double threshold);
+
+    /**
+     * Get the current legacy fallback rate warning threshold.
+     *
+     * @return Threshold in [0.0, 1.0]; 0.0 means threshold alerting is disabled.
+     */
+    static double getLegacyFallbackRateThreshold();
+
+    /**
      * Get the current deprecation usage report.
      *
      * Returns all legacy paths that have been accessed since the last
@@ -205,6 +228,16 @@ private:
     class DeprecationAggregator;
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
+
+    // Legacy fallback rate threshold alerting
+    static std::atomic<double> legacy_fallback_threshold_;
+    // Fallback count at which the last threshold warning was emitted.
+    // 0 means no warning has been emitted yet in the current metrics window.
+    static std::atomic<uint64_t> last_threshold_warn_count_;
+
+    // Check whether the current fallback rate has crossed the threshold and,
+    // if so, emit a rate-limited spdlog::warn.
+    static void checkFallbackRateThreshold();
 };
 
 } // namespace config
