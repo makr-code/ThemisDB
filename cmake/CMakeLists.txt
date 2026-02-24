@@ -1788,6 +1788,9 @@ set(THEMIS_CORE_SOURCES
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
 
+    # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
+    ../src/analytics/columnar_execution.cpp
+
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
     
