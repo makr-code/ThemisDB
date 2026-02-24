@@ -36,8 +36,8 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ### Long-term (6-12 months)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
-- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
-- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
+- [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
+- [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
 
@@ -67,7 +67,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Session management and revocation endpoint
 - [x] Configurable password policy enforcement
 - [ ] Audit logging for all authentication events
-- [ ] Certificate-based mutual TLS (mTLS) authentication
+- [x] Certificate-based mutual TLS (mTLS) authentication
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1550)
