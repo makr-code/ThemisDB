@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     492                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 16d49bcf3  2026-02-22  fix(auth): register SAML 2.0 error codes in ErrorRegistry ║
@@ -543,6 +543,18 @@ void registerAuthErrors() {
         "Request a key with the required scope from your administrator",
         {},
         {"api-key", "scope", "authorization"}
+    });
+
+    // Password policy errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::PASSWORD_POLICY_VIOLATION),
+        "Authentication",
+        "Error",
+        "Password does not meet policy requirements",
+        "The provided password violates one or more configured policy rules",
+        "Choose a password that satisfies all policy requirements",
+        {},
+        {"password", "policy", "validation"}
     });
 }
 
