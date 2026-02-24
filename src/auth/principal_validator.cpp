@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     407                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -112,6 +112,14 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
         auto abac = abac_engine_->authorize(principal, action, resource,
                                             ctx.ip_address, ctx.user_agent);
         if (!abac.allowed) {
+            // Undo the RBAC-allow counters so the invariant
+            // (allowed + denied == total_validations) is maintained.
+            stats_.allowed--;
+            if (result.matched_rule == "default_allow") {
+                stats_.default_allow--;
+            } else {
+                stats_.whitelisted--;
+            }
             result.allowed       = false;
             result.denial_reason = "ABAC policy denied: " + abac.reason;
             result.abac_policy_id = abac.policy_id;

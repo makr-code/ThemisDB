@@ -80,5 +80,5 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - LDAP direct bind is not supported; only Kerberos-based AD integration
 
 ## Breaking Changes
-- ABAC engine will introduce new policy evaluation APIs (additive to existing RBAC)
+- ABAC engine introduces new policy evaluation APIs (additive to existing RBAC, backward-compatible)
 - mTLS support will require configuration changes at the TLS layer

@@ -638,3 +638,28 @@ TEST(PrincipalValidatorABACTest, DetachAbacEngine_RestoresDefault) {
     // RBAC-only: default allow
     EXPECT_TRUE(validator.validate("alice@EXAMPLE.COM").allowed);
 }
+
+TEST(PrincipalValidatorABACTest, Statistics_ABACDeny_NoDoubleCount) {
+    // When ABAC denies after RBAC allows, (allowed + denied) must equal total_validations
+    auto validator = makeAllowAllValidator();
+
+    themis::PolicyEngine engine;
+    themis::PolicyEngine::Policy deny;
+    deny.id           = "deny-all";
+    deny.subjects     = {"*"};
+    deny.actions      = {"authenticate"};
+    deny.resources    = {"auth/principal"};
+    deny.effect_allow = false;
+    engine.addPolicy(deny);
+    validator.setAbacEngine(&engine);
+
+    validator.validate("alice@EXAMPLE.COM");  // RBAC allow, ABAC deny
+    validator.validate("bob@EXAMPLE.COM");    // RBAC allow, ABAC deny
+
+    auto stats = validator.getStatistics();
+    EXPECT_EQ(stats.total_validations, 2u);
+    EXPECT_EQ(stats.allowed, 0u);
+    EXPECT_EQ(stats.denied, 2u);
+    // Invariant: allowed + denied == total_validations
+    EXPECT_EQ(stats.allowed + stats.denied, stats.total_validations);
+}
