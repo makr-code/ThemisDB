@@ -213,10 +213,15 @@ struct MeasureAccumulator {
                 return RowValue{max_val};
 
             case Measure::Function::StdDev:
+                // Population stddev (divides by n, not n-1): consistent with
+                // OLAPEngine::computeAggregate which also uses population variance.
+                // count is integer-valued (incremented by 1.0 per Welford update),
+                // so count < 1.0 is equivalent to count == 0.
                 if (count < 1.0) return RowValue{0.0};
                 return RowValue{std::sqrt(m2 / count)};
 
             case Measure::Function::Variance:
+                // Population variance: see StdDev comment above.
                 if (count < 1.0) return RowValue{0.0};
                 return RowValue{m2 / count};
 
