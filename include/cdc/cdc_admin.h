@@ -155,6 +155,31 @@ struct RetentionStatus {
 using CompactionResult = Changefeed::CompactionResult;
 
 /**
+ * Result of a GDPR change-log redaction pass
+ */
+struct GDPRRedactionResult {
+    size_t   events_scanned = 0;       ///< Total events examined
+    size_t   events_redacted = 0;      ///< Events whose value was scrubbed
+    uint64_t elapsed_time_ms = 0;      ///< Wall-clock time of the operation
+    std::string key_prefix;            ///< Key prefix that was matched
+    std::string tenant_id;             ///< Tenant context (for multi-tenant deployments)
+    std::string operator_id;           ///< Identity of the requesting operator
+    int64_t  timestamp_ms = 0;         ///< Epoch ms when redaction completed
+
+    nlohmann::json toJson() const {
+        return {
+            {"events_scanned",  events_scanned},
+            {"events_redacted", events_redacted},
+            {"elapsed_time_ms", elapsed_time_ms},
+            {"key_prefix",      key_prefix},
+            {"tenant_id",       tenant_id},
+            {"operator_id",     operator_id},
+            {"timestamp_ms",    timestamp_ms}
+        };
+    }
+};
+
+/**
  * CDC Admin API for operational tasks
  * 
  * Provides administrative operations for CDC:
@@ -234,7 +259,31 @@ public:
      * @return CompactionResult with counts of scanned/deleted/retained events
      */
     CompactionResult compactLog();
-    
+
+    // GDPR / data-subject operations
+
+    /**
+     * @brief Redact PII from all change log entries matching a key prefix.
+     *
+     * Implements the GDPR "right to erasure" for the change log: all stored
+     * events whose @p key starts with @p key_prefix have their @p value,
+     * @p before_snapshot, and @p after_snapshot fields replaced with
+     * @c "[REDACTED]" and @c redacted = true.  Audit-critical fields
+     * (@p sequence, @p type, @p key, @p timestamp_ms) are preserved.
+     *
+     * An audit entry is written to the change log's backing store under the
+     * @c "cdc_redact_audit:" key-space and is also emitted at INFO level.
+     *
+     * @param tenant_id    Tenant scope (informational; used in the audit log).
+     * @param key_prefix   Non-empty key prefix identifying the data subject.
+     * @param operator_id  Identity of the requesting operator (audit record).
+     * @return GDPRRedactionResult with scan, redaction counts and timing.
+     * @throws CDCException if @p key_prefix is empty or no changefeed is set.
+     */
+    GDPRRedactionResult redactByKeyPrefix(const std::string& tenant_id,
+                                          const std::string& key_prefix,
+                                          const std::string& operator_id = "");
+
     // Retention status
 
     /**

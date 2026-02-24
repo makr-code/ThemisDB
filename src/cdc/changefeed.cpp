@@ -67,6 +67,11 @@ nlohmann::json Changefeed::ChangeEvent::toJson() const {
         j["after_snapshot"] = *after_snapshot;
     }
 
+    // GDPR redaction marker (only written when true to keep the common case compact)
+    if (redacted) {
+        j["redacted"] = true;
+    }
+
     return j;
 }
 
@@ -101,6 +106,9 @@ Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json& 
     if (j.contains("after_snapshot") && j["after_snapshot"].is_string()) {
         event.after_snapshot = j["after_snapshot"].get<std::string>();
     }
+
+    // GDPR redaction marker
+    event.redacted = j.value("redacted", false);
 
     return event;
 }
@@ -520,7 +528,83 @@ Changefeed::CompactionResult Changefeed::compactByKey() {
     return result;
 }
 
-size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
+Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string& key_prefix) {
+    if (key_prefix.empty()) {
+        throw error::invalidArgument("redactByKeyPrefix: key_prefix cannot be empty");
+    }
+
+    RedactionResult result;
+
+    rocksdb::ReadOptions  read_opts;
+    rocksdb::WriteOptions write_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+
+    // Seek to the first changefeed entry (sequence 1)
+    it->Seek(makeKey(1));
+
+    for (; it->Valid(); it->Next()) {
+        const std::string rocksdb_key = it->key().ToString();
+
+        // Stop as soon as we leave the changefeed key-space
+        if (rocksdb_key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+            break;
+        }
+
+        result.events_scanned++;
+
+        try {
+            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            ChangeEvent event = ChangeEvent::fromJson(j);
+
+            // Skip events whose key does not start with key_prefix
+            if (event.key.compare(0, key_prefix.size(), key_prefix) != 0) {
+                continue;
+            }
+
+            // Skip events that are already redacted
+            if (event.redacted) {
+                continue;
+            }
+
+            // Scrub PII-bearing fields; preserve audit-critical fields
+            event.value           = "[REDACTED]";
+            event.before_snapshot = std::nullopt;
+            event.after_snapshot  = std::nullopt;
+            event.redacted        = true;
+
+            const std::string new_value = event.toJson().dump();
+            rocksdb::Status s;
+            if (cf_) {
+                s = db_->Put(write_opts, cf_, rocksdb_key, new_value);
+            } else {
+                s = db_->Put(write_opts, rocksdb_key, new_value);
+            }
+
+            if (!s.ok()) {
+                THEMIS_ERROR("redactByKeyPrefix: failed to overwrite event {}: {}",
+                             rocksdb_key, s.ToString());
+                continue;
+            }
+
+            result.events_redacted++;
+
+        } catch (const std::exception& e) {
+            THEMIS_WARN("redactByKeyPrefix: failed to parse event at {}: {}", rocksdb_key, e.what());
+        }
+    }
+
+    THEMIS_INFO("redactByKeyPrefix: key_prefix='{}' scanned={} redacted={}",
+                key_prefix, result.events_scanned, result.events_redacted);
+    return result;
+}
+
+
     rocksdb::ReadOptions read_opts;
     rocksdb::WriteOptions write_opts;
     std::unique_ptr<rocksdb::Iterator> it;
