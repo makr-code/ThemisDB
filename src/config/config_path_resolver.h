@@ -138,6 +138,13 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Default LRU cache TTL in seconds.
+     * Exposed as a named constant so the metrics exporter and other consumers
+     * can reference the single source of truth rather than duplicating the value.
+     */
+    static constexpr int kCacheTtlSeconds = 300;
+
+    /**
      * Entry in the deprecation usage report.
      */
     struct DeprecationEntry {

@@ -131,6 +131,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/grpc_channel_pool.cpp
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
