@@ -1404,6 +1404,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
@@ -1987,6 +1988,10 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/reranker.cpp
     # Phase 2: Hallucination Rate Tracking Dashboard
     ../src/rag/hallucination_dashboard.cpp
+    # Phase 3: Configurable chunk size and overlap for document splitting
+    ../src/rag/document_splitter.cpp
+    # Phase 3: Hybrid Retrieval (BM25 + vector, configurable RRF weights)
+    ../src/rag/hybrid_retriever.cpp
     # Continuous Learning Orchestrator (Phase 2)
     ../src/rag/learning_metrics.cpp
     ../src/rag/bayesian_optimizer.cpp
@@ -1994,6 +1999,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/continuous_learning_orchestrator.cpp
     # Phase 3: Citation Highlighting
     ../src/rag/citation_highlighter.cpp
+    # Phase 4: Agentic RAG with iterative retrieval loops
+    ../src/rag/agentic_rag.cpp
     )
 endif()
 

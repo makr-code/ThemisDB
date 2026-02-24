@@ -79,8 +79,16 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Streaming Retrieval & Incremental Context Window Filling (Phase 2)
         ../src/rag/streaming_retriever.cpp
 
+        # RAG Enhancement: Hybrid Retrieval (BM25 + vector, configurable RRF weights, Phase 3)
+        ../src/rag/hybrid_retriever.cpp
+
         # RAG Enhancement: Hallucination Rate Tracking Dashboard (Phase 2)
         ../src/rag/hallucination_dashboard.cpp
+
+        # RAG Enhancement: Knowledge Graph-Augmented Retrieval with Entity Linking (Phase 4)
+        ../src/rag/knowledge_graph_retriever.cpp
+        # RAG Enhancement: Configurable chunk size and overlap (Phase 3)
+        ../src/rag/document_splitter.cpp
 
         # RAG Enhancement: Continuous Learning Integration (Phase 6)
         ../src/rag/continuous_learning_client.cpp
