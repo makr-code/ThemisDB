@@ -22,7 +22,7 @@
  *
  * A thread-safe registry for trained AutoML models that provides
  * low-latency online inference, batch inference, health-metric
- * tracking, and round-trip serialisation / deserialisation.
+ * tracking, and round-trip serialization / deserialization.
  *
  * Features:
  *   - Named + versioned model registry
@@ -30,7 +30,7 @@
  *   - Batch inference (predictBatch)
  *   - Class-probability output (predictProba, classification only)
  *   - Per-model health metrics (prediction count, latency percentiles)
- *   - Model serialisation / deserialisation (round-trip via AutoMLModel)
+ *   - Model serialization / deserialization (round-trip via AutoMLModel)
  *   - Configurable registry capacity and latency-tracking window
  *
  * Thread-safety:
@@ -50,7 +50,6 @@
 
 #include <algorithm>
 #include <chrono>
-#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
