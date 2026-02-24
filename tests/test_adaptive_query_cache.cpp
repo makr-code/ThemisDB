@@ -404,3 +404,119 @@ TEST_F(AdaptiveQueryCacheTest, PolicyClearResetState) {
     EXPECT_FALSE(cache.get("fp1").has_value());
     EXPECT_FALSE(cache.get("fp2").has_value());
 }
+
+// ============================================================================
+// Phase 4: Write-Through Cache Mode Tests
+// ============================================================================
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughDefaultDisabled) {
+    // Write-through must be opt-in and off by default
+    EXPECT_FALSE(config_.enable_write_through);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughSmallEntryHitsL1OnFirstGet) {
+    // With write-through enabled, a small entry written once should be
+    // immediately available in L1 (HOT tier) without any promotion.
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    json result = {{"data", 42}};
+    std::string fp = cache.generateFingerprint("SELECT 1", {});
+    EXPECT_TRUE(cache.put(fp, {}, result));
+
+    auto hit = cache.get(fp);
+    ASSERT_TRUE(hit.has_value());
+    EXPECT_EQ(hit->result, result);
+    EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::HOT);
+
+    // Verify the write-through metric was incremented
+    EXPECT_GE(cache.getEnhancedMetrics().write_through_writes.load(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughMediumEntryHitsL2OnFirstGet) {
+    // A medium-sized entry (fits L2 but not L1) written in write-through mode
+    // should be available in L2 on first get (no prior promotion needed).
+    config_.enable_write_through = true;
+    config_.l1_max_entry_size = 100;   // Artificially small L1 limit
+    AdaptiveQueryCache cache(config_);
+
+    // Build a result that is > 100 bytes (L1 limit) but < 10 KB (L2 limit)
+    json result;
+    for (int i = 0; i < 20; i++) {
+        result["row"].push_back({{"id", i}, {"name", "Item " + std::to_string(i)}});
+    }
+    std::string result_str = result.dump();
+    ASSERT_GT(result_str.size(), 100u);
+    ASSERT_LT(result_str.size(), 10240u);
+
+    std::string fp = cache.generateFingerprint("SELECT * FROM items", {});
+    EXPECT_TRUE(cache.put(fp, {}, result));
+
+    auto hit = cache.get(fp);
+    ASSERT_TRUE(hit.has_value());
+    EXPECT_EQ(hit->result, result);
+    // Entry is too large for L1, so it lands in L2
+    EXPECT_EQ(hit->level, AdaptiveQueryCache::CacheLevel::WARM);
+
+    EXPECT_GE(cache.getEnhancedMetrics().write_through_writes.load(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughMetricsTracked) {
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    const int num_puts = 5;
+    for (int i = 0; i < num_puts; i++) {
+        std::string fp = cache.generateFingerprint("SELECT " + std::to_string(i), {});
+        cache.put(fp, {}, json({{"v", i}}));
+    }
+
+    EXPECT_EQ(cache.getEnhancedMetrics().write_through_writes.load(),
+              static_cast<uint64_t>(num_puts));
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughDetailedInfoShowsEnabled) {
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    cache.put("fp_wt", {}, json({{"x", 1}}));
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("write_through"));
+    EXPECT_TRUE(info["write_through"]["enabled"].get<bool>());
+    EXPECT_GE(info["write_through"]["writes"].get<uint64_t>(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughDisabledDoesNotSetMetric) {
+    // In normal (non-write-through) mode the write_through_writes counter must stay 0.
+    config_.enable_write_through = false;
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp = cache.generateFingerprint("SELECT 1", {});
+    cache.put(fp, {}, json({{"v", 1}}));
+
+    EXPECT_EQ(cache.getEnhancedMetrics().write_through_writes.load(), 0u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughStatsByTierShowsEnabled) {
+    // getStatsByTier() must expose write_through.enabled and write_through.writes.
+    config_.enable_write_through = true;
+    AdaptiveQueryCache cache(config_);
+
+    cache.put("fp_st", {}, json({{"x", 2}}));
+
+    json stats = cache.getStatsByTier();
+    ASSERT_TRUE(stats.contains("write_through"));
+    EXPECT_TRUE(stats["write_through"]["enabled"].get<bool>());
+    EXPECT_GE(stats["write_through"]["writes"].get<uint64_t>(), 1u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, WriteThroughStatsByTierDisabledFlag) {
+    // When write-through is off, getStatsByTier() must report enabled=false.
+    config_.enable_write_through = false;
+    AdaptiveQueryCache cache(config_);
+
+    json stats = cache.getStatsByTier();
+    ASSERT_TRUE(stats.contains("write_through"));
+    EXPECT_FALSE(stats["write_through"]["enabled"].get<bool>());
+}

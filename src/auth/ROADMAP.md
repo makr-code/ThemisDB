@@ -67,7 +67,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] WebAuthn/FIDO2 hardware token support
 - [x] Session management and revocation endpoint
 - [x] Configurable password policy enforcement
-- [ ] Audit logging for all authentication events
+- [x] Audit logging for all authentication events
 - [x] Certificate-based mutual TLS (mTLS) authentication (`auth/mtls_authenticator.cpp`)
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1550)
