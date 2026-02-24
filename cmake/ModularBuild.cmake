@@ -283,6 +283,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
+    ../src/analytics/distributed_analytics.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
