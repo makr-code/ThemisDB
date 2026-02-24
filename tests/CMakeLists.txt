@@ -216,7 +216,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_auth_metrics\\.cpp$"
     ".*test_jwks_security\\.cpp$"
     ".*test_kerberos_security\\.cpp$"
-    ".*test_principal_validator\\.cpp$"
     ".*test_totp_replay_cache\\.cpp$"
     ".*test_totp_secret_encryption\\.cpp$"
     ".*test_mfa_authenticator.*\\.cpp$"
@@ -291,7 +290,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
-    ".*test_oauth_device_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
