@@ -6,7 +6,9 @@
  *   - InMemoryFeatureFlags : set/get, default-false for unknown flags,
  *                            getAllFlags snapshot, thread safety
  *   - ConcernsContext      : featureFlags() accessor, HealthStatus includes
- *                            featureFlags field, 5-arg createCustom overload
+ *                            featureFlags field, 5-arg createCustom overload,
+ *                            create(Config) with featureFlagsAdapter and
+ *                            initialFeatureFlags
  */
 
 #include "core/concerns/i_feature_flags.h"
