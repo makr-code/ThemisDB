@@ -41,7 +41,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Long-term (6-12 months)
 - [I] Predictive analytics and time-series forecasting (Issue: #1473)
 - [I] AutoML integration for automated model selection (Issue: #1485) ✅
-- [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
 - [I] Model serving and online inference pipeline (Issue: #1477)
 - [I] Multi-language NLP support (beyond English) (Issue: #1478)
@@ -70,7 +70,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
 - [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
 - [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [x] Predictive analytics and time-series forecasting integration (Issue: #1484)
@@ -91,7 +91,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - LLM analyzer requires external API keys; responses are non-deterministic
 - Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
 - Basic lemmatization only; full morphological analysis not yet supported
-- Graph analytics limited to PageRank and basic algorithms; advanced algorithms planned for v1.8.0
+- Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
 
 ## Breaking Changes
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)

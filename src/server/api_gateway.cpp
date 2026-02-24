@@ -162,6 +162,23 @@ http::response<http::string_body> APIGateway::handleRequest(
             return makeErrorResponse(http::status::service_unavailable, 
                                     "Service temporarily unavailable due to high load", req);
         }
+
+        // Build a path-normalized request: strip /v{N}/ prefix so downstream
+        // handlers and route-target logic work with unversioned paths.
+        // The original request is preserved for auth/rate-limit/versioning checks.
+        http::request<http::string_body> normalized_req = req;
+        if (config_.enable_api_versioning) {
+            std::string raw_target = std::string(req.target());
+            auto qpos = raw_target.find('?');
+            std::string path = (qpos != std::string::npos) ? raw_target.substr(0, qpos) : raw_target;
+            std::string query = (qpos != std::string::npos) ? raw_target.substr(qpos) : "";
+            std::string stripped = stripVersionPrefix(path);
+            if (stripped != path) {
+                normalized_req.target(stripped + query);
+                spdlog::debug("APIGateway: normalized versioned path '{}' to '{}'",
+                              path, stripped);
+            }
+        }
         
         // 4. Determine routing target
         RouteTarget target = determineRouteTarget(req);
@@ -188,13 +205,16 @@ http::response<http::string_body> APIGateway::handleRequest(
             }
         }
 
+        // 4. Determine routing target (uses normalized path)
+        RouteTarget target = determineRouteTarget(normalized_req);
+        
         // 5. Execute request based on target
         http::response<http::string_body> response;
         
         switch (target) {
             case RouteTarget::LOCAL:
                 local_requests_++;
-                response = executeLocal(dispatched_req, local_handler);
+                response = executeLocal(normalized_req, local_handler);
                 break;
                 
             case RouteTarget::SHARD:
@@ -214,7 +234,7 @@ http::response<http::string_body> APIGateway::handleRequest(
                 
             case RouteTarget::SCATTER_GATHER:
                 distributed_requests_++;
-                response = executeScatterGather(req);
+                response = executeScatterGather(normalized_req);
                 break;
                 
             case RouteTarget::FEDERATION:
@@ -798,10 +818,18 @@ APIVersion APIGateway::processVersionHeaders(
             }
         }
     }
-    
-    // Resolve version
-    APIVersion version = version_manager_->resolveVersion(version_header);
-    
+
+    // Resolve version: URL path prefix takes precedence over Accept-Version header.
+    // The raw URL token (e.g. "v1", "v1.4") is passed directly to resolveVersion so
+    // that partial versions resolve to the latest matching release (v1 → v1.4.1, etc.)
+    APIVersion version;
+    if (url_version_str) {
+        version = version_manager_->resolveVersion(*url_version_str);
+        spdlog::debug("APIGateway: version resolved from URL path prefix: {}", version.toString());
+    } else {
+        version = version_manager_->resolveVersion(version_header);
+    }
+
     // Add API-Version response header
     response.set(APIHeaders::API_VERSION, version.toString());
     
