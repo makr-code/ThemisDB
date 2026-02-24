@@ -187,7 +187,9 @@ TEST_F(CdcSubscriptionAuthTest, Get_NoAuthHeader_Returns401) {
     EXPECT_NE(res.find(http::field::www_authenticate), res.end());
 }
 
-TEST_F(CdcSubscriptionAuthTest, Get_InvalidToken_Returns401) {
+TEST_F(CdcSubscriptionAuthTest, Get_InvalidToken_Returns403) {
+    // An unknown token is present as a valid "Bearer <token>" header.
+    // extractBearerToken succeeds, authorize() returns Denied → 403 Forbidden.
     auto req = makeGet("/changefeed?from_seq=0&limit=10", bearer(TOKEN_INVALID));
     auto res = handler_->handleGet(req);
     EXPECT_EQ(res.result(), http::status::forbidden);
@@ -224,12 +226,11 @@ TEST_F(CdcSubscriptionAuthTest, Stream_NoAuthHeader_Returns401) {
     EXPECT_EQ(res.result(), http::status::unauthorized);
 }
 
-TEST_F(CdcSubscriptionAuthTest, Stream_InvalidToken_Returns401OrForbidden) {
+TEST_F(CdcSubscriptionAuthTest, Stream_InvalidToken_Returns403) {
+    // "Bearer TOKEN_INVALID" → extractBearerToken succeeds, authorize() denies → 403.
     auto req = makeGet("/changefeed/stream?from_seq=0", bearer(TOKEN_INVALID));
     auto res = handler_->handleStreamSse(req);
-    // Invalid token → either 401 (token not recognized) or 403 (denied)
-    EXPECT_TRUE(res.result() == http::status::unauthorized ||
-                res.result() == http::status::forbidden);
+    EXPECT_EQ(res.result(), http::status::forbidden);
 }
 
 TEST_F(CdcSubscriptionAuthTest, Stream_TokenMissingCdcReadScope_Returns403) {
@@ -373,13 +374,99 @@ TEST_F(CdcSubscriptionAuthTest, MalformedAuthHeader_NotBearer_Returns401) {
 TEST_F(CdcSubscriptionAuthTest, EmptyBearerToken_Returns401) {
     auto req = makeGet("/changefeed?from_seq=0&limit=10", "Bearer ");
     auto res = handler_->handleGet(req);
-    // Empty token string after stripping whitespace → treated as invalid
-    EXPECT_TRUE(res.result() == http::status::unauthorized ||
-                res.result() == http::status::forbidden);
+    // Empty token string after stripping whitespace → extractBearerToken returns nullopt → 401
+    EXPECT_EQ(res.result(), http::status::unauthorized);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// Section 9: Data leakage — key_prefix subscription filter
+// Section 9: Auth-before-feature-flag ordering
+//
+// When feature_cdc is disabled the handler must still enforce auth FIRST.
+// Unauthenticated requests must get 401, NOT 404.  Revealing that a feature
+// is disabled to an unauthenticated caller would be an information-disclosure
+// vulnerability.
+// ═════════════════════════════════════════════════════════════════════════════
+
+class CdcFeatureDisabledAuthTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = (std::filesystem::temp_directory_path()
+                    / ("test_cdc_feat_dis_" + std::to_string(
+                           std::chrono::steady_clock::now().time_since_epoch().count())))
+                       .string();
+        std::filesystem::create_directories(db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path             = db_path_;
+        cfg.memtable_size_mb    = 16;
+        cfg.block_cache_size_mb = 32;
+        storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        themis::Changefeed::RetentionPolicy rp;
+        rp.enabled  = false;
+        changefeed_ = std::make_shared<themis::Changefeed>(
+            storage_->getRawDB(), nullptr, rp);
+
+        auth_ = std::make_shared<themis::AuthMiddleware>();
+        themis::AuthMiddleware::TokenConfig admin_cfg;
+        admin_cfg.token   = "test-admin-feat-disabled";
+        admin_cfg.user_id = "admin";
+        admin_cfg.scopes  = {"cdc:read", "cdc:admin"};
+        auth_->addToken(admin_cfg);
+
+        // feature_cdc = FALSE
+        handler_ = std::make_unique<themis::server::ChangefeedApiHandler>(
+            storage_, changefeed_, nullptr, auth_, /*feature_cdc=*/false);
+    }
+
+    void TearDown() override {
+        handler_.reset();
+        changefeed_.reset();
+        storage_->close();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::string                                             db_path_;
+    std::shared_ptr<themis::RocksDBWrapper>                 storage_;
+    std::shared_ptr<themis::Changefeed>                     changefeed_;
+    std::shared_ptr<themis::AuthMiddleware>                 auth_;
+    std::unique_ptr<themis::server::ChangefeedApiHandler>   handler_;
+};
+
+TEST_F(CdcFeatureDisabledAuthTest, Get_FeatureDisabled_NoAuth_Returns401NotFound) {
+    // Auth MUST be enforced before the feature-flag check.
+    // An unauthenticated request must get 401, not 404.
+    auto req = makeGet("/changefeed?from_seq=0");
+    auto res = handler_->handleGet(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Expected 401 (auth enforced first) but got "
+        << static_cast<int>(res.result_int())
+        << " — feature flag must not be checked before auth";
+}
+
+TEST_F(CdcFeatureDisabledAuthTest, Stream_FeatureDisabled_NoAuth_Returns401NotFound) {
+    auto req = makeGet("/changefeed/stream?from_seq=0");
+    auto res = handler_->handleStreamSse(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized);
+}
+
+TEST_F(CdcFeatureDisabledAuthTest, Stats_FeatureDisabled_NoAuth_Returns401NotFound) {
+    auto req = makeGet("/changefeed/stats");
+    auto res = handler_->handleStats(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized);
+}
+
+TEST_F(CdcFeatureDisabledAuthTest, Get_FeatureDisabled_AuthorizedUser_Returns404) {
+    // Authorized user sees 404 when feature is disabled — that is correct and expected.
+    auto req = makeGet("/changefeed?from_seq=0",
+                       std::string("Bearer test-admin-feat-disabled"));
+    auto res = handler_->handleGet(req);
+    EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Section 10: Data leakage — key_prefix subscription filter
 // ═════════════════════════════════════════════════════════════════════════════
 
 TEST_F(CdcSubscriptionAuthTest, KeyPrefixFilter_OnlyReturnsMatchingEvents) {
@@ -460,7 +547,7 @@ TEST_F(CdcSubscriptionAuthTest, KeyPrefixFilter_NonMatchingPrefix_ReturnsEmpty) 
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// Section 10: Verify response body on auth-denied requests
+// Section 11: Verify response body on auth-denied requests
 // ═════════════════════════════════════════════════════════════════════════════
 
 TEST_F(CdcSubscriptionAuthTest, AuthDenied_ResponseBody_ContainsErrorField) {
