@@ -1608,6 +1608,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
     ../src/auth/oidc_provider.cpp
