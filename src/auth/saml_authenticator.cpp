@@ -24,6 +24,7 @@
 #include "auth/saml_authenticator.h"
 #include "auth/auth_error.h"
 #include "utils/logger.h"
+#include "utils/audit_logger.h"
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -467,6 +468,27 @@ pugi::xml_node findSignature(const pugi::xml_node& node) {
 // ============================================================================
 
 SAMLClaims SAMLAuthenticator::processResponse(
+        const std::string& saml_response_b64,
+        const std::string& in_response_to) const
+{
+    try {
+        return processResponseImpl(saml_response_b64, in_response_to);
+    } catch (const AuthException& ex) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "saml/assertion", {{"reason", ex.error().message}});
+        }
+        throw;
+    } catch (const std::exception& ex) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                "", "saml/assertion", {{"reason", std::string(ex.what())}});
+        }
+        throw;
+    }
+}
+
+SAMLClaims SAMLAuthenticator::processResponseImpl(
         const std::string& saml_response_b64,
         const std::string& in_response_to) const
 {
@@ -958,7 +980,13 @@ SAMLClaims SAMLAuthenticator::processResponse(
                 AuthError::maskSensitiveData(claims.subject_name_id),
                 AuthError::maskSensitiveData(claims.email),
                 claims.issuer);
-
+    if (audit_logger_) {
+        nlohmann::json d;
+        d["issuer"]       = claims.issuer;
+        d["assertion_id"] = claims.assertion_id;
+        audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_SUCCESS,
+            claims.subject_name_id, "saml/assertion", d);
+    }
     return claims;
 }
 
