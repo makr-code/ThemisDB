@@ -290,7 +290,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
-    ".*test_oauth_device_flow\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
@@ -467,6 +466,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )
 
@@ -1052,6 +1052,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
     message(STATUS "  Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction")
 else()
     message(STATUS "Enhanced Query Cache tests not found")
+endif()
+
+# ============================================================================
+# Cache Warmup Tests (Phase 3 – bulk warmup from query log / snapshot)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_warmup.cpp")
+    message(STATUS "Adding Cache Warmup tests")
+
+    add_executable(test_cache_warmup
+        test_cache_warmup.cpp
+    )
+
+    target_link_libraries(test_cache_warmup PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_warmup PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheWarmupTests COMMAND test_cache_warmup)
+
+    set_tests_properties(CacheWarmupTests PROPERTIES
+        LABELS "cache;warmup;snapshot;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Cache Warmup: warmupFromLog, exportSnapshot, tenant isolation, metrics")
+else()
+    message(STATUS "Cache Warmup tests not found")
 endif()
 
 # RPC Geospatial Query Tests

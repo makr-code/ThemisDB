@@ -93,6 +93,18 @@ public:
     void logMFAEnrolled(const std::string& user_id);
 
     // -----------------------------------------------------------------------
+    // API Key events
+    // -----------------------------------------------------------------------
+
+    /** API key authentication succeeded. */
+    void logApiKeySuccess(const std::string& key_id,
+                          const std::string& principal);
+
+    /** API key authentication failed (not found, inactive, expired, bad secret). */
+    void logApiKeyFailure(const std::string& key_id,
+                          const std::string& reason);
+
+    // -----------------------------------------------------------------------
     // OAuth / SAML events
     // -----------------------------------------------------------------------
 

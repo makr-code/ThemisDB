@@ -65,12 +65,12 @@ Implement a REST Admin API (planned in ROADMAP Phase 3) that exposes cache inspe
 After a node restart, L1 and L2 are cold; queries that were hot before restart incur L3 or full re-execution latency. Implement a warmup path that replays a query log or imports a cache snapshot to pre-populate L1/L2.
 
 **Implementation Notes:**
-- `[ ]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
-- `[ ]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
-- `[ ]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
-- `[ ]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
-- `[ ]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
-- `[ ]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
+- `[x]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
+- `[x]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
+- `[x]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
+- `[x]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
+- `[x]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
+- `[x]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
 
 **Performance Targets:**
 - Warmup of 50,000 L1 entries from disk log in < 10 s on commodity SSD.

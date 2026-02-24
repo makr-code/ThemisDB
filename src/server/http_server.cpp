@@ -1924,6 +1924,8 @@ namespace {
     AdminCacheCbStatusGet,          // GET  /v1/admin/cache/circuit-breaker
     AdminCacheWarmupPost,           // POST /v1/admin/cache/warmup
     AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
+    AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
+    AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2259,6 +2261,12 @@ namespace {
     if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
     if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
     if (path_only.rfind("/v1/admin/cache/key/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictKeyDelete;
+    if (path_only == "/v1/admin/cache/tenants" && method == http::verb::get) return Route::AdminCacheTenantsGet;
+    // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/stats") == path_only.size() - 6 &&
+        method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
@@ -3179,6 +3187,20 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AdminCacheSnapshotPost:
             if (cache_admin_api_) {
                 response = cache_admin_api_->handleSnapshot(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleListTenants(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantStatsGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleTenantStats(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }

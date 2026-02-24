@@ -329,8 +329,8 @@ def ingest_legal_dataset(output_path: str, max_samples: int = 10000, dataset_nam
                         # Only add serializable values
                         json.dumps(value)
                         doc['metadata'][key] = value
-                    except:
-                        pass
+                    except Exception as e:
+                        logging.debug("Non-serializable metadata value skipped: %s", e)
             
             documents.append(doc)
             

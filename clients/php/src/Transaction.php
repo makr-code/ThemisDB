@@ -104,6 +104,7 @@ class Transaction
             
             return $response;
         } catch (NotFoundException $e) {
+            error_log("Transaction entity not found: " . $e->getMessage());
             return null;
         }
     }
@@ -155,6 +156,7 @@ class Transaction
             $this->txRequest('DELETE', "{$endpoint}/entities/{$key}");
             return true;
         } catch (NotFoundException $e) {
+            error_log("Transaction entity not found during delete: " . $e->getMessage());
             return false;
         }
     }

@@ -70,6 +70,7 @@ class TOCValidator:
                 config = yaml.safe_load(f)
             return config
         except Exception as e:
+            print(f"[ERROR] Failed to load mkdocs config from {config_path}: {e}", file=sys.stderr)
             self.add_error(f"Failed to load mkdocs config: {str(e)}", str(config_path))
             return {}
 
