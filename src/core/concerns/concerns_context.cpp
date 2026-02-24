@@ -64,7 +64,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     auto adapter_validation = core::ConfigValidator::validateAdapterConfig(
         config.loggerAdapter, config.tracerAdapter,
         config.metricsAdapter, config.cacheAdapter,
-        config.circuitBreakerAdapter);
+        config.circuitBreakerAdapter, config.featureFlagsAdapter);
     if (!adapter_validation.valid) {
         throw std::runtime_error("Invalid adapter configuration:\n" + adapter_validation.formatErrors());
     }
@@ -160,6 +160,15 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         circuit_breaker = std::make_unique<DefaultCircuitBreaker>(cb_cfg);
     }
 
+    // Initialize feature flags
+    std::unique_ptr<IFeatureFlags> featureFlags;
+    if (config.featureFlagsAdapter == "noop") {
+        featureFlags = std::make_unique<NoOpFeatureFlags>();
+    } else {
+        // "inmemory" — only reachable after validation passes
+        featureFlags = std::make_unique<InMemoryFeatureFlags>(config.initialFeatureFlags);
+    }
+
     return std::shared_ptr<ConcernsContext>(new ConcernsContext(
         std::move(logger),
         std::move(tracer),
@@ -167,7 +176,7 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         std::move(cache),
         std::move(circuit_breaker),
         std::make_unique<NoOpSecrets>(),
-        std::make_unique<NoOpFeatureFlags>()
+        std::move(featureFlags)
     ));
 }
 

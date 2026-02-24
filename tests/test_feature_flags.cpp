@@ -201,3 +201,53 @@ TEST(FeatureFlagsConcernsContextTest, FourArgCreateCustomStillWorks) {
     EXPECT_FALSE(ctx->featureFlags().isEnabled("anything"));
     EXPECT_TRUE(ctx->healthCheck().isHealthy());
 }
+
+// ---------------------------------------------------------------------------
+// ConcernsContext::create(Config) — feature flags via Config
+// ---------------------------------------------------------------------------
+
+TEST(FeatureFlagsConcernsContextTest, CreateWithConfigDefaultUsesInMemory) {
+    // Default adapter is "inmemory"; flags start empty so every query returns false.
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter = "noop";
+    auto ctx = ConcernsContext::create(cfg);
+    // Unknown flag → false
+    EXPECT_FALSE(ctx->featureFlags().isEnabled("any_flag"));
+    // Runtime mutation works
+    ctx->featureFlags().setValue("any_flag", true);
+    EXPECT_TRUE(ctx->featureFlags().isEnabled("any_flag"));
+}
+
+TEST(FeatureFlagsConcernsContextTest, CreateWithConfigInitialFlags) {
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter = "noop";
+    cfg.initialFeatureFlags   = {{"dark_mode", true}, {"beta_feature", false}};
+    auto ctx = ConcernsContext::create(cfg);
+    EXPECT_TRUE(ctx->featureFlags().isEnabled("dark_mode"));
+    EXPECT_FALSE(ctx->featureFlags().isEnabled("beta_feature"));
+    EXPECT_FALSE(ctx->featureFlags().isEnabled("unknown_flag"));
+}
+
+TEST(FeatureFlagsConcernsContextTest, CreateWithConfigNoopAdapter) {
+    ConcernsContext::Config cfg;
+    cfg.loggerAdapter  = "noop";
+    cfg.tracerAdapter  = "noop";
+    cfg.metricsAdapter = "noop";
+    cfg.cacheAdapter   = "noop";
+    cfg.circuitBreakerAdapter  = "noop";
+    cfg.featureFlagsAdapter    = "noop";
+    cfg.initialFeatureFlags    = {{"should_be_ignored", true}};
+    auto ctx = ConcernsContext::create(cfg);
+    // NoOp provider ignores setValue and always returns false
+    EXPECT_FALSE(ctx->featureFlags().isEnabled("should_be_ignored"));
+    ctx->featureFlags().setValue("should_be_ignored", true);
+    EXPECT_FALSE(ctx->featureFlags().isEnabled("should_be_ignored"));
+}

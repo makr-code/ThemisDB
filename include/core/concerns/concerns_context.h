@@ -102,6 +102,13 @@ public:
         size_t circuitBreakerSuccessThreshold = 2;
         /// Rolling window for counting failures.
         std::chrono::seconds circuitBreakerFailureWindow = std::chrono::seconds(60);
+
+        // Feature flags config
+        /// Which feature flag adapter to use: "inmemory" (default) or "noop".
+        std::string featureFlagsAdapter = "inmemory";
+        /// Pre-populated flag values for the in-memory provider.
+        /// Ignored when featureFlagsAdapter is "noop".
+        std::unordered_map<std::string, bool> initialFeatureFlags;
     };
 
     /**
