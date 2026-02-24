@@ -25,7 +25,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
+- [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
 - [I] Session management and revocation endpoint (Issue: #1983)
 - [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
