@@ -193,7 +193,7 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     // Key format: spatial:<table>:pk:<16hex>:<primary_key>
     // Value format: JSON {"mbr":{"minx":...,"miny":...,"maxx":...,"maxy":...}}
     const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
-    constexpr std::size_t kMortonChars = 16; // 64-bit hex without prefix
+    constexpr std::size_t kMortonChars = 16; // 64-bit Morton code: 16 hex characters
     const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
 
     std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
@@ -201,7 +201,11 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
 
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view v) {
-            if (k.size() <= pk_strip) return true; // malformed key, skip
+            if (k.size() <= pk_strip) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
+                            "for table='{}' (len={})", table_str, k.size());
+                return true;
+            }
             std::string pk(k.substr(pk_strip));
             try {
                 auto j = json::parse(std::string(v));
@@ -213,8 +217,14 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
                 mbr.maxy = mbr_j.at("maxy").get<double>();
                 cache[pk] = mbr;
                 bulk_entries.emplace_back(pk, mbrToGeometryInfo(mbr));
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: failed to parse "
+                            "sidecar for pk='{}' in table='{}': {}",
+                            pk, table_str, ex.what());
             } catch (...) {
-                // Malformed entry — skip; do not abort the scan.
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: unknown error "
+                            "parsing sidecar for pk='{}' in table='{}'",
+                            pk, table_str);
             }
             return true;
         });
