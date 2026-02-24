@@ -1794,6 +1794,9 @@ set(THEMIS_CORE_SOURCES
 
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
+
+    # Model Serving and Online Inference Pipeline (Issue #1477)
+    ../src/analytics/model_serving.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
