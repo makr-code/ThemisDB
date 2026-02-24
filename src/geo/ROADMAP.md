@@ -18,14 +18,14 @@
 
 ## In Progress 🚧
 - [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
-- [P] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
+- [x] ST_BUFFER operation implementation (Target: Q2 2026)
 - [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [P] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
-- [P] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
+- [x] ST_BUFFER: expand geometry by a fixed distance
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [P] R-tree index integration for CPU backend (Issue: #1741)
@@ -56,7 +56,7 @@
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
 - [P] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
 - [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
-- [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
+- [x] Implement `ST_BUFFER` operation expanding geometry by a fixed distance
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
