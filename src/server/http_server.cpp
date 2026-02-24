@@ -1970,6 +1970,7 @@ namespace {
         CachePutPost,
         CacheStatsGet,
     // Admin cache endpoints (Phase 3: Admin API)
+    AdminCacheHealthGet,            // GET  /v1/admin/cache/health
     AdminCacheStatsGet,             // GET  /v1/admin/cache/stats
     AdminCacheEvictKeyDelete,       // DELETE /v1/admin/cache/key/{encoded_key}
     AdminCacheEvictTenantDelete,    // DELETE /v1/admin/cache/tenant/{tenant_id}
@@ -2311,6 +2312,7 @@ namespace {
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
     // Admin cache endpoints – order matters: more-specific paths first
+    if (path_only == "/v1/admin/cache/health" && method == http::verb::get) return Route::AdminCacheHealthGet;
     if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
     if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
     if (path_only == "/v1/admin/cache/circuit-breaker/reset" && method == http::verb::post) return Route::AdminCacheCbResetPost;
@@ -3199,6 +3201,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = cache_api_->handleStats(req);
             } else {
                 response = makeErrorResponse(http::status::not_found, "Cache API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheHealthGet:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleHealth(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
             break;
         case Route::AdminCacheStatsGet:

@@ -6504,6 +6504,74 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /v1/admin/cache/health:
+    get:
+      summary: Get cache health status
+      description: |
+        Returns per-tier status (L1/L2/L3), circuit breaker state, and overall health.
+        Responds with HTTP 200 when healthy, 503 when degraded or unavailable.
+        Requires `admin:cache:read` scope.
+      operationId: adminCacheHealth
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:read]
+      responses:
+        '200':
+          description: Cache health status (healthy)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  healthy:
+                    type: boolean
+                    description: True when all tiers are operational and circuit breaker is CLOSED.
+                  warnings:
+                    type: array
+                    items: { type: string }
+                    description: List of non-fatal warnings (e.g. high memory pressure).
+                  tiers:
+                    type: object
+                    description: Per-tier operational status.
+                    properties:
+                      l1:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          entries: { type: integer }
+                          max_entries: { type: integer }
+                          utilization: { type: number, format: double }
+                          ttl_seconds: { type: integer }
+                      l2:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          entries: { type: integer }
+                          max_entries: { type: integer }
+                          utilization: { type: number, format: double }
+                          ttl_seconds: { type: integer }
+                      l3:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          enabled: { type: boolean }
+                          path: { type: string }
+                          ttl_seconds: { type: integer }
+                  circuit_breaker:
+                    type: object
+                    properties:
+                      state: { type: string, enum: [CLOSED, OPEN, HALF_OPEN] }
+                      enabled: { type: boolean }
+                      failure_count: { type: integer }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503':
+          description: Cache is degraded or unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /v1/admin/cache/stats:
     get:
       summary: Get cache statistics
