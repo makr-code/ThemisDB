@@ -39,7 +39,7 @@ namespace utils { class AuditLogger; }
 // - Subject: users or wildcard "*"
 // - Actions: read, write, delete, query, admin, vector.search, vector.write
 // - Resources: path patterns (e.g., "/entities/users:*", "/query", "/vector/*")
-// - Conditions (optional): allowed_ip_prefixes (e.g., "10.0.", "192.168."), time window (TODO)
+// - Conditions (optional): allowed_ip_prefixes (e.g., "10.0.", "192.168."), time window, custom attributes
 //
 // Configuration formats:
 // - Supports JSON and YAML files for loading policies. Saving currently writes JSON.
@@ -67,6 +67,8 @@ public:
         int time_window_utc_hours_end   = -1;
         // ABAC: User-Agent substring allowlist (any match passes; empty = no restriction)
         std::vector<std::string> allowed_user_agent_patterns;
+        // ABAC: Required custom attribute key-value conditions (all must match; empty = no restriction)
+        std::unordered_map<std::string, std::string> required_attributes;
     };
 
     struct Decision {
@@ -118,7 +120,8 @@ public:
                        const std::string& action,
                        const std::string& resource_path,
                        const std::optional<std::string>& client_ip  = std::nullopt,
-                       const std::optional<std::string>& user_agent = std::nullopt) const;
+                       const std::optional<std::string>& user_agent = std::nullopt,
+                       const std::unordered_map<std::string, std::string>& attributes = {}) const;
 
     const Metrics& getMetrics() const { return metrics_; }
 
@@ -141,7 +144,8 @@ private:
     bool matchResource(const Policy& p, const std::string& resource_path) const;
     bool matchConditions(const Policy& p,
                          const std::optional<std::string>& client_ip,
-                         const std::optional<std::string>& user_agent) const;
+                         const std::optional<std::string>& user_agent,
+                         const std::unordered_map<std::string, std::string>& attributes) const;
 
     mutable std::mutex mutex_;
     Config config_;

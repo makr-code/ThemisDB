@@ -20,7 +20,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## In Progress 🚧
 - [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
 - [x] SAML 2.0 identity provider integration (Target: Q2 2026)
-- [I] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
+- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
 ## Planned Features 📋
 
@@ -56,7 +56,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
 - [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
 - [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
-- [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
+- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
 - [x] OAuth 2.0 PKCE flow for public clients
@@ -77,9 +77,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 
 ## Known Issues & Limitations
 - WebAuthn support is planned but not started
-- ABAC (attribute-based) access control is limited to role-based rules currently
+- ABAC engine supports IP-prefix, time-window, user-agent, and custom attribute conditions alongside RBAC
 - LDAP direct bind is not supported; only Kerberos-based AD integration
 
 ## Breaking Changes
-- ABAC engine will introduce new policy evaluation APIs (additive to existing RBAC)
+- ABAC engine adds policy evaluation APIs additive to RBAC (custom attribute conditions now supported)
 - mTLS support will require configuration changes at the TLS layer

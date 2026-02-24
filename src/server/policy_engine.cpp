@@ -88,6 +88,11 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                     if (n["allowed_user_agent_patterns"]) {
                         for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
                     }
+                    if (n["required_attributes"] && n["required_attributes"].IsMap()) {
+                        for (const auto& kv : n["required_attributes"]) {
+                            p.required_attributes[kv.first.as<std::string>()] = kv.second.as<std::string>();
+                        }
+                    }
                     return p;
                 } catch (...) {
                     return std::nullopt;
@@ -252,7 +257,8 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
                                                const std::string& action,
                                                const std::string& resource_path,
                                                const std::optional<std::string>& client_ip,
-                                               const std::optional<std::string>& user_agent) const {
+                                               const std::optional<std::string>& user_agent,
+                                               const std::unordered_map<std::string, std::string>& attributes) const {
     metrics_.policy_eval_total++;
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -267,7 +273,7 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
         if (!matchSubject(p, user_id)) continue;
         if (!matchAction(p, action)) continue;
         if (!matchResource(p, resource_path)) continue;
-        if (!matchConditions(p, client_ip, user_agent)) continue;
+        if (!matchConditions(p, client_ip, user_agent, attributes)) continue;
 
         if (p.effect_allow) {
             metrics_.policy_allow_total++;
@@ -303,7 +309,8 @@ bool PolicyEngine::matchResource(const Policy& p, const std::string& resource_pa
 
 bool PolicyEngine::matchConditions(const Policy& p,
                                    const std::optional<std::string>& client_ip,
-                                   const std::optional<std::string>& user_agent) const {
+                                   const std::optional<std::string>& user_agent,
+                                   const std::unordered_map<std::string, std::string>& attributes) const {
     // IP condition
     if (!p.allowed_ip_prefixes.empty()) {
         if (!client_ip) return false; // IP required to evaluate
@@ -348,6 +355,14 @@ bool PolicyEngine::matchConditions(const Policy& p,
         if (!ok) return false;
     }
 
+    // ABAC custom attribute conditions (all required key-value pairs must match)
+    if (!p.required_attributes.empty()) {
+        for (const auto& [key, value] : p.required_attributes) {
+            auto it = attributes.find(key);
+            if (it == attributes.end() || it->second != value) return false;
+        }
+    }
+
     return true;
 }
 
@@ -363,6 +378,7 @@ json PolicyEngine::toJson(const Policy& p) {
     if (p.time_window_utc_hours_start >= 0) j["time_window_utc_hours_start"] = p.time_window_utc_hours_start;
     if (p.time_window_utc_hours_end   >= 0) j["time_window_utc_hours_end"]   = p.time_window_utc_hours_end;
     if (!p.allowed_user_agent_patterns.empty()) j["allowed_user_agent_patterns"] = p.allowed_user_agent_patterns;
+    if (!p.required_attributes.empty()) j["required_attributes"] = p.required_attributes;
     return j;
 }
 
@@ -380,6 +396,7 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         p.time_window_utc_hours_start = j.value("time_window_utc_hours_start", -1);
         p.time_window_utc_hours_end   = j.value("time_window_utc_hours_end",   -1);
         if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
+        if (j.contains("required_attributes")) p.required_attributes = j["required_attributes"].get<std::unordered_map<std::string, std::string>>();
         return p;
     } catch (...) {
         return std::nullopt;

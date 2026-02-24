@@ -310,3 +310,111 @@ TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedWhenNoUAProvided) {
     auto ctx = makeCtx("alice", {"admin"}, "data", "read", /*ip=*/"", std::nullopt);
     EXPECT_FALSE(ac.authorize(ctx));
 }
+
+// ============================================================================
+// ABAC custom attribute condition tests (AccessControl integration)
+// ============================================================================
+
+/// Build an AuthorizationContext with extra attributes.
+static AccessControl::AuthorizationContext makeCtxWithAttrs(
+    const std::string& user_id,
+    const std::vector<std::string>& roles,
+    const std::string& resource,
+    const std::string& action,
+    const std::unordered_map<std::string, std::string>& attrs
+) {
+    auto ctx   = makeCtx(user_id, roles, resource, action);
+    ctx.attributes = attrs;
+    return ctx;
+}
+
+TEST(AccessControlABACTest, ABACEnabled_AttributeAllow_GrantedForMatchingAttr) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id               = "dept-allow";
+    p.subjects         = {"*"};
+    p.actions          = {"read"};
+    p.resources        = {"data"};
+    p.effect_allow     = true;
+    p.required_attributes = {{"department", "engineering"}};
+    ac.addABACPolicy(p);
+
+    // Admin + matching attribute -> granted
+    auto ctx = makeCtxWithAttrs("alice", {"admin"}, "data", "read",
+                                {{"department", "engineering"}});
+    EXPECT_TRUE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_AttributeAllow_DeniedForNonMatchingAttr) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id               = "dept-allow";
+    p.subjects         = {"*"};
+    p.actions          = {"read"};
+    p.resources        = {"data"};
+    p.effect_allow     = true;
+    p.required_attributes = {{"department", "engineering"}};
+    ac.addABACPolicy(p);
+
+    // Admin + wrong attribute -> denied
+    auto ctx = makeCtxWithAttrs("alice", {"admin"}, "data", "read",
+                                {{"department", "marketing"}});
+    EXPECT_FALSE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_AttributeAllow_DeniedWhenAttrMissing) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    PolicyEngine::Policy p;
+    p.id               = "dept-allow";
+    p.subjects         = {"*"};
+    p.actions          = {"read"};
+    p.resources        = {"data"};
+    p.effect_allow     = true;
+    p.required_attributes = {{"department", "engineering"}};
+    ac.addABACPolicy(p);
+
+    // Admin + no attributes -> denied
+    auto ctx = makeCtx("alice", {"admin"}, "data", "read");
+    EXPECT_FALSE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_AttributeDeny_BlocksMatchingSubject) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    // Deny subjects with tenant=external
+    PolicyEngine::Policy deny;
+    deny.id               = "deny-external";
+    deny.subjects         = {"*"};
+    deny.actions          = {"write"};
+    deny.resources        = {"data"};
+    deny.effect_allow     = false;
+    deny.required_attributes = {{"tenant", "external"}};
+    ac.addABACPolicy(deny);
+
+    // Admin role passes RBAC; ABAC deny fires for external tenant
+    auto ctx = makeCtxWithAttrs("alice", {"admin"}, "data", "write",
+                                {{"tenant", "external"}});
+    EXPECT_FALSE(ac.authorize(ctx));
+}
+
+TEST(AccessControlABACTest, ABACEnabled_AttributeDeny_DoesNotAffectOtherTenant) {
+    AccessControl ac(makeConfig(/*enable_abac=*/true));
+
+    // Deny external tenant
+    PolicyEngine::Policy deny;
+    deny.id               = "deny-external";
+    deny.subjects         = {"*"};
+    deny.actions          = {"write"};
+    deny.resources        = {"data"};
+    deny.effect_allow     = false;
+    deny.required_attributes = {{"tenant", "external"}};
+    ac.addABACPolicy(deny);
+
+    // Internal tenant – deny policy conditions don't match -> ABAC defaults to allow -> granted
+    auto ctx = makeCtxWithAttrs("alice", {"admin"}, "data", "write",
+                                {{"tenant", "internal"}});
+    EXPECT_TRUE(ac.authorize(ctx));
+}

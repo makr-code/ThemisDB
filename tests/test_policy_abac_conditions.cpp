@@ -288,3 +288,115 @@ TEST(PolicyAbacCombinedTest, DenyPolicyWithUACondition) {
     EXPECT_TRUE(engine.authorize("alice", "read", "/data/x",
                                  "10.0.0.1", "ThemisClient/1.0").allowed);
 }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Custom attribute ABAC tests
+// ──────────────────────────────────────────────────────────────────────────────
+
+class PolicyAbacAttributeTest : public ::testing::Test {
+protected:
+    PolicyEngine engine;
+};
+
+TEST_F(PolicyAbacAttributeTest, NoAttributeConditionAlwaysPasses) {
+    engine.addPolicy(makeBasicPolicy("p1", "alice"));
+    // No required_attributes set – should still be allowed
+    auto d = engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt, {});
+    EXPECT_TRUE(d.allowed);
+}
+
+TEST_F(PolicyAbacAttributeTest, MatchingAttributeAllows) {
+    auto p = makeBasicPolicy("p2", "alice");
+    p.required_attributes = {{"department", "engineering"}};
+    engine.addPolicy(p);
+
+    auto d = engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt,
+                              {{"department", "engineering"}});
+    EXPECT_TRUE(d.allowed);
+}
+
+TEST_F(PolicyAbacAttributeTest, NonMatchingAttributeValueDenies) {
+    auto p = makeBasicPolicy("p3", "alice");
+    p.required_attributes = {{"department", "engineering"}};
+    engine.addPolicy(p);
+
+    auto d = engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt,
+                              {{"department", "marketing"}});
+    EXPECT_FALSE(d.allowed);
+}
+
+TEST_F(PolicyAbacAttributeTest, MissingRequiredAttributeKeyDenies) {
+    auto p = makeBasicPolicy("p4", "alice");
+    p.required_attributes = {{"clearance", "3"}};
+    engine.addPolicy(p);
+
+    // No attributes at all
+    auto d = engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt, {});
+    EXPECT_FALSE(d.allowed);
+}
+
+TEST_F(PolicyAbacAttributeTest, AllAttributesMustMatch) {
+    auto p = makeBasicPolicy("p5", "alice");
+    p.required_attributes = {{"department", "engineering"}, {"tenant", "acme"}};
+    engine.addPolicy(p);
+
+    // Both match -> allowed
+    EXPECT_TRUE(engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt,
+                                 {{"department", "engineering"}, {"tenant", "acme"}}).allowed);
+
+    // Only one matches -> denied
+    EXPECT_FALSE(engine.authorize("alice", "read", "/data", std::nullopt, std::nullopt,
+                                  {{"department", "engineering"}, {"tenant", "other"}}).allowed);
+}
+
+TEST_F(PolicyAbacAttributeTest, AttributeConditionRoundTripsJson) {
+    auto p = makeBasicPolicy("p6", "bob");
+    p.required_attributes = {{"role_level", "5"}, {"region", "eu-west"}};
+
+    auto j  = PolicyEngine::toJson(p);
+    ASSERT_TRUE(j.contains("required_attributes"));
+    auto p2 = PolicyEngine::fromJson(j);
+    ASSERT_TRUE(p2.has_value());
+    EXPECT_EQ(p2->required_attributes.at("role_level"), "5");
+    EXPECT_EQ(p2->required_attributes.at("region"), "eu-west");
+}
+
+TEST_F(PolicyAbacAttributeTest, NoAttributeFieldInJsonWhenEmpty) {
+    auto p = makeBasicPolicy("p7", "alice");
+    auto j = PolicyEngine::toJson(p);
+    EXPECT_FALSE(j.contains("required_attributes"));
+}
+
+TEST(PolicyAbacCombinedTest, AttributeWithIPAndUA) {
+    PolicyEngine engine;
+    int now_h = currentUtcHour();
+    int start = (now_h == 0) ? 0 : now_h - 1;
+    int end   = (now_h == 23) ? 23 : now_h + 1;
+
+    PolicyEngine::Policy p;
+    p.id           = "combined-attr";
+    p.subjects     = {"alice"};
+    p.actions      = {"write"};
+    p.resources    = {"/secure"};
+    p.effect_allow = true;
+    p.allowed_ip_prefixes             = {"10.0."};
+    p.time_window_utc_hours_start     = start;
+    p.time_window_utc_hours_end       = end;
+    p.allowed_user_agent_patterns     = {"TrustedSDK"};
+    p.required_attributes             = {{"clearance", "high"}};
+    engine.addPolicy(p);
+
+    // All conditions satisfied
+    EXPECT_TRUE(engine.authorize("alice", "write", "/secure",
+                                 "10.0.1.5", "TrustedSDK/1.0",
+                                 {{"clearance", "high"}}).allowed);
+
+    // Attribute condition fails
+    EXPECT_FALSE(engine.authorize("alice", "write", "/secure",
+                                  "10.0.1.5", "TrustedSDK/1.0",
+                                  {{"clearance", "low"}}).allowed);
+
+    // Missing attribute
+    EXPECT_FALSE(engine.authorize("alice", "write", "/secure",
+                                  "10.0.1.5", "TrustedSDK/1.0", {}).allowed);
+}

@@ -406,7 +406,7 @@ bool AccessControl::authorize(const AuthorizationContext& context) {
         
         auto abac_decision = policy_engine_.authorize(
             context.user_id, context.action, context.resource,
-            client_ip, context.user_agent);
+            client_ip, context.user_agent, context.attributes);
         
         if (!abac_decision.allowed) {
             authorized = false;
