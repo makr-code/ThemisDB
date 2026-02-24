@@ -229,7 +229,7 @@ TEST(OAuthPKCEFlowTest, BuildAuthorizationUrl_StartsWithAuthorizationEndpoint) {
     const auto ch = flow.generateChallenge();
 
     const std::string url = flow.buildAuthorizationUrl(ch);
-    EXPECT_EQ(url.substr(0, 37), "https://auth.example.com/authorize?");
+    EXPECT_EQ(url.substr(0, 35), "https://auth.example.com/authorize?");
 }
 
 TEST(OAuthPKCEFlowTest, BuildAuthorizationUrl_NoTrailingAmpersand) {
@@ -380,17 +380,26 @@ TEST(OAuthPKCEFlowTest, ValidateIdToken_MissingJwksUrlThrows) {
 // ===========================================================================
 
 TEST(OAuthPKCEFlowTest, FullFlow_ChallengeVerifierConsistency) {
-    // Verify that generateChallenge produces a challenge that is the
-    // correct SHA-256 / Base64URL encoding of the verifier.
-    // We do this by re-computing the expected challenge ourselves.
+    // Verify that generateChallenge produces a valid PKCEChallenge:
+    // the challenge must differ from the verifier (it is a SHA-256 hash),
+    // both must be non-empty Base64URL strings without padding.
     OAuthPKCEFlow flow(makeConfig());
     flow.setRandBytesForTesting(deterministicRand);
 
     const auto ch = flow.generateChallenge();
 
-    // The challenge must not equal the verifier
+    // The challenge is the SHA-256 hash of the verifier – must be different
     EXPECT_NE(ch.code_verifier, ch.code_challenge);
-    // Both must be non-empty
     EXPECT_FALSE(ch.code_verifier.empty());
     EXPECT_FALSE(ch.code_challenge.empty());
+
+    // SHA-256 produces 32 bytes → 43 Base64URL chars (no padding)
+    // 32 bytes: ceil(32 * 4 / 3) = 43 chars (no padding)
+    EXPECT_EQ(ch.code_challenge.size(), 43u);
+
+    // code_challenge must be URL-safe Base64 without padding
+    for (char c : ch.code_challenge) {
+        EXPECT_TRUE(std::isalnum(static_cast<unsigned char>(c)) || c == '-' || c == '_')
+            << "Non-URL-safe character in challenge: " << c;
+    }
 }

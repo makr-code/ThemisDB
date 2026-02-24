@@ -21,7 +21,7 @@
 #include "auth/jwt_validator.h"
 
 #include <curl/curl.h>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -351,11 +351,34 @@ void OAuthPKCEFlow::fillRandomBytes(unsigned char* buf, std::size_t len) {
 }
 
 std::string OAuthPKCEFlow::sha256(const std::string& input) {
-    std::array<unsigned char, SHA256_DIGEST_LENGTH> digest{};
-    SHA256(reinterpret_cast<const unsigned char*>(input.data()),
-           input.size(),
-           digest.data());
-    return std::string(reinterpret_cast<const char*>(digest.data()), digest.size());
+    std::array<unsigned char, EVP_MAX_MD_SIZE> digest{};
+    unsigned int digest_len = 0;
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Failed to compute SHA-256 hash",
+            "EVP_MD_CTX_new returned null"
+        ));
+    }
+
+    const bool ok =
+        EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) == 1 &&
+        EVP_DigestUpdate(ctx, input.data(), input.size()) == 1 &&
+        EVP_DigestFinal_ex(ctx, digest.data(), &digest_len) == 1;
+
+    EVP_MD_CTX_free(ctx);
+
+    if (!ok) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Failed to compute SHA-256 hash",
+            "OpenSSL EVP digest operation failed"
+        ));
+    }
+
+    return std::string(reinterpret_cast<const char*>(digest.data()), digest_len);
 }
 
 std::string OAuthPKCEFlow::base64UrlEncode(const unsigned char* data, std::size_t len) {
