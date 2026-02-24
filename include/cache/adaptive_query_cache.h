@@ -127,6 +127,9 @@ public:
         int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
+
+        // Phase 4: Write-through cache mode
+        bool enable_write_through = false;       // Write L1/L2 entries through to L3 for durability
         
         // Phase 4: Write-through cache mode for read-heavy workloads
         // When enabled, put() writes to ALL applicable tiers simultaneously (L1+L2+L3)
@@ -518,6 +521,13 @@ private:
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
     // Returns the effective quota for a tenant (override if set, else global default)
     size_t getEffectiveTenantQuota(const std::string& tenant_id) const;
+
+    // Phase 4: Write-through helper - persist a result to L3 without modifying L1/L2
+    bool writeThroughToL3(const std::string& fingerprint,
+                          const nlohmann::json& query_params,
+                          const nlohmann::json& result,
+                          int64_t now_ms,
+                          int ttl_seconds);
 };
 
 } // namespace themis

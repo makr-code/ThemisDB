@@ -116,6 +116,27 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 
 ---
 
+### Write-Through Cache Mode
+**Priority:** Low
+**Target Version:** v2.0.0
+**Status:** ✅ Implemented (PR open)
+
+For read-heavy workloads with restart-safety requirements, L1/L2 in-memory entries can be simultaneously persisted to L3 (RocksDB) at write time, eliminating the need for warmup-from-log after a restart.
+
+**Implementation Notes:**
+- `[x]` `AdaptiveQueryCache::Config` gains `enable_write_through = false` (opt-in, backward-compatible).
+- `[x]` `put()` calls private `writeThroughToL3(fingerprint, params, result, now_ms, ttl_seconds)` after a successful L1 or L2 write.
+- `[x]` `writeThroughToL3()` checks the L3 circuit breaker before every write, records `write_through_total` / `write_through_errors` in `CacheMetrics`, and is a no-op when `l3_db_` is null.
+- `[x]` The write-through call is performed **outside** the L1/L2 `std::mutex` scope so that RocksDB disk I/O does not block concurrent in-memory reads.
+- `[x]` `getDetailedInfo()` exposes `write_through.{enabled, total, errors}` for monitoring.
+- `[x]` Initialization log message indicates when write-through mode is active.
+
+**Performance Targets:**
+- Write-through adds ≤ RocksDB sync write latency (typically < 2 ms on SSD) to `put()` calls; L1/L2 `get()` latency is unaffected (lock released before L3 write).
+- `write_through_errors` should remain 0 under normal operating conditions.
+
+---
+
 ### Distributed Cache Coordination (Redis-Compatible Protocol)
 **Priority:** Low
 **Target Version:** v2.0.0
