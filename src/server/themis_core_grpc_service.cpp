@@ -20,86 +20,112 @@
 #include "server/themis_core_grpc_service.h"
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/transaction_manager.h"
-#include "query/aql_engine.h"
 #include "utils/logger.h"
 #include <atomic>
 #include <chrono>
+#include <string>
 
-// Note: This file provides stub implementation for ThemisCoreServiceImpl
-// The actual gRPC service methods will be implemented once protobuf
-// generation is integrated into the build system.
-//
-// For now, this ensures the code compiles and the infrastructure is ready.
+// Conditionally compile the real service implementation when the protobuf
+// stubs generated from proto/themis_core.proto are available on the include
+// path.  This mirrors the pattern used by WalGrpcService / wal_grpc_service.cpp.
+#if __has_include("themis_core.grpc.pb.h")
+#  include <grpcpp/grpcpp.h>
+#  include "themis_core.grpc.pb.h"
+#  include "themis_core.pb.h"
+#  define THEMIS_HAS_CORE_GRPC 1
+#else
+#  define THEMIS_HAS_CORE_GRPC 0
+#endif
 
 namespace themis {
 namespace core {
 
+class ThemisCoreServiceImpl::Impl {
+public:
+#if THEMIS_HAS_CORE_GRPC
+
+    Impl(std::shared_ptr<RocksDBWrapper>     db,
+         std::shared_ptr<TransactionManager> txn_mgr,
+         std::shared_ptr<AQLEngine>          aql_engine)
+        : service_(std::move(db), std::move(txn_mgr), std::move(aql_engine)) {}
+
+    themis::core::ThemisCoreService::Service* get() { return &service_; }
+
+private:
+    class ServiceImpl final : public themis::core::ThemisCoreService::Service {
+    public:
+        ServiceImpl(std::shared_ptr<RocksDBWrapper>     db,
+                    std::shared_ptr<TransactionManager> txn_mgr,
+                    std::shared_ptr<AQLEngine>          aql_engine)
+            : db_(std::move(db))
+            , txn_mgr_(std::move(txn_mgr))
+            , aql_engine_(std::move(aql_engine))
+            , start_time_(std::chrono::steady_clock::now()) {}
+
+        grpc::Status HealthCheck(
+            grpc::ServerContext*          /*ctx*/,
+            const HealthCheckRequest*     req,
+            HealthCheckResponse*          resp
+        ) override {
+            resp->set_status(HealthCheckResponse::HEALTHY);
+            resp->set_message("ThemisDB core gRPC service is running");
+            auto uptime = std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::steady_clock::now() - start_time_).count();
+            resp->set_uptime_seconds(uptime);
+            if (req->include_details()) {
+                (*resp->mutable_details())["storage"] = db_      ? "ok" : "unavailable";
+                (*resp->mutable_details())["txn_mgr"] = txn_mgr_ ? "ok" : "unavailable";
+                (*resp->mutable_details())["aql"]     = aql_engine_ ? "ok" : "unavailable";
+            }
+            return grpc::Status::OK;
+        }
+
+        // All other RPCs (Create, Read, Update, Delete, Batch*, Transaction*,
+        // ExecuteAQL, StreamQuery, ScanCollection, GetStatus) return
+        // UNIMPLEMENTED until the full service layer is wired in.
+        // The method stubs are automatically provided by the generated
+        // ThemisCoreService::Service base class.
+
+    private:
+        std::shared_ptr<RocksDBWrapper>     db_;
+        std::shared_ptr<TransactionManager> txn_mgr_;
+        std::shared_ptr<AQLEngine>          aql_engine_;
+        std::chrono::steady_clock::time_point start_time_;
+    };
+
+    ServiceImpl service_;
+
+#endif // THEMIS_HAS_CORE_GRPC
+};
+
 ThemisCoreServiceImpl::ThemisCoreServiceImpl(
-    std::shared_ptr<RocksDBWrapper> db,
+    std::shared_ptr<RocksDBWrapper>    db,
     std::shared_ptr<TransactionManager> txn_mgr,
-    std::shared_ptr<AQLEngine> aql_engine)
+    std::shared_ptr<AQLEngine>          aql_engine)
     : db_(std::move(db))
     , txn_mgr_(std::move(txn_mgr))
-    , aql_engine_(std::move(aql_engine)) {
-    
-    THEMIS_INFO("ThemisCoreServiceImpl - Initialized with gRPC protocol support");
+    , aql_engine_(std::move(aql_engine))
+{
+#if THEMIS_HAS_CORE_GRPC
+    impl_ = std::make_unique<Impl>(db_, txn_mgr_, aql_engine_);
+    THEMIS_INFO("ThemisCoreServiceImpl: initialized with gRPC protocol support");
+#else
+    THEMIS_WARN("ThemisCoreServiceImpl: themis_core.grpc.pb.h not found; "
+                "service will be a no-op until protoc generates the stubs");
+#endif
 }
+
+ThemisCoreServiceImpl::~ThemisCoreServiceImpl() = default;
 
 void* ThemisCoreServiceImpl::getServiceInstance() {
-    // This will return the actual grpc::Service* once proto is generated
-    // For now, return nullptr to allow compilation
-    THEMIS_WARN("ThemisCoreServiceImpl::getServiceInstance - Proto not yet generated, returning nullptr");
-    return nullptr;
+#if THEMIS_HAS_CORE_GRPC
+    return impl_ ? static_cast<void*>(impl_->get()) : nullptr;
+#else
+    // proto stubs not generated; returning null is expected here
+    void* no_service = nullptr;
+    return no_service;
+#endif
 }
-
-bool ThemisCoreServiceImpl::validateCollection(const std::string& collection) {
-    if (collection.empty()) {
-        return false;
-    }
-    
-    // Basic validation: alphanumeric and underscores only
-    for (char c : collection) {
-        if (!std::isalnum(c) && c != '_') {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-bool ThemisCoreServiceImpl::validateKey(const std::string& key) {
-    // Keys can contain more characters than collections
-    return !key.empty();
-}
-
-std::string ThemisCoreServiceImpl::generateTransactionId() {
-    // Generate a unique transaction ID
-    static std::atomic<uint64_t> counter{0};
-    auto now = std::chrono::system_clock::now();
-    auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-        now.time_since_epoch()).count();
-    
-    return "txn_" + std::to_string(timestamp) + "_" + std::to_string(counter.fetch_add(1));
-}
-
-// TODO: Once proto/themis_core.proto is compiled, implement these methods:
-//
-// grpc::Status ThemisCoreServiceImpl::Create(...)
-// grpc::Status ThemisCoreServiceImpl::Read(...)
-// grpc::Status ThemisCoreServiceImpl::Update(...)
-// grpc::Status ThemisCoreServiceImpl::Delete(...)
-// grpc::Status ThemisCoreServiceImpl::BatchCreate(...)
-// grpc::Status ThemisCoreServiceImpl::BatchRead(...)
-// grpc::Status ThemisCoreServiceImpl::BatchUpdate(...)
-// grpc::Status ThemisCoreServiceImpl::BatchDelete(...)
-// grpc::Status ThemisCoreServiceImpl::BeginTransaction(...)
-// grpc::Status ThemisCoreServiceImpl::CommitTransaction(...)
-// grpc::Status ThemisCoreServiceImpl::RollbackTransaction(...)
-// grpc::Status ThemisCoreServiceImpl::ExecuteAQL(...)
-// grpc::Status ThemisCoreServiceImpl::StreamQuery(...)
-// grpc::Status ThemisCoreServiceImpl::ScanCollection(...)
-// grpc::Status ThemisCoreServiceImpl::HealthCheck(...)
-// grpc::Status ThemisCoreServiceImpl::GetStatus(...)
 
 } // namespace core
 } // namespace themis
