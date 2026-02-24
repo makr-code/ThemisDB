@@ -1501,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/warmup.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/consumer_group.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp
