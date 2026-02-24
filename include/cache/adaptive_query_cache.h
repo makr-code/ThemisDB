@@ -276,10 +276,18 @@ public:
     std::vector<std::string> exportKeys(size_t max_keys = 100) const;
     
     /**
-     * @brief Get tenant usage statistics
-     * @return JSON with per-tenant size usage
+     * @brief Get tenant usage statistics (all tenants)
+     * @return JSON with per-tenant size, hit/miss, and eviction statistics
      */
     nlohmann::json getTenantStats() const;
+
+    /**
+     * @brief Get cache statistics for a single tenant
+     * @param tenant_id Tenant identifier
+     * @return JSON with hit/miss/eviction/bytes statistics for the tenant,
+     *         or {"found": false} if the tenant has no recorded activity
+     */
+    nlohmann::json getTenantStatsForTenant(const std::string& tenant_id) const;
     
     /**
      * @brief Bulk put for cache warmup
@@ -400,8 +408,16 @@ private:
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
     
-    // Phase 2: Tenant isolation - track per-tenant sizes
-    std::unordered_map<std::string, size_t> tenant_sizes_;
+    // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
+    struct TenantMetrics {
+        uint64_t hits     = 0;      ///< cache hits attributed to this tenant
+        uint64_t misses   = 0;      ///< cache misses attributed to this tenant
+        uint64_t evictions = 0;     ///< entries evicted (via invalidateTenant)
+        size_t   bytes_used = 0;    ///< estimated bytes currently consumed
+    };
+
+    // Phase 2/3: Tenant isolation – per-tenant metrics map
+    std::unordered_map<std::string, TenantMetrics> tenant_metrics_;
     mutable std::mutex tenant_mutex_;
     
     // L1: In-memory HashMap

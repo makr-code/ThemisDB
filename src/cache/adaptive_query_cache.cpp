@@ -223,6 +223,12 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 stats_.l1_hits++;
                 enhanced_metrics_.l1_hits++;
                 
+                // Phase 3: Track per-tenant hit
+                if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                    std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                    tenant_metrics_[tenant_id].hits++;
+                }
+                
                 // Return entry
                 CacheEntry result;
                 result.query_fingerprint = fingerprint;
@@ -297,6 +303,12 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     
                     stats_.l2_hits++;
                     enhanced_metrics_.l2_hits++;
+
+                    // Phase 3: Track per-tenant hit
+                    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                        tenant_metrics_[tenant_id].hits++;
+                    }
                     
                     // Promote to L1 if accessed frequently
                     if (entry.access_count >= 3 && decompressed.size() < config_.l1_max_entry_size) {
@@ -438,6 +450,12 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     
                     stats_.l3_hits++;
                     enhanced_metrics_.l3_hits++;
+
+                    // Phase 3: Track per-tenant hit
+                    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                        tenant_metrics_[tenant_id].hits++;
+                    }
                     
                     // Phase 1: Record success for circuit breaker
                     if (l3_circuit_breaker_) {
@@ -468,6 +486,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     // Cache miss
     stats_.misses++;
     enhanced_metrics_.misses++;
+    // Phase 3: Track per-tenant miss
+    if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+        std::lock_guard<std::mutex> tlock(tenant_mutex_);
+        tenant_metrics_[tenant_id].misses++;
+    }
     THEMIS_DEBUG("Cache miss: fingerprint={}", fingerprint.substr(0, 16));
     return std::nullopt;
 }
@@ -557,10 +580,10 @@ bool AdaptiveQueryCache::put(
         l1_cache_[key] = std::move(entry);
         enhanced_metrics_.total_bytes_cached += result_size;
         
-        // Phase 2: Update tenant size tracking
+        // Phase 2/3: Update tenant size tracking
         if (config_.enable_tenant_isolation && !tenant_id.empty()) {
             std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_sizes_[tenant_id] += result_size;
+            tenant_metrics_[tenant_id].bytes_used += result_size;
         }
         
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
@@ -1137,7 +1160,7 @@ bool AdaptiveQueryCache::checkTenantQuota(
     }
     
     std::lock_guard<std::mutex> lock(tenant_mutex_);
-    size_t current_size = tenant_sizes_[tenant_id];
+    size_t current_size = tenant_metrics_[tenant_id].bytes_used;
     
     if (current_size + additional_bytes > config_.per_tenant_max_bytes) {
         THEMIS_WARN("Tenant {} quota exceeded: current={}, additional={}, limit={}",
@@ -1306,15 +1329,51 @@ nlohmann::json AdaptiveQueryCache::getTenantStats() const {
     tenant_stats["quota_per_tenant"] = config_.per_tenant_max_bytes;
     
     std::lock_guard<std::mutex> lock(tenant_mutex_);
-    for (const auto& [tenant_id, size_bytes] : tenant_sizes_) {
+    for (const auto& [tenant_id, metrics] : tenant_metrics_) {
         nlohmann::json tenant_info;
-        tenant_info["bytes_used"] = size_bytes;
-        tenant_info["quota"] = config_.per_tenant_max_bytes;
-        tenant_info["utilization"] = static_cast<double>(size_bytes) / config_.per_tenant_max_bytes;
+        uint64_t total = metrics.hits + metrics.misses;
+        tenant_info["bytes_used"]   = metrics.bytes_used;
+        tenant_info["quota"]        = config_.per_tenant_max_bytes;
+        tenant_info["utilization"]  = static_cast<double>(metrics.bytes_used) / config_.per_tenant_max_bytes;
+        tenant_info["hits"]         = metrics.hits;
+        tenant_info["misses"]       = metrics.misses;
+        tenant_info["evictions"]    = metrics.evictions;
+        tenant_info["hit_rate"]     = total > 0 ? static_cast<double>(metrics.hits) / total : 0.0;
         tenant_stats["tenants"][tenant_id] = tenant_info;
     }
     
     return tenant_stats;
+}
+
+nlohmann::json AdaptiveQueryCache::getTenantStatsForTenant(const std::string& tenant_id) const {
+    if (!config_.enable_tenant_isolation || tenant_id.empty()) {
+        nlohmann::json result;
+        result["found"] = false;
+        result["reason"] = "tenant isolation is disabled";
+        return result;
+    }
+
+    std::lock_guard<std::mutex> lock(tenant_mutex_);
+    auto it = tenant_metrics_.find(tenant_id);
+    if (it == tenant_metrics_.end()) {
+        nlohmann::json result;
+        result["found"] = false;
+        return result;
+    }
+
+    const auto& m = it->second;
+    uint64_t total = m.hits + m.misses;
+    nlohmann::json result;
+    result["found"]       = true;
+    result["tenant_id"]   = tenant_id;
+    result["bytes_used"]  = m.bytes_used;
+    result["quota"]       = config_.per_tenant_max_bytes;
+    result["utilization"] = static_cast<double>(m.bytes_used) / config_.per_tenant_max_bytes;
+    result["hits"]        = m.hits;
+    result["misses"]      = m.misses;
+    result["evictions"]   = m.evictions;
+    result["hit_rate"]    = total > 0 ? static_cast<double>(m.hits) / total : 0.0;
+    return result;
 }
 
 size_t AdaptiveQueryCache::bulkPut(
@@ -1401,10 +1460,11 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
         }
     }
     
-    // Update tenant size tracking
+    // Update tenant metrics: record evictions and reset byte count
     if (config_.enable_tenant_isolation) {
         std::lock_guard<std::mutex> lock(tenant_mutex_);
-        tenant_sizes_[tenant_id] = 0;
+        tenant_metrics_[tenant_id].evictions += count;
+        tenant_metrics_[tenant_id].bytes_used = 0;
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
@@ -1632,10 +1692,10 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
 
         ++result.entries_loaded;
 
-        // Update tenant size tracking
+        // Update tenant metrics (bytes only; warmup does not count as a hit)
         if (config_.enable_tenant_isolation && !tenant_id.empty()) {
             std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_sizes_[tenant_id] += decoded.size();
+            tenant_metrics_[tenant_id].bytes_used += decoded.size();
         }
     }
 
