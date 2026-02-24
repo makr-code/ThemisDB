@@ -18,6 +18,8 @@
  */
 
 #include "auth/api_key_authenticator.h"
+#include "auth/auth_audit_logger.h"
+#include "utils/audit_logger.h"
 
 #include <openssl/sha.h>
 #include <openssl/crypto.h>
@@ -121,6 +123,10 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
         auto it = credentials_.find(key_id);
         if (it == credentials_.end()) {
             spdlog::warn("ApiKeyAuthenticator: unknown key_id='{}'", key_id);
+            if (audit_logger_) {
+                AuthAuditLogger al(audit_logger_);
+                al.logApiKeyFailure(key_id, "key_id_not_found");
+            }
             throw AuthException(AuthError(
                 AuthErrorCode::API_KEY_INVALID,
                 "Authentication failed",
@@ -133,6 +139,10 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     // --- Check active flag --------------------------------------------------
     if (!cred.active) {
         spdlog::warn("ApiKeyAuthenticator: inactive key_id='{}'", key_id);
+        if (audit_logger_) {
+            AuthAuditLogger al(audit_logger_);
+            al.logApiKeyFailure(key_id, "key_inactive");
+        }
         throw AuthException(AuthError(
             AuthErrorCode::API_KEY_INACTIVE,
             "Authentication failed",
@@ -147,6 +157,10 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             std::chrono::system_clock::now() > cred.expires_at)
         {
             spdlog::warn("ApiKeyAuthenticator: expired key_id='{}'", key_id);
+            if (audit_logger_) {
+                AuthAuditLogger al(audit_logger_);
+                al.logApiKeyFailure(key_id, "key_expired");
+            }
             throw AuthException(AuthError(
                 AuthErrorCode::API_KEY_EXPIRED,
                 "Authentication failed",
@@ -169,6 +183,10 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
 
     if (!constantTimeEqual(presented_hash, cred.secret_hash)) {
         spdlog::warn("ApiKeyAuthenticator: secret mismatch for key_id='{}'", key_id);
+        if (audit_logger_) {
+            AuthAuditLogger al(audit_logger_);
+            al.logApiKeyFailure(key_id, "secret_mismatch");
+        }
         throw AuthException(AuthError(
             AuthErrorCode::API_KEY_SECRET_MISMATCH,
             "Authentication failed",
@@ -178,6 +196,10 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
 
     spdlog::info("ApiKeyAuthenticator: authenticated key_id='{}' principal='{}'",
                  key_id, cred.principal);
+    if (audit_logger_) {
+        AuthAuditLogger al(audit_logger_);
+        al.logApiKeySuccess(key_id, cred.principal);
+    }
     return claimsFromCredential(cred);
 }
 

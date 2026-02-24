@@ -102,6 +102,27 @@ void AuthAuditLogger::logMFAEnrolled(const std::string& user_id)
 }
 
 // ---------------------------------------------------------------------------
+// API Key events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logApiKeySuccess(const std::string& key_id,
+                                        const std::string& principal)
+{
+    nlohmann::json d;
+    d["key_id"] = key_id;
+    emit(utils::SecurityEventType::LOGIN_SUCCESS, principal, "api_key/" + key_id, d);
+}
+
+void AuthAuditLogger::logApiKeyFailure(const std::string& key_id,
+                                        const std::string& reason)
+{
+    nlohmann::json d;
+    d["key_id"] = key_id;
+    d["reason"] = reason;
+    emit(utils::SecurityEventType::LOGIN_FAILED, "", "api_key/" + key_id, d);
+}
+
+// ---------------------------------------------------------------------------
 // OAuth / SAML events
 // ---------------------------------------------------------------------------
 

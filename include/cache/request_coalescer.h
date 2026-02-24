@@ -28,6 +28,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <memory>
+#include "utils/logger.h"
 
 namespace themis { namespace cache {
 
@@ -50,7 +51,10 @@ public:
             res->success = r.success;
             res->data = r.data;
             res->version = r.version;
-        } catch (...) { res->success = false; }
+        } catch (...) {
+            THEMIS_WARN("RequestCoalescer: coalesced function threw an unknown exception");
+            res->success = false;
+        }
         return res;
     }
 };

@@ -79,6 +79,12 @@ struct CacheMetrics {
     std::atomic<uint64_t> warmup_entries_skipped{0};
     std::atomic<uint64_t> warmup_entries_failed{0};
 
+    // Phase 3: Adaptive TTL tuning metrics
+    // themis_cache_ttl_extended_total: entries whose TTL was extended (hot-key policy)
+    // themis_cache_ttl_shortened_total: entries whose TTL was shortened (cold-key policy)
+    std::atomic<uint64_t> ttl_extended_total{0};
+    std::atomic<uint64_t> ttl_shortened_total{0};
+
     CacheMetrics() = default;
 
     CacheMetrics(const CacheMetrics& other) {
@@ -106,6 +112,8 @@ struct CacheMetrics {
         warmup_entries_loaded.store(other.warmup_entries_loaded.load());
         warmup_entries_skipped.store(other.warmup_entries_skipped.load());
         warmup_entries_failed.store(other.warmup_entries_failed.load());
+        ttl_extended_total.store(other.ttl_extended_total.load());
+        ttl_shortened_total.store(other.ttl_shortened_total.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -134,6 +142,8 @@ struct CacheMetrics {
             warmup_entries_loaded.store(other.warmup_entries_loaded.load());
             warmup_entries_skipped.store(other.warmup_entries_skipped.load());
             warmup_entries_failed.store(other.warmup_entries_failed.load());
+            ttl_extended_total.store(other.ttl_extended_total.load());
+            ttl_shortened_total.store(other.ttl_shortened_total.load());
         }
         return *this;
     }
@@ -209,6 +219,10 @@ struct CacheMetrics {
         j["warmup"]["entries_loaded"] = warmup_entries_loaded.load();
         j["warmup"]["entries_skipped"] = warmup_entries_skipped.load();
         j["warmup"]["entries_failed"] = warmup_entries_failed.load();
+
+        // Phase 3: Adaptive TTL tuning metrics
+        j["adaptive_ttl"]["ttl_extended_total"] = ttl_extended_total.load();
+        j["adaptive_ttl"]["ttl_shortened_total"] = ttl_shortened_total.load();
         
         return j;
     }
@@ -239,6 +253,8 @@ struct CacheMetrics {
         warmup_entries_loaded = 0;
         warmup_entries_skipped = 0;
         warmup_entries_failed = 0;
+        ttl_extended_total = 0;
+        ttl_shortened_total = 0;
     }
 };
 
