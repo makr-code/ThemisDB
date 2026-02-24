@@ -128,6 +128,7 @@ struct DiagnosticsInfo {
  * Status information for the current retention/compaction state
  */
 struct RetentionStatus {
+    // --- Current log status ---
     uint64_t total_events = 0;              ///< Current number of change events
     size_t   total_size_bytes = 0;          ///< Approximate log size in bytes
     int64_t  oldest_event_age_ms = 0;       ///< Age of the oldest event (ms)
@@ -135,6 +136,13 @@ struct RetentionStatus {
     int64_t  newest_timestamp_ms = 0;       ///< Absolute timestamp of newest event
     int64_t  next_cleanup_time_ms = 0;      ///< Estimated time of next scheduled cleanup (epoch ms)
     bool     compact_on_cleanup = false;    ///< Whether key compaction runs with each cleanup cycle
+
+    // --- Current retention policy configuration ---
+    bool     policy_enabled = false;                ///< Whether automatic retention cleanup is active
+    uint32_t policy_max_age_hours = 168;            ///< Maximum event age before deletion (hours)
+    uint64_t policy_max_event_count = 1000000;      ///< Maximum number of events to retain
+    size_t   policy_max_size_bytes = Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES;  ///< Maximum log size in bytes
+    uint32_t policy_cleanup_interval_minutes = 60;  ///< Interval between background cleanup runs
 
     nlohmann::json toJson() const {
         return {
@@ -144,7 +152,14 @@ struct RetentionStatus {
             {"oldest_timestamp_ms",   oldest_timestamp_ms},
             {"newest_timestamp_ms",   newest_timestamp_ms},
             {"next_cleanup_time_ms",  next_cleanup_time_ms},
-            {"compact_on_cleanup",    compact_on_cleanup}
+            {"compact_on_cleanup",    compact_on_cleanup},
+            {"policy", {
+                {"enabled",                   policy_enabled},
+                {"max_age_hours",             policy_max_age_hours},
+                {"max_event_count",           policy_max_event_count},
+                {"max_size_bytes",            policy_max_size_bytes},
+                {"cleanup_interval_minutes",  policy_cleanup_interval_minutes}
+            }}
         };
     }
 };

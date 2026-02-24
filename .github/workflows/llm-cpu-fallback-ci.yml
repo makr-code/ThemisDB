@@ -37,7 +37,8 @@ concurrency:
 
 jobs:
   ci-scope-classifier:
-    permissions: {}
+    permissions:
+      contents: read
     uses: ./.github/workflows/ci-scope-classifier.yml
 
   llm-cpu-fallback:

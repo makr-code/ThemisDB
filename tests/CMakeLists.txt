@@ -162,6 +162,8 @@ endif()
 if(NOT THEMIS_ENABLE_WEBSOCKET)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_wire_protocol_websocket\\.cpp$"
+        ".*test_ws_handler\\.cpp$"
+        ".*test_websocket_cdc\\.cpp$"
     )
 endif()
 
@@ -174,6 +176,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
         ".*test_pdf_processor\\.cpp$"
+        ".*test_content_embedding_pipeline\\.cpp$"
     )
 endif()
 
@@ -466,6 +469,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )

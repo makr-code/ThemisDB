@@ -310,6 +310,24 @@ public:
     size_t invalidateTenant(const std::string& tenant_id);
 
     /**
+     * @brief Update the cache quota for a specific tenant.
+     *
+     * Overrides the global `config_.per_tenant_max_bytes` for the given
+     * tenant.  The new quota is enforced immediately on the next `put()`
+     * that is attributed to that tenant.
+     *
+     * - A quota of 0 restores the global default (`config_.per_tenant_max_bytes`).
+     * - Reducing the quota below the current `bytes_used` does NOT evict
+     *   existing entries; it only prevents new ones from being accepted.
+     *
+     * @param tenant_id   Tenant identifier (must not be empty).
+     * @param quota_bytes New quota in bytes (0 = revert to global default).
+     * @return true on success; false when tenant_id is empty or tenant
+     *         isolation is disabled.
+     */
+    bool updateTenantQuota(const std::string& tenant_id, size_t quota_bytes);
+
+    /**
      * @brief Get L3 circuit breaker status as JSON.
      *
      * Returns an object with keys:
@@ -424,6 +442,8 @@ private:
 
     // Phase 2/3: Tenant isolation – per-tenant metrics map
     std::unordered_map<std::string, TenantMetrics> tenant_metrics_;
+    // Per-tenant quota overrides (0 = use global config_.per_tenant_max_bytes)
+    std::unordered_map<std::string, size_t> tenant_quota_overrides_;
     mutable std::mutex tenant_mutex_;
     
     // L1: In-memory HashMap
@@ -458,6 +478,8 @@ private:
     // Phase 2: Tenant isolation helpers
     std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
+    // Returns the effective quota for a tenant (override if set, else global default)
+    size_t getEffectiveTenantQuota(const std::string& tenant_id) const;
 };
 
 } // namespace themis

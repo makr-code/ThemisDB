@@ -387,6 +387,14 @@ RetentionStatus CDCAdmin::getRetentionStatus() {
             duration_cast<milliseconds>(policy.cleanup_interval).count();
     }
 
+    // Expose the full retention policy configuration so callers can read it back
+    status.policy_enabled                = policy.enabled;
+    status.policy_max_age_hours          = static_cast<uint32_t>(policy.max_age_hours.count());
+    status.policy_max_event_count        = policy.max_event_count;
+    status.policy_max_size_bytes         = policy.max_size_bytes;
+    status.policy_cleanup_interval_minutes =
+        static_cast<uint32_t>(policy.cleanup_interval.count());
+
     return status;
 }
 
