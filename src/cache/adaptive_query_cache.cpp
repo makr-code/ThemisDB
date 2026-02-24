@@ -1235,10 +1235,7 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
     info["write_through"] = {
         {"enabled", config_.enable_write_through},
         {"total", enhanced_metrics_.write_through_total.load()},
-        {"errors", enhanced_metrics_.write_through_errors.load()}
-    // Phase 4: Write-through cache mode
-    info["write_through"] = {
-        {"enabled", config_.enable_write_through},
+        {"errors", enhanced_metrics_.write_through_errors.load()},
         {"writes", enhanced_metrics_.write_through_writes.load()}
     };
     
