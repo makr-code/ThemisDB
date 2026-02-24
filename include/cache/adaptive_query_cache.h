@@ -326,8 +326,11 @@ public:
      * - L1 / L2: removed via the in-memory PII reverse index.
      * - L3 (RocksDB): removed by scanning the `pii_ref:{pii_uuid}:` prefix
      *   that was written alongside the original cache entry.
-     * - An audit-log entry is emitted for every call (regardless of how many
-     *   entries were actually purged) to satisfy compliance requirements.
+     * - A structured log entry (THEMIS_INFO) is emitted for every call,
+     *   regardless of how many entries were actually purged, to provide an
+     *   operational trace.  For a formal GDPR audit trail, the caller
+     *   (e.g. PIIPseudonymizer::erasePII) is responsible for logging to the
+     *   dedicated AuditLogger before invoking this method.
      *
      * @param pii_uuid  UUID that identifies the erased data-subject record.
      * @return Number of cache entries purged across all tiers.
