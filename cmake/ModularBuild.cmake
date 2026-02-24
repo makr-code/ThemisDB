@@ -353,6 +353,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
+    ../src/auth/oidc_provider.cpp
+    ../src/auth/federated_identity_manager.cpp
+    ../src/auth/oauth_device_flow.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
