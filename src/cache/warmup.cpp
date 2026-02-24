@@ -290,6 +290,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                         evictLRU(CacheLevel::HOT);
                     }
                     l1_cache_[cache_key] = std::move(entry);
+                    l1_eviction_strategy_->onInsert(cache_key, static_cast<uint64_t>(now_ms));
                     ++l1_warmed;
                     enhanced_metrics_.total_bytes_cached += decoded.size();
                     inserted = true;
@@ -320,6 +321,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
                         evictLRU(CacheLevel::WARM);
                     }
                     l2_cache_[cache_key] = std::move(entry);
+                    l2_eviction_strategy_->onInsert(cache_key, static_cast<uint64_t>(now_ms));
                     enhanced_metrics_.total_bytes_cached += decoded.size();
                     enhanced_metrics_.total_bytes_compressed += compressed_size;
                     inserted = true;
@@ -331,7 +333,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             // Update tenant quota tracking only when the entry was actually inserted.
             if (config_.enable_tenant_isolation && !tenant_id.empty()) {
                 std::lock_guard<std::mutex> tlk(tenant_mutex_);
-                tenant_sizes_[tenant_id] += decoded.size();
+                tenant_metrics_[tenant_id].bytes_used += decoded.size();
             }
             ++loaded;
             enhanced_metrics_.warmup_entries_loaded++;
