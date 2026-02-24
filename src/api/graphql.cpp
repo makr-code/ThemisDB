@@ -879,7 +879,13 @@ std::string Schema::toSDL() const {
             case TypeDefinition::Kind::InputObject:
                 oss << "input " << name << " {\n";
                 for (const auto& field : type.fields) {
-                    oss << "  " << field.name << ": " << field.type.name;
+                    oss << "  " << field.name << ": ";
+                    if (field.type.is_list) oss << "[";
+                    oss << field.type.name;
+                    // TypeRef uses is_non_null for both element and list
+                    // wrapper: [Type!]! when both flags are set.
+                    if (field.type.is_non_null && field.type.is_list) oss << "!";
+                    if (field.type.is_list) oss << "]";
                     if (field.type.is_non_null) oss << "!";
                     oss << "\n";
                 }
@@ -902,13 +908,24 @@ std::string Schema::toSDL() const {
                         bool first = true;
                         for (const auto& [argName, argType] : field.arguments) {
                             if (!first) oss << ", ";
-                            oss << argName << ": " << argType.name;
+                            oss << argName << ": ";
+                            if (argType.is_list) oss << "[";
+                            oss << argType.name;
+                            // TypeRef uses is_non_null for both element and list
+                            // wrapper: [Type!]! when both flags are set.
+                            if (argType.is_non_null && argType.is_list) oss << "!";
+                            if (argType.is_list) oss << "]";
                             if (argType.is_non_null) oss << "!";
                             first = false;
                         }
                         oss << ")";
                     }
-                    oss << ": " << field.type.name;
+                    oss << ": ";
+                    if (field.type.is_list) oss << "[";
+                    oss << field.type.name;
+                    // TypeRef uses is_non_null for both element and list
+                    // wrapper: [Type!]! when both flags are set.
+                    if (field.type.is_non_null && field.type.is_list) oss << "!";
                     if (field.type.is_list) oss << "]";
                     if (field.type.is_non_null) oss << "!";
                     oss << "\n";

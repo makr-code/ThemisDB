@@ -233,6 +233,27 @@ TEST(GraphQLMultiModel, SDLIncludesChangeEventType) {
     EXPECT_TRUE(sdl.find("DELETED") != std::string::npos);
 }
 
+TEST(GraphQLMultiModel, SDLListTypesUseCorrectBracketSyntax) {
+    Schema schema = ThemisSchemaBuilder::build();
+    std::string sdl = schema.toSDL();
+
+    // List fields must use '[Type!]!' notation, not 'Type]!' (pre-existing SDL bug fix)
+    EXPECT_TRUE(sdl.find("[TimeseriesPoint!]!") != std::string::npos)
+        << "timeseriesRange/timeseriesLatest should render as [TimeseriesPoint!]!";
+    EXPECT_TRUE(sdl.find("[Document!]!") != std::string::npos)
+        << "documents/nearbyDocuments should render as [Document!]!";
+    EXPECT_TRUE(sdl.find("[Node!]!") != std::string::npos)
+        << "graphTraversal should render as [Node!]!";
+    EXPECT_TRUE(sdl.find("[VectorSearchResult!]!") != std::string::npos)
+        << "vectorSearch should render as [VectorSearchResult!]!";
+
+    // Make sure the buggy form is not present
+    EXPECT_EQ(sdl.find("TimeseriesPoint]!"), std::string::npos)
+        << "Invalid SDL 'TimeseriesPoint]!' must not appear";
+    EXPECT_EQ(sdl.find("Document]!"), std::string::npos)
+        << "Invalid SDL 'Document]!' must not appear";
+}
+
 // ============================================================================
 // Schema Registration (subscription_type_ set correctly)
 // ============================================================================
