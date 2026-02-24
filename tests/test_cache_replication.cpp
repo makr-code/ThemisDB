@@ -1,0 +1,674 @@
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
+#include <gtest/gtest.h>
+#include "cache/adaptive_query_cache.h"
+#include "cache/cache_replication_coordinator.h"
+#include <nlohmann/json.hpp>
+#include <thread>
+#include <chrono>
+#include <filesystem>
+
+using namespace themis;
+using json = nlohmann::json;
+
+// ---------------------------------------------------------------------------
+// Helper: create a small AdaptiveQueryCache config that avoids RocksDB I/O
+// ---------------------------------------------------------------------------
+static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_suffix = "") {
+    AdaptiveQueryCache::Config cfg;
+    cfg.l3_db_path = "/tmp/themis_repl_test_cache_" + db_suffix + "_" +
+                     std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
+    cfg.l1_max_entries  = 20;
+    cfg.l2_max_entries  = 40;
+    cfg.l1_ttl_seconds  = 300;
+    cfg.l2_ttl_seconds  = 600;
+    cfg.l3_ttl_seconds  = 3600;
+    cfg.enable_replication = true;
+// Phase 4: Unit tests for cache replication (high-availability deployments)
+
+#include <gtest/gtest.h>
+#include "cache/adaptive_query_cache.h"
+#include "cache/cache_replication.h"
+#include <nlohmann/json.hpp>
+#include <filesystem>
+#include <chrono>
+#include <vector>
+#include <string>
+#include <atomic>
+
+using namespace themis;
+using namespace themis::cache;
+using json = nlohmann::json;
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+static std::string uniqueTmpPath(const std::string& suffix = "") {
+    auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+    return "/tmp/themis_repl_test_" + std::to_string(ts) + suffix;
+}
+
+static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_path) {
+    AdaptiveQueryCache::Config cfg;
+    cfg.l3_db_path          = db_path;
+    cfg.l1_max_entries      = 20;
+    cfg.l2_max_entries      = 40;
+    cfg.l1_max_entry_size   = 1024;
+    cfg.l2_max_entry_size   = 10240;
+    cfg.l1_ttl_seconds      = 300;
+    cfg.l2_ttl_seconds      = 600;
+    cfg.l3_ttl_seconds      = 3600;
+    cfg.enable_rate_limiting    = false;
+    cfg.enable_tenant_isolation = false;
+    return cfg;
+}
+
+// ---------------------------------------------------------------------------
+// Test: InProcessCacheCoordinator standalone (no bus)
+// ---------------------------------------------------------------------------
+TEST(InProcessCacheCoordinatorTest, StandalonePublishNoOp) {
+    auto coord = std::make_shared<cache::InProcessCacheCoordinator>();
+    EXPECT_TRUE(coord->isConnected());
+    EXPECT_EQ(coord->name(), "InProcessCacheCoordinator");
+
+    // Publish without any subscribers – should not throw
+    EXPECT_NO_THROW(coord->publishEntry("key1", {{"a", 1}}, 300, "tenant1"));
+    EXPECT_NO_THROW(coord->publishInvalidation(".*pattern.*"));
+
+    auto stats = coord->getStats();
+    EXPECT_EQ(stats["messages_sent"].get<uint64_t>(), 2u);
+    EXPECT_EQ(stats["messages_received"].get<uint64_t>(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// Test: InProcessCacheCoordinator with bus – two coordinators exchange msgs
+// ---------------------------------------------------------------------------
+TEST(InProcessCacheCoordinatorTest, BusDeliversEntriesToPeer) {
+    auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+    auto coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+
+    // Register callback on coordinator B
+    std::vector<cache::ReplicationMessage> received;
+    coord_b->subscribeEntries([&received](const cache::ReplicationMessage& msg) {
+        received.push_back(msg);
+    });
+
+    // Publish from A – B should receive it
+    coord_a->publishEntry("fp_abc", {{"result", 42}}, 120, "acme");
+
+    ASSERT_EQ(received.size(), 1u);
+    EXPECT_EQ(received[0].type, cache::ReplicationMessage::Type::ENTRY_PUT);
+    EXPECT_EQ(received[0].key, "fp_abc");
+    EXPECT_EQ(received[0].tenant_id, "acme");
+    EXPECT_EQ(received[0].ttl_seconds, 120);
+    EXPECT_EQ(received[0].result["result"].get<int>(), 42);
+}
+
+TEST(InProcessCacheCoordinatorTest, BusDeliversInvalidationsToPeer) {
+    auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+    auto coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+
+    std::vector<cache::ReplicationMessage> received;
+    coord_b->subscribeInvalidations([&received](const cache::ReplicationMessage& msg) {
+        received.push_back(msg);
+    });
+
+    coord_a->publishInvalidation("users.*", "tenant_x");
+
+    ASSERT_EQ(received.size(), 1u);
+    EXPECT_EQ(received[0].type, cache::ReplicationMessage::Type::INVALIDATE);
+    EXPECT_EQ(received[0].key, "users.*");
+    EXPECT_EQ(received[0].tenant_id, "tenant_x");
+}
+
+TEST(InProcessCacheCoordinatorTest, PublisherDoesNotReceiveOwnMessages) {
+    auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+
+    bool self_received = false;
+    coord_a->subscribeEntries([&self_received](const cache::ReplicationMessage&) {
+        self_received = true;
+    });
+
+    coord_a->publishEntry("key", {{}}, 60, "");
+    EXPECT_FALSE(self_received);
+}
+
+TEST(InProcessCacheCoordinatorTest, StatsReflectMessageCounts) {
+    auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+    auto coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+
+    coord_b->subscribeEntries([](const cache::ReplicationMessage&) {});
+
+    coord_a->publishEntry("k1", {{}}, 10, "");
+    coord_a->publishEntry("k2", {{}}, 20, "");
+    coord_a->publishInvalidation(".*");
+
+    auto stats_a = coord_a->getStats();
+    EXPECT_EQ(stats_a["messages_sent"].get<uint64_t>(), 3u);
+
+    auto stats_b = coord_b->getStats();
+    EXPECT_EQ(stats_b["messages_received"].get<uint64_t>(), 3u);
+}
+
+// ---------------------------------------------------------------------------
+// Test: AdaptiveQueryCache + replication coordinator integration
+// ---------------------------------------------------------------------------
+class CacheReplicationIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        bus_    = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+        coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus_);
+        coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus_);
+
+        auto cfg_a = makeTestConfig("a");
+        auto cfg_b = makeTestConfig("b");
+        db_path_a_ = cfg_a.l3_db_path;
+        db_path_b_ = cfg_b.l3_db_path;
+
+        cache_a = std::make_unique<AdaptiveQueryCache>(cfg_a);
+        cache_b = std::make_unique<AdaptiveQueryCache>(cfg_b);
+
+        cache_a->setCoordinator(coord_a);
+        cache_b->setCoordinator(coord_b);
+    }
+
+    void TearDown() override {
+        cache_a.reset();
+        cache_b.reset();
+        std::filesystem::remove_all(db_path_a_);
+        std::filesystem::remove_all(db_path_b_);
+    }
+
+    std::shared_ptr<cache::InProcessCacheCoordinator::Bus> bus_;
+    std::shared_ptr<cache::InProcessCacheCoordinator>      coord_a;
+    std::shared_ptr<cache::InProcessCacheCoordinator>      coord_b;
+    std::unique_ptr<AdaptiveQueryCache>                    cache_a;
+    std::unique_ptr<AdaptiveQueryCache>                    cache_b;
+    std::string db_path_a_;
+    std::string db_path_b_;
+};
+
+TEST_F(CacheReplicationIntegrationTest, PutOnAReplicatesToB) {
+    json result = {{"data", {1, 2, 3}}};
+    std::string fp = cache_a->generateFingerprint("SELECT 1", {});
+
+    bool stored = cache_a->put(fp, {}, result);
+    ASSERT_TRUE(stored);
+
+    // cache_b should have received the replicated entry
+    auto entry = cache_b->get(fp);
+    ASSERT_TRUE(entry.has_value());
+    EXPECT_EQ(entry->result["data"][0].get<int>(), 1);
+}
+
+TEST_F(CacheReplicationIntegrationTest, InvalidateOnAPropagatestoB) {
+    json result = {{"x", 99}};
+    std::string fp = cache_a->generateFingerprint("SELECT x", {});
+
+    // Put in both caches directly so B has the entry
+    cache_b->put(fp, {}, result);
+    ASSERT_TRUE(cache_b->get(fp).has_value());
+
+    // Invalidate from A – should propagate to B
+    cache_a->invalidate(".*");  // matches everything
+
+    // B should have evicted the entry from L1/L2
+    EXPECT_FALSE(cache_b->get(fp).has_value());
+}
+
+TEST_F(CacheReplicationIntegrationTest, GracefulDegradationWhenCoordinatorRemoved) {
+    // Remove coordinator from A – puts should still succeed locally
+    cache_a->setCoordinator(nullptr);
+
+    json result = {{"val", 7}};
+    std::string fp = cache_a->generateFingerprint("SELECT 7", {});
+    EXPECT_TRUE(cache_a->put(fp, {}, result));
+    EXPECT_TRUE(cache_a->get(fp).has_value());
+
+    // B should NOT have received the entry (coordinator is gone)
+    EXPECT_FALSE(cache_b->get(fp).has_value());
+}
+
+TEST_F(CacheReplicationIntegrationTest, GetReplicationStatsReturnsEnabled) {
+    auto stats = cache_a->getReplicationStats();
+    EXPECT_TRUE(stats["enabled"].get<bool>());
+    EXPECT_EQ(stats["name"].get<std::string>(), "InProcessCacheCoordinator");
+}
+
+TEST_F(CacheReplicationIntegrationTest, GetReplicationStatsDisabledWhenNoCoordinator) {
+    cache_a->setCoordinator(nullptr);
+    auto stats = cache_a->getReplicationStats();
+    EXPECT_FALSE(stats["enabled"].get<bool>());
+}
+
+TEST_F(CacheReplicationIntegrationTest, PutWithReplicationDisabledNoMessagesPublished) {
+    // Create a cache with enable_replication = false
+    auto cfg = makeTestConfig("norep");
+    cfg.enable_replication = false;
+    std::string db_path = cfg.l3_db_path;
+
+    auto cache_no_rep = std::make_unique<AdaptiveQueryCache>(cfg);
+    auto coord_c = std::make_shared<cache::InProcessCacheCoordinator>(bus_);
+
+    bool received = false;
+    coord_c->subscribeEntries([&received](const cache::ReplicationMessage&) {
+        received = true;
+    });
+    cache_no_rep->setCoordinator(coord_c);
+
+    std::string fp = cache_no_rep->generateFingerprint("NO REPLICATE", {});
+    cache_no_rep->put(fp, {}, {{"v", 1}});
+
+    EXPECT_FALSE(received);
+
+    cache_no_rep.reset();
+    std::filesystem::remove_all(db_path);
+}
+
+// ---------------------------------------------------------------------------
+// Test: three-node bus – entry put on A replicates to B and C
+// ---------------------------------------------------------------------------
+TEST_F(CacheReplicationIntegrationTest, InvalidateTenantPropagatesToB) {
+    // Both caches use tenant isolation
+    auto cfg_a = makeTestConfig("tena");
+    auto cfg_b = makeTestConfig("tenb");
+    cfg_a.enable_tenant_isolation = true;
+    cfg_b.enable_tenant_isolation = true;
+    std::string dp_a = cfg_a.l3_db_path;
+    std::string dp_b = cfg_b.l3_db_path;
+
+    auto ta = std::make_unique<AdaptiveQueryCache>(cfg_a);
+    auto tb = std::make_unique<AdaptiveQueryCache>(cfg_b);
+
+    auto bus2   = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto ca_ten = std::make_shared<cache::InProcessCacheCoordinator>(bus2);
+    auto cb_ten = std::make_shared<cache::InProcessCacheCoordinator>(bus2);
+    ta->setCoordinator(ca_ten);
+    tb->setCoordinator(cb_ten);
+
+    const std::string tenant = "acme";
+    json result = {{"v", 42}};
+    std::string fp = ta->generateFingerprint("SELECT v", {}, tenant);
+
+    // Put into tb directly with tenant isolation
+    tb->put(fp, {}, result, tenant);
+    ASSERT_TRUE(tb->get(fp, tenant).has_value());
+
+    // Invalidate tenant on ta → should propagate to tb
+    ta->invalidateTenant(tenant);
+
+    // tb must have evicted the tenant-scoped entry from L1/L2
+    EXPECT_FALSE(tb->get(fp, tenant).has_value());
+
+    ta.reset(); tb.reset();
+    std::filesystem::remove_all(dp_a);
+    std::filesystem::remove_all(dp_b);
+}
+
+TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
+    auto bus = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
+    auto coord_a = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+    auto coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+    auto coord_c = std::make_shared<cache::InProcessCacheCoordinator>(bus);
+
+    auto make_cfg = [](const std::string& suffix) {
+        return makeTestConfig(suffix);
+    };
+    auto cfg_a = make_cfg("3a");
+    auto cfg_b = make_cfg("3b");
+    auto cfg_c = make_cfg("3c");
+    std::string dp_a = cfg_a.l3_db_path;
+    std::string dp_b = cfg_b.l3_db_path;
+    std::string dp_c = cfg_c.l3_db_path;
+
+    auto cache_a = std::make_unique<AdaptiveQueryCache>(cfg_a);
+    auto cache_b = std::make_unique<AdaptiveQueryCache>(cfg_b);
+    auto cache_c = std::make_unique<AdaptiveQueryCache>(cfg_c);
+
+    cache_a->setCoordinator(coord_a);
+    cache_b->setCoordinator(coord_b);
+    cache_c->setCoordinator(coord_c);
+
+    std::string fp = cache_a->generateFingerprint("SELECT 3", {});
+    cache_a->put(fp, {}, {{"nodes", 3}});
+
+    EXPECT_TRUE(cache_b->get(fp).has_value());
+    EXPECT_TRUE(cache_c->get(fp).has_value());
+
+    cache_a.reset(); cache_b.reset(); cache_c.reset();
+    std::filesystem::remove_all(dp_a);
+    std::filesystem::remove_all(dp_b);
+    std::filesystem::remove_all(dp_c);
+// In-process mock listener that records all received events
+// ---------------------------------------------------------------------------
+
+class MockCacheReplicationListener : public ICacheReplicationListener {
+public:
+    explicit MockCacheReplicationListener(const std::string& id = "mock-replica")
+        : id_(id) {}
+
+    bool onReplicationEvent(const CacheReplicationEvent& event) override {
+        if (fail_next_) {
+            fail_next_ = false;
+            return false;
+        }
+        events_.push_back(event);
+        return true;
+    }
+
+    bool ping() override { return ping_alive_; }
+
+    std::string replicaId() const override { return id_; }
+
+    // Test helpers
+    void setFailNext(bool v = true) { fail_next_ = v; }
+    void setPingAlive(bool v) { ping_alive_ = v; }
+
+    const std::vector<CacheReplicationEvent>& events() const { return events_; }
+
+    size_t countByType(CacheReplicationEventType t) const {
+        size_t n = 0;
+        for (const auto& e : events_) if (e.type == t) ++n;
+        return n;
+    }
+
+    void clear() { events_.clear(); }
+
+private:
+    std::string id_;
+    std::vector<CacheReplicationEvent> events_;
+    bool fail_next_  = false;
+    bool ping_alive_ = true;
+};
+
+// ===========================================================================
+// Tests: CacheReplicationManager
+// ===========================================================================
+
+class CacheReplicationManagerTest : public ::testing::Test {
+protected:
+    CacheReplicationConfig cfg_;
+    std::shared_ptr<CacheReplicationManager> mgr_;
+    std::shared_ptr<MockCacheReplicationListener> replica_;
+
+    void SetUp() override {
+        cfg_.max_consecutive_failures = 2;
+        cfg_.semi_sync = false;
+        cfg_.enabled   = true;
+        mgr_    = std::make_shared<CacheReplicationManager>(cfg_);
+        replica_ = std::make_shared<MockCacheReplicationListener>("replica-1");
+    }
+};
+
+TEST_F(CacheReplicationManagerTest, AddReplicaIncreasesCount) {
+    EXPECT_EQ(mgr_->replicaCount(), 0u);
+    mgr_->addReplica(replica_);
+    EXPECT_EQ(mgr_->replicaCount(), 1u);
+}
+
+TEST_F(CacheReplicationManagerTest, RemoveReplicaDecreasesCount) {
+    mgr_->addReplica(replica_);
+    mgr_->removeReplica("replica-1");
+    EXPECT_EQ(mgr_->replicaCount(), 0u);
+}
+
+TEST_F(CacheReplicationManagerTest, NullListenerIgnored) {
+    mgr_->addReplica(nullptr);
+    EXPECT_EQ(mgr_->replicaCount(), 0u);
+}
+
+TEST_F(CacheReplicationManagerTest, WriteEventDispatchedToReplica) {
+    mgr_->addReplica(replica_);
+    mgr_->notifyWrite("key1", R"({"v":1})", "tenant-a", 300);
+
+    ASSERT_EQ(replica_->events().size(), 1u);
+    EXPECT_EQ(replica_->events()[0].type, CacheReplicationEventType::WRITE);
+    EXPECT_EQ(replica_->events()[0].key, "key1");
+    EXPECT_EQ(replica_->events()[0].tenant_id, "tenant-a");
+    EXPECT_EQ(replica_->events()[0].ttl_seconds, 300);
+    EXPECT_EQ(replica_->events()[0].payload, R"({"v":1})");
+}
+
+TEST_F(CacheReplicationManagerTest, InvalidateEventDispatchedToReplica) {
+    mgr_->addReplica(replica_);
+    mgr_->notifyInvalidate("orders_.*");
+
+    ASSERT_EQ(replica_->events().size(), 1u);
+    EXPECT_EQ(replica_->events()[0].type, CacheReplicationEventType::INVALIDATE);
+    EXPECT_EQ(replica_->events()[0].pattern, "orders_.*");
+}
+
+TEST_F(CacheReplicationManagerTest, InvalidateTenantEventDispatched) {
+    mgr_->addReplica(replica_);
+    mgr_->notifyInvalidateTenant("acme");
+
+    ASSERT_EQ(replica_->events().size(), 1u);
+    EXPECT_EQ(replica_->events()[0].type, CacheReplicationEventType::INVALIDATE_TENANT);
+    EXPECT_EQ(replica_->events()[0].tenant_id, "acme");
+}
+
+TEST_F(CacheReplicationManagerTest, SnapshotSentOnAddReplica) {
+    mgr_->addReplica(replica_, R"({"key":"abc","value_b64":"dGVzdA==","ttl_remaining_s":60})");
+
+    ASSERT_EQ(replica_->countByType(CacheReplicationEventType::SNAPSHOT), 1u);
+    EXPECT_FALSE(replica_->events()[0].payload.empty());
+}
+
+TEST_F(CacheReplicationManagerTest, GracefulDegradation_ReplicaMarkedUnhealthyAfterFailures) {
+    mgr_->addReplica(replica_);
+
+    // Simulate consecutive failures exceeding threshold (2)
+    replica_->setFailNext(true);
+    mgr_->notifyWrite("k1", "{}", "", 60);
+
+    replica_->setFailNext(true);
+    mgr_->notifyWrite("k2", "{}", "", 60);
+
+    // After max_consecutive_failures, replica should be UNHEALTHY → skipped
+    size_t events_before = replica_->events().size();
+    mgr_->notifyWrite("k3", "{}", "", 60);
+    // UNHEALTHY replica is skipped; no new event recorded
+    EXPECT_EQ(replica_->events().size(), events_before);
+}
+
+TEST_F(CacheReplicationManagerTest, UnhealthyReplicaRecoveredOnProbe) {
+    mgr_->addReplica(replica_);
+
+    // Drive replica to UNHEALTHY
+    replica_->setFailNext(true);
+    mgr_->notifyWrite("k1", "{}", "", 60);
+    replica_->setFailNext(true);
+    mgr_->notifyWrite("k2", "{}", "", 60);
+
+    // replica is now unhealthy and ping returns true → should recover
+    replica_->setPingAlive(true);
+    mgr_->probeUnhealthyReplicas();
+
+    // After recovery, new writes are delivered again
+    size_t before = replica_->events().size();
+    mgr_->notifyWrite("k3", "{}", "", 60);
+    EXPECT_GT(replica_->events().size(), before);
+}
+
+TEST_F(CacheReplicationManagerTest, DisabledManagerDoesNotDispatch) {
+    cfg_.enabled = false;
+    auto disabled_mgr = std::make_shared<CacheReplicationManager>(cfg_);
+    disabled_mgr->addReplica(replica_);
+    disabled_mgr->notifyWrite("key", "{}", "", 30);
+    // snapshot is sent during addReplica (non-empty only when snapshot_ndjson provided)
+    // no WRITE events expected
+    EXPECT_EQ(replica_->countByType(CacheReplicationEventType::WRITE), 0u);
+}
+
+TEST_F(CacheReplicationManagerTest, SequenceNumberMonotonicallyIncreases) {
+    mgr_->addReplica(replica_);
+    mgr_->notifyWrite("k1", "{}", "", 10);
+    mgr_->notifyWrite("k2", "{}", "", 10);
+    mgr_->notifyInvalidate(".*");
+
+    ASSERT_GE(replica_->events().size(), 3u);
+    uint64_t prev = 0;
+    for (const auto& ev : replica_->events()) {
+        if (ev.sequence > 0) {
+            EXPECT_GT(ev.sequence, prev);
+            prev = ev.sequence;
+        }
+    }
+}
+
+TEST_F(CacheReplicationManagerTest, GetStatsReturnsExpectedFields) {
+    mgr_->addReplica(replica_);
+    mgr_->notifyWrite("k", "{}", "", 10);
+    auto stats = mgr_->getStats();
+    EXPECT_TRUE(stats.contains("events_dispatched"));
+    EXPECT_TRUE(stats.contains("events_failed"));
+    EXPECT_TRUE(stats.contains("replica_count"));
+    EXPECT_EQ(stats["replica_count"].get<size_t>(), 1u);
+}
+
+TEST_F(CacheReplicationManagerTest, GetReplicaHealthReturnsArray) {
+    mgr_->addReplica(replica_);
+    auto health = mgr_->getReplicaHealth();
+    ASSERT_TRUE(health.is_array());
+    ASSERT_EQ(health.size(), 1u);
+    EXPECT_EQ(health[0]["replica_id"].get<std::string>(), "replica-1");
+    EXPECT_EQ(health[0]["health"].get<std::string>(), "HEALTHY");
+}
+
+TEST_F(CacheReplicationManagerTest, MultipleReplicasFanOut) {
+    auto r2 = std::make_shared<MockCacheReplicationListener>("replica-2");
+    mgr_->addReplica(replica_);
+    mgr_->addReplica(r2);
+
+    mgr_->notifyWrite("key", R"({"x":1})", "", 120);
+
+    EXPECT_EQ(replica_->countByType(CacheReplicationEventType::WRITE), 1u);
+    EXPECT_EQ(r2->countByType(CacheReplicationEventType::WRITE), 1u);
+}
+
+TEST_F(CacheReplicationManagerTest, ReAddSameReplicaIsIdempotent) {
+    mgr_->addReplica(replica_);
+    mgr_->addReplica(replica_);  // re-add same ID
+    EXPECT_EQ(mgr_->replicaCount(), 1u);
+}
+
+// ===========================================================================
+// Tests: AdaptiveQueryCache integration with replication listener
+// ===========================================================================
+
+class CacheReplicationIntegrationTest : public ::testing::Test {
+protected:
+    std::string db_path_;
+    std::shared_ptr<MockCacheReplicationListener> listener_;
+
+    void SetUp() override {
+        db_path_  = uniqueTmpPath();
+        listener_ = std::make_shared<MockCacheReplicationListener>("integration-replica");
+    }
+
+    void TearDown() override {
+        if (!db_path_.empty()) {
+            std::filesystem::remove_all(db_path_);
+        }
+    }
+};
+
+TEST_F(CacheReplicationIntegrationTest, PutNotifiesListenerOnSuccess) {
+    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    cache.setReplicationListener(listener_);
+
+    std::string fp = cache.generateFingerprint("SELECT 1", {});
+    json result = {{"rows", 1}};
+    ASSERT_TRUE(cache.put(fp, {}, result));
+
+    EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 1u);
+}
+
+TEST_F(CacheReplicationIntegrationTest, InvalidateNotifiesListener) {
+    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    cache.setReplicationListener(listener_);
+
+    std::string fp = cache.generateFingerprint("SELECT 2", {});
+    ASSERT_TRUE(cache.put(fp, {}, {{"x", 2}}));
+
+    listener_->clear();
+    cache.invalidate(".*");
+
+    EXPECT_GE(listener_->countByType(CacheReplicationEventType::INVALIDATE), 1u);
+}
+
+TEST_F(CacheReplicationIntegrationTest, InvalidateTenantNotifiesListener) {
+    AdaptiveQueryCache::Config cfg = makeTestConfig(db_path_);
+    cfg.enable_tenant_isolation = true;
+    AdaptiveQueryCache cache(cfg);
+    cache.setReplicationListener(listener_);
+
+    std::string fp = cache.generateFingerprint("SELECT 3", {}, "tenant-x");
+    cache.put(fp, {}, {{"y", 3}}, "tenant-x");
+
+    listener_->clear();
+    cache.invalidateTenant("tenant-x");
+
+    EXPECT_GE(listener_->countByType(CacheReplicationEventType::INVALIDATE_TENANT), 1u);
+    EXPECT_EQ(listener_->events().back().tenant_id, "tenant-x");
+}
+
+TEST_F(CacheReplicationIntegrationTest, UnregisterListenerStopsNotifications) {
+    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    cache.setReplicationListener(listener_);
+
+    // Unregister
+    cache.setReplicationListener(nullptr);
+
+    std::string fp = cache.generateFingerprint("SELECT 4", {});
+    cache.put(fp, {}, {{"z", 4}});
+
+    EXPECT_EQ(listener_->countByType(CacheReplicationEventType::WRITE), 0u);
+}
+
+TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
+    // A listener that always throws
+    class ThrowingListener : public ICacheReplicationListener {
+    public:
+        bool onReplicationEvent(const CacheReplicationEvent&) override {
+            throw std::runtime_error("network error");
+        }
+        std::string replicaId() const override { return "throwing"; }
+    };
+
+    // CacheReplicationManager wraps the throwing listener with graceful
+    // degradation, so the cache itself must not crash.
+    CacheReplicationConfig repCfg;
+    repCfg.max_consecutive_failures = 1;
+    auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
+    mgr->addReplica(std::make_shared<ThrowingListener>());
+
+    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    cache.setReplicationListener(mgr);
+
+    std::string fp = cache.generateFingerprint("SELECT 5", {});
+    // Must not throw even though the listener throws
+    EXPECT_NO_THROW(cache.put(fp, {}, {{"ok", true}}));
+}
+
+TEST_F(CacheReplicationIntegrationTest, ReplicationManagerReceivesCacheWrites) {
+    CacheReplicationConfig repCfg;
+    auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
+    mgr->addReplica(listener_);
+
+    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    cache.setReplicationListener(mgr);
+
+    std::string fp1 = cache.generateFingerprint("Q1", {});
+    std::string fp2 = cache.generateFingerprint("Q2", {});
+    cache.put(fp1, {}, {{"r", 1}});
+    cache.put(fp2, {}, {{"r", 2}});
+
+    EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 2u);
+}

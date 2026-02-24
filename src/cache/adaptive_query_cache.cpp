@@ -22,6 +22,7 @@
  */
 
 #include "cache/adaptive_query_cache.h"
+#include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/zstd_codec.h"
@@ -62,6 +63,9 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     }
     if (config_.enable_tenant_isolation) {
         THEMIS_INFO("Tenant isolation enabled: {} bytes per tenant", config_.per_tenant_max_bytes);
+    }
+    if (config_.enable_write_through) {
+        THEMIS_INFO("Write-through cache mode enabled: L1/L2 entries will also be persisted to L3");
     }
     
     // Phase 2: Initialize rate limiter
@@ -138,6 +142,11 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
 }
 
 AdaptiveQueryCache::~AdaptiveQueryCache() {
+    // Phase 4: Deregister coordinator callbacks before releasing memory.
+    // Any coordinator that outlives this cache would otherwise hold a [this]
+    // lambda pointing to freed memory, causing use-after-free on the next
+    // publication.
+    setCoordinator(nullptr);
     clear();
 }
 
@@ -543,13 +552,21 @@ bool AdaptiveQueryCache::put(
     const std::string& fingerprint,
     const nlohmann::json& query_params,
     const nlohmann::json& result,
-    const std::string& tenant_id
+    const std::string& tenant_id,
+    const std::vector<std::string>& pii_uuids
 ) {
     // Phase 2: Check rate limiter
     if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
         enhanced_metrics_.rate_limited_requests++;
         THEMIS_DEBUG("Put request rate limited for fingerprint: {}", fingerprint.substr(0, 16));
         return false;
+    }
+
+    // Phase 4: Capture replication listener (avoid holding replication_mutex_ during write)
+    std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+    {
+        std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+        rep_listener = replication_listener_;
     }
     
     int64_t now_ms = getCurrentTimeMs();
@@ -602,36 +619,237 @@ bool AdaptiveQueryCache::put(
             ttl_seconds = config_.l3_ttl_seconds;
         }
     }
-    
+
+    // Phase 4: Capture coordinator pointer once before acquiring any cache mutex.
+    // Graceful degradation: failures in the coordinator never block the local store.
+    std::shared_ptr<cache::ICacheCoordinator> repl_coord;
+    if (config_.enable_replication) {
+        std::lock_guard<std::mutex> lk(coordinator_mutex_);
+        repl_coord = coordinator_;
+    }
+    // Use the tenant-scoped key so peer caches with the same isolation config
+    // can look the entry up via get(fingerprint, tenant_id) without ambiguity.
+    auto notifyCoordinator = [&]() {
+        if (!repl_coord) return;
+        try {
+            repl_coord->publishEntry(key, result, ttl_seconds, tenant_id);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Cache replication publish failed: {}", e.what());
+        }
+    };
+
     // Store in appropriate level
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
-        
-        // Evict LRU if full
-        if (l1_cache_.size() >= config_.l1_max_entries) {
-            evictLRU(CacheLevel::HOT);
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            
+            // Evict LRU if full
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            
+            L1Entry entry;
+            entry.result = result;
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            
+            // Phase 2/3: Update tenant size tracking
+            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                std::lock_guard<std::mutex> lock(tenant_mutex_);
+                tenant_metrics_[tenant_id].bytes_used += result_size;
+            }
+            
+            THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        }  // l1_mutex_ released before write-through to avoid blocking L1 reads during L3 I/O
+
+        // Phase 4: Write-through mode - persist to L3 outside L1 lock
+        if (config_.enable_write_through && l3_db_) {
+            writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
+        }
+
+    // Phase 4: Write-through mode – write to all applicable tiers simultaneously.
+    // This ensures every entry is available at the closest tier on the first read,
+    // eliminating inter-tier promotion latency for read-heavy workloads.
+    if (config_.enable_write_through) {
+        bool any_written = false;
+
+        // Write to L1 if the entry fits
+        if (result_size < config_.l1_max_entry_size) {
+            int l1_ttl = config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l1_ttl_seconds;
+            std::lock_guard<std::mutex> l1_lock(l1_mutex_);
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            L1Entry l1_entry;
+            l1_entry.result = result;
+            l1_entry.created_at_ms = now_ms;
+            l1_entry.last_accessed_ms = now_ms;
+            l1_entry.access_count = 1;
+            l1_entry.ttl_seconds = l1_ttl;
+            l1_entry.window_start_ms = now_ms;
+            l1_entry.window_count = 0;
+            l1_cache_[key] = std::move(l1_entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            any_written = true;
+            THEMIS_DEBUG("Write-through: stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        }
+
+        // GDPR: Register PII tags in reverse index for L1 entry
+        if (!pii_uuids.empty()) {
+            std::lock_guard<std::mutex> plock(pii_index_mutex_);
+            for (const auto& pii_uuid : pii_uuids) {
+                pii_key_index_[pii_uuid].insert(key);
+            }
         }
         
-        L1Entry entry;
-        entry.result = result;
-        entry.created_at_ms = now_ms;
-        entry.last_accessed_ms = now_ms;
-        entry.access_count = 1;
-        entry.ttl_seconds = ttl_seconds;
-        entry.window_start_ms = now_ms;
-        entry.window_count = 0;
-        
-        l1_cache_[key] = std::move(entry);
-        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
-        enhanced_metrics_.total_bytes_cached += result_size;
-        
-        // Phase 2/3: Update tenant size tracking
-        if (config_.enable_tenant_isolation && !tenant_id.empty()) {
-            std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_metrics_[tenant_id].bytes_used += result_size;
+        // Write to L2 if the entry fits
+        if (result_size < config_.l2_max_entry_size) {
+            auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
+            if (!compressed.empty()) {
+                int l2_ttl = config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l2_ttl_seconds;
+                std::lock_guard<std::mutex> l2_lock(l2_mutex_);
+                if (l2_cache_.size() >= config_.l2_max_entries) {
+                    evictLRU(CacheLevel::WARM);
+                }
+                L2Entry l2_entry;
+                l2_entry.compressed_result = std::move(compressed);
+                l2_entry.created_at_ms = now_ms;
+                l2_entry.last_accessed_ms = now_ms;
+                l2_entry.access_count = 1;
+                l2_entry.ttl_seconds = l2_ttl;
+                l2_entry.window_start_ms = now_ms;
+                l2_entry.window_count = 0;
+                size_t compressed_size = l2_entry.compressed_result.size();
+                l2_cache_[fingerprint] = std::move(l2_entry);
+                l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+                enhanced_metrics_.total_bytes_compressed += compressed_size;
+                any_written = true;
+                THEMIS_DEBUG("Write-through: stored in L2: key={}, size={}, compressed={}",
+                             key.substr(0, 16), result_size, compressed_size);
+            } else {
+                THEMIS_WARN("Write-through: failed to compress result for L2 cache");
+                enhanced_metrics_.compression_failures++;
+            }
         }
-        
+
+        // Write to L3 if available and circuit breaker allows
+        if (l3_db_) {
+            bool l3_cb_ok = !l3_circuit_breaker_ || l3_circuit_breaker_->allowRequest();
+            if (l3_cb_ok) {
+                int l3_ttl = config_.enable_adaptive_ttl ? calculateAdaptiveTTL(0) : config_.l3_ttl_seconds;
+                nlohmann::json l3_entry_json;
+                l3_entry_json["result"] = result;
+                l3_entry_json["query_params"] = query_params;
+                l3_entry_json["created_at_ms"] = now_ms;
+                l3_entry_json["last_accessed_ms"] = now_ms;
+                l3_entry_json["access_count"] = 1;
+                l3_entry_json["ttl_seconds"] = l3_ttl;
+                l3_entry_json["window_start_ms"] = now_ms;
+                l3_entry_json["window_count"] = 0;
+                std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
+                std::lock_guard<std::mutex> l3_lock(l3_mutex_);
+                try {
+                    bool ok = l3_db_->put(l3_key, l3_entry_json.dump());
+                    if (ok) {
+                        if (l3_circuit_breaker_) {
+                            l3_circuit_breaker_->recordSuccess();
+                            enhanced_metrics_.l3_circuit_breaker_open = false;
+                        }
+                        any_written = true;
+                        THEMIS_DEBUG("Write-through: stored in L3: fingerprint={}, size={}",
+                                     fingerprint.substr(0, 16), result_size);
+                    } else {
+                        enhanced_metrics_.l3_write_errors++;
+                        if (l3_circuit_breaker_) {
+                            l3_circuit_breaker_->recordFailure();
+                            if (l3_circuit_breaker_->isOpen()) {
+                                enhanced_metrics_.l3_circuit_breaker_trips++;
+                                enhanced_metrics_.l3_circuit_breaker_open = true;
+                            }
+                        }
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Write-through: L3 cache write exception: {}", e.what());
+                    enhanced_metrics_.l3_write_errors++;
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordFailure();
+                        if (l3_circuit_breaker_->isOpen()) {
+                            enhanced_metrics_.l3_circuit_breaker_trips++;
+                            enhanced_metrics_.l3_circuit_breaker_open = true;
+                        }
+                    }
+                }
+            } else {
+                THEMIS_DEBUG("Write-through: L3 circuit breaker open, skipping L3 write");
+                enhanced_metrics_.l3_circuit_breaker_open = true;
+            }
+        }
+
+        if (any_written) {
+            enhanced_metrics_.total_bytes_cached += result_size;
+            enhanced_metrics_.write_through_writes++;
+            // Phase 2/3: Update tenant size tracking
+            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                std::lock_guard<std::mutex> tlock(tenant_mutex_);
+                tenant_metrics_[tenant_id].bytes_used += result_size;
+            }
+            THEMIS_DEBUG("Write-through put complete: key={}, tiers written", key.substr(0, 16));
+        }
+        return any_written;
+    }
+
+    // Store in appropriate level
+    if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            
+            // Evict LRU if full
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            
+            L1Entry entry;
+            entry.result = result;
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            
+            // Phase 2/3: Update tenant size tracking
+            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                std::lock_guard<std::mutex> tenant_lock(tenant_mutex_);
+                tenant_metrics_[tenant_id].bytes_used += result_size;
+            }
+        }  // l1_mutex_ released before notification
+
         THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        notifyCoordinator();
+
+        // Phase 4: Notify replication listener (outside tier lock)
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::WRITE;
+            ev.key = key;
+            ev.payload = result_str;
+            ev.tenant_id = tenant_id;
+            ev.ttl_seconds = ttl_seconds;
+            rep_listener->onReplicationEvent(ev);
+        }
+
         return true;
         
     } else if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {
@@ -664,8 +882,63 @@ bool AdaptiveQueryCache::put(
         l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
         enhanced_metrics_.total_bytes_cached += result_size;
         enhanced_metrics_.total_bytes_compressed += compressed_size;
+
+        // GDPR: Register PII tags in reverse index for L2 entry
+        if (!pii_uuids.empty()) {
+            std::lock_guard<std::mutex> plock(pii_index_mutex_);
+            for (const auto& pii_uuid : pii_uuids) {
+                pii_key_index_[pii_uuid].insert(fingerprint);
+            }
+        }
+
+        size_t compressed_size;
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            
+            // Evict LRU if full
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            size_t compressed_size = entry.compressed_result.size();
+            compressed_size = entry.compressed_result.size();
+            l2_cache_[fingerprint] = std::move(entry);
+            l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            enhanced_metrics_.total_bytes_compressed += compressed_size;
+            THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
+                        fingerprint.substr(0, 16), result_size, compressed_size);
+        }  // l2_mutex_ released before write-through to avoid blocking L2 reads during L3 I/O
+
+        // Phase 4: Write-through mode - persist to L3 outside L2 lock
+        if (config_.enable_write_through && l3_db_) {
+            writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
+        }  // l2_mutex_ released before notification
+
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
                     fingerprint.substr(0, 16), result_size, compressed_size);
+        notifyCoordinator();
+
+        // Phase 4: Notify replication listener (outside tier lock)
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::WRITE;
+            ev.key = fingerprint;
+            ev.payload = result_str;
+            ev.tenant_id = tenant_id;
+            ev.ttl_seconds = ttl_seconds;
+            rep_listener->onReplicationEvent(ev);
+        }
+
         return true;
         
     } else if (l3_db_) {
@@ -675,10 +948,7 @@ bool AdaptiveQueryCache::put(
             enhanced_metrics_.l3_circuit_breaker_open = true;
             return false;
         }
-        
-        // Store in L3 (RocksDB)
-        std::lock_guard<std::mutex> lock(l3_mutex_);
-        
+
         nlohmann::json entry_json;
         entry_json["result"] = result;
         entry_json["query_params"] = query_params;
@@ -688,21 +958,46 @@ bool AdaptiveQueryCache::put(
         entry_json["ttl_seconds"] = ttl_seconds;
         entry_json["window_start_ms"] = now_ms;
         entry_json["window_count"] = 0;
-        
+
         std::string key = QUERY_CACHE_PREFIX + fingerprint;
+        std::string entry_payload;
         bool ok = false;
-        
-        try {
-            ok = l3_db_->put(key, entry_json.dump());
-            
-            if (ok) {
-                // Phase 1: Record success for circuit breaker
-                if (l3_circuit_breaker_) {
-                    l3_circuit_breaker_->recordSuccess();
-                    enhanced_metrics_.l3_circuit_breaker_open = false;
+
+        {
+            // Store in L3 (RocksDB)
+            std::lock_guard<std::mutex> lock(l3_mutex_);
+
+            try {
+                entry_payload = entry_json.dump();
+                ok = l3_db_->put(key, entry_payload);
+
+                if (ok) {
+                    // Phase 1: Record success for circuit breaker
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordSuccess();
+                        enhanced_metrics_.l3_circuit_breaker_open = false;
+                    }
+                    enhanced_metrics_.total_bytes_cached += result_size;
+                    THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                } else {
+                    // Failed to write
+                    enhanced_metrics_.l3_write_errors++;
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordFailure();
+                        if (l3_circuit_breaker_->isOpen()) {
+                            enhanced_metrics_.l3_circuit_breaker_trips++;
+                            enhanced_metrics_.l3_circuit_breaker_open = true;
+                        }
+                    }
+                    THEMIS_WARN("Failed to store in L3 cache");
                 }
                 enhanced_metrics_.total_bytes_cached += result_size;
+                // GDPR: Write PII reference index entries for L3
+                for (const auto& pii_uuid : pii_uuids) {
+                    l3_db_->put("pii_ref:" + pii_uuid + ":" + fingerprint, "");
+                }
                 THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                notifyCoordinator();
                 return true;
             }
         } catch (const std::exception& e) {
@@ -713,21 +1008,33 @@ bool AdaptiveQueryCache::put(
                 if (l3_circuit_breaker_->isOpen()) {
                     enhanced_metrics_.l3_circuit_breaker_trips++;
                     enhanced_metrics_.l3_circuit_breaker_open = true;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("L3 cache write exception: {}", e.what());
+                enhanced_metrics_.l3_write_errors++;
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                    if (l3_circuit_breaker_->isOpen()) {
+                        enhanced_metrics_.l3_circuit_breaker_trips++;
+                        enhanced_metrics_.l3_circuit_breaker_open = true;
+                    }
                 }
+                return false;
             }
-            return false;
-        }
-        
-        // Failed to write
-        enhanced_metrics_.l3_write_errors++;
-        if (l3_circuit_breaker_) {
-            l3_circuit_breaker_->recordFailure();
-            if (l3_circuit_breaker_->isOpen()) {
-                enhanced_metrics_.l3_circuit_breaker_trips++;
-                enhanced_metrics_.l3_circuit_breaker_open = true;
+        }  // l3_mutex_ released before notification
+
+        if (ok) {
+            // Phase 4: Notify replication listener (outside tier lock)
+            if (rep_listener) {
+                cache::CacheReplicationEvent ev;
+                ev.type = cache::CacheReplicationEventType::WRITE;
+                ev.key = key;
+                ev.payload = entry_payload;
+                ev.tenant_id = tenant_id;
+                ev.ttl_seconds = ttl_seconds;
+                rep_listener->onReplicationEvent(ev);
             }
+            return true;
         }
-        THEMIS_WARN("Failed to store in L3 cache");
         return false;
     }
     
@@ -814,6 +1121,31 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     }
     
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
+
+    // Phase 4: Propagate invalidation to peer nodes via replication coordinator
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try { coord->publishInvalidation(pattern); }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication invalidation publish failed: {}", e.what());
+            }
+    // Phase 4: Notify replication listener
+    if (count > 0) {
+        std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+        {
+            std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+            rep_listener = replication_listener_;
+        }
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::INVALIDATE;
+            ev.pattern = pattern;
+            rep_listener->onReplicationEvent(ev);
+        }
+    }
+
     return count;
 }
 
@@ -830,6 +1162,12 @@ void AdaptiveQueryCache::clear() {
         l2_eviction_strategy_->clear();
     }
     
+    // GDPR: Clear in-memory PII reverse index
+    {
+        std::lock_guard<std::mutex> plock(pii_index_mutex_);
+        pii_key_index_.clear();
+    }
+    
     if (l3_db_) {
         std::lock_guard<std::mutex> lock(l3_mutex_);
         // Clear L3 by deleting all keys with prefix
@@ -841,6 +1179,15 @@ void AdaptiveQueryCache::clear() {
                 return true;
             });
             for (const auto& key : keys) {
+                l3_db_->del(key);
+            }
+            // GDPR: Also clear L3 PII reference index entries
+            std::vector<std::string> pii_ref_keys;
+            l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
+                pii_ref_keys.emplace_back(key);
+                return true;
+            });
+            for (const auto& key : pii_ref_keys) {
                 l3_db_->del(key);
             }
         } catch (const std::exception& e) {
@@ -949,6 +1296,17 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
     } else {
         info["adaptive_ttl"] = {{"enabled", false}};
     }
+
+    // Phase 4: Write-through mode info
+    info["write_through"] = {
+        {"enabled", config_.enable_write_through},
+        {"total", enhanced_metrics_.write_through_total.load()},
+        {"errors", enhanced_metrics_.write_through_errors.load()}
+    // Phase 4: Write-through cache mode
+    info["write_through"] = {
+        {"enabled", config_.enable_write_through},
+        {"writes", enhanced_metrics_.write_through_writes.load()}
+    };
     
     return info;
 }
@@ -1243,6 +1601,68 @@ bool AdaptiveQueryCache::checkTenantQuota(
 }
 
 // ============================================================================
+// Phase 4: Write-Through Cache Mode
+// ============================================================================
+
+bool AdaptiveQueryCache::writeThroughToL3(
+    const std::string& fingerprint,
+    const nlohmann::json& query_params,
+    const nlohmann::json& result,
+    int64_t now_ms,
+    int ttl_seconds
+) {
+    if (!l3_db_) {
+        return false;
+    }
+
+    // Check circuit breaker before L3 operation
+    if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+        THEMIS_WARN("L3 circuit breaker is open, skipping write-through for fingerprint={}",
+                    fingerprint.substr(0, 16));
+        enhanced_metrics_.write_through_errors++;
+        return false;
+    }
+
+    nlohmann::json entry_json;
+    entry_json["result"] = result;
+    entry_json["query_params"] = query_params;
+    entry_json["created_at_ms"] = now_ms;
+    entry_json["last_accessed_ms"] = now_ms;
+    entry_json["access_count"] = 1;
+    entry_json["ttl_seconds"] = ttl_seconds;
+    entry_json["window_start_ms"] = now_ms;
+    entry_json["window_count"] = 0;
+
+    std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
+
+    try {
+        std::lock_guard<std::mutex> lock(l3_mutex_);
+        bool ok = l3_db_->put(l3_key, entry_json.dump());
+        if (ok) {
+            if (l3_circuit_breaker_) {
+                l3_circuit_breaker_->recordSuccess();
+                enhanced_metrics_.l3_circuit_breaker_open = false;
+            }
+            enhanced_metrics_.write_through_total++;
+            THEMIS_DEBUG("Write-through: persisted fingerprint={} to L3", fingerprint.substr(0, 16));
+            return true;
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Write-through L3 write exception: {}", e.what());
+        if (l3_circuit_breaker_) {
+            l3_circuit_breaker_->recordFailure();
+            if (l3_circuit_breaker_->isOpen()) {
+                enhanced_metrics_.l3_circuit_breaker_trips++;
+                enhanced_metrics_.l3_circuit_breaker_open = true;
+            }
+        }
+    }
+
+    enhanced_metrics_.write_through_errors++;
+    return false;
+}
+
+// ============================================================================
 // Phase 3: Admin API & Operational Tooling
 // ============================================================================
 
@@ -1280,6 +1700,10 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
     stats["overall"]["misses"] = enhanced_metrics_.misses.load();
     stats["overall"]["hit_rate"] = enhanced_metrics_.getHitRate();
     stats["overall"]["evictions"] = enhanced_metrics_.evictions.load();
+
+    // Phase 4: Write-through mode status
+    stats["write_through"]["enabled"] = config_.enable_write_through;
+    stats["write_through"]["writes"] = enhanced_metrics_.write_through_writes.load();
     
     return stats;
 }
@@ -1349,6 +1773,12 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
 
     // Embed circuit breaker details
     health["circuit_breaker"] = getCircuitBreakerStatus();
+
+    // Phase 4: Write-through mode status
+    health["write_through"] = {
+        {"enabled", config_.enable_write_through},
+        {"writes",  enhanced_metrics_.write_through_writes.load()}
+    };
 
     // Check hit rate
     double hit_rate = enhanced_metrics_.getHitRate();
@@ -1545,6 +1975,139 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     }
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
+
+    // Phase 4: Propagate tenant invalidation to peer nodes.
+    // Use the same tenant-prefix pattern that the local invalidation uses
+    // ("tenant:<id>:") so peer nodes performing regex matching evict exactly
+    // the same set of L1/L2 keys.
+    if (config_.enable_replication) {
+        std::shared_ptr<cache::ICacheCoordinator> coord;
+        { std::lock_guard<std::mutex> lk(coordinator_mutex_); coord = coordinator_; }
+        if (coord) {
+            try {
+                std::string tenant_pattern = "^tenant:" + tenant_id + ":";
+                coord->publishInvalidation(tenant_pattern, tenant_id);
+            }
+            catch (const std::exception& e) {
+                THEMIS_WARN("Cache replication tenant invalidation publish failed: {}", e.what());
+            }
+        }
+    }
+
+    // Phase 4: Notify replication listener
+    {
+        std::shared_ptr<cache::ICacheReplicationListener> rep_listener;
+        {
+            std::lock_guard<std::mutex> rep_lock(replication_mutex_);
+            rep_listener = replication_listener_;
+        }
+        if (rep_listener) {
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::INVALIDATE_TENANT;
+            ev.tenant_id = tenant_id;
+            rep_listener->onReplicationEvent(ev);
+        }
+    }
+
+    return count;
+}
+
+size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
+    if (pii_uuid.empty()) {
+        THEMIS_WARN("invalidatePII called with empty pii_uuid");
+        return 0;
+    }
+
+    size_t count = 0;
+
+    // --- L1 / L2: use in-memory PII reverse index ---
+    std::unordered_set<std::string> keys_to_purge;
+    {
+        std::lock_guard<std::mutex> plock(pii_index_mutex_);
+        auto it = pii_key_index_.find(pii_uuid);
+        if (it != pii_key_index_.end()) {
+            keys_to_purge = std::move(it->second);
+            pii_key_index_.erase(it);
+        }
+    }
+
+    if (!keys_to_purge.empty()) {
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            for (const auto& k : keys_to_purge) {
+                auto it = l1_cache_.find(k);
+                if (it != l1_cache_.end()) {
+                    l1_eviction_strategy_->onRemove(it->first);
+                    l1_cache_.erase(it);
+                    count++;
+                }
+            }
+        }
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            for (const auto& k : keys_to_purge) {
+                auto it = l2_cache_.find(k);
+                if (it != l2_cache_.end()) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    l2_cache_.erase(it);
+                    count++;
+                }
+            }
+        }
+    }
+
+    // --- L3: scan pii_ref:{pii_uuid}: prefix in RocksDB ---
+    if (l3_db_) {
+        std::lock_guard<std::mutex> lock(l3_mutex_);
+
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_WARN("L3 circuit breaker open, skipping L3 PII invalidation for uuid={}", pii_uuid);
+            enhanced_metrics_.l3_circuit_breaker_open = true;
+        } else {
+            try {
+                const std::string pii_ref_prefix = "pii_ref:" + pii_uuid + ":";
+                std::vector<std::string> pii_ref_keys;
+                std::vector<std::string> cache_keys;
+
+                l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
+                    pii_ref_keys.emplace_back(key);
+                    // Extract fingerprint: pii_ref:{uuid}:{fingerprint}
+                    std::string k(key);
+                    if (k.size() > pii_ref_prefix.size()) {
+                        cache_keys.emplace_back(
+                            QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
+                    }
+                    return true;
+                });
+
+                for (const auto& ck : cache_keys) {
+                    if (l3_db_->del(ck)) {
+                        count++;
+                    }
+                }
+                for (const auto& rk : pii_ref_keys) {
+                    l3_db_->del(rk);
+                }
+
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordSuccess();
+                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed L3 PII invalidation for uuid={}: {}", pii_uuid, e.what());
+                enhanced_metrics_.l3_read_errors++;
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                    if (l3_circuit_breaker_->isOpen()) {
+                        enhanced_metrics_.l3_circuit_breaker_trips++;
+                        enhanced_metrics_.l3_circuit_breaker_open = true;
+                    }
+                }
+            }
+        }
+    }
+
+    THEMIS_INFO("GDPR PII purge: invalidated {} cache entries for pii_uuid={}", count, pii_uuid);
     return count;
 }
 
@@ -1968,6 +2531,159 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     // Enrich with the hit counter maintained in enhanced_metrics_
     j["prefetch_hits_from_metrics"] = enhanced_metrics_.prefetch_hits.load();
     return j;
+// ============================================================================
+// Phase 4: Cache Replication for High-Availability Multi-Node Deployments
+// ============================================================================
+
+void AdaptiveQueryCache::setCoordinator(
+    std::shared_ptr<cache::ICacheCoordinator> coordinator)
+{
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    coordinator_ = coordinator;
+
+    if (!coordinator_) {
+        THEMIS_INFO("AdaptiveQueryCache: replication coordinator removed");
+        return;
+    }
+
+    // Subscribe for entries replicated from peer nodes
+    coordinator_->subscribeEntries(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedEntry(msg);
+        });
+
+    // Subscribe for invalidations propagated from peer nodes
+    coordinator_->subscribeInvalidations(
+        [this](const cache::ReplicationMessage& msg) {
+            applyReplicatedInvalidation(msg);
+        });
+
+    THEMIS_INFO("AdaptiveQueryCache: replication coordinator registered ({})",
+                coordinator_->name());
+}
+
+nlohmann::json AdaptiveQueryCache::getReplicationStats() const {
+    std::lock_guard<std::mutex> lk(coordinator_mutex_);
+    if (!coordinator_) {
+        return {{"enabled", false}};
+    }
+    auto stats = coordinator_->getStats();
+    stats["enabled"] = true;
+    return stats;
+}
+
+void AdaptiveQueryCache::applyReplicatedEntry(const cache::ReplicationMessage& msg) {
+    // Replicate only L1/L2; L3 (RocksDB) is assumed shared or node-local
+    // and does not need replication from the coordinator bus.
+    if (msg.result.is_null() || !msg.result.is_object()) {
+        return;
+    }
+
+    int64_t now_ms = getCurrentTimeMs();
+    std::string result_str = msg.result.dump();
+    size_t result_size = result_str.size();
+
+    // Honour per-entry size limit and tenant quota checks
+    if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
+        return;
+    }
+    if (!checkTenantQuota(msg.tenant_id, result_size)) {
+        return;
+    }
+
+    const std::string& key = msg.key;
+    int ttl_seconds = msg.ttl_seconds > 0 ? msg.ttl_seconds : config_.l1_ttl_seconds;
+
+    if (result_size < config_.l1_max_entry_size) {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        if (l1_cache_.count(key) == 0) {   // Don't overwrite a locally fresher entry
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            L1Entry entry;
+            entry.result           = msg.result;
+            entry.created_at_ms    = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count     = 0;
+            entry.ttl_seconds      = ttl_seconds;
+            entry.window_start_ms  = now_ms;
+            entry.window_count     = 0;
+            l1_cache_[key]         = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    } else if (result_size < config_.l2_max_entry_size) {
+        auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
+        if (compressed.empty()) return;
+
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        if (l2_cache_.count(key) == 0) {
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms     = now_ms;
+            entry.last_accessed_ms  = now_ms;
+            entry.access_count      = 0;
+            entry.ttl_seconds       = ttl_seconds;
+            entry.window_start_ms   = now_ms;
+            entry.window_count      = 0;
+            l2_cache_[key]          = std::move(entry);
+            l2_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+        }
+    }
+}
+
+void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMessage& msg) {
+    // Peer invalidated a key/pattern – evict matching entries from L1 and L2 only.
+    // L3 (RocksDB) is considered either shared or independently managed per-node.
+    const std::string& pattern = msg.key;
+    if (pattern.empty()) return;
+
+    try {
+        std::regex re(pattern);
+
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l1_eviction_strategy_->onRemove(it->first);
+                    it = l1_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
+                if (std::regex_search(it->first, re)) {
+                    l2_eviction_strategy_->onRemove(it->first);
+                    it = l2_cache_.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+    } catch (const std::regex_error& e) {
+        THEMIS_WARN("CacheReplication: invalid pattern received from peer: {} ({})",
+                    pattern, e.what());
+// Phase 4: Cache Replication for High-Availability
+// ============================================================================
+
+void AdaptiveQueryCache::setReplicationListener(
+        std::shared_ptr<cache::ICacheReplicationListener> listener) {
+    std::lock_guard<std::mutex> lock(replication_mutex_);
+    replication_listener_ = std::move(listener);
+    if (replication_listener_) {
+        THEMIS_INFO("AdaptiveQueryCache: replication listener registered ({})",
+                    replication_listener_->replicaId());
+    } else {
+        THEMIS_INFO("AdaptiveQueryCache: replication listener unregistered");
+    }
 }
 
 } // namespace themis
