@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     257                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d7c4a035d  2026-02-22  Fix SAML encrypted assertion stub: enforce EncryptedAsser... ║
@@ -131,6 +131,22 @@ struct SAMLClaims {
 };
 
 // ============================================================================
+// SP-initiated AuthnRequest result
+// ============================================================================
+
+/**
+ * @brief Result of building an SP-initiated AuthnRequest
+ *
+ * Carries both the redirect URL and the generated request ID so that the
+ * caller can store the request ID and pass it to processResponse() as
+ * @c in_response_to for SP-initiated flow InResponseTo validation.
+ */
+struct AuthnRequestParams {
+    std::string url;        ///< Full redirect URL (SAMLRequest + optional RelayState)
+    std::string request_id; ///< NCName-safe AuthnRequest ID for InResponseTo validation
+};
+
+// ============================================================================
 // Main class
 // ============================================================================
 
@@ -157,12 +173,25 @@ public:
     /**
      * @brief Build an SP-initiated AuthnRequest for HTTP-Redirect binding
      *
-     * Returns a URL to which the user should be redirected.  The URL includes
-     * a deflate-compressed, Base64-encoded, URL-encoded SAMLRequest parameter
-     * and an optional RelayState parameter.
+     * Returns an AuthnRequestParams carrying both the redirect URL and the
+     * generated request ID.  Store @c request_id and pass it as
+     * @c in_response_to to processResponse() to enable InResponseTo
+     * validation of the IdP response (SP-initiated flow).
      *
      * @param relay_state Optional opaque string passed through the IdP round-trip
      *                    (e.g. original requested URL).  URL-safe; max 80 chars.
+     * @return AuthnRequestParams with redirect URL and request ID
+     * @throws std::runtime_error on encoding error
+     */
+    AuthnRequestParams buildAuthnRequest(const std::string& relay_state = "") const;
+
+    /**
+     * @brief Convenience wrapper: build an SP-initiated AuthnRequest URL only
+     *
+     * Equivalent to @c buildAuthnRequest(relay_state).url.  Use
+     * @c buildAuthnRequest() instead when InResponseTo validation is needed.
+     *
+     * @param relay_state Optional opaque string passed through the IdP round-trip
      * @return Full redirect URL including SAMLRequest (and RelayState if provided)
      * @throws std::runtime_error on encoding error
      */

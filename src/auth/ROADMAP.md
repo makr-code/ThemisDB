@@ -33,7 +33,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [I] Configurable password policy enforcement (Issue: #2013)
 
 ### Long-term (6-12 months)
-- [I] SAML 2.0 SP-initiated and IdP-initiated SSO (Issue: #1536)
+- [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
 - [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 - [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
