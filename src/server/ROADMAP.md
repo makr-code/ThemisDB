@@ -24,6 +24,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Model Context Protocol (MCP) server for AI integrations
 - [x] Graceful shutdown and connection draining
 - [x] Throughput: 50K–200K req/sec; p50 < 5 ms, p99 < 50 ms
+- [x] Async job API for long-running AQL queries with polling endpoint (`POST/GET/DELETE /v2/jobs[/{id}]`)
 
 ## In Progress 🚧
 - [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)

@@ -88,7 +88,7 @@ Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a
 - `[ ]` `/v1/` routes: exact current behaviour; unversioned paths redirect 301 to `/v1/`.
 - `[ ]` `/v2/documents` — bulk insert endpoint accepting `application/x-ndjson` body (newline-delimited JSON documents, up to 10,000 per request).
 - `[ ]` `/v2/query/stream` — SSE endpoint returning result rows as they are produced by the AQL executor; wire to `aql::LLMAQLHandler` streaming API.
-- `[ ]` `/v2/jobs/{id}` — async job status for long-running queries; store job state in `cache::AdaptiveQueryCache` with TTL = 1 hour.
+- `[x]` `/v2/jobs/{id}` — async job status for long-running queries; store job state in `cache::AdaptiveQueryCache` with TTL = 1 hour.
 
 **Performance Targets:**
 - Bulk insert of 10,000 256-byte documents in < 500 ms end-to-end (network excluded).
