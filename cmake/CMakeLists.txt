@@ -1632,9 +1632,9 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
+    ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
-    ../src/auth/session_manager.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
