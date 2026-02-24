@@ -7825,6 +7825,24 @@ void HttpServer::Session::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -8110,6 +8128,24 @@ void HttpServer::SslSession::processRequest() {
         }
 #endif
         
+        // Rewrite path for tenant-prefixed namespace routing.
+        // When the URL path contains the tenant prefix ("/tenants/{id}/..."),
+        // extract the tenant ID, set it as X-Tenant-ID header (if not already
+        // present), and strip the prefix so the request reaches normal API
+        // handlers.  This makes header-based and path-based routing equivalent.
+        // e.g., /tenants/acme-corp/documents/123  ->  /documents/123
+        //                                             + X-Tenant-ID: acme-corp
+        {
+            const auto rw = themis::TenantManager::instance()
+                                .rewriteTenantPath(request_.target());
+            if (rw.rewritten) {
+                if (request_.find("X-Tenant-ID") == request_.end()) {
+                    request_.set("X-Tenant-ID", rw.tenant_id);
+                }
+                request_.target(rw.effective_path);
+            }
+        }
+
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         

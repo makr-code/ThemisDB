@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     476                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     509                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -216,6 +216,39 @@ std::optional<std::string> TenantManager::extractTenantId(
     }
     
     return std::nullopt;
+}
+
+std::string TenantManager::stripTenantPath(std::string_view path) const {
+    const std::string pathStr(path);
+    if (pathStr.rfind(config_.tenant_path_prefix, 0) != 0) {
+        return pathStr;  // Not a tenant-prefixed path
+    }
+    const size_t id_start = config_.tenant_path_prefix.size();
+    const size_t slash_pos = pathStr.find('/', id_start);
+    if (slash_pos != std::string::npos) {
+        return pathStr.substr(slash_pos);
+    }
+    // Path has tenant ID but no trailing slash (e.g., "/tenants/acme-corp")
+    return "/";
+}
+
+TenantManager::PathRewriteResult TenantManager::rewriteTenantPath(
+    std::string_view path) const {
+    const std::string pathStr(path);
+    if (pathStr.rfind(config_.tenant_path_prefix, 0) != 0) {
+        return {pathStr, "", false};  // Not a tenant-prefixed path
+    }
+    const size_t id_start = config_.tenant_path_prefix.size();
+    const size_t slash_pos = pathStr.find('/', id_start);
+    const size_t id_end = (slash_pos != std::string::npos)
+                          ? slash_pos : pathStr.size();
+    if (id_end <= id_start) {
+        return {pathStr, "", false};  // No tenant ID segment found
+    }
+    const std::string tenant_id = pathStr.substr(id_start, id_end - id_start);
+    const std::string effective_path = (slash_pos != std::string::npos)
+                                       ? pathStr.substr(slash_pos) : "/";
+    return {effective_path, tenant_id, true};
 }
 
 std::optional<TenantContext> TenantManager::resolveContext(

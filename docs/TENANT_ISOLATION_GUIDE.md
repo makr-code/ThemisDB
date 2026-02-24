@@ -108,12 +108,24 @@ curl -H "X-Tenant-ID: acme-corp" \
 
 ### Method 2: Path-Based Routing
 
-Tenant ID embedded in URL path:
+Tenant ID embedded in URL path. The server automatically strips the `/tenants/{id}/`
+prefix before dispatching the request, so the same handler logic is used for both
+header-based and path-based routing:
 
 ```bash
+# These two requests are functionally equivalent after server-side path rewriting:
+curl -H "X-Tenant-ID: acme-corp" \
+     -H "Authorization: Bearer <token>" \
+     https://themis.example.com/api/documents
+
 curl -H "Authorization: Bearer <token>" \
      https://themis.example.com/tenants/acme-corp/api/documents
 ```
+
+The server rewrites `GET /tenants/acme-corp/api/documents` to
+`GET /api/documents` + `X-Tenant-ID: acme-corp` before routing. No additional
+configuration is required; path-based routing is always enabled when the
+`tenant_path_prefix` (default: `/tenants/`) is set in `TenantManager::Config`.
 
 ### Method 3: JWT Claim (Most Secure)
 
