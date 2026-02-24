@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_validator.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     137                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     234                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +24,7 @@
 #include <openssl/evp.h>
 #include <openssl/bn.h>
 #include "auth/jwt_validator.h"
+#include "auth/token_blacklist.h"
 
 using namespace themis::auth;
 
@@ -133,5 +134,101 @@ TEST(JWTValidatorTest, MissingKidThrows) {
     std::string unsigned_token = b64url(std::vector<uint8_t>(header_str.begin(), header_str.end())) + "." + b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     std::string token = unsigned_token + "." + sign_RS256(fix.pkey, unsigned_token);
     EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
+}
+
+TEST(JWTValidatorTest, HasAccess_SubjectMatch) {
+    JWTClaims claims;
+    claims.sub = "user123";
+    claims.groups = {"group-a", "group-b"};
+    EXPECT_TRUE(JWTValidator::hasAccess(claims, "user123"));
+}
+
+TEST(JWTValidatorTest, HasAccess_GroupMatch) {
+    JWTClaims claims;
+    claims.sub = "user123";
+    claims.groups = {"group-a", "group-b"};
+    EXPECT_TRUE(JWTValidator::hasAccess(claims, "group-a"));
+    EXPECT_TRUE(JWTValidator::hasAccess(claims, "group-b"));
+}
+
+TEST(JWTValidatorTest, HasAccess_NoMatch) {
+    JWTClaims claims;
+    claims.sub = "user123";
+    claims.groups = {"group-a"};
+    EXPECT_FALSE(JWTValidator::hasAccess(claims, "other-user"));
+    EXPECT_FALSE(JWTValidator::hasAccess(claims, "group-x"));
+}
+
+TEST(JWTValidatorTest, DeriveUserKey_DifferentFieldsProduceDifferentKeys) {
+    JWTClaims claims;
+    claims.sub = "user123";
+    std::vector<uint8_t> dek(32, 0x42);
+    auto key1 = JWTValidator::deriveUserKey(dek, claims, "field-email");
+    auto key2 = JWTValidator::deriveUserKey(dek, claims, "field-phone");
+    EXPECT_EQ(key1.size(), 32u);
+    EXPECT_EQ(key2.size(), 32u);
+    EXPECT_NE(key1, key2);
+}
+
+TEST(JWTValidatorTest, DeriveUserKey_DifferentSubjectsProduceDifferentKeys) {
+    JWTClaims claims1; claims1.sub = "user-alice";
+    JWTClaims claims2; claims2.sub = "user-bob";
+    std::vector<uint8_t> dek(32, 0x42);
+    auto key1 = JWTValidator::deriveUserKey(dek, claims1, "field-ssn");
+    auto key2 = JWTValidator::deriveUserKey(dek, claims2, "field-ssn");
+    EXPECT_NE(key1, key2);
+}
+
+TEST(JWTValidatorTest, DeriveUserKey_Deterministic) {
+    JWTClaims claims; claims.sub = "user123";
+    std::vector<uint8_t> dek(32, 0x11);
+    auto key1 = JWTValidator::deriveUserKey(dek, claims, "field-a");
+    auto key2 = JWTValidator::deriveUserKey(dek, claims, "field-a");
+    EXPECT_EQ(key1, key2);
+}
+
+TEST(JWTValidatorTest, TokenBlacklist_RevokedJtiRejected) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidator validator(JWTValidatorConfig{"", "issuerX", "audX", std::chrono::seconds(600), std::chrono::seconds(60)});
+    validator.setJWKSForTesting(jwks);
+
+    TokenBlacklist blacklist;
+    validator.setTokenBlacklist(&blacklist);
+
+    auto now = std::chrono::system_clock::now();
+    auto exp_ts = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    nlohmann::json payload = {{"sub","u1"},{"email","u1@x"},{"iss","issuerX"},{"aud","audX"},
+                               {"exp", exp_ts}, {"jti", "revoked-jti-001"}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+
+    // Revoke the JTI before validating
+    auto exp_tp = std::chrono::system_clock::time_point(std::chrono::seconds(exp_ts));
+    blacklist.revoke("revoked-jti-001", exp_tp);
+
+    EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
+}
+
+TEST(JWTValidatorTest, TokenBlacklist_NonRevokedJtiAccepted) {
+    RSAFixture fix; auto jwks = make_jwks(fix.rsa);
+    JWTValidator validator(JWTValidatorConfig{"", "issuerX", "audX", std::chrono::seconds(600), std::chrono::seconds(60)});
+    validator.setJWKSForTesting(jwks);
+
+    TokenBlacklist blacklist;
+    validator.setTokenBlacklist(&blacklist);
+
+    auto now = std::chrono::system_clock::now();
+    auto exp_ts = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count() + 300;
+    nlohmann::json payload = {{"sub","u2"},{"email","u2@x"},{"iss","issuerX"},{"aud","audX"},
+                               {"exp", exp_ts}, {"jti", "valid-jti-002"}};
+    std::string up = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+
+    // Revoke a *different* JTI
+    blacklist.revoke("other-jti", std::chrono::system_clock::now() + std::chrono::hours(1));
+
+    auto claims = validator.parseAndValidate(token);
+    EXPECT_EQ(claims.sub, "u2");
+    EXPECT_EQ(claims.jti, "valid-jti-002");
 }
 

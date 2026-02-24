@@ -34,7 +34,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
-- [I] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
+- [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
 - [I] Config audit trail: log which paths were accessed and when (Issue: #1668)
 - [I] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
@@ -73,7 +73,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ## Known Issues & Limitations
 - Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
-- Runtime hot-reload is not supported; cache is rebuilt on next access after TTL expiry
+- Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
 - Secrets management and credential injection are explicitly out of scope
 - Migration tooling is not yet implemented; teams must manually rename config files (use `config_migration_scanner --fix`)
 - Multi-environment config overlay is planned (Issue: #1673)

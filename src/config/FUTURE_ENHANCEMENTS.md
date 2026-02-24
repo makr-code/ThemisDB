@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing, YAML/JSON schema validation, secrets management, and runtime hot-reload are explicitly out of scope for this module.
+This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing, YAML/JSON schema validation, and secrets management are explicitly out of scope for this module.
 
 ## Design Constraints
 

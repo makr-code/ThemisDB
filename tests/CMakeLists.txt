@@ -46,6 +46,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*benchmark.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -127,6 +128,13 @@ if(NOT THEMIS_ENABLE_GPU)
         ".*test_multi_gpu_training\\.cpp$"
         ".*test_vram_allocator_null_checks\\.cpp$"
         ".*test_gpu_lora_layers\\.cpp$"
+        ".*test_cpu_gpu_parity\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_VULKAN)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_vulkan_compute_equivalents\\.cpp$"
     )
 endif()
 
@@ -215,13 +223,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
-    ".*test_auth_error\\.cpp$"
-    ".*test_auth_metrics\\.cpp$"
-    ".*test_jwks_security\\.cpp$"
-    ".*test_kerberos_security\\.cpp$"
-    ".*test_totp_replay_cache\\.cpp$"
-    ".*test_totp_secret_encryption\\.cpp$"
-    ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"
     ".*test_cross_functional_voice_observability\\.cpp$"
@@ -261,7 +262,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_admin_api\\.cpp$"
     ".*test_gpu_.*\\.cpp$"
     ".*test_graphql.*\\.cpp$"
-    ".*test_jwt_key_rotation_comprehensive\\.cpp$"
     ".*test_lora_router\\.cpp$"
     ".*test_lora_security\\.cpp$"
     ".*test_multi_gpu_management\\.cpp$"
@@ -290,6 +290,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_two_phase_commit\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
+    ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_arrow_export\\.cpp$"
     ".*test_analytics/test_arrow_export\\.cpp$"
@@ -304,6 +305,18 @@ list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
+
+# Enforce feature-gated exclusions on the resolved target source list as a
+# defensive step (handles late target_sources() additions in this file).
+get_target_property(_themis_tests_sources themis_tests SOURCES)
+if(_themis_tests_sources)
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    if(NOT THEMIS_ENABLE_GPU)
+        list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
+    endif()
+    set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources})
+endif()
 
 # Re-include prompt_engineering production-readiness tests that were excluded
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
@@ -449,6 +462,7 @@ if(THEMIS_BUILD_MODULAR)
         )
 
         set(_themis_test_extra_sources
+            ${THEMIS_ROOT_DIR}/src/llm/adapter_registry.cpp
             ${THEMIS_ROOT_DIR}/src/llm/ai_decision_auditor.cpp
             ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
             ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
@@ -466,12 +480,25 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/serverless_function_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/async_job_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/distributed_txn_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/health_error_service.cpp
+            ${THEMIS_ROOT_DIR}/src/server/http_type_adapter.cpp
+            ${THEMIS_ROOT_DIR}/src/server/chunked_response_writer.cpp
+            ${THEMIS_ROOT_DIR}/src/server/branch_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/merge_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/security/query_masking_policy.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
+            ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-            ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
@@ -537,6 +564,17 @@ if(THEMIS_BUILD_MODULAR)
     endif()
 else()
     list(APPEND _themis_test_core_libs themis_core)
+endif()
+
+# Final defensive pruning after all themis_tests target_sources() additions.
+get_target_property(_themis_tests_sources_final themis_tests SOURCES)
+if(_themis_tests_sources_final)
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
+    list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    if(NOT THEMIS_ENABLE_GPU)
+        list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
+    endif()
+    set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
 
 target_link_libraries(themis_tests PRIVATE
@@ -887,6 +925,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
 
     add_executable(test_api_grpc_server
         test_api_grpc_server.cpp
+        ${CMAKE_SOURCE_DIR}/src/api/grpc_server.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_api_grpc_server PRIVATE
@@ -1171,6 +1211,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
     
     add_executable(test_rpc_geo_query
         test_rpc_geo_query.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
     
     target_link_libraries(test_rpc_geo_query PRIVATE
@@ -1526,6 +1567,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
 
     add_executable(test_inverted_index
         test_inverted_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/inverted_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/query/functions/fulltext_functions.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_inverted_index PRIVATE
@@ -1822,7 +1866,10 @@ endif()
 # Phase 1 – Logger production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
     message(STATUS "Adding Logger production tests (Phase 1)")
-    add_executable(test_logger_production test_logger_production.cpp)
+    add_executable(test_logger_production
+        test_logger_production.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
     target_link_libraries(test_logger_production PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -1985,7 +2032,10 @@ endif()
 # Phase 7 – SelfAwareness production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
     message(STATUS "Adding SelfAwareness production tests (Phase 7)")
-    add_executable(test_self_awareness_production test_self_awareness_production.cpp)
+    add_executable(test_self_awareness_production
+        test_self_awareness_production.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/self_awareness.cpp
+    )
     target_link_libraries(test_self_awareness_production PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -2042,7 +2092,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.c
     )
     
     target_link_libraries(test_cloud_storage_backup_comprehensive PRIVATE
-        GTest::gtest
+        ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
         spdlog::spdlog

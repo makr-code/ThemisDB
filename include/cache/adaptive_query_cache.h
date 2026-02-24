@@ -139,9 +139,6 @@ public:
         double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
         // Phase 4: Cache replication for high-availability multi-node deployments
         bool enable_replication = false;         // Enable cache replication via coordinator
-
-        // Phase 4: Write-through cache mode
-        bool enable_write_through = false;       // Write L1/L2 entries through to L3 for durability
         
         // Phase 4: Write-through cache mode for read-heavy workloads
         // When enabled, put() writes to ALL applicable tiers simultaneously (L1+L2+L3)
