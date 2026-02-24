@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1604                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1294                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
@@ -41,6 +41,7 @@ namespace themis {
 constexpr size_t QUERY_CACHE_PREFIX_LEN = 12;  // Length of "query_cache:"
 constexpr const char* QUERY_CACHE_PREFIX = "query_cache:";
 constexpr int RETRY_BACKOFF_MULTIPLIER = 2;    // Exponential backoff multiplier
+constexpr int64_t ADAPTIVE_TTL_WINDOW_MS = 5 * 60 * 1000;  // 5-minute sliding window
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     : config_(config) {
@@ -186,10 +187,37 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 entry.last_accessed_ms = now_ms;
                 entry.access_count++;
                 
-                // Phase 3: Update TTL based on new access pattern
+                // Phase 3: Adaptive TTL tuning via sliding 5-minute window
                 if (config_.enable_adaptive_ttl) {
-                    entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
-                    entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                    if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                        // Window elapsed: apply cold-key policy on previous window count
+                        if (entry.window_start_ms > 0 && entry.window_count <= 1) {
+                            int old_ttl = entry.ttl_seconds;
+                            entry.ttl_seconds = std::max(
+                                static_cast<int>(entry.ttl_seconds * 0.5),
+                                config_.adaptive_ttl_min_seconds);
+                            if (entry.ttl_seconds < old_ttl) {
+                                enhanced_metrics_.ttl_shortened_total++;
+                            }
+                        }
+                        entry.window_start_ms = now_ms;
+                        entry.window_count = 1;
+                    } else {
+                        entry.window_count++;
+                        // Hot-key policy: extend TTL when heavily accessed in window
+                        if (entry.window_count >= 10) {
+                            int old_ttl = entry.ttl_seconds;
+                            entry.ttl_seconds = std::min(
+                                static_cast<int>(entry.ttl_seconds * 1.5),
+                                config_.adaptive_ttl_max_seconds);
+                            if (entry.ttl_seconds > old_ttl) {
+                                enhanced_metrics_.ttl_extended_total++;
+                            }
+                        } else {
+                            entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                        }
+                    }
+                    entry.created_at_ms = now_ms;  // Reset TTL window on each access
                 }
                 
                 stats_.l1_hits++;
@@ -234,10 +262,37 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     entry.last_accessed_ms = now_ms;
                     entry.access_count++;
                     
-                    // Phase 3: Update TTL based on new access pattern
+                    // Phase 3: Adaptive TTL tuning via sliding 5-minute window
                     if (config_.enable_adaptive_ttl) {
-                        entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
-                        entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                        if (now_ms - entry.window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                            // Window elapsed: apply cold-key policy on previous window count
+                            if (entry.window_start_ms > 0 && entry.window_count <= 1) {
+                                int old_ttl = entry.ttl_seconds;
+                                entry.ttl_seconds = std::max(
+                                    static_cast<int>(entry.ttl_seconds * 0.5),
+                                    config_.adaptive_ttl_min_seconds);
+                                if (entry.ttl_seconds < old_ttl) {
+                                    enhanced_metrics_.ttl_shortened_total++;
+                                }
+                            }
+                            entry.window_start_ms = now_ms;
+                            entry.window_count = 1;
+                        } else {
+                            entry.window_count++;
+                            // Hot-key policy: extend TTL when heavily accessed in window
+                            if (entry.window_count >= 10) {
+                                int old_ttl = entry.ttl_seconds;
+                                entry.ttl_seconds = std::min(
+                                    static_cast<int>(entry.ttl_seconds * 1.5),
+                                    config_.adaptive_ttl_max_seconds);
+                                if (entry.ttl_seconds > old_ttl) {
+                                    enhanced_metrics_.ttl_extended_total++;
+                                }
+                            } else {
+                                entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                            }
+                        }
+                        entry.created_at_ms = now_ms;  // Reset TTL window on each access
                     }
                     
                     stats_.l2_hits++;
@@ -251,6 +306,8 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         l1_entry.last_accessed_ms = now_ms;
                         l1_entry.access_count = entry.access_count;
                         l1_entry.ttl_seconds = entry.ttl_seconds;
+                        l1_entry.window_start_ms = entry.window_start_ms;
+                        l1_entry.window_count = entry.window_count;
                         
                         std::lock_guard<std::mutex> l1_lock(l1_mutex_);
                         if (l1_cache_.size() >= config_.l1_max_entries) {
@@ -335,6 +392,48 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     int64_t access_count = entry_json["access_count"].get<int64_t>() + 1;
                     entry_json["access_count"] = access_count;
                     entry_json["last_accessed_ms"] = now_ms;
+
+                    // Phase 3: Adaptive TTL tuning via sliding 5-minute window
+                    if (config_.enable_adaptive_ttl) {
+                        int64_t window_start_ms = entry_json.value("window_start_ms", (int64_t)0);
+                        uint32_t window_count = entry_json.value("window_count", (uint32_t)0);
+
+                        if (now_ms - window_start_ms >= ADAPTIVE_TTL_WINDOW_MS) {
+                            // Window elapsed: apply cold-key policy on previous window count
+                            if (window_start_ms > 0 && window_count <= 1) {
+                                int old_ttl = ttl_seconds;
+                                ttl_seconds = std::max(
+                                    static_cast<int>(ttl_seconds * 0.5),
+                                    config_.adaptive_ttl_min_seconds);
+                                if (ttl_seconds < old_ttl) {
+                                    enhanced_metrics_.ttl_shortened_total++;
+                                }
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            }
+                            entry_json["window_start_ms"] = now_ms;
+                            entry_json["window_count"] = 1;
+                        } else {
+                            window_count++;
+                            entry_json["window_count"] = window_count;
+                            // Hot-key policy: extend TTL when heavily accessed in window
+                            if (window_count >= 10) {
+                                int old_ttl = ttl_seconds;
+                                ttl_seconds = std::min(
+                                    static_cast<int>(ttl_seconds * 1.5),
+                                    config_.adaptive_ttl_max_seconds);
+                                if (ttl_seconds > old_ttl) {
+                                    enhanced_metrics_.ttl_extended_total++;
+                                }
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            } else {
+                                ttl_seconds = calculateAdaptiveTTL(access_count);
+                                entry_json["ttl_seconds"] = ttl_seconds;
+                            }
+                        }
+                        entry_json["created_at_ms"] = now_ms;  // Reset TTL window on each access
+                        created_at_ms = now_ms;
+                    }
+
                     l3_db_->put(key, entry_json.dump());
                     
                     stats_.l3_hits++;
@@ -452,6 +551,8 @@ bool AdaptiveQueryCache::put(
         entry.last_accessed_ms = now_ms;
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
+        entry.window_start_ms = now_ms;
+        entry.window_count = 0;
         
         l1_cache_[key] = std::move(entry);
         enhanced_metrics_.total_bytes_cached += result_size;
@@ -487,6 +588,8 @@ bool AdaptiveQueryCache::put(
         entry.last_accessed_ms = now_ms;
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
+        entry.window_start_ms = now_ms;
+        entry.window_count = 0;
         
         size_t compressed_size = entry.compressed_result.size();
         l2_cache_[fingerprint] = std::move(entry);
@@ -514,6 +617,8 @@ bool AdaptiveQueryCache::put(
         entry_json["last_accessed_ms"] = now_ms;
         entry_json["access_count"] = 1;
         entry_json["ttl_seconds"] = ttl_seconds;
+        entry_json["window_start_ms"] = now_ms;
+        entry_json["window_count"] = 0;
         
         std::string key = QUERY_CACHE_PREFIX + fingerprint;
         bool ok = false;
@@ -753,6 +858,20 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         {"enabled", l3_db_ != nullptr},
         {"path", config_.l3_db_path}
     };
+    
+    // Phase 3: Adaptive TTL tuning metrics
+    if (config_.enable_adaptive_ttl) {
+        info["adaptive_ttl"] = {
+            {"enabled", true},
+            {"min_seconds", config_.adaptive_ttl_min_seconds},
+            {"max_seconds", config_.adaptive_ttl_max_seconds},
+            {"scaling_factor", config_.adaptive_ttl_scaling_factor},
+            {"ttl_extended_total", enhanced_metrics_.ttl_extended_total.load()},
+            {"ttl_shortened_total", enhanced_metrics_.ttl_shortened_total.load()}
+        };
+    } else {
+        info["adaptive_ttl"] = {{"enabled", false}};
+    }
     
     return info;
 }
@@ -1073,43 +1192,80 @@ nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
     nlohmann::json health;
     health["healthy"] = true;
     health["warnings"] = nlohmann::json::array();
-    
-    // Check L1 utilization
+
+    // Per-tier status
+    nlohmann::json tiers;
+
+    // L1 tier
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
-        double util = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
+        size_t entries = l1_cache_.size();
+        double util = static_cast<double>(entries) / config_.l1_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l1"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l1_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l1_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L1 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check L2 utilization
+
+    // L2 tier
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        double util = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
+        size_t entries = l2_cache_.size();
+        double util = static_cast<double>(entries) / config_.l2_max_entries;
+        std::string tier_status = (util > 0.9) ? "DEGRADED" : "OK";
+        tiers["l2"] = {
+            {"status",      tier_status},
+            {"entries",     entries},
+            {"max_entries", config_.l2_max_entries},
+            {"utilization", util},
+            {"ttl_seconds", config_.l2_ttl_seconds}
+        };
         if (util > 0.9) {
             health["warnings"].push_back("L2 cache utilization high: " + std::to_string(util * 100) + "%");
         }
     }
-    
-    // Check circuit breaker
-    if (enhanced_metrics_.l3_circuit_breaker_open.load()) {
-        health["healthy"] = false;
-        health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+
+    // L3 tier
+    {
+        bool l3_open = enhanced_metrics_.l3_circuit_breaker_open.load();
+        bool l3_enabled = (l3_db_ != nullptr);
+        std::string tier_status = l3_open ? "UNAVAILABLE" : (l3_enabled ? "OK" : "DISABLED");
+        tiers["l3"] = {
+            {"status",      tier_status},
+            {"enabled",     l3_enabled},
+            {"path",        config_.l3_db_path},
+            {"ttl_seconds", config_.l3_ttl_seconds}
+        };
+        if (l3_open) {
+            health["healthy"] = false;
+            health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+        }
     }
-    
+
+    health["tiers"] = tiers;
+
+    // Embed circuit breaker details
+    health["circuit_breaker"] = getCircuitBreakerStatus();
+
     // Check hit rate
     double hit_rate = enhanced_metrics_.getHitRate();
     if (hit_rate < 0.5) {
         health["warnings"].push_back("Low cache hit rate: " + std::to_string(hit_rate * 100) + "%");
     }
-    
+
     // Check rate limiting
     uint64_t rate_limited = enhanced_metrics_.rate_limited_requests.load();
     if (rate_limited > 1000) {
         health["warnings"].push_back("High rate limiting: " + std::to_string(rate_limited) + " requests rejected");
     }
-    
+
     return health;
 }
 
@@ -1432,6 +1588,8 @@ AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entrie
         try {
             value_json = nlohmann::json::parse(decoded);
         } catch (...) {
+            THEMIS_WARN("Cache warmup: skipping entry {} – invalid JSON after base64 decode",
+                        fingerprint.substr(0, 16));
             ++result.entries_skipped;
             continue;
         }
@@ -1568,7 +1726,12 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
             std::string value_str(raw.begin(), raw.end());
 
             // Validate JSON
-            try { nlohmann::json::parse(value_str); } catch (...) { continue; }
+            try {
+                nlohmann::json::parse(value_str);
+            } catch (...) {
+                THEMIS_WARN("Cache snapshot export: skipping L2 entry with invalid JSON for key={}", key.substr(0, 16));
+                continue;
+            }
 
             // Derive fingerprint and tenant
             std::string fp = key;
