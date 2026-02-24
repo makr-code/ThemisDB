@@ -65,12 +65,12 @@ Implement a REST Admin API (planned in ROADMAP Phase 3) that exposes cache inspe
 After a node restart, L1 and L2 are cold; queries that were hot before restart incur L3 or full re-execution latency. Implement a warmup path that replays a query log or imports a cache snapshot to pre-populate L1/L2.
 
 **Implementation Notes:**
-- `[ ]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
-- `[ ]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
-- `[ ]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
-- `[ ]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
-- `[ ]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
-- `[ ]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
+- `[x]` Add `AdaptiveQueryCache::warmupFromLog(const std::string& log_path, size_t max_entries)` method.
+- `[x]` Log format: newline-delimited JSON, each line `{"key":"<sha256>","value_b64":"<base64>","ttl_remaining_s":300,"tenant":"acme"}`.
+- `[x]` Warmup path bypasses `cache::RateLimiter` (internal operation) but honours per-tenant quota checks.
+- `[x]` Cap warmup at `config_.l1_max_entries / 2` to leave headroom for live traffic; excess entries go to L2.
+- `[x]` Add `AdaptiveQueryCache::exportSnapshot(const std::string& out_path)` for pre-shutdown snapshot export.
+- `[x]` Expose warmup progress via a Prometheus gauge `themis_cache_warmup_entries_loaded_total`.
 
 **Performance Targets:**
 - Warmup of 50,000 L1 entries from disk log in < 10 s on commodity SSD.
@@ -104,11 +104,11 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 `bounded_lru_cache.cpp` implements LRU only. For scan-heavy workloads (large analytics queries visiting all cache entries), LRU causes cache pollution. Add Least-Frequently-Used (LFU) and Adaptive Replacement Cache (ARC) policies selectable via config.
 
 **Implementation Notes:**
-- `[ ]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
-- `[ ]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
-- `[ ]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
-- `[ ]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
-- `[ ]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
+- `[x]` Define `EvictionPolicy` enum `{LRU, LFU, ARC}` in `cache/eviction_policy.h`.
+- `[x]` Implement `LFUCache<K,V>` using a frequency-bucket doubly-linked list (O(1) insert/evict).
+- `[x]` Implement `ARCCache<K,V>`: maintain T1 (recency), T2 (frequency), B1, B2 ghost lists; adapt partition `p` on hits/misses.
+- `[x]` `AdaptiveQueryCache::Config` gains `l1_eviction_policy` and `l2_eviction_policy` fields (default: `LRU` for backward compatibility).
+- `[x]` `bounded_lru_cache.cpp` is refactored to implement the `IEvictionCache<K,V>` interface; `LFUCache` and `ARCCache` implement the same interface.
 
 **Performance Targets:**
 - ARC policy achieves ≥ 10% higher hit rate than LRU on a scan-heavy TPC-H query replay workload.

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_authenticator.h                               ║
-  Version:         0.0.1                                              ║
+  Version:         0.1.0                                              ║
   Last Modified:   2026-02-24                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     239                                             ║
+    • Total Lines:     260                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -21,218 +21,222 @@
 
 #include "auth/auth_error.h"
 
-#include <string>
-#include <vector>
-#include <memory>
 #include <chrono>
+#include <mutex>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
 namespace themis {
-namespace utils { class AuditLogger; }
 namespace auth {
 
-// Input validation limits for mTLS
-constexpr size_t MAX_MTLS_CERT_PEM_SIZE    = 65536;  ///< 64 KB max for a PEM certificate
-constexpr size_t MAX_MTLS_SUBJECT_LENGTH   = 512;    ///< Max bytes for a subject DN string
-constexpr size_t MAX_MTLS_PRINCIPAL_LENGTH = 256;    ///< Max bytes for an extracted principal
-
 /**
- * @brief Configuration for mTLS certificate-based authentication.
+ * @brief Claims extracted from a validated client certificate during mTLS authentication.
  *
- * The authenticator validates PEM-encoded X.509 client certificates
- * against a trusted CA and extracts a principal (by default the CN
- * of the Subject DN) that is then mapped to ThemisDB roles.
- */
-struct MTLSConfig {
-    bool enabled = false;
-
-    /// Path to PEM-encoded CA certificate used to verify client certs.
-    /// Mutually exclusive with @c ca_cert_pem – prefer path for large bundles.
-    std::string ca_cert_path;
-
-    /// Inline PEM-encoded CA certificate (alternative to @c ca_cert_path).
-    std::string ca_cert_pem;
-
-    /// Optional path to a PEM-encoded CRL file for revocation checking.
-    std::string crl_path;
-
-    /// Reject certificates whose NotAfter has passed (default: true).
-    bool verify_expiry = true;
-
-    /// Require the Subject to contain a CN field (default: true).
-    bool require_subject_cn = true;
-
-    /**
-     * @brief Specifies which Subject field is used as the principal.
-     *
-     * Supported values:
-     *  - "CN"  (Common Name, default)
-     *  - "DN"  (full Subject Distinguished Name)
-     */
-    std::string principal_field = "CN";
-
-    /**
-     * @brief Maps Subject DN patterns to ThemisDB roles.
-     *
-     * Patterns are matched against the full Subject DN.
-     * Wildcards: '*' matches any sequence of characters.
-     * Example: @c subject_pattern = "*.example.com" matches
-     *           any CN under example.com.
-     */
-    struct SubjectMapping {
-        std::string subject_pattern; ///< Wildcard pattern matched against full Subject DN
-        std::string role;            ///< Role granted when pattern matches
-        std::string tenant_id;       ///< Optional: tenant scope for this mapping
-    };
-    std::vector<SubjectMapping> subject_mappings;
-};
-
-/**
- * @brief Claims returned after successful mTLS certificate authentication.
+ * Identity information is derived from the X.509 certificate's Subject Distinguished
+ * Name (DN) and Subject Alternative Names (SAN).  The authenticating server validates
+ * the certificate chain and, optionally, a Certificate Revocation List (CRL) before
+ * populating these claims.
  */
 struct MTLSClaims {
-    std::string subject_dn;    ///< Full Subject Distinguished Name (e.g. "CN=alice,O=Corp")
-    std::string principal;     ///< Extracted principal (CN or full DN, per config)
-    std::string issuer_dn;     ///< Issuer Distinguished Name
-    std::string serial_number; ///< Certificate serial number (hex)
-    std::chrono::system_clock::time_point not_before;
-    std::chrono::system_clock::time_point not_after;
-    std::vector<std::string> roles;     ///< Roles from subject_mappings
-    std::string tenant_id;              ///< Tenant from subject_mappings (may be empty)
+    std::string principal;               ///< Resolved principal (Common Name or SAN email)
+    std::string subject_dn;             ///< Full Subject Distinguished Name
+    std::string issuer_dn;              ///< Full Issuer Distinguished Name
+    std::string serial_number;          ///< Certificate serial number (hex)
+    std::string fingerprint_sha256;     ///< SHA-256 fingerprint of DER-encoded cert (hex)
+    std::vector<std::string> san_dns_names;   ///< Subject Alternative Names – DNS entries
+    std::vector<std::string> san_ip_addresses; ///< Subject Alternative Names – IP entries
+    std::vector<std::string> san_email_addresses; ///< Subject Alternative Names – email entries
+    std::vector<std::string> roles;     ///< Optional roles mapped from the certificate
+    std::chrono::system_clock::time_point not_before; ///< Certificate validity start
+    std::chrono::system_clock::time_point not_after;  ///< Certificate validity end
+
+    /**
+     * @brief Return true if the certificate has passed its not_after timestamp.
+     */
+    bool isExpired() const {
+        return std::chrono::system_clock::now() > not_after;
+    }
 };
 
 /**
- * @brief Authenticator for certificate-based mutual TLS (mTLS).
+ * @brief Mutual TLS (mTLS) authenticator for certificate-based client authentication.
  *
- * Validates PEM-encoded X.509 client certificates presented during the
- * TLS handshake.  The typical usage with AuthMiddleware is:
+ * Validates X.509 client certificates presented during a TLS handshake (or supplied
+ * directly as PEM/DER bytes in test and proxy-termination scenarios).  The authenticator:
  *
+ *   1. Parses the certificate with OpenSSL.
+ *   2. Verifies the certificate chain against one or more trusted CA certificates.
+ *   3. Checks certificate validity window (not-before / not-after).
+ *   4. Optionally verifies against a loaded CRL (Certificate Revocation List).
+ *   5. Optionally checks whether the serial number appears in a runtime revocation list.
+ *   6. Extracts identity fields (CN, SAN DNS, SAN IP, SAN email) and returns MTLSClaims.
+ *
+ * Thread safety: all public methods are protected by an internal mutex and are safe
+ * to call from multiple threads.
+ *
+ * Usage example:
  * @code
- * MTLSConfig cfg;
- * cfg.ca_cert_path = "/etc/themisdb/ca.pem";
- * cfg.subject_mappings = {{"CN=*.ops.example.com", "ops:admin", "tenant-1"}};
+ *   MTLSAuthenticator::Config cfg;
+ *   cfg.ca_cert_pem = loadFile("/etc/themis/ca.crt");
+ *   cfg.require_client_cert = true;
  *
- * auth::MTLSAuthenticator authenticator;
- * authenticator.initialize(cfg);
+ *   MTLSAuthenticator auth(cfg);
  *
- * // cert_pem is the raw PEM from the TLS layer
- * auto claims = authenticator.authenticate(cert_pem);
+ *   // At connection time, after TLS handshake, obtain the peer certificate PEM
+ *   // (e.g., from SSL_get_peer_certificate + PEM_write_bio_X509) and call:
+ *   auto claims = auth.authenticate(peer_cert_pem);
  * @endcode
- *
- * Authentication flow:
- *  1. Parse PEM-encoded client certificate (X.509).
- *  2. Build a CA trust store from @c ca_cert_path or @c ca_cert_pem.
- *  3. Verify certificate chain against the trust store.
- *  4. Optionally check certificate expiry and CRL.
- *  5. Extract principal according to @c principal_field.
- *  6. Map Subject DN to roles via @c subject_mappings.
- *  7. Return @c MTLSClaims on success; throw @c AuthException on failure.
  */
 class MTLSAuthenticator {
 public:
-    MTLSAuthenticator();
+    /**
+     * @brief Configuration for the mTLS authenticator.
+     */
+    struct Config {
+        /// PEM-encoded trusted CA certificate(s).  Multiple CAs may be concatenated.
+        std::string ca_cert_pem;
+
+        /// Optional: PEM-encoded CRL to check against during validation.
+        std::string crl_pem;
+
+        /// When true, authenticate() throws if the certificate is not signed by a
+        /// trusted CA.  When false, chain validation is skipped (useful for
+        /// testing with self-signed certs).  Default: true.
+        bool verify_chain{true};
+
+        /// When true, certificates whose serial appears in the runtime revocation set
+        /// (managed via revokeCertificate() / unrevokeCertificate()) are rejected.
+        /// Default: true.
+        bool check_revocation{true};
+
+        /// When true, authenticate() throws AUTH_CONFIG_INVALID if no CA cert is
+        /// configured and verify_chain is true.  Default: true.
+        bool require_client_cert{true};
+    };
+
+    /**
+     * @brief Construct the authenticator with the given configuration.
+     *
+     * @throws AuthException (AUTH_CONFIG_INVALID) if verify_chain is true and
+     *         ca_cert_pem is empty.
+     */
+    explicit MTLSAuthenticator(const Config& config);
+
     ~MTLSAuthenticator();
 
-    // Non-copyable, non-movable (owns OpenSSL resources)
-    MTLSAuthenticator(const MTLSAuthenticator&) = delete;
-    MTLSAuthenticator& operator=(const MTLSAuthenticator&) = delete;
-    MTLSAuthenticator(MTLSAuthenticator&&) = delete;
-    MTLSAuthenticator& operator=(MTLSAuthenticator&&) = delete;
+    // -------------------------------------------------------------------------
+    // Core authentication
+    // -------------------------------------------------------------------------
 
     /**
-     * @brief Attach an optional AuditLogger for LOGIN_SUCCESS / LOGIN_FAILED events.
-     * Pass nullptr to detach.  The authenticator does NOT take ownership.
-     */
-    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
-
-    /**
-     * @brief Initialise the authenticator with the supplied configuration.
+     * @brief Authenticate a client by validating its PEM-encoded X.509 certificate.
      *
-     * Loads the CA certificate and, if configured, the CRL.
+     * Steps performed:
+     *   1. Parse the PEM certificate with OpenSSL.
+     *   2. If verify_chain is true, build and verify the chain against the loaded CA(s).
+     *   3. Check the validity window (not-before / not-after).
+     *   4. If check_revocation is true and a CRL is configured, verify the CRL signature
+     *      and check that the serial number is not listed.
+     *   5. Check the runtime revocation set.
+     *   6. Extract Subject DN, Issuer DN, serial number, SHA-256 fingerprint, and SANs.
+     *   7. Resolve principal: first SAN email address if present, otherwise Subject CN.
      *
-     * @param config mTLS configuration
-     * @return true on success; false on configuration error (details are logged)
-     */
-    bool initialize(const MTLSConfig& config);
-
-    /** @brief Returns true if @c initialize() has been called successfully. */
-    bool isInitialized() const { return initialized_; }
-
-    /**
-     * @brief Authenticate a PEM-encoded X.509 client certificate.
-     *
-     * Steps:
-     *  1. Validate input size.
-     *  2. Parse PEM to an X.509 structure.
-     *  3. Verify certificate chain against the loaded CA trust store.
-     *  4. Check expiry (if enabled).
-     *  5. Check CRL (if configured).
-     *  6. Extract principal from Subject DN.
-     *  7. Map Subject DN to roles.
-     *
-     * @param cert_pem PEM-encoded X.509 client certificate
-     * @return Populated MTLSClaims on success
-     * @throws AuthException on any validation failure
+     * @param cert_pem  PEM-encoded X.509 certificate (BEGIN CERTIFICATE … END CERTIFICATE).
+     * @return MTLSClaims populated with identity information.
+     * @throws AuthException(MTLS_CERT_INVALID) if the certificate cannot be parsed or
+     *         the chain fails to verify.
+     * @throws AuthException(MTLS_CERT_EXPIRED) if the certificate's validity window has
+     *         passed or has not yet started.
+     * @throws AuthException(MTLS_CERT_REVOKED) if the certificate's serial number appears
+     *         in the CRL or the runtime revocation set.
      */
     MTLSClaims authenticate(const std::string& cert_pem);
 
     /**
-     * @brief Map a Subject DN string to ThemisDB roles and tenant.
+     * @brief Authenticate a client by validating its DER-encoded X.509 certificate.
      *
-     * Iterates over @c config_.subject_mappings in order; returns roles from
-     * all matching entries.
+     * Converts the DER bytes to PEM internally and delegates to authenticate(const std::string&).
      *
-     * @param subject_dn Full Subject Distinguished Name string
-     * @return {roles, tenant_id}
+     * @param cert_der  DER-encoded certificate bytes.
+     * @return MTLSClaims populated with identity information.
+     * @throws AuthException on any validation failure (see authenticate(PEM) above).
      */
-    std::pair<std::vector<std::string>, std::string>
-    mapSubjectToRoles(const std::string& subject_dn) const;
+    MTLSClaims authenticateDER(const std::vector<uint8_t>& cert_der);
+
+    // -------------------------------------------------------------------------
+    // Runtime certificate revocation
+    // -------------------------------------------------------------------------
 
     /**
-     * @brief Extract the principal from a Subject DN.
+     * @brief Add a certificate serial number (hex string) to the runtime revocation set.
      *
-     * Extracts the CN value when @c config_.principal_field == "CN",
-     * otherwise returns the full @p subject_dn.
+     * Thread-safe.  Has no effect if the serial is already present.
      *
-     * @param subject_dn Full Subject Distinguished Name string
-     * @return extracted principal string
+     * @param serial_hex  Hex-encoded serial number (e.g., "0A1B2C3D").
+     * @throws AuthException (AUTH_CONFIG_INVALID) if serial_hex is empty.
      */
-    std::string extractPrincipal(const std::string& subject_dn) const;
+    void revokeCertificate(const std::string& serial_hex);
 
-    /** @brief Return the current configuration. */
-    const MTLSConfig& getConfig() const { return config_; }
+    /**
+     * @brief Remove a certificate serial number from the runtime revocation set.
+     *
+     * Thread-safe.  A no-op if the serial is not present.
+     *
+     * @param serial_hex  Hex-encoded serial number to unrevoke.
+     */
+    void unrevokeCertificate(const std::string& serial_hex);
+
+    /**
+     * @brief Return true if a given serial number is in the runtime revocation set.
+     *
+     * @param serial_hex  Hex-encoded serial number to query.
+     */
+    bool isRevoked(const std::string& serial_hex) const;
+
+    /**
+     * @brief Return the number of entries in the runtime revocation set.
+     */
+    size_t revokedCount() const;
+
+    // -------------------------------------------------------------------------
+    // Utility helpers
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Compute the SHA-256 fingerprint of a PEM certificate.
+     *
+     * @param cert_pem  PEM-encoded certificate.
+     * @return Lowercase hex-encoded SHA-256 digest of the DER form.
+     * @throws AuthException (MTLS_CERT_INVALID) if the certificate cannot be parsed.
+     */
+    static std::string certFingerprint(const std::string& cert_pem);
+
+    /**
+     * @brief Extract the Subject Common Name from a PEM certificate.
+     *
+     * @param cert_pem  PEM-encoded certificate.
+     * @return Subject CN string, or empty string if not present.
+     * @throws AuthException (MTLS_CERT_INVALID) if the certificate cannot be parsed.
+     */
+    static std::string extractSubjectCN(const std::string& cert_pem);
 
 private:
-    bool initialized_ = false;
-    MTLSConfig config_;
-    utils::AuditLogger* audit_logger_ = nullptr;
+    Config config_;
+    mutable std::mutex mutex_;
+    std::unordered_set<std::string> revoked_serials_;
 
-    // PIMPL: hides OpenSSL X509_STORE* and CRL state from callers
+    // OpenSSL X509_STORE for CA chain verification (PIMPL via void*)
     struct Impl;
     std::unique_ptr<Impl> impl_;
 
-    /** Load CA cert from file or inline PEM into the trust store. */
-    bool loadCACertificate();
+    bool initCAStore();
+    bool initCRL();
 
-    /** Load CRL file into the trust store (optional). */
-    bool loadCRL();
-
-    /**
-     * @brief Verify the parsed X.509 certificate against the trust store.
-     * @param x509 Opaque pointer to OpenSSL X509 object.
-     * @param skip_time_check When true, sets X509_V_FLAG_NO_CHECK_TIME so that
-     *        OpenSSL skips validity-period checks during chain verification.
-     *        Used to implement @c MTLSConfig::verify_expiry == false.
-     * @return true if the chain is valid.
-     */
-    bool verifyCertificateChain(void* x509, bool skip_time_check = false) const;
-
-    /**
-     * @brief Return true if the Subject DN matches the wildcard pattern.
-     *
-     * '*' matches any sequence of characters.
-     */
-    static bool subjectMatchesPattern(const std::string& subject_dn,
-                                      const std::string& pattern);
+    static std::string x509NameToString(void* name);
+    static std::string serialToHex(void* serial);
+    static std::string computeFingerprint(void* x509);
+    static std::vector<std::string> extractSANs(void* x509, int san_type);
 };
 
 } // namespace auth

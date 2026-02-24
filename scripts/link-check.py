@@ -153,6 +153,7 @@ class LinkChecker:
             return True
             
         except Exception as e:
+            print(f"[ERROR] Error checking internal link {link}: {e}", file=sys.stderr)
             self.add_error(
                 str(source_file.relative_to(self.base_path)),
                 line_num,
@@ -198,6 +199,7 @@ class LinkChecker:
             return False
             
         except Exception:
+            print("[WARN] Anchor check failed; could not read target file", file=sys.stderr)
             return False
 
     def check_external_link(self, source_file: Path, link: str, line_num: int) -> bool:
@@ -229,6 +231,7 @@ class LinkChecker:
                 self.stats['broken_external'] += 1
                 return False
         except Exception:
+            print(f"[WARN] Malformed external link: {link}", file=sys.stderr)
             self.add_error(
                 str(source_file.relative_to(self.base_path)),
                 line_num,
@@ -296,6 +299,7 @@ class LinkChecker:
                 ""
             )
         except Exception as e:
+            print(f"[ERROR] Unexpected error checking {file_path}: {e}", file=sys.stderr)
             self.add_error(
                 str(file_path.relative_to(self.base_path)),
                 0,

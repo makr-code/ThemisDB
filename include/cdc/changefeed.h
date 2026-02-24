@@ -81,6 +81,12 @@ public:
         int64_t timestamp_ms;             // Event timestamp
         nlohmann::json metadata;          // Additional metadata (tx_id, user, etc.)
 
+        // Before/after document snapshots for change event enrichment.
+        // before_snapshot: document state prior to this change (nullopt for INSERT).
+        // after_snapshot:  document state after this change  (nullopt for DELETE).
+        std::optional<std::string> before_snapshot;
+        std::optional<std::string> after_snapshot;
+
         // Serialization
         nlohmann::json toJson() const;
         static ChangeEvent fromJson(const nlohmann::json& j);

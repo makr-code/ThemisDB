@@ -113,6 +113,7 @@ class ShardLoader:
                     # conn.insert(record)
                     loaded += 1
             except Exception as e:
+                print(f"[ERROR] Failed to load record: {e}")
                 errors += 1
         
         self.stats['loaded'] += loaded

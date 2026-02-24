@@ -276,6 +276,7 @@ class ThemisDBImporter:
             )
             return response.status_code in [200, 201]
         except Exception as e:
+            print(f"[ERROR] Error importing {key}: {e}", file=sys.stderr)
             self.stats["errors"].append(f"Error importing {key}: {e}")
             return False
     

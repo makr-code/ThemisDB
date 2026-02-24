@@ -145,8 +145,8 @@ class SourceScanner:
                             "code_snippet": line.strip()[:80],
                             "suggested_fix": "Replace with safe_size_to_int()"
                         })
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[WARN] scan_static_casts: skipping file due to error: {e}")
         
         return issues
     
@@ -167,8 +167,8 @@ class SourceScanner:
                             "code_snippet": line.strip()[:80],
                             "suggested_fix": "Use safe_double_to_float() or add 'f' suffix"
                         })
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[WARN] scan_float_assignments: skipping file due to error: {e}")
         
         return issues
     
@@ -191,8 +191,8 @@ class SourceScanner:
                             "code_snippet": line.strip(),
                             "suggested_fix": "Replace pragma with proper fix or [[maybe_unused]]"
                         })
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[WARN] scan_pragma_suppressions: skipping file due to error: {e}")
         
         return issues
     
@@ -213,8 +213,8 @@ class SourceScanner:
                             "code_snippet": line.strip()[:80],
                             "suggested_fix": "Use size_t or range-based for loop"
                         })
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[WARN] scan_signed_unsigned_loops: skipping file due to error: {e}")
         
         return issues
 

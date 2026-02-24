@@ -58,7 +58,15 @@ nlohmann::json Changefeed::ChangeEvent::toJson() const {
     }
     j["timestamp_ms"] = timestamp_ms;
     j["metadata"] = metadata;
-    
+
+    // Before/after document snapshots (optional; only present when enriched)
+    if (before_snapshot.has_value()) {
+        j["before_snapshot"] = *before_snapshot;
+    }
+    if (after_snapshot.has_value()) {
+        j["after_snapshot"] = *after_snapshot;
+    }
+
     return j;
 }
 
@@ -85,7 +93,15 @@ Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json& 
     if (j.contains("metadata")) {
         event.metadata = j["metadata"];
     }
-    
+
+    // Before/after document snapshots (optional enrichment fields)
+    if (j.contains("before_snapshot") && j["before_snapshot"].is_string()) {
+        event.before_snapshot = j["before_snapshot"].get<std::string>();
+    }
+    if (j.contains("after_snapshot") && j["after_snapshot"].is_string()) {
+        event.after_snapshot = j["after_snapshot"].get<std::string>();
+    }
+
     return event;
 }
 

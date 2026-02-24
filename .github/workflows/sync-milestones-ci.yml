@@ -1,0 +1,64 @@
+name: Sync-Milestones CI
+
+# Run unit tests and a dry-run smoke-test whenever the sync script,
+# its tests, or any roadmap file changes.
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'scripts/sync-milestones-from-roadmap.py'
+      - 'tests/test_sync_milestones.py'
+      - 'src/**/ROADMAP.md'
+      - '.github/workflows/sync-milestones-ci.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'scripts/sync-milestones-from-roadmap.py'
+      - 'tests/test_sync_milestones.py'
+      - 'src/**/ROADMAP.md'
+      - '.github/workflows/sync-milestones-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: pip install pytest --quiet
+
+      - name: Run unit tests
+        run: python -m pytest tests/test_sync_milestones.py -v
+
+  dry-run:
+    name: Dry-run smoke test
+    runs-on: ubuntu-latest
+    # No token needed – dry-run skips all GitHub API calls for issue assignment,
+    # but still attempts to fetch existing milestones. We tolerate the fetch
+    # failure (empty list) and verify the script exits 0 with --dry-run.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Dry-run the sync script
+        run: python scripts/sync-milestones-from-roadmap.py --dry-run
+
+      - name: Verify audit report was generated
+        run: test -f docs/issue-milestone-audit.md && echo "✅ Audit report present"

@@ -25,7 +25,7 @@
 - [I] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
-- [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
+- [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)

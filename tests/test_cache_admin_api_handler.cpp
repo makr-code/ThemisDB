@@ -415,3 +415,210 @@ TEST_F(CacheAdminApiHandlerTest, SnapshotExportsAndReloads) {
 
     std::filesystem::remove(snap_path);
 }
+
+// ---------------------------------------------------------------------------
+// Tests: GET /v1/admin/cache/tenants
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, ListTenantsReturnsEnabledWhenTenantIsolationOn) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenants");
+    auto res = handler_->handleListTenants(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body.contains("enabled"));
+    EXPECT_TRUE(body["enabled"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, ListTenantsIncludesHitMissStatsAfterAccess) {
+    const std::string tenant = "stats_tenant";
+    std::string fp = cache_->generateFingerprint("SELECT stats", {}, tenant);
+
+    // One put + one hit + one miss
+    ASSERT_TRUE(cache_->put(fp, {}, json::object(), tenant));
+    cache_->get(fp, tenant);  // hit
+
+    std::string fp2 = cache_->generateFingerprint("SELECT miss", {}, tenant);
+    cache_->get(fp2, tenant);  // miss
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenants");
+    auto res = handler_->handleListTenants(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("tenants"));
+    ASSERT_TRUE(body["tenants"].contains(tenant));
+    const auto& t = body["tenants"][tenant];
+    EXPECT_GE(t["hits"].get<int>(), 1);
+    EXPECT_GE(t["misses"].get<int>(), 1);
+    EXPECT_TRUE(t.contains("hit_rate"));
+    EXPECT_TRUE(t.contains("evictions"));
+    EXPECT_TRUE(t.contains("bytes_used"));
+    EXPECT_TRUE(t.contains("quota"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, ListTenantsReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenants");
+    EXPECT_EQ(handler_no_cache->handleListTenants(req).result(),
+              http::status::service_unavailable);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: GET /v1/admin/cache/tenant/{tenant_id}/stats
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+    auto req = makeRequest(http::verb::get,
+                           "/v1/admin/cache/tenant/acme/stats");
+    EXPECT_EQ(handler_no_cache->handleTenantStats(req).result(),
+              http::status::service_unavailable);
+}
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns404ForUnknownTenant) {
+    auto req = makeRequest(http::verb::get,
+                           "/v1/admin/cache/tenant/no_such_tenant/stats");
+    auto res = handler_->handleTenantStats(req);
+    EXPECT_EQ(res.result(), http::status::not_found);
+}
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturns400ForMissingTenantId) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/tenant//stats");
+    auto res = handler_->handleTenantStats(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsReturnsCorrectMetrics) {
+    const std::string tenant = "perf_tenant";
+    std::string fp = cache_->generateFingerprint("SELECT perf", {}, tenant);
+    ASSERT_TRUE(cache_->put(fp, {}, json::array(), tenant));
+
+    // Generate a hit and a miss for this tenant
+    cache_->get(fp, tenant);   // hit
+
+    std::string fp_miss = cache_->generateFingerprint("SELECT miss2", {}, tenant);
+    cache_->get(fp_miss, tenant);  // miss
+
+    auto req = makeRequest(http::verb::get,
+                           "/v1/admin/cache/tenant/" + tenant + "/stats");
+    auto res = handler_->handleTenantStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body["found"].get<bool>());
+    EXPECT_EQ(body["tenant_id"], tenant);
+    EXPECT_GE(body["hits"].get<int>(), 1);
+    EXPECT_GE(body["misses"].get<int>(), 1);
+    EXPECT_TRUE(body.contains("hit_rate"));
+    EXPECT_TRUE(body.contains("evictions"));
+    EXPECT_TRUE(body.contains("bytes_used"));
+    EXPECT_TRUE(body.contains("quota"));
+    EXPECT_TRUE(body.contains("utilization"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, TenantStatsEvictionsIncrementAfterEvict) {
+    const std::string tenant = "evict_stats_tenant";
+    std::string fp = cache_->generateFingerprint("SELECT evict", {}, tenant);
+    ASSERT_TRUE(cache_->put(fp, {}, json::object(), tenant));
+
+    // Evict all entries for the tenant
+    auto evict_req = makeRequest(http::verb::delete_,
+                                 "/v1/admin/cache/tenant/" + tenant);
+    auto evict_res = handler_->handleEvictTenant(evict_req);
+    EXPECT_EQ(evict_res.result(), http::status::ok);
+
+    // Now query tenant stats
+    auto req = makeRequest(http::verb::get,
+                           "/v1/admin/cache/tenant/" + tenant + "/stats");
+    auto res = handler_->handleTenantStats(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body["found"].get<bool>());
+    EXPECT_GE(body["evictions"].get<int>(), 1);
+// Tests: GET /v1/admin/cache/health
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns200WithJsonBody) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    EXPECT_EQ(res[http::field::content_type], "application/json");
+
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body.contains("healthy"));
+    EXPECT_TRUE(body.contains("warnings"));
+    EXPECT_TRUE(body.contains("tiers"));
+    EXPECT_TRUE(body.contains("circuit_breaker"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthContainsPerTierStatus) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("tiers"));
+    const auto& tiers = body["tiers"];
+
+    // L1 tier
+    ASSERT_TRUE(tiers.contains("l1"));
+    EXPECT_TRUE(tiers["l1"].contains("status"));
+    EXPECT_TRUE(tiers["l1"].contains("entries"));
+    EXPECT_TRUE(tiers["l1"].contains("max_entries"));
+    EXPECT_TRUE(tiers["l1"].contains("utilization"));
+    EXPECT_TRUE(tiers["l1"].contains("ttl_seconds"));
+    EXPECT_EQ(tiers["l1"]["status"], "OK");
+
+    // L2 tier
+    ASSERT_TRUE(tiers.contains("l2"));
+    EXPECT_TRUE(tiers["l2"].contains("status"));
+    EXPECT_TRUE(tiers["l2"].contains("entries"));
+    EXPECT_TRUE(tiers["l2"].contains("max_entries"));
+    EXPECT_TRUE(tiers["l2"].contains("utilization"));
+    EXPECT_TRUE(tiers["l2"].contains("ttl_seconds"));
+    EXPECT_EQ(tiers["l2"]["status"], "OK");
+
+    // L3 tier
+    ASSERT_TRUE(tiers.contains("l3"));
+    EXPECT_TRUE(tiers["l3"].contains("status"));
+    EXPECT_TRUE(tiers["l3"].contains("enabled"));
+    EXPECT_TRUE(tiers["l3"].contains("path"));
+    EXPECT_TRUE(tiers["l3"].contains("ttl_seconds"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthContainsCircuitBreakerState) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+
+    ASSERT_TRUE(body.contains("circuit_breaker"));
+    EXPECT_TRUE(body["circuit_breaker"].contains("state"));
+    EXPECT_TRUE(body["circuit_breaker"].contains("enabled"));
+    EXPECT_EQ(body["circuit_breaker"]["state"], "CLOSED");
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns200WhenHealthy) {
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    auto res = handler_->handleHealth(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body["healthy"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, HealthReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+
+    auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
+    EXPECT_EQ(handler_no_cache->handleHealth(req).result(),
+              http::status::service_unavailable);
+}
