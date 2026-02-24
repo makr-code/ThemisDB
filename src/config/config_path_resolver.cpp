@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     547                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b01c41c10  2026-02-22  fix(config): use thread-safe C++20 chrono date formatting... ║
@@ -30,6 +30,7 @@
 #include <cstdlib>
 #include <mutex>
 #include <sstream>
+#include <cstdio>
 #include <iomanip>
 #include <thread>
 #include <unordered_map>
@@ -202,10 +203,18 @@ static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
             int val = std::stoi(env);
             if (val >= 10 && val <= 100000) {
                 capacity = static_cast<size_t>(val);
+            } else {
+                // Warn at startup; use fprintf because spdlog may not be initialized yet
+                fprintf(stderr,
+                    "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY=%d is out of range [10, 100000];"
+                    " using default %d\n",
+                    val, ConfigPathResolver::kCacheCapacity);
             }
-            // Out-of-range values fall through to default silently at static-init time
         } catch (...) {
-            // Invalid value: keep default
+            fprintf(stderr,
+                "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY='%s' is not a valid integer;"
+                " using default %d\n",
+                env, ConfigPathResolver::kCacheCapacity);
         }
     }
 
@@ -214,9 +223,17 @@ static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
             int val = std::stoi(env);
             if (val >= 1 && val <= 86400) {
                 ttl_seconds = val;
+            } else {
+                fprintf(stderr,
+                    "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS=%d is out of range [1, 86400];"
+                    " using default %d\n",
+                    val, ConfigPathResolver::kCacheTtlSeconds);
             }
         } catch (...) {
-            // Invalid value: keep default
+            fprintf(stderr,
+                "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS='%s' is not a valid integer;"
+                " using default %d\n",
+                env, ConfigPathResolver::kCacheTtlSeconds);
         }
     }
 
