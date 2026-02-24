@@ -131,6 +131,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/grpc_channel_pool.cpp
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
@@ -243,6 +244,8 @@ set(THEMIS_STORAGE_SOURCES
 
     # Change data capture (used by metadata/schema manager)
     ../src/cdc/changefeed.cpp
+    ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/cdc_ws_handler.cpp
 )
 
 set(THEMIS_QUERY_SOURCES

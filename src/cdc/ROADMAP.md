@@ -12,18 +12,20 @@
 - [x] Filtered change subscriptions (table/key/event-type filters)
 - [x] Historical change replay from stored change log
 - [x] Integration with analytics diff engine
+- [x] Dead-letter queue for failed event deliveries (Issue: #1610)
 
 ## In Progress 🚧
-- [I] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
-- [I] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
+- [x] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
+- [x] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
 - [x] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
-- [I] Change log TTL and size-based retention policies (Issue: #1608)
+- [x] Change log TTL and size-based retention policies (Issue: #1608)
 - [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
+- [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Outbox pattern support for transactional change publishing (Issue: #1612)
@@ -47,8 +49,8 @@
 - [x] Integrated with analytics diff engine for before/after document snapshots
 
 ### Phase 2: WebSocket Transport and Delivery Guarantees (Status: In Progress)
-- [I] Implement WebSocket transport as alternative to SSE (`cdc/ws_transport.cpp`) (Issue: #1626)
-- [I] Implement change log compaction to merge superseded entries by key (Issue: #1627)
+- [x] Implement WebSocket transport as alternative to SSE (`cdc/cdc_ws_handler.cpp`, `/v2/cdc/stream`) (Issue: #1626)
+- [x] Implement change log compaction to merge superseded entries by key (Issue: #1627)
 - [x] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
@@ -61,7 +63,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1623)
 - [x] Integration tests (SSE streaming, change replay, subscription filtering)
 - [I] Performance benchmarks (event throughput, latency) (Issue: #1624)
-- [I] Security audit (subscription authorization, data leakage) (Issue: #1625)
+- [x] Security audit (subscription authorization, data leakage) (Issue: #1625)
 - [x] Documentation complete
 - [x] API stability guaranteed for changefeed and subscription APIs
 
@@ -74,6 +76,9 @@
   `ConsumerGroupManager::fetchEventsAtLeastOnce`;
   in-flight state is in-memory and resets on server restart
   (consumers resume from the last durably committed offset)
+- No consumer offset tracking; replay requires full log scan
+- At-least-once delivery is not yet guaranteed for SSE connections
+- Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)

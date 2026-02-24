@@ -1342,6 +1342,7 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1500,11 +1501,15 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
+    
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
-    ../src/cdc/consumer_group.cpp
+    ../src/cdc/delivery_tracker.cpp
+    ../src/cdc/dead_letter_queue.cpp
     
     # Replication
+    ../src/cdc/cdc_ws_handler.cpp
+    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal conflict resolution

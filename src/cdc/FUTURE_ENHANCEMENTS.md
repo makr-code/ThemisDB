@@ -21,6 +21,21 @@ This document covers implementation-specific future enhancements for the CDC (Ch
 | `TenantBufferManager` | Multi-tenant CDC paths | Per-tenant buffer size quota must be enforced |
 | `cdc::error::invalidArgument()` / error hierarchy | All CDC callers | Typed error codes must propagate to API error responses |
 
+## Implemented Features
+
+### At-Least-Once Delivery Tracker ✅ (Implemented - PR #2797)
+
+`DeliveryTracker` (`include/cdc/delivery_tracker.h`, `src/cdc/delivery_tracker.cpp`) provides
+transport-agnostic at-least-once delivery semantics for CDC change events.
+
+- `trackDelivery(consumer_id, events)` — register dispatched events as pending per consumer
+- `acknowledge(consumer_id, sequence)` — single-event point acknowledgement
+- `acknowledgeUpTo(consumer_id, sequence)` — cumulative (TCP-style) acknowledgement
+- `getPendingRedelivery(consumer_id)` — poll for events past `ack_timeout`; enforces `max_redelivery_attempts`
+- Optional `RedeliveryCallback` + background thread for automatic redelivery without polling
+- Configurable back-pressure limit (`max_pending_per_consumer`)
+- All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport
@@ -30,13 +45,13 @@ This document covers implementation-specific future enhancements for the CDC (Ch
 Replace or supplement the SSE transport with a bidirectional WebSocket endpoint (`/v2/cdc/stream`) that supports both server-push change events and client-sent subscription management frames. WebSocket allows the client to change subscriptions without reconnecting.
 
 **Implementation Notes:**
-- `[ ]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
-- `[ ]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
-- `[~]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
-- `[ ]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
-- `[ ]` Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
-- `[ ]` Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
-- `[ ]` TLS handshake reuses existing Beast SSL context; no new cert management needed.
+- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
+- `[x]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
+- `[x]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
+- `[x]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
+- `[x]` Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
+- `[x]` Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
+- `[x]` TLS handshake reuses existing Beast SSL context; no new cert management needed.
 
 **Performance Targets:**
 - ≥ 5,000 concurrent WebSocket connections per node with < 100 MB additional RSS.
@@ -103,12 +118,12 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 The change log grows unboundedly. Implement size-based and TTL-based retention policies managed by `CDCAdmin`, exposed via both the admin REST API and a background compaction thread.
 
 **Implementation Notes:**
-- `[ ]` Add `RetentionPolicy` struct to `cdc_admin.h`: `max_age_seconds`, `max_bytes`, `max_entries`; load from `config/data_management/cdc_retention.yaml`.
-- `[ ]` Background compaction thread in `changefeed.cpp` (similar to L3 eviction thread in `adaptive_query_cache.cpp`): runs every `compaction_interval_s` (default 300 s).
-- `[ ]` Compaction deletes events older than `max_age_seconds` using `CDCAdmin::purgeOlderThan(timestamp)` (new method).
-- `[ ]` Size-based trigger: if change log RocksDB column family exceeds `max_bytes`, compact oldest entries until under 80% of limit.
-- `[ ]` `CDCAdmin::getRetentionStatus()` returns current log size, oldest event age, and next scheduled compaction time.
-- `[ ]` Admin endpoint: `GET /v1/admin/cdc/retention` and `PUT /v1/admin/cdc/retention` to read/update policy at runtime.
+- `[x]` Add `RetentionPolicy` struct to `cdc_admin.h`: `max_age_seconds`, `max_bytes`, `max_entries`; load from `config/data_management/cdc_retention.yaml`.
+- `[x]` Background compaction thread in `changefeed.cpp` (similar to L3 eviction thread in `adaptive_query_cache.cpp`): runs every `compaction_interval_s` (default 300 s).
+- `[x]` Compaction deletes events older than `max_age_seconds` using `CDCAdmin::purgeOlderThan(timestamp)` (new method).
+- `[x]` Size-based trigger: if change log RocksDB column family exceeds `max_bytes`, compact oldest entries until under 80% of limit.
+- `[x]` `CDCAdmin::getRetentionStatus()` returns current log size, oldest event age, and next scheduled compaction time.
+- `[x]` Admin endpoint: `GET /v1/admin/cdc/retention` and `PUT /v1/admin/cdc/retention` to read/update policy at runtime.
 
 **Performance Targets:**
 - Compaction of 1M expired events completes in < 30 s (background, no query impact).
@@ -146,13 +161,13 @@ When a data-subject deletion request arrives, all historical change log entries 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
 | SSE event delivery latency p99 | < 50 ms (estimated) | < 20 ms | `benchmarks/cdc_bench.cpp` with synthetic write load |
-| WebSocket concurrent connections | 0 (not implemented) | ≥ 5,000 | Load test with `k6` WebSocket scenario |
+| WebSocket concurrent connections | implemented | ≥ 5,000 | Load test with `k6` WebSocket scenario |
 | Consumer group offset commit | N/A | < 1 ms p99 | `tests/cdc/consumer_group_bench.cpp` |
 | Kafka producer throughput | N/A | ≥ 50K events/sec | `benchmarks/kafka_producer_bench.cpp` |
 | Log compaction (1M events) | Unbounded | < 30 s | `tests/cdc/compaction_bench.cpp` |
 
 ## Security / Reliability
 
-- `[ ]` WebSocket upgrade requests must be validated by `auth::JWTValidator` with `cdc:subscribe` scope before the HTTP 101 switch; reject with 401 before protocol upgrade.
+- `[x]` WebSocket upgrade requests must be validated by `auth::JWTValidator` with `cdc:subscribe` scope before the HTTP 101 switch; reject with 401 before protocol upgrade.
 - `[ ]` `CDCAdmin::redactByKeyPrefix()` requires `admin:cdc:redact` JWT scope and must write an immutable audit log entry before beginning redaction to ensure the operation is traceable even if it fails midway.
 - `[ ]` Kafka producer credentials (SASL/TLS) must be loaded from `config/security/` paths via `ConfigPathResolver::resolve()`; credentials must never be logged even at DEBUG level.
