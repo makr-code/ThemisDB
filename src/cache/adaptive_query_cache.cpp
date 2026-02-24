@@ -577,35 +577,37 @@ bool AdaptiveQueryCache::put(
     
     // Store in appropriate level
     if (level == CacheLevel::HOT && result_size < config_.l1_max_entry_size) {
-        std::lock_guard<std::mutex> lock(l1_mutex_);
-        
-        // Evict LRU if full
-        if (l1_cache_.size() >= config_.l1_max_entries) {
-            evictLRU(CacheLevel::HOT);
-        }
-        
-        L1Entry entry;
-        entry.result = result;
-        entry.created_at_ms = now_ms;
-        entry.last_accessed_ms = now_ms;
-        entry.access_count = 1;
-        entry.ttl_seconds = ttl_seconds;
-        entry.window_start_ms = now_ms;
-        entry.window_count = 0;
-        
-        l1_cache_[key] = std::move(entry);
-        l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
-        enhanced_metrics_.total_bytes_cached += result_size;
-        
-        // Phase 2/3: Update tenant size tracking
-        if (config_.enable_tenant_isolation && !tenant_id.empty()) {
-            std::lock_guard<std::mutex> lock(tenant_mutex_);
-            tenant_metrics_[tenant_id].bytes_used += result_size;
-        }
-        
-        THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        {
+            std::lock_guard<std::mutex> lock(l1_mutex_);
+            
+            // Evict LRU if full
+            if (l1_cache_.size() >= config_.l1_max_entries) {
+                evictLRU(CacheLevel::HOT);
+            }
+            
+            L1Entry entry;
+            entry.result = result;
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            l1_cache_[key] = std::move(entry);
+            l1_eviction_strategy_->onInsert(key, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            
+            // Phase 2/3: Update tenant size tracking
+            if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+                std::lock_guard<std::mutex> lock(tenant_mutex_);
+                tenant_metrics_[tenant_id].bytes_used += result_size;
+            }
+            
+            THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
+        }  // l1_mutex_ released before write-through to avoid blocking L1 reads during L3 I/O
 
-        // Phase 4: Write-through mode - also persist to L3 for durability
+        // Phase 4: Write-through mode - persist to L3 outside L1 lock
         if (config_.enable_write_through && l3_db_) {
             writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
         }
@@ -621,31 +623,33 @@ bool AdaptiveQueryCache::put(
             return false;
         }
         
-        std::lock_guard<std::mutex> lock(l2_mutex_);
-        
-        // Evict LRU if full
-        if (l2_cache_.size() >= config_.l2_max_entries) {
-            evictLRU(CacheLevel::WARM);
-        }
-        
-        L2Entry entry;
-        entry.compressed_result = std::move(compressed);
-        entry.created_at_ms = now_ms;
-        entry.last_accessed_ms = now_ms;
-        entry.access_count = 1;
-        entry.ttl_seconds = ttl_seconds;
-        entry.window_start_ms = now_ms;
-        entry.window_count = 0;
-        
-        size_t compressed_size = entry.compressed_result.size();
-        l2_cache_[fingerprint] = std::move(entry);
-        l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
-        enhanced_metrics_.total_bytes_cached += result_size;
-        enhanced_metrics_.total_bytes_compressed += compressed_size;
-        THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
-                    fingerprint.substr(0, 16), result_size, compressed_size);
+        {
+            std::lock_guard<std::mutex> lock(l2_mutex_);
+            
+            // Evict LRU if full
+            if (l2_cache_.size() >= config_.l2_max_entries) {
+                evictLRU(CacheLevel::WARM);
+            }
+            
+            L2Entry entry;
+            entry.compressed_result = std::move(compressed);
+            entry.created_at_ms = now_ms;
+            entry.last_accessed_ms = now_ms;
+            entry.access_count = 1;
+            entry.ttl_seconds = ttl_seconds;
+            entry.window_start_ms = now_ms;
+            entry.window_count = 0;
+            
+            size_t compressed_size = entry.compressed_result.size();
+            l2_cache_[fingerprint] = std::move(entry);
+            l2_eviction_strategy_->onInsert(fingerprint, static_cast<uint64_t>(now_ms));
+            enhanced_metrics_.total_bytes_cached += result_size;
+            enhanced_metrics_.total_bytes_compressed += compressed_size;
+            THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
+                        fingerprint.substr(0, 16), result_size, compressed_size);
+        }  // l2_mutex_ released before write-through to avoid blocking L2 reads during L3 I/O
 
-        // Phase 4: Write-through mode - also persist to L3 for durability
+        // Phase 4: Write-through mode - persist to L3 outside L2 lock
         if (config_.enable_write_through && l3_db_) {
             writeThroughToL3(fingerprint, query_params, result, now_ms, ttl_seconds);
         }
