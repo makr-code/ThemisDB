@@ -540,6 +540,7 @@ private:
     static void addTimeseriesTypes(Schema& schema);
     static void addQueryType(Schema& schema);
     static void addMutationType(Schema& schema);
+    static void addSubscriptionType(Schema& schema);
 };
 
 } // namespace graphql

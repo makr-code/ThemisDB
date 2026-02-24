@@ -1,0 +1,351 @@
+syntax = "proto3";
+
+// ThemisDB API Service – proto definitions mirroring the REST API surface.
+//
+// This file defines the client-facing gRPC service for ThemisDB (api module,
+// v2.0.0).  It mirrors the REST endpoints exposed by src/server/http_server.cpp
+// and covers:
+//   • Document CRUD  (mirrors REST /entities and /entities/{key})
+//   • Batch operations (mirrors REST /entities/batch)
+//   • AQL query execution, including server-side streaming
+//     (mirrors REST /query/aql and the planned /v2/query/stream)
+//   • Vector search / k-NN  (mirrors REST /vector/search, /vector/by-filter,
+//     /search/hybrid, /search/fulltext)
+//
+// Design constraints (FUTURE_ENHANCEMENTS.md – gRPC API Surface):
+//   • This service reuses the same underlying storage/query logic as the REST
+//     handlers; no business-logic duplication.
+//   • TLS is mandatory for production; credentials are shared with the Beast
+//     HTTP listener via GrpcApiServer::buildCredentials().
+//   • Must not introduce breaking changes to existing REST (/v1/) endpoints.
+//
+// Compiled with:
+//   protoc --cpp_out=<out> --grpc_out=<out> \
+//          --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` \
+//          -I proto proto/themisdb.proto
+//
+// See cmake/CMakeLists.txt (THEMIS_ENABLE_GRPC section) for build integration.
+
+package themis.api;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// ============================================================================
+// ThemisDB API Service
+// ============================================================================
+
+// Client-facing gRPC service.  Mirrors the REST /entities, /query/aql, and
+// /vector/* endpoints so clients can choose either transport.
+service ThemisDBService {
+
+    // ── Document CRUD ────────────────────────────────────────────────────────
+
+    // Create a document (mirrors POST /entities).
+    rpc CreateDocument(CreateDocumentRequest) returns (CreateDocumentResponse);
+
+    // Read a document by key (mirrors GET /entities/{key}).
+    rpc GetDocument(GetDocumentRequest) returns (GetDocumentResponse);
+
+    // Update (replace) a document (mirrors PUT /entities/{key}).
+    rpc UpdateDocument(UpdateDocumentRequest) returns (UpdateDocumentResponse);
+
+    // Delete a document (mirrors DELETE /entities/{key}).
+    rpc DeleteDocument(DeleteDocumentRequest) returns (DeleteDocumentResponse);
+
+    // ── Batch operations ────────────────────────────────────────────────────
+
+    // Create or update multiple documents (mirrors POST /entities/batch).
+    rpc BatchWrite(BatchWriteRequest) returns (BatchWriteResponse);
+
+    // Read multiple documents by key list.
+    rpc BatchRead(BatchReadRequest) returns (BatchReadResponse);
+
+    // ── Query / AQL ─────────────────────────────────────────────────────────
+
+    // Execute an AQL query and return all results in one response
+    // (mirrors POST /query/aql).
+    rpc ExecuteAQL(AQLQueryRequest) returns (AQLQueryResponse);
+
+    // Execute an AQL query and stream result rows one at a time
+    // (mirrors the planned /v2/query/stream SSE endpoint).
+    // Each streamed message is one AQLRow from the result set.
+    rpc StreamAQL(AQLQueryRequest) returns (stream AQLRow);
+
+    // ── Vector search ───────────────────────────────────────────────────────
+
+    // k-nearest-neighbour search (mirrors POST /vector/search).
+    rpc VectorSearch(VectorSearchRequest) returns (VectorSearchResponse);
+
+    // Vector search with attribute filter (mirrors POST /vector/by-filter).
+    rpc FilteredVectorSearch(FilteredVectorSearchRequest) returns (VectorSearchResponse);
+
+    // Hybrid dense+sparse search (mirrors POST /search/hybrid).
+    rpc HybridSearch(HybridSearchRequest) returns (HybridSearchResponse);
+
+    // Full-text search (mirrors POST /search/fulltext).
+    rpc FullTextSearch(FullTextSearchRequest) returns (FullTextSearchResponse);
+
+    // ── Health ──────────────────────────────────────────────────────────────
+
+    // Liveness / readiness probe.
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+// ============================================================================
+// Common types
+// ============================================================================
+
+// Serialized JSON document body (utf-8 encoded JSON bytes).
+message Document {
+    string  collection = 1;  // Collection / namespace name
+    string  key        = 2;  // Unique document key within the collection
+    bytes   body       = 3;  // JSON-encoded document body
+    map<string, string> metadata = 4;  // Arbitrary key-value metadata
+    int64   version    = 5;  // Optimistic-concurrency version (0 = ignored)
+}
+
+// Generic error detail returned in every response on failure.
+message ErrorDetail {
+    int32  code    = 1;  // HTTP-equivalent status code (400, 404, 500 …)
+    string message = 2;  // Human-readable message
+    string details = 3;  // Optional machine-readable detail string
+}
+
+// ============================================================================
+// Document CRUD messages
+// ============================================================================
+
+message CreateDocumentRequest {
+    Document document    = 1;
+    string   transaction_id = 2;  // Optional; if empty, auto-commits
+}
+
+message CreateDocumentResponse {
+    bool        success  = 1;
+    string      key      = 2;
+    int64       version  = 3;
+    ErrorDetail error    = 4;
+}
+
+message GetDocumentRequest {
+    string collection       = 1;
+    string key              = 2;
+    bool   include_metadata = 3;
+    string transaction_id   = 4;
+}
+
+message GetDocumentResponse {
+    bool        success  = 1;
+    Document    document = 2;
+    ErrorDetail error    = 3;
+}
+
+message UpdateDocumentRequest {
+    Document document         = 1;
+    bool     create_if_missing = 2;  // Upsert semantics
+    string   transaction_id   = 3;
+}
+
+message UpdateDocumentResponse {
+    bool        success = 1;
+    string      key     = 2;
+    int64       version = 3;
+    ErrorDetail error   = 4;
+}
+
+message DeleteDocumentRequest {
+    string collection    = 1;
+    string key           = 2;
+    int64  expected_version = 3;  // 0 = unconditional delete
+    string transaction_id  = 4;
+}
+
+message DeleteDocumentResponse {
+    bool        success = 1;
+    ErrorDetail error   = 2;
+}
+
+// ============================================================================
+// Batch operation messages
+// ============================================================================
+
+message BatchWriteRequest {
+    repeated Document upserts = 1;  // Upsert semantics: create or replace
+    // Keys to delete, encoded as "collection/key" strings.
+    // Example: "users/alice" deletes document with key "alice" from collection "users".
+    repeated string   deletes = 2;
+    string transaction_id     = 3;
+}
+
+message BatchWriteResponse {
+    bool        success       = 1;
+    int32       upserted_count = 2;
+    int32       deleted_count  = 3;
+    ErrorDetail error         = 4;
+}
+
+message BatchReadRequest {
+    string          collection = 1;
+    repeated string keys       = 2;
+    string          transaction_id = 3;
+}
+
+message BatchReadResponse {
+    bool               success   = 1;
+    repeated Document  documents = 2;
+    // Keys that were not found are absent from documents but listed here.
+    repeated string    missing_keys = 3;
+    ErrorDetail        error     = 4;
+}
+
+// ============================================================================
+// AQL query messages
+// ============================================================================
+
+// Options controlling query execution behaviour.
+message AQLQueryOptions {
+    int32  max_results  = 1;  // 0 = server default
+    int32  batch_size   = 2;  // Streaming batch size
+    int32  timeout_ms   = 3;  // 0 = server default
+    bool   full_count   = 4;  // Return total match count (ignores LIMIT)
+}
+
+message AQLQueryRequest {
+    string                    query          = 1;  // AQL query string
+    // Named bind parameters.  All values are JSON-encoded so that numeric,
+    // boolean, array, and object types can be represented as strings.
+    // Example: bind_vars["@col"] = "\"users\"", bind_vars["minAge"] = "18"
+    map<string, string>       bind_vars      = 2;
+    string                    transaction_id = 3;
+    AQLQueryOptions           options        = 4;
+}
+
+// A single result row returned by ExecuteAQL or streamed by StreamAQL.
+message AQLRow {
+    bytes data     = 1;  // JSON-encoded result row
+    bool  has_more = 2;  // true when more rows follow (only meaningful in streaming)
+}
+
+// Aggregated statistics for a completed AQL query.
+message AQLQueryStats {
+    int64  execution_time_ms = 1;
+    int64  scanned_count     = 2;
+    int64  filtered_count    = 3;
+    int64  result_count      = 4;
+    double peak_memory_mb    = 5;
+}
+
+message AQLQueryResponse {
+    bool               success = 1;
+    repeated AQLRow    rows    = 2;
+    AQLQueryStats      stats   = 3;
+    ErrorDetail        error   = 4;
+}
+
+// ============================================================================
+// Vector search messages
+// ============================================================================
+
+// A floating-point embedding vector.
+message Vector {
+    repeated float values = 1 [packed = true];
+}
+
+// One result from any vector search operation.
+message VectorSearchHit {
+    string  collection = 1;
+    string  key        = 2;
+    float   score      = 3;  // Similarity / distance score
+    bytes   document   = 4;  // JSON-encoded document body (when fetch_docs = true)
+}
+
+// k-NN vector search (mirrors POST /vector/search).
+message VectorSearchRequest {
+    string  collection   = 1;
+    Vector  query_vector = 2;
+    int32   k            = 3;   // Number of nearest neighbours to return
+    bool    fetch_docs   = 4;   // Include document body in results
+    int32   ef_search    = 5;   // HNSW ef parameter (must be integer >= k; 0 = index default)
+}
+
+message VectorSearchResponse {
+    bool                    success = 1;
+    repeated VectorSearchHit hits   = 2;
+    ErrorDetail              error  = 3;
+}
+
+// Attribute filter predicate for filtered vector search.
+message AttributeFilter {
+    string field    = 1;
+    string operator = 2;  // "eq", "ne", "gt", "gte", "lt", "lte", "in"
+    string value    = 3;  // JSON-encoded scalar or array for "in"
+}
+
+// Vector search with attribute pre-filter (mirrors POST /vector/by-filter).
+message FilteredVectorSearchRequest {
+    string                    collection    = 1;
+    Vector                    query_vector  = 2;
+    int32                     k             = 3;
+    repeated AttributeFilter  filters       = 4;
+    bool                      fetch_docs    = 5;
+}
+
+// Hybrid dense (vector) + sparse (BM25) search (mirrors POST /search/hybrid).
+message HybridSearchRequest {
+    string  collection   = 1;
+    Vector  dense_vector = 2;   // Dense query embedding
+    string  sparse_query = 3;   // Raw text for BM25 component
+    int32   k            = 4;
+    float   alpha        = 5;   // Weight for dense score (0.0–1.0); 1-alpha for sparse
+    bool    fetch_docs   = 6;
+}
+
+// One result from a hybrid or full-text search.
+message SearchHit {
+    string  collection = 1;
+    string  key        = 2;
+    float   score      = 3;
+    bytes   document   = 4;
+}
+
+message HybridSearchResponse {
+    bool               success = 1;
+    repeated SearchHit hits    = 2;
+    ErrorDetail        error   = 3;
+}
+
+// Full-text search (mirrors POST /search/fulltext).
+message FullTextSearchRequest {
+    string  collection = 1;
+    string  query      = 2;  // BM25 / full-text query
+    int32   max_results = 3;
+    bool    fetch_docs = 4;
+}
+
+message FullTextSearchResponse {
+    bool               success = 1;
+    repeated SearchHit hits    = 2;
+    ErrorDetail        error   = 3;
+}
+
+// ============================================================================
+// Health check messages
+// ============================================================================
+
+message HealthCheckRequest {
+    bool include_details = 1;
+}
+
+message HealthCheckResponse {
+    enum Status {
+        HEALTHY   = 0;
+        DEGRADED  = 1;
+        UNHEALTHY = 2;
+    }
+
+    Status              status         = 1;
+    string              message        = 2;
+    int64               uptime_seconds = 3;
+    map<string, string> details        = 4;
+}
