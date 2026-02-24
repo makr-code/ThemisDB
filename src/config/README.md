@@ -9,6 +9,7 @@ The Config module provides backward-compatible configuration path resolution for
 | Interface / File | Role |
 |-----------------|------|
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
+| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus metrics exporter — exposes resolution counters and cache stats on `/metrics` |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
 | `config_errors.h` | Typed exception hierarchy for config-related errors |
@@ -21,6 +22,7 @@ The Config module provides backward-compatible configuration path resolution for
 - Path validation (path-traversal prevention, normalization)
 - Deprecation/removal-date metadata per mapped path
 - Thread-safe metrics tracking (hits, misses, cache hits, legacy fallbacks)
+- Prometheus metrics export via `ConfigMetricsExporter::collect()` (served on `/metrics`)
 - Typed exception hierarchy for config errors
 
 **Out of Scope:**
@@ -66,6 +68,31 @@ Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
 **Location:** `lru_cache.h`
 
 Generic LRU cache with per-entry TTL eviction. Used internally by `ConfigPathResolver` to cache resolved paths.
+
+### ConfigMetricsExporter
+**Location:** `config_metrics_exporter.h`, `config_metrics_exporter.cpp`
+
+Static utility that formats `ConfigPathResolver` metrics in Prometheus text-exposition format and exposes them on the server-wide `/metrics` scrape endpoint.
+
+**Exported metrics:**
+
+| Metric Name | Type | Description |
+|---|---|---|
+| `themis_config_resolution_hits_total` | counter | Successful path resolutions |
+| `themis_config_resolution_misses_total` | counter | Failed resolutions (path not found) |
+| `themis_config_legacy_fallbacks_total` | counter | Times legacy path was used as fallback |
+| `themis_config_new_path_hits_total` | counter | Times new (canonical) path was resolved |
+| `themis_config_unmapped_requests_total` | counter | Requests for paths with no mapping |
+| `themis_config_cache_hits_total` | counter | LRU cache hits |
+| `themis_config_cache_misses_total` | counter | LRU cache misses |
+| `themis_config_cache_hit_ratio` | gauge | Cache hit / (hit + miss), 0.0–1.0 |
+| `themis_config_cache_size` | gauge | Current number of entries in cache |
+| `themis_config_cache_capacity` | gauge | Maximum cache capacity (info) |
+| `themis_config_cache_ttl_seconds` | gauge | Cache entry TTL in seconds (info) |
+| `themis_config_legacy_fallbacks_by_category_total{category}` | counter | Legacy fallbacks broken down by config category |
+
+`collect()` is a pure read (no state mutations, no locks beyond the cache mutex); it is suitable for repeated polling in a pull-model scrape. `updateMetricsCollector()` pushes the same values into the central `MetricsCollector` singleton as `_current` gauges for Grafana dashboard integration.
+
 
 ### PathMappingMetadata
 **Location:** `path_mapping_metadata.h`
@@ -148,6 +175,13 @@ if (meta && meta->isDeprecated()) {
 const auto& m = ConfigPathResolver::metrics();
 // m.new_path_hits, m.legacy_fallbacks, m.cache_hits, etc.
 
+// Prometheus metrics export (used by MonitoringApiHandler at /metrics scrape)
+#include "config/config_metrics_exporter.h"
+std::string prom_text = ConfigMetricsExporter::collect();
+// Returns Prometheus text-exposition format string with HELP/TYPE annotations.
+
+// Sync into MetricsCollector for Grafana dashboard gauges
+ConfigMetricsExporter::updateMetricsCollector();
 // Query the active cache configuration (may differ from defaults if env vars are set)
 auto cfg = ConfigPathResolver::currentCacheConfig();
 // cfg.capacity, cfg.ttl_seconds

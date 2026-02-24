@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, Prometheus metrics exporter, configurable LRU cache, symlink-hardened path validation, and CLI migration scanner.  Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
+Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, and Prometheus metrics export via the `/metrics` endpoint. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
 
 ## Completed ✅
 - [x] Legacy-to-new config path mapping with 50+ path mappings
@@ -17,10 +17,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Typed exception hierarchy for config-related errors
 - [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 - [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
-- [x] Prometheus metrics exporter (`config_metrics_exporter.cpp`) with per-category labels (Issue: #1670)
-- [x] Configurable LRU cache via `THEMIS_CONFIG_CACHE_CAPACITY` / `THEMIS_CONFIG_CACHE_TTL_SECONDS` env vars; `currentCacheConfig()` method (Issue: #1672)
-- [x] CLI migration scanner (`tools/config_migration_scanner.cpp`): scan deployment tree for legacy paths, text/JSON/CSV output, `--fix` with `.bak` backups, CI exit-code gate (Issue: #1671)
-- [x] `legacyPathMappings()` public accessor for tooling
+- [x] Prometheus metrics exporter: `ConfigMetricsExporter::collect()` wired into `/metrics` endpoint; exports hit rate, miss rate, legacy fallback rate, cache stats, and per-category breakdown (Issue: #1663)
 
 ## In Progress 🚧
 - [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
@@ -30,8 +27,8 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ### Short-term (Next 3-6 months)
 - [I] Automatic legacy path migration script with dry-run mode (Issue: #1661)
 - [I] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
-- [I] Metrics export to Prometheus endpoint (Issue: #1663)
-- [x] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
+- [P] Metrics export to Prometheus endpoint (Issue: #1663)
+- [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
 
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
