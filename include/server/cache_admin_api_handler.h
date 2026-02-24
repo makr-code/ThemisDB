@@ -52,6 +52,7 @@ namespace server {
  *   POST   /v1/admin/cache/snapshot                    – Export live entries to NDJSON file
  *   GET    /v1/admin/cache/tenants                     – Per-tenant stats (all tenants)
  *   GET    /v1/admin/cache/tenant/{tenant_id}/stats    – Per-tenant stats (single tenant)
+ *   PATCH  /v1/admin/cache/tenant/{tenant_id}/quota   – Update quota for a specific tenant
  *
  * Authentication: requires JWT with "admin:cache:read" scope for read endpoints
  * and "admin:cache:write" scope for write/mutation endpoints.
@@ -138,6 +139,19 @@ public:
      * Returns 404 when the tenant has no recorded cache activity.
      */
     http::response<http::string_body> handleTenantStats(
+        const http::request<http::string_body>& req);
+
+    /**
+     * PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+     *
+     * Body: {"quota_bytes": <uint64>}
+     *
+     * Updates the cache size quota for the specified tenant.
+     * A quota_bytes value of 0 resets the tenant to the global default quota.
+     * Requires "admin:cache:write" scope.
+     * Returns 404 when tenant isolation is disabled.
+     */
+    http::response<http::string_body> handleUpdateTenantQuota(
         const http::request<http::string_body>& req);
 
 private:
