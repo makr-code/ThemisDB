@@ -74,6 +74,51 @@ public:
 
         /// Human-readable name of this cache instance, used in alert labels.
         std::string cache_name = "adaptive_query_cache";
+
+        /**
+         * @brief Validate configuration parameters.
+         *
+         * Checks:
+         * - `critical_threshold` < `warning_threshold` (critical is stricter)
+         * - Both thresholds are in the range [0.0, 1.0]
+         * - `alert_cooldown_seconds` >= 0
+         *
+         * @param error_msg  If non-null and validation fails, filled with a
+         *                   human-readable description of the error.
+         * @return true if configuration is valid, false otherwise.
+         */
+        bool validate(std::string* error_msg = nullptr) const {
+            if (critical_threshold >= warning_threshold) {
+                if (error_msg) {
+                    *error_msg = "critical_threshold (" + std::to_string(critical_threshold) +
+                                 ") must be less than warning_threshold (" +
+                                 std::to_string(warning_threshold) + ")";
+                }
+                return false;
+            }
+            if (critical_threshold < 0.0 || critical_threshold > 1.0) {
+                if (error_msg) {
+                    *error_msg = "critical_threshold must be in [0.0, 1.0], got " +
+                                 std::to_string(critical_threshold);
+                }
+                return false;
+            }
+            if (warning_threshold < 0.0 || warning_threshold > 1.0) {
+                if (error_msg) {
+                    *error_msg = "warning_threshold must be in [0.0, 1.0], got " +
+                                 std::to_string(warning_threshold);
+                }
+                return false;
+            }
+            if (alert_cooldown_seconds < 0) {
+                if (error_msg) {
+                    *error_msg = "alert_cooldown_seconds must be >= 0, got " +
+                                 std::to_string(alert_cooldown_seconds);
+                }
+                return false;
+            }
+            return true;
+        }
     };
 
     /**

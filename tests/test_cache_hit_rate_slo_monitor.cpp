@@ -159,7 +159,7 @@ TEST_F(CacheHitRateSloMonitorTest, NoAlertmanager_ViolationTrackedLocally) {
 TEST_F(CacheHitRateSloMonitorTest, HitRateAggregatesAllTiers) {
     CacheHitRateSloMonitor monitor(config_, mock_);
 
-    // l1=20, l2=30, l3=10 hits, 40 misses → total=100, hit_rate=0.60
+    // l1=20, l2=30, l3=10 hits, 40 misses -> total=100, hit_rate=0.60
     auto result = monitor.evaluate(makeMetrics(/*l1=*/20, /*misses=*/40, /*l2=*/30, /*l3=*/10));
 
     EXPECT_NEAR(result.hit_rate, 0.60, 1e-9);
@@ -274,4 +274,90 @@ TEST_F(CacheHitRateSloMonitorTest, SetAlertmanager_AlertsSentAfterSwap) {
 
     EXPECT_TRUE(result2.alert_fired);
     EXPECT_EQ(mock_->sent_alerts.size(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: cooldown suppresses repeated same-level alerts
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, Cooldown_SuppressesRepeatSameLevelAlert) {
+    config_.alert_cooldown_seconds = 60;  // 60-second cooldown
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    // First evaluation fires warning
+    auto r1 = monitor.evaluate(makeMetrics(50, 50));
+    EXPECT_TRUE(r1.alert_fired);
+    EXPECT_EQ(mock_->sent_alerts.size(), 1u);
+
+    // Immediate second evaluation at same level: cooldown not expired -- suppressed
+    auto r2 = monitor.evaluate(makeMetrics(50, 50));
+    EXPECT_FALSE(r2.alert_fired);
+    EXPECT_FALSE(r2.alert_resolved);
+    EXPECT_EQ(mock_->sent_alerts.size(), 1u);  // still only 1 alert sent
+
+    // Violation level is still tracked correctly
+    EXPECT_EQ(r2.level, CacheHitRateSloMonitor::ViolationLevel::WARNING);
+    EXPECT_TRUE(monitor.isSloViolated());
+}
+
+// ---------------------------------------------------------------------------
+// Tests: alert label and annotation content
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, AlertLabels_ContainRequiredFields) {
+    CacheHitRateSloMonitor monitor(config_, mock_);
+
+    monitor.evaluate(makeMetrics(20, 80));  // critical
+
+    ASSERT_EQ(mock_->sent_alerts.size(), 1u);
+    const auto& alert = mock_->sent_alerts[0];
+
+    // Check required labels for Prometheus routing
+    EXPECT_EQ(alert.labels.at("component"), "cache");
+    EXPECT_EQ(alert.labels.at("cache_name"), "test_cache");
+    EXPECT_EQ(alert.labels.at("alertname"), "CacheHitRateSloViolation");
+    EXPECT_EQ(alert.labels.at("severity"), "CRITICAL");
+
+    // Check annotations contain numeric context
+    EXPECT_FALSE(alert.annotations.at("hit_rate").empty());
+    EXPECT_FALSE(alert.annotations.at("total_requests").empty());
+    EXPECT_FALSE(alert.annotations.at("threshold").empty());
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Config::validate()
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ValidConfig) {
+    std::string err;
+    EXPECT_TRUE(config_.validate(&err));
+    EXPECT_TRUE(err.empty());
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_CriticalNotLessThanWarning) {
+    config_.critical_threshold = 0.60;  // same as warning
+    config_.warning_threshold  = 0.60;
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+    EXPECT_FALSE(err.empty());
+
+    config_.critical_threshold = 0.70;  // critical > warning – nonsensical
+    EXPECT_FALSE(config_.validate(&err));
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_ThresholdOutOfRange) {
+    config_.warning_threshold = 1.50;  // > 1.0
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+
+    config_.warning_threshold = 0.60;
+    config_.critical_threshold = -0.1;  // < 0.0
+    EXPECT_FALSE(config_.validate(&err));
+}
+
+TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_NegativeCooldown) {
+    config_.alert_cooldown_seconds = -1;
+    std::string err;
+    EXPECT_FALSE(config_.validate(&err));
+    EXPECT_FALSE(err.empty());
 }
