@@ -17,20 +17,21 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 - [x] OIDC Provider Discovery and federated identity integration (`auth/oidc_provider.cpp`)
 - [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
+- [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
 
 ## In Progress 🚧
-- [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
+- [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (Target: Q2 2026)
-- [I] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
+- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
-- [I] Session management and revocation endpoint (Issue: #1983)
-- [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
-- [I] Audit logging for all authentication events (Issue: #1534)
+- [x] Session management and revocation endpoint (Issue: #1983)
+- [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
+- [x] Audit logging for all authentication events (Issue: #1534)
 - [I] Configurable password policy enforcement (Issue: #2013)
 
 ### Long-term (6-12 months)
@@ -54,17 +55,17 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
-- [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
+- [x] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (`auth/saml_authenticator.cpp`, Target: Q2 2026)
 - [x] OIDC Provider Discovery and federated identity (`auth/oidc_provider.cpp`)
+- [x] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 - [x] Federated identity across multiple realms (`auth/federated_identity_manager.cpp`)
-- [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
 - [x] OAuth 2.0 PKCE flow for public clients
 - [x] API key authentication (static key + secret)
-- [ ] WebAuthn/FIDO2 hardware token support
-- [ ] Session management and revocation endpoint
+- [x] WebAuthn/FIDO2 hardware token support
+- [x] Session management and revocation endpoint
 - [x] Configurable password policy enforcement
 - [ ] Audit logging for all authentication events
 - [x] Certificate-based mutual TLS (mTLS) authentication (`auth/mtls_authenticator.cpp`)
@@ -77,10 +78,10 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
 
 ## Known Issues & Limitations
-- WebAuthn support is planned but not started
 - ABAC (attribute-based) access control is limited to role-based rules currently
+- WebAuthn support is planned but not started
 - LDAP direct bind is not supported; only Kerberos-based AD integration
 
 ## Breaking Changes
-- ABAC engine will introduce new policy evaluation APIs (additive to existing RBAC)
+- ABAC engine introduces new policy evaluation APIs (additive to existing RBAC, backward-compatible)
 - mTLS support will require configuration changes at the TLS layer
