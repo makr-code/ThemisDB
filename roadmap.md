@@ -334,7 +334,7 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 **Tasks:**
 - [ ] Create production deployment checklist
 - [ ] Document driver requirements per platform
-- [ ] Write troubleshooting guide
+- [x] Write troubleshooting guide
 - [ ] Create performance tuning guide
 - [ ] Document environment variables
 - [ ] Add Docker/Kubernetes deployment examples

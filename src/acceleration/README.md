@@ -75,6 +75,7 @@ When these flags are OFF (or SDKs are missing), the build must still succeed and
 - For a deep-dive into capability negotiation, the fallback chain, kernel-level
   fallback/retry, health monitoring, and operational troubleshooting, see:  
   - `docs/acceleration/capability_negotiation.md`  
+  - `docs/acceleration/troubleshooting.md` — operational troubleshooting guide (runbooks, diagnostics, platform-specific issues)  
 - For planned work items, constraints, required interfaces, and measurable performance targets, see:  
   - `src/acceleration/FUTURE_ENHANCEMENTS.md`  
 - When implementing new accelerator paths:  
