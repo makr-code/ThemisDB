@@ -98,6 +98,28 @@ void MVCCStore::putWithTimestamp(
     db_->put(vkey, value);
 }
 
+HLCTimestamp MVCCStore::putInTxn(
+    RocksDBWrapper::TransactionWrapper& txn,
+    std::string_view key,
+    const std::vector<uint8_t>& value
+) {
+    HLCTimestamp ts = clock_->now();
+    std::string vkey = encodeVersionedKey(key, ts);
+    txn.put(vkey, value);
+    return ts;
+}
+
+HLCTimestamp MVCCStore::delInTxn(
+    RocksDBWrapper::TransactionWrapper& txn,
+    std::string_view key
+) {
+    HLCTimestamp ts = clock_->now();
+    // Write a tombstone: a versioned key with empty value signals deletion.
+    std::string vkey = encodeVersionedKey(key, ts);
+    txn.put(vkey, std::vector<uint8_t>{});
+    return ts;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Read
 // ─────────────────────────────────────────────────────────────────────────────

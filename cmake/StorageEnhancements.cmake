@@ -54,4 +54,11 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/storage/compression_strategy.cpp
     ../src/storage/compressed_storage.cpp
     ../src/utils/compression_metrics.cpp
+
+    # MVCC versioning and HLC timestamping (required for history/conflict layer)
+    ../src/storage/hlc.cpp
+    ../src/storage/mvcc_store.cpp
+
+    # Atomic history and conflict layer
+    ../src/storage/history_manager.cpp
 )
