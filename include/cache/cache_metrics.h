@@ -85,6 +85,12 @@ struct CacheMetrics {
     std::atomic<uint64_t> ttl_extended_total{0};
     std::atomic<uint64_t> ttl_shortened_total{0};
 
+    // Phase 4: Predictive pre-fetching metrics
+    // themis_cache_prefetch_candidates_generated_total: number of prefetch prediction calls
+    // themis_cache_prefetch_hits_total: candidates that were already warm in cache
+    std::atomic<uint64_t> prefetch_candidates_generated{0};
+    std::atomic<uint64_t> prefetch_hits{0};
+
     CacheMetrics() = default;
 
     CacheMetrics(const CacheMetrics& other) {
@@ -114,6 +120,8 @@ struct CacheMetrics {
         warmup_entries_failed.store(other.warmup_entries_failed.load());
         ttl_extended_total.store(other.ttl_extended_total.load());
         ttl_shortened_total.store(other.ttl_shortened_total.load());
+        prefetch_candidates_generated.store(other.prefetch_candidates_generated.load());
+        prefetch_hits.store(other.prefetch_hits.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -144,6 +152,8 @@ struct CacheMetrics {
             warmup_entries_failed.store(other.warmup_entries_failed.load());
             ttl_extended_total.store(other.ttl_extended_total.load());
             ttl_shortened_total.store(other.ttl_shortened_total.load());
+            prefetch_candidates_generated.store(other.prefetch_candidates_generated.load());
+            prefetch_hits.store(other.prefetch_hits.load());
         }
         return *this;
     }
@@ -223,6 +233,10 @@ struct CacheMetrics {
         // Phase 3: Adaptive TTL tuning metrics
         j["adaptive_ttl"]["ttl_extended_total"] = ttl_extended_total.load();
         j["adaptive_ttl"]["ttl_shortened_total"] = ttl_shortened_total.load();
+
+        // Phase 4: Predictive pre-fetching metrics
+        j["prefetch"]["candidates_generated"] = prefetch_candidates_generated.load();
+        j["prefetch"]["hits"]                 = prefetch_hits.load();
         
         return j;
     }
@@ -255,6 +269,8 @@ struct CacheMetrics {
         warmup_entries_failed = 0;
         ttl_extended_total = 0;
         ttl_shortened_total = 0;
+        prefetch_candidates_generated = 0;
+        prefetch_hits = 0;
     }
 };
 

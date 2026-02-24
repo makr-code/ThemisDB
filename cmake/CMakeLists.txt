@@ -1503,6 +1503,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
+    ../src/cache/predictive_prefetcher.cpp
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp

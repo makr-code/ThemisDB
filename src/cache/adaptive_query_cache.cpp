@@ -87,6 +87,18 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         config_.l1_eviction_policy, config_.l1_max_entries);
     l2_eviction_strategy_ = cache::makeEvictionStrategy(
         config_.l2_eviction_policy, config_.l2_max_entries);
+
+    // Phase 4: Initialize predictive pre-fetcher
+    if (config_.enable_predictive_prefetch) {
+        cache::PredictivePrefetcher::Config pf_config;
+        pf_config.max_tracked_keys       = config_.prefetch_max_tracked_keys;
+        pf_config.max_predictions        = config_.prefetch_max_predictions;
+        pf_config.min_transition_count   = config_.prefetch_min_transition_count;
+        pf_config.min_confidence         = config_.prefetch_min_confidence;
+        prefetcher_ = std::make_unique<cache::PredictivePrefetcher>(pf_config);
+        THEMIS_INFO("Predictive pre-fetcher enabled: max_keys={}, max_predictions={}",
+                    pf_config.max_tracked_keys, pf_config.max_predictions);
+    }
     
     // Initialize L3 (RocksDB) cache with retry logic
     int retry_count = 0;
@@ -237,6 +249,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     std::lock_guard<std::mutex> tlock(tenant_mutex_);
                     tenant_metrics_[tenant_id].hits++;
                 }
+
+                // Phase 4: Record access for predictive pre-fetching
+                if (prefetcher_) {
+                    prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+                }
                 
                 // Return entry
                 CacheEntry result;
@@ -319,6 +336,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     if (config_.enable_tenant_isolation && !tenant_id.empty()) {
                         std::lock_guard<std::mutex> tlock(tenant_mutex_);
                         tenant_metrics_[tenant_id].hits++;
+                    }
+
+                    // Phase 4: Record access for predictive pre-fetching
+                    if (prefetcher_) {
+                        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
                     }
                     
                     // Promote to L1 if accessed frequently
@@ -475,6 +497,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         l3_circuit_breaker_->recordSuccess();
                         enhanced_metrics_.l3_circuit_breaker_open = false;
                     }
+
+                    // Phase 4: Record access for predictive pre-fetching
+                    if (prefetcher_) {
+                        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+                    }
                     
                     // Return entry
                     CacheEntry cache_entry;
@@ -503,6 +530,10 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     if (config_.enable_tenant_isolation && !tenant_id.empty()) {
         std::lock_guard<std::mutex> tlock(tenant_mutex_);
         tenant_metrics_[tenant_id].misses++;
+    }
+    // Phase 4: Record access for predictive pre-fetching even on miss
+    if (prefetcher_) {
+        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
     }
     THEMIS_DEBUG("Cache miss: fingerprint={}", fingerprint.substr(0, 16));
     return std::nullopt;
@@ -1899,6 +1930,44 @@ AdaptiveQueryCache::exportSnapshot(const std::string& out_path) const {
 
     THEMIS_INFO("Cache snapshot exported: {} entries to {}", result.entries_written, out_path);
     return result;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 4: Predictive Pre-Fetching
+// ---------------------------------------------------------------------------
+
+void AdaptiveQueryCache::recordQueryAccess(const std::string& fingerprint,
+                                            const std::string& tenant_id) {
+    if (prefetcher_) {
+        prefetcher_->recordQueryAccess(fingerprint, tenant_id);
+    }
+}
+
+std::vector<std::string> AdaptiveQueryCache::getPrefetchCandidates(
+    const std::string& fingerprint,
+    const std::string& tenant_id) const {
+    if (!prefetcher_) return {};
+
+    auto candidates = prefetcher_->getPrefetchCandidates(fingerprint, tenant_id);
+    if (!candidates.empty()) {
+        // enhanced_metrics_ is exposed via getEnhancedMetrics() (CacheMetrics format);
+        // the prefetcher's internal counter is returned by getPrefetchStats().
+        // Both are kept in sync here so each API surface is self-consistent.
+        enhanced_metrics_.prefetch_candidates_generated++;
+        prefetcher_->recordCandidatesGenerated();
+    }
+    return candidates;
+}
+
+nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
+    if (!prefetcher_) {
+        return {{"enabled", false}};
+    }
+    nlohmann::json j = prefetcher_->getStats();
+    j["enabled"] = true;
+    // Enrich with the hit counter maintained in enhanced_metrics_
+    j["prefetch_hits_from_metrics"] = enhanced_metrics_.prefetch_hits.load();
+    return j;
 }
 
 } // namespace themis

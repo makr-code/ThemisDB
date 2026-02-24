@@ -35,6 +35,7 @@
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
 #include "cache/eviction_policy.h"
+#include "cache/predictive_prefetcher.h"
 #include "core/concerns/eviction_strategies.h"
 
 namespace themis {
@@ -126,6 +127,13 @@ public:
         int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
+
+        // Phase 4: Predictive pre-fetching based on query sequence history
+        bool enable_predictive_prefetch = false; // Enable Markov-chain prefetch predictor
+        size_t prefetch_max_tracked_keys = 5000; // Max distinct source keys in transition table
+        size_t prefetch_max_predictions = 3;     // Max candidate fingerprints per prediction
+        uint32_t prefetch_min_transition_count = 2; // Min observed transitions for a candidate
+        double prefetch_min_confidence = 0.0;    // Min transition confidence (0.0 = disabled)
         
         /**
          * @brief Validate configuration parameters
@@ -399,6 +407,49 @@ public:
      */
     WarmupResult exportSnapshot(const std::string& out_path) const;
 
+    // ========================================================================
+    // Phase 4: Predictive Pre-Fetching
+    // ========================================================================
+
+    /**
+     * @brief Record a query access in the predictive pre-fetcher.
+     *
+     * Should be called each time a query is executed (hit or miss) so the
+     * Markov-chain model can learn query sequence patterns.
+     *
+     * This is a no-op when `config_.enable_predictive_prefetch` is false.
+     *
+     * @param fingerprint  SHA-256 hex fingerprint of the query.
+     * @param tenant_id    Optional tenant identifier.
+     */
+    void recordQueryAccess(const std::string& fingerprint,
+                           const std::string& tenant_id = "");
+
+    /**
+     * @brief Return candidate fingerprints likely to be accessed next.
+     *
+     * Uses the Markov-chain model built by recordQueryAccess() to predict
+     * which queries are likely to follow the current one.
+     *
+     * Returns an empty vector when `config_.enable_predictive_prefetch` is
+     * false or when there is insufficient history for the given fingerprint.
+     *
+     * @param fingerprint  Current query fingerprint.
+     * @param tenant_id    Optional tenant identifier.
+     * @return Up to `config_.prefetch_max_predictions` candidate fingerprints.
+     */
+    std::vector<std::string> getPrefetchCandidates(
+        const std::string& fingerprint,
+        const std::string& tenant_id = "") const;
+
+    /**
+     * @brief Get predictive pre-fetcher statistics as JSON.
+     *
+     * Returns {"enabled": false} when `config_.enable_predictive_prefetch` is
+     * false.
+     */
+    nlohmann::json getPrefetchStats() const;
+
 private:
     struct L1Entry {
         nlohmann::json result;
@@ -461,6 +512,9 @@ private:
     // L3: RocksDB persistent cache
     std::unique_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
+
+    // Phase 4: Predictive pre-fetcher (Markov-chain query sequence model)
+    std::unique_ptr<cache::PredictivePrefetcher> prefetcher_;
     
     // Internal helper methods
     int64_t getCurrentTimeMs() const;
