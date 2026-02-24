@@ -6886,6 +6886,97 @@ components:
           description: Whether the circuit breaker is configured and active.
           example: true
 
+    CacheHealthResponse:
+      type: object
+      description: Health status returned by GET /v1/admin/cache/health.
+      required: [healthy, warnings, tiers, circuit_breaker]
+      properties:
+        healthy:
+          type: boolean
+          description: True when all tiers are operational and the circuit breaker is CLOSED.
+          example: true
+        warnings:
+          type: array
+          description: List of active warning messages (e.g. high utilization, low hit rate).
+          items:
+            type: string
+          example: []
+        tiers:
+          type: object
+          description: Per-tier status details.
+          properties:
+            l1:
+              type: object
+              description: L1 in-memory LRU tier status.
+              required: [status, entries, max_entries, utilization, ttl_seconds]
+              properties:
+                status:
+                  type: string
+                  enum: [OK, DEGRADED]
+                  example: OK
+                entries:
+                  type: integer
+                  format: int64
+                  example: 12
+                max_entries:
+                  type: integer
+                  format: int64
+                  example: 1000
+                utilization:
+                  type: number
+                  format: double
+                  example: 0.012
+                ttl_seconds:
+                  type: integer
+                  format: int64
+                  example: 300
+            l2:
+              type: object
+              description: L2 compressed tier status.
+              required: [status, entries, max_entries, utilization, ttl_seconds]
+              properties:
+                status:
+                  type: string
+                  enum: [OK, DEGRADED]
+                  example: OK
+                entries:
+                  type: integer
+                  format: int64
+                  example: 5
+                max_entries:
+                  type: integer
+                  format: int64
+                  example: 5000
+                utilization:
+                  type: number
+                  format: double
+                  example: 0.001
+                ttl_seconds:
+                  type: integer
+                  format: int64
+                  example: 3600
+            l3:
+              type: object
+              description: L3 RocksDB-backed persistent tier status.
+              required: [status, enabled, path, ttl_seconds]
+              properties:
+                status:
+                  type: string
+                  enum: [OK, DISABLED, UNAVAILABLE]
+                  example: OK
+                enabled:
+                  type: boolean
+                  example: true
+                path:
+                  type: string
+                  example: /var/lib/themis/cache_l3
+                ttl_seconds:
+                  type: integer
+                  format: int64
+                  example: 86400
+        circuit_breaker:
+          $ref: '#/components/schemas/CircuitBreakerStatus'
+
     CacheAdminStatsResponse:
       type: object
       description: Full cache statistics snapshot returned by GET /v1/admin/cache/stats.

@@ -1503,6 +1503,8 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
+    ../src/cache/predictive_prefetcher.cpp
+    ../src/cache/cache_replication_coordinator.cpp
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -1537,6 +1539,8 @@ set(THEMIS_CORE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/adapters/otel_tracer.cpp
+    ../src/core/concerns/prometheus_metrics.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1621,6 +1625,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/ldap_authenticator.cpp
     ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
@@ -1634,6 +1639,18 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
+    ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/auth_metrics.cpp
+    ../src/auth/auth_error.cpp
+    ../src/auth/jwks_security.cpp
+    ../src/auth/kerberos_security.cpp
+    ../src/auth/totp_replay_cache.cpp
+    ../src/auth/totp_secret_encryption.cpp
+    ../src/auth/jwt_key_rotation_manager.cpp
+    ../src/auth/principal_validator.cpp
+    ../src/auth/webauthn_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp
@@ -2150,6 +2167,24 @@ if(THEMIS_BUILD_MODULAR)
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)
     target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    foreach(_themis_mod IN ITEMS
+        themis_base
+        themis_storage
+        themis_query
+        themis_security
+        themis_transaction
+        themis_network
+        themis_sharding
+        themis_timeseries
+        themis_llm
+        themis_geo
+        themis_graph
+        themis_content
+    )
+        if(TARGET ${_themis_mod})
+            target_link_libraries(themis_core INTERFACE ${_themis_mod})
+        endif()
+    endforeach()
     
     message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
     
@@ -2538,6 +2573,16 @@ if(THEMIS_ENABLE_KERBEROS)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_KERBEROS)
     message(STATUS "Kerberos/GSSAPI authentication enabled")
+endif()
+
+# Link LDAP / Active Directory if found
+if(THEMIS_LDAP_FOUND AND THEMIS_LDAP_LIBRARIES)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LDAP_LIBRARIES})
+    if(THEMIS_LDAP_INCLUDE_DIRS)
+        target_include_directories(themis_core PUBLIC ${THEMIS_LDAP_INCLUDE_DIRS})
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LDAP=1)
+    message(STATUS "LDAP/AD authentication linked: ${THEMIS_LDAP_LIBRARIES}")
 endif()
 
 # Link ZSTD if available and define compile flag

@@ -2677,6 +2677,7 @@ namespace {
             if (method == http::verb::get)    return Route::AsyncJobStatusGet;
             if (method == http::verb::delete_) return Route::AsyncJobCancelDelete;
         }
+        }
     // API Key Management: /api/keys and /api/keys/{id}
     if (path_only == "/api/keys") {
         if (method == http::verb::post) return Route::ApiKeyPost;

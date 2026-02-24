@@ -26,7 +26,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_LLM "Include LLM inference module (optional)" ON)
     option(THEMIS_MODULE_GEO "Include geospatial module (optional)" ON)
     option(THEMIS_MODULE_GRAPH "Include graph analytics module (optional)" ON)
-    option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" OFF)
+    option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
 endif()
@@ -180,6 +180,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
     # WAL for durability and crash recovery
@@ -271,6 +272,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/warmup.cpp
+    ../src/cache/predictive_prefetcher.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -283,7 +285,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/process_mining.cpp
     ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
-    ../src/analytics/diff_engine.cpp
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
@@ -342,6 +343,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/access_control_manager.cpp
     ../src/security/row_level_security.cpp
     ../src/security/access_control.cpp
+    ../src/auth/auth_audit_logger.cpp
+    ../src/auth/principal_validator.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp
@@ -362,12 +365,21 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/ldap_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
     ../src/auth/oauth_device_flow.cpp
     ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/auth_metrics.cpp
+    ../src/auth/auth_error.cpp
+    ../src/auth/jwks_security.cpp
+    ../src/auth/kerberos_security.cpp
+    ../src/auth/totp_replay_cache.cpp
+    ../src/auth/totp_secret_encryption.cpp
+    ../src/auth/jwt_key_rotation_manager.cpp
+    ../src/auth/principal_validator.cpp
     ../src/server/auth_middleware.cpp
     ../src/server/request_validation_middleware.cpp
     ../src/server/policy_engine.cpp
@@ -407,6 +419,9 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
+    ../src/transaction/branch_manager.cpp
+    ../src/transaction/merge_engine.cpp
+    ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -526,6 +541,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/paged_kv_cache.cpp
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
+    ../src/llm/model_downloader.cpp
+    ../src/llm/aql_train_parser.cpp
     ../src/llm/llama_wrapper.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
@@ -539,6 +556,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/docs_assistant.cpp
     ../src/llm/feedback_store.cpp
     ../src/llm/llm_model_storage.cpp
+    ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/kv_cache_buffer.cpp
     ../src/llm/multi_lora_manager.cpp
     ../src/llm/gguf_loader.cpp
@@ -554,6 +572,9 @@ set(THEMIS_LLM_SOURCES
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
+    ../src/llm/lora_framework/lora_feedback_storage.cpp
+    ../src/llm/lora_framework/lora_training_config.cpp
+    ../src/llm/lora_framework/feedback_plugin.cpp
     ../src/llm/lora_framework/lora_provenance.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
@@ -644,6 +665,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES
@@ -663,12 +685,29 @@ set(THEMIS_NETWORK_SOURCES
     # HTTP Server (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_type_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/chunked_response_writer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/health_error_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/error_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/serverless_function_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/async_job_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/branch_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/merge_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/rope_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/bpmn_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/geo_topology_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/replication_topology_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cache_admin_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_key_mgmt_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/storage/pitr_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     
     # API handlers (always included)
@@ -685,7 +724,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/index_api_handler.cpp
     ../src/server/timeseries_api_handler.cpp
     ../src/server/entity_api_handler.cpp
-    ../src/server/content_api_handler.cpp
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_MODULE_CONTENT}>>:../src/server/content_api_handler.cpp>
     ../src/server/changefeed_api_handler.cpp
     ../src/server/wal_api_handler.cpp
     ../src/server/audit_api_handler.cpp
@@ -698,6 +737,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/reports_api_handler.cpp
     ../src/server/schema_api_handler.cpp
     ../src/server/ranger_adapter.cpp
+    ../src/security/query_masking_policy.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
     ../src/server/rate_limiting_middleware.cpp
@@ -737,9 +777,13 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+
+    # Modular globals shared across handlers
+    ../src/server/hsm_provider_global.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp
@@ -773,6 +817,10 @@ set(THEMIS_GRAPH_SOURCES
 # Function to build modular architecture (post-v1.3.0)
 function(themis_build_modular)
     message(STATUS "Building ThemisDB with modular architecture")
+    if(THEMIS_ENABLE_CONTENT AND NOT THEMIS_MODULE_CONTENT)
+        set(THEMIS_MODULE_CONTENT ON CACHE BOOL "Include content processors module (optional)" FORCE)
+        message(STATUS "THEMIS_ENABLE_CONTENT is ON -> forcing THEMIS_MODULE_CONTENT=ON for modular consistency")
+    endif()
     
     # Core modules (always required)
     set(_themis_base_deps
@@ -887,13 +935,35 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_query_deps}
     )
     
+    set(_themis_network_deps
+        themis_base
+        themis_storage
+        themis_query
+        themis_transaction
+        themis_security
+    )
+    if(THEMIS_MODULE_SHARDING)
+        list(APPEND _themis_network_deps themis_sharding)
+    endif()
+    if(THEMIS_MODULE_LLM)
+        list(APPEND _themis_network_deps themis_llm)
+    endif()
+    if(THEMIS_MODULE_TIMESERIES)
+        list(APPEND _themis_network_deps themis_timeseries)
+    endif()
+    if(THEMIS_MODULE_GRAPH)
+        list(APPEND _themis_network_deps themis_graph)
+    endif()
+    if(THEMIS_MODULE_GEO)
+        list(APPEND _themis_network_deps themis_geo)
+    endif()
+    if(THEMIS_MODULE_CONTENT)
+        list(APPEND _themis_network_deps themis_content)
+    endif()
+
     themis_add_module(network
         SOURCES ${THEMIS_NETWORK_SOURCES}
-        DEPENDENCIES 
-            themis_base 
-            themis_storage 
-            themis_query 
-            themis_transaction
+        DEPENDENCIES ${_themis_network_deps}
     )
     if(MSVC)
         set_source_files_properties(${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
@@ -995,11 +1065,32 @@ function(themis_build_modular)
     endif()
     
     if(THEMIS_MODULE_CONTENT)
+        set(_themis_content_deps
+            themis_base
+            themis_storage
+            themis_security
+        )
+        if(THEMIS_MODULE_GRAPH)
+            list(APPEND _themis_content_deps themis_graph)
+        endif()
+        if(TARGET libzip::zip)
+            list(APPEND _themis_content_deps libzip::zip)
+        elseif(TARGET libzip::libzip)
+            list(APPEND _themis_content_deps libzip::libzip)
+        endif()
+        if(THEMIS_ENABLE_OFFICE)
+            if(TARGET pugixml::pugixml)
+                list(APPEND _themis_content_deps pugixml::pugixml)
+            elseif(TARGET pugixml::static)
+                list(APPEND _themis_content_deps pugixml::static)
+            elseif(TARGET pugixml)
+                list(APPEND _themis_content_deps pugixml)
+            endif()
+        endif()
+
         themis_add_module(content
             SOURCES ${THEMIS_CONTENT_SOURCES}
-            DEPENDENCIES 
-                themis_base 
-                themis_storage
+            DEPENDENCIES ${_themis_content_deps}
         )
     endif()
 

@@ -580,6 +580,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     
     add_executable(bench_rag_ethics
         bench_rag_ethics.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_judge.cpp
     )
     
     target_link_libraries(bench_rag_ethics PRIVATE
@@ -1283,4 +1284,50 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_di_logging.cpp")
 
     message(STATUS "  DI overhead: ConcernsContext creation (NoOp, custom)")
     message(STATUS "  Logging throughput: NoOpLogger, SpdlogAdapter (plain-text, JSON), logStructured, logWithContext")
+endif()
+
+# ============================================================================
+# Auth Token Validation Latency Benchmarks (Issue #1551)
+# Measures per-operation latency for JWT RS256 validation (cached JWKS),
+# JTI blacklist lookup, TOTP computation, and static API token lookup.
+# Targets: JWT < 5 ms (cached), TOTP < 10 ms.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_auth_token_validation.cpp")
+    message(STATUS "Adding auth token validation latency benchmarks")
+
+    add_executable(bench_auth_token_validation
+        bench_auth_token_validation.cpp
+    )
+
+    target_link_libraries(bench_auth_token_validation PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_auth_token_validation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_auth_token_validation PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_auth_token_validation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Auth benchmarks: JWT RS256 (cached JWKS), JTI blacklist, TOTP, API token lookup")
 endif()
