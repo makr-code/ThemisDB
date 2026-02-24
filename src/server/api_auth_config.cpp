@@ -141,6 +141,12 @@ ApiAuthConfig ApiAuthConfig::createSecureDefaults() {
         // Audit endpoints - very restrictive
         {"/api/audit/*", "*", "audit:read", "audit.read", true, 50, 10},
         
+        // Session management endpoints
+        {"/auth/sessions", "POST",   "auth:sessions", "session.create",         true, 100, 20},
+        {"/auth/sessions", "GET",    "auth:sessions", "session.list",           true, 100, 20},
+        {"/auth/sessions", "DELETE", "auth:sessions", "session.revoke_others",  true,  50, 10},
+        {"/auth/sessions/*", "DELETE","auth:sessions", "session.revoke",        true,  50, 10},
+        
         // PKI endpoints - more specific patterns first
         {"/api/pki/hsm/*", "*", "pki:sign", "pki.hsm", true, 100, 20},
         {"/api/pki/timestamp/*", "*", "pki:timestamp", "pki.timestamp", true, 100, 20},
