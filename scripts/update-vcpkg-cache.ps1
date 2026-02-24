@@ -44,7 +44,7 @@ function Invoke-BuildCommand {
         return $true
     }
     catch {
-        Write-Status "Error: $_" -Type Error
+        Write-Error "Error: $_"
         return $false
     }
 }
@@ -122,7 +122,7 @@ foreach ($triplet in $Triplets) {
         }
     }
     catch {
-        Write-Status "Error processing $triplet : $_" -Type Warning
+        Write-Warning "Error processing ${triplet}: $_"
     }
     finally {
         Pop-Location

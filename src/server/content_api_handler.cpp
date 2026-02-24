@@ -266,6 +266,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::bad_request, std::string("Hybrid search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("handleHybridSearch: unknown exception");
         return makeErrorResponse(http::status::bad_request, "Hybrid search error", req);
     }
 }
@@ -447,6 +448,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fusion search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("handleFusionSearch: unknown exception");
         return makeErrorResponse(http::status::internal_server_error, "Unknown fusion search error", req);
     }
 }
@@ -512,6 +514,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, std::string("Fulltext search error: ") + e.what(), req);
     } catch (...) {
+        THEMIS_WARN("handleFulltextSearch: unknown exception");
         return makeErrorResponse(http::status::internal_server_error, "Unknown fulltext search error", req);
     }
 }

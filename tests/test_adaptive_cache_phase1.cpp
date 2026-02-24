@@ -1043,6 +1043,92 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLWithL2Promotion) {
     EXPECT_GT(final->ttl_seconds, config_.adaptive_ttl_min_seconds);
 }
 
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLHotKeyPolicyFires) {
+    // Verify that after >= 10 accesses in the same 5-min window the hot-key
+    // policy kicks in (TTL * 1.5) and the ttl_extended_total counter increments.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+
+    json result = {{"value", 1}};
+    std::string fp = cache.generateFingerprint("hot_key", {});
+
+    EXPECT_TRUE(cache.put(fp, {}, result));
+
+    // First get: records access_count=1, window_count=1 – below hot threshold
+    auto first = cache.get(fp);
+    ASSERT_TRUE(first.has_value());
+    int ttl_before_hot = first->ttl_seconds;
+
+    // 9 more accesses – window_count reaches 10, triggering the hot-key policy
+    for (int i = 0; i < 9; i++) {
+        auto r = cache.get(fp);
+        ASSERT_TRUE(r.has_value());
+    }
+
+    auto after_hot = cache.get(fp);
+    ASSERT_TRUE(after_hot.has_value());
+
+    // TTL must have grown beyond the logarithmic baseline
+    EXPECT_GT(after_hot->ttl_seconds, ttl_before_hot);
+    EXPECT_LE(after_hot->ttl_seconds, config_.adaptive_ttl_max_seconds);
+
+    // Metric counter must have incremented at least once
+    const auto& metrics = cache.getEnhancedMetrics();
+    EXPECT_GT(metrics.ttl_extended_total.load(), 0u);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLMetricsInDetailedInfo) {
+    // Verify that getDetailedInfo() reports the adaptive_ttl section correctly.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("adaptive_ttl"));
+    EXPECT_TRUE(info["adaptive_ttl"]["enabled"].get<bool>());
+    EXPECT_EQ(info["adaptive_ttl"]["min_seconds"].get<int>(), 60);
+    EXPECT_EQ(info["adaptive_ttl"]["max_seconds"].get<int>(), 3600);
+    EXPECT_EQ(info["adaptive_ttl"]["ttl_extended_total"].get<uint64_t>(), 0u);
+    EXPECT_EQ(info["adaptive_ttl"]["ttl_shortened_total"].get<uint64_t>(), 0u);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLMetricsInDetailedInfoDisabled) {
+    // Verify getDetailedInfo() when adaptive TTL is off.
+    config_.enable_adaptive_ttl = false;
+    AdaptiveQueryCache cache(config_);
+
+    json info = cache.getDetailedInfo();
+    ASSERT_TRUE(info.contains("adaptive_ttl"));
+    EXPECT_FALSE(info["adaptive_ttl"]["enabled"].get<bool>());
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLMetricsJsonExport) {
+    // Verify that CacheMetrics::toJson() exports the new TTL adjustment counters.
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+
+    // Trigger at least one hot-key extension
+    json result = {{"x", 1}};
+    std::string fp = cache.generateFingerprint("metrics_key", {});
+    cache.put(fp, {}, result);
+    for (int i = 0; i < 11; i++) {
+        cache.get(fp);
+    }
+
+    json m = cache.getEnhancedMetrics().toJson();
+    ASSERT_TRUE(m.contains("adaptive_ttl"));
+    EXPECT_GE(m["adaptive_ttl"]["ttl_extended_total"].get<uint64_t>(), 1u);
+    EXPECT_EQ(m["adaptive_ttl"]["ttl_shortened_total"].get<uint64_t>(), 0u);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

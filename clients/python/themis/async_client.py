@@ -271,12 +271,10 @@ class ConnectionPool:
                     if healthy:
                         self._healthy_endpoints.add(endpoint)
                 except Exception:
+                    logging.debug("Health check failed for endpoint %s", endpoint)
                     results[endpoint] = False
         
         return results
-
-
-class AsyncThemisClient:
     """
     Async ThemisDB client with connection pooling and graph support.
     
@@ -501,6 +499,7 @@ class AsyncThemisClient:
                 try:
                     return uuid, await self.get(model, collection, uuid)
                 except Exception as e:
+                    logging.debug("batch_get failed for uuid %s: %s", uuid, e)
                     return uuid, None
         
         tasks = [fetch_one(uuid) for uuid in uuids]
@@ -523,6 +522,7 @@ class AsyncThemisClient:
                 try:
                     return uuid, await self.put(model, collection, uuid, data)
                 except Exception:
+                    logging.debug("batch_put failed for uuid %s", uuid)
                     return uuid, False
         
         tasks = [put_one(uuid, data) for uuid, data in items.items()]
@@ -859,9 +859,8 @@ class AsyncThemisClient:
                         self._topology_cache = response.json()
                         return
                 except Exception:
+                    logging.debug("Topology refresh failed for endpoint %s; trying next", endpoint)
                     continue
-            
-            # Fallback: single-node mode
             self._topology_cache = {"shards": self._pool.endpoints}
     
     async def _resolve_endpoint(self, urn: str) -> str:
@@ -910,7 +909,8 @@ class AsyncThemisClient:
         try:
             decoded = base64.b64decode(blob)
             return json.loads(decoded)
-        except Exception:
+        except Exception as e:
+            logging.debug("Failed to decode entity blob: %s", e)
             return payload
 
 
@@ -973,8 +973,8 @@ class AsyncTransaction:
                 f"/api/v1/transaction/{self._txn_id}/rollback",
                 endpoint=endpoint,
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logging.debug("Rollback request failed for transaction %s: %s", self._txn_id, e)
         finally:
             self._txn_id = None
     

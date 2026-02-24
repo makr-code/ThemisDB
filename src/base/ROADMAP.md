@@ -26,7 +26,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ### Short-term (Next 3-6 months)
 - [I] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
-- [I] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
+- [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
 - [!] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
 - [!] Plugin health monitoring and automatic restart (Issue: #2373)
 - [I] Signed plugin repository with key pinning (Issue: #1571)
@@ -58,7 +58,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ### Phase 3: Marketplace & Sandboxing (Status: Planned 📋)
 - [ ] Plugin marketplace manifest format (JSON schema)
-- [ ] Runtime plugin capability negotiation (version ranges)
+- [x] Runtime plugin capability negotiation (version ranges)
 - [ ] Plugin sandboxing with resource limits (memory, CPU)
 - [ ] Plugin health monitoring and automatic restart
 - [ ] Signed plugin repository with key pinning
