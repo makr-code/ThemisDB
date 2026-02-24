@@ -1404,6 +1404,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/vector_api_handler.cpp
     ../src/server/rope_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
@@ -1994,6 +1995,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
+    # Phase 4: Agentic RAG with iterative retrieval loops
+    ../src/rag/agentic_rag.cpp
     )
 endif()
 

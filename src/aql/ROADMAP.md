@@ -13,41 +13,32 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] LLM command handler infrastructure (request routing, response parsing)
 - [x] Support for multi-paradigm AQL (documents, graphs, vectors, geospatial, timeseries)
 - [x] Integration with OpenAI, Anthropic, Azure OpenAI, and llama.cpp providers
-- [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`)
+- [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`) (Issue: #1353)
+- [x] Confidence scoring for generated AQL queries (`LLMAQLHandler::translateNLToAQLWithConfidence`, `AQLConfidenceScorer`) (Issue: #1357)
+- [x] Multi-turn conversation context for iterative query refinement (`LLMAQLHandler::executeChat`) (Issue: #1358)
+- [x] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
+- [x] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
+- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
+- [x] AQL function documentation auto-generation from C++ headers (Issue: #1362)
+- [x] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
+- [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 
 ## In Progress 🚧
-- [x] AQL query validation and linting before LLM submission (Target: Q2 2026)
-- [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
+- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
+- [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
 - [I] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## Planned Features 📋
-
 ### Short-term (Next 3-6 months)
-- [x] AQL syntax highlighting and error annotation in LLM responses *(completed)*
-- [I] Query template library for common AQL patterns (Issue: #1354)
-- [I] Interactive AQL query builder with LLM suggestions (Issue: #1355)
-- [I] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
-- [I] Confidence scoring for generated AQL queries (Issue: #1357)
-- [x] Batch NL-to-AQL translation for offline workloads
-- [ ] Confidence scoring for generated AQL queries
-- [I] Multi-turn conversation context for iterative query refinement (Issue: #1358)
+- [ ] Query template library for common AQL patterns *(Issue #1354 was closed; if still desired, open a new issue and link it here)*
+- [ ] Interactive AQL query builder with LLM suggestions *(Issue #1355 was closed; if still desired, open a new issue and link it here)*
 
 ### Long-term (6-12 months)
-- [I] AQL auto-complete API for editor integrations (LSP-compatible) (Issue: #1359)
-- [x] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL) (Issue: #1360)
-- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
-- [I] AQL function documentation auto-generation from C++ headers (Issue: #1362)
-- [P] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
-  - `include/aql/aql_lora_finetuner.h` — AQLDatasetBuilder + AQLLoRAFinetuner interfaces
-  - `src/aql/aql_lora_finetuner.cpp`    — Built-in AQL training corpus + LoRA training pipeline
-  - `src/llm/aql_train_parser.cpp`      — AQL TRAIN/DEPLOY/VERIFY/LIST ADAPTERS parser
-  - `tests/test_aql_lora_finetuner.cpp` — 40+ unit tests
-- [I] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
+- [ ] (reserved)
 
 ## Implementation Phases
-
 ### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
-- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing (`aql/llm_aql_handler.cpp`)
+- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing (`src/aql/llm_aql_handler.cpp`)
 - [x] Natural language to AQL translation via LLM integration
 - [x] AQL documentation assistant for function lookup and explanation
 - [x] Query explanation and profiling assistance
@@ -56,23 +47,22 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
 
 ### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
-- [I] AQL query validation and linting before LLM submission (`aql/query_validator.cpp`, Target: Q2 2026) (Issue: #1525)
-- [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
-- [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
+- [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
+- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
+- [I] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
-### Phase 3: Advanced Tooling & Intelligence (Status: In Progress 🚧)
-- [I] AQL syntax highlighting and error annotation in LLM responses (Issue: #1353)
-- [ ] Query template library for common AQL patterns
-- [ ] Interactive AQL query builder with LLM suggestions
-- [x] Confidence scoring for generated AQL queries (`aql/aql_confidence_scorer.cpp`, `LLMAQLHandler::translateNLToAQLWithConfidence`)
-- [ ] Multi-turn conversation context for iterative query refinement
-- [x] Schema-aware query generation using live collection metadata
+### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
+- [x] AQL syntax highlighting and error annotation in LLM responses (Issue: #1353)
+- [x] Confidence scoring for generated AQL queries (`LLMAQLHandler::translateNLToAQLWithConfidence`) (Issue: #1357)
+- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
+- [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
+- [x] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [I] Performance benchmarks (Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()` and `translateNLToAQLStreaming()`)
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()` and `translateNLToAQLStreaming()`)  
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [I] API stability guaranteed (Issue: #1524)
 
@@ -84,4 +74,4 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 
 ## Breaking Changes
 - LLM command handler API is stable; new command types will be additive
-- Confidence scoring API will be introduced as a new optional field (non-breaking)
+- Confidence scoring API was introduced as an optional field (non-breaking)
