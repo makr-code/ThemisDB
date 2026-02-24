@@ -254,6 +254,24 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
                                                const std::optional<std::string>& client_ip,
                                                const std::optional<std::string>& user_agent) const {
     metrics_.policy_eval_total++;
+
+    // If an OPA evaluator is configured, try it first.
+    // Fall back to native evaluation when OPA is unavailable (returns nullopt).
+    if (opa_evaluator_) {
+        auto opa_result = opa_evaluator_->evaluate(
+            user_id, action, resource_path, client_ip, user_agent);
+        if (opa_result.has_value()) {
+            if (opa_result->allowed) {
+                metrics_.policy_allow_total++;
+            } else {
+                metrics_.policy_deny_total++;
+            }
+            return *opa_result;
+        }
+        // OPA unavailable – fall through to native evaluation.
+        metrics_.opa_fallback_total++;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
 
     // If no policies defined, default allow

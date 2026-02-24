@@ -26,6 +26,7 @@
 #include "transaction/transaction_manager.h"
 #include "transaction/crash_recovery_manager.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/history_manager.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
@@ -350,6 +351,10 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
     auto txn_id = generateTransactionId();
     auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation,
                                               &lock_manager_);
+    // Inject history/conflict managers so the transaction can record history entries
+    // and build conflict artifacts.
+    txn->history_mgr_  = history_mgr_;
+    txn->conflict_mgr_ = conflict_mgr_;
     applyDefaultTimeout(*txn);
     
     {
@@ -634,6 +639,8 @@ TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolati
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
     Transaction txn(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation, &lock_manager_);
+    txn.history_mgr_  = history_mgr_;
+    txn.conflict_mgr_ = conflict_mgr_;
     applyDefaultTimeout(txn);
     return txn;
 }
@@ -717,9 +724,15 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
       finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
       savepoints_(std::move(other.savepoints_)),
-      lock_manager_(other.lock_manager_) {
+      lock_manager_(other.lock_manager_),
+      history_mgr_(other.history_mgr_),
+      conflict_mgr_(other.conflict_mgr_),
+      base_values_(std::move(other.base_values_)),
+      our_values_(std::move(other.our_values_)) {
     other.finished_.store(true, std::memory_order_release);
     other.lock_manager_ = nullptr;
+    other.history_mgr_  = nullptr;
+    other.conflict_mgr_ = nullptr;
 }
 
 TransactionManager::Transaction& TransactionManager::Transaction::operator=(Transaction&& other) noexcept {
@@ -736,6 +749,12 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         savepoints_ = std::move(other.savepoints_);
         lock_manager_ = other.lock_manager_;
         other.lock_manager_ = nullptr;
+        history_mgr_  = other.history_mgr_;
+        conflict_mgr_ = other.conflict_mgr_;
+        other.history_mgr_  = nullptr;
+        other.conflict_mgr_ = nullptr;
+        base_values_ = std::move(other.base_values_);
+        our_values_  = std::move(other.our_values_);
         timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
@@ -756,9 +775,21 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     auto conflict_msg = checkSerializableWriteConflict(key);
     if (!conflict_msg.empty()) return Status::Error(conflict_msg);
 
+    // Capture pre-write (base) value for potential conflict record.
+    if (history_mgr_ || conflict_mgr_) {
+        auto base = mvcc_txn_->get(key);
+        base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        our_values_[key]  = serialized;
+    }
+
     // Write to MVCC transaction
     if (!mvcc_txn_->put(key, serialized)) {
         return Status::Error("putEntity: MVCC conflict detected");
+    }
+
+    // Write atomic history entry in the same transaction.
+    if (history_mgr_) {
+        history_mgr_->recordPut(*mvcc_txn_, key, serialized, id_);
     }
     
     // Update secondary indexes using MVCC transaction for atomicity
@@ -781,9 +812,21 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     auto conflict_msg = checkSerializableWriteConflict(key);
     if (!conflict_msg.empty()) return Status::Error(conflict_msg);
 
+    // Capture pre-delete (base) value for potential conflict record.
+    if (history_mgr_ || conflict_mgr_) {
+        auto base = mvcc_txn_->get(key);
+        base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        our_values_[key]  = {};  // deletion → empty "ours"
+    }
+
     // Delete from MVCC transaction
     if (!mvcc_txn_->del(key)) {
         return Status::Error("eraseEntity: MVCC conflict detected");
+    }
+
+    // Write atomic tombstone history entry in the same transaction.
+    if (history_mgr_) {
+        history_mgr_->recordDel(*mvcc_txn_, key, id_);
     }
     
     // Update secondary indexes using MVCC transaction
@@ -1292,8 +1335,40 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     if (!mvcc_txn_->commit()) {
         // Commit failed - MVCC conflict detected
         THEMIS_ERROR("Transaction {} commit failed - MVCC conflict, executing SAGA compensation", id_);
+
+        // Build and persist ConflictRecord(s) if a ConflictManager is available.
+        std::string first_conflict_id;
+        std::vector<std::string> conflict_keys;
+        if (conflict_mgr_ && !our_values_.empty()) {
+            for (const auto& [key, ours] : our_values_) {
+                conflict_keys.push_back(key);
+                ConflictRecord crec;
+                crec.base_key    = key;
+                crec.txn_id      = id_;
+                // base = snapshot value at txn start
+                auto base_it = base_values_.find(key);
+                crec.base_value  = (base_it != base_values_.end()) ? base_it->second : std::vector<uint8_t>{};
+                crec.ours_value  = ours;
+                // theirs = current committed value after conflict
+                auto theirs_raw = db_.get(key);
+                crec.theirs_value = theirs_raw ? std::move(*theirs_raw) : std::vector<uint8_t>{};
+                std::string cid = conflict_mgr_->storeConflict(crec);
+                if (first_conflict_id.empty()) {
+                    first_conflict_id = cid;
+                }
+            }
+        }
+
         saga_->compensate();
         if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
+
+        if (!first_conflict_id.empty()) {
+            return Status::Conflict(
+                "commit: MVCC conflict detected, transaction must be retried",
+                first_conflict_id,
+                std::move(conflict_keys)
+            );
+        }
         return Status::Error("commit: MVCC conflict detected, transaction must be retried");
     }
     
