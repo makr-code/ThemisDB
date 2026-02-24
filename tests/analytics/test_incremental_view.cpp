@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     685                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
@@ -451,6 +451,7 @@ TEST(IncrementalViewTest, DirtyFlagSetOnChange) {
 TEST(IncrementalViewTest, ClearResetsState) {
     IncrementalView view(sales_view());
     view.applyChange(insert_rec("sales", {{"region", std::string("EU")}, {"amount", 50.0}}));
+    view.applyChange(insert_rec("sales", {{"region", std::string("US")}, {"amount", 75.0}}));
     EXPECT_GT(view.groupCount(), 0);
 
     view.clear();
