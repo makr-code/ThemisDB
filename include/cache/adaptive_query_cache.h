@@ -34,6 +34,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/cache_replication.h"
 #include "cache/eviction_policy.h"
 #include "core/concerns/eviction_strategies.h"
 
@@ -408,6 +409,30 @@ public:
      */
     WarmupResult exportSnapshot(const std::string& out_path) const;
 
+    // ========================================================================
+    // Phase 4: Cache Replication for High-Availability
+    // ========================================================================
+
+    /**
+     * @brief Register a replication listener for high-availability deployments.
+     *
+     * Once registered, every successful put() and every invalidate() /
+     * invalidateTenant() call notifies the listener so that replica nodes can
+     * mirror the cache state.  Pass nullptr to unregister.
+     *
+     * Typical usage:
+     * @code
+     *   auto mgr = std::make_shared<cache::CacheReplicationManager>(repCfg);
+     *   mgr->addReplica(myTransportListener, snapshotNdjson);
+     *   cache.setReplicationListener(mgr);
+     * @endcode
+     *
+     * @param listener Shared pointer to an ICacheReplicationListener
+     *                 implementation; nullptr disables replication.
+     */
+    void setReplicationListener(
+        std::shared_ptr<cache::ICacheReplicationListener> listener);
+
 private:
     struct L1Entry {
         nlohmann::json result;
@@ -470,6 +495,10 @@ private:
     // L3: RocksDB persistent cache
     std::unique_ptr<RocksDBWrapper> l3_db_;
     mutable std::mutex l3_mutex_;
+
+    // Phase 4: Cache replication listener for HA deployments
+    std::shared_ptr<cache::ICacheReplicationListener> replication_listener_;
+    mutable std::mutex replication_mutex_;
     
     // Internal helper methods
     int64_t getCurrentTimeMs() const;
