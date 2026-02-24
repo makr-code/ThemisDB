@@ -174,6 +174,50 @@ OAuth 2.0 Device Authorization Grant (RFC 8628) for headless devices, CLI tools,
 3. Client polls `pollForToken()` at `interval` second intervals
 4. On success, `validateIdToken()` returns `JWTClaims`
 
+### Zero-Trust Auth Verifier (`zero_trust_auth_verifier.cpp`)
+
+Auth-layer bridge that enforces the zero-trust "never trust, always verify" principle by
+re-validating the caller's identity and network location for **every** inbound request
+(no session cache).
+
+**Features:**
+- Injectable `TokenVerifier` callback — wire in `JWTValidator::parseAndValidate` for JWT re-validation
+- Per-identity CIDR network policies delegated to `security::ZeroTrustPolicyEnforcer`
+- Configurable minimum trust-score threshold (default: 0.7)
+- Audit logging via `AuthAuditLogger` for every allow/deny decision
+- Thread-safe; forwards `getMetrics()` from the underlying enforcer
+
+**Verification flow per request:**
+1. Token re-validated via injected callback (no cached session)
+2. Source IP checked against registered `NetworkPolicy` CIDR allow/deny lists
+3. Composite trust score computed (identity + network + device + freshness)
+4. Score compared against `min_trust_score`; denied if below threshold
+5. Audit event emitted
+
+**Usage:**
+```cpp
+#include "auth/zero_trust_auth_verifier.h"
+
+ZeroTrustAuthVerifier::Config cfg;
+cfg.min_trust_score = 0.8;
+ZeroTrustAuthVerifier verifier(cfg, [&jwt](const std::string& tok, const std::string& uid) {
+    try { return jwt.parseAndValidate(tok).sub == uid; }
+    catch (...) { return false; }
+});
+
+verifier.addNetworkPolicy({"corp", "alice", {"10.0.0.0/8"}, {}, true});
+
+ZeroTrustAuthVerifier::Request req;
+req.request_id = generate_uuid();
+req.user_id    = claims.sub;
+req.token      = bearer_token;
+req.client_ip  = peer_ip;
+req.resource   = "data";
+req.action     = "read";
+
+auto decision = verifier.verify(req);
+if (!decision.allowed) { return http_403(decision.reason); }
+```
 ### OAuth 2.0 PKCE Flow (`oauth_pkce_flow.cpp`)
 
 OAuth 2.0 Authorization Code Grant with Proof Key for Code Exchange (RFC 7636) for public clients (native/mobile/SPA apps) that cannot safely store a client secret.
