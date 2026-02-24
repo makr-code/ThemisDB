@@ -19,7 +19,7 @@
 ## In Progress 🚧
 - [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
 - [P] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
-- [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
+- [P] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
@@ -57,7 +57,7 @@
 - [P] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
 - [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
-- [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
+- [P] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
@@ -69,7 +69,6 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
 - ST_BUFFER uses CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
 - ROCm/HIP support is not available
 - Raster data is not supported
