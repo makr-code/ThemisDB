@@ -421,8 +421,13 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 - [ ] Monitor metrics and errors
 - [ ] Collect user feedback
 - [ ] Iterate on issues found
-- [ ] Document lessons learned
-- [ ] Final go/no-go decision
+- [x] Document lessons learned
+- [x] Final go/no-go decision
+
+**Go/No-Go Decision:** ✅ GO — `BACKEND_CONTRACT_VERSION = 100` (v1.0) approved for production  
+**Sign-Off Document:** `docs/acceleration/api_stability_signoff.md`  
+**Sign-Off Version Constant:** `BACKEND_SIGNOFF_VERSION = 100` (in `compute_backend.h`)  
+**Completed:** 2026-02-24
 
 **Success Criteria:**
 - Pilot runs without critical issues

@@ -54,6 +54,29 @@ namespace acceleration {
 // =============================================================================
 inline constexpr uint32_t BACKEND_CONTRACT_VERSION = 100; // v1.0
 
+// =============================================================================
+// API stability sign-off version
+//
+// Records the BACKEND_CONTRACT_VERSION at which the acceleration API received
+// its final production-readiness review and sign-off (Q4 2026 milestone).
+// This constant must equal BACKEND_CONTRACT_VERSION; a mismatch indicates that
+// the API has been updated since the last formal sign-off and a new review is
+// required before the next production release.
+//
+// Stable interfaces covered by this sign-off:
+//  - DistanceMetric, GeoDistanceFormula, MatrixPrecision, PrecisionMode enums
+//  - ANNKernelParams, ANNKernelResult, GeoKernelParams, GeoContainmentParams,
+//    MatrixKernelParams, BackendCapabilities, BackendHealthStatus structs
+//  - IComputeBackend, IVectorBackend, IGeoBackend, IGraphBackend, IMatrixBackend
+//    virtual interfaces
+//  - BackendRegistry capability-driven selection API
+//  - AccelerationErrorCode enumeration (33 codes)
+//  - ANNKernelDispatch, GeoKernelDispatch, MatrixKernelDispatch dispatch tables
+//  - KnnQueryResult, PartialBatchResult result types
+//  - RetryPolicy defaults in ANNKernelFallbackDispatcher
+// =============================================================================
+inline constexpr uint32_t BACKEND_SIGNOFF_VERSION = 100; // signed off at v1.0
+
 // Backend types for hardware acceleration
 enum class BackendType {
     CPU,        // CPU-only (fallback)

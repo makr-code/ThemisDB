@@ -47,6 +47,23 @@ TEST(BackendApiStability, KernelInvocationInterfaceVersionIsDefined) {
     EXPECT_EQ(KERNEL_INVOCATION_INTERFACE_VERSION, 100u);
 }
 
+TEST(BackendApiStability, SignoffVersionIsDefined) {
+    // BACKEND_SIGNOFF_VERSION must equal BACKEND_CONTRACT_VERSION.
+    // A mismatch signals that the API changed after the last production sign-off.
+    static_assert(BACKEND_SIGNOFF_VERSION == 100u,
+        "BACKEND_SIGNOFF_VERSION must be 100 (v1.0); update sign-off on API changes");
+    EXPECT_EQ(BACKEND_SIGNOFF_VERSION, 100u);
+}
+
+TEST(BackendApiStability, SignoffVersionMatchesContractVersion) {
+    // The sign-off version must track the contract version.
+    // If this assertion fails, a new production-readiness review is required.
+    EXPECT_EQ(BACKEND_SIGNOFF_VERSION, BACKEND_CONTRACT_VERSION)
+        << "BACKEND_SIGNOFF_VERSION (" << BACKEND_SIGNOFF_VERSION
+        << ") must equal BACKEND_CONTRACT_VERSION (" << BACKEND_CONTRACT_VERSION
+        << "); perform a production-readiness review and update BACKEND_SIGNOFF_VERSION";
+}
+
 TEST(BackendApiStability, VersionConstantsAreUint32) {
     static_assert(std::is_same<
             decltype(BACKEND_CONTRACT_VERSION), const uint32_t>::value,
@@ -54,6 +71,9 @@ TEST(BackendApiStability, VersionConstantsAreUint32) {
     static_assert(std::is_same<
             decltype(KERNEL_INVOCATION_INTERFACE_VERSION), const uint32_t>::value,
         "KERNEL_INVOCATION_INTERFACE_VERSION must be uint32_t");
+    static_assert(std::is_same<
+            decltype(BACKEND_SIGNOFF_VERSION), const uint32_t>::value,
+        "BACKEND_SIGNOFF_VERSION must be uint32_t");
 }
 
 // =============================================================================
