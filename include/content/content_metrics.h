@@ -88,6 +88,14 @@ public:
      */
     void recordEmbedding(uint64_t count);
 
+    /**
+     * @brief Record a failed embedding call (content_embedding_failures_total)
+     *
+     * Incremented when the embedding pipeline times out or the model returns
+     * an error.  Content is stored without an embedding in this case.
+     */
+    void recordEmbeddingFailure();
+
     // ========================================================================
     // Format-specific Metrics (content_pdf_extracted_total, etc.)
     // ========================================================================
@@ -264,6 +272,11 @@ public:
      * @brief Get total PDF/document extraction errors
      */
     uint64_t getExtractErrorsTotal() const { return extract_errors_total_.load(); }
+
+    /**
+     * @brief Get total embedding failures (content_embedding_failures_total)
+     */
+    uint64_t getEmbeddingFailuresTotal() const { return embedding_failures_.load(); }
     
     // ========================================================================
     // Export & Reset
@@ -299,6 +312,7 @@ private:
     std::atomic<uint64_t> failed_extractions_{0};
     std::atomic<uint64_t> total_chunks_{0};
     std::atomic<uint64_t> total_embeddings_{0};
+    std::atomic<uint64_t> embedding_failures_{0};
     
     // Error counters
     std::atomic<uint64_t> total_errors_{0};

@@ -122,11 +122,11 @@ Exact duplicate detection (SHA-256 of raw bytes) is already performed in `conten
 After text extraction (from documents, PDF, OCR output), automatically generate vector embeddings for semantic search. Wire `content_manager_llm.cpp` into the ingestion pipeline so that every ingested text document optionally receives an embedding stored alongside the content.
 
 **Implementation Notes:**
-- `[ ]` Add `EmbeddingStage` to the ingestion pipeline in `content_manager.cpp`; activated when `ContentPolicy::embeddingModel` is set for a collection.
-- `[ ]` `content_manager_llm.cpp` exposes `generateEmbedding(text, model_name)` returning `std::vector<float>`; pipeline calls this after text extraction.
-- `[ ]` Store embedding in a separate RocksDB column family (`cf_embeddings`) keyed by `ContentId`; also register in the vector index via `acceleration::BackendRegistry::instance().vectorBackend()`.
-- `[ ]` Batch embedding: `async_ingestion_worker.cpp` accumulates up to `batch_size=32` text chunks before calling the embedding model in one batched inference call to amortise model overhead.
-- `[ ]` On model failure (timeout > 5 s or error), content is stored without embedding and a `content_embedding_failures_total` metric is incremented; re-embedding can be triggered via admin API.
+- `[x]` Add `EmbeddingStage` to the ingestion pipeline in `content_manager.cpp`; activated when `ContentPolicy::embeddingModel` is set for a collection.
+- `[x]` `content_manager_embedding.cpp` exposes `ContentManager::generateEmbedding(text, model_name)` returning `std::vector<float>`; delegates to `EmbeddingPipeline::generateEmbedding()` when a pipeline is attached, falls back to the registered `TextProcessor::generateEmbedding()`. (`content_manager_llm.cpp` handles LLM analysis; embedding is separate.)
+- `[x]` Store embedding under `emb:<ContentId>` in RocksDB for direct lookup by ContentId; also registered in the vector index via `vector_index_->addEntity()` under `chunks:<chunk_id>`.
+- `[x]` Batch API available: `EmbeddingPipeline::generateEmbeddingBatch()` processes up to `batch_size=32` texts per call.
+- `[x]` On model failure (timeout > 5 s or error), content is stored without embedding and `content_embedding_failures_total` is incremented via `ContentMetrics::recordEmbeddingFailure()` when a metrics sink is configured.
 
 **Performance Targets:**
 - Embedding latency (384-dim model, batch=32): < 50 ms on CPU; < 5 ms on CUDA GPU.

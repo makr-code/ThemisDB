@@ -1,0 +1,8 @@
+# actionlint configuration for ThemisDB
+# https://github.com/rhysd/actionlint/blob/main/docs/config.md
+
+self-hosted-runner:
+  # Custom label for GPU runners with CUDA support.
+  # Used in llm-cuda-gpu-ci.yml for CUDA kernel tests.
+  labels:
+    - gpu-cuda

@@ -36,6 +36,8 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <chrono>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 
 // Forward declarations
@@ -88,6 +90,20 @@ struct ConsumerGroupInfo {
             {"committed_sequence", committed_sequence}
         };
     }
+};
+
+/**
+ * @brief In-flight delivery statistics for a single consumer.
+ *
+ * "In-flight" events are those that have been delivered via
+ * fetchEventsAtLeastOnce() but not yet acknowledged with acknowledgeEvents().
+ */
+struct InFlightStats {
+    std::string group_id;
+    std::string consumer_id;
+    size_t   inflight_count{0};            ///< Total in-flight events
+    size_t   overdue_count{0};             ///< In-flight events past ack timeout
+    uint64_t oldest_inflight_sequence{0};  ///< Lowest in-flight sequence (0 if none)
 };
 
 // ============================================================
@@ -260,6 +276,74 @@ public:
         size_t limit = 100) const;
 
     // --------------------------------------------------------
+    // At-least-once delivery
+    // --------------------------------------------------------
+
+    /**
+     * @brief Fetch events with at-least-once delivery guarantee.
+     *
+     * Delivers events to a consumer and tracks them as in-flight.  If any
+     * previously delivered events for this consumer have not been acknowledged
+     * within @p ack_timeout_ms they are redelivered before new events are
+     * returned.
+     *
+     * @param group_id       Consumer group identifier.
+     * @param consumer_id    Consumer identifier.
+     * @param changefeed     Changefeed to read events from (not owned).
+     * @param limit          Maximum events to return (0 = default 100).
+     * @param ack_timeout_ms Milliseconds before an unacknowledged event is
+     *                       redelivered (0 = never redeliver in-session).
+     * @return Events for this consumer's partition; may include redelivered events.
+     *
+     * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
+     */
+    std::vector<Changefeed::ChangeEvent> fetchEventsAtLeastOnce(
+        const std::string& group_id,
+        const std::string& consumer_id,
+        const Changefeed& changefeed,
+        size_t limit = 100,
+        uint32_t ack_timeout_ms = 30000);
+
+    /**
+     * @brief Acknowledge events up to @p up_to_sequence.
+     *
+     * Removes in-flight records with sequence ≤ @p up_to_sequence and advances
+     * the group's committed offset to @p up_to_sequence.
+     *
+     * @param group_id       Consumer group identifier.
+     * @param consumer_id    Consumer identifier.
+     * @param up_to_sequence Inclusive upper bound of the acknowledged range.
+     *
+     * @throws CDCException (INVALID_ARGUMENT) if the group does not exist.
+     * @throws CDCException (DB_WRITE_FAILED) on RocksDB write failure.
+     */
+    void acknowledgeEvents(const std::string& group_id,
+                           const std::string& consumer_id,
+                           uint64_t up_to_sequence);
+
+    /**
+     * @brief Return the number of in-flight events for a consumer.
+     *
+     * @param group_id    Consumer group identifier.
+     * @param consumer_id Consumer identifier.
+     * @return Count of in-flight events (0 if none or consumer unknown).
+     */
+    size_t getInFlightCount(const std::string& group_id,
+                            const std::string& consumer_id) const;
+
+    /**
+     * @brief Return in-flight statistics for a consumer.
+     *
+     * @param group_id       Consumer group identifier.
+     * @param consumer_id    Consumer identifier.
+     * @param ack_timeout_ms Timeout used to classify overdue events.
+     * @return InFlightStats for this consumer.
+     */
+    InFlightStats getInFlightStats(const std::string& group_id,
+                                   const std::string& consumer_id,
+                                   uint32_t ack_timeout_ms = 30000) const;
+
+    // --------------------------------------------------------
     // Static helpers (also useful for unit testing)
     // --------------------------------------------------------
 
@@ -297,6 +381,21 @@ private:
     uint64_t            readOffsetLocked(const std::string& group_id) const;
     void                writeConfigLocked(const ConsumerGroupConfig& config);
     void                writeOffsetLocked(const std::string& group_id, uint64_t sequence);
+
+    // --------------------------------------------------------
+    // In-flight tracking (in-memory; not persisted across restarts)
+    // --------------------------------------------------------
+
+    struct InFlightRecord {
+        uint64_t sequence;
+        std::chrono::steady_clock::time_point delivered_at;
+        uint32_t delivery_count{1};  ///< Times this event has been delivered
+    };
+
+    // group_id -> consumer_id -> in-flight records (protected by mutex_)
+    std::unordered_map<std::string,
+        std::unordered_map<std::string,
+            std::vector<InFlightRecord>>> inflight_;
 };
 
 } // namespace cdc
