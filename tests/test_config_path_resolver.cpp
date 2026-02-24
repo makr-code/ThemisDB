@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include "config/config_path_resolver.h"
+#include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
 #include <filesystem>
 #include <fstream>
@@ -473,6 +474,105 @@ TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
     // pii_patterns should be first with count >= 3
     EXPECT_EQ(report[0].legacy_path, "config/pii_patterns.yaml");
     EXPECT_GE(report[0].usage_count, 3u);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ConfigMetricsExporter Tests
+// ═══════════════════════════════════════════════════════════
+
+class ConfigMetricsExporterTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::setCachingEnabled(true);
+    }
+};
+
+TEST_F(ConfigMetricsExporterTest, CollectReturnsNonEmptyString) {
+    std::string output = ConfigMetricsExporter::collect();
+    EXPECT_FALSE(output.empty());
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectContainsRequiredMetricNames) {
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("themis_config_resolution_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_resolution_misses_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_legacy_fallbacks_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_new_path_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_unmapped_requests_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_misses_total"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_hit_ratio"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_capacity"), std::string::npos);
+    EXPECT_NE(output.find("themis_config_cache_ttl_seconds"), std::string::npos);
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectContainsHelpAndTypeAnnotations) {
+    std::string output = ConfigMetricsExporter::collect();
+
+    EXPECT_NE(output.find("# HELP themis_config_resolution_hits_total"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_resolution_hits_total counter"), std::string::npos);
+    EXPECT_NE(output.find("# HELP themis_config_cache_hit_ratio"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_hit_ratio gauge"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_capacity gauge"), std::string::npos);
+    EXPECT_NE(output.find("# TYPE themis_config_cache_ttl_seconds gauge"), std::string::npos);
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectReflectsResolutionMissCount) {
+    // Trigger a miss
+    try {
+        ConfigPathResolver::resolve("config/nonexistent_for_exporter_test.yaml");
+    } catch (const ConfigNotFoundException&) {
+        // expected
+    }
+
+    std::string output = ConfigMetricsExporter::collect();
+    // The output must contain "themis_config_resolution_misses_total" followed by a non-zero value
+    EXPECT_NE(output.find("themis_config_resolution_misses_total 1"), std::string::npos)
+        << "Expected 1 resolution miss in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheHitRatioIsZeroWithNoActivity) {
+    std::string output = ConfigMetricsExporter::collect();
+    // With no cache activity the ratio should be 0
+    EXPECT_NE(output.find("themis_config_cache_hit_ratio 0"), std::string::npos)
+        << "Expected cache_hit_ratio of 0 in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheCapacityIsPositive) {
+    std::string output = ConfigMetricsExporter::collect();
+    // Capacity should be reported as a positive integer (currently 1000)
+    EXPECT_NE(output.find("themis_config_cache_capacity 1000"), std::string::npos)
+        << "Expected cache_capacity of 1000 in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, CacheTtlSecondsIsPositive) {
+    std::string output = ConfigMetricsExporter::collect();
+    // TTL must match the value from ConfigPathResolver::kCacheTtlSeconds (currently 300)
+    const std::string expected = "themis_config_cache_ttl_seconds " +
+                                 std::to_string(ConfigPathResolver::kCacheTtlSeconds);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "Expected '" << expected << "' in output:\n" << output;
+}
+
+TEST_F(ConfigMetricsExporterTest, UpdateMetricsCollectorDoesNotThrow) {
+    EXPECT_NO_THROW(ConfigMetricsExporter::updateMetricsCollector());
+}
+
+TEST_F(ConfigMetricsExporterTest, CollectIsIdempotent) {
+    // Trigger a resolution miss so counters are non-zero
+    try {
+        ConfigPathResolver::resolve("config/nonexistent_for_idempotency_test.yaml");
+    } catch (const ConfigNotFoundException&) {
+        // expected
+    }
+
+    // Two consecutive calls without intervening activity must produce identical output
+    std::string first  = ConfigMetricsExporter::collect();
+    std::string second = ConfigMetricsExporter::collect();
+    EXPECT_EQ(first, second);
 }
 
 } // namespace test
