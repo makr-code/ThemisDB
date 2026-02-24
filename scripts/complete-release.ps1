@@ -80,6 +80,7 @@ function Run-Command {
             & $Command @Arguments
             return $LASTEXITCODE -eq 0
         } catch {
+            Write-Warning "Command failed: $_"
             return $false
         }
     }

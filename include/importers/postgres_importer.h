@@ -23,6 +23,7 @@
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/conflict_resolver.h"
 #include "plugins/plugin_interface.h"
 #include <regex>
 #include <atomic>
@@ -82,6 +83,7 @@ private:
     std::atomic<bool> cancelled_{false};
     std::map<std::string, TableSchema> schemas_;
     std::map<std::string, std::string> custom_type_map_;  ///< Types from CREATE TYPE statements
+    ImportConflictResolver conflict_resolver_;  ///< In-session conflict tracker
     
     // Parsing methods
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats,

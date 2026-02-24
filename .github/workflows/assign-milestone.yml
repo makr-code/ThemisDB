@@ -7,9 +7,10 @@ on:
     inputs:
       milestone:
         description: >
-          Milestone number (e.g. "3") or exact milestone title
-          (e.g. "v1.5.0").  The workflow will fail if the value
-          does not match exactly one milestone.
+          Milestone number (e.g. "3"), exact milestone title (e.g. "Q2 2026"),
+          or release version tag (e.g. "v1.5.0") that is mapped to a milestone
+          title in .github/scripts/milestone_mapping.yml.
+          If the resolved milestone does not exist it will be created automatically.
         required: true
         type: string
       dry_run:
@@ -37,6 +38,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
 
       - name: Assign milestone
         env:

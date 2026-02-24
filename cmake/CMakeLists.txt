@@ -1342,6 +1342,7 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/numa_topology.cpp
     
     ../src/config/config_path_resolver.cpp
+    ../src/config/config_metrics_exporter.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1487,6 +1488,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
     
     # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
@@ -1499,10 +1502,18 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
+    ../src/cache/cache_hit_rate_slo_monitor.cpp
+    
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/consumer_group.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
+    ../src/cdc/delivery_tracker.cpp
+    ../src/cdc/dead_letter_queue.cpp
     
     # Replication
+    ../src/cdc/cdc_ws_handler.cpp
+    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal conflict resolution
@@ -1616,9 +1627,11 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
+    ../src/auth/mtls_authenticator.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
+    ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
     ../src/governance/policy_engine.cpp
@@ -1782,6 +1795,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
+    ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_migration_assistant.cpp

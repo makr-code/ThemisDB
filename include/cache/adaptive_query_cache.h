@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     428                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -34,6 +34,8 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "cache/cache_metrics.h"
+#include "cache/eviction_policy.h"
+#include "core/concerns/eviction_strategies.h"
 
 namespace themis {
 
@@ -93,6 +95,10 @@ public:
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
+
+        // Configurable eviction policies (L1 and L2 can use LRU, LFU, or ARC)
+        cache::EvictionPolicy l1_eviction_policy = cache::EvictionPolicy::LRU;
+        cache::EvictionPolicy l2_eviction_policy = cache::EvictionPolicy::LRU;
         
         // Size limits (Phase 1: Security)
         size_t max_total_entry_size = 10485760; // 10MB absolute max per entry
@@ -276,10 +282,18 @@ public:
     std::vector<std::string> exportKeys(size_t max_keys = 100) const;
     
     /**
-     * @brief Get tenant usage statistics
-     * @return JSON with per-tenant size usage
+     * @brief Get tenant usage statistics (all tenants)
+     * @return JSON with per-tenant size, hit/miss, and eviction statistics
      */
     nlohmann::json getTenantStats() const;
+
+    /**
+     * @brief Get cache statistics for a single tenant
+     * @param tenant_id Tenant identifier
+     * @return JSON with hit/miss/eviction/bytes statistics for the tenant,
+     *         or {"found": false} if the tenant has no recorded activity
+     */
+    nlohmann::json getTenantStatsForTenant(const std::string& tenant_id) const;
     
     /**
      * @brief Bulk put for cache warmup
@@ -294,6 +308,24 @@ public:
      * @return Number of entries invalidated
      */
     size_t invalidateTenant(const std::string& tenant_id);
+
+    /**
+     * @brief Update the cache quota for a specific tenant.
+     *
+     * Overrides the global `config_.per_tenant_max_bytes` for the given
+     * tenant.  The new quota is enforced immediately on the next `put()`
+     * that is attributed to that tenant.
+     *
+     * - A quota of 0 restores the global default (`config_.per_tenant_max_bytes`).
+     * - Reducing the quota below the current `bytes_used` does NOT evict
+     *   existing entries; it only prevents new ones from being accepted.
+     *
+     * @param tenant_id   Tenant identifier (must not be empty).
+     * @param quota_bytes New quota in bytes (0 = revert to global default).
+     * @return true on success; false when tenant_id is empty or tenant
+     *         isolation is disabled.
+     */
+    bool updateTenantQuota(const std::string& tenant_id, size_t quota_bytes);
 
     /**
      * @brief Get L3 circuit breaker status as JSON.
@@ -374,6 +406,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     struct L2Entry {
@@ -382,6 +417,9 @@ private:
         int64_t last_accessed_ms;
         int64_t access_count = 0;
         int ttl_seconds;
+        // Adaptive TTL: sliding 5-minute access window
+        int64_t window_start_ms = 0;
+        uint32_t window_count = 0;
     };
     
     Config config_;
@@ -394,8 +432,18 @@ private:
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
     
-    // Phase 2: Tenant isolation - track per-tenant sizes
-    std::unordered_map<std::string, size_t> tenant_sizes_;
+    // Phase 3: Per-tenant cache statistics (hits, misses, evictions, bytes)
+    struct TenantMetrics {
+        uint64_t hits     = 0;      ///< cache hits attributed to this tenant
+        uint64_t misses   = 0;      ///< cache misses attributed to this tenant
+        uint64_t evictions = 0;     ///< entries evicted (via invalidateTenant)
+        size_t   bytes_used = 0;    ///< estimated bytes currently consumed
+    };
+
+    // Phase 2/3: Tenant isolation – per-tenant metrics map
+    std::unordered_map<std::string, TenantMetrics> tenant_metrics_;
+    // Per-tenant quota overrides (0 = use global config_.per_tenant_max_bytes)
+    std::unordered_map<std::string, size_t> tenant_quota_overrides_;
     mutable std::mutex tenant_mutex_;
     
     // L1: In-memory HashMap
@@ -405,6 +453,10 @@ private:
     // L2: Compressed in-memory
     std::unordered_map<std::string, L2Entry> l2_cache_;
     mutable std::mutex l2_mutex_;
+
+    // Eviction strategy trackers (initialised from Config::l1/l2_eviction_policy)
+    std::unique_ptr<core::concerns::IEvictionStrategy> l1_eviction_strategy_;
+    std::unique_ptr<core::concerns::IEvictionStrategy> l2_eviction_strategy_;
     
     // L3: RocksDB persistent cache
     std::unique_ptr<RocksDBWrapper> l3_db_;
@@ -426,6 +478,8 @@ private:
     // Phase 2: Tenant isolation helpers
     std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
+    // Returns the effective quota for a tenant (override if set, else global default)
+    size_t getEffectiveTenantQuota(const std::string& tenant_id) const;
 };
 
 } // namespace themis

@@ -84,6 +84,7 @@ function Test-OllamaInstalled {
         return $true
     }
     catch {
+        Write-Warning "Ollama not available: $_"
         return $false
     }
 }

@@ -1022,7 +1022,8 @@ class Transaction:
             if self.is_active:
                 try:
                     self.rollback()
-                except Exception:
+                except Exception as e:
+                    print(f"[WARN] Rollback failed during exception handler: {e}")
                     pass  # Ignore errors during rollback in exception handler
         else:
             # No exception, commit

@@ -81,6 +81,16 @@ public:
         int64_t timestamp_ms;             // Event timestamp
         nlohmann::json metadata;          // Additional metadata (tx_id, user, etc.)
 
+        // Before/after document snapshots for change event enrichment.
+        // before_snapshot: document state prior to this change (nullopt for INSERT).
+        // after_snapshot:  document state after this change  (nullopt for DELETE).
+        std::optional<std::string> before_snapshot;
+        std::optional<std::string> after_snapshot;
+
+        // Set to true when the value has been GDPR-redacted; preserves
+        // sequence, type, key, and timestamp_ms for audit-trail integrity.
+        bool redacted = false;
+
         // Serialization
         nlohmann::json toJson() const;
         static ChangeEvent fromJson(const nlohmann::json& j);
@@ -211,6 +221,14 @@ public:
     };
 
     /**
+     * @brief Result of a GDPR redaction pass
+     */
+    struct RedactionResult {
+        size_t events_scanned = 0;   ///< Total events examined
+        size_t events_redacted = 0;  ///< Events whose value field was scrubbed
+    };
+
+    /**
      * @brief Compact the change log by removing superseded entries per key
      *
      * For each document key, retains only the latest change event and removes
@@ -220,7 +238,25 @@ public:
      * @return CompactionResult describing what was removed
      */
     CompactionResult compactByKey();
-    
+
+    /**
+     * @brief GDPR-aware in-place redaction of change log entries by key prefix
+     *
+     * Scans all stored change events and, for each event whose @p key field
+     * starts with @p key_prefix, replaces the @p value, @p before_snapshot,
+     * and @p after_snapshot fields with @c "[REDACTED]" / nullopt and sets
+     * @c redacted = true.  The @p sequence, @p type, @p key, and
+     * @p timestamp_ms fields are preserved for audit-trail integrity.
+     *
+     * Already-redacted events are skipped without error.
+     *
+     * @param key_prefix  Non-empty key prefix identifying the data subject
+     *                    (e.g. @c "user:42").
+     * @return RedactionResult with scan and redaction counts.
+     * @throws CDCException if @p key_prefix is empty.
+     */
+    RedactionResult redactByKeyPrefix(const std::string& key_prefix);
+
     /**
      * @brief Apply retention policy (delete old events based on configured policy)
      * @return Number of events deleted
