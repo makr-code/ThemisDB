@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     171                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,6 +37,8 @@ namespace auth {
     struct KerberosConfig;
     class MTLSAuthenticator;
     struct MTLSConfig;
+    class ApiKeyAuthenticator;
+    struct ApiKeyCredential;
 }
 namespace security {
     class USBAdminAuthenticator;
@@ -83,6 +85,13 @@ public:
         std::string tenant_claim = "tenant_id";  // Which JWT claim contains tenant ID
     };
 
+    /// API Key Configuration
+    struct ApiKeyConfig {
+        bool check_expiry{true};        ///< Reject keys whose expiry has passed
+        size_t max_key_id_length{128};  ///< Maximum allowed key_id length
+        size_t max_secret_length{512};  ///< Maximum allowed secret length
+    };
+
     /// Constructor (must be defined in .cpp due to unique_ptr<JWTValidator>)
     AuthMiddleware();
     
@@ -101,6 +110,23 @@ public:
     /// tokens and will be validated against the configured CA.
     /// @param config mTLS configuration (CA certificate, subject mappings, etc.)
     void enableMTLS(const auth::MTLSConfig& config);
+
+    /// Enable API key (static key + secret) authentication.
+    /// Tokens should be presented in the format "<key_id>.<secret>".
+    /// Use addApiKeyCredential() to register key credentials.
+    /// @param config API key authenticator configuration
+    void enableApiKeyAuth(const ApiKeyConfig& config = ApiKeyConfig{});
+
+    /// Add an API key credential to the store.
+    /// Use auth::ApiKeyAuthenticator::createCredential() to construct the credential.
+    /// Thread-safe.
+    /// @param credential Credential with hashed secret (see ApiKeyAuthenticator::createCredential)
+    void addApiKeyCredential(const auth::ApiKeyCredential& credential);
+
+    /// Remove an API key credential by key_id.
+    /// Thread-safe. No-op if the key_id is not found.
+    /// @param key_id Key identifier to remove
+    void removeApiKeyCredential(const std::string& key_id);
 
     /// Enable USB-based admin authentication
     /// When enabled, configured admin scopes require a valid USB device to be present
@@ -169,6 +195,10 @@ private:
     std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
     bool usb_admin_enabled_ = false;
     std::vector<std::string> usb_protected_scopes_;
+
+    // API key authentication
+    std::unique_ptr<auth::ApiKeyAuthenticator> api_key_auth_;
+    bool api_key_enabled_ = false;
     
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;
@@ -181,6 +211,9 @@ private:
 
     // Helper: try to authorize via mTLS client certificate
     AuthResult authorizeViaMTLS(std::string_view cert_pem, std::string_view required_scope) const;
+
+    // Helper: try to authorize via API key (combined "key_id.secret" format)
+    AuthResult authorizeViaApiKey(std::string_view combined_token, std::string_view required_scope) const;
 };
 
 } // namespace themis
