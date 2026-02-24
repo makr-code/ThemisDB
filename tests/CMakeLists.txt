@@ -162,6 +162,8 @@ endif()
 if(NOT THEMIS_ENABLE_WEBSOCKET)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_wire_protocol_websocket\\.cpp$"
+        ".*test_ws_handler\\.cpp$"
+        ".*test_websocket_cdc\\.cpp$"
     )
 endif()
 

@@ -69,7 +69,7 @@ Add a dedicated WebSocket endpoint `/v2/changes` that multiplexes multiple `cdc:
 - `[x]` Frame format: newline-delimited JSON, each frame matching `Changefeed::ChangeEvent::toJson()` output. (`WebSocketSession::pollCDCEvents` emits JSON via `ev.toJson()` / `buildEventFrame`; legacy path uses `cdc_message["type"]="cdc_event"`)
 - `[x]` Client subscribes/unsubscribes by sending `{"action":"subscribe","collection":"orders","filter":{"type":"PUT"}}` control frames. (`WebSocketSession::processMessage` handles `type="subscribe"/"unsubscribe"` for `/v2/changes`; `CdcWebSocketHandler::handleFrame` handles `action="subscribe"/"unsubscribe"/"ack"` for `/v2/cdc/stream`)
 - `[x]` Implement per-connection back-pressure: if the outbound frame queue exceeds 1,000 entries, close with `1011 Internal Error` and log tenant/connection ID. (`WebSocketSession::kMaxQueueDepth = 1000`)
-- `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:read` scope)
+- `[x]` Reuse `auth::JWTValidator` middleware already wired for HTTP; extract Bearer token from the WebSocket upgrade `Authorization` header. (`WsChangeHandler::validate()` requires `cdc:subscribe` scope)
 
 **Performance Targets:**
 - ≥ 10,000 concurrent WebSocket connections on a single node with < 50 MB additional RSS.
