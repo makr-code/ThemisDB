@@ -70,7 +70,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
 - [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
 - [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [x] Predictive analytics and time-series forecasting integration (Issue: #1484)

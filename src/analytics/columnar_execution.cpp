@@ -1,0 +1,986 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            columnar_execution.cpp                             ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-02-24                                         ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * ThemisDB Columnar Execution Engine – Implementation
+ *
+ * Implements the vectorized operator pipeline declared in
+ * include/analytics/columnar_execution.h.
+ *
+ * Implementation notes:
+ *
+ *  SelectionVector
+ *    - Dense uint32_t index array; reset() creates [0,n).
+ *    - intersect() uses a sorted merge (both vectors are monotonically
+ *      increasing by construction) for O(|a|+|b|) complexity.
+ *
+ *  Column
+ *    - Separate per-type std::vectors allow auto-vectorization of inner loops.
+ *    - null_bitmap_ uses std::vector<bool> (bit-packed) for space efficiency.
+ *
+ *  FilterOperator
+ *    - Each predicate is evaluated over the full column in a tight loop that
+ *      the compiler can auto-vectorize for int64 and double columns.
+ *    - Multiple predicates are AND-ed via sorted-merge intersection.
+ *
+ *  AggregateOperator
+ *    - No GROUP BY: inner aggregation loops are fully unrolled over contiguous
+ *      double/int64 vectors (auto-vectorization eligible).
+ *    - GROUP BY: uses an unordered_map keyed by a stringified group tuple;
+ *      partial aggregates are maintained per group.
+ *
+ *  VectorizedPipeline
+ *    - Materializes pending SelectionVectors only when a stage requires dense
+ *      data (AggregateOperator, SortOperator).
+ */
+
+#include "analytics/columnar_execution.h"
+
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <limits>
+#include <numeric>
+#include <optional>
+#include <sstream>
+#include <stdexcept>
+#include <unordered_set>
+
+#include <spdlog/spdlog.h>
+
+namespace themisdb {
+namespace analytics {
+
+// ============================================================================
+// SelectionVector
+// ============================================================================
+
+SelectionVector::SelectionVector(size_t capacity) {
+    indices_.reserve(capacity);
+}
+
+void SelectionVector::reset(size_t total_rows) {
+    indices_.resize(total_rows);
+    std::iota(indices_.begin(), indices_.end(), static_cast<uint32_t>(0));
+}
+
+void SelectionVector::push_back(uint32_t idx) {
+    indices_.push_back(idx);
+}
+
+size_t SelectionVector::size() const noexcept {
+    return indices_.size();
+}
+
+bool SelectionVector::empty() const noexcept {
+    return indices_.empty();
+}
+
+uint32_t SelectionVector::operator[](size_t pos) const {
+    return indices_[pos];
+}
+
+const std::vector<uint32_t>& SelectionVector::indices() const noexcept {
+    return indices_;
+}
+
+SelectionVector SelectionVector::all(size_t n) {
+    SelectionVector sv(n);
+    sv.reset(n);
+    return sv;
+}
+
+// ============================================================================
+// Column
+// ============================================================================
+
+Column::Column(std::string name, ColumnType type)
+    : name_(std::move(name)), type_(type) {}
+
+bool Column::isNull(size_t row) const {
+    if (null_bitmap_.empty()) return false;
+    return null_bitmap_[row];
+}
+
+void Column::appendInt64(int64_t value, bool is_null) {
+    int64_data_.push_back(value);
+    null_bitmap_.push_back(is_null);
+    ++row_count_;
+}
+
+void Column::appendDouble(double value, bool is_null) {
+    double_data_.push_back(value);
+    null_bitmap_.push_back(is_null);
+    ++row_count_;
+}
+
+void Column::appendString(std::string value, bool is_null) {
+    string_data_.push_back(std::move(value));
+    null_bitmap_.push_back(is_null);
+    ++row_count_;
+}
+
+void Column::appendBool(bool value, bool is_null) {
+    bool_data_.push_back(value);
+    null_bitmap_.push_back(is_null);
+    ++row_count_;
+}
+
+void Column::appendNull() {
+    switch (type_) {
+        case ColumnType::Int64:  int64_data_.push_back(0);   break;
+        case ColumnType::Double: double_data_.push_back(0.0); break;
+        case ColumnType::String: string_data_.push_back({}); break;
+        case ColumnType::Bool:   bool_data_.push_back(false); break;
+        case ColumnType::Null:   break;
+    }
+    null_bitmap_.push_back(true);
+    ++row_count_;
+}
+
+ColumnValue Column::get(size_t row) const {
+    if (!null_bitmap_.empty() && null_bitmap_[row]) {
+        return nullptr;
+    }
+    switch (type_) {
+        case ColumnType::Int64:  return int64_data_[row];
+        case ColumnType::Double: return double_data_[row];
+        case ColumnType::String: return string_data_[row];
+        case ColumnType::Bool:   return bool_data_[row];
+        case ColumnType::Null:   return nullptr;
+    }
+    return nullptr;
+}
+
+void Column::reserve(size_t n) {
+    switch (type_) {
+        case ColumnType::Int64:  int64_data_.reserve(n);  break;
+        case ColumnType::Double: double_data_.reserve(n); break;
+        case ColumnType::String: string_data_.reserve(n); break;
+        case ColumnType::Bool:   bool_data_.reserve(n);   break;
+        case ColumnType::Null:   break;
+    }
+    null_bitmap_.reserve(n);
+}
+
+void Column::clear() {
+    int64_data_.clear();
+    double_data_.clear();
+    string_data_.clear();
+    bool_data_.clear();
+    null_bitmap_.clear();
+    row_count_ = 0;
+}
+
+std::shared_ptr<Column> Column::filter(const SelectionVector& sel) const {
+    auto out = std::make_shared<Column>(name_, type_);
+    out->reserve(sel.size());
+    for (size_t i = 0; i < sel.size(); ++i) {
+        uint32_t row = sel[i];
+        bool is_null = (!null_bitmap_.empty() && null_bitmap_[row]);
+        switch (type_) {
+            case ColumnType::Int64:
+                out->appendInt64(int64_data_[row], is_null); break;
+            case ColumnType::Double:
+                out->appendDouble(double_data_[row], is_null); break;
+            case ColumnType::String:
+                out->appendString(string_data_[row], is_null); break;
+            case ColumnType::Bool:
+                out->appendBool(bool_data_[row], is_null); break;
+            case ColumnType::Null:
+                out->appendNull(); break;
+        }
+    }
+    return out;
+}
+
+std::shared_ptr<Column> Column::slice(size_t offset, size_t length) const {
+    auto out = std::make_shared<Column>(name_, type_);
+    if (offset >= row_count_) return out;
+    size_t end = std::min(offset + length, row_count_);
+    out->reserve(end - offset);
+    for (size_t row = offset; row < end; ++row) {
+        bool is_null = (!null_bitmap_.empty() && null_bitmap_[row]);
+        switch (type_) {
+            case ColumnType::Int64:
+                out->appendInt64(int64_data_[row], is_null); break;
+            case ColumnType::Double:
+                out->appendDouble(double_data_[row], is_null); break;
+            case ColumnType::String:
+                out->appendString(string_data_[row], is_null); break;
+            case ColumnType::Bool:
+                out->appendBool(bool_data_[row], is_null); break;
+            case ColumnType::Null:
+                out->appendNull(); break;
+        }
+    }
+    return out;
+}
+
+// ============================================================================
+// ColumnBatch
+// ============================================================================
+
+ColumnBatch::ColumnBatch(size_t row_count) : row_count_(row_count) {}
+
+void ColumnBatch::addColumn(std::shared_ptr<Column> col) {
+    if (!col) return;
+    // If this is the first column, adopt its row count.
+    if (columns_.empty()) {
+        row_count_ = col->size();
+    }
+    column_index_[col->name()] = columns_.size();
+    columns_.push_back(std::move(col));
+}
+
+bool ColumnBatch::hasColumn(const std::string& name) const {
+    return column_index_.count(name) > 0;
+}
+
+std::shared_ptr<Column> ColumnBatch::getColumn(const std::string& name) const {
+    auto it = column_index_.find(name);
+    if (it == column_index_.end()) return nullptr;
+    return columns_[it->second];
+}
+
+std::shared_ptr<Column> ColumnBatch::getColumnAt(size_t idx) const {
+    if (idx >= columns_.size()) return nullptr;
+    return columns_[idx];
+}
+
+size_t ColumnBatch::columnCount() const noexcept {
+    return columns_.size();
+}
+
+const std::vector<std::shared_ptr<Column>>& ColumnBatch::columns() const noexcept {
+    return columns_;
+}
+
+void ColumnBatch::setSelection(const SelectionVector& sel) {
+    selection_     = sel;
+    has_selection_ = true;
+}
+
+size_t ColumnBatch::selectedRowCount() const noexcept {
+    if (!has_selection_) return row_count_;
+    return selection_.size();
+}
+
+ColumnBatch ColumnBatch::materialize() const {
+    if (!has_selection_) return *this;  // already dense
+
+    ColumnBatch out;
+    out.row_count_ = selection_.size();
+    for (const auto& col : columns_) {
+        out.addColumn(col->filter(selection_));
+    }
+    return out;
+}
+
+std::vector<ColumnBatch> ColumnBatch::split(size_t max_rows) const {
+    // Materialize first so we have a dense layout.
+    ColumnBatch dense = materialize();
+    size_t total = dense.rowCount();
+    if (total == 0 || max_rows == 0) return {};
+
+    std::vector<ColumnBatch> result;
+    for (size_t offset = 0; offset < total; offset += max_rows) {
+        size_t len = std::min(max_rows, total - offset);
+        ColumnBatch sub;
+        sub.row_count_ = len;
+        for (const auto& col : dense.columns_) {
+            sub.addColumn(col->slice(offset, len));
+        }
+        result.push_back(std::move(sub));
+    }
+    return result;
+}
+
+void ColumnBatch::clear() {
+    columns_.clear();
+    column_index_.clear();
+    row_count_     = 0;
+    has_selection_ = false;
+}
+
+// ============================================================================
+// Predicate factories
+// ============================================================================
+
+Predicate Predicate::eq(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Eq, std::move(val)}; }
+Predicate Predicate::ne(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Ne, std::move(val)}; }
+Predicate Predicate::lt(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Lt, std::move(val)}; }
+Predicate Predicate::le(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Le, std::move(val)}; }
+Predicate Predicate::gt(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Gt, std::move(val)}; }
+Predicate Predicate::ge(std::string col, ColumnValue val)
+    { return {std::move(col), Op::Ge, std::move(val)}; }
+Predicate Predicate::isNull(std::string col)
+    { return {std::move(col), Op::IsNull, nullptr}; }
+Predicate Predicate::isNotNull(std::string col)
+    { return {std::move(col), Op::IsNotNull, nullptr}; }
+
+// ============================================================================
+// FilterOperator
+// ============================================================================
+
+FilterOperator::FilterOperator(std::vector<Predicate> predicates)
+    : predicates_(std::move(predicates)) {}
+
+namespace {
+
+// Sorted-merge intersection of two monotonically increasing index vectors.
+SelectionVector mergeIntersect(const SelectionVector& a, const SelectionVector& b) {
+    SelectionVector out(std::min(a.size(), b.size()));
+    size_t i = 0, j = 0;
+    while (i < a.size() && j < b.size()) {
+        if (a[i] == b[j]) { out.push_back(a[i]); ++i; ++j; }
+        else if (a[i] < b[j]) { ++i; }
+        else { ++j; }
+    }
+    return out;
+}
+
+// Helper: compare ColumnValue using an Op.
+template<typename T>
+bool compareValues(const T& lhs, const T& rhs, Predicate::Op op) {
+    switch (op) {
+        case Predicate::Op::Eq: return lhs == rhs;
+        case Predicate::Op::Ne: return lhs != rhs;
+        case Predicate::Op::Lt: return lhs <  rhs;
+        case Predicate::Op::Le: return lhs <= rhs;
+        case Predicate::Op::Gt: return lhs >  rhs;
+        case Predicate::Op::Ge: return lhs >= rhs;
+        default:                return false;
+    }
+}
+
+}  // anonymous namespace
+
+SelectionVector FilterOperator::evalPredicate(const ColumnBatch& batch,
+                                               const Predicate&   pred) const {
+    const auto col = batch.getColumn(pred.column);
+    size_t n = batch.rowCount();
+    SelectionVector sel(n);
+
+    if (!col) {
+        // Column not found – treat IsNotNull as false, IsNull as true
+        if (pred.op == Predicate::Op::IsNull) {
+            sel.reset(n);
+        }
+        return sel;
+    }
+
+    // IS NULL / IS NOT NULL
+    if (pred.op == Predicate::Op::IsNull) {
+        for (size_t i = 0; i < n; ++i) {
+            if (col->isNull(i)) sel.push_back(static_cast<uint32_t>(i));
+        }
+        return sel;
+    }
+    if (pred.op == Predicate::Op::IsNotNull) {
+        for (size_t i = 0; i < n; ++i) {
+            if (!col->isNull(i)) sel.push_back(static_cast<uint32_t>(i));
+        }
+        return sel;
+    }
+
+    // Typed comparison – tight inner loops for auto-vectorization
+    switch (col->type()) {
+        case ColumnType::Int64: {
+            const auto& data = col->int64Data();
+            if (const auto* rv = std::get_if<int64_t>(&pred.value)) {
+                int64_t threshold = *rv;
+                Predicate::Op op  = pred.op;
+                for (size_t i = 0; i < data.size(); ++i) {
+                    if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
+                        sel.push_back(static_cast<uint32_t>(i));
+                    }
+                }
+            } else if (const auto* dv = std::get_if<double>(&pred.value)) {
+                int64_t threshold = static_cast<int64_t>(*dv);
+                Predicate::Op op  = pred.op;
+                for (size_t i = 0; i < data.size(); ++i) {
+                    if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
+                        sel.push_back(static_cast<uint32_t>(i));
+                    }
+                }
+            }
+            break;
+        }
+        case ColumnType::Double: {
+            const auto& data = col->doubleData();
+            double threshold = 0.0;
+            if (const auto* dv = std::get_if<double>(&pred.value)) {
+                threshold = *dv;
+            } else if (const auto* iv = std::get_if<int64_t>(&pred.value)) {
+                threshold = static_cast<double>(*iv);
+            } else {
+                break;
+            }
+            Predicate::Op op = pred.op;
+            for (size_t i = 0; i < data.size(); ++i) {
+                if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
+                    sel.push_back(static_cast<uint32_t>(i));
+                }
+            }
+            break;
+        }
+        case ColumnType::String: {
+            const auto& data = col->stringData();
+            const auto* sv = std::get_if<std::string>(&pred.value);
+            if (!sv) break;
+            const std::string& threshold = *sv;
+            Predicate::Op op = pred.op;
+            for (size_t i = 0; i < data.size(); ++i) {
+                if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
+                    sel.push_back(static_cast<uint32_t>(i));
+                }
+            }
+            break;
+        }
+        case ColumnType::Bool: {
+            const auto& data = col->boolData();
+            const auto* bv = std::get_if<bool>(&pred.value);
+            if (!bv) break;
+            bool threshold  = *bv;
+            Predicate::Op op = pred.op;
+            for (size_t i = 0; i < data.size(); ++i) {
+                if (!col->isNull(i)) {
+                    bool val = data[i];
+                    if (compareValues(val, threshold, op)) {
+                        sel.push_back(static_cast<uint32_t>(i));
+                    }
+                }
+            }
+            break;
+        }
+        case ColumnType::Null:
+            // All values are null – no row passes any comparison predicate.
+            break;
+    }
+    return sel;
+}
+
+ColumnBatch FilterOperator::execute(const ColumnBatch& input) const {
+    if (predicates_.empty()) return input;
+
+    // Materialize any pending selection before applying new predicates.
+    ColumnBatch dense = input.materialize();
+    size_t n = dense.rowCount();
+
+    // Start with "all rows selected".
+    SelectionVector combined = SelectionVector::all(n);
+
+    for (const auto& pred : predicates_) {
+        SelectionVector partial = evalPredicate(dense, pred);
+        combined = mergeIntersect(combined, partial);
+        if (combined.empty()) break;
+    }
+
+    // Attach selection without copying column data (late materialization).
+    ColumnBatch result;
+    for (const auto& col : dense.columns()) {
+        result.addColumn(col);  // shared_ptr – no copy; first col sets row_count_
+    }
+    result.setSelection(combined);
+    return result;
+}
+
+// ============================================================================
+// ProjectOperator
+// ============================================================================
+
+ProjectOperator::ProjectOperator(std::vector<std::string> column_names)
+    : column_names_(std::move(column_names)) {}
+
+ColumnBatch ProjectOperator::execute(const ColumnBatch& input) const {
+    ColumnBatch result;
+    if (input.hasSelection()) result.setSelection(input.selection());
+
+    for (const auto& name : column_names_) {
+        auto col = input.getColumn(name);
+        if (col) result.addColumn(col);
+    }
+    // If no matching columns were found, preserve the row count from input.
+    if (result.columnCount() == 0) {
+        // Return empty batch with correct row count via explicit constructor.
+        return ColumnBatch(input.selectedRowCount());
+    }
+    return result;
+}
+
+// ============================================================================
+// AggregateOperator helpers
+// ============================================================================
+
+namespace {
+
+struct AggState {
+    double   sum           = 0.0;
+    double   min_val       = std::numeric_limits<double>::max();
+    double   max_val       = std::numeric_limits<double>::lowest();
+    int64_t  count         = 0;
+    int64_t  count_nonnull = 0;
+    std::unordered_set<std::string> distinct_set;
+};
+
+// Obtain numeric value from a column at position @p row (selected or not).
+static std::optional<double> numericAt(const Column& col, size_t row) {
+    if (col.isNull(row)) return std::nullopt;
+    switch (col.type()) {
+        case ColumnType::Double: return col.doubleData()[row];
+        case ColumnType::Int64:  return static_cast<double>(col.int64Data()[row]);
+        case ColumnType::Bool:   return col.boolData()[row] ? 1.0 : 0.0;
+        default:                 return std::nullopt;
+    }
+}
+
+static void updateState(AggState& state, const Column& col, size_t row) {
+    ++state.count;
+    auto v = numericAt(col, row);
+    if (!v) return;
+    ++state.count_nonnull;
+    state.sum += *v;
+    if (*v < state.min_val) state.min_val = *v;
+    if (*v > state.max_val) state.max_val = *v;
+}
+
+static void updateDistinct(AggState& state, const Column& col, size_t row) {
+    ++state.count;
+    if (col.isNull(row)) return;
+    ++state.count_nonnull;
+    auto val = col.get(row);
+    std::ostringstream oss;
+    std::visit([&oss](auto&& v) {
+        using T = std::decay_t<decltype(v)>;
+        if constexpr (std::is_same_v<T, std::nullptr_t>) {
+            oss << "null";
+        } else {
+            oss << v;
+        }
+    }, val);
+    state.distinct_set.insert(oss.str());
+}
+
+static double finalizeAgg(const AggState& state, AggregateSpec::Function fn) {
+    switch (fn) {
+        case AggregateSpec::Function::Count:        return static_cast<double>(state.count);
+        case AggregateSpec::Function::Sum:          return state.sum;
+        case AggregateSpec::Function::Avg:
+            return state.count_nonnull > 0
+                       ? state.sum / static_cast<double>(state.count_nonnull)
+                       : 0.0;
+        case AggregateSpec::Function::Min:
+            return state.count_nonnull > 0 ? state.min_val : 0.0;
+        case AggregateSpec::Function::Max:
+            return state.count_nonnull > 0 ? state.max_val : 0.0;
+        case AggregateSpec::Function::CountDistinct:
+            return static_cast<double>(state.distinct_set.size());
+    }
+    return 0.0;
+}
+
+// Produce a single string key for a group-by tuple at row @p row.
+static std::string makeGroupKey(const ColumnBatch& batch,
+                                const std::vector<std::string>& group_cols,
+                                size_t row) {
+    std::ostringstream oss;
+    for (const auto& gc : group_cols) {
+        auto col = batch.getColumn(gc);
+        if (!col) { oss << "null|"; continue; }
+        auto val = col->get(row);
+        std::visit([&oss](auto&& v) {
+            using T = std::decay_t<decltype(v)>;
+            if constexpr (std::is_same_v<T, std::nullptr_t>) {
+                oss << "null";
+            } else {
+                oss << v;
+            }
+        }, val);
+        oss << '|';
+    }
+    return oss.str();
+}
+
+}  // anonymous namespace
+
+// ============================================================================
+// AggregateOperator
+// ============================================================================
+
+AggregateOperator::AggregateOperator(std::vector<AggregateSpec> specs)
+    : specs_(std::move(specs)) {}
+
+ColumnBatch AggregateOperator::execute(const ColumnBatch& input) const {
+    ColumnBatch dense = input.materialize();
+
+    // All specs must share the same group_by (first spec wins).
+    const std::vector<std::string>& group_cols = specs_.empty()
+        ? std::vector<std::string>{}
+        : specs_.front().group_by;
+
+    if (group_cols.empty()) {
+        return aggregateAll(dense);
+    }
+    return aggregateGroupBy(dense, group_cols);
+}
+
+ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch& input) const {
+    size_t n = input.rowCount();
+
+    // Accumulate one AggState per spec.
+    std::vector<AggState> states(specs_.size());
+
+    for (size_t s = 0; s < specs_.size(); ++s) {
+        const auto& spec = specs_[s];
+        auto& st = states[s];
+
+        if (spec.function == AggregateSpec::Function::Count
+            && spec.input_column.empty()) {
+            // COUNT(*)
+            st.count = static_cast<int64_t>(n);
+            continue;
+        }
+        if (spec.function == AggregateSpec::Function::CountDistinct) {
+            auto col = input.getColumn(spec.input_column);
+            if (col) {
+                for (size_t i = 0; i < n; ++i) updateDistinct(st, *col, i);
+            }
+            continue;
+        }
+        auto col = input.getColumn(spec.input_column);
+        if (!col) continue;
+        for (size_t i = 0; i < n; ++i) updateState(st, *col, i);
+    }
+
+    // Build result batch (one row).
+    ColumnBatch result(1);
+    for (size_t s = 0; s < specs_.size(); ++s) {
+        double val = finalizeAgg(states[s], specs_[s].function);
+        auto out_col = std::make_shared<Column>(specs_[s].result_name, ColumnType::Double);
+        out_col->appendDouble(val);
+        result.addColumn(out_col);
+    }
+    return result;
+}
+
+ColumnBatch AggregateOperator::aggregateGroupBy(
+    const ColumnBatch&              input,
+    const std::vector<std::string>& group_cols) const {
+
+    size_t n = input.rowCount();
+
+    // Map: group_key -> vector of per-spec AggStates
+    std::unordered_map<std::string, std::vector<AggState>> groups;
+    // Preserve insertion order for deterministic output.
+    std::vector<std::string> key_order;
+
+    for (size_t row = 0; row < n; ++row) {
+        std::string key = makeGroupKey(input, group_cols, row);
+
+        auto it = groups.find(key);
+        if (it == groups.end()) {
+            groups.emplace(key, std::vector<AggState>(specs_.size()));
+            key_order.push_back(key);
+            it = groups.find(key);
+        }
+
+        auto& states = it->second;
+        for (size_t s = 0; s < specs_.size(); ++s) {
+            const auto& spec = specs_[s];
+            auto& st = states[s];
+
+            if (spec.function == AggregateSpec::Function::Count
+                && spec.input_column.empty()) {
+                ++st.count; continue;
+            }
+            if (spec.function == AggregateSpec::Function::CountDistinct) {
+                auto col = input.getColumn(spec.input_column);
+                if (col) updateDistinct(st, *col, row);
+                continue;
+            }
+            auto col = input.getColumn(spec.input_column);
+            if (col) updateState(st, *col, row);
+        }
+    }
+
+    // Build result batch: one row per group.
+    size_t num_rows = key_order.size();
+    ColumnBatch result(num_rows);
+
+    // Group-key columns
+    for (const auto& gc : group_cols) {
+        auto src = input.getColumn(gc);
+        if (!src) continue;
+        auto out_col = std::make_shared<Column>(gc, src->type());
+        out_col->reserve(num_rows);
+        // We need the representative value for each group key.
+        // Re-scan input to find first row for each key (for small result sets).
+        // For performance, we cache it during the aggregation pass above.
+        // Here we use a simpler two-pass approach since group counts are small.
+        std::unordered_map<std::string, size_t> first_row;
+        for (size_t row = 0; row < n; ++row) {
+            std::string k = makeGroupKey(input, group_cols, row);
+            if (!first_row.count(k)) first_row[k] = row;
+        }
+        for (const auto& k : key_order) {
+            size_t fr = first_row.at(k);
+            auto val  = src->get(fr);
+            bool is_null = src->isNull(fr);
+            switch (src->type()) {
+                case ColumnType::Int64:
+                    out_col->appendInt64(
+                        is_null ? 0 : std::get<int64_t>(val), is_null); break;
+                case ColumnType::Double:
+                    out_col->appendDouble(
+                        is_null ? 0.0 : std::get<double>(val), is_null); break;
+                case ColumnType::String:
+                    out_col->appendString(
+                        is_null ? "" : std::get<std::string>(val), is_null); break;
+                case ColumnType::Bool:
+                    out_col->appendBool(
+                        is_null ? false : std::get<bool>(val), is_null); break;
+                case ColumnType::Null:
+                    out_col->appendNull(); break;
+            }
+        }
+        result.addColumn(out_col);
+    }
+
+    // Aggregate columns
+    for (size_t s = 0; s < specs_.size(); ++s) {
+        const auto& spec = specs_[s];
+        auto out_col = std::make_shared<Column>(spec.result_name, ColumnType::Double);
+        out_col->reserve(num_rows);
+        for (const auto& k : key_order) {
+            double val = finalizeAgg(groups.at(k)[s], spec.function);
+            out_col->appendDouble(val);
+        }
+        result.addColumn(out_col);
+    }
+
+    return result;
+}
+
+// ============================================================================
+// SortOperator
+// ============================================================================
+
+SortOperator::SortOperator(std::vector<SortKey> keys)
+    : keys_(std::move(keys)) {}
+
+ColumnBatch SortOperator::execute(const ColumnBatch& input) const {
+    ColumnBatch dense = input.materialize();
+    size_t n = dense.rowCount();
+    if (n == 0 || keys_.empty()) return dense;
+
+    // Build a row-index array and sort it.
+    std::vector<size_t> order(n);
+    std::iota(order.begin(), order.end(), 0);
+
+    std::stable_sort(order.begin(), order.end(),
+        [&](size_t a, size_t b) -> bool {
+            for (const auto& key : keys_) {
+                auto col = dense.getColumn(key.column);
+                if (!col) continue;
+
+                bool a_null = col->isNull(a);
+                bool b_null = col->isNull(b);
+                if (a_null && b_null) continue;
+                if (a_null) return !key.ascending;   // nulls last
+                if (b_null) return key.ascending;
+
+                switch (col->type()) {
+                    case ColumnType::Int64: {
+                        int64_t va = col->int64Data()[a];
+                        int64_t vb = col->int64Data()[b];
+                        if (va != vb) return key.ascending ? va < vb : va > vb;
+                        break;
+                    }
+                    case ColumnType::Double: {
+                        double va = col->doubleData()[a];
+                        double vb = col->doubleData()[b];
+                        if (va != vb) return key.ascending ? va < vb : va > vb;
+                        break;
+                    }
+                    case ColumnType::String: {
+                        const auto& va = col->stringData()[a];
+                        const auto& vb = col->stringData()[b];
+                        if (va != vb) return key.ascending ? va < vb : va > vb;
+                        break;
+                    }
+                    case ColumnType::Bool: {
+                        bool va = col->boolData()[a];
+                        bool vb = col->boolData()[b];
+                        if (va != vb) return key.ascending ? (!va && vb) : (va && !vb);
+                        break;
+                    }
+                    case ColumnType::Null:
+                        break;
+                }
+            }
+            return false;
+        });
+
+    // Produce reordered batch.
+    SelectionVector sel(n);
+    for (size_t idx : order) sel.push_back(static_cast<uint32_t>(idx));
+
+    ColumnBatch result;
+    for (const auto& col : dense.columns()) {
+        result.addColumn(col);  // first col sets row_count_
+    }
+    result.setSelection(sel);
+    return result.materialize();
+}
+
+// ============================================================================
+// VectorizedPipeline
+// ============================================================================
+
+VectorizedPipeline& VectorizedPipeline::addFilter(std::vector<Predicate> preds) {
+    Stage s;
+    s.type   = StageType::Filter;
+    s.filter = std::make_shared<FilterOperator>(std::move(preds));
+    stages_.push_back(std::move(s));
+    return *this;
+}
+
+VectorizedPipeline& VectorizedPipeline::addProject(std::vector<std::string> cols) {
+    Stage s;
+    s.type    = StageType::Project;
+    s.project = std::make_shared<ProjectOperator>(std::move(cols));
+    stages_.push_back(std::move(s));
+    return *this;
+}
+
+VectorizedPipeline& VectorizedPipeline::addAggregate(std::vector<AggregateSpec> specs) {
+    Stage s;
+    s.type      = StageType::Aggregate;
+    s.aggregate = std::make_shared<AggregateOperator>(std::move(specs));
+    stages_.push_back(std::move(s));
+    return *this;
+}
+
+VectorizedPipeline& VectorizedPipeline::addSort(std::vector<SortOperator::SortKey> keys) {
+    Stage s;
+    s.type = StageType::Sort;
+    s.sort = std::make_shared<SortOperator>(std::move(keys));
+    stages_.push_back(std::move(s));
+    return *this;
+}
+
+ColumnBatch VectorizedPipeline::execute(const ColumnBatch& input) const {
+    ColumnBatch current = input;
+
+    for (const auto& stage : stages_) {
+        switch (stage.type) {
+            case StageType::Filter:
+                current = stage.filter->execute(current);
+                break;
+            case StageType::Project:
+                // Project preserves (or discards) any pending SelectionVector.
+                current = stage.project->execute(current);
+                break;
+            case StageType::Aggregate:
+                // Aggregate materializes internally.
+                current = stage.aggregate->execute(current);
+                break;
+            case StageType::Sort:
+                // Sort materializes internally.
+                current = stage.sort->execute(current);
+                break;
+        }
+    }
+    return current;
+}
+
+// ============================================================================
+// ColumnarExecutionEngine
+// ============================================================================
+
+ColumnarExecutionEngine::ColumnarExecutionEngine()
+    : config_{} {}
+
+ColumnarExecutionEngine::ColumnarExecutionEngine(const Config& config)
+    : config_(config) {}
+
+ColumnBatch ColumnarExecutionEngine::execute(const ColumnBatch& input,
+                                              const VectorizedPipeline& pipeline) {
+    auto t0 = std::chrono::high_resolution_clock::now();
+
+    ++stats_.batches_processed;
+    stats_.rows_in += input.rowCount();
+
+    ColumnBatch result = pipeline.execute(input);
+
+    stats_.rows_out += result.selectedRowCount();
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    stats_.elapsed_ms +=
+        std::chrono::duration<double, std::milli>(t1 - t0).count();
+
+    return result;
+}
+
+std::vector<ColumnBatch> ColumnarExecutionEngine::executeBatched(
+    const std::vector<ColumnBatch>& batches,
+    const VectorizedPipeline&       pipeline) {
+
+    std::vector<ColumnBatch> results;
+    results.reserve(batches.size());
+    for (const auto& batch : batches) {
+        results.push_back(execute(batch, pipeline));
+    }
+    return results;
+}
+
+ColumnBatch ColumnarExecutionEngine::filter(const ColumnBatch& input,
+                                             std::vector<Predicate> predicates) {
+    VectorizedPipeline p;
+    p.addFilter(std::move(predicates));
+    return execute(input, p);
+}
+
+ColumnBatch ColumnarExecutionEngine::aggregate(const ColumnBatch& input,
+                                                std::vector<AggregateSpec> specs) {
+    VectorizedPipeline p;
+    p.addAggregate(std::move(specs));
+    return execute(input, p);
+}
+
+ColumnBatch ColumnarExecutionEngine::project(const ColumnBatch& input,
+                                              std::vector<std::string> columns) {
+    VectorizedPipeline p;
+    p.addProject(std::move(columns));
+    return execute(input, p);
+}
+
+ColumnBatch ColumnarExecutionEngine::sort(const ColumnBatch& input,
+                                           std::vector<SortOperator::SortKey> keys) {
+    VectorizedPipeline p;
+    p.addSort(std::move(keys));
+    return execute(input, p);
+}
+
+void ColumnarExecutionEngine::resetStats() noexcept {
+    stats_ = {};
+}
+
+}  // namespace analytics
+}  // namespace themisdb
