@@ -107,12 +107,15 @@ Implement a CLI tool (`tools/config_migration_scanner`) that scans a deployment 
 Config paths currently resolve against a single filesystem root. Add overlay support so that `dev` environments can override specific config files without modifying the `prod` set, using the same `PATH_MAPPING` table.
 
 **Implementation Notes:**
-- `[ ]` Introduce `ConfigEnvironment` enum `{DEV, STAGING, PROD}` and `ConfigPathResolver::setEnvironment(ConfigEnvironment)`.
-- `[ ]` Environment-specific overlay root: `config/{env}/` checked first, then the standard `config/` root, then the legacy path.
-- `[ ]` Override via `THEMIS_CONFIG_ENV` environment variable (`dev`, `staging`, `prod`; default `prod`).
-- `[ ]` `PATH_MAPPING` keys are unchanged; only the filesystem search order gains the overlay prefix.
-- `[ ]` Cache key must incorporate `env` to prevent cross-environment cache poisoning: `cache_key = env + ":" + legacy_path`.
+- `[x]` Introduce `ConfigEnvironment` enum `{DEV, STAGING, PROD}` and `ConfigPathResolver::setEnvironment(ConfigEnvironment)`.
+- `[x]` Environment-specific overlay root: `config/{env}/` checked first, then the standard `config/` root, then the legacy path.
+- `[x]` Override via `THEMIS_CONFIG_ENV` environment variable (`dev`, `staging`, `prod`; default `prod`).
+- `[x]` `PATH_MAPPING` keys are unchanged; only the filesystem search order gains the overlay prefix.
+- `[x]` Cache key must incorporate `env` to prevent cross-environment cache poisoning: `cache_key = env + ":" + legacy_path`.
+- `[x]` `setEnvironment()` clears the cache atomically to prevent stale overlay entries.
 - `[?]` Decision needed: should `getMetadata()` return environment-specific `PathMappingMetadata` or only the global metadata?
+
+**Resolution:** `getMetadata()` returns global metadata only; the overlay affects filesystem resolution only, not path mapping metadata.
 
 **Performance Targets:**
 - One additional filesystem `exists()` check per cache miss (overlay root probed first); negligible impact when cache hit rate > 95%.
