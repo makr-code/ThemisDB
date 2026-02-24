@@ -26,6 +26,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
 - [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
 - [x] AutoML integration for automated model selection: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, KNN, Linear Regression with hyperparameter search, feature engineering, ensemble generation, and SHAP-based explanations (`analytics/automl.cpp`)
+- [x] CEP engine-level backpressure handling and buffer management: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics (`analytics/cep_engine.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
