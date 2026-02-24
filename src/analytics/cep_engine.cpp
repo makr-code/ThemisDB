@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     2005                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
@@ -1687,6 +1687,30 @@ bool CEPEngine::submitEvent(const std::string& stream_id, Event event) {
     event.processing_time = std::chrono::system_clock::now();
     if (event.event_id.empty()) event.event_id = generateId();
 
+    if (config_.backpressure_enabled && config_.max_queue_depth > 0) {
+        std::lock_guard lk(queue_mutex_);
+        size_t current_depth = event_queue_.size();
+        // Drop the event when the queue is at or above max capacity
+        if (current_depth >= config_.max_queue_depth) {
+            ++events_dropped_;
+            ++backpressure_events_;
+            spdlog::warn("CEPEngine: event dropped (queue full {}/{})",
+                         current_depth, config_.max_queue_depth);
+            return false;
+        }
+        // Signal backpressure (but still accept) when above the threshold
+        float fill = static_cast<float>(current_depth) /
+                     static_cast<float>(config_.max_queue_depth);
+        if (fill >= config_.global_backpressure_threshold) {
+            ++backpressure_events_;
+            spdlog::debug("CEPEngine: backpressure active ({:.0f}% full)",
+                          fill * 100.0f);
+        }
+        event_queue_.push({stream_id, std::move(event)});
+        cv_.notify_one();
+        return true;
+    }
+
     {
         std::lock_guard lk(queue_mutex_);
         event_queue_.push({stream_id, std::move(event)});
@@ -1801,11 +1825,16 @@ void CEPEngine::addAlert(Alert alert) {
 
 CEPEngine::Stats CEPEngine::getStats() const {
     Stats s;
-    s.events_received  = events_received_.load();
-    s.events_processed = events_processed_.load();
-    s.events_dropped   = events_dropped_.load();
-    s.pattern_matches  = pattern_matches_.load();
-    s.alerts_generated = alerts_generated_.load();
+    s.events_received   = events_received_.load();
+    s.events_processed  = events_processed_.load();
+    s.events_dropped    = events_dropped_.load();
+    s.backpressure_events = backpressure_events_.load();
+    s.pattern_matches   = pattern_matches_.load();
+    s.alerts_generated  = alerts_generated_.load();
+    {
+        std::lock_guard lk(queue_mutex_);
+        s.queue_depth = event_queue_.size();
+    }
     {
         std::shared_lock lk(streams_mutex_);
         s.active_streams = streams_.size();
@@ -1828,6 +1857,9 @@ std::string CEPEngine::toPrometheusFormat() const {
         << "# HELP themisdb_cep_events_dropped_total Events dropped by CEP engine\n"
         << "# TYPE themisdb_cep_events_dropped_total counter\n"
         << "themisdb_cep_events_dropped_total " << s.events_dropped << "\n"
+        << "# HELP themisdb_cep_backpressure_events_total Backpressure events in CEP engine\n"
+        << "# TYPE themisdb_cep_backpressure_events_total counter\n"
+        << "themisdb_cep_backpressure_events_total " << s.backpressure_events << "\n"
         << "# HELP themisdb_cep_pattern_matches_total Pattern matches in CEP engine\n"
         << "# TYPE themisdb_cep_pattern_matches_total counter\n"
         << "themisdb_cep_pattern_matches_total " << s.pattern_matches << "\n"
@@ -1839,7 +1871,10 @@ std::string CEPEngine::toPrometheusFormat() const {
         << "themisdb_cep_active_streams " << s.active_streams << "\n"
         << "# HELP themisdb_cep_active_rules Number of active rules\n"
         << "# TYPE themisdb_cep_active_rules gauge\n"
-        << "themisdb_cep_active_rules " << s.active_rules << "\n";
+        << "themisdb_cep_active_rules " << s.active_rules << "\n"
+        << "# HELP themisdb_cep_queue_depth Current event queue depth\n"
+        << "# TYPE themisdb_cep_queue_depth gauge\n"
+        << "themisdb_cep_queue_depth " << s.queue_depth << "\n";
     return oss.str();
 }
 
@@ -1997,8 +2032,9 @@ void CEPEngine::metricsLoop() {
         std::this_thread::sleep_for(config_.metrics_interval);
         if (!running_) break;
         auto s = getStats();
-        spdlog::debug("CEP metrics: recv={} proc={} drop={} alerts={} streams={} rules={}",
+        spdlog::debug("CEP metrics: recv={} proc={} drop={} bp={} queue={} alerts={} streams={} rules={}",
             s.events_received, s.events_processed, s.events_dropped,
+            s.backpressure_events, s.queue_depth,
             s.alerts_generated, s.active_streams, s.active_rules);
     }
 }
