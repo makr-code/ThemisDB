@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     475                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5b89bdaa0  2026-02-22  audit(config): fix test gaps, update ROADMAP and FUTURE_E... ║
@@ -481,7 +481,6 @@ TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
 // ═══════════════════════════════════════════════════════════
 
 #ifndef _WIN32
-#include <csignal>
 
 TEST_F(ConfigPathResolverTest, RegisterSighupHandlerDoesNotThrow) {
     EXPECT_NO_THROW(ConfigPathResolver::registerSighupHandler());
@@ -523,7 +522,7 @@ TEST_F(ConfigPathResolverTest, SighupHandlerIsSafeToCallRepeatedly) {
     ConfigPathResolver::registerSighupHandler();
 
     ::raise(SIGHUP);
-    ConfigPathResolver::clearCache(); // drain pending flag via tryResolve path
+    // sighup_pending_ is drained by the next tryResolve() call below
     ConfigPathResolver::tryResolve("config/nonexistent_repeat.yaml");
 
     ::raise(SIGHUP);
