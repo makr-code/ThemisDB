@@ -1196,10 +1196,15 @@ bool AdaptiveQueryCache::checkTenantQuota(
     
     std::lock_guard<std::mutex> lock(tenant_mutex_);
     size_t current_size = tenant_metrics_[tenant_id].bytes_used;
+    size_t effective_quota = getEffectiveTenantQuota(tenant_id);
     
-    if (current_size + additional_bytes > config_.per_tenant_max_bytes) {
+    if (effective_quota == 0) {
+        return true;  // 0 means unlimited
+    }
+    
+    if (current_size + additional_bytes > effective_quota) {
         THEMIS_WARN("Tenant {} quota exceeded: current={}, additional={}, limit={}",
-                   tenant_id, current_size, additional_bytes, config_.per_tenant_max_bytes);
+                   tenant_id, current_size, additional_bytes, effective_quota);
         return false;
     }
     
@@ -1369,9 +1374,10 @@ nlohmann::json AdaptiveQueryCache::getTenantStats() const {
     for (const auto& [tenant_id, metrics] : tenant_metrics_) {
         nlohmann::json tenant_info;
         uint64_t total = metrics.hits + metrics.misses;
+        size_t effective_quota = getEffectiveTenantQuota(tenant_id);
         tenant_info["bytes_used"]   = metrics.bytes_used;
-        tenant_info["quota"]        = config_.per_tenant_max_bytes;
-        tenant_info["utilization"]  = static_cast<double>(metrics.bytes_used) / config_.per_tenant_max_bytes;
+        tenant_info["quota"]        = effective_quota;
+        tenant_info["utilization"]  = effective_quota > 0 ? static_cast<double>(metrics.bytes_used) / effective_quota : 0.0;
         tenant_info["hits"]         = metrics.hits;
         tenant_info["misses"]       = metrics.misses;
         tenant_info["evictions"]    = metrics.evictions;
@@ -1400,12 +1406,13 @@ nlohmann::json AdaptiveQueryCache::getTenantStatsForTenant(const std::string& te
 
     const auto& m = it->second;
     uint64_t total = m.hits + m.misses;
+    size_t effective_quota = getEffectiveTenantQuota(tenant_id);
     nlohmann::json result;
     result["found"]       = true;
     result["tenant_id"]   = tenant_id;
     result["bytes_used"]  = m.bytes_used;
-    result["quota"]       = config_.per_tenant_max_bytes;
-    result["utilization"] = static_cast<double>(m.bytes_used) / config_.per_tenant_max_bytes;
+    result["quota"]       = effective_quota;
+    result["utilization"] = effective_quota > 0 ? static_cast<double>(m.bytes_used) / effective_quota : 0.0;
     result["hits"]        = m.hits;
     result["misses"]      = m.misses;
     result["evictions"]   = m.evictions;
@@ -1508,6 +1515,31 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
     return count;
+}
+
+bool AdaptiveQueryCache::updateTenantQuota(const std::string& tenant_id, size_t quota_bytes) {
+    if (!config_.enable_tenant_isolation || tenant_id.empty()) {
+        return false;
+    }
+    std::lock_guard<std::mutex> lock(tenant_mutex_);
+    if (quota_bytes == 0) {
+        tenant_quota_overrides_.erase(tenant_id);
+    } else {
+        tenant_quota_overrides_[tenant_id] = quota_bytes;
+    }
+    // Ensure a metrics entry exists so the tenant appears in getTenantStats()
+    tenant_metrics_[tenant_id];  // default-insert if absent
+    THEMIS_INFO("Updated quota for tenant {}: {} bytes", tenant_id, quota_bytes);
+    return true;
+}
+
+size_t AdaptiveQueryCache::getEffectiveTenantQuota(const std::string& tenant_id) const {
+    // Precondition: caller must hold tenant_mutex_
+    auto it = tenant_quota_overrides_.find(tenant_id);
+    if (it != tenant_quota_overrides_.end()) {
+        return it->second;
+    }
+    return config_.per_tenant_max_bytes;
 }
 
 nlohmann::json AdaptiveQueryCache::getCircuitBreakerStatus() const {

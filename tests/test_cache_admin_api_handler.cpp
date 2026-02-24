@@ -539,6 +539,9 @@ TEST_F(CacheAdminApiHandlerTest, TenantStatsEvictionsIncrementAfterEvict) {
     json body = json::parse(res.body());
     EXPECT_TRUE(body["found"].get<bool>());
     EXPECT_GE(body["evictions"].get<int>(), 1);
+}
+
+// ---------------------------------------------------------------------------
 // Tests: GET /v1/admin/cache/health
 // ---------------------------------------------------------------------------
 
@@ -621,4 +624,116 @@ TEST_F(CacheAdminApiHandlerTest, HealthReturns503WhenCacheIsNull) {
     auto req = makeRequest(http::verb::get, "/v1/admin/cache/health");
     EXPECT_EQ(handler_no_cache->handleHealth(req).result(),
               http::status::service_unavailable);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns200) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/acme/quota",
+                           R"({"quota_bytes":52428800})");
+    auto res = handler_->handleUpdateTenantQuota(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "ok");
+    EXPECT_EQ(body["tenant_id"], "acme");
+    EXPECT_EQ(body["quota_bytes"].get<size_t>(), 52428800ULL);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReflectedInTenantStats) {
+    const std::string tenant = "quota_test_tenant";
+    const size_t new_quota = 52428800;  // 50 MB
+
+    // Update quota
+    auto patch_req = makeRequest(http::verb::patch,
+                                 "/v1/admin/cache/tenant/" + tenant + "/quota",
+                                 R"({"quota_bytes":)" + std::to_string(new_quota) + "}");
+    auto patch_res = handler_->handleUpdateTenantQuota(patch_req);
+    EXPECT_EQ(patch_res.result(), http::status::ok);
+
+    // Verify quota is reflected in per-tenant stats
+    auto stats_req = makeRequest(http::verb::get,
+                                 "/v1/admin/cache/tenant/" + tenant + "/stats");
+    auto stats_res = handler_->handleTenantStats(stats_req);
+
+    EXPECT_EQ(stats_res.result(), http::status::ok);
+    json body = json::parse(stats_res.body());
+    EXPECT_TRUE(body["found"].get<bool>());
+    EXPECT_EQ(body["quota"].get<size_t>(), new_quota);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaZeroResetToGlobalDefault) {
+    const std::string tenant = "reset_quota_tenant";
+
+    // First set a custom quota
+    auto patch_req = makeRequest(http::verb::patch,
+                                 "/v1/admin/cache/tenant/" + tenant + "/quota",
+                                 R"({"quota_bytes":52428800})");
+    EXPECT_EQ(handler_->handleUpdateTenantQuota(patch_req).result(), http::status::ok);
+
+    // Reset to global default (quota_bytes=0)
+    auto reset_req = makeRequest(http::verb::patch,
+                                 "/v1/admin/cache/tenant/" + tenant + "/quota",
+                                 R"({"quota_bytes":0})");
+    auto reset_res = handler_->handleUpdateTenantQuota(reset_req);
+    EXPECT_EQ(reset_res.result(), http::status::ok);
+    json reset_body = json::parse(reset_res.body());
+    EXPECT_EQ(reset_body["quota_bytes"].get<size_t>(), 0ULL);
+
+    // Stats should now show the global default quota
+    auto stats_req = makeRequest(http::verb::get,
+                                 "/v1/admin/cache/tenant/" + tenant + "/stats");
+    auto stats_res = handler_->handleTenantStats(stats_req);
+    EXPECT_EQ(stats_res.result(), http::status::ok);
+    json body = json::parse(stats_res.body());
+    // quota should be the global default (per_tenant_max_bytes = 104857600 default)
+    EXPECT_GT(body["quota"].get<size_t>(), 0ULL);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForMissingField) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/acme/quota",
+                           "{}");
+    auto res = handler_->handleUpdateTenantQuota(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns400ForMissingTenantId) {
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant//quota",
+                           R"({"quota_bytes":1024})");
+    auto res = handler_->handleUpdateTenantQuota(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+    auto req = makeRequest(http::verb::patch,
+                           "/v1/admin/cache/tenant/acme/quota",
+                           R"({"quota_bytes":1024})");
+    EXPECT_EQ(handler_no_cache->handleUpdateTenantQuota(req).result(),
+              http::status::service_unavailable);
+}
+
+TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaAppearsInListTenants) {
+    const std::string tenant = "list_quota_tenant";
+    const size_t new_quota = 20971520;  // 20 MB
+
+    auto patch_req = makeRequest(http::verb::patch,
+                                 "/v1/admin/cache/tenant/" + tenant + "/quota",
+                                 R"({"quota_bytes":)" + std::to_string(new_quota) + "}");
+    EXPECT_EQ(handler_->handleUpdateTenantQuota(patch_req).result(), http::status::ok);
+
+    auto list_req = makeRequest(http::verb::get, "/v1/admin/cache/tenants");
+    auto list_res = handler_->handleListTenants(list_req);
+    EXPECT_EQ(list_res.result(), http::status::ok);
+
+    json body = json::parse(list_res.body());
+    ASSERT_TRUE(body.contains("tenants"));
+    ASSERT_TRUE(body["tenants"].contains(tenant));
+    EXPECT_EQ(body["tenants"][tenant]["quota"].get<size_t>(), new_quota);
 }

@@ -81,6 +81,12 @@ WebSocketSession::~WebSocketSession() {
 }
 
 void WebSocketSession::run(http::request<http::string_body> req) {
+    // Initialise the CdcWebSocketHandler for the /v2/cdc/stream endpoint so
+    // that processMessage() can delegate named-subscription frames to it.
+    if (request_path_ == "/v2/cdc/stream") {
+        cdc_stream_handler_ = std::make_unique<cdc::CdcWebSocketHandler>();
+    }
+
     // Set suggested timeout settings for the websocket
     if (is_tls_) {
         ws_tls_->set_option(websocket::stream_base::timeout::suggested(beast::role_type::server));
@@ -179,6 +185,16 @@ void WebSocketSession::processMessage(const std::string& message) {
     try {
         // Parse JSON message
         auto msg = json::parse(message);
+
+        // "/v2/cdc/stream" endpoint: delegate entirely to CdcWebSocketHandler
+        // which handles the named-subscription protocol (subscribe/unsubscribe/ack).
+        if (request_path_ == "/v2/cdc/stream" && cdc_stream_handler_) {
+            auto responses = cdc_stream_handler_->handleFrame(msg);
+            for (const auto& resp : responses) {
+                send(resp.dump());
+            }
+            return;
+        }
 
         // "/v2/changes" endpoint uses {"action":"subscribe","collection":"..."} frame format;
         // normalise to the generic {"type":"subscribe","channel":"..."} convention so the
@@ -595,7 +611,34 @@ void WebSocketManager::pollCDCEvents() {
             if (!session->isActive()) {
                 continue;
             }
-            
+
+            // /v2/cdc/stream sessions: delegate to CdcWebSocketHandler which
+            // tracks named subscriptions and implements at-least-once delivery.
+            if (auto* handler = session->getCdcStreamHandler()) {
+                if (!handler->hasSubscriptions()) continue;
+                try {
+                    auto frames = handler->pollEvents(*changefeed_);
+                    for (const auto& frame : frames) {
+                        session->send(frame.dump());
+                    }
+                    auto redeliveries = handler->checkRedelivery();
+                    for (const auto& frame : redeliveries) {
+                        session->send(frame.dump());
+                    }
+                    if (!frames.empty() || !redeliveries.empty()) {
+                        THEMIS_DEBUG("Sent {} new + {} redelivered CDC events via "
+                                     "CdcWebSocketHandler to session {}",
+                                     frames.size(), redeliveries.size(),
+                                     session->getSessionId());
+                    }
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("Error polling CDC stream handler for session {}: {}",
+                                 session->getSessionId(), e.what());
+                }
+                continue;
+            }
+
+            // Legacy /v2/changes polling path.
             auto sub = session->getCDCSubscription();
             
             // Get new events since last sent sequence (use last_sent + 1 to avoid re-sending)

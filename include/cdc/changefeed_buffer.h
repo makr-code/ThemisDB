@@ -42,6 +42,7 @@
 
 #include "cdc/changefeed.h"
 #include "cdc/cdc_metrics.h"
+#include "cdc/dead_letter_queue.h"
 #include <deque>
 #include <map>
 #include <mutex>
@@ -223,7 +224,25 @@ public:
      */
     bool isRunning() const { return running_.load(); }
 
+    /**
+     * @brief Attach a dead-letter queue to receive events that exhaust retries.
+     *
+     * When set, any event for which all delivery attempts fail is enqueued in
+     * the provided DeadLetterQueue instead of being silently discarded.
+     * The DeadLetterQueue is NOT owned by this buffer.
+     *
+     * @param dlq  Pointer to an existing DeadLetterQueue, or nullptr to detach.
+     */
+    void setDeadLetterQueue(cdc::DeadLetterQueue* dlq) { dlq_ = dlq; }
+
+    /**
+     * @brief Return the attached dead-letter queue (may be nullptr).
+     */
+    cdc::DeadLetterQueue* getDeadLetterQueue() const { return dlq_; }
+
 private:
+    // Dead-letter queue (optional, not owned)
+    cdc::DeadLetterQueue* dlq_ = nullptr;
     // Buffered event wrapper
     struct BufferedEvent {
         Changefeed::ChangeEvent event;
