@@ -97,6 +97,9 @@ enum class ImportErrorCode : uint32_t {
     // SQL parsing errors – extended range (206)
     BINARY_COPY_FORMAT   = 206,  ///< Binary (non-text) COPY data detected; unsupported
 
+    // Conflict resolution errors (600-699)
+    CONFLICT_ERROR       = 600,  ///< ERROR strategy triggered on key conflict
+
     // Generic errors (900-999)
     UNKNOWN              = 900
 };
@@ -121,6 +124,30 @@ struct ImportError {
 };
 
 /**
+ * @brief Conflict resolution strategy for import jobs.
+ *
+ * Controls what happens when the same conflict key (see
+ * ImportOptions::conflict_key_columns) is encountered more than once during an
+ * import session.
+ *
+ * | Strategy  | Behaviour on conflict                                         |
+ * |-----------|---------------------------------------------------------------|
+ * | OVERWRITE | Discard the previously seen entity; use the incoming one      |
+ * | SKIP      | Keep the previously seen entity; discard the incoming one     |
+ * | MERGE     | Merge fields from both entities; incoming fields win unless   |
+ * |           | listed in ImportOptions::protected_fields                     |
+ * | ERROR     | Treat the conflict as a fatal error; abort the batch          |
+ *
+ * Default is OVERWRITE for backward compatibility.
+ */
+enum class ConflictStrategy {
+    OVERWRITE,  ///< Replace existing entity with incoming (default)
+    SKIP,       ///< Keep existing entity, discard incoming duplicate
+    MERGE,      ///< Field-level merge; incoming wins unless field is protected
+    ERROR       ///< Abort the batch on the first conflict
+};
+
+/**
  * @brief Import Statistics
  */
 struct ImportStats {
@@ -129,6 +156,11 @@ struct ImportStats {
     size_t failed_records = 0;
     size_t skipped_records = 0;
     size_t quarantined_records = 0;  ///< Rows written to the quarantine file
+
+    // Conflict resolution counters
+    size_t conflicts_skipped     = 0;  ///< Rows skipped due to SKIP strategy
+    size_t conflicts_overwritten = 0;  ///< Rows overwritten due to OVERWRITE strategy
+    size_t conflicts_merged      = 0;  ///< Rows merged due to MERGE strategy
     
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
@@ -155,6 +187,9 @@ struct ImportStats {
             {"failed_records", failed_records},
             {"skipped_records", skipped_records},
             {"quarantined_records", quarantined_records},
+            {"conflicts_skipped", conflicts_skipped},
+            {"conflicts_overwritten", conflicts_overwritten},
+            {"conflicts_merged", conflicts_merged},
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"custom_types_processed", custom_types_processed},
@@ -362,6 +397,29 @@ struct ImportOptions {
     // Used internally by importDataStreaming(); can also be set directly on
     // ImportOptions passed to importData() for the same effect.
     RowCallback streaming_row_callback;
+
+    // -------------------------------------------------------------------------
+    // Conflict resolution
+    // -------------------------------------------------------------------------
+
+    /// Strategy to apply when the same conflict key appears more than once
+    /// during an import session.  Default: OVERWRITE (backward compatible).
+    ConflictStrategy conflict_strategy = ConflictStrategy::OVERWRITE;
+
+    /// Columns whose values form the conflict detection key.
+    /// If empty, no in-session conflict detection is performed.
+    /// Example: {"id"} or {"tenant_id", "user_id"}
+    std::vector<std::string> conflict_key_columns;
+
+    /// Fields that the MERGE strategy must not overwrite with incoming values.
+    /// Ignored by SKIP, OVERWRITE, and ERROR strategies.
+    std::vector<std::string> protected_fields;
+
+    /// Recursion depth for the MERGE strategy.
+    /// 1  = top-level fields only (default, nested objects replaced entirely).
+    /// -1 = deep recursive merge for all nested JSON objects.
+    /// N  = merge up to N levels deep.
+    int merge_depth = 1;
     
     json toJson() const {
         return json{
@@ -382,7 +440,11 @@ struct ImportOptions {
             {"checkpoint_file", checkpoint_file},
             {"quarantine_file", quarantine_file},
             {"delta_hash_file", delta_hash_file},
-            {"delta_key_columns", delta_key_columns}
+            {"delta_key_columns", delta_key_columns},
+            {"conflict_strategy", static_cast<int>(conflict_strategy)},
+            {"conflict_key_columns", conflict_key_columns},
+            {"protected_fields", protected_fields},
+            {"merge_depth", merge_depth}
         };
     }
 };
