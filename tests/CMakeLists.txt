@@ -215,13 +215,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
-    ".*test_auth_error\\.cpp$"
-    ".*test_auth_metrics\\.cpp$"
-    ".*test_jwks_security\\.cpp$"
-    ".*test_kerberos_security\\.cpp$"
-    ".*test_totp_replay_cache\\.cpp$"
-    ".*test_totp_secret_encryption\\.cpp$"
-    ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"
     ".*test_cross_functional_voice_observability\\.cpp$"
@@ -261,7 +254,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_admin_api\\.cpp$"
     ".*test_gpu_.*\\.cpp$"
     ".*test_graphql.*\\.cpp$"
-    ".*test_jwt_key_rotation_comprehensive\\.cpp$"
     ".*test_lora_router\\.cpp$"
     ".*test_lora_security\\.cpp$"
     ".*test_multi_gpu_management\\.cpp$"
@@ -471,7 +463,6 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
-            ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
