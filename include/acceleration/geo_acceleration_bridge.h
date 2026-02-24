@@ -99,6 +99,7 @@ public:
     ) override;
 
     // -----------------------------------------------------------------------
+    // GeoKernelDispatch — wired to bridge_geo_distance / bridge_geo_containment
     // GeoKernelDispatch — returns CUDA launchers when CUDA is available,
     // CPU launchers otherwise so the dispatch table is always fully populated.
     // -----------------------------------------------------------------------

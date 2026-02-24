@@ -83,6 +83,80 @@ namespace acceleration {
 namespace {
 constexpr double kEarthRadiusKm = 6371.0;
 constexpr double kDegToRad      = 3.141592653589793238462643383279502884 / 180.0;
+
+// ---------------------------------------------------------------------------
+// Static kernel dispatch functions
+//
+// These match the GeoDistanceFn / GeoContainmentFn typedefs from
+// kernel_invocation.h and are registered via populateGeoDispatch() so that
+// BackendRegistry can invoke them without knowing the concrete backend type.
+// ---------------------------------------------------------------------------
+
+static int bridge_geo_distance(
+    const double* lats1, const double* lons1,
+    const double* lats2, const double* lons2,
+    float* out_distances, int count,
+    themis::acceleration::GeoDistanceFormula /*formula*/,
+    void* /*stream*/)
+{
+    if (!lats1 || !lons1 || !lats2 || !lons2 || !out_distances || count <= 0) {
+        return 1;
+    }
+    for (int i = 0; i < count; ++i) {
+        const double dlat  = (lats2[i] - lats1[i]) * kDegToRad;
+        const double dlon  = (lons2[i] - lons1[i]) * kDegToRad;
+        const double rlat1 = lats1[i] * kDegToRad;
+        const double rlat2 = lats2[i] * kDegToRad;
+        const double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
+                         std::cos(rlat1) * std::cos(rlat2) *
+                         std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
+        out_distances[i] = static_cast<float>(
+            kEarthRadiusKm * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a)));
+    }
+    return 0;
+}
+
+static int bridge_geo_containment(
+    const double* point_lats, const double* point_lons, int numPoints,
+    const double* polygon_coords, int numVertices,
+    uint8_t* results, void* /*stream*/)
+{
+    if (!point_lats || !point_lons || !polygon_coords || !results ||
+            numPoints <= 0 || numVertices < 3) {
+        return 1;
+    }
+
+    // Build the polygon GeometryInfo once.
+    themis::geo::GeometryInfo poly(themis::geo::GeometryType::Polygon);
+    std::vector<themis::geo::Coordinate> ring;
+    ring.reserve(static_cast<size_t>(numVertices));
+    for (int v = 0; v < numVertices; ++v) {
+        ring.push_back({polygon_coords[v * 2], polygon_coords[v * 2 + 1]});
+    }
+    poly.rings.push_back(std::move(ring));
+
+    // Build the per-point GeometryInfo vector and delegate to GpuBatchBackend
+    // (which falls back to CPU when no GPU is present).
+    themis::geo::SpatialBatchInputs batch;
+    batch.count = static_cast<size_t>(numPoints);
+    batch.geoms_a.reserve(batch.count);
+    batch.geoms_b.reserve(batch.count);
+    for (int i = 0; i < numPoints; ++i) {
+        themis::geo::GeometryInfo pt(themis::geo::GeometryType::Point);
+        pt.coords.push_back({point_lats[i], point_lons[i]});
+        batch.geoms_a.push_back(std::move(pt));
+        batch.geoms_b.push_back(poly);
+    }
+
+    auto* geo = themis::geo::getGpuSpatialBackend();
+    themis::geo::SpatialBatchResults res = geo->batchIntersects(batch);
+    const size_t n = static_cast<size_t>(numPoints);
+    for (size_t i = 0; i < res.mask.size() && i < n; ++i) {
+        results[i] = res.mask[i];
+    }
+    return 0;
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -233,6 +307,17 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
         out[i] = (res.mask[i] != 0u);
     }
     return out;
+}
+
+// ---------------------------------------------------------------------------
+// populateGeoDispatch
+// ---------------------------------------------------------------------------
+
+GeoKernelDispatch GeoAccelerationBridge::populateGeoDispatch() const {
+    GeoKernelDispatch d;
+    d.launchDistance    = bridge_geo_distance;
+    d.launchContainment = bridge_geo_containment;
+    return d;
 }
 
 } // namespace acceleration

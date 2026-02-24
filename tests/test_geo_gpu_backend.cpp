@@ -1019,6 +1019,30 @@ TEST(GeoAccelerationBridge, SelectGeoBackendFor_GeoOps) {
     EXPECT_TRUE(geo->getCapabilities().supportsGeoOps);
 }
 
+// ============================================================
+// GeoAccelerationBridge — populateGeoDispatch() tests
+// ============================================================
+
+// The dispatch table returned by the bridge must have non-null function
+// pointers for both distance and containment operations.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_NonNullSlots) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    EXPECT_NE(d.launchDistance,    nullptr);
+    EXPECT_NE(d.launchContainment, nullptr);
+}
+
+// The distance slot must compute the haversine distance between London and
+// Paris to within a reasonable tolerance.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_LondonParis) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
 // The bridge dispatch table must have non-null slots for both distance and
 // containment; the bridge always returns a CPU-backed dispatch at minimum.
 TEST(GeoAccelerationBridge, PopulateGeoDispatch_SlotsNonNull) {
@@ -1040,6 +1064,115 @@ TEST(GeoAccelerationBridge, PopulateGeoDispatch_HaversineDistance) {
     const double lons1[] = {-0.1278};
     const double lats2[] = {48.8566};
     const double lons2[] = {2.3522};
+    float out = -1.f;
+
+    ASSERT_EQ(d.launchDistance(lats1, lons1, lats2, lons2, &out, 1,
+                               themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                               nullptr), 0);
+    EXPECT_GT(out, 330.f);
+    EXPECT_LT(out, 360.f);
+}
+
+// The distance slot must return zero for identical points.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_SamePoint_IsZero) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    const double lats[] = {48.0};
+    const double lons[] = {11.0};
+    float out = -1.f;
+
+    ASSERT_EQ(d.launchDistance(lats, lons, lats, lons, &out, 1,
+                               themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                               nullptr), 0);
+    EXPECT_NEAR(out, 0.f, 1e-3f);
+}
+
+// The distance slot must return an error code for null inputs.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_NullInput_ReturnsError) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    float out = -1.f;
+    EXPECT_NE(d.launchDistance(nullptr, nullptr, nullptr, nullptr, &out, 1,
+                               themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                               nullptr), 0);
+}
+
+// The containment slot must correctly identify an inside and an outside point.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Containment_InsideAndOutside) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchContainment, nullptr);
+
+    // Square polygon: corners at (0,0),(10,0),(10,10),(0,10)
+    const double polygon[] = {0.0, 0.0,  10.0, 0.0,  10.0, 10.0,  0.0, 10.0};
+    const double ptLats[]  = {5.0, 15.0};
+    const double ptLons[]  = {5.0,  5.0};
+    uint8_t results[2] = {255u, 255u};
+
+    ASSERT_EQ(d.launchContainment(ptLats, ptLons, 2,
+                                  polygon, 4,
+                                  results, nullptr), 0);
+    EXPECT_NE(results[0], 0u) << "(5,5) must be inside the square";
+    EXPECT_EQ(results[1], 0u) << "(15,5) must be outside the square";
+}
+
+// The containment slot must return an error code for invalid inputs.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Containment_InvalidInput_ReturnsError) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchContainment, nullptr);
+
+    // Null pointers must yield a non-zero error code
+    EXPECT_NE(d.launchContainment(nullptr, nullptr, 1,
+                                  nullptr, 4,
+                                  nullptr, nullptr), 0);
+
+    // Fewer than 3 polygon vertices must yield a non-zero error code
+    const double poly2[]  = {0.0, 0.0,  1.0, 1.0};
+    const double ptLats[] = {0.5};
+    const double ptLons[] = {0.5};
+    uint8_t result = 255u;
+    EXPECT_NE(d.launchContainment(ptLats, ptLons, 1,
+                                  poly2, 2,
+                                  &result, nullptr), 0);
+}
+
+// The distance dispatch result must agree with the batchDistances() method.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_AgreesWith_BatchDistances) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    const double lats1[] = {51.5074, 40.7128, -33.8688};
+    const double lons1[] = {-0.1278, -74.0060, 151.2093};
+    const double lats2[] = {48.8566, 34.0522,  35.6762};
+    const double lons2[] = { 2.3522, -118.2437, 139.6503};
+    float dispOut[3] = {-1.f, -1.f, -1.f};
+
+    ASSERT_EQ(d.launchDistance(lats1, lons1, lats2, lons2, dispOut, 3,
+                               themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                               nullptr), 0);
+
+    auto batchOut = bridge.batchDistances(lats1, lons1, lats2, lons2, 3, true);
+    ASSERT_EQ(batchOut.size(), 3u);
+    for (int i = 0; i < 3; ++i) {
+        EXPECT_NEAR(dispOut[i], batchOut[static_cast<size_t>(i)], 1e-3f)
+            << "pair " << i;
+    }
     float dist = 0.f;
 
     int rc = d.launchDistance(lats1, lons1, lats2, lons2, &dist, 1,
