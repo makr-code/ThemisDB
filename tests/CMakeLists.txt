@@ -460,10 +460,23 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/server/serverless_function_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/async_job_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/distributed_txn_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/health_error_service.cpp
+            ${THEMIS_ROOT_DIR}/src/server/http_type_adapter.cpp
+            ${THEMIS_ROOT_DIR}/src/server/chunked_response_writer.cpp
+            ${THEMIS_ROOT_DIR}/src/server/branch_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/merge_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/security/query_masking_policy.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
+            ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)

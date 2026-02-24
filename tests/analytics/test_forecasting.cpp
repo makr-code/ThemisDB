@@ -42,6 +42,8 @@
 
 using namespace themisdb::analytics;
 
+constexpr double kPi = 3.14159265358979323846;
+
 // ============================================================================
 // Helpers
 // ============================================================================
@@ -63,7 +65,7 @@ static TimeSeries makeSeasonalSeries(int n, int period = 4, double trend = 0.1,
 {
     TimeSeries ts;
     for (int i = 0; i < n; ++i) {
-        double seasonal = 2.0 * std::sin(2.0 * M_PI * static_cast<double>(i) / static_cast<double>(period));
+        double seasonal = 2.0 * std::sin(2.0 * kPi * static_cast<double>(i) / static_cast<double>(period));
         double val = 10.0 + trend * static_cast<double>(i) + seasonal;
         ts.push(static_cast<int64_t>(i) * interval_ms, val);
     }
@@ -334,7 +336,7 @@ TEST(HoltWintersTest, MultiplicativeMode) {
     // Positive values with multiplicative seasonality
     TimeSeries ts;
     for (int i = 0; i < 24; ++i) {
-        double seasonal = 1.0 + 0.2 * std::sin(2.0 * M_PI * static_cast<double>(i) / 4.0);
+        double seasonal = 1.0 + 0.2 * std::sin(2.0 * kPi * static_cast<double>(i) / 4.0);
         ts.push(static_cast<int64_t>(i) * 1000, (5.0 + 0.1 * i) * seasonal);
     }
     ForecastConfig cfg;
@@ -458,7 +460,7 @@ TEST(DecomposeTest, MultiplicativeComponents) {
     TimeSeries ts;
     for (int i = 0; i < 24; ++i)
         ts.push(static_cast<int64_t>(i) * 1000,
-                (5.0 + 0.1 * i) * (1.0 + 0.1 * std::sin(2.0 * M_PI * static_cast<double>(i) / 4.0)));
+                (5.0 + 0.1 * i) * (1.0 + 0.1 * std::sin(2.0 * kPi * static_cast<double>(i) / 4.0)));
     ForecastConfig cfg;
     cfg.seasonality    = 4;
     cfg.multiplicative = true;

@@ -367,9 +367,11 @@ JWTClaims OAuthDeviceFlow::authenticate(
         ));
     } catch (const AuthException& ex) {
         if (audit_logger_) {
+            const auto& err = ex.error();
+            const std::string reason = err.internalMessage().empty() ? err.publicMessage() : err.internalMessage();
             audit_logger_->logSecurityEvent(utils::SecurityEventType::UNAUTHORIZED_ACCESS,
                 "", "oauth/device/" + config_.client_id,
-                {{"client_id", config_.client_id}, {"reason", ex.error().message}});
+                {{"client_id", config_.client_id}, {"reason", reason}});
         }
         throw;
     } catch (const std::exception& ex) {
