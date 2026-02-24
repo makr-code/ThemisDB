@@ -350,7 +350,7 @@ TEST_F(HistoryManagerTest, GetConflict_NotFound) {
 TEST(ConflictManagerSerTest, RoundTrip) {
     ConflictRecord rec;
     rec.version      = 1;
-    rec.conflict_id  = "1234567890.7";
+    rec.conflict_id  = "1234567890_7";
     rec.base_key     = "entity:users:u10";
     rec.detected_at  = HLCTimestamp::from(1234567890u, 7u);
     rec.txn_id       = 55u;

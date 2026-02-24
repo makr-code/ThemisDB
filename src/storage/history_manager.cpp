@@ -271,7 +271,7 @@ std::string ConflictManager::storeConflict(ConflictRecord& record) {
     if (record.conflict_id.empty()) {
         // Generate a unique ID from the HLC clock.
         HLCTimestamp ts = clock_->now();
-        record.conflict_id = std::to_string(ts.physical()) + "." +
+        record.conflict_id = std::to_string(ts.physical()) + "_" +
                              std::to_string(ts.logical());
         record.detected_at = ts;
     }
