@@ -34,6 +34,7 @@
 #include <functional>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -204,9 +205,16 @@ public:
      */
     void setClockForTesting(std::function<std::chrono::system_clock::time_point()> clock);
 
+    /**
+     * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
 private:
     SAMLConfig config_;
     void* idp_public_key_{nullptr}; ///< EVP_PKEY* for IdP certificate (opaque to avoid OpenSSL headers)
+    utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
 
     // Replay-attack prevention: maps assertion ID -> expiry time (NotOnOrAfter + clock_skew).
     // Expired entries are evicted lazily on each processResponse() call.
@@ -253,6 +261,10 @@ private:
 
     /// URL-encode a string (for SAMLRequest query parameter)
     static std::string urlEncode(const std::string& input);
+
+    /// Internal implementation of processResponse (called by the public method)
+    SAMLClaims processResponseImpl(const std::string& saml_response_b64,
+                                   const std::string& in_response_to) const;
 };
 
 } // namespace auth

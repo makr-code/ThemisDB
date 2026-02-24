@@ -22,6 +22,7 @@
 
 #include "auth/oauth_device_flow.h"
 #include "auth/jwt_validator.h"
+#include "utils/audit_logger.h"
 
 #include <curl/curl.h>
 #include <spdlog/spdlog.h>
@@ -304,57 +305,81 @@ JWTClaims OAuthDeviceFlow::validateIdToken(const TokenResponse& token_response) 
 JWTClaims OAuthDeviceFlow::authenticate(
     std::function<void(const DeviceCodeResponse&)> progress_cb)
 {
-    const DeviceCodeResponse device_resp = requestDeviceCode();
+    try {
+        const DeviceCodeResponse device_resp = requestDeviceCode();
 
-    if (progress_cb) {
-        progress_cb(device_resp);
-    }
-
-    const auto deadline = std::chrono::steady_clock::now()
-                        + std::chrono::seconds(device_resp.expires_in);
-
-    int poll_interval = std::max(1, device_resp.interval);
-
-    while (std::chrono::steady_clock::now() < deadline) {
-        std::this_thread::sleep_for(std::chrono::seconds(poll_interval));
-
-        PollStatus status = PollStatus::Error;
-        TokenResponse token = pollForToken(device_resp.device_code, status);
-
-        switch (status) {
-        case PollStatus::Authorized:
-            return validateIdToken(token);
-
-        case PollStatus::AuthorizationPending:
-            spdlog::debug("OAuthDeviceFlow: authorization pending, retrying in {}s", poll_interval);
-            break;
-
-        case PollStatus::SlowDown:
-            poll_interval = std::min(poll_interval + 5,
-                                     config_.max_poll_interval_seconds);
-            spdlog::debug("OAuthDeviceFlow: slow_down received, new interval={}s", poll_interval);
-            break;
-
-        case PollStatus::AccessDenied:
-        case PollStatus::ExpiredToken:
-        case PollStatus::Error:
-            // pollForToken has already thrown for AccessDenied/ExpiredToken.
-            // For Error, surface a generic exception.
-            throw AuthException(AuthError(
-                AuthErrorCode::AUTH_INTERNAL_ERROR,
-                "OAuth device flow failed",
-                "Unexpected PollStatus during authenticate()"
-            ));
+        if (progress_cb) {
+            progress_cb(device_resp);
         }
-    }
 
-    // Deadline exceeded without a response from the user
-    spdlog::warn("OAuthDeviceFlow: device code expired (authenticate deadline)");
-    throw AuthException(AuthError(
-        AuthErrorCode::AUTH_TOKEN_EXPIRED,
-        "Device authorization timed out",
-        "User did not authorize within the device code validity period"
-    ));
+        const auto deadline = std::chrono::steady_clock::now()
+                            + std::chrono::seconds(device_resp.expires_in);
+
+        int poll_interval = std::max(1, device_resp.interval);
+
+        while (std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::seconds(poll_interval));
+
+            PollStatus status = PollStatus::Error;
+            TokenResponse token = pollForToken(device_resp.device_code, status);
+
+            switch (status) {
+            case PollStatus::Authorized: {
+                JWTClaims claims = validateIdToken(token);
+                if (audit_logger_) {
+                    nlohmann::json d;
+                    d["client_id"] = config_.client_id;
+                    audit_logger_->logSecurityEvent(utils::SecurityEventType::TOKEN_CREATED,
+                        claims.sub, "oauth/device/" + config_.client_id, d);
+                }
+                return claims;
+            }
+
+            case PollStatus::AuthorizationPending:
+                spdlog::debug("OAuthDeviceFlow: authorization pending, retrying in {}s", poll_interval);
+                break;
+
+            case PollStatus::SlowDown:
+                poll_interval = std::min(poll_interval + 5,
+                                         config_.max_poll_interval_seconds);
+                spdlog::debug("OAuthDeviceFlow: slow_down received, new interval={}s", poll_interval);
+                break;
+
+            case PollStatus::AccessDenied:
+            case PollStatus::ExpiredToken:
+            case PollStatus::Error:
+                // pollForToken has already thrown for AccessDenied/ExpiredToken.
+                // For Error, surface a generic exception.
+                throw AuthException(AuthError(
+                    AuthErrorCode::AUTH_INTERNAL_ERROR,
+                    "OAuth device flow failed",
+                    "Unexpected PollStatus during authenticate()"
+                ));
+            }
+        }
+
+        // Deadline exceeded without a response from the user
+        spdlog::warn("OAuthDeviceFlow: device code expired (authenticate deadline)");
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_TOKEN_EXPIRED,
+            "Device authorization timed out",
+            "User did not authorize within the device code validity period"
+        ));
+    } catch (const AuthException& ex) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::UNAUTHORIZED_ACCESS,
+                "", "oauth/device/" + config_.client_id,
+                {{"client_id", config_.client_id}, {"reason", ex.error().message}});
+        }
+        throw;
+    } catch (const std::exception& ex) {
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::UNAUTHORIZED_ACCESS,
+                "", "oauth/device/" + config_.client_id,
+                {{"client_id", config_.client_id}, {"reason", std::string(ex.what())}});
+        }
+        throw;
+    }
 }
 
 // ============================================================================

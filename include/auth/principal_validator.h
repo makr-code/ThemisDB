@@ -30,6 +30,7 @@
 #include <chrono>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -120,6 +121,12 @@ public:
     };
     
     explicit PrincipalValidator(const Config& config = Config());
+
+    /**
+     * @brief Attach an AuditLogger to receive PERMISSION_DENIED / LOGIN_SUCCESS events.
+     * Pass nullptr to detach.  The validator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
     
     /**
      * @brief Validate a principal name
@@ -177,6 +184,7 @@ public:
 private:
     Config config_;
     mutable Statistics stats_;
+    utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
     
     // Check if principal matches a rule
     bool matchesRule(const std::string& principal, const Rule& rule) const;

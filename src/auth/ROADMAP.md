@@ -59,12 +59,12 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
 ### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
-- [ ] OAuth 2.0 PKCE flow for public clients
+- [x] OAuth 2.0 PKCE flow for public clients
 - [x] API key authentication (static key + secret)
 - [ ] WebAuthn/FIDO2 hardware token support
 - [ ] Session management and revocation endpoint
 - [ ] Configurable password policy enforcement
-- [ ] Audit logging for all authentication events
+- [~] Audit logging for all authentication events
 - [ ] Certificate-based mutual TLS (mTLS) authentication
 
 ## Production Readiness Checklist

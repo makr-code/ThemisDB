@@ -33,6 +33,7 @@
 #include <functional>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -175,9 +176,16 @@ public:
         std::function<std::string(const std::string& url, const std::string& body)> fn
     );
 
+    /**
+     * @brief Attach an AuditLogger to receive TOKEN_CREATED / UNAUTHORIZED_ACCESS events.
+     * Pass nullptr to detach.  The flow does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
 private:
     Config config_;
     std::function<std::string(const std::string& url, const std::string& body)> http_post_fn_;
+    utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning, optional.
 
     std::string httpPost(const std::string& url, const std::string& body);
 

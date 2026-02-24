@@ -30,6 +30,7 @@
 #include <nlohmann/json.hpp>
 
 namespace themis {
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -89,6 +90,12 @@ public:
     MFAAuthenticator();
     explicit MFAAuthenticator(const Config& config);
     ~MFAAuthenticator() = default;
+    
+    /**
+     * @brief Attach an AuditLogger to receive MFA events (enroll, TOTP, recovery).
+     * Pass nullptr to detach.  The authenticator does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
     
     /**
      * @brief Generate new TOTP secret and recovery codes for user enrollment
@@ -156,6 +163,7 @@ public:
 
 private:
     Config config_;
+    utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning, optional.
     
     // Generate random secret for TOTP (20 bytes = 160 bits)
     std::string generateSecret() const;
