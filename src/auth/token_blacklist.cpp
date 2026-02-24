@@ -18,6 +18,8 @@
  */
 
 #include "auth/token_blacklist.h"
+#include "auth/auth_audit_logger.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
 
 namespace themis {
@@ -70,6 +72,11 @@ void TokenBlacklist::revoke(const std::string& jti,
     blacklist_[jti] = Entry{expires_at};
     stats_.total_revocations++;
     THEMIS_INFO("TokenBlacklist: revoked JTI '{}'", jti);
+
+    if (audit_logger_) {
+        AuthAuditLogger al(audit_logger_);
+        al.logTokenRevoked(jti, "");
+    }
 }
 
 bool TokenBlacklist::isRevoked(const std::string& jti) const {

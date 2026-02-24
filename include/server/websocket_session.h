@@ -35,6 +35,7 @@
 #include <mutex>
 #include <functional>
 #include "cdc/changefeed.h"
+#include "cdc/cdc_ws_handler.h"
 
 namespace themis {
 
@@ -141,8 +142,15 @@ public:
     
     /**
      * @brief Check if subscribed to CDC
+     *
+     * Returns true for legacy /v2/changes subscriptions and also for
+     * /v2/cdc/stream sessions that have at least one active named subscription.
      */
-    bool isSubscribedToCDC() const { return cdc_subscribed_; }
+    bool isSubscribedToCDC() const {
+        if (cdc_subscribed_) return true;
+        if (cdc_stream_handler_) return cdc_stream_handler_->hasSubscriptions();
+        return false;
+    }
     
     /**
      * @brief Update CDC last sent sequence
@@ -159,6 +167,16 @@ public:
         std::set<Changefeed::ChangeEventType> event_types;
     };
     CDCSubscription getCDCSubscription() const;
+
+    /**
+     * @brief Return the CdcWebSocketHandler for /v2/cdc/stream sessions.
+     *
+     * Returns nullptr for legacy /v2/changes sessions and before run() is
+     * called.  WebSocketManager uses this to route polling to the new handler.
+     */
+    cdc::CdcWebSocketHandler* getCdcStreamHandler() {
+        return cdc_stream_handler_.get();
+    }
 
 private:
     void onAccept(beast::error_code ec);
@@ -196,13 +214,17 @@ private:
     // onWrite can emit a close frame after the current write drains.
     bool close_due_to_backpressure_;
     
-    // CDC subscription state
+    // CDC subscription state (legacy /v2/changes protocol)
     bool cdc_subscribed_;
     uint64_t cdc_from_sequence_;
     uint64_t cdc_last_sent_sequence_;
     std::string cdc_key_prefix_;
     std::set<Changefeed::ChangeEventType> cdc_event_types_;  ///< Filtered event types; empty = all
     mutable std::mutex cdc_mutex_;
+
+    // CDC subscription manager for /v2/cdc/stream (named subscriptions + acks).
+    // Null for legacy /v2/changes sessions; initialised in run() for the new endpoint.
+    std::unique_ptr<cdc::CdcWebSocketHandler> cdc_stream_handler_;
 };
 
 /**

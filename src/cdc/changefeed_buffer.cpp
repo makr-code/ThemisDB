@@ -255,6 +255,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     for (auto& buffered_event : buffer.events) {
         bool recorded = false;
         int retry_count = 0;
+        std::string last_error;
         
         while (!recorded && retry_count <= config_.max_retry_attempts) {
             try {
@@ -274,12 +275,14 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                                     THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
                                     stats_.flush_errors++;
                                     metrics_.errors++;
+                                    last_error = "decompression returned empty result";
                                     break;  // Don't retry decompression errors
                                 }
                             } catch (const std::exception& e) {
                                 THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
                                 stats_.flush_errors++;
                                 metrics_.errors++;
+                                last_error = e.what();
                                 break;  // Don't retry decompression errors
                             }
                         }
@@ -302,6 +305,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 retry_count++;
                 stats_.retry_attempts++;
                 metrics_.retries++;
+                last_error = e.what();
                 
                 if (retry_count <= config_.max_retry_attempts) {
                     // Calculate backoff duration with maximum cap
@@ -330,6 +334,15 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
         
         if (!recorded && retry_count > config_.max_retry_attempts) {
             failed++;
+            // Route to dead-letter queue if configured
+            if (dlq_) {
+                try {
+                    dlq_->enqueue(buffered_event.event, last_error, retry_count);
+                } catch (const std::exception& dlq_ex) {
+                    THEMIS_ERROR("DeadLetterQueue enqueue failed for event key={}: {}",
+                                 buffered_event.event.key, dlq_ex.what());
+                }
+            }
         }
     }
     

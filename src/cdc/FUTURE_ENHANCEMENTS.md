@@ -45,13 +45,13 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 Replace or supplement the SSE transport with a bidirectional WebSocket endpoint (`/v2/cdc/stream`) that supports both server-push change events and client-sent subscription management frames. WebSocket allows the client to change subscriptions without reconnecting.
 
 **Implementation Notes:**
-- `[ ]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
-- `[ ]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
-- `[~]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
-- `[ ]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
-- `[ ]` Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
-- `[ ]` Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
-- `[ ]` TLS handshake reuses existing Beast SSL context; no new cert management needed.
+- `[x]` Create `cdc_ws_handler.cpp`; register `WS /v2/cdc/stream` in `src/server/http_server.cpp`.
+- `[x]` Protocol: JSON control frames for subscribe/unsubscribe; change event frames matching `ChangeEvent::toJson()` output.
+- `[x]` Subscribe frame: `{"action":"subscribe","id":"sub-1","collection":"orders","key_prefix":"US-","event_types":["PUT","DELETE"]}`.
+- `[x]` Unsubscribe frame: `{"action":"unsubscribe","id":"sub-1"}`.
+- `[x]` Back-pressure: per-connection outbound queue capped at 1,000 pending frames; on overflow, close with code `1011` and record `cdc_ws_overflow_total` metric.
+- `[x]` Reuse `Changefeed::subscribe()` with the same filter model as SSE; each WebSocket subscription ID maps to one `Changefeed` subscription handle.
+- `[x]` TLS handshake reuses existing Beast SSL context; no new cert management needed.
 
 **Performance Targets:**
 - ≥ 5,000 concurrent WebSocket connections per node with < 100 MB additional RSS.
@@ -161,13 +161,13 @@ When a data-subject deletion request arrives, all historical change log entries 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
 | SSE event delivery latency p99 | < 50 ms (estimated) | < 20 ms | `benchmarks/cdc_bench.cpp` with synthetic write load |
-| WebSocket concurrent connections | 0 (not implemented) | ≥ 5,000 | Load test with `k6` WebSocket scenario |
+| WebSocket concurrent connections | implemented | ≥ 5,000 | Load test with `k6` WebSocket scenario |
 | Consumer group offset commit | N/A | < 1 ms p99 | `tests/cdc/consumer_group_bench.cpp` |
 | Kafka producer throughput | N/A | ≥ 50K events/sec | `benchmarks/kafka_producer_bench.cpp` |
 | Log compaction (1M events) | Unbounded | < 30 s | `tests/cdc/compaction_bench.cpp` |
 
 ## Security / Reliability
 
-- `[ ]` WebSocket upgrade requests must be validated by `auth::JWTValidator` with `cdc:subscribe` scope before the HTTP 101 switch; reject with 401 before protocol upgrade.
+- `[x]` WebSocket upgrade requests must be validated by `auth::JWTValidator` with `cdc:subscribe` scope before the HTTP 101 switch; reject with 401 before protocol upgrade.
 - `[ ]` `CDCAdmin::redactByKeyPrefix()` requires `admin:cdc:redact` JWT scope and must write an immutable audit log entry before beginning redaction to ensure the operation is traceable even if it fails midway.
 - `[ ]` Kafka producer credentials (SASL/TLS) must be loaded from `config/security/` paths via `ConfigPathResolver::resolve()`; credentials must never be logged even at DEBUG level.
