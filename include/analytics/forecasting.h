@@ -53,9 +53,7 @@
 
 #include <algorithm>
 #include <cstdint>
-#include <functional>
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -95,7 +93,7 @@ struct TimeSeriesPoint {
  * Ordered time-series container.
  *
  * Points are stored sorted by @c timestamp_ms.  Duplicate timestamps are
- * allowed; the implementation averages them during model fitting.
+ * allowed and retained as separate observations.
  */
 class TimeSeries {
 public:

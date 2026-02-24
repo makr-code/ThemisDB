@@ -506,7 +506,43 @@ TEST(SerializeTest, RoundTrip_HoltWinters) {
     auto f2 = restored.predict(4);
     EXPECT_EQ(f1.size(), f2.size());
     for (size_t i = 0; i < f1.size(); ++i)
-        EXPECT_NEAR(f1[i].value, f2[i].value, 1e-4);  // text serialization precision
+        EXPECT_NEAR(f1[i].value, f2[i].value, 1e-9);  // full precision serialization
+}
+
+TEST(SerializeTest, RoundTrip_ARIMA) {
+    auto ts = makeLinearSeries(30, 1.5, 3.0, 0, 1000);
+    ForecastConfig cfg;
+    cfg.ar_order   = 2;
+    cfg.diff_order = 1;
+    cfg.ma_order   = 1;
+    ForecastModel model(ForecastMethod::ARIMA);
+    model.fit(ts, cfg);
+    auto serialized = model.serialize();
+    auto restored   = ForecastModel::deserialize(serialized);
+    EXPECT_TRUE(restored.isFitted());
+    EXPECT_EQ(restored.method(), ForecastMethod::ARIMA);
+
+    auto f1 = model.predict(5);
+    auto f2 = restored.predict(5);
+    EXPECT_EQ(f1.size(), f2.size());
+    for (size_t i = 0; i < f1.size(); ++i)
+        EXPECT_NEAR(f1[i].value, f2[i].value, 1e-9);
+}
+
+TEST(SerializeTest, RoundTrip_Ensemble) {
+    auto ts = makeLinearSeries(30, 1.0, 2.0, 0, 1000);
+    ForecastModel model(ForecastMethod::ENSEMBLE);
+    model.fit(ts);
+    auto serialized = model.serialize();
+    auto restored   = ForecastModel::deserialize(serialized);
+    EXPECT_TRUE(restored.isFitted());
+    EXPECT_EQ(restored.method(), ForecastMethod::ENSEMBLE);
+
+    auto f1 = model.predict(5);
+    auto f2 = restored.predict(5);
+    EXPECT_EQ(f1.size(), f2.size());
+    for (size_t i = 0; i < f1.size(); ++i)
+        EXPECT_NEAR(f1[i].value, f2[i].value, 1e-9);
 }
 
 // ============================================================================

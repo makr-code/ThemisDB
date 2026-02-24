@@ -58,12 +58,13 @@
 
 #include "analytics/forecasting.h"
 
-#include <cassert>
 #include <cmath>
+#include <iomanip>
 #include <limits>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
+#include <unordered_map>
 
 namespace themisdb {
 namespace analytics {
@@ -915,6 +916,10 @@ DecompositionResult ForecastModel::decompose(bool multiplicative) const {
 
 std::string ForecastModel::serialize() const {
     std::ostringstream oss;
+    // Use full IEEE-754 double precision (17 sig-figs) to ensure exact round-trip.
+    // std::fixed is intentionally NOT used here so integers (e.g. timestamps) and
+    // small fractions both serialise without unnecessary padding.
+    oss << std::setprecision(std::numeric_limits<double>::max_digits10);
     oss << "method=" << static_cast<int>(impl_->method) << "\n";
     oss << "fitted=" << (impl_->fitted ? 1 : 0) << "\n";
     oss << "alpha=" << impl_->config.alpha << "\n";
@@ -941,6 +946,23 @@ std::string ForecastModel::serialize() const {
     oss << "hw_S_size=" << impl_->hw_p.S.size() << "\n";
     for (size_t i = 0; i < impl_->hw_p.S.size(); ++i)
         oss << "hw_S_" << i << "=" << impl_->hw_p.S[i] << "\n";
+    // ARIMA params (needed for ARIMA and ENSEMBLE predict after deserialization)
+    oss << "ar_mean_diff=" << impl_->arima_p.mean_diff << "\n";
+    oss << "ar_last_obs=" << impl_->arima_p.last_obs << "\n";
+    oss << "ar_d=" << impl_->arima_p.d << "\n";
+    oss << "ar_sigma=" << impl_->arima_p.residual_stddev << "\n";
+    oss << "ar_coeffs_n=" << impl_->arima_p.ar_coeffs.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.ar_coeffs.size(); ++i)
+        oss << "ar_c_" << i << "=" << impl_->arima_p.ar_coeffs[i] << "\n";
+    oss << "ma_coeffs_n=" << impl_->arima_p.ma_coeffs.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.ma_coeffs.size(); ++i)
+        oss << "ma_c_" << i << "=" << impl_->arima_p.ma_coeffs[i] << "\n";
+    oss << "ar_win_n=" << impl_->arima_p.last_window.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.last_window.size(); ++i)
+        oss << "ar_w_" << i << "=" << impl_->arima_p.last_window[i] << "\n";
+    oss << "ar_res_n=" << impl_->arima_p.last_resid.size() << "\n";
+    for (size_t i = 0; i < impl_->arima_p.last_resid.size(); ++i)
+        oss << "ar_r_" << i << "=" << impl_->arima_p.last_resid[i] << "\n";
     // Training timestamps
     oss << "train_n=" << impl_->train_ts.size() << "\n";
     for (size_t i = 0; i < impl_->train_ts.size(); ++i)
@@ -950,25 +972,36 @@ std::string ForecastModel::serialize() const {
 
 ForecastModel ForecastModel::deserialize(const std::string& data) {
     ForecastModel model;
-    std::istringstream iss(data);
-    std::string line;
-    auto read = [&](const std::string& key) -> std::string {
-        std::string prefix = key + "=";
-        std::istringstream ss2(data);
-        std::string l2;
-        while (std::getline(ss2, l2)) {
-            if (l2.rfind(prefix, 0) == 0)
-                return l2.substr(prefix.size());
+
+    // Parse the entire string into a map once for O(1) per-key lookup.
+    std::unordered_map<std::string, std::string> kv;
+    {
+        std::istringstream ss(data);
+        std::string line;
+        while (std::getline(ss, line)) {
+            auto eq = line.find('=');
+            if (eq != std::string::npos)
+                kv.emplace(line.substr(0, eq), line.substr(eq + 1));
         }
-        return "";
+    }
+    // Sentinel returned when a key is missing; declared in outer scope (not static
+    // inside the lambda) to avoid any question about concurrent initialisation.
+    const std::string kEmpty;
+    auto readS = [&](const std::string& key) -> const std::string& {
+        auto it = kv.find(key);
+        return (it != kv.end()) ? it->second : kEmpty;
     };
     auto readD = [&](const std::string& key) -> double {
-        std::string v = read(key);
+        const auto& v = readS(key);
         return v.empty() ? 0.0 : std::stod(v);
     };
     auto readI = [&](const std::string& key) -> int {
-        std::string v = read(key);
+        const auto& v = readS(key);
         return v.empty() ? 0 : std::stoi(v);
+    };
+    auto readL = [&](const std::string& key) -> int64_t {
+        const auto& v = readS(key);
+        return v.empty() ? int64_t{0} : static_cast<int64_t>(std::stoll(v));
     };
 
     model.impl_->method = static_cast<ForecastMethod>(readI("method"));
@@ -982,12 +1015,15 @@ ForecastModel ForecastModel::deserialize(const std::string& data) {
     model.impl_->config.diff_order    = readI("diff_order");
     model.impl_->config.ma_order      = readI("ma_order");
     model.impl_->in_sample_rmse       = readD("in_sample_rmse");
+    // Linear
     model.impl_->linear_p.alpha       = readD("lin_alpha");
     model.impl_->linear_p.beta        = readD("lin_beta");
     model.impl_->linear_p.residual_stddev = readD("lin_sigma");
+    // SES
     model.impl_->ses_p.alpha          = readD("ses_alpha");
     model.impl_->ses_p.last_level     = readD("ses_level");
     model.impl_->ses_p.residual_stddev = readD("ses_sigma");
+    // HW
     model.impl_->hw_p.L               = readD("hw_L");
     model.impl_->hw_p.T               = readD("hw_T");
     model.impl_->hw_p.residual_stddev = readD("hw_sigma");
@@ -1000,12 +1036,33 @@ ForecastModel ForecastModel::deserialize(const std::string& data) {
     model.impl_->hw_p.S.resize(static_cast<size_t>(hw_s_size));
     for (int i = 0; i < hw_s_size; ++i)
         model.impl_->hw_p.S[static_cast<size_t>(i)] = readD("hw_S_" + std::to_string(i));
+    // ARIMA
+    model.impl_->arima_p.mean_diff        = readD("ar_mean_diff");
+    model.impl_->arima_p.last_obs         = readD("ar_last_obs");
+    model.impl_->arima_p.d                = readI("ar_d");
+    model.impl_->arima_p.residual_stddev  = readD("ar_sigma");
+    int ar_n = readI("ar_coeffs_n");
+    model.impl_->arima_p.ar_coeffs.resize(static_cast<size_t>(ar_n));
+    for (int i = 0; i < ar_n; ++i)
+        model.impl_->arima_p.ar_coeffs[static_cast<size_t>(i)] = readD("ar_c_" + std::to_string(i));
+    int ma_n = readI("ma_coeffs_n");
+    model.impl_->arima_p.ma_coeffs.resize(static_cast<size_t>(ma_n));
+    for (int i = 0; i < ma_n; ++i)
+        model.impl_->arima_p.ma_coeffs[static_cast<size_t>(i)] = readD("ma_c_" + std::to_string(i));
+    int win_n = readI("ar_win_n");
+    model.impl_->arima_p.last_window.resize(static_cast<size_t>(win_n));
+    for (int i = 0; i < win_n; ++i)
+        model.impl_->arima_p.last_window[static_cast<size_t>(i)] = readD("ar_w_" + std::to_string(i));
+    int res_n = readI("ar_res_n");
+    model.impl_->arima_p.last_resid.resize(static_cast<size_t>(res_n));
+    for (int i = 0; i < res_n; ++i)
+        model.impl_->arima_p.last_resid[static_cast<size_t>(i)] = readD("ar_r_" + std::to_string(i));
+    // Training timestamps
     int train_n = readI("train_n");
     model.impl_->train_ts.resize(static_cast<size_t>(train_n));
     for (int i = 0; i < train_n; ++i)
-        model.impl_->train_ts[static_cast<size_t>(i)] = static_cast<int64_t>(readD("ts_" + std::to_string(i)));
+        model.impl_->train_ts[static_cast<size_t>(i)] = readL("ts_" + std::to_string(i));
 
-    (void)line;
     return model;
 }
 
