@@ -124,6 +124,18 @@ public:
     void logSAMLFailure(const std::string& reason);
 
     // -----------------------------------------------------------------------
+    // LDAP / Active Directory events
+    // -----------------------------------------------------------------------
+
+    /** LDAP direct-bind authentication succeeded. */
+    void logLDAPSuccess(const std::string& username,
+                        const std::string& dn);
+
+    /** LDAP direct-bind authentication failed. */
+    void logLDAPFailure(const std::string& username,
+                        const std::string& reason);
+
+    // -----------------------------------------------------------------------
     // Zero-trust continuous verification events
     // -----------------------------------------------------------------------
 
