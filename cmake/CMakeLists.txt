@@ -1763,6 +1763,7 @@ set(THEMIS_CORE_SOURCES
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
