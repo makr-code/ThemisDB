@@ -257,3 +257,49 @@ TEST_F(ApiKeyMgmtHandlerTest, NullAuthMiddleware_CreateKeyStillWorks) {
     EXPECT_FALSE(result.contains("status_code"));
     EXPECT_TRUE(result.contains("secret"));
 }
+
+// ---------------------------------------------------------------------------
+// Consistency: key must appear in list immediately after creation
+// ---------------------------------------------------------------------------
+
+TEST_F(ApiKeyMgmtHandlerTest, CreateKey_ImmediatelyVisibleInList) {
+    json create_result = handler_->createKey({{"name", "visible-key"}});
+    ASSERT_FALSE(create_result.contains("status_code"));
+    std::string kid = create_result["id"].get<std::string>();
+
+    // Must be visible via listKeys
+    json list_result = handler_->listKeys();
+    bool found = false;
+    for (const auto& item : list_result["items"]) {
+        if (item["id"].get<std::string>() == kid) { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Newly created key must be immediately visible in list";
+
+    // Must also be retrievable by ID
+    json get_result = handler_->getKey(kid);
+    EXPECT_FALSE(get_result.contains("status_code"));
+}
+
+// ---------------------------------------------------------------------------
+// After delete: key is gone from both list and auth
+// ---------------------------------------------------------------------------
+
+TEST_F(ApiKeyMgmtHandlerTest, DeleteKey_RemovedFromListAndAuth) {
+    json r1 = handler_->createKey({{"name", "stay"}});
+    json r2 = handler_->createKey({{"name", "go"}});
+    std::string kid_go = r2["id"].get<std::string>();
+    std::string secret_go = r2["secret"].get<std::string>();
+
+    handler_->deleteKey(kid_go);
+
+    // List should have exactly 1 item now
+    json list_result = handler_->listKeys();
+    EXPECT_EQ(list_result["total"].get<int>(), 1);
+
+    // getKey must return 404
+    json get_result = handler_->getKey(kid_go);
+    EXPECT_EQ(get_result.value("status_code", 0), 404);
+
+    // Auth should reject the deleted key
+    EXPECT_FALSE(auth_->validateToken(secret_go).authorized);
+}

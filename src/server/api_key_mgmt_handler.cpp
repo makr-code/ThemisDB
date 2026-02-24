@@ -135,22 +135,30 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
         std::string created = currentTimestamp();
         std::string expires = expiryTimestamp(expires_in_days);
 
-        // Register with AuthMiddleware so the key is immediately active
-        if (auth_) {
-            AuthMiddleware::TokenConfig cfg;
-            cfg.token   = token;
-            cfg.user_id = key_id;  // use key_id as user_id so we can look up later
-            for (const auto& p : permissions) {
-                cfg.scopes.insert(p);
-            }
-            auth_->addToken(cfg);
-        }
-
-        // Store metadata
+        // Store metadata first so the key is always tracked before it becomes active in auth
         ApiKeyRecord rec{key_id, name, token, permissions, created, expires};
         {
             std::lock_guard<std::mutex> lock(mutex_);
             keys_[key_id] = rec;
+        }
+
+        // Register with AuthMiddleware so the key is immediately active for authentication
+        // If registration fails we roll back to maintain consistency
+        if (auth_) {
+            try {
+                AuthMiddleware::TokenConfig cfg;
+                cfg.token   = token;
+                cfg.user_id = key_id;
+                for (const auto& p : permissions) {
+                    cfg.scopes.insert(p);
+                }
+                auth_->addToken(cfg);
+            } catch (...) {
+                // Rollback: remove from keys_ so we don't track an unauthenticated key
+                std::lock_guard<std::mutex> lock(mutex_);
+                keys_.erase(key_id);
+                throw;
+            }
         }
 
         THEMIS_INFO("API Key created: id='{}' name='{}' permissions={}", key_id, name, permissions.size());
