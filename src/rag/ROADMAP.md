@@ -29,6 +29,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
 
 ## In Progress 🚧
 
@@ -81,7 +82,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases)
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)
