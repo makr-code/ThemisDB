@@ -128,13 +128,16 @@ public:
 
     /**
      * @brief Create a context with custom secrets implementation.
+     *
+     * @p featureFlags is optional; nullptr installs a NoOpFeatureFlags.
      */
     static std::shared_ptr<ConcernsContext> createCustom(
         std::unique_ptr<ILogger> logger,
         std::unique_ptr<ITracer> tracer,
         std::unique_ptr<IMetrics> metrics,
         std::unique_ptr<ICache> cache,
-        std::unique_ptr<ISecrets> secrets
+        std::unique_ptr<ISecrets> secrets,
+        std::unique_ptr<IFeatureFlags> featureFlags = nullptr
     );
 
     /**

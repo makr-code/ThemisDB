@@ -311,3 +311,97 @@ TEST(AuditorSnapshotTest, GetAllEventsReturnsIndependentCopy) {
 
     PluginSecurityAuditor::instance().clearEvents();
 }
+
+// ============================================================================
+// File permission and size hardening (Unix/Linux only)
+// ============================================================================
+
+#ifndef _WIN32
+#include <sys/stat.h>
+#include <unistd.h>
+
+class PluginLoaderHardeningTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_dir_ = fs::temp_directory_path() / "themis_hardening_test";
+        fs::create_directories(test_dir_);
+        PluginSecurityAuditor::instance().clearEvents();
+    }
+    void TearDown() override {
+        fs::remove_all(test_dir_);
+        PluginSecurityAuditor::instance().clearEvents();
+    }
+    fs::path test_dir_;
+};
+
+TEST_F(PluginLoaderHardeningTest, WorldWritablePluginIsRejected) {
+    // Root bypasses permission checks on many systems – skip to avoid false negatives.
+    if (getuid() == 0) {
+        GTEST_SKIP() << "Skipping world-writable test when running as root";
+    }
+
+    fs::path plugin = createTempFile(test_dir_, "evil_world.so");
+    // Make the file world-writable
+    chmod(plugin.c_str(), 0777);
+
+    PluginLoader loader;
+    EXPECT_FALSE(loader.loadPlugin(plugin.string()))
+        << "World-writable plugin must be rejected";
+}
+
+TEST_F(PluginLoaderHardeningTest, GroupWritablePluginIsRejected) {
+    if (getuid() == 0) {
+        GTEST_SKIP() << "Skipping group-writable test when running as root";
+    }
+
+    fs::path plugin = createTempFile(test_dir_, "evil_group.so");
+    // Make the file group-writable (but not world-writable)
+    chmod(plugin.c_str(), 0775);
+
+    PluginLoader loader;
+    EXPECT_FALSE(loader.loadPlugin(plugin.string()))
+        << "Group-writable plugin must be rejected";
+}
+
+TEST_F(PluginLoaderHardeningTest, OversizedPluginIsRejected) {
+    fs::path plugin = test_dir_ / "big_plugin.so";
+    // Create a sparse file just over the 128 MB limit (no actual disk usage)
+    {
+        std::ofstream f(plugin);
+        f.close();
+    }
+    constexpr off_t kMaxBytes = 128LL * 1024 * 1024;
+    if (truncate(plugin.c_str(), kMaxBytes + 1) != 0) {
+        GTEST_SKIP() << "Could not create sparse oversized file; skipping";
+    }
+
+    PluginLoader loader;
+    EXPECT_FALSE(loader.loadPlugin(plugin.string()))
+        << "Plugin exceeding 128 MB must be rejected";
+}
+
+TEST_F(PluginLoaderHardeningTest, SecurePermissionsPluginPassesPermissionCheck) {
+    // A plugin with owner-only permissions (0600) must not be rejected for
+    // permission reasons (it will still fail because it is not a real library,
+    // but the rejection reason must not be "insecure permissions").
+    fs::path plugin = createTempFile(test_dir_, "good_perms.so");
+    chmod(plugin.c_str(), 0600);
+
+    // Audit log must not contain a POLICY_VIOLATION for this file caused by
+    // the permission check. (loadPlugin will still fail because it is not a
+    // real shared library, but not for permission reasons.)
+    PluginLoader loader;
+    loader.loadPlugin(plugin.string());
+    auto after = PluginSecurityAuditor::instance().getEventsForPlugin(plugin.string());
+
+    bool hasBadPermEvent = false;
+    for (const auto& ev : after) {
+        if (ev.type == PluginSecurityEvent::EventType::POLICY_VIOLATION &&
+            ev.message.find("insecure permissions") != std::string::npos) {
+            hasBadPermEvent = true;
+        }
+    }
+    EXPECT_FALSE(hasBadPermEvent)
+        << "Owner-only plugin should not trigger the permissions hardening rejection";
+}
+#endif  // !_WIN32

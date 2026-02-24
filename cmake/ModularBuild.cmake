@@ -153,6 +153,7 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/tensor_core_matmul.cpp
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
+    ../src/acceleration/device_manager.cpp
     
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
@@ -676,6 +677,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/ranger_adapter.cpp
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
+    ../src/server/rate_limiting_middleware.cpp
     ../src/server/load_shedder.cpp
     ../src/server/api_version.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
@@ -703,6 +705,9 @@ set(THEMIS_NETWORK_SOURCES
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
+
+    # WebSocket change-stream handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp

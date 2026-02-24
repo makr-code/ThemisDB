@@ -25,13 +25,13 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ## In Progress 🚧
 - [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
 - [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
-- [I] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
+- [P] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
+- [P] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
 - [!] Query cancellation via request ID (Issue: #2431)
 - [I] Parallel scan for large collection full-table queries (Issue: #2432)
 - [I] User-defined functions (UDF) registration API (Issue: #2433)
@@ -63,11 +63,11 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
 - [~] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
 - [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
-- [~] Incremental view maintenance for materialized CTEs
+- [x] Incremental view maintenance for materialized CTEs
 
 ### Phase 3: Resource Management & UDF (Status: Planned 📋)
 - [x] Query result type annotations for client SDK code generation
-- [ ] Per-query resource limits (max rows, max memory, timeout)
+- [P] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [ ] Parallel scan for large collection full-table queries
 - [ ] User-defined functions (UDF) registration API

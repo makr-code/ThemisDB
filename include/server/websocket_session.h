@@ -31,13 +31,12 @@
 #include <memory>
 #include <string>
 #include <queue>
+#include <set>
 #include <mutex>
 #include <functional>
+#include "cdc/changefeed.h"
 
 namespace themis {
-
-// Forward declaration
-class Changefeed;
 
 namespace server {
 
@@ -83,6 +82,21 @@ public:
     void run(http::request<http::string_body> req);
     
     /**
+     * @brief Set the JWT token extracted from the HTTP upgrade Authorization header.
+     *
+     * Called before run() so that per-message auth checks can use the same token.
+     */
+    void setAuthToken(const std::string& token) { auth_token_ = token; }
+
+    /**
+     * @brief Set the request path for path-specific behaviour.
+     *
+     * Called before run() to inform the session which endpoint was requested,
+     * e.g. "/v2/changes" for the dedicated changefeed WebSocket endpoint.
+     */
+    void setRequestPath(const std::string& path) { request_path_ = path; }
+    
+    /**
      * @brief Send a text message to the client
      */
     void send(const std::string& message);
@@ -106,11 +120,19 @@ public:
      * @brief Get session ID
      */
     const std::string& getSessionId() const { return session_id_; }
-    
+
+    /// Maximum number of pending outbound frames per connection.
+    /// Exceeding this triggers a 1011 close to prevent unbounded memory growth.
+    static constexpr std::size_t kMaxQueueDepth = 1000;
+
     /**
      * @brief Subscribe to CDC changefeed
+     * @param from_sequence Starting sequence number
+     * @param key_prefix Optional key prefix filter
+     * @param event_types Optional set of event types to filter; empty = all types
      */
-    void subscribeToCDC(uint64_t from_sequence = 0, const std::string& key_prefix = "");
+    void subscribeToCDC(uint64_t from_sequence = 0, const std::string& key_prefix = "",
+                        const std::set<Changefeed::ChangeEventType>& event_types = {});
     
     /**
      * @brief Unsubscribe from CDC changefeed
@@ -134,6 +156,7 @@ public:
         uint64_t from_sequence;
         std::string key_prefix;
         uint64_t last_sent_sequence;
+        std::set<Changefeed::ChangeEventType> event_types;
     };
     CDCSubscription getCDCSubscription() const;
 
@@ -152,9 +175,13 @@ private:
     HttpServer* server_;
     beast::flat_buffer buffer_;
     std::string session_id_;
+    std::string request_path_;   ///< Target path from the HTTP upgrade request
+    std::string auth_token_;     ///< JWT extracted from the HTTP upgrade Authorization header
     bool active_;
     bool is_tls_;
     
+    // Back-pressure: the maximum queue depth is declared public as kMaxQueueDepth above.
+
     // Message queue for outgoing messages.
     // Each entry records the payload and whether it is a binary frame so that
     // onWrite can restore the correct frame type when draining the queue.
@@ -165,12 +192,16 @@ private:
     std::queue<WriteEntry> write_queue_;
     std::mutex write_mutex_;
     bool writing_;
+    // Set to true when the connection is closed due to back-pressure so that
+    // onWrite can emit a close frame after the current write drains.
+    bool close_due_to_backpressure_;
     
     // CDC subscription state
     bool cdc_subscribed_;
     uint64_t cdc_from_sequence_;
     uint64_t cdc_last_sent_sequence_;
     std::string cdc_key_prefix_;
+    std::set<Changefeed::ChangeEventType> cdc_event_types_;  ///< Filtered event types; empty = all
     mutable std::mutex cdc_mutex_;
 };
 

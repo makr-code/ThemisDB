@@ -27,6 +27,7 @@
     #include <windows.h>
 #else
     #include <dlfcn.h>
+    #include <sys/stat.h>
 #endif
 
 namespace themis {
@@ -40,7 +41,7 @@ void* PluginLoader::loadLibrary(const std::string& path) {
 #ifdef _WIN32
     return LoadLibraryA(path.c_str());
 #else
-    return dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+    return dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
 #endif
 }
 
@@ -77,6 +78,41 @@ bool PluginLoader::loadPlugin(const std::string& libraryPath) {
         });
         return false;
     }
+
+#ifndef _WIN32
+    // SECURITY: Reject plugins with insecure file permissions (group/world writable)
+    // and enforce a maximum file size to guard against resource exhaustion.
+    {
+        struct stat st;
+        if (stat(libraryPath.c_str(), &st) == 0) {
+            if (st.st_mode & (S_IWGRP | S_IWOTH)) {
+                std::string reason = "Plugin file has insecure permissions (group/world writable)";
+                std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    libraryPath, "", reason,
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "ERROR"
+                });
+                return false;
+            }
+            constexpr off_t kMaxPluginBytes = 128LL * 1024 * 1024;  // 128 MB
+            if (st.st_size > kMaxPluginBytes) {
+                std::string reason = "Plugin file exceeds maximum allowed size (128 MB)";
+                std::cerr << "SECURITY: " << reason << ": " << libraryPath << std::endl;
+                auto& auditor = PluginSecurityAuditor::instance();
+                auditor.logEvent({
+                    PluginSecurityEvent::EventType::POLICY_VIOLATION,
+                    libraryPath, "", reason,
+                    static_cast<uint64_t>(std::time(nullptr)),
+                    "ERROR"
+                });
+                return false;
+            }
+        }
+    }
+#endif
 
     // SECURITY: Verify plugin before loading
     PluginSecurityPolicy policy;

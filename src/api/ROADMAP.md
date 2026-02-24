@@ -17,14 +17,14 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## In Progress 🚧
 - [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
-- [I] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
+- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] GraphQL schema for multi-model queries (Issue: #1493)
 - [I] WebSocket support for real-time change subscriptions (Issue: #1494)
-- [I] Rate limiting middleware (Issue: #1495)
+- [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
 - [I] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
@@ -49,9 +49,9 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: In Progress)
 - [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
-- [I] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
+- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
-- [I] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
+- [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
@@ -69,7 +69,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] API stability guaranteed (Issue: #1514)
 
 ## Known Issues & Limitations
-- WebSocket/streaming endpoints are not yet available
 - OpenAPI specification may be incomplete for newer endpoints
 
 ## Breaking Changes
