@@ -63,6 +63,14 @@ public:
         std::shared_ptr<AuthMiddleware> auth
     );
 
+    /** GET /v1/admin/cache/health
+     *
+     * Returns per-tier status (L1/L2/L3) and circuit breaker state.
+     * Responds with HTTP 200 when healthy, 503 when degraded/unavailable.
+     */
+    http::response<http::string_body> handleHealth(
+        const http::request<http::string_body>& req);
+
     /** GET /v1/admin/cache/stats */
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);

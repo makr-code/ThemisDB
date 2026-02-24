@@ -20,6 +20,7 @@
 #include "server/entity_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/spatial_index.h"
@@ -486,6 +487,15 @@ http::response<http::string_body> EntityApiHandler::handlePut(
             THEMIS_WARN("Schema encryption processing error: {}", e.what());
         }
 
+        // Capture before snapshot for CDC enrichment (read prior to the write)
+        std::optional<std::string> cdc_before_snapshot;
+        if (changefeed_ && config_.feature_cdc) {
+            auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
+            if (old_bytes.has_value()) {
+                cdc_before_snapshot = std::string(old_bytes->begin(), old_bytes->end());
+            }
+        }
+
         // Upsert via SecondaryIndexManager to keep indexes consistent
         auto st = secondary_index_->put(table, entity);
         if (!st.ok) {
@@ -522,6 +532,8 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                     std::chrono::system_clock::now().time_since_epoch()
                 ).count();
                 event.metadata = {{"table", table}, {"pk", pk}};
+                event.before_snapshot = cdc_before_snapshot;
+                event.after_snapshot = blob_str;
                 changefeed_->recordEvent(event);
             } catch (const std::exception& e) {
                 // Log but don't fail the request
@@ -717,6 +729,15 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
             }
         }
 
+        // Capture before snapshot for CDC enrichment (read prior to the delete)
+        std::optional<std::string> cdc_before_snapshot;
+        if (changefeed_ && config_.feature_cdc) {
+            auto old_bytes = storage_->get(KeySchema::makeRelationalKey(table, pk));
+            if (old_bytes.has_value()) {
+                cdc_before_snapshot = std::string(old_bytes->begin(), old_bytes->end());
+            }
+        }
+
         auto st = secondary_index_->erase(table, pk);
         if (!st.ok) {
             span.setStatus(false, st.message);
@@ -735,6 +756,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
                     std::chrono::system_clock::now().time_since_epoch()
                 ).count();
                 event.metadata = {{"table", table}, {"pk", pk}};
+                event.before_snapshot = cdc_before_snapshot;
                 changefeed_->recordEvent(event);
             } catch (const std::exception& e) {
                 THEMIS_WARN("CDC event recording failed: {}", e.what());
@@ -807,6 +829,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
             std::string key; // table:pk
             std::string blob; // Only for PUT
             int64_t index;
+            std::optional<std::string> before_snapshot; // captured before write for CDC
         };
         std::vector<ValidatedOp> validated_ops;
         validated_ops.reserve(total);
@@ -896,8 +919,16 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
         // Phase 2: Execute validated operations using WriteBatch
         auto batch = storage_->createWriteBatch();
         
-        for (const auto& vop : validated_ops) {
+        for (auto& vop : validated_ops) {
             try {
+                // Capture before snapshot for CDC enrichment (before the write is batched)
+                if (changefeed_ && config_.feature_cdc) {
+                    auto old_bytes = storage_->get(KeySchema::makeRelationalKey(vop.table, vop.pk));
+                    if (old_bytes.has_value()) {
+                        vop.before_snapshot = std::string(old_bytes->begin(), old_bytes->end());
+                    }
+                }
+
                 if (vop.op_type == "put") {
                     // Build entity from blob
                     BaseEntity entity = BaseEntity::fromJson(vop.pk, vop.blob);
@@ -984,9 +1015,11 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                     event.key = vop.key;
                     if (vop.op_type == "put") {
                         event.value = vop.blob;
+                        event.after_snapshot = vop.blob;
                     } else {
                         event.value = std::nullopt;
                     }
+                    event.before_snapshot = vop.before_snapshot;
                     event.timestamp_ms = now_ms;
                     event.metadata = {{"table", vop.table}, {"pk", vop.pk}, {"batch", true}};
                     changefeed_->recordEvent(event);

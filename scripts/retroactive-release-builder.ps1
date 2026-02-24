@@ -219,6 +219,7 @@ function Checkout-Ref {
         return $true
     }
     catch {
+        Write-Warning "Checkout failed: $_"
         Print-Error "Failed to checkout $RefType`: $RefName"
         return $false
     }
@@ -249,6 +250,7 @@ function Restore-OriginalBranch {
         return $true
     }
     catch {
+        Write-Warning "Could not fully restore original state: $_"
         Print-Warning "Could not fully restore original state"
         return $false
     }
@@ -298,6 +300,7 @@ function Build-Windows {
         }
     }
     catch {
+        Write-Warning "CMake configuration failed: $_"
         Print-Error "CMake configuration failed: $_"
         return $false
     }

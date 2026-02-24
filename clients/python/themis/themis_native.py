@@ -292,8 +292,8 @@ class ThemisNativeClient:
             try:
                 close_req = pb.CloseRequest(reason="Client disconnect")
                 self._send_message(OpCode.CLOSE, close_req)
-            except:
-                pass
+            except Exception as e:
+                print(f"[WARN] Failed to send CLOSE message during disconnect: {e}")
             finally:
                 self.socket.close()
                 self.socket = None
