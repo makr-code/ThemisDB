@@ -18,6 +18,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Token bucket rate limiting
 - [x] Tenant isolation and namespace enforcement
 - [x] Per-tenant size quotas
+- [x] GDPR-aware cache invalidation – PII purge propagation via `invalidatePII()` (GDPR Art. 17)
 
 ## In Progress 🚧
 - [x] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
@@ -39,8 +40,8 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [I] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
 - [P] Write-through cache mode for read-heavy workloads (Issue: #1588)
 - [I] Predictive pre-fetching based on query history (Issue: #1589)
-- [P] Cache replication for high-availability deployments (Issue: #1590)
-- [I] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
+- [I] Cache replication for high-availability deployments (Issue: #1590)
+- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
 
 ## Implementation Phases
 

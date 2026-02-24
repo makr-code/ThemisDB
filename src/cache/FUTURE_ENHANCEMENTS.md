@@ -116,6 +116,34 @@ Currently TTL is set at `put()` time and never adjusted. Implement a background 
 
 ---
 
+### GDPR-Aware Cache Invalidation (PII Purge Propagation) ✅ Implemented
+**Priority:** High
+**Target Version:** v1.7.0 — **Status: DONE**
+
+Implements GDPR Art. 17 ("Right to Erasure") propagation from the storage layer to the cache layer.
+When `PIIPseudonymizer::erasePII()` is called for a data-subject record, any cached query result
+that contains that subject's data must also be purged immediately from all three cache tiers.
+
+**Implemented in `adaptive_query_cache.cpp` / `adaptive_query_cache.h`:**
+- `[x]` Extended `put(fingerprint, params, result, tenant_id, pii_uuids = {})` with an optional
+  `pii_uuids` vector. When non-empty, the cache key is registered in a per-UUID reverse index
+  (`pii_key_index_`, mutex-protected) for L1/L2, and a `pii_ref:{uuid}:{fingerprint}` sentinel
+  key is written to RocksDB for L3.
+- `[x]` Added `invalidatePII(const std::string& pii_uuid)` which:
+  - Reads and clears the L1/L2 reverse-index set for the UUID in a single lock acquisition.
+  - Purges matching L1 and L2 entries using the eviction-strategy hooks.
+  - Scans the `pii_ref:{uuid}:` prefix in RocksDB, deletes both the sentinel keys and the
+    corresponding `query_cache:{fingerprint}` data entries.
+  - Respects the L3 circuit breaker; logs a warning when the breaker is open.
+  - Emits a structured `THEMIS_INFO` log after every call for operational traceability.
+    (Formal GDPR audit entries are written by the caller before invoking this method.)
+- `[x]` `clear()` updated to also flush `pii_key_index_` and all `pii_ref:` L3 entries.
+- `[x]` 7 unit tests added in `tests/test_adaptive_query_cache.cpp`.
+
+**Remaining follow-up items:**
+- `[ ]` Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
+  happens automatically on every erasure without requiring caller coordination.
+- `[ ]` Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
 ### Write-Through Cache Mode
 **Priority:** Low
 **Target Version:** v2.0.0
@@ -140,7 +168,6 @@ For read-heavy workloads with restart-safety requirements, L1/L2 in-memory entri
 ### Distributed Cache Coordination (Redis-Compatible Protocol)
 **Priority:** Low
 **Target Version:** v2.0.0
-
 For multi-node deployments, L1/L2 caches are node-local, causing inconsistent results after writes. Add an optional distributed coordination layer that broadcasts invalidation messages over a Redis pub/sub channel or a native ThemisDB cluster bus.
 
 **Implementation Notes:**

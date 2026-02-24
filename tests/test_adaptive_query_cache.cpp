@@ -406,6 +406,98 @@ TEST_F(AdaptiveQueryCacheTest, PolicyClearResetState) {
 }
 
 // ============================================================================
+// GDPR-aware PII cache invalidation tests
+// ============================================================================
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_RemovesTaggedL1Entry) {
+    AdaptiveQueryCache cache(config_);
+
+    std::string query = "SELECT * FROM users WHERE id = 42";
+    json result = {{"id", 42}, {"name", "Alice"}};
+    std::string fp = cache.generateFingerprint(query);
+    std::string pii_uuid = "550e8400-e29b-41d4-a716-446655440000";
+
+    // Store with PII tag
+    EXPECT_TRUE(cache.put(fp, {}, result, "", {pii_uuid}));
+    EXPECT_TRUE(cache.get(fp).has_value());
+
+    // Invalidate via PII UUID – entry must be gone
+    size_t purged = cache.invalidatePII(pii_uuid);
+    EXPECT_GE(purged, 1u);
+    EXPECT_FALSE(cache.get(fp).has_value());
+}
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_LeavesUntaggedEntriesIntact) {
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp_tagged   = cache.generateFingerprint("SELECT a FROM t WHERE a=1");
+    std::string fp_untagged = cache.generateFingerprint("SELECT b FROM t WHERE b=2");
+    std::string pii_uuid    = "550e8400-e29b-41d4-a716-446655440001";
+
+    cache.put(fp_tagged,   {}, {{"a", 1}}, "", {pii_uuid});
+    cache.put(fp_untagged, {}, {{"b", 2}});
+
+    EXPECT_EQ(cache.invalidatePII(pii_uuid), 1u);
+    EXPECT_FALSE(cache.get(fp_tagged).has_value());
+    EXPECT_TRUE(cache.get(fp_untagged).has_value());
+}
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_MultipleEntriesSamePIIUUID) {
+    AdaptiveQueryCache cache(config_);
+
+    std::string pii_uuid = "550e8400-e29b-41d4-a716-446655440002";
+    std::vector<std::string> fps;
+    for (int i = 0; i < 3; ++i) {
+        std::string fp = cache.generateFingerprint("Q" + std::to_string(i));
+        fps.push_back(fp);
+        cache.put(fp, {}, {{"i", i}}, "", {pii_uuid});
+    }
+
+    size_t purged = cache.invalidatePII(pii_uuid);
+    EXPECT_EQ(purged, 3u);
+    for (const auto& fp : fps) {
+        EXPECT_FALSE(cache.get(fp).has_value());
+    }
+}
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_UnknownUUIDReturnsZero) {
+    AdaptiveQueryCache cache(config_);
+
+    cache.put(cache.generateFingerprint("X"), {}, {{"x", 1}});
+    EXPECT_EQ(cache.invalidatePII("unknown-uuid"), 0u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_EmptyUUIDReturnsZero) {
+    AdaptiveQueryCache cache(config_);
+    EXPECT_EQ(cache.invalidatePII(""), 0u);
+}
+
+TEST_F(AdaptiveQueryCacheTest, InvalidatePII_EntryTaggedWithMultiplePIIUUIDs) {
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp       = cache.generateFingerprint("SELECT * FROM contacts");
+    std::string pii_uuid1 = "aaaaaaaa-0000-0000-0000-000000000001";
+    std::string pii_uuid2 = "bbbbbbbb-0000-0000-0000-000000000002";
+
+    cache.put(fp, {}, {{"contact", "data"}}, "", {pii_uuid1, pii_uuid2});
+    EXPECT_TRUE(cache.get(fp).has_value());
+
+    // Invalidating by either UUID must purge the entry
+    EXPECT_GE(cache.invalidatePII(pii_uuid1), 1u);
+    EXPECT_FALSE(cache.get(fp).has_value());
+}
+
+TEST_F(AdaptiveQueryCacheTest, ClearAlsoClearsPIIIndex) {
+    AdaptiveQueryCache cache(config_);
+
+    std::string fp       = cache.generateFingerprint("SELECT * FROM secrets");
+    std::string pii_uuid = "cccccccc-0000-0000-0000-000000000003";
+    cache.put(fp, {}, {{"secret", "val"}}, "", {pii_uuid});
+
+    cache.clear();
+
+    // After clear, invalidatePII should find nothing (index was cleared)
+    EXPECT_EQ(cache.invalidatePII(pii_uuid), 0u);
 // Phase 4: Write-Through Cache Mode Tests
 // ============================================================================
 
