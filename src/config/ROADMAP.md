@@ -29,7 +29,9 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ### Short-term (Next 3-6 months)
 - [I] Automatic legacy path migration script with dry-run mode (Issue: #1661)
-- [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
+- [I] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
+- [I] Metrics export to Prometheus endpoint (Issue: #1663)
+- [x] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
 
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)

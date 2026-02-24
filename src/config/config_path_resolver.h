@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-24 20:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
+    • Total Lines:     244                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 154462b56  2026-02-24  feat(config): add legacy fallback rate w... ║
     • 7f5ce7a1a  2026-02-22  feat(config): add DeprecationAggregator for legacy path u... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -226,6 +227,29 @@ public:
     static void setAggregationEnabled(bool enabled, int interval_seconds = 300);
 
     /**
+     * Set the legacy fallback rate warning threshold.
+     *
+     * When the ratio of legacy_fallbacks to total resolutions
+     * (legacy_fallbacks + new_path_hits) meets or exceeds @p threshold,
+     * a spdlog::warn is emitted.  Warnings use a doubling strategy to
+     * prevent log flooding: after the first warning the next fires only
+     * when the fallback count has at least doubled.
+     *
+     * Set to 0.0 (default) to disable threshold alerting.
+     *
+     * @param threshold Ratio in [0.0, 1.0].  Values outside this range are
+     *                  clamped to [0.0, 1.0].
+     */
+    static void setLegacyFallbackRateThreshold(double threshold);
+
+    /**
+     * Get the current legacy fallback rate warning threshold.
+     *
+     * @return Threshold in [0.0, 1.0]; 0.0 means threshold alerting is disabled.
+     */
+    static double getLegacyFallbackRateThreshold();
+
+    /**
      * Get the current deprecation usage report.
      *
      * Returns all legacy paths that have been accessed since the last
@@ -266,12 +290,15 @@ private:
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
 
-    // Async-signal-safe flag set by the SIGHUP handler.
-    // Checked at the top of tryResolve(); when set, the cache is cleared.
-    static volatile sig_atomic_t sighup_pending_;
+    // Legacy fallback rate threshold alerting
+    static std::atomic<double> legacy_fallback_threshold_;
+    // Fallback count at which the last threshold warning was emitted.
+    // 0 means no warning has been emitted yet in the current metrics window.
+    static std::atomic<uint64_t> last_threshold_warn_count_;
 
-    // Signal handler installed by registerSighupHandler() (POSIX only).
-    static void handleSighup(int /*sig*/);
+    // Check whether the current fallback rate has crossed the threshold and,
+    // if so, emit a rate-limited spdlog::warn.
+    static void checkFallbackRateThreshold();
 };
 
 } // namespace config

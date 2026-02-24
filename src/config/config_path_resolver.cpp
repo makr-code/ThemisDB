@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-24 20:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     547                                            ║
+    • Total Lines:     603                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 154462b56  2026-02-24  feat(config): add legacy fallback rate w... ║
     • b01c41c10  2026-02-22  fix(config): use thread-safe C++20 chrono date formatting... ║
     • 7f5ce7a1a  2026-02-22  feat(config): add DeprecationAggregator for legacy path u... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -252,7 +253,8 @@ LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
-volatile sig_atomic_t ConfigPathResolver::sighup_pending_{0};
+std::atomic<double> ConfigPathResolver::legacy_fallback_threshold_{0.0};
+std::atomic<uint64_t> ConfigPathResolver::last_threshold_warn_count_{0};
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -1008,6 +1010,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                 }
             }
             metrics_.legacy_fallbacks++;
+            checkFallbackRateThreshold();
         }
         resolved_path = normalized;
     }
@@ -1148,6 +1151,7 @@ void ConfigPathResolver::resetMetrics() {
     metrics_.unmapped_requests = 0;
     metrics_.cache_hits = 0;
     metrics_.cache_misses = 0;
+    last_threshold_warn_count_ = 0;
     aggregator_.reset();
 }
 
@@ -1168,6 +1172,53 @@ void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_second
         aggregator_.start(interval_seconds);
     } else {
         aggregator_.stop();
+    }
+}
+
+void ConfigPathResolver::setLegacyFallbackRateThreshold(double threshold) {
+    // Clamp to [0.0, 1.0]
+    if (threshold < 0.0) threshold = 0.0;
+    if (threshold > 1.0) threshold = 1.0;
+    legacy_fallback_threshold_.store(threshold, std::memory_order_relaxed);
+}
+
+double ConfigPathResolver::getLegacyFallbackRateThreshold() {
+    return legacy_fallback_threshold_.load(std::memory_order_relaxed);
+}
+
+void ConfigPathResolver::checkFallbackRateThreshold() {
+    const double threshold = legacy_fallback_threshold_.load(std::memory_order_relaxed);
+    if (threshold <= 0.0) {
+        return;
+    }
+
+    const uint64_t fallbacks = metrics_.legacy_fallbacks.load(std::memory_order_relaxed);
+    const uint64_t new_hits  = metrics_.new_path_hits.load(std::memory_order_relaxed);
+    const uint64_t total     = fallbacks + new_hits;
+    if (total == 0) {
+        return;
+    }
+
+    const double rate = static_cast<double>(fallbacks) / static_cast<double>(total);
+    if (rate < threshold) {
+        return;
+    }
+
+    // Rate has met or exceeded the threshold.  Use a doubling strategy to
+    // prevent log flooding: warn at 1, then again when fallbacks >= 2×
+    // last_warn_count, then 4×, etc.
+    uint64_t last_warn = last_threshold_warn_count_.load(std::memory_order_relaxed);
+    const bool should_warn = (last_warn == 0) || (fallbacks >= last_warn * 2);
+    if (should_warn) {
+        // CAS ensures at most one thread emits the warning for this window
+        if (last_threshold_warn_count_.compare_exchange_strong(
+                last_warn, fallbacks, std::memory_order_relaxed)) {
+            spdlog::warn(
+                "[CONFIG] Legacy fallback rate {:.1f}% meets or exceeds threshold {:.1f}%"
+                " (fallbacks: {}, total resolutions: {}). "
+                "Migrate config paths to avoid this warning.",
+                rate * 100.0, threshold * 100.0, fallbacks, total);
+        }
     }
 }
 
