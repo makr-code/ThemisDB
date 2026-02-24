@@ -19,10 +19,10 @@
 
 /**
  * @file test_openapi_export.cpp
- * @brief Tests for the OpenAPI 3.0 specification export endpoint
+ * @brief Tests for the OpenAPI 3.1 specification export endpoint
  *
  * Validates that MonitoringApiHandler::handleOpenApi() returns a valid
- * OpenAPI 3.0.3 document containing the required fields, paths, and schemas.
+ * OpenAPI 3.1.0 document containing the required fields, paths, and schemas.
  */
 
 #include <gtest/gtest.h>
@@ -34,6 +34,7 @@
 #include <string>
 
 #include "server/monitoring_api_handler.h"
+#include "server/openapi_route_registry.h"
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -97,7 +98,7 @@ TEST_F(OpenApiExportTest, BodyIsValidJson) {
 }
 
 // ---------------------------------------------------------------------------
-// OpenAPI 3.0 Top-Level Fields
+// OpenAPI 3.1 Top-Level Fields
 // ---------------------------------------------------------------------------
 
 TEST_F(OpenApiExportTest, HasOpenApiVersion) {
@@ -106,8 +107,8 @@ TEST_F(OpenApiExportTest, HasOpenApiVersion) {
     EXPECT_EQ(v.substr(0, 1), "3"); // Major version 3
 }
 
-TEST_F(OpenApiExportTest, OpenApiVersionIs303) {
-    EXPECT_EQ(body_["openapi"], "3.0.3");
+TEST_F(OpenApiExportTest, OpenApiVersionIs310) {
+    EXPECT_EQ(body_["openapi"], "3.1.0");
 }
 
 TEST_F(OpenApiExportTest, HasInfoObject) {
@@ -320,4 +321,126 @@ TEST_F(OpenApiExportTest, CalledTwiceReturnsSameSpec) {
 
     EXPECT_EQ(res_.result(), res2.result());
     EXPECT_EQ(res_.body(), res2.body());
+}
+
+// ---------------------------------------------------------------------------
+// RouteRegistry – unit tests for annotation-based route registration
+// ---------------------------------------------------------------------------
+
+class RouteRegistryTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Start each test with a clean registry state.
+        themis::server::RouteRegistry::instance().clear();
+    }
+    void TearDown() override {
+        // Restore monitoring routes so other tests that rely on the registry
+        // are unaffected.
+        themis::server::MonitoringApiHandler::registerRoutes();
+    }
+};
+
+TEST_F(RouteRegistryTest, EmptyRegistryProducesValidSpec) {
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("0.0.1");
+    ASSERT_TRUE(spec.contains("openapi"));
+    EXPECT_EQ(spec["openapi"], "3.1.0");
+    EXPECT_TRUE(spec.contains("paths"));
+    EXPECT_TRUE(spec["paths"].is_object());
+}
+
+TEST_F(RouteRegistryTest, RegisteredRouteAppearsInPaths) {
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/test/resource", "get",
+        {"Get test resource", "", "getTestResource", {"test"}, {}, {},
+         {{"200", {{"description", "OK"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("0.0.1");
+    EXPECT_TRUE(spec["paths"].contains("/test/resource"));
+    EXPECT_TRUE(spec["paths"]["/test/resource"].contains("get"));
+}
+
+TEST_F(RouteRegistryTest, OperationIdIsPreserved) {
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/op/test", "post",
+        {"Create op", "", "createOpTest", {"ops"}, {}, {},
+         {{"201", {{"description", "Created"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    ASSERT_TRUE(spec["paths"].contains("/op/test"));
+    EXPECT_EQ(spec["paths"]["/op/test"]["post"]["operationId"], "createOpTest");
+}
+
+TEST_F(RouteRegistryTest, TagsAreCollectedFromRegistrations) {
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/tagged", "get",
+        {"Tagged endpoint", "", "getTagged", {"custom-tag"}, {}, {},
+         {{"200", {{"description", "OK"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    bool found = false;
+    for (const auto& tag : spec["tags"]) {
+        if (tag["name"] == "custom-tag") { found = true; break; }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(RouteRegistryTest, PathParameterAppearsInParameters) {
+    using themis::server::RouteParam;
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/items/{id}", "get",
+        {"Get item", "", "getItem", {"items"},
+         {RouteParam{"id","path",true,"Item id",{{"type","string"}}}},
+         {},
+         {{"200", {{"description", "OK"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    ASSERT_TRUE(spec["paths"].contains("/items/{id}"));
+    const auto& params = spec["paths"]["/items/{id}"]["get"]["parameters"];
+    ASSERT_TRUE(params.is_array());
+    ASSERT_FALSE(params.empty());
+    EXPECT_EQ(params[0]["name"], "id");
+    EXPECT_EQ(params[0]["in"], "path");
+    EXPECT_TRUE(params[0]["required"].get<bool>());
+}
+
+TEST_F(RouteRegistryTest, LastRegistrationWinsForSamePathAndMethod) {
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/dup", "get",
+        {"First", "", "firstOp", {"t"}, {}, {}, {{"200", {{"description","v1"}}}}}
+    });
+    themis::server::RouteRegistry::instance().registerRoute({
+        "/dup", "get",
+        {"Second", "", "secondOp", {"t"}, {}, {}, {{"200", {{"description","v2"}}}}}
+    });
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("1.0.0");
+    EXPECT_EQ(spec["paths"]["/dup"]["get"]["operationId"], "secondOp");
+}
+
+TEST_F(RouteRegistryTest, SpecVersionIsAlways310) {
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("99.0.0");
+    EXPECT_EQ(spec["openapi"], "3.1.0");
+}
+
+TEST_F(RouteRegistryTest, InfoVersionMatchesArgument) {
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("2.5.3");
+    EXPECT_EQ(spec["info"]["version"], "2.5.3");
+}
+
+TEST_F(RouteRegistryTest, ComponentsContainsBearerAuth) {
+    auto spec = themis::server::RouteRegistry::instance().buildOpenApiSpec("0.0.1");
+    ASSERT_TRUE(spec.contains("components"));
+    ASSERT_TRUE(spec["components"].contains("securitySchemes"));
+    ASSERT_TRUE(spec["components"]["securitySchemes"].contains("BearerAuth"));
+    EXPECT_EQ(spec["components"]["securitySchemes"]["BearerAuth"]["scheme"], "bearer");
+}
+
+TEST_F(RouteRegistryTest, MonitoringRoutesRegisteredViaRegisterRoutes) {
+    themis::server::MonitoringApiHandler::registerRoutes();
+    const auto& entries = themis::server::RouteRegistry::instance().entries();
+    EXPECT_FALSE(entries.empty());
+    bool has_health = false;
+    for (const auto& e : entries) {
+        if (e.path == "/health" && e.method == "get") { has_health = true; break; }
+    }
+    EXPECT_TRUE(has_health);
 }

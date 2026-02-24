@@ -23,6 +23,7 @@
  */
 
 #include "server/monitoring_api_handler.h"
+#include "server/openapi_route_registry.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "server/auth_middleware.h"
@@ -352,9 +353,10 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
 http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     const http::request<http::string_body>& req
 ) {
-    // Return a minimal but complete OpenAPI 3.0.3 specification describing
-    // the ThemisDB REST API.  The spec is assembled at request time so that
-    // version information is always current.
+    // Assemble an OpenAPI 3.1.0 document from all routes registered via
+    // RouteRegistry.  registerRoutes() is called here so that monitoring-handler
+    // routes are always present even if the caller did not invoke it explicitly
+    // at startup.
     try {
         std::string api_version;
 #ifdef THEMIS_VERSION_STRING
@@ -363,468 +365,16 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
         api_version = "0.1.0";
 #endif
 
-        json spec;
-#ifdef _MSC_VER
-        spec = {
-            {"openapi", "3.0.3"},
-            {"info", {
-                {"title", "ThemisDB REST API"},
-                {"description", "Production-ready HTTP API for the ThemisDB distributed database engine"},
-                {"version", api_version}
-            }},
-            {"servers", json::array({json{{"url", "/"}, {"description", "This server"}}})},
-            {"paths", {
-                {"/health", {{"get", {{"summary", "Basic health check"}, {"operationId", "getHealth"}}}}},
-                {"/version", {{"get", {{"summary", "Get server version"}, {"operationId", "getVersion"}}}}},
-                {"/api/openapi.json", {{"get", {{"summary", "OpenAPI specification"}, {"operationId", "getOpenApiSpec"}}}}}
-            }}
-        };
-#else
-        spec = {
-            {"openapi", "3.0.3"},
-            {"info", {
-                {"title", "ThemisDB REST API"},
-                {"description", "Production-ready HTTP API for the ThemisDB distributed database engine"},
-                {"version", api_version},
-                {"contact", {
-                    {"name", "ThemisDB"},
-                    {"url", "https://github.com/makr-code/ThemisDB"}
-                }},
-                {"license", {
-                    {"name", "See LICENSE in repository"},
-                    {"url", "https://github.com/makr-code/ThemisDB/blob/main/LICENSE"}
-                }}
-            }},
-            {"servers", json::array({
-                json{{"url", "/"}, {"description", "This server"}}
-            })},
-            {"paths", {
-                {"/health", {
-                    {"get", {
-                        {"summary", "Basic health check"},
-                        {"operationId", "getHealth"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Server is healthy"},
-                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}},
-                            {"503", {{"description", "Server is unhealthy"}}}
-                        }}
-                    }}
-                }},
-                {"/health/live", {
-                    {"get", {
-                        {"summary", "Liveness probe"},
-                        {"description", "Returns 200 if the server process is running, 503 if it has stopped"},
-                        {"operationId", "getLiveness"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Server process is alive"}}},
-                            {"503", {{"description", "Server process is dead"}}}
-                        }}
-                    }}
-                }},
-                {"/health/ready", {
-                    {"get", {
-                        {"summary", "Readiness probe"},
-                        {"description", "Returns 200 when all subsystems (storage, connections) are ready. Returns per-layer health details."},
-                        {"operationId", "getReadiness"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "All layers ready"}}},
-                            {"503", {{"description", "One or more layers not ready"}}}
-                        }}
-                    }}
-                }},
-                {"/version", {
-                    {"get", {
-                        {"summary", "Get server version"},
-                        {"operationId", "getVersion"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Version and build information"}}}
-                        }}
-                    }}
-                }},
-                {"/metrics", {
-                    {"get", {
-                        {"summary", "Prometheus metrics"},
-                        {"description", "Returns server metrics in Prometheus text exposition format"},
-                        {"operationId", "getMetrics"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Prometheus text format metrics"},
-                                {"content", {{"text/plain", {{"schema", {{"type","string"}}}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/stats", {
-                    {"get", {
-                        {"summary", "Runtime statistics"},
-                        {"operationId", "getStats"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Runtime statistics in JSON"}}}
-                        }}
-                    }}
-                }},
-                {"/api/capabilities", {
-                    {"get", {
-                        {"summary", "Server capabilities"},
-                        {"operationId", "getCapabilities"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "Server feature capability map"}}}
-                        }}
-                    }}
-                }},
-                {"/metrics/html", {
-                    {"get", {
-                        {"summary", "HTML metrics dashboard"},
-                        {"description", "Renders current Prometheus metrics as a human-readable HTML table with dark-mode styling"},
-                        {"operationId", "getMetricsHtml"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "HTML metrics dashboard"},
-                                {"content", {{"text/html", {{"schema", {{"type","string"}}}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/api/v1/observability/alerts", {
-                    {"get", {
-                        {"summary", "List active alerts"},
-                        {"description", "Returns the list of currently active (firing or silenced) alerts as a JSON array"},
-                        {"operationId", "getObservabilityAlerts"},
-                        {"tags", json::array({"observability"})},
-                        {"responses", {
-                            {"200", {{"description", "Active alert list"},
-                                {"content", {{"application/json", {{"schema", {
-                                    {"type","object"},
-                                    {"properties", {
-                                        {"alerts", {{"type","array"}}},
-                                        {"count",  {{"type","integer"}}},
-                                        {"alertmanager_enabled", {{"type","boolean"}}}
-                                    }}
-                                }}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/api/v1/observability/alerts/{id}/silence", {
-                    {"post", {
-                        {"summary", "Silence an alert"},
-                        {"description", "Silences the named alert for a configurable duration. Body: {\"duration_minutes\": <int>} (default 60)"},
-                        {"operationId", "silenceObservabilityAlert"},
-                        {"tags", json::array({"observability"})},
-                        {"parameters", json::array({
-                            json{{"name","id"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
-                        })},
-                        {"requestBody", {
-                            {"required", false},
-                            {"content", {{"application/json", {{"schema", {
-                                {"type","object"},
-                                {"properties", {{"duration_minutes", {{"type","integer"},{"default",60}}}}}
-                            }}}}}}
-                        }},
-                        {"responses", {
-                            {"200", {{"description", "Alert silenced"}}},
-                            {"400", {{"description", "Bad request"}}},
-                            {"404", {{"description", "Alert not found"}}},
-                            {"503", {{"description", "Alertmanager not configured"}}}
-                        }}
-                    }}
-                }},
-                {"/api/v1/observability/health", {
-                    {"get", {
-                        {"summary", "Observability subsystem health"},
-                        {"description", "Returns aggregate health of the observability stack: Alertmanager connectivity, tracing span counters, and MetricsCollector cardinality"},
-                        {"operationId", "getObservabilityHealth"},
-                        {"tags", json::array({"observability"})},
-                        {"responses", {
-                            {"200", {{"description", "Observability health status"},
-                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/api/v1/license/status", {
-                    {"get", {
-                        {"summary", "Runtime license status"},
-                        {"description", "Returns the current runtime license state: initialized flag, status string (active/grace/expired/invalid), grace days remaining, masked license key, organization, edition, expiry date, days until expiry, and validity flag."},
-                        {"operationId", "getLicenseStatus"},
-                        {"tags", json::array({"license"})},
-                        {"responses", {
-                            {"200", {{"description", "License status document"},
-                                {"content", {{"application/json", {{"schema", {
-                                    {"type","object"},
-                                    {"properties", {
-                                        {"initialized",          {{"type","boolean"}}},
-                                        {"status",               {{"type","string"}, {"example","active"}}},
-                                        {"grace_days_remaining", {{"type","integer"}}},
-                                        {"license_key",          {{"type","string"}, {"example","THEMIS-EN..."}}},
-                                        {"organization",         {{"type","string"}}},
-                                        {"edition",              {{"type","string"}, {"example","ENTERPRISE"}}},
-                                        {"expiry_date",          {{"type","string"}, {"format","date"}}},
-                                        {"days_until_expiry",    {{"type","integer"}}},
-                                        {"valid",                {{"type","boolean"}}}
-                                    }}
-                                }}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/api/openapi.json", {
-                    {"get", {
-                        {"summary", "OpenAPI specification"},
-                        {"description", "Returns this OpenAPI 3.0 specification document"},
-                        {"operationId", "getOpenApiSpec"},
-                        {"tags", json::array({"monitoring"})},
-                        {"responses", {
-                            {"200", {{"description", "OpenAPI 3.0 specification"},
-                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
-                            }
-                        }}
-                    }}
-                }},
-                {"/entities", {
-                    {"get", {
-                        {"summary", "List entities"},
-                        {"operationId", "listEntities"},
-                        {"tags", json::array({"entities"})},
-                        {"parameters", json::array({
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"responses", {
-                            {"200", {
-                                {"description", "Entity list"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}},
-                                    {"Deprecation", {{"$ref","#/components/headers/Deprecation"}}},
-                                    {"Sunset",      {{"$ref","#/components/headers/Sunset"}}},
-                                    {"Link",        {{"$ref","#/components/headers/Link"}}}
-                                }}
-                            }},
-                            {"401", {{"description", "Unauthorized"}}}
-                        }}
-                    }},
-                    {"post", {
-                        {"summary", "Create entity"},
-                        {"operationId", "createEntity"},
-                        {"tags", json::array({"entities"})},
-                        {"parameters", json::array({
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"requestBody", {
-                            {"required", true},
-                            {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}
-                        }},
-                        {"responses", {
-                            {"201", {
-                                {"description", "Entity created"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
-                                }}
-                            }},
-                            {"400", {{"description", "Bad request"}}},
-                            {"413", {{"description", "Payload too large"}}}
-                        }}
-                    }}
-                }},
-                {"/entities/{key}", {
-                    {"get", {
-                        {"summary", "Get entity by key"},
-                        {"operationId", "getEntity"},
-                        {"tags", json::array({"entities"})},
-                        {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"responses", {
-                            {"200", {
-                                {"description", "Entity found"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}},
-                                    {"Deprecation", {{"$ref","#/components/headers/Deprecation"}}},
-                                    {"Sunset",      {{"$ref","#/components/headers/Sunset"}}},
-                                    {"Link",        {{"$ref","#/components/headers/Link"}}}
-                                }}
-                            }},
-                            {"404", {{"description", "Not found"}}}
-                        }}
-                    }},
-                    {"put", {
-                        {"summary", "Upsert entity by key"},
-                        {"operationId", "upsertEntity"},
-                        {"tags", json::array({"entities"})},
-                        {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
-                        {"responses", {
-                            {"200", {
-                                {"description", "Entity updated"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
-                                }}
-                            }},
-                            {"201", {{"description", "Entity created"}}}
-                        }}
-                    }},
-                    {"delete", {
-                        {"summary", "Delete entity by key"},
-                        {"operationId", "deleteEntity"},
-                        {"tags", json::array({"entities"})},
-                        {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"responses", {
-                            {"200", {
-                                {"description", "Entity deleted"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
-                                }}
-                            }},
-                            {"404", {{"description", "Not found"}}}
-                        }}
-                    }}
-                }},
-                {"/query", {
-                    {"post", {
-                        {"summary", "Execute a query"},
-                        {"operationId", "postQuery"},
-                        {"tags", json::array({"query"})},
-                        {"parameters", json::array({
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
-                        {"responses", {
-                            {"200", {
-                                {"description", "Query results"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
-                                }}
-                            }},
-                            {"400", {{"description", "Bad query"}}}
-                        }}
-                    }}
-                }},
-                {"/query/aql", {
-                    {"post", {
-                        {"summary", "Execute an AQL (ThemisDB Query Language) query"},
-                        {"operationId", "postAqlQuery"},
-                        {"tags", json::array({"query"})},
-                        {"parameters", json::array({
-                            json{{"$ref","#/components/parameters/AcceptVersion"}}
-                        })},
-                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
-                        {"responses", {
-                            {"200", {
-                                {"description", "AQL query results"},
-                                {"headers", {
-                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
-                                }}
-                            }},
-                            {"400", {{"description", "AQL syntax error"}}}
-                        }}
-                    }}
-                }}
-            }},
-            {"components", {
-                {"schemas", {
-                    {"Error", {
-                        {"type", "object"},
-                        {"properties", {
-                            {"error", {{"type","boolean"}}},
-                            {"message", {{"type","string"}}},
-                            {"status_code", {{"type","integer"}}}
-                        }}
-                    }},
-                    {"HealthStatus", {
-                        {"type", "object"},
-                        {"properties", {
-                            {"status", {{"type","string"},{"enum",json::array({"healthy","degraded","unhealthy"})}}},
-                            {"uptime_seconds", {{"type","integer"}}},
-                            {"request_count", {{"type","integer"}}},
-                            {"error_count", {{"type","integer"}}}
-                        }}
-                    }},
-                    {"ReadinessStatus", {
-                        {"type", "object"},
-                        {"properties", {
-                            {"status", {{"type","string"},{"enum",json::array({"ready","not_ready"})}}},
-                            {"checks", {
-                                {"type","object"},
-                                {"properties", {
-                                    {"server_running", {{"type","boolean"}}},
-                                    {"storage_available", {{"type","boolean"}}},
-                                    {"active_connections", {{"type","integer"}}},
-                                    {"active_requests", {{"type","integer"}}},
-                                    {"memory_rss_bytes", {{"type","integer"}}}
-                                }}
-                            }}
-                        }}
-                    }}
-                }},
-                {"headers", {
-                    {"API-Version", {
-                        {"description", "The API version used to process this request (e.g. v1.4.1). "
-                                        "Clients may request a specific version via Accept-Version."},
-                        {"schema", {{"type","string"},{"example","v1.4.1"}}}
-                    }},
-                    {"Deprecation", {
-                        {"description", "Present when the accessed endpoint is deprecated. "
-                                        "Format: 'true; deprecated-version=\"v1.0.0\"; removal-version=\"v2.0.0\"'"},
-                        {"schema", {{"type","string"},{"example","true; deprecated-version=\"v1.0.0\"; removal-version=\"v2.0.0\""}}}
-                    }},
-                    {"Sunset", {
-                        {"description", "RFC 8594 Sunset header. The HTTP-date at which the deprecated "
-                                        "endpoint will be removed (e.g. 'Wed, 24 Jan 2028 06:00:00 GMT')."},
-                        {"schema", {{"type","string"},{"example","Wed, 24 Jan 2028 06:00:00 GMT"}}}
-                    }},
-                    {"Link", {
-                        {"description", "Link to the migration guide for the deprecated endpoint. "
-                                        "Format: '<url>; rel=\"deprecation\"'"},
-                        {"schema", {{"type","string"},{"example","<https://docs.themisdb.com/migration/v1-to-v2>; rel=\"deprecation\""}}}
-                    }}
-                }},
-                {"parameters", {
-                    {"AcceptVersion", {
-                        {"name", "Accept-Version"},
-                        {"in", "header"},
-                        {"required", false},
-                        {"description", "Request a specific API version (e.g. v1.4.0, v1.4, v1, latest). "
-                                        "If omitted, the current stable version is used."},
-                        {"schema", {{"type","string"},{"example","v1.4.0"}}}
-                    }}
-                }},
-                {"securitySchemes", {
-                    {"BearerAuth", {
-                        {"type", "http"},
-                        {"scheme", "bearer"},
-                        {"bearerFormat", "JWT"}
-                    }}
-                }}
-            }},
-            {"security", json::array({
-                json{{"BearerAuth", json::array()}}
-            })},
-            {"tags", json::array({
-                json{{"name","monitoring"},   {"description","Health, metrics and observability endpoints"}},
-                json{{"name","observability"},{"description","Operator observability REST API – alerts, silences, health"}},
-                json{{"name","entities"},     {"description","Entity CRUD operations"}},
-                json{{"name","query"},        {"description","Query execution endpoints"}}
-            })}
-        };
-    #endif
+        // Lazy-register monitoring routes (idempotent: last-write-wins).
+        registerRoutes();
+
+        json spec = RouteRegistry::instance().buildOpenApiSpec(api_version);
 
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");
         res.set(http::field::content_type, "application/json");
         res.keep_alive(req.keep_alive());
-        res.body() = spec.dump(2); // pretty-printed with 2-space indent
+        res.body() = spec.dump(2);
         res.prepare_payload();
         return res;
     } catch (const std::exception& e) {
@@ -1720,6 +1270,220 @@ http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     }
 
     return makeResponse(http::status::ok, body.dump(), req);
+}
+
+// =============================================================================
+// registerRoutes() – populate the global RouteRegistry with all monitoring
+// handler endpoint annotations so that handleOpenApi() can auto-generate the
+// OpenAPI 3.1.0 spec without duplicating path information.
+// =============================================================================
+
+void MonitoringApiHandler::registerRoutes() {
+    RouteRegistry& reg = RouteRegistry::instance();
+
+    // --- Monitoring / Health ---
+    reg.registerRoute({"/health", "get", {
+        "Basic health check", "", "getHealth", {"monitoring"}, {}, {},
+        {{"200", {{"description","Server is healthy"},
+                  {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+         {"503", {{"description","Server is unhealthy"}}}}
+    }});
+    reg.registerRoute({"/health/live", "get", {
+        "Liveness probe",
+        "Returns 200 if the server process is running, 503 if it has stopped",
+        "getLiveness", {"monitoring"}, {}, {},
+        {{"200", {{"description","Server process is alive"}}},
+         {"503", {{"description","Server process is dead"}}}}
+    }});
+    reg.registerRoute({"/health/ready", "get", {
+        "Readiness probe",
+        "Returns 200 when all subsystems (storage, connections) are ready. "
+        "Returns per-layer health details.",
+        "getReadiness", {"monitoring"}, {}, {},
+        {{"200", {{"description","All layers ready"}}},
+         {"503", {{"description","One or more layers not ready"}}}}
+    }});
+
+    // --- Version / Stats / Capabilities ---
+    reg.registerRoute({"/version", "get", {
+        "Get server version", "", "getVersion", {"monitoring"}, {}, {},
+        {{"200", {{"description","Version and build information"}}}}
+    }});
+    reg.registerRoute({"/stats", "get", {
+        "Runtime statistics", "", "getStats", {"monitoring"}, {}, {},
+        {{"200", {{"description","Runtime statistics in JSON"}}}}
+    }});
+    reg.registerRoute({"/api/capabilities", "get", {
+        "Server capabilities", "", "getCapabilities", {"monitoring"}, {}, {},
+        {{"200", {{"description","Server feature capability map"}}}}
+    }});
+
+    // --- Metrics ---
+    reg.registerRoute({"/metrics", "get", {
+        "Prometheus metrics",
+        "Returns server metrics in Prometheus text exposition format",
+        "getMetrics", {"monitoring"}, {}, {},
+        {{"200", {{"description","Prometheus text format metrics"},
+                  {"content",{{"text/plain",{{"schema",{{"type","string"}}}}}}}}}}
+    }});
+    reg.registerRoute({"/metrics/html", "get", {
+        "HTML metrics dashboard",
+        "Renders current Prometheus metrics as a human-readable HTML table "
+        "with dark-mode styling",
+        "getMetricsHtml", {"monitoring"}, {}, {},
+        {{"200", {{"description","HTML metrics dashboard"},
+                  {"content",{{"text/html",{{"schema",{{"type","string"}}}}}}}}}}
+    }});
+
+    // --- Observability operator API ---
+    reg.registerRoute({"/api/v1/observability/alerts", "get", {
+        "List active alerts",
+        "Returns the list of currently active (firing or silenced) alerts as a JSON array",
+        "getObservabilityAlerts", {"observability"}, {}, {},
+        {{"200", {{"description","Active alert list"},
+                  {"content",{{"application/json",{{"schema",{
+                      {"type","object"},
+                      {"properties",{
+                          {"alerts",{{"type","array"}}},
+                          {"count",{{"type","integer"}}},
+                          {"alertmanager_enabled",{{"type","boolean"}}}
+                      }}
+                  }}}}}}}}}
+    }});
+    reg.registerRoute({"/api/v1/observability/alerts/{id}/silence", "post", {
+        "Silence an alert",
+        "Silences the named alert for a configurable duration. "
+        "Body: {\"duration_minutes\": <int>} (default 60)",
+        "silenceObservabilityAlert", {"observability"},
+        {RouteParam{"id", "path", true, "Alert identifier", {{"type","string"}}}},
+        {{"required",false},
+         {"content",{{"application/json",{{"schema",{
+             {"type","object"},
+             {"properties",{{"duration_minutes",{{"type","integer"},{"default",60}}}}}
+         }}}}}}},
+        {{"200",{{"description","Alert silenced"}}},
+         {"400",{{"description","Bad request"}}},
+         {"404",{{"description","Alert not found"}}},
+         {"503",{{"description","Alertmanager not configured"}}}}
+    }});
+    reg.registerRoute({"/api/v1/observability/health", "get", {
+        "Observability subsystem health",
+        "Returns aggregate health of the observability stack: Alertmanager "
+        "connectivity, tracing span counters, and MetricsCollector cardinality",
+        "getObservabilityHealth", {"observability"}, {}, {},
+        {{"200",{{"description","Observability health status"},
+                 {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}}  }
+    }});
+
+    // --- License ---
+    reg.registerRoute({"/api/v1/license/status", "get", {
+        "Runtime license status",
+        "Returns the current runtime license state: initialized flag, status string "
+        "(active/grace/expired/invalid), grace days remaining, masked license key, "
+        "organization, edition, expiry date, days until expiry, and validity flag.",
+        "getLicenseStatus", {"license"}, {}, {},
+        {{"200",{{"description","License status document"},
+                 {"content",{{"application/json",{{"schema",{
+                     {"type","object"},
+                     {"properties",{
+                         {"initialized",         {{"type","boolean"}}},
+                         {"status",              {{"type","string"},{"example","active"}}},
+                         {"grace_days_remaining",{{"type","integer"}}},
+                         {"license_key",         {{"type","string"},{"example","THEMIS-EN..."}}},
+                         {"organization",        {{"type","string"}}},
+                         {"edition",             {{"type","string"},{"example","ENTERPRISE"}}},
+                         {"expiry_date",         {{"type","string"},{"format","date"}}},
+                         {"days_until_expiry",   {{"type","integer"}}},
+                         {"valid",               {{"type","boolean"}}}
+                     }}
+                 }}}}}}}}}
+    }});
+
+    // --- OpenAPI self-reference ---
+    reg.registerRoute({"/api/openapi.json", "get", {
+        "OpenAPI specification",
+        "Returns this OpenAPI 3.1 specification document",
+        "getOpenApiSpec", {"monitoring"}, {}, {},
+        {{"200",{{"description","OpenAPI 3.1 specification"},
+                 {"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}}  }
+    }});
+
+    // --- Entities CRUD ---
+    reg.registerRoute({"/entities", "get", {
+        "List entities", "", "listEntities", {"entities"},
+        {RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Entity list"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}},
+                              {"Deprecation",{{"$ref","#/components/headers/Deprecation"}}},
+                              {"Sunset",     {{"$ref","#/components/headers/Sunset"}}},
+                              {"Link",       {{"$ref","#/components/headers/Link"}}}}}}},
+         {"401",{{"description","Unauthorized"}}}}
+    }});
+    reg.registerRoute({"/entities", "post", {
+        "Create entity", "", "createEntity", {"entities"},
+        {RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","Entity created"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
+         {"400",{{"description","Bad request"}}},
+         {"413",{{"description","Payload too large"}}}}
+    }});
+    reg.registerRoute({"/entities/{key}", "get", {
+        "Get entity by key", "", "getEntity", {"entities"},
+        {RouteParam{"key","path",true,"Entity key",{{"type","string"}}},
+         RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Entity found"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}},
+                              {"Deprecation",{{"$ref","#/components/headers/Deprecation"}}},
+                              {"Sunset",     {{"$ref","#/components/headers/Sunset"}}},
+                              {"Link",       {{"$ref","#/components/headers/Link"}}}}}}},
+         {"404",{{"description","Not found"}}}}
+    }});
+    reg.registerRoute({"/entities/{key}", "put", {
+        "Upsert entity by key", "", "upsertEntity", {"entities"},
+        {RouteParam{"key","path",true,"Entity key",{{"type","string"}}},
+         RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Entity updated"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
+         {"201",{{"description","Entity created"}}}}
+    }});
+    reg.registerRoute({"/entities/{key}", "delete", {
+        "Delete entity by key", "", "deleteEntity", {"entities"},
+        {RouteParam{"key","path",true,"Entity key",{{"type","string"}}},
+         RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Entity deleted"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
+         {"404",{{"description","Not found"}}}}
+    }});
+
+    // --- Query ---
+    reg.registerRoute({"/query", "post", {
+        "Execute a query", "", "postQuery", {"query"},
+        {RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Query results"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
+         {"400",{{"description","Bad query"}}}}
+    }});
+    reg.registerRoute({"/query/aql", "post", {
+        "Execute an AQL (ThemisDB Query Language) query", "", "postAqlQuery", {"query"},
+        {RouteParam{"Accept-Version","header",false,
+                    "Request a specific API version",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","AQL query results"},
+                 {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
+         {"400",{{"description","AQL syntax error"}}}}
+    }});
 }
 
 } // namespace server

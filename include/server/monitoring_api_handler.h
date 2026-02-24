@@ -156,11 +156,23 @@ public:
 
     /**
      * @brief Handle GET /api/openapi.json request
-     * Returns an OpenAPI 3.0 specification describing the ThemisDB REST API.
+     * Returns an OpenAPI 3.1 specification describing the ThemisDB REST API.
+     * The document is assembled from route annotations registered via
+     * RouteRegistry::instance(), so adding new handler registrations
+     * automatically extends the generated specification.
      * @param req HTTP request
-     * @return HTTP response with OpenAPI 3.0 JSON document
+     * @return HTTP response with OpenAPI 3.1 JSON document
      */
     http::response<http::string_body> handleOpenApi(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Register all monitoring-handler routes into the global RouteRegistry.
+     *
+     * Called once during server startup so that handleOpenApi() can produce an
+     * up-to-date OpenAPI 3.1 document without any manually maintained JSON
+     * duplication.  Safe to call multiple times (last registration wins).
+     */
+    static void registerRoutes();
 
     /**
      * @brief Handle GET /version request
