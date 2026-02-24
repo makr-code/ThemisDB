@@ -7927,9 +7927,14 @@ void HttpServer::Session::processRequest() {
 
                 auto ws_session = std::make_shared<WebSocketSession>(
                     std::move(socket_), server_);
-                // Pre-configure CDC subscription from URL parameters.
-                ws_session->subscribeToCDC(decision.from_sequence,
-                                           decision.key_prefix);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
                 if (server_->websocket_manager_) {
                     server_->websocket_manager_->addSession(ws_session);
                 }
@@ -8231,9 +8236,14 @@ void HttpServer::SslSession::processRequest() {
 
                 auto ws_session = std::make_shared<WebSocketSession>(
                     std::move(stream_), server_);
-                // Pre-configure CDC subscription from URL parameters.
-                ws_session->subscribeToCDC(decision.from_sequence,
-                                           decision.key_prefix);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
                 if (server_->websocket_manager_) {
                     server_->websocket_manager_->addSession(ws_session);
                 }

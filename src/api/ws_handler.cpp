@@ -38,7 +38,7 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<AuthMiddleware> auth,
 // ---------------------------------------------------------------------------
 
 bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
-    return path == "/v2/changes";
+    return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
 // ---------------------------------------------------------------------------

@@ -243,6 +243,7 @@ set(THEMIS_STORAGE_SOURCES
 
     # Change data capture (used by metadata/schema manager)
     ../src/cdc/changefeed.cpp
+    ../src/cdc/cdc_ws_handler.cpp
 )
 
 set(THEMIS_QUERY_SOURCES
