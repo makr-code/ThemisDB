@@ -36,7 +36,6 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -65,17 +64,6 @@ std::vector<std::string> tokeniseWords(const std::string& text) {
         tokens.push_back(std::move(cur));
     }
     return tokens;
-}
-
-/// Build a word-frequency map from @p tokens.
-std::unordered_map<std::string, size_t> termFrequency(
-    const std::vector<std::string>& tokens)
-{
-    std::unordered_map<std::string, size_t> freq;
-    for (const auto& t : tokens) {
-        ++freq[t];
-    }
-    return freq;
 }
 
 /// Compute a relevance score for @p sentence relative to @p query_terms.

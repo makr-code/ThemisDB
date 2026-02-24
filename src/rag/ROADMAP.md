@@ -29,6 +29,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [x] StreamingRetriever – incremental context window filling (Issue: #2437)
 - [x] CrossEncoderReranker – re-ranking with heuristic scorer and ONNX stub (Issue: #2247)
 - [x] HallucinationDashboard – rolling-window hallucination rate tracking (Issue: #2438)
+- [x] DocumentSummarizer – multi-document summarization before context injection (Issue: #2239)
 
 ## In Progress 🚧
 
@@ -38,7 +39,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [I] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
 - [!] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 - [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
-- [P] Multi-document summarization before context injection (Issue: #2239)
+- [x] Multi-document summarization before context injection (Issue: #2239)
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Long-term (6-12 months)
@@ -70,7 +71,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [ ] Hybrid retrieval (BM25 + vector) with configurable RRF weights
 - [ ] Citation highlighting (map answer sentences to source chunks)
 - [ ] Configurable chunk size and overlap for document splitting
-- [~] Multi-document summarization before context injection
+- [x] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
@@ -81,17 +82,20 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 21 implementati
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases)
+- [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_summarizer: 27 test cases)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)
-- [x] Documentation complete (streaming_retriever.h, reranker.h: full Doxygen API docs)
-- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable)
+- [x] Documentation complete (streaming_retriever.h, reranker.h, document_summarizer.h: full Doxygen API docs)
+- [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; DocumentSummarizerConfig: stable)
 
 ## Known Issues & Limitations
 - Evaluation accuracy depends on quality of the injected LLM judge model.
 - Thorough mode (~2 s latency) is not suitable for real-time interactive use.
 - No built-in document chunking strategy; callers manage chunk boundaries.
+- DocumentSummarizer abstractive mode: document content is embedded verbatim in
+  the LLM prompt; callers are responsible for sanitizing retrieved content to
+  mitigate prompt-injection attacks before passing it to `summarizeMultiple()`.
 
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.
