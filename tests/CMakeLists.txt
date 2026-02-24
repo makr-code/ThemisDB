@@ -466,6 +466,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
         )
