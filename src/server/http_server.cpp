@@ -189,6 +189,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/api_version_config.h"
 
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -369,11 +370,63 @@ HttpServer::HttpServer(
     // Initialize Changefeed (Sprint A CDC) if feature enabled
     if (config_.feature_cdc) {
         cdc_cf_handle_ = nullptr; // Use default CF
+
+        // Load retention policy from config/data_management/cdc_retention.yaml if it exists
+        Changefeed::RetentionPolicy cdc_retention_policy;
+        {
+            static const char* CDC_RETENTION_CONFIG_PATH =
+                "config/data_management/cdc_retention.yaml";
+            auto cfg_path =
+                themis::config::ConfigPathResolver::tryResolve(CDC_RETENTION_CONFIG_PATH);
+            if (!cfg_path) {
+                // Fallback: check path as-is (e.g., when CWD is the repo root)
+                if (std::filesystem::exists(CDC_RETENTION_CONFIG_PATH)) {
+                    cfg_path = CDC_RETENTION_CONFIG_PATH;
+                }
+            }
+            if (cfg_path) {
+                try {
+                    YAML::Node root = YAML::LoadFile(*cfg_path);
+                    if (root["retention"]) {
+                        const auto& r = root["retention"];
+                        cdc_retention_policy.enabled = r["enabled"].as<bool>(false);
+                        if (r["max_age_hours"])
+                            cdc_retention_policy.max_age_hours =
+                                std::chrono::hours(
+                                    r["max_age_hours"].as<uint32_t>(168));  // default: 7 days
+                        if (r["max_event_count"])
+                            cdc_retention_policy.max_event_count =
+                                r["max_event_count"].as<uint64_t>(1000000); // default: 1M events
+                        if (r["max_size_bytes"])
+                            cdc_retention_policy.max_size_bytes =
+                                r["max_size_bytes"].as<size_t>(
+                                    Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES);
+                        if (r["cleanup_interval_minutes"])
+                            cdc_retention_policy.cleanup_interval =
+                                std::chrono::minutes(
+                                    r["cleanup_interval_minutes"].as<uint32_t>(60)); // default: 1 hour
+                        if (r["compact_on_cleanup"])
+                            cdc_retention_policy.compact_on_cleanup =
+                                r["compact_on_cleanup"].as<bool>(false);
+                    }
+                    THEMIS_INFO("CDC: loaded retention policy from {} (enabled={})",
+                                *cfg_path, cdc_retention_policy.enabled);
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("CDC: failed to load retention config from {}: {} — using defaults",
+                                *cfg_path, e.what());
+                }
+            } else {
+                THEMIS_DEBUG("CDC: {} not found, using default retention policy (disabled)",
+                             CDC_RETENTION_CONFIG_PATH);
+            }
+        }
+
         // Changefeed constructor signature accepts (TransactionDB*, ColumnFamilyHandle*)
         // previous code attempted to pass Route identifiers which no longer apply.
         changefeed_ = std::make_shared<Changefeed>(
             storage_->getRawDB(),
-            cdc_cf_handle_
+            cdc_cf_handle_,
+            cdc_retention_policy
         );
         THEMIS_INFO("Changefeed initialized using default CF");
         
@@ -7949,9 +8002,14 @@ void HttpServer::Session::processRequest() {
 
                 auto ws_session = std::make_shared<WebSocketSession>(
                     std::move(socket_), server_);
-                // Pre-configure CDC subscription from URL parameters.
-                ws_session->subscribeToCDC(decision.from_sequence,
-                                           decision.key_prefix);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
                 if (server_->websocket_manager_) {
                     server_->websocket_manager_->addSession(ws_session);
                 }
@@ -8253,9 +8311,14 @@ void HttpServer::SslSession::processRequest() {
 
                 auto ws_session = std::make_shared<WebSocketSession>(
                     std::move(stream_), server_);
-                // Pre-configure CDC subscription from URL parameters.
-                ws_session->subscribeToCDC(decision.from_sequence,
-                                           decision.key_prefix);
+                ws_session->setRequestPath(ws_path);
+                // Pre-configure CDC subscription from URL parameters for the
+                // legacy /v2/changes protocol only.  The new /v2/cdc/stream
+                // endpoint receives subscriptions via JSON frames after connect.
+                if (ws_path == "/v2/changes") {
+                    ws_session->subscribeToCDC(decision.from_sequence,
+                                               decision.key_prefix);
+                }
                 if (server_->websocket_manager_) {
                     server_->websocket_manager_->addSession(ws_session);
                 }
