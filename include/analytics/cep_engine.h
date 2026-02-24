@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1125                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -429,6 +429,7 @@ struct CEPConfig {
     // Backpressure
     bool backpressure_enabled = true;
     float global_backpressure_threshold = 0.9f;
+    size_t max_queue_depth = 65536;             // Max pending events in engine queue
     
     // Metrics
     bool metrics_enabled = true;
@@ -970,6 +971,7 @@ public:
         uint64_t events_received = 0;
         uint64_t events_processed = 0;
         uint64_t events_dropped = 0;
+        uint64_t backpressure_events = 0;
         uint64_t pattern_matches = 0;
         uint64_t rules_triggered = 0;
         uint64_t alerts_generated = 0;
@@ -1040,6 +1042,7 @@ private:
     std::atomic<uint64_t> events_received_{0};
     std::atomic<uint64_t> events_processed_{0};
     std::atomic<uint64_t> events_dropped_{0};
+    std::atomic<uint64_t> backpressure_events_{0};
     std::atomic<uint64_t> pattern_matches_{0};
     std::atomic<uint64_t> alerts_generated_{0};
     

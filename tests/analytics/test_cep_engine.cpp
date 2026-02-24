@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     957                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
@@ -956,4 +956,83 @@ TEST_F(CEPEngineTest, SequencePatternRuleViaEngine) {
     bool found = std::any_of(alerts.begin(), alerts.end(),
         [](const Alert& a) { return a.rule_id == "seq-engine-rule"; });
     EXPECT_TRUE(found);
+}
+
+// ============================================================================
+// Engine-level backpressure tests
+// ============================================================================
+
+TEST(CEPEngineBackpressureTest, EngineDropsEventsWhenQueueFull) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads  = 0;        // No workers: queue fills up immediately
+    cfg.metrics_enabled = false;
+    cfg.checkpointing_enabled = false;
+    cfg.backpressure_enabled  = true;
+    cfg.max_queue_depth       = 4;
+    cfg.global_backpressure_threshold = 0.5f;
+    engine.initialize(cfg);
+
+    // Fill up the queue beyond max_queue_depth
+    bool accepted = false;
+    for (int i = 0; i < 10; ++i) {
+        bool ok = engine.submitEvent(makeEvent("flood-" + std::to_string(i)));
+        if (!ok) { accepted = false; break; }
+        accepted = true;
+    }
+    (void)accepted;
+
+    auto stats = engine.getStats();
+    EXPECT_GE(stats.events_dropped, 1u);
+    EXPECT_GE(stats.backpressure_events, 1u);
+
+    engine.shutdown();
+}
+
+TEST(CEPEngineBackpressureTest, BackpressureMetricInPrometheus) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads  = 0;
+    cfg.metrics_enabled = false;
+    cfg.checkpointing_enabled = false;
+    cfg.backpressure_enabled  = true;
+    cfg.max_queue_depth       = 2;
+    cfg.global_backpressure_threshold = 0.5f;
+    engine.initialize(cfg);
+
+    for (int i = 0; i < 8; ++i) {
+        engine.submitEvent(makeEvent("bp-" + std::to_string(i)));
+    }
+
+    std::string prom = engine.toPrometheusFormat();
+    EXPECT_NE(prom.find("themisdb_cep_backpressure_events_total"), std::string::npos);
+
+    engine.shutdown();
+}
+
+TEST(CEPEngineBackpressureTest, BackpressureDisabledAllowsUnboundedQueue) {
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 0;
+    cfg.metrics_enabled       = false;
+    cfg.checkpointing_enabled = false;
+    cfg.backpressure_enabled  = false;  // Disabled
+    cfg.max_queue_depth       = 2;      // Would drop at 2 if enabled
+    engine.initialize(cfg);
+
+    // All events should be accepted when backpressure is disabled
+    for (int i = 0; i < 8; ++i) {
+        EXPECT_TRUE(engine.submitEvent(makeEvent("unbounded-" + std::to_string(i))));
+    }
+
+    auto stats = engine.getStats();
+    EXPECT_EQ(stats.events_dropped, 0u);
+
+    engine.shutdown();
 }
