@@ -15,7 +15,46 @@ ThemisDB implements comprehensive API versioning to ensure backward compatibilit
 
 ### REST API
 
-Use the `Accept-Version` header to specify the desired API version:
+ThemisDB supports **two mechanisms** for specifying the API version in REST requests. URL path
+prefixes take priority over the `Accept-Version` header.
+
+#### 1. URL Path Prefix (Recommended)
+
+Embed the version directly in the URL path using a `/v{N}/` prefix:
+
+```http
+GET /v1/entities/urn:themis:entity:123
+Authorization: Bearer <token>
+```
+
+```http
+GET /v2/entities/urn:themis:entity:123
+Authorization: Bearer <token>
+```
+
+**Behaviour:**
+- The gateway extracts the version from the path prefix and resolves it to the latest
+  matching supported release (e.g. `/v1/` → `v1.4.1`).
+- The `/v{N}/` prefix is **stripped** before the request is forwarded to the handler,
+  so all handlers see canonical, unversioned paths regardless of which version prefix
+  the client used.
+- Query strings are preserved: `/v1/entities?page=2` is forwarded as `/entities?page=2`.
+
+**Response** includes the resolved version:
+
+```http
+HTTP/1.1 200 OK
+API-Version: v1.4.1
+Content-Type: application/json
+
+{
+  "data": { ... }
+}
+```
+
+#### 2. Accept-Version Header
+
+Use the `Accept-Version` header for version negotiation without modifying the URL:
 
 ```http
 GET /api/entities/urn:themis:entity:123
@@ -35,6 +74,9 @@ Content-Type: application/json
 }
 ```
 
+> **Note:** When both a URL path prefix (`/v1/`) and an `Accept-Version` header are present,
+> the **URL path prefix takes precedence**.
+
 #### Supported Formats
 
 - `v1.4.1` - Full version
@@ -42,7 +84,8 @@ Content-Type: application/json
 - `v1` - Major version (resolves to latest minor.patch)
 - `latest` - Current stable version
 
-If no `Accept-Version` header is provided, the current stable version is used.
+If neither a URL path prefix nor an `Accept-Version` header is provided, the current stable
+version is used.
 
 ### gRPC API
 

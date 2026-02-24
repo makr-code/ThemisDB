@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
+    • Total Lines:     253                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -21,47 +21,43 @@
  * @file citation_highlighter.h
  * @brief Citation highlighting: map answer sentences to source chunks
  *
- * Given a generated answer and a set of retrieved source document chunks,
- * CitationHighlighter splits the answer into sentences and maps each
- * sentence to the source chunk(s) that best support it using a
- * calibrated term-overlap heuristic.
+ * Maps each sentence of a generated answer back to the source document
+ * chunk(s) that most strongly support it, enabling explainable RAG and
+ * grounding of generated content.
  *
- * Architecture:
- *   Generated Answer
- *     ↓
- *   Sentence Splitter (punctuation-aware)
- *     ↓
- *   Term-Overlap Scorer (per sentence × per chunk)
- *     ↓
- *   SentenceChunkMapping list
- *     ↓
- *   CitationHighlightResult (mappings + coverage metrics)
+ * Algorithm (heuristic, no external model required):
+ *  1. Split the answer into sentences using punctuation boundaries.
+ *  2. For each sentence compute a term-overlap (Jaccard) similarity against
+ *     every source chunk.
+ *  3. Select the chunk with the highest similarity above the configured
+ *     @c min_similarity_threshold as the primary citation.
+ *  4. Optionally collect secondary citations above a lower secondary threshold.
  *
- * The heuristic scorer is intentionally dependency-free and runs in
- * O(S × C × T) where S = sentence count, C = chunk count, T = average
- * token count.  No external model files are required.
+ * When an LLM inference engine is wired via @c LLMIntegration the
+ * implementation can fall back to a semantic-similarity path.  Without an
+ * engine the pure term-overlap path is used and produces deterministic,
+ * testable results.
  *
- * Usage example:
+ * Integration:
  * @code
+ *   #include "rag/citation_highlighter.h"
  *   using namespace themis::rag;
  *
  *   CitationHighlighter highlighter;
  *
  *   std::vector<SourceChunk> chunks = {
- *       {"doc1", "Paris is the capital of France."},
- *       {"doc2", "The Eiffel Tower was built in 1889."}
+ *       {"doc1", 0, "Paris is the capital of France."},
+ *       {"doc2", 0, "The Eiffel Tower was built in 1889."},
  *   };
  *
  *   auto result = highlighter.highlight(
- *       "Paris is the capital of France. The tower was constructed in 1889.",
- *       chunks
- *   );
+ *       "Paris is France's capital. The tower dates to 1889.",
+ *       chunks);
  *
- *   for (const auto& m : result.mappings) {
- *       std::cout << "[" << m.sentence_index << "] \""
- *                 << m.sentence_text << "\"\n"
- *                 << "  -> " << m.chunk_id
- *                 << " (score=" << m.support_score << ")\n";
+ *   for (const auto& mapping : result.mappings) {
+ *       std::cout << "[" << mapping.answer_sentence << "]\n";
+ *       std::cout << "  → " << mapping.primary_chunk_id
+ *                 << " (score=" << mapping.similarity_score << ")\n";
  *   }
  * @endcode
  */
@@ -71,165 +67,209 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <chrono>
 
 namespace themis::rag {
 
+// ---------------------------------------------------------------------------
+// Supporting types
+// ---------------------------------------------------------------------------
+
 /**
- * @brief A retrieved source chunk provided to the highlighter
+ * @brief A single chunk of source text to map answer sentences against
  */
 struct SourceChunk {
-    std::string id;       ///< Unique chunk identifier (e.g., "doc1", "chunk_42")
-    std::string content;  ///< Text content of the chunk
+    std::string doc_id;       ///< Identifier of the parent document
+    size_t      chunk_index;  ///< Zero-based chunk index within the document
+    std::string content;      ///< Full text of the chunk
+    /// Optional free-form metadata (e.g. page number, section heading)
+    std::string metadata;
 };
 
 /**
- * @brief Mapping from one answer sentence to one supporting source chunk
+ * @brief Mapping of one answer sentence to its best-matching source chunk(s)
  */
-struct SentenceChunkMapping {
-    size_t      sentence_index; ///< 0-based index of the sentence in the answer
-    std::string sentence_text;  ///< Trimmed sentence text
-    std::string chunk_id;       ///< ID of the matched source chunk
-    std::string chunk_text;     ///< Content of the matched source chunk
-    double      support_score;  ///< Term-overlap similarity in [0, 1]
+struct SentenceCitationMapping {
+    /// The answer sentence (leading/trailing whitespace stripped)
+    std::string answer_sentence;
+    /// Index of this sentence in the original answer (0-based)
+    size_t      sentence_index = 0;
+
+    /// doc_id of the primary (best-matching) source chunk.
+    /// Empty string when no chunk exceeded the minimum threshold.
+    std::string primary_chunk_id;
+    /// chunk_index of the primary source chunk
+    size_t      primary_chunk_index = 0;
+    /// Similarity score for the primary chunk [0, 1]
+    double      similarity_score    = 0.0;
+
+    /// Additional chunks that also provide supporting evidence
+    struct SecondarySource {
+        std::string doc_id;
+        size_t      chunk_index;
+        double      similarity_score;
+    };
+    std::vector<SecondarySource> secondary_sources;
+
+    /// True when at least one chunk exceeded the minimum similarity threshold
+    bool has_citation() const { return !primary_chunk_id.empty(); }
 };
 
 /**
- * @brief Result of a citation highlighting pass
+ * @brief Full citation-highlight result for one answer
  */
 struct CitationHighlightResult {
-    /// All sentence-to-chunk mappings, ordered by sentence_index then
-    /// descending support_score.
-    std::vector<SentenceChunkMapping> mappings;
+    /// Per-sentence citation mappings (same order as sentences in the answer)
+    std::vector<SentenceCitationMapping> mappings;
 
-    /// All sentences extracted from the answer (including unmapped ones).
-    std::vector<std::string> sentences;
+    /// Fraction of answer sentences that received at least one citation [0, 1]
+    double citation_coverage = 0.0;
 
-    /// Fraction of non-empty sentences that have at least one mapping.
-    /// 0.0 when there are no non-empty sentences.
-    double coverage;
+    /// Overall mean similarity across all cited sentences
+    double mean_similarity = 0.0;
 
-    /// Wall-clock time for the full highlighting pass.
-    std::chrono::milliseconds elapsed_ms{0};
+    /// Elapsed time for the highlight operation (milliseconds)
+    double highlight_time_ms = 0.0;
 };
+
+// ---------------------------------------------------------------------------
+// Configuration
+// ---------------------------------------------------------------------------
 
 /**
  * @brief Configuration for CitationHighlighter
  */
 struct CitationHighlighterConfig {
-    /// Minimum term-overlap score [0, 1] required to form a mapping.
-    /// Sentences below this threshold are left unmapped.
-    double min_support_score = 0.1;
+    /**
+     * @brief Minimum term-overlap similarity [0, 1] for a primary citation.
+     *
+     * Sentences whose best-matching chunk scores below this threshold are
+     * reported with an empty @c primary_chunk_id.
+     */
+    double min_similarity_threshold = 0.15;
 
-    /// Maximum number of source chunks to map to a single sentence.
-    /// Set to 1 for a one-to-one mapping; 0 means no limit.
-    size_t max_chunks_per_sentence = 3;
+    /**
+     * @brief Minimum similarity for secondary (supporting) citations.
+     *
+     * Must be ≤ @c min_similarity_threshold.  Set to 0.0 to disable
+     * secondary citations.
+     */
+    double secondary_similarity_threshold = 0.08;
 
-    /// Minimum sentence length in characters.  Very short fragments
-    /// (e.g., isolated words) are skipped.
+    /**
+     * @brief Maximum number of secondary citations to attach per sentence.
+     *
+     * 0 means no secondary citations are collected.
+     */
+    size_t max_secondary_citations = 3;
+
+    /**
+     * @brief Sentence split character set.
+     *
+     * Sentences are split on these characters followed by whitespace or
+     * end-of-string.  Default: '.', '!', '?'
+     */
+    std::string sentence_delimiters = ".!?";
+
+    /**
+     * @brief Minimum sentence length (characters) to consider for citation.
+     *
+     * Very short sentences (e.g. "OK.") are skipped.
+     */
     size_t min_sentence_length = 5;
 };
 
+// ---------------------------------------------------------------------------
+// Main class
+// ---------------------------------------------------------------------------
+
 /**
- * @brief Maps answer sentences to their supporting source chunks
+ * @brief Citation highlighter: maps answer sentences to source chunks
  *
- * CitationHighlighter is the entry point for Phase 3 citation highlighting.
- * It is intentionally lightweight: no LLM, no external model, no network I/O.
- *
- * Thread-safety: highlight() and the const accessors are safe to call from
- * multiple threads; the configuration is set at construction time and is
- * immutable thereafter.
+ * Thread-safe: const methods (@c highlight, @c splitSentences,
+ * @c computeSimilarity) may be called from multiple threads concurrently.
+ * Configuration updates via @c setConfig are guarded by a mutex.
  */
 class CitationHighlighter {
 public:
-    /**
-     * @brief Construct with default configuration
-     */
-    CitationHighlighter();
-
-    /**
-     * @brief Construct with custom configuration
-     * @param config Highlighter configuration
-     * @throws std::invalid_argument if config values are out of range
-     */
-    explicit CitationHighlighter(const CitationHighlighterConfig& config);
-
-    /**
-     * @brief Destructor
-     */
+    explicit CitationHighlighter(
+        CitationHighlighterConfig config = CitationHighlighterConfig{});
     ~CitationHighlighter();
 
+    // Non-copyable, movable
+    CitationHighlighter(const CitationHighlighter&)            = delete;
+    CitationHighlighter& operator=(const CitationHighlighter&) = delete;
+    CitationHighlighter(CitationHighlighter&&)                 = default;
+    CitationHighlighter& operator=(CitationHighlighter&&)      = default;
+
     /**
-     * @brief Map answer sentences to source chunks
+     * @brief Map every sentence in @p answer to the best-matching source chunk
      *
-     * For each sentence in @p answer the method finds the source chunk(s)
-     * in @p chunks whose content best overlaps with that sentence and whose
-     * support score meets the configured threshold.
-     *
-     * @param answer  Generated answer text (may contain multiple sentences)
-     * @param chunks  Ordered list of retrieved source chunks
-     * @return        Citation highlight result with mappings and coverage
+     * @param answer   Generated answer text
+     * @param chunks   Source chunks retrieved for this query
+     * @return         Per-sentence citation mappings and aggregate statistics
      */
     CitationHighlightResult highlight(
-        const std::string& answer,
-        const std::vector<SourceChunk>& chunks
-    ) const;
+        const std::string&              answer,
+        const std::vector<SourceChunk>& chunks) const;
 
     /**
-     * @brief Split text into sentences
+     * @brief Split text into sentences using the configured delimiters
      *
-     * Splits on `.`, `!`, and `?` followed by whitespace or end-of-string,
-     * trims leading/trailing whitespace, and drops empty fragments.
-     *
-     * @param text  Input text
-     * @return      Vector of trimmed sentence strings
+     * @param text Input text
+     * @return     Trimmed, non-empty sentence strings
      */
-    static std::vector<std::string> splitSentences(const std::string& text);
+    std::vector<std::string> splitSentences(const std::string& text) const;
 
     /**
-     * @brief Compute term-overlap similarity between a sentence and a chunk
+     * @brief Compute Jaccard term-overlap similarity between two strings
      *
-     * Uses a TF-IDF-inspired unigram + bigram weighted overlap fraction
-     * consistent with the heuristic in CrossEncoderReranker.  The result
-     * is in [0, 1]; higher means more overlap.
+     * Tokenises both strings into lower-cased word tokens (≥ 2 chars),
+     * then returns |intersection| / |union|.
      *
-     * @param sentence  Answer sentence
-     * @param chunk     Source chunk text
-     * @return          Overlap similarity score in [0, 1]
+     * @param a First text
+     * @param b Second text
+     * @return  Similarity in [0, 1]
      */
-    static double scoreSentenceChunk(
-        const std::string& sentence,
-        const std::string& chunk
-    );
+    static double computeSimilarity(const std::string& a,
+                                    const std::string& b);
 
     /**
      * @brief Return current configuration
      */
-    const CitationHighlighterConfig& getConfig() const;
+    CitationHighlighterConfig getConfig() const;
+
+    /**
+     * @brief Update configuration
+     * @param config New configuration to apply
+     */
+    void setConfig(const CitationHighlighterConfig& config);
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };
 
+// ---------------------------------------------------------------------------
+// Factory
+// ---------------------------------------------------------------------------
+
 /**
- * @brief Factory helpers for common citation highlighter configurations
+ * @brief Factory helpers for common CitationHighlighter configurations
  */
 class CitationHighlighterFactory {
 public:
     /**
-     * @brief Strict highlighter: only high-confidence mappings (score >= 0.3)
+     * @brief Strict mode: only very strong matches are cited (threshold=0.30)
      */
     static std::unique_ptr<CitationHighlighter> createStrict();
 
     /**
-     * @brief Balanced highlighter: default thresholds (score >= 0.1)
+     * @brief Balanced mode: default thresholds (threshold=0.15)
      */
     static std::unique_ptr<CitationHighlighter> createBalanced();
 
     /**
-     * @brief Permissive highlighter: all non-zero overlaps are mapped
-     *        (score > 0.0); useful for debugging attribution.
+     * @brief Permissive mode: even weak overlaps are cited (threshold=0.05)
      */
     static std::unique_ptr<CitationHighlighter> createPermissive();
 };
