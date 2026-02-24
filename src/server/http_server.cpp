@@ -1926,6 +1926,7 @@ namespace {
     AdminCacheSnapshotPost,         // POST /v1/admin/cache/snapshot
     AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
     AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
+    AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2267,6 +2268,11 @@ namespace {
         path_only.size() > 23 &&
         path_only.rfind("/stats") == path_only.size() - 6 &&
         method == http::verb::get) return Route::AdminCacheTenantStatsGet;
+    // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
+    if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/quota") == path_only.size() - 6 &&
+        method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
@@ -3201,6 +3207,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AdminCacheTenantStatsGet:
             if (cache_admin_api_) {
                 response = cache_admin_api_->handleTenantStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCacheTenantQuotaPatch:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handleUpdateTenantQuota(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
