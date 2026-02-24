@@ -617,6 +617,44 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
         << "Expected 'security' category in output:\n" << output;
 }
 
+// ═══════════════════════════════════════════════════════════
+// Env-var Cache Configuration Tests
+// ═══════════════════════════════════════════════════════════
+
+class CacheEnvConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::setCachingEnabled(true);
+    }
+};
+
+TEST_F(CacheEnvConfigTest, DefaultCacheSizeIsOneThousand) {
+    // When THEMIS_CONFIG_CACHE_SIZE is not set, kCacheSize defaults to 1000.
+    // (The env var is read at program startup, so we verify the default here.)
+    EXPECT_EQ(ConfigPathResolver::kCacheSize, 1000u);
+}
+
+TEST_F(CacheEnvConfigTest, DefaultCacheTtlIsThreeHundredSeconds) {
+    // When THEMIS_CONFIG_CACHE_TTL is not set, kCacheTtlSeconds defaults to 300.
+    EXPECT_EQ(ConfigPathResolver::kCacheTtlSeconds, 300);
+}
+
+TEST_F(CacheEnvConfigTest, CacheStatsCapacityMatchesKCacheSize) {
+    // The cache must be initialised with the same capacity as kCacheSize.
+    auto stats = ConfigPathResolver::cacheStats();
+    EXPECT_EQ(stats.capacity, ConfigPathResolver::kCacheSize);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheSizeIsPositive) {
+    EXPECT_GT(ConfigPathResolver::kCacheSize, 0u);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheTtlSecondsIsPositive) {
+    EXPECT_GT(ConfigPathResolver::kCacheTtlSeconds, 0);
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

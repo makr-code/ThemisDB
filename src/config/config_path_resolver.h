@@ -138,11 +138,21 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
-     * Default LRU cache TTL in seconds.
-     * Exposed as a named constant so the metrics exporter and other consumers
-     * can reference the single source of truth rather than duplicating the value.
+     * LRU cache TTL in seconds.
+     * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
+     * program startup; falls back to 300 (5 minutes) when the variable is
+     * absent or invalid.  Exposed so the metrics exporter and other consumers
+     * can reference the single source of truth.
      */
-    static constexpr int kCacheTtlSeconds = 300;
+    static const int kCacheTtlSeconds;
+
+    /**
+     * LRU cache maximum capacity (entry count).
+     * Initialized from the THEMIS_CONFIG_CACHE_SIZE environment variable at
+     * program startup; falls back to 1000 when the variable is absent or
+     * invalid.
+     */
+    static const size_t kCacheSize;
 
     /**
      * Entry in the deprecation usage report.

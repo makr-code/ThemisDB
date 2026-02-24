@@ -27,9 +27,11 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <condition_variable>
+#include <cstdlib>
 #include <mutex>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include <thread>
 #include <unordered_map>
 
@@ -189,11 +191,57 @@ private:
 };
 
 // ═══════════════════════════════════════════════════════════
+// Env-var helpers for cache configuration
+// ═══════════════════════════════════════════════════════════
+
+namespace {
+
+/// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
+/// Returns the default (1000) when the variable is absent, empty, or invalid.
+size_t readCacheSizeFromEnv() noexcept {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
+    if (env && *env != '\0') {
+        try {
+            const long val = std::stol(env);
+            if (val > 0) {
+                return static_cast<size_t>(val);
+            }
+        } catch (const std::exception&) {
+            // Fall through to default
+        }
+    }
+    return 1000;
+}
+
+/// Read THEMIS_CONFIG_CACHE_TTL from the environment.
+/// Returns the default (300 s) when the variable is absent, empty, or invalid.
+int readCacheTtlFromEnv() noexcept {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
+    if (env && *env != '\0') {
+        try {
+            const int val = std::stoi(env);
+            if (val > 0) {
+                return val;
+            }
+        } catch (const std::exception&) {
+            // Fall through to default
+        }
+    }
+    return 300;
+}
+
+} // namespace
+
+// ═══════════════════════════════════════════════════════════
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
+const size_t ConfigPathResolver::kCacheSize        = readCacheSizeFromEnv();
+const int    ConfigPathResolver::kCacheTtlSeconds  = readCacheTtlFromEnv();
+
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
-LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
+    ConfigPathResolver::kCacheSize, ConfigPathResolver::kCacheTtlSeconds);
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
