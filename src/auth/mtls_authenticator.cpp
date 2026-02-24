@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     532                                             ║
+    • Total Lines:     542                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -250,7 +250,7 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string& cert_pem) {
     }
 
     // Verify certificate chain
-    if (!verifyCertificateChain(cert.ptr)) {
+    if (!verifyCertificateChain(cert.ptr, !config_.verify_expiry)) {
         std::string err = opensslErrors();
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
@@ -389,24 +389,6 @@ std::string MTLSAuthenticator::extractPrincipal(const std::string& subject_dn) c
 bool MTLSAuthenticator::loadCACertificate() {
     if (!impl_->ca_store) return false;
 
-    auto addCertFromBIO = [this](BIO* bio) -> bool {
-        X509Ptr ca(PEM_read_bio_X509(bio, nullptr, nullptr, nullptr));
-        if (!ca.ok()) {
-            THEMIS_ERROR("mTLS: failed to parse CA certificate PEM: {}", opensslErrors());
-            return false;
-        }
-        if (X509_STORE_add_cert(impl_->ca_store, ca.ptr) != 1) {
-            // Ignore "already in hash table" errors (error code 11)
-            unsigned long err = ERR_peek_last_error();
-            if (ERR_GET_REASON(err) != X509_R_CERT_ALREADY_IN_HASH_TABLE) {
-                THEMIS_ERROR("mTLS: X509_STORE_add_cert failed: {}", opensslErrors());
-                return false;
-            }
-            ERR_clear_error();
-        }
-        return true;
-    };
-
     if (!config_.ca_cert_path.empty()) {
         BIOPtr bio(BIO_new_file(config_.ca_cert_path.c_str(), "r"));
         if (!bio.ptr) {
@@ -440,10 +422,33 @@ bool MTLSAuthenticator::loadCACertificate() {
     } else {
         BIOPtr bio(BIO_new_mem_buf(config_.ca_cert_pem.data(),
                                    static_cast<int>(config_.ca_cert_pem.size())));
-        if (!bio.ptr || !addCertFromBIO(bio.ptr)) {
+        if (!bio.ptr) {
+            THEMIS_ERROR("mTLS: failed to create BIO for inline CA PEM");
             return false;
         }
-        THEMIS_INFO("mTLS: loaded CA certificate from inline PEM");
+        // Loop to support PEM bundles (same logic as file-path case)
+        bool loaded_any = false;
+        while (true) {
+            X509Ptr ca(PEM_read_bio_X509(bio.ptr, nullptr, nullptr, nullptr));
+            if (!ca.ok()) {
+                ERR_clear_error();
+                break;
+            }
+            if (X509_STORE_add_cert(impl_->ca_store, ca.ptr) != 1) {
+                unsigned long err = ERR_peek_last_error();
+                if (ERR_GET_REASON(err) != X509_R_CERT_ALREADY_IN_HASH_TABLE) {
+                    THEMIS_ERROR("mTLS: X509_STORE_add_cert failed: {}", opensslErrors());
+                    return false;
+                }
+                ERR_clear_error();
+            }
+            loaded_any = true;
+        }
+        if (!loaded_any) {
+            THEMIS_ERROR("mTLS: no CA certificates found in inline ca_cert_pem");
+            return false;
+        }
+        THEMIS_INFO("mTLS: loaded CA certificate(s) from inline PEM");
     }
 
     return true;
@@ -478,7 +483,7 @@ bool MTLSAuthenticator::loadCRL() {
     return true;
 }
 
-bool MTLSAuthenticator::verifyCertificateChain(void* x509) const {
+bool MTLSAuthenticator::verifyCertificateChain(void* x509, bool skip_time_check) const {
     if (!impl_->ca_store || !x509) return false;
 
     X509StoreCtxPtr ctx(X509_STORE_CTX_new());
@@ -488,6 +493,11 @@ bool MTLSAuthenticator::verifyCertificateChain(void* x509) const {
     if (X509_STORE_CTX_init(ctx.ptr, impl_->ca_store, cert, nullptr) != 1) {
         THEMIS_DEBUG("mTLS: X509_STORE_CTX_init failed: {}", opensslErrors());
         return false;
+    }
+
+    // When the caller wants to skip expiry checking, instruct OpenSSL to ignore time.
+    if (skip_time_check) {
+        X509_STORE_CTX_set_flags(ctx.ptr, X509_V_FLAG_NO_CHECK_TIME);
     }
 
     int rc = X509_verify_cert(ctx.ptr);

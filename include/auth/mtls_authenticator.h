@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     236                                             ║
+    • Total Lines:     239                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -219,9 +219,12 @@ private:
     /**
      * @brief Verify the parsed X.509 certificate against the trust store.
      * @param x509 Opaque pointer to OpenSSL X509 object.
+     * @param skip_time_check When true, sets X509_V_FLAG_NO_CHECK_TIME so that
+     *        OpenSSL skips validity-period checks during chain verification.
+     *        Used to implement @c MTLSConfig::verify_expiry == false.
      * @return true if the chain is valid.
      */
-    bool verifyCertificateChain(void* x509) const;
+    bool verifyCertificateChain(void* x509, bool skip_time_check = false) const;
 
     /**
      * @brief Return true if the Subject DN matches the wildcard pattern.

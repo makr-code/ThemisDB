@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     479                                             ║
+    • Total Lines:     497                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -183,6 +183,23 @@ TEST(MTLSAuthenticatorTest, InitSucceedsWithInlineCA) {
 
     EXPECT_TRUE(auth.initialize(cfg));
     EXPECT_TRUE(auth.isInitialized());
+}
+
+TEST(MTLSAuthenticatorTest, InitSucceedsWithInlinePEMBundle) {
+    // Build two independent CA certs and concatenate them into a bundle.
+    // A client cert signed by CA2 should authenticate when both are trusted.
+    auto [ca1_pem, _client1] = makeCAAndClientCert("BundleCA1", "client1");
+    auto [ca2_pem, client2]  = makeCAAndClientCert("BundleCA2", "client2");
+
+    std::string bundle = ca1_pem + ca2_pem;
+
+    MTLSAuthenticator auth;
+    MTLSConfig cfg;
+    cfg.ca_cert_pem = bundle;
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    // client2 is signed by CA2 which is in the bundle → should succeed
+    EXPECT_NO_THROW(auth.authenticate(client2));
 }
 
 TEST(MTLSAuthenticatorTest, InitIdempotent) {
@@ -361,7 +378,8 @@ TEST(MTLSAuthenticatorTest, ExpiredCertAcceptedWhenVerifyDisabled) {
     cfg.verify_expiry = false;
     ASSERT_TRUE(auth.initialize(cfg));
 
-    // Should not throw; chain is still valid since the CA signed it
+    // With verify_expiry=false, X509_V_FLAG_NO_CHECK_TIME is set so OpenSSL
+    // ignores the validity period; the cert should authenticate successfully.
     EXPECT_NO_THROW(auth.authenticate(client_pem));
 }
 
