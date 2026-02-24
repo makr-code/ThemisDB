@@ -243,6 +243,9 @@ ImportStats PostgreSQLImporter::importData(
     if (options.dry_run) {
         THEMIS_INFO("DRY RUN MODE - No data will be imported");
     }
+
+    // Reset in-session conflict resolver for this import job
+    conflict_resolver_.reset();
     
     // Parse dump file
     if (!parseDumpFile(source_path, options, stats, progress_callback)) {
@@ -844,6 +847,47 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
     json entity = convertRowToEntity(eff_schema, values);
     THEMIS_DEBUG("INSERT entity: {}", entity.dump());
 
+    // --- Conflict resolution ---
+    if (!options.conflict_key_columns.empty()) {
+        std::string ckey = ImportConflictResolver::computeKey(entity, options.conflict_key_columns);
+        bool conflict = false;
+        entity = conflict_resolver_.resolve(entity, table_name, ckey,
+                                            options.conflict_strategy,
+                                            options.merge_depth,
+                                            options.protected_fields,
+                                            conflict);
+        if (conflict) {
+            switch (options.conflict_strategy) {
+                case ConflictStrategy::SKIP:
+                    stats.conflicts_skipped++;
+                    emitMetric(options, "importers_conflicts_total",
+                               {{"table", table_name}, {"strategy", "skip"}, {"outcome", "skipped"}}, 1.0);
+                    stats.skipped_records++;
+                    return true;
+                case ConflictStrategy::OVERWRITE:
+                    stats.conflicts_overwritten++;
+                    emitMetric(options, "importers_conflicts_total",
+                               {{"table", table_name}, {"strategy", "overwrite"}, {"outcome", "overwritten"}}, 1.0);
+                    break;
+                case ConflictStrategy::MERGE:
+                    stats.conflicts_merged++;
+                    emitMetric(options, "importers_conflicts_total",
+                               {{"table", table_name}, {"strategy", "merge"}, {"outcome", "merged"}}, 1.0);
+                    break;
+                case ConflictStrategy::ERROR:
+                    addError(stats, ImportErrorCode::CONFLICT_ERROR,
+                             ImportErrorSeverity::ERROR,
+                             "Conflict detected for key '" + ckey + "' in table '" + table_name + "'",
+                             "line " + std::to_string(line_number));
+                    emitMetric(options, "importers_conflicts_total",
+                               {{"table", table_name}, {"strategy", "error"}, {"outcome", "error"}}, 1.0);
+                    stats.failed_records++;
+                    if (!options.continue_on_error) return false;
+                    return true;
+            }
+        }
+    }
+
     if (options.streaming_row_callback) {
         if (!options.streaming_row_callback(table_name, entity)) {
             cancelled_ = true;  // abort the import
@@ -1017,6 +1061,48 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
 
         json entity = convertRowToEntity(eff_schema, values);
         THEMIS_DEBUG("COPY entity: {}", entity.dump());
+
+        // --- Conflict resolution ---
+        if (!options.conflict_key_columns.empty()) {
+            std::string ckey = ImportConflictResolver::computeKey(entity, options.conflict_key_columns);
+            bool conflict = false;
+            entity = conflict_resolver_.resolve(entity, table_name, ckey,
+                                                options.conflict_strategy,
+                                                options.merge_depth,
+                                                options.protected_fields,
+                                                conflict);
+            if (conflict) {
+                switch (options.conflict_strategy) {
+                    case ConflictStrategy::SKIP:
+                        stats.conflicts_skipped++;
+                        emitMetric(options, "importers_conflicts_total",
+                                   {{"table", table_name}, {"strategy", "skip"}, {"outcome", "skipped"}}, 1.0);
+                        stats.skipped_records++;
+                        continue;
+                    case ConflictStrategy::OVERWRITE:
+                        stats.conflicts_overwritten++;
+                        emitMetric(options, "importers_conflicts_total",
+                                   {{"table", table_name}, {"strategy", "overwrite"}, {"outcome", "overwritten"}}, 1.0);
+                        break;
+                    case ConflictStrategy::MERGE:
+                        stats.conflicts_merged++;
+                        emitMetric(options, "importers_conflicts_total",
+                                   {{"table", table_name}, {"strategy", "merge"}, {"outcome", "merged"}}, 1.0);
+                        break;
+                    case ConflictStrategy::ERROR: {
+                        addError(stats, ImportErrorCode::CONFLICT_ERROR,
+                                 ImportErrorSeverity::ERROR,
+                                 "Conflict detected for key '" + ckey + "' in table '" + table_name + "'",
+                                 "table " + table_name + ", row " + std::to_string(row_num));
+                        emitMetric(options, "importers_conflicts_total",
+                                   {{"table", table_name}, {"strategy", "error"}, {"outcome", "error"}}, 1.0);
+                        stats.failed_records++;
+                        if (!options.continue_on_error) return false;
+                        continue;
+                    }
+                }
+            }
+        }
 
         if (options.streaming_row_callback) {
             if (!options.streaming_row_callback(table_name, entity)) {
