@@ -757,7 +757,8 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         info["l1"] = {
             {"entries", l1_cache_.size()},
             {"max_entries", config_.l1_max_entries},
-            {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries}
+            {"utilization", static_cast<double>(l1_cache_.size()) / config_.l1_max_entries},
+            {"eviction_policy", std::string(l1_eviction_strategy_->getName())}
         };
     }
     
@@ -766,7 +767,8 @@ nlohmann::json AdaptiveQueryCache::getDetailedInfo() const {
         info["l2"] = {
             {"entries", l2_cache_.size()},
             {"max_entries", config_.l2_max_entries},
-            {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries}
+            {"utilization", static_cast<double>(l2_cache_.size()) / config_.l2_max_entries},
+            {"eviction_policy", std::string(l2_eviction_strategy_->getName())}
         };
     }
     
@@ -1076,6 +1078,7 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
         stats["l1"]["max_entries"] = config_.l1_max_entries;
         stats["l1"]["utilization"] = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
         stats["l1"]["hits"] = enhanced_metrics_.l1_hits.load();
+        stats["l1"]["eviction_policy"] = std::string(l1_eviction_strategy_->getName());
     }
     
     // L2 statistics
@@ -1085,6 +1088,7 @@ nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
         stats["l2"]["max_entries"] = config_.l2_max_entries;
         stats["l2"]["utilization"] = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
         stats["l2"]["hits"] = enhanced_metrics_.l2_hits.load();
+        stats["l2"]["eviction_policy"] = std::string(l2_eviction_strategy_->getName());
     }
     
     // L3 statistics
