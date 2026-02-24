@@ -99,9 +99,9 @@ public:
     ) override;
 
     // -----------------------------------------------------------------------
-    // GeoKernelDispatch — null entries; future GPU kernels registered here
+    // GeoKernelDispatch — wired to bridge_geo_distance / bridge_geo_containment
     // -----------------------------------------------------------------------
-    GeoKernelDispatch populateGeoDispatch() const override { return {}; }
+    GeoKernelDispatch populateGeoDispatch() const override;
 
 private:
     /// Haversine distance between two WGS-84 points; result in kilometres.
