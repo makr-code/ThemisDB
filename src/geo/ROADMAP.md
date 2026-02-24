@@ -29,7 +29,7 @@
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [P] R-tree index integration for CPU backend (Issue: #1741)
-- [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
+- [P] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
 - [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
