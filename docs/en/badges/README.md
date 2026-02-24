@@ -2,26 +2,58 @@
 
 This section explains the status badges shown at the top of the [ThemisDB README](../../../README.md).
 
-Only the most important status indicators are displayed in the README header. Each badge links back to the corresponding page in this directory for more detail.
+The README header is organised into four thematic rows for quick scanning. Each badge links back to the corresponding page in this directory for more detail.
 
 ## Badges
+
+### Row 1 – Build & Release
 
 | Badge | What it shows | Details |
 |-------|---------------|---------|
 | CI Status | Latest build result (Themis Core CI) | [ci-status.md](ci-status.md) |
+| Security CI | Latest security hardening CI result | [security-ci.md](security-ci.md) |
 | Version/Release | Current release tag | [version.md](version.md) |
-| License | Project license | [license.md](license.md) |
+| License | Project license (MIT) | [license.md](license.md) |
 | Docker Pulls | Total Docker Hub pulls for `themisdb/themisdb` | [docker.md](docker.md) |
+
+### Row 2 – Code Metrics
+
+| Badge | What it shows | Details |
+|-------|---------------|---------|
 | Lines of Code | Total source lines counted by Tokei | [loc.md](loc.md) |
+| Repo Size | Total repository size (GitHub API) | [repo-size.md](repo-size.md) |
+| Last Commit | Date of the most recent commit on `develop` | [last-commit.md](last-commit.md) |
+| Stars | GitHub star count | [stars.md](stars.md) |
+| Forks | GitHub fork count | [forks.md](forks.md) |
 
-## Why these five badges?
+### Row 3 – Community
 
-Keeping the header compact (5–8 badges) makes the most critical status information immediately visible without visual noise:
+| Badge | What it shows | Details |
+|-------|---------------|---------|
+| Open Issues | Number of currently open GitHub Issues | [issues.md](issues.md) |
+| Contributors | Number of unique commit authors | [contributors.md](contributors.md) |
+| Docs | Link to the GitHub Pages documentation site | [docs-site.md](docs-site.md) |
+| pre-commit | Indicates pre-commit hooks are configured | [pre-commit.md](pre-commit.md) |
+| PRs Welcome | Community contribution signal | [prs-welcome.md](prs-welcome.md) |
 
-- **CI** – shows at a glance whether the core framework builds and tests are healthy.
-- **Version** – communicates the current development cycle.
-- **License** – instant confirmation of the open-source license for evaluators.
-- **Docker Pulls** – reflects real-world adoption of the containerised distribution.
-- **Lines of Code** – gives contributors a quick sense of project scale.
+### Row 4 – Tech Stack
 
-Capability information (supported models, technology stack, performance numbers) is documented in the README body and in the module documentation linked from there.
+| Badge | What it shows | Details |
+|-------|---------------|---------|
+| C++20 | C++ language standard used | [cpp-standard.md](cpp-standard.md) |
+| Docker Image Size | Compressed size of the `latest` Docker image | [docker-image-size.md](docker-image-size.md) |
+| GPU CI | Latest GPU module CI gate result | [gpu-ci.md](gpu-ci.md) |
+| LLM CI | Latest LLM CPU-fallback CI result | [llm-ci.md](llm-ci.md) |
+| Platform | Supported operating systems | [platform.md](platform.md) |
+
+## Design rationale
+
+The badge bar uses four rows of five badges each (~20 total) to provide comprehensive project status at a glance without scrolling:
+
+- **Row 1** answers: *Is the build healthy? What version is this? Can I use it freely?*
+- **Row 2** answers: *How active is development? How large is the codebase?*
+- **Row 3** answers: *Is this project maintained and welcoming? Where are the docs?*
+- **Row 4** answers: *What technology does this use? Does GPU/LLM support work?*
+
+Capability details (supported models, performance numbers, module documentation) are in the README body and module READMEs linked from there.
+

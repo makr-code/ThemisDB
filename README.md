@@ -2,13 +2,35 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
 
+  <!-- Row 1: Build & Release -->
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](docs/en/badges/ci-status.md)
+  [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](docs/en/badges/security-ci.md)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
-  [![Lines of Code](https://tokei.rs/b1/github/makr-code/ThemisDB)](docs/en/badges/loc.md)
 
-  <sub>ℹ️ Each badge above links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for details.</sub>
+  <!-- Row 2: Code Metrics -->
+  [![Lines of Code](https://tokei.rs/b1/github/makr-code/ThemisDB)](docs/en/badges/loc.md)
+  [![Repo Size](https://img.shields.io/github/repo-size/makr-code/ThemisDB)](docs/en/badges/repo-size.md)
+  [![Last Commit](https://img.shields.io/github/last-commit/makr-code/ThemisDB/develop)](docs/en/badges/last-commit.md)
+  [![Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=flat)](docs/en/badges/stars.md)
+  [![Forks](https://img.shields.io/github/forks/makr-code/ThemisDB?style=flat)](docs/en/badges/forks.md)
+
+  <!-- Row 3: Community -->
+  [![Open Issues](https://img.shields.io/github/issues/makr-code/ThemisDB)](docs/en/badges/issues.md)
+  [![Contributors](https://img.shields.io/github/contributors/makr-code/ThemisDB)](docs/en/badges/contributors.md)
+  [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](docs/en/badges/docs-site.md)
+  [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen)](docs/en/badges/pre-commit.md)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](docs/en/badges/prs-welcome.md)
+
+  <!-- Row 4: Tech Stack -->
+  [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue)](docs/en/badges/cpp-standard.md)
+  [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)](docs/en/badges/docker-image-size.md)
+  [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](docs/en/badges/gpu-ci.md)
+  [![LLM CI](https://github.com/makr-code/ThemisDB/actions/workflows/llm-cpu-fallback-ci.yml/badge.svg)](docs/en/badges/llm-ci.md)
+  [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](docs/en/badges/platform.md)
+
+  <sub>ℹ️ Each badge links to a short explanation of what it shows and where to find the source of truth. See <a href="docs/en/badges/README.md">docs/en/badges</a> for the full overview.</sub>
 </div>
 
 ## What is ThemisDB?
