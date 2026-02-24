@@ -658,6 +658,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/admin_api_handler.cpp
     ../src/server/vector_api_handler.cpp
     ../src/server/spatial_api_handler.cpp
+    ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
