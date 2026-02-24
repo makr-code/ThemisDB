@@ -79,7 +79,6 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 
 ## Known Issues & Limitations
 - ABAC (attribute-based) access control is limited to role-based rules currently
-- WebAuthn support is planned but not started
 - LDAP direct bind is not supported; only Kerberos-based AD integration
 
 ## Breaking Changes
