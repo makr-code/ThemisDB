@@ -159,6 +159,26 @@ void AuthAuditLogger::logSAMLFailure(const std::string& reason)
 }
 
 // ---------------------------------------------------------------------------
+// LDAP / Active Directory events
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logLDAPSuccess(const std::string& username,
+                                     const std::string& dn)
+{
+    nlohmann::json d;
+    d["dn"] = dn;
+    emit(utils::SecurityEventType::LOGIN_SUCCESS, username, "ldap/bind", d);
+}
+
+void AuthAuditLogger::logLDAPFailure(const std::string& username,
+                                     const std::string& reason)
+{
+    nlohmann::json d;
+    d["reason"] = reason;
+    emit(utils::SecurityEventType::LOGIN_FAILED, username, "ldap/bind", d);
+}
+
+// ---------------------------------------------------------------------------
 // Zero-trust continuous verification events
 // ---------------------------------------------------------------------------
 

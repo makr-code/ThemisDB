@@ -362,6 +362,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/ldap_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/oidc_provider.cpp
