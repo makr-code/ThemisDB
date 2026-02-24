@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     0                                              ║
+    • Total Lines:     372                                              ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -37,20 +37,6 @@ namespace themis::rag::agentic {
 // Internal helpers
 // ---------------------------------------------------------------------------
 namespace {
-
-/**
- * Collect the IDs of every document in @p docs into a set.
- */
-std::unordered_set<std::string> collectIds(
-    const std::vector<judge::RetrievedDocument>& docs)
-{
-    std::unordered_set<std::string> ids;
-    ids.reserve(docs.size());
-    for (const auto& d : docs) {
-        ids.insert(d.id);
-    }
-    return ids;
-}
 
 /**
  * Build a flat vector of IDs for the RetrievalFn signature.
@@ -80,22 +66,6 @@ size_t mergeDocuments(
         ++added;
     }
     return added;
-}
-
-/**
- * Convert knowledge_gap::RetrievedDocument to judge::RetrievedDocument.
- * They share the same field layout but live in different namespaces.
- * (Both are defined in their respective headers as POD structs.)
- */
-inline judge::RetrievedDocument toJudgeDoc(
-    const knowledge_gap::RetrievedDocument& kd)
-{
-    judge::RetrievedDocument jd;
-    jd.id               = kd.id;
-    jd.content          = kd.content;
-    jd.similarity_score = kd.similarity_score;
-    jd.metadata         = kd.metadata;
-    return jd;
 }
 
 inline knowledge_gap::RetrievedDocument toGapDoc(

@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     0                                              ║
+    • Total Lines:     328                                              ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -49,7 +49,6 @@
 #include <functional>
 #include <memory>
 #include <chrono>
-#include <optional>
 
 namespace themis::rag::agentic {
 
