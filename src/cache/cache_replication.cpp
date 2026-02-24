@@ -280,7 +280,7 @@ CacheReplicationEvent CacheReplicationManager::makeEvent(CacheReplicationEventTy
     CacheReplicationEvent ev;
     ev.type = type;
     ev.timestamp_ms = nowMs();
-    ev.sequence = ++const_cast<CacheReplicationManager*>(this)->sequence_;
+    ev.sequence = ++sequence_;
     return ev;
 }
 

@@ -612,15 +612,13 @@ bool AdaptiveQueryCache::put(
 
         // Phase 4: Notify replication listener
         if (rep_listener) {
-            rep_listener->onReplicationEvent([&]() {
-                cache::CacheReplicationEvent ev;
-                ev.type = cache::CacheReplicationEventType::WRITE;
-                ev.key = key;
-                ev.payload = result_str;
-                ev.tenant_id = tenant_id;
-                ev.ttl_seconds = ttl_seconds;
-                return ev;
-            }());
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::WRITE;
+            ev.key = key;
+            ev.payload = result_str;
+            ev.tenant_id = tenant_id;
+            ev.ttl_seconds = ttl_seconds;
+            rep_listener->onReplicationEvent(ev);
         }
 
         return true;
@@ -660,15 +658,13 @@ bool AdaptiveQueryCache::put(
 
         // Phase 4: Notify replication listener
         if (rep_listener) {
-            rep_listener->onReplicationEvent([&]() {
-                cache::CacheReplicationEvent ev;
-                ev.type = cache::CacheReplicationEventType::WRITE;
-                ev.key = fingerprint;
-                ev.payload = result_str;
-                ev.tenant_id = tenant_id;
-                ev.ttl_seconds = ttl_seconds;
-                return ev;
-            }());
+            cache::CacheReplicationEvent ev;
+            ev.type = cache::CacheReplicationEventType::WRITE;
+            ev.key = fingerprint;
+            ev.payload = result_str;
+            ev.tenant_id = tenant_id;
+            ev.ttl_seconds = ttl_seconds;
+            rep_listener->onReplicationEvent(ev);
         }
 
         return true;
@@ -711,15 +707,13 @@ bool AdaptiveQueryCache::put(
 
                 // Phase 4: Notify replication listener
                 if (rep_listener) {
-                    rep_listener->onReplicationEvent([&]() {
-                        cache::CacheReplicationEvent ev;
-                        ev.type = cache::CacheReplicationEventType::WRITE;
-                        ev.key = key;
-                        ev.payload = entry_json.dump();
-                        ev.tenant_id = tenant_id;
-                        ev.ttl_seconds = ttl_seconds;
-                        return ev;
-                    }());
+                    cache::CacheReplicationEvent ev;
+                    ev.type = cache::CacheReplicationEventType::WRITE;
+                    ev.key = key;
+                    ev.payload = entry_json.dump();
+                    ev.tenant_id = tenant_id;
+                    ev.ttl_seconds = ttl_seconds;
+                    rep_listener->onReplicationEvent(ev);
                 }
 
                 return true;

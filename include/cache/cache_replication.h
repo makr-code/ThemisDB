@@ -300,7 +300,7 @@ private:
     mutable std::mutex replicas_mutex_;
     std::vector<CacheReplicaState> replicas_;
     mutable CacheReplicationStats stats_;
-    std::atomic<uint64_t> sequence_{0};
+    mutable std::atomic<uint64_t> sequence_{0};
 
     /// Dispatch an event to all healthy replicas, updating health state.
     void dispatch(const CacheReplicationEvent& event);
