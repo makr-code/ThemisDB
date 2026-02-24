@@ -230,7 +230,7 @@ size_t PluginLoader::loadPluginsFromDirectory(const std::string& directoryPath) 
             // by comparing path components, not string prefixes, to avoid
             // false positives (e.g. /plugins_evil matching /plugins).
             fs::path resolvedTarget = fs::canonical(entry.path(), ec);
-            bool escaped = static_cast<bool>(ec);
+            bool escaped = (ec.value() != 0);
             if (!escaped) {
                 auto [dirIt, tgtIt] = std::mismatch(
                     canonicalDir.begin(), canonicalDir.end(),

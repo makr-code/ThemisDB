@@ -21,8 +21,10 @@
  */
 
 #include "analytics/olap.h"
+#include "themis/gpu/query_accelerator.h"
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <numeric>
 #include <chrono>
 #include <sstream>
@@ -52,6 +54,9 @@ class OLAPEngine::Impl {};
 
 OLAPEngine::OLAPEngine() : impl_(nullptr) {
     spdlog::warn("OLAPEngine: Using Windows stub implementation - full OLAP functionality not available");
+}
+OLAPEngine::OLAPEngine(const Config&) : impl_(nullptr) {
+    spdlog::warn("OLAPEngine: Using Windows stub implementation - GPU acceleration not available on Windows platform");
 }
 OLAPEngine::~OLAPEngine() = default;
 
@@ -148,9 +153,25 @@ class OLAPEngine::Impl {
 public:
     // In-memory data for testing (would connect to storage in production)
     std::unordered_map<std::string, std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>> collections;
+
+    // GPU acceleration
+    OLAPEngine::Config config;
+    std::unique_ptr<themis::gpu::GPUQueryAccelerator> gpu_accelerator;
 };
 
 OLAPEngine::OLAPEngine() : impl_(std::make_unique<Impl>()) {}
+
+OLAPEngine::OLAPEngine(const Config& config) : impl_(std::make_unique<Impl>()) {
+    impl_->config = config;
+    if (config.enable_gpu) {
+        themis::gpu::GPUQueryAccelerator::Config gpu_cfg;
+        gpu_cfg.gpu_threshold_rows = config.gpu_threshold_rows;
+        impl_->gpu_accelerator = std::make_unique<themis::gpu::GPUQueryAccelerator>(gpu_cfg);
+        spdlog::info("OLAPEngine: GPU acceleration enabled (device {}, threshold {} rows)",
+                     config.gpu_device_id, config.gpu_threshold_rows);
+    }
+}
+
 OLAPEngine::~OLAPEngine() = default;
 
 OLAPResult OLAPEngine::execute(const OLAPQuery& query) {
@@ -619,6 +640,14 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
         plan.parallel_execution = true;
         plan.optimization_notes.push_back("Parallel execution recommended");
     }
+
+    // GPU acceleration note
+    if (impl_->config.enable_gpu) {
+        plan.optimization_notes.push_back(
+            "GPU acceleration enabled (CUDA/ROCm, threshold " +
+            std::to_string(impl_->config.gpu_threshold_rows) + " rows)"
+        );
+    }
     
     return plan;
 }
@@ -634,7 +663,46 @@ double OLAPEngine::computeAggregate(
     double percentile
 ) {
     if (values.empty()) return 0.0;
-    
+
+    // GPU-accelerated path for basic aggregations when GPU is enabled and
+    // the value set is large enough to justify GPU dispatch overhead.
+    if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
+        using AggFunc = themis::gpu::GPUQueryAccelerator::AggFunc;
+        using Row = themis::gpu::GPUQueryAccelerator::Row;
+
+        std::optional<AggFunc> gpu_func;
+        switch (function) {
+            case Measure::Function::Sum:   gpu_func = AggFunc::SUM;   break;
+            case Measure::Function::Count: gpu_func = AggFunc::COUNT; break;
+            case Measure::Function::Min:   gpu_func = AggFunc::MIN;   break;
+            case Measure::Function::Max:   gpu_func = AggFunc::MAX;   break;
+            case Measure::Function::Avg:   gpu_func = AggFunc::AVG;   break;
+            default: break;
+        }
+
+        if (gpu_func) {
+            std::vector<Row> gpu_rows;
+            gpu_rows.reserve(values.size());
+            for (size_t i = 0; i < values.size(); ++i) {
+                Row row;
+                row.id = static_cast<uint64_t>(i);
+                row.data.resize(sizeof(double));
+                std::memcpy(row.data.data(), &values[i], sizeof(double));
+                gpu_rows.push_back(std::move(row));
+            }
+
+            auto value_fn = [](const Row& r) -> double {
+                if (r.data.size() < sizeof(double)) return 0.0;
+                double v;
+                std::memcpy(&v, r.data.data(), sizeof(double));
+                return v;
+            };
+
+            auto agg_result = impl_->gpu_accelerator->aggregate(gpu_rows, *gpu_func, value_fn);
+            return agg_result.value;
+        }
+    }
+
     switch (function) {
         case Measure::Function::Count:
             return static_cast<double>(values.size());
