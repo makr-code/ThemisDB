@@ -520,6 +520,9 @@ private:
     GpuKernelDispatcher::ContainmentResult tryGpuContainmentDispatch(
             const SpatialBatchInputs& in, std::size_t n) {
         // Extract point coordinates.
+        // Note: in ThemisDB's Coordinate struct, x = latitude and y = longitude.
+        // This non-standard convention is consistent throughout the geo module
+        // (see geo_acceleration_bridge.cpp, bridge_geo_containment).
         std::vector<double> lats(n), lons(n);
         for (std::size_t i = 0; i < n; ++i) {
             if (in.geoms_a[i].coords.empty()) {
@@ -530,6 +533,8 @@ private:
         }
 
         // Extract polygon vertices from geoms_b[0] (all geoms_b are the same polygon).
+        // Interleaved format: [lat0=x, lon0=y, lat1=x, lon1=y, ...] matching the
+        // pointInPolygonKernel's polygon_coords convention.
         const auto& poly_ring = outerRing(in.geoms_b[0]);
         if (poly_ring.size() < 3) {
             return GpuKernelDispatcher::ContainmentResult{};

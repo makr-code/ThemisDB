@@ -77,10 +77,15 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     }
 
     // Copy host → device.
-    cudaMemcpy(d_lats, point_lats,     pts_sz,  cudaMemcpyHostToDevice);
-    cudaMemcpy(d_lons, point_lons,     pts_sz,  cudaMemcpyHostToDevice);
-    cudaMemcpy(d_poly, polygon_coords, poly_sz, cudaMemcpyHostToDevice);
-    cudaMemset(d_res, 0, out_sz);
+    if ((e = cudaMemcpy(d_lats, point_lats,     pts_sz,  cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemcpy(d_lons, point_lons,     pts_sz,  cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemcpy(d_poly, polygon_coords, poly_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemset(d_res, 0, out_sz))                                        != cudaSuccess) {
+        res.error_code = static_cast<int>(e);
+        cudaFree(d_lats); cudaFree(d_lons);
+        cudaFree(d_poly); cudaFree(d_res);
+        return res;
+    }
 
     // Launch kernel via dispatch table (default stream).
     const int rc = dispatch_table_.launchContainment(
@@ -147,11 +152,17 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
         return res;
     }
 
-    cudaMemcpy(d_lats1, lats1, coord_sz, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_lons1, lons1, coord_sz, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_lats2, lats2, coord_sz, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_lons2, lons2, coord_sz, cudaMemcpyHostToDevice);
-    cudaMemset(d_out, 0, out_sz);
+    if ((e = cudaMemcpy(d_lats1, lats1, coord_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemcpy(d_lons1, lons1, coord_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemcpy(d_lats2, lats2, coord_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemcpy(d_lons2, lons2, coord_sz, cudaMemcpyHostToDevice)) != cudaSuccess ||
+        (e = cudaMemset(d_out, 0, out_sz))                                 != cudaSuccess) {
+        res.error_code = static_cast<int>(e);
+        cudaFree(d_lats1); cudaFree(d_lons1);
+        cudaFree(d_lats2); cudaFree(d_lons2);
+        cudaFree(d_out);
+        return res;
+    }
 
     const int rc = dispatch_table_.launchDistance(
         d_lats1, d_lons1, d_lats2, d_lons2,
