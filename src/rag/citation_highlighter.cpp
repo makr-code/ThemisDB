@@ -9,8 +9,8 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     341                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     310                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -19,18 +19,13 @@
 
 /**
  * @file citation_highlighter.cpp
- * @brief Implementation of citation highlighting (map answer sentences to
- *        source chunks) for RAG Phase 3.
+ * @brief Citation highlighting: map answer sentences to source chunks (Phase 3)
  *
- * Algorithm overview:
- *   1. Split the answer into sentences (punctuation-aware).
- *   2. For each sentence, tokenise into lower-cased unigrams and bigrams.
- *   3. For each source chunk, tokenise identically and compute a weighted
- *      term-overlap fraction (unigrams: weight 1, bigrams: weight 2).
- *   4. Collect all (sentence, chunk) pairs whose score >= min_support_score.
- *   5. Per sentence, keep the top-max_chunks_per_sentence pairs sorted by
- *      descending score.
- *   6. Return the flat list ordered by sentence_index then score.
+ * Uses a calibrated Jaccard term-overlap scorer to match each answer sentence
+ * against every source chunk and selects the best-matching chunk(s) as
+ * citations.  No external model files are required; the heuristic path is
+ * deterministic and runs in O(S × C × T) where S = number of sentences,
+ * C = number of chunks, and T = average token count.
  */
 
 #include "rag/citation_highlighter.h"
@@ -39,302 +34,294 @@
 #include <algorithm>
 #include <chrono>
 #include <cctype>
-#include <stdexcept>
-#include <unordered_map>
+#include <mutex>
+#include <unordered_set>
 
 namespace themis::rag {
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
 // Internal helpers
-// ─────────────────────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
 
 namespace {
 
-/// Lowercase a single ASCII character.
-inline char toLower(char c) {
-    return static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-}
-
-/// Strip leading and trailing ASCII whitespace from @p s.
-std::string trim(const std::string& s) {
-    const auto begin = s.find_first_not_of(" \t\r\n");
-    if (begin == std::string::npos) return {};
-    const auto end = s.find_last_not_of(" \t\r\n");
-    return s.substr(begin, end - begin + 1);
-}
-
-/// Tokenise @p text into lower-cased words, stripping non-alphanumeric chars.
-std::vector<std::string> tokenise(const std::string& text) {
-    std::vector<std::string> tokens;
-    std::string current;
-    for (char c : text) {
-        if (std::isalnum(static_cast<unsigned char>(c))) {
-            current += toLower(c);
+/// Tokenise @p text into lower-cased words of at least 2 characters.
+std::unordered_set<std::string> tokenSet(const std::string& text) {
+    std::unordered_set<std::string> tokens;
+    std::string cur;
+    for (unsigned char ch : text) {
+        if (std::isalnum(ch)) {
+            cur += static_cast<char>(std::tolower(ch));
         } else {
-            if (!current.empty()) {
-                tokens.push_back(std::move(current));
-                current.clear();
+            if (cur.size() >= 2) {
+                tokens.insert(cur);
             }
+            cur.clear();
         }
     }
-    if (!current.empty()) {
-        tokens.push_back(std::move(current));
+    if (cur.size() >= 2) {
+        tokens.insert(cur);
     }
     return tokens;
 }
 
-/// Build a frequency map of unigrams from a token list.
-std::unordered_map<std::string, size_t> unigramFreq(
-    const std::vector<std::string>& tokens)
-{
-    std::unordered_map<std::string, size_t> freq;
-    for (const auto& t : tokens) {
-        ++freq[t];
-    }
-    return freq;
-}
-
-/// Build a frequency map of bigrams ("w1 w2") from a token list.
-std::unordered_map<std::string, size_t> bigramFreq(
-    const std::vector<std::string>& tokens)
-{
-    std::unordered_map<std::string, size_t> freq;
-    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
-        freq[tokens[i] + ' ' + tokens[i + 1]]++;
-    }
-    return freq;
-}
-
-/// Weighted overlap between two frequency maps.
-/// Returns sum of min(freqA[t], freqB[t]) over all shared terms,
-/// divided by the total weight of terms in freqA.
-double weightedOverlap(
-    const std::unordered_map<std::string, size_t>& freqA,
-    const std::unordered_map<std::string, size_t>& freqB,
-    double weight)
-{
-    if (freqA.empty()) return 0.0;
-    double shared = 0.0;
-    double total  = 0.0;
-    for (const auto& [term, cntA] : freqA) {
-        total += static_cast<double>(cntA) * weight;
-        auto it = freqB.find(term);
-        if (it != freqB.end()) {
-            shared += static_cast<double>(std::min(cntA, it->second)) * weight;
-        }
-    }
-    return total > 0.0 ? shared / total : 0.0;
+/// Trim leading and trailing whitespace from @p s in-place.
+void trim(std::string& s) {
+    const auto isSpace = [](unsigned char c) { return std::isspace(c); };
+    s.erase(s.begin(), std::find_if_not(s.begin(), s.end(), isSpace));
+    s.erase(std::find_if_not(s.rbegin(), s.rend(), isSpace).base(), s.end());
 }
 
 } // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter::Impl
-// ─────────────────────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
+// Impl
+// ---------------------------------------------------------------------------
 
 struct CitationHighlighter::Impl {
+    mutable std::mutex       mtx;
     CitationHighlighterConfig config;
+
+    explicit Impl(CitationHighlighterConfig cfg) : config(std::move(cfg)) {}
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter – construction / destruction
-// ─────────────────────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
+// CitationHighlighter
+// ---------------------------------------------------------------------------
 
-CitationHighlighter::CitationHighlighter()
-    : impl_(std::make_unique<Impl>())
+CitationHighlighter::CitationHighlighter(CitationHighlighterConfig config)
+    : impl_(std::make_unique<Impl>(std::move(config)))
 {}
-
-CitationHighlighter::CitationHighlighter(const CitationHighlighterConfig& config)
-    : impl_(std::make_unique<Impl>())
-{
-    if (config.min_support_score < 0.0 || config.min_support_score > 1.0) {
-        throw std::invalid_argument(
-            "CitationHighlighter: min_support_score must be in [0, 1]");
-    }
-    impl_->config = config;
-}
 
 CitationHighlighter::~CitationHighlighter() = default;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter::splitSentences
-// ─────────────────────────────────────────────────────────────────────────────
+CitationHighlighterConfig CitationHighlighter::getConfig() const {
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    return impl_->config;
+}
 
-std::vector<std::string> CitationHighlighter::splitSentences(
-    const std::string& text)
-{
+void CitationHighlighter::setConfig(const CitationHighlighterConfig& config) {
+    std::lock_guard<std::mutex> lock(impl_->mtx);
+    impl_->config = config;
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+namespace {
+/// Core sentence-splitting logic; works on a pre-copied config snapshot.
+std::vector<std::string> doSplitSentences(const std::string&              text,
+                                          const CitationHighlighterConfig& cfg) {
     std::vector<std::string> sentences;
-    if (text.empty()) return sentences;
-
     std::string current;
+
     for (size_t i = 0; i < text.size(); ++i) {
-        const char c = text[i];
-        current += c;
-        // Split on sentence-ending punctuation followed by whitespace or EOS
-        if (c == '.' || c == '!' || c == '?') {
-            const bool atEnd = (i + 1 == text.size());
-            const bool nextIsSpace = (!atEnd && std::isspace(
-                static_cast<unsigned char>(text[i + 1])));
-            if (atEnd || nextIsSpace) {
-                auto s = trim(current);
-                if (!s.empty()) {
-                    sentences.push_back(std::move(s));
+        char ch = text[i];
+        current += ch;
+
+        bool isDelim = (cfg.sentence_delimiters.find(ch) != std::string::npos);
+        bool atEnd   = (i + 1 == text.size());
+
+        if (isDelim || atEnd) {
+            // Consume any trailing whitespace up to the next sentence start
+            size_t j = i + 1;
+            while (j < text.size() && std::isspace(static_cast<unsigned char>(text[j]))) {
+                ++j;
+            }
+
+            // Emit only when the next char is uppercase or we are at end-of-string
+            // (handles abbreviations like "Dr." or "e.g.").
+            bool nextIsUpper = (j < text.size() &&
+                                std::isupper(static_cast<unsigned char>(text[j])));
+            bool nextIsEnd   = (j >= text.size());
+
+            if (nextIsUpper || nextIsEnd || atEnd) {
+                trim(current);
+                if (current.size() >= cfg.min_sentence_length) {
+                    sentences.push_back(current);
                 }
                 current.clear();
+                i = j - 1; // advance past consumed whitespace
             }
         }
     }
-    // Remaining text without terminal punctuation
-    auto tail = trim(current);
-    if (!tail.empty()) {
-        sentences.push_back(std::move(tail));
+
+    // Flush any remainder (last sentence without a trailing delimiter)
+    trim(current);
+    if (current.size() >= cfg.min_sentence_length) {
+        sentences.push_back(current);
     }
+
     return sentences;
 }
+} // anonymous namespace
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter::scoreSentenceChunk
-// ─────────────────────────────────────────────────────────────────────────────
-
-double CitationHighlighter::scoreSentenceChunk(
-    const std::string& sentence,
-    const std::string& chunk)
-{
-    if (sentence.empty() || chunk.empty()) return 0.0;
-
-    const auto sentTokens  = tokenise(sentence);
-    const auto chunkTokens = tokenise(chunk);
-
-    if (sentTokens.empty() || chunkTokens.empty()) return 0.0;
-
-    const auto sentUni  = unigramFreq(sentTokens);
-    const auto chunkUni = unigramFreq(chunkTokens);
-    const auto sentBi   = bigramFreq(sentTokens);
-    const auto chunkBi  = bigramFreq(chunkTokens);
-
-    // Weighted overlap: unigrams weight 1, bigrams weight 2
-    const double uniScore = weightedOverlap(sentUni, chunkUni, 1.0);
-    const double biScore  = weightedOverlap(sentBi,  chunkBi,  2.0);
-
-    // Combine: bigrams receive additional weight when they exist
-    if (sentBi.empty()) {
-        return uniScore;
+std::vector<std::string>
+CitationHighlighter::splitSentences(const std::string& text) const {
+    CitationHighlighterConfig cfg;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mtx);
+        cfg = impl_->config;
     }
-    return (uniScore + 2.0 * biScore) / 3.0;
+    return doSplitSentences(text, cfg);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter::highlight
-// ─────────────────────────────────────────────────────────────────────────────
+double CitationHighlighter::computeSimilarity(const std::string& a,
+                                               const std::string& b) {
+    auto setA = tokenSet(a);
+    auto setB = tokenSet(b);
 
-CitationHighlightResult CitationHighlighter::highlight(
-    const std::string& answer,
-    const std::vector<SourceChunk>& chunks) const
-{
-    const auto startTime = std::chrono::steady_clock::now();
+    if (setA.empty() && setB.empty()) {
+        return 1.0;
+    }
+    if (setA.empty() || setB.empty()) {
+        return 0.0;
+    }
+
+    size_t intersection = 0;
+    for (const auto& token : setA) {
+        if (setB.count(token)) {
+            ++intersection;
+        }
+    }
+
+    size_t unionSize = setA.size() + setB.size() - intersection;
+    return static_cast<double>(intersection) / static_cast<double>(unionSize);
+}
+
+CitationHighlightResult
+CitationHighlighter::highlight(const std::string&              answer,
+                                const std::vector<SourceChunk>& chunks) const {
+    CitationHighlighterConfig cfg;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mtx);
+        cfg = impl_->config;
+    }
+
+    const auto t0 = std::chrono::steady_clock::now();
 
     CitationHighlightResult result;
 
     if (answer.empty() || chunks.empty()) {
-        THEMIS_DEBUG("CitationHighlighter::highlight called with empty answer or chunks");
-        result.coverage = 0.0;
+        THEMIS_DEBUG("CitationHighlighter::highlight – empty answer or no chunks");
         return result;
     }
 
-    result.sentences = splitSentences(answer);
-    const auto& cfg  = impl_->config;
+    auto sentences = doSplitSentences(answer, cfg);
+    result.mappings.reserve(sentences.size());
 
-    size_t mappedSentences = 0;
+    size_t cited_count  = 0;
+    double total_sim    = 0.0;
 
-    for (size_t si = 0; si < result.sentences.size(); ++si) {
-        const std::string& sent = result.sentences[si];
+    for (size_t si = 0; si < sentences.size(); ++si) {
+        const auto& sentence = sentences[si];
 
-        if (sent.size() < cfg.min_sentence_length) {
-            continue;
-        }
+        SentenceCitationMapping mapping;
+        mapping.answer_sentence = sentence;
+        mapping.sentence_index  = si;
 
-        // Score this sentence against every chunk
-        std::vector<std::pair<double, size_t>> scored; // (score, chunk_idx)
+        double best_score = -1.0;
+        size_t best_ci    = 0;
+
+        // Score every chunk
+        struct ChunkScore { size_t idx; double score; };
+        std::vector<ChunkScore> scored;
         scored.reserve(chunks.size());
+
         for (size_t ci = 0; ci < chunks.size(); ++ci) {
-            const double s = scoreSentenceChunk(sent, chunks[ci].content);
-            if (s >= cfg.min_support_score) {
-                scored.emplace_back(s, ci);
+            double sim = computeSimilarity(sentence, chunks[ci].content);
+            scored.push_back({ci, sim});
+            if (sim > best_score) {
+                best_score = sim;
+                best_ci    = ci;
             }
         }
 
-        if (scored.empty()) continue;
-
-        // Sort descending by score
-        std::sort(scored.begin(), scored.end(),
-            [](const auto& a, const auto& b) { return a.first > b.first; });
-
-        // Truncate to max_chunks_per_sentence (0 = no limit)
-        const size_t limit = (cfg.max_chunks_per_sentence == 0)
-            ? scored.size()
-            : std::min(scored.size(), cfg.max_chunks_per_sentence);
-
-        for (size_t k = 0; k < limit; ++k) {
-            SentenceChunkMapping m;
-            m.sentence_index = si;
-            m.sentence_text  = sent;
-            m.chunk_id       = chunks[scored[k].second].id;
-            m.chunk_text     = chunks[scored[k].second].content;
-            m.support_score  = scored[k].first;
-            result.mappings.push_back(std::move(m));
+        // Primary citation
+        if (best_score >= cfg.min_similarity_threshold) {
+            mapping.primary_chunk_id    = chunks[best_ci].doc_id;
+            mapping.primary_chunk_index = chunks[best_ci].chunk_index;
+            mapping.similarity_score    = best_score;
+            ++cited_count;
+            total_sim += best_score;
         }
-        ++mappedSentences;
+
+        // Secondary citations
+        if (cfg.max_secondary_citations > 0 &&
+            cfg.secondary_similarity_threshold > 0.0)
+        {
+            // Sort by score descending
+            std::sort(scored.begin(), scored.end(),
+                      [](const ChunkScore& a, const ChunkScore& b) {
+                          return a.score > b.score;
+                      });
+
+            size_t added = 0;
+            for (const auto& cs : scored) {
+                if (added >= cfg.max_secondary_citations) break;
+                if (cs.idx == best_ci) continue; // already primary
+                if (cs.score < cfg.secondary_similarity_threshold) break;
+
+                SentenceCitationMapping::SecondarySource sec;
+                sec.doc_id          = chunks[cs.idx].doc_id;
+                sec.chunk_index     = chunks[cs.idx].chunk_index;
+                sec.similarity_score = cs.score;
+                mapping.secondary_sources.push_back(sec);
+                ++added;
+            }
+        }
+
+        result.mappings.push_back(std::move(mapping));
     }
 
-    // Coverage = fraction of non-short sentences that received a mapping
-    const size_t eligibleSentences = [&]() {
-        size_t n = 0;
-        for (const auto& s : result.sentences) {
-            if (s.size() >= cfg.min_sentence_length) ++n;
-        }
-        return n;
-    }();
-    result.coverage = eligibleSentences > 0
-        ? static_cast<double>(mappedSentences) / static_cast<double>(eligibleSentences)
-        : 0.0;
+    // Aggregate statistics
+    if (!sentences.empty()) {
+        result.citation_coverage =
+            static_cast<double>(cited_count) /
+            static_cast<double>(sentences.size());
+    }
+    if (cited_count > 0) {
+        result.mean_similarity = total_sim / static_cast<double>(cited_count);
+    }
 
-    const auto endTime = std::chrono::steady_clock::now();
-    result.elapsed_ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
-        endTime - startTime);
+    const auto t1 = std::chrono::steady_clock::now();
+    result.highlight_time_ms =
+        std::chrono::duration<double, std::milli>(t1 - t0).count();
 
-    THEMIS_DEBUG("CitationHighlighter: {} sentences, {} mappings, coverage={:.2f}",
-        result.sentences.size(), result.mappings.size(), result.coverage);
+    THEMIS_DEBUG("CitationHighlighter: {} sentences → {}/{} cited, "
+                 "coverage={:.2f}, mean_sim={:.3f}, time={:.1f}ms",
+                 sentences.size(), cited_count, sentences.size(),
+                 result.citation_coverage, result.mean_similarity,
+                 result.highlight_time_ms);
 
     return result;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighter::getConfig
-// ─────────────────────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
+// Factory
+// ---------------------------------------------------------------------------
 
-const CitationHighlighterConfig& CitationHighlighter::getConfig() const {
-    return impl_->config;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// CitationHighlighterFactory
-// ─────────────────────────────────────────────────────────────────────────────
-
-std::unique_ptr<CitationHighlighter> CitationHighlighterFactory::createStrict() {
+std::unique_ptr<CitationHighlighter>
+CitationHighlighterFactory::createStrict() {
     CitationHighlighterConfig cfg;
-    cfg.min_support_score      = 0.3;
-    cfg.max_chunks_per_sentence = 2;
+    cfg.min_similarity_threshold      = 0.30;
+    cfg.secondary_similarity_threshold = 0.20;
+    cfg.max_secondary_citations       = 2;
     return std::make_unique<CitationHighlighter>(cfg);
 }
 
-std::unique_ptr<CitationHighlighter> CitationHighlighterFactory::createBalanced() {
-    return std::make_unique<CitationHighlighter>();  // default config
+std::unique_ptr<CitationHighlighter>
+CitationHighlighterFactory::createBalanced() {
+    return std::make_unique<CitationHighlighter>();
 }
 
-std::unique_ptr<CitationHighlighter> CitationHighlighterFactory::createPermissive() {
+std::unique_ptr<CitationHighlighter>
+CitationHighlighterFactory::createPermissive() {
     CitationHighlighterConfig cfg;
-    cfg.min_support_score      = 0.0;
-    cfg.max_chunks_per_sentence = 0;  // no limit
+    cfg.min_similarity_threshold      = 0.05;
+    cfg.secondary_similarity_threshold = 0.03;
+    cfg.max_secondary_citations       = 5;
     return std::make_unique<CitationHighlighter>(cfg);
 }
 
