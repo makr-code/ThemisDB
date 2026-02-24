@@ -12,25 +12,29 @@ ThemisDB's Access Control Framework provides a comprehensive security layer that
 
 ### Components
 
-1. **ZeroTrustPolicyEnforcer** - Per-request network identity gate (zero-trust layer)
-2. **AccessControlManager** - Central coordinator for authentication and authorization
-3. **RBAC** - Role and permission management system
-4. **AuthMiddleware** - Token validation and authentication
-5. **UserRoleStore** - User-to-role mappings
-6. **SecurityContext** - Per-request security information
+1. **ZeroTrustAuthVerifier** - Auth-layer continuous verification bridge (token + network + trust score)
+2. **ZeroTrustPolicyEnforcer** - Per-request network identity gate (zero-trust layer)
+3. **AccessControlManager** - Central coordinator for authentication and authorization
+4. **RBAC** - Role and permission management system
+5. **AuthMiddleware** - Token validation and authentication
+6. **UserRoleStore** - User-to-role mappings
+7. **SecurityContext** - Per-request security information
 
 ### Flow
 
 ```
-Request → ZeroTrustPolicyEnforcer (network+identity gate)
+Request → ZeroTrustAuthVerifier (auth-layer: token re-validation + network + trust score)
+        → ZeroTrustPolicyEnforcer (network+identity gate)
         → AuthMiddleware (authenticate)
         → AccessControlManager → RBAC/ABAC
         → Decision
 ```
 
-> **Zero-trust gate**: `ZeroTrustPolicyEnforcer::verify()` must be called for every
-> inbound request *before* RBAC/ABAC evaluation.  It independently re-verifies the
-> caller's identity and enforces per-identity IPv4/CIDR network policies.
+> **Zero-trust gate**: `ZeroTrustAuthVerifier::verify()` (auth module) must be called for
+> every inbound request *before* RBAC/ABAC evaluation.  It re-validates the bearer token via
+> the injected `TokenVerifier`, enforces per-identity CIDR network policies, and applies a
+> configurable minimum trust-score threshold.  Internally it delegates to
+> `ZeroTrustPolicyEnforcer::verify()` (security module).
 > See [zero_trust_policy_enforcer.md](./zero_trust_policy_enforcer.md) for details.
 
 ## Quick Start

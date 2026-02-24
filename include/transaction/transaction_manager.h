@@ -39,6 +39,7 @@
 #include <condition_variable>
 #include <deque>
 #include "storage/rocksdb_wrapper.h"
+#include "storage/history_manager.h"
 #include "transaction/lock_manager.h"
 #include "transaction/isolation_level.h"
 #include "transaction/crash_recovery_manager.h"
@@ -68,8 +69,23 @@ public:
     struct Status {
         bool ok = true;
         std::string message;
+        /// Non-empty when the commit failed due to a write-write conflict and a
+        /// ConflictRecord was persisted.  Use ConflictManager::getConflict() to
+        /// retrieve full base/ours/theirs information.
+        std::string conflict_id;
+        /// Keys involved in the conflict (filled alongside conflict_id).
+        std::vector<std::string> affected_keys;
         static Status OK() { return {}; }
         static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        static Status Conflict(std::string msg, std::string cid,
+                               std::vector<std::string> keys) {
+            Status s;
+            s.ok            = false;
+            s.message       = std::move(msg);
+            s.conflict_id   = std::move(cid);
+            s.affected_keys = std::move(keys);
+            return s;
+        }
     };
 
     explicit TransactionManager(RocksDBWrapper& db,
@@ -451,6 +467,19 @@ public:
         /// non-SERIALIZABLE transactions or legacy Transaction objects.
         LockManager* lock_manager_{nullptr};
 
+        /// Optional non-owning pointers to history/conflict managers.
+        /// Set by TransactionManager after construction when history tracking is enabled.
+        HistoryManager*  history_mgr_{nullptr};
+        ConflictManager* conflict_mgr_{nullptr};
+
+        /// Per-key pre-write (base) values captured before each write.
+        /// Used to populate ConflictRecord::base_value on commit failure.
+        std::unordered_map<std::string, std::vector<uint8_t>> base_values_;
+
+        /// Per-key values that this transaction is trying to write.
+        /// Used to populate ConflictRecord::ours_value on commit failure.
+        std::unordered_map<std::string, std::vector<uint8_t>> our_values_;
+
         /// Record the current wall-clock duration into finished_duration_ms_.
         /// Must be called while the caller holds exclusive ownership (i.e. after
         /// the finished_ CAS succeeds but before releasing the transaction).
@@ -463,6 +492,8 @@ public:
         std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
 
         std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
+
+        friend class TransactionManager;  ///< allow TransactionManager to set history_mgr_/conflict_mgr_
     };
 
     // Session-based transaction management
@@ -728,6 +759,31 @@ public:
         return crash_recovery_mgr_.get();
     }
 
+    // ── History & Conflict tracking ──────────────────────────────────────────
+
+    /**
+     * @brief Enable atomic history tracking for all new transactions.
+     *
+     * Once set, every putEntity() and eraseEntity() call will also write an
+     * immutable history record within the same RocksDB transaction.
+     *
+     * @param mgr Non-owning pointer to a HistoryManager backed by the same DB.
+     *            Must outlive this TransactionManager.  Pass nullptr to disable.
+     */
+    void setHistoryManager(HistoryManager* mgr) { history_mgr_ = mgr; }
+
+    /**
+     * @brief Enable conflict artifact persistence for all new transactions.
+     *
+     * Once set, any transaction commit failure that is due to a write-write
+     * conflict will result in a ConflictRecord being written and the returned
+     * Status will carry a non-empty conflict_id.
+     *
+     * @param mgr Non-owning pointer to a ConflictManager backed by the same DB.
+     *            Must outlive this TransactionManager.  Pass nullptr to disable.
+     */
+    void setConflictManager(ConflictManager* mgr) { conflict_mgr_ = mgr; }
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -809,6 +865,10 @@ private:
     void trackLockReleased(TransactionId txn_id, const std::string& key);
     void trackLockWaiting(TransactionId txn_id, const std::string& key);
     void clearWaiting(TransactionId txn_id);
+
+    /// Optional non-owning pointers – set to enable history/conflict tracking.
+    HistoryManager*  history_mgr_{nullptr};
+    ConflictManager* conflict_mgr_{nullptr};
 };
 
 } // namespace themis

@@ -315,6 +315,28 @@ else()
     message(STATUS "Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF or Windows platform)")
 endif()
 
+# ONNX Runtime (ML model inference)
+find_package(onnxruntime QUIET CONFIG)
+if(onnxruntime_FOUND)
+    message(STATUS "ONNX Runtime found - enabling ONNX model serving backend")
+    add_compile_definitions(THEMIS_HAS_ONNX=1)
+else()
+    message(STATUS "ONNX Runtime not found - ONNX serving backend disabled "
+                   "(install via vcpkg: onnxruntime)")
+endif()
+
+# TensorFlow Serving REST client (requires libcurl)
+# Enable explicitly with -DTHEMIS_ENABLE_TF_SERVING=ON
+option(THEMIS_ENABLE_TF_SERVING "Enable TensorFlow Serving REST API backend" OFF)
+if(THEMIS_ENABLE_TF_SERVING)
+    if(CURL_FOUND)
+        message(STATUS "TF Serving backend enabled (libcurl available)")
+        add_compile_definitions(THEMIS_HAS_TF_SERVING=1)
+    else()
+        message(WARNING "TF Serving requested but libcurl not found - backend disabled")
+    endif()
+endif()
+
 # Arrow + Parquet (Parquet export support)
 find_package(Arrow QUIET CONFIG)
 find_package(Parquet QUIET CONFIG)
