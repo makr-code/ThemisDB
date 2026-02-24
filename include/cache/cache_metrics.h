@@ -89,6 +89,9 @@ struct CacheMetrics {
     // themis_cache_write_through_total: entries written through from L1/L2 to L3
     std::atomic<uint64_t> write_through_total{0};
     std::atomic<uint64_t> write_through_errors{0};
+    // Phase 4: Write-through cache mode metrics
+    // themis_cache_write_through_total: total writes that went to multiple tiers
+    std::atomic<uint64_t> write_through_writes{0};
 
     CacheMetrics() = default;
 
@@ -121,6 +124,7 @@ struct CacheMetrics {
         ttl_shortened_total.store(other.ttl_shortened_total.load());
         write_through_total.store(other.write_through_total.load());
         write_through_errors.store(other.write_through_errors.load());
+        write_through_writes.store(other.write_through_writes.load());
     }
 
     CacheMetrics& operator=(const CacheMetrics& other) {
@@ -153,6 +157,7 @@ struct CacheMetrics {
             ttl_shortened_total.store(other.ttl_shortened_total.load());
             write_through_total.store(other.write_through_total.load());
             write_through_errors.store(other.write_through_errors.load());
+            write_through_writes.store(other.write_through_writes.load());
         }
         return *this;
     }
@@ -236,6 +241,8 @@ struct CacheMetrics {
         // Phase 4: Write-through metrics
         j["write_through"]["total"] = write_through_total.load();
         j["write_through"]["errors"] = write_through_errors.load();
+        // Phase 4: Write-through cache mode metrics
+        j["write_through"]["writes"] = write_through_writes.load();
         
         return j;
     }
@@ -270,6 +277,7 @@ struct CacheMetrics {
         ttl_shortened_total = 0;
         write_through_total = 0;
         write_through_errors = 0;
+        write_through_writes = 0;
     }
 };
 
