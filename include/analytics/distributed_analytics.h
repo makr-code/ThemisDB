@@ -40,11 +40,9 @@
 
 #include "analytics/olap.h"
 
-#include <functional>
 #include <memory>
 #include <mutex>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 namespace themisdb {

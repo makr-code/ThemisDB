@@ -213,12 +213,12 @@ struct MeasureAccumulator {
                 return RowValue{max_val};
 
             case Measure::Function::StdDev:
-                if (count < 2.0) return RowValue{0.0};
-                return RowValue{std::sqrt(m2 / (count - 1.0))};
+                if (count < 1.0) return RowValue{0.0};
+                return RowValue{std::sqrt(m2 / count)};
 
             case Measure::Function::Variance:
-                if (count < 2.0) return RowValue{0.0};
-                return RowValue{m2 / (count - 1.0)};
+                if (count < 1.0) return RowValue{0.0};
+                return RowValue{m2 / count};
 
             case Measure::Function::CountDistinct:
                 return RowValue{static_cast<int64_t>(std::llround(sum))};
