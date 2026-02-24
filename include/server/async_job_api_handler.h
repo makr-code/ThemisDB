@@ -134,7 +134,9 @@ private:
  * Routes
  * ------
  * POST   /v2/jobs
- *   Body (JSON): { "query": "FOR x IN ... RETURN x", "bind_vars": { ... } }
+ *   Body (JSON): { "query": "FOR x IN ... RETURN x" }
+ *   Note: `bind_vars` are accepted for forward compatibility but the
+ *   underlying AQL executor does not yet substitute them at runtime.
  *   Response 202: { "job_id": "...", "status": "pending" }
  *
  * GET    /v2/jobs

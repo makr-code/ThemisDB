@@ -249,6 +249,17 @@ TEST_F(AsyncJobApiHandlerTest, SubmitReturnsMissingQuery) {
     EXPECT_NE(body["message"].get<std::string>().find("query"), std::string::npos);
 }
 
+TEST_F(AsyncJobApiHandlerTest, SubmitRejectsEmptyQuery) {
+    AsyncJobApiHandler handler{instant_ok_executor()};
+    auto req = make_submit_req({{"query", ""}});
+    auto res = handler.handleSubmit(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body["error"].get<bool>());
+    EXPECT_NE(body["message"].get<std::string>().find("empty"), std::string::npos);
+}
+
 TEST_F(AsyncJobApiHandlerTest, SubmitReturnsBadJson) {
     AsyncJobApiHandler handler{instant_ok_executor()};
 

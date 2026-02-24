@@ -328,7 +328,12 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
             req);
     }
 
-    const std::string aql_query   = body["query"].get<std::string>();
+    const std::string aql_query = body["query"].get<std::string>();
+    if (aql_query.empty()) {
+        return makeJsonResponse(http::status::bad_request,
+            {{"error", true}, {"message", "Field 'query' must not be empty"}},
+            req);
+    }
     const std::string auth_header = std::string(req[http::field::authorization]);
 
     // Build job record

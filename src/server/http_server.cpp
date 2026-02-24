@@ -1320,6 +1320,9 @@ HttpServer::HttpServer(
     request_validator_->registerSchema("POST", "/query/aql", aql_schema);
     request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
 
+    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
+
     // POST /index/create – create index
     request_validator_->registerSchema("POST", "/index/create", {
         {"type", "object"},
