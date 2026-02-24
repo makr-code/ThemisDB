@@ -14,7 +14,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ## In Progress 🚧
 - [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
-- [I] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
+- [P] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
 - [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
 
 ## Planned Features 📋
@@ -40,7 +40,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: Core-Implementierung
 - [P] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial pending
-- [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
+- [P] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — covered by Vulkan compute shaders implementation (Issue: #1462): GLSL shaders (L2, cosine, inner-product, top-K, haversine, point-in-polygon) with CPU fallback dispatch; tests in `tests/test_vulkan_compute_equivalents.cpp`
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
@@ -75,7 +75,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
 - [P] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461) — `src/acceleration/cuda/ann_kernels.cu` implemented; ANN kernels (L2, cosine, inner-product, top-K) complete with frozen `ANNDistanceFn`/`ANNTopKFn` interface; dispatch table wired via `populateCUDAANNDispatch`
-- [I] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
+- [P] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462) — GLSL compute shaders (L2, cosine, inner-product, top-K, haversine, point-in-polygon) implemented in `src/acceleration/vulkan/shaders/`; CPU fallback dispatch tables wired via `populateANNDispatch`/`populateGeoDispatch`; `VulkanGeoBackend` initializes in CPU-fallback mode when no Vulkan ICD is present; tests in `tests/test_vulkan_compute_equivalents.cpp`
 - [P] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #2164) — `DeviceManager` singleton (`include/acceleration/device_manager.h`, `src/acceleration/device_manager.cpp`): 60s TTL probe cache, CUDA/ROCm/Vulkan/CPU BackendType mapping, FP16/BF16 precision flags from compute capability, `getBestDevice()` VRAM-ranked selection, `logDeviceInfo()` for startup observability; `BackendRegistry::deviceInfo()` observability accessor; integrated into `BackendRegistry::initializeRuntime()`; tests in `tests/test_device_manager.cpp`
 - [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
 - [P] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #2134)
