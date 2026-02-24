@@ -43,13 +43,16 @@ namespace server {
  *
  * Exposes the following REST endpoints (all under /v1/admin/cache/):
  *
- *   GET    /v1/admin/cache/stats                 – JSON snapshot of cache metrics
- *   DELETE /v1/admin/cache/key/{encoded_key}     – Evict one entry (key base64-encoded)
- *   DELETE /v1/admin/cache/tenant/{tenant_id}    – Evict all entries for a tenant
- *   POST   /v1/admin/cache/circuit-breaker/reset – Force circuit breaker to CLOSED
- *   GET    /v1/admin/cache/circuit-breaker       – Current circuit breaker state
- *   POST   /v1/admin/cache/warmup                – Load entries from NDJSON log file
- *   POST   /v1/admin/cache/snapshot              – Export live entries to NDJSON file
+ *   GET    /v1/admin/cache/stats                       – JSON snapshot of cache metrics
+ *   DELETE /v1/admin/cache/key/{encoded_key}           – Evict one entry (key base64-encoded)
+ *   DELETE /v1/admin/cache/tenant/{tenant_id}          – Evict all entries for a tenant
+ *   POST   /v1/admin/cache/circuit-breaker/reset       – Force circuit breaker to CLOSED
+ *   GET    /v1/admin/cache/circuit-breaker             – Current circuit breaker state
+ *   POST   /v1/admin/cache/warmup                      – Load entries from NDJSON log file
+ *   POST   /v1/admin/cache/snapshot                    – Export live entries to NDJSON file
+ *   GET    /v1/admin/cache/tenants                     – Per-tenant stats (all tenants)
+ *   GET    /v1/admin/cache/tenant/{tenant_id}/stats    – Per-tenant stats (single tenant)
+ *   PATCH  /v1/admin/cache/tenant/{tenant_id}/quota   – Update quota for a specific tenant
  *
  * Authentication: requires JWT with "admin:cache:read" scope for read endpoints
  * and "admin:cache:write" scope for write/mutation endpoints.
@@ -116,6 +119,39 @@ public:
      * Returns a JSON summary of the export operation.
      */
     http::response<http::string_body> handleSnapshot(
+        const http::request<http::string_body>& req);
+
+    /**
+     * GET /v1/admin/cache/tenants
+     *
+     * Returns an array of all known tenants with aggregated statistics
+     * (bytes_used, quota, utilization, hits, misses, hit_rate, evictions).
+     * Requires "admin:cache:read" scope.
+     */
+    http::response<http::string_body> handleListTenants(
+        const http::request<http::string_body>& req);
+
+    /**
+     * GET /v1/admin/cache/tenant/{tenant_id}/stats
+     *
+     * Returns per-tenant statistics for the given tenant_id.
+     * Requires "admin:cache:read" scope.
+     * Returns 404 when the tenant has no recorded cache activity.
+     */
+    http::response<http::string_body> handleTenantStats(
+        const http::request<http::string_body>& req);
+
+    /**
+     * PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+     *
+     * Body: {"quota_bytes": <uint64>}
+     *
+     * Updates the cache size quota for the specified tenant.
+     * A quota_bytes value of 0 resets the tenant to the global default quota.
+     * Requires "admin:cache:write" scope.
+     * Returns 404 when tenant isolation is disabled.
+     */
+    http::response<http::string_body> handleUpdateTenantQuota(
         const http::request<http::string_body>& req);
 
 private:

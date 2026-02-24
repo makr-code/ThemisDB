@@ -24,6 +24,7 @@
 
 #include "core/concerns/cache_strategies.h"
 #include <unordered_map>
+#include <unordered_set>
 #include <list>
 #include <queue>
 #include <chrono>
@@ -311,6 +312,147 @@ private:
     std::unique_ptr<IEvictionStrategy> l1_strategy_;
     std::unique_ptr<IEvictionStrategy> l2_strategy_;
     size_t l1_capacity_;
+};
+
+/**
+ * @brief ARC (Adaptive Replacement Cache) eviction strategy.
+ *
+ * Implements the ARC algorithm (Megiddo & Modha, FAST '03) as a pure
+ * victim-selector that can be plugged into any key/value cache tier.
+ *
+ * Maintains four lists:
+ *   T1  Recently-seen keys currently tracked (recency queue).
+ *   T2  Frequently-seen keys currently tracked (frequency queue).
+ *   B1  Ghost keys evicted from T1 (no data, adaptation signal only).
+ *   B2  Ghost keys evicted from T2 (no data, adaptation signal only).
+ *
+ * The partition target `p` self-tunes: B1 hit → p increases (favour recency);
+ * B2 hit → p decreases (favour frequency).
+ */
+class ARCEvictionStrategy : public IEvictionStrategy {
+public:
+    explicit ARCEvictionStrategy(size_t capacity = 128)
+        : capacity_(capacity > 0 ? capacity : 128), p_(0) {}
+
+    void onAccess(std::string_view key) override {
+        std::string k(key);
+        // T1 hit → promote to T2
+        auto it1 = t1_map_.find(k);
+        if (it1 != t1_map_.end()) {
+            t2_list_.push_front(k);
+            t2_map_[k] = t2_list_.begin();
+            t1_list_.erase(it1->second);
+            t1_map_.erase(it1);
+            return;
+        }
+        // T2 hit → move to MRU end
+        auto it2 = t2_map_.find(k);
+        if (it2 != t2_map_.end()) {
+            t2_list_.splice(t2_list_.begin(), t2_list_, it2->second);
+        }
+    }
+
+    void onInsert(std::string_view key, uint64_t /*timestamp_ms*/) override {
+        std::string k(key);
+        // Already live — treat as access
+        if (t1_map_.count(k) || t2_map_.count(k)) {
+            onAccess(key);
+            return;
+        }
+        // Ghost hit in B1: raise p (favour recency)
+        if (b1_set_.count(k)) {
+            size_t b1sz = b1_set_.size();
+            size_t b2sz = b2_set_.size();
+            size_t delta = (b1sz == 0 || b2sz >= b1sz) ? 1 : b2sz / b1sz;
+            p_ = std::min(p_ + std::max<size_t>(delta, 1), capacity_);
+            b1_set_.erase(k);
+            t2_list_.push_front(k);
+            t2_map_[k] = t2_list_.begin();
+            return;
+        }
+        // Ghost hit in B2: lower p (favour frequency)
+        if (b2_set_.count(k)) {
+            size_t b1sz = b1_set_.size();
+            size_t b2sz = b2_set_.size();
+            size_t delta = (b2sz == 0 || b1sz >= b2sz) ? 1 : b1sz / b2sz;
+            size_t step  = std::max<size_t>(delta, 1);
+            p_ = (p_ >= step) ? p_ - step : 0;
+            b2_set_.erase(k);
+            t2_list_.push_front(k);
+            t2_map_[k] = t2_list_.begin();
+            return;
+        }
+        // New key: insert into T1 (recency queue)
+        t1_list_.push_front(k);
+        t1_map_[k] = t1_list_.begin();
+    }
+
+    void onRemove(std::string_view key) override {
+        std::string k(key);
+        // Evicted from T1 → moves to B1 ghost
+        auto it1 = t1_map_.find(k);
+        if (it1 != t1_map_.end()) {
+            t1_list_.erase(it1->second);
+            t1_map_.erase(it1);
+            b1_set_.insert(k);
+            if (b1_set_.size() > capacity_) {
+                b1_set_.erase(b1_set_.begin());
+            }
+            return;
+        }
+        // Evicted from T2 → moves to B2 ghost
+        auto it2 = t2_map_.find(k);
+        if (it2 != t2_map_.end()) {
+            t2_list_.erase(it2->second);
+            t2_map_.erase(it2);
+            b2_set_.insert(k);
+            if (b2_set_.size() > capacity_) {
+                b2_set_.erase(b2_set_.begin());
+            }
+            return;
+        }
+        // Not live — clean up any ghost reference
+        b1_set_.erase(k);
+        b2_set_.erase(k);
+    }
+
+    std::optional<std::string> selectVictim() override {
+        if (t1_list_.empty() && t2_list_.empty()) {
+            return std::nullopt;
+        }
+        // ARC policy: prefer evicting from T1 when |T1| > p or T2 is empty
+        if (!t1_list_.empty() && (t1_list_.size() > p_ || t2_list_.empty())) {
+            return t1_list_.back();
+        }
+        if (!t2_list_.empty()) {
+            return t2_list_.back();
+        }
+        return t1_list_.back();
+    }
+
+    void clear() override {
+        t1_list_.clear(); t1_map_.clear();
+        t2_list_.clear(); t2_map_.clear();
+        b1_set_.clear();  b2_set_.clear();
+        p_ = 0;
+    }
+
+    size_t size() const override {
+        return t1_map_.size() + t2_map_.size();
+    }
+
+    std::string_view getName() const override { return "ARC"; }
+
+private:
+    using List = std::list<std::string>;
+    using Map  = std::unordered_map<std::string, std::list<std::string>::iterator>;
+
+    size_t capacity_;
+    size_t p_;
+
+    List t1_list_, t2_list_;
+    Map  t1_map_,  t2_map_;
+    std::unordered_set<std::string> b1_set_, b2_set_;
 };
 
 } // namespace concerns
