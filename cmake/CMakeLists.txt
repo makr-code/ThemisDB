@@ -1670,6 +1670,8 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/geo/geo_rtree.cpp
+    ../src/geo/spatial_join.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)

@@ -27,7 +27,7 @@
 - [P] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [P] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
-- [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
+- [P] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [P] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
@@ -58,7 +58,7 @@
 - [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
-- [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
+- [P] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
