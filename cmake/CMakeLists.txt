@@ -1503,6 +1503,7 @@ set(THEMIS_CORE_SOURCES
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     ../src/cdc/consumer_group.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     
     # Replication
     ../src/replication/replication_manager.cpp

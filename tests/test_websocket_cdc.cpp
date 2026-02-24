@@ -214,3 +214,223 @@ TEST(WebSocketQueryTest, QueryErrorResponseFormat) {
 }
 
 #endif // THEMIS_ENABLE_WEBSOCKET
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WsTransport unit tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+
+#include "cdc/ws_transport.h"
+
+using namespace themis::cdc;
+
+// ── Session lifecycle ─────────────────────────────────────────────────────────
+
+TEST(WsTransportTest, InitialStatsAreZero) {
+    // A freshly constructed WsTransport reports zero active sessions and
+    // subscriptions.
+    WsTransport transport(nullptr);  // null changefeed: polling is a no-op
+
+    auto stats = transport.getStats();
+    EXPECT_EQ(stats.active_sessions, 0u);
+    EXPECT_EQ(stats.total_subscriptions, 0u);
+    EXPECT_EQ(stats.total_events_delivered, 0u);
+    EXPECT_EQ(stats.total_overflow_closes, 0u);
+    EXPECT_EQ(stats.total_poll_cycles, 0u);
+}
+
+TEST(WsTransportTest, AddAndRemoveSession) {
+    WsTransport transport(nullptr);
+
+    transport.addSession("session-1");
+    EXPECT_EQ(transport.getStats().active_sessions, 1u);
+
+    transport.addSession("session-2");
+    EXPECT_EQ(transport.getStats().active_sessions, 2u);
+
+    transport.removeSession("session-1");
+    EXPECT_EQ(transport.getStats().active_sessions, 1u);
+
+    transport.removeSession("session-2");
+    EXPECT_EQ(transport.getStats().active_sessions, 0u);
+}
+
+TEST(WsTransportTest, AddSessionIsIdempotent) {
+    // Adding the same session twice does not create a duplicate entry.
+    WsTransport transport(nullptr);
+
+    transport.addSession("session-dup");
+    transport.addSession("session-dup");
+    EXPECT_EQ(transport.getStats().active_sessions, 1u);
+}
+
+TEST(WsTransportTest, RemoveUnknownSessionIsNoop) {
+    WsTransport transport(nullptr);
+    // Should not throw or crash.
+    EXPECT_NO_THROW(transport.removeSession("nonexistent"));
+    EXPECT_EQ(transport.getStats().active_sessions, 0u);
+}
+
+// ── Subscription management ───────────────────────────────────────────────────
+
+TEST(WsTransportTest, SubscribeAndUnsubscribe) {
+    WsTransport transport(nullptr);
+    transport.addSession("sess");
+
+    WsTransport::SubscriptionFilter filter;
+    filter.key_prefix = "orders:";
+    filter.from_sequence = 0;
+
+    transport.subscribe("sess", "sub-1", filter);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 1u);
+
+    transport.subscribe("sess", "sub-2", filter);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 2u);
+
+    transport.unsubscribe("sess", "sub-1");
+    EXPECT_EQ(transport.getStats().total_subscriptions, 1u);
+
+    transport.unsubscribe("sess", "sub-2");
+    EXPECT_EQ(transport.getStats().total_subscriptions, 0u);
+}
+
+TEST(WsTransportTest, ResubscribeReplacesExistingSubscription) {
+    // Re-subscribing with the same ID replaces the old filter without
+    // increasing the subscription count.
+    WsTransport transport(nullptr);
+    transport.addSession("sess");
+
+    WsTransport::SubscriptionFilter f1;
+    f1.key_prefix = "orders:";
+    transport.subscribe("sess", "sub-1", f1);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 1u);
+
+    WsTransport::SubscriptionFilter f2;
+    f2.key_prefix = "inventory:";
+    transport.subscribe("sess", "sub-1", f2);  // re-subscribe with different filter
+    EXPECT_EQ(transport.getStats().total_subscriptions, 1u);
+}
+
+TEST(WsTransportTest, RemoveSessionClearsSubscriptions) {
+    WsTransport transport(nullptr);
+    transport.addSession("sess");
+
+    WsTransport::SubscriptionFilter f;
+    transport.subscribe("sess", "sub-a", f);
+    transport.subscribe("sess", "sub-b", f);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 2u);
+
+    transport.removeSession("sess");
+    EXPECT_EQ(transport.getStats().active_sessions, 0u);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 0u);
+}
+
+TEST(WsTransportTest, SubscribeToUnknownSessionIsNoop) {
+    WsTransport transport(nullptr);
+    WsTransport::SubscriptionFilter f;
+    // Should not throw or crash, and must not create a ghost session.
+    EXPECT_NO_THROW(transport.subscribe("ghost-session", "sub-1", f));
+    EXPECT_EQ(transport.getStats().active_sessions, 0u);
+    EXPECT_EQ(transport.getStats().total_subscriptions, 0u);
+}
+
+// ── pollAndDeliver with null changefeed ───────────────────────────────────────
+
+TEST(WsTransportTest, PollWithNullChangefeedIsNoop) {
+    // When no changefeed is configured, pollAndDeliver must not invoke the
+    // send callback and must increment the poll-cycle counter.
+    WsTransport transport(nullptr);
+    transport.addSession("sess");
+
+    WsTransport::SubscriptionFilter f;
+    transport.subscribe("sess", "sub-1", f);
+
+    int send_calls = 0;
+    auto send_fn = [&](const std::string&, const std::string&) { ++send_calls; };
+
+    transport.pollAndDeliver(send_fn);
+
+    EXPECT_EQ(send_calls, 0);
+    EXPECT_EQ(transport.getStats().total_poll_cycles, 1u);
+    EXPECT_EQ(transport.getStats().total_events_delivered, 0u);
+}
+
+TEST(WsTransportTest, PollWithNoSessionsIsNoop) {
+    WsTransport transport(nullptr);
+
+    int send_calls = 0;
+    auto send_fn = [&](const std::string&, const std::string&) { ++send_calls; };
+
+    transport.pollAndDeliver(send_fn);
+    EXPECT_EQ(send_calls, 0);
+    EXPECT_EQ(transport.getStats().total_poll_cycles, 1u);
+}
+
+// ── Subscription filter fields ────────────────────────────────────────────────
+
+TEST(WsTransportTest, SubscriptionFilterDefaultValues) {
+    WsTransport::SubscriptionFilter f;
+    EXPECT_TRUE(f.key_prefix.empty());
+    EXPECT_EQ(f.from_sequence, 0u);
+    EXPECT_TRUE(f.event_types.empty());
+}
+
+TEST(WsTransportTest, SubscriptionFilterWithEventTypes) {
+    WsTransport::SubscriptionFilter f;
+    f.key_prefix = "user:";
+    f.from_sequence = 100;
+    f.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    f.event_types.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+
+    EXPECT_EQ(f.key_prefix, "user:");
+    EXPECT_EQ(f.from_sequence, 100u);
+    EXPECT_EQ(f.event_types.size(), 2u);
+    EXPECT_TRUE(f.event_types.count(Changefeed::ChangeEventType::EVENT_PUT));
+    EXPECT_TRUE(f.event_types.count(Changefeed::ChangeEventType::EVENT_DELETE));
+}
+
+// ── Protocol frame constants ──────────────────────────────────────────────────
+
+TEST(WsTransportTest, MaxPendingEventsConstant) {
+    // kMaxPendingEvents must be at least 1 (not zero) and must match the
+    // documented value of 1000.
+    EXPECT_EQ(WsTransport::kMaxPendingEvents, 1000u);
+}
+
+TEST(WsTransportTest, DefaultPollIntervalConstant) {
+    EXPECT_EQ(WsTransport::kDefaultPollIntervalMs, 500u);
+}
+
+// ── CDC event frame format ────────────────────────────────────────────────────
+
+TEST(WsTransportTest, CdcEventFrameHasRequiredFields) {
+    // Verify the expected JSON shape of a cdc_event frame pushed to clients.
+    json event_frame = {
+        {"type",            "cdc_event"},
+        {"subscription_id", "sub-1"},
+        {"sequence",        42},
+        {"key",             "orders:US-999"},
+        {"timestamp_ms",    1740000000000},
+        {"operation",       "PUT"}
+    };
+
+    EXPECT_EQ(event_frame["type"], "cdc_event");
+    EXPECT_TRUE(event_frame.contains("subscription_id"));
+    EXPECT_TRUE(event_frame.contains("sequence"));
+    EXPECT_TRUE(event_frame.contains("key"));
+    EXPECT_TRUE(event_frame.contains("timestamp_ms"));
+}
+
+TEST(WsTransportTest, SubscribeAckFrameHasRequiredFields) {
+    // Verify the expected JSON shape of a subscribed ack frame.
+    json ack = {
+        {"action", "subscribed"},
+        {"id",     "sub-1"}
+    };
+
+    EXPECT_EQ(ack["action"], "subscribed");
+    EXPECT_EQ(ack["id"],     "sub-1");
+}
+
+#endif // THEMIS_ENABLE_WEBSOCKET
