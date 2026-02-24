@@ -286,6 +286,7 @@ set(THEMIS_QUERY_SOURCES
 
     # Model Serving and Online Inference Pipeline (Issue #1477)
     ../src/analytics/model_serving.cpp
+    ../src/analytics/distributed_analytics.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp

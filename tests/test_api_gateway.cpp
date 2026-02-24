@@ -370,3 +370,118 @@ TEST_F(APIGatewayTest, DeprecationHeadersWithQueryString) {
     EXPECT_NE(response.find(APIHeaders::SUNSET), response.end())
         << "Sunset header must be present even when path has query parameters";
 }
+
+/**
+ * @brief Versioned URL routing: /v1/{path} sets the API-Version response header
+ *        to the latest resolved v1 version (not v1.0.0 specifically).
+ */
+TEST_F(APIGatewayTest, VersionedPathV1SetsApiVersionHeader) {
+    namespace http = boost::beast::http;
+
+    http::request<http::string_body> req{http::verb::get, "/v1/entities", 11};
+    req.set(http::field::host, "localhost");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+
+    // API-Version header must be set and must start with "v1"
+    auto it = response.find(APIHeaders::API_VERSION);
+    ASSERT_NE(it, response.end()) << "API-Version response header must be present";
+    std::string api_ver = std::string(it->value());
+    EXPECT_EQ(api_ver.substr(0, 2), "v1")
+        << "API-Version for /v1/ path must resolve to v1.x.x, got: " << api_ver;
+}
+
+/**
+ * @brief Versioned URL routing: the local handler receives the path WITHOUT the
+ *        /v{N}/ prefix so it can work with the same routing logic for all versions.
+ */
+TEST_F(APIGatewayTest, VersionedPathStripsVersionPrefixForHandler) {
+    namespace http = boost::beast::http;
+
+    http::request<http::string_body> req{http::verb::get, "/v1/entities/123", 11};
+    req.set(http::field::host, "localhost");
+
+    // The handler must receive the path with the /v1/ prefix stripped
+    std::string received_path;
+    auto local_handler = [&received_path](const http::request<http::string_body>& r) {
+        received_path = std::string(r.target());
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"id":"123"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    // Handler should receive the path without the /v1 prefix
+    EXPECT_EQ(received_path, "/entities/123")
+        << "Handler must receive path without version prefix, got: " << received_path;
+}
+
+/**
+ * @brief Versioned URL routing: query string is preserved when stripping the prefix.
+ */
+TEST_F(APIGatewayTest, VersionedPathPreservesQueryString) {
+    namespace http = boost::beast::http;
+
+    http::request<http::string_body> req{http::verb::get,
+        "/v1/entities?page=2&limit=10", 11};
+    req.set(http::field::host, "localhost");
+
+    std::string received_path;
+    auto local_handler = [&received_path](const http::request<http::string_body>& r) {
+        received_path = std::string(r.target());
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    // Query string must be preserved after stripping the version prefix
+    EXPECT_EQ(received_path, "/entities?page=2&limit=10")
+        << "Handler must receive path with query string intact, got: " << received_path;
+}
+
+/**
+ * @brief Versioned URL routing: deprecated endpoint registered without version
+ *        prefix is matched when called with /v1/ prefix.
+ */
+TEST_F(APIGatewayTest, DeprecationHeadersMatchVersionedPath) {
+    namespace http = boost::beast::http;
+
+    // Register deprecation WITHOUT version prefix in the key
+    APIDeprecationInfo info;
+    info.deprecated_in = APIVersion{1, 0, 0};
+    info.removed_in = APIVersion{2, 0, 0};
+    info.deprecation_date = std::chrono::system_clock::now();
+    info.removal_date = std::chrono::system_clock::now() + std::chrono::hours(24 * 365);
+    info.migration_guide_url = "https://docs.themisdb.com/migration/v1-to-v2";
+    gateway_->registerDeprecation("/old-resource", info);
+
+    // Request WITH /v1/ prefix — gateway must strip prefix before deprecation lookup
+    http::request<http::string_body> req{http::verb::get, "/v1/old-resource", 11};
+    req.set(http::field::host, "localhost");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    EXPECT_NE(response.find(APIHeaders::DEPRECATION_WARNING), response.end())
+        << "Deprecation header must fire for /v1/old-resource when /old-resource is deprecated";
+    EXPECT_NE(response.find(APIHeaders::SUNSET), response.end());
+}
