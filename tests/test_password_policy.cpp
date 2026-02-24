@@ -47,9 +47,8 @@ TEST(PasswordPolicyTest, DefaultPolicy_TooShort) {
 TEST(PasswordPolicyTest, DefaultPolicy_TooLong) {
     PasswordPolicy policy;
     // 129 characters — exceeds default max_length of 128
-    std::string long_pwd(100, 'A');
-    long_pwd += "bcdefghij1!kl2";  // total > 128 chars — let's build it properly
-    long_pwd = std::string(120, 'a') + "ABCDE1!fg";  // 129 chars
+    // 120 lowercase + "ABCDE1!fg" (9 chars) = 129 chars total
+    std::string long_pwd = std::string(120, 'a') + "ABCDE1!fg";
     auto result = policy.validate(long_pwd);
     EXPECT_FALSE(result.valid);
     bool has_length_violation = false;

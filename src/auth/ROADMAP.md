@@ -63,7 +63,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [ ] API key authentication (static key + secret)
 - [ ] WebAuthn/FIDO2 hardware token support
 - [ ] Session management and revocation endpoint
-- [ ] Configurable password policy enforcement
+- [x] Configurable password policy enforcement
 - [ ] Audit logging for all authentication events
 - [ ] Certificate-based mutual TLS (mTLS) authentication
 

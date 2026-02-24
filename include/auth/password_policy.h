@@ -21,7 +21,6 @@
 
 #include <string>
 #include <vector>
-#include <regex>
 
 namespace themis {
 namespace auth {

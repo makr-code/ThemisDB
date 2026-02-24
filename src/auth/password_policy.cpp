@@ -20,6 +20,7 @@
 #include "auth/password_policy.h"
 
 #include <algorithm>
+#include <regex>
 #include <unordered_set>
 #include <sstream>
 
