@@ -190,6 +190,8 @@ set(THEMIS_STORAGE_SOURCES
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    # Atomic history and conflict layer
+    ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
