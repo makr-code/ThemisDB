@@ -26,7 +26,7 @@
 ### Short-term (Next 3-6 months)
 - [P] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [P] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
-- [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
+- [P] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [P] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
