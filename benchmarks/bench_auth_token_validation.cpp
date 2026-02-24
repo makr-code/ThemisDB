@@ -168,7 +168,6 @@ struct BenchFixture {
 
     // Valid token (cached in JWTValidator)
     std::string            valid_token;
-    std::string            valid_jti;
 
     // Token with JTI for revocation tests
     std::string            token_with_jti;
@@ -263,8 +262,9 @@ BENCHMARK(BM_JWT_ValidToken_RS256);
 
 static void BM_JWT_ValidToken_WithBlacklist(benchmark::State& state) {
     const auto& fx = fixture();
-    auto validator = fx.makeValidator();
+    // Declare blacklist before validator so it outlives the validator (LIFO destruction).
     TokenBlacklist blacklist;
+    auto validator = fx.makeValidator();
     validator->setTokenBlacklist(&blacklist);
 
     for (auto _ : state) {
