@@ -6,6 +6,7 @@
 #include "cdc/changefeed.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <thread>
 #include <vector>
 #include <unordered_set>
 
@@ -425,6 +426,193 @@ TEST_F(ConsumerGroupTest, FetchEventsNonExistentGroupThrows) {
     EXPECT_THROW(
         manager_->fetchEvents("no-such-group", "w0", *changefeed_, 10),
         CDCException);
+}
+
+// ============================================================
+// At-least-once delivery: fetchEventsAtLeastOnce
+// ============================================================
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_InitialFetchTracksInFlight) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-inflight";
+    cfg.consumer_count = 1;  // single partition: all events go to worker-0
+    manager_->createGroup(cfg);
+
+    addEvents(5, "item");
+
+    EXPECT_EQ(manager_->getInFlightCount("alo-inflight", "worker-0"), 0u);
+
+    auto events = manager_->fetchEventsAtLeastOnce(
+        "alo-inflight", "worker-0", *changefeed_, 10, 30000);
+
+    EXPECT_EQ(events.size(), 5u);
+    EXPECT_EQ(manager_->getInFlightCount("alo-inflight", "worker-0"), 5u);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_AcknowledgeClearsInFlightAndAdvancesOffset) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-ack";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(5, "doc");
+
+    auto events = manager_->fetchEventsAtLeastOnce(
+        "alo-ack", "worker-0", *changefeed_, 10, 30000);
+    ASSERT_EQ(events.size(), 5u);
+
+    uint64_t last_seq = events.back().sequence;
+    manager_->acknowledgeEvents("alo-ack", "worker-0", last_seq);
+
+    EXPECT_EQ(manager_->getInFlightCount("alo-ack", "worker-0"), 0u);
+    EXPECT_EQ(manager_->getCommittedOffset("alo-ack"), last_seq);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_AcknowledgePartialBatch) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-partial";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(6, "p");
+
+    auto events = manager_->fetchEventsAtLeastOnce(
+        "alo-partial", "worker-0", *changefeed_, 10, 30000);
+    ASSERT_EQ(events.size(), 6u);
+
+    // Ack first 3 events
+    uint64_t mid_seq = events[2].sequence;
+    manager_->acknowledgeEvents("alo-partial", "worker-0", mid_seq);
+
+    // 3 events should remain in-flight
+    EXPECT_EQ(manager_->getInFlightCount("alo-partial", "worker-0"), 3u);
+    EXPECT_EQ(manager_->getCommittedOffset("alo-partial"), mid_seq);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_RedeliveryOnTimeout) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-redeliver";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(3, "r");
+
+    // Fetch with a 1 ms ack timeout so events expire immediately
+    auto first = manager_->fetchEventsAtLeastOnce(
+        "alo-redeliver", "worker-0", *changefeed_, 10, 1 /*ack_timeout_ms*/);
+    ASSERT_EQ(first.size(), 3u);
+
+    // Sleep to ensure the timeout has elapsed
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    // Second fetch should redeliver the same events
+    auto second = manager_->fetchEventsAtLeastOnce(
+        "alo-redeliver", "worker-0", *changefeed_, 10, 1 /*ack_timeout_ms*/);
+    ASSERT_EQ(second.size(), 3u);
+
+    // Redelivered sequences must match the originals
+    std::vector<uint64_t> first_seqs, second_seqs;
+    for (const auto& ev : first)  first_seqs.push_back(ev.sequence);
+    for (const auto& ev : second) second_seqs.push_back(ev.sequence);
+    std::sort(first_seqs.begin(),  first_seqs.end());
+    std::sort(second_seqs.begin(), second_seqs.end());
+    EXPECT_EQ(first_seqs, second_seqs);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_NoRedeliveryBeforeTimeout) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-no-redeliver";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(3, "nr");
+
+    // Long timeout — events should not be redelivered
+    auto first = manager_->fetchEventsAtLeastOnce(
+        "alo-no-redeliver", "worker-0", *changefeed_, 10, 60000);
+    ASSERT_EQ(first.size(), 3u);
+
+    // Immediate second fetch should return zero new events and zero redeliveries
+    auto second = manager_->fetchEventsAtLeastOnce(
+        "alo-no-redeliver", "worker-0", *changefeed_, 10, 60000);
+    EXPECT_TRUE(second.empty());
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_AcknowledgedEventsNotRedelivered) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-no-redel-acked";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(3, "ack");
+
+    // Fetch with 1 ms timeout
+    auto events = manager_->fetchEventsAtLeastOnce(
+        "alo-no-redel-acked", "worker-0", *changefeed_, 10, 1);
+    ASSERT_EQ(events.size(), 3u);
+
+    // Acknowledge all events
+    manager_->acknowledgeEvents("alo-no-redel-acked", "worker-0",
+                                 events.back().sequence);
+
+    // Wait for timeout
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    // No redelivery expected since all events were acknowledged
+    auto recheck = manager_->fetchEventsAtLeastOnce(
+        "alo-no-redel-acked", "worker-0", *changefeed_, 10, 1);
+    EXPECT_TRUE(recheck.empty());
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_GetInFlightStats) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-stats";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(4, "s");
+
+    manager_->fetchEventsAtLeastOnce("alo-stats", "worker-0", *changefeed_, 10, 1);
+
+    // Sleep so all in-flight events become overdue
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    InFlightStats stats = manager_->getInFlightStats("alo-stats", "worker-0", 1);
+    EXPECT_EQ(stats.group_id, "alo-stats");
+    EXPECT_EQ(stats.consumer_id, "worker-0");
+    EXPECT_EQ(stats.inflight_count, 4u);
+    EXPECT_EQ(stats.overdue_count, 4u);
+    EXPECT_GT(stats.oldest_inflight_sequence, 0u);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_NonExistentGroupThrows) {
+    EXPECT_THROW(
+        manager_->fetchEventsAtLeastOnce("ghost", "w0", *changefeed_, 10),
+        CDCException);
+    EXPECT_THROW(
+        manager_->acknowledgeEvents("ghost", "w0", 1),
+        CDCException);
+}
+
+TEST_F(ConsumerGroupTest, AtLeastOnce_AcknowledgeDoesNotGoBackward) {
+    ConsumerGroupConfig cfg;
+    cfg.group_id       = "alo-no-backward";
+    cfg.consumer_count = 1;
+    manager_->createGroup(cfg);
+
+    addEvents(5, "nb");
+
+    auto events = manager_->fetchEventsAtLeastOnce(
+        "alo-no-backward", "worker-0", *changefeed_, 10, 30000);
+    ASSERT_GE(events.size(), 5u);
+
+    uint64_t last_seq = events.back().sequence;
+    manager_->acknowledgeEvents("alo-no-backward", "worker-0", last_seq);
+    ASSERT_EQ(manager_->getCommittedOffset("alo-no-backward"), last_seq);
+
+    // Acknowledge an earlier sequence — offset must not regress
+    manager_->acknowledgeEvents("alo-no-backward", "worker-0", 1);
+    EXPECT_EQ(manager_->getCommittedOffset("alo-no-backward"), last_seq);
 }
 
 // ============================================================

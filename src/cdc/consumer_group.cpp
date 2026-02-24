@@ -414,5 +414,197 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(
     return result;
 }
 
+// ============================================================
+// At-least-once delivery
+// ============================================================
+
+std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEventsAtLeastOnce(
+        const std::string& group_id,
+        const std::string& consumer_id,
+        const Changefeed& changefeed,
+        size_t limit,
+        uint32_t ack_timeout_ms) {
+    if (group_id.empty()) {
+        throw error::invalidArgument("group_id", "must not be empty");
+    }
+
+    const size_t effective_limit = (limit == 0) ? 100 : limit;
+    const auto   timeout         = std::chrono::milliseconds(ack_timeout_ms);
+    const auto   now             = std::chrono::steady_clock::now();
+
+    // Step 1: Read group config, committed offset, and in-flight state.
+    ConsumerGroupConfig cfg;
+    uint64_t committed       = 0;
+    uint64_t highest_inflight = 0;
+    std::vector<uint64_t> overdue_seqs;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        cfg       = readConfigLocked(group_id);  // throws if not found
+        committed = readOffsetLocked(group_id);
+
+        auto git = inflight_.find(group_id);
+        if (git != inflight_.end()) {
+            auto cit = git->second.find(consumer_id);
+            if (cit != git->second.end()) {
+                for (const auto& rec : cit->second) {
+                    highest_inflight = std::max(highest_inflight, rec.sequence);
+                    if (ack_timeout_ms > 0 && (now - rec.delivered_at) >= timeout) {
+                        overdue_seqs.push_back(rec.sequence);
+                    }
+                }
+            }
+        }
+    }
+
+    const uint32_t consumer_partition =
+        partitionForConsumer(consumer_id, cfg.consumer_count);
+
+    std::vector<Changefeed::ChangeEvent> result;
+    result.reserve(effective_limit);
+
+    // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
+    for (uint64_t seq : overdue_seqs) {
+        if (result.size() >= effective_limit) break;
+        try {
+            result.push_back(changefeed.getEvent(seq));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("fetchEventsAtLeastOnce: redelivery failed for seq={}: {}",
+                        seq, e.what());
+        }
+    }
+
+    // Step 3: Fetch new events beyond the current in-flight range.
+    std::vector<InFlightRecord> new_records;
+
+    if (result.size() < effective_limit) {
+        // Start after the highest in-flight sequence (or committed, whichever is
+        // larger) to avoid duplicating events already tracked as in-flight.
+        const uint64_t from_seq   = std::max(committed, highest_inflight);
+        const size_t   remaining  = effective_limit - result.size();
+        const size_t   fetch_limit = std::min<size_t>(
+            remaining * static_cast<size_t>(cfg.consumer_count), 10000u);
+
+        Changefeed::ListOptions opts;
+        opts.from_sequence = from_seq;
+        opts.limit         = fetch_limit;
+
+        auto all_events = changefeed.listEvents(opts);
+        for (auto& ev : all_events) {
+            if (result.size() >= effective_limit) break;
+            if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {
+                continue;
+            }
+            new_records.push_back({ev.sequence, now, 1});
+            result.push_back(std::move(ev));
+        }
+    }
+
+    // Step 4: Persist updated in-flight state.
+    if (!overdue_seqs.empty() || !new_records.empty()) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto& consumer_inflight = inflight_[group_id][consumer_id];
+
+        // Update delivery timestamps and counts for redelivered events.
+        if (!overdue_seqs.empty()) {
+            for (auto& rec : consumer_inflight) {
+                if (std::find(overdue_seqs.begin(), overdue_seqs.end(),
+                              rec.sequence) != overdue_seqs.end()) {
+                    rec.delivered_at = now;
+                    rec.delivery_count++;
+                }
+            }
+            THEMIS_DEBUG(
+                "fetchEventsAtLeastOnce: redelivered {} overdue events "
+                "for group={} consumer={}",
+                overdue_seqs.size(), group_id, consumer_id);
+        }
+
+        // Append newly delivered records.
+        for (auto& rec : new_records) {
+            consumer_inflight.push_back(std::move(rec));
+        }
+    }
+
+    return result;
+}
+
+void ConsumerGroupManager::acknowledgeEvents(const std::string& group_id,
+                                              const std::string& consumer_id,
+                                              uint64_t up_to_sequence) {
+    if (group_id.empty()) {
+        throw error::invalidArgument("group_id", "must not be empty");
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Validate group exists.
+    readConfigLocked(group_id);  // throws if not found
+
+    // Remove acknowledged events from the in-flight set.
+    auto git = inflight_.find(group_id);
+    if (git != inflight_.end()) {
+        auto cit = git->second.find(consumer_id);
+        if (cit != git->second.end()) {
+            auto& records = cit->second;
+            records.erase(
+                std::remove_if(records.begin(), records.end(),
+                    [up_to_sequence](const InFlightRecord& r) {
+                        return r.sequence <= up_to_sequence;
+                    }),
+                records.end());
+        }
+    }
+
+    // Advance committed offset (offsets only move forward).
+    uint64_t current = readOffsetLocked(group_id);
+    if (up_to_sequence > current) {
+        writeOffsetLocked(group_id, up_to_sequence);
+        THEMIS_DEBUG("acknowledgeEvents: group={} consumer={} acked up_to={}",
+                     group_id, consumer_id, up_to_sequence);
+    }
+}
+
+size_t ConsumerGroupManager::getInFlightCount(const std::string& group_id,
+                                               const std::string& consumer_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto git = inflight_.find(group_id);
+    if (git == inflight_.end()) return 0;
+    auto cit = git->second.find(consumer_id);
+    if (cit == git->second.end()) return 0;
+    return cit->second.size();
+}
+
+InFlightStats ConsumerGroupManager::getInFlightStats(const std::string& group_id,
+                                                      const std::string& consumer_id,
+                                                      uint32_t ack_timeout_ms) const {
+    InFlightStats stats;
+    stats.group_id    = group_id;
+    stats.consumer_id = consumer_id;
+
+    const auto now     = std::chrono::steady_clock::now();
+    const auto timeout = std::chrono::milliseconds(ack_timeout_ms);
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto git = inflight_.find(group_id);
+    if (git == inflight_.end()) return stats;
+    auto cit = git->second.find(consumer_id);
+    if (cit == git->second.end()) return stats;
+
+    const auto& records = cit->second;
+    stats.inflight_count = records.size();
+    for (const auto& rec : records) {
+        if (stats.oldest_inflight_sequence == 0 ||
+            rec.sequence < stats.oldest_inflight_sequence) {
+            stats.oldest_inflight_sequence = rec.sequence;
+        }
+        if (ack_timeout_ms > 0 && (now - rec.delivered_at) >= timeout) {
+            stats.overdue_count++;
+        }
+    }
+
+    return stats;
+}
+
 } // namespace cdc
 } // namespace themis
