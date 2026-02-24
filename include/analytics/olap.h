@@ -212,6 +212,7 @@ struct OLAPResult {
  * - CUBE and ROLLUP operators
  * - Window functions
  * - Columnar query optimization
+ * - GPU-accelerated aggregations via CUDA/ROCm (when enabled)
  * 
  * Usage:
  * @code
@@ -226,10 +227,35 @@ struct OLAPResult {
  *   
  *   auto result = engine.execute(query);
  * @endcode
+ * 
+ * GPU-accelerated usage:
+ * @code
+ *   OLAPEngine::Config config;
+ *   config.enable_gpu = true;
+ *   config.gpu_device_id = 0;
+ *   config.gpu_memory_limit = 8ULL * 1024 * 1024 * 1024;  // 8 GB
+ *   OLAPEngine engine(config);
+ *   auto result = engine.execute(query);  // Offloads to GPU for large datasets
+ * @endcode
  */
 class OLAPEngine {
 public:
+    /**
+     * @brief GPU acceleration configuration for the OLAP engine.
+     */
+    struct Config {
+        /// Enable GPU-accelerated aggregations (SUM, AVG, COUNT, MIN, MAX).
+        bool enable_gpu = false;
+        /// GPU device index (0-based) to use when enable_gpu is true.
+        int gpu_device_id = 0;
+        /// Maximum GPU memory budget in bytes.
+        size_t gpu_memory_limit = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+        /// Minimum row count per group before using the GPU path.
+        size_t gpu_threshold_rows = 10'000;
+    };
+
     OLAPEngine();
+    explicit OLAPEngine(const Config& config);
     ~OLAPEngine();
     
     // Main query execution
