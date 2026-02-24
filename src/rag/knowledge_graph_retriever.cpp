@@ -131,7 +131,13 @@ bool KnowledgeGraph::removeNode(const std::string& node_id) {
     if (!impl_->nodes.count(node_id)) return false;
 
     impl_->nodes.erase(node_id);
-    impl_->adj.erase(node_id);
+
+    // Decrement edge_count for all outgoing edges from this node before erasing
+    auto adj_it = impl_->adj.find(node_id);
+    if (adj_it != impl_->adj.end()) {
+        impl_->edge_count -= adj_it->second.size();
+        impl_->adj.erase(adj_it);
+    }
 
     // Remove edges that point to this node
     for (auto& [src, edges] : impl_->adj) {
