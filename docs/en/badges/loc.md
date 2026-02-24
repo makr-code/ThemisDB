@@ -1,6 +1,6 @@
 # Lines of Code Badge
 
-[![Lines of Code](https://tokei.rs/b1/github/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB)
+[![Lines of Code](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json&query=%24.message&label=Lines%20of%20Code&color=blue)](https://github.com/makr-code/ThemisDB)
 
 ## What it shows
 
