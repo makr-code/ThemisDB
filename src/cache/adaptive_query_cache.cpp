@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1604                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1294                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
