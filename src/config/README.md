@@ -42,7 +42,8 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 - **Optional API**: `tryResolve()` returns `std::nullopt` instead of throwing on failure
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
 - **Thread-Safe Metrics**: All counters use `std::atomic` — safe for concurrent reads with no locking
-- **LRU Cache**: Resolved paths are cached (configurable via env vars, default capacity 1000, TTL 5 min)
+
+- **LRU Cache**: Resolved paths are cached to avoid repeated filesystem `exists()` calls. Capacity and TTL are configurable via environment variables (see [Environment Variables](#environment-variables) below).
 - **Symlink Hardening**: `validatePath()` rejects symlinks that resolve outside the config root
 - **Deprecation Aggregation**: `deprecationReport()` returns a usage-sorted snapshot of all legacy paths accessed since startup
 
@@ -54,6 +55,7 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 | `THEMIS_CONFIG_CACHE_TTL_SECONDS` | 300 | 1–86 400 | Entry TTL in seconds; 0 forces every resolve to hit the filesystem |
 
 Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
+
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access
@@ -158,6 +160,29 @@ for (const auto& [legacy, new_path] : ConfigPathResolver::legacyPathMappings()) 
 // Disable caching (e.g., in tests)
 ConfigPathResolver::setCachingEnabled(false);
 ConfigPathResolver::resetMetrics();
+
+// Query the effective cache configuration (reflects env-var overrides)
+auto cfg = ConfigPathResolver::currentCacheConfig();
+// cfg.capacity     — effective max entries
+// cfg.ttl_seconds  — effective TTL
+```
+
+## Environment Variables
+
+The following environment variables are read **once at process startup** (during static initialization) and cannot be changed at runtime.
+
+| Variable | Default | Valid Range | Description |
+|---|---|---|---|
+| `THEMIS_CONFIG_CACHE_SIZE` | `1000` | `[10, 100000]` | LRU cache capacity (max number of cached path resolutions) |
+| `THEMIS_CONFIG_CACHE_TTL` | `300` | `[1, 86400]` | LRU cache TTL in seconds (300 = 5 minutes) |
+
+When a variable is absent, empty, not a valid integer, or outside its valid range, a warning is written to `stderr` and the default value is used. Values outside the valid range are rejected to prevent pathological configurations (e.g., a zero-capacity cache or a TTL longer than one day).
+
+**Example:**
+
+```bash
+# Large deployment with many config paths
+THEMIS_CONFIG_CACHE_SIZE=5000 THEMIS_CONFIG_CACHE_TTL=60 ./themisdb
 ```
 
 ## Migration Scanner Tool

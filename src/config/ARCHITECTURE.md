@@ -145,11 +145,13 @@ resolve("llm_config.yaml")
 
 The Config module itself has no runtime configuration file. Its behavior is controlled by:
 
-| Constant | Value | Description |
-|---|---|---|
-| `LRU_CACHE_CAPACITY` | 1000 | Max cached path resolutions |
-| `LRU_CACHE_TTL_MINUTES` | 5 | Cache entry TTL |
-| `PATH_MAPPING` | 60+ entries | Static legacy→new mapping table |
+| Parameter | Default | Env Variable | Description |
+|---|---|---|---|
+| `LRU_CACHE_CAPACITY` | 1000 | `THEMIS_CONFIG_CACHE_SIZE` | Max cached path resolutions (valid range: 10–100000) |
+| `LRU_CACHE_TTL_SECONDS` | 300 | `THEMIS_CONFIG_CACHE_TTL` | Cache entry TTL in seconds (valid range: 1–86400) |
+| `PATH_MAPPING` | 60+ entries | — | Static legacy→new mapping table (compile-time constant) |
+
+Both `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` are read once at static initialization. Values outside the valid range cause a `stderr` warning and fall back to the defaults.
 
 ---
 

@@ -7,7 +7,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Completed ✅
 - [x] Legacy-to-new config path mapping with 50+ path mappings
 - [x] Filesystem fallback: tries new path first, then legacy path with deprecation warning
-- [x] LRU cache (capacity and TTL configurable via env vars, default 1000 / 5 min) for resolved paths
+- [x] LRU cache (capacity and TTL configurable via `THEMIS_CONFIG_CACHE_SIZE` / `THEMIS_CONFIG_CACHE_TTL` env vars, defaults: 1000 / 300 s) for resolved paths
 - [x] Path traversal prevention and normalization
 - [x] Symlink escape detection: rejects symlinks resolving outside the config root
 - [x] Deprecation and removal-date metadata per mapped path (all 50+ paths covered)
@@ -61,8 +61,8 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ### Phase 4: Tooling and Observability (Status: Completed)
 - [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
-- [x] Build deprecation report CLI (`tools/config_migration_scanner`) to scan a deployment and list all legacy paths in use (Issue: #1671)
-- [x] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`); documented in `src/config/README.md` and `SETUP.md` (Issue: #1672)
+- [x] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
+- [x] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
 - [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
@@ -82,3 +82,4 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 
 ## Breaking Changes
 - Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires
+- Cache size and TTL are now configurable via `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` environment variables (defaults: 1000 entries / 300 s)

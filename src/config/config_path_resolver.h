@@ -152,6 +152,11 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * LRU cache TTL in seconds.
+     * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
+     * program startup; falls back to 300 (5 minutes) when the variable is
+     * absent or invalid.  Exposed so the metrics exporter and other consumers
+     * can reference the single source of truth.
      * Register a SIGHUP signal handler that hot-reloads the resolved path cache.
      *
      * When the process receives SIGHUP, the LRU cache is cleared on the next
@@ -174,7 +179,34 @@ public:
      * can reference the single source of truth rather than duplicating the value.
      * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_TTL_SECONDS.
      */
-    static constexpr int kCacheTtlSeconds = 300;
+    static const int kCacheTtlSeconds;
+
+    /**
+     * LRU cache maximum capacity (entry count).
+     * Initialized from the THEMIS_CONFIG_CACHE_SIZE environment variable at
+     * program startup; falls back to 1000 when the variable is absent or
+     * invalid.
+     */
+    static const size_t kCacheSize;
+
+    /**
+     * Snapshot of the effective cache configuration.
+     * Useful for observability endpoints and tests that need to confirm which
+     * values are actually in use.
+     */
+    struct CacheConfig {
+        size_t capacity;
+        int    ttl_seconds;
+    };
+
+    /**
+     * Return the effective LRU cache configuration (capacity and TTL).
+     * Values reflect what was read from the environment at startup (or the
+     * hardcoded defaults when the variables were absent/invalid).
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {kCacheSize, kCacheTtlSeconds};
+    }
 
     /**
      * Default LRU cache capacity.
@@ -269,6 +301,7 @@ private:
     // Metrics tracking
     static Metrics metrics_;
     
+    // Cache for resolved paths (capacity and TTL configurable via env vars)
     // Cache for resolved paths (capacity: 1000, TTL: 5 minutes by default)
     static LRUCacheWithTTL<std::string, std::string> cache_;
     static std::atomic<bool> caching_enabled_;
