@@ -777,16 +777,25 @@ APIVersion APIGateway::processVersionHeaders(
         };
     }
     
-    // Check for version prefix in URL path first (e.g. "/v1/entities")
+    // Check for version prefix in URL path first (e.g. "/v1/entities").
+    // Strip query string before inspecting the path so that a target like
+    // "/v1/entities?page=2" is correctly resolved to version "v1".
     std::string version_header;
-    auto path_version = extractVersionFromPath(std::string(req.target()));
-    if (path_version) {
-        version_header = *path_version;
-    } else {
-        // Fall back to Accept-Version header
-        auto it = req.find(APIHeaders::ACCEPT_VERSION);
-        if (it != req.end()) {
-            version_header = std::string(it->value());
+    {
+        std::string raw_target = std::string(req.target());
+        auto qpos = raw_target.find('?');
+        std::string path_only = (qpos != std::string::npos)
+                                    ? raw_target.substr(0, qpos)
+                                    : raw_target;
+        auto path_version = extractVersionFromPath(path_only);
+        if (path_version) {
+            version_header = *path_version;
+        } else {
+            // Fall back to Accept-Version header
+            auto it = req.find(APIHeaders::ACCEPT_VERSION);
+            if (it != req.end()) {
+                version_header = std::string(it->value());
+            }
         }
     }
     

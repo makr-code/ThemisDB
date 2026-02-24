@@ -328,11 +328,19 @@ void example_api_versioning() {
     std::cout << "  Link: <https://docs.themisdb.com/migration/v1-to-v2>; rel=\"deprecation\"\n";
     std::cout << "  API-Version: v1.4.1\n";
 
-    std::cout << "\nClients can request a specific version via Accept-Version header:\n";
+    std::cout << "\nClients can request a specific version via URL path prefix (preferred):\n";
+    std::cout << "  GET /v1/entities/123  -> API-Version: v1.4.1 (latest v1)\n";
+    std::cout << "  GET /v2/entities/123  -> API-Version: v2.x.x (if v2 is supported)\n";
+    std::cout << "  The /v1/ prefix is stripped before reaching the handler:\n";
+    std::cout << "    /v1/entities/123  -> handler sees /entities/123\n";
+    std::cout << "    /v1/query?aql=... -> handler sees /query?aql=...\n";
+
+    std::cout << "\nOr via Accept-Version header (fallback when no path prefix):\n";
     std::cout << "  Accept-Version: v1.3.0  -> API-Version: v1.3.0 in response\n";
     std::cout << "  Accept-Version: v1      -> resolves to latest v1.x.y\n";
     std::cout << "  Accept-Version: latest  -> current stable version\n";
     std::cout << "  (omitted)               -> current stable version\n";
+    std::cout << "\nNote: URL path prefix takes precedence over Accept-Version header.\n";
 }
 
 /**
