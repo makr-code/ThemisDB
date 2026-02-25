@@ -156,6 +156,28 @@ Or create the required labels manually:
 
 ---
 
+## Diff check before PR creation
+
+Before opening a pull request the dispatcher compares the newly-created issue
+branch against the base branch using the GitHub Commits Compare API
+(`repos.compareCommits`).
+
+| Result | Action |
+|---|---|
+| Branch is **ahead** of base or has changed files | PR is created as usual. |
+| Branch is **identical** to base (no diff) | PR creation is **skipped**; a warning is emitted (`No diff – skipping PR creation`) and the `in-progress/copilot` label is removed so the issue stays available for re-dispatch once real changes land on the branch. |
+| Compare API call fails | PR creation is **skipped** defensively; same label rollback as above. |
+
+This guard prevents the GitHub API validation error
+`"No commits between <base> and <head>"` that would otherwise abort the
+workflow with a non-zero exit code.
+
+**For developers:** if you push commits to an existing issue branch and re-run
+the dispatcher manually, the diff check will detect the changes and create the
+PR normally.
+
+---
+
 ## Important notes
 
 - The dispatcher is **idempotent**: re-runs do not create duplicate PRs for
