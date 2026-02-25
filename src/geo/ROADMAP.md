@@ -35,7 +35,7 @@
 ### Long-term (6-12 months)
 - [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
-- [I] Raster data query support (elevation, heatmaps) (Issue: #1745)
+- [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
 - [I] Temporal-spatial queries (location at time T) (Issue: #1746)
 - [I] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
 - [I] Tile server integration for map visualization (Issue: #1748)
@@ -73,7 +73,7 @@
 - CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
 - ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
 - ROCm/HIP support is not available
-- Raster data is not supported
+- Raster data queries (`sampleAt` bilinear interpolation, `queryBBox` sub-raster extraction, and `generateHeatmap` Gaussian KDE) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`.
 
 ## Breaking Changes
 - GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates

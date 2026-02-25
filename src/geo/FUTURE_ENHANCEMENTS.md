@@ -117,6 +117,31 @@ Add a spatial JOIN operation that finds all pairs (A, B) from two geometry colle
 
 ---
 
+### Raster Data Query Support (Elevation, Heatmaps)
+**Priority:** Low
+**Target Version:** v2.3.0
+**Status:** ✅ Implemented in `include/geo/raster.h` + `src/geo/raster.cpp`
+
+Provide a lightweight, header-only-friendly raster abstraction for elevation maps, heatmaps, and any regularly-gridded scalar dataset referenced to geographic coordinates.
+
+**What was implemented:**
+- `RasterGrid` struct: 2D row-major grid of `float` values with WGS84 bounding box, configurable no-data sentinel (default: quiet NaN), and O(1) cell accessors `at()` / `set()`.
+- `sampleAt(grid, lon, lat)` — bilinear interpolation with no-data cell exclusion and re-normalisation; returns a `RasterSampleResult{value, valid}` pair.
+- `queryBBox(grid, bbox)` — copies the sub-raster whose cell centres fall inside `bbox` into a new `RasterGrid`; O(output cells) work with no allocations beyond the output buffer.
+- `generateHeatmap(points, bbox, config)` — Gaussian kernel density estimator: bandwidth in metres converted to degrees at the grid's centre latitude; 3σ kernel radius cutoff; optional normalisation to [0, 1]; points outside `bbox` are skipped.
+
+**Implementation Notes:**
+- `RasterGrid` stores data independently of any geometry backend; it can be used without `ISpatialComputeBackend`.
+- Bandwidth conversion uses the Haversine-consistent `metresToDegreesLon/Lat` helpers local to `raster.cpp` to avoid pulling in the full spatial backend at compile time.
+- No dynamic allocation occurs inside `sampleAt` or `queryBBox` hot paths; the output vector for `queryBBox` is pre-sized once.
+
+**Performance Targets:**
+- `sampleAt` on a 1 M-cell grid: ≤ 1 µs per call (single core, no SIMD).
+- `queryBBox` extracting 10 000 cells from a 1 M-cell grid: ≤ 10 ms.
+- `generateHeatmap` of 100 000 points onto a 100×100 grid at 500 m bandwidth: ≤ 500 ms single-threaded.
+
+---
+
 ## Test Strategy
 
 | Test Type | Coverage Target | Notes |
