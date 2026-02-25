@@ -51,7 +51,7 @@ jobs:
             const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
 
             // ── Load configuration ──────────────────────────────────────────
-            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [], copilot_assignee_login: 'copilot', add_issue_author_as_reviewer: true };
+            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [], copilot_assignee_login: 'copilot', add_issue_author_as_reviewer: true, daily_dispatch_limit: 50 };
             try {
               const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
               config = { ...config, ...yaml.load(raw) };
@@ -59,23 +59,52 @@ jobs:
               core.warning(`Could not read .github/copilot-dispatcher.yml: ${e.message}. Using defaults.`);
             }
 
-            const WIP_LIMIT    = config.wip_limit    ?? 5;
-            const BASE_BRANCH  = config.base_branch  ?? 'develop';
-            const DRAFT        = config.draft        ?? true;
-            const OWNER        = context.repo.owner;
-            const REPO         = context.repo.repo;
+            const WIP_LIMIT          = config.wip_limit          ?? 5;
+            const BASE_BRANCH        = config.base_branch        ?? 'develop';
+            const DRAFT              = config.draft              ?? true;
+            const DAILY_LIMIT        = config.daily_dispatch_limit ?? 50;
+            const OWNER              = context.repo.owner;
+            const REPO               = context.repo.repo;
 
-            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}, draft=${DRAFT}`);
+            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}, draft=${DRAFT}, daily_dispatch_limit=${DAILY_LIMIT}`);
+
+            // ── Helper: abort the entire dispatch run on unrecoverable errors ──
+            // Marks the workflow step as failed (stops the job) and emits a
+            // budget hint so operators know a re-run costs Actions minutes.
+            function abortDispatch(msg) {
+              core.setFailed(
+                `⛔ Dispatcher aborted – ${msg}\n` +
+                `💡 Budget hint: every failed run consumes GitHub Actions minutes. ` +
+                `Fix the underlying issue (permissions, rate-limits, configuration) ` +
+                `before re-running the dispatcher.`
+              );
+              throw new Error(msg);
+            }
+
+            // ── Helper: best-effort rollback of in-progress label ─────────────
+            async function rollbackClaim(issueNumber) {
+              await github.rest.issues.removeLabel({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: issueNumber,
+                name: 'in-progress/copilot',
+              }).catch(err => core.warning(`Rollback of in-progress/copilot on #${issueNumber} failed: ${err.message}`));
+            }
 
             // ── Count active Copilot PRs ────────────────────────────────────
             // Active = open pr/copilot PRs that do NOT have copilot/status-ready.
-            const activePRs = await github.paginate(
-              github.rest.search.issuesAndPullRequests,
-              {
-                q: `repo:${OWNER}/${REPO} is:pr is:open label:pr/copilot -label:copilot/status-ready`,
-                per_page: 100,
-              }
-            );
+            let activePRs;
+            try {
+              activePRs = await github.paginate(
+                github.rest.search.issuesAndPullRequests,
+                {
+                  q: `repo:${OWNER}/${REPO} is:pr is:open label:pr/copilot -label:copilot/status-ready`,
+                  per_page: 100,
+                }
+              );
+            } catch (e) {
+              abortDispatch(`Failed to query active Copilot PRs: ${e.message}`);
+            }
             const activeCount = activePRs.length;
             core.info(`Active Copilot PRs: ${activeCount} / ${WIP_LIMIT}`);
 
@@ -85,16 +114,48 @@ jobs:
               return;
             }
 
+            // ── Daily dispatch limit ────────────────────────────────────────
+            // Count how many Copilot PRs were already created today (UTC) so
+            // the dispatcher never creates more than DAILY_LIMIT PRs per day.
+            let dailyDispatched = 0;
+            if (DAILY_LIMIT > 0) {
+              const todayUTC = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+              let todayPRs;
+              try {
+                todayPRs = await github.paginate(
+                  github.rest.search.issuesAndPullRequests,
+                  {
+                    q: `repo:${OWNER}/${REPO} is:pr label:pr/copilot created:>=${todayUTC}`,
+                    per_page: 100,
+                  }
+                );
+              } catch (e) {
+                core.warning(`Could not query today's Copilot PR count: ${e.message}. Daily limit check skipped.`);
+                todayPRs = [];
+              }
+              dailyDispatched = todayPRs.length;
+              core.info(`Daily dispatch: ${dailyDispatched} / ${DAILY_LIMIT} (date=${todayUTC})`);
+              if (dailyDispatched >= DAILY_LIMIT) {
+                core.info(`Daily dispatch limit of ${DAILY_LIMIT} reached – nothing to dispatch today.`);
+                return;
+              }
+            }
+
             // ── Build a set of issue numbers already linked to an open PR ───
             // This prevents creating a duplicate PR for an issue that already
             // has one (idempotency guard).
-            const allCopilotPRs = await github.paginate(
-              github.rest.search.issuesAndPullRequests,
-              {
-                q: `repo:${OWNER}/${REPO} is:pr is:open label:pr/copilot`,
-                per_page: 100,
-              }
-            );
+            let allCopilotPRs;
+            try {
+              allCopilotPRs = await github.paginate(
+                github.rest.search.issuesAndPullRequests,
+                {
+                  q: `repo:${OWNER}/${REPO} is:pr is:open label:pr/copilot`,
+                  per_page: 100,
+                }
+              );
+            } catch (e) {
+              abortDispatch(`Failed to query open Copilot PRs for idempotency check: ${e.message}`);
+            }
             const claimedIssueNumbers = new Set();
             for (const pr of allCopilotPRs) {
               const body = pr.body ?? '';
@@ -105,23 +166,33 @@ jobs:
             }
 
             // ── Fetch queued issues ─────────────────────────────────────────
-            const queuedIssues = await github.paginate(
-              github.rest.search.issuesAndPullRequests,
-              {
-                q: `repo:${OWNER}/${REPO} is:issue is:open label:queue/copilot -label:in-progress/copilot -label:blocked -label:status:blocked`,
-                sort: 'created',
-                order: 'asc',
-                per_page: 100,
-              }
-            );
+            let queuedIssues;
+            try {
+              queuedIssues = await github.paginate(
+                github.rest.search.issuesAndPullRequests,
+                {
+                  q: `repo:${OWNER}/${REPO} is:issue is:open label:queue/copilot -label:in-progress/copilot -label:blocked -label:status:blocked`,
+                  sort: 'created',
+                  order: 'asc',
+                  per_page: 100,
+                }
+              );
+            } catch (e) {
+              abortDispatch(`Failed to fetch queued issues: ${e.message}`);
+            }
             core.info(`Queued issues available: ${queuedIssues.length}`);
 
             // ── Dispatch up to 'needed' issues ──────────────────────────────
             let dispatched = 0;
             for (const issue of queuedIssues) {
               if (dispatched >= needed) break;
+              if (DAILY_LIMIT > 0 && (dailyDispatched + dispatched) >= DAILY_LIMIT) {
+                core.info(`Daily dispatch limit of ${DAILY_LIMIT} reached – stopping.`);
+                break;
+              }
 
-              const issueNumber = issue.number;
+              const issueNumber  = issue.number;
+              const issueAuthor  = issue.user?.login ?? null;
 
               // Skip if we already have an open PR for this issue.
               if (claimedIssueNumbers.has(issueNumber)) {
@@ -140,8 +211,7 @@ jobs:
                   labels: ['in-progress/copilot'],
                 });
               } catch (e) {
-                core.warning(`Failed to label issue #${issueNumber}: ${e.message}. Skipping.`);
-                continue;
+                abortDispatch(`Failed to apply in-progress/copilot label to issue #${issueNumber}: ${e.message}`);
               }
 
               // ── Create a branch for this issue ────────────────────────────
@@ -162,15 +232,8 @@ jobs:
                 });
                 baseSha = ref.object.sha;
               } catch (e) {
-                core.warning(`Could not resolve base branch '${BASE_BRANCH}': ${e.message}. Skipping issue #${issueNumber}.`);
-                // Roll back the label claim so the issue stays in the queue.
-                await github.rest.issues.removeLabel({
-                  owner: OWNER,
-                  repo: REPO,
-                  issue_number: issueNumber,
-                  name: 'in-progress/copilot',
-                }).catch(() => {});
-                continue;
+                await rollbackClaim(issueNumber);
+                abortDispatch(`Could not resolve base branch '${BASE_BRANCH}': ${e.message}`);
               }
 
               try {
@@ -185,14 +248,8 @@ jobs:
                 if (e.status === 422) {
                   core.info(`Branch '${branchName}' already exists – reusing.`);
                 } else {
-                  core.warning(`Failed to create branch for issue #${issueNumber}: ${e.message}. Skipping.`);
-                  await github.rest.issues.removeLabel({
-                    owner: OWNER,
-                    repo: REPO,
-                    issue_number: issueNumber,
-                    name: 'in-progress/copilot',
-                  }).catch(() => {});
-                  continue;
+                  await rollbackClaim(issueNumber);
+                  abortDispatch(`Failed to create branch '${branchName}' for issue #${issueNumber}: ${e.message}`);
                 }
               }
 
@@ -232,40 +289,46 @@ jobs:
                     });
                     core.info(`Dummy commit created on '${branchName}'.`);
                   } catch (e) {
-                    core.warning(`Failed to create dummy commit for issue #${issueNumber}: ${e.message}. Skipping PR creation.`);
-                    await github.rest.issues.removeLabel({
-                      owner: OWNER,
-                      repo: REPO,
-                      issue_number: issueNumber,
-                      name: 'in-progress/copilot',
-                    }).catch(() => {});
-                    continue;
+                    await rollbackClaim(issueNumber);
+                    abortDispatch(`Failed to create dummy commit on '${branchName}' for issue #${issueNumber}: ${e.message}`);
                   }
                 }
               } catch (e) {
-                core.warning(`Could not compare '${branchName}' with '${BASE_BRANCH}' for issue #${issueNumber}: ${e.message} – skipping PR creation.`);
-                await github.rest.issues.removeLabel({
-                  owner: OWNER,
-                  repo: REPO,
-                  issue_number: issueNumber,
-                  name: 'in-progress/copilot',
-                }).catch(() => {});
-                continue;
+                if (e.message && e.message.startsWith('Dispatcher aborted')) throw e;
+                await rollbackClaim(issueNumber);
+                abortDispatch(`Could not compare '${branchName}' with '${BASE_BRANCH}' for issue #${issueNumber}: ${e.message}`);
               }
 
+              // ── Build Copilot Agent Task PR body ─────────────────────────
+              // Extract acceptance criteria from issue body (- [ ] checkboxes).
+              const issueBody = issue.body ?? '';
+              const criteriaMatches = [...issueBody.matchAll(/^[-*]\s+\[[ x]\]\s+(.+)$/gmi)];
+              const acceptanceCriteria = criteriaMatches.length > 0
+                ? criteriaMatches.map(m => `- [ ] ${m[1].trim()}`).join('\n')
+                : `- [ ] Resolve issue #${issueNumber}: ${issue.title}`;
+
+              // First non-empty, non-heading line of the issue body as description.
+              const bodyLines = issueBody.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+              const bodyExcerpt = bodyLines.length > 0 ? bodyLines[0].slice(0, 200) : '';
+
               // ── Create the PR ─────────────────────────────────────────────
-              const prTitle = `[COPILOT] ${issue.title}`;
+              const prTitle = `feat: ${issue.title} (Copilot agent task)`;
               const prBody  = [
-                '> **Copilot Dispatcher** — This PR was created automatically.',
-                `> It addresses issue **#${issueNumber}**.`,
+                '### @Copilot agent task',
                 '',
-                `Closes #${issueNumber}`,
+                '#### Problem Statement',
+                `- **Issue:** [#${issueNumber} – ${issue.title}](${issue.html_url})`,
+                ...(bodyExcerpt ? [`- ${bodyExcerpt}`] : []),
+                '',
+                '#### Acceptance Criteria',
+                acceptanceCriteria,
+                '',
+                '#### Task Type',
+                'agent-task',
                 '',
                 '---',
                 '',
-                `**Issue:** [#${issueNumber} – ${issue.title}](${issue.html_url})`,
-                '',
-                '_Human review and merge are required before this PR is integrated._',
+                `Closes #${issueNumber}`,
               ].join('\n');
 
               let pr;
@@ -282,15 +345,8 @@ jobs:
                 pr = newPR;
                 core.info(`Created ${DRAFT ? 'draft ' : ''}PR #${pr.number} for issue #${issueNumber}.`);
               } catch (e) {
-                core.warning(`Failed to create PR for issue #${issueNumber}: ${e.message}.`);
-                // Roll back label claim.
-                await github.rest.issues.removeLabel({
-                  owner: OWNER,
-                  repo: REPO,
-                  issue_number: issueNumber,
-                  name: 'in-progress/copilot',
-                }).catch(() => {});
-                continue;
+                await rollbackClaim(issueNumber);
+                abortDispatch(`Failed to create PR for issue #${issueNumber}: ${e.message}`);
               }
 
               // ── Label the PR ──────────────────────────────────────────────
@@ -299,18 +355,17 @@ jobs:
                   owner: OWNER,
                   repo: REPO,
                   issue_number: pr.number,
-                  labels: ['pr/copilot', 'copilot/status-working', 'copilot-pr'],
+                  labels: ['pr/copilot', 'copilot/status-working', 'copilot-pr', 'agent:copilot-task'],
                 });
               } catch (e) {
                 core.warning(`Could not add labels to PR #${pr.number}: ${e.message}`);
               }
 
-              // ── Assign copilot + issue author to the PR ───────────────────
-              const assignees = [];
+              // ── Assign PR to copilot and issue author ─────────────────────
               const copilotLogin = config.copilot_assignee_login ?? 'copilot';
+              const assignees = [];
               if (copilotLogin) assignees.push(copilotLogin);
-              const issueAuthorLogin = issue.user?.login;
-              if (issueAuthorLogin && issueAuthorLogin !== copilotLogin) assignees.push(issueAuthorLogin);
+              if (issueAuthor && issueAuthor !== copilotLogin) assignees.push(issueAuthor);
               if (assignees.length > 0) {
                 try {
                   await github.rest.issues.addAssignees({
@@ -319,24 +374,29 @@ jobs:
                     issue_number: pr.number,
                     assignees,
                   });
-                  core.info(`Assigned [${assignees.join(', ')}] to PR #${pr.number}.`);
+                  core.info(`Assigned PR #${pr.number} to: ${assignees.join(', ')}.`);
                 } catch (e) {
-                  core.warning(`Could not assign users to PR #${pr.number}: ${e.message}`);
+                  core.warning(`Could not assign PR #${pr.number} to ${assignees.join(', ')}: ${e.message}`);
                 }
               }
 
-              // ── Request review from issue author ──────────────────────────
-              if ((config.add_issue_author_as_reviewer ?? true) && issueAuthorLogin) {
+              // ── Request review from Copilot and issue author ───────────────
+              const reviewers = [];
+              if (copilotLogin) reviewers.push(copilotLogin);
+              if ((config.add_issue_author_as_reviewer ?? true) && issueAuthor && issueAuthor !== copilotLogin) {
+                reviewers.push(issueAuthor);
+              }
+              if (reviewers.length > 0) {
                 try {
                   await github.rest.pulls.requestReviewers({
                     owner: OWNER,
                     repo: REPO,
                     pull_number: pr.number,
-                    reviewers: [issueAuthorLogin],
+                    reviewers,
                   });
-                  core.info(`Requested review from @${issueAuthorLogin} on PR #${pr.number}.`);
+                  core.info(`Requested review from [${reviewers.join(', ')}] on PR #${pr.number}.`);
                 } catch (e) {
-                  core.warning(`Could not request review from @${issueAuthorLogin} on PR #${pr.number}: ${e.message}`);
+                  core.warning(`Could not request reviewers on PR #${pr.number}: ${e.message}`);
                 }
               }
 

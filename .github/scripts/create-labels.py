@@ -42,6 +42,8 @@ LABELS_TO_CREATE = {
     "copilot/status-ready-requested": {"color": "a371f7", "description": "Copilot signals it is done; readiness gate will promote once CI is green"},
     "copilot/status-ready": {"color": "10b981", "description": "Copilot work complete and all gates green; PR no longer counts against WIP limit"},
     "copilot/status-blocked": {"color": "d73a49", "description": "Copilot cannot proceed; requires human intervention"},
+    # Agent task label
+    "agent:copilot-task": {"color": "7c3aed", "description": "PR created as a Copilot agent task (contains @Copilot agent task body)"},
 }
 
 def create_label(name, data):

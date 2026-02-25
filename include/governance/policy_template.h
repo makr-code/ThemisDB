@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     215                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -160,6 +160,21 @@ protected:
 class TimeBasedAccessTemplate : public PolicyTemplate {
 public:
     TimeBasedAccessTemplate();
+
+protected:
+    PolicyRule instantiateImpl(
+        const nlohmann::json& params,
+        const std::string& rule_id
+    ) const override;
+};
+
+/// Template: SOC 2 Compliance - Trust Services Criteria enforcement
+/// Instantiates a rule that enforces all mandatory SOC 2 controls:
+/// field-level encryption, audit access, change auditing, and signature
+/// requirement for the specified resource.
+class Soc2ComplianceTemplate : public PolicyTemplate {
+public:
+    Soc2ComplianceTemplate();
 
 protected:
     PolicyRule instantiateImpl(

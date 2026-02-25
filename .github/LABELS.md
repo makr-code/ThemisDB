@@ -40,6 +40,9 @@ These labels are managed by the [Copilot Issue Dispatcher](.github/copilot-dispa
 - **`copilot/status-ready`** — Copilot work is complete and all gates are green. PR no longer counts against the WIP limit.
 - **`copilot/status-blocked`** — Copilot cannot proceed. Requires human intervention.
 
+**Agent task label**
+- **`agent:copilot-task`** — PR was created as a Copilot agent task. The PR body follows the `### @Copilot agent task` format with structured Problem Statement, Acceptance Criteria, and Task Type sections.
+
 ## Migration Map from Old Labels to New Standardized Schema
 | Old Label Name       | New Label Name         |
 |----------------------|------------------------|

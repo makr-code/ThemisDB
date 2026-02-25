@@ -30,9 +30,9 @@
 
 ### Long-term (6-12 months)
 - [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
-- [I] SOC 2 compliance controls and evidence collection (Issue: #1769)
+- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [I] PCI-DSS data isolation rules (Issue: #1770)
-- [I] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
+- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
 - [I] Cross-tenant governance policy inheritance (Issue: #1772)
 - [I] Automated data masking for sensitive fields in query results (Issue: #1773)
 
@@ -54,7 +54,7 @@
 - [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
 - [P] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [I] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
-- [I] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
+- [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1778)
@@ -65,11 +65,11 @@
 - [x] API stability guaranteed for policy engine and rule evaluation
 
 ## Known Issues & Limitations
-- Policy hot-reload requires restart currently
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
-- OPA integration is planned but not started
+- OPA integration implemented: `OpaAdapter` in `src/server/opa_adapter.cpp`; configure via `THEMIS_OPA_ENDPOINT_URL`, `THEMIS_OPA_POLICY_PATH`, and `THEMIS_OPA_TIMEOUT_MS` environment variables
 - Automated data masking in query results is not yet implemented
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
+- AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)
 
 ## Breaking Changes
 - OPA integration will introduce a new policy language alongside existing rule format (additive)
