@@ -37,6 +37,7 @@ LABELS_TO_CREATE = {
     "in-progress/copilot": {"color": "1f6feb", "description": "Issue has been claimed by the Copilot dispatcher"},
     # PR labels
     "pr/copilot": {"color": "0075ca", "description": "PR created by the Copilot dispatcher"},
+    "copilot-pr": {"color": "0052cc", "description": "PR created and managed by the Copilot dispatcher (alias for pr/copilot)"},
     "copilot/status-working": {"color": "ffc837", "description": "Copilot is actively working on this PR (counts against WIP limit)"},
     "copilot/status-ready-requested": {"color": "a371f7", "description": "Copilot signals it is done; readiness gate will promote once CI is green"},
     "copilot/status-ready": {"color": "10b981", "description": "Copilot work complete and all gates green; PR no longer counts against WIP limit"},
