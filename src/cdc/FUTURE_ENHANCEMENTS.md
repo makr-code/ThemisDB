@@ -36,6 +36,50 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 - Configurable back-pressure limit (`max_pending_per_consumer`)
 - All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
 
+### Transactional Outbox Pattern ✅ (Implemented - PR #2850)
+
+`OutboxWriter` + `OutboxRelay` (`include/cdc/outbox.h`, `src/cdc/outbox.cpp`) implement the
+transactional outbox pattern, eliminating the dual-write problem between application data
+mutations and CDC event emission.
+
+**Storage layout (RocksDB):**
+```
+Key:     "cdc_outbox:{20-digit-zero-padded-sequence}"
+Value:   JSON (OutboxRecord)
+Counter: "cdc_outbox_sequence"
+```
+
+**`OutboxWriter`** — participates in the caller's existing RocksDB transaction:
+
+```cpp
+rocksdb::Transaction* txn = db->BeginTransaction(write_opts);
+txn->Put(cf, "orders:42", order_json);          // application data
+
+OutboxRecord rec;
+rec.collection = "orders";
+rec.key        = "orders:42";
+rec.value      = order_json;
+rec.event_type = Changefeed::ChangeEventType::EVENT_PUT;
+writer.writeToOutbox(txn, rec);   // CDC record in the same txn
+
+txn->Commit();   // both commits atomically or both roll back
+```
+
+**`OutboxRelay`** — background relay thread:
+- `start()` / `stop()` — lifecycle
+- `relayOnce()` — synchronous poll cycle (also used directly in tests)
+- PENDING → PUBLISHED on success; PENDING → FAILED after `max_relay_attempts`
+- `listRecords(state)` / `listAllRecords()` — inspect outbox state
+- `removeRecord(seq)` / `purgePublished()` — maintenance operations
+- `totalRelayed()` / `totalFailed()` — counters
+
+**`OutboxRelayConfig`:**
+- `poll_interval` (default 100 ms) — background thread sleep
+- `batch_size` (default 100) — max records per relay cycle
+- `max_relay_attempts` (default 5, 0 = unlimited) — before marking FAILED
+
+All methods thread-safe; 16 unit tests in `tests/test_cdc_outbox.cpp`.
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport
@@ -138,8 +182,11 @@ The change log grows unboundedly. Implement size-based and TTL-based retention p
 When a data-subject deletion request arrives, all historical change log entries referencing that subject's key prefix must have their `value` field scrubbed. Implement `CDCAdmin::redactByKeyPrefix(tenant_id, key_prefix)` that rewrites affected log entries in place.
 
 **Implementation Notes:**
-- `[ ]` Scan RocksDB change log column family for entries where `key` matches `key_prefix`; replace `value` JSON field with `"[REDACTED]"` and append `"redacted":true` to the event JSON.
-- `[ ]` Preserve `sequence`, `type`, `key`, `timestamp_ms` for audit trail integrity; only `value` is scrubbed.
+- `[x]` Scan RocksDB change log column family for entries where `key` matches `key_prefix`; replace `value` JSON field with `"[REDACTED]"` and append `"redacted":true` to the event JSON.
+- `[x]` Preserve `sequence`, `type`, `key`, `timestamp_ms` for audit trail integrity; only `value` is scrubbed.
+- `[x]` `CDCAdmin::redactByKeyPrefix(tenant_id, key_prefix, operator_id)` implemented in `src/cdc/cdc_admin.cpp`; returns `GDPRRedactionResult` with scan/redaction counts, timing, and full audit context.
+- `[x]` HTTP endpoint `POST /changefeed/redact` exposed via `ChangefeedApiHandler::handleGdprRedact` (requires `cdc:admin` scope).
+- `[x]` Unit + integration tests in `tests/test_cdc_gdpr_redaction.cpp` (10 tests covering redaction, audit-field preservation, idempotency, empty-prefix rejection, DELETE events).
 - `[ ]` Record a redaction audit log entry in a separate `cdc_redactions` RocksDB column family: `{"key_prefix":"user:42","redacted_count":17,"timestamp_ms":...,"operator":"admin@acme"}`.
 - `[ ]` Propagate redaction to Kafka: publish a tombstone record (null value, key = original key) if Kafka producer is configured.
 - `[!]` Whether in-flight SSE/WebSocket consumers receive the redacted value or the original is unclear; decision needed before implementation.

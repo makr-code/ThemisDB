@@ -137,6 +137,25 @@ public:
      */
     http::response<http::string_body> handleCompact(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /changefeed/redact request (GDPR right to erasure)
+     *
+     * Scrubs PII from all change log entries whose key starts with the
+     * supplied key prefix.  Replaces the value, before_snapshot, and
+     * after_snapshot fields with "[REDACTED]" / nullopt and sets
+     * redacted = true.  Audit-critical fields (sequence, type, key,
+     * timestamp_ms) are preserved.
+     *
+     * Accepted JSON body fields:
+     *   key_prefix   (string, required) – data-subject key prefix, e.g. "user:42"
+     *   tenant_id    (string, optional) – tenant scope for the audit record
+     *   operator_id  (string, optional) – identity of the requesting operator
+     *
+     * @param req HTTP request with JSON body
+     * @return HTTP response with GDPRRedactionResult JSON
+     */
+    http::response<http::string_body> handleGdprRedact(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<Changefeed> changefeed_;

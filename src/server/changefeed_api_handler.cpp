@@ -699,6 +699,53 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
     }
 }
 
+http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
+    const http::request<http::string_body>& req
+) {
+    // Authorization check – requires admin scope (data erasure is a privileged operation)
+    if (auto auth_resp = checkAuth(req, "cdc:admin")) {
+        return *auth_resp;
+    }
+
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedGdprRedact");
+    span.setAttribute("http.path", "/changefeed/redact");
+
+    try {
+        auto body = nlohmann::json::parse(req.body());
+
+        const std::string key_prefix  = body.value("key_prefix",  "");
+        const std::string tenant_id   = body.value("tenant_id",   "");
+        const std::string operator_id = body.value("operator_id", "");
+
+        if (key_prefix.empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                "key_prefix is required and must not be empty", req);
+        }
+
+        themis::cdc::CDCAdmin admin(changefeed_.get());
+        auto result = admin.redactByKeyPrefix(tenant_id, key_prefix, operator_id);
+
+        span.setAttribute("redact.scanned",  static_cast<int64_t>(result.events_scanned));
+        span.setAttribute("redact.redacted", static_cast<int64_t>(result.events_redacted));
+        span.setStatus(true);
+        return makeResponse(http::status::ok, result.toJson().dump(), req);
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request,
+                                 std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> ChangefeedApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {

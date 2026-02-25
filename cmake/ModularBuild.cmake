@@ -797,11 +797,20 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/geo/geo_rtree.cpp
+    ../src/geo/spatial_join.cpp
     ../src/gpu/device_discovery.cpp
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
     ../src/gpu/audit_log.cpp
 )
+
+# CUDA kernel dispatch for geo GPU backend (THEMIS_GEO_CUDA=ON)
+if(THEMIS_GEO_CUDA)
+    list(APPEND THEMIS_GEO_SOURCES ../src/geo/gpu_backend_cuda.cu)
+else()
+    list(APPEND THEMIS_GEO_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
+endif()
 
 set(THEMIS_GRAPH_SOURCES
     # Graph indexes and analytics
@@ -1049,10 +1058,20 @@ function(themis_build_modular)
             list(APPEND _themis_geo_deps themis_boost_headers)
         endif()
 
+        # Link CUDA runtime when geo CUDA dispatch is enabled.
+        if(THEMIS_GEO_CUDA AND TARGET CUDA::cudart)
+            list(APPEND _themis_geo_deps CUDA::cudart)
+        endif()
+
         themis_add_module(geo
             SOURCES ${THEMIS_GEO_SOURCES}
             DEPENDENCIES ${_themis_geo_deps}
         )
+
+        # Propagate THEMIS_GEO_CUDA compile definition to the geo module.
+        if(THEMIS_GEO_CUDA AND TARGET themis_geo)
+            target_compile_definitions(themis_geo PUBLIC THEMIS_GEO_CUDA)
+        endif()
     endif()
     
     if(THEMIS_MODULE_GRAPH)

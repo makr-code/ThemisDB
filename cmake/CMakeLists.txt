@@ -209,6 +209,17 @@ option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
 
+# Geospatial CUDA kernel dispatch (v2.1.0+)
+# Enables real CUDA kernels for batch point-in-polygon and Haversine distance in
+# the geo GPU backend.  Requires THEMIS_ENABLE_CUDA=ON and CMAKE_CUDA_COMPILER.
+# Default OFF so CPU-only builds are unaffected.
+if(THEMIS_ENABLE_CUDA AND CMAKE_CUDA_COMPILER)
+    option(THEMIS_GEO_CUDA "Enable CUDA kernel dispatch in geo GPU backend" ON)
+else()
+    set(THEMIS_GEO_CUDA OFF CACHE BOOL
+        "CUDA geo kernels (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
+
 # PDF Document Processing (Q2 2026)
 # Enables poppler-cpp integration for layout-preserving PDF text extraction
 option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
@@ -1514,6 +1525,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
     ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
@@ -1672,6 +1684,8 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/geo/geo_rtree.cpp
+    ../src/geo/spatial_join.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
@@ -1852,6 +1866,13 @@ set(THEMIS_CORE_SOURCES
     # Phase 5: Three-Way Merge
     ../src/transaction/merge_engine.cpp
 )
+
+# Geo CUDA kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA.
+if(THEMIS_GEO_CUDA)
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_cuda.cu)
+else()
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
+endif()
 
 # HTTP Server API handlers (only if HTTP server enabled)
 if(THEMIS_ENABLE_HTTP_SERVER)
@@ -2286,6 +2307,12 @@ if(THEMIS_ENABLE_CUDA)
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+    
+    # Propagate geo-CUDA flag to the build system.
+    if(THEMIS_GEO_CUDA)
+        target_compile_definitions(themis_core PUBLIC THEMIS_GEO_CUDA)
+        message(STATUS "Geo CUDA kernel dispatch: ENABLED (THEMIS_GEO_CUDA=ON)")
+    endif()
 endif()
 
 # Graphics API backends

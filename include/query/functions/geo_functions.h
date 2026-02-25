@@ -20,6 +20,8 @@
 #pragma once
 
 #include "function_registry.h"
+#include "geo/spatial_backend.h"
+#include "utils/geo/ewkb.h"
 #include <cmath>
 #include <sstream>
 #include <algorithm>
@@ -1144,6 +1146,91 @@ public:
 // ============================================================================
 
 /**
+ * @brief ST_UNION(geom1, geom2) - Compute the geometric union of two geometries.
+ *
+ * Returns a GeoJSON geometry that contains all points from either input.
+ * Non-overlapping polygons produce a GeometryCollection; overlapping polygons
+ * are merged into a single Polygon.  Uses the CPU-exact spatial backend.
+ */
+class StUnionFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_UNION",
+            "Geo",
+            "Compute the geometric union of two geometries",
+            {
+                {"geom1", ArgType::GEOMETRY, true, nullptr, "First geometry"},
+                {"geom2", ArgType::GEOMETRY, true, nullptr, "Second geometry"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_UNION(polygon_a, polygon_b)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo g1 = EWKBParser::parseGeoJSON(args[0].dump());
+        const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
+        const GeometryInfo result = getCpuExactBackend()->stUnion(g1, g2);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty()) {
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
+
+/**
+ * @brief ST_DIFFERENCE(geom1, geom2) - Compute the set-difference geom1 \ geom2.
+ *
+ * Returns the part of geom1 that is not in geom2.  Returns an empty
+ * GeometryCollection when geom1 is fully contained in geom2.  Uses the
+ * CPU-exact spatial backend.
+ */
+class StDifferenceFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_DIFFERENCE",
+            "Geo",
+            "Compute the set-difference of two geometries (geom1 minus geom2)",
+            {
+                {"geom1", ArgType::GEOMETRY, true, nullptr, "First geometry (minuend)"},
+                {"geom2", ArgType::GEOMETRY, true, nullptr, "Second geometry (subtrahend)"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_DIFFERENCE(polygon_a, polygon_b)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo g1 = EWKBParser::parseGeoJSON(args[0].dump());
+        const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
+        const GeometryInfo result = getCpuExactBackend()->stDifference(g1, g2);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty()) {
+            // Empty difference — geom1 is fully contained in geom2.
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
+
+/**
  * @brief Register all Geo functions with the registry
  */
 inline void registerGeoFunctions(FunctionRegistry& registry) {
@@ -1178,6 +1265,8 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
     // Processing
     registry.registerFunction(std::make_unique<StCentroidFunction>());
     registry.registerFunction(std::make_unique<StEnvelopeFunction>());
+    registry.registerFunction(std::make_unique<StUnionFunction>());
+    registry.registerFunction(std::make_unique<StDifferenceFunction>());
 }
 
 } // namespace functions
