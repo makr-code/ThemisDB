@@ -329,6 +329,91 @@ public:
     std::vector<ConnectionStats> getAllConnectionStats() const;
 
     // -------------------------------------------------------------------------
+    // Per-tenant bandwidth quota management
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Register a bandwidth quota for a tenant.
+     *
+     * All connections assigned to this tenant share a single token bucket that
+     * enforces the aggregate bandwidth limit.  If a quota already exists for
+     * the tenant, its parameters are updated in-place.
+     *
+     * @param tenant_id   Unique tenant identifier.
+     * @param rate_bps    Sustained aggregate bandwidth limit in bits per second
+     *                    (0 = unlimited).
+     * @param burst_bytes Maximum burst size in bytes
+     *                    (0 = 1 second of sustained rate, or unlimited when
+     *                     rate_bps is also 0).
+     */
+    void registerTenantQuota(const std::string& tenant_id,
+                              uint64_t rate_bps,
+                              uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Remove the bandwidth quota for a tenant.
+     *
+     * Existing connections assigned to this tenant become unquoted after this
+     * call.  The connection-to-tenant assignment entries are NOT removed; they
+     * simply have no tenant bucket to check against.
+     *
+     * @param tenant_id Tenant identifier.
+     */
+    void unregisterTenantQuota(const std::string& tenant_id);
+
+    /**
+     * @brief Update the bandwidth quota for a tenant at runtime.
+     *
+     * Equivalent to calling registerTenantQuota with the new parameters.
+     * Creates the tenant entry if it does not already exist.
+     *
+     * @param tenant_id   Tenant identifier.
+     * @param rate_bps    New sustained rate in bits per second (0 = unlimited).
+     * @param burst_bytes New maximum burst size in bytes (0 = auto-derive).
+     */
+    void setTenantQuota(const std::string& tenant_id,
+                        uint64_t rate_bps,
+                        uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Assign a registered connection to a tenant.
+     *
+     * After assignment, `allowSend` will also check the tenant-level token
+     * bucket in addition to the per-connection bucket.  A connection can only
+     * belong to one tenant; calling this again re-assigns it.
+     *
+     * Typically called after the client authenticates and the tenant is known.
+     *
+     * @param connection_id Connection to assign.
+     * @param tenant_id     Target tenant identifier.
+     */
+    void assignTenant(uint64_t connection_id, const std::string& tenant_id);
+
+    /**
+     * @brief Statistics snapshot for a single tenant quota.
+     */
+    struct TenantQuotaStats {
+        std::string tenant_id;
+        uint64_t rate_bps          = 0;   ///< Configured sustained rate (bps)
+        uint64_t burst_bytes       = 0;   ///< Configured burst size (bytes)
+        uint64_t bytes_sent        = 0;   ///< Total bytes sent by all tenant connections
+        uint64_t bytes_shaped      = 0;   ///< Bytes delayed/rejected by tenant quota
+        uint64_t active_connections = 0;  ///< Currently assigned connections
+    };
+
+    /**
+     * @brief Retrieve statistics for a specific tenant quota.
+     * @param tenant_id Tenant identifier.
+     * @return Stats snapshot, or default-constructed if tenant not found.
+     */
+    TenantQuotaStats getTenantStats(const std::string& tenant_id) const;
+
+    /**
+     * @brief Retrieve statistics for all registered tenant quotas.
+     */
+    std::vector<TenantQuotaStats> getAllTenantStats() const;
+
+    // -------------------------------------------------------------------------
     // Callbacks
     // -------------------------------------------------------------------------
 
@@ -378,6 +463,30 @@ private:
     // Optional backpressure callback
     mutable std::mutex callback_mutex_;
     std::function<void(uint64_t, uint64_t)> backpressure_cb_;
+
+    // -------------------------------------------------------------------------
+    // Per-tenant bandwidth quota state
+    // -------------------------------------------------------------------------
+
+    struct TenantState {
+        std::string tenant_id;
+
+        mutable std::mutex token_bucket_mutex;          // protects token_bucket
+        std::shared_ptr<TokenBucket> token_bucket;      // nullptr = unlimited
+
+        std::atomic<uint64_t> bytes_sent{0};
+        std::atomic<uint64_t> bytes_shaped{0};
+        std::atomic<uint64_t> active_connections{0};
+    };
+
+    std::shared_ptr<TenantState> findTenant(const std::string& id) const;
+
+    mutable std::mutex tenants_mutex_;
+    std::unordered_map<std::string, std::shared_ptr<TenantState>> tenants_;
+
+    // Maps connection_id -> tenant_id for quota enforcement
+    mutable std::mutex tenant_assignments_mutex_;
+    std::unordered_map<uint64_t, std::string> tenant_assignments_;
 };
 
 }  // namespace network

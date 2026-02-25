@@ -189,6 +189,23 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
 }
 
 void QoSManager::unregisterConnection(uint64_t connection_id) {
+    // Clean up tenant assignment and decrement tenant connection count
+    std::string old_tenant_id;
+    {
+        std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
+        auto it = tenant_assignments_.find(connection_id);
+        if (it != tenant_assignments_.end()) {
+            old_tenant_id = it->second;
+            tenant_assignments_.erase(it);
+        }
+    }
+    if (!old_tenant_id.empty()) {
+        auto ts = findTenant(old_tenant_id);
+        if (ts) {
+            ts->active_connections.fetch_sub(1, std::memory_order_relaxed);
+        }
+    }
+
     std::lock_guard<std::mutex> lock(connections_mutex_);
     connections_.erase(connection_id);
 }
@@ -286,6 +303,37 @@ bool QoSManager::allowSend(uint64_t connection_id,
         }
     }
 
+    // --- Per-tenant quota check ---
+    // Look up the tenant assignment for this connection (lock-free after snapshot).
+    std::string tenant_id;
+    {
+        std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
+        auto ta_it = tenant_assignments_.find(connection_id);
+        if (ta_it != tenant_assignments_.end()) {
+            tenant_id = ta_it->second;
+        }
+    }
+    if (!tenant_id.empty()) {
+        auto ts = findTenant(tenant_id);
+        if (ts) {
+            std::shared_ptr<TokenBucket> tenant_bucket;
+            {
+                std::lock_guard<std::mutex> tb_lock(ts->token_bucket_mutex);
+                tenant_bucket = ts->token_bucket;
+            }
+            if (tenant_bucket) {
+                bool ok = (timeout.count() > 0)
+                              ? tenant_bucket->consume(bytes, timeout)
+                              : tenant_bucket->tryConsume(bytes);
+                if (!ok) {
+                    ts->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+                    total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+                    return false;
+                }
+            }
+        }
+    }
+
     // Reserve queue space
     state->queue_depth.fetch_add(bytes, std::memory_order_relaxed);
     return true;
@@ -310,6 +358,22 @@ void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     {
         std::lock_guard<std::mutex> lock(priority_stats_mutex_);
         bytes_per_priority_[static_cast<Priority>(state->priority.load(std::memory_order_relaxed))] += bytes;
+    }
+
+    // Update per-tenant bytes_sent counter
+    std::string tenant_id;
+    {
+        std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
+        auto it = tenant_assignments_.find(connection_id);
+        if (it != tenant_assignments_.end()) {
+            tenant_id = it->second;
+        }
+    }
+    if (!tenant_id.empty()) {
+        auto ts = findTenant(tenant_id);
+        if (ts) {
+            ts->bytes_sent.fetch_add(bytes, std::memory_order_relaxed);
+        }
     }
 }
 
@@ -403,6 +467,129 @@ void QoSManager::setBackpressureCallback(
     std::function<void(uint64_t, uint64_t)> cb) {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     backpressure_cb_ = std::move(cb);
+}
+
+// =============================================================================
+// Per-tenant bandwidth quota management
+// =============================================================================
+
+std::shared_ptr<QoSManager::TenantState>
+QoSManager::findTenant(const std::string& id) const {
+    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    auto it = tenants_.find(id);
+    if (it == tenants_.end()) {
+        return nullptr;
+    }
+    return it->second;
+}
+
+void QoSManager::registerTenantQuota(const std::string& tenant_id,
+                                      uint64_t rate_bps,
+                                      uint64_t burst_bytes) {
+    uint64_t burst = burst_bytes > 0 ? burst_bytes
+                                      : (rate_bps > 0 ? rate_bps / 8 : 0);
+
+    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    auto it = tenants_.find(tenant_id);
+    if (it != tenants_.end()) {
+        // Update existing entry in-place
+        auto& ts = it->second;
+        std::lock_guard<std::mutex> tb_lock(ts->token_bucket_mutex);
+        if (ts->token_bucket) {
+            ts->token_bucket->reconfigure(rate_bps, burst > 0 ? burst : 1);
+        } else if (rate_bps > 0) {
+            ts->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst > 0 ? burst : 1);
+        }
+    } else {
+        auto ts        = std::make_shared<TenantState>();
+        ts->tenant_id  = tenant_id;
+        if (rate_bps > 0) {
+            ts->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst > 0 ? burst : 1);
+        }
+        tenants_[tenant_id] = std::move(ts);
+    }
+}
+
+void QoSManager::unregisterTenantQuota(const std::string& tenant_id) {
+    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    tenants_.erase(tenant_id);
+}
+
+void QoSManager::setTenantQuota(const std::string& tenant_id,
+                                  uint64_t rate_bps,
+                                  uint64_t burst_bytes) {
+    registerTenantQuota(tenant_id, rate_bps, burst_bytes);
+}
+
+void QoSManager::assignTenant(uint64_t connection_id,
+                                const std::string& tenant_id) {
+    std::string old_tenant_id;
+    {
+        std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
+        auto it = tenant_assignments_.find(connection_id);
+        if (it != tenant_assignments_.end()) {
+            if (it->second == tenant_id) {
+                return;  // Already assigned to this tenant
+            }
+            old_tenant_id = it->second;
+        }
+        tenant_assignments_[connection_id] = tenant_id;
+    }
+
+    // Adjust active_connections counters outside tenant_assignments_mutex_
+    // to avoid potential lock-order inversion with tenants_mutex_.
+    if (!old_tenant_id.empty()) {
+        auto old_ts = findTenant(old_tenant_id);
+        if (old_ts) {
+            old_ts->active_connections.fetch_sub(1, std::memory_order_relaxed);
+        }
+    }
+    auto new_ts = findTenant(tenant_id);
+    if (new_ts) {
+        new_ts->active_connections.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+QoSManager::TenantQuotaStats
+QoSManager::getTenantStats(const std::string& tenant_id) const {
+    auto ts = findTenant(tenant_id);
+    if (!ts) {
+        return TenantQuotaStats{};
+    }
+
+    TenantQuotaStats result;
+    result.tenant_id         = ts->tenant_id;
+    result.bytes_sent        = ts->bytes_sent.load(std::memory_order_relaxed);
+    result.bytes_shaped      = ts->bytes_shaped.load(std::memory_order_relaxed);
+    result.active_connections = ts->active_connections.load(std::memory_order_relaxed);
+
+    {
+        std::lock_guard<std::mutex> tb_lock(ts->token_bucket_mutex);
+        if (ts->token_bucket) {
+            result.rate_bps    = ts->token_bucket->rateBps();
+            result.burst_bytes = ts->token_bucket->burstBytes();
+        }
+    }
+    return result;
+}
+
+std::vector<QoSManager::TenantQuotaStats>
+QoSManager::getAllTenantStats() const {
+    std::vector<std::string> ids;
+    {
+        std::lock_guard<std::mutex> lock(tenants_mutex_);
+        ids.reserve(tenants_.size());
+        for (const auto& [id, _] : tenants_) {
+            ids.push_back(id);
+        }
+    }
+
+    std::vector<TenantQuotaStats> result;
+    result.reserve(ids.size());
+    for (const auto& id : ids) {
+        result.push_back(getTenantStats(id));
+    }
+    return result;
 }
 
 }  // namespace network

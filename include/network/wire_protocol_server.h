@@ -33,6 +33,7 @@
 #  include <boost/beast/http.hpp>
 #  include <boost/beast/websocket.hpp>
 #endif
+#include "network/qos_manager.h"
 #include <memory>
 #include <string>
 #include <thread>
@@ -253,6 +254,9 @@ private:
     mutable std::mutex rate_limit_mutex_;
     std::unordered_map<std::string, RateLimitState> rate_limits_;
 
+    // Per-tenant bandwidth quota enforcement
+    QoSManager qos_manager_;
+
     // Server state
     std::atomic<bool> running_{false};
     std::atomic<uint64_t> session_id_counter_{0};
@@ -289,6 +293,17 @@ public:
     std::string getRemoteIP() const;
     uint64_t getSessionID() const { return session_id_; }
     bool isAuthenticated() const { return authenticated_.load(); }
+
+    /**
+     * @brief Assign this session to a tenant for bandwidth quota enforcement.
+     *
+     * Called after successful authentication once the tenant identity is known.
+     * Registers the connection with the server's QoSManager so that the
+     * per-tenant token bucket is enforced on subsequent sends.
+     *
+     * @param tenant_id Unique tenant identifier.
+     */
+    void setTenant(const std::string& tenant_id);
 
 private:
     // Async operations
@@ -341,6 +356,9 @@ private:
     std::atomic<bool> authenticated_{false};
     std::string username_;
     std::string client_ip_;
+
+    // Tenant assigned to this session (set after authentication)
+    std::string tenant_id_;
 
     // Read buffers
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header

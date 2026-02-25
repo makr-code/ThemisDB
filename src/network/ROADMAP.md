@@ -36,7 +36,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ### Short-term (Next 3-6 months)
 - [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [?] Adaptive I/O thread scaling based on connection load
-- [I] Per-tenant network bandwidth quotas (Issue: #2205)
+- [x] Per-tenant network bandwidth quotas (Issue: #2205)
 - [!] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 - [?] Structured network audit log (connection open/close/auth events)
 
@@ -75,7 +75,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
 - [ ] gRPC native transport (separate from server module)
 - [ ] Connection multiplexing (multiple logical streams per TCP connection)
-- [ ] Per-tenant network bandwidth quotas
+- [x] Per-tenant network bandwidth quotas
 - [ ] Connection-level compression (LZ4, Zstd)
 - [ ] Network topology-aware routing for geo-distributed clusters
 - [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
