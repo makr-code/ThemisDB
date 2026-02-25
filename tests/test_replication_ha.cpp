@@ -832,6 +832,211 @@ TEST(MMCRDTResolverTest, StrategyNameMatchesType) {
               "G_COUNTER");
     EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::G_SET).strategyName(),
               "G_SET");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::TWO_P_SET).strategyName(),
+              "TWO_P_SET");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::RGA).strategyName(),
+              "RGA");
+}
+
+// PN_COUNTER: proper positive/negative sub-counter merge
+TEST(MMCRDTResolverTest, PNCounterMergesPositiveAndNegativeSeparately) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::PN_COUNTER);
+
+    // nodeA incremented 5 times and decremented 2 times
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"P":{"nodeA":5},"N":{"nodeA":2}})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "nodeA");
+
+    // nodeB incremented 3 times and decremented 1 time; also sees nodeA incremented 4
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"P":{"nodeA":4,"nodeB":3},"N":{"nodeA":1,"nodeB":1}})";
+    e2.hlc  = makeHLCTimestamp(200, 0, "nodeB");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Merged P: nodeA=max(5,4)=5, nodeB=3
+    // Merged N: nodeA=max(2,1)=2, nodeB=1
+    EXPECT_NE(result.data.find("\"P\""), std::string::npos);
+    EXPECT_NE(result.data.find("\"N\""), std::string::npos);
+    EXPECT_NE(result.data.find("\"nodeA\":5"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("\"nodeB\":3"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("\"nodeA\":2"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("\"nodeB\":1"), std::string::npos) << result.data;
+}
+
+// OR_SET: elements removed via tombstones are excluded; others survive
+TEST(MMCRDTResolverTest, ORSetRemovesTombstonedElements) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::OR_SET);
+
+    // nodeA added "apple" with tag-1 and "banana" with tag-2
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"add":[["apple","tag-1"],["banana","tag-2"]],"tombstones":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "nodeA");
+
+    // nodeB removed "apple" by tombstoning tag-1
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"add":[["apple","tag-1"],["banana","tag-2"]],"tombstones":["tag-1"]})";
+    e2.hlc  = makeHLCTimestamp(200, 0, "nodeB");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // "apple" was tombstoned (tag-1 removed) → should not appear
+    EXPECT_EQ(result.data.find("apple"), std::string::npos) << result.data;
+    // "banana" was not tombstoned → should appear
+    EXPECT_NE(result.data.find("banana"), std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, ORSetKeepsElementAddedOnBothNodes) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::OR_SET);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"add":[["cherry","tag-10"]],"tombstones":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"add":[["cherry","tag-11"]],"tombstones":["tag-10"]})";
+    e2.hlc  = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // "cherry" still has live tag tag-11 → must survive
+    EXPECT_NE(result.data.find("cherry"), std::string::npos) << result.data;
+}
+
+// TWO_P_SET: added elements minus removed elements
+TEST(MMCRDTResolverTest, TwoPSetExcludesRemovedElements) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::TWO_P_SET);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"add":["alpha","beta","gamma"],"remove":["beta"]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"add":["alpha","delta"],"remove":[]})";
+    e2.hlc  = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // union(add) = {alpha, beta, gamma, delta}; union(remove) = {beta}
+    // result = {alpha, gamma, delta}
+    EXPECT_NE(result.data.find("alpha"),  std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("gamma"),  std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("delta"),  std::string::npos) << result.data;
+    EXPECT_EQ(result.data.find("beta"),   std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, TwoPSetEmptyRemoveReturnsAllAdded) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::TWO_P_SET);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"add":["x","y"],"remove":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    auto result = resolver.resolve("doc", {e1});
+    EXPECT_NE(result.data.find("x"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("y"), std::string::npos) << result.data;
+}
+
+// RGA: ordered sequence – elements merged by id, tombstones preserved, sorted by id
+TEST(MMCRDTResolverTest, RGAMergesElementsById) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::RGA);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"([{"id":"100:A","v":"hello","del":false},{"id":"300:A","v":"world","del":false}])";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"([{"id":"200:B","v":"beautiful","del":false},{"id":"300:A","v":"world","del":false}])";
+    e2.hlc  = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // All three unique ids should appear; id "300:A" is de-duplicated
+    EXPECT_NE(result.data.find("hello"),     std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("beautiful"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("world"),     std::string::npos) << result.data;
+    // Sorted by id: 100:A, 200:B, 300:A
+    auto pos_hello     = result.data.find("hello");
+    auto pos_beautiful = result.data.find("beautiful");
+    auto pos_world     = result.data.find("world");
+    EXPECT_LT(pos_hello,     pos_beautiful) << result.data;
+    EXPECT_LT(pos_beautiful, pos_world)     << result.data;
+}
+
+TEST(MMCRDTResolverTest, RGATombstoneIrrevocable) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::RGA);
+
+    // nodeA has element, nodeB has deleted it
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"([{"id":"100:A","v":"foo","del":false}])";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"([{"id":"100:A","v":"foo","del":true}])";
+    e2.hlc  = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Deletion wins; "del":true must appear in result
+    EXPECT_NE(result.data.find("\"del\":true"), std::string::npos) << result.data;
+    EXPECT_EQ(result.data.find("\"del\":false"), std::string::npos) << result.data;
+}
+
+// MV_REGISTER: multi-value register returns all concurrent values as a JSON array
+TEST(MMCRDTResolverTest, MVRegisterReturnsAllConcurrentValues) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::MV_REGISTER);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"v":"valueA"})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"v":"valueB"})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Result should be an array containing both values
+    EXPECT_EQ(result.data[0], '[') << result.data;
+    EXPECT_NE(result.data.find("valueA"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("valueB"), std::string::npos) << result.data;
+}
+
+// LWW_MAP: per-key last-write-wins using HLC – key present in both writes, newer wins
+TEST(MMCRDTResolverTest, LWWMapPicksLatestValuePerKey) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::LWW_MAP);
+
+    // e1 has score=10 written at t=100; e2 has score=20 written at t=200
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"score":10,"level":3})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"score":20})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // "score" should be 20 (latest write wins); "level" only exists in e1
+    EXPECT_NE(result.data.find("\"score\":20"), std::string::npos) << result.data;
+    EXPECT_EQ(result.data.find("\"score\":10"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("\"level\":3"),  std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, StrategyNameLWWMapAndMVRegister) {
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::MV_REGISTER).strategyName(),
+              "MV_REGISTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::LWW_MAP).strategyName(),
+              "LWW_MAP");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::PN_COUNTER).strategyName(),
+              "PN_COUNTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::OR_SET).strategyName(),
+              "OR_SET");
 }
 
 // ============================================================================

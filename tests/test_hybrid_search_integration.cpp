@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     328                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -325,4 +325,62 @@ TEST_F(HybridSearchIntegrationTest, VectorOnlyNoBM25_StatsCorrect) {
     EXPECT_FALSE(stats.partial_result);
     EXPECT_EQ(stats.bm25_count, 0u);
     EXPECT_GT(stats.vector_count, 0u);
+}
+
+// ============================================================================
+// LLM Re-ranker integration with real indices
+// ============================================================================
+
+TEST_F(HybridSearchIntegrationTest, Reranker_InvertsRRFOrderWhenLlmFavorsLowerRanked) {
+    // Without re-ranker, doc1 (rank 1 in BM25, close in vector) should top the list.
+    HybridSearch hs_base(sec_.get(), vec_.get(), makeConfig(/*use_rrf=*/true));
+    auto base_results = hs_base.search("database", query_vec_.data(), query_vec_.size());
+    ASSERT_GE(base_results.size(), 2u);
+    const std::string first_without_reranker = base_results[0].document_id;
+
+    // Attach a mock re-ranker that gives a score of 1 to the first result and 9
+    // to all others — effectively demoting the top result.
+    HybridSearch hs(sec_.get(), vec_.get(), makeConfig(/*use_rrf=*/true));
+    size_t call_count = 0;
+    hs.setReranker([&](const std::string& /*prompt*/) -> std::string {
+        ++call_count;
+        // First doc gets score 1, rest get score 9
+        return "1\n9\n9\n9\n9\n";
+    });
+
+    auto reranked = hs.search("database", query_vec_.data(), query_vec_.size());
+    ASSERT_GE(reranked.size(), 2u);
+    EXPECT_GT(call_count, 0u); // backend was actually called
+
+    // The former top document should now rank lower
+    EXPECT_NE(reranked[0].document_id, first_without_reranker);
+}
+
+TEST_F(HybridSearchIntegrationTest, Reranker_FallbackOnExceptionPreservesResults) {
+    HybridSearch hs(sec_.get(), vec_.get(), makeConfig(/*use_rrf=*/true));
+    // Backend always throws — should fall back to original RRF order
+    hs.setReranker([](const std::string&) -> std::string {
+        throw std::runtime_error("LLM unavailable");
+    });
+
+    auto results = hs.search("database", query_vec_.data(), query_vec_.size());
+    // fallback_to_original is true by default → results still returned
+    EXPECT_FALSE(results.empty());
+    for (const auto& r : results) {
+        EXPECT_GT(r.hybrid_score, 0.0); // scores from fallback path
+    }
+}
+
+TEST_F(HybridSearchIntegrationTest, Reranker_NullBackendDisablesReranking) {
+    HybridSearch hs_ref(sec_.get(), vec_.get(), makeConfig(/*use_rrf=*/true));
+    auto ref = hs_ref.search("database", query_vec_.data(), query_vec_.size());
+
+    HybridSearch hs(sec_.get(), vec_.get(), makeConfig(/*use_rrf=*/true));
+    hs.setReranker(nullptr); // explicitly disabled — should behave like no reranker
+    auto results = hs.search("database", query_vec_.data(), query_vec_.size());
+
+    ASSERT_EQ(results.size(), ref.size());
+    for (size_t i = 0; i < results.size(); ++i) {
+        EXPECT_EQ(results[i].document_id, ref[i].document_id);
+    }
 }

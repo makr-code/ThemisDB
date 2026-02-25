@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_master_replication.h                         ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:32                                ║
+  Last Modified:   2026-02-25 13:54:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     523                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     530                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
@@ -263,7 +263,9 @@ public:
         PN_COUNTER,         // Positive-Negative Counter
         G_SET,              // Grow-only Set
         OR_SET,             // Observed-Remove Set
-        LWW_MAP             // Last-Write-Wins Map
+        LWW_MAP,            // Last-Write-Wins Map
+        TWO_P_SET,          // Two-Phase Set (supports removal via tombstones)
+        RGA                 // Replicated Growable Array (ordered sequences)
     };
     
     explicit CRDTMergeResolver(CRDTType type);
@@ -286,6 +288,8 @@ private:
     std::string mergeGSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeORSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
+    std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
+    std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
 };
 
 /**
