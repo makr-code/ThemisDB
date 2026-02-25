@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     313                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     327                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -19,6 +19,7 @@
 
 #include "performance/cycle_metrics.h"
 #include "performance/cycle_metrics_config.h"
+#include "performance/phase4/pmu_counters.h"
 #include "performance/expected_cycles.h"
 #include "performance/lockfree_metrics_buffer.h"
 #include "performance/runtime_config.h"
@@ -305,7 +306,14 @@ TEST(CycleMetricsTest, ZeroCostAbstraction) {
     THEMIS_RECORD_METRICS("test", metrics);
     
     THEMIS_RECORD_FUNCTION_CYCLES("test_func", cycles);
-    
+
+    // PMU cache-miss macros (zero-cost when THEMIS_ENABLE_PMU_COUNTERS is OFF)
+    ::themis::performance::phase4::CacheMissAnalyzer pmu_analyzer;
+    ::themis::performance::phase4::CacheMissMetrics  pmu_metrics;
+    THEMIS_PMU_START(pmu_analyzer);
+    THEMIS_PMU_STOP(pmu_analyzer, pmu_metrics);
+    THEMIS_SCOPED_CACHE_MISS_TIMER(pmu_analyzer, pmu_metrics);
+
     // Test should pass regardless of whether metrics are enabled
     SUCCEED();
 }
