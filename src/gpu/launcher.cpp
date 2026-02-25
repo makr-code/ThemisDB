@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     124                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -50,14 +50,37 @@ GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
     const auto start = std::chrono::steady_clock::now();
 
     bool ok = false;
-    try {
-        ok = backend_(item);
-    } catch (const std::exception& e) {
-        result.error_message = e.what();
-        ok = false;
-    } catch (...) {
-        result.error_message = "unknown exception in GPU backend";
-        ok = false;
+    bool timed_out = false;
+
+    if (item.timeout_ms > 0) {
+        // Run the backend in a separate async task and wait with a timeout.
+        auto exec_fut = std::async(std::launch::async,
+            [this, it = item]() mutable { return backend_(it); });
+        const auto status = exec_fut.wait_for(
+            std::chrono::milliseconds(item.timeout_ms));
+        if (status == std::future_status::timeout) {
+            timed_out = true;
+            result.error_message = "kernel execution timed out after " +
+                                   std::to_string(item.timeout_ms) + " ms";
+        } else {
+            try {
+                ok = exec_fut.get();
+            } catch (const std::exception& e) {
+                result.error_message = e.what();
+            } catch (...) {
+                result.error_message = "unknown exception in GPU backend";
+            }
+        }
+    } else {
+        try {
+            ok = backend_(item);
+        } catch (const std::exception& e) {
+            result.error_message = e.what();
+            ok = false;
+        } catch (...) {
+            result.error_message = "unknown exception in GPU backend";
+            ok = false;
+        }
     }
 
     result.elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -68,7 +91,10 @@ GPULauncher::WorkResult GPULauncher::executeOne(WorkItem item) {
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.submitted;
-        if (ok) {
+        if (timed_out) {
+            ++stats_.failed;
+            ++stats_.timed_out;
+        } else if (ok) {
             ++stats_.succeeded;
         } else {
             ++stats_.failed;

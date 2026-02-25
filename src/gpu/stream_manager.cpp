@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 140dad5bc  2026-02-22  feat(gpu): implement ROCm/HIP backend parity with CUDA fe... ║
@@ -28,8 +28,34 @@
 #include "themis/gpu/rocm_backend.h"
 #include <stdexcept>
 
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#endif
+
 namespace themis {
 namespace gpu {
+
+// ============================================================================
+// Construction / destruction
+// ============================================================================
+
+GPUStreamManager::~GPUStreamManager() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto& kv : streams_) {
+#ifdef THEMIS_ENABLE_CUDA
+        if (kv.second.cuda_stream != 0) {
+            cudaStreamDestroy(
+                reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
+        }
+#endif
+    // Clean up any HIP streams that were created via ROCmBackend.
+    for (const auto& kv : streams_) {
+        if (kv.second.uses_rocm_stream) {
+            ROCmBackend::GetInstance().destroyStream(kv.first);
+        }
+    }
+    streams_.clear();
+}
 
 // ============================================================================
 // Stream lifecycle
@@ -43,23 +69,87 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     std::lock_guard<std::mutex> lock(mutex_);
     if (streams_.count(cfg.name)) return false;   // already exists
 
+    Stream s;
     // When no backend is supplied, use the ROCm backend (which transparently
-    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined).
+    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined) and
+    // also register the stream in the ROCm backend so that HIP stream
+    // lifecycle (hipStreamCreate / hipStreamDestroy) is correctly managed.
+    bool rocm = (backend == nullptr);
     GPULauncher::BackendFn fn = backend
-        ? backend
+        ? std::move(backend)
         : ROCmBackend::GetInstance().createBackendFn();
 
+    if (rocm) {
+        // Create the hardware stream in the ROCm backend.  When HIP is absent
+        // this is a no-op that records a virtual entry; the result is ignored
+        // because the CPU-fallback path is always available.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+    }
+
     Stream s;
-    s.config   = cfg;
-    s.launcher = std::make_unique<GPULauncher>(std::move(fn));
+    s.config              = cfg;
+    s.launcher            = std::make_unique<GPULauncher>(std::move(fn));
+    s.stats.name          = cfg.name;
+    s.uses_rocm_backend   = rocm;
+    Stream s;
+    s.config     = cfg;
     s.stats.name = cfg.name;
+
+    if (backend) {
+        s.launcher = std::make_unique<GPULauncher>(std::move(backend));
+    } else {
+        // When no backend is supplied, register a named HIP stream via the
+        // ROCm backend (which transparently falls back to CPU execution when
+        // THEMIS_ENABLE_HIP is not defined).  Registering the stream enables
+        // ROCmBackend::synchronizeStream() to be called on it later.
+        // When no backend is supplied, create a real HIP stream via the ROCm
+        // backend (which transparently falls back to CPU execution when
+        // THEMIS_ENABLE_HIP is not defined) and use it as the execution backend.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+        s.uses_rocm_stream = true;
+        s.launcher = std::make_unique<GPULauncher>(
+            ROCmBackend::GetInstance().createBackendFn());
+    }
+
     streams_.emplace(cfg.name, std::move(s));
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Create a real CUDA stream for long-running workloads.  Errors are
+    // non-fatal: the logical stream still functions via the ROCm/CPU path.
+    {
+        auto& entry = streams_.at(cfg.name);
+        cudaStream_t cs = nullptr;
+        if (cudaStreamCreate(&cs) == cudaSuccess) {
+            entry.cuda_stream = reinterpret_cast<uintptr_t>(cs);
+        }
+    }
+#endif
+
     return true;
 }
 
 bool GPUStreamManager::destroyStream(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return streams_.erase(name) > 0;
+    auto it = streams_.find(name);
+    if (it == streams_.end()) return false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (it->second.cuda_stream != 0) {
+        cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second.cuda_stream));
+        it->second.cuda_stream = 0;
+    }
+#endif
+    if (it->second.uses_rocm_backend) {
+        // Release the underlying HIP stream (no-op when HIP is absent).
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
+
+    if (it->second.uses_rocm_stream) {
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
+
+    streams_.erase(it);
+    return true;
 }
 
 bool GPUStreamManager::hasStream(const std::string& name) const {

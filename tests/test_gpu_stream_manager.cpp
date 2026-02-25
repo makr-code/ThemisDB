@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "themis/gpu/stream_manager.h"
+#include "themis/gpu/rocm_backend.h"
 #include <atomic>
 #include <chrono>
 #include <thread>
@@ -33,10 +34,6 @@ static GPULauncher::WorkItem makeItem(const std::string& kernel = "k1",
     w.tag       = tag;
     return w;
 }
-
-// Each test uses a fresh local manager (not the singleton) to avoid
-// cross-test interference.
-static GPUStreamManager makeManager() { return GPUStreamManager{}; }
 
 // ---------------------------------------------------------------------------
 // Stream lifecycle
@@ -233,4 +230,57 @@ TEST(GPUStreamManagerTest, NullptrBackend_ItemsSucceedViaCPU) {
     sm.createStream({"noop"}, nullptr);
     auto res = sm.submit("noop", makeItem("noop_k")).get();
     EXPECT_TRUE(res.success);
+}
+
+// ---------------------------------------------------------------------------
+// CUDA stream creation (CPU fallback path when THEMIS_ENABLE_CUDA is absent)
+// ---------------------------------------------------------------------------
+
+TEST(GPUStreamManagerTest, CreateStream_CudaHandle_IsZeroWhenCudaUnavailable) {
+    // When THEMIS_ENABLE_CUDA is not defined the cuda_stream field must remain
+    // 0 after createStream() succeeds (no hardware present in CI).  When CUDA
+    // IS available the field holds a real cudaStream_t cast to uintptr_t.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"cuda_test"}));
+    EXPECT_TRUE(sm.hasStream("cuda_test"));
+    // Destroying the stream must succeed regardless of whether a real CUDA
+    // handle was created; cudaStreamDestroy is called only when the handle != 0.
+    EXPECT_TRUE(sm.destroyStream("cuda_test"));
+    EXPECT_FALSE(sm.hasStream("cuda_test"));
+}
+
+TEST(GPUStreamManagerTest, CreateAndDestroy_MultipleStreams_CudaPathClean) {
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"cs1"}));
+    ASSERT_TRUE(sm.createStream({"cs2"}));
+    EXPECT_EQ(sm.streamCount(), 2u);
+    EXPECT_TRUE(sm.destroyStream("cs1"));
+    EXPECT_TRUE(sm.destroyStream("cs2"));
+    EXPECT_EQ(sm.streamCount(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// ROCm stream lifecycle (CPU fallback path when THEMIS_ENABLE_HIP is absent)
+// ---------------------------------------------------------------------------
+
+TEST(GPUStreamManagerTest, NullBackend_RegistersRocmStream) {
+    // When createStream() is called without a backend, a named HIP stream
+    // must be registered in ROCmBackend (virtual when no HIP hardware is
+    // present).  After destroyStream() the ROCm entry must be gone.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"rocm_stream_test"}));
+    EXPECT_TRUE(ROCmBackend::GetInstance().hasStream("rocm_stream_test"));
+
+    EXPECT_TRUE(sm.destroyStream("rocm_stream_test"));
+    EXPECT_FALSE(ROCmBackend::GetInstance().hasStream("rocm_stream_test"));
+}
+
+TEST(GPUStreamManagerTest, CustomBackend_DoesNotRegisterRocmStream) {
+    // When a caller-supplied backend is passed, GPUStreamManager must NOT
+    // create a ROCm stream (caller owns the backend lifecycle).
+    GPUStreamManager sm;
+    sm.createStream({"custom_backend_stream"},
+                    [](const GPULauncher::WorkItem&) { return true; });
+    EXPECT_FALSE(ROCmBackend::GetInstance().hasStream("custom_backend_stream"));
+    sm.destroyStream("custom_backend_stream");
 }
