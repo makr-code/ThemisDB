@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (34 Core Components)
+### `/src/` - Implementation (44 Core Components)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -28,6 +28,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **cache/** | Semantic caching, query caching, embedding caching | SemanticCache, AdaptiveQueryCache |
 | **cdc/** | Change Data Capture and changefeeds | ChangeFeed, ChangeBuffer |
 | **chimera/** | Adapter factory for database compatibility | ThemisDBAdapter, IDatabaseAdapter |
+| **config/** | Backward-compatible config path resolution, LRU caching, JSON Schema validation | ConfigPathResolver, ConfigSchemaValidator, ConfigAuditLog |
 | **content/** | Multimodal ingestion (PDF, images, audio, video, CAD) | ContentManager, AsyncIngestionWorker |
 | **core/** | Security initialization, concerns context (logging, tracing) | ConcernsContext, SecurityInit |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
@@ -37,12 +38,14 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **gpu/** | GPU-specific memory and acceleration | GpuMemoryManager |
 | **importers/** | Data import (PostgreSQL, etc.) | PostgresImporter |
 | **index/** | Vector indexing (HNSW, quantization), graph indices | VectorIndex, GraphIndex, HnswIndex |
+| **ingestion/** | Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing | IngestionManager, FileSystemIngester, HuggingFaceConnector |
 | **llm/** | LLM integration, inference, LoRA, embeddings, vision | EmbeddedLlm, LoraFramework, FlashAttention |
 | **metadata/** | Schema management | SchemaManager |
 | **network/** | Wire protocol, socket management | WireProtocolServer |
 | **observability/** | Metrics, profiling, alerting | MetricsCollector, QueryProfiler |
 | **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers) | PerformanceOptimizations |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
+| **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
 | **rag/** | RAG evaluation (faithfulness, relevance, bias detection) | RagJudge, CoherenceEvaluator |
 | **replication/** | Multi-master replication | ReplicationManager |
@@ -54,6 +57,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **storage/** | RocksDB wrapper, compression, blob storage, transactions | StorageEngine, BlobStorageManager |
 | **temporal/** | Conflict resolution for temporal data | TemporalConflictResolver |
 | **timeseries/** | Time series compression (Gorilla), aggregates, retention | TimeSeriesManager, GorillaEncoder, GorillaDecoder |
+| **training/** | Domain-specific LLM fine-tuning, LoRA adapter management, knowledge graph enrichment | LegalAutoLabeler, IncrementalLoRATrainer, KnowledgeGraphEnricher |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
 | **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |
 | **utils/** | Logging, PII detection, compression, utilities | Logger, PiiDetector, Serialization |
@@ -306,6 +310,53 @@ Policy enforcement and regulatory compliance:
 - Data retention policies
 - PII detection and masking
 
+### 11. **Configuration & Ingestion Layer**
+**Namespaces:** `themis::config::*, themis::ingestion::*`
+
+Infrastructure for configuration management and data intake:
+
+**Config:**
+- Backward-compatible legacy-to-new config path resolution (50+ mapped paths)
+- LRU cache with configurable capacity and TTL for resolved paths
+- Path traversal prevention and symlink escape detection
+- JSON Schema (Draft 7) validation for YAML/JSON configuration files
+- Typed exception hierarchy (`ConfigNotFoundException`, `InvalidPathException`)
+- Deprecation metadata with migration guide URLs per path
+- Prometheus metrics export via `/metrics` endpoint
+
+**Ingestion:**
+- Multi-source document intake: filesystem, HuggingFace datasets, generic REST APIs
+- Parallel source orchestration via thread pool with configurable concurrency
+- Token-bucket rate limiting per source
+- Incremental checkpoint-based ingestion (skip already-processed records)
+- Quarantine queue for persistently failing documents with per-record retry
+- Dry-run mode for pipeline validation without database writes
+- Binary MIME detection (PDF, DOCX) before content dispatch
+- Prometheus-compatible throughput and error metrics
+
+### 12. **Prompt Engineering & Training Layer**
+**Namespaces:** `themis::prompt_engineering::*, themis::training::*`
+
+Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
+
+**Prompt Engineering:**
+- Template CRUD with RocksDB persistence and YAML bulk-load
+- Git-like version control: branches, commits, diffs, rollback
+- Iterative prompt optimization via meta-prompts and feedback loops
+- A/B testing with statistical significance (Welch's t-test / normal CDF)
+- Self-improvement orchestrator: background thread auto-detects underperforming templates
+- Prompt injection detection and sanitization (10+ built-in patterns)
+- Prometheus metrics with crash-safe snapshot/restore
+- Integration façade combining all subsystems
+
+**Training:**
+- `LegalAutoLabeler`: NLP modality extraction from domain documents (legal, multi-language)
+- `IncrementalLoRATrainer`: LoRA adapter training with checkpoint/resume, configurable rank/alpha/lr
+- `KnowledgeGraphEnricher`: AQL-based context enrichment via graph traversal
+- Adapter version management: deploy, rollback, traffic splitting
+- Confidence gating for human review of low-confidence training samples
+- Pimpl pattern for ABI stability across all components
+
 ---
 
 ## Namespace Organization
@@ -363,18 +414,22 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 ├── transaction::                 # Transaction management
 ├── auth::                        # Authentication
 ├── cache::                       # Caching layers
+├── config::                      # Config path resolution & schema validation
 ├── geo::                         # Geospatial operations
 ├── graph::                       # Graph processing
+├── ingestion::                   # Multi-source data intake pipeline
 ├── metadata::                    # Schema management
 ├── network::                     # Network protocols
 ├── observability::               # Monitoring & metrics
 ├── plugins::                     # Plugin system
+├── prompt_engineering::          # Prompt template lifecycle & optimization
 ├── rag::                         # RAG evaluation
 ├── replication::                 # Data replication
 ├── scheduler::                   # Task scheduling
 ├── search::                      # Search functionality
 ├── temporal::                    # Temporal operations
 ├── timeseries::                  # Time series data
+├── training::                    # Domain-specific LLM fine-tuning
 ├── updates::                     # Hot reload & updates
 ├── utils::                       # Utility functions
 │   ├── geo::                     # Geo utilities

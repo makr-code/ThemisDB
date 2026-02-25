@@ -13,6 +13,15 @@
 - **Medium**: Important but not urgent.
 - **Low**: Can be addressed at a later time.
 
+The following priority labels are used (in descending urgency order):
+
+| Label | Alias | Meaning |
+|-------|-------|---------|
+| `priority:critical` | `P0` | Requires immediate attention |
+| `priority:high` | `P1` | Important, process soon |
+| `priority:medium` | `P2` | Normal priority |
+| `priority:low` | `P3` | Can be addressed later |
+
 ### Status
 - **Open**: Issue is open and awaiting resolution.
 - **In Progress**: Work is currently being done on the issue.
@@ -29,19 +38,8 @@
 These labels are managed by the [Copilot Issue Dispatcher](.github/copilot-dispatcher.md) automation.
 
 **Issue labels**
-- **`queue/copilot`** — Issue is eligible for automatic Copilot processing.
-- **`in-progress/copilot`** — Issue has been claimed by the dispatcher; a Copilot PR exists for it.
-
-**PR labels**
-- **`pr/copilot`** — PR was created by the dispatcher.
-- **`copilot-pr`** — PR was created and is managed by the Copilot dispatcher (alias/supplement to `pr/copilot`; always set alongside `pr/copilot`).
-- **`copilot/status-working`** — Copilot is actively working on this PR. Counts against the 5-slot WIP limit.
-- **`copilot/status-ready-requested`** — Copilot signals it is done; the readiness gate will promote to `copilot/status-ready` once CI checks and the Copilot review are green.
-- **`copilot/status-ready`** — Copilot work is complete and all gates are green. PR no longer counts against the WIP limit.
-- **`copilot/status-blocked`** — Copilot cannot proceed. Requires human intervention.
-
-**Agent task label**
-- **`agent:copilot-task`** — PR was created as a Copilot agent task. The PR body follows the `### @Copilot agent task` format with structured Problem Statement, Acceptance Criteria, and Task Type sections.
+- **`queue/copilot`** — Issue is eligible for Copilot delegation. Removed by the dispatcher after posting the delegation comment.
+- **`copilot/delegated`** — Set by the dispatcher after the delegation comment is posted; prevents re-delegation on subsequent runs.
 
 ## Migration Map from Old Labels to New Standardized Schema
 | Old Label Name       | New Label Name         |
