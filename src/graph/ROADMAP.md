@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph queries are planned.
+**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph query execution across shards is now implemented.
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection
@@ -20,6 +20,7 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Distributed graph query execution across shards (Issue: #1826)
 
 ## In Progress 🚧
 (none)
@@ -61,10 +62,10 @@
 - [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
 - [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
-### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
+### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [ ] Subgraph isomorphism queries (pattern matching)
 - [ ] Incremental graph query execution on live updates
-- [ ] Distributed graph query execution across shards
+- [x] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
 - [ ] GPU-accelerated BFS/DFS for massive graphs
@@ -80,7 +81,7 @@
 ## Known Issues & Limitations
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
 - Subgraph isomorphism (pattern matching) is not yet available
-- Distributed graph queries across shards are not yet supported
+- Cross-shard edge following (edges whose endpoints reside on different shards) requires caller-side coordination; the current distributed query model executes intra-shard queries in parallel and returns the globally cheapest result
 
 ## Breaking Changes
 - Distributed graph query introduces shard-aware plan nodes (new plan format, backward-compatible with single-node)

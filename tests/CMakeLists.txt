@@ -531,6 +531,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/merge_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/security/query_masking_policy.cpp
             ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
