@@ -131,3 +131,19 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📦 Create Release Archive – v${{ env.VERSION }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Version** | ${{ env.VERSION }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Tag** | \`v${{ env.VERSION }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit SHA** | \`${{ env.COMMIT_SHA }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Archive SHA256** | \`${{ env.ARCHIVE_SHA256 }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Files released: \`themisdb-${{ env.VERSION }}-source.zip\`, \`themisdb-${{ env.VERSION }}-source.zip.sha256\`" >> "$GITHUB_STEP_SUMMARY"

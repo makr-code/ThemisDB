@@ -152,6 +152,25 @@ jobs:
             build/*_negative_output.txt
           retention-days: 30
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔐 Security Hardening CI – Negative Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Edition** | \`${{ matrix.edition }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Security tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- JWT negative tests (invalid tokens, KID revocation)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- RBAC negative tests (permission violations, inheritance, serialization)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Vault signing provider error tests" >> "$GITHUB_STEP_SUMMARY"
+
   # ───────────────────────────────────────────────────────────────────────────
   # 2. AddressSanitizer + UndefinedBehaviorSanitizer
   # ───────────────────────────────────────────────────────────────────────────
@@ -220,6 +239,22 @@ jobs:
             build/sanitizer_output.txt
           retention-days: 30
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🧪 Security Hardening CI – Sanitizer Tests (ASan + UBSan)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`clang-15\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Sanitizers** | AddressSanitizer + UndefinedBehaviorSanitizer |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "JWT, RBAC, and Vault security tests run under ASan + UBSan to detect memory and UB errors." >> "$GITHUB_STEP_SUMMARY"
+
   # ───────────────────────────────────────────────────────────────────────────
   # 3. Edition build check: verify all three editions compile without errors
   #    MINIMAL is included here because it disables THEMIS_BUILD_TESTS, so the
@@ -262,6 +297,22 @@ jobs:
           edition:      ${{ matrix.edition }}
           build-tests:  'OFF'
           build-target: 'themis_core'
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🏗️ Security Hardening CI – Edition Compile Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Edition** | \`${{ matrix.edition }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`gcc-12\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Compile-only check for \`themis_core\` target (no test binary). Validates all editions build cleanly with security sources." >> "$GITHUB_STEP_SUMMARY"
 
   # ───────────────────────────────────────────────────────────────────────────
   # 4. Static analysis with clang-tidy
@@ -338,6 +389,30 @@ jobs:
           name: clang-tidy-report
           path: clang_tidy_output.txt
           retention-days: 30
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔍 Security Hardening CI – Static Analysis (clang-tidy)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Tool** | clang-tidy-15 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Sources analysed" >> "$GITHUB_STEP_SUMMARY"
+          echo "jwt_validator, jwks_security, jwt_key_rotation_manager, rbac, vault_key_provider, vault_signing_provider, auth_middleware, api_auth_config" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f clang_tidy_output.txt ]; then
+            ERRORS=$(grep -c ": error:" clang_tidy_output.txt 2>/dev/null || echo 0)
+            WARNINGS=$(grep -c ": warning:" clang_tidy_output.txt 2>/dev/null || echo 0)
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Errors | Warnings |" >> "$GITHUB_STEP_SUMMARY"
+            echo "|--------|----------|" >> "$GITHUB_STEP_SUMMARY"
+            echo "| ${ERRORS} | ${WARNINGS} |" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
   # ───────────────────────────────────────────────────────────────────────────
   # 5. Fuzz smoke-test (libFuzzer, short time limit suitable for CI)
@@ -417,3 +492,20 @@ jobs:
             timeout-*
             oom-*
           retention-days: 30
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔥 Security Hardening CI – Fuzz Smoke Test" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Fuzzer** | libFuzzer (clang-15, ASan+UBSan) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Max time per corpus** | 30 s |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Max input length** | 4096 bytes |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Fuzz corpora: \`fuzz/corpus/jwt/\`, \`fuzz/corpus/rbac/\`, \`fuzz/corpus/policy_engine/\`" >> "$GITHUB_STEP_SUMMARY"

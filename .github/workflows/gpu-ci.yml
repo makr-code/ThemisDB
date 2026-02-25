@@ -141,6 +141,27 @@ jobs:
           done
           echo "✅ Header self-containment check complete"
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🖥️ GPU CI – Module CPU Fallback (${{ matrix.edition }})" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Edition** | \`${{ matrix.edition }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **VRAM** | ${{ matrix.vram_gb }} GB |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Max nodes** | ${{ matrix.max_nodes }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks performed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Build GPU module sources (CPU fallback, no GPU hardware)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- GPU unit tests (if test executables found)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- CPU fallback code path verification" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Header self-containment check" >> "$GITHUB_STEP_SUMMARY"
+
   # ---------------------------------------------------------------------------
   # Static analysis: clang-tidy on GPU sources
   # ---------------------------------------------------------------------------
@@ -179,6 +200,20 @@ jobs:
               grep -v "note:" || true
           done
           echo "✅ clang-tidy pass complete (warnings may require follow-up)"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔍 GPU CI – Static Analysis (clang-tidy)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Checks** | readability-*, bugprone-*, performance-* |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Sources** | \`src/gpu/*.cpp\`, \`src/geo/gpu_backend_stub.cpp\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------
   # Device-loss simulation: fault-injection smoke test
@@ -221,6 +256,22 @@ jobs:
             echo "⚠️  No dedicated chaos test files yet — see docs/gpu_roadmap.md"
           echo "✅ Device-loss simulation check complete"
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ⚠️ GPU CI – Device Loss Simulation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Circuit breaker / device-loss code paths (CIRCUIT_OPEN, DEVICE_UNAVAILABLE, forceFailed)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Chaos/fault test file presence" >> "$GITHUB_STEP_SUMMARY"
+
   # ---------------------------------------------------------------------------
   # Documentation gate: roadmap and runbooks present
   # ---------------------------------------------------------------------------
@@ -258,3 +309,19 @@ jobs:
           echo "Headers without @brief: $UNDOCUMENTED"
           # Warn but don't block — documentation debt is tracked in the roadmap.
           echo "✅ Documentation gate complete"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📚 GPU CI – Documentation Gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks" >> "$GITHUB_STEP_SUMMARY"
+          echo "- \`docs/gpu_roadmap.md\` and \`docs/gpu_runbooks.md\` present" >> "$GITHUB_STEP_SUMMARY"
+          echo "- GPU header \`@brief\` documentation coverage" >> "$GITHUB_STEP_SUMMARY"

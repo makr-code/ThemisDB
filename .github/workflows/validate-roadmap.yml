@@ -48,3 +48,18 @@ jobs:
       - name: Validate roadmap structure
         run: |
           python .github/scripts/validate_roadmap.py
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🗺️ Validate Roadmap Structure" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Validator** | \`.github/scripts/validate_roadmap.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Files checked: \`roadmap.md\`, \`ROADMAP.md\`, \`future_enhancement.md\`" >> "$GITHUB_STEP_SUMMARY"

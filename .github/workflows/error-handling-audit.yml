@@ -53,3 +53,19 @@ jobs:
             --no-color \
             --max-violations 819 \
             src include apps tools scripts clients plugins
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🛡️ Error-Handling Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Max violations budget** | 819 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Scope** | \`src\`, \`include\`, \`apps\`, \`tools\`, \`scripts\`, \`clients\`, \`plugins\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Violation budget is ratcheted down over time as the error-handling migration progresses." >> "$GITHUB_STEP_SUMMARY"

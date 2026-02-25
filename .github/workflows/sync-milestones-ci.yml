@@ -42,6 +42,19 @@ jobs:
       - name: Run unit tests
         run: python -m pytest tests/test_sync_milestones.py -v
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔄 Sync-Milestones CI – Unit Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test file** | \`tests/test_sync_milestones.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+
   dry-run:
     name: Dry-run smoke test
     runs-on: ubuntu-latest
@@ -62,3 +75,17 @@ jobs:
 
       - name: Verify audit report was generated
         run: test -f docs/issue-milestone-audit.md && echo "✅ Audit report present"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔄 Sync-Milestones CI – Dry-Run Smoke Test" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/sync-milestones-from-roadmap.py --dry-run\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Audit report** | \`docs/issue-milestone-audit.md\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"

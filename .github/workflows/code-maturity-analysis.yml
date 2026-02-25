@@ -69,3 +69,19 @@ jobs:
             git pull --rebase origin ${{ github.ref_name }}
             git push origin ${{ github.ref_name }}
           fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📈 Code Maturity Analysis & Auto-Versioning" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`.github/scripts/analyze_code_maturity.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Skipped (bot commit)** | ${{ steps.bot_check.outputs.skip }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Runs weekly (Mon 03:00 UTC). Analyses code maturity and auto-updates version files." >> "$GITHUB_STEP_SUMMARY"
