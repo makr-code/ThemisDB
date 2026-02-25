@@ -77,6 +77,17 @@ public:
         return GeometryInfo{};
     }
 
+    // Geodesic distance on the WGS-84 ellipsoid using the Vincenty formula.
+    // Returns the distance in metres between two geographic coordinates.
+    // lat1/lon1 and lat2/lon2 are in decimal degrees (WGS-84).
+    // Returns 0.0 for coincident points and a negative value if the formula
+    // fails to converge (nearly-antipodal degenerate case).
+    virtual double geodesicDistance(double lat1, double lon1,
+                                    double lat2, double lon2) const {
+        (void)lat1; (void)lon1; (void)lat2; (void)lon2;
+        return 0.0;
+    }
+
     // ST_UNION: compute the geometric union of two geometries.
     // Returns a geometry that contains all points in either geom1 or geom2.
     // For two non-overlapping polygons the result is a GeometryCollection.

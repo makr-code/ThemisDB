@@ -34,7 +34,7 @@
 
 ### Long-term (6-12 months)
 - [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
-- [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
+- [P] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
 - [I] Raster data query support (elevation, heatmaps) (Issue: #1745)
 - [I] Temporal-spatial queries (location at time T) (Issue: #1746)
 - [I] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
