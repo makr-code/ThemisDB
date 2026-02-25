@@ -184,8 +184,41 @@ TEST(GeoPrecisionModeBatch, ApproximateMode_BatchIntersects) {
 }
 
 // ---------------------------------------------------------------------------
-// stBuffer: approximate backend delegates to exact, produces same output
+// Approximate backend: demonstrates false-positive behavior
+// Two disjoint polygons whose MBRs overlap (classic L-shape + corner box).
+// The approximate backend must return TRUE (no false negatives), but it is
+// allowed to return TRUE even when the shapes don't touch (false positive).
+// The exact backend must return FALSE for the same pair.
 // ---------------------------------------------------------------------------
+
+TEST(GeoPrecisionModeFalsePositive, ApproximateCanReturnTrueWhenExactReturnsFalse) {
+    // L-shape: 2×2 square with the top-right 1×1 corner removed.
+    // Vertices (CCW outer ring): (0,0)→(2,0)→(2,1)→(1,1)→(1,2)→(0,2)→close
+    GeometryInfo l_shape(GeometryType::Polygon);
+    l_shape.rings.push_back({
+        {0.0, 0.0}, {2.0, 0.0}, {2.0, 1.0}, {1.0, 1.0},
+        {1.0, 2.0}, {0.0, 2.0}, {0.0, 0.0}  // closed ring
+    });
+
+    // Small box sitting entirely in the removed corner: x∈[1.5,2], y∈[1.5,2].
+    // This region is outside the L-shape polygon.
+    const GeometryInfo corner_box = makeBox(1.5, 1.5, 2.0, 2.0);
+
+    ISpatialComputeBackend* exact  = getBackendForPrecision(GeoPrecisionMode::Exact);
+    ISpatialComputeBackend* approx = getBackendForPrecision(GeoPrecisionMode::Approximate);
+
+    // Exact check: shapes are disjoint — must return false.
+    EXPECT_FALSE(exact->exactIntersects(l_shape, corner_box))
+        << "Exact mode must correctly identify that the corner box is outside the L-shape";
+
+    // Approximate check (MBR-based): MBRs do overlap ([0,0,2,2] vs [1.5,1.5,2,2]).
+    // The approximate backend is allowed to return true here (false positive).
+    // This test documents that the approximate backend uses MBR and intentionally
+    // does not distinguish between "MBR overlap" and "actual shape overlap".
+    EXPECT_TRUE(approx->exactIntersects(l_shape, corner_box))
+        << "Approximate mode uses MBR; the MBRs overlap so it should return true "
+           "(false positive by design, no false negatives)";
+}
 
 TEST(GeoPrecisionModeBuffer, ApproximateBuffer_SameAsExact) {
     ISpatialComputeBackend* exact  = getBackendForPrecision(GeoPrecisionMode::Exact);
