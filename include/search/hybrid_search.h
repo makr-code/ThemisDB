@@ -39,6 +39,7 @@ class VectorIndexManager;
  * v1.3.0 Update: Real BM25 and Vector index integration
  * v1.4.0 Update: Configurable vector metric, config validation, normalization fixes,
  *                resource limits, exception safety, partial-result logging
+ * v1.8.0 Update: Configurable LLM re-ranking via setReranker() (Phase 3)
  * 
  * Features:
  * - BM25 fulltext search with scoring
@@ -48,6 +49,7 @@ class VectorIndexManager;
  * - Score normalization with edge-case handling
  * - Configurable vector distance metric (COSINE, DOT, L2)
  * - Bounded resource usage via max_k / max_candidates limits
+ * - Optional LLM re-ranking via injected LlmBackend (setReranker())
  * 
  * @note Thread Safety: A single HybridSearch instance is NOT thread-safe.
  *   search() and setConfig() must not be called concurrently on the same

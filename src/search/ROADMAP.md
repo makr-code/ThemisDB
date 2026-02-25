@@ -78,12 +78,12 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Autocomplete / type-ahead query suggestions
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (BM25 correctness, hybrid recall@10)
+- [x] Unit tests coverage > 80% (LlmReranker: 29 tests; LearningToRank: 20 tests; HybridSearch: 30+ tests)
+- [x] Integration tests (BM25 correctness, hybrid recall@10, LlmReranker with real indices)
 - [?] Performance benchmarks (QPS, index build time, latency p99)
 - [?] Security audit (query injection, resource exhaustion on large datasets)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete (FUTURE_ENHANCEMENTS.md, class docblocks, ARCHITECTURE.md, ROADMAP.md)
+- [x] API stability guaranteed (HybridSearch v1.2.0+, setReranker() v1.8.0)
 
 ## Known Issues & Limitations
 - Synonym expansion dictionary must be manually provided; no automatic synonym discovery.
