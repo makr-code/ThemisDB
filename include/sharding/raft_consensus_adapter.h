@@ -25,6 +25,7 @@
 
 #include "sharding/consensus_module.h"
 #include "sharding/raft_consensus.h"
+#include "sharding/raft_configuration.h"
 #include <memory>
 #include <mutex>
 
@@ -137,6 +138,9 @@ private:
     nlohmann::json snapshot_data_;
     uint64_t snapshot_index_{0};
     uint64_t snapshot_term_{0};
+
+    // Joint-consensus membership tracker (Raft v2)
+    std::unique_ptr<themis::sharding::RaftConfiguration> membership_;
 };
 
 } // namespace sharding

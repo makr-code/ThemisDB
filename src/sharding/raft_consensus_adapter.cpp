@@ -45,6 +45,10 @@ bool RaftConsensusAdapter::initialize(
     node_id_ = node_id;
     cluster_nodes_ = cluster_nodes;
     
+    // Initialize joint-consensus membership tracker
+    membership_ = std::make_unique<themis::sharding::RaftConfiguration>(
+        std::set<std::string>(cluster_nodes.begin(), cluster_nodes.end()));
+
     // Create Raft configuration
     RaftConsensus::Config raft_config;
     raft_config.raft_config.node_id = node_id;
@@ -257,43 +261,100 @@ bool RaftConsensusAdapter::addNode(
         spdlog::warn("Cannot add node: not leader or Raft not initialized");
         return false;
     }
-    
+
+    // Guard: node must not already be a member
+    if (membership_ && membership_->isMember(node_id)) {
+        spdlog::warn("Node {} already exists in cluster", node_id);
+        return false;
+    }
     {
         std::lock_guard<std::mutex> lock(cluster_mutex_);
-        
-        // Check if node already exists
         auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
         if (it != cluster_nodes_.end()) {
             spdlog::warn("Node {} already exists in cluster", node_id);
             return false;
         }
-        
-        // Add to local cluster nodes list
-        cluster_nodes_.push_back(node_id);
     }
-    
-    try {
-        // Note: Full Raft membership change implementation would require:
-        // 1. Two-phase configuration change (joint consensus)
-        // 2. Replicating configuration change log entry
-        // 3. Waiting for configuration commit
-        // 4. Transitioning from old config to new config
-        // For now, we update the local state and log a warning
-        
-        spdlog::info("Node {} added to cluster (endpoint: {}). Note: Full Raft configuration "
-                    "change protocol not yet implemented - this only updates local state", 
-                    node_id, endpoint);
-        return true;
-    } catch (const std::exception& e) {
-        // Rollback on error
+
+    // ---- Phase 1: enter joint consensus (C_old,new) -------------------------
+    if (!membership_) {
         std::lock_guard<std::mutex> lock(cluster_mutex_);
-        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
-        if (it != cluster_nodes_.end()) {
-            cluster_nodes_.erase(it);
-        }
-        spdlog::error("Failed to add node {}: {}", node_id, e.what());
+        membership_ = std::make_unique<themis::sharding::RaftConfiguration>(
+            std::set<std::string>(cluster_nodes_.begin(), cluster_nodes_.end()));
+    }
+
+    try {
+        membership_->addNode(node_id);
+    } catch (const std::exception& e) {
+        spdlog::error("Cannot start membership change for {}: {}", node_id, e.what());
         return false;
     }
+
+    // Helper: convert set to sorted vector for JSON serialisation
+    auto to_vec = [](const std::set<std::string>& s) {
+        return std::vector<std::string>(s.begin(), s.end());
+    };
+
+    nlohmann::json joint_data = {
+        {"node",        node_id},
+        {"endpoint",    endpoint},
+        {"old_members", to_vec(membership_->getOldMembers())},
+        {"new_members", to_vec(membership_->getNewMembers())}
+    };
+
+    auto phase1_idx = propose("CONFIG_JOINT", joint_data);
+    if (!phase1_idx.has_value()) {
+        // Rollback to old configuration
+        themis::sharding::ConfigurationEntry rollback{
+            {},
+            membership_->getOldMembers(),
+            false
+        };
+        membership_->applyConfiguration(rollback);
+        spdlog::error("Failed to propose joint configuration for node {}", node_id);
+        return false;
+    }
+
+    if (!waitForCommit(*phase1_idx, std::chrono::milliseconds(5000))) {
+        // Rollback
+        themis::sharding::ConfigurationEntry rollback{
+            {},
+            membership_->getOldMembers(),
+            false
+        };
+        membership_->applyConfiguration(rollback);
+        spdlog::error("Timeout waiting for joint configuration commit (add {})", node_id);
+        return false;
+    }
+
+    // ---- Phase 2: finalise to C_new ----------------------------------------
+    std::set<std::string> c_new = membership_->getNewMembers();
+    themis::sharding::ConfigurationEntry finalize{
+        {},
+        c_new,
+        false
+    };
+    membership_->applyConfiguration(finalize);
+
+    nlohmann::json final_data = {
+        {"node",        node_id},
+        {"new_members", to_vec(c_new)}
+    };
+
+    auto phase2_idx = propose("CONFIG_NEW", final_data);
+    if (phase2_idx.has_value()) {
+        waitForCommit(*phase2_idx, std::chrono::milliseconds(5000));
+    }
+
+    // Commit cluster_nodes_ to the new configuration
+    {
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        cluster_nodes_.push_back(node_id);
+    }
+
+    spdlog::info("Node {} added to cluster via joint consensus (endpoint: {})",
+                 node_id, endpoint);
+    return true;
 }
 
 bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
@@ -301,48 +362,102 @@ bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
         spdlog::warn("Cannot remove node: not leader or Raft not initialized");
         return false;
     }
-    
+
     // Cannot remove self
     if (node_id == node_id_) {
         spdlog::error("Cannot remove self from cluster");
         return false;
     }
-    
-    std::string removed_node;
+
+    // Guard: node must exist
     {
         std::lock_guard<std::mutex> lock(cluster_mutex_);
-        
-        // Check if node exists
         auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
         if (it == cluster_nodes_.end()) {
             spdlog::warn("Node {} not found in cluster", node_id);
             return false;
         }
-        
-        // Remove from local cluster nodes list
-        removed_node = *it;
-        cluster_nodes_.erase(it);
     }
-    
-    try {
-        // Note: Full Raft membership change implementation would require:
-        // 1. Two-phase configuration change (joint consensus)
-        // 2. Replicating configuration change log entry
-        // 3. Waiting for configuration commit
-        // 4. Transitioning from old config to new config
-        // For now, we update the local state and log a warning
-        
-        spdlog::info("Node {} removed from cluster. Note: Full Raft configuration "
-                    "change protocol not yet implemented - this only updates local state", 
-                    node_id);
-        return true;
-    } catch (const std::exception& e) {
-        // Rollback on error
+
+    // ---- Phase 1: enter joint consensus (C_old,new) -------------------------
+    if (!membership_) {
         std::lock_guard<std::mutex> lock(cluster_mutex_);
-        cluster_nodes_.push_back(removed_node);
-        spdlog::error("Failed to remove node {}: {}", node_id, e.what());
+        membership_ = std::make_unique<themis::sharding::RaftConfiguration>(
+            std::set<std::string>(cluster_nodes_.begin(), cluster_nodes_.end()));
+    }
+
+    try {
+        membership_->removeNode(node_id);
+    } catch (const std::exception& e) {
+        spdlog::error("Cannot start membership change for removal of {}: {}", node_id, e.what());
         return false;
     }
+
+    auto to_vec = [](const std::set<std::string>& s) {
+        return std::vector<std::string>(s.begin(), s.end());
+    };
+
+    nlohmann::json joint_data = {
+        {"node",        node_id},
+        {"old_members", to_vec(membership_->getOldMembers())},
+        {"new_members", to_vec(membership_->getNewMembers())}
+    };
+
+    auto phase1_idx = propose("CONFIG_JOINT", joint_data);
+    if (!phase1_idx.has_value()) {
+        // Rollback
+        themis::sharding::ConfigurationEntry rollback{
+            {},
+            membership_->getOldMembers(),
+            false
+        };
+        membership_->applyConfiguration(rollback);
+        spdlog::error("Failed to propose joint configuration for removal of {}", node_id);
+        return false;
+    }
+
+    if (!waitForCommit(*phase1_idx, std::chrono::milliseconds(5000))) {
+        // Rollback
+        themis::sharding::ConfigurationEntry rollback{
+            {},
+            membership_->getOldMembers(),
+            false
+        };
+        membership_->applyConfiguration(rollback);
+        spdlog::error("Timeout waiting for joint configuration commit (remove {})", node_id);
+        return false;
+    }
+
+    // ---- Phase 2: finalise to C_new ----------------------------------------
+    std::set<std::string> c_new = membership_->getNewMembers();
+    themis::sharding::ConfigurationEntry finalize{
+        {},
+        c_new,
+        false
+    };
+    membership_->applyConfiguration(finalize);
+
+    nlohmann::json final_data = {
+        {"node",        node_id},
+        {"new_members", to_vec(c_new)}
+    };
+
+    auto phase2_idx = propose("CONFIG_NEW", final_data);
+    if (phase2_idx.has_value()) {
+        waitForCommit(*phase2_idx, std::chrono::milliseconds(5000));
+    }
+
+    // Commit cluster_nodes_ to the new configuration
+    {
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), node_id);
+        if (it != cluster_nodes_.end()) {
+            cluster_nodes_.erase(it);
+        }
+    }
+
+    spdlog::info("Node {} removed from cluster via joint consensus", node_id);
+    return true;
 }
 
 bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id) {
