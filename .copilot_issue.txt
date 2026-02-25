@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2256 – [replication] Expand CRDT library with new data types
+**URL:** https://github.com/makr-code/ThemisDB/issues/2256
+**Branch:** copilot/issue-2256-replication-expand-crdt-library-with-new-data-type
+**Base:** develop
+**Created:** 2026-02-25T13:05:10.980Z
+
+Copilot will push real changes here to resolve the issue.
