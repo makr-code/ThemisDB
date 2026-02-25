@@ -409,6 +409,17 @@ json StatisticsCollector::toJSON() const {
     for (const auto& [name, stats] : stats_cache_) {
         j[name] = stats.toJSON();
     }
+    if (!index_stats_cache_.empty()) {
+        json idx = json::object();
+        for (const auto& [name, ist] : index_stats_cache_) {
+            json arr = json::array();
+            for (const auto& s : ist) {
+                arr.push_back(s.toJSON());
+            }
+            idx[name] = arr;
+        }
+        j["index_stats"] = idx;
+    }
     return j;
 }
 

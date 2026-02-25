@@ -29,7 +29,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ### Short-term (Next 3-6 months)
 - [I] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
-- [I] Index statistics export to metadata module (Issue: #1866)
+- [P] Index statistics export to metadata module (Issue: #1866)
 - [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [I] Online index rebuild with minimal read impact (Issue: #1868)
 - [I] Configurable GPU memory budget per index (Issue: #1869)

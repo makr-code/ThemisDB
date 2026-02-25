@@ -429,3 +429,23 @@ TEST_F(StatisticsCollectorTest, ImportIndexStatsEmptyVector) {
     ASSERT_TRUE(get_result.ok);
     EXPECT_TRUE(get_result.value.empty());
 }
+
+TEST_F(StatisticsCollectorTest, ToJSONIncludesIndexStats) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s;
+    s.table        = "orders";
+    s.column       = "amount";
+    s.type         = "range";
+    s.entry_count  = 77;
+    s.unique       = false;
+
+    ASSERT_TRUE(sc.importIndexStats("orders", {s}).ok);
+
+    auto j = sc.toJSON();
+    ASSERT_TRUE(j.contains("index_stats"))  << "toJSON() must include 'index_stats' key when index stats are cached";
+    ASSERT_TRUE(j["index_stats"].contains("orders"));
+    ASSERT_FALSE(j["index_stats"]["orders"].empty());
+    EXPECT_EQ(j["index_stats"]["orders"][0]["column"], "amount");
+    EXPECT_EQ(j["index_stats"]["orders"][0]["entry_count"], 77u);
+}
