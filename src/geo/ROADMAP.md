@@ -29,8 +29,8 @@
 - [x] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
 - [x] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
 - [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
-- [P] R-tree index integration for CPU backend (Issue: #1741)
-- [P] Configurable precision mode (exact vs. approximate) (Issue: #1742)
+- [x] R-tree index integration for CPU backend (Issue: #1741)
+- [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
 - [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
@@ -54,9 +54,9 @@
 - [I] Implemented circuit-breaker fallback when no CUDA-capable device is present (Issue: #1757)
 - [I] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`) (Issue: #1758)
 
-### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: In Progress)
+### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
 - [x] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
-- [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
+- [x] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [P] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
