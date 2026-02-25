@@ -161,6 +161,29 @@ public:
     static constexpr size_t kDefaultCacheSize = 1000;
 
     /**
+     * Snapshot of the effective cache configuration as determined at startup
+     * from environment variables (or compile-time defaults).
+     */
+    struct CacheConfig {
+        size_t capacity;   ///< Maximum number of cached entries
+        int ttl_seconds;   ///< Entry time-to-live in seconds
+    };
+
+    /**
+     * Return the active cache configuration (capacity and TTL).
+     *
+     * Values reflect what was read from the environment at program startup,
+     * or the compile-time defaults when the variables were absent or invalid.
+     * This is a pure read with no locking overhead — suitable for observability
+     * endpoints that need to confirm which values are actually in use.
+     *
+     * @return CacheConfig{capacity, ttl_seconds}
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {cacheStats().capacity, kCacheTtlSeconds};
+    }
+
+    /**
      * Entry in the deprecation usage report.
      */
     struct DeprecationEntry {

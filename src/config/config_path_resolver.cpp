@@ -195,27 +195,41 @@ private:
 
 namespace {
 
-/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent/invalid.
+/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent or out of range [10, 100000].
 size_t initCacheSize() {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
     if (env) {
         char* end = nullptr;
         long val = std::strtol(env, &end, 10);
-        if (end != env && *end == '\0' && val > 0) {
-            return static_cast<size_t>(val);
+        if (end != env && *end == '\0') {
+            if (val >= 10 && val <= 100000) {
+                return static_cast<size_t>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_SIZE=%ld is out of range [10, 100000]; "
+                    "using default %zu\n",
+                    val, ConfigPathResolver::kDefaultCacheSize);
         }
     }
     return ConfigPathResolver::kDefaultCacheSize;
 }
 
-/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent/invalid.
+/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent or out of range [1, 86400].
 int initCacheTtl() {
     const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
     if (env) {
         char* end = nullptr;
         long val = std::strtol(env, &end, 10);
-        if (end != env && *end == '\0' && val > 0) {
-            return static_cast<int>(val);
+        if (end != env && *end == '\0') {
+            if (val >= 1 && val <= 86400) {
+                return static_cast<int>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_TTL=%ld is out of range [1, 86400]; "
+                    "using default %d\n",
+                    val, ConfigPathResolver::kDefaultCacheTtlSeconds);
         }
     }
     return ConfigPathResolver::kDefaultCacheTtlSeconds;

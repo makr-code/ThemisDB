@@ -679,6 +679,30 @@ TEST_F(CacheEnvConfigTest, MetricsExporterReportsCapacityMatchingEnvOrDefault) {
         << "Capacity metric must match actual cache capacity. Output:\n" << output;
 }
 
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigReturnsPositiveCapacityAndTtl) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    EXPECT_GT(cfg.capacity, 0u);
+    EXPECT_GT(cfg.ttl_seconds, 0);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigMatchesCacheStats) {
+    auto cfg   = ConfigPathResolver::currentCacheConfig();
+    auto stats = ConfigPathResolver::cacheStats();
+    EXPECT_EQ(cfg.capacity, stats.capacity);
+    EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kCacheTtlSeconds);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigUsesDefaultsWhenEnvVarsAbsent) {
+    // This test is only authoritative when neither env var is set (normal test environment).
+    if (std::getenv("THEMIS_CONFIG_CACHE_SIZE") == nullptr &&
+        std::getenv("THEMIS_CONFIG_CACHE_TTL") == nullptr)
+    {
+        auto cfg = ConfigPathResolver::currentCacheConfig();
+        EXPECT_EQ(cfg.capacity, ConfigPathResolver::kDefaultCacheSize);
+        EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kDefaultCacheTtlSeconds);
+    }
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis
