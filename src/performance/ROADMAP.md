@@ -31,7 +31,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Short-term (Next 3-6 months)
 - [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-- [!] Per-query cost model integration with query optimizer (Issue: #2419)
+- [x] Per-query cost model integration with query optimizer (Issue: #2419)
 - [I] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
 - [!] Jemalloc integration as alternative allocator (Issue: #2421)
 
@@ -68,7 +68,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
 - [ ] AVX-512 SIMD path for vector distance computations
 - [ ] Adaptive batch size tuning for LLM inference
-- [ ] Per-query cost model integration with query optimizer
+- [x] Per-query cost model integration with query optimizer
 - [ ] Memory pressure monitoring with automatic cache eviction
 - [ ] Jemalloc integration as alternative allocator
 

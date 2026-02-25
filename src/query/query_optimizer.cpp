@@ -28,6 +28,7 @@
 #include "sharding/metadata_shard.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
+#include "performance/phase3/per_query_cost_model.h"
 
 #include <algorithm>
 #include <numeric>
@@ -127,6 +128,61 @@ QueryOptimizer::executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQ
 		);
 	}
 	return Ok(result.value());
+}
+
+// ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ----------------
+
+void QueryOptimizer::attachPerQueryCostModel(
+    std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model) {
+    per_query_cost_model_ = std::move(cost_model);
+}
+
+std::shared_ptr<performance::phase3::PerQueryCostModel>
+QueryOptimizer::perQueryCostModel() const {
+    return per_query_cost_model_;
+}
+
+Result<std::vector<std::string>>
+QueryOptimizer::executeOptimizedKeysWithCost(QueryEngine& engine,
+                                              const ConjunctiveQuery& q,
+                                              const Plan& plan,
+                                              double estimated_cost) const {
+    if (per_query_cost_model_) {
+        auto guard = per_query_cost_model_->beginQuery("index_scan", estimated_cost);
+        auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
+        if (!result.has_value()) {
+            guard.end(0, 0);
+            return Err<std::vector<std::string>>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("Optimized key execution failed")
+            );
+        }
+        guard.end(result.value().size(), 0);
+        return Ok(result.value());
+    }
+    // No cost model attached – fall back to plain execute.
+    return executeOptimizedKeys(engine, q, plan);
+}
+
+Result<std::vector<BaseEntity>>
+QueryOptimizer::executeOptimizedEntitiesWithCost(QueryEngine& engine,
+                                                  const ConjunctiveQuery& q,
+                                                  const Plan& plan,
+                                                  double estimated_cost) const {
+    if (per_query_cost_model_) {
+        auto guard = per_query_cost_model_->beginQuery("table_scan", estimated_cost);
+        auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
+        if (!result.has_value()) {
+            guard.end(0, 0);
+            return Err<std::vector<BaseEntity>>(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("Optimized entity execution failed")
+            );
+        }
+        guard.end(result.value().size(), 0);
+        return Ok(result.value());
+    }
+    return executeOptimizedEntities(engine, q, plan);
 }
 
 // ---------------- Vector+Geo Cost Model ----------------
