@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     1576                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
@@ -1577,6 +1577,74 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
     } catch (...) {
         return false;
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Cost model calibration from execution history
+// ─────────────────────────────────────────────────────────────────────────────
+
+GraphQueryOptimizer::CostModelCalibrationReport
+GraphQueryOptimizer::calibrateFromHistory() {
+    CostModelCalibrationReport report;
+
+    if (execution_history_.empty()) {
+        return report;
+    }
+
+    // Group execution times by algorithm
+    std::unordered_map<TraversalAlgorithm,
+                       std::vector<double>,
+                       std::hash<TraversalAlgorithm>> times_by_algo;
+
+    for (const auto& stats : execution_history_) {
+        times_by_algo[stats.algorithm].push_back(stats.execution_time_ms);
+    }
+
+    report.total_samples = execution_history_.size();
+
+    for (auto& [algo, times] : times_by_algo) {
+        const size_t n = times.size();
+
+        // Compute mean
+        double sum = 0.0;
+        for (double t : times) sum += t;
+        const double mean = sum / static_cast<double>(n);
+
+        // Compute variance / stddev
+        double variance = 0.0;
+        for (double t : times) {
+            double diff = t - mean;
+            variance += diff * diff;
+        }
+        const double stddev = n > 1 ? std::sqrt(variance / static_cast<double>(n - 1)) : 0.0;
+
+        // Min / max
+        const double mn = *std::min_element(times.begin(), times.end());
+        const double mx = *std::max_element(times.begin(), times.end());
+
+        AlgorithmCalibrationStats ast;
+        ast.mean_execution_ms   = mean;
+        ast.stddev_execution_ms = stddev;
+        ast.min_execution_ms    = mn;
+        ast.max_execution_ms    = mx;
+        ast.sample_count        = n;
+        report.algorithm_stats[algo] = ast;
+
+        // Re-seed the EMA only when adaptive learning is enabled and there
+        // are enough samples to produce a statistically meaningful estimate.
+        if (adaptive_learning_enabled_ && n >= MIN_CALIBRATION_SAMPLES) {
+            AlgorithmCostModel& model = algo_cost_models_[algo];
+            model.ema_cost_ms = mean;
+            model.exec_count  = static_cast<uint32_t>(
+                std::min<size_t>(n, std::numeric_limits<uint32_t>::max()));
+            model.confidence  = std::min(
+                1.0,
+                static_cast<double>(n) / AlgorithmCostModel::MAX_CONF_OBS);
+            ++report.algorithms_calibrated;
+        }
+    }
+
+    return report;
 }
 
 } // namespace graph
