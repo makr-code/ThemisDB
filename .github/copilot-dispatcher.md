@@ -1,11 +1,62 @@
 # Copilot Issue Dispatcher
 
-## Overview
+## PR Body Format (Copilot Agent Task)
+
+Every PR created by the dispatcher uses the **Copilot Agent Task** format so that
+the GitHub Copilot agent can immediately understand the task scope:
+
+```markdown
+### @Copilot agent task
+
+#### Problem Statement
+- **Issue:** [#<N> – <title>](<url>)
+- <first non-heading line of the issue body, up to 200 characters>
+
+#### Acceptance Criteria
+- [ ] <checkbox items extracted from the issue body>
+      (falls back to "Resolve issue #<N>: <title>" when the issue body has no checkboxes)
+
+#### Task Type
+agent-task
+
+---
+
+Closes #<N>
+```
+
+### Acceptance Criteria extraction
+
+The dispatcher scans the issue body for Markdown task-list items
+(`- [ ] …` or `* [ ] …`).  All matched items are re-emitted as open checkboxes
+in the PR body.  When the issue body contains no checkboxes the dispatcher
+generates a single default criterion:
+
+```
+- [ ] Resolve issue #<N>: <issue title>
+```
+
+---
+
 
 The Copilot Issue Dispatcher is a GitHub Actions automation that keeps up to
 **5** Copilot-working PRs active at a time.  When capacity is freed it
 automatically pulls the next issues from a labeled queue and creates PRs for
 them.
+
+---
+
+## Overview
+
+The dispatcher runs on a scheduled heartbeat (every 30 min) and on PR/CI
+events.  For every eligible issue it:
+
+1. Creates a branch off the configured base branch (`develop` by default).
+2. Pushes a placeholder commit when the branch has no diff yet.
+3. Opens a PR whose body follows the **Copilot Agent Task** format (see below).
+4. Applies the labels `pr/copilot`, `copilot/status-working`, `copilot-pr`,
+   and `agent:copilot-task`.
+5. Assigns the `copilot` bot (configurable) and the issue author.
+6. Requests a review from both the `copilot` bot and the issue author.
 
 ---
 
@@ -29,6 +80,7 @@ them.
 | `copilot/status-ready-requested` | Copilot signals it is done. The readiness gate will promote this to `copilot/status-ready` once all CI checks pass **and** the required Copilot review is present. |
 | `copilot/status-ready` | Copilot work is complete and all gates are green. This PR **no longer counts** against the WIP limit. Human review and merge remain fully independent. |
 | `copilot/status-blocked` | Copilot cannot proceed. The PR stays in the WIP count until a human intervenes. |
+| `agent:copilot-task` | PR body follows the `@Copilot agent task` format. Set on all dispatcher-created PRs. |
 
 ---
 
@@ -215,11 +267,33 @@ skip it) or manually remove the `pr/copilot` label.
 ```
 active = open PRs with label pr/copilot AND NOT label copilot/status-ready
 needed = wip_limit - active
+today  = PRs with label pr/copilot created on the current UTC calendar day
 ```
 
-The dispatcher selects up to `needed` open issues that carry
+The dispatcher selects up to `min(needed, daily_dispatch_limit - today)` open issues that carry
 `queue/copilot` but NOT `in-progress/copilot` and NOT `blocked` / `status:blocked`,
 in creation-date order (oldest first).
+
+### Daily dispatch limit
+
+The `daily_dispatch_limit` setting caps the total number of new Copilot PRs created
+across **all runs within one UTC calendar day**.  The dispatcher queries how many
+`pr/copilot` PRs were already created today and stops once that count reaches the
+configured limit.
+
+| Value | Behaviour |
+|---|---|
+| `50` (default) | At most 50 new Copilot PRs per day |
+| `0` | Daily limit disabled – only `wip_limit` applies |
+| any positive integer | PRs created that calendar day (UTC) |
+
+Configure in `.github/copilot-dispatcher.yml`:
+
+```yaml
+# Maximum number of issues processed per UTC calendar day.
+# Set to 0 to disable.
+daily_dispatch_limit: 50
+```
 
 ---
 
@@ -254,6 +328,7 @@ Or create the required labels manually:
 | `copilot/status-ready-requested` | PR | Copilot signals done; awaiting readiness gate promotion |
 | `copilot/status-ready` | PR | All gates green; PR no longer counts against WIP limit |
 | `copilot/status-blocked` | PR | Copilot cannot proceed; human intervention required |
+| `agent:copilot-task` | PR | PR body uses the `@Copilot agent task` format; set by the dispatcher on every PR it creates |
 
 ---
 

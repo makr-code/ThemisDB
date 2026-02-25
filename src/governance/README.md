@@ -15,13 +15,17 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 ## Relevant Interfaces
 
 - `policy_engine.cpp` — core policy evaluation engine
-- `compliance_reporter.cpp` — GDPR/HIPAA compliance reporting
-- `retention_policy.cpp` — automated data retention
-- `data_classifier.cpp` — classification and labeling
+- `policy_manager.cpp` — policy lifecycle management (load, validate, activate)
+- `compliance_reporter.cpp` — GDPR/HIPAA/CCPA compliance reporting
+- `compliance_reporting.cpp` — report generation engine (JSON, CSV, HTML)
+- `data_lineage.cpp` — data lineage tracking for governed datasets
+- `ccpa_rules.cpp` — CCPA/CPRA data subject rights rule evaluators
+- `soc2_controls.cpp` — SOC 2 Trust Services Criteria controls and evidence collection
+- `policy_template.cpp` — built-in policy templates (GDPR, HIPAA, SOC 2, etc.)
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Policy engine and GDPR/HIPAA rule evaluation operational; hot-reload and OPA integration planned.
+**Maturity:** 🟡 Beta — Policy engine, GDPR/HIPAA/CCPA rule evaluation, SOC 2 controls, hot-reload, and compliance reporting operational; OPA integration planned.
 
 ## Components
 
@@ -33,9 +37,12 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 ## Features
 
 - Policy-based data access control
-- Compliance rule evaluation (GDPR, HIPAA, etc.)
+- Compliance rule evaluation (GDPR, HIPAA, CCPA/CPRA, etc.)
+- SOC 2 Trust Services Criteria controls and evidence collection (CC6.1, CC7.2, CC8.1, A1.1, C1.1, PI1.2)
 - Automated data retention policies
 - Data classification and labeling
+- CCPA/CPRA data subject rights enforcement
+- Policy hot-reload without service restart
 
 ## Documentation
 

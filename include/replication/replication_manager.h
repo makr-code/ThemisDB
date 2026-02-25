@@ -217,6 +217,80 @@ struct ReplicationConfig {
     std::vector<std::string> seed_nodes;
 };
 
+// ============================================================================
+// Lag-Based Read Traffic Shifter (v1.7.0)
+// ============================================================================
+
+/**
+ * LagBasedReadRouter
+ *
+ * Automatically shifts read traffic away from replicas whose replication lag
+ * exceeds a configurable threshold, routing those reads to healthier replicas
+ * or falling back to the primary.
+ *
+ * Algorithm:
+ *  - Each replica is eligible for reads only when its lag <= lag_threshold_ms.
+ *  - Among eligible replicas, the one with the lowest current lag is preferred
+ *    (ties broken by replica declaration order).
+ *  - If NO secondary is eligible, reads are redirected to the primary node.
+ *  - ReadPreference semantics are preserved: PRIMARY always uses primary;
+ *    SECONDARY returns empty when no eligible secondary exists.
+ *
+ * Usage:
+ *   LagBasedReadRouter::RouterConfig cfg;
+ *   cfg.lag_threshold_ms = 5000;
+ *   LagBasedReadRouter router(cfg);
+ *   auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+ *                                   replicas, primary_node_id);
+ */
+class LagBasedReadRouter {
+public:
+    struct RouterConfig {
+        /// Replicas with lag > lag_threshold_ms are excluded from read routing.
+        int64_t  lag_threshold_ms  = 10000;
+        /// When true, a replica that just recovered below the threshold is
+        /// re-admitted immediately rather than requiring a grace period.
+        bool     immediate_reentry = true;
+    };
+
+    /// Result of a routing decision.
+    struct RoutingDecision {
+        std::string node_id;                  ///< Selected node (empty = no eligible node)
+        bool        is_primary     = false;   ///< true when the primary was selected
+        int64_t     replica_lag_ms = -1;      ///< Lag of the selected replica (-1 for primary)
+        std::string reason;                   ///< Human-readable explanation
+    };
+
+    LagBasedReadRouter();  ///< Uses default RouterConfig (lag_threshold_ms = 10000)
+    explicit LagBasedReadRouter(const RouterConfig& config);
+
+    /**
+     * Select the best node to serve a read request.
+     *
+     * @param preference      Caller's read preference.
+     * @param replicas        Current snapshot of all replica infos.
+     * @param primary_node_id Node ID of the current primary.
+     * @return RoutingDecision describing which node to use and why.
+     */
+    RoutingDecision selectReplica(
+        ReadPreference preference,
+        const std::vector<ReplicaInfo>& replicas,
+        const std::string& primary_node_id) const;
+
+    /// Returns the number of replicas currently below the lag threshold.
+    size_t eligibleReplicaCount(const std::vector<ReplicaInfo>& replicas) const;
+
+    /// Export current routing state as Prometheus metrics.
+    std::string exportPrometheusMetrics(
+        const std::vector<ReplicaInfo>& replicas) const;
+
+    void setConfig(const RouterConfig& config);
+    const RouterConfig& getConfig() const { return config_; }
+
+private:
+    RouterConfig config_;
+};
+
 /**
  * Replication Statistics
  */
@@ -624,6 +698,21 @@ public:
     
     // Set read preference
     void setReadPreference(ReadPreference preference);
+
+    /**
+     * Select the best node for a read request using automated lag-based
+     * traffic shifting.
+     *
+     * Replicas whose replication lag exceeds
+     * `config_.max_replication_lag_ms` are excluded from read routing;
+     * if none are eligible the primary node is returned.
+     *
+     * @param preference Override read preference (uses configured default
+     *                   when not provided).
+     * @return RoutingDecision describing which node was chosen and why.
+     */
+    LagBasedReadRouter::RoutingDecision selectReadReplica(
+        std::optional<ReadPreference> preference = std::nullopt) const;
 
     // -----------------------------------------------------------------------
     // Raft leader lease reads for linearizable read-scale-out

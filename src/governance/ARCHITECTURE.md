@@ -52,6 +52,7 @@ Policy-Based Access Control (PBAC) architecture.
 | `review_scheduler.cpp` | Scheduled policy review reminders |
 | `compliance_reporter.cpp` | GDPR/HIPAA compliance reports |
 | `compliance_reporting.cpp` | Report generation engine (PDF, JSON, HTML) |
+| `soc2_controls.cpp` | SOC 2 Trust Services Criteria controls and evidence collection |
 
 ### 3.2 Component Diagram
 
