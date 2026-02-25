@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     389                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -19,6 +19,7 @@
 
 #include "server/policy_engine.h"
 #include "utils/audit_logger.h"
+#include "observability/metrics_collector.h"
 #include <ctime>
 #include <fstream>
 #include <filesystem>
@@ -270,6 +271,8 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
         }
         // OPA unavailable – fall through to native evaluation.
         metrics_.opa_fallback_total++;
+        observability::MetricsCollector::getInstance().addCounter(
+            "governance_opa_fallback_total", 1, {{"source", "policy_engine"}});
     }
 
     std::lock_guard<std::mutex> lock(mutex_);

@@ -1697,6 +1697,8 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/soc2_controls.cpp
+    ../src/governance/model_governance.cpp
+    ../src/governance/pci_dss_rules.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp

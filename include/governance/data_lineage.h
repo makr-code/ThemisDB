@@ -37,7 +37,8 @@ enum class LineageEventType {
     TRANSFORMATION,   ///< Schema or structural change
     QUERY,            ///< Data was accessed via a read query
     EXPORT,           ///< Data was exported outside the system
-    DELETION          ///< Data (or a version of it) was deleted
+    DELETION,         ///< Data (or a version of it) was deleted
+    MODEL_TRAINING    ///< Data was used as training data for an AI/ML model
 };
 
 /// Convert LineageEventType to a string label (used in metrics and JSON)

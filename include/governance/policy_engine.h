@@ -31,6 +31,10 @@
 #include <mutex>
 #include <filesystem>
 
+// Forward-declare ModelGovernancePolicy so policy_engine.h stays lean
+// (full type only needed in policy_engine.cpp)
+namespace themis { namespace governance { class ModelGovernancePolicy; struct ModelTrainingExportRequest; struct ModelGovernanceDecision; } }
+
 namespace themis {
 namespace utils {
     class AuditLogger;
@@ -130,6 +134,25 @@ public:
     /// Return true if the given subject ID is registered as opted-out.
     bool isCcpaOptedOut(const std::string& subject_id) const;
 
+    // ---- AI/ML Model Governance --------------------------------------------
+
+    /// Attach a ModelGovernancePolicy used by checkExportPermission().
+    /// Thread-safe; atomically replaces the previous instance.
+    void setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy);
+
+    /// Evaluate whether a training-data export is permitted.
+    ///
+    /// Delegates to the configured ModelGovernancePolicy (if set).  When no
+    /// ModelGovernancePolicy has been attached, the method applies the built-in
+    /// classification fallback: "geheim" and "streng-geheim" datasets are
+    /// always denied; all other classifications are permitted.
+    ///
+    /// Must be called before any training-purpose export begins.
+    /// @return ModelGovernanceDecision with is_permitted and, on denial,
+    ///         denial_reason; on approval, lineage_event_id is populated.
+    ModelGovernanceDecision checkExportPermission(
+        const ModelTrainingExportRequest& request) const;
+
     // Evaluate headers for a given route key (e.g., "/vector/search" or handler name)
     // If audit logger is set and mode is "enforce", logs the policy decision
     PolicyDecision evaluate(const std::unordered_map<std::string, std::string>& headers,
@@ -165,6 +188,9 @@ private:
 
     // CCPA/CPRA opt-out registry (may be null – treated as empty)
     std::shared_ptr<std::unordered_set<std::string>> ccpa_opt_out_subjects_;
+
+    // AI/ML model governance policy (optional; used by checkExportPermission())
+    std::shared_ptr<ModelGovernancePolicy> model_governance_policy_;
 
     static std::string normalize(const std::string& s);
 };
