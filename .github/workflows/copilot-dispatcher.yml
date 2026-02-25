@@ -44,7 +44,7 @@ jobs:
             const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
 
             // ── Load configuration ──────────────────────────────────────────
-            let config = { max_delegations_per_run: 5, base_branch: 'develop' };
+            let config = { max_delegations_per_run: 2, base_branch: 'develop' };
             try {
               const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
               config = { ...config, ...yaml.load(raw) };

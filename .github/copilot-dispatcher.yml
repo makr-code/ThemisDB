@@ -5,7 +5,7 @@
 # The dispatcher posts a delegation comment (mentioning @copilot) on each qualifying
 # issue and sets the copilot/delegated label.  Copilot then opens the PR itself.
 # Set to 0 to process all queued issues in every run (not recommended).
-max_delegations_per_run: 5
+max_delegations_per_run: 2
 
 # Base branch that Copilot should target when opening pull requests.
 # This is communicated to Copilot via the delegation comment.
