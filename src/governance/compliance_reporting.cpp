@@ -1096,6 +1096,7 @@ nlohmann::json ComplianceReporter::CcpaReport::toJson() const {
     j["missing_right_to_know"]            = missing_right_to_know;
     j["missing_right_to_delete"]          = missing_right_to_delete;
     j["missing_opt_out_of_sale"]          = missing_opt_out_of_sale;
+    j["missing_data_portability"]         = missing_data_portability;
     j["start_time"]                       = start_time;
     j["end_time"]                         = end_time;
     j["generated_at"]                     = generated_at;
@@ -1111,6 +1112,7 @@ std::string ComplianceReporter::CcpaReport::toCSV() const {
     csv << "missing_right_to_know_count," << missing_right_to_know.size() << "\n";
     csv << "missing_right_to_delete_count," << missing_right_to_delete.size() << "\n";
     csv << "missing_opt_out_of_sale_count," << missing_opt_out_of_sale.size() << "\n";
+    csv << "missing_data_portability_count," << missing_data_portability.size() << "\n";
     csv << "third_party_disclosure_count," << third_party_disclosure_rule_ids.size() << "\n";
     csv << "generated_at," << generated_at << "\n";
     return csv.str();
@@ -1135,9 +1137,10 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
     report.opt_out_count = opt_out_count_param;
 
     // Rule evaluators (stateless, stack-allocated)
-    RightToKnow  rtk;
-    RightToDelete rtd;
-    OptOutOfSale  oos;
+    RightToKnow   rtk;
+    RightToDelete  rtd;
+    OptOutOfSale   oos;
+    DataPortability dp;
 
     // Collect unique data categories from classification levels
     std::unordered_set<std::string> categories_seen;
@@ -1174,6 +1177,12 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
         // Opt-Out of Sale: export must be gated (disabled or signature-required)
         if (!oos.evaluate(rule)) {
             report.missing_opt_out_of_sale.push_back(rule.id);
+            rule_fully_compliant = false;
+        }
+
+        // Data Portability: export or audit access must be available
+        if (!dp.evaluate(rule)) {
+            report.missing_data_portability.push_back(rule.id);
             rule_fully_compliant = false;
         }
 

@@ -170,10 +170,25 @@ TEST(DataPortability, CompliantWhenExportAllowed) {
     EXPECT_TRUE(dp.evaluate(rule));
 }
 
-TEST(DataPortability, NonCompliantWhenExportBlocked) {
+TEST(DataPortability, CompliantWhenAuditAccessEnabled) {
+    // audit_access=true provides a path for manual portability fulfilment
+    DataPortability dp;
+    PolicyRule rule = makeRule("r1", /*audit_access=*/true, false, /*allow_export=*/false);
+    EXPECT_TRUE(dp.evaluate(rule));
+}
+
+TEST(DataPortability, NonCompliantWhenBothExportAndAuditBlocked) {
+    // No path to honour a portability request exists
+    DataPortability dp;
+    PolicyRule rule = makeRule("r1", /*audit_access=*/false, false, /*allow_export=*/false);
+    EXPECT_FALSE(dp.evaluate(rule));
+}
+
+TEST(DataPortability, DisabledRuleAlwaysCompliant) {
     DataPortability dp;
     PolicyRule rule = makeRule("r1", false, false, /*allow_export=*/false);
-    EXPECT_FALSE(dp.evaluate(rule));
+    rule.enabled = false;
+    EXPECT_TRUE(dp.evaluate(rule));
 }
 
 // ============================================================================
@@ -505,6 +520,7 @@ TEST_F(CcpaReportTest, ToJsonContainsExpectedKeys) {
     EXPECT_TRUE(j.contains("missing_right_to_know"));
     EXPECT_TRUE(j.contains("missing_right_to_delete"));
     EXPECT_TRUE(j.contains("missing_opt_out_of_sale"));
+    EXPECT_TRUE(j.contains("missing_data_portability"));
     EXPECT_EQ(j["opt_out_count"].get<int>(), 7);
 }
 

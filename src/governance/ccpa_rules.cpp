@@ -103,9 +103,14 @@ bool DataPortability::evaluate(const PolicyRule& rule) const {
     if (!rule.enabled) {
         return true;
     }
-    // A rule satisfies data portability when it permits export so consumers
-    // can receive a machine-readable copy of their personal data per §1798.100(d).
-    return rule.allow_export;
+    // A rule satisfies data portability when either:
+    //   • Direct automated export is allowed (allow_export=true), OR
+    //   • Audit access is enabled (audit_access=true) so that operators can
+    //     discover and manually fulfil consumer portability requests even when
+    //     automated export is restricted.
+    // A rule with allow_export=false AND audit_access=false leaves no viable
+    // path to honour a portability request and is therefore non-compliant.
+    return rule.allow_export || rule.audit_access;
 }
 
 // ============================================================================

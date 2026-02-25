@@ -253,6 +253,9 @@ public:
         /// Rules that do not satisfy the OptOutOfSale evaluator.
         std::vector<std::string> missing_opt_out_of_sale;
 
+        /// Rules that do not satisfy the DataPortability evaluator.
+        std::vector<std::string> missing_data_portability;
+
         /// Time window this report covers (Unix timestamps).
         int64_t start_time = 0;
         int64_t end_time   = 0;

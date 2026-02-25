@@ -140,18 +140,22 @@ public:
     bool evaluate(const PolicyRule& rule) const override;
 };
 
-/// CCPA Data Portability: verifies that a PolicyRule permits data export so
-/// consumers can receive a portable copy of their personal data.
+/// CCPA Data Portability: verifies that a PolicyRule provides a path for
+/// consumers to receive a portable copy of their personal data.
 class DataPortability final : public IComplianceRule {
 public:
     std::string id() const override { return "ccpa_data_portability"; }
     std::string framework() const override { return "CCPA"; }
     std::string description() const override {
         return "CCPA §1798.100(d): Consumer right to receive personal data in "
-               "a portable, machine-readable format. Requires allow_export=true "
-               "for personal data rules when the consumer requests a copy.";
+               "a portable, machine-readable format. A rule satisfies this "
+               "requirement when allow_export=true (automated export) OR "
+               "audit_access=true (data is discoverable for manual fulfilment). "
+               "A rule with both flags false leaves no path to honour a portability "
+               "request and is non-compliant.";
     }
-    /// A PolicyRule satisfies data portability when export is allowed.
+    /// A PolicyRule satisfies data portability when export is allowed OR
+    /// audit access enables manual discovery and fulfilment of the request.
     bool evaluate(const PolicyRule& rule) const override;
 };
 
