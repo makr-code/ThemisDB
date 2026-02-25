@@ -1,0 +1,20 @@
+# ThemisDB Operator – Metrics Service
+# Exposes the operator's Prometheus metrics endpoint for scraping.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: themisdb-operator-metrics
+  namespace: themisdb-system
+  labels:
+    app.kubernetes.io/name: themisdb-operator
+    app.kubernetes.io/managed-by: themisdb-operator
+spec:
+  selector:
+    app.kubernetes.io/name: themisdb-operator
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: metrics
+      protocol: TCP
+  type: ClusterIP
