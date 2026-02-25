@@ -28,12 +28,6 @@ static GeometryInfo makePolygon() {
     return g;
 }
 
-// Count how many points received the given label.
-static int countLabel(const std::vector<int>& labels, int label) {
-    return static_cast<int>(
-        std::count(labels.begin(), labels.end(), label));
-}
-
 // ---------------------------------------------------------------------------
 // DBSCAN: degenerate inputs
 // ---------------------------------------------------------------------------
