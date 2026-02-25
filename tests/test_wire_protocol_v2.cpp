@@ -157,6 +157,9 @@ TEST(V2ConnectionConfig, Defaults) {
     EXPECT_TRUE(cfg.enable_server_push);
     EXPECT_TRUE(cfg.enable_flow_control);
     EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_FALSE(cfg.enable_zstd_compression);
+    EXPECT_EQ(cfg.zstd_compression_level, 3);
+    EXPECT_EQ(cfg.min_compression_payload_size, 256u);
     EXPECT_EQ(cfg.port,             7890u);
     EXPECT_EQ(cfg.num_io_threads,   4u);
 }

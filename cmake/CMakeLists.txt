@@ -244,6 +244,7 @@ option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) wit
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
 # NOTE: These are automatically enabled when building tests/benchmarks for accurate performance measurement
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_JEMALLOC "Use jemalloc allocator as alternative (best fragmentation resistance, Linux/Mac only)" OFF)
 option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
 option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
 option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
@@ -326,6 +327,36 @@ if(THEMIS_ENABLE_MIMALLOC)
         endif()
     endif()
 endif()
+
+if(THEMIS_ENABLE_JEMALLOC)
+    if(WIN32)
+        message(WARNING "jemalloc is not supported on Windows. THEMIS_ENABLE_JEMALLOC will be ignored.")
+        set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not supported on Windows" FORCE)
+    else()
+        message(STATUS "Enabling jemalloc allocator (best fragmentation resistance for RocksDB-heavy workloads)")
+        if(THEMIS_ENABLE_MIMALLOC)
+            message(WARNING "Both THEMIS_ENABLE_JEMALLOC and THEMIS_ENABLE_MIMALLOC are ON. jemalloc takes priority.")
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Disabled: jemalloc selected" FORCE)
+        endif()
+        find_package(jemalloc CONFIG QUIET)
+        if(NOT jemalloc_FOUND)
+            # Try pkg-config fallback
+            find_package(PkgConfig QUIET)
+            if(PkgConfig_FOUND)
+                pkg_check_modules(jemalloc QUIET jemalloc)
+            endif()
+        endif()
+        if(NOT jemalloc_FOUND AND NOT jemalloc_LIBRARIES)
+            message(WARNING "jemalloc not found via vcpkg or pkg-config. Install with: vcpkg install jemalloc OR apt install libjemalloc-dev")
+            message(WARNING "Building without jemalloc. Performance optimization disabled.")
+            set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not available" FORCE)
+        else()
+            message(STATUS "Found jemalloc")
+            add_compile_definitions(THEMIS_ENABLE_JEMALLOC)
+        endif()
+    endif()
+endif()
+
 
 if(THEMIS_ENABLE_HUGE_PAGES)
     message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
@@ -1087,6 +1118,33 @@ elseif(NOT zstd_FOUND)
     endif()
 endif()
 
+# Optional LZ4 for connection-level frame compression
+find_package(lz4 CONFIG QUIET)
+if(lz4_FOUND)
+    if(TARGET LZ4::lz4_shared)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+    elseif(TARGET LZ4::lz4_static)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_static)
+    elseif(TARGET lz4::lz4)
+        set(THEMIS_LZ4_TARGET lz4::lz4)
+    endif()
+    message(STATUS "LZ4 found via CONFIG")
+else()
+    # Fallback: pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(LZ4_PKG QUIET liblz4)
+        if(LZ4_PKG_FOUND AND NOT TARGET LZ4::lz4_shared)
+            add_library(LZ4::lz4_shared INTERFACE IMPORTED)
+            set_target_properties(LZ4::lz4_shared PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${LZ4_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${LZ4_PKG_LIBRARIES}")
+            set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+            message(STATUS "LZ4 found via pkg-config")
+        endif()
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -1549,8 +1607,15 @@ set(THEMIS_CORE_SOURCES
     ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
-    # Temporal conflict resolution
+    # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/temporal_aggregator.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/retention_manager.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -1709,6 +1774,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
+    ../src/geo/temporal_spatial_query.cpp
     ../src/geo/tile_server.cpp
     ../src/api/geo_index_hooks.cpp
     
@@ -2653,6 +2719,12 @@ if(DEFINED THEMIS_ZSTD_TARGET)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_ZSTD)
 endif()
 
+# Link LZ4 if available and define compile flag
+if(DEFINED THEMIS_LZ4_TARGET)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
+endif()
+
 # Define THEMIS_ENABLE_CURL if CURL is found
 if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
@@ -2767,6 +2839,18 @@ if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# Phase 3: Link jemalloc as alternative allocator (best fragmentation resistance)
+if(THEMIS_ENABLE_JEMALLOC)
+    if(jemalloc_FOUND)
+        target_link_libraries(themis_core PUBLIC jemalloc::jemalloc)
+    elseif(jemalloc_LIBRARIES)
+        target_link_libraries(themis_core PUBLIC ${jemalloc_LIBRARIES})
+        target_include_directories(themis_core PUBLIC ${jemalloc_INCLUDE_DIRS})
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_JEMALLOC)
+    message(STATUS "jemalloc linked to themis_core")
 endif()
 
 # FFmpeg support for video processing (optional)
