@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2257 – [replication] Automated topology management for Kubernetes
+**URL:** https://github.com/makr-code/ThemisDB/issues/2257
+**Branch:** copilot/issue-2257-replication-automated-topology-management-for-kube
+**Base:** develop
+**Created:** 2026-02-25T13:05:18.000Z
+
+Copilot will push real changes here to resolve the issue.
