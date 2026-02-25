@@ -30,6 +30,7 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Statistics Collector**: Table and index statistics
 - **Information Schema**: SQL-standard metadata views
 - **Metadata Cache**: Performance-optimized metadata caching
+- **Column Lineage Tracker**: Column-level derivation and data provenance
 
 ## Features
 
@@ -53,7 +54,10 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Metadata queries**: Query metadata like regular data
 - **Integration with AQL**: Use AQL to query schema
 
-### Performance Optimization
+### Column Lineage
+- **Column-level derivation tracking**: Record how each column was produced from source columns
+- **Transitive upstream/downstream traversal**: BFS through the derivation DAG
+- **Provenance export**: Structured JSON for compliance and audit
 - **Metadata caching**: Cache with configurable TTL (default 60s)
 - **Incremental updates**: Only scan changed tables
 - **Lazy loading**: Load metadata on demand
@@ -69,7 +73,8 @@ MetadataModule
 │   └─→ SecondaryIndexManager (index metadata)
 ├─→ StatisticsCollector (Table/index statistics)
 ├─→ SystemCatalog (Metadata persistence)
-└─→ InformationSchema (SQL-standard views)
+├─→ InformationSchema (SQL-standard views)
+└─→ ColumnLineageTracker (Column-level derivation DAG)
 ```
 
 ## Use Cases

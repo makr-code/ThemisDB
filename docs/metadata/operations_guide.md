@@ -282,6 +282,101 @@ stats_collector.clearStats("users");
 
 ---
 
+## Column Lineage and Data Provenance
+
+`ColumnLineageTracker` records how each column was derived from its source columns
+and exposes a directed acyclic graph (DAG) for transitive upstream/downstream
+traversal.  It operates entirely in-memory and is append-only: recorded entries
+are never modified or deleted.
+
+### Record a Derivation
+
+```cpp
+#include "metadata/column_lineage.h"
+
+using namespace themis::metadata;
+
+ColumnLineageTracker tracker;
+
+// ETL: full_name is computed from first_name + last_name
+ColumnLineageEntry entry;
+entry.target_column  = {"users", "full_name"};
+entry.source_columns = {{"users", "first_name"}, {"users", "last_name"}};
+entry.transformation = TransformationType::COMPUTED;
+entry.transformation_expression = "first_name || ' ' || last_name";
+entry.performed_by   = "etl-service";
+tracker.recordDerivation(entry);   // entry_id and timestamp auto-assigned
+
+// Type-cast: price_cents → price_eur
+ColumnLineageEntry cast_entry;
+cast_entry.target_column  = {"orders", "price_eur"};
+cast_entry.source_columns = {{"orders", "price_cents"}};
+cast_entry.transformation = TransformationType::CAST;
+cast_entry.transformation_expression = "price_cents / 100.0";
+tracker.recordDerivation(cast_entry);
+```
+
+### Query Upstream Sources (Transitive)
+
+```cpp
+// All columns that contributed to full_name, directly or transitively
+auto upstream = tracker.getUpstreamColumns({"users", "full_name"});
+for (const auto& ref : upstream) {
+    std::cout << ref.table_name << "." << ref.column_name << "\n";
+}
+```
+
+### Query Downstream Dependents (Transitive)
+
+```cpp
+// All columns derived from first_name, directly or transitively
+auto downstream = tracker.getDownstreamColumns({"users", "first_name"});
+```
+
+### Full Provenance Record (JSON)
+
+```cpp
+nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
+// {
+//   "column":             {"table": "users", "column": "full_name"},
+//   "entries":            [...],          // direct derivation entries
+//   "upstream_columns":   [...],          // transitive sources
+//   "downstream_columns": [...]           // transitive dependents
+// }
+```
+
+### Export Table or Full Lineage
+
+```cpp
+// All lineage entries for the "orders" table
+nlohmann::json tbl = tracker.exportTableLineage("orders");
+
+// Full lineage graph — {"entries": [...], "total_entries": N}
+nlohmann::json all = tracker.exportAllLineage();
+```
+
+### TransformationType Values
+
+| Value | Description |
+|-------|-------------|
+| `DIRECT_COPY` | Verbatim copy from a single source column |
+| `RENAME` | Column renamed; content identical to source |
+| `CAST` | Type cast applied (e.g. `INTEGER → DOUBLE`) |
+| `COMPUTED` | Arithmetic / string expression over one or more sources |
+| `AGGREGATION` | Aggregation function (SUM, AVG, COUNT, …) |
+| `ANONYMIZATION` | PII/PHI was anonymized or pseudonymized |
+| `ENRICHMENT` | Source enriched with data from an external source |
+| `CUSTOM` | Any other transformation; detail in `transformation_expression` |
+
+### Notes
+
+- `entry_id` and `timestamp_ms` are auto-assigned if left at their zero values.
+- The tracker is thread-safe: all public methods acquire a `std::mutex`.
+- No persistence is built in; use `exportAllLineage()` and store the JSON in
+  RocksDB (under a custom prefix, e.g. `lineage:col:`) for durability across restarts.
+
+---
+
 ## See Also
 
 - [`docs/metadata/schema_migration_runbook.md`](./schema_migration_runbook.md)
