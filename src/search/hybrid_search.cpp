@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     341                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -93,6 +93,22 @@ HybridSearch::HybridSearch(
 }
 
 HybridSearch::~HybridSearch() = default;
+
+// ============================================================================
+// Reranker attachment
+// ============================================================================
+
+void HybridSearch::setReranker(LlmReranker::LlmBackend backend,
+                                const LlmReranker::Config& config) {
+    if (!backend) {
+        reranker_.reset();
+        THEMIS_DEBUG("HybridSearch: LLM re-ranker disabled");
+        return;
+    }
+    reranker_.emplace(config, std::move(backend));
+    THEMIS_DEBUG("HybridSearch: LLM re-ranker attached (batch_size={}, llm_weight={:.2f})",
+                 config.batch_size, config.llm_weight);
+}
 
 std::vector<HybridSearch::Result> HybridSearch::search(
     const std::string& text_query,
@@ -197,11 +213,11 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     
     // Fuse results – wrapped in a safety-net catch to guarantee search() never throws
     try {
+        std::vector<Result> fused;
         if (config_.use_rrf) {
-            auto fused = reciprocalRankFusion(bm25_results, vector_results);
+            fused = reciprocalRankFusion(bm25_results, vector_results);
             THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
                        bm25_results.size(), vector_results.size(), fused.size());
-            return fused;
         } else {
             // Linear combination fallback
             std::unordered_map<std::string, Result> doc_map;
@@ -220,25 +236,59 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 doc.hybrid_score += config_.vector_weight * r.vector_score;
             }
             
-            std::vector<Result> combined;
-            combined.reserve(doc_map.size());
+            fused.reserve(doc_map.size());
             for (const auto& [_, result] : doc_map) {
-                combined.push_back(result);
+                fused.push_back(result);
             }
             
-            std::sort(combined.begin(), combined.end(),
+            std::sort(fused.begin(), fused.end(),
                       [](const Result& a, const Result& b) {
                           return a.hybrid_score > b.hybrid_score;
                       });
             
-            if (combined.size() > config_.k) {
-                combined.resize(config_.k);
+            if (fused.size() > config_.k) {
+                fused.resize(config_.k);
             }
             
             THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
-                       bm25_results.size(), vector_results.size(), combined.size());
-            return combined;
+                       bm25_results.size(), vector_results.size(), fused.size());
         }
+
+        // LLM re-ranking: optional Phase-3 post-processing step
+        if (reranker_ && !fused.empty() && !text_query.empty()) {
+            std::vector<LlmRerankCandidate> candidates;
+            candidates.reserve(fused.size());
+            for (const auto& r : fused) {
+                LlmRerankCandidate c;
+                c.document_id   = r.document_id;
+                c.content       = r.content;
+                c.initial_score = r.hybrid_score;
+                candidates.push_back(std::move(c));
+            }
+
+            auto reranked = reranker_->rerank(text_query, candidates);
+
+            // Rebuild Result list in LLM-determined order, updating hybrid_score
+            std::vector<Result> reranked_results;
+            reranked_results.reserve(reranked.size());
+            // Build a lookup map for O(1) access
+            std::unordered_map<std::string, const Result*> result_map;
+            for (const auto& r : fused) {
+                result_map[r.document_id] = &r;
+            }
+            for (const auto& rr : reranked) {
+                auto it = result_map.find(rr.document_id);
+                if (it != result_map.end()) {
+                    Result out = *(it->second);
+                    out.hybrid_score = rr.final_score;
+                    reranked_results.push_back(std::move(out));
+                }
+            }
+            THEMIS_INFO("LLM re-ranker: {} -> {} results", fused.size(), reranked_results.size());
+            return reranked_results;
+        }
+
+        return fused;
     } catch (const std::exception& e) {
         THEMIS_ERROR("HybridSearch fusion exception (returning empty): {}", e.what());
         return {};

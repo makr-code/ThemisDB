@@ -11,13 +11,15 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     198                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once
+
+#include "search/llm_reranker.h"
 
 #include <string>
 #include <vector>
@@ -178,6 +180,21 @@ public:
     void setConfig(const Config& config) { config_ = config; }
 
     /**
+     * @brief Attach an LLM re-ranker to the search pipeline.
+     *
+     * When set, `search()` applies the re-ranker as a final step after RRF
+     * fusion: the top-N fused results are scored by the LLM and returned in
+     * the re-ranked order.  Calling with a null @p backend removes any
+     * previously attached re-ranker (falls back to RRF order).
+     *
+     * @param backend  LLM callable (same signature as LlmReranker::LlmBackend).
+     *                 Pass nullptr to disable.
+     * @param config   Optional re-ranker configuration.
+     */
+    void setReranker(LlmReranker::LlmBackend backend,
+                     const LlmReranker::Config& config = LlmReranker::Config{});
+
+    /**
      * @brief Normalize scores in [min, max] to [0, 1].
      *
      * When all scores are equal (range == 0):
@@ -193,6 +210,7 @@ private:
     SecondaryIndexManager* fulltext_index_;
     VectorIndexManager* vector_index_;
     Config config_;
+    std::optional<LlmReranker> reranker_; ///< Optional LLM re-ranker (Phase 3)
 };
 
 } // namespace themis
