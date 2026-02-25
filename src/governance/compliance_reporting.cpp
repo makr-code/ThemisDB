@@ -18,6 +18,7 @@
  */
 
 #include "governance/compliance_reporting.h"
+#include "governance/ccpa_rules.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -26,6 +27,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cmath>
+#include <unordered_set>
 #include <ctime>
 #include <cstdio>
 
@@ -1389,6 +1391,128 @@ std::string ComplianceReporter::generateHTMLHeader(const std::string& title) con
 
 std::string ComplianceReporter::generateHTMLFooter() const {
     return "</body></html>";
+}
+
+// ========== ComplianceReporter::CcpaReport Implementation ==========
+
+nlohmann::json ComplianceReporter::CcpaReport::toJson() const {
+    nlohmann::json j;
+    j["data_categories"]                  = data_categories;
+    j["third_party_disclosure_rule_ids"]  = third_party_disclosure_rule_ids;
+    j["opt_out_count"]                    = opt_out_count;
+    j["ccpa_compliant_rules"]             = ccpa_compliant_rules;
+    j["ccpa_non_compliant_rules"]         = ccpa_non_compliant_rules;
+    j["missing_right_to_know"]            = missing_right_to_know;
+    j["missing_right_to_delete"]          = missing_right_to_delete;
+    j["missing_opt_out_of_sale"]          = missing_opt_out_of_sale;
+    j["missing_data_portability"]         = missing_data_portability;
+    j["start_time"]                       = start_time;
+    j["end_time"]                         = end_time;
+    j["generated_at"]                     = generated_at;
+    return j;
+}
+
+std::string ComplianceReporter::CcpaReport::toCSV() const {
+    std::ostringstream csv;
+    csv << "Field,Value\n";
+    csv << "opt_out_count," << opt_out_count << "\n";
+    csv << "ccpa_compliant_rules," << ccpa_compliant_rules << "\n";
+    csv << "ccpa_non_compliant_rules," << ccpa_non_compliant_rules << "\n";
+    csv << "missing_right_to_know_count," << missing_right_to_know.size() << "\n";
+    csv << "missing_right_to_delete_count," << missing_right_to_delete.size() << "\n";
+    csv << "missing_opt_out_of_sale_count," << missing_opt_out_of_sale.size() << "\n";
+    csv << "missing_data_portability_count," << missing_data_portability.size() << "\n";
+    csv << "third_party_disclosure_count," << third_party_disclosure_rule_ids.size() << "\n";
+    csv << "generated_at," << generated_at << "\n";
+    return csv.str();
+}
+
+// ========== ComplianceReporter::generateCcpaReport Implementation ==========
+
+ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
+    const PolicyManager& policy_mgr,
+    int opt_out_count_param,
+    int64_t start_time,
+    int64_t end_time
+) const {
+    THEMIS_INFO("Generating CCPA/CPRA compliance report");
+
+    CcpaReport report;
+    report.start_time    = start_time;
+    report.end_time      = end_time;
+    report.generated_at  = std::chrono::duration_cast<std::chrono::seconds>(
+                               std::chrono::system_clock::now().time_since_epoch()
+                           ).count();
+    report.opt_out_count = opt_out_count_param;
+
+    // Rule evaluators (stateless, stack-allocated)
+    RightToKnow   rtk;
+    RightToDelete  rtd;
+    OptOutOfSale   oos;
+    DataPortability dp;
+
+    // Collect unique data categories from classification levels
+    std::unordered_set<std::string> categories_seen;
+    auto all_rules = policy_mgr.listRules();
+
+    for (const auto& rule : all_rules) {
+        if (!rule.enabled) continue;
+
+        // Collect data categories from classification levels
+        if (!rule.classification_level.empty()) {
+            categories_seen.insert(rule.classification_level);
+        }
+
+        // Identify rules that allow export (third-party disclosure candidates)
+        if (rule.allow_export) {
+            report.third_party_disclosure_rule_ids.push_back(rule.id);
+        }
+
+        // Evaluate all CCPA rules
+        bool rule_fully_compliant = true;
+
+        // Right to Know: requires audit_access
+        if (!rtk.evaluate(rule)) {
+            report.missing_right_to_know.push_back(rule.id);
+            rule_fully_compliant = false;
+        }
+
+        // Right to Delete: requires audit_changes + reasonable retention
+        if (!rtd.evaluate(rule)) {
+            report.missing_right_to_delete.push_back(rule.id);
+            rule_fully_compliant = false;
+        }
+
+        // Opt-Out of Sale: export must be gated (disabled or signature-required)
+        if (!oos.evaluate(rule)) {
+            report.missing_opt_out_of_sale.push_back(rule.id);
+            rule_fully_compliant = false;
+        }
+
+        // Data Portability: export or audit access must be available
+        if (!dp.evaluate(rule)) {
+            report.missing_data_portability.push_back(rule.id);
+            rule_fully_compliant = false;
+        }
+
+        if (rule_fully_compliant) {
+            report.ccpa_compliant_rules++;
+        } else {
+            report.ccpa_non_compliant_rules++;
+        }
+    }
+
+    // Build sorted data categories list
+    report.data_categories.assign(categories_seen.begin(), categories_seen.end());
+    std::sort(report.data_categories.begin(), report.data_categories.end());
+
+    THEMIS_INFO(
+        "CCPA report: {} compliant, {} non-compliant rules; {} opt-out subjects; "
+        "{} third-party disclosure candidates",
+        report.ccpa_compliant_rules, report.ccpa_non_compliant_rules,
+        report.opt_out_count, report.third_party_disclosure_rule_ids.size());
+
+    return report;
 }
 
 } // namespace governance

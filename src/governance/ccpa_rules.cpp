@@ -5,344 +5,273 @@
   File:            ccpa_rules.cpp                                     ║
   Version:         0.0.1                                              ║
   Last Modified:   2026-02-25                                         ║
-  Author:          unknown                                            ║
+  Author:          ThemisDB Team                                      ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  CCPA/CPRA Data Subject Rights – Rule Evaluator Implementations      ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "governance/ccpa_rules.h"
 #include "utils/logger.h"
 
+#include <algorithm>
 #include <chrono>
 
 namespace themis {
 namespace governance {
 
-// ========== CcpaSubjectRecord ==========
+// ============================================================================
+// CcpaRuleEvalResult
+// ============================================================================
 
-nlohmann::json CcpaSubjectRecord::toJson() const {
-    nlohmann::json j;
-    j["subject_id"]               = subject_id;
-    j["data_categories"]          = data_categories;
-    j["opt_out_of_sale"]          = opt_out_of_sale;
-    j["opt_out_of_sharing"]       = opt_out_of_sharing;
-    j["deletion_requested"]       = deletion_requested;
-    j["right_to_know_requested"]  = right_to_know_requested;
-    j["portability_requested"]    = portability_requested;
-    j["third_party_disclosures"]  = third_party_disclosures;
-    j["opt_out_timestamp"]        = opt_out_timestamp;
-    j["last_updated"]             = last_updated;
-    return j;
-}
-
-CcpaSubjectRecord CcpaSubjectRecord::fromJson(const nlohmann::json& j) {
-    CcpaSubjectRecord rec;
-    if (j.contains("subject_id"))              rec.subject_id              = j["subject_id"].get<std::string>();
-    if (j.contains("data_categories"))         rec.data_categories         = j["data_categories"].get<std::vector<std::string>>();
-    if (j.contains("opt_out_of_sale"))         rec.opt_out_of_sale         = j["opt_out_of_sale"].get<bool>();
-    if (j.contains("opt_out_of_sharing"))      rec.opt_out_of_sharing      = j["opt_out_of_sharing"].get<bool>();
-    if (j.contains("deletion_requested"))      rec.deletion_requested      = j["deletion_requested"].get<bool>();
-    if (j.contains("right_to_know_requested")) rec.right_to_know_requested = j["right_to_know_requested"].get<bool>();
-    if (j.contains("portability_requested"))   rec.portability_requested   = j["portability_requested"].get<bool>();
-    if (j.contains("third_party_disclosures")) rec.third_party_disclosures = j["third_party_disclosures"].get<std::vector<std::string>>();
-    if (j.contains("opt_out_timestamp"))       rec.opt_out_timestamp       = j["opt_out_timestamp"].get<int64_t>();
-    if (j.contains("last_updated"))            rec.last_updated            = j["last_updated"].get<int64_t>();
-    return rec;
-}
-
-// ========== CcpaReport ==========
-
-nlohmann::json CcpaReport::toJson() const {
-    nlohmann::json j;
-    j["report_id"]                = report_id;
-    j["generated_at"]             = generated_at;
-    j["window_start"]             = window_start;
-    j["window_end"]               = window_end;
-    j["total_subjects"]           = total_subjects;
-    j["opted_out_of_sale"]        = opted_out_of_sale;
-    j["opted_out_of_sharing"]     = opted_out_of_sharing;
-    j["deletion_requests"]        = deletion_requests;
-    j["right_to_know_requests"]   = right_to_know_requests;
-    j["portability_requests"]     = portability_requests;
-    j["subjects_by_category"]     = subjects_by_category;
-    j["disclosures_by_third_party"] = disclosures_by_third_party;
-    return j;
-}
-
-// ========== CcpaRuleSet ==========
-
-void CcpaRuleSet::registerSubject(const CcpaSubjectRecord& record) {
-    std::lock_guard<std::mutex> lk(mutex_);
-    subjects_[record.subject_id] = record;
-}
-
-bool CcpaRuleSet::removeSubject(const std::string& subject_id) {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return subjects_.erase(subject_id) > 0;
-}
-
-std::optional<CcpaSubjectRecord> CcpaRuleSet::getSubject(const std::string& subject_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto it = subjects_.find(subject_id);
-    if (it == subjects_.end()) return std::nullopt;
-    return it->second;
-}
-
-int CcpaRuleSet::subjectCount() const {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(subjects_.size());
-}
-
-// ---- evaluateOptOutOfSale -----------------------------------------------
-
-CcpaEvaluationResult CcpaRuleSet::evaluateOptOutOfSale(
-    const CcpaEvaluationContext& ctx
-) const {
-    CcpaEvaluationResult result;
-    result.rule_id = RULE_OPT_OUT_OF_SALE;
-    result.audit_required = true;
-
-    // Rule is only relevant for sell/share actions
-    const bool is_sale_or_share = (ctx.action == "sell" || ctx.action == "share");
-    if (!is_sale_or_share) {
-        result.allowed = true;
-        result.reason  = "Action is not a sale or sharing; opt-out rule does not apply";
-        return result;
-    }
-
-    // Service providers are exempt from opt-out restrictions (§ 1798.140(ag))
-    if (ctx.is_service_provider) {
-        result.allowed = true;
-        result.reason  = "Requestor is a service provider; exempt from opt-out-of-sale rule";
-        return result;
-    }
-
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto it = subjects_.find(ctx.subject_id);
-    if (it == subjects_.end()) {
-        // No record: allow but flag for awareness
-        result.allowed = true;
-        result.reason  = "No CCPA record found for subject; allowing with no opt-out flag on file";
-        return result;
-    }
-
-    const auto& rec = it->second;
-
-    if (ctx.action == "sell" && rec.opt_out_of_sale) {
-        result.allowed = false;
-        result.reason  = "Subject has exercised right to opt out of sale (Cal. Civ. Code § 1798.120)";
-        result.required_actions = {"honor_opt_out", "notify_requestor"};
-        return result;
-    }
-
-    if (ctx.action == "share" && rec.opt_out_of_sharing) {
-        result.allowed = false;
-        result.reason  = "Subject has opted out of cross-context behavioral advertising sharing (CPRA § 1798.135)";
-        result.required_actions = {"honor_opt_out", "notify_requestor"};
-        return result;
-    }
-
-    result.allowed = true;
-    result.reason  = "Subject has not opted out; sale or sharing is permitted";
-    return result;
-}
-
-// ---- evaluateRightToDelete ----------------------------------------------
-
-CcpaEvaluationResult CcpaRuleSet::evaluateRightToDelete(
-    const CcpaEvaluationContext& ctx
-) const {
-    CcpaEvaluationResult result;
-    result.rule_id = RULE_RIGHT_TO_DELETE;
-    result.audit_required = true;
-
-    // Block read and share on data with a pending deletion request
-    const bool is_access = (ctx.action == "read" || ctx.action == "share");
-    if (!is_access) {
-        result.allowed = true;
-        result.reason  = "Action is not a read or share; right-to-delete rule does not apply";
-        return result;
-    }
-
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto it = subjects_.find(ctx.subject_id);
-    if (it == subjects_.end()) {
-        result.allowed = true;
-        result.reason  = "No CCPA record found for subject; no pending deletion request";
-        return result;
-    }
-
-    const auto& rec = it->second;
-
-    if (rec.deletion_requested) {
-        result.allowed = false;
-        result.reason  = "Subject has a pending deletion request (Cal. Civ. Code § 1798.105); "
-                         "data must not be accessed until deletion is fulfilled";
-        result.required_actions = {"fulfill_deletion_request", "notify_subject"};
-        return result;
-    }
-
-    result.allowed = true;
-    result.reason  = "No pending deletion request for subject";
-    return result;
-}
-
-// ---- evaluateRightToKnow ------------------------------------------------
-
-CcpaEvaluationResult CcpaRuleSet::evaluateRightToKnow(
-    const CcpaEvaluationContext& ctx
-) const {
-    CcpaEvaluationResult result;
-    result.rule_id = RULE_RIGHT_TO_KNOW;
-    result.audit_required = true;
-
-    // The right-to-know governs disclosure actions only
-    if (ctx.action != "disclose_categories" && ctx.action != "disclose_specific_pieces") {
-        result.allowed = true;
-        result.reason  = "Action is not a right-to-know disclosure; rule does not apply";
-        return result;
-    }
-
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto it = subjects_.find(ctx.subject_id);
-    if (it == subjects_.end()) {
-        // No record on file: operator must still respond within 45 days
-        result.allowed = true;
-        result.reason  = "No personal information on file for subject; respond with empty disclosure";
-        result.required_actions = {"send_disclosure_response"};
-        return result;
-    }
-
-    const auto& rec = it->second;
-
-    if (rec.right_to_know_requested) {
-        result.allowed = true;
-        result.reason  = "Right-to-know request on record; disclosure is permitted and required "
-                         "(Cal. Civ. Code § 1798.110 / § 1798.115)";
-        result.required_actions = {"send_disclosure_response", "record_fulfillment"};
-        return result;
-    }
-
-    // No pending request; block unsolicited disclosure of the full record
-    result.allowed = false;
-    result.reason  = "No right-to-know request on record; disclosure not triggered";
-    return result;
-}
-
-// ---- evaluateDataPortability --------------------------------------------
-
-CcpaEvaluationResult CcpaRuleSet::evaluateDataPortability(
-    const CcpaEvaluationContext& ctx
-) const {
-    CcpaEvaluationResult result;
-    result.rule_id = RULE_DATA_PORTABILITY;
-    result.audit_required = true;
-
-    if (ctx.action != "export") {
-        result.allowed = true;
-        result.reason  = "Action is not an export; data portability rule does not apply";
-        return result;
-    }
-
-    std::lock_guard<std::mutex> lk(mutex_);
-    auto it = subjects_.find(ctx.subject_id);
-    if (it == subjects_.end()) {
-        result.allowed = false;
-        result.reason  = "No personal information on file for subject; nothing to export";
-        return result;
-    }
-
-    const auto& rec = it->second;
-
-    if (rec.portability_requested) {
-        result.allowed = true;
-        result.reason  = "Data portability request on record; machine-readable export is permitted "
-                         "(Cal. Civ. Code § 1798.100)";
-        result.required_actions = {"produce_portable_export", "record_fulfillment"};
-        return result;
-    }
-
-    result.allowed = false;
-    result.reason  = "No portability request on record; export not authorized under CCPA";
-    return result;
-}
-
-// ---- evaluateAll --------------------------------------------------------
-
-CcpaEvaluationResult CcpaRuleSet::evaluateAll(
-    const CcpaEvaluationContext& ctx,
-    std::vector<CcpaEvaluationResult>* individual_results
-) const {
-    const std::vector<CcpaEvaluationResult> results = {
-        evaluateOptOutOfSale(ctx),
-        evaluateRightToDelete(ctx),
-        evaluateRightToKnow(ctx),
-        evaluateDataPortability(ctx),
+nlohmann::json CcpaRuleEvalResult::toJson() const {
+    return {
+        {"rule_id",        rule_id},
+        {"ccpa_check_id",  ccpa_check_id},
+        {"compliant",      compliant},
+        {"description",    description},
+        {"recommendation", recommendation}
     };
-
-    if (individual_results) {
-        *individual_results = results;
-    }
-
-    // Most restrictive wins: any denial overrides allows
-    for (const auto& r : results) {
-        if (!r.allowed) {
-            return r;
-        }
-    }
-
-    // All rules allowed – return the first result as representative
-    return results[0];
 }
 
-// ---- generateReport -----------------------------------------------------
+// ============================================================================
+// DataSubjectRequest
+// ============================================================================
 
-CcpaReport CcpaRuleSet::generateReport(
-    int64_t window_start_ms,
-    int64_t window_end_ms
-) const {
-    CcpaReport report;
-    report.generated_at = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    report.window_start = window_start_ms;
-    report.window_end   = window_end_ms;
+nlohmann::json DataSubjectRequest::toJson() const {
+    return {
+        {"request_id",     request_id},
+        {"subject_id",     subject_id},
+        {"request_type",   request_type},
+        {"timestamp",      timestamp},
+        {"status",         status},
+        {"denial_reason",  denial_reason}
+    };
+}
 
-    // Build a stable report ID from the generation timestamp
-    report.report_id = "ccpa_" + std::to_string(report.generated_at);
+// ============================================================================
+// RightToKnow
+// ============================================================================
 
-    std::lock_guard<std::mutex> lk(mutex_);
+bool RightToKnow::evaluate(const PolicyRule& rule) const {
+    // A rule satisfies right-to-know when it has audit access enabled so
+    // that the data inventory required by CCPA §1798.100 can be produced.
+    if (!rule.enabled) {
+        return true; // Disabled rules don't need to satisfy active requirements.
+    }
+    return rule.audit_access;
+}
 
-    for (const auto& [id, rec] : subjects_) {
-        // Filter by time window using last_updated timestamp
-        if (rec.last_updated > 0) {
-            if (rec.last_updated < window_start_ms || rec.last_updated >= window_end_ms) {
-                continue;
-            }
+// ============================================================================
+// RightToDelete
+// ============================================================================
+
+bool RightToDelete::evaluate(const PolicyRule& rule) const {
+    if (!rule.enabled) {
+        return true;
+    }
+    // A rule satisfies right-to-delete when:
+    //   1. It audits changes (deletion events are traceable).
+    //   2. The retention period is not set to an unreasonably long value
+    //      without justification (proxy: <= 3650 days / 10 years).
+    const bool audit_ok = rule.audit_changes;
+    const bool retention_ok = (rule.retention_days > 0 && rule.retention_days <= 3650);
+    return audit_ok && retention_ok;
+}
+
+// ============================================================================
+// OptOutOfSale
+// ============================================================================
+
+bool OptOutOfSale::evaluate(const PolicyRule& rule) const {
+    if (!rule.enabled) {
+        return true;
+    }
+    // A rule satisfies opt-out-of-sale when:
+    //   • Export is disabled by default (allow_export=false), OR
+    //   • A signature/consent is required before export (require_signature=true).
+    // This ensures that for opted-out subjects, data cannot flow to third
+    // parties unless the consumer explicitly consents.
+    return !rule.allow_export || rule.require_signature;
+}
+
+// ============================================================================
+// DataPortability
+// ============================================================================
+
+bool DataPortability::evaluate(const PolicyRule& rule) const {
+    if (!rule.enabled) {
+        return true;
+    }
+    // A rule satisfies data portability when either:
+    //   • Direct automated export is allowed (allow_export=true), OR
+    //   • Audit access is enabled (audit_access=true) so that operators can
+    //     discover and manually fulfil consumer portability requests even when
+    //     automated export is restricted.
+    // A rule with allow_export=false AND audit_access=false leaves no viable
+    // path to honour a portability request and is therefore non-compliant.
+    return rule.allow_export || rule.audit_access;
+}
+
+// ============================================================================
+// CcpaRuleSet
+// ============================================================================
+
+CcpaRuleSet::CcpaRuleSet() {
+    rules_.push_back(std::make_shared<RightToKnow>());
+    rules_.push_back(std::make_shared<RightToDelete>());
+    rules_.push_back(std::make_shared<OptOutOfSale>());
+    rules_.push_back(std::make_shared<DataPortability>());
+
+    THEMIS_DEBUG("CcpaRuleSet initialized with {} rule evaluators", rules_.size());
+}
+
+void CcpaRuleSet::addOptOut(const std::string& subject_id) {
+    if (subject_id.empty()) return;
+    std::lock_guard<std::mutex> lock(opt_out_mutex_);
+    opt_out_subjects_.insert(subject_id);
+    THEMIS_INFO("CCPA: subject '{}' added to opt-out registry", subject_id);
+}
+
+void CcpaRuleSet::removeOptOut(const std::string& subject_id) {
+    std::lock_guard<std::mutex> lock(opt_out_mutex_);
+    opt_out_subjects_.erase(subject_id);
+    THEMIS_INFO("CCPA: subject '{}' removed from opt-out registry", subject_id);
+}
+
+bool CcpaRuleSet::isOptedOut(const std::string& subject_id) const {
+    if (subject_id.empty()) return false;
+    std::lock_guard<std::mutex> lock(opt_out_mutex_);
+    return opt_out_subjects_.count(subject_id) > 0;
+}
+
+void CcpaRuleSet::setOptOutRegistry(const std::unordered_set<std::string>& subjects) {
+    std::lock_guard<std::mutex> lock(opt_out_mutex_);
+    opt_out_subjects_ = subjects;
+    THEMIS_INFO("CCPA: opt-out registry replaced with {} subjects", subjects.size());
+}
+
+size_t CcpaRuleSet::optOutCount() const {
+    std::lock_guard<std::mutex> lock(opt_out_mutex_);
+    return opt_out_subjects_.size();
+}
+
+std::vector<CcpaRuleEvalResult> CcpaRuleSet::evaluateRule(const PolicyRule& rule) const {
+    std::vector<CcpaRuleEvalResult> results;
+    results.reserve(rules_.size());
+
+    for (const auto& ccpa_rule : rules_) {
+        CcpaRuleEvalResult res;
+        res.rule_id       = rule.id;
+        res.ccpa_check_id = ccpa_rule->id();
+        res.compliant     = ccpa_rule->evaluate(rule);
+
+        if (res.compliant) {
+            res.description = "Rule '" + rule.name + "' satisfies " + ccpa_rule->id();
+        } else {
+            res.description   = "Rule '" + rule.name + "' does not satisfy " + ccpa_rule->id();
+            res.recommendation = ccpa_rule->description();
         }
-
-        ++report.total_subjects;
-
-        if (rec.opt_out_of_sale)         ++report.opted_out_of_sale;
-        if (rec.opt_out_of_sharing)      ++report.opted_out_of_sharing;
-        if (rec.deletion_requested)      ++report.deletion_requests;
-        if (rec.right_to_know_requested) ++report.right_to_know_requests;
-        if (rec.portability_requested)   ++report.portability_requests;
-
-        for (const auto& cat : rec.data_categories) {
-            ++report.subjects_by_category[cat];
-        }
-
-        for (const auto& tp : rec.third_party_disclosures) {
-            ++report.disclosures_by_third_party[tp];
-        }
+        results.push_back(std::move(res));
     }
 
-    THEMIS_INFO("Generated CCPA report {}: {} subjects in window [{}, {})",
-        report.report_id, report.total_subjects,
-        window_start_ms, window_end_ms);
+    return results;
+}
 
-    return report;
+bool CcpaRuleSet::isRuleCompliant(const PolicyRule& rule) const {
+    for (const auto& ccpa_rule : rules_) {
+        if (!ccpa_rule->evaluate(rule)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::vector<std::string> CcpaRuleSet::detectHipaaConflicts(const PolicyRule& rule) const {
+    std::vector<std::string> conflicts;
+
+    if (!rule.enabled) {
+        return conflicts;
+    }
+
+    // HIPAA mandates audit_access for PHI resources (audit controls).
+    // CCPA right-to-delete requires audit_changes.
+    // Conflict: HIPAA demands audit_access=true, but if audit_changes is
+    // simultaneously false, deletion events are invisible, violating CCPA.
+    if (rule.audit_access && !rule.audit_changes) {
+        conflicts.push_back(
+            "Rule '" + rule.id + "': HIPAA requires audit_access=true but CCPA "
+            "right-to-delete requires audit_changes=true. Enable audit_changes "
+            "to satisfy both frameworks simultaneously."
+        );
+    }
+
+    // HIPAA requires retention of PHI for 6 years (2190 days).
+    // CCPA right-to-delete allows consumers to request deletion before that.
+    // Conflict: retention_days < 2190 may violate HIPAA; >= 2190 may delay CCPA deletion.
+    // Flag when a rule has audit_access (HIPAA indicator) but a short retention
+    // that would prevent meeting the 6-year HIPAA minimum.
+    const int kHipaaMinRetentionDays = 2190; // 6 years
+    if (rule.audit_access && rule.retention_days > 0 &&
+        rule.retention_days < kHipaaMinRetentionDays) {
+        conflicts.push_back(
+            "Rule '" + rule.id + "': retention_days=" + std::to_string(rule.retention_days) +
+            " may be insufficient for HIPAA (min " + std::to_string(kHipaaMinRetentionDays) +
+            " days). Review whether CCPA right-to-delete applies to HIPAA-covered PHI."
+        );
+    }
+
+    return conflicts;
+}
+
+void CcpaRuleSet::recordRequest(const DataSubjectRequest& request) {
+    std::lock_guard<std::mutex> lock(requests_mutex_);
+    requests_.push_back(request);
+    THEMIS_INFO("CCPA: recorded {} request for subject '{}'",
+                request.request_type, request.subject_id);
+}
+
+std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsForSubject(
+    const std::string& subject_id
+) const {
+    std::lock_guard<std::mutex> lock(requests_mutex_);
+    std::vector<DataSubjectRequest> result;
+    for (const auto& req : requests_) {
+        if (req.subject_id == subject_id) {
+            result.push_back(req);
+        }
+    }
+    return result;
+}
+
+std::vector<DataSubjectRequest> CcpaRuleSet::getRequestsByType(
+    const std::string& request_type,
+    int64_t start_time,
+    int64_t end_time
+) const {
+    std::lock_guard<std::mutex> lock(requests_mutex_);
+    std::vector<DataSubjectRequest> result;
+    for (const auto& req : requests_) {
+        if (req.request_type == request_type &&
+            req.timestamp >= start_time &&
+            req.timestamp <= end_time) {
+            result.push_back(req);
+        }
+    }
+    return result;
+}
+
+int CcpaRuleSet::countOptOutRequests(int64_t start_time, int64_t end_time) const {
+    std::lock_guard<std::mutex> lock(requests_mutex_);
+    int count = 0;
+    for (const auto& req : requests_) {
+        if (req.request_type == "opt_out_of_sale" &&
+            req.timestamp >= start_time &&
+            req.timestamp <= end_time) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 } // namespace governance
