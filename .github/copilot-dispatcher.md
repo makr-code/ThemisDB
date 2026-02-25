@@ -24,6 +24,7 @@ them.
 | Label | Purpose |
 |---|---|
 | `pr/copilot` | Applied by the dispatcher to every PR it creates. |
+| `copilot-pr` | Applied by the dispatcher alongside `pr/copilot`; indicates this PR is created and managed by the Copilot dispatcher. |
 | `copilot/status-working` | Copilot is actively working on this PR. Counts against the 5-slot WIP limit. |
 | `copilot/status-ready-requested` | Copilot signals it is done. The readiness gate will promote this to `copilot/status-ready` once all CI checks pass **and** the required Copilot review is present. |
 | `copilot/status-ready` | Copilot work is complete and all gates are green. This PR **no longer counts** against the WIP limit. Human review and merge remain fully independent. |
@@ -95,6 +96,43 @@ draft: true
 
 ---
 
+## Automatic assignees and reviewer
+
+After a PR is successfully created the dispatcher automatically:
+
+1. **Assigns `copilot`** (or the login configured via `copilot_assignee_login`) as
+   an assignee on the PR so that GitHub routes the work to the Copilot agent.
+2. **Assigns the issue author** as an additional assignee on the PR.
+3. **Requests a review from the issue author** so they are notified and can
+   approve or request changes once Copilot finishes.
+
+Both the assignee and reviewer steps are non-fatal – if either API call fails
+(e.g. the user does not have repository access) a warning is logged and the
+dispatcher continues normally.
+
+### Configuration
+
+```yaml
+# copilot_assignee_login: GitHub login assigned as Copilot worker on every PR.
+# Set to "" to disable automatic Copilot assignment.
+copilot_assignee_login: "copilot"
+
+# add_issue_author_as_reviewer: when true (default) the issue author is added
+# as both an assignee and a review requester on the PR.
+add_issue_author_as_reviewer: true
+```
+
+### Prerequisites
+
+| Requirement | Details |
+|---|---|
+| **`copilot_assignee_login` user** | Must be a repository collaborator (or organisation member) with at least **Write** access. For the `copilot` bot, GitHub Copilot must be enabled at the organisation or repository level. |
+| **Issue author** | Must have at least **Read** access to the repository. GitHub silently drops reviewer requests for users with no repository access. |
+| **Workflow permissions** | The workflow already requests `pull-requests: write`, which covers both `addAssignees` and `requestReviewers`. No additional permission changes are needed. |
+| **`gh` CLI (manual use)** | If you need to assign/review manually: `gh pr edit <PR> --add-assignee copilot` and `gh pr edit <PR> --add-reviewer <login>` |
+
+---
+
 ## What to do when a PR is stuck
 
 1. Add the label **`copilot/status-blocked`** to the PR and leave a comment
@@ -149,6 +187,7 @@ Or create the required labels manually:
 | `queue/copilot` | Issue | Mark issue as eligible for Copilot processing |
 | `in-progress/copilot` | Issue | Claimed by dispatcher; an open Copilot PR exists |
 | `pr/copilot` | PR | PR was created by the dispatcher |
+| `copilot-pr` | PR | PR was created and is managed by the Copilot dispatcher (alias/supplement to `pr/copilot`) |
 | `copilot/status-working` | PR | Copilot is actively working; counts against WIP limit |
 | `copilot/status-ready-requested` | PR | Copilot signals done; awaiting readiness gate promotion |
 | `copilot/status-ready` | PR | All gates green; PR no longer counts against WIP limit |
