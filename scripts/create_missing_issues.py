@@ -67,17 +67,17 @@ def main():
     issues_to_create = [
         {
             "title": "[FEATURE] Phase 1: Named Snapshots (Semantic Tagging)",
-            "labels": ["type:enhancement", "area:storage", "priority:P0", "milestone:current"],
+            "labels": ["type:enhancement", "area:storage", "priority:critical", "milestone:current"],
             "body": "Implement Named Snapshots feature for ThemisDB's MVCC system.\n\nObjectives:\n- Semantic tagging of database states\n- Persistent tag storage in RocksDB\n- REST API for tag management\n- Foundation for Point-in-Time Recovery\n\nSee .github/ISSUE_TEMPLATE/git_features_phase1_named_snapshots.md for full implementation details.\n\nEstimated Duration: 3-4 weeks"
         },
         {
             "title": "[FEATURE] Phase 2: Diff API (Structured Diff)",
-            "labels": ["type:enhancement", "area:storage", "area:api", "priority:P1", "milestone:next"],
+            "labels": ["type:enhancement", "area:storage", "area:api", "priority:high", "milestone:next"],
             "body": "Implement a structured Diff API for ThemisDB's MVCC system.\n\nObjectives:\n- Structured diffs between any two database states\n- Filtering capabilities by table and key prefix\n- Pagination support for large diff results\n- Performance optimization (<100ms for 10K changes)\n\nSee .github/ISSUE_TEMPLATE/git_features_phase2_diff_api.md for full implementation details.\n\nEstimated Duration: 3-4 weeks\nDependencies: Phase 1 must be completed first"
         },
         {
             "title": "[FEATURE] Phase 3: Point-in-Time Recovery (PITR)",
-            "labels": ["type:enhancement", "area:storage", "priority:P0", "milestone:future"],
+            "labels": ["type:enhancement", "area:storage", "priority:critical", "milestone:future"],
             "body": "Implement Point-in-Time Recovery for ThemisDB's MVCC system.\n\nObjectives:\n- Safe restoration to any point in time\n- Automatic backup before restore operations\n- Dry-run mode for preview before execution\n- Selective restore (specific tables only)\n- Robust error handling with automatic rollback\n\nSee .github/ISSUE_TEMPLATE/git_features_phase3_pitr.md for full implementation details.\n\nEstimated Duration: 3-4 weeks\nDependencies: Phase 1 & Phase 2 must be completed first"
         }
     ]

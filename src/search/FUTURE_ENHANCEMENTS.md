@@ -119,6 +119,14 @@ The following high-priority features were delivered in v1.5.0:
   for direct consumption by `LearningToRank::recordClick()`, closing the feedback loop
 - Tests: `tests/test_llm_reranker.cpp`
 
+### HybridSearch LlmReranker integration (`include/search/hybrid_search.h`)
+- `HybridSearch::setReranker()` attaches an `LlmReranker` to the search pipeline
+- Applied as a post-fusion step after RRF (or linear combination): top-N results are re-scored
+  by the LLM and returned in LLM-determined order with updated `hybrid_score`
+- Null backend disables re-ranking; `search()` returns RRF order unchanged
+- `HybridSearch::Result::content` field forwarded to `LlmRerankCandidate::content`
+- Tests: `tests/test_hybrid_search.cpp` (`HybridSearchReranker` test group)
+
 ---
 
 ### Query Expansion and Rewriting
