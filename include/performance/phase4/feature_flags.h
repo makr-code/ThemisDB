@@ -48,6 +48,11 @@ public:
     bool pmem_enabled() const { return pmem_enabled_.load(std::memory_order_relaxed); }
     void set_pmem_enabled(bool enabled) { pmem_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // Hardware PMU counters for cache miss analysis
+    // Expected overhead: <1 ns per measurement point when amortised
+    bool pmu_enabled() const { return pmu_enabled_.load(std::memory_order_relaxed); }
+    void set_pmu_enabled(bool enabled) { pmu_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -58,6 +63,7 @@ private:
     Phase4FeatureFlags& operator=(const Phase4FeatureFlags&) = delete;
 
     std::atomic<bool> pmem_enabled_{false};
+    std::atomic<bool> pmu_enabled_{false};
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -66,6 +72,13 @@ private:
         (::themis::performance::phase4::Phase4FeatureFlags::instance().pmem_enabled())
 #else
     #define THEMIS_PHASE4_PMEM_ENABLED() (false)
+#endif
+
+#ifdef THEMIS_ENABLE_PMU_COUNTERS
+    #define THEMIS_PHASE4_PMU_ENABLED() \
+        (::themis::performance::phase4::Phase4FeatureFlags::instance().pmu_enabled())
+#else
+    #define THEMIS_PHASE4_PMU_ENABLED() (false)
 #endif
 
 } // namespace phase4
