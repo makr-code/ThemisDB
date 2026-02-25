@@ -82,7 +82,7 @@ Support for multiple GPUs and distributed computation.
 
 **Remaining (hardware required):**
 - `cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers
-- NVLink / XGMI topology detection
+- ~~NVLink / XGMI topology detection~~ (implemented via `GPUClusterTopology`)
 
 ---
 

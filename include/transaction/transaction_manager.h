@@ -70,9 +70,16 @@ public:
         bool ok = true;
         std::string message;
         /// Non-empty when the commit failed due to a write-write conflict and a
-        /// ConflictRecord was persisted.  Use ConflictManager::getConflict() to
-        /// retrieve full base/ours/theirs information.
+        /// ConflictRecord was persisted.  For single-key conflicts this is the
+        /// individual ConflictRecord ID.  When a ConflictSet is also created,
+        /// this field holds the conflict_set_id for backwards compatibility with
+        /// callers that only inspect conflict_id.
         std::string conflict_id;
+        /// ID of the ConflictSet that groups all per-key ConflictRecord artifacts
+        /// for this failed commit.  Use ConflictManager::getConflictSet() to
+        /// retrieve the full list of affected keys and individual conflict IDs.
+        /// Equal to conflict_id when set (both hold the set ID).
+        std::string conflict_set_id;
         /// Keys involved in the conflict (filled alongside conflict_id).
         std::vector<std::string> affected_keys;
         static Status OK() { return {}; }
@@ -80,10 +87,11 @@ public:
         static Status Conflict(std::string msg, std::string cid,
                                std::vector<std::string> keys) {
             Status s;
-            s.ok            = false;
-            s.message       = std::move(msg);
-            s.conflict_id   = std::move(cid);
-            s.affected_keys = std::move(keys);
+            s.ok              = false;
+            s.message         = std::move(msg);
+            s.conflict_id     = cid;
+            s.conflict_set_id = std::move(cid);
+            s.affected_keys   = std::move(keys);
             return s;
         }
     };

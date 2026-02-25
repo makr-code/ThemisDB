@@ -32,6 +32,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <atomic>
+#include <cstdint>
 
 namespace themis {
 
@@ -319,6 +320,15 @@ public:
     // Rebuild mit Fortschritts-Callback: progress(done,total) -> true=weiter, false=abbrechen
     void rebuildIndex(const std::string& table, const std::string& column,
                       std::function<bool(size_t,size_t)> progress);
+
+    // Online-Rebuild mit minimalem Lese-Impact:
+    // Baut den Index in einem Shadow-Prefix auf, während der Live-Index für Reads verfügbar
+    // bleibt. Am Ende wird in einem einzigen WriteBatch atomar auf den Live-Prefix umgeschaltet.
+    // throttle_us: Mikrosekunden Pause alle 100 Entities (0 = kein Throttling)
+    // progress: optionaler Callback progress(done,total) -> true=weiter, false=abbrechen
+    void rebuildIndexOnline(const std::string& table, const std::string& column,
+                            uint32_t throttle_us = 0,
+                            std::function<bool(size_t,size_t)> progress = nullptr);
     
     // Rebuild aller Indizes einer Tabelle
     void reindexTable(const std::string& table);
@@ -328,6 +338,7 @@ public:
         std::atomic<uint64_t> rebuild_count{0};           // Anzahl durchgeführter Rebuilds
         std::atomic<uint64_t> rebuild_duration_ms{0};     // Gesamtdauer aller Rebuilds in ms
         std::atomic<uint64_t> rebuild_entities_processed{0}; // Anzahl verarbeiteter Entities
+        std::atomic<uint64_t> online_rebuild_count{0};    // Anzahl durchgeführter Online-Rebuilds
     };
     
     // Query-Metriken (Prometheus): Zählwerte für Cursor/Range-Scans

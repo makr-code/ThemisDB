@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and CUDA stream creation in `GPUStreamManager` are implemented. Multi-node GPU coordination is still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -29,6 +29,9 @@
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
+- [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
+
+## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
 ## In Progress 🚧
@@ -69,7 +72,7 @@
 - [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
-### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)
+### Phase 2: Backend Parity & Cluster Coordination (Status: Complete ✅)
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
 - [x] GPU memory defragmentation routine (Target: Q2 2026)
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`, Target: Q3 2026)

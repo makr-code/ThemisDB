@@ -776,9 +776,12 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     if (!conflict_msg.empty()) return Status::Error(conflict_msg);
 
     // Capture pre-write (base) value for potential conflict record.
+    // Capture only on first write to this key so base reflects the snapshot value.
     if (history_mgr_ || conflict_mgr_) {
-        auto base = mvcc_txn_->get(key);
-        base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        if (base_values_.count(key) == 0) {
+            auto base = mvcc_txn_->get(key);
+            base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        }
         our_values_[key]  = serialized;
     }
 
@@ -789,7 +792,9 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 
     // Write atomic history entry in the same transaction.
     if (history_mgr_) {
-        history_mgr_->recordPut(*mvcc_txn_, key, serialized, id_);
+        if (!history_mgr_->recordPut(*mvcc_txn_, key, serialized, id_)) {
+            return Status::Error("putEntity: history write failed");
+        }
     }
     
     // Update secondary indexes using MVCC transaction for atomicity
@@ -813,9 +818,12 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     if (!conflict_msg.empty()) return Status::Error(conflict_msg);
 
     // Capture pre-delete (base) value for potential conflict record.
+    // Capture only on first write to this key so base reflects the snapshot value.
     if (history_mgr_ || conflict_mgr_) {
-        auto base = mvcc_txn_->get(key);
-        base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        if (base_values_.count(key) == 0) {
+            auto base = mvcc_txn_->get(key);
+            base_values_[key] = base ? std::move(*base) : std::vector<uint8_t>{};
+        }
         our_values_[key]  = {};  // deletion → empty "ours"
     }
 
@@ -826,7 +834,9 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
 
     // Write atomic tombstone history entry in the same transaction.
     if (history_mgr_) {
-        history_mgr_->recordDel(*mvcc_txn_, key, id_);
+        if (!history_mgr_->recordDel(*mvcc_txn_, key, id_)) {
+            return Status::Error("eraseEntity: history write failed");
+        }
     }
     
     // Update secondary indexes using MVCC transaction
@@ -1336,16 +1346,32 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         // Commit failed - MVCC conflict detected
         THEMIS_ERROR("Transaction {} commit failed - MVCC conflict, executing SAGA compensation", id_);
 
+        // Determine the conflict type from the underlying RocksDB failure reason.
+        auto failure_type = mvcc_txn_->getLastCommitFailureType();
+        std::string conflict_type;
+        switch (failure_type) {
+            case RocksDBWrapper::TransactionWrapper::CommitFailureType::Busy:
+                conflict_type = "busy"; break;
+            case RocksDBWrapper::TransactionWrapper::CommitFailureType::TimedOut:
+                conflict_type = "timeout"; break;
+            case RocksDBWrapper::TransactionWrapper::CommitFailureType::TryAgain:
+                conflict_type = "try_again"; break;
+            default:
+                conflict_type = "commit_error"; break;
+        }
+
         // Build and persist ConflictRecord(s) if a ConflictManager is available.
-        std::string first_conflict_id;
+        std::vector<std::string> conflict_record_ids;
         std::vector<std::string> conflict_keys;
+        std::string conflict_set_id;
         if (conflict_mgr_ && !our_values_.empty()) {
             for (const auto& [key, ours] : our_values_) {
                 conflict_keys.push_back(key);
                 ConflictRecord crec;
                 crec.base_key    = key;
                 crec.txn_id      = id_;
-                // base = snapshot value at txn start
+                crec.type        = conflict_type;
+                // base = snapshot value at txn start (captured once per key)
                 auto base_it = base_values_.find(key);
                 crec.base_value  = (base_it != base_values_.end()) ? base_it->second : std::vector<uint8_t>{};
                 crec.ours_value  = ours;
@@ -1353,19 +1379,24 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
                 auto theirs_raw = db_.get(key);
                 crec.theirs_value = theirs_raw ? std::move(*theirs_raw) : std::vector<uint8_t>{};
                 std::string cid = conflict_mgr_->storeConflict(crec);
-                if (first_conflict_id.empty()) {
-                    first_conflict_id = cid;
-                }
+                conflict_record_ids.push_back(cid);
             }
+
+            // Persist a ConflictSet grouping all per-key ConflictRecords.
+            ConflictSet cset;
+            cset.txn_id              = id_;
+            cset.conflict_record_ids = conflict_record_ids;
+            cset.affected_keys       = conflict_keys;
+            conflict_set_id = conflict_mgr_->storeConflictSet(cset);
         }
 
         saga_->compensate();
         if (lock_manager_) lock_manager_->releasePredicateLocks(id_);
 
-        if (!first_conflict_id.empty()) {
+        if (!conflict_set_id.empty()) {
             return Status::Conflict(
                 "commit: MVCC conflict detected, transaction must be retried",
-                first_conflict_id,
+                conflict_set_id,
                 std::move(conflict_keys)
             );
         }

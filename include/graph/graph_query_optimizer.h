@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     680                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
@@ -528,6 +528,68 @@ public:
      */
     const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>>&
         getAlgorithmCostModels() const { return algo_cost_models_; }
+
+    // -----------------------------------------------------------------------
+    // Cost Model Calibration from Execution History (v1.8.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Per-algorithm statistics derived from execution history.
+     */
+    struct AlgorithmCalibrationStats {
+        double mean_execution_ms  = 0.0;  ///< Mean actual execution time (ms)
+        double stddev_execution_ms = 0.0; ///< Standard deviation of execution times (ms)
+        double min_execution_ms   = 0.0;  ///< Minimum observed execution time (ms)
+        double max_execution_ms   = 0.0;  ///< Maximum observed execution time (ms)
+        size_t sample_count       = 0;    ///< Number of observations used
+    };
+
+    /**
+     * @brief Report produced by calibrateFromHistory().
+     *
+     * Contains per-algorithm statistics derived from the full execution
+     * history, and summary counts of how many algorithm models were updated.
+     */
+    struct CostModelCalibrationReport {
+        /// Per-algorithm statistics from the execution history.
+        std::unordered_map<TraversalAlgorithm,
+                           AlgorithmCalibrationStats,
+                           std::hash<TraversalAlgorithm>> algorithm_stats;
+
+        size_t total_samples         = 0;  ///< Total execution records analysed
+        size_t algorithms_calibrated = 0;  ///< Number of algorithm models re-seeded
+    };
+
+    /**
+     * @brief Recalibrate per-algorithm cost models from the full execution history.
+     *
+     * Unlike the incremental EMA update performed by `recordExecution()`, this
+     * method performs a **batch recalibration**: it groups all entries in the
+     * execution history by algorithm, computes the statistical mean, standard
+     * deviation, min and max of actual execution times, and re-seeds the EMA
+     * cost model for each algorithm that has at least
+     * `MIN_CALIBRATION_SAMPLES` observations.
+     *
+     * Re-seeding replaces `ema_cost_ms` with the historical mean and resets
+     * the confidence to `min(1.0, sample_count / MAX_CONF_OBS)` so the model
+     * immediately reflects the measured behaviour rather than waiting for the
+     * EMA to converge.
+     *
+     * Algorithms with fewer than `MIN_CALIBRATION_SAMPLES` observations are
+     * left unchanged (they appear in the report with `sample_count < threshold`
+     * but `algorithms_calibrated` is not incremented for them).
+     *
+     * @note Has no effect when `adaptive_learning_enabled_` is false; in that
+     *       case the report still contains statistics but no models are updated.
+     *
+     * @return CostModelCalibrationReport with per-algorithm statistics and
+     *         summary counts.
+     */
+    CostModelCalibrationReport calibrateFromHistory();
+
+    /// Minimum number of history samples required before an algorithm's
+    /// cost model is recalibrated by `calibrateFromHistory()`.
+    static constexpr size_t MIN_CALIBRATION_SAMPLES = 5;
 
     // -----------------------------------------------------------------------
     // Query Rate Limiter (v1.7.0)

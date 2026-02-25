@@ -1498,3 +1498,179 @@ TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsInfBucket) {
     auto res = handler_->handleMetricsPrometheus(req);
     EXPECT_NE(res.body().find("+Inf"), std::string::npos);
 }
+
+// ============================================================================
+// Cost Model Calibration from Execution History Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_EmptyHistoryReturnsEmptyReport) {
+    auto report = optimizer_->calibrateFromHistory();
+    EXPECT_EQ(report.total_samples, 0u);
+    EXPECT_EQ(report.algorithms_calibrated, 0u);
+    EXPECT_TRUE(report.algorithm_stats.empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_BelowThresholdDoesNotUpdateModel) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // Run fewer than MIN_CALIBRATION_SAMPLES (5) BFS executions
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 3; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    const double ema_before =
+        optimizer_->getAlgorithmCostModels().count(Algo::BFS)
+            ? optimizer_->getAlgorithmCostModels().at(Algo::BFS).ema_cost_ms
+            : -1.0;
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    EXPECT_EQ(report.total_samples, 3u);
+    EXPECT_EQ(report.algorithms_calibrated, 0u);  // below threshold
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    EXPECT_EQ(report.algorithm_stats.at(Algo::BFS).sample_count, 3u);
+
+    // EMA should be unchanged by calibration when below threshold
+    if (optimizer_->getAlgorithmCostModels().count(Algo::BFS)) {
+        EXPECT_DOUBLE_EQ(optimizer_->getAlgorithmCostModels().at(Algo::BFS).ema_cost_ms,
+                         ema_before);
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_AtThresholdUpdatesModel) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Run exactly MIN_CALIBRATION_SAMPLES BFS executions
+    const size_t threshold = themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES;
+    for (size_t i = 0; i < threshold; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    EXPECT_EQ(report.total_samples, threshold);
+    EXPECT_EQ(report.algorithms_calibrated, 1u);
+
+    // The model should have been re-seeded
+    ASSERT_NE(optimizer_->getAlgorithmCostModels().find(Algo::BFS),
+              optimizer_->getAlgorithmCostModels().end());
+    const auto& model = optimizer_->getAlgorithmCostModels().at(Algo::BFS);
+    EXPECT_GT(model.confidence, 0.0);
+    EXPECT_EQ(model.exec_count, static_cast<uint32_t>(threshold));
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_StatsAreCorrect) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Run many BFS executions so statistics are meaningful
+    for (int i = 0; i < 10; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    const auto& stats = report.algorithm_stats.at(Algo::BFS);
+    EXPECT_EQ(stats.sample_count, 10u);
+    EXPECT_GE(stats.mean_execution_ms, 0.0);
+    EXPECT_GE(stats.stddev_execution_ms, 0.0);
+    EXPECT_GE(stats.min_execution_ms, 0.0);
+    EXPECT_GE(stats.max_execution_ms, stats.min_execution_ms);
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_MultipleAlgorithms) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Run enough executions of both BFS and DFS
+    const size_t threshold = themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES;
+    for (size_t i = 0; i < threshold; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+        optimizer_->executeDFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    EXPECT_EQ(report.total_samples, threshold * 2);
+    EXPECT_EQ(report.algorithms_calibrated, 2u);
+    EXPECT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    EXPECT_NE(report.algorithm_stats.find(Algo::DFS), report.algorithm_stats.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_DisabledLearningSkipsModelUpdate) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+
+    // Run enough executions to fill history while learning is still on
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    const size_t threshold = themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES;
+    for (size_t i = 0; i < threshold; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    // Now disable adaptive learning before calibrating
+    optimizer_->enableAdaptiveLearning(false);
+    const double ema_before =
+        optimizer_->getAlgorithmCostModels().count(Algo::BFS)
+            ? optimizer_->getAlgorithmCostModels().at(Algo::BFS).ema_cost_ms
+            : 0.0;
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    // Stats are reported but no model update happens
+    EXPECT_EQ(report.algorithms_calibrated, 0u);
+    EXPECT_FALSE(report.algorithm_stats.empty());
+
+    // EMA unchanged
+    if (optimizer_->getAlgorithmCostModels().count(Algo::BFS)) {
+        EXPECT_DOUBLE_EQ(optimizer_->getAlgorithmCostModels().at(Algo::BFS).ema_cost_ms,
+                         ema_before);
+    }
+    optimizer_->enableAdaptiveLearning(true);
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ModelReseededToHistoricalMean) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Accumulate history
+    const size_t n = 10;
+    for (size_t i = 0; i < n; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    const double historical_mean = report.algorithm_stats.at(Algo::BFS).mean_execution_ms;
+
+    // After calibration the EMA should equal the historical mean
+    ASSERT_NE(optimizer_->getAlgorithmCostModels().find(Algo::BFS),
+              optimizer_->getAlgorithmCostModels().end());
+    EXPECT_DOUBLE_EQ(
+        optimizer_->getAlgorithmCostModels().at(Algo::BFS).ema_cost_ms,
+        historical_mean
+    );
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCount) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    const size_t n = 20;
+    for (size_t i = 0; i < n; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+    const double expected_confidence =
+        std::min(1.0, static_cast<double>(n) /
+                          themis::graph::GraphQueryOptimizer::AlgorithmCostModel::MAX_CONF_OBS);
+
+    ASSERT_NE(optimizer_->getAlgorithmCostModels().find(Algo::BFS),
+              optimizer_->getAlgorithmCostModels().end());
+    EXPECT_DOUBLE_EQ(
+        optimizer_->getAlgorithmCostModels().at(Algo::BFS).confidence,
+        expected_confidence
+    );
+}
