@@ -189,5 +189,27 @@ UnifiedPolicyDecision PolicyCoordinator::combineDecisions(
     return unified;
 }
 
+bool PolicyCoordinator::startHotReload(PolicyFileWatcher::Config config) {
+    if (!policy_engine_) {
+        THEMIS_WARN("PolicyCoordinator::startHotReload: no policy engine attached");
+        return false;
+    }
+    if (file_watcher_ && file_watcher_->isRunning()) {
+        return true;  // Already running
+    }
+    file_watcher_ = std::make_unique<PolicyFileWatcher>(*policy_engine_, std::move(config));
+    return file_watcher_->start();
+}
+
+void PolicyCoordinator::stopHotReload() {
+    if (file_watcher_) {
+        file_watcher_->stop();
+    }
+}
+
+bool PolicyCoordinator::isHotReloadRunning() const noexcept {
+    return file_watcher_ && file_watcher_->isRunning();
+}
+
 } // namespace governance
 } // namespace themis
