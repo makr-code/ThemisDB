@@ -29,8 +29,8 @@
 - [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
-- [P] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
-- [I] SOC 2 compliance controls and evidence collection (Issue: #1769)
+- [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
+- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [I] PCI-DSS data isolation rules (Issue: #1770)
 - [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
 - [I] Cross-tenant governance policy inheritance (Issue: #1772)

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1200                                           ║
+    • Total Lines:     1428                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -215,6 +215,80 @@ struct ReplicationConfig {
     
     // Initial cluster members
     std::vector<std::string> seed_nodes;
+};
+
+// ============================================================================
+// Lag-Based Read Traffic Shifter (v1.7.0)
+// ============================================================================
+
+/**
+ * LagBasedReadRouter
+ *
+ * Automatically shifts read traffic away from replicas whose replication lag
+ * exceeds a configurable threshold, routing those reads to healthier replicas
+ * or falling back to the primary.
+ *
+ * Algorithm:
+ *  - Each replica is eligible for reads only when its lag <= lag_threshold_ms.
+ *  - Among eligible replicas, the one with the lowest current lag is preferred
+ *    (ties broken by replica declaration order).
+ *  - If NO secondary is eligible, reads are redirected to the primary node.
+ *  - ReadPreference semantics are preserved: PRIMARY always uses primary;
+ *    SECONDARY returns empty when no eligible secondary exists.
+ *
+ * Usage:
+ *   LagBasedReadRouter::RouterConfig cfg;
+ *   cfg.lag_threshold_ms = 5000;
+ *   LagBasedReadRouter router(cfg);
+ *   auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+ *                                   replicas, primary_node_id);
+ */
+class LagBasedReadRouter {
+public:
+    struct RouterConfig {
+        /// Replicas with lag > lag_threshold_ms are excluded from read routing.
+        int64_t  lag_threshold_ms  = 10000;
+        /// When true, a replica that just recovered below the threshold is
+        /// re-admitted immediately rather than requiring a grace period.
+        bool     immediate_reentry = true;
+    };
+
+    /// Result of a routing decision.
+    struct RoutingDecision {
+        std::string node_id;                  ///< Selected node (empty = no eligible node)
+        bool        is_primary     = false;   ///< true when the primary was selected
+        int64_t     replica_lag_ms = -1;      ///< Lag of the selected replica (-1 for primary)
+        std::string reason;                   ///< Human-readable explanation
+    };
+
+    LagBasedReadRouter();  ///< Uses default RouterConfig (lag_threshold_ms = 10000)
+    explicit LagBasedReadRouter(const RouterConfig& config);
+
+    /**
+     * Select the best node to serve a read request.
+     *
+     * @param preference      Caller's read preference.
+     * @param replicas        Current snapshot of all replica infos.
+     * @param primary_node_id Node ID of the current primary.
+     * @return RoutingDecision describing which node to use and why.
+     */
+    RoutingDecision selectReplica(
+        ReadPreference preference,
+        const std::vector<ReplicaInfo>& replicas,
+        const std::string& primary_node_id) const;
+
+    /// Returns the number of replicas currently below the lag threshold.
+    size_t eligibleReplicaCount(const std::vector<ReplicaInfo>& replicas) const;
+
+    /// Export current routing state as Prometheus metrics.
+    std::string exportPrometheusMetrics(
+        const std::vector<ReplicaInfo>& replicas) const;
+
+    void setConfig(const RouterConfig& config);
+    const RouterConfig& getConfig() const { return config_; }
+
+private:
+    RouterConfig config_;
 };
 
 /**
@@ -624,6 +698,21 @@ public:
     
     // Set read preference
     void setReadPreference(ReadPreference preference);
+
+    /**
+     * Select the best node for a read request using automated lag-based
+     * traffic shifting.
+     *
+     * Replicas whose replication lag exceeds
+     * `config_.max_replication_lag_ms` are excluded from read routing;
+     * if none are eligible the primary node is returned.
+     *
+     * @param preference Override read preference (uses configured default
+     *                   when not provided).
+     * @return RoutingDecision describing which node was chosen and why.
+     */
+    LagBasedReadRouter::RoutingDecision selectReadReplica(
+        std::optional<ReadPreference> preference = std::nullopt) const;
 
     // -----------------------------------------------------------------------
     // Raft leader lease reads for linearizable read-scale-out
@@ -1203,6 +1292,162 @@ private:
     mutable std::shared_mutex subs_mutex_;
     std::vector<Subscription> subscriptions_;
     std::atomic<uint64_t>     next_id_{1};
+};
+
+// ============================================================================
+// Cross-Cluster Publish/Subscribe Replication – v1.7.0
+// ============================================================================
+
+/**
+ * PublicationFilter
+ *
+ * Specifies which WAL entries are forwarded to remote cluster subscribers.
+ * An empty filter (default) matches every entry.
+ */
+struct PublicationFilter {
+    std::vector<std::string> include_collections;  // empty = all collections
+    std::vector<std::string> include_operations;   // empty = all operations
+
+    // Returns true when `entry` satisfies all active filter criteria.
+    bool matches(const WALEntry& entry) const;
+};
+
+/**
+ * CrossClusterPublication
+ *
+ * Publishes WAL entries to remote cluster subscriptions.
+ * Implements IReplicationListener so it can be registered directly with
+ * ReplicationManager::addListener().  Every WAL entry that passes the
+ * configured filter is forwarded to all registered remote subscribers.
+ *
+ * Usage:
+ *   auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+ *   pub->setFilter(filter);
+ *   repl_mgr.addListener(pub);
+ *   pub->addRemoteSubscriber([](const WALEntry& e){ remote.apply(e); });
+ */
+class CrossClusterPublication : public IReplicationListener {
+public:
+    using RemoteSubscriberCallback = std::function<void(const WALEntry&)>;
+
+    explicit CrossClusterPublication(const std::string& name);
+
+    // Publication name
+    const std::string& name() const;
+
+    // Set / get the publication filter (thread-safe)
+    void setFilter(const PublicationFilter& filter);
+    PublicationFilter getFilter() const;
+
+    // Add a remote subscriber; returns an opaque subscriber ID
+    uint64_t addRemoteSubscriber(RemoteSubscriberCallback callback);
+
+    // Remove a remote subscriber by the ID returned from addRemoteSubscriber()
+    void removeRemoteSubscriber(uint64_t subscriber_id);
+
+    // Number of currently active remote subscribers
+    size_t subscriberCount() const;
+
+    // Total WAL entries that passed the filter and were delivered
+    uint64_t publishedCount() const;
+
+    // Apply filter and deliver `entry` to all remote subscribers
+    void publish(const WALEntry& entry);
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+    // -----------------------------------------------------------------------
+    // IReplicationListener overrides
+    // -----------------------------------------------------------------------
+    void onWALEntryApplied(const WALEntry& entry) override;
+    void onRoleChange(ReplicationRole, ReplicationRole) override {}
+    void onLeaderElected(const std::string&) override {}
+    void onReplicaAdded(const ReplicaInfo&) override {}
+    void onReplicaRemoved(const std::string&) override {}
+    void onConflictDetected(const std::string&) override {}
+    void onReplicationLagWarning(int64_t) override {}
+    void onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) override {}
+    void onFailoverStarted(const std::string&, const std::string&) override {}
+    void onFailoverCompleted(const std::string&, bool) override {}
+    void onNetworkPartitionDetected(const std::vector<std::string>&) override {}
+
+private:
+    struct RemoteSubscriber {
+        uint64_t id;
+        RemoteSubscriberCallback callback;
+    };
+
+    std::string name_;
+
+    mutable std::shared_mutex filter_mutex_;
+    PublicationFilter filter_;
+
+    mutable std::shared_mutex subs_mutex_;
+    std::vector<RemoteSubscriber> subscribers_;
+    std::atomic<uint64_t> next_id_{1};
+    std::atomic<uint64_t> published_count_{0};
+};
+
+/**
+ * CrossClusterSubscription
+ *
+ * Subscribes to a CrossClusterPublication and delivers received WAL entries
+ * to a local apply callback.  Tracks applied/error counts and the last
+ * applied sequence number for monitoring.
+ *
+ * Usage:
+ *   CrossClusterSubscription sub("orders_sub", pub,
+ *       [](const WALEntry& e){ local_store.apply(e); });
+ *   sub.enable();
+ */
+class CrossClusterSubscription {
+public:
+    using ApplyCallback = std::function<void(const WALEntry&)>;
+
+    CrossClusterSubscription(const std::string& name,
+                              std::shared_ptr<CrossClusterPublication> publication,
+                              ApplyCallback on_apply);
+
+    // Automatically unregisters from the publication on destruction
+    ~CrossClusterSubscription();
+
+    // Subscription name
+    const std::string& name() const;
+
+    // Register with the publication (idempotent)
+    void enable();
+
+    // Unregister from the publication (idempotent)
+    void disable();
+
+    // Whether the subscription is currently active
+    bool isEnabled() const;
+
+    // Count of entries successfully applied (no exception thrown)
+    uint64_t appliedCount() const;
+
+    // Highest sequence number successfully applied
+    uint64_t lastAppliedSequence() const;
+
+    // Count of apply-callback exceptions caught
+    uint64_t errorCount() const;
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+private:
+    std::string name_;
+    std::shared_ptr<CrossClusterPublication> publication_;
+    ApplyCallback on_apply_;
+
+    std::mutex enable_mutex_;
+    std::atomic<bool> enabled_{false};
+    uint64_t subscriber_id_{0};
+
+    std::atomic<uint64_t> applied_count_{0};
+    std::atomic<uint64_t> last_applied_seq_{0};
+    std::atomic<uint64_t> error_count_{0};
 };
 
 // ============================================================================

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     3925                                           ║
+    • Total Lines:     4199                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -3635,6 +3635,139 @@ std::string ReplicationAnalytics::exportPrometheusMetrics() const {
 }
 
 // ============================================================================
+// LagBasedReadRouter Implementation (v1.7.0)
+// ============================================================================
+
+LagBasedReadRouter::LagBasedReadRouter()
+    : config_()
+{
+}
+
+LagBasedReadRouter::LagBasedReadRouter(const RouterConfig& config)
+    : config_(config)
+{
+}
+
+void LagBasedReadRouter::setConfig(const RouterConfig& config) {
+    config_ = config;
+}
+
+size_t LagBasedReadRouter::eligibleReplicaCount(
+    const std::vector<ReplicaInfo>& replicas) const
+{
+    size_t count = 0;
+    for (const auto& r : replicas) {
+        if (r.role == ReplicationRole::FOLLOWER &&
+            r.health_status != HealthStatus::FAILED &&
+            r.replicationLagMs() <= config_.lag_threshold_ms) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+LagBasedReadRouter::RoutingDecision LagBasedReadRouter::selectReplica(
+    ReadPreference preference,
+    const std::vector<ReplicaInfo>& replicas,
+    const std::string& primary_node_id) const
+{
+    RoutingDecision decision;
+    decision.is_primary     = false;
+    decision.replica_lag_ms = -1;
+
+    // PRIMARY preference: always route to primary.
+    if (preference == ReadPreference::PRIMARY) {
+        decision.node_id    = primary_node_id;
+        decision.is_primary = true;
+        decision.reason     = "ReadPreference::PRIMARY – routing to primary";
+        return decision;
+    }
+
+    // Collect eligible secondaries (lag within threshold, not FAILED).
+    const ReplicaInfo* best = nullptr;
+    int64_t best_lag = std::numeric_limits<int64_t>::max();
+
+    for (const auto& r : replicas) {
+        if (r.role != ReplicationRole::FOLLOWER) continue;
+        if (r.health_status == HealthStatus::FAILED)  continue;
+
+        int64_t lag = r.replicationLagMs();
+        if (lag > config_.lag_threshold_ms) continue;
+
+        if (lag < best_lag) {
+            best_lag = lag;
+            best     = &r;
+        }
+    }
+
+    if (best) {
+        decision.node_id        = best->node_id;
+        decision.replica_lag_ms = best_lag;
+        decision.reason         = "Lag-based routing: selected replica with lag=" +
+                                  std::to_string(best_lag) + "ms";
+        return decision;
+    }
+
+    // No eligible secondary found.
+    if (preference == ReadPreference::SECONDARY) {
+        // SECONDARY_ONLY: return empty node to signal no eligible replica.
+        decision.reason = "ReadPreference::SECONDARY – no eligible replica within lag threshold";
+        return decision;
+    }
+
+    // Fall back to primary for PRIMARY_PREFERRED, SECONDARY_PREFERRED, NEAREST.
+    decision.node_id    = primary_node_id;
+    decision.is_primary = true;
+    decision.reason     = "All secondaries exceed lag threshold (" +
+                          std::to_string(config_.lag_threshold_ms) +
+                          "ms) – falling back to primary";
+    return decision;
+}
+
+std::string LagBasedReadRouter::exportPrometheusMetrics(
+    const std::vector<ReplicaInfo>& replicas) const
+{
+    std::ostringstream oss;
+    oss << "# HELP themisdb_lag_router_eligible_replicas "
+           "Number of replicas currently eligible for read routing\n"
+        << "# TYPE themisdb_lag_router_eligible_replicas gauge\n"
+        << "themisdb_lag_router_eligible_replicas "
+        << eligibleReplicaCount(replicas) << "\n"
+        << "# HELP themisdb_lag_router_threshold_ms "
+           "Configured lag threshold for read routing eligibility\n"
+        << "# TYPE themisdb_lag_router_threshold_ms gauge\n"
+        << "themisdb_lag_router_threshold_ms "
+        << config_.lag_threshold_ms << "\n";
+    for (const auto& r : replicas) {
+        if (r.role != ReplicationRole::FOLLOWER) continue;
+        int64_t lag     = r.replicationLagMs();
+        int     eligible = (r.health_status != HealthStatus::FAILED &&
+                            lag <= config_.lag_threshold_ms) ? 1 : 0;
+        oss << "themisdb_lag_router_replica_eligible{node_id=\"" << r.node_id
+            << "\"} " << eligible << "\n";
+    }
+    return oss.str();
+}
+
+// ============================================================================
+// ReplicationManager::selectReadReplica
+// ============================================================================
+
+LagBasedReadRouter::RoutingDecision ReplicationManager::selectReadReplica(
+    std::optional<ReadPreference> preference) const
+{
+    ReadPreference pref = preference.value_or(config_.default_read_preference);
+    LagBasedReadRouter router(
+        LagBasedReadRouter::RouterConfig{
+            static_cast<int64_t>(config_.max_replication_lag_ms),
+            true
+        });
+
+    std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+    return router.selectReplica(pref, replicas_, node_id_);
+}
+
+// ============================================================================
 // ReplicationBenchmark Implementation (v1.6.0)
 // ============================================================================
 
@@ -3769,6 +3902,177 @@ void CDCManager::onWALEntryApplied(const WALEntry& entry) {
             }
         }
     }
+}
+
+// ============================================================================
+// Cross-Cluster Publish/Subscribe Replication Implementation (v1.7.0)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// PublicationFilter
+// ---------------------------------------------------------------------------
+
+bool PublicationFilter::matches(const WALEntry& entry) const {
+    if (!include_collections.empty()) {
+        bool found = false;
+        for (const auto& col : include_collections) {
+            if (col == entry.collection) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    if (!include_operations.empty()) {
+        bool found = false;
+        for (const auto& op : include_operations) {
+            if (op == entry.operation) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterPublication
+// ---------------------------------------------------------------------------
+
+CrossClusterPublication::CrossClusterPublication(const std::string& name)
+    : name_(name) {}
+
+const std::string& CrossClusterPublication::name() const { return name_; }
+
+void CrossClusterPublication::setFilter(const PublicationFilter& filter) {
+    std::unique_lock<std::shared_mutex> lock(filter_mutex_);
+    filter_ = filter;
+}
+
+PublicationFilter CrossClusterPublication::getFilter() const {
+    std::shared_lock<std::shared_mutex> lock(filter_mutex_);
+    return filter_;
+}
+
+uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback callback) {
+    uint64_t id = next_id_.fetch_add(1);
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.push_back({id, std::move(callback)});
+    return id;
+}
+
+void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.erase(
+        std::remove_if(subscribers_.begin(), subscribers_.end(),
+                       [subscriber_id](const RemoteSubscriber& s) {
+                           return s.id == subscriber_id;
+                       }),
+        subscribers_.end());
+}
+
+size_t CrossClusterPublication::subscriberCount() const {
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    return subscribers_.size();
+}
+
+uint64_t CrossClusterPublication::publishedCount() const {
+    return published_count_.load();
+}
+
+void CrossClusterPublication::publish(const WALEntry& entry) {
+    {
+        std::shared_lock<std::shared_mutex> lock(filter_mutex_);
+        if (!filter_.matches(entry)) return;
+    }
+    published_count_.fetch_add(1);
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    for (const auto& sub : subscribers_) {
+        try {
+            sub.callback(entry);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw: {}",
+                         name_, sub.id, e.what());
+        } catch (...) {
+            THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw unknown exception",
+                         name_, sub.id);
+        }
+    }
+}
+
+void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
+    publish(entry);
+}
+
+std::string CrossClusterPublication::exportPrometheusMetrics() const {
+    std::string label = "{publication=\"" + name_ + "\"}";
+    std::string m;
+    m += "themisdb_cross_cluster_publication_published_total" + label + " " +
+         std::to_string(published_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_publication_subscribers" + label + " " +
+         std::to_string(subscriberCount()) + "\n";
+    return m;
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterSubscription
+// ---------------------------------------------------------------------------
+
+CrossClusterSubscription::CrossClusterSubscription(
+    const std::string& name,
+    std::shared_ptr<CrossClusterPublication> publication,
+    ApplyCallback on_apply)
+    : name_(name),
+      publication_(std::move(publication)),
+      on_apply_(std::move(on_apply)) {}
+
+CrossClusterSubscription::~CrossClusterSubscription() {
+    disable();
+}
+
+const std::string& CrossClusterSubscription::name() const { return name_; }
+
+void CrossClusterSubscription::enable() {
+    std::lock_guard<std::mutex> lock(enable_mutex_);
+    if (enabled_.load()) return;  // idempotent
+    subscriber_id_ = publication_->addRemoteSubscriber([this](const WALEntry& e) {
+        try {
+            on_apply_(e);
+            applied_count_.fetch_add(1);
+            // Advance last_applied_seq_ to this entry's sequence (keep max)
+            uint64_t expected = last_applied_seq_.load();
+            while (e.sequence_number > expected) {
+                if (last_applied_seq_.compare_exchange_weak(expected, e.sequence_number))
+                    break;
+            }
+        } catch (...) {
+            error_count_.fetch_add(1);
+        }
+    });
+    enabled_.store(true);
+}
+
+void CrossClusterSubscription::disable() {
+    std::lock_guard<std::mutex> lock(enable_mutex_);
+    if (!enabled_.load()) return;  // idempotent
+    publication_->removeRemoteSubscriber(subscriber_id_);
+    subscriber_id_ = 0;
+    enabled_.store(false);
+}
+
+bool CrossClusterSubscription::isEnabled() const { return enabled_.load(); }
+
+uint64_t CrossClusterSubscription::appliedCount() const { return applied_count_.load(); }
+
+uint64_t CrossClusterSubscription::lastAppliedSequence() const { return last_applied_seq_.load(); }
+
+uint64_t CrossClusterSubscription::errorCount() const { return error_count_.load(); }
+
+std::string CrossClusterSubscription::exportPrometheusMetrics() const {
+    std::string label = "{subscription=\"" + name_ + "\"}";
+    std::string m;
+    m += "themisdb_cross_cluster_subscription_applied_total" + label + " " +
+         std::to_string(applied_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_subscription_errors_total" + label + " " +
+         std::to_string(error_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_subscription_last_applied_sequence" + label + " " +
+         std::to_string(last_applied_seq_.load()) + "\n";
+    return m;
 }
 
 // ============================================================================

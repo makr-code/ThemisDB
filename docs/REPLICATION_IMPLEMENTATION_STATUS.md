@@ -143,6 +143,19 @@ Diese Aufteilung ermöglicht es, dass `replication/` sich auf Business-Logik kon
 - **Tests:** `tests/test_replication_topology_api_handler.cpp`
 - **Erweiterung von `ReplicationCoordinator`:** neue Methoden `getReplicaInfo()` und `getShipperStats()` (delegiert an `WALShipper`)
 
+### 10. **Cross-Cluster Publish/Subscribe Replication** ✨ *NEU*
+- **Datei:** `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
+- **Klassen:**
+  - `PublicationFilter` — Filtert WAL-Einträge nach Collection-Namen und/oder Operationstyp (INSERT/UPDATE/DELETE). Leerer Filter = alle Einträge durchlassen.
+  - `CrossClusterPublication` — Implementiert `IReplicationListener`; wird per `ReplicationManager::addListener()` in die WAL-Pipeline eingehängt und leitet passende Einträge an alle registrierten Remote-Subscriber-Callbacks weiter.
+  - `CrossClusterSubscription` — Registriert einen lokalen Apply-Callback bei einer Publication; idempotentes `enable()`/`disable()`; Auto-Deregistrierung im Destruktor.
+- **Features:**
+  - Thread-sichere Filteraktualisierung via `shared_mutex`
+  - Fehlerresilienz: Apply-Ausnahmen werden gezählt (`errorCount()`), Delivery läuft weiter
+  - Tracking: `appliedCount()`, `lastAppliedSequence()`, `errorCount()`
+  - Prometheus-Metriken: `published_total`, `subscribers`, `applied_total`, `errors_total`, `last_applied_sequence`
+- **Tests:** `tests/test_replication_ha.cpp` — 31 Test-Cases (PublicationFilter, CrossClusterPublication, CrossClusterSubscription, E2E, Integration, Prometheus)
+
 ---
 
 ## 🔄 Write-Path (Beispiel: PUT /entities)
