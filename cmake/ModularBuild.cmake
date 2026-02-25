@@ -391,6 +391,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
+    ../src/governance/pci_dss_rules.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp

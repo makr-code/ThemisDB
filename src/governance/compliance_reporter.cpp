@@ -606,6 +606,13 @@ ComplianceReport ComplianceReporter::generateComplianceReport(const std::string&
             report.details["framework_requirements"].push_back("Right to delete personal information");
             report.details["framework_requirements"].push_back("Right to portability of personal information");
             report.details["framework_requirements"].push_back("Non-discrimination for exercising CCPA rights");
+        } else if (framework == "PCI-DSS") {
+            report.details["framework_requirements"].push_back("Install and maintain network controls (Req 1)");
+            report.details["framework_requirements"].push_back("Protect stored account data with encryption (Req 3)");
+            report.details["framework_requirements"].push_back("Protect cardholder data in transit with strong cryptography (Req 4)");
+            report.details["framework_requirements"].push_back("Restrict access by business need to know - least privilege (Req 7)");
+            report.details["framework_requirements"].push_back("Log and monitor all access to cardholder data (Req 10)");
+            report.details["framework_requirements"].push_back("Retain audit logs for at least 12 months (Req 10.7)");
         }
     }
     
