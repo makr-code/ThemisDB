@@ -138,6 +138,27 @@ void GPUMetrics::setVRAMPeak(uint64_t bytes) {
              static_cast<double>(bytes));
 }
 
+void GPUMetrics::setTemperature(int device_id, double celsius) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_temperature_celsius",
+             {{"device", std::to_string(device_id)}},
+             celsius);
+}
+
+void GPUMetrics::setPowerDraw(int device_id, double watts) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_power_draw_watts",
+             {{"device", std::to_string(device_id)}},
+             watts);
+}
+
+void GPUMetrics::setPowerLimit(int device_id, double watts) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_power_limit_watts",
+             {{"device", std::to_string(device_id)}},
+             watts);
+}
+
 void GPUMetrics::recordKernelDuration(const KernelRecord& record) {
     std::lock_guard<std::mutex> lock(mutex_);
     kernels_.push_back(record);
