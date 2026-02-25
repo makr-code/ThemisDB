@@ -51,6 +51,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 20 unit tests covering: empty index, insert, bulkLoad (including replace-on-reload),
     remove, clear, intersects (single/multiple/overlapping/world), contains
     (single/multiple/boundary), memory reporting, and move semantics.
+- **Geo Module: Complete GeoJSON spec coverage for GeometryCollection and MultiPolygon** 🌍
+  - `GeometryInfo` now exposes `isMultiPolygon()` and `isGeometryCollection()` helper
+    methods consistent with the existing `isPoint()` / `isPolygon()` pattern; both
+    correctly cover the Z variants (`MultiPolygonZ`, `GeometryCollectionZ`).
+  - `CpuExactBackend::exactIntersects`, `BoostCpuExactBackend::exactIntersects`, and
+    `GpuBatchBackend::computeExactIntersects` now decompose `MultiPolygon` and
+    `GeometryCollection` inputs into their constituent geometries and recurse, returning
+    `true` on the first matching member. Empty collections return `false`.
+  - `ST_AsGeoJSON` in both `let_evaluator.cpp` and `query_engine.cpp` now correctly
+    handles all seven RFC 7946 geometry types: previously `MultiPolygon` and
+    `GeometryCollection` input via EWKB binary threw "Unsupported geometry type", and a
+    `GeometryCollection` JSON object was silently rejected because it uses `"geometries"`
+    instead of `"coordinates"`. Both paths now delegate to `EWKBParser::toGeoJSON()`.
+  - New unit tests: 5 type-check helper tests, 14 `exactIntersects` tests (including
+    parse→intersect round-trips), and 2 `ST_AsGeoJSON` AQL function tests.
 
 ### ⚠️ Breaking Changes
 - **GeoJSON strict parsing** (`EWKBParser::parseGeoJSON`): coordinate values outside
