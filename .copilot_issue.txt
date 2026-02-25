@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2284 – [search] Highlight matched terms with snippets
+**URL:** https://github.com/makr-code/ThemisDB/issues/2284
+**Branch:** copilot/issue-2284-search-highlight-matched-terms-with-snippets
+**Base:** develop
+**Created:** 2026-02-25T14:53:04.758Z
+
+Copilot will push real changes here to resolve the issue.
