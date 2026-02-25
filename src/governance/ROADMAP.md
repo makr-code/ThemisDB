@@ -11,6 +11,7 @@
 - [x] Data classification and labeling
 - [x] Audit trail integration for governance events
 - [x] Policy-based governance enforcement at query time
+- [x] Compliance report generation (PDF / JSON / HTML summary) (Issue: #1767)
 
 ## In Progress 🚧
 - [I] Dynamic policy hot-reload without restart (Target: Q2 2026) (Issue: #1759)
@@ -25,7 +26,7 @@
 - [I] CCPA / CPRA data subject rights enforcement (Issue: #1764)
 - [I] Data lineage tracking for governed datasets (Issue: #1765)
 - [I] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
-- [I] Compliance report generation (PDF / JSON summary) (Issue: #1767)
+- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
 - [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
@@ -46,7 +47,7 @@
 
 ### Phase 2: Policy Versioning and Reporting (Status: In Progress)
 - [I] Implement policy versioning with rollback support (`governance/policy_manager_versioned.cpp`) (Issue: #1780)
-- [I] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
+- [x] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
 - [I] Implement policy conflict detection for overlapping access control rules (Issue: #1782)
 
 ### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: Planned)
