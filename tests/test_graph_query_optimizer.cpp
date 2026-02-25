@@ -27,6 +27,7 @@
 #include <gtest/gtest.h>
 #include "graph/graph_query_optimizer.h"
 #include "graph/path_constraints.h"
+#include "query/result_stream.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -1674,3 +1675,181 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
         expected_confidence
     );
 }
+
+// ============================================================================
+// Graph Query Result Streaming Tests (Issue #1822)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_ReturnsValidStream) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE(*result, nullptr);
+    EXPECT_TRUE((*result)->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_IteratesAllNodes) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> nodes;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        nodes.push_back(*item);
+    }
+
+    // Graph: A->B->C->D, A->C. BFS from A depth 3: A, B, C, D
+    EXPECT_FALSE(nodes.empty());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_BatchedConsumption) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::query::StreamConfig cfg;
+    cfg.batch_size = 2;
+    auto stream_result = optimizer_->streamBFS("A", 3, c, cfg);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    size_t total = 0;
+    while (stream->hasNext()) {
+        auto batch = stream->nextBatch(2);
+        ASSERT_TRUE(batch.has_value());
+        total += batch->items.size();
+    }
+    EXPECT_GT(total, 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_DepthZeroReturnsStart) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 0, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    ASSERT_TRUE(stream->hasNext());
+    auto item = stream->next();
+    ASSERT_TRUE(item.has_value());
+    EXPECT_EQ(*item, "A");
+    EXPECT_FALSE(stream->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_MatchesExecuteBFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto batch_result = optimizer_->executeBFS("A", 3, c);
+    ASSERT_TRUE(batch_result.has_value());
+
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> streamed;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        streamed.push_back(*item);
+    }
+
+    EXPECT_EQ(streamed, *batch_result);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_ReturnsValidStream) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->streamDFS("A", 3, c);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE(*result, nullptr);
+    EXPECT_TRUE((*result)->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_MatchesExecuteDFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto batch_result = optimizer_->executeDFS("A", 3, c);
+    ASSERT_TRUE(batch_result.has_value());
+
+    auto stream_result = optimizer_->streamDFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> streamed;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        streamed.push_back(*item);
+    }
+
+    EXPECT_EQ(streamed, *batch_result);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_PropagatesRateLimitError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Consume the budget
+    optimizer_->executeBFS("A", 1, c);
+
+    // Streaming call should be rejected
+    auto stream_result = optimizer_->streamBFS("A", 1, c);
+    EXPECT_FALSE(stream_result.has_value());
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_PropagatesRateLimitError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Consume the budget
+    optimizer_->executeDFS("A", 1, c);
+
+    // Streaming call should be rejected
+    auto stream_result = optimizer_->streamDFS("A", 1, c);
+    EXPECT_FALSE(stream_result.has_value());
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_WithConstraints_MaxResults) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_results = 2;
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> nodes;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        nodes.push_back(*item);
+    }
+    EXPECT_LE(nodes.size(), 2u);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_LargeGraph_AllNodesReachable) {
+    // Add extra edges for a slightly larger graph
+    for (int i = 0; i < 5; ++i) {
+        themis::BaseEntity edge("stream_edge_" + std::to_string(i));
+        edge.setField("id", "stream_edge_" + std::to_string(i));
+        edge.setField("_from", "D");
+        edge.setField("_to", "N_" + std::to_string(i));
+        edge.setField("_weight", "1.0");
+        graph_mgr_->addEdge(edge);
+    }
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 4, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    size_t count = 0;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        ++count;
+    }
+    // A, B, C, D, plus 5 new nodes = 9 total
+    EXPECT_GE(count, 9u);
+}
+

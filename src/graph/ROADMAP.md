@@ -40,7 +40,7 @@
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 - [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
-- [I] Graph query result streaming for large path sets (Issue: #1822)
+- [x] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases
 
