@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     224                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -20,6 +20,7 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <string>
 
@@ -61,8 +62,10 @@ public:
 #endif
         return val;
 #else
-        // Fallback for unsupported architectures
-        return 0;
+        // Fallback for unsupported architectures: steady_clock nanoseconds
+        // (not CPU cycles, but provides monotonic timing for relative measurements)
+        return static_cast<uint64_t>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
 #endif
     }
 
@@ -93,7 +96,8 @@ public:
         return val;
 #endif
 #else
-        return 0;
+        return static_cast<uint64_t>(
+            std::chrono::steady_clock::now().time_since_epoch().count());
 #endif
     }
 

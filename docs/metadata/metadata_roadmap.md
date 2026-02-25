@@ -85,6 +85,17 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 
 **Theme:** Intelligent indexing advice and test-suite hardening.
 
+### Column Lineage & Data Provenance
+
+- [x] `include/metadata/column_lineage.h` — `ColumnLineageTracker`, `ColumnRef`, `ColumnLineageEntry`, `ColumnLineageRecord`, `TransformationType`
+- [x] `src/metadata/column_lineage.cpp` — thread-safe append-only BFS DAG implementation; dual-index store (`target→entries`, `source→targets`); auto-assigns `entry_id` and `timestamp_ms`
+- [x] `tests/test_column_lineage.cpp` — 34 unit tests: `recordDerivation`, `getColumnLineage`, `getUpstreamColumns`, `getDownstreamColumns`, `getColumnProvenance`, `exportTableLineage`, `exportAllLineage`, diamond-DAG deduplication, JSON round-trips
+- [x] `cmake/CMakeLists.txt` — `column_lineage.cpp` added to `themisdb` build target
+- [x] `docs/metadata/operations_guide.md` — usage section with code examples and `TransformationType` reference table
+- [x] `include/metadata/README.md` — `column_lineage.h` API reference section
+- [x] `src/metadata/README.md` — `ColumnLineageTracker` listed in components and architecture diagram
+- [ ] Persist lineage graph to RocksDB under `lineage:col:` prefix for durability across restarts (follow-up)
+
 ### Auto Index Recommendations (v1.9.0)
 
 - [x] `include/metadata/index_recommender.h` — `IndexRecommender` with `recordAccess()`, `recommend()`, `recommendAll()`, benefit-score model
