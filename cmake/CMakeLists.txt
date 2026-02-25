@@ -1322,6 +1322,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/schema_constraints.cpp
     ../src/metadata/schema_version_manager.cpp
     ../src/metadata/index_recommender.cpp
+    ../src/metadata/column_lineage.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
