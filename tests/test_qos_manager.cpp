@@ -511,3 +511,51 @@ TEST_F(TenantQuotaTest, GetAllTenantStats) {
     auto all = qos_->getAllTenantStats();
     EXPECT_EQ(all.size(), 2u);
 }
+
+// =============================================================================
+// Audit regression tests
+// =============================================================================
+
+// Regression: Bug 1 – per-connection tokens must NOT be consumed when the
+// tenant quota rejects the send.  After the tenant bucket is exhausted, the
+// per-connection limit should still have its full budget.
+TEST_F(TenantQuotaTest, TenantRejectionDoesNotConsumePerConnectionTokens) {
+    // Per-connection limit: 8 bps = 1 B/s, burst = 10 bytes
+    // Tenant limit:         8 bps = 1 B/s, burst = 5 bytes  (smaller)
+    qos_->registerTenantQuota(kTenantA, 8, 5);
+    qos_->registerConnection(kConn1);
+    qos_->setTokenBucket(kConn1, 8, 10);  // per-connection burst = 10
+    qos_->assignTenant(kConn1, kTenantA);
+
+    // Drain the tenant bucket (5 bytes)
+    EXPECT_TRUE(qos_->allowSend(kConn1, 5, 0ms));
+
+    // Tenant bucket is now empty; next send should be rejected by tenant quota.
+    // The per-connection bucket still has 5 bytes remaining.
+    EXPECT_FALSE(qos_->allowSend(kConn1, 5, 0ms));
+
+    // Per-connection bytes_shaped should be 0: the per-connection bucket was
+    // never the reason for rejection.
+    auto cs = qos_->getConnectionStats(kConn1);
+    EXPECT_EQ(cs.bytes_shaped, 0u);
+
+    // Tenant bytes_shaped should record the rejected bytes.
+    auto ts = qos_->getTenantStats(kTenantA);
+    EXPECT_GE(ts.bytes_shaped, 5u);
+}
+
+// Regression: Bug 3 – unregisterConnection must not underflow active_connections
+// when assignTenant was called before registerTenantQuota.
+TEST_F(TenantQuotaTest, UnregisterConnectionNoUnderflowWhenAssignedBeforeQuotaRegistered) {
+    // Assign before registering quota (edge case)
+    qos_->registerConnection(kConn1);
+    qos_->assignTenant(kConn1, kTenantA);  // tenant-a does not exist yet
+
+    // Now register the quota (active_connections starts at 0)
+    qos_->registerTenantQuota(kTenantA, 0);
+    EXPECT_EQ(qos_->getTenantStats(kTenantA).active_connections, 0u);
+
+    // Unregistering should NOT underflow; should clamp at 0
+    qos_->unregisterConnection(kConn1);
+    EXPECT_EQ(qos_->getTenantStats(kTenantA).active_connections, 0u);
+}

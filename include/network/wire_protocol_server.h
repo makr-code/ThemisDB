@@ -196,6 +196,59 @@ public:
     };
     Stats getStats() const;
 
+    // -------------------------------------------------------------------------
+    // Per-tenant bandwidth quota management
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Register or update an aggregate bandwidth quota for a tenant.
+     *
+     * All connections that have been assigned to this tenant via
+     * Session::setTenant() share a single token bucket enforcing the
+     * aggregate limit.  Call this during server configuration or whenever
+     * the tenant's quota changes.
+     *
+     * @param tenant_id   Unique tenant identifier.
+     * @param rate_bps    Sustained aggregate bandwidth in bits per second
+     *                    (0 = unlimited).
+     * @param burst_bytes Maximum burst in bytes (0 = auto: 1 s of sustained rate).
+     */
+    void registerTenantQuota(const std::string& tenant_id,
+                              uint64_t rate_bps,
+                              uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Update an existing tenant quota at runtime.
+     *
+     * Alias for registerTenantQuota; creates the entry when absent.
+     */
+    void setTenantQuota(const std::string& tenant_id,
+                        uint64_t rate_bps,
+                        uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Remove the bandwidth quota for a tenant.
+     *
+     * Existing connections assigned to this tenant continue to work but
+     * without the aggregate quota constraint.
+     *
+     * @param tenant_id Tenant identifier.
+     */
+    void unregisterTenantQuota(const std::string& tenant_id);
+
+    /**
+     * @brief Retrieve bandwidth statistics for a specific tenant.
+     * @param tenant_id Tenant identifier.
+     * @return Stats snapshot; default-constructed if tenant not found.
+     */
+    QoSManager::TenantQuotaStats getTenantBandwidthStats(
+        const std::string& tenant_id) const;
+
+    /**
+     * @brief Retrieve bandwidth statistics for all registered tenants.
+     */
+    std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
+
 private:
     class Session;  // Forward declaration
 

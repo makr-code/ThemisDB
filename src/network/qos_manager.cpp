@@ -201,7 +201,7 @@ void QoSManager::unregisterConnection(uint64_t connection_id) {
     }
     if (!old_tenant_id.empty()) {
         auto ts = findTenant(old_tenant_id);
-        if (ts) {
+        if (ts && ts->active_connections.load(std::memory_order_relaxed) > 0) {
             ts->active_connections.fetch_sub(1, std::memory_order_relaxed);
         }
     }
@@ -282,29 +282,10 @@ bool QoSManager::allowSend(uint64_t connection_id,
         return false;
     }
 
-    // --- Token bucket check ---
-    // Snapshot the bucket pointer under the lock, then release before blocking.
-    // TokenBucket is internally thread-safe, so calling consume/tryConsume on
-    // the snapshot without holding token_bucket_mutex is safe.
-    std::shared_ptr<TokenBucket> bucket;
-    {
-        std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);
-        bucket = state->token_bucket;
-    }
-    if (bucket) {
-        bool ok = (timeout.count() > 0)
-                      ? bucket->consume(bytes, timeout)
-                      : bucket->tryConsume(bytes);
-
-        if (!ok) {
-            state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
-            total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
-            return false;
-        }
-    }
-
     // --- Per-tenant quota check ---
-    // Look up the tenant assignment for this connection (lock-free after snapshot).
+    // Evaluate the shared tenant bucket BEFORE consuming per-connection tokens.
+    // If the tenant quota rejects the send, no per-connection tokens should be
+    // charged (tenant is the outer "budget owner").
     std::string tenant_id;
     {
         std::lock_guard<std::mutex> lock(tenant_assignments_mutex_);
@@ -331,6 +312,27 @@ bool QoSManager::allowSend(uint64_t connection_id,
                     return false;
                 }
             }
+        }
+    }
+
+    // --- Token bucket check (per-connection) ---
+    // Snapshot the bucket pointer under the lock, then release before blocking.
+    // TokenBucket is internally thread-safe, so calling consume/tryConsume on
+    // the snapshot without holding token_bucket_mutex is safe.
+    std::shared_ptr<TokenBucket> bucket;
+    {
+        std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);
+        bucket = state->token_bucket;
+    }
+    if (bucket) {
+        bool ok = (timeout.count() > 0)
+                      ? bucket->consume(bytes, timeout)
+                      : bucket->tryConsume(bytes);
+
+        if (!ok) {
+            state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+            total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+            return false;
         }
     }
 

@@ -231,6 +231,36 @@ WireProtocolServer::Stats WireProtocolServer::getStats() const {
     return stats_;
 }
 
+// -------------------------------------------------------------------------
+// Per-tenant bandwidth quota management – public forwarding API
+// -------------------------------------------------------------------------
+
+void WireProtocolServer::registerTenantQuota(const std::string& tenant_id,
+                                               uint64_t rate_bps,
+                                               uint64_t burst_bytes) {
+    qos_manager_.registerTenantQuota(tenant_id, rate_bps, burst_bytes);
+}
+
+void WireProtocolServer::setTenantQuota(const std::string& tenant_id,
+                                          uint64_t rate_bps,
+                                          uint64_t burst_bytes) {
+    qos_manager_.setTenantQuota(tenant_id, rate_bps, burst_bytes);
+}
+
+void WireProtocolServer::unregisterTenantQuota(const std::string& tenant_id) {
+    qos_manager_.unregisterTenantQuota(tenant_id);
+}
+
+QoSManager::TenantQuotaStats
+WireProtocolServer::getTenantBandwidthStats(const std::string& tenant_id) const {
+    return qos_manager_.getTenantStats(tenant_id);
+}
+
+std::vector<QoSManager::TenantQuotaStats>
+WireProtocolServer::getAllTenantBandwidthStats() const {
+    return qos_manager_.getAllTenantStats();
+}
+
 bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_per_ip_.find(remote_ip);
