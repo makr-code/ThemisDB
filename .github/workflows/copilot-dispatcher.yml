@@ -196,6 +196,36 @@ jobs:
                 }
               }
 
+              // ── Diff guard: skip PR if branch has no changes vs base ─────
+              try {
+                const { data: comparison } = await github.rest.repos.compareCommits({
+                  owner: OWNER,
+                  repo: REPO,
+                  base: BASE_BRANCH,
+                  head: branchName,
+                });
+                const hasDiff = comparison.ahead_by > 0 || (comparison.files && comparison.files.length > 0);
+                if (!hasDiff) {
+                  core.warning(`No diff between '${branchName}' and '${BASE_BRANCH}' – skipping PR creation for issue #${issueNumber}.`);
+                  await github.rest.issues.removeLabel({
+                    owner: OWNER,
+                    repo: REPO,
+                    issue_number: issueNumber,
+                    name: 'in-progress/copilot',
+                  }).catch(() => {});
+                  continue;
+                }
+              } catch (e) {
+                core.warning(`Could not compare '${branchName}' with '${BASE_BRANCH}' for issue #${issueNumber}: ${e.message} – skipping PR creation.`);
+                await github.rest.issues.removeLabel({
+                  owner: OWNER,
+                  repo: REPO,
+                  issue_number: issueNumber,
+                  name: 'in-progress/copilot',
+                }).catch(() => {});
+                continue;
+              }
+
               // ── Create the PR ─────────────────────────────────────────────
               const prTitle = `[COPILOT] ${issue.title}`;
               const prBody  = [
