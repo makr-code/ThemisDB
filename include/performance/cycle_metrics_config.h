@@ -126,3 +126,37 @@ class CycleMetricsCollector;
     #define THEMIS_GPU_CYCLES_START() nullptr
     #define THEMIS_GPU_CYCLES_END(event) 0
 #endif
+
+// ============================================================================
+// PMU CACHE MISS MACROS
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_PMU_COUNTERS
+    #include "performance/phase4/pmu_counters.h"
+
+    /**
+     * @brief Start PMU cache-miss measurement
+     * @param analyzer CacheMissAnalyzer instance
+     */
+    #define THEMIS_PMU_START(analyzer) (analyzer).start()
+
+    /**
+     * @brief Stop PMU cache-miss measurement and store results
+     * @param analyzer CacheMissAnalyzer instance
+     * @param metrics  CacheMissMetrics output variable
+     */
+    #define THEMIS_PMU_STOP(analyzer, metrics) (metrics) = (analyzer).stop()
+
+    /**
+     * @brief RAII PMU cache-miss timer
+     * @param analyzer CacheMissAnalyzer instance
+     * @param metrics  CacheMissMetrics output variable
+     */
+    #define THEMIS_SCOPED_CACHE_MISS_TIMER(analyzer, metrics) \
+        ::themis::performance::phase4::ScopedCacheMissTimer \
+            _pmu_timer_##__LINE__((analyzer), &(metrics))
+#else
+    #define THEMIS_PMU_START(analyzer)                    ((void)0)
+    #define THEMIS_PMU_STOP(analyzer, metrics)            ((void)0)
+    #define THEMIS_SCOPED_CACHE_MISS_TIMER(analyzer, metrics) ((void)0)
+#endif
