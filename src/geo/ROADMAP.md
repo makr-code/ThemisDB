@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. Spatial JOIN (find all pairs within a distance threshold) is implemented via `spatialJoin()` in `src/geo/spatial_join.cpp`.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -27,7 +27,7 @@
 - [x] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [x] ST_BUFFER: expand geometry by a fixed distance
 - [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
-- [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
+- [P] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [P] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
@@ -58,7 +58,7 @@
 - [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [x] Implement `ST_BUFFER` operation expanding geometry by a fixed distance
 - [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
-- [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
+- [P] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
