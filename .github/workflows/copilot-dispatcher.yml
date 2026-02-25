@@ -253,19 +253,36 @@ jobs:
                 continue;
               }
 
+              // ── Build Copilot Agent Task PR body ─────────────────────────
+              // Extract acceptance criteria from issue body (- [ ] checkboxes).
+              const issueBody = issue.body ?? '';
+              const criteriaMatches = [...issueBody.matchAll(/^[-*]\s+\[[ x]\]\s+(.+)$/gmi)];
+              const acceptanceCriteria = criteriaMatches.length > 0
+                ? criteriaMatches.map(m => `- [ ] ${m[1].trim()}`).join('\n')
+                : `- [ ] Resolve issue #${issueNumber}: ${issue.title}`;
+
+              // First non-empty, non-heading line of the issue body as description.
+              const bodyLines = issueBody.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+              const bodyExcerpt = bodyLines.length > 0 ? bodyLines[0].slice(0, 200) : '';
+
               // ── Create the PR ─────────────────────────────────────────────
-              const prTitle = `[COPILOT] ${issue.title}`;
+              const prTitle = `feat: ${issue.title} (Copilot agent task)`;
               const prBody  = [
-                '> **Copilot Dispatcher** — This PR was created automatically.',
-                `> It addresses issue **#${issueNumber}**.`,
+                '### @Copilot agent task',
                 '',
-                `Closes #${issueNumber}`,
+                '#### Problem Statement',
+                `- **Issue:** [#${issueNumber} – ${issue.title}](${issue.html_url})`,
+                ...(bodyExcerpt ? [`- ${bodyExcerpt}`] : []),
+                '',
+                '#### Acceptance Criteria',
+                acceptanceCriteria,
+                '',
+                '#### Task Type',
+                'agent-task',
                 '',
                 '---',
                 '',
-                `**Issue:** [#${issueNumber} – ${issue.title}](${issue.html_url})`,
-                '',
-                '_Human review and merge are required before this PR is integrated._',
+                `Closes #${issueNumber}`,
               ].join('\n');
 
               let pr;
@@ -299,7 +316,7 @@ jobs:
                   owner: OWNER,
                   repo: REPO,
                   issue_number: pr.number,
-                  labels: ['pr/copilot', 'copilot/status-working', 'copilot-pr'],
+                  labels: ['pr/copilot', 'copilot/status-working', 'copilot-pr', 'agent:copilot-task'],
                 });
               } catch (e) {
                 core.warning(`Could not add labels to PR #${pr.number}: ${e.message}`);
@@ -325,18 +342,23 @@ jobs:
                 }
               }
 
-              // ── Request review from issue author ──────────────────────────
-              if ((config.add_issue_author_as_reviewer ?? true) && issueAuthorLogin) {
+              // ── Request review from Copilot and issue author ───────────────
+              const reviewers = [];
+              if (copilotLogin) reviewers.push(copilotLogin);
+              if ((config.add_issue_author_as_reviewer ?? true) && issueAuthorLogin && issueAuthorLogin !== copilotLogin) {
+                reviewers.push(issueAuthorLogin);
+              }
+              if (reviewers.length > 0) {
                 try {
                   await github.rest.pulls.requestReviewers({
                     owner: OWNER,
                     repo: REPO,
                     pull_number: pr.number,
-                    reviewers: [issueAuthorLogin],
+                    reviewers,
                   });
-                  core.info(`Requested review from @${issueAuthorLogin} on PR #${pr.number}.`);
+                  core.info(`Requested review from [${reviewers.join(', ')}] on PR #${pr.number}.`);
                 } catch (e) {
-                  core.warning(`Could not request review from @${issueAuthorLogin} on PR #${pr.number}: ${e.message}`);
+                  core.warning(`Could not request reviewers on PR #${pr.number}: ${e.message}`);
                 }
               }
 
