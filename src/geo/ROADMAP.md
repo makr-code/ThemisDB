@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. Spatial JOIN (find all pairs within a distance threshold) is implemented via `spatialJoin()` in `src/geo/spatial_join.cpp`.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)

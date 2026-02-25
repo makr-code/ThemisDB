@@ -3,7 +3,6 @@
 #include "utils/logger.h"
 
 #include <cmath>
-#include <stdexcept>
 #include <unordered_map>
 
 namespace themis {

@@ -98,6 +98,7 @@ Replace the CPU-fallback stub in `gpu_backend_stub.cpp` with real CUDA kernels f
 ### Spatial JOIN Support
 **Priority:** Low
 **Target Version:** v2.2.0
+**Status:** ✅ Implemented in `include/geo/spatial_join.h` + `src/geo/spatial_join.cpp`
 
 Add a spatial JOIN operation that finds all pairs (A, B) from two geometry collections where `distance(A, B) ≤ threshold`. This enables nearest-neighbour and within-radius multi-collection queries from AQL.
 
