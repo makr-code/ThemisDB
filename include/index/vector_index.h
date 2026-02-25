@@ -24,6 +24,7 @@
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include "index/ann_index.h"
 #include <string>
 #include <string_view>
 #include <vector>
@@ -95,7 +96,7 @@ public:
     
     // Advanced Vector Index Integration (v1.5.0+)
     // Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets
-    // Note: Requires THEMIS_GPU_ENABLED for FAISS support
+    // Note: Requires THEMIS_GPU_ENABLED for FAISS/DiskANN support
     struct AdvancedIndexConfig {
         bool enabled = false;           // Enable advanced indexing
         size_t nlist = 1024;           // Number of IVF clusters
@@ -110,8 +111,19 @@ public:
             IVF_FLAT,     // IVF without compression
             IVF_PQ,       // IVF + Product Quantization (default)
             HNSW_FLAT,    // HNSW without IVF
-            IVF_HNSW_PQ   // IVF + HNSW + PQ
+            IVF_HNSW_PQ,  // IVF + HNSW + PQ
+            SCANN,        // ScaNN: tree-AH partitioned ANN (pure C++, no extra deps)
+            DISKANN       // DiskANN: SSD-resident graph index (requires THEMIS_ENABLE_DISKANN)
         } index_type = Type::IVF_PQ;
+
+        // ScaNN-specific parameters (used when index_type == SCANN)
+        size_t scann_num_leaves           = 1000; // Voronoi cells
+        size_t scann_leaves_to_search     = 100;  // Cells probed per query
+        size_t scann_reorder_num_neighbors = 200; // Re-ranking candidates
+
+        // DiskANN-specific parameters (used when index_type == DISKANN)
+        std::string diskann_index_path;      // On-disk graph file path (required)
+        size_t      diskann_cache_mb = 1024; // RAM cache budget in MiB
     };
     
     // Enable advanced indexing with specified configuration
@@ -488,6 +500,8 @@ private:
     // Advanced Vector Index Integration (v1.5.0+)
     AdvancedIndexConfig advanced_config_;
     std::unique_ptr<class AdvancedVectorIndex> advanced_index_;
+    // Alternative ANN backends (ScaNN / DiskANN) – active when index_type is SCANN or DISKANN
+    std::unique_ptr<index::IAnnIndex> ann_backend_;
     
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource,
