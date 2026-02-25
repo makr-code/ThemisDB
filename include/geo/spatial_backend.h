@@ -110,11 +110,29 @@ public:
 // extern "C" void RegisterGeoPlugin(IGeoRegistry* registry);
 using RegisterGeoPluginFn = void(*)(IGeoRegistry*);
 
+// Precision mode for spatial computation backends.
+// Exact mode uses full geometric algorithms (ray-casting, segment-intersection).
+// Approximate mode uses MBR (bounding-box) overlap for faster but potentially
+// conservative checks (no false negatives; may produce false positives).
+enum class GeoPrecisionMode {
+    Exact,       // Full geometric exactness; higher CPU cost.
+    Approximate  // MBR-based fast approximation; safe for pre-filtering.
+};
+
 // Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
 
 // Get the built-in CPU exact backend (always available, no Boost dependency)
 ISpatialComputeBackend* getCpuExactBackend();
+
+// Get the built-in CPU approximate backend (always available).
+// Uses MBR overlap checks for fast conservative spatial tests.
+ISpatialComputeBackend* getCpuApproximateBackend();
+
+// Get a backend for the requested precision mode.
+// Exact   → getCpuExactBackend()
+// Approximate → getCpuApproximateBackend()
+ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();

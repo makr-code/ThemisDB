@@ -831,6 +831,48 @@ struct NullRegistry : public IGeoRegistry {
     void registerBackend(std::unique_ptr<ISpatialComputeBackend>) override {}
 };
 
+// ---------------------------------------------------------------------------
+// Approximate CPU backend
+// Uses MBR (bounding-box) overlap as a conservative spatial check.
+// Never returns a false negative (if geometries truly intersect, their MBRs
+// overlap). May return false positives (MBRs overlap but geometries do not).
+// This makes it suitable as a fast pre-filter for spatial queries.
+// ---------------------------------------------------------------------------
+
+// Forward declaration — defined after CpuExactBackend below.
+static CpuExactBackend& getCpuExactBackendInstance();
+
+class ApproximateCpuBackend final : public ISpatialComputeBackend {
+public:
+    const char* name() const noexcept override { return "cpu_approximate"; }
+    bool isAvailable() const noexcept override { return true; }
+
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+        SpatialBatchResults out;
+        out.mask.assign(in.count, 0u);
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        for (std::size_t i = 0; i < n; ++i) {
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+        }
+        return out;
+    }
+
+    // Approximate intersection check using MBR overlap.
+    // Guaranteed no false negatives; may have false positives.
+    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+        const auto mbr1 = geom1.computeMBR();
+        const auto mbr2 = geom2.computeMBR();
+        return mbr1.intersects(mbr2);
+    }
+
+    // stBuffer delegates to the exact backend; buffering correctness matters
+    // regardless of the caller's chosen precision mode.
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        return getCpuExactBackendInstance().stBuffer(geom, distance_m, arc_points);
+    }
+};
+
 static void register_builtin_cpu_backend() {
 #ifdef THEMIS_GEO_ENABLED
     try {
@@ -852,6 +894,26 @@ static CpuExactBackend& getCpuExactBackendInstance() {
 
 ISpatialComputeBackend* getCpuExactBackend() {
     return &getCpuExactBackendInstance();
+}
+
+// Public factory: returns the built-in CPU approximate backend singleton.
+static ApproximateCpuBackend& getCpuApproximateBackendInstance() {
+    static ApproximateCpuBackend instance;
+    return instance;
+}
+
+ISpatialComputeBackend* getCpuApproximateBackend() {
+    return &getCpuApproximateBackendInstance();
+}
+
+ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode) {
+    switch (mode) {
+        case GeoPrecisionMode::Approximate:
+            return getCpuApproximateBackend();
+        case GeoPrecisionMode::Exact:
+        default:
+            return getCpuExactBackend();
+    }
 }
 
 // Ensure the object file isn't discarded
