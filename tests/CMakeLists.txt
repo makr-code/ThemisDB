@@ -372,6 +372,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU profiler test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUProfiler (NVTX/rocTX range markers, Chrome trace
+# JSON export for ROCm profiler) and GPUMetrics::rocm_profiler_export().
+# It exercises only the CPU-side fallback path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_profiler.cpp
+    )
+endif()
+
 # Re-include the GPU cluster topology test excluded by the broad
 # ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUClusterTopology
 # (NVLink / InfiniBand topology detection) and GPUClusterCoordinator
