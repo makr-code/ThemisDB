@@ -98,12 +98,12 @@ Currently, multiple consumers of the same changefeed each receive all events ind
 For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka bridge that publishes `ChangeEvent` records to a configured Kafka topic. Implement using `librdkafka` to avoid a heavy JVM dependency.
 
 **Implementation Notes:**
-- `[ ]` Create `kafka_cdc_producer.cpp`; implement `ICDCTransport` interface alongside the existing SSE transport.
-- `[ ]` Topic routing: one topic per collection (e.g., `themis.cdc.orders`) or a single multiplexed topic; configurable via `config/data_management/cdc_kafka.yaml`.
-- `[ ]` Message key: `ChangeEvent::key`; message value: `ChangeEvent::toJson()` serialized to UTF-8 bytes.
-- `[ ]` Use `librdkafka` producer with `acks=all` and `enable.idempotence=true` for exactly-once semantics where broker supports it.
-- `[ ]` On `librdkafka` not found at build time, `kafka_cdc_producer.cpp` compiles as a no-op stub (same pattern as CUDA stubs in acceleration).
-- `[ ]` Expose `cdc_kafka_delivered_total`, `cdc_kafka_error_total` Prometheus counters.
+- `[x]` Create `kafka_cdc_producer.cpp`; implement `KafkaCDCProducer` class (`include/cdc/kafka_cdc_producer.h`, `src/cdc/kafka_cdc_producer.cpp`).
+- `[x]` Topic routing: one topic per collection (e.g., `themis.cdc.orders`) or a single multiplexed topic; configurable via `config/data_management/cdc_kafka.yaml`.
+- `[x]` Message key: `ChangeEvent::key`; message value: `ChangeEvent::toJson()` serialized to UTF-8 bytes.
+- `[x]` Use `librdkafka` producer with `acks=all` and `enable.idempotence=true` for exactly-once semantics where broker supports it.
+- `[x]` On `librdkafka` not found at build time, `kafka_cdc_producer.cpp` compiles as a no-op stub (same pattern as CUDA stubs in acceleration).
+- `[x]` Expose `cdc_kafka_delivered_total`, `cdc_kafka_error_total` Prometheus counters.
 
 **Performance Targets:**
 - Kafka producer throughput ≥ 50,000 events/sec on a single producer thread (standard Kafka hardware).
