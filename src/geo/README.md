@@ -14,9 +14,10 @@ Implements geospatial query processing and spatial indexing for ThemisDB, provid
 
 ## Relevant Interfaces
 
-- `cpu_backend.cpp` — primary CPU-based geospatial backend
-- `boost_cpu_exact_backend.cpp` — Boost.Geometry exact computation
+- `cpu_backend.cpp` — primary CPU-based geospatial backend; implements `CpuExactBackend` and `ApproximateCpuBackend`
+- `boost_cpu_exact_backend.cpp` — Boost.Geometry exact computation (optional, requires `THEMIS_GEO_BOOST_BACKEND`)
 - `gpu_backend_stub.cpp` — GPU stub with CPU fallback
+- `getBackendForPrecision(GeoPrecisionMode)` — factory to select exact or approximate backend at call-site
 
 ## Current Delivery Status
 
@@ -35,6 +36,7 @@ Implements geospatial query processing and spatial indexing for ThemisDB, provid
 - Geometry operations (contains, intersects, distance)
 - S2/H3 cell indexing support
 - GPU acceleration for large-scale queries (CPU fallback when no device present)
+- **Configurable precision mode**: `GeoPrecisionMode::Exact` (full geometric algorithms, no false positives) and `GeoPrecisionMode::Approximate` (MBR-based fast pre-filter, no false negatives); selected via `getBackendForPrecision()`
 
 ## Documentation
 

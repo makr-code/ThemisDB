@@ -23,8 +23,12 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
   (Part 1: Common Architecture).
 - **S2/H3 Cell Indexing** – geospatial data is indexed using Google S2 or Uber H3 cells
   for efficient range queries on the sphere.
-- **Exact vs. Approximate** – `boost_cpu_exact_backend.cpp` uses Boost.Geometry for exact
-  computation; the primary CPU backend may use approximate arithmetic for speed.
+- **Exact vs. Approximate** – callers choose a precision mode via `GeoPrecisionMode`:
+  `Exact` runs full ray-casting/segment-intersection algorithms (no false positives);
+  `Approximate` uses MBR (bounding-box) overlap for O(1) conservative checks
+  (no false negatives; may produce false positives, safe as a spatial pre-filter).
+  `boost_cpu_exact_backend.cpp` provides a higher-precision Boost.Geometry path when
+  available.
 
 ---
 
@@ -146,8 +150,9 @@ GPU backend stub: check for CUDA device
 | Parameter | Default | Description |
 |---|---|---|
 | `geo.backend` | "cpu" | Backend: "cpu", "gpu" (falls back to cpu if unavailable) |
+| `geo.precision_mode` | "exact" | Precision for spatial predicates: "exact" (full geometric algorithms, `getCpuExactBackend()`) or "approximate" (MBR-based pre-filter, `getCpuApproximateBackend()`). Select via `getBackendForPrecision(GeoPrecisionMode)`. |
 | `geo.rtree.max_node_size` | 64 | R-tree node capacity |
-| `geo.exact_mode` | false | Use Boost.Geometry exact arithmetic |
+| `geo.exact_mode` | false | Use Boost.Geometry exact arithmetic (requires `THEMIS_GEO_BOOST_BACKEND`) |
 | `geo.gpu.batch_size` | 65536 | GPU kernel batch size (points per launch) |
 
 ---
@@ -167,7 +172,8 @@ GPU backend stub: check for CUDA device
 
 - GPU backend (`gpu_backend_stub.cpp`) is a stub; CUDA kernels are planned.
 - Full GeoJSON RFC 7946 parsing is planned (currently partial).
-- `ST_Buffer`, `ST_Union`, `ST_Difference` are planned.
+- `ST_Buffer` is implemented (CPU-exact and Boost.Geometry backends; GPU backend falls back to CPU — CUDA kernel dispatch is deferred to v2.1.0).
+- `ST_Union` and `ST_Difference` are planned.
 - 3D geometry operations (Z-coordinate) are partially implemented.
 - Routing/navigation algorithms (shortest path via road network) are out of scope.
 

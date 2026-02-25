@@ -215,33 +215,23 @@ TEST(DeviceManagerTest, BestBackendType_ConsistentWithGetBestDevice) {
 
 TEST(DeviceManagerTest, PrecisionFlags_CUDACompute70_SupportsFP16) {
     // sm_70 should enable fp16 support.
-    themis::gpu::DeviceInfo d;
-    d.index         = 0;
-    d.name          = "Mock V100";
-    d.backend       = "CUDA";
-    d.compute_major = 7;
-    d.compute_minor = 0;
-    d.is_healthy    = true;
+    const int compute_major = 7;
+    const int compute_minor = 0;
 
     // Use refresh() to rebuild cache and then inspect through DeviceCapabilityInfo
     // by validating the mapping logic directly on the struct fields.
     // (We cannot inject a fake DeviceDiscovery without hardware, so we
     //  validate the precision derivation formula independently.)
-    const int sm = d.compute_major * 10 + d.compute_minor;
+    const int sm = compute_major * 10 + compute_minor;
     EXPECT_GE(sm, 70);  // fp16 threshold
     EXPECT_LT(sm, 80);  // bf16 threshold not met
 }
 
 TEST(DeviceManagerTest, PrecisionFlags_CUDACompute80_SupportsBF16) {
-    themis::gpu::DeviceInfo d;
-    d.index         = 0;
-    d.name          = "Mock A100";
-    d.backend       = "CUDA";
-    d.compute_major = 8;
-    d.compute_minor = 0;
-    d.is_healthy    = true;
+    const int compute_major = 8;
+    const int compute_minor = 0;
 
-    const int sm = d.compute_major * 10 + d.compute_minor;
+    const int sm = compute_major * 10 + compute_minor;
     EXPECT_GE(sm, 80);  // both fp16 and bf16 thresholds met
 }
 

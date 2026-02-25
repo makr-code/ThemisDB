@@ -272,6 +272,22 @@ void Tracer::shutdown() {
 #endif
 }
 
+bool Tracer::flush([[maybe_unused]] std::chrono::microseconds timeout) noexcept {
+#ifdef THEMIS_ENABLE_TRACING
+    auto provider = otel::trace::Provider::GetTracerProvider();
+    if (!provider) {
+        return false;
+    }
+    auto sdk_provider = static_cast<otel_sdk::trace::TracerProvider*>(provider.get());
+    if (!sdk_provider) {
+        return false;
+    }
+    return sdk_provider->ForceFlush(timeout);
+#else
+    return true;
+#endif
+}
+
 #ifdef THEMIS_ENABLE_TRACING
 otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
     if (!initialized_ || tracer_ == nullptr) {

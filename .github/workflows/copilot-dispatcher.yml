@@ -51,7 +51,7 @@ jobs:
             const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
 
             // ── Load configuration ──────────────────────────────────────────
-            let config = { wip_limit: 5, base_branch: 'develop', copilot_reviewer_logins: [] };
+            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [] };
             try {
               const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
               config = { ...config, ...yaml.load(raw) };
@@ -61,10 +61,11 @@ jobs:
 
             const WIP_LIMIT    = config.wip_limit    ?? 5;
             const BASE_BRANCH  = config.base_branch  ?? 'develop';
+            const DRAFT        = config.draft        ?? true;
             const OWNER        = context.repo.owner;
             const REPO         = context.repo.repo;
 
-            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}`);
+            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}, draft=${DRAFT}`);
 
             // ── Count active Copilot PRs ────────────────────────────────────
             // Active = open pr/copilot PRs that do NOT have copilot/status-ready.
@@ -107,7 +108,7 @@ jobs:
             const queuedIssues = await github.paginate(
               github.rest.search.issuesAndPullRequests,
               {
-                q: `repo:${OWNER}/${REPO} is:issue is:open label:queue/copilot -label:in-progress/copilot -label:blocked`,
+                q: `repo:${OWNER}/${REPO} is:issue is:open label:queue/copilot -label:in-progress/copilot -label:blocked -label:status:blocked`,
                 sort: 'created',
                 order: 'asc',
                 per_page: 100,
@@ -219,10 +220,10 @@ jobs:
                   head: branchName,
                   base: BASE_BRANCH,
                   body: prBody,
-                  draft: false,
+                  draft: DRAFT,
                 });
                 pr = newPR;
-                core.info(`Created PR #${pr.number} for issue #${issueNumber}.`);
+                core.info(`Created ${DRAFT ? 'draft ' : ''}PR #${pr.number} for issue #${issueNumber}.`);
               } catch (e) {
                 core.warning(`Failed to create PR for issue #${issueNumber}: ${e.message}.`);
                 // Roll back label claim.

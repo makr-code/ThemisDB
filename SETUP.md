@@ -301,7 +301,31 @@ cmake --preset linux-gcc-debug  # or windows-vs2022-debug
 cmake --build build-debug
 ```
 
-## 🔍 Troubleshooting
+### Runtime Environment Variables
+
+ThemisDB reads the following environment variables at startup to tune behavior without requiring a rebuild:
+
+#### Config Path Resolver (Cache)
+
+| Variable | Default | Valid Range | Description |
+|---|---|---|---|
+| `THEMIS_CONFIG_CACHE_CAPACITY` | `1000` | `10`–`100000` | Maximum number of resolved config paths held in the LRU cache. Increase for deployments with many unique config paths. |
+| `THEMIS_CONFIG_CACHE_TTL_SECONDS` | `300` | `1`–`86400` | Entry time-to-live in seconds. Lower values force more frequent filesystem re-checks; higher values reduce I/O. |
+
+If an out-of-range or non-integer value is provided, ThemisDB prints a warning to `stderr` at startup and uses the default.
+
+**Example:**
+
+```bash
+# Double cache capacity, halve TTL
+export THEMIS_CONFIG_CACHE_CAPACITY=2000
+export THEMIS_CONFIG_CACHE_TTL_SECONDS=150
+./themisdb
+```
+
+Inspect the active configuration at runtime via the `ConfigPathResolver::currentCacheConfig()` API or the Prometheus metric `themis_config_cache_ttl_seconds`.
+
+
 
 ### Pre-commit Hooks Failing
 

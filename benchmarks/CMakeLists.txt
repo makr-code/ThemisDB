@@ -580,6 +580,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     
     add_executable(bench_rag_ethics
         bench_rag_ethics.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/rag_judge.cpp
     )
     
     target_link_libraries(bench_rag_ethics PRIVATE

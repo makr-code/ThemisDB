@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-24 20:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     201                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     244                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 154462b56  2026-02-24  feat(config): add legacy fallback rate w... ║
     • 7f5ce7a1a  2026-02-22  feat(config): add DeprecationAggregator for legacy path u... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -29,12 +30,32 @@
 #include <optional>
 #include <atomic>
 #include <chrono>
+#include "config/config_audit_log.h"
+#include <csignal>
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
 #include "config/path_mapping_metadata.h"
 
 namespace themis {
 namespace config {
+
+/**
+ * Deployment environment for config overlay resolution.
+ *
+ * When the active environment is not PROD, the resolver probes an
+ * environment-specific overlay directory (`config/<env>/`) before
+ * falling back to the standard path hierarchy.  This allows dev and
+ * staging deployments to override individual config files without
+ * modifying the production set.
+ *
+ * The active environment can also be set via the `THEMIS_CONFIG_ENV`
+ * environment variable (`dev`, `staging`, `prod`; case-insensitive).
+ */
+enum class ConfigEnvironment {
+    DEV,     ///< Development environment (overlay root: config/dev/)
+    STAGING, ///< Staging environment     (overlay root: config/staging/)
+    PROD,    ///< Production environment  (no overlay; default)
+};
 
 /**
  * ConfigPathResolver provides backward-compatible config path resolution.
@@ -47,8 +68,11 @@ namespace config {
  *   - All public methods are thread-safe for concurrent reads
  *   - The PATH_MAPPING table is const and initialized at compile-time
  *   - Metrics use atomic operations for thread-safe updates
- *   - No locks are required for read operations
+ *   - No locks are required for read operations on the PATH_MAPPING or Metrics
+ *   - ConfigAuditLog uses an internal mutex; audit recording adds a lock acquisition per resolved path when enabled
  *   - File system operations may have platform-specific thread-safety guarantees
+ *   - SIGHUP handler only sets a volatile sig_atomic_t flag (async-signal-safe);
+ *     the actual cache clear is performed inside tryResolve() on the calling thread
  * 
  * Usage:
  *   std::string path = ConfigPathResolver::resolve("config/lora_training_config.yaml");
@@ -96,6 +120,16 @@ public:
      * @return Metadata if mapping exists, std::nullopt otherwise
      */
     static std::optional<PathMappingMetadata> getMetadata(const std::string& legacy_path);
+
+    /**
+     * Return the full legacy-to-new path mapping table.
+     *
+     * Provides read-only access to PATH_MAPPING for tooling (e.g. migration
+     * scanner) that needs to enumerate all known legacy paths.
+     *
+     * @return Const reference to the static mapping table.
+     */
+    static const std::map<std::string, std::string>& legacyPathMappings();
     
     /**
      * Metrics for config path resolution.
@@ -138,11 +172,145 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Set the active deployment environment.
+     *
+     * When set to DEV or STAGING the resolver probes the environment-specific
+     * overlay directory (`config/<env>/`) before the standard new and legacy
+     * paths.  Calling this method clears the cache to prevent stale overlay
+     * entries from a previous environment from being returned.
+     *
+     * @param env The environment to activate
+     */
+    static void setEnvironment(ConfigEnvironment env);
+
+    /**
+     * Get the currently active deployment environment.
+     *
+     * @return Current ConfigEnvironment value
+     */
+    static ConfigEnvironment getEnvironment();
+     * Effective LRU cache TTL in seconds.
+     * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
+     * variable; falls back to the default of 300 seconds (5 minutes) when the
+     * variable is absent or invalid.
+     *
+     * LRU cache TTL in seconds.
+     * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
+     * program startup; falls back to 300 (5 minutes) when the variable is
+     * absent or invalid.  Exposed so the metrics exporter and other consumers
+     * can reference the single source of truth.
+     * Register a SIGHUP signal handler that hot-reloads the resolved path cache.
+     *
+     * When the process receives SIGHUP, the LRU cache is cleared on the next
+     * call to resolve() or tryResolve().  This allows operators to trigger a
+     * cache flush at runtime (e.g. after moving config files) without restarting
+     * the process.
+     *
+     * On platforms that do not support SIGHUP (Windows), this function is a
+     * no-op.
+     *
+     * Thread-safety: safe to call from any thread.  The underlying signal
+     * handler only sets an async-signal-safe flag (volatile sig_atomic_t);
+     * the actual cache.clear() is executed on the next call to tryResolve().
+     */
+    static void registerSighupHandler();
+
+    /**
      * Default LRU cache TTL in seconds.
      * Exposed as a named constant so the metrics exporter and other consumers
      * can reference the single source of truth rather than duplicating the value.
+     * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_TTL_SECONDS.
      */
-    static constexpr int kCacheTtlSeconds = 300;
+    static const int kCacheTtlSeconds;
+
+    /**
+     * LRU cache maximum capacity (entry count).
+     * Initialized from the THEMIS_CONFIG_CACHE_SIZE environment variable at
+     * program startup; falls back to 1000 when the variable is absent or
+     * invalid.
+     */
+    static const size_t kCacheSize;
+
+    /**
+     * Snapshot of the effective cache configuration.
+     * Useful for observability endpoints and tests that need to confirm which
+     * values are actually in use.
+     */
+    struct CacheConfig {
+        size_t capacity;
+        int    ttl_seconds;
+    };
+
+    /**
+     * Return the effective LRU cache configuration (capacity and TTL).
+     * Values reflect what was read from the environment at startup (or the
+     * hardcoded defaults when the variables were absent/invalid).
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {kCacheSize, kCacheTtlSeconds};
+    }
+
+    /**
+     * Default LRU cache capacity.
+     * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_CAPACITY.
+     */
+    static const int kCacheTtlSeconds;
+
+    /**
+     * Default LRU cache TTL in seconds (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_TTL is not set.
+     */
+    static constexpr int kDefaultCacheTtlSeconds = 300;
+
+    /**
+     * Default LRU cache capacity (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_SIZE is not set.
+     */
+    static constexpr size_t kDefaultCacheSize = 1000;
+
+    /**
+     * Snapshot of the effective cache configuration as determined at startup
+     * from environment variables (or compile-time defaults).
+     */
+    struct CacheConfig {
+        size_t capacity;   ///< Maximum number of cached entries
+        int ttl_seconds;   ///< Entry time-to-live in seconds
+    };
+
+    /**
+     * Return the active cache configuration (capacity and TTL).
+     *
+     * Values reflect what was read from the environment at program startup,
+     * or the compile-time defaults when the variables were absent or invalid.
+     * This is a pure read with no locking overhead — suitable for observability
+     * endpoints that need to confirm which values are actually in use.
+     *
+     * @return CacheConfig{capacity, ttl_seconds}
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {cacheStats().capacity, kCacheTtlSeconds};
+    }
+    static constexpr int kCacheCapacity = 1000;
+
+    /**
+     * Runtime cache configuration (may differ from defaults when env vars are set).
+     */
+    struct CacheConfig {
+        size_t capacity;    ///< Maximum number of cached entries
+        int ttl_seconds;    ///< Entry TTL in seconds
+    };
+
+    /**
+     * Returns the active cache configuration (capacity and TTL) as determined
+     * at startup from environment variables or defaults.
+     *
+     * Environment variables:
+     *   THEMIS_CONFIG_CACHE_CAPACITY  – integer in [10, 100000], default 1000
+     *   THEMIS_CONFIG_CACHE_TTL_SECONDS – integer in [1, 86400], default 300
+     *
+     * @return Current CacheConfig used by the path resolver cache.
+     */
+    static CacheConfig currentCacheConfig();
 
     /**
      * Entry in the deprecation usage report.
@@ -169,6 +337,29 @@ public:
     static void setAggregationEnabled(bool enabled, int interval_seconds = 300);
 
     /**
+     * Set the legacy fallback rate warning threshold.
+     *
+     * When the ratio of legacy_fallbacks to total resolutions
+     * (legacy_fallbacks + new_path_hits) meets or exceeds @p threshold,
+     * a spdlog::warn is emitted.  Warnings use a doubling strategy to
+     * prevent log flooding: after the first warning the next fires only
+     * when the fallback count has at least doubled.
+     *
+     * Set to 0.0 (default) to disable threshold alerting.
+     *
+     * @param threshold Ratio in [0.0, 1.0].  Values outside this range are
+     *                  clamped to [0.0, 1.0].
+     */
+    static void setLegacyFallbackRateThreshold(double threshold);
+
+    /**
+     * Get the current legacy fallback rate warning threshold.
+     *
+     * @return Threshold in [0.0, 1.0]; 0.0 means threshold alerting is disabled.
+     */
+    static double getLegacyFallbackRateThreshold();
+
+    /**
      * Get the current deprecation usage report.
      *
      * Returns all legacy paths that have been accessed since the last
@@ -177,6 +368,41 @@ public:
      * @return Vector of deprecation entries with usage counts
      */
     static std::vector<DeprecationEntry> deprecationReport();
+
+    // ── Audit log API ────────────────────────────────────────────────────
+
+    /**
+     * Enable or disable config path audit logging.
+     *
+     * When enabled, every successful path resolution is appended to the
+     * audit log with the requested path, the resolved path, a timestamp,
+     * and flags indicating whether the result was a legacy fallback or a
+     * cache hit.  Audit logging is disabled by default.
+     *
+     * @param enabled  true to enable, false to disable.
+     */
+    static void setAuditLogEnabled(bool enabled);
+
+    /**
+     * Return a snapshot of all audit entries recorded since the last
+     * clearAuditLog() call (oldest entry first).
+     *
+     * @return Vector of AuditEntry objects.
+     */
+    static std::vector<AuditEntry> auditLog();
+
+    /**
+     * Clear all entries from the audit log.
+     */
+    static void clearAuditLog();
+
+    /**
+     * Set the maximum number of audit entries retained in memory.
+     * Entries beyond this limit are evicted oldest-first.
+     *
+     * @param max  Maximum number of entries (clamped to >= 1).
+     */
+    static void setAuditLogMaxEntries(std::size_t max);
 
 private:
     // Mapping table from legacy paths to new hierarchical paths
@@ -188,9 +414,13 @@ private:
     // Metrics tracking
     static Metrics metrics_;
     
-    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes)
+    // Cache for resolved paths (capacity and TTL configurable via env vars)
+    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes by default)
     static LRUCacheWithTTL<std::string, std::string> cache_;
     static std::atomic<bool> caching_enabled_;
+
+    // Active cache configuration (set once at startup from env vars or defaults)
+    static CacheConfig cache_config_;
     
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);
@@ -205,6 +435,26 @@ private:
     class DeprecationAggregator;
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
+
+    // Active deployment environment (used for overlay path probing)
+    static std::atomic<ConfigEnvironment> current_env_;
+
+    // Converts a ConfigEnvironment to its lowercase string name
+    static std::string envToString(ConfigEnvironment env);
+
+    // Reads and validates THEMIS_CONFIG_ENV at initialisation time
+    static ConfigEnvironment envFromEnvironmentVariable();
+    // Audit log (records all successful path resolutions with timestamps)
+    static ConfigAuditLog audit_log_;
+    // Legacy fallback rate threshold alerting
+    static std::atomic<double> legacy_fallback_threshold_;
+    // Fallback count at which the last threshold warning was emitted.
+    // 0 means no warning has been emitted yet in the current metrics window.
+    static std::atomic<uint64_t> last_threshold_warn_count_;
+
+    // Check whether the current fallback rate has crossed the threshold and,
+    // if so, emit a rate-limited spdlog::warn.
+    static void checkFallbackRateThreshold();
 };
 
 } // namespace config
