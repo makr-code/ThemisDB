@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions. ROCm/HIP kernel dispatch for AMD hardware is implemented (`THEMIS_GEO_HIP`; requires `THEMIS_ENABLE_HIP=ON` and ROCm runtime).
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -16,6 +16,7 @@
 - [x] H3 hexagonal grid indexing support
 - [x] GPU backend device discovery and runbook documentation
 - [x] Structured audit log for GPU/CPU backend switches
+- [x] ROCm/HIP GPU backend for AMD hardware (`THEMIS_GEO_HIP`)
 
 ## In Progress 🚧
 - [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
