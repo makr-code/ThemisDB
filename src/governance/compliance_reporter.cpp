@@ -564,10 +564,70 @@ ComplianceReport ComplianceReporter::generateComplianceReport(const std::string&
             report.details["framework_requirements"].push_back("Access control and segregation of duties");
             report.details["framework_requirements"].push_back("Audit logging of all changes");
             report.details["framework_requirements"].push_back("Regular policy reviews");
+        } else if (framework == "CCPA") {
+            report.details["framework_requirements"].push_back("Opt-out of sale of personal information");
+            report.details["framework_requirements"].push_back("Right to know categories and specific pieces of personal information");
+            report.details["framework_requirements"].push_back("Right to delete personal information");
+            report.details["framework_requirements"].push_back("Right to portability of personal information");
+            report.details["framework_requirements"].push_back("Non-discrimination for exercising CCPA rights");
         }
     }
     
     return report;
+}
+
+nlohmann::json ComplianceReporter::generateCcpaReport(
+    const CcpaRuleSet& rule_set,
+    int64_t window_start_ms,
+    int64_t window_end_ms
+) const {
+    CcpaReport ccpa = rule_set.generateReport(window_start_ms, window_end_ms);
+
+    nlohmann::json j = ccpa.toJson();
+
+    // Enrich with policy-level gap information specific to CCPA
+    std::vector<nlohmann::json> gaps;
+
+    auto rules = policy_manager_->listRules();
+
+    // Check whether any active policy rule covers CCPA-required resources
+    const std::vector<std::string> ccpa_resources = {
+        "personal_information", "data_subject", "consumer_data"
+    };
+    std::vector<std::string> uncovered;
+    for (const auto& res : ccpa_resources) {
+        bool covered = false;
+        for (const auto& rule : rules) {
+            if (rule.enabled && rule.appliesTo(res, "*")) {
+                covered = true;
+                break;
+            }
+        }
+        if (!covered) {
+            uncovered.push_back(res);
+        }
+    }
+
+    if (!uncovered.empty()) {
+        nlohmann::json gap;
+        gap["gap_type"]           = "missing_ccpa_policy";
+        gap["severity"]           = "high";
+        gap["description"]        = "No active policy rule covers required CCPA-protected resources";
+        gap["affected_resources"] = uncovered;
+        gap["recommendations"]    = {
+            "Add a policy rule that covers 'personal_information' and 'consumer_data' resources",
+            "Ensure the rule enforces encryption and audit logging"
+        };
+        gaps.push_back(gap);
+    }
+
+    j["policy_gaps"] = gaps;
+    j["framework"]   = "CCPA/CPRA";
+
+    THEMIS_INFO("CCPA compliance report generated: {} subjects, {} opt-outs",
+        ccpa.total_subjects, ccpa.opted_out_of_sale);
+
+    return j;
 }
 
 nlohmann::json ComplianceReporter::generateAccessControlMatrix() const {
