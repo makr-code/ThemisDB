@@ -240,6 +240,47 @@ schema_mgr.invalidateCache();
 
 ---
 
+---
+
+## column_lineage.h
+**Purpose:** Column-level lineage and data provenance tracking
+
+**Key Classes:**
+- `ColumnLineageTracker`: Thread-safe, append-only DAG tracker for column derivations
+- `ColumnRef`: Typed column identifier (`table.column`)
+- `ColumnLineageEntry`: A single derivation step (target, sources, transformation, timestamp)
+- `ColumnLineageRecord`: All entries recorded for one target column
+- `TransformationType`: Derivation kind (`DIRECT_COPY`, `RENAME`, `CAST`, `COMPUTED`, `AGGREGATION`, `ANONYMIZATION`, `ENRICHMENT`, `CUSTOM`)
+
+**Usage:**
+```cpp
+#include "metadata/column_lineage.h"
+
+using namespace themis::metadata;
+
+ColumnLineageTracker tracker;
+
+// Record that full_name is computed from first_name + last_name
+ColumnLineageEntry entry;
+entry.target_column  = {"users", "full_name"};
+entry.source_columns = {{"users", "first_name"}, {"users", "last_name"}};
+entry.transformation = TransformationType::COMPUTED;
+entry.transformation_expression = "first_name || ' ' || last_name";
+entry.performed_by   = "etl-service";
+tracker.recordDerivation(entry);
+
+// Query all upstream sources of a column (transitive)
+auto upstream = tracker.getUpstreamColumns({"users", "full_name"});
+
+// Full structured provenance record as JSON
+nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
+```
+
+**Thread Safety:** All public methods are thread-safe.  
+**Design:** Append-only — `recordDerivation()` never modifies or deletes existing entries.
+
+---
+
 ## See Also
 
 - [Implementation Documentation](../../src/metadata/README.md)

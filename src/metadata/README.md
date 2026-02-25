@@ -30,6 +30,7 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Statistics Collector**: Table and index statistics
 - **Information Schema**: SQL-standard metadata views
 - **Metadata Cache**: Performance-optimized metadata caching
+- **Column Lineage Tracker**: Column-level derivation and data provenance
 - **Catalog Exporter**: Publish schema metadata to Apache Atlas and DataHub
 
 ## Features
@@ -54,6 +55,10 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Metadata queries**: Query metadata like regular data
 - **Integration with AQL**: Use AQL to query schema
 
+### Column Lineage
+- **Column-level derivation tracking**: Record how each column was produced from source columns
+- **Transitive upstream/downstream traversal**: BFS through the derivation DAG
+- **Provenance export**: Structured JSON for compliance and audit
 ### External Catalog Integration
 - **Apache Atlas**: Publish `rdbms_db`, `rdbms_table`, `rdbms_column` entities via the v2 bulk API
 - **DataHub**: Emit `datasetProperties` and `schemaMetadata` MetadataChangeProposals per table
@@ -77,6 +82,7 @@ MetadataModule
 ├─→ StatisticsCollector (Table/index statistics)
 ├─→ SystemCatalog (Metadata persistence)
 ├─→ InformationSchema (SQL-standard views)
+└─→ ColumnLineageTracker (Column-level derivation DAG)
 └─→ CatalogExporter (Apache Atlas & DataHub integration)
 ```
 
