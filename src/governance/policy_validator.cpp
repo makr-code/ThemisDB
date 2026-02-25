@@ -152,10 +152,13 @@ std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
 std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() const {
     std::vector<PolicyConflict> overlaps;
     
+    if (!policy_manager_) return overlaps;
     auto rules = policy_manager_->listRules();
     
     for (size_t i = 0; i < rules.size(); i++) {
+        if (!rules[i].enabled) continue;
         for (size_t j = i + 1; j < rules.size(); j++) {
+            if (!rules[j].enabled) continue;
             const auto& r1 = rules[i];
             const auto& r2 = rules[j];
             
@@ -433,6 +436,8 @@ ValidationReport PolicyValidator::validateRuleset() const {
     report.conflicts = detectConflicts();
     auto overlaps = detectOverlappingPermissions();
     report.conflicts.insert(report.conflicts.end(), overlaps.begin(), overlaps.end());
+    auto circular = detectCircularDependencies();
+    report.conflicts.insert(report.conflicts.end(), circular.begin(), circular.end());
     
     report.violations = checkSecurityBestPractices();
     report.effectiveness_metrics = calculateEffectiveness();

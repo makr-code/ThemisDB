@@ -266,6 +266,106 @@ TEST_F(PolicyValidatorTest, DetectOverlapping_DifferentPrioritiesNoOverlapConfli
     EXPECT_TRUE(overlaps.empty()) << "Different priorities resolve ambiguity";
 }
 
+TEST_F(PolicyValidatorTest, DetectOverlapping_DisabledRulesIgnored) {
+    PolicyValidator validator(policy_mgr_);
+
+    auto r1 = makeRule("dis_ov1", "Disabled Overlap", {"shared/*"}, {"read"}, /*enabled=*/false);
+    r1.priority = 5;
+    auto r2 = makeRule("dis_ov2", "Enabled Overlap", {"shared/*"}, {"read"}, /*enabled=*/true);
+    r2.priority = 5;
+
+    policy_mgr_->addRule(r1);
+    policy_mgr_->addRule(r2);
+
+    auto overlaps = validator.detectOverlappingPermissions();
+
+    EXPECT_TRUE(overlaps.empty()) << "Disabled rules must be skipped in overlap detection";
+}
+
+// ========== detectCircularDependencies ==========
+
+TEST_F(PolicyValidatorTest, DetectCircular_ThreeWayCycle) {
+    PolicyValidator validator(policy_mgr_);
+
+    // Three rules at the same priority, same resource/action, with contradictory effects
+    auto ra = makeRule("circ_a", "Circ A", {"shared/*"}, {"read"});
+    ra.priority = 7;
+    ra.require_encryption = true;
+    ra.allow_export = false;
+    ra.allow_cache = false;
+
+    auto rb = makeRule("circ_b", "Circ B", {"shared/*"}, {"read"});
+    rb.priority = 7;
+    rb.require_encryption = false;  // contradicts ra
+    rb.allow_export = true;
+    rb.allow_cache = true;
+
+    auto rc = makeRule("circ_c", "Circ C", {"shared/*"}, {"read"});
+    rc.priority = 7;
+    rc.require_encryption = true;
+    rc.allow_export = true;         // contradicts ra
+    rc.allow_cache = false;
+
+    policy_mgr_->addRule(ra);
+    policy_mgr_->addRule(rb);
+    policy_mgr_->addRule(rc);
+
+    auto circular = validator.detectCircularDependencies();
+
+    ASSERT_FALSE(circular.empty());
+    EXPECT_EQ(circular[0].conflict_type, "circular");
+    EXPECT_EQ(circular[0].severity, "high");
+    EXPECT_GE(circular[0].affected_rules.size(), 3u);
+    EXPECT_FALSE(circular[0].resolution_suggestions.empty());
+}
+
+TEST_F(PolicyValidatorTest, DetectCircular_TwoRulesNoCycle) {
+    PolicyValidator validator(policy_mgr_);
+
+    auto r1 = makeRule("nc1", "No Cycle A", {"data/*"}, {"read"});
+    r1.priority = 7;
+    r1.require_encryption = true;
+    auto r2 = makeRule("nc2", "No Cycle B", {"data/*"}, {"read"});
+    r2.priority = 7;
+    r2.require_encryption = false;
+
+    policy_mgr_->addRule(r1);
+    policy_mgr_->addRule(r2);
+
+    auto circular = validator.detectCircularDependencies();
+
+    // Two rules can't form a cycle (component size < 3)
+    EXPECT_TRUE(circular.empty());
+}
+
+// ========== validateRuleset includes circular conflicts ==========
+
+TEST_F(PolicyValidatorTest, ValidateRuleset_IncludesCircularConflicts) {
+    PolicyValidator validator(policy_mgr_);
+
+    auto ra = makeRule("vcirc_a", "VCirc A", {"shared/*"}, {"read"});
+    ra.priority = 3; ra.require_encryption = true; ra.allow_export = false; ra.allow_cache = false;
+    auto rb = makeRule("vcirc_b", "VCirc B", {"shared/*"}, {"read"});
+    rb.priority = 3; rb.require_encryption = false; rb.allow_export = true; rb.allow_cache = true;
+    auto rc = makeRule("vcirc_c", "VCirc C", {"shared/*"}, {"read"});
+    rc.priority = 3; rc.require_encryption = true; rc.allow_export = true; rc.allow_cache = false;
+
+    policy_mgr_->addRule(ra);
+    policy_mgr_->addRule(rb);
+    policy_mgr_->addRule(rc);
+
+    auto report = validator.validateRuleset();
+
+    bool has_circular = false;
+    for (const auto& c : report.conflicts) {
+        if (c.conflict_type == "circular") {
+            has_circular = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(has_circular) << "validateRuleset() must include circular dependency conflicts";
+}
+
 // ========== validateRuleset ==========
 
 TEST_F(PolicyValidatorTest, ValidateRuleset_ProducesReport) {
