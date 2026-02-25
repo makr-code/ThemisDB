@@ -16,6 +16,7 @@
 ## In Progress 🚧
 - [I] Dynamic policy hot-reload without restart (Target: Q2 2026) (Issue: #1759)
 - [I] Policy conflict detection and resolution reporting (Target: Q2 2026) (Issue: #1760)
+- [~] CCPA compliance rule set (Target: Q3 2026) (Issue: #1761)
 
 ## Planned Features 📋
 
@@ -65,7 +66,7 @@
 
 ## Known Issues & Limitations
 - Policy hot-reload requires restart currently
-- CCPA rule set is not yet implemented
+- CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
 - OPA integration is planned but not started
 - Automated data masking in query results is not yet implemented
 - Data lineage tracking is not yet available
