@@ -263,12 +263,82 @@ TEST_F(ExplainAqlTest, DOT_InvalidAql_ReturnsError) {
 // Non-conjunctive form: graph traversal
 // ============================================================================
 
-TEST_F(ExplainAqlTest, GraphTraversal_ProducesSeqScanWithTypeLabel) {
-    // A SHORTEST_PATH / traversal AQL should not crash and should return a plan
-    // that mentions the query kind.
+TEST_F(ExplainAqlTest, GraphTraversal_ProducesGraphTraversalNode) {
     const char* aql =
         "FOR v IN 1..3 OUTBOUND 'persons/alice' GRAPH 'social' RETURN v";
     auto result = explainAql(aql, *engine_);
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_TRUE((*result).contains("plan"));
+    const auto& plan = (*result)["plan"];
+    EXPECT_EQ(plan["type"].get<std::string>(), "GraphTraversal");
+}
+
+TEST_F(ExplainAqlTest, GraphTraversal_PlanHasCostAndRows) {
+    const char* aql =
+        "FOR v IN 1..3 OUTBOUND 'persons/alice' GRAPH 'social' RETURN v";
+    auto result = explainAql(aql, *engine_);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    const auto& plan = (*result)["plan"];
+    EXPECT_TRUE(plan.contains("estimated_cost"));
+    EXPECT_TRUE(plan.contains("estimated_rows"));
+    EXPECT_GT(plan["estimated_cost"].get<double>(), 0.0);
+}
+
+TEST_F(ExplainAqlTest, GraphTraversal_AttributesIncludeStartDepthDirectionAlgorithm) {
+    const char* aql =
+        "FOR v IN 2..4 OUTBOUND 'persons/alice' GRAPH 'social' RETURN v";
+    auto result = explainAql(aql, *engine_);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    const auto& plan = (*result)["plan"];
+    ASSERT_TRUE(plan.contains("attributes"));
+    const auto& attrs = plan["attributes"];
+
+    // Collect all attribute strings for easy searching
+    std::vector<std::string> attr_list;
+    for (const auto& a : attrs) attr_list.push_back(a.get<std::string>());
+
+    auto has_attr = [&](const std::string& prefix) {
+        for (const auto& a : attr_list)
+            if (a.rfind(prefix, 0) == 0) return true;
+        return false;
+    };
+
+    EXPECT_TRUE(has_attr("start:"))     << "missing 'start:' attribute";
+    EXPECT_TRUE(has_attr("depth:"))     << "missing 'depth:' attribute";
+    EXPECT_TRUE(has_attr("direction:")) << "missing 'direction:' attribute";
+    EXPECT_TRUE(has_attr("algorithm:")) << "missing 'algorithm:' attribute";
+}
+
+TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_UsesBFS) {
+    // SHORTEST_PATH with depth ≤ 5 → BFS
+    const char* aql =
+        "FOR v IN OUTBOUND SHORTEST_PATH 'persons/alice' TO 'persons/bob' "
+        "GRAPH 'social' RETURN v";
+    auto result = explainAql(aql, *engine_);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    const auto& plan = (*result)["plan"];
+    EXPECT_EQ(plan["type"].get<std::string>(), "GraphTraversal");
+    // Algorithm attribute must be present
+    ASSERT_TRUE(plan.contains("attributes"));
+    bool found_algo = false;
+    for (const auto& a : plan["attributes"]) {
+        if (a.get<std::string>().rfind("algorithm:", 0) == 0) { found_algo = true; break; }
+    }
+    EXPECT_TRUE(found_algo) << "missing 'algorithm:' attribute in shortest-path plan";
+}
+
+TEST_F(ExplainAqlTest, GraphTraversal_Text_ContainsGraphTraversalKeyword) {
+    const char* aql =
+        "FOR v IN 1..2 OUTBOUND 'persons/alice' GRAPH 'social' RETURN v";
+    auto result = explainAqlText(aql, *engine_);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_NE((*result).find("GraphTraversal"), std::string::npos);
+}
+
+TEST_F(ExplainAqlTest, GraphTraversal_DOT_ContainsGraphTraversalLabel) {
+    const char* aql =
+        "FOR v IN 1..2 OUTBOUND 'persons/alice' GRAPH 'social' RETURN v";
+    auto result = explainAqlDot(aql, *engine_);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_NE((*result).find("GraphTraversal"), std::string::npos);
+    EXPECT_NE((*result).find("digraph QueryPlan"), std::string::npos);
 }
