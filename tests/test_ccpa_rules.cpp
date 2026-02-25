@@ -28,6 +28,8 @@
 
 #include <gtest/gtest.h>
 #include "governance/ccpa_rules.h"
+#include "governance/policy_validator.h"
+#include "governance/policy_manager.h"
 #include <chrono>
 
 using namespace themis::governance;
@@ -116,7 +118,7 @@ TEST_F(CcpaRulesTest, RegisterAndLookup) {
 TEST_F(CcpaRulesTest, RemoveSubject) {
     EXPECT_TRUE(rules.removeSubject("carol"));
     EXPECT_EQ(rules.subjectCount(), 2);
-    EXPECT_EQ(rules.getSubject("carol"), nullptr);
+    EXPECT_FALSE(rules.getSubject("carol").has_value());
 
     // Removing a non-existent subject returns false
     EXPECT_FALSE(rules.removeSubject("nobody"));
@@ -359,4 +361,116 @@ TEST_F(CcpaRulesTest, Report_JsonContainsRequiredFields) {
     EXPECT_TRUE(j.contains("portability_requests"));
     EXPECT_TRUE(j.contains("subjects_by_category"));
     EXPECT_TRUE(j.contains("disclosures_by_third_party"));
+}
+
+// ---------------------------------------------------------------------------
+// PolicyValidator CCPA conflict detection integration
+// ---------------------------------------------------------------------------
+
+class CcpaValidatorTest : public ::testing::Test {
+protected:
+    std::shared_ptr<PolicyManager> mgr;
+    std::unique_ptr<PolicyValidator> validator;
+
+    void SetUp() override {
+        mgr = std::make_shared<PolicyManager>();
+        validator = std::make_unique<PolicyValidator>(mgr);
+    }
+
+    PolicyRule makeRule(const std::string& id,
+                        int retention_days,
+                        bool allow_export = true,
+                        const std::string& resource = "data/*") {
+        PolicyRule r;
+        r.id = id;
+        r.name = id;
+        r.enabled = true;
+        r.resources = {resource};
+        r.actions = {"read"};
+        r.retention_days = retention_days;
+        r.allow_export = allow_export;
+        r.classification_level = "vs-nfd";
+        r.created_at = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        r.updated_at = r.created_at;
+        return r;
+    }
+};
+
+TEST_F(CcpaValidatorTest, DetectCcpaConflicts_HipaaRetentionFlagged) {
+    // A rule with 6-year retention (HIPAA) should be flagged as conflicting
+    // with CCPA right-to-delete
+    mgr->addRule(makeRule("hipaa-rule", /*retention_days*/ 2190));
+
+    auto violations = validator->detectCcpaConflicts();
+    ASSERT_FALSE(violations.empty());
+
+    bool found = false;
+    for (const auto& v : violations) {
+        if (v.violation_type == "ccpa_hipaa_retention_conflict") {
+            found = true;
+            EXPECT_EQ(v.severity, "medium");
+            EXPECT_FALSE(v.affected_rules.empty());
+            EXPECT_FALSE(v.recommendations.empty());
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(CcpaValidatorTest, DetectCcpaConflicts_ShortRetentionClean) {
+    // A rule with standard 1-year retention should NOT be flagged
+    mgr->addRule(makeRule("normal-rule", /*retention_days*/ 365));
+
+    auto violations = validator->detectCcpaConflicts();
+    for (const auto& v : violations) {
+        EXPECT_NE(v.violation_type, "ccpa_hipaa_retention_conflict");
+    }
+}
+
+TEST_F(CcpaValidatorTest, DetectCcpaConflicts_ExportBlockFlagged) {
+    // A rule that blocks export on all resources blocks CCPA portability
+    mgr->addRule(makeRule("block-all-export", /*retention_days*/ 365,
+                          /*allow_export*/ false, /*resource*/ "*"));
+
+    auto violations = validator->detectCcpaConflicts();
+    bool found = false;
+    for (const auto& v : violations) {
+        if (v.violation_type == "ccpa_portability_blocked") {
+            found = true;
+            EXPECT_EQ(v.severity, "high");
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(CcpaValidatorTest, DetectCcpaConflicts_NarrowExportBlockClean) {
+    // A rule that blocks export only on a specific resource is NOT a blanket
+    // block and should not be flagged
+    mgr->addRule(makeRule("narrow-export-block", /*retention_days*/ 365,
+                          /*allow_export*/ false, /*resource*/ "keys/*"));
+
+    auto violations = validator->detectCcpaConflicts();
+    for (const auto& v : violations) {
+        EXPECT_NE(v.violation_type, "ccpa_portability_blocked");
+    }
+}
+
+TEST_F(CcpaValidatorTest, ValidateRuleset_IncludesCcpaConflicts) {
+    // validateRuleset() must invoke detectCcpaConflicts() and include
+    // results in the report's violations list
+    mgr->addRule(makeRule("hipaa-rule", /*retention_days*/ 2190));
+
+    auto report = validator->validateRuleset();
+
+    bool found = false;
+    for (const auto& v : report.violations) {
+        if (v.violation_type == "ccpa_hipaa_retention_conflict") {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
+    EXPECT_GT(report.total_issues, 0);
 }
