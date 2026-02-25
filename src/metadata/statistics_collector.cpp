@@ -32,6 +32,34 @@
 namespace themis {
 
 // ============================================================================
+// IndexStats
+// ============================================================================
+
+json IndexStats::toJSON() const {
+    json j;
+    j["table"]                = table;
+    j["column"]               = column;
+    j["type"]                 = type;
+    j["entry_count"]          = entry_count;
+    j["estimated_size_bytes"] = estimated_size_bytes;
+    j["unique"]               = unique;
+    j["additional_info"]      = additional_info;
+
+    auto time_t_val = std::chrono::system_clock::to_time_t(last_updated);
+    char buf[64];
+    std::tm tm_buf{};
+#ifdef _WIN32
+    gmtime_s(&tm_buf, &time_t_val);
+#else
+    gmtime_r(&time_t_val, &tm_buf);
+#endif
+    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
+    j["last_updated"] = buf;
+
+    return j;
+}
+
+// ============================================================================
 // HistogramBucket
 // ============================================================================
 
@@ -385,6 +413,87 @@ json StatisticsCollector::toJSON() const {
 }
 
 // ----------------------------------------------------------------------------
+// Index statistics export
+// ----------------------------------------------------------------------------
+
+StatsResult<bool> StatisticsCollector::importIndexStats(
+    std::string_view table_name,
+    const std::vector<IndexStats>& stats)
+{
+    if (table_name.empty()) {
+        return StatsResult<bool>::failure(
+            StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
+    }
+
+    // Stamp the import time on each entry
+    auto now = std::chrono::system_clock::now();
+    std::vector<IndexStats> stamped = stats;
+    for (auto& s : stamped) {
+        s.last_updated = now;
+    }
+
+    persistIndexStats(table_name, stamped);
+    {
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+        index_stats_cache_[std::string(table_name)] = stamped;
+    }
+
+    spdlog::debug("StatisticsCollector: imported {} index stat(s) for '{}'",
+                  stamped.size(), table_name);
+    return StatsResult<bool>::success(true);
+}
+
+StatsResult<std::vector<IndexStats>> StatisticsCollector::getIndexStats(
+    std::string_view table_name)
+{
+    if (table_name.empty()) {
+        return StatsResult<std::vector<IndexStats>>::failure(
+            StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
+    }
+
+    // Check in-memory cache first
+    {
+        std::shared_lock<std::shared_mutex> lock(cache_mutex_);
+        auto it = index_stats_cache_.find(std::string(table_name));
+        if (it != index_stats_cache_.end()) {
+            return StatsResult<std::vector<IndexStats>>::success(it->second);
+        }
+    }
+
+    // Cache miss – try to load from RocksDB
+    auto maybe = loadIndexStats(table_name);
+    if (!maybe.has_value()) {
+        return StatsResult<std::vector<IndexStats>>::failure(
+            StatsErrorCode::TABLE_NOT_FOUND,
+            "No index statistics found for table '" + std::string(table_name) + "'");
+    }
+
+    {
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+        index_stats_cache_[std::string(table_name)] = *maybe;
+    }
+    return StatsResult<std::vector<IndexStats>>::success(std::move(*maybe));
+}
+
+StatsResult<bool> StatisticsCollector::clearIndexStats(std::string_view table_name) {
+    if (table_name.empty()) {
+        return StatsResult<bool>::failure(
+            StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
+    }
+
+    {
+        std::unique_lock<std::shared_mutex> lock(cache_mutex_);
+        index_stats_cache_.erase(std::string(table_name));
+    }
+
+    std::string key = "idxstats:" + std::string(table_name);
+    db_.del(key);
+
+    spdlog::debug("StatisticsCollector: cleared index stats for '{}'", table_name);
+    return StatsResult<bool>::success(true);
+}
+
+// ----------------------------------------------------------------------------
 // Internal helpers
 // ----------------------------------------------------------------------------
 
@@ -551,6 +660,66 @@ std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_
         return stats;
     } catch (const std::exception& e) {
         spdlog::warn("StatisticsCollector: Failed to load stats for '{}': {}",
+                     table_name, e.what());
+        return std::nullopt;
+    }
+}
+
+void StatisticsCollector::persistIndexStats(
+    std::string_view table_name,
+    const std::vector<IndexStats>& stats)
+{
+    try {
+        std::string key = "idxstats:" + std::string(table_name);
+        json arr = json::array();
+        for (const auto& s : stats) {
+            arr.push_back(s.toJSON());
+        }
+        std::string value = arr.dump();
+        std::vector<uint8_t> data(value.begin(), value.end());
+        if (!db_.put(key, data)) {
+            spdlog::warn("StatisticsCollector: Failed to persist index stats for '{}'",
+                         table_name);
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("StatisticsCollector: Exception persisting index stats for '{}': {}",
+                      table_name, e.what());
+    }
+}
+
+std::optional<std::vector<IndexStats>> StatisticsCollector::loadIndexStats(
+    std::string_view table_name)
+{
+    try {
+        std::string key = "idxstats:" + std::string(table_name);
+        auto result = db_.get(key);
+        if (!result.has_value() || result->empty()) {
+            return std::nullopt;
+        }
+
+        std::string json_str(result->begin(), result->end());
+        json arr = json::parse(json_str);
+        if (!arr.is_array()) {
+            return std::nullopt;
+        }
+
+        std::vector<IndexStats> stats;
+        stats.reserve(arr.size());
+        for (const auto& item : arr) {
+            IndexStats s;
+            s.table                = item.value("table",                std::string(table_name));
+            s.column               = item.value("column",               std::string{});
+            s.type                 = item.value("type",                 std::string{});
+            s.entry_count          = item.value("entry_count",          size_t{0});
+            s.estimated_size_bytes = item.value("estimated_size_bytes", size_t{0});
+            s.unique               = item.value("unique",               false);
+            s.additional_info      = item.value("additional_info",      std::string{});
+            s.last_updated         = std::chrono::system_clock::now();  // Approximate
+            stats.push_back(std::move(s));
+        }
+        return stats;
+    } catch (const std::exception& e) {
+        spdlog::warn("StatisticsCollector: Failed to load index stats for '{}': {}",
                      table_name, e.what());
         return std::nullopt;
     }
