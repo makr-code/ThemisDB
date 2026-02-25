@@ -15,7 +15,7 @@ echo "📋 Creating P0 Issue: LLaMA.cpp Plugin Real Implementation..."
 gh issue create \
   --repo "$REPO" \
   --title "P0: LLaMA.cpp Plugin Real Implementation" \
-  --label "priority:P0,type:feature,area:llm" \
+  --label "priority:critical,type:feature,area:llm" \
   --milestone "v1.4.0" \
   --body "## 🎯 Objective
 
@@ -119,7 +119,7 @@ echo "📋 Creating P1.1 Issue: Timestamp Authority..."
 gh issue create \
   --repo "$REPO" \
   --title "P1: Timestamp Authority (RFC 3161) Implementation" \
-  --label "priority:P1,type:feature,area:security" \
+  --label "priority:high,type:feature,area:security" \
   --milestone "v1.5.0" \
   --body "## 🎯 Objective
 
@@ -174,7 +174,7 @@ echo "📋 Creating P1.2 Issue: LLM Production Validator..."
 gh issue create \
   --repo "$REPO" \
   --title "P1: LLM Production Validator Implementation" \
-  --label "priority:P1,type:feature,area:llm,area:monitoring" \
+  --label "priority:high,type:feature,area:llm,area:monitoring" \
   --milestone "v1.5.0" \
   --body "## 🎯 Objective
 
@@ -225,7 +225,7 @@ echo "📋 Creating P1.3 Issue: Shard RPC Client Multi-Node..."
 gh issue create \
   --repo "$REPO" \
   --title "P1: Shard RPC Client Multi-Node Support" \
-  --label "priority:P1,type:feature,area:sharding,area:networking" \
+  --label "priority:high,type:feature,area:sharding,area:networking" \
   --milestone "v1.5.0" \
   --body "## 🎯 Objective
 
@@ -283,7 +283,7 @@ echo "📋 Creating P1.4 Issue: LLM Inference Engine..."
 gh issue create \
   --repo "$REPO" \
   --title "P1: LLM Inference Engine Improvements" \
-  --label "priority:P1,type:enhancement,area:llm,area:performance" \
+  --label "priority:high,type:enhancement,area:llm,area:performance" \
   --milestone "v1.5.0" \
   --body "## 🎯 Objective
 
@@ -341,7 +341,7 @@ echo "📋 Creating P1.5 Issue: Grafana Metrics..."
 gh issue create \
   --repo "$REPO" \
   --title "P1: Grafana Metrics Integration for LLM" \
-  --label "priority:P1,type:feature,area:llm,area:monitoring,area:observability" \
+  --label "priority:high,type:feature,area:llm,area:monitoring,area:observability" \
   --milestone "v1.5.0" \
   --body "## 🎯 Objective
 
@@ -392,7 +392,7 @@ echo "📋 Creating P2.1 Issue: Video Processor..."
 gh issue create \
   --repo "$REPO" \
   --title "P2: Video Processor (FFmpeg Integration)" \
-  --label "priority:P2,type:feature,area:content-processing" \
+  --label "priority:medium,type:feature,area:content-processing" \
   --milestone "v1.6.0" \
   --body "## 🎯 Objective
 
@@ -452,7 +452,7 @@ echo "📋 Creating P2.2 Issue: Office PPTX Support..."
 gh issue create \
   --repo "$REPO" \
   --title "P2: Office PPTX Support" \
-  --label "priority:P2,type:feature,area:content-processing" \
+  --label "priority:medium,type:feature,area:content-processing" \
   --milestone "v1.6.0" \
   --body "## 🎯 Objective
 
@@ -508,7 +508,7 @@ echo "📋 Creating P2.3 Issue: Geo Processor..."
 gh issue create \
   --repo "$REPO" \
   --title "P2: Geo Processor (GDAL Integration)" \
-  --label "priority:P2,type:feature,area:content-processing,area:geo" \
+  --label "priority:medium,type:feature,area:content-processing,area:geo" \
   --milestone "v1.6.0" \
   --body "## 🎯 Objective
 
@@ -568,7 +568,7 @@ echo "📋 Creating P2.4 Issue: PostgreSQL Wire Protocol..."
 gh issue create \
   --repo "$REPO" \
   --title "P2: PostgreSQL Wire Protocol Completion" \
-  --label "priority:P2,type:feature,area:networking,area:compatibility" \
+  --label "priority:medium,type:feature,area:networking,area:compatibility" \
   --milestone "v1.6.0" \
   --body "## 🎯 Objective
 
