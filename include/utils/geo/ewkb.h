@@ -135,6 +135,8 @@ struct GeometryInfo {
     bool isPoint() const { return type == GeometryType::Point || type == GeometryType::PointZ; }
     bool isLineString() const { return type == GeometryType::LineString || type == GeometryType::LineStringZ; }
     bool isPolygon() const { return type == GeometryType::Polygon || type == GeometryType::PolygonZ; }
+    bool isMultiPolygon() const { return type == GeometryType::MultiPolygon || type == GeometryType::MultiPolygonZ; }
+    bool isGeometryCollection() const { return type == GeometryType::GeometryCollection || type == GeometryType::GeometryCollectionZ; }
     bool hasZ() const { return has_z; }
     
     // Compute MBR from coordinates
