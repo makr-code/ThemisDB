@@ -248,7 +248,9 @@ public:
     }
     
     // Exact geometry intersection check.
-    // Supports: Point×Point, Point×Polygon (symmetric), Polygon×Polygon.
+    // Supports: Point×Point, Point×Polygon (symmetric), Polygon×Polygon,
+    // MultiPolygon (decomposed into constituent polygons),
+    // GeometryCollection (decomposed into member geometries).
     // Uses ray-casting (point-in-polygon) and segment-intersection
     // to handle all cases including edge-only polygon crossings.
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
@@ -301,6 +303,34 @@ public:
                 return polygonIntersects(poly1, poly2);
             }
             
+            // MultiPolygon: intersects if any constituent polygon intersects
+            if (geom1.isMultiPolygon()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isMultiPolygon()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
+            // GeometryCollection: intersects if any member intersects
+            if (geom1.isGeometryCollection()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isGeometryCollection()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
             // For all other geometry-type combinations or inconclusive cases,
             // we conservatively report no intersection rather than using an
             // approximate MBR-based fallback, to avoid false positives.

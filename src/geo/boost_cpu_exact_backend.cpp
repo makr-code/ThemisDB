@@ -151,7 +151,35 @@ public:
                 Point pt2(geom2.coords[0].x, geom2.coords[0].y);
                 return bg::equals(pt1, pt2);
             }
-            
+
+            // MultiPolygon: intersects if any constituent polygon intersects
+            if (geom1.isMultiPolygon()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isMultiPolygon()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
+            // GeometryCollection: intersects if any member intersects
+            if (geom1.isGeometryCollection()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isGeometryCollection()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
             // Fallback: use MBR intersection for unsupported types
             auto mbr1 = geom1.computeMBR();
             auto mbr2 = geom2.computeMBR();
