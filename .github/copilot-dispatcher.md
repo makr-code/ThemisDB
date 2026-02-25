@@ -267,11 +267,33 @@ skip it) or manually remove the `pr/copilot` label.
 ```
 active = open PRs with label pr/copilot AND NOT label copilot/status-ready
 needed = wip_limit - active
+today  = PRs with label pr/copilot created on the current UTC calendar day
 ```
 
-The dispatcher selects up to `needed` open issues that carry
+The dispatcher selects up to `min(needed, daily_dispatch_limit - today)` open issues that carry
 `queue/copilot` but NOT `in-progress/copilot` and NOT `blocked` / `status:blocked`,
 in creation-date order (oldest first).
+
+### Daily dispatch limit
+
+The `daily_dispatch_limit` setting caps the total number of new Copilot PRs created
+across **all runs within one UTC calendar day**.  The dispatcher queries how many
+`pr/copilot` PRs were already created today and stops once that count reaches the
+configured limit.
+
+| Value | Behaviour |
+|---|---|
+| `50` (default) | At most 50 new Copilot PRs per day |
+| `0` | Daily limit disabled – only `wip_limit` applies |
+| any positive integer | PRs created that calendar day (UTC) |
+
+Configure in `.github/copilot-dispatcher.yml`:
+
+```yaml
+# Maximum number of issues processed per UTC calendar day.
+# Set to 0 to disable.
+daily_dispatch_limit: 50
+```
 
 ---
 

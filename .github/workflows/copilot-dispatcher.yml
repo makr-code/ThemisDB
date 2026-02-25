@@ -51,7 +51,7 @@ jobs:
             const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
 
             // ── Load configuration ──────────────────────────────────────────
-            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [], copilot_assignee_login: 'copilot', add_issue_author_as_reviewer: true };
+            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [], copilot_assignee_login: 'copilot', add_issue_author_as_reviewer: true, daily_dispatch_limit: 50 };
             try {
               const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
               config = { ...config, ...yaml.load(raw) };
@@ -59,13 +59,14 @@ jobs:
               core.warning(`Could not read .github/copilot-dispatcher.yml: ${e.message}. Using defaults.`);
             }
 
-            const WIP_LIMIT    = config.wip_limit    ?? 5;
-            const BASE_BRANCH  = config.base_branch  ?? 'develop';
-            const DRAFT        = config.draft        ?? true;
-            const OWNER        = context.repo.owner;
-            const REPO         = context.repo.repo;
+            const WIP_LIMIT          = config.wip_limit          ?? 5;
+            const BASE_BRANCH        = config.base_branch        ?? 'develop';
+            const DRAFT              = config.draft              ?? true;
+            const DAILY_LIMIT        = config.daily_dispatch_limit ?? 50;
+            const OWNER              = context.repo.owner;
+            const REPO               = context.repo.repo;
 
-            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}, draft=${DRAFT}`);
+            core.info(`Config: wip_limit=${WIP_LIMIT}, base_branch=${BASE_BRANCH}, draft=${DRAFT}, daily_dispatch_limit=${DAILY_LIMIT}`);
 
             // ── Helper: abort the entire dispatch run on unrecoverable errors ──
             // Marks the workflow step as failed (stops the job) and emits a
@@ -113,6 +114,33 @@ jobs:
               return;
             }
 
+            // ── Daily dispatch limit ────────────────────────────────────────
+            // Count how many Copilot PRs were already created today (UTC) so
+            // the dispatcher never creates more than DAILY_LIMIT PRs per day.
+            let dailyDispatched = 0;
+            if (DAILY_LIMIT > 0) {
+              const todayUTC = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+              let todayPRs;
+              try {
+                todayPRs = await github.paginate(
+                  github.rest.search.issuesAndPullRequests,
+                  {
+                    q: `repo:${OWNER}/${REPO} is:pr label:pr/copilot created:>=${todayUTC}`,
+                    per_page: 100,
+                  }
+                );
+              } catch (e) {
+                core.warning(`Could not query today's Copilot PR count: ${e.message}. Daily limit check skipped.`);
+                todayPRs = [];
+              }
+              dailyDispatched = todayPRs.length;
+              core.info(`Daily dispatch: ${dailyDispatched} / ${DAILY_LIMIT} (date=${todayUTC})`);
+              if (dailyDispatched >= DAILY_LIMIT) {
+                core.info(`Daily dispatch limit of ${DAILY_LIMIT} reached – nothing to dispatch today.`);
+                return;
+              }
+            }
+
             // ── Build a set of issue numbers already linked to an open PR ───
             // This prevents creating a duplicate PR for an issue that already
             // has one (idempotency guard).
@@ -158,6 +186,10 @@ jobs:
             let dispatched = 0;
             for (const issue of queuedIssues) {
               if (dispatched >= needed) break;
+              if (DAILY_LIMIT > 0 && (dailyDispatched + dispatched) >= DAILY_LIMIT) {
+                core.info(`Daily dispatch limit of ${DAILY_LIMIT} reached – stopping.`);
+                break;
+              }
 
               const issueNumber  = issue.number;
               const issueAuthor  = issue.user?.login ?? null;
