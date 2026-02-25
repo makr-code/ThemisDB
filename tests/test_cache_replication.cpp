@@ -12,19 +12,6 @@
 using namespace themis;
 using json = nlohmann::json;
 
-// ---------------------------------------------------------------------------
-// Helper: create a small AdaptiveQueryCache config that avoids RocksDB I/O
-// ---------------------------------------------------------------------------
-static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_suffix = "") {
-    AdaptiveQueryCache::Config cfg;
-    cfg.l3_db_path = "/tmp/themis_repl_test_cache_" + db_suffix + "_" +
-                     std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
-    cfg.l1_max_entries  = 20;
-    cfg.l2_max_entries  = 40;
-    cfg.l1_ttl_seconds  = 300;
-    cfg.l2_ttl_seconds  = 600;
-    cfg.l3_ttl_seconds  = 3600;
-    cfg.enable_replication = true;
 // Phase 4: Unit tests for cache replication (high-availability deployments)
 
 #include <gtest/gtest.h>
@@ -159,7 +146,7 @@ TEST(InProcessCacheCoordinatorTest, StatsReflectMessageCounts) {
 // ---------------------------------------------------------------------------
 // Test: AdaptiveQueryCache + replication coordinator integration
 // ---------------------------------------------------------------------------
-class CacheReplicationIntegrationTest : public ::testing::Test {
+class CacheReplicationCoordIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
         bus_    = std::make_shared<cache::InProcessCacheCoordinator::Bus>();
@@ -194,7 +181,7 @@ protected:
     std::string db_path_b_;
 };
 
-TEST_F(CacheReplicationIntegrationTest, PutOnAReplicatesToB) {
+TEST_F(CacheReplicationCoordIntegrationTest, PutOnAReplicatesToB) {
     json result = {{"data", {1, 2, 3}}};
     std::string fp = cache_a->generateFingerprint("SELECT 1", {});
 
@@ -207,7 +194,7 @@ TEST_F(CacheReplicationIntegrationTest, PutOnAReplicatesToB) {
     EXPECT_EQ(entry->result["data"][0].get<int>(), 1);
 }
 
-TEST_F(CacheReplicationIntegrationTest, InvalidateOnAPropagatestoB) {
+TEST_F(CacheReplicationCoordIntegrationTest, InvalidateOnAPropagatestoB) {
     json result = {{"x", 99}};
     std::string fp = cache_a->generateFingerprint("SELECT x", {});
 
@@ -222,7 +209,7 @@ TEST_F(CacheReplicationIntegrationTest, InvalidateOnAPropagatestoB) {
     EXPECT_FALSE(cache_b->get(fp).has_value());
 }
 
-TEST_F(CacheReplicationIntegrationTest, GracefulDegradationWhenCoordinatorRemoved) {
+TEST_F(CacheReplicationCoordIntegrationTest, GracefulDegradationWhenCoordinatorRemoved) {
     // Remove coordinator from A – puts should still succeed locally
     cache_a->setCoordinator(nullptr);
 
@@ -235,19 +222,19 @@ TEST_F(CacheReplicationIntegrationTest, GracefulDegradationWhenCoordinatorRemove
     EXPECT_FALSE(cache_b->get(fp).has_value());
 }
 
-TEST_F(CacheReplicationIntegrationTest, GetReplicationStatsReturnsEnabled) {
+TEST_F(CacheReplicationCoordIntegrationTest, GetReplicationStatsReturnsEnabled) {
     auto stats = cache_a->getReplicationStats();
     EXPECT_TRUE(stats["enabled"].get<bool>());
     EXPECT_EQ(stats["name"].get<std::string>(), "InProcessCacheCoordinator");
 }
 
-TEST_F(CacheReplicationIntegrationTest, GetReplicationStatsDisabledWhenNoCoordinator) {
+TEST_F(CacheReplicationCoordIntegrationTest, GetReplicationStatsDisabledWhenNoCoordinator) {
     cache_a->setCoordinator(nullptr);
     auto stats = cache_a->getReplicationStats();
     EXPECT_FALSE(stats["enabled"].get<bool>());
 }
 
-TEST_F(CacheReplicationIntegrationTest, PutWithReplicationDisabledNoMessagesPublished) {
+TEST_F(CacheReplicationCoordIntegrationTest, PutWithReplicationDisabledNoMessagesPublished) {
     // Create a cache with enable_replication = false
     auto cfg = makeTestConfig("norep");
     cfg.enable_replication = false;
@@ -274,7 +261,7 @@ TEST_F(CacheReplicationIntegrationTest, PutWithReplicationDisabledNoMessagesPubl
 // ---------------------------------------------------------------------------
 // Test: three-node bus – entry put on A replicates to B and C
 // ---------------------------------------------------------------------------
-TEST_F(CacheReplicationIntegrationTest, InvalidateTenantPropagatesToB) {
+TEST_F(CacheReplicationCoordIntegrationTest, InvalidateTenantPropagatesToB) {
     // Both caches use tenant isolation
     auto cfg_a = makeTestConfig("tena");
     auto cfg_b = makeTestConfig("tenb");
@@ -345,6 +332,8 @@ TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     std::filesystem::remove_all(dp_a);
     std::filesystem::remove_all(dp_b);
     std::filesystem::remove_all(dp_c);
+}
+
 // In-process mock listener that records all received events
 // ---------------------------------------------------------------------------
 
