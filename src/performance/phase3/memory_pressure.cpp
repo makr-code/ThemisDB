@@ -20,8 +20,6 @@
 #include "performance/phase3/memory_pressure.h"
 
 #include <algorithm>
-#include <cstring>
-#include <stdexcept>
 
 #if defined(__linux__)
 #include <fstream>
