@@ -10,11 +10,12 @@ based on signals extracted from the issue title, body, and existing labels:
 Priority rules (first match wins):
   critical  – Phase 1 marker, P0 prefix, ``### Severity: critical``, or
                existing ``priority:critical`` / ``priority:P0`` label
-  high      – Phase 2–4 marker, P1 prefix, ``### Severity: high``,
-               ``type:bug`` label, or ``[BUG]`` in title
-  low       – ``[Docs-Audit]`` prefix, ``type:documentation`` label combined
-               with severity low, ``### Severity: low``, or Phase 6 marker
-  medium    – everything else (default)
+  high      – Short-term (Next 3-6 months) roadmap section, Phase 2–4 marker,
+               P1 prefix, ``### Severity: high``, ``type:bug`` label, or
+               ``[BUG]`` in title
+  medium    – Long-term (6-12 months) roadmap section, Phase 5 marker, or
+               default fallback
+  low       – ``[Docs-Audit]`` prefix, ``### Severity: low``, or Phase 6 marker
 
 Usage
 -----
@@ -65,9 +66,11 @@ PRIORITY_LABELS: dict[str, dict[str, str]] = {
 }
 
 # Regex helpers
-_SEVERITY_RE   = re.compile(r"###\s*Severity\s*\n+\s*(\w+)", re.IGNORECASE)
-_PHASE_RE      = re.compile(r"\bphase\s*([1-6])\b", re.IGNORECASE)
-_P_PREFIX_RE   = re.compile(r"\b(P0|P1|P2|P3)\b")
+_SEVERITY_RE      = re.compile(r"###\s*Severity\s*\n+\s*(\w+)", re.IGNORECASE)
+_PHASE_RE         = re.compile(r"\bphase\s*([1-6])\b", re.IGNORECASE)
+_P_PREFIX_RE      = re.compile(r"\b(P0|P1|P2|P3)\b")
+_SHORT_TERM_RE    = re.compile(r"\bshort[- ]term\b|\bnext\s+3[- ]6\s+months?\b", re.IGNORECASE)
+_LONG_TERM_RE     = re.compile(r"\blong[- ]term\b|\b6[- ]12\s+months?\b", re.IGNORECASE)
 
 
 # ---------------------------------------------------------------------------
@@ -200,13 +203,36 @@ def _p_prefix(text: str) -> Optional[str]:
     return None
 
 
+def _is_short_term(text: str) -> bool:
+    """Return True if *text* contains a Short-term (3-6 months) marker."""
+    return bool(_SHORT_TERM_RE.search(text or ""))
+
+
+def _is_long_term(text: str) -> bool:
+    """Return True if *text* contains a Long-term (6-12 months) marker."""
+    return bool(_LONG_TERM_RE.search(text or ""))
+
+
 def infer_priority(issue: dict) -> str:
-    """Return the ``priority:*`` label name that best fits this issue."""
-    title = issue.get("title", "") or ""
-    body  = issue.get("body",  "") or ""
+    """Return the ``priority:*`` label name that best fits this issue.
+
+    Decision order (first match wins):
+    1. Existing non-standard priority labels → normalise to canonical form.
+    2. ``### Severity:`` field in body (critical/blocker → critical, etc.).
+    3. P0/P1/P2/P3 prefix in title.
+    4. Roadmap phase marker (Phase 1 → critical, 2-4 → high, 5 → medium, 6 → low).
+    5. Time-horizon section in body:
+       - Short-term (Next 3-6 months) → high
+       - Long-term (6-12 months)      → medium
+    6. Type label / title heuristics (type:bug → high, [Docs-Audit] → low).
+    7. Deferred severity "medium" from step 2.
+    8. Default → medium.
+    """
+    title  = issue.get("title", "") or ""
+    body   = issue.get("body",  "") or ""
     labels = _label_names(issue)
 
-    # 1. Explicit existing priority labels (non-standard naming) → normalise
+    # 1. Existing priority labels (non-standard naming) → normalise
     if "priority:critical" in labels or "priority:p0" in labels:
         return "priority:critical"
     if "priority:high" in labels or "priority:p1" in labels:
@@ -226,18 +252,20 @@ def infer_priority(issue: dict) -> str:
         return "priority:low"
     # "medium" falls through to additional heuristics below
 
-    # 3. P0 / P1 / P2 prefix in title
+    # 3. P0 / P1 / P2 / P3 prefix in title
     p_prefix = _p_prefix(title)
     if p_prefix == "P0":
         return "priority:critical"
     if p_prefix == "P1":
         return "priority:high"
-    if p_prefix in ("P2", "P3"):
-        return "priority:low" if p_prefix == "P3" else "priority:medium"
+    if p_prefix == "P2":
+        return "priority:medium"
+    if p_prefix == "P3":
+        return "priority:low"
 
-    # 4. Roadmap phase marker in title or body
+    # 4. Roadmap phase marker in title or body (first 500 chars)
     phase_title = _phase_from_text(title)
-    phase_body  = _phase_from_text(body[:500])   # only check start of body
+    phase_body  = _phase_from_text(body[:500])
     phase = phase_title or phase_body
     if phase == 1:
         return "priority:critical"
@@ -248,11 +276,17 @@ def infer_priority(issue: dict) -> str:
     if phase == 6:
         return "priority:low"
 
-    # 5. Issue type labels
+    # 5. Time-horizon section marker in body (checked after phase so that
+    #    "Phase 1 … Short-term" correctly yields critical, not high)
+    body_lower = body.lower()
+    if _is_short_term(body_lower):
+        return "priority:high"
+    if _is_long_term(body_lower):
+        return "priority:medium"
+
+    # 6. Type label / title heuristics
     if "type:bug" in labels or "[bug]" in title.lower():
         return "priority:high"
-
-    # 6. Docs-Audit issues are informational → low
     if "[docs-audit]" in title.lower():
         return "priority:low"
 
