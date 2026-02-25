@@ -281,6 +281,10 @@ struct CDCMetrics {
     // WebSocket transport counters (cdc_ws_* Prometheus metric names)
     std::atomic<uint64_t> ws_events_delivered{0};   ///< cdc_ws_events_delivered_total
     std::atomic<uint64_t> ws_overflow_total{0};     ///< cdc_ws_overflow_total
+
+    // Kafka producer counters (cdc_kafka_* Prometheus metric names)
+    std::atomic<uint64_t> kafka_delivered_total{0}; ///< cdc_kafka_delivered_total
+    std::atomic<uint64_t> kafka_error_total{0};     ///< cdc_kafka_error_total
     
     /**
      * @brief Convert all metrics to JSON
@@ -303,7 +307,9 @@ struct CDCMetrics {
                 {"errors", errors.load()},
                 {"retries", retries.load()},
                 {"ws_events_delivered", ws_events_delivered.load()},
-                {"ws_overflow_total", ws_overflow_total.load()}
+                {"ws_overflow_total", ws_overflow_total.load()},
+                {"kafka_delivered_total", kafka_delivered_total.load()},
+                {"kafka_error_total", kafka_error_total.load()}
             }}
         };
     }
@@ -327,6 +333,8 @@ struct CDCMetrics {
         retries = 0;
         ws_events_delivered = 0;
         ws_overflow_total = 0;
+        kafka_delivered_total = 0;
+        kafka_error_total = 0;
     }
 };
 

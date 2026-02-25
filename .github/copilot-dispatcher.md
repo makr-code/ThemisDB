@@ -81,6 +81,20 @@ If the list is **empty**, the review check is skipped (all CI-passing PRs with
 
 ---
 
+## Configuring draft vs. ready PRs
+
+By default the dispatcher creates PRs as **drafts** so they are not accidentally
+merged before Copilot has finished working on them.  To change this, edit
+`.github/copilot-dispatcher.yml`:
+
+```yaml
+# true  → PRs are opened as drafts (default)
+# false → PRs are opened as regular (non-draft) PRs
+draft: true
+```
+
+---
+
 ## What to do when a PR is stuck
 
 1. Add the label **`copilot/status-blocked`** to the PR and leave a comment
@@ -104,8 +118,8 @@ needed = wip_limit - active
 ```
 
 The dispatcher selects up to `needed` open issues that carry
-`queue/copilot` but NOT `in-progress/copilot` and NOT `blocked`, in
-creation-date order (oldest first).
+`queue/copilot` but NOT `in-progress/copilot` and NOT `blocked` / `status:blocked`,
+in creation-date order (oldest first).
 
 ---
 
@@ -120,6 +134,28 @@ creation-date order (oldest first).
 
 ---
 
+## Required labels
+
+Run the label governance workflow once to ensure all required labels exist:
+
+```
+Actions → Label Governance – Setup & Audit → Run workflow → action: create
+```
+
+Or create the required labels manually:
+
+| Label | Kind | Purpose |
+|---|---|---|
+| `queue/copilot` | Issue | Mark issue as eligible for Copilot processing |
+| `in-progress/copilot` | Issue | Claimed by dispatcher; an open Copilot PR exists |
+| `pr/copilot` | PR | PR was created by the dispatcher |
+| `copilot/status-working` | PR | Copilot is actively working; counts against WIP limit |
+| `copilot/status-ready-requested` | PR | Copilot signals done; awaiting readiness gate promotion |
+| `copilot/status-ready` | PR | All gates green; PR no longer counts against WIP limit |
+| `copilot/status-blocked` | PR | Copilot cannot proceed; human intervention required |
+
+---
+
 ## Important notes
 
 - The dispatcher is **idempotent**: re-runs do not create duplicate PRs for
@@ -127,4 +163,4 @@ creation-date order (oldest first).
   `Closes #<issue-number>` in the body before creating a new one).
 - Auto-merge is **not** implemented.  Human review and merge are fully
   independent of the dispatcher.
-- All PRs target the `develop` branch.
+- All PRs target the `develop` branch (configurable via `base_branch`).
