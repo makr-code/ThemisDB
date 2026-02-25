@@ -349,3 +349,33 @@ TEST(V2Server, PushToNonexistentConnectionReturnsFalse) {
     bool result = server.push_to_client("no-such-conn", 1u, {}, {});
     EXPECT_FALSE(result);
 }
+
+// ===== Audit fix: aggregate frame statistics start at zero =====
+
+TEST(V2Server, AggregateFrameStatsInitiallyZero) {
+    V2ConnectionConfig cfg;
+    cfg.port = 0;
+    V2Server server(cfg);
+
+    // Before any connection, aggregate stats must be 0
+    EXPECT_EQ(server.total_frames_sent(),     0u);
+    EXPECT_EQ(server.total_frames_received(), 0u);
+    EXPECT_EQ(server.total_streams_opened(),  0u);
+    EXPECT_EQ(server.active_connections(),    0u);
+}
+
+// ===== Audit fix: V2FrameFlags::COMPRESSED is defined and distinguishable =====
+
+TEST(V2FrameHeader, CompressedFlagRoundtrip) {
+    V2FrameHeader h{};
+    h.magic      = WIRE_V2_MAGIC;
+    h.version    = WIRE_VERSION_2;
+    h.frame_type = static_cast<uint8_t>(V2FrameType::DATA);
+    h.stream_id  = 7u;
+    h.flags      = static_cast<uint16_t>(V2FrameFlags::COMPRESSED);
+
+    EXPECT_TRUE(h.is_valid());
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));
+    EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));
+    EXPECT_EQ(h.get_type(), V2FrameType::DATA);
+}

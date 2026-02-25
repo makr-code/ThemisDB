@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_v2.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:14                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-25 17:53:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     634                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     677                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -314,6 +314,16 @@ private:
         case V2FrameType::DATA: {
             ensureStreamOpen(hdr.stream_id);
             bool eos = hdr.has_flag(V2FrameFlags::END_STREAM);
+
+            // LZ4 decompression is tracked in issue #2416; until it is
+            // implemented, reject compressed frames with a RST_STREAM so
+            // the sender knows not to expect meaningful processing rather
+            // than silently delivering corrupted raw bytes to the handler.
+            if (hdr.has_flag(V2FrameFlags::COMPRESSED)) {
+                reset_stream(hdr.stream_id, 2 /* INTERNAL_ERROR */);
+                break;
+            }
+
             if (data_handler_)
                 data_handler_(hdr.stream_id, payload, eos);
             if (eos) closeStream(hdr.stream_id, true /*remote*/);
@@ -568,9 +578,23 @@ public:
         return sessions_.size();
     }
 
-    uint64_t total_streams_opened()   const { return streams_opened_.load(); }
-    uint64_t total_frames_sent()      const { return frames_sent_.load(); }
-    uint64_t total_frames_received()  const { return frames_received_.load(); }
+    uint64_t total_streams_opened()   const { return connections_accepted_.load(); }
+
+    uint64_t total_frames_sent() const {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        uint64_t total = 0;
+        for (const auto& [id, s] : sessions_)
+            total += s->frames_sent();
+        return total;
+    }
+
+    uint64_t total_frames_received() const {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        uint64_t total = 0;
+        for (const auto& [id, s] : sessions_)
+            total += s->frames_received();
+        return total;
+    }
 
 private:
     void asyncAccept() {
@@ -593,6 +617,7 @@ private:
                     }
 
                     streams_opened_.fetch_add(1, std::memory_order_relaxed);
+                    connections_accepted_.fetch_add(1, std::memory_order_relaxed);
                     session->start();
                 }
                 if (running_.load()) asyncAccept();
@@ -612,9 +637,8 @@ private:
     mutable std::mutex   sessions_mutex_;
     std::unordered_map<std::string, std::shared_ptr<V2SessionImpl>> sessions_;
 
+    std::atomic<uint64_t> connections_accepted_{0};
     std::atomic<uint64_t> streams_opened_{0};
-    std::atomic<uint64_t> frames_sent_{0};
-    std::atomic<uint64_t> frames_received_{0};
 };
 
 // =============================================================================
