@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     698                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
@@ -406,6 +406,102 @@ TEST(ExplainTest, ScoreMatchesPredict) {
     auto exp = det.explain(p);
     auto r   = det.predict(p);
     EXPECT_DOUBLE_EQ(exp.score, r.score);
+}
+
+TEST(ExplainTest, IsolationForestContributionsNonZeroForOutlier) {
+    DetectorConfig cfg;
+    cfg.method       = AnomalyMethod::ISOLATION_FOREST;
+    cfg.n_estimators = 50;
+    cfg.max_samples  = 64;
+    AnomalyDetector det(cfg);
+    det.train(makeNormalData(200, 3, 0.0, 0.1));
+    auto exp = det.explain(makeOutlier(3, 50.0));
+    EXPECT_EQ(exp.feature_contributions.size(), 3u);
+    // At least one feature should have a non-zero contribution
+    bool any_nonzero = false;
+    for (const auto& [name, c] : exp.feature_contributions)
+        if (c > 0.0) any_nonzero = true;
+    EXPECT_TRUE(any_nonzero);
+}
+
+TEST(ExplainTest, IsolationForestContributionsSortedDescending) {
+    DetectorConfig cfg;
+    cfg.method       = AnomalyMethod::ISOLATION_FOREST;
+    cfg.n_estimators = 50;
+    cfg.max_samples  = 64;
+    AnomalyDetector det(cfg);
+    det.train(makeNormalData(200, 3, 0.0, 0.1));
+    auto exp = det.explain(makeOutlier(3, 50.0));
+    for (size_t i = 1; i < exp.feature_contributions.size(); ++i)
+        EXPECT_GE(exp.feature_contributions[i-1].second,
+                  exp.feature_contributions[i].second);
+}
+
+TEST(ExplainTest, LOFContributionsNonZeroForOutlier) {
+    DetectorConfig cfg;
+    cfg.method      = AnomalyMethod::LOF;
+    cfg.k_neighbors = 5;
+    AnomalyDetector det(cfg);
+    det.train(makeNormalData(100, 2, 0.0, 0.1));
+    auto exp = det.explain(makeOutlier(2, 50.0));
+    EXPECT_EQ(exp.feature_contributions.size(), 2u);
+    bool any_nonzero = false;
+    for (const auto& [name, c] : exp.feature_contributions)
+        if (c > 0.0) any_nonzero = true;
+    EXPECT_TRUE(any_nonzero);
+}
+
+TEST(ExplainTest, LOFContributionsSortedDescending) {
+    DetectorConfig cfg;
+    cfg.method      = AnomalyMethod::LOF;
+    cfg.k_neighbors = 5;
+    AnomalyDetector det(cfg);
+    det.train(makeNormalData(100, 2, 0.0, 0.1));
+    auto exp = det.explain(makeOutlier(2, 50.0));
+    for (size_t i = 1; i < exp.feature_contributions.size(); ++i)
+        EXPECT_GE(exp.feature_contributions[i-1].second,
+                  exp.feature_contributions[i].second);
+}
+
+TEST(ExplainTest, EnsembleContributionsNonEmpty) {
+    DetectorConfig cfg;
+    cfg.method    = AnomalyMethod::ENSEMBLE;
+    cfg.threshold = 0.5;
+    AnomalyDetector det(cfg);
+    det.train(makeNormalData(200, 2, 0.0, 0.1));
+    auto exp = det.explain(makeOutlier(2, 50.0));
+    EXPECT_EQ(exp.feature_contributions.size(), 2u);
+}
+
+// ============================================================================
+// getStats training_samples
+// ============================================================================
+
+TEST(StatsTest, TrainingSamplesCountIsAccurate) {
+    AnomalyDetector det(AnomalyMethod::Z_SCORE);
+    auto data = makeNormalData(75, 2);
+    det.train(data);
+    EXPECT_EQ(det.getStats().training_samples, 75u);
+}
+
+TEST(StatsTest, TrainingSamplesCountIsAccurateForLOF) {
+    DetectorConfig cfg;
+    cfg.method = AnomalyMethod::LOF;
+    AnomalyDetector det(cfg);
+    auto data = makeNormalData(60, 2);
+    det.train(data);
+    EXPECT_EQ(det.getStats().training_samples, 60u);
+}
+
+TEST(StatsTest, TrainingSamplesCountIsAccurateForIsolationForest) {
+    DetectorConfig cfg;
+    cfg.method       = AnomalyMethod::ISOLATION_FOREST;
+    cfg.n_estimators = 10;
+    cfg.max_samples  = 32;
+    AnomalyDetector det(cfg);
+    auto data = makeNormalData(50, 2);
+    det.train(data);
+    EXPECT_EQ(det.getStats().training_samples, 50u);
 }
 
 // ============================================================================
