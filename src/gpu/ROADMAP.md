@@ -38,7 +38,7 @@
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
-- [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
+- [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
 
 ### Long-term (6-12 months)

@@ -126,6 +126,25 @@ Training loop coordinator for GPU-backed ML workloads.
 
 ---
 
+### Per-GPU Thermal and Power Telemetry
+**Priority:** Medium | **Target Version:** v1.3.0 | **Status:** ✅ Infrastructure implemented
+
+Per-device thermal and power gauges in the Prometheus-compatible metrics registry.
+
+**Implemented:**
+- ✅ `GPUMetrics::setTemperature(device_id, celsius)` → `themis_gpu_temperature_celsius{device="<id>"}`
+- ✅ `GPUMetrics::setPowerDraw(device_id, watts)` → `themis_gpu_power_draw_watts{device="<id>"}`
+- ✅ `GPUMetrics::setPowerLimit(device_id, watts)` → `themis_gpu_power_limit_watts{device="<id>"}`
+- ✅ All gauges are per-device (labelled), thread-safe, visible in `snapshot()`, and cleared by `reset()`
+- ✅ Full unit-test coverage (`tests/test_gpu_metrics.cpp`)
+
+**Remaining (hardware required):**
+- Wire `nvmlDeviceGetTemperature` / `rsmi_dev_temp_metric_get` to populate real sensor readings
+- Wire `nvmlDeviceGetPowerUsage` / `rsmi_dev_power_ave_get` for live power-draw values
+- Wire `nvmlDeviceGetPowerManagementLimit` / `rsmi_dev_power_cap_get` for enforced power limits
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
