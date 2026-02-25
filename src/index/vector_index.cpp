@@ -257,6 +257,21 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 		}
 		THEMIS_INFO("VectorIndexManager::shutdown - Index saved successfully");
 	}
+	// Persist ScaNN / DiskANN backend if a save path is configured
+	if (ann_backend_ && !savePath_.empty()) {
+		try {
+			namespace fs = std::filesystem;
+			fs::create_directories(savePath_);
+			std::string ann_path = savePath_ + "/ann_backend.bin";
+			if (ann_backend_->save(ann_path)) {
+				THEMIS_INFO("ANN backend saved to '{}'", ann_path);
+			} else {
+				THEMIS_WARN("ANN backend save returned false for '{}'", ann_path);
+			}
+		} catch (const std::exception& ex) {
+			THEMIS_WARN("Exception while saving ANN backend: {}", ex.what());
+		}
+	}
 	return Status::OK();
 }
 
@@ -512,6 +527,17 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 				scann_cfg.pq_bits_per_subspace = advanced_config_.pq_nbits;
 				ann_backend_ = std::make_unique<index::ScaNN>(scann_cfg);
 				THEMIS_INFO("ScaNN index backend initialized for '{}'", objectName_);
+				// Load persisted index if available
+				if (!savePath_.empty()) {
+					std::string ann_path = savePath_ + "/ann_backend.bin";
+					if (std::filesystem::exists(ann_path)) {
+						if (ann_backend_->load(ann_path)) {
+							THEMIS_INFO("ANN backend loaded from '{}'", ann_path);
+						} else {
+							THEMIS_WARN("ANN backend load failed for '{}', starting fresh", ann_path);
+						}
+					}
+				}
 			}
 #ifdef THEMIS_ENABLE_DISKANN
 			else if (advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN) {
@@ -1044,6 +1070,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -1111,6 +1150,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -1518,6 +1570,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		}
 	}
 #endif
+	// Alternative ANN backend (ScaNN / DiskANN)
+	if (ann_backend_ && (!whitelist || whitelist->empty())) {
+		std::vector<float> q = query;
+		if (metric_ == Metric::COSINE) normalizeL2(q);
+		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast<int>(k));
+		std::vector<Result> out;
+		out.reserve(raw.size());
+		for (const auto& r : raw) {
+			size_t idx = static_cast<size_t>(r.id);
+			if (idx < idToPk_.size()) {
+				out.push_back({idToPk_[idx], r.distance});
+			}
+		}
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann", out.size());
+		return {Status::OK(), std::move(out)};
+	}
+
 	// Fallback oder Whitelist-Fall: Brute-Force
 	auto results = bruteForceSearch_(query, k, whitelist);
 	

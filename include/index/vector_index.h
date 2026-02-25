@@ -134,7 +134,10 @@ public:
     AdvancedIndexConfig getAdvancedIndexConfig() const { return advanced_config_; }
     
     // Check if advanced indexing is enabled and available
-    bool isAdvancedIndexEnabled() const { return advanced_config_.enabled && advanced_index_ != nullptr; }
+    bool isAdvancedIndexEnabled() const {
+        return (advanced_config_.enabled && advanced_index_ != nullptr) ||
+               ann_backend_ != nullptr;
+    }
 
 
     // Initialisierung eines Index-Namespace (z. B. "documents"): Dimension, M/ef, Metrik

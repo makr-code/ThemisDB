@@ -317,3 +317,42 @@ TEST_F(DiskAnnAdapterTest, Add_Single_Vector) {
     EXPECT_TRUE(adapter.add(static_cast<int64_t>(N + 1), new_vec.data(), DIM));
 }
 #endif // THEMIS_ENABLE_DISKANN
+
+// ---------------------------------------------------------------------------
+// IAnnIndex polymorphism via unique_ptr
+// ---------------------------------------------------------------------------
+
+TEST(IAnnIndexPolymorphismTest, UniquePtr_ScaNN) {
+    constexpr size_t N = 500, DIM = 16;
+    auto vecs = make_random_vectors(N, DIM);
+    auto flat = flatten(vecs);
+    std::vector<int64_t> ids(N);
+    std::iota(ids.begin(), ids.end(), 0);
+
+    std::unique_ptr<IAnnIndex> idx = std::make_unique<ScaNN>();
+    ASSERT_TRUE(idx->build(flat.data(), ids.data(), N, DIM));
+    EXPECT_EQ(idx->size(), N);
+
+    auto q = vecs[0];
+    auto res = idx->search(q.data(), DIM, 5);
+    ASSERT_FALSE(res.empty());
+    EXPECT_EQ(res[0].id, 0); // nearest to vecs[0] should be itself
+    EXPECT_NEAR(res[0].distance, 0.f, 1e-3f);
+}
+
+// ---------------------------------------------------------------------------
+// ScaNN add() before build – lazy build triggered on search
+// ---------------------------------------------------------------------------
+
+TEST(ScaNNLazyBuildTest, AddBeforeBuild_TopResult_IsFirst) {
+    constexpr size_t N = 100, DIM = 8;
+    auto vecs = make_random_vectors(N, DIM, 12);
+    ScaNN idx;
+    for (size_t i = 0; i < N; ++i)
+        idx.add(static_cast<int64_t>(i), vecs[i].data(), DIM);
+
+    // query is identical to first vector → top-1 must be id=0
+    auto res = idx.search(vecs[0].data(), DIM, 1);
+    ASSERT_EQ(res.size(), 1u);
+    EXPECT_EQ(res[0].id, 0);
+}
