@@ -50,8 +50,6 @@
 
 #include "cdc/changefeed.h"
 
-#include <algorithm>
-#include <atomic>
 #include <chrono>
 #include <cstdint>
 #include <memory>

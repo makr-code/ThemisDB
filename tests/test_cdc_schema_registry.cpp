@@ -514,3 +514,31 @@ TEST(CdcSchemaEncoderProtoTest, ProtobufFormatAutoRegistersProtoSchema) {
     EXPECT_EQ(info->format, SchemaFormat::PROTOBUF);
     EXPECT_NE(info->schema_json.find("proto3"), std::string::npos);
 }
+
+// ── 19. TRANSACTION_COMMIT / TRANSACTION_ROLLBACK event encoding ─────────────
+
+TEST_F(CdcSchemaEncoderTest, TransactionCommitOperationString) {
+    Changefeed::ChangeEvent ev;
+    ev.sequence     = 10;
+    ev.type         = Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT;
+    ev.key          = "orders:7";
+    ev.timestamp_ms = 1740000000010LL;
+
+    auto result  = encoder->encode(ev, "orders");
+    auto decoded = encoder->decodeToJson(result.data);
+    ASSERT_TRUE(decoded.has_value());
+    EXPECT_EQ((*decoded)["operation"].get<std::string>(), "TRANSACTION_COMMIT");
+}
+
+TEST_F(CdcSchemaEncoderTest, TransactionRollbackOperationString) {
+    Changefeed::ChangeEvent ev;
+    ev.sequence     = 11;
+    ev.type         = Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK;
+    ev.key          = "orders:8";
+    ev.timestamp_ms = 1740000000011LL;
+
+    auto result  = encoder->encode(ev, "orders");
+    auto decoded = encoder->decodeToJson(result.data);
+    ASSERT_TRUE(decoded.has_value());
+    EXPECT_EQ((*decoded)["operation"].get<std::string>(), "TRANSACTION_ROLLBACK");
+}
