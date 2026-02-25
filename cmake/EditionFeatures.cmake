@@ -47,5 +47,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/tensor_buffer.cpp
         ../src/gpu/training_loop.cpp
         ../src/gpu/rocm_backend.cpp
+        ../src/gpu/cluster_coordinator.cpp
     )
 endif()

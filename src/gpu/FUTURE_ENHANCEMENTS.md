@@ -71,6 +71,9 @@ Support for multiple GPUs and distributed computation.
   per-device VRAM tracking, `markDeviceFailed` / `resetDevice`
 - ✅ `GPUDeviceDiscovery` — enumerate CUDA/ROCm devices, CPU-fallback sentinel,
   `GetBestDevice`, `GetHealthyDevices`
+- ✅ `GPUClusterCoordinator` — multi-node cluster coordination with heartbeat-based
+  health tracking, stale-node expiry, least-loaded node selection, and optional
+  `ClusterConfig` block (STANDALONE / COORDINATOR / WORKER modes)
 
 **Remaining (hardware required):**
 - `cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers

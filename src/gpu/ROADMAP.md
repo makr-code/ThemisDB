@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, and memory defragmentation are implemented. Multi-node GPU coordination is still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and multi-node cluster coordination are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -27,10 +27,9 @@
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
+- [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
 ## In Progress 🚧
-- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2378)
-
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
@@ -70,7 +69,7 @@
 ### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
 - [x] GPU memory defragmentation routine (Target: Q2 2026)
-- [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
+- [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`, Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
 - [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
@@ -89,6 +88,7 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
+- CUDA graph capture is not yet implemented
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
 - MIG partitioning is not yet supported

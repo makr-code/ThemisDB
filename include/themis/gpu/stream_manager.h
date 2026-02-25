@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/gpu/launcher.h"
+#include "themis/gpu/rocm_backend.h"
 
 namespace themis {
 namespace gpu {
@@ -175,6 +176,7 @@ private:
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
+        bool                       uses_rocm_backend = false;
         /** @brief True when a HIP stream was created via ROCmBackend for this stream. */
         bool                       uses_rocm_stream = false;
     };
