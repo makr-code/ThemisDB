@@ -311,6 +311,34 @@ std::string SecondaryIndexManager::makeFulltextIndexPrefix(std::string_view tabl
 	return key;
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// Partial (Filtered) Index: Key-Builder
+// ────────────────────────────────────────────────────────────────────────────
+
+// static
+std::string SecondaryIndexManager::makePartialIndexMetaKey(std::string_view table, std::string_view column) {
+	return "pidxmeta:" + std::string(table) + ":" + std::string(column);
+}
+
+// static
+std::string SecondaryIndexManager::makePartialIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk) {
+	std::string key = "pidx:" + std::string(table) + ":" + std::string(column) + ":";
+	key += encodeKeyComponent(value);
+	key += ":";
+	key += std::string(pk);
+	return key;
+}
+
+// static
+std::string SecondaryIndexManager::makePartialIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix) {
+	std::string key = "pidx:" + std::string(table) + ":" + std::string(column) + ":";
+	if (!valuePrefix.empty()) {
+		key += encodeKeyComponent(valuePrefix);
+		key += ":";
+	}
+	return key;
+}
+
 SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_view table, std::string_view column, bool unique) {
 	if (table.empty() || column.empty()) {
 		return Status::Error("createIndex: table/column darf nicht leer sein");
@@ -685,6 +713,21 @@ std::unordered_set<std::string> SecondaryIndexManager::loadFulltextIndexedColumn
 	return cols;
 }
 
+std::unordered_map<std::string, std::string> SecondaryIndexManager::loadPartialIndexedColumns_(std::string_view table) const {
+	std::unordered_map<std::string, std::string> result; // column -> predicate
+	const std::string prefix = std::string("pidxmeta:") + std::string(table) + ":";
+	db_.scanPrefix(prefix, [&result, &prefix](std::string_view key, std::string_view value) {
+		std::string col(key.substr(prefix.size()));
+		std::string metaVal(value.begin(), value.end());
+		// Strip "|unique" suffix to get just the predicate
+		auto pipePos = metaVal.find('|');
+		std::string predicate = (pipePos != std::string::npos) ? metaVal.substr(0, pipePos) : metaVal;
+		result[col] = predicate;
+		return true;
+	});
+	return result;
+}
+
 int64_t SecondaryIndexManager::getTTLSeconds_(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeTTLIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
@@ -719,6 +762,188 @@ bool SecondaryIndexManager::isSparseIndexUnique_(std::string_view table, std::st
 	if (!val) return false;
 	std::string metaValue(val->begin(), val->end());
 	return metaValue == "unique";
+}
+
+bool SecondaryIndexManager::isPartialIndexUnique_(std::string_view table, std::string_view column) const {
+	std::string metaKey = makePartialIndexMetaKey(table, column);
+	auto val = db_.get(metaKey);
+	if (!val) return false;
+	std::string metaValue(val->begin(), val->end());
+	return metaValue.find("|unique") != std::string::npos;
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// Partial Index: Predicate Evaluator
+// ────────────────────────────────────────────────────────────────────────────
+
+// static
+bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, const std::string& predicate) {
+	// Trim whitespace helper
+	auto trim = [](std::string s) -> std::string {
+		size_t start = s.find_first_not_of(" \t\r\n");
+		if (start == std::string::npos) return "";
+		size_t end = s.find_last_not_of(" \t\r\n");
+		return s.substr(start, end - start + 1);
+	};
+
+	std::string expr = trim(predicate);
+	if (expr.empty()) return true; // empty predicate = always match
+
+	// Build uppercase copy for keyword matching
+	std::string upper;
+	upper.reserve(expr.size());
+	for (unsigned char c : expr) upper += static_cast<char>(std::toupper(c));
+
+	// IS NOT NULL check
+	{
+		auto pos = upper.rfind(" IS NOT NULL");
+		if (pos != std::string::npos) {
+			std::string field = trim(expr.substr(0, pos));
+			auto val = entity.extractField(field);
+			return val.has_value() && !isNullOrEmpty_(val);
+		}
+	}
+
+	// IS NULL check
+	{
+		auto pos = upper.rfind(" IS NULL");
+		if (pos != std::string::npos) {
+			std::string field = trim(expr.substr(0, pos));
+			auto val = entity.extractField(field);
+			return !val.has_value() || isNullOrEmpty_(val);
+		}
+	}
+
+	// Comparison operators - try longest first to avoid partial match (>= before >)
+	static const std::pair<std::string, int> ops[] = {
+		{">=", 5}, {"<=", 3}, {"!=", 1}, {"=", 0}, {">", 4}, {"<", 2}
+	};
+
+	for (const auto& [op, kind] : ops) {
+		auto pos = expr.find(op);
+		if (pos == std::string::npos) continue;
+
+		// Ensure '=' match is not part of '>=' or '<=' or '!=' already handled above
+		if (op == "=" && pos > 0) {
+			char prev = expr[pos - 1];
+			if (prev == '>' || prev == '<' || prev == '!') continue;
+		}
+
+		std::string field = trim(expr.substr(0, pos));
+		std::string rhs   = trim(expr.substr(pos + op.size()));
+
+		if (field.empty()) continue;
+
+		// Strip surrounding quotes from string literals
+		if (rhs.size() >= 2 &&
+		    ((rhs.front() == '\'' && rhs.back() == '\'') ||
+		     (rhs.front() == '"'  && rhs.back() == '"'))) {
+			rhs = rhs.substr(1, rhs.size() - 2);
+		}
+
+		auto fieldVal = entity.extractField(field);
+		if (!fieldVal) return false; // field missing → not in index
+		const std::string& fv = *fieldVal;
+
+		// Try numeric comparison
+		bool numericOk = false;
+		double fvNum = 0.0, rhsNum = 0.0;
+		try {
+			fvNum   = std::stod(fv);
+			rhsNum  = std::stod(rhs);
+			numericOk = true;
+		} catch (...) {}
+
+		switch (kind) {
+			case 0: return numericOk ? (fvNum == rhsNum) : (fv == rhs);
+			case 1: return numericOk ? (fvNum != rhsNum) : (fv != rhs);
+			case 2: return numericOk ? (fvNum <  rhsNum) : (fv <  rhs);
+			case 3: return numericOk ? (fvNum <= rhsNum) : (fv <= rhs);
+			case 4: return numericOk ? (fvNum >  rhsNum) : (fv >  rhs);
+			case 5: return numericOk ? (fvNum >= rhsNum) : (fv >= rhs);
+			default: return false;
+		}
+	}
+
+	// Unparseable predicate - conservative: exclude from index
+	THEMIS_WARN("evaluatePartialPredicate_: Prädikat nicht parsierbar: '{}'", predicate);
+	return false;
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// Partial Index: Lifecycle
+// ────────────────────────────────────────────────────────────────────────────
+
+SecondaryIndexManager::Status SecondaryIndexManager::createPartialIndex(
+		std::string_view table, std::string_view column,
+		std::string_view predicate, bool unique) {
+	if (table.empty() || column.empty())
+		return Status::Error("createPartialIndex: table/column darf nicht leer sein");
+	if (std::string(table).find(':') != std::string::npos ||
+	    std::string(column).find(':') != std::string::npos)
+		return Status::Error("createPartialIndex: ':' ist in table/column nicht erlaubt");
+	if (predicate.empty())
+		return Status::Error("createPartialIndex: predicate darf nicht leer sein");
+
+	// Store as "predicate" or "predicate|unique"
+	std::string metaValue(predicate);
+	if (unique) metaValue += "|unique";
+	std::string metaKey = makePartialIndexMetaKey(table, column);
+	std::vector<uint8_t> marker(metaValue.begin(), metaValue.end());
+	if (!db_.put(metaKey, marker))
+		return Status::Error("createPartialIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	THEMIS_INFO("Partial Index erstellt: {}.{} predicate='{}' (unique={})", table, column, predicate, unique);
+	return Status::OK();
+}
+
+SecondaryIndexManager::Status SecondaryIndexManager::dropPartialIndex(
+		std::string_view table, std::string_view column) {
+	if (table.empty() || column.empty())
+		return Status::Error("dropPartialIndex: table/column darf nicht leer sein");
+	std::string metaKey = makePartialIndexMetaKey(table, column);
+	if (!db_.del(metaKey))
+		return Status::Error("dropPartialIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	THEMIS_INFO("Partial Index gelöscht: {}.{}", table, column);
+	return Status::OK();
+}
+
+bool SecondaryIndexManager::hasPartialIndex(std::string_view table, std::string_view column) const {
+	return db_.get(makePartialIndexMetaKey(table, column)).has_value();
+}
+
+std::optional<std::string> SecondaryIndexManager::getPartialIndexPredicate(
+		std::string_view table, std::string_view column) const {
+	auto val = db_.get(makePartialIndexMetaKey(table, column));
+	if (!val) return std::nullopt;
+	std::string metaVal(val->begin(), val->end());
+	// Strip "|unique" suffix
+	auto pipePos = metaVal.find('|');
+	if (pipePos != std::string::npos) metaVal.resize(pipePos);
+	return metaVal;
+}
+
+std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
+SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
+                                             std::string_view column,
+                                             std::string_view value) const {
+	if (!hasPartialIndex(table, column))
+		return {Status::Error("scanKeysEqualPartial: kein partieller Index für " +
+		                      std::string(table) + "." + std::string(column)), {}};
+
+	const std::string encodedVal = encodeKeyComponent(value);
+	const std::string prefix = makePartialIndexPrefix(table, column, encodedVal);
+	std::vector<std::string> pks;
+	db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
+		size_t lastColon = key.rfind(':');
+		if (lastColon != std::string_view::npos)
+			pks.emplace_back(std::string(key.substr(lastColon + 1)));
+		return true;
+	});
+	return {Status::OK(), std::move(pks)};
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table, const BaseEntity& entity) {
@@ -940,6 +1165,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		metadata.ttl_indexes = std::vector<std::string>(ttlCols.begin(), ttlCols.end());
 		auto ftCols = loadFulltextIndexedColumns_(table);
 		metadata.fulltext_indexes = std::vector<std::string>(ftCols.begin(), ftCols.end());
+		auto partialColsMap = loadPartialIndexedColumns_(table);
+		for (const auto& [col, pred] : partialColsMap) {
+			metadata.partial_indexes.push_back(col);
+			metadata.partial_predicates[col] = pred;
+		}
 		
 		cache.set(table, metadata);
 	}
@@ -1191,9 +1421,50 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 	}
 
+	// Partial (filtered) indexes pflegen
+	{
+		std::unordered_map<std::string, std::string> partialCols;
+		if (cachedMetadata) {
+			for (size_t i = 0; i < cachedMetadata->partial_indexes.size(); ++i) {
+				const auto& col = cachedMetadata->partial_indexes[i];
+				auto it = cachedMetadata->partial_predicates.find(col);
+				if (it != cachedMetadata->partial_predicates.end())
+					partialCols[col] = it->second;
+			}
+		} else {
+			partialCols = loadPartialIndexedColumns_(table);
+		}
+		for (const auto& [pcol, ppred] : partialCols) {
+			// Only index if entity satisfies the predicate
+			if (!evaluatePartialPredicate_(newEntity, ppred)) continue;
+			auto maybe = newEntity.extractField(pcol);
+			if (!maybe) continue;
+			const std::string encodedVal = encodeKeyComponent(*maybe);
+
+			// Unique-Constraint prüfen
+			if (isPartialIndexUnique_(table, pcol)) {
+				const std::string checkPrefix = makePartialIndexPrefix(table, pcol, encodedVal);
+				bool conflict = false;
+				db_.scanPrefix(checkPrefix, [&pk, &conflict](std::string_view key, std::string_view) {
+					size_t lastColon = key.rfind(':');
+					if (lastColon != std::string_view::npos && key.substr(lastColon + 1) != pk) {
+						conflict = true;
+						return false;
+					}
+					return true;
+				});
+				if (conflict)
+					return Status::Error("Partial index unique constraint violation: " +
+					                     std::string(table) + "." + pcol + " = " + *maybe);
+			}
+
+			const std::string pidxKey = makePartialIndexKey(table, pcol, encodedVal, pk);
+			batch.put(pidxKey, pkBytes);
+		}
+	}
+
 	return Status::OK();
 }
-
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std::string_view table,
 																			 std::string_view pk,
 																			 const BaseEntity* oldEntityOpt,
@@ -1235,6 +1506,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 					if (existingPK == pk) {
 						batch.del(std::string(key));
 					}
+				}
+				return true;
+			});
+		}
+		// Partial index entries löschen (via Scan, da Wert unbekannt)
+		auto partialCols = loadPartialIndexedColumns_(table);
+		for (const auto& [pcol, ppred] : partialCols) {
+			std::string pprefix = makePartialIndexPrefix(table, pcol);
+			db_.scanPrefix(pprefix, [&pk, &batch](std::string_view key, std::string_view) {
+				size_t lastColon = key.rfind(':');
+				if (lastColon != std::string_view::npos && key.substr(lastColon + 1) == pk) {
+					batch.del(std::string(key));
 				}
 				return true;
 			});
@@ -1388,6 +1671,20 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			// DocLength löschen
 			const std::string dkey = makeFulltextDocLenKey(table, fcol, pk);
 			batch.del(dkey);
+		}
+	}
+
+	// Partial (filtered) indexes löschen
+	{
+		auto partialCols = loadPartialIndexedColumns_(table);
+		for (const auto& [pcol, ppred] : partialCols) {
+			auto maybe = oldEntityOpt->extractField(pcol);
+			if (!maybe) continue;
+			// Only the entry was added if the predicate matched at insert time.
+			// We attempt to delete it regardless (idempotent).
+			const std::string encodedVal = encodeKeyComponent(*maybe);
+			const std::string pidxKey = makePartialIndexKey(table, pcol, encodedVal, pk);
+			batch.del(pidxKey);
 		}
 	}
 
@@ -2513,6 +2810,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	scanMetaPrefix("ttlidxmeta:");
 	scanMetaPrefix("ftidxmeta:");
 	scanMetaPrefix("cidxmeta:");
+	scanMetaPrefix("pidxmeta:");
 	
 	// Get stats for each unique column
 	for (const auto& column : processedColumns) {
@@ -2576,6 +2874,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	} else if (db_.get(makeIndexMetaKey(table, column)).has_value()) {
 		indexType = "regular";
 		indexPrefix = std::string("idx:") + table + ":" + column + ":";
+	} else if (db_.get(makePartialIndexMetaKey(table, column)).has_value()) {
+		indexType = "partial";
+		indexPrefix = std::string("pidx:") + table + ":" + column + ":";
 	} else {
 		return; // No index found
 	}
@@ -2771,6 +3072,37 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			return true;
 		});
 		if (aborted) return;
+	} else if (indexType == "partial") {
+		// Load predicate for this partial index
+		auto predOpt = getPartialIndexPredicate(table, column);
+		if (!predOpt) return; // shouldn't happen
+		const std::string& predicate = *predOpt;
+
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lastColon = key.rfind(':');
+			if (lastColon == std::string::npos) return true;
+			std::string pk(key.substr(lastColon + 1));
+
+			BaseEntity::Blob blob(val.begin(), val.end());
+			BaseEntity entity = BaseEntity::deserialize(pk, blob);
+
+			// Only index entities that satisfy the predicate
+			if (!evaluatePartialPredicate_(entity, predicate)) {
+				if (!advance()) { aborted = true; return false; }
+				return true;
+			}
+
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
+
+			std::string encoded = encodeKeyComponent(*maybeVal);
+			std::string pidxKey = makePartialIndexKey(table, column, encoded, pk);
+			writeIndexEntry(pidxKey, pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
 	}
 	
 	// Update metrics at the end
@@ -2933,6 +3265,26 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		}
 	}
 
+	// Partial (filtered)
+	if (!found) {
+		std::string metaKey = makePartialIndexMetaKey(table, column);
+		if (auto mv = readMeta(metaKey)) {
+			stats.type = "partial";
+			stats.unique = (mv->find("|unique") != std::string::npos);
+			// Extract predicate from meta value
+			auto pipePos = mv->find('|');
+			std::string predicate = (pipePos != std::string::npos) ? mv->substr(0, pipePos) : *mv;
+			stats.additional_info = "predicate=" + predicate;
+
+			std::string prefix = std::string("pidx:") + tableStr + ":" + columnStr + ":";
+			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+				stats.entry_count++;
+				return true;
+			});
+			found = true;
+		}
+	}
+
 	stats.estimated_size_bytes = stats.entry_count * 100;
 	return stats;
 }
@@ -2967,6 +3319,7 @@ void SecondaryIndexManager::reindexTable(const std::string& table) {
 	scanMetaPrefix("ttlidxmeta:");
 	scanMetaPrefix("ftidxmeta:");
 	scanMetaPrefix("cidxmeta:");
+	scanMetaPrefix("pidxmeta:");
 	
 	for (const auto& column : columns) {
 		rebuildIndex(table, column);
@@ -3083,6 +3436,11 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		metadata.ttl_indexes = std::vector<std::string>(ttlColsLoad.begin(), ttlColsLoad.end());
 		auto ftColsLoad = loadFulltextIndexedColumns_(table);
 		metadata.fulltext_indexes = std::vector<std::string>(ftColsLoad.begin(), ftColsLoad.end());
+		auto partialColsLoad = loadPartialIndexedColumns_(table);
+		for (const auto& [col, pred] : partialColsLoad) {
+			metadata.partial_indexes.push_back(col);
+			metadata.partial_predicates[col] = pred;
+		}
 
 		cache.set(table, metadata);
 	}
@@ -3334,6 +3692,48 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 	}
 
+	// Partial (filtered) indexes pflegen
+	{
+		std::unordered_map<std::string, std::string> partialCols;
+		if (cachedMetadata) {
+			for (size_t i = 0; i < cachedMetadata->partial_indexes.size(); ++i) {
+				const auto& col = cachedMetadata->partial_indexes[i];
+				auto it = cachedMetadata->partial_predicates.find(col);
+				if (it != cachedMetadata->partial_predicates.end())
+					partialCols[col] = it->second;
+			}
+		} else {
+			partialCols = loadPartialIndexedColumns_(table);
+		}
+		for (const auto& [pcol, ppred] : partialCols) {
+			// Only index if entity satisfies the predicate
+			if (!evaluatePartialPredicate_(newEntity, ppred)) continue;
+			auto maybe = newEntity.extractField(pcol);
+			if (!maybe) continue;
+			const std::string encodedVal = encodeKeyComponent(*maybe);
+
+			// Unique-Constraint prüfen
+			if (isPartialIndexUnique_(table, pcol)) {
+				const std::string checkPrefix = makePartialIndexPrefix(table, pcol, encodedVal);
+				bool conflict = false;
+				db_.scanPrefix(checkPrefix, [&pk, &conflict](std::string_view key, std::string_view) {
+					size_t lastColon = key.rfind(':');
+					if (lastColon != std::string_view::npos && key.substr(lastColon + 1) != pk) {
+						conflict = true;
+						return false;
+					}
+					return true;
+				});
+				if (conflict)
+					return Status::Error("Partial index unique constraint violation: " +
+					                     std::string(table) + "." + pcol + " = " + *maybe);
+			}
+
+			const std::string pidxKey = makePartialIndexKey(table, pcol, encodedVal, pk);
+			txn.put(pidxKey, pkBytes);
+		}
+	}
+
 	return Status::OK();
 }
 
@@ -3380,6 +3780,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 					if (existingPK == pk) {
 						txn.del(std::string(key));
 					}
+				}
+				return true;
+			});
+		}
+		// Partial index entries löschen (via Scan, da Wert unbekannt)
+		auto partialCols = loadPartialIndexedColumns_(table);
+		for (const auto& [pcol, ppred] : partialCols) {
+			std::string pprefix = makePartialIndexPrefix(table, pcol);
+			db_.scanPrefix(pprefix, [&pk, &txn](std::string_view key, std::string_view) {
+				size_t lastColon = key.rfind(':');
+				if (lastColon != std::string_view::npos && key.substr(lastColon + 1) == pk) {
+					txn.del(std::string(key));
 				}
 				return true;
 			});
@@ -3533,6 +3945,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			// DocLength löschen
 			const std::string dkey = makeFulltextDocLenKey(table, fcol, pk);
 			txn.del(dkey);
+		}
+	}
+
+	// Partial (filtered) indexes löschen
+	{
+		auto partialCols = loadPartialIndexedColumns_(table);
+		for (const auto& [pcol, ppred] : partialCols) {
+			auto maybe = oldEntityOpt->extractField(pcol);
+			if (!maybe) continue;
+			const std::string encodedVal = encodeKeyComponent(*maybe);
+			const std::string pidxKey = makePartialIndexKey(table, pcol, encodedVal, pk);
+			txn.del(pidxKey);
 		}
 	}
 

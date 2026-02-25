@@ -30,6 +30,7 @@
 #include <functional>
 #include <utility>
 #include <unordered_set>
+#include <unordered_map>
 #include <atomic>
 
 namespace themis {
@@ -82,6 +83,20 @@ public:
     // Backward-compatibility: Unified IndexType for simple "createIndex(..., IndexType)"
     enum class IndexType { REGULAR, RANGE, SPARSE, GEO, TTL, FULLTEXT };
     Status createIndex(std::string_view table, std::string_view column, IndexType type);
+
+    // Partial (filtered) index: only indexes rows satisfying the given predicate.
+    // Predicate syntax: "field = 'value'", "field > 123", "field IS NOT NULL", etc.
+    // Key schema: pidx:<table>:<column>:<encoded_value>:<PK>
+    Status createPartialIndex(std::string_view table, std::string_view column,
+                              std::string_view predicate, bool unique = false);
+    Status dropPartialIndex(std::string_view table, std::string_view column);
+    bool hasPartialIndex(std::string_view table, std::string_view column) const;
+    std::optional<std::string> getPartialIndexPredicate(std::string_view table,
+                                                        std::string_view column) const;
+    std::pair<Status, std::vector<std::string>> scanKeysEqualPartial(
+        std::string_view table,
+        std::string_view column,
+        std::string_view value) const;
 
     // Range-/Sort-Index (lexikografisch über String-Encoding)
     Status createRangeIndex(std::string_view table, std::string_view column);
@@ -284,7 +299,7 @@ public:
 
     // Index-Statistiken und Wartung
     struct IndexStats {
-        std::string type;              // "regular", "composite", "range", "sparse", "geo", "ttl", "fulltext"
+        std::string type;              // "regular", "composite", "range", "sparse", "geo", "ttl", "fulltext", "partial"
         std::string table;
         std::string column;            // oder col1+col2+... für Composite
         size_t entry_count = 0;        // Anzahl Index-Einträge
@@ -391,10 +406,21 @@ private:
     static std::string makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk); // ftdlen:table:column:PK
     static std::string makeFulltextDocLenPrefix(std::string_view table, std::string_view column); // ftdlen:table:column:
 
+    // Partial-Index-Metadaten: pidxmeta:<table>:<column> -> predicate[|unique]
+    static std::string makePartialIndexMetaKey(std::string_view table, std::string_view column);
+    // Partial-Index-Key-Builder: pidx:<table>:<column>:<encoded_value>:<PK>
+    static std::string makePartialIndexKey(std::string_view table, std::string_view column, std::string_view value, std::string_view pk);
+    static std::string makePartialIndexPrefix(std::string_view table, std::string_view column, std::string_view valuePrefix = {});
+
     // Prüft ob Index unique ist
     bool isUniqueIndex_(std::string_view table, std::string_view column) const;
     bool isUniqueCompositeIndex_(std::string_view table, const std::vector<std::string>& columns) const;
     bool isSparseIndexUnique_(std::string_view table, std::string_view column) const;
+    bool isPartialIndexUnique_(std::string_view table, std::string_view column) const;
+
+    // Evaluates a partial index predicate string against an entity.
+    // Returns true if the entity satisfies the predicate (should be indexed).
+    static bool evaluatePartialPredicate_(const BaseEntity& entity, const std::string& predicate);
 
     // Sichere Kodierung für Key-Komponenten (':' und '%' werden percent-encodiert)
     static std::string encodeKeyComponent(std::string_view raw);
@@ -425,6 +451,7 @@ private:
     std::unordered_set<std::string> loadGeoIndexedColumns_(std::string_view table) const;
     std::unordered_set<std::string> loadTTLIndexedColumns_(std::string_view table) const;
     std::unordered_set<std::string> loadFulltextIndexedColumns_(std::string_view table) const;
+    std::unordered_map<std::string, std::string> loadPartialIndexedColumns_(std::string_view table) const;
     
     // TTL-Helpers
     int64_t getTTLSeconds_(std::string_view table, std::string_view column) const;

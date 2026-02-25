@@ -47,10 +47,13 @@ public:
         std::vector<std::string> geo_indexes;           // Geo indexes
         std::vector<std::string> ttl_indexes;           // TTL indexes
         std::vector<std::string> fulltext_indexes;      // Fulltext indexes
+        std::vector<std::string> partial_indexes;       // Partial/filtered indexes (column names)
         
         // Unique constraint tracking
         std::unordered_map<std::string, bool> regular_unique;
         std::unordered_map<std::string, bool> sparse_unique;
+        std::unordered_map<std::string, std::string> partial_predicates; // column -> predicate
+        std::unordered_map<std::string, bool> partial_unique; // column -> unique flag
     };
 
     /// Singleton instance
