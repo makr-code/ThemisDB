@@ -1425,6 +1425,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
+    ../src/performance/workload_predictor.cpp
     
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -3667,6 +3668,22 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
+
+    # ML-based workload predictor tests (Phase 4)
+    add_executable(test_workload_predictor
+        ${THEMIS_ROOT_DIR}/tests/performance/test_workload_predictor.cpp
+    )
+    target_link_libraries(test_workload_predictor
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_predictor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
+        EXTRA_ARGS --gtest_color=yes
+    )
 
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
