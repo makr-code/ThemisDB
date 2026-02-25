@@ -24,7 +24,7 @@
 - [x] Policy hot-reload on configuration change (Issue: #1762)
 - [x] Conflict detection for overlapping access control policies (Issue: #1763)
 - [P] CCPA / CPRA data subject rights enforcement (Issue: #1764)
-- [I] Data lineage tracking for governed datasets (Issue: #1765)
+- [x] Data lineage tracking for governed datasets (Issue: #1765)
 - [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
 - [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
@@ -69,7 +69,7 @@
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
 - OPA integration is planned but not started
 - Automated data masking in query results is not yet implemented
-- Data lineage tracking is not yet available
+- Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
 
 ## Breaking Changes
 - OPA integration will introduce a new policy language alongside existing rule format (additive)
