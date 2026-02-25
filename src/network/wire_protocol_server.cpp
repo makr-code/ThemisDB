@@ -231,6 +231,36 @@ WireProtocolServer::Stats WireProtocolServer::getStats() const {
     return stats_;
 }
 
+// -------------------------------------------------------------------------
+// Per-tenant bandwidth quota management – public forwarding API
+// -------------------------------------------------------------------------
+
+void WireProtocolServer::registerTenantQuota(const std::string& tenant_id,
+                                               uint64_t rate_bps,
+                                               uint64_t burst_bytes) {
+    qos_manager_.registerTenantQuota(tenant_id, rate_bps, burst_bytes);
+}
+
+void WireProtocolServer::setTenantQuota(const std::string& tenant_id,
+                                          uint64_t rate_bps,
+                                          uint64_t burst_bytes) {
+    qos_manager_.setTenantQuota(tenant_id, rate_bps, burst_bytes);
+}
+
+void WireProtocolServer::unregisterTenantQuota(const std::string& tenant_id) {
+    qos_manager_.unregisterTenantQuota(tenant_id);
+}
+
+QoSManager::TenantQuotaStats
+WireProtocolServer::getTenantBandwidthStats(const std::string& tenant_id) const {
+    return qos_manager_.getTenantStats(tenant_id);
+}
+
+std::vector<QoSManager::TenantQuotaStats>
+WireProtocolServer::getAllTenantBandwidthStats() const {
+    return qos_manager_.getAllTenantStats();
+}
+
 bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_per_ip_.find(remote_ip);
@@ -351,7 +381,10 @@ void WireProtocolServer::Session::start() {
     } catch (const std::exception& e) {
         client_ip_ = "unknown";
     }
-    
+
+    // Register this connection with the per-tenant QoS manager
+    server_->qos_manager_.registerConnection(session_id_, Priority::MEDIUM);
+
     startTimeout(std::chrono::seconds(server_->config_.request_timeout_sec));
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -372,6 +405,9 @@ void WireProtocolServer::Session::close() {
     } catch (...) {
     }
 
+    // Deregister from per-tenant QoS manager
+    server_->qos_manager_.unregisterConnection(session_id_);
+
     server_->unregisterConnection(client_ip_);
 
     {
@@ -386,6 +422,11 @@ std::string WireProtocolServer::Session::getRemoteIP() const {
     } catch (...) {
         return "unknown";
     }
+}
+
+void WireProtocolServer::Session::setTenant(const std::string& tenant_id) {
+    tenant_id_ = tenant_id;
+    server_->qos_manager_.assignTenant(session_id_, tenant_id);
 }
 
 void WireProtocolServer::Session::asyncReadHeader() {
@@ -798,6 +839,7 @@ void WireProtocolServer::Session::doWrite() {
         [this, self](const boost::system::error_code& ec, std::size_t bytes) {
             if (!ec) {
                 bytes_sent_.fetch_add(bytes, std::memory_order_relaxed);
+                server_->qos_manager_.recordBytesSent(session_id_, bytes);
                 
                 std::lock_guard<std::mutex> lock(write_mutex_);
                 write_queue_.pop_front();
