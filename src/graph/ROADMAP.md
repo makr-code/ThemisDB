@@ -26,7 +26,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
+- [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811) ✅
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)

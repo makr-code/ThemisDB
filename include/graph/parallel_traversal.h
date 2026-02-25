@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     186                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -81,6 +81,14 @@ public:
         uint32_t timeout_ms = 0;
         /// Vertices that must never be visited by any source traversal.
         std::vector<std::string> forbidden_vertices;
+
+        /// Minimum frontier size that triggers parallel fan-out expansion
+        /// within a single source's BFS.  When the BFS frontier at any level
+        /// reaches this threshold, neighbor lookups are dispatched to multiple
+        /// threads (using at most `num_threads` workers, or auto if 0).
+        /// 0 = never parallelize fan-out (sources still run in parallel
+        /// with each other as usual).
+        uint32_t fan_out_threshold = 0;
 
         Config() = default;
     };
