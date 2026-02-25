@@ -253,7 +253,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
-    ".*test_replication_ha\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
     ".*test_fewshot_optimizer\\.cpp$"
