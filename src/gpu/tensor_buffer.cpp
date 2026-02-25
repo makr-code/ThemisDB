@@ -139,8 +139,35 @@ void GPUTensorBuffer::fill(double value) {
                 break;
             }
             case DType::FLOAT16: {
-                // Store raw bits of float cast to 16-bit placeholder.
-                uint16_t v = static_cast<uint16_t>(static_cast<float>(value));
+                // Encode as IEEE 754 half-precision (10-bit mantissa + 5-bit exponent).
+                float    f32 = static_cast<float>(value);
+                uint32_t b32;
+                std::memcpy(&b32, &f32, 4);
+                const uint32_t sign   = (b32 >> 31) & 0x1u;
+                const int32_t  exp32  = static_cast<int32_t>((b32 >> 23) & 0xFFu) - 127;
+                const uint32_t mant32 = b32 & 0x7FFFFFu;
+                uint16_t v;
+                if (exp32 == 128) {
+                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u |
+                        (mant32 ? 0x0200u : 0u));
+                } else if (exp32 < -24) {
+                    v = static_cast<uint16_t>(sign << 15);
+                } else if (exp32 < -14) {
+                    uint32_t shift  = static_cast<uint32_t>(-14 - exp32);
+                    uint32_t mant16 = (mant32 | 0x800000u) >> (shift + 13);
+                    v = static_cast<uint16_t>((sign << 15) | mant16);
+                } else if (exp32 > 15) {
+                    v = static_cast<uint16_t>((sign << 15) | 0x7C00u);
+                } else {
+                    uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
+                    uint32_t mant16 = mant32 >> 13;
+                    uint32_t round  = mant32 & 0x1FFFu;
+                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u)))
+                        ++mant16;
+                    if (mant16 >= 0x400u) { ++exp16; mant16 = 0; }
+                    v = static_cast<uint16_t>((sign << 15) | (exp16 << 10) |
+                        (mant16 & 0x3FFu));
+                }
                 std::memcpy(dest, &v, 2);
                 break;
             }

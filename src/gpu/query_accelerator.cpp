@@ -373,6 +373,10 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
     return result;
 }
 
+// ---------------------------------------------------------------------------
+// Stats
+// ---------------------------------------------------------------------------
+
 GPUQueryAccelerator::Stats GPUQueryAccelerator::getStats() const {
     std::lock_guard<std::mutex> lk(mutex_);
     return stats_;
