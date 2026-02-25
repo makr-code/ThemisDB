@@ -286,8 +286,14 @@ http::response<http::string_body> IndexApiHandler::handleRebuild(
         std::string table = body["table"];
         std::string column = body["column"];
 
-        // Rebuild the index
-        secondary_index_->rebuildIndex(table, column);
+        // Rebuild the index – online mode keeps the live index readable throughout
+        bool online = body.value("online", false);
+        if (online) {
+            uint32_t throttle_us = body.value("throttle_us", 0u);
+            secondary_index_->rebuildIndexOnline(table, column, throttle_us);
+        } else {
+            secondary_index_->rebuildIndex(table, column);
+        }
 
         // Get updated stats
         auto stats = secondary_index_->getIndexStats(table, column);
@@ -296,6 +302,7 @@ http::response<http::string_body> IndexApiHandler::handleRebuild(
             {"success", true},
             {"table", table},
             {"column", column},
+            {"online", online},
             {"entry_count", stats.entry_count},
             {"estimated_size_bytes", stats.estimated_size_bytes}
         };

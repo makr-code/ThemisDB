@@ -171,6 +171,20 @@ public:
     std::string nsight_export() const;
 
     /**
+     * @brief Export kernel records in ROCm profiler Chrome trace JSON format.
+     *
+     * Produces a Chrome trace JSON document compatible with AMD ROCm
+     * profiler's `--sys-trace` output and with Perfetto / chrome://tracing.
+     * Each kernel is emitted as a complete event (`"ph": "X"`) so that
+     * tooling built around the ROCm profiler JSON schema can consume the
+     * output without modification.
+     *
+     * @return UTF-8 JSON string.  When no kernels have been recorded the
+     *         `"traceEvents"` array is present but empty.
+     */
+    std::string rocm_profiler_export() const;
+
+    /**
      * @brief Reset all counters, gauges, and kernel records (for testing).
      */
     void reset();

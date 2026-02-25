@@ -82,7 +82,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 
 ### Adaptive Cost Model ✅ DONE
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0 / v1.8.0
 
 Automatically improve cost estimates based on actual execution statistics.
 
@@ -94,6 +94,7 @@ Automatically improve cost estimates based on actual execution statistics.
 - ✅ Automatic model re-calibration via `recordExecution`
 - ✅ `exportCostModel()` / `importCostModel()` for persistence
 - ✅ Disabled when `enableAdaptiveLearning(false)` is called
+- ✅ Batch calibration from full execution history via `calibrateFromHistory()` (Issue: #2386)
 - Persistence to disk (use `exportCostModel()` + file I/O)
 - Decay of old statistics (future enhancement)
 - Separate models per graph type/size (future)
