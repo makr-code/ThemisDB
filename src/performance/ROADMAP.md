@@ -31,13 +31,13 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Short-term (Next 3-6 months)
 - [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-- [!] Per-query cost model integration with query optimizer (Issue: #2419)
-- [I] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
-- [!] Jemalloc integration as alternative allocator (Issue: #2421)
+- [x] Per-query cost model integration with query optimizer (Issue: #2419)
+- [x] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
+- [x] Jemalloc integration as alternative allocator (Issue: #2421)
 
 ### Long-term (6-12 months)
 - [I] ML-based workload predictor for proactive resource scaling (Issue: #2214)
-- [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
+- [P] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
 - [I] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
 - [P] Persistent memory (Optane) aware storage layout (Issue: #2424)
@@ -68,13 +68,13 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
 - [ ] AVX-512 SIMD path for vector distance computations
 - [ ] Adaptive batch size tuning for LLM inference
-- [ ] Per-query cost model integration with query optimizer
-- [ ] Memory pressure monitoring with automatic cache eviction
-- [ ] Jemalloc integration as alternative allocator
+- [x] Per-query cost model integration with query optimizer
+- [x] Memory pressure monitoring with automatic cache eviction
+- [x] Jemalloc integration as alternative allocator
 
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [ ] ML-based workload predictor for proactive resource scaling
-- [ ] Hardware performance counter (PMU) integration for cache miss analysis
+- [~] Hardware performance counter (PMU) integration for cache miss analysis
 - [ ] Cross-module performance regression detection in CI
 - [ ] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout

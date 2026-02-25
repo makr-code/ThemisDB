@@ -211,7 +211,8 @@ phase2.load_from_config("config/performance.json");
 High-performance memory allocation with support for modern allocators and huge pages.
 
 **Allocators:**
-- **mimalloc** (default): 10-20% faster than system malloc, excellent fragmentation resistance
+- **mimalloc** (default): 10-20% faster than system malloc, excellent multi-threading performance
+- **jemalloc** (alternative, Linux/Mac): Best fragmentation resistance, ideal for RocksDB-heavy workloads (enable with `THEMIS_ENABLE_JEMALLOC=ON`)
 - **System allocator**: Standard `operator new`/`delete`
 - **Aligned allocator**: Cache-line and page-aligned allocations
 
@@ -255,6 +256,7 @@ deallocate_numa(numa_mem);
 
 **Performance Characteristics:**
 - **mimalloc**: O(1) allocation/deallocation, <100 CPU cycles per operation
+- **jemalloc**: O(1) allocation/deallocation, lowest fragmentation for long-running workloads
 - **Huge pages**: Same latency as regular pages, but 512x fewer TLB entries
 - **Aligned allocation**: +10-20 cycles vs. unaligned, but prevents false sharing
 
@@ -694,6 +696,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release \
 ```cmake
 # Phase 1: Quick Wins
 THEMIS_ENABLE_MIMALLOC         # mimalloc allocator (default: OFF)
+THEMIS_ENABLE_JEMALLOC         # jemalloc allocator - alternative to mimalloc, Linux/Mac only (default: OFF)
 THEMIS_ENABLE_HUGE_PAGES       # 2MB/1GB pages (default: OFF)
 THEMIS_ENABLE_RCU_INDEX        # RCU synchronization (default: OFF)
 THEMIS_ENABLE_LIRS_CACHE       # LIRS cache policy (default: OFF)

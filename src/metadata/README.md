@@ -31,6 +31,7 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Information Schema**: SQL-standard metadata views
 - **Metadata Cache**: Performance-optimized metadata caching
 - **Column Lineage Tracker**: Column-level derivation and data provenance
+- **Catalog Exporter**: Publish schema metadata to Apache Atlas and DataHub
 
 ## Features
 
@@ -58,6 +59,13 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 - **Column-level derivation tracking**: Record how each column was produced from source columns
 - **Transitive upstream/downstream traversal**: BFS through the derivation DAG
 - **Provenance export**: Structured JSON for compliance and audit
+### External Catalog Integration
+- **Apache Atlas**: Publish `rdbms_db`, `rdbms_table`, `rdbms_column` entities via the v2 bulk API
+- **DataHub**: Emit `datasetProperties` and `schemaMetadata` MetadataChangeProposals per table
+- **Configurable auth**: Basic auth (Atlas) or Bearer token (DataHub)
+- **No-network tests**: Injectable HTTP function for unit testing without a live catalog
+
+### Performance Optimization
 - **Metadata caching**: Cache with configurable TTL (default 60s)
 - **Incremental updates**: Only scan changed tables
 - **Lazy loading**: Load metadata on demand
@@ -75,6 +83,7 @@ MetadataModule
 ├─→ SystemCatalog (Metadata persistence)
 ├─→ InformationSchema (SQL-standard views)
 └─→ ColumnLineageTracker (Column-level derivation DAG)
+└─→ CatalogExporter (Apache Atlas & DataHub integration)
 ```
 
 ## Use Cases
@@ -158,6 +167,33 @@ out << schema_json.dump(2);
 
 // Or serve via REST API
 http_response->json(schema_json);
+```
+
+### Publish to Apache Atlas or DataHub
+```cpp
+#include "metadata/catalog_exporter.h"
+
+// Apache Atlas
+CatalogExporter::Config atlas_cfg;
+atlas_cfg.type     = CatalogExporter::CatalogType::APACHE_ATLAS;
+atlas_cfg.endpoint = "http://atlas-host:21000";
+atlas_cfg.username = "admin";
+atlas_cfg.password = "admin";
+
+CatalogExporter atlas_exporter(atlas_cfg);
+auto result = atlas_exporter.publishSchema(schema_mgr.getAllTables());
+if (!result.success) {
+    spdlog::error("Atlas publish failed: {}", result.error);
+}
+
+// DataHub
+CatalogExporter::Config dh_cfg;
+dh_cfg.type     = CatalogExporter::CatalogType::DATAHUB;
+dh_cfg.endpoint = "http://datahub-gms:8080";
+dh_cfg.token    = "my-token";
+
+CatalogExporter dh_exporter(dh_cfg);
+dh_exporter.publishSchema(schema_mgr.getAllTables());
 ```
 
 ### Query Metadata

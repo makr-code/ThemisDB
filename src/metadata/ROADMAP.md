@@ -64,7 +64,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [?] Schema registry with forward/backward compatibility enforcement
 - [ ] Cross-collection relationship graph (ER diagram export)
 - [P] Column lineage and data provenance tracking (Issue: #2413)
-- [ ] Integration with external data catalogs (Apache Atlas, DataHub)
+- [x] Integration with external data catalogs (Apache Atlas, DataHub)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

@@ -24,8 +24,13 @@
 #include <vector>
 #include <utility>
 #include <map>
+#include <memory>
 
 #include "query/query_engine.h"
+
+// Forward-declare PerQueryCostModel to avoid a hard dependency;
+// callers that want to use it must include the full header.
+namespace themis { namespace performance { namespace phase3 { class PerQueryCostModel; } } }
 
 namespace themis {
 
@@ -66,6 +71,43 @@ public:
 
     Result<std::vector<BaseEntity>>
     executeOptimizedEntities(QueryEngine& engine, const ConjunctiveQuery& q, const Plan& plan) const;
+
+    // =============================
+    // Per-Query Cost Model Integration (Phase 3, Issue #2419)
+    // =============================
+
+    /**
+     * @brief Attach a PerQueryCostModel for runtime cost recording and calibration.
+     *
+     * When attached, executeOptimizedKeys and executeOptimizedEntities will record
+     * actual execution time into the model.  Pass nullptr to detach.
+     */
+    void attachPerQueryCostModel(
+        std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model);
+
+    /** @brief Return the currently attached PerQueryCostModel (may be nullptr). */
+    std::shared_ptr<performance::phase3::PerQueryCostModel> perQueryCostModel() const;
+
+    /**
+     * @brief Execute keys query and record timing in the attached PerQueryCostModel.
+     *
+     * Functionally identical to executeOptimizedKeys; the extra @p estimated_cost
+     * value is forwarded to the cost model to compute the cost ratio.
+     */
+    Result<std::vector<std::string>>
+    executeOptimizedKeysWithCost(QueryEngine& engine,
+                                  const ConjunctiveQuery& q,
+                                  const Plan& plan,
+                                  double estimated_cost = 0.0) const;
+
+    /**
+     * @brief Execute entities query and record timing in the attached PerQueryCostModel.
+     */
+    Result<std::vector<BaseEntity>>
+    executeOptimizedEntitiesWithCost(QueryEngine& engine,
+                                      const ConjunctiveQuery& q,
+                                      const Plan& plan,
+                                      double estimated_cost = 0.0) const;
 
     // =============================
     // Hybrid Vector+Geo Cost Model
@@ -199,7 +241,10 @@ public:
 private:
     SecondaryIndexManager& secIdx_;
     bool adaptive_enabled_ = false;
-    
+
+    // Per-query cost model (Phase 3, Issue #2419)
+    mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
+
     // Adaptive query optimization components
     class AdaptiveQueryStats {
     public:
