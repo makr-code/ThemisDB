@@ -21,6 +21,11 @@ Custom CUDA/ROCm kernels for specialised operations.
   `timeout_ms` is now enforced via `std::async` + `wait_for`, with `timed_out`
   counter incremented on expiry
 - ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement;
+  default backend registers a named HIP stream via `ROCmBackend::createStream()`
+  (enabling future `synchronizeStream()` calls) and uses `ROCmBackend::createBackendFn()`
+  as the work dispatcher; when `THEMIS_ENABLE_CUDA` is active a `cudaStream_t` is
+  also created via `cudaStreamCreate()`; both handles are properly destroyed in
+  `destroyStream()` and `~GPUStreamManager()`
   `createStream(nullptr)` now calls `ROCmBackend::createStream()` to own a real
   HIP stream for the stream's lifetime; `destroyStream()` calls
   `ROCmBackend::destroyStream()` for proper HIP stream cleanup; destructor
