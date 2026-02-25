@@ -3077,6 +3077,59 @@ paths:
                   success: { type: boolean }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
+  /changefeed/redact:
+    post:
+      summary: GDPR right-to-erasure — redact PII from change log entries
+      description: |
+        Scrubs PII from all change log entries whose `key` starts with
+        `key_prefix`.  The `value`, `before_snapshot`, and `after_snapshot`
+        fields are replaced with `"[REDACTED]"` and `redacted` is set to
+        `true`.  Audit-critical fields (`sequence`, `type`, `key`,
+        `timestamp_ms`) are preserved.  Already-redacted events are skipped.
+      operationId: redactChangefeedByKeyPrefix
+      tags: [changefeed]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [key_prefix]
+              properties:
+                key_prefix:
+                  type: string
+                  description: Non-empty key prefix identifying the data subject (e.g. "user:42")
+                  example: "user:42"
+                tenant_id:
+                  type: string
+                  description: Tenant scope for the audit record (optional)
+                  example: "acme"
+                operator_id:
+                  type: string
+                  description: Identity of the requesting operator (optional, audit record)
+                  example: "dpo@acme.com"
+      responses:
+        '200':
+          description: Redaction complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events_scanned:  { type: integer, format: int64, description: Total events examined }
+                  events_redacted: { type: integer, format: int64, description: Events whose value was scrubbed }
+                  elapsed_time_ms: { type: integer, format: int64, description: Wall-clock time of the operation (ms) }
+                  key_prefix:      { type: string, description: Key prefix that was matched }
+                  tenant_id:       { type: string, description: Tenant scope }
+                  operator_id:     { type: string, description: Requesting operator identity }
+                  timestamp_ms:    { type: integer, format: int64, description: Epoch ms when redaction completed }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '503':
+          description: CDC feature not available
+
   /api/v1/restore/pitr:
     post:
       summary: Point-in-time recovery restore
