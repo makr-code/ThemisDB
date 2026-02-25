@@ -195,6 +195,6 @@ cache.put(tenant_id, query_hash, result)
 - `src/cache/README.md` — module overview and phase summaries
 - `src/cache/FUTURE_ENHANCEMENTS.md` — roadmap
 - `docs/cache_roadmap.md` — cache roadmap
-- `docs/architecture/architecture_cache_invalidation.md` — invalidation patterns
-- `docs/architecture/architecture_caching_patterns.md` — caching strategy overview
+- `docs/de/architecture/architecture_cache_invalidation.md` — invalidation patterns
+- `docs/de/architecture/architecture_caching_patterns.md` — caching strategy overview
 - `ARCHITECTURE.md` (root) — full system architecture
