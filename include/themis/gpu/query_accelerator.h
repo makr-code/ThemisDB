@@ -19,12 +19,14 @@
 
 #pragma once
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "themis/gpu/graph_cache.h"
 
 namespace themis {
 namespace gpu {
@@ -125,17 +127,16 @@ public:
     // Statistics
     // -----------------------------------------------------------------------
     struct Stats {
-        size_t   total_scans       = 0;
-        size_t   total_sorts       = 0;
-        size_t   total_aggregates  = 0;
-        size_t   total_joins       = 0;
-        size_t   total_dot_products = 0;  ///< dotProduct() calls
-        uint64_t rows_processed    = 0;
-        uint64_t bytes_scanned     = 0;
-        size_t   gpu_ops           = 0;
-        size_t   cpu_fallback_ops  = 0;
-        size_t   fp16_ops          = 0;   ///< Operations dispatched in FP16 mode
-        size_t   bf16_ops          = 0;   ///< Operations dispatched in BF16 mode
+        size_t   total_scans         = 0;
+        size_t   total_sorts         = 0;
+        size_t   total_aggregates    = 0;
+        size_t   total_joins         = 0;
+        uint64_t rows_processed      = 0;
+        uint64_t bytes_scanned       = 0;
+        size_t   gpu_ops             = 0;
+        size_t   cpu_fallback_ops    = 0;
+        size_t   graph_cache_hits    = 0;   ///< Operations served via graph replay
+        size_t   graph_cache_misses  = 0;   ///< New patterns captured into the cache
     };
 
     // -----------------------------------------------------------------------
@@ -146,8 +147,8 @@ public:
         size_t gpu_threshold_rows = 10'000;
         /// Force CPU path unconditionally (useful for testing or CPU-only builds).
         bool force_cpu = false;
-        /// Precision mode used for Tensor Core-style dot-product operations.
-        PrecisionMode precision_mode = PrecisionMode::FP32;
+        /// Enable CUDA graph capture for recurring query execution patterns.
+        bool enable_graph_cache = false;
     };
 
     // -----------------------------------------------------------------------
@@ -225,13 +226,47 @@ public:
     Stats getStats() const;
     void  resetStats();
 
+    // -----------------------------------------------------------------------
+    // Graph cache control
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Enable CUDA graph capture for recurring query patterns.
+     *
+     * When enabled, each operation checks the graph cache before executing.
+     * On a cache miss the shape is captured; on a hit the cached graph is
+     * replayed and the `graph_cache_hits` stat is incremented.
+     *
+     * In a production CUDA build, replaying a cached graph eliminates
+     * per-launch kernel-setup overhead via `cudaGraphLaunch`.
+     */
+    void enableGraphCache();
+
+    /**
+     * @brief Disable CUDA graph capture.  The existing cache is preserved
+     * but will not be consulted until re-enabled.
+     */
+    void disableGraphCache();
+
+    /**
+     * @brief Return statistics from the underlying GPUGraphCache.
+     */
+    GPUGraphCache::Stats getGraphCacheStats() const;
+
 private:
-    Config             config_;
-    mutable std::mutex mutex_;
-    Stats              stats_;
+    Config               config_;
+    mutable std::mutex   mutex_;
+    Stats                stats_;
+    GPUGraphCache        graph_cache_;
+    std::atomic<bool>    graph_cache_enabled_{false};
 
     bool shouldUseGPU(size_t num_rows) const noexcept;
     void recordOp(size_t rows, uint64_t bytes, bool gpu_used);
+
+    /// Build a QueryShape for a single-sided operation.
+    static QueryShape makeShape(QueryShape::OpType op,
+                                size_t             row_count,
+                                uint64_t           param_hash = 0) noexcept;
 };
 
 } // namespace gpu

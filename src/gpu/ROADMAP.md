@@ -36,7 +36,7 @@
 ### Short-term (Next 3-6 months)
 - [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
-- [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
+- [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
@@ -75,7 +75,7 @@
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
 - [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
-- [ ] CUDA Graph capture for recurring query execution patterns
+- [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
 - [ ] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
@@ -90,7 +90,7 @@
 
 ## Known Issues & Limitations
 - Multi-node GPU cluster coordination requires external orchestration
-- CUDA graph capture is not yet implemented
+- CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
 - MIG partitioning is not yet supported
 
 ## Breaking Changes

@@ -1,22 +1,3 @@
-/*
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            query_accelerator.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:05                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   75.0/100                                       ║
-    • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 5                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
-╚═════════════════════════════════════════════════════════════════════╝
- */
-
 #include "themis/gpu/query_accelerator.h"
 
 #include <algorithm>
@@ -134,7 +115,24 @@ GPUQueryAccelerator::GPUQueryAccelerator()
     : GPUQueryAccelerator(Config{}) {}
 
 GPUQueryAccelerator::GPUQueryAccelerator(const Config& config)
-    : config_(config) {}
+    : config_(config)
+    , graph_cache_enabled_(config.enable_graph_cache) {}
+
+// ---------------------------------------------------------------------------
+// Graph cache control
+// ---------------------------------------------------------------------------
+
+void GPUQueryAccelerator::enableGraphCache() {
+    graph_cache_enabled_.store(true, std::memory_order_relaxed);
+}
+
+void GPUQueryAccelerator::disableGraphCache() {
+    graph_cache_enabled_.store(false, std::memory_order_relaxed);
+}
+
+GPUGraphCache::Stats GPUQueryAccelerator::getGraphCacheStats() const {
+    return graph_cache_.getStats();
+}
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -152,6 +150,17 @@ void GPUQueryAccelerator::recordOp(size_t rows, uint64_t bytes, bool gpu_used) {
     else          ++stats_.cpu_fallback_ops;
 }
 
+// static
+QueryShape GPUQueryAccelerator::makeShape(QueryShape::OpType op,
+                                          size_t             row_count,
+                                          uint64_t           param_hash) noexcept {
+    QueryShape s;
+    s.op         = op;
+    s.row_count  = row_count;
+    s.param_hash = param_hash;
+    return s;
+}
+
 // ---------------------------------------------------------------------------
 // scan
 // ---------------------------------------------------------------------------
@@ -164,6 +173,22 @@ GPUQueryAccelerator::scan(const std::vector<Row>& rows, FilterFn filter) {
     // Determine path ---------------------------------------------------------
     bool use_gpu = shouldUseGPU(rows.size());
     result.used_gpu = use_gpu;
+
+    // Graph cache check ------------------------------------------------------
+    // For recurring scans with the same row count: on a cache hit we replay the
+    // captured graph (CPU simulation: execute normally but note the cache hit).
+    // On a miss we capture the new shape for future replays.
+    if (graph_cache_enabled_) {
+        QueryShape shape = makeShape(QueryShape::OpType::SCAN, rows.size());
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
 
     // GPU path stub: when THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP is defined,
     // copy rows to device, run a Thrust::copy_if / cub::DeviceSelect kernel,
@@ -198,6 +223,20 @@ GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) 
     bool use_gpu = shouldUseGPU(rows.size());
     result.used_gpu = use_gpu;
 
+    // Graph cache check — include sort order in the param hash ---------------
+    if (graph_cache_enabled_) {
+        uint64_t param = static_cast<uint64_t>(order);
+        QueryShape shape = makeShape(QueryShape::OpType::SORT, rows.size(), param);
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
+
     // GPU stub: would copy IDs + keys to device, run Thrust stable_sort_by_key,
     // gather rows back.  CPU path:
     std::stable_sort(rows.begin(), rows.end(),
@@ -231,6 +270,20 @@ GPUQueryAccelerator::aggregate(const std::vector<Row>& rows,
     bool use_gpu = shouldUseGPU(rows.size());
     result.used_gpu = use_gpu;
     result.count    = rows.size();
+
+    // Graph cache check — include AggFunc in the param hash ------------------
+    if (graph_cache_enabled_) {
+        uint64_t param = static_cast<uint64_t>(func);
+        QueryShape shape = makeShape(QueryShape::OpType::AGGREGATE, rows.size(), param);
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
 
     // GPU stub: would use cub::DeviceReduce.  CPU sequential path:
     double sum = 0.0;
@@ -275,6 +328,20 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
 
     bool use_gpu = shouldUseGPU(left.size() + right.size());
     result.used_gpu = use_gpu;
+
+    // Graph cache check — key on total row count -----------------------------
+    if (graph_cache_enabled_) {
+        size_t total = left.size() + right.size();
+        QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
 
     // GPU stub: would use a parallel hash join kernel.  CPU path uses
     // an unordered_multimap on the smaller side:
