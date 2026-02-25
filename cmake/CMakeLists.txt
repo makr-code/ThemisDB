@@ -1087,6 +1087,33 @@ elseif(NOT zstd_FOUND)
     endif()
 endif()
 
+# Optional LZ4 for connection-level frame compression
+find_package(lz4 CONFIG QUIET)
+if(lz4_FOUND)
+    if(TARGET LZ4::lz4_shared)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+    elseif(TARGET LZ4::lz4_static)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_static)
+    elseif(TARGET lz4::lz4)
+        set(THEMIS_LZ4_TARGET lz4::lz4)
+    endif()
+    message(STATUS "LZ4 found via CONFIG")
+else()
+    # Fallback: pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(LZ4_PKG QUIET liblz4)
+        if(LZ4_PKG_FOUND AND NOT TARGET LZ4::lz4_shared)
+            add_library(LZ4::lz4_shared INTERFACE IMPORTED)
+            set_target_properties(LZ4::lz4_shared PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${LZ4_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${LZ4_PKG_LIBRARIES}")
+            set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+            message(STATUS "LZ4 found via pkg-config")
+        endif()
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -2651,6 +2678,12 @@ endif()
 if(DEFINED THEMIS_ZSTD_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_ZSTD_TARGET})
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_ZSTD)
+endif()
+
+# Link LZ4 if available and define compile flag
+if(DEFINED THEMIS_LZ4_TARGET)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
 endif()
 
 # Define THEMIS_ENABLE_CURL if CURL is found
