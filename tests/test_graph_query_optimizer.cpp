@@ -1674,3 +1674,127 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
         expected_confidence
     );
 }
+
+// ============================================================================
+// Subgraph Isomorphism Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternReturnsEmptyMatch) {
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 1u);
+    EXPECT_TRUE(result.value().matches[0].empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SingleVertexFindsAllDataVertices) {
+    // Pattern: single vertex "u" - should match every data vertex reachable from A
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // The test graph has vertices A,B,C,D - all should be matched
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        EXPECT_EQ(m.size(), 1u);
+        EXPECT_TRUE(m.count("u"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EdgePatternFindsDirectEdges) {
+    // Pattern: u -> v; should match A->B, A->C, B->C, C->D
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u") && m.count("v"));
+        const std::string& mu = m.at("u");
+        const std::string& mv = m.at("v");
+        // Verify injective: both mapped to different data vertices
+        EXPECT_NE(mu, mv);
+        // Verify edge exists in test graph
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mu);
+        ASSERT_TRUE(st.ok);
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ChainPatternMatchesPath) {
+    // Pattern: p -> q -> r; must match A->B->C and A->C->D and B->C->D
+    std::vector<std::string> verts = {"p", "q", "r"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"p", "q"}, {"q", "r"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 3u);
+        // Verify chain structure in data graph
+        auto [st1, n1] = graph_mgr_->outNeighbors(m.at("p"));
+        ASSERT_TRUE(st1.ok);
+        EXPECT_NE(std::find(n1.begin(), n1.end(), m.at("q")), n1.end());
+        auto [st2, n2] = graph_mgr_->outNeighbors(m.at("q"));
+        ASSERT_TRUE(st2.ok);
+        EXPECT_NE(std::find(n2.begin(), n2.end(), m.at("r")), n2.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_MaxResultsLimitsMatches) {
+    // Pattern with many matches; limit results
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_results = 1;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    EXPECT_LE(result.value().matches.size(), 1u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ForbiddenVertexExcludesIt) {
+    // Pattern: single vertex "u"; B is forbidden -> B must not appear in matches
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.forbidden_vertices = {"B"};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        EXPECT_NE(m.at("u"), "B");
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_InjectiveNoReusedDataVertex) {
+    // Pattern: two disconnected vertices; each data vertex used at most once
+    std::vector<std::string> verts = {"x", "y"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 2u);
+        EXPECT_NE(m.at("x"), m.at("y"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_OptimizePlanSelectsDFS) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_EQ(plan.value().pattern,
+              themis::graph::GraphQueryOptimizer::QueryPattern::PATTERN_MATCH);
+    EXPECT_EQ(plan.value().algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ExecutionStatsPopulated) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_GE(stats.nodes_explored, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}

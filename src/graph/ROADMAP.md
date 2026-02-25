@@ -29,7 +29,7 @@
 ### Short-term (Next 3-6 months)
 - [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-- [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
+- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
@@ -61,8 +61,8 @@
 - [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
 - [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
-### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
-- [ ] Subgraph isomorphism queries (pattern matching)
+### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
+- [x] Subgraph isomorphism queries (pattern matching)
 - [ ] Incremental graph query execution on live updates
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
@@ -79,7 +79,7 @@
 
 ## Known Issues & Limitations
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
-- Subgraph isomorphism (pattern matching) is not yet available
+- Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
 - Distributed graph queries across shards are not yet supported
 
 ## Breaking Changes

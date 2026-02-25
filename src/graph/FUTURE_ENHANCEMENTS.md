@@ -800,6 +800,41 @@ thread-safe operation without mutexes.
 
 ---
 
+### Subgraph Isomorphism (Pattern Matching) ✅ DONE
+
+`GraphQueryOptimizer::executeSubgraphIsomorphism` – finds all injective mappings
+from a pattern graph onto subgraphs of the data graph (VF2-style backtracking).
+
+```cpp
+// Pattern: u -> v -> w (chain of three vertices)
+std::vector<std::string> pattern_verts = {"u", "v", "w"};
+std::vector<std::pair<std::string,std::string>> pattern_edges = {{"u","v"},{"v","w"}};
+
+auto result = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges);
+// result.value().matches[i] is an unordered_map<string,string>
+// mapping pattern vertex labels to data vertex IDs
+
+// With constraints
+GraphQueryOptimizer::QueryConstraints c;
+c.max_results = 10;          // stop after first 10 matches
+c.timeout_ms = 500;          // abort after 500ms
+c.forbidden_vertices = {"X"}; // X must not appear in any match
+
+auto limited = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges, c);
+```
+
+Key properties:
+- Injective: each data vertex appears at most once per match
+- Directed edge consistency: every pattern edge (u,v) must be present as a
+  directed edge in the data graph for the matched vertices
+- Pattern vertices are user-defined labels (not data vertex IDs)
+- Supports `max_results`, `timeout_ms`, and `forbidden_vertices` constraints
+- Execution statistics available via optional `ExecutionStats*` output parameter
+- Rate-limited by `setMaxQueriesPerSecond()` like all other execute methods
+- Integrates with `optimizePatternMatch()` for cost estimation and plan caching
+
+---
+
 ## Community Requests
 
 Track user-requested features:
