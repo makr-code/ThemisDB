@@ -26,6 +26,8 @@
 #include <iomanip>
 #include <ctime>
 #include <cstdio>
+#include <cmath>
+#include <numeric>
 
 namespace themis {
 namespace governance {
@@ -286,6 +288,40 @@ static std::string buildComplianceReportPDF(const ComplianceReport& report) {
 }
 
 } // anonymous namespace
+
+// ========== BiasFieldStats Implementation ==========
+
+nlohmann::json BiasFieldStats::toJson() const {
+    nlohmann::json j;
+    j["field_name"]                = field_name;
+    j["total_count"]               = total_count;
+    j["representation_ratio"]      = representation_ratio;
+    j["demographic_parity_score"]  = demographic_parity_score;
+    j["group_counts"]              = nlohmann::json::object();
+    for (const auto& [label, count] : group_counts) {
+        j["group_counts"][label] = count;
+    }
+    return j;
+}
+
+// ========== BiasAuditReport Implementation ==========
+
+nlohmann::json BiasAuditReport::toJson() const {
+    nlohmann::json j;
+    j["report_id"]          = report_id;
+    j["adapter_id"]         = adapter_id;
+    j["dataset_id"]         = dataset_id;
+    j["generated_at"]       = generated_at;
+    j["overall_bias_score"] = overall_bias_score;
+    j["status"]             = status;
+    j["recommendations"]    = recommendations;
+    nlohmann::json fs_arr = nlohmann::json::array();
+    for (const auto& fs : field_stats) {
+        fs_arr.push_back(fs.toJson());
+    }
+    j["field_stats"] = std::move(fs_arr);
+    return j;
+}
 
 // ========== CoverageAnalysis Implementation ==========
 
@@ -772,6 +808,110 @@ bool ComplianceReporter::hasRequiredControls(const PolicyRule& rule) const {
     return rule.require_encryption && 
            (rule.audit_access || rule.audit_changes) &&
            !rule.required_roles.empty();
+}
+
+BiasAuditReport ComplianceReporter::generateBiasAuditReport(
+    const std::string& adapter_id,
+    const std::string& dataset_id,
+    const std::unordered_map<std::string,
+          std::unordered_map<std::string, size_t>>& raw_field_stats
+) const {
+    BiasAuditReport report;
+    report.report_id    = "bias_" + adapter_id + "_" + std::to_string(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+    report.adapter_id   = adapter_id;
+    report.dataset_id   = dataset_id;
+    report.generated_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    double score_sum = 0.0;
+    int scored_fields = 0;
+
+    for (const auto& [field_name, group_map] : raw_field_stats) {
+        if (group_map.empty()) continue;
+
+        BiasFieldStats fs;
+        fs.field_name   = field_name;
+        fs.group_counts = group_map;
+
+        // Compute total and min/max group counts
+        size_t total = 0;
+        size_t min_count = SIZE_MAX;
+        size_t max_count = 0;
+        for (const auto& [label, cnt] : group_map) {
+            total += cnt;
+            if (cnt < min_count) min_count = cnt;
+            if (cnt > max_count) max_count = cnt;
+        }
+        fs.total_count = total;
+
+        if (max_count > 0) {
+            fs.representation_ratio = static_cast<double>(min_count) /
+                                      static_cast<double>(max_count);
+        }
+
+        // Demographic parity: entropy-based normalization.
+        // Compute actual entropy and compare to maximum entropy (uniform distribution).
+        double actual_entropy = 0.0;
+        for (const auto& [label, cnt] : group_map) {
+            if (cnt > 0 && total > 0) {
+                double p = static_cast<double>(cnt) / static_cast<double>(total);
+                actual_entropy -= p * std::log(p);
+            }
+        }
+        const double max_entropy = (group_map.size() > 1)
+            ? std::log(static_cast<double>(group_map.size()))
+            : 1.0;
+        fs.demographic_parity_score = (max_entropy > 0.0)
+            ? (actual_entropy / max_entropy)
+            : 1.0;
+
+        // Clamp to [0, 1]
+        fs.demographic_parity_score = std::max(0.0,
+            std::min(1.0, fs.demographic_parity_score));
+
+        // Per-field recommendation when representation is below threshold
+        if (fs.representation_ratio < 0.8) {
+            report.recommendations.push_back(
+                "Field '" + field_name + "': representation_ratio=" +
+                std::to_string(fs.representation_ratio).substr(0, 5) +
+                " is below 0.8 — consider resampling or augmenting underrepresented groups.");
+        }
+
+        score_sum += fs.demographic_parity_score;
+        ++scored_fields;
+
+        report.field_stats.push_back(std::move(fs));
+    }
+
+    // Overall bias score is the mean demographic parity score across all fields
+    report.overall_bias_score = (scored_fields > 0)
+        ? (score_sum / static_cast<double>(scored_fields))
+        : 1.0;  // No fields to audit: treat as unbiased
+
+    // Assign status
+    if (report.overall_bias_score >= 0.8) {
+        report.status = "PASSED";
+    } else if (report.overall_bias_score >= 0.5) {
+        report.status = "FLAGGED";
+    } else {
+        report.status = "FAILED";
+    }
+
+    if (report.status != "PASSED") {
+        report.recommendations.push_back(
+            "Overall bias score " +
+            std::to_string(report.overall_bias_score).substr(0, 5) +
+            ": review training data composition before proceeding with model training.");
+    }
+
+    THEMIS_INFO("BiasAuditReport generated for adapter='{}' dataset='{}': "
+        "status={} score={:.3f} fields={}",
+        adapter_id, dataset_id, report.status,
+        report.overall_bias_score, scored_fields);
+
+    return report;
 }
 
 } // namespace governance

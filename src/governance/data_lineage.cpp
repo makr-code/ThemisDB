@@ -34,6 +34,7 @@ std::string lineageEventTypeToString(LineageEventType type) {
         case LineageEventType::QUERY:           return "QUERY";
         case LineageEventType::EXPORT:          return "EXPORT";
         case LineageEventType::DELETION:        return "DELETION";
+        case LineageEventType::MODEL_TRAINING:  return "MODEL_TRAINING";
     }
     return "UNKNOWN";
 }
