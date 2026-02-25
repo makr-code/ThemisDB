@@ -21,6 +21,7 @@
  */
 
 #include "governance/policy_validation.h"
+#include "governance/ccpa_rules.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -120,6 +121,10 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectConflicts(
     // Detect circular dependencies
     auto circular = detectCircularDependencies(policy_mgr);
     all_conflicts.insert(all_conflicts.end(), circular.begin(), circular.end());
+
+    // Detect CCPA/HIPAA cross-framework conflicts
+    auto ccpa_hipaa = detectCcpaHipaaConflicts(policy_mgr);
+    all_conflicts.insert(all_conflicts.end(), ccpa_hipaa.begin(), ccpa_hipaa.end());
     
     THEMIS_INFO("Detected {} total conflicts", all_conflicts.size());
     
@@ -1350,6 +1355,43 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     THEMIS_INFO("Optimization report complete: {} recommendations", report.total_recommendations);
     
     return report;
+}
+
+// ========== PolicyValidator CCPA/HIPAA Conflict Detection ==========
+
+std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectCcpaHipaaConflicts(
+    const PolicyManager& policy_mgr) const
+{
+    std::vector<ConflictResult> conflicts;
+    CcpaRuleSet ccpa_rules;
+    auto all_rules = policy_mgr.listRules();
+
+    THEMIS_DEBUG("Checking {} rules for CCPA/HIPAA cross-framework conflicts",
+                 all_rules.size());
+
+    for (const auto& rule : all_rules) {
+        if (!rule.enabled) continue;
+
+        auto rule_conflicts = ccpa_rules.detectHipaaConflicts(rule);
+        for (const auto& desc : rule_conflicts) {
+            ConflictResult result;
+            result.conflict_id          = "ccpa_hipaa_" + rule.id;
+            result.conflict_type        = "ccpa_hipaa";
+            result.conflicting_rule_ids = {rule.id};
+            result.description          = desc;
+            result.severity             = "high";
+            result.recommendation =
+                "Review rule '" + rule.id + "' to ensure both CCPA and HIPAA "
+                "requirements are satisfied simultaneously. Enable audit_changes "
+                "alongside audit_access, and verify that the retention period "
+                "meets HIPAA's 6-year minimum while still permitting CCPA deletion.";
+            conflicts.push_back(std::move(result));
+        }
+    }
+
+    THEMIS_INFO("Found {} CCPA/HIPAA cross-framework conflicts", conflicts.size());
+
+    return conflicts;
 }
 
 } // namespace governance

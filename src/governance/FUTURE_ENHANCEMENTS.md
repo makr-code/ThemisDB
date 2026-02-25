@@ -41,17 +41,18 @@ Enable `PolicyManager` to reload policies from disk or a remote config store wit
 
 ---
 
-### CCPA / CPRA Data Subject Rights Enforcement
+### CCPA / CPRA Data Subject Rights Enforcement ✅ **Implemented in v1.6.0**
 **Priority:** High
 **Target Version:** v1.6.0
 
-Add a CCPA/CPRA compliance rule set to `compliance_reporter.cpp` and `policy_engine.cpp`. CCPA requires honoring opt-out of sale, right-to-know, and right-to-delete requests. The existing GDPR rules in `policy_engine.cpp` cover right-to-erasure but not California-specific opt-out-of-sale semantics.
+~~Add a CCPA/CPRA compliance rule set to `compliance_reporter.cpp` and `policy_engine.cpp`.~~
 
-**Implementation Notes:**
-- Add `CcpaRuleSet` in a new `ccpa_rules.cpp`; implement `RightToKnow`, `RightToDelete`, `OptOutOfSale`, and `DataPortability` rule evaluators conforming to the existing `IComplianceRule` interface.
-- `OptOutOfSale` rule checks a per-subject preference flag stored in the data classification metadata; `PolicyEngine` consults this flag on every read query for opted-out subjects.
-- Add `ComplianceReporter::generateCcpaReport()` that produces a structured JSON summary of data categories, third-party disclosures, and opt-out counts for a configurable date range.
-- Integrate CCPA rule set into `policy_validator.cpp` so that policy conflicts between CCPA and HIPAA rules are detected at load time.
+**Status:** Implemented. See `include/governance/ccpa_rules.h`, `src/governance/ccpa_rules.cpp`.
+
+- `IComplianceRule` interface added; `RightToKnow`, `RightToDelete`, `OptOutOfSale`, and `DataPortability` rule evaluators implemented in `ccpa_rules.cpp`.
+- `PolicyEngine` enforces opt-out at query time via `setCcpaOptOutSubjects()` / `X-User-Id` header lookup; `PolicyDecision::ccpa_opted_out` flag set; `export_allowed` forced to `false` for opted-out subjects.
+- `ComplianceReporter::generateCcpaReport()` added, producing structured JSON/CSV with data categories, third-party disclosures, and per-evaluator compliance gaps.
+- CCPA/HIPAA conflict detection integrated into `PolicyValidator::detectConflicts()` via `detectCcpaHipaaConflicts()`.
 
 **Performance Targets:**
 - CCPA opt-out flag lookup adds ≤ 0.5 ms to query-time policy evaluation p99.

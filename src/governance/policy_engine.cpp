@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:04                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     319                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     412                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ffb05a96d  2026-02-22  fix: update metrics collector namespace and adjust source... ║
@@ -213,6 +213,22 @@ void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> lo
     audit_logger_ = std::move(logger);
 }
 
+void PolicyEngine::setCcpaOptOutSubjects(
+    std::shared_ptr<std::unordered_set<std::string>> opt_out_registry)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    ccpa_opt_out_subjects_ = std::move(opt_out_registry);
+    THEMIS_INFO("PolicyEngine: CCPA opt-out registry updated ({} subjects)",
+        ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
+}
+
+bool PolicyEngine::isCcpaOptedOut(const std::string& subject_id) const {
+    if (subject_id.empty()) return false;
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!ccpa_opt_out_subjects_) return false;
+    return ccpa_opt_out_subjects_->count(subject_id) > 0;
+}
+
 PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string>& headers,
                                       const std::string& route) const {
     auto get = [&](const char* key) -> std::string {
@@ -226,12 +242,14 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::unordered_map<std::string, std::string> resource_map;
     std::string mode;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
+    std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        profiles     = classification_profiles_;
-        resource_map = resource_mapping_;
-        mode         = default_mode_;
-        audit_log    = audit_logger_;
+        profiles       = classification_profiles_;
+        resource_map   = resource_mapping_;
+        mode           = default_mode_;
+        audit_log      = audit_logger_;
+        ccpa_registry  = ccpa_opt_out_subjects_;
     }
 
     PolicyDecision d;
@@ -293,6 +311,19 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         d.redaction = redact;
     }
 
+    // ---- CCPA/CPRA opt-out enforcement ------------------------------------
+    // If the requesting subject has opted out of data sale, override
+    // export_allowed=false so the query layer cannot forward this data to
+    // third parties.  The opt-out check adds negligible overhead (<< 0.5 ms)
+    // because it is a single hash-set lookup on the snapshotted registry.
+    const std::string subject_id = get("X-User-Id");
+    if (!subject_id.empty() && ccpa_registry &&
+        ccpa_registry->count(subject_id) > 0)
+    {
+        d.ccpa_opted_out   = true;
+        d.export_allowed   = false;  // Data sale / third-party export blocked
+    }
+
     // Audit log if in enforce mode and logger is configured
     if (audit_log && d.mode == "enforce") {
         nlohmann::json audit_event = {
@@ -304,20 +335,108 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
             {"encrypt_logs", d.encrypt_logs},
             {"redaction", d.redaction},
             {"retention_days", d.retention_days},
+            {"ccpa_opted_out", d.ccpa_opted_out},
             {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count()}
         };
         
         // Add user context if available in headers
-        auto user_it = headers.find("X-User-Id");
-        if (user_it != headers.end()) {
-            audit_event["user_id"] = user_it->second;
+        if (!subject_id.empty()) {
+            audit_event["user_id"] = subject_id;
         }
         
         audit_log->logEvent(audit_event);
     }
 
     return d;
+}
+
+SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request) const {
+    const auto& headers = request.headers;
+    const auto& route   = request.route;
+
+    auto get = [&](const char* key) -> std::string {
+        auto it = headers.find(key);
+        if (it != headers.end()) return it->second;
+        return std::string();
+    };
+
+    // Snapshot policy data under lock so a concurrent reload doesn't race
+    std::unordered_map<std::string, ClassificationProfile> profiles;
+    std::unordered_map<std::string, std::string> resource_map;
+    std::string mode;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        profiles     = classification_profiles_;
+        resource_map = resource_mapping_;
+        mode         = default_mode_;
+        // audit_logger_ is intentionally NOT captured – dry-run must not log
+    }
+
+    SimulationResult result;
+    result.dry_run = true;
+    PolicyDecision& d = result.decision;
+
+    // Classification
+    auto cls = normalize(get("X-Classification"));
+    if (cls.empty()) {
+        auto res_it = resource_map.find(route);
+        if (res_it != resource_map.end()) {
+            cls = res_it->second;
+            result.matched_resource = route;
+        } else {
+            cls = "vs-nfd"; // ultimate default
+        }
+    }
+    d.classification = cls;
+
+    // Mode
+    auto req_mode = normalize(get("X-Governance-Mode"));
+    if (req_mode != "observe") req_mode = mode;
+    d.mode = req_mode;
+
+    // Lookup profile
+    auto prof_it = profiles.find(normalize(cls));
+    if (prof_it != profiles.end()) {
+        const auto& profile = prof_it->second;
+        d.encrypt_logs               = profile.log_encryption;
+        d.redaction                  = profile.redaction_level;
+        d.ann_allowed                = profile.ann_allowed;
+        d.require_content_encryption = profile.encryption_required;
+        d.export_allowed             = profile.export_allowed;
+        d.cache_allowed              = profile.cache_allowed;
+        d.retention_days             = profile.retention_days;
+        result.matched_profile       = profile.level;
+    } else {
+        // Fallback if profile not found (heuristic)
+        bool strict = isStrictClass(cls);
+        d.encrypt_logs               = strict;
+        d.redaction                  = strict ? "strict" : "standard";
+        d.ann_allowed                = !strict;
+        d.require_content_encryption = strict;
+        d.export_allowed             = !strict;
+        d.cache_allowed              = !strict;
+        d.retention_days             = 365;
+    }
+
+    // Allow header override for encrypt_logs
+    auto enc_logs = normalize(get("X-Encrypt-Logs"));
+    if (!enc_logs.empty()) {
+        if (enc_logs == "true" || enc_logs == "1" || enc_logs == "yes") {
+            d.encrypt_logs = true;
+        } else if (enc_logs == "false" || enc_logs == "0" || enc_logs == "no") {
+            d.encrypt_logs = false;
+        }
+    }
+
+    // Allow header override for redaction
+    auto redact = normalize(get("X-Redaction-Level"));
+    if (!redact.empty()) {
+        d.redaction = redact;
+    }
+
+    // NOTE: Dry-run / simulation mode – audit log is intentionally NOT written.
+    return result;
 }
 
 } // namespace governance

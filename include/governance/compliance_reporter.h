@@ -23,6 +23,7 @@
 #pragma once
 
 #include "governance/policy_manager.h"
+#include "governance/ccpa_rules.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -99,9 +100,20 @@ public:
     ComplianceReport generateSummaryReport() const;
     
     /// Generate compliance status report
-    /// @param framework Optional compliance framework (e.g., "GDPR", "SOX")
+    /// @param framework Optional compliance framework (e.g., "GDPR", "SOX", "CCPA")
     /// @return Compliance report with gap analysis
     ComplianceReport generateComplianceReport(const std::string& framework = "") const;
+    
+    /// Generate a CCPA/CPRA compliance report
+    /// @param rule_set   CCPA rule set containing registered subject records
+    /// @param window_start_ms  Report window start (Unix epoch milliseconds; 0 = all)
+    /// @param window_end_ms    Report window end (Unix epoch milliseconds; INT64_MAX = all)
+    /// @return Structured JSON summary: data categories, third-party disclosures, opt-out counts
+    nlohmann::json generateCcpaReport(
+        const CcpaRuleSet& rule_set,
+        int64_t window_start_ms = 0,
+        int64_t window_end_ms   = INT64_MAX
+    ) const;
     
     /// Generate access control matrix
     /// @return JSON representation of access control matrix
