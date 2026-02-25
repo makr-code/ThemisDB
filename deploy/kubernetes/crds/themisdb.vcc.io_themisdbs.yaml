@@ -76,6 +76,119 @@ spec:
                         cpu:
                           type: string
                           default: "4"
+                replication:
+                  type: object
+                  description: Replication topology configuration
+                  properties:
+                    mode:
+                      type: string
+                      description: "Replication mode: SYNC, SEMI_SYNC, or ASYNC"
+                      enum: ["SYNC", "SEMI_SYNC", "ASYNC"]
+                      default: "SEMI_SYNC"
+                    minSyncReplicas:
+                      type: integer
+                      description: Minimum number of in-sync replicas required for quorum writes
+                      minimum: 1
+                      default: 1
+                    leaderElection:
+                      type: object
+                      description: Leader election configuration
+                      properties:
+                        electionTimeoutMinMs:
+                          type: integer
+                          description: Minimum leader election timeout in milliseconds
+                          minimum: 150
+                          default: 150
+                        electionTimeoutMaxMs:
+                          type: integer
+                          description: Maximum leader election timeout in milliseconds
+                          minimum: 300
+                          default: 300
+                        heartbeatIntervalMs:
+                          type: integer
+                          description: Leader heartbeat interval in milliseconds
+                          minimum: 50
+                          default: 100
+                        leaderPreferencePriority:
+                          type: integer
+                          description: Priority for leader election (higher is preferred)
+                          minimum: 0
+                          default: 1
+                    failover:
+                      type: object
+                      description: Automatic failover policy
+                      properties:
+                        enabled:
+                          type: boolean
+                          description: Enable automatic leader failover
+                          default: true
+                        failureDetectionTimeoutMs:
+                          type: integer
+                          description: Timeout before a node is declared failed (milliseconds)
+                          minimum: 1000
+                          default: 5000
+                        maxFailoverAttempts:
+                          type: integer
+                          description: Maximum number of failover attempts before giving up
+                          minimum: 1
+                          default: 3
+                        failoverCooldownMs:
+                          type: integer
+                          description: Minimum time between consecutive failovers (milliseconds)
+                          minimum: 0
+                          default: 30000
+                    lagThresholds:
+                      type: object
+                      description: Thresholds for lag-based topology decisions
+                      properties:
+                        degradedLagMs:
+                          type: integer
+                          description: Replication lag (ms) above which a replica is considered degraded
+                          minimum: 0
+                          default: 5000
+                        criticalLagMs:
+                          type: integer
+                          description: Replication lag (ms) above which a replica is excluded from reads
+                          minimum: 0
+                          default: 30000
+                        readShiftEnabled:
+                          type: boolean
+                          description: Automatically shift read traffic away from lagging replicas
+                          default: true
+                    wal:
+                      type: object
+                      description: Write-Ahead Log (WAL) configuration
+                      properties:
+                        compression:
+                          type: boolean
+                          description: Enable Zstd WAL compression
+                          default: true
+                        syncOnCommit:
+                          type: boolean
+                          description: Fsync WAL on every commit (durable but slower)
+                          default: true
+                        retentionHours:
+                          type: integer
+                          description: Hours to retain WAL files
+                          minimum: 1
+                          default: 168
+                    topologyAware:
+                      type: object
+                      description: Topology-aware scheduling hints
+                      properties:
+                        spreadAcrossZones:
+                          type: boolean
+                          description: Spread replicas across availability zones
+                          default: true
+                        spreadAcrossNodes:
+                          type: boolean
+                          description: Spread replicas across Kubernetes nodes
+                          default: true
+                        preferredDatacenters:
+                          type: array
+                          description: Preferred datacenters/regions for replica placement
+                          items:
+                            type: string
                 sharding:
                   type: object
                   description: Sharding configuration
@@ -160,6 +273,54 @@ spec:
                 readyReplicas:
                   type: integer
                   description: Number of ready replicas
+                replicationTopology:
+                  type: object
+                  description: Current replication topology status
+                  properties:
+                    currentLeader:
+                      type: string
+                      description: Node ID of the current leader/primary
+                    leaderTerm:
+                      type: integer
+                      format: int64
+                      description: Current Raft term of the leader
+                    lastFailoverTime:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the most recent leader failover
+                    failoverCount:
+                      type: integer
+                      description: Total number of leader failovers since cluster creation
+                    inSyncReplicas:
+                      type: array
+                      description: List of replica node IDs that are in-sync with the leader
+                      items:
+                        type: string
+                    laggingReplicas:
+                      type: array
+                      description: List of replica node IDs that are lagging beyond the degraded threshold
+                      items:
+                        type: string
+                    replicaHealth:
+                      type: array
+                      description: Health status of each replica
+                      items:
+                        type: object
+                        properties:
+                          nodeId:
+                            type: string
+                          role:
+                            type: string
+                            enum: ["LEADER", "FOLLOWER", "CANDIDATE", "OBSERVER"]
+                          health:
+                            type: string
+                            enum: ["HEALTHY", "DEGRADED", "FAILED", "UNKNOWN"]
+                          lagMs:
+                            type: integer
+                            format: int64
+                          lastHeartbeat:
+                            type: string
+                            format: date-time
                 conditions:
                   type: array
                   items:
@@ -194,3 +355,11 @@ spec:
         - name: Age
           type: date
           jsonPath: .metadata.creationTimestamp
+        - name: Leader
+          type: string
+          jsonPath: .status.replicationTopology.currentLeader
+          priority: 1
+        - name: InSync
+          type: string
+          jsonPath: .status.replicationTopology.inSyncReplicas
+          priority: 1

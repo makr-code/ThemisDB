@@ -1,0 +1,90 @@
+# ThemisDB Cluster with Automated Replication Topology Management
+#
+# This manifest creates a 3-node ThemisDB cluster where the operator
+# automatically manages:
+#   - Leader election with Raft-like consensus
+#   - Automatic failover when a node becomes unhealthy
+#   - Topology-aware scheduling across availability zones
+#   - Lag-based read traffic shifting
+#   - WAL compression and durability settings
+
+apiVersion: vcc.io/v1alpha1
+kind: ThemisDB
+metadata:
+  name: themisdb-ha
+  namespace: themisdb
+  labels:
+    app: themisdb
+    environment: production
+spec:
+  replicas: 3
+  version: "1.0.0"
+
+  storage:
+    size: 100Gi
+    storageClass: standard
+
+  resources:
+    requests:
+      memory: "4Gi"
+      cpu: "2"
+    limits:
+      memory: "8Gi"
+      cpu: "4"
+
+  # ── Replication topology – managed automatically by the operator ──────────
+  replication:
+    # SEMI_SYNC: writes acknowledged by at least minSyncReplicas followers
+    mode: SEMI_SYNC
+    minSyncReplicas: 2
+
+    leaderElection:
+      electionTimeoutMinMs: 150
+      electionTimeoutMaxMs: 300
+      heartbeatIntervalMs: 100
+      # All nodes have equal priority; adjust to prefer a specific node
+      leaderPreferencePriority: 1
+
+    failover:
+      enabled: true
+      # Declare a node failed after 5 s of missed heartbeats
+      failureDetectionTimeoutMs: 5000
+      maxFailoverAttempts: 3
+      # Minimum gap between consecutive failovers (30 s)
+      failoverCooldownMs: 30000
+
+    lagThresholds:
+      # Replica considered degraded above 5 s lag
+      degradedLagMs: 5000
+      # Replica excluded from reads above 30 s lag
+      criticalLagMs: 30000
+      # Automatically redirect reads away from lagging replicas
+      readShiftEnabled: true
+
+    wal:
+      compression: true       # Zstd compression for WAL shipping
+      syncOnCommit: true       # fsync every commit (durable)
+      retentionHours: 168      # 7 days of WAL retained for PITR
+
+    topologyAware:
+      spreadAcrossZones: true   # Pod per availability zone when possible
+      spreadAcrossNodes: true   # One pod per Kubernetes node
+      preferredDatacenters: []  # No datacenter preference
+
+  sharding:
+    enabled: false
+
+  security:
+    mtls: true
+    rbac: true
+    fieldEncryption: false
+
+  monitoring:
+    prometheus: true
+    grafana: true
+    opentelemetry: false
+
+  backup:
+    enabled: true
+    schedule: "0 2 * * *"
+    retention: 7
