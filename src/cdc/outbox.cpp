@@ -236,9 +236,6 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit,
         rocksdb::Slice k = it->key();
         if (!k.starts_with(KEY_PREFIX)) break;
 
-        // Skip the sequence counter key
-        if (k == SEQUENCE_KEY) continue;
-
         try {
             OutboxRecord rec = OutboxRecord::fromJson(
                 nlohmann::json::parse(it->value().ToString()));

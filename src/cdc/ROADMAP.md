@@ -68,7 +68,7 @@
 - [x] API stability guaranteed for changefeed and subscription APIs
 
 ## Known Issues & Limitations
-- WebSocket transport not yet implemented; SSE only
+- WebSocket transport is implemented (`cdc_ws_handler.cpp`); endpoint wiring to HTTP server is a follow-up
 - Consumer offset tracking is available via `ConsumerGroupManager`;
   full log scan is no longer required for existing groups
 - Change log retention policies are not configurable at runtime
@@ -76,9 +76,9 @@
   `ConsumerGroupManager::fetchEventsAtLeastOnce`;
   in-flight state is in-memory and resets on server restart
   (consumers resume from the last durably committed offset)
-- No consumer offset tracking; replay requires full log scan
 - At-least-once delivery is not yet guaranteed for SSE connections
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
+- Outbox relay in-flight state is in-memory; FAILED records survive restarts but PENDING records relayed-but-not-marked would be re-relayed after restart (at-least-once semantics)
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)

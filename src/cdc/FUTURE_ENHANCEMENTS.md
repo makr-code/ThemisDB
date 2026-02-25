@@ -36,6 +36,50 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 - Configurable back-pressure limit (`max_pending_per_consumer`)
 - All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
 
+### Transactional Outbox Pattern ✅ (Implemented - PR #2850)
+
+`OutboxWriter` + `OutboxRelay` (`include/cdc/outbox.h`, `src/cdc/outbox.cpp`) implement the
+transactional outbox pattern, eliminating the dual-write problem between application data
+mutations and CDC event emission.
+
+**Storage layout (RocksDB):**
+```
+Key:     "cdc_outbox:{20-digit-zero-padded-sequence}"
+Value:   JSON (OutboxRecord)
+Counter: "cdc_outbox_sequence"
+```
+
+**`OutboxWriter`** — participates in the caller's existing RocksDB transaction:
+
+```cpp
+rocksdb::Transaction* txn = db->BeginTransaction(write_opts);
+txn->Put(cf, "orders:42", order_json);          // application data
+
+OutboxRecord rec;
+rec.collection = "orders";
+rec.key        = "orders:42";
+rec.value      = order_json;
+rec.event_type = Changefeed::ChangeEventType::EVENT_PUT;
+writer.writeToOutbox(txn, rec);   // CDC record in the same txn
+
+txn->Commit();   // both commits atomically or both roll back
+```
+
+**`OutboxRelay`** — background relay thread:
+- `start()` / `stop()` — lifecycle
+- `relayOnce()` — synchronous poll cycle (also used directly in tests)
+- PENDING → PUBLISHED on success; PENDING → FAILED after `max_relay_attempts`
+- `listRecords(state)` / `listAllRecords()` — inspect outbox state
+- `removeRecord(seq)` / `purgePublished()` — maintenance operations
+- `totalRelayed()` / `totalFailed()` — counters
+
+**`OutboxRelayConfig`:**
+- `poll_interval` (default 100 ms) — background thread sleep
+- `batch_size` (default 100) — max records per relay cycle
+- `max_relay_attempts` (default 5, 0 = unlimited) — before marking FAILED
+
+All methods thread-safe; 16 unit tests in `tests/test_cdc_outbox.cpp`.
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport
