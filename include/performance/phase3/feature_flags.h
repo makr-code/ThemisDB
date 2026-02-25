@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     120                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     134                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -68,6 +68,12 @@ public:
     bool bao_enabled() const { return bao_enabled_.load(std::memory_order_relaxed); }
     void set_bao_enabled(bool enabled) { bao_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // Memory Pressure Monitoring with Automatic Cache Eviction
+    // Monitors system RAM usage and triggers registered eviction callbacks
+    // when configurable thresholds are exceeded.
+    bool memory_pressure_enabled() const { return memory_pressure_enabled_.load(std::memory_order_relaxed); }
+    void set_memory_pressure_enabled(bool enabled) { memory_pressure_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -82,6 +88,7 @@ private:
     std::atomic<bool> splinterdb_enabled_{false};
     std::atomic<bool> gunrock_enabled_{false};
     std::atomic<bool> bao_enabled_{false};
+    std::atomic<bool> memory_pressure_enabled_{false};
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -113,6 +120,12 @@ private:
     #define THEMIS_PHASE3_BAO_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().bao_enabled())
 #else
     #define THEMIS_PHASE3_BAO_ENABLED() (false)
+#endif
+
+#ifdef THEMIS_ENABLE_MEMORY_PRESSURE
+    #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())
+#else
+    #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (false)
 #endif
 
 } // namespace phase3

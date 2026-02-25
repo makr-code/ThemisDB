@@ -104,6 +104,10 @@
       "version>=": "2.2.6"
     },
     {
+      "name": "jemalloc",
+      "platform": "linux | osx"
+    },
+    {
       "name": "prometheus-cpp",
       "features": [
         "pull"
