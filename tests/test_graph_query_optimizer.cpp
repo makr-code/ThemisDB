@@ -1674,3 +1674,236 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
         expected_confidence
     );
 }
+
+// ============================================================================
+// Temporal Graph Query Optimization Tests (Phase 3)
+// ============================================================================
+
+// Helper constants representing a simple timeline (milliseconds since epoch):
+// t_past  = 2020-01-01 00:00:00 UTC (approx)
+// t_mid   = 2022-06-01 00:00:00 UTC (approx)
+// t_now   = 2025-01-01 00:00:00 UTC (approx)
+
+static constexpr int64_t kT2020 = 1577836800000LL; // 2020-01-01
+static constexpr int64_t kT2022 = 1654041600000LL; // 2022-06-01
+static constexpr int64_t kT2025 = 1735689600000LL; // 2025-01-01
+
+// Add temporal edges to the existing test graph fixture.
+// Edge A->B is valid only in [kT2020, kT2022)
+// Edge B->C is valid from kT2022 onwards
+// Edge C->D has no temporal bounds (always valid)
+static void addTemporalEdges(themis::GraphIndexManager& gm) {
+    themis::BaseEntity te1("te1");
+    te1.setField("id", "te1");
+    te1.setField("_from", "TA");
+    te1.setField("_to", "TB");
+    te1.setField("valid_from", std::to_string(kT2020));
+    te1.setField("valid_to",   std::to_string(kT2022));
+    gm.addEdge(te1);
+
+    themis::BaseEntity te2("te2");
+    te2.setField("id", "te2");
+    te2.setField("_from", "TB");
+    te2.setField("_to", "TC");
+    te2.setField("valid_from", std::to_string(kT2022));
+    gm.addEdge(te2);
+
+    themis::BaseEntity te3("te3");
+    te3.setField("id", "te3");
+    te3.setField("_from", "TA");
+    te3.setField("_to", "TC");
+    // No temporal bounds – always valid
+    gm.addEdge(te3);
+}
+
+// ── optimizeTemporalTraversal ─────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, OptimizeTemporalTraversal_SelectsBFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+
+    auto result = optimizer_->optimizeTemporalTraversal("A", 3, c);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result->pattern,
+              themis::graph::GraphQueryOptimizer::QueryPattern::K_HOP_NEIGHBORS);
+    EXPECT_EQ(result->algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::BFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, OptimizeTemporalTraversal_CostLowerThanUnbounded) {
+    // A narrow time window should produce a lower cost estimate than a query
+    // without any temporal constraint (because temporal selectivity < 1).
+    themis::graph::GraphQueryOptimizer::QueryConstraints c_temporal;
+    c_temporal.time_range_start_ms = kT2022;
+    c_temporal.time_range_end_ms   = kT2022 + 86400000LL; // 1 day
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c_unbounded;
+
+    auto res_temporal  = optimizer_->optimizeTemporalTraversal("A", 3, c_temporal);
+    auto res_unbounded = optimizer_->optimizeTemporalTraversal("A", 3, c_unbounded);
+
+    ASSERT_TRUE(res_temporal);
+    ASSERT_TRUE(res_unbounded);
+    EXPECT_LT(res_temporal->estimated_cost, res_unbounded->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, OptimizeTemporalTraversal_ExplanationContainsTimeRange) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+
+    auto result = optimizer_->optimizeTemporalTraversal("A", 2, c);
+    ASSERT_TRUE(result);
+    EXPECT_NE(result->explanation.find(std::to_string(kT2020)), std::string::npos);
+    EXPECT_NE(result->explanation.find(std::to_string(kT2025)), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, OptimizeTemporalTraversal_HasAlternativePlan) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+
+    auto result = optimizer_->optimizeTemporalTraversal("A", 2, c);
+    ASSERT_TRUE(result);
+    EXPECT_FALSE(result->alternatives.empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, OptimizeTemporalTraversal_PlanCacheHitOnSecondCall) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2022;
+    c.time_range_end_ms   = kT2025;
+
+    optimizer_->optimizeTemporalTraversal("A", 2, c); // first call – miss
+    const uint64_t misses_before =
+        optimizer_->getQueryMetrics().plan_cache_misses.load();
+    optimizer_->optimizeTemporalTraversal("B", 2, c); // same constraints – hit
+    const uint64_t hits_after =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    EXPECT_GT(hits_after, 0u);
+    (void)misses_before; // value used to verify monotonicity in other tests
+}
+
+// ── executeTemporalBFS ────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_NoTemporalConstraint_FallsBackToStandardBFS) {
+    // When no time range is set, executeTemporalBFS should behave like executeBFS.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    EXPECT_FALSE(c.hasTemporalRange());
+
+    auto res_temporal = optimizer_->executeTemporalBFS("A", 3, c);
+    auto res_standard = optimizer_->executeBFS("A", 3, c);
+
+    ASSERT_TRUE(res_temporal);
+    ASSERT_TRUE(res_standard);
+    // Both should reach the same set of nodes (order may differ; compare as sets).
+    auto t_nodes = res_temporal.value();
+    auto s_nodes = res_standard.value();
+    std::sort(t_nodes.begin(), t_nodes.end());
+    std::sort(s_nodes.begin(), s_nodes.end());
+    EXPECT_EQ(t_nodes, s_nodes);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_WithTemporalConstraint_FindsTemporalNeighbors) {
+    addTemporalEdges(*graph_mgr_);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2022 - 1; // window: 2020 – just before 2022
+
+    auto result = optimizer_->executeTemporalBFS("TA", 2, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // TA is always in the result (start node)
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "TA"), nodes.end());
+    // TB is reachable via te1 which is valid in [kT2020, kT2022)
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "TB"), nodes.end());
+    // TC is reachable via te3 (no temporal bounds) at any time
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "TC"), nodes.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_ExcludesEdgesOutsideWindow) {
+    addTemporalEdges(*graph_mgr_);
+
+    // Window is entirely after kT2022: te1 (TA->TB, valid [kT2020,kT2022)) should
+    // not contribute TB to the result when the window starts at kT2022.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2022 + 1;
+    c.time_range_end_ms   = kT2025;
+
+    auto result = optimizer_->executeTemporalBFS("TA", 2, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // TB is only reached via te1 which is NOT valid after kT2022.
+    // te2 (TB->TC) starts at kT2022 but to reach TB from TA we need te1 first.
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "TB"), nodes.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_UpdatesExecutionMetrics) {
+    addTemporalEdges(*graph_mgr_);
+
+    const uint64_t queries_before =
+        optimizer_->getQueryMetrics().total_queries.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+    optimizer_->executeTemporalBFS("TA", 2, c);
+
+    EXPECT_GT(optimizer_->getQueryMetrics().total_queries.load(), queries_before);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_RespectsMaxResults) {
+    addTemporalEdges(*graph_mgr_);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+    c.max_results = 2;
+
+    auto result = optimizer_->executeTemporalBFS("TA", 3, c);
+    ASSERT_TRUE(result);
+    EXPECT_LE(result->size(), 2u);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_RejectsForbiddenVertex) {
+    addTemporalEdges(*graph_mgr_);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+    c.forbidden_vertices  = {"TC"};
+
+    auto result = optimizer_->executeTemporalBFS("TA", 3, c);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(std::find(result->begin(), result->end(), "TC"), result->end());
+}
+
+// ── QueryConstraints temporal helper ─────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_FalseByDefault) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    EXPECT_FALSE(c.hasTemporalRange());
+}
+
+TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_TrueWhenStartSet) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    EXPECT_TRUE(c.hasTemporalRange());
+}
+
+TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_TrueWhenEndSet) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_end_ms = kT2025;
+    EXPECT_TRUE(c.hasTemporalRange());
+}
+
+TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_TrueWhenBothSet) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+    EXPECT_TRUE(c.hasTemporalRange());
+}
