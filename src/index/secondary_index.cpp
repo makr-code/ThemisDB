@@ -39,6 +39,7 @@
 #include <cstdio>
 #include <cctype>
 #include <chrono>
+#include <thread>
 
 namespace themis {
 
@@ -2780,6 +2781,244 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	rebuild_metrics_.rebuild_count.fetch_add(1, std::memory_order_relaxed);
 	rebuild_metrics_.rebuild_duration_ms.fetch_add(duration_ms, std::memory_order_relaxed);
 	rebuild_metrics_.rebuild_entities_processed.fetch_add(done, std::memory_order_relaxed);
+}
+
+// Online rebuild: keeps the live index available for reads throughout the scan phase.
+// New entries are written under a shadow prefix ("__rb__:<livePrefix>"). After the scan
+// completes, a single atomic WriteBatch deletes the stale live entries and promotes the
+// shadow entries to the live prefix, minimising the window where reads are affected.
+void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const std::string& column,
+                                               uint32_t throttle_us,
+                                               std::function<bool(size_t,size_t)> progress) {
+	auto start_time = std::chrono::steady_clock::now();
+
+	// Step 1: Determine index type and live prefix (mirrors rebuildIndex logic)
+	std::string indexType;
+	std::string livePrefix;
+
+	if (db_.get(makeTTLIndexMetaKey(table, column)).has_value()) {
+		indexType = "ttl";
+		livePrefix = std::string("ttlidx:") + table + ":" + column + ":";
+	} else if (db_.get(makeFulltextIndexMetaKey(table, column)).has_value()) {
+		indexType = "fulltext";
+		livePrefix = std::string("ftidx:") + table + ":" + column + ":";
+	} else if (db_.get(makeGeoIndexMetaKey(table, column)).has_value()) {
+		indexType = "geo";
+		livePrefix = std::string("gidx:") + table + ":" + column + ":";
+	} else if (db_.get(makeSparseIndexMetaKey(table, column)).has_value()) {
+		indexType = "sparse";
+		livePrefix = std::string("sidx:") + table + ":" + column + ":";
+	} else if (db_.get(makeRangeIndexMetaKey(table, column)).has_value()) {
+		indexType = "range";
+		livePrefix = std::string("ridx:") + table + ":" + column + ":";
+	} else if (column.find('+') != std::string::npos) {
+		std::vector<std::string> cols;
+		size_t pos = 0;
+		while (pos < column.size()) {
+			size_t p = column.find('+', pos);
+			if (p == std::string::npos) p = column.size();
+			cols.push_back(column.substr(pos, p - pos));
+			pos = p + 1;
+		}
+		if (db_.get(makeCompositeIndexMetaKey(table, cols)).has_value()) {
+			indexType = "composite";
+			livePrefix = std::string("idx:") + table + ":" + column + ":";
+		} else {
+			return;
+		}
+	} else if (db_.get(makeIndexMetaKey(table, column)).has_value()) {
+		indexType = "regular";
+		livePrefix = std::string("idx:") + table + ":" + column + ":";
+	} else {
+		return;
+	}
+
+	// Step 2: Shadow prefix – all new entries are written here during the scan
+	const std::string shadowPrefix = "__rb__:" + livePrefix;
+
+	// Step 3: Remove any stale shadow entries from a previously interrupted online rebuild
+	{
+		std::vector<std::string> stale;
+		db_.scanPrefix(shadowPrefix, [&stale](std::string_view k, std::string_view) {
+			stale.push_back(std::string(k));
+			return true;
+		});
+		for (const auto& k : stale) db_.del(k);
+	}
+
+	// Step 4: Count entities for progress reporting
+	const std::string entityPrefix = table + ":";
+	size_t total = 0;
+	db_.scanPrefix(entityPrefix, [&total](std::string_view, std::string_view) { ++total; return true; });
+
+	size_t done = 0;
+	auto advance = [&]() -> bool {
+		++done;
+		if (throttle_us > 0 && done % 100 == 0)
+			std::this_thread::sleep_for(std::chrono::microseconds(throttle_us));
+		if (progress) return progress(done, total);
+		return true;
+	};
+
+	// Writes a new entry to the shadow prefix
+	auto writeShadow = [&](const std::string& liveKey, const std::string& pk) {
+		std::string shadowKey = "__rb__:" + liveKey;
+		db_.put(shadowKey, toBytes(pk));
+	};
+
+	// Step 5: Scan all entities and write new entries to the shadow prefix.
+	//         The live index is NOT touched – reads continue to work normally.
+	if (indexType == "ttl") {
+		int64_t ttl_sec = getTTLSeconds_(table, column);
+		auto now_ts = std::chrono::duration_cast<std::chrono::seconds>(
+		    std::chrono::system_clock::now().time_since_epoch()).count();
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal || isNullOrEmpty_(maybeVal)) { if (!advance()) { aborted = true; return false; } return true; }
+			int64_t expire_ts = now_ts + ttl_sec;
+			writeShadow(makeTTLIndexKey(table, column, expire_ts, pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else if (indexType == "fulltext") {
+		auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
+			for (const auto& token : tokenize(*maybeVal, config))
+				writeShadow(makeFulltextIndexKey(table, column, token, pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else if (indexType == "geo") {
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeLat = entity.extractField(column + "_lat");
+			auto maybeLon = entity.extractField(column + "_lon");
+			if (!maybeLat || !maybeLon) { if (!advance()) { aborted = true; return false; } return true; }
+			try {
+				std::string geohash = encodeGeohash(std::stod(*maybeLat), std::stod(*maybeLon), 12);
+				writeShadow(makeGeoIndexKey(table, column, geohash, pk), pk);
+			} catch (...) {}
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else if (indexType == "sparse") {
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal || isNullOrEmpty_(maybeVal)) { if (!advance()) { aborted = true; return false; } return true; }
+			writeShadow(makeSparseIndexKey(table, column, encodeKeyComponent(*maybeVal), pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else if (indexType == "range") {
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
+			writeShadow(makeRangeIndexKey(table, column, *maybeVal, pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else if (indexType == "composite") {
+		std::vector<std::string> cols;
+		size_t pos = 0;
+		while (pos < column.size()) {
+			size_t p = column.find('+', pos);
+			if (p == std::string::npos) p = column.size();
+			cols.push_back(column.substr(pos, p - pos));
+			pos = p + 1;
+		}
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			std::vector<std::string> values;
+			for (const auto& col : cols) {
+				auto mv = entity.extractField(col);
+				if (!mv) { if (!advance()) { aborted = true; return false; } return true; }
+				values.push_back(*mv);
+			}
+			writeShadow(makeCompositeIndexKey(table, cols, values, pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	} else { // regular
+		bool aborted = false;
+		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
+			size_t lc = key.rfind(':');
+			if (lc == std::string::npos) return true;
+			std::string pk(key.substr(lc + 1));
+			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
+			auto maybeVal = entity.extractField(column);
+			if (!maybeVal) { if (!advance()) { aborted = true; return false; } return true; }
+			writeShadow(KeySchema::makeSecondaryIndexKey(table, column, encodeKeyComponent(*maybeVal), pk), pk);
+			if (!advance()) { aborted = true; return false; }
+			return true;
+		});
+		if (aborted) return;
+	}
+
+	// Step 6: Atomic swap – in one WriteBatch:
+	//   a) delete all stale live entries
+	//   b) promote each shadow entry to the live prefix
+	//   c) delete each shadow entry
+	// During this brief batch write the live index briefly transitions; concurrent
+	// readers may observe either old or new entries, but never an empty index.
+	auto batch = db_.createWriteBatch();
+
+	db_.scanPrefix(livePrefix, [&batch](std::string_view k, std::string_view) {
+		batch->del(k);
+		return true;
+	});
+
+	db_.scanPrefix(shadowPrefix, [&batch](std::string_view k, std::string_view v) {
+		// live key = shadow key with the leading "__rb__:" (7 chars) stripped
+		std::string liveKey(k.substr(7));
+		batch->put(liveKey, std::vector<uint8_t>(v.begin(), v.end()));
+		batch->del(k);
+		return true;
+	});
+
+	batch->commit();
+
+	// Step 7: Update metrics
+	auto end_time = std::chrono::steady_clock::now();
+	auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+	rebuild_metrics_.rebuild_duration_ms.fetch_add(duration_ms, std::memory_order_relaxed);
+	rebuild_metrics_.rebuild_entities_processed.fetch_add(done, std::memory_order_relaxed);
+	rebuild_metrics_.online_rebuild_count.fetch_add(1, std::memory_order_relaxed);
 }
 
 SecondaryIndexManager::IndexStats

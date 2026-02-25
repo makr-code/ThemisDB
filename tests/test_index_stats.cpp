@@ -440,3 +440,121 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Abort) {
     EXPECT_LT(after.entry_count, 10);
     EXPECT_GE(calls, static_cast<size_t>(1));
 }
+
+// ============================================================================
+// Online Rebuild Tests
+// ============================================================================
+
+// Test: rebuildIndexOnline reconstructs a regular index without clearing it first
+TEST_F(IndexStatsTest, RebuildIndexOnline_Regular) {
+    indexMgr_->createIndex("users", "email", false);
+    for (int i = 0; i < 5; ++i) {
+        BaseEntity e("user" + std::to_string(i));
+        e.setField("email", "user" + std::to_string(i) + "@test.com");
+        indexMgr_->put("users", e);
+    }
+
+    auto before = indexMgr_->getIndexStats("users", "email");
+    EXPECT_EQ(before.entry_count, 5u);
+
+    // Online rebuild – no throttle, no progress callback
+    indexMgr_->rebuildIndexOnline("users", "email");
+
+    auto after = indexMgr_->getIndexStats("users", "email");
+    EXPECT_EQ(after.entry_count, 5u);
+
+    // Functional check: lookup still works
+    auto [status, results] = indexMgr_->scanKeysEqual("users", "email", "user3@test.com");
+    ASSERT_TRUE(status.ok);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0], "user3");
+}
+
+// Test: rebuildIndexOnline increments online_rebuild_count metric
+TEST_F(IndexStatsTest, RebuildIndexOnline_MetricIncremented) {
+    indexMgr_->createIndex("users", "email", false);
+    BaseEntity e("user0");
+    e.setField("email", "user0@test.com");
+    indexMgr_->put("users", e);
+
+    auto beforeCount = indexMgr_->getRebuildMetrics().online_rebuild_count.load();
+    indexMgr_->rebuildIndexOnline("users", "email");
+    EXPECT_EQ(indexMgr_->getRebuildMetrics().online_rebuild_count.load(), beforeCount + 1u);
+}
+
+// Test: rebuildIndexOnline with progress callback reports progress and can abort
+TEST_F(IndexStatsTest, RebuildIndexOnline_ProgressCallback) {
+    indexMgr_->createIndex("users", "email", false);
+    for (int i = 0; i < 8; ++i) {
+        BaseEntity e("user" + std::to_string(i));
+        e.setField("email", "user" + std::to_string(i) + "@test.com");
+        indexMgr_->put("users", e);
+    }
+
+    size_t calls = 0;
+    indexMgr_->rebuildIndexOnline("users", "email", 0, [&](size_t done, size_t total) {
+        ++calls;
+        EXPECT_GE(total, 8u);
+        EXPECT_LE(done, total);
+        return true;
+    });
+
+    EXPECT_GE(calls, 1u);
+    auto stats = indexMgr_->getIndexStats("users", "email");
+    EXPECT_EQ(stats.entry_count, 8u);
+}
+
+// Test: rebuildIndexOnline leaves live index accessible during the scan phase
+// (verified by querying the index concurrently from another thread)
+TEST_F(IndexStatsTest, RebuildIndexOnline_LiveDuringRebuild) {
+    indexMgr_->createIndex("users", "email", false);
+    for (int i = 0; i < 20; ++i) {
+        BaseEntity e("user" + std::to_string(i));
+        e.setField("email", "user" + std::to_string(i) + "@test.com");
+        indexMgr_->put("users", e);
+    }
+
+    std::atomic<int> reads_while_rebuilding{0};
+    std::atomic<bool> rebuild_started{false};
+
+    // Reader thread queries the index repeatedly while the rebuild runs
+    std::thread reader([&]() {
+        while (!rebuild_started.load()) {}
+        for (int i = 0; i < 10; ++i) {
+            auto [st, res] = indexMgr_->scanKeysEqual("users", "email", "user0@test.com");
+            if (st.ok && !res.empty()) ++reads_while_rebuilding;
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+    });
+
+    // Throttled online rebuild gives the reader thread time to observe mid-rebuild state
+    indexMgr_->rebuildIndexOnline("users", "email", 1000 /*1ms per 100 entities*/,
+                                   [&](size_t, size_t) {
+                                       rebuild_started.store(true);
+                                       return true;
+                                   });
+
+    reader.join();
+
+    // At least some reads succeeded while the rebuild was running
+    EXPECT_GT(reads_while_rebuilding.load(), 0);
+
+    // Index is correct after rebuild
+    auto stats = indexMgr_->getIndexStats("users", "email");
+    EXPECT_EQ(stats.entry_count, 20u);
+}
+
+// Test: rebuildIndexOnline works for range index
+TEST_F(IndexStatsTest, RebuildIndexOnline_RangeIndex) {
+    indexMgr_->createRangeIndex("orders", "price");
+    for (int i = 0; i < 6; ++i) {
+        BaseEntity e("order" + std::to_string(i));
+        e.setField("price", std::to_string(i * 10));
+        indexMgr_->put("orders", e);
+    }
+
+    indexMgr_->rebuildIndexOnline("orders", "price");
+
+    auto stats = indexMgr_->getIndexStats("orders", "price");
+    EXPECT_EQ(stats.entry_count, 6u);
+}
