@@ -470,7 +470,6 @@ def run(args: argparse.Namespace) -> int:
 
         if existing_epic:
             epic_number = existing_epic["number"]
-            epic_issue_id = existing_epic["id"]
             print(f"  ℹ️  Epic already exists: #{epic_number} – skipping creation")
             skipped += 1
         else:
@@ -482,14 +481,14 @@ def run(args: argparse.Namespace) -> int:
             if args.dry_run:
                 print(f"  [dry-run] Would create: «{title}»")
                 print(f"            Labels: {labels}")
-                print(f"            Children: {len(child_map[module])} issue(s)")
                 created += 1
-                continue
+                # Fall through so children are listed consistently with the
+                # existing-epic dry-run path; use a sentinel epic_number.
+                epic_number = 0
             else:
                 try:
                     result = api.create_issue(title, body, labels)
                     epic_number = result["number"]
-                    epic_issue_id = result["id"]
                     print(f"  ✅ Created epic #{epic_number}: {result['html_url']}")
                     created += 1
                     # Brief pause to avoid secondary rate limits
