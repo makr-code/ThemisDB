@@ -342,6 +342,14 @@ public:
         return getCpuExactBackend()->stDifference(geom1, geom2);
     }
 
+    // geodesicDistance: delegate to the CPU exact backend (Vincenty WGS-84).
+    // Boost.Geometry spherical strategies are cartesian-space only; the
+    // authoritative Vincenty implementation lives in CpuExactBackend.
+    double geodesicDistance(double lat1, double lon1,
+                            double lat2, double lon2) const override {
+        return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
+    }
+
 private:
     // Convert a Boost polygon back to GeometryInfo.
     static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {

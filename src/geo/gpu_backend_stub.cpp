@@ -531,8 +531,16 @@ private:
     }
 
     // ------------------------------------------------------------------
-    // Members
+    // geodesicDistance
+    //
+    // CUDA kernel dispatch for geodesic distance is deferred to a future
+    // release.  Delegates to the CPU exact backend (Vincenty WGS-84).
     // ------------------------------------------------------------------
+    double geodesicDistance(double lat1, double lon1,
+                            double lat2, double lon2) const override {
+        return getCpuExactBackend()->geodesicDistance(lat1, lon1, lat2, lon2);
+    }
+
     Config                         cfg_;
     mutable themis::gpu::GPUSafeFail safe_fail_;
     themis::gpu::GPUAuditLog       audit_log_;
