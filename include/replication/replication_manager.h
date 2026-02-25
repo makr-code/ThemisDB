@@ -1206,6 +1206,162 @@ private:
 };
 
 // ============================================================================
+// Cross-Cluster Publish/Subscribe Replication – v1.7.0
+// ============================================================================
+
+/**
+ * PublicationFilter
+ *
+ * Specifies which WAL entries are forwarded to remote cluster subscribers.
+ * An empty filter (default) matches every entry.
+ */
+struct PublicationFilter {
+    std::vector<std::string> include_collections;  // empty = all collections
+    std::vector<std::string> include_operations;   // empty = all operations
+
+    // Returns true when `entry` satisfies all active filter criteria.
+    bool matches(const WALEntry& entry) const;
+};
+
+/**
+ * CrossClusterPublication
+ *
+ * Publishes WAL entries to remote cluster subscriptions.
+ * Implements IReplicationListener so it can be registered directly with
+ * ReplicationManager::addListener().  Every WAL entry that passes the
+ * configured filter is forwarded to all registered remote subscribers.
+ *
+ * Usage:
+ *   auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+ *   pub->setFilter(filter);
+ *   repl_mgr.addListener(pub);
+ *   pub->addRemoteSubscriber([](const WALEntry& e){ remote.apply(e); });
+ */
+class CrossClusterPublication : public IReplicationListener {
+public:
+    using RemoteSubscriberCallback = std::function<void(const WALEntry&)>;
+
+    explicit CrossClusterPublication(const std::string& name);
+
+    // Publication name
+    const std::string& name() const;
+
+    // Set / get the publication filter (thread-safe)
+    void setFilter(const PublicationFilter& filter);
+    PublicationFilter getFilter() const;
+
+    // Add a remote subscriber; returns an opaque subscriber ID
+    uint64_t addRemoteSubscriber(RemoteSubscriberCallback callback);
+
+    // Remove a remote subscriber by the ID returned from addRemoteSubscriber()
+    void removeRemoteSubscriber(uint64_t subscriber_id);
+
+    // Number of currently active remote subscribers
+    size_t subscriberCount() const;
+
+    // Total WAL entries that passed the filter and were delivered
+    uint64_t publishedCount() const;
+
+    // Apply filter and deliver `entry` to all remote subscribers
+    void publish(const WALEntry& entry);
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+    // -----------------------------------------------------------------------
+    // IReplicationListener overrides
+    // -----------------------------------------------------------------------
+    void onWALEntryApplied(const WALEntry& entry) override;
+    void onRoleChange(ReplicationRole, ReplicationRole) override {}
+    void onLeaderElected(const std::string&) override {}
+    void onReplicaAdded(const ReplicaInfo&) override {}
+    void onReplicaRemoved(const std::string&) override {}
+    void onConflictDetected(const std::string&) override {}
+    void onReplicationLagWarning(int64_t) override {}
+    void onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) override {}
+    void onFailoverStarted(const std::string&, const std::string&) override {}
+    void onFailoverCompleted(const std::string&, bool) override {}
+    void onNetworkPartitionDetected(const std::vector<std::string>&) override {}
+
+private:
+    struct RemoteSubscriber {
+        uint64_t id;
+        RemoteSubscriberCallback callback;
+    };
+
+    std::string name_;
+
+    mutable std::shared_mutex filter_mutex_;
+    PublicationFilter filter_;
+
+    mutable std::shared_mutex subs_mutex_;
+    std::vector<RemoteSubscriber> subscribers_;
+    std::atomic<uint64_t> next_id_{1};
+    std::atomic<uint64_t> published_count_{0};
+};
+
+/**
+ * CrossClusterSubscription
+ *
+ * Subscribes to a CrossClusterPublication and delivers received WAL entries
+ * to a local apply callback.  Tracks applied/error counts and the last
+ * applied sequence number for monitoring.
+ *
+ * Usage:
+ *   CrossClusterSubscription sub("orders_sub", pub,
+ *       [](const WALEntry& e){ local_store.apply(e); });
+ *   sub.enable();
+ */
+class CrossClusterSubscription {
+public:
+    using ApplyCallback = std::function<void(const WALEntry&)>;
+
+    CrossClusterSubscription(const std::string& name,
+                              std::shared_ptr<CrossClusterPublication> publication,
+                              ApplyCallback on_apply);
+
+    // Automatically unregisters from the publication on destruction
+    ~CrossClusterSubscription();
+
+    // Subscription name
+    const std::string& name() const;
+
+    // Register with the publication (idempotent)
+    void enable();
+
+    // Unregister from the publication (idempotent)
+    void disable();
+
+    // Whether the subscription is currently active
+    bool isEnabled() const;
+
+    // Count of entries successfully applied (no exception thrown)
+    uint64_t appliedCount() const;
+
+    // Highest sequence number successfully applied
+    uint64_t lastAppliedSequence() const;
+
+    // Count of apply-callback exceptions caught
+    uint64_t errorCount() const;
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+private:
+    std::string name_;
+    std::shared_ptr<CrossClusterPublication> publication_;
+    ApplyCallback on_apply_;
+
+    std::mutex enable_mutex_;
+    std::atomic<bool> enabled_{false};
+    uint64_t subscriber_id_{0};
+
+    std::atomic<uint64_t> applied_count_{0};
+    std::atomic<uint64_t> last_applied_seq_{0};
+    std::atomic<uint64_t> error_count_{0};
+};
+
+// ============================================================================
 // WAL Archival Manager – v1.6.0
 // ============================================================================
 
