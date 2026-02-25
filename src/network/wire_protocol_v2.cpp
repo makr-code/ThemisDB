@@ -122,6 +122,10 @@ public:
         asyncReadHeader();
     }
 
+    void set_disconnect_handler(std::function<void(const std::string&)> cb) {
+        on_disconnect_ = std::move(cb);
+    }
+
     void send_data(uint32_t stream_id,
                    const std::vector<uint8_t>& data,
                    bool end_stream) override {
@@ -135,14 +139,14 @@ public:
             hdr.flags |= static_cast<uint16_t>(V2FrameFlags::END_STREAM);
 
         auto hdr_bytes = serializeHeader(hdr);
-        std::vector<uint8_t> frame;
-        frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
-        frame.insert(frame.end(), data.begin(), data.end());
+        auto frame = std::make_shared<std::vector<uint8_t>>();
+        frame->insert(frame->end(), hdr_bytes.begin(), hdr_bytes.end());
+        frame->insert(frame->end(), data.begin(), data.end());
 
         std::lock_guard<std::mutex> lock(write_mutex_);
         net::async_write(socket_,
-            net::buffer(frame),
-            [this](const boost::system::error_code& ec, size_t n) {
+            net::buffer(*frame),
+            [this, frame](const boost::system::error_code& ec, size_t n) {
                 if (!ec) {
                     frames_sent_.fetch_add(1, std::memory_order_relaxed);
                     bytes_sent_.fetch_add(n, std::memory_order_relaxed);
@@ -172,14 +176,11 @@ public:
 
         hdr.payload_length = static_cast<uint32_t>(encoded.size());
         auto hdr_bytes = serializeHeader(hdr);
-        std::vector<uint8_t> frame;
-        frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
-        frame.insert(frame.end(), encoded.begin(), encoded.end());
+        std::vector<uint8_t> raw;
+        raw.insert(raw.end(), hdr_bytes.begin(), hdr_bytes.end());
+        raw.insert(raw.end(), encoded.begin(), encoded.end());
 
-        std::lock_guard<std::mutex> lock(write_mutex_);
-        net::async_write(socket_, net::buffer(frame),
-            [](const boost::system::error_code&, size_t) {});
-
+        sendFrame(std::move(raw));
         return new_sid;
     }
 
@@ -198,9 +199,7 @@ public:
         const uint8_t* ec_ptr = reinterpret_cast<const uint8_t*>(&ec_be);
         frame.insert(frame.end(), ec_ptr, ec_ptr + 4);
 
-        std::lock_guard<std::mutex> lock(write_mutex_);
-        net::async_write(socket_, net::buffer(frame),
-            [](const boost::system::error_code&, size_t) {});
+        sendFrame(std::move(frame));
 
         std::lock_guard<std::mutex> sl(streams_mutex_);
         auto it = streams_.find(stream_id);
@@ -219,16 +218,16 @@ public:
         auto hdr_bytes = serializeHeader(hdr);
         uint32_t lsid_be = htonl32(last_stream_id);
         uint32_t ec_be   = htonl32(error_code);
-        std::vector<uint8_t> frame;
-        frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
+        auto frame = std::make_shared<std::vector<uint8_t>>();
+        frame->insert(frame->end(), hdr_bytes.begin(), hdr_bytes.end());
         const uint8_t* p = reinterpret_cast<const uint8_t*>(&lsid_be);
-        frame.insert(frame.end(), p, p + 4);
+        frame->insert(frame->end(), p, p + 4);
         p = reinterpret_cast<const uint8_t*>(&ec_be);
-        frame.insert(frame.end(), p, p + 4);
+        frame->insert(frame->end(), p, p + 4);
 
         std::lock_guard<std::mutex> lock(write_mutex_);
-        net::async_write(socket_, net::buffer(frame),
-            [this](const boost::system::error_code&, size_t) {
+        net::async_write(socket_, net::buffer(*frame),
+            [this, frame](const boost::system::error_code&, size_t) {
                 socket_.close();
             });
     }
@@ -274,7 +273,10 @@ private:
         net::async_read(socket_,
             net::buffer(*buf),
             [this, self, buf](const boost::system::error_code& ec, size_t) {
-                if (ec) return; // connection closed
+                if (ec) {
+                    if (on_disconnect_) on_disconnect_(connection_id_);
+                    return;
+                }
                 V2FrameHeader hdr = parseHeader(buf->data());
                 if (!hdr.is_valid()) {
                     // Bad magic/version – send GOAWAY and disconnect
@@ -295,7 +297,10 @@ private:
         net::async_read(socket_,
             net::buffer(*payload),
             [this, self, hdr, payload](const boost::system::error_code& ec, size_t n) {
-                if (ec) return;
+                if (ec) {
+                    if (on_disconnect_) on_disconnect_(connection_id_);
+                    return;
+                }
                 frames_received_.fetch_add(1, std::memory_order_relaxed);
                 bytes_received_.fetch_add(V2_HEADER_SIZE + n, std::memory_order_relaxed);
 
@@ -346,10 +351,11 @@ private:
             ack.flags      = static_cast<uint16_t>(V2FrameFlags::ACK);
             ack.stream_id  = 0;
             ack.payload_length = 0;
-            auto hdr_bytes = serializeHeader(ack);
+            auto ack_bytes = std::make_shared<std::array<uint8_t, V2_HEADER_SIZE>>(
+                serializeHeader(ack));
             std::lock_guard<std::mutex> lock(write_mutex_);
-            net::async_write(socket_, net::buffer(hdr_bytes),
-                [](const boost::system::error_code&, size_t) {});
+            net::async_write(socket_, net::buffer(*ack_bytes),
+                [ack_bytes](const boost::system::error_code&, size_t) {});
             break;
         }
         case V2FrameType::WINDOW_UPDATE: {
@@ -377,9 +383,7 @@ private:
             std::vector<uint8_t> frame;
             frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
             frame.insert(frame.end(), payload.begin(), payload.end());
-            std::lock_guard<std::mutex> lock(write_mutex_);
-            net::async_write(socket_, net::buffer(frame),
-                [](const boost::system::error_code&, size_t) {});
+            sendFrame(std::move(frame));
             break;
         }
         default:
@@ -434,9 +438,7 @@ private:
         const uint8_t* p = reinterpret_cast<const uint8_t*>(&inc_be);
         frame.insert(frame.end(), p, p + 4);
 
-        std::lock_guard<std::mutex> lock(write_mutex_);
-        net::async_write(socket_, net::buffer(frame),
-            [](const boost::system::error_code&, size_t) {});
+        sendFrame(std::move(frame));
     }
 
     // Decode a minimal "key: value\n" header block
@@ -465,6 +467,16 @@ private:
         return headers;
     }
 
+    // ── Write helper ──────────────────────────────────────────────────────
+
+    // Keeps `frame` alive on the heap for the duration of the async write.
+    void sendFrame(std::vector<uint8_t> frame) {
+        auto buf = std::make_shared<std::vector<uint8_t>>(std::move(frame));
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        net::async_write(socket_, net::buffer(*buf),
+            [buf](const boost::system::error_code&, size_t) {});
+    }
+
     // ── Member variables ──────────────────────────────────────────────────
     tcp::socket              socket_;
     V2ConnectionConfig       cfg_;
@@ -473,6 +485,7 @@ private:
     V2DataHandler            data_handler_;
     V2HeadersHandler         headers_handler_;
     V2RstStreamHandler       rst_handler_;
+    std::function<void(const std::string&)> on_disconnect_;
 
     mutable std::mutex       streams_mutex_;
     std::unordered_map<uint32_t, V2Stream> streams_;
@@ -567,6 +580,12 @@ private:
                     auto session = std::make_shared<V2SessionImpl>(
                         std::move(socket), cfg_,
                         data_handler_, headers_handler_, rst_handler_);
+
+                    session->set_disconnect_handler(
+                        [this](const std::string& id) {
+                            std::lock_guard<std::mutex> lock(sessions_mutex_);
+                            sessions_.erase(id);
+                        });
 
                     {
                         std::lock_guard<std::mutex> lock(sessions_mutex_);
