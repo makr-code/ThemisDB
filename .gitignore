@@ -325,6 +325,8 @@ docs/enterprise/enterprise_scalability.md
 
 # Internal confidential docs (excluded from VCS - v1.3.5+)
 internal/
+# Exception: operator/internal/ contains the operator controller source
+!operator/internal/
 
 # Ephemeral server harnesses and experimental apps (not part of public release)
 epServer/
