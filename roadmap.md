@@ -158,7 +158,7 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 - [P] GPU-accelerated OLAP aggregations via CUDA (Issue: #1469) (Target: Q3 2026)
 - [I] Zero-copy Arrow data transfer optimisations (Issue: #1471) (Target: Q3 2026)
 - [I] Arrow Flight RPC support for remote analytics (Issue: #1472) (Target: Q3 2026)
-- [I] Predictive analytics and time-series forecasting (Issue: #1473) (Target: Q4 2026)
+- [x] Predictive analytics and time-series forecasting (Issue: #1473)
 
 ---
 

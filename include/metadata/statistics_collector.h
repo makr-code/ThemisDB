@@ -68,6 +68,20 @@ struct ColumnStats {
     json toJSON() const;
 };
 
+/// Per-index statistics exported from the index module to the metadata module
+struct IndexStats {
+    std::string table;                              ///< Table/collection name
+    std::string column;                             ///< Column name (or col1+col2 for composite)
+    std::string type;                               ///< "regular", "range", "sparse", "geo", "ttl", "fulltext", "composite"
+    size_t entry_count = 0;                         ///< Number of index entries
+    size_t estimated_size_bytes = 0;                ///< Estimated storage size in bytes
+    bool unique = false;                            ///< Unique constraint
+    std::string additional_info;                    ///< Type-specific info (e.g., "sorted", "geohash", "ttl_seconds=3600")
+    std::chrono::system_clock::time_point last_updated; ///< Timestamp of last export
+
+    json toJSON() const;
+};
+
 /// Per-table statistics for query planning and cardinality estimation
 struct TableStats {
     std::string table_name;                         ///< Table/collection name
@@ -241,6 +255,25 @@ public:
     /// @param table_name  Table/collection name
     StatsResult<bool> clearStats(std::string_view table_name);
 
+    /// Import index statistics for a table exported from the index module.
+    /// Stores the stats in-memory and persists them to RocksDB under
+    /// "idxstats:<table_name>".
+    /// @param table_name  Table/collection name
+    /// @param stats       Index stats to import (replaces any previously cached stats)
+    StatsResult<bool> importIndexStats(
+        std::string_view table_name,
+        const std::vector<IndexStats>& stats
+    );
+
+    /// Retrieve cached index statistics for a table.
+    /// Loads from RocksDB persistence if not already in memory.
+    /// @param table_name  Table/collection name
+    StatsResult<std::vector<IndexStats>> getIndexStats(std::string_view table_name);
+
+    /// Remove cached and persisted index statistics for a table.
+    /// @param table_name  Table/collection name
+    StatsResult<bool> clearIndexStats(std::string_view table_name);
+
     /// Export all cached statistics as a JSON object.
     json toJSON() const;
 
@@ -268,12 +301,19 @@ private:
     /// Load TableStats from RocksDB; returns nullopt if not found.
     std::optional<TableStats> loadStats(std::string_view table_name);
 
+    /// Persist index stats to RocksDB under "idxstats:<table_name>".
+    void persistIndexStats(std::string_view table_name, const std::vector<IndexStats>& stats);
+
+    /// Load index stats from RocksDB; returns nullopt if not found.
+    std::optional<std::vector<IndexStats>> loadIndexStats(std::string_view table_name);
+
     // ========================================================================
     // Member variables
     // ========================================================================
 
     RocksDBWrapper&  db_;                                        ///< Database reference
     std::map<std::string, TableStats> stats_cache_;              ///< In-memory cache
+    std::map<std::string, std::vector<IndexStats>> index_stats_cache_; ///< In-memory index stats cache
     mutable std::shared_mutex cache_mutex_;                      ///< Read-write lock
     IMetricsHook* metrics_hook_ = nullptr;                       ///< Optional metrics sink (non-owning)
 

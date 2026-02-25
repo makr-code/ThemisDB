@@ -271,3 +271,181 @@ TEST_F(StatisticsCollectorTest, HistogramBucketToJSON) {
     EXPECT_EQ(j["upper_bound"], 10.0);
     EXPECT_EQ(j["frequency"],   5u);
 }
+
+// ============================================================================
+// Index statistics export
+// ============================================================================
+
+TEST_F(StatisticsCollectorTest, ImportIndexStatsBasic) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s1;
+    s1.table                = "users";
+    s1.column               = "email";
+    s1.type                 = "regular";
+    s1.entry_count          = 42;
+    s1.estimated_size_bytes = 4200;
+    s1.unique               = true;
+    s1.additional_info      = "unique";
+
+    auto result = sc.importIndexStats("users", {s1});
+    ASSERT_TRUE(result.ok);
+    EXPECT_TRUE(result.value);
+}
+
+TEST_F(StatisticsCollectorTest, GetIndexStatsAfterImport) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s1;
+    s1.table       = "products";
+    s1.column      = "price";
+    s1.type        = "range";
+    s1.entry_count = 100;
+    s1.unique      = false;
+    s1.additional_info = "sorted";
+
+    IndexStats s2;
+    s2.table       = "products";
+    s2.column      = "name";
+    s2.type        = "regular";
+    s2.entry_count = 100;
+
+    ASSERT_TRUE(sc.importIndexStats("products", {s1, s2}).ok);
+
+    auto result = sc.getIndexStats("products");
+    ASSERT_TRUE(result.ok);
+    ASSERT_EQ(result.value.size(), 2u);
+
+    const auto& r0 = result.value[0];
+    EXPECT_EQ(r0.table,  "products");
+    EXPECT_EQ(r0.column, "price");
+    EXPECT_EQ(r0.type,   "range");
+    EXPECT_EQ(r0.entry_count, 100u);
+    EXPECT_FALSE(r0.unique);
+    EXPECT_EQ(r0.additional_info, "sorted");
+}
+
+TEST_F(StatisticsCollectorTest, GetIndexStatsMissingTable) {
+    StatisticsCollector sc(*db_);
+    auto result = sc.getIndexStats("nonexistent_xyz");
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, StatsErrorCode::TABLE_NOT_FOUND);
+}
+
+TEST_F(StatisticsCollectorTest, GetIndexStatsEmptyName) {
+    StatisticsCollector sc(*db_);
+    auto result = sc.getIndexStats("");
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, StatsErrorCode::TABLE_NOT_FOUND);
+}
+
+TEST_F(StatisticsCollectorTest, ImportIndexStatsEmptyName) {
+    StatisticsCollector sc(*db_);
+    auto result = sc.importIndexStats("", {});
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, StatsErrorCode::TABLE_NOT_FOUND);
+}
+
+TEST_F(StatisticsCollectorTest, ClearIndexStats) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s;
+    s.table        = "orders";
+    s.column       = "status";
+    s.type         = "regular";
+    s.entry_count  = 10;
+
+    ASSERT_TRUE(sc.importIndexStats("orders", {s}).ok);
+    ASSERT_TRUE(sc.getIndexStats("orders").ok);
+
+    auto clear_result = sc.clearIndexStats("orders");
+    EXPECT_TRUE(clear_result.ok);
+
+    auto get_result = sc.getIndexStats("orders");
+    EXPECT_FALSE(get_result.ok);
+    EXPECT_EQ(get_result.error, StatsErrorCode::TABLE_NOT_FOUND);
+}
+
+TEST_F(StatisticsCollectorTest, ClearIndexStatsEmptyName) {
+    StatisticsCollector sc(*db_);
+    auto result = sc.clearIndexStats("");
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, StatsErrorCode::TABLE_NOT_FOUND);
+}
+
+TEST_F(StatisticsCollectorTest, IndexStatsPersistenceAcrossInstances) {
+    // Import via first instance
+    {
+        StatisticsCollector sc(*db_);
+        IndexStats s;
+        s.table        = "sessions";
+        s.column       = "user_id";
+        s.type         = "regular";
+        s.entry_count  = 25;
+        s.unique       = false;
+        ASSERT_TRUE(sc.importIndexStats("sessions", {s}).ok);
+    }
+
+    // Load via second instance (hits RocksDB, not in-memory cache)
+    {
+        StatisticsCollector sc2(*db_);
+        auto result = sc2.getIndexStats("sessions");
+        ASSERT_TRUE(result.ok);
+        ASSERT_EQ(result.value.size(), 1u);
+        EXPECT_EQ(result.value[0].column, "user_id");
+        EXPECT_EQ(result.value[0].entry_count, 25u);
+    }
+}
+
+TEST_F(StatisticsCollectorTest, IndexStatsToJSON) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s;
+    s.table                = "items";
+    s.column               = "category";
+    s.type                 = "regular";
+    s.entry_count          = 50;
+    s.estimated_size_bytes = 5000;
+    s.unique               = false;
+    s.additional_info      = "";
+
+    auto j = s.toJSON();
+    EXPECT_EQ(j["table"],                "items");
+    EXPECT_EQ(j["column"],               "category");
+    EXPECT_EQ(j["type"],                 "regular");
+    EXPECT_EQ(j["entry_count"],          50u);
+    EXPECT_EQ(j["estimated_size_bytes"], 5000u);
+    EXPECT_EQ(j["unique"],               false);
+    EXPECT_TRUE(j.contains("last_updated"));
+}
+
+TEST_F(StatisticsCollectorTest, ImportIndexStatsEmptyVector) {
+    StatisticsCollector sc(*db_);
+    // Importing an empty list is valid – replaces any existing stats
+    auto result = sc.importIndexStats("mytable", {});
+    EXPECT_TRUE(result.ok);
+
+    auto get_result = sc.getIndexStats("mytable");
+    ASSERT_TRUE(get_result.ok);
+    EXPECT_TRUE(get_result.value.empty());
+}
+
+TEST_F(StatisticsCollectorTest, ToJSONIncludesIndexStats) {
+    StatisticsCollector sc(*db_);
+
+    IndexStats s;
+    s.table        = "orders";
+    s.column       = "amount";
+    s.type         = "range";
+    s.entry_count  = 77;
+    s.unique       = false;
+
+    ASSERT_TRUE(sc.importIndexStats("orders", {s}).ok);
+
+    auto j = sc.toJSON();
+    ASSERT_TRUE(j.contains("index_stats"))  << "toJSON() must include 'index_stats' key when index stats are cached";
+    ASSERT_TRUE(j["index_stats"].contains("orders"));
+    ASSERT_FALSE(j["index_stats"]["orders"].empty());
+    EXPECT_EQ(j["index_stats"]["orders"][0]["column"], "amount");
+    EXPECT_EQ(j["index_stats"]["orders"][0]["entry_count"], 77u);
+}
