@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. Spatial JOIN (find all pairs within a distance threshold) is implemented via `spatialJoin()` in `src/geo/spatial_join.cpp`.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete. CUDA kernel dispatch for batch point-in-polygon and Haversine distance is implemented (v2.1.0).
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -18,8 +18,8 @@
 
 ## In Progress 🚧
 - [P] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
-- [x] ST_BUFFER operation implementation (Target: Q2 2026)
-- [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
+- [P] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
+- [P] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
@@ -56,9 +56,9 @@
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: In Progress)
 - [x] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
 - [P] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
-- [x] Implement `ST_BUFFER` operation expanding geometry by a fixed distance
-- [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
-- [P] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
+- [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
+- [P] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
+- [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
@@ -69,8 +69,7 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
-- ST_BUFFER uses CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
+- ST_BUFFER uses CPU fallback for the GPU backend; CUDA kernel dispatch for ST_BUFFER is deferred to a future release
 - ROCm/HIP support is not available
 - Raster data is not supported
 

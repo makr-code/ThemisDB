@@ -1,0 +1,44 @@
+// gpu_kernel_dispatcher_cpu.cpp — no-op stub for non-CUDA builds.
+//
+// Compiled when THEMIS_GEO_CUDA is OFF so that the rest of the geo module
+// can unconditionally include "geo/gpu_kernel_dispatcher.h" and call
+// GpuKernelDispatcher without depending on CUDA.  All dispatch() calls
+// return immediately with dispatched=false.
+
+#include "geo/gpu_kernel_dispatcher.h"
+
+namespace themis {
+namespace geo {
+
+GpuKernelDispatcher::GpuKernelDispatcher(
+    const themis::acceleration::GeoKernelDispatch& dt) noexcept
+    : dispatch_table_(dt)
+{}
+
+bool GpuKernelDispatcher::isAvailable() const noexcept {
+    return false;
+}
+
+GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
+    const double* /*point_lats*/,
+    const double* /*point_lons*/,
+    int           /*numPoints*/,
+    const double* /*polygon_coords*/,
+    int           /*numPolygonVertices*/
+) {
+    return ContainmentResult{};
+}
+
+GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
+    const double* /*lats1*/,
+    const double* /*lons1*/,
+    const double* /*lats2*/,
+    const double* /*lons2*/,
+    int           /*count*/,
+    themis::acceleration::GeoDistanceFormula /*formula*/
+) {
+    return DistanceResult{};
+}
+
+} // namespace geo
+} // namespace themis
