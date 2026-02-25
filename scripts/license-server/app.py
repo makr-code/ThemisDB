@@ -17,6 +17,8 @@
 ╚═════════════════════════════════════════════════════════════════════╝
 """
 
+from __future__ import annotations
+
 """
 ThemisDB License Validation Server
 ===================================
@@ -51,8 +53,6 @@ Or via Docker:
     docker build -t themisdb-license-server .
     docker run -e THEMIS_LS_API_KEY=<key> -p 8765:8765 themisdb-license-server
 """
-
-from __future__ import annotations
 
 import hashlib
 import hmac

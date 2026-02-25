@@ -24,10 +24,73 @@ them.
 | Label | Purpose |
 |---|---|
 | `pr/copilot` | Applied by the dispatcher to every PR it creates. |
+| `copilot-pr` | Applied by the dispatcher alongside `pr/copilot`; indicates this PR is created and managed by the Copilot dispatcher. |
 | `copilot/status-working` | Copilot is actively working on this PR. Counts against the 5-slot WIP limit. |
 | `copilot/status-ready-requested` | Copilot signals it is done. The readiness gate will promote this to `copilot/status-ready` once all CI checks pass **and** the required Copilot review is present. |
 | `copilot/status-ready` | Copilot work is complete and all gates are green. This PR **no longer counts** against the WIP limit. Human review and merge remain fully independent. |
 | `copilot/status-blocked` | Copilot cannot proceed. The PR stays in the WIP count until a human intervenes. |
+
+---
+
+## Automatic assignees and reviewer
+
+After creating a PR the dispatcher automatically:
+
+1. **Assigns `copilot`** as assignee (the Copilot service account working on the PR).
+2. **Assigns the issue author** as an additional assignee so the original reporter stays
+   in the loop.
+3. **Requests a review from the issue author** so they receive a notification and can
+   provide feedback.
+
+Both operations are best-effort: if the account does not exist, does not have repository
+access, or the API call fails for any other reason, the dispatcher logs a warning and
+continues – the PR is still created and labelled correctly.
+
+### Prerequisites
+
+| Requirement | Details |
+|---|---|
+| `copilot` account | Must be a member of the organisation or a collaborator with at least `read` access to the repository, otherwise the assignee call will return a 422. |
+| Issue author account | Must have repository access. External authors without access will be silently ignored by GitHub's assignee API. |
+| `pull-requests: write` permission | Already declared in the workflow – covers `requestReviewers`. |
+| `issues: write` permission | Already declared – covers `addAssignees` (PRs share the Issues API). |
+
+---
+
+## Error handling and pipeline abort
+
+The dispatcher uses a **fail-fast** strategy for all unrecoverable errors:
+
+* Every critical API call (paginate queries, label claims, branch creation, dummy commit,
+  PR creation) is wrapped in a `try/catch`.
+* On failure the dispatcher:
+  1. **Rolls back** the `in-progress/copilot` label on the current issue (best-effort)
+     so the issue stays available for the next run.
+  2. Calls `core.setFailed()` to mark the workflow run as **failed**.
+  3. Throws an error to **stop the dispatch loop immediately** – no further issues are
+     processed in the same run.
+  4. Emits a **budget hint** in the failure message:
+     > *💡 Budget hint: every failed run consumes GitHub Actions minutes. Fix the
+     > underlying issue (permissions, rate-limits, configuration) before re-running
+     > the dispatcher.*
+
+* **Best-effort operations** (adding PR labels, assigning users, requesting reviews) use
+  `core.warning()` and do **not** abort the pipeline, because their failure does not
+  prevent Copilot from working on the issue.
+
+| Operation | Failure behaviour |
+|---|---|
+| Query active / open PRs | **Abort** |
+| Query queued issues | **Abort** |
+| Apply `in-progress/copilot` label to issue | **Abort** |
+| Resolve base-branch SHA | Rollback + **Abort** |
+| Create issue branch | Rollback + **Abort** (422 = reuse branch, not an error) |
+| Compare commits (diff guard) | Rollback + **Abort** |
+| Create dummy commit | Rollback + **Abort** |
+| Create PR | Rollback + **Abort** |
+| Add `pr/copilot` / `copilot/status-working` labels to PR | Warning only |
+| Add assignees to PR | Warning only |
+| Request review from issue author | Warning only |
 
 ---
 
@@ -95,6 +158,43 @@ draft: true
 
 ---
 
+## Automatic assignees and reviewer
+
+After a PR is successfully created the dispatcher automatically:
+
+1. **Assigns `copilot`** (or the login configured via `copilot_assignee_login`) as
+   an assignee on the PR so that GitHub routes the work to the Copilot agent.
+2. **Assigns the issue author** as an additional assignee on the PR.
+3. **Requests a review from the issue author** so they are notified and can
+   approve or request changes once Copilot finishes.
+
+Both the assignee and reviewer steps are non-fatal – if either API call fails
+(e.g. the user does not have repository access) a warning is logged and the
+dispatcher continues normally.
+
+### Configuration
+
+```yaml
+# copilot_assignee_login: GitHub login assigned as Copilot worker on every PR.
+# Set to "" to disable automatic Copilot assignment.
+copilot_assignee_login: "copilot"
+
+# add_issue_author_as_reviewer: when true (default) the issue author is added
+# as both an assignee and a review requester on the PR.
+add_issue_author_as_reviewer: true
+```
+
+### Prerequisites
+
+| Requirement | Details |
+|---|---|
+| **`copilot_assignee_login` user** | Must be a repository collaborator (or organisation member) with at least **Write** access. For the `copilot` bot, GitHub Copilot must be enabled at the organisation or repository level. |
+| **Issue author** | Must have at least **Read** access to the repository. GitHub silently drops reviewer requests for users with no repository access. |
+| **Workflow permissions** | The workflow already requests `pull-requests: write`, which covers both `addAssignees` and `requestReviewers`. No additional permission changes are needed. |
+| **`gh` CLI (manual use)** | If you need to assign/review manually: `gh pr edit <PR> --add-assignee copilot` and `gh pr edit <PR> --add-reviewer <login>` |
+
+---
+
 ## What to do when a PR is stuck
 
 1. Add the label **`copilot/status-blocked`** to the PR and leave a comment
@@ -149,6 +249,7 @@ Or create the required labels manually:
 | `queue/copilot` | Issue | Mark issue as eligible for Copilot processing |
 | `in-progress/copilot` | Issue | Claimed by dispatcher; an open Copilot PR exists |
 | `pr/copilot` | PR | PR was created by the dispatcher |
+| `copilot-pr` | PR | PR was created and is managed by the Copilot dispatcher (alias/supplement to `pr/copilot`) |
 | `copilot/status-working` | PR | Copilot is actively working; counts against WIP limit |
 | `copilot/status-ready-requested` | PR | Copilot signals done; awaiting readiness gate promotion |
 | `copilot/status-ready` | PR | All gates green; PR no longer counts against WIP limit |
@@ -156,7 +257,7 @@ Or create the required labels manually:
 
 ---
 
-## Diff check before PR creation
+## Diff check and dummy commit before PR creation
 
 Before opening a pull request the dispatcher compares the newly-created issue
 branch against the base branch using the GitHub Commits Compare API
@@ -165,16 +266,32 @@ branch against the base branch using the GitHub Commits Compare API
 | Result | Action |
 |---|---|
 | Branch is **ahead** of base or has changed files | PR is created as usual. |
-| Branch is **identical** to base (no diff) | PR creation is **skipped**; a warning is emitted (`No diff – skipping PR creation`) and the `in-progress/copilot` label is removed so the issue stays available for re-dispatch once real changes land on the branch. |
-| Compare API call fails | PR creation is **skipped** defensively; same label rollback as above. |
+| Branch is **identical** to base (no diff) | A **dummy commit** is pushed to the branch automatically (file `.copilot_issue.txt` with issue metadata), making the branch non-empty. The dispatcher then proceeds to open the PR normally. |
+| Compare API call fails | PR creation is **skipped** defensively; the `in-progress/copilot` label is removed so the issue stays available for re-dispatch. |
 
-This guard prevents the GitHub API validation error
+### Dummy commit
+
+When the branch has no changes relative to the base the dispatcher creates a
+lightweight placeholder file `.copilot_issue.txt` via `repos.createOrUpdateFileContents`.
+The file contains a human-readable reference to the issue (number, title, URL,
+branch name, creation timestamp) and a note that Copilot will replace it with
+real changes.
+
+Commit message format:
+
+```
+chore: init Copilot workspace for issue #<N>
+```
+
+This prevents the GitHub API validation error
 `"No commits between <base> and <head>"` that would otherwise abort the
-workflow with a non-zero exit code.
+workflow with a non-zero exit code.  Copilot is expected to push substantive
+changes on top of (or replacing) this placeholder commit while addressing the
+issue.
 
 **For developers:** if you push commits to an existing issue branch and re-run
-the dispatcher manually, the diff check will detect the changes and create the
-PR normally.
+the dispatcher manually, the diff check will detect the changes and skip the
+dummy-commit step, creating the PR normally.
 
 ---
 

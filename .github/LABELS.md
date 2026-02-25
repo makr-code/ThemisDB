@@ -34,6 +34,7 @@ These labels are managed by the [Copilot Issue Dispatcher](.github/copilot-dispa
 
 **PR labels**
 - **`pr/copilot`** — PR was created by the dispatcher.
+- **`copilot-pr`** — PR was created and is managed by the Copilot dispatcher (alias/supplement to `pr/copilot`; always set alongside `pr/copilot`).
 - **`copilot/status-working`** — Copilot is actively working on this PR. Counts against the 5-slot WIP limit.
 - **`copilot/status-ready-requested`** — Copilot signals it is done; the readiness gate will promote to `copilot/status-ready` once CI checks and the Copilot review are green.
 - **`copilot/status-ready`** — Copilot work is complete and all gates are green. PR no longer counts against the WIP limit.
