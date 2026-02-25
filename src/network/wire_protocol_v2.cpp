@@ -356,12 +356,20 @@ private:
             const std::vector<uint8_t>* effective_payload = &payload;
             if (hdr.has_flag(V2FrameFlags::ZSTD_COMPRESSED)) {
                 decompressed = decompressZstd(payload);
-                if (!decompressed.empty())
+                if (!decompressed.empty()) {
                     effective_payload = &decompressed;
+                } else {
+                    std::cerr << "[WireV2] Zstd decompression failed on stream "
+                              << hdr.stream_id << " (payload=" << payload.size() << "B)\n";
+                }
             } else if (hdr.has_flag(V2FrameFlags::COMPRESSED)) {
                 decompressed = decompressLZ4(payload);
-                if (!decompressed.empty())
+                if (!decompressed.empty()) {
                     effective_payload = &decompressed;
+                } else {
+                    std::cerr << "[WireV2] LZ4 decompression failed on stream "
+                              << hdr.stream_id << " (payload=" << payload.size() << "B)\n";
+                }
             }
 
             if (data_handler_)
