@@ -20,6 +20,7 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 
 ## In Progress 🚧
 (none)
@@ -39,7 +40,7 @@
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
-- [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
+- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 - [I] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases

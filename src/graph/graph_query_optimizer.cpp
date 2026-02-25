@@ -1647,5 +1647,105 @@ GraphQueryOptimizer::calibrateFromHistory() {
     return report;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Analytics Module Integration (Issue #1821)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void GraphQueryOptimizer::attachAnalytics(GraphAnalytics& analytics) {
+    analytics_ = &analytics;
+}
+
+void GraphQueryOptimizer::detachAnalytics() {
+    analytics_ = nullptr;
+}
+
+Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShortestPaths(
+    std::string_view source,
+    std::string_view target,
+    int k,
+    const QueryConstraints& constraints,
+    std::string_view weight_attr,
+    ExecutionStats* stats)
+{
+    using ReturnType = std::vector<GraphAnalytics::PathInfo>;
+
+    if (!analytics_) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
+            "No analytics instance attached; call attachAnalytics() first");
+    }
+
+    if (k <= 0) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
+            "k must be positive");
+    }
+
+    // Apply rate limiting before executing
+    if (!rate_limiter_.allowQuery()) {
+        metrics_.failed_queries.fetch_add(1, std::memory_order_relaxed);
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "Graph query rate limit exceeded");
+    }
+
+    metrics_.total_queries.fetch_add(1, std::memory_order_relaxed);
+
+    const auto t_start = std::chrono::steady_clock::now();
+
+    // Delegate to the analytics module (Yen's algorithm)
+    auto [status, paths] = analytics_->kShortestPaths(
+        std::string(source), std::string(target), k, std::string(weight_attr));
+
+    const auto t_end = std::chrono::steady_clock::now();
+    const double elapsed_ms =
+        std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+    // Check timeout
+    if (constraints.timeout_ms > 0 && elapsed_ms > constraints.timeout_ms) {
+        metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+        metrics_.failed_queries.fetch_add(1, std::memory_order_relaxed);
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_TIMEOUT,
+            "k-shortest-paths query exceeded timeout");
+    }
+
+    if (!status.ok) {
+        metrics_.failed_queries.fetch_add(1, std::memory_order_relaxed);
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND, status.message);
+    }
+
+    // Update observability metrics
+    const auto elapsed_ms_u = static_cast<uint64_t>(elapsed_ms);
+    metrics_.total_execution_time_ms.fetch_add(elapsed_ms_u, std::memory_order_relaxed);
+    {
+        uint64_t prev_max = metrics_.max_execution_time_ms.load(std::memory_order_relaxed);
+        while (elapsed_ms_u > prev_max) {
+            if (metrics_.max_execution_time_ms.compare_exchange_weak(
+                    prev_max, elapsed_ms_u,
+                    std::memory_order_relaxed, std::memory_order_relaxed)) {
+                break;
+            }
+        }
+    }
+    metrics_.latency_histogram.record(elapsed_ms_u);
+
+    // Populate execution stats output parameter
+    if (stats) {
+        stats->paths_found = paths.size();
+        stats->execution_time_ms = elapsed_ms;
+        stats->algorithm = TraversalAlgorithm::DIJKSTRA; // Yen's uses Dijkstra internally
+        if (!paths.empty()) {
+            stats->nodes_explored = paths[0].vertices.size();
+            stats->max_depth_reached = paths[0].hop_count;
+        }
+    }
+
+    // Record for adaptive cost model
+    ExecutionStats local_stats;
+    local_stats.paths_found = paths.size();
+    local_stats.execution_time_ms = elapsed_ms;
+    local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
+    recordExecution(local_stats);
+
+    return Ok(std::move(paths));
+}
+
 } // namespace graph
 } // namespace themis
