@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.cpp                                ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:09                                ║
+  Last Modified:   2026-02-25 20:40:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     3542                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     3965                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -202,6 +202,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_vie
 			return Status::Error("createIndex(table,column,TTL) requires TTL seconds; use createTTLIndex(table,column,ttl_seconds)");
 		case IndexType::FULLTEXT:
 			return createFulltextIndex(table, column);
+		case IndexType::PARTIAL:
+			// PARTIAL requires a predicate; use createPartialIndex(table, column, predicate) directly
+			return Status::Error("createIndex(table,column,PARTIAL) requires a predicate; use createPartialIndex(table,column,predicate)");
 		default:
 			return Status::Error("Unknown IndexType");
 	}
