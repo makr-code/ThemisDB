@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 #include "governance/pci_dss_rules.h"
 #include "governance/policy_manager.h"
+#include "governance/policy_validation.h"
 
 using namespace themis::governance;
 
@@ -434,4 +435,90 @@ TEST(PciDssRuleEvalResult, ToJsonNonCompliant) {
     auto j = res.toJson();
     EXPECT_FALSE(j["compliant"].get<bool>());
     EXPECT_EQ(j["recommendation"].get<std::string>(), "Add required_roles");
+}
+
+// ============================================================================
+// PolicyValidator PCI-DSS/GDPR cross-framework conflict detection
+// ============================================================================
+
+TEST(PolicyValidatorPciDssGdpr, NoConflictsForFullyCompliantRule) {
+    PolicyManager mgr;
+    PolicyRule rule = makeRule("r1",
+        /*require_encryption=*/true,
+        /*allow_export=*/false,
+        /*audit_access=*/true,
+        /*audit_changes=*/true,
+        /*retention_days=*/365,
+        {"pci_analyst"});
+    mgr.addRule(rule);
+
+    PolicyValidator validator;
+    auto conflicts = validator.detectPciDssGdprConflicts(mgr);
+    EXPECT_TRUE(conflicts.empty());
+}
+
+TEST(PolicyValidatorPciDssGdpr, DetectsExportWithoutEncryption) {
+    PolicyManager mgr;
+    PolicyRule rule = makeRule("r1",
+        /*require_encryption=*/false,
+        /*allow_export=*/true, // violates PCI-DSS Req 4 + GDPR Art. 32
+        /*audit_access=*/true,
+        /*audit_changes=*/true,
+        /*retention_days=*/365);
+    mgr.addRule(rule);
+
+    PolicyValidator validator;
+    auto conflicts = validator.detectPciDssGdprConflicts(mgr);
+    EXPECT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "pci_dss_gdpr");
+    EXPECT_FALSE(conflicts[0].description.empty());
+    EXPECT_FALSE(conflicts[0].recommendation.empty());
+}
+
+TEST(PolicyValidatorPciDssGdpr, DetectsRetentionBelowPciMinimum) {
+    PolicyManager mgr;
+    PolicyRule rule = makeRule("r1",
+        /*require_encryption=*/true,
+        /*allow_export=*/false,
+        /*audit_access=*/true,
+        /*audit_changes=*/true,
+        /*retention_days=*/90); // < 365 → PCI-DSS Req 10.7 conflict with GDPR
+    mgr.addRule(rule);
+
+    PolicyValidator validator;
+    auto conflicts = validator.detectPciDssGdprConflicts(mgr);
+    EXPECT_FALSE(conflicts.empty());
+    EXPECT_EQ(conflicts[0].conflict_type, "pci_dss_gdpr");
+}
+
+TEST(PolicyValidatorPciDssGdpr, IntegratedIntoDetectConflicts) {
+    PolicyManager mgr;
+    PolicyRule rule = makeRule("r1",
+        /*require_encryption=*/false,
+        /*allow_export=*/true, // violates PCI-DSS Req 4 + GDPR Art. 32
+        /*audit_access=*/true,
+        /*audit_changes=*/true,
+        /*retention_days=*/365);
+    mgr.addRule(rule);
+
+    PolicyValidator validator;
+    auto all_conflicts = validator.detectConflicts(mgr);
+    bool found_pci_dss_gdpr = false;
+    for (const auto& c : all_conflicts) {
+        if (c.conflict_type == "pci_dss_gdpr") {
+            found_pci_dss_gdpr = true;
+        }
+    }
+    EXPECT_TRUE(found_pci_dss_gdpr);
+}
+
+TEST(PolicyValidatorPciDssGdpr, DisabledRulesSkipped) {
+    PolicyManager mgr;
+    PolicyRule rule = makeRule("r1", false, true, true, false, 90);
+    rule.enabled = false;
+    mgr.addRule(rule);
+
+    PolicyValidator validator;
+    auto conflicts = validator.detectPciDssGdprConflicts(mgr);
+    EXPECT_TRUE(conflicts.empty());
 }
