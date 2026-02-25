@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     721                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
@@ -717,6 +717,152 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResult
 
 BENCHMARK_REGISTER_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResults)
     ->Args({1000, 20, 0})    // Dense graph, large result set
+    ->Unit(benchmark::kMillisecond);
+
+// ============================================================================
+// ParallelTraversal benchmarks: multi-source BFS/DFS with fan-out parallelism
+// ============================================================================
+
+#include "graph/parallel_traversal.h"
+
+class ParallelTraversalBenchmarkFixture : public benchmark::Fixture {
+public:
+    void SetUp(const ::benchmark::State& state) override {
+        test_db_path_ = "./data/bench_parallel_traversal_tmp";
+        if (std::filesystem::exists(test_db_path_)) {
+            std::filesystem::remove_all(test_db_path_);
+        }
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_;
+        cfg.memtable_size_mb = 256;
+        cfg.block_cache_size_mb = 512;
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open database for ParallelTraversal benchmark");
+        }
+
+        graph_mgr_ = std::make_unique<themis::GraphIndexManager>(*db_);
+        traversal_  = std::make_unique<themis::graph::ParallelTraversal>(*graph_mgr_);
+
+        graph_size_ = state.range(0);
+        buildFanOutGraph(graph_size_);
+    }
+
+    void TearDown(const ::benchmark::State& /*state*/) override {
+        traversal_.reset();
+        graph_mgr_.reset();
+        db_->close();
+        db_.reset();
+        std::filesystem::remove_all(test_db_path_);
+    }
+
+    // Build a fan-out graph: one hub node connects to `fan` children, each
+    // child connects to one grandchild.  Sources are the hub plus a handful
+    // of independently connected nodes to exercise multi-source parallelism.
+    void buildFanOutGraph(int fan) {
+        // Hub -> child_0 .. child_(fan-1) -> grandchild_0 ..
+        auto addEdge = [&](const std::string& id,
+                           const std::string& from,
+                           const std::string& to) {
+            themis::BaseEntity e(id);
+            e.setField("id", id);
+            e.setField("_from", from);
+            e.setField("_to", to);
+            e.setField("_weight", "1.0");
+            graph_mgr_->addEdge(e);
+        };
+
+        for (int i = 0; i < fan; ++i) {
+            const std::string child = "child_" + std::to_string(i);
+            const std::string gc    = "gc_"    + std::to_string(i);
+            addEdge("hub_e_"  + std::to_string(i), "hub",   child);
+            addEdge("gc_e_"   + std::to_string(i), child,   gc);
+        }
+        // Extra source node
+        addEdge("extra_e0", "src2", "extra_a");
+        addEdge("extra_e1", "extra_a", "extra_b");
+
+        node_ids_.push_back("hub");
+        node_ids_.push_back("src2");
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper>             db_;
+    std::unique_ptr<themis::GraphIndexManager>          graph_mgr_;
+    std::unique_ptr<themis::graph::ParallelTraversal>   traversal_;
+    std::vector<std::string>                            node_ids_;
+    int graph_size_ = 0;
+};
+
+// Benchmark: multi-source BFS, sequential frontier expansion (fan_out_threshold=0)
+BENCHMARK_DEFINE_F(ParallelTraversalBenchmarkFixture, MultiSourceBFS_Sequential)(
+    benchmark::State& state) {
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth         = 5;
+    cfg.fan_out_threshold = 0; // no intra-frontier parallelism
+
+    for (auto _ : state) {
+        auto result = traversal_->multiSourceBFS(node_ids_, cfg);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["fan_out"] = graph_size_;
+}
+
+BENCHMARK_REGISTER_F(ParallelTraversalBenchmarkFixture, MultiSourceBFS_Sequential)
+    ->Args({50})
+    ->Args({200})
+    ->Args({500})
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: multi-source BFS, parallel fan-out expansion enabled
+BENCHMARK_DEFINE_F(ParallelTraversalBenchmarkFixture, MultiSourceBFS_FanOutParallel)(
+    benchmark::State& state) {
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth         = 5;
+    cfg.fan_out_threshold = 10; // trigger parallel expansion once frontier ≥ 10
+    cfg.num_threads       = 0;  // auto
+
+    for (auto _ : state) {
+        auto result = traversal_->multiSourceBFS(node_ids_, cfg);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["fan_out"] = graph_size_;
+}
+
+BENCHMARK_REGISTER_F(ParallelTraversalBenchmarkFixture, MultiSourceBFS_FanOutParallel)
+    ->Args({50})
+    ->Args({200})
+    ->Args({500})
+    ->Unit(benchmark::kMillisecond);
+
+// Benchmark: multi-source DFS (for comparison)
+BENCHMARK_DEFINE_F(ParallelTraversalBenchmarkFixture, MultiSourceDFS)(
+    benchmark::State& state) {
+
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.max_depth = 5;
+
+    for (auto _ : state) {
+        auto result = traversal_->multiSourceDFS(node_ids_, cfg);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["fan_out"] = graph_size_;
+}
+
+BENCHMARK_REGISTER_F(ParallelTraversalBenchmarkFixture, MultiSourceDFS)
+    ->Args({50})
+    ->Args({200})
+    ->Args({500})
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

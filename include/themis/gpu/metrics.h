@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     204                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
@@ -46,6 +46,9 @@ namespace gpu {
  * - themis_gpu_dealloc_total           (counter)
  * - themis_gpu_fallback_total          (counter, reason=oom|circuit_open|device_unavailable)
  * - themis_gpu_circuit_open_total      (counter)
+ * - themis_gpu_temperature_celsius     (gauge, device=<id>)
+ * - themis_gpu_power_draw_watts        (gauge, device=<id>)
+ * - themis_gpu_power_limit_watts       (gauge, device=<id>)
  *
  * Thread safety: all methods are protected by an internal mutex.
  */
@@ -104,6 +107,34 @@ public:
     void setVRAMAllocated(uint64_t bytes, const std::string& tenant_id = "");
     void setVRAMPeak(uint64_t bytes);
 
+    // -----------------------------------------------------------------------
+    // Thermal and power telemetry
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Update the live temperature gauge for a specific GPU device.
+     *
+     * @param device_id  CUDA/ROCm device ordinal (0-based).
+     * @param celsius    Current junction temperature in degrees Celsius.
+     */
+    void setTemperature(int device_id, double celsius);
+
+    /**
+     * @brief Update the live power-draw gauge for a specific GPU device.
+     *
+     * @param device_id  CUDA/ROCm device ordinal (0-based).
+     * @param watts      Current board power draw in watts.
+     */
+    void setPowerDraw(int device_id, double watts);
+
+    /**
+     * @brief Update the enforced power-limit gauge for a specific GPU device.
+     *
+     * @param device_id  CUDA/ROCm device ordinal (0-based).
+     * @param watts      Configured power limit in watts.
+     */
+    void setPowerLimit(int device_id, double watts);
+
     /**
      * @brief Record a GPU kernel execution for Nsight-compatible export.
      *
@@ -138,6 +169,20 @@ public:
      *         `"Kernels"` array is present but empty (`"Kernels": []`).
      */
     std::string nsight_export() const;
+
+    /**
+     * @brief Export kernel records in ROCm profiler Chrome trace JSON format.
+     *
+     * Produces a Chrome trace JSON document compatible with AMD ROCm
+     * profiler's `--sys-trace` output and with Perfetto / chrome://tracing.
+     * Each kernel is emitted as a complete event (`"ph": "X"`) so that
+     * tooling built around the ROCm profiler JSON schema can consume the
+     * output without modification.
+     *
+     * @return UTF-8 JSON string.  When no kernels have been recorded the
+     *         `"traceEvents"` array is present but empty.
+     */
+    std::string rocm_profiler_export() const;
 
     /**
      * @brief Reset all counters, gauges, and kernel records (for testing).

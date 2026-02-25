@@ -155,8 +155,7 @@ Data export interfaces with optional Apache Arrow integration.
 - macOS: Full implementation
 
 **Future Work:**
-- Zero-copy data transfer optimizations (v1.7.0)
-- Flight RPC support
+- Arrow Flight RPC support
 - Memory pooling for large batches
 
 ### 3. Analytics Export (`analytics_export.cpp`)
@@ -1543,7 +1542,7 @@ std::cout << "Rows filtered: " << profile.rows_filtered << "\n";
 - [x] Complex event processing – full NFA engine (`analytics/cep_engine.cpp`)
 - [x] Incremental materialized views (`analytics/incremental_view.cpp`)
 - [x] Streaming aggregations – TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow (`analytics/streaming_window.cpp`)
-- [I] Zero-copy data transfer (optional, with Arrow) (Issue: #1471 – planned)
+- [P] Zero-copy data transfer (optional, with Arrow) (Issue: #1471 – implemented)
 
 ### Phase 4: ML Integration (✅ Completed)
 - [I] Predictive analytics and forecasting (Issue: #1473 – planned)

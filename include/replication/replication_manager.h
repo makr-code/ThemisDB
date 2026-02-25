@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1200                                           ║
+    • Total Lines:     1428                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -58,6 +58,7 @@ namespace replication {
 class WALEntry;
 class ReplicationStream;
 class LeaderElection;
+class CompressedReplicationStream;
 
 /**
  * Replication Role
@@ -207,6 +208,12 @@ struct ReplicationConfig {
     // that no follower can start a new election while the leader's lease is valid.
     uint32_t leader_lease_duration_ms = 2500;
     
+    // WAL compression (Zstd) for bandwidth reduction
+    bool enable_wal_compression = false;
+    std::string wal_compression_algorithm = "zstd";  // "zstd", "lz4", "snappy", "auto", "none"
+    int wal_compression_level = 3;                   // 1–9 (validated when enabled)
+    uint64_t wal_compression_min_batch_bytes = 1024; // Skip compression for batches < this size
+
     // TLS/Security
     std::string cert_path;
     std::string key_path;
@@ -581,7 +588,10 @@ private:
     static constexpr uint32_t kMaxRetries = 3;
     static constexpr uint32_t kBaseBackoffMs = 100;
     static constexpr uint32_t kMaxBackoffMs = 5000;
-    
+
+    // Compressed WAL transport (Zstd/LZ4/Snappy, configured via ReplicationConfig)
+    std::unique_ptr<CompressedReplicationStream> compressed_stream_;
+
     void streamLoop();
     bool sendBatch(const std::vector<WALEntry>& entries);
     uint32_t computeBackoffMs() const;
@@ -1295,6 +1305,162 @@ private:
 };
 
 // ============================================================================
+// Cross-Cluster Publish/Subscribe Replication – v1.7.0
+// ============================================================================
+
+/**
+ * PublicationFilter
+ *
+ * Specifies which WAL entries are forwarded to remote cluster subscribers.
+ * An empty filter (default) matches every entry.
+ */
+struct PublicationFilter {
+    std::vector<std::string> include_collections;  // empty = all collections
+    std::vector<std::string> include_operations;   // empty = all operations
+
+    // Returns true when `entry` satisfies all active filter criteria.
+    bool matches(const WALEntry& entry) const;
+};
+
+/**
+ * CrossClusterPublication
+ *
+ * Publishes WAL entries to remote cluster subscriptions.
+ * Implements IReplicationListener so it can be registered directly with
+ * ReplicationManager::addListener().  Every WAL entry that passes the
+ * configured filter is forwarded to all registered remote subscribers.
+ *
+ * Usage:
+ *   auto pub = std::make_shared<CrossClusterPublication>("orders_pub");
+ *   pub->setFilter(filter);
+ *   repl_mgr.addListener(pub);
+ *   pub->addRemoteSubscriber([](const WALEntry& e){ remote.apply(e); });
+ */
+class CrossClusterPublication : public IReplicationListener {
+public:
+    using RemoteSubscriberCallback = std::function<void(const WALEntry&)>;
+
+    explicit CrossClusterPublication(const std::string& name);
+
+    // Publication name
+    const std::string& name() const;
+
+    // Set / get the publication filter (thread-safe)
+    void setFilter(const PublicationFilter& filter);
+    PublicationFilter getFilter() const;
+
+    // Add a remote subscriber; returns an opaque subscriber ID
+    uint64_t addRemoteSubscriber(RemoteSubscriberCallback callback);
+
+    // Remove a remote subscriber by the ID returned from addRemoteSubscriber()
+    void removeRemoteSubscriber(uint64_t subscriber_id);
+
+    // Number of currently active remote subscribers
+    size_t subscriberCount() const;
+
+    // Total WAL entries that passed the filter and were delivered
+    uint64_t publishedCount() const;
+
+    // Apply filter and deliver `entry` to all remote subscribers
+    void publish(const WALEntry& entry);
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+    // -----------------------------------------------------------------------
+    // IReplicationListener overrides
+    // -----------------------------------------------------------------------
+    void onWALEntryApplied(const WALEntry& entry) override;
+    void onRoleChange(ReplicationRole, ReplicationRole) override {}
+    void onLeaderElected(const std::string&) override {}
+    void onReplicaAdded(const ReplicaInfo&) override {}
+    void onReplicaRemoved(const std::string&) override {}
+    void onConflictDetected(const std::string&) override {}
+    void onReplicationLagWarning(int64_t) override {}
+    void onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) override {}
+    void onFailoverStarted(const std::string&, const std::string&) override {}
+    void onFailoverCompleted(const std::string&, bool) override {}
+    void onNetworkPartitionDetected(const std::vector<std::string>&) override {}
+
+private:
+    struct RemoteSubscriber {
+        uint64_t id;
+        RemoteSubscriberCallback callback;
+    };
+
+    std::string name_;
+
+    mutable std::shared_mutex filter_mutex_;
+    PublicationFilter filter_;
+
+    mutable std::shared_mutex subs_mutex_;
+    std::vector<RemoteSubscriber> subscribers_;
+    std::atomic<uint64_t> next_id_{1};
+    std::atomic<uint64_t> published_count_{0};
+};
+
+/**
+ * CrossClusterSubscription
+ *
+ * Subscribes to a CrossClusterPublication and delivers received WAL entries
+ * to a local apply callback.  Tracks applied/error counts and the last
+ * applied sequence number for monitoring.
+ *
+ * Usage:
+ *   CrossClusterSubscription sub("orders_sub", pub,
+ *       [](const WALEntry& e){ local_store.apply(e); });
+ *   sub.enable();
+ */
+class CrossClusterSubscription {
+public:
+    using ApplyCallback = std::function<void(const WALEntry&)>;
+
+    CrossClusterSubscription(const std::string& name,
+                              std::shared_ptr<CrossClusterPublication> publication,
+                              ApplyCallback on_apply);
+
+    // Automatically unregisters from the publication on destruction
+    ~CrossClusterSubscription();
+
+    // Subscription name
+    const std::string& name() const;
+
+    // Register with the publication (idempotent)
+    void enable();
+
+    // Unregister from the publication (idempotent)
+    void disable();
+
+    // Whether the subscription is currently active
+    bool isEnabled() const;
+
+    // Count of entries successfully applied (no exception thrown)
+    uint64_t appliedCount() const;
+
+    // Highest sequence number successfully applied
+    uint64_t lastAppliedSequence() const;
+
+    // Count of apply-callback exceptions caught
+    uint64_t errorCount() const;
+
+    // Export Prometheus text-format metrics
+    std::string exportPrometheusMetrics() const;
+
+private:
+    std::string name_;
+    std::shared_ptr<CrossClusterPublication> publication_;
+    ApplyCallback on_apply_;
+
+    std::mutex enable_mutex_;
+    std::atomic<bool> enabled_{false};
+    uint64_t subscriber_id_{0};
+
+    std::atomic<uint64_t> applied_count_{0};
+    std::atomic<uint64_t> last_applied_seq_{0};
+    std::atomic<uint64_t> error_count_{0};
+};
+
+// ============================================================================
 // WAL Archival Manager – v1.6.0
 // ============================================================================
 
@@ -1355,6 +1521,182 @@ private:
     void saveIndex() const;
     void loadIndex();
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
+};
+
+// ============================================================================
+// Multi-Region Active-Active with Bounded Staleness (Phase 4 – v1.8.0)
+// ============================================================================
+
+/**
+ * ConsistencyLevel
+ *
+ * Defines the consistency guarantee for a read or write operation in a
+ * multi-region active-active deployment.
+ */
+enum class ConsistencyLevel {
+    STRONG,             ///< Linearizable: reads always reflect the latest committed write
+    BOUNDED_STALENESS,  ///< Stale reads are permitted up to max_staleness_ms
+    SESSION,            ///< Read-your-writes guarantee within the same session token
+    EVENTUAL            ///< No consistency guarantee – maximum availability and lowest latency
+};
+
+/**
+ * Per-region staleness tracking snapshot.
+ */
+struct RegionStalenessInfo {
+    std::string region_id;
+    int64_t     staleness_ms = 0;            ///< Estimated replication lag to this region (ms)
+    uint64_t    last_applied_sequence = 0;   ///< Last WAL sequence known to be applied
+    std::chrono::system_clock::time_point last_update;
+    bool        is_healthy = true;
+};
+
+/**
+ * Configuration for MultiRegionActiveActiveManager.
+ */
+struct MultiRegionActiveActiveConfig {
+    std::string local_region_id;                         ///< Identifier for the local region
+    std::vector<std::string> peer_region_ids;            ///< Peer region identifiers
+    ConsistencyLevel default_consistency = ConsistencyLevel::BOUNDED_STALENESS;
+    uint32_t max_staleness_ms = 5000;                    ///< Upper bound for BOUNDED_STALENESS reads (ms)
+    uint32_t session_token_ttl_ms = 30000;               ///< Time-to-live for session tokens (ms)
+    ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
+};
+
+/**
+ * MultiRegionActiveActiveManager
+ *
+ * Coordinates multi-region active-active replication with bounded staleness
+ * guarantees.  Every region can accept writes.  Reads are served according to
+ * the requested ConsistencyLevel:
+ *
+ *   STRONG            – Only served when the local replica is known to be
+ *                       up-to-date (staleness_ms == 0 or within lease window).
+ *   BOUNDED_STALENESS – Served when staleness_ms <= max_staleness_ms; otherwise
+ *                       the read is rejected (caller should retry or fall back
+ *                       to another region).
+ *   SESSION           – Always served, but only if the region has applied at
+ *                       least up to the sequence embedded in the session token
+ *                       (read-your-writes guarantee).
+ *   EVENTUAL          – Always served from the local region regardless of lag.
+ *
+ * Staleness information must be fed in from the underlying replication layer
+ * via updateRegionStaleness().  In a real deployment this is called by the
+ * ReplicationManager whenever a heartbeat or WAL acknowledgement arrives from
+ * a remote region.
+ */
+class MultiRegionActiveActiveManager {
+public:
+    struct WriteResult {
+        bool        success = false;
+        std::string write_id;           ///< Unique write identifier
+        std::string region_id;          ///< Region that accepted the write
+        uint64_t    sequence_number = 0;
+        std::string session_token;      ///< Updated session token (for SESSION consistency)
+    };
+
+    struct ReadResult {
+        bool        success = false;
+        std::string data;
+        uint64_t    sequence_number = 0;
+        std::string region_id;          ///< Region that served the read
+        int64_t     staleness_ms = 0;   ///< Observed staleness at read time
+        ConsistencyLevel served_at = ConsistencyLevel::EVENTUAL;
+    };
+
+    explicit MultiRegionActiveActiveManager(const MultiRegionActiveActiveConfig& config);
+
+    /**
+     * Record a write locally and return a WriteResult that includes a
+     * session token embedding the new sequence number.
+     */
+    WriteResult write(
+        const std::string& collection,
+        const std::string& document_id,
+        const std::string& operation,
+        const std::string& data,
+        ConsistencyLevel consistency = ConsistencyLevel::SESSION,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Attempt a read at the requested consistency level.
+     *
+     * Returns success=false when:
+     *   - STRONG: local staleness > 0 (i.e., the replica is not fully caught up)
+     *   - BOUNDED_STALENESS: local staleness > max_staleness_ms
+     *   - SESSION: the local replica has not yet applied the sequence in the token
+     */
+    ReadResult read(
+        const std::string& collection,
+        const std::string& document_id,
+        ConsistencyLevel consistency = ConsistencyLevel::BOUNDED_STALENESS,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Create a new session token embedding the current local sequence.
+     * The token is an opaque string that encodes the sequence number and an
+     * expiry timestamp; it is intentionally human-readable for debuggability.
+     */
+    std::string createSessionToken() const;
+
+    /**
+     * Validate a session token and check whether the local replica has applied
+     * at least required_sequence.  Returns false for malformed or expired tokens.
+     */
+    bool validateSessionToken(const std::string& token,
+                              uint64_t required_sequence) const;
+
+    /**
+     * Return the current estimated staleness for a given region.
+     * Returns max duration when the region is unknown.
+     */
+    std::chrono::milliseconds getStaleness(const std::string& region_id) const;
+
+    /**
+     * Returns true when the local region's staleness is within max_staleness_ms.
+     */
+    bool isWithinStalenessBound(const std::string& region_id) const;
+
+    /**
+     * Snapshot of staleness for every tracked region.
+     */
+    std::vector<RegionStalenessInfo> getAllRegionStaleness() const;
+
+    /**
+     * Called by the replication layer whenever new WAL progress is learned
+     * for a remote region (e.g. on heartbeat or WAL ACK).
+     */
+    void updateRegionStaleness(const std::string& region_id,
+                               int64_t staleness_ms,
+                               uint64_t last_applied_sequence);
+
+    /** Prometheus-format metrics snapshot. */
+    std::string exportPrometheusMetrics() const;
+
+private:
+    MultiRegionActiveActiveConfig config_;
+
+    // Per-region staleness tracking
+    mutable std::shared_mutex staleness_mutex_;
+    std::map<std::string, RegionStalenessInfo> region_staleness_;
+
+    // Monotonic write sequence counter for this region
+    std::atomic<uint64_t> local_sequence_{0};
+
+    // Counters
+    std::atomic<uint64_t> writes_total_{0};
+    std::atomic<uint64_t> reads_total_{0};
+    std::atomic<uint64_t> staleness_rejections_{0};  ///< Reads rejected due to excessive lag
+    std::atomic<uint64_t> strong_reads_{0};
+    std::atomic<uint64_t> bounded_staleness_reads_{0};
+    std::atomic<uint64_t> session_reads_{0};
+    std::atomic<uint64_t> eventual_reads_{0};
+
+    std::string generateWriteId(uint64_t sequence) const;
+    std::string generateSessionToken(uint64_t sequence) const;
+    uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
 };
 
 } // namespace replication

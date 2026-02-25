@@ -109,18 +109,77 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
         if (depth == config.max_depth) break;
 
         std::vector<std::string> next_frontier;
-        for (const auto& node : current_frontier) {
-            auto [status, neighbors] = graph_manager_.outNeighbors(node);
-            if (!status.ok) continue;
-            for (const auto& nb : neighbors) {
-                if (visited.count(nb)) continue;
-                if (std::find(forbidden.begin(), forbidden.end(), nb) !=
-                    forbidden.end()) continue;
-                visited.insert(nb);
-                next_frontier.push_back(nb);
-                ++result.edges_traversed;
+
+        const bool use_fan_out_parallel =
+            config.fan_out_threshold > 0 &&
+            current_frontier.size() >= static_cast<size_t>(config.fan_out_threshold);
+
+        if (use_fan_out_parallel) {
+            // Parallel fan-out expansion: split the frontier into chunks and
+            // collect neighbors from each chunk concurrently.  Each async task
+            // produces a raw list of candidate neighbors; de-duplication against
+            // the shared visited set is done serially by the main thread after
+            // all tasks complete (no data races).
+            const size_t nthreads = effectiveThreadCount(config, current_frontier.size());
+            const size_t chunk_size =
+                (current_frontier.size() + nthreads - 1) / nthreads;
+
+            struct ChunkResult {
+                std::vector<std::string> candidates;
+            };
+
+            std::vector<std::future<ChunkResult>> futures;
+            futures.reserve(nthreads);
+
+            for (size_t t = 0; t < nthreads; ++t) {
+                const size_t begin = t * chunk_size;
+                if (begin >= current_frontier.size()) break;
+                const size_t end =
+                    std::min(begin + chunk_size, current_frontier.size());
+
+                futures.push_back(std::async(
+                    std::launch::async,
+                    [this, &current_frontier, begin, end]() {
+                        ChunkResult cr;
+                        for (size_t i = begin; i < end; ++i) {
+                            auto [status, neighbors] =
+                                graph_manager_.outNeighbors(current_frontier[i]);
+                            if (!status.ok) continue;
+                            for (const auto& nb : neighbors) {
+                                cr.candidates.push_back(nb);
+                            }
+                        }
+                        return cr;
+                    }));
+            }
+
+            for (auto& fut : futures) {
+                auto cr = fut.get();
+                for (const auto& nb : cr.candidates) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(forbidden.begin(), forbidden.end(), nb) !=
+                        forbidden.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
+                    ++result.edges_traversed;
+                }
+            }
+        } else {
+            // Sequential frontier expansion (default path for small fan-out).
+            for (const auto& node : current_frontier) {
+                auto [status, neighbors] = graph_manager_.outNeighbors(node);
+                if (!status.ok) continue;
+                for (const auto& nb : neighbors) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(forbidden.begin(), forbidden.end(), nb) !=
+                        forbidden.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
+                    ++result.edges_traversed;
+                }
             }
         }
+
         current_frontier = std::move(next_frontier);
     }
 

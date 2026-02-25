@@ -253,7 +253,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
-    ".*test_replication_ha\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
     ".*test_fewshot_optimizer\\.cpp$"
@@ -370,6 +369,50 @@ endif()
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_metrics.cpp
+    )
+endif()
+
+# Re-include the GPU profiler test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUProfiler (NVTX/rocTX range markers, Chrome trace
+# JSON export for ROCm profiler) and GPUMetrics::rocm_profiler_export().
+# It exercises only the CPU-side fallback path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_profiler.cpp
+    )
+endif()
+
+# Re-include the GPU cluster topology test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUClusterTopology
+# (NVLink / InfiniBand topology detection) and GPUClusterCoordinator
+# (multi-node cluster coordination).  It uses only the CPU-side bookkeeping
+# simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_topology.cpp
+# Re-include the GPU stream manager test excluded by the two overlapping patterns
+# ".*test_gpu_stream_manager\.cpp$" and ".*test_gpu_.*\.cpp$".
+# This test validates GPUStreamManager stream lifecycle, work submission,
+# statistics, CPU fallback budget, and CUDA stream creation/destruction.
+# It uses only the CPU bookkeeping simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_stream_manager.cpp
+# Re-include the GPU cluster coordinator test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates multi-node GPU cluster
+# coordination (node registration, heartbeat tracking, stale-node expiry, and
+# least-loaded node selection).  It uses only CPU-side bookkeeping and requires
+# no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_coordinator.cpp
+# Re-include the GPU graph cache test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUGraphCache (QueryShape hashing, capture/replay,
+# LRU eviction) and the GPUQueryAccelerator graph-cache integration.  It uses only
+# CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_cache.cpp
     )
 endif()
 
@@ -814,6 +857,42 @@ else()
     message(STATUS "Raft Consensus Adapter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_consensus_adapter.cpp")
 endif()
 
+# Raft Configuration (joint consensus) Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_configuration.cpp")
+    message(STATUS "Adding Raft Configuration tests")
+
+    add_executable(test_raft_configuration
+        test_raft_configuration.cpp
+        ../src/sharding/raft_configuration.cpp
+    )
+
+    target_include_directories(test_raft_configuration PRIVATE
+        ${CMAKE_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    )
+
+    target_link_libraries(test_raft_configuration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_raft_configuration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RaftConfigurationTests COMMAND test_raft_configuration)
+
+    set_tests_properties(RaftConfigurationTests PROPERTIES
+        LABELS "sharding;consensus;raft;membership;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Raft Configuration: joint consensus, membership changes, quorum")
+else()
+    message(STATUS "Raft Configuration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_configuration.cpp")
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================
@@ -1207,6 +1286,74 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
     message(STATUS "  Cache Replication: listener callbacks, snapshot, graceful degradation, replica health")
 else()
     message(STATUS "Cache Replication tests not found")
+endif()
+
+# ============================================================================
+# Distributed Cache Coordinator Tests (Phase 4 – Redis-compatible protocol)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_coordinator.cpp")
+    message(STATUS "Adding Distributed Cache Coordinator tests")
+
+    add_executable(test_distributed_cache_coordinator
+        test_distributed_cache_coordinator.cpp
+    )
+
+    target_link_libraries(test_distributed_cache_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cache_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedCacheCoordinatorTests COMMAND test_distributed_cache_coordinator)
+
+    set_tests_properties(DistributedCacheCoordinatorTests PROPERTIES
+        LABELS "cache;distributed;coordinator;redis;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Distributed Cache Coordinator: RedisCacheCoordinator, graceful degradation, pub/sub, stats")
+else()
+    message(STATUS "Distributed Cache Coordinator tests not found")
+endif()
+
+# ============================================================================
+# Multi-Region Active-Active Tests (Phase 4 – bounded staleness)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_region_active_active.cpp")
+    message(STATUS "Adding Multi-Region Active-Active tests")
+
+    add_executable(test_multi_region_active_active
+        test_multi_region_active_active.cpp
+    )
+
+    target_link_libraries(test_multi_region_active_active PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_region_active_active PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiRegionActiveActiveTests COMMAND test_multi_region_active_active)
+
+    set_tests_properties(MultiRegionActiveActiveTests PROPERTIES
+        LABELS "replication;multi-region;active-active;bounded-staleness;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Multi-Region Active-Active: bounded staleness, session tokens, consistency levels, metrics")
+else()
+    message(STATUS "Multi-Region Active-Active tests not found")
 endif()
 
 # RPC Geospatial Query Tests

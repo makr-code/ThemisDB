@@ -103,6 +103,21 @@ jobs:
           done
           
           echo "✅ No broken links found"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🤖 AI Guardrails – Copilot Instructions Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`.github/scripts/validate_copilot_refs.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Checks: file references, file size (≤300 lines), broken internal links." >> "$GITHUB_STEP_SUMMARY"
   
   lint-markdown:
     needs: ci-scope-classifier
@@ -126,6 +141,20 @@ jobs:
           config_file: .markdownlint.json
           ignore_files: .github/COPILOT_INSTRUCTIONS.md.backup
         continue-on-error: true
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📝 AI Guardrails – Markdown Lint" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Files** | \`.github/*.md\`, \`.github/copilot/*.md\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Config** | \`.markdownlint.json\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
   
   check-structure:
     needs: ci-scope-classifier
@@ -173,3 +202,18 @@ jobs:
           
           echo ""
           echo "✅ All required modules present"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🏗️ AI Guardrails – Module Structure Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Directory** | \`.github/copilot/\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Required modules: BRANCHING_GUIDE, BUILD_GUIDE, CODE_STANDARDS, TESTING_GUIDE, CROSS_COMPILATION_CONTEXT, VSCODE_CONTEXT" >> "$GITHUB_STEP_SUMMARY"

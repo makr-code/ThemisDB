@@ -96,8 +96,16 @@
       "version>=": "1.5.0"
     },
     {
+      "name": "lz4",
+      "version>=": "1.9.0"
+    },
+    {
       "name": "mimalloc",
       "version>=": "2.2.6"
+    },
+    {
+      "name": "jemalloc",
+      "platform": "linux | osx"
     },
     {
       "name": "prometheus-cpp",
@@ -134,6 +142,12 @@
     }
   ],
   "features": {
+    "redis": {
+      "description": "Enable Redis-compatible distributed cache coordination via hiredis pub/sub",
+      "dependencies": [
+        "hiredis"
+      ]
+    },
     "gpu": {
       "description": "Enable GPU acceleration for vector search",
       "dependencies": []

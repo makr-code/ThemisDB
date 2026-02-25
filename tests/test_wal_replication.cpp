@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     434                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -431,4 +431,111 @@ TEST_F(WALReplicationTest, ReplicaCatchup) {
     // Verify replica is caught up
     auto stats = applier.getStatistics();
     EXPECT_EQ(stats.total_entries_applied, 100);
+}
+
+// ============================================================================
+// WAL Shipper Compression Tests
+// ============================================================================
+
+class WALShipperCompressionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        wal_dir_ = "/tmp/themis_shipper_compress_test";
+        std::filesystem::remove_all(wal_dir_);
+        std::filesystem::create_directories(wal_dir_);
+
+        WALConfig wal_cfg;
+        wal_cfg.wal_directory = wal_dir_;
+        wal_cfg.segment_size_bytes = 4 * 1024 * 1024;
+        wal_cfg.sync_on_commit = false;
+        wal_ = std::make_shared<WALManager>(wal_cfg);
+    }
+    void TearDown() override {
+        std::filesystem::remove_all(wal_dir_);
+    }
+    std::string wal_dir_;
+    std::shared_ptr<WALManager> wal_;
+};
+
+TEST_F(WALShipperCompressionTest, DefaultCompressionIsZstd) {
+    WALShipperConfig cfg;
+    EXPECT_EQ(cfg.compression, WALShipperConfig::CompressionType::Zstd);
+}
+
+TEST_F(WALShipperCompressionTest, SelectCompressionSmallPayloadReturnsNone) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    WALShipper shipper(wal_, cfg);
+
+    // Payloads below 4 KB should not be compressed regardless of other factors
+    auto type = shipper.selectCompressionType(1024, true, 0.1);
+    EXPECT_EQ(type, WALShipperConfig::CompressionType::None);
+}
+
+TEST_F(WALShipperCompressionTest, SelectCompressionHighCpuReturnsNone) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    WALShipper shipper(wal_, cfg);
+
+    // CPU utilisation > 0.85 should bypass compression
+    auto type = shipper.selectCompressionType(65536, true, 0.90);
+    EXPECT_EQ(type, WALShipperConfig::CompressionType::None);
+}
+
+TEST_F(WALShipperCompressionTest, SelectCompressionRepetitiveLowCpuReturnsZstd) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    WALShipper shipper(wal_, cfg);
+
+    // Large, repetitive payload under low CPU load → Zstd
+    auto type = shipper.selectCompressionType(65536, true, 0.30);
+    EXPECT_EQ(type, WALShipperConfig::CompressionType::Zstd);
+}
+
+TEST_F(WALShipperCompressionTest, SelectCompressionMediumCpuReturnsLZ4) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    WALShipper shipper(wal_, cfg);
+
+    // Large non-repetitive payload with medium CPU → LZ4
+    auto type = shipper.selectCompressionType(65536, false, 0.60);
+    EXPECT_EQ(type, WALShipperConfig::CompressionType::LZ4);
+}
+
+TEST_F(WALShipperCompressionTest, CalculateOptimalBatchSizeDefaultNonAdaptive) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    cfg.batch_size = 100;
+    cfg.adaptive_batch_size = false;
+    WALShipper shipper(wal_, cfg);
+
+    // When adaptive is off, always returns config batch_size
+    EXPECT_EQ(shipper.calculateOptimalBatchSize(1.0, 0.5, 20000), cfg.batch_size);
+    EXPECT_EQ(shipper.calculateOptimalBatchSize(100.0, 0.9, 1000), cfg.batch_size);
+}
+
+TEST_F(WALShipperCompressionTest, CalculateOptimalBatchSizeAdaptiveHighLatency) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    cfg.batch_size = 100;
+    cfg.adaptive_batch_size = true;
+    cfg.min_batch_size = 10;
+    cfg.max_batch_size = 1000;
+    WALShipper shipper(wal_, cfg);
+
+    // High latency (>50ms) should push batch size up
+    size_t high_lat = shipper.calculateOptimalBatchSize(100.0, 0.5, 20000);
+    size_t low_lat  = shipper.calculateOptimalBatchSize(0.5,   0.5, 20000);
+    EXPECT_GT(high_lat, low_lat);
+}
+
+TEST_F(WALShipperCompressionTest, InitialStatsHaveDefaultCompressionRatio) {
+    WALShipperConfig cfg;
+    cfg.primary_id = "p1";
+    WALShipper shipper(wal_, cfg);
+
+    auto stats = shipper.getStatistics();
+    EXPECT_EQ(stats.total_batches, 0u);
+    EXPECT_DOUBLE_EQ(stats.avg_compression_ratio, 1.0);
+    EXPECT_EQ(stats.total_bytes_uncompressed, 0u);
 }

@@ -36,6 +36,48 @@ nlohmann::json json = schema_mgr.toJSON();
 
 ---
 
+### catalog_exporter.h
+**Purpose:** Publish ThemisDB schema metadata to external data governance catalogs
+
+**Key Classes:**
+- `CatalogExporter`: Main export interface
+- `CatalogExporter::Config`: Connection parameters (endpoint, auth, database name)
+- `CatalogExporter::PublishResult`: Result with success flag, entity count, and error message
+- `CatalogExporter::CatalogType`: `APACHE_ATLAS` or `DATAHUB`
+
+**Usage:**
+```cpp
+#include "metadata/catalog_exporter.h"
+
+using namespace themis;
+
+// Apache Atlas
+CatalogExporter::Config cfg;
+cfg.type     = CatalogExporter::CatalogType::APACHE_ATLAS;
+cfg.endpoint = "http://atlas-host:21000";
+cfg.username = "admin";
+cfg.password = "admin";
+
+CatalogExporter exporter(cfg);
+auto result = exporter.publishSchema(schema_mgr.getAllTables());
+if (!result.success) {
+    spdlog::error("Publish failed: {}", result.error);
+}
+
+// DataHub
+CatalogExporter::Config dh_cfg;
+dh_cfg.type     = CatalogExporter::CatalogType::DATAHUB;
+dh_cfg.endpoint = "http://datahub-gms:8080";
+dh_cfg.token    = "my-token";
+
+CatalogExporter dh_exporter(dh_cfg);
+dh_exporter.publishTable(schema_mgr.getTable("users").value());
+```
+
+**Thread Safety:** Not shared-state; create per-thread or use external synchronization.
+
+---
+
 ## Core Types
 
 ### TableSchema
@@ -195,6 +237,47 @@ schema_mgr.invalidateCache();
 
 // Or let it expire naturally (TTL)
 ```
+
+---
+
+---
+
+## column_lineage.h
+**Purpose:** Column-level lineage and data provenance tracking
+
+**Key Classes:**
+- `ColumnLineageTracker`: Thread-safe, append-only DAG tracker for column derivations
+- `ColumnRef`: Typed column identifier (`table.column`)
+- `ColumnLineageEntry`: A single derivation step (target, sources, transformation, timestamp)
+- `ColumnLineageRecord`: All entries recorded for one target column
+- `TransformationType`: Derivation kind (`DIRECT_COPY`, `RENAME`, `CAST`, `COMPUTED`, `AGGREGATION`, `ANONYMIZATION`, `ENRICHMENT`, `CUSTOM`)
+
+**Usage:**
+```cpp
+#include "metadata/column_lineage.h"
+
+using namespace themis::metadata;
+
+ColumnLineageTracker tracker;
+
+// Record that full_name is computed from first_name + last_name
+ColumnLineageEntry entry;
+entry.target_column  = {"users", "full_name"};
+entry.source_columns = {{"users", "first_name"}, {"users", "last_name"}};
+entry.transformation = TransformationType::COMPUTED;
+entry.transformation_expression = "first_name || ' ' || last_name";
+entry.performed_by   = "etl-service";
+tracker.recordDerivation(entry);
+
+// Query all upstream sources of a column (transitive)
+auto upstream = tracker.getUpstreamColumns({"users", "full_name"});
+
+// Full structured provenance record as JSON
+nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
+```
+
+**Thread Safety:** All public methods are thread-safe.  
+**Design:** Append-only — `recordDerivation()` never modifies or deletes existing entries.
 
 ---
 

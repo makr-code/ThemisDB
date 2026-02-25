@@ -2504,6 +2504,7 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
     }
 }
 
+// ============================================================================
 // Phase 4: Cache Replication for High-Availability
 // ============================================================================
 

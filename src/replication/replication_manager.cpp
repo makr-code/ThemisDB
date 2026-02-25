@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-22                                         ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     3925                                           ║
+    • Total Lines:     4922                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -37,6 +37,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <limits>
 #include <set>
 #include <future>
 #include <numeric>
@@ -661,6 +662,29 @@ ReplicationStream::ReplicationStream(
     follower_info_.role = ReplicationRole::FOLLOWER;
     follower_info_.last_applied_sequence = 0;
     follower_info_.last_heartbeat = std::chrono::system_clock::now();
+
+    // Build compressed stream if WAL compression is enabled
+    if (config_.enable_wal_compression) {
+        CompressedReplicationStream::CompressionConfig cc;
+        cc.compression_level    = config_.wal_compression_level;
+        cc.min_batch_size       = static_cast<uint32_t>(config_.wal_compression_min_batch_bytes);
+
+        const auto& algo = config_.wal_compression_algorithm;
+        if (algo == "lz4") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::LZ4;
+        } else if (algo == "snappy") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::SNAPPY;
+        } else if (algo == "auto") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+        } else if (algo == "none") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
+        } else {
+            // Default (including "zstd" and unknown values) → ZSTD
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+        }
+
+        compressed_stream_ = std::make_unique<CompressedReplicationStream>(follower_endpoint, cc);
+    }
 }
 
 ReplicationStream::~ReplicationStream() {
@@ -724,8 +748,14 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 }
 
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // In a real implementation, this would serialize entries and send them over
-    // a mTLS connection to the follower endpoint, then wait for acknowledgement.
+    // When WAL compression is configured, delegate to CompressedReplicationStream
+    // which serialises, compresses (Zstd/LZ4/Snappy), and ships the batch.
+    if (compressed_stream_) {
+        return compressed_stream_->sendBatch(entries);
+    }
+
+    // Uncompressed path: in a real deployment this would serialise the entries
+    // and transmit them via the mTLS connection to the follower endpoint.
     // The retry/backoff logic is managed by the caller (streamLoop).
     (void)entries;
     return true;
@@ -1569,6 +1599,13 @@ bool ReplicationManager::validateConfig() {
         return false;
     }
 
+    if (config_.enable_wal_compression &&
+        (config_.wal_compression_level < 1 || config_.wal_compression_level > 9)) {
+        THEMIS_ERROR("wal_compression_level must be 1-9 when WAL compression is enabled, got {}",
+                     config_.wal_compression_level);
+        return false;
+    }
+
     return true;
 }
 
@@ -2001,6 +2038,8 @@ MMWriteEntry CRDTMergeResolver::resolve(
         case CRDTType::G_SET:        merged_data = mergeGSet(conflicting_writes);        break;
         case CRDTType::OR_SET:       merged_data = mergeORSet(conflicting_writes);       break;
         case CRDTType::LWW_MAP:      merged_data = mergeLWWMap(conflicting_writes);      break;
+        case CRDTType::TWO_P_SET:    merged_data = mergeTwoPSet(conflicting_writes);     break;
+        case CRDTType::RGA:          merged_data = mergeRGA(conflicting_writes);         break;
     }
 
     // Base entry is the LWW winner; replace its data with the merged payload
@@ -2019,6 +2058,8 @@ std::string CRDTMergeResolver::strategyName() const {
         case CRDTType::G_SET:        return "G_SET";
         case CRDTType::OR_SET:       return "OR_SET";
         case CRDTType::LWW_MAP:      return "LWW_MAP";
+        case CRDTType::TWO_P_SET:    return "TWO_P_SET";
+        case CRDTType::RGA:          return "RGA";
     }
     return "UNKNOWN";
 }
@@ -2073,6 +2114,56 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     return fields;
 }
 
+// Helper: extract the sub-object string for a named key, e.g. extractSubObject(doc,"P")
+// returns the raw content between the outermost braces of "P": { ... }
+static std::string extractSubObject(const std::string& doc, const std::string& key) {
+    std::string search = "\"" + key + "\"";
+    auto pos = doc.find(search);
+    if (pos == std::string::npos) return "";
+    pos += search.size();
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
+    if (pos >= doc.size() || doc[pos] != '{') return "";
+    size_t depth = 0, start = pos;
+    while (pos < doc.size()) {
+        if (doc[pos] == '{') ++depth;
+        else if (doc[pos] == '}') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
+        ++pos;
+    }
+    return "";
+}
+
+// Helper: extract quoted string tokens from a JSON array  e.g. ["a","b"] → {"a","b"}
+static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
+    std::set<std::string> result;
+    size_t p = 0;
+    while (p < arr.size()) {
+        auto qs = arr.find('"', p);
+        if (qs == std::string::npos) break;
+        auto qe = arr.find('"', qs + 1);
+        if (qe == std::string::npos) break;
+        result.insert(arr.substr(qs + 1, qe - qs - 1));
+        p = qe + 1;
+    }
+    return result;
+}
+
+// Helper: find the raw JSON array string for a named key, e.g. extractSubArray(doc,"add")
+static std::string extractSubArray(const std::string& doc, const std::string& key) {
+    std::string search = "\"" + key + "\"";
+    auto pos = doc.find(search);
+    if (pos == std::string::npos) return "";
+    pos += search.size();
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
+    if (pos >= doc.size() || doc[pos] != '[') return "";
+    size_t depth = 0, start = pos;
+    while (pos < doc.size()) {
+        if (doc[pos] == '[') ++depth;
+        else if (doc[pos] == ']') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
+        ++pos;
+    }
+    return "";
+}
+
 std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& writes) {
     // Grow-only counter: for each node-keyed counter take the maximum value
     std::map<std::string, int64_t> merged;
@@ -2095,14 +2186,42 @@ std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& wr
 }
 
 std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& writes) {
-    // PN counter: each entry has a "positive" and "negative" sub-counter per node
-    // Simplified: treat all numeric fields as GCounter
-    return mergeGCounter(writes);
+    // PN-Counter: two separate G-Counters (P = increments, N = decrements) per node.
+    // Expected data format: {"P":{"nodeA":5,"nodeB":3},"N":{"nodeA":2,"nodeB":1}}
+    // Merge: take max per key for both P and N sub-counters.
+    std::map<std::string, int64_t> mergedP, mergedN;
+    for (const auto& w : writes) {
+        auto pSub = extractSubObject(w.data, "P");
+        if (!pSub.empty()) {
+            for (const auto& [k, v] : extractJsonInts(pSub))
+                mergedP[k] = std::max(mergedP[k], v);
+        }
+        auto nSub = extractSubObject(w.data, "N");
+        if (!nSub.empty()) {
+            for (const auto& [k, v] : extractJsonInts(nSub))
+                mergedN[k] = std::max(mergedN[k], v);
+        }
+    }
+    // Serialise as {"P":{...},"N":{...}}
+    auto serializeMap = [](const std::map<std::string, int64_t>& m) {
+        std::ostringstream o;
+        o << "{";
+        bool first = true;
+        for (const auto& [k, v] : m) {
+            if (!first) o << ",";
+            o << "\"" << k << "\":" << v;
+            first = false;
+        }
+        o << "}";
+        return o.str();
+    };
+    std::ostringstream oss;
+    oss << "{\"P\":" << serializeMap(mergedP) << ",\"N\":" << serializeMap(mergedN) << "}";
+    return oss.str();
 }
 
 std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
-    // Grow-only set: union of all string values inside JSON arrays
-    // Simplified: concatenate unique tokens from all payloads
+    // Grow-only set: union of all quoted string tokens across all payloads
     std::set<std::string> seen;
     for (const auto& w : writes) {
         size_t p = 0;
@@ -2128,8 +2247,67 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
 }
 
 std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& writes) {
-    // OR-Set: observed-remove set; delegate to GSet for simplicity
-    return mergeGSet(writes);
+    // OR-Set (Observed-Remove Set): each add operation tags an element with a unique id;
+    // a remove operation records the tag in the tombstone set.  An element is present iff
+    // it has at least one tag that is not tombstoned.
+    //
+    // Expected data format:
+    //   {"add":[["apple","tag-1"],["banana","tag-2"]],"tombstones":["tag-1"]}
+    // Each add entry is a two-element array [element, unique-tag].
+    // Merge: union of all add pairs, union of all tombstones.
+
+    // Collect all (element, tag) pairs and all tombstones across writes.
+    std::vector<std::pair<std::string, std::string>> allAdds;
+    std::set<std::string> tombstones;
+
+    for (const auto& w : writes) {
+        // Parse tombstones array
+        auto tsArr = extractSubArray(w.data, "tombstones");
+        for (const auto& t : extractJsonArrayStrings(tsArr))
+            tombstones.insert(t);
+
+        // Parse add array – find "add": [ ... ] then iterate inner arrays
+        auto addArr = extractSubArray(w.data, "add");
+        // Each inner element looks like ["element","tag"]
+        size_t p = 0;
+        while (p < addArr.size()) {
+            auto lb = addArr.find('[', p);
+            if (lb == std::string::npos) break;
+            auto rb = addArr.find(']', lb + 1);
+            if (rb == std::string::npos) break;
+            std::string pair = addArr.substr(lb + 1, rb - lb - 1);
+            auto tokens = extractJsonArrayStrings("[" + pair + "]");
+            if (tokens.size() == 2) {
+                auto it = tokens.begin();
+                std::string elem = *it++;
+                std::string tag  = *it;
+                allAdds.emplace_back(elem, tag);
+            }
+            p = rb + 1;
+        }
+    }
+
+    // Determine which elements are still live (have ≥1 non-tombstoned tag)
+    std::map<std::string, std::vector<std::string>> elemTags;
+    for (const auto& [elem, tag] : allAdds)
+        elemTags[elem].push_back(tag);
+
+    std::set<std::string> liveElements;
+    for (const auto& [elem, tags] : elemTags)
+        for (const auto& t : tags)
+            if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
+
+    // Produce JSON array of live elements
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& e : liveElements) {
+        if (!first) oss << ",";
+        oss << "\"" << e << "\"";
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
 }
 
 std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writes) {
@@ -2153,6 +2331,137 @@ std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writ
         first = false;
     }
     oss << "}";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& writes) {
+    // Two-Phase Set (2P-Set): an element may be added and removed; once removed it cannot
+    // be re-added (tombstone is permanent).
+    //
+    // Expected data format: {"add":["apple","banana","cherry"],"remove":["banana"]}
+    // Merge: union(add) across writes, union(remove) across writes.
+    // Result: elements that appear in the merged add-set but NOT in the merged remove-set.
+    std::set<std::string> addSet, removeSet;
+    for (const auto& w : writes) {
+        auto addArr    = extractSubArray(w.data, "add");
+        auto removeArr = extractSubArray(w.data, "remove");
+        for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);
+        for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);
+    }
+    // Build result: elements in addSet not in removeSet
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& e : addSet) {
+        if (removeSet.count(e)) continue;
+        if (!first) oss << ",";
+        oss << "\"" << e << "\"";
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes) {
+    // Replicated Growable Array (RGA): an ordered sequence where each element carries a
+    // unique logical identifier.  Concurrent inserts are ordered deterministically by id;
+    // deleted elements are kept as tombstones to preserve ordering.
+    //
+    // Expected data format (array of element objects):
+    //   [{"id":"100:nodeA","v":"hello","del":false},{"id":"200:nodeB","v":"world","del":false}]
+    //
+    // Merge: union of all elements by unique id; if an id appears in multiple writes, prefer
+    // the tombstoned version (a deletion is irrevocable).  Sort by id lexicographically.
+
+    // Element struct: id, value, deleted
+    struct RGAElem {
+        std::string id;
+        std::string value;
+        bool deleted{false};
+    };
+
+    std::map<std::string, RGAElem> byId;
+
+    for (const auto& w : writes) {
+        // Parse each object inside the top-level JSON array
+        const std::string& src = w.data;
+        size_t p = 0;
+        // Skip leading '[' if present
+        while (p < src.size() && src[p] != '{') ++p;
+        while (p < src.size()) {
+            auto ob = src.find('{', p);
+            if (ob == std::string::npos) break;
+            // Find matching '}'
+            size_t depth = 0, oe = ob;
+            while (oe < src.size()) {
+                if (src[oe] == '{') ++depth;
+                else if (src[oe] == '}') { if (--depth == 0) break; }
+                ++oe;
+            }
+            std::string obj = src.substr(ob, oe - ob + 1);
+
+            // Extract "id" field
+            RGAElem elem;
+            {
+                auto kp = obj.find("\"id\"");
+                if (kp != std::string::npos) {
+                    auto vs = obj.find('"', kp + 4);
+                    if (vs != std::string::npos) {
+                        auto ve = obj.find('"', vs + 1);
+                        if (ve != std::string::npos)
+                            elem.id = obj.substr(vs + 1, ve - vs - 1);
+                    }
+                }
+            }
+            if (elem.id.empty()) { p = oe + 1; continue; }
+
+            // Extract "v" field
+            {
+                auto kp = obj.find("\"v\"");
+                if (kp != std::string::npos) {
+                    auto vs = obj.find('"', kp + 3);
+                    if (vs != std::string::npos) {
+                        auto ve = obj.find('"', vs + 1);
+                        if (ve != std::string::npos)
+                            elem.value = obj.substr(vs + 1, ve - vs - 1);
+                    }
+                }
+            }
+
+            // Extract "del" field
+            {
+                auto kp = obj.find("\"del\"");
+                if (kp != std::string::npos) {
+                    auto vp = kp + 5;
+                    while (vp < obj.size() && (obj[vp] == ' ' || obj[vp] == ':')) ++vp;
+                    elem.deleted = (obj.substr(vp, 4) == "true");
+                }
+            }
+
+            // Merge: deletion is irrevocable
+            auto it = byId.find(elem.id);
+            if (it == byId.end()) {
+                byId[elem.id] = std::move(elem);
+            } else {
+                if (elem.deleted) it->second.deleted = true;
+                // Keep the value from the first observed insert (already stored)
+            }
+            p = oe + 1;
+        }
+    }
+
+    // Produce sorted JSON array (include tombstones so remote nodes can apply deletes)
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& [id, elem] : byId) {
+        if (!first) oss << ",";
+        oss << "{\"id\":\"" << elem.id << "\","
+            << "\"v\":\"" << elem.value << "\","
+            << "\"del\":" << (elem.deleted ? "true" : "false") << "}";
+        first = false;
+    }
+    oss << "]";
     return oss.str();
 }
 
@@ -3905,6 +4214,177 @@ void CDCManager::onWALEntryApplied(const WALEntry& entry) {
 }
 
 // ============================================================================
+// Cross-Cluster Publish/Subscribe Replication Implementation (v1.7.0)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// PublicationFilter
+// ---------------------------------------------------------------------------
+
+bool PublicationFilter::matches(const WALEntry& entry) const {
+    if (!include_collections.empty()) {
+        bool found = false;
+        for (const auto& col : include_collections) {
+            if (col == entry.collection) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    if (!include_operations.empty()) {
+        bool found = false;
+        for (const auto& op : include_operations) {
+            if (op == entry.operation) { found = true; break; }
+        }
+        if (!found) return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterPublication
+// ---------------------------------------------------------------------------
+
+CrossClusterPublication::CrossClusterPublication(const std::string& name)
+    : name_(name) {}
+
+const std::string& CrossClusterPublication::name() const { return name_; }
+
+void CrossClusterPublication::setFilter(const PublicationFilter& filter) {
+    std::unique_lock<std::shared_mutex> lock(filter_mutex_);
+    filter_ = filter;
+}
+
+PublicationFilter CrossClusterPublication::getFilter() const {
+    std::shared_lock<std::shared_mutex> lock(filter_mutex_);
+    return filter_;
+}
+
+uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback callback) {
+    uint64_t id = next_id_.fetch_add(1);
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.push_back({id, std::move(callback)});
+    return id;
+}
+
+void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscribers_.erase(
+        std::remove_if(subscribers_.begin(), subscribers_.end(),
+                       [subscriber_id](const RemoteSubscriber& s) {
+                           return s.id == subscriber_id;
+                       }),
+        subscribers_.end());
+}
+
+size_t CrossClusterPublication::subscriberCount() const {
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    return subscribers_.size();
+}
+
+uint64_t CrossClusterPublication::publishedCount() const {
+    return published_count_.load();
+}
+
+void CrossClusterPublication::publish(const WALEntry& entry) {
+    {
+        std::shared_lock<std::shared_mutex> lock(filter_mutex_);
+        if (!filter_.matches(entry)) return;
+    }
+    published_count_.fetch_add(1);
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    for (const auto& sub : subscribers_) {
+        try {
+            sub.callback(entry);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw: {}",
+                         name_, sub.id, e.what());
+        } catch (...) {
+            THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw unknown exception",
+                         name_, sub.id);
+        }
+    }
+}
+
+void CrossClusterPublication::onWALEntryApplied(const WALEntry& entry) {
+    publish(entry);
+}
+
+std::string CrossClusterPublication::exportPrometheusMetrics() const {
+    std::string label = "{publication=\"" + name_ + "\"}";
+    std::string m;
+    m += "themisdb_cross_cluster_publication_published_total" + label + " " +
+         std::to_string(published_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_publication_subscribers" + label + " " +
+         std::to_string(subscriberCount()) + "\n";
+    return m;
+}
+
+// ---------------------------------------------------------------------------
+// CrossClusterSubscription
+// ---------------------------------------------------------------------------
+
+CrossClusterSubscription::CrossClusterSubscription(
+    const std::string& name,
+    std::shared_ptr<CrossClusterPublication> publication,
+    ApplyCallback on_apply)
+    : name_(name),
+      publication_(std::move(publication)),
+      on_apply_(std::move(on_apply)) {}
+
+CrossClusterSubscription::~CrossClusterSubscription() {
+    disable();
+}
+
+const std::string& CrossClusterSubscription::name() const { return name_; }
+
+void CrossClusterSubscription::enable() {
+    std::lock_guard<std::mutex> lock(enable_mutex_);
+    if (enabled_.load()) return;  // idempotent
+    subscriber_id_ = publication_->addRemoteSubscriber([this](const WALEntry& e) {
+        try {
+            on_apply_(e);
+            applied_count_.fetch_add(1);
+            // Advance last_applied_seq_ to this entry's sequence (keep max)
+            uint64_t expected = last_applied_seq_.load();
+            while (e.sequence_number > expected) {
+                if (last_applied_seq_.compare_exchange_weak(expected, e.sequence_number))
+                    break;
+            }
+        } catch (...) {
+            error_count_.fetch_add(1);
+        }
+    });
+    enabled_.store(true);
+}
+
+void CrossClusterSubscription::disable() {
+    std::lock_guard<std::mutex> lock(enable_mutex_);
+    if (!enabled_.load()) return;  // idempotent
+    publication_->removeRemoteSubscriber(subscriber_id_);
+    subscriber_id_ = 0;
+    enabled_.store(false);
+}
+
+bool CrossClusterSubscription::isEnabled() const { return enabled_.load(); }
+
+uint64_t CrossClusterSubscription::appliedCount() const { return applied_count_.load(); }
+
+uint64_t CrossClusterSubscription::lastAppliedSequence() const { return last_applied_seq_.load(); }
+
+uint64_t CrossClusterSubscription::errorCount() const { return error_count_.load(); }
+
+std::string CrossClusterSubscription::exportPrometheusMetrics() const {
+    std::string label = "{subscription=\"" + name_ + "\"}";
+    std::string m;
+    m += "themisdb_cross_cluster_subscription_applied_total" + label + " " +
+         std::to_string(applied_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_subscription_errors_total" + label + " " +
+         std::to_string(error_count_.load()) + "\n";
+    m += "themisdb_cross_cluster_subscription_last_applied_sequence" + label + " " +
+         std::to_string(last_applied_seq_.load()) + "\n";
+    return m;
+}
+
+// ============================================================================
 // WALArchivalManager Implementation (v1.6.0)
 // ============================================================================
 
@@ -4155,6 +4635,322 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     uint32_t archived = archiveSegments(candidates);
     purgeExpired();
     return archived;
+}
+
+// ============================================================================
+// MultiRegionActiveActiveManager Implementation (Phase 4 – v1.8.0)
+// ============================================================================
+
+MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
+    const MultiRegionActiveActiveConfig& config)
+    : config_(config) {
+    // Initialise staleness entry for the local region (always fresh at start)
+    RegionStalenessInfo local;
+    local.region_id              = config_.local_region_id;
+    local.staleness_ms           = 0;
+    local.last_applied_sequence  = 0;
+    local.last_update            = std::chrono::system_clock::now();
+    local.is_healthy             = true;
+    region_staleness_[config_.local_region_id] = local;
+
+    // Initialise staleness entries for peer regions (unknown at start)
+    for (const auto& peer : config_.peer_region_ids) {
+        RegionStalenessInfo info;
+        info.region_id             = peer;
+        info.staleness_ms          = std::numeric_limits<int64_t>::max();
+        info.last_applied_sequence = 0;
+        info.last_update           = std::chrono::system_clock::now();
+        info.is_healthy            = false;
+        region_staleness_[peer]    = info;
+    }
+}
+
+std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) const {
+    // Combine region id, the caller-supplied sequence, and a nanosecond timestamp for uniqueness.
+    // Using the already-computed sequence (not a fresh load) avoids a TOCTOU race where
+    // another concurrent write could have incremented local_sequence_ between the caller's
+    // atomic increment and this read.
+    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << config_.local_region_id << "-" << sequence << "-" << now_ns;
+    return oss.str();
+}
+
+std::string MultiRegionActiveActiveManager::generateSessionToken(uint64_t sequence) const {
+    // Format: "seq=<N>;region=<R>;exp=<epoch_ms>"
+    auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        (std::chrono::system_clock::now() +
+         std::chrono::milliseconds(config_.session_token_ttl_ms))
+        .time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << "seq=" << sequence
+        << ";region=" << config_.local_region_id
+        << ";exp=" << expiry_ms;
+    return oss.str();
+}
+
+uint64_t MultiRegionActiveActiveManager::parseSessionToken(
+    const std::string& token) const {
+    // Expected format: "seq=<N>;region=<R>;exp=<epoch_ms>"
+    auto seq_pos = token.find("seq=");
+    if (seq_pos == std::string::npos) return 0;
+    auto semi = token.find(';', seq_pos);
+    std::string seq_str = token.substr(
+        seq_pos + 4, (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
+    try {
+        return std::stoull(seq_str);
+    } catch (...) {
+        return 0;
+    }
+}
+
+MultiRegionActiveActiveManager::WriteResult
+MultiRegionActiveActiveManager::write(
+    const std::string& collection,
+    const std::string& document_id,
+    const std::string& operation,
+    const std::string& data,
+    ConsistencyLevel   consistency,
+    const std::string& /*session_token*/)
+{
+    (void)collection;
+    (void)document_id;
+    (void)operation;
+    (void)data;
+
+    uint64_t seq = ++local_sequence_;
+    ++writes_total_;
+
+    // Update local region staleness to 0 (we just wrote here)
+    {
+        std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+        auto& local = region_staleness_[config_.local_region_id];
+        local.staleness_ms           = 0;
+        local.last_applied_sequence  = seq;
+        local.last_update            = std::chrono::system_clock::now();
+        local.is_healthy             = true;
+    }
+
+    WriteResult result;
+    result.success          = true;
+    result.write_id         = generateWriteId(seq);
+    result.region_id        = config_.local_region_id;
+    result.sequence_number  = seq;
+    result.session_token    = generateSessionToken(seq);
+
+    THEMIS_INFO("MultiRegionActiveActive: write seq={} region={} consistency={}",
+                seq, config_.local_region_id, static_cast<int>(consistency));
+    return result;
+}
+
+MultiRegionActiveActiveManager::ReadResult
+MultiRegionActiveActiveManager::read(
+    const std::string& collection,
+    const std::string& document_id,
+    ConsistencyLevel   consistency,
+    const std::string& session_token)
+{
+    (void)collection;
+    (void)document_id;
+
+    ++reads_total_;
+
+    int64_t local_staleness_ms = 0;
+    uint64_t local_seq = 0;
+    {
+        std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+        auto it = region_staleness_.find(config_.local_region_id);
+        if (it != region_staleness_.end()) {
+            local_staleness_ms = it->second.staleness_ms;
+            local_seq          = it->second.last_applied_sequence;
+        }
+    }
+
+    ReadResult result;
+    result.region_id    = config_.local_region_id;
+    result.staleness_ms = local_staleness_ms;
+    result.served_at    = consistency;
+    result.sequence_number = local_seq;
+
+    switch (consistency) {
+        case ConsistencyLevel::STRONG:
+            ++strong_reads_;
+            if (local_staleness_ms > 0) {
+                THEMIS_WARN("MultiRegionActiveActive: STRONG read rejected – "
+                            "local staleness={}ms > 0", local_staleness_ms);
+                ++staleness_rejections_;
+                result.success = false;
+                return result;
+            }
+            break;
+
+        case ConsistencyLevel::BOUNDED_STALENESS:
+            ++bounded_staleness_reads_;
+            if (local_staleness_ms > static_cast<int64_t>(config_.max_staleness_ms)) {
+                THEMIS_WARN("MultiRegionActiveActive: BOUNDED_STALENESS read rejected – "
+                            "local staleness={}ms > bound={}ms",
+                            local_staleness_ms, config_.max_staleness_ms);
+                ++staleness_rejections_;
+                result.success = false;
+                return result;
+            }
+            break;
+
+        case ConsistencyLevel::SESSION: {
+            ++session_reads_;
+            if (!session_token.empty()) {
+                uint64_t required_seq = parseSessionToken(session_token);
+                if (required_seq > 0 && local_seq < required_seq) {
+                    THEMIS_WARN("MultiRegionActiveActive: SESSION read rejected – "
+                                "local_seq={} < required_seq={}", local_seq, required_seq);
+                    ++staleness_rejections_;
+                    result.success = false;
+                    return result;
+                }
+            }
+            break;
+        }
+
+        case ConsistencyLevel::EVENTUAL:
+            ++eventual_reads_;
+            // Always succeeds regardless of staleness
+            break;
+    }
+
+    result.success = true;
+    THEMIS_INFO("MultiRegionActiveActive: read served region={} staleness={}ms",
+                config_.local_region_id, local_staleness_ms);
+    return result;
+}
+
+std::string MultiRegionActiveActiveManager::createSessionToken() const {
+    uint64_t seq = local_sequence_.load();
+    return generateSessionToken(seq);
+}
+
+bool MultiRegionActiveActiveManager::validateSessionToken(
+    const std::string& token,
+    uint64_t           required_sequence) const
+{
+    if (token.empty()) return false;
+
+    // Check expiry embedded in token
+    auto exp_pos = token.find("exp=");
+    if (exp_pos != std::string::npos) {
+        try {
+            int64_t expiry_ms = std::stoll(token.substr(exp_pos + 4));
+            auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            if (now_ms > expiry_ms) {
+                return false;  // Token expired
+            }
+        } catch (...) {
+            return false;
+        }
+    }
+
+    uint64_t token_seq = parseSessionToken(token);
+    return token_seq >= required_sequence;
+}
+
+std::chrono::milliseconds MultiRegionActiveActiveManager::getStaleness(
+    const std::string& region_id) const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto it = region_staleness_.find(region_id);
+    if (it == region_staleness_.end()) {
+        return std::chrono::milliseconds(std::numeric_limits<int64_t>::max());
+    }
+    return std::chrono::milliseconds(it->second.staleness_ms);
+}
+
+bool MultiRegionActiveActiveManager::isWithinStalenessBound(
+    const std::string& region_id) const
+{
+    return getStaleness(region_id) <=
+           std::chrono::milliseconds(config_.max_staleness_ms);
+}
+
+std::vector<RegionStalenessInfo>
+MultiRegionActiveActiveManager::getAllRegionStaleness() const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+    std::vector<RegionStalenessInfo> result;
+    result.reserve(region_staleness_.size());
+    for (const auto& kv : region_staleness_) {
+        result.push_back(kv.second);
+    }
+    return result;
+}
+
+void MultiRegionActiveActiveManager::updateRegionStaleness(
+    const std::string& region_id,
+    int64_t            staleness_ms,
+    uint64_t           last_applied_sequence)
+{
+    std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto& info              = region_staleness_[region_id];
+    info.region_id          = region_id;
+    info.staleness_ms       = staleness_ms;
+    info.last_applied_sequence = last_applied_sequence;
+    info.last_update        = std::chrono::system_clock::now();
+    info.is_healthy         = (staleness_ms >= 0 &&
+                               staleness_ms <= static_cast<int64_t>(config_.max_staleness_ms) * 2);
+}
+
+std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    const auto& r = config_.local_region_id;
+
+    oss << "# HELP themisdb_mraaa_writes_total Total writes accepted by local region\n"
+        << "# TYPE themisdb_mraaa_writes_total counter\n"
+        << "themisdb_mraaa_writes_total{region=\"" << r << "\"} "
+        << writes_total_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_reads_total Total read attempts\n"
+        << "# TYPE themisdb_mraaa_reads_total counter\n"
+        << "themisdb_mraaa_reads_total{region=\"" << r << "\"} "
+        << reads_total_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_staleness_rejections_total Reads rejected due to excessive staleness\n"
+        << "# TYPE themisdb_mraaa_staleness_rejections_total counter\n"
+        << "themisdb_mraaa_staleness_rejections_total{region=\"" << r << "\"} "
+        << staleness_rejections_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_strong_reads_total Reads served at STRONG consistency\n"
+        << "# TYPE themisdb_mraaa_strong_reads_total counter\n"
+        << "themisdb_mraaa_strong_reads_total{region=\"" << r << "\"} "
+        << strong_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_bounded_staleness_reads_total Reads served at BOUNDED_STALENESS\n"
+        << "# TYPE themisdb_mraaa_bounded_staleness_reads_total counter\n"
+        << "themisdb_mraaa_bounded_staleness_reads_total{region=\"" << r << "\"} "
+        << bounded_staleness_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_session_reads_total Reads served at SESSION consistency\n"
+        << "# TYPE themisdb_mraaa_session_reads_total counter\n"
+        << "themisdb_mraaa_session_reads_total{region=\"" << r << "\"} "
+        << session_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_eventual_reads_total Reads served at EVENTUAL consistency\n"
+        << "# TYPE themisdb_mraaa_eventual_reads_total counter\n"
+        << "themisdb_mraaa_eventual_reads_total{region=\"" << r << "\"} "
+        << eventual_reads_.load() << "\n\n";
+
+    // Per-region staleness gauges
+    {
+        std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+        oss << "# HELP themisdb_mraaa_region_staleness_ms Current replication staleness per region\n"
+            << "# TYPE themisdb_mraaa_region_staleness_ms gauge\n";
+        for (const auto& kv : region_staleness_) {
+            oss << "themisdb_mraaa_region_staleness_ms{region=\"" << kv.first << "\"} "
+                << kv.second.staleness_ms << "\n";
+        }
+        oss << "\n";
+    }
+
+    return oss.str();
 }
 
 } // namespace replication

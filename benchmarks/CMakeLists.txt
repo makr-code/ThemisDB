@@ -1017,6 +1017,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
     message(STATUS "  Embedding Cache: HNSW, hit/miss, batch operations")
 endif()
 
+# Adaptive Query Cache Performance Benchmarks (Issue #1597)
+# Covers the Production Readiness Checklist item "Performance benchmarks" for
+# the multi-level L1/L2/L3 adaptive query cache (src/cache/).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_cache.cpp")
+    message(STATUS "Adding Adaptive Query Cache performance benchmarks")
+
+    add_executable(bench_adaptive_query_cache
+        bench_adaptive_query_cache.cpp
+    )
+
+    target_link_libraries(bench_adaptive_query_cache PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_adaptive_query_cache PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_adaptive_query_cache PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_adaptive_query_cache
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Adaptive Query Cache: L1/L2 put/get, miss, tenant isolation, circuit breaker, concurrent access, invalidation")
+endif()
+
 # LLM Inference Performance Benchmarks
 if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
     message(STATUS "Adding LLM Inference Performance benchmarks")
@@ -1193,7 +1233,7 @@ message(STATUS "  - Build all benchmarks with: cmake --build . --target bench_lo
 message(STATUS "  - Run all benchmarks with: ./benchmarks/bench_lora_framework")
 message(STATUS "  - Or use: make run_benchmarks")
 message(STATUS "  - Performance benchmarks: bench_storage_performance, bench_olap_performance,")
-message(STATUS "    bench_embedding_cache_performance, bench_llm_inference_performance, bench_rotary_embeddings, bench_gpu_vram_allocation")
+message(STATUS "    bench_embedding_cache_performance, bench_adaptive_query_cache, bench_llm_inference_performance, bench_rotary_embeddings, bench_gpu_vram_allocation")
 
 # ============================================================================
 # CUDA vs CPU Acceleration Benchmarks (Issue #1375 / Q3 2026)

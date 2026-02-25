@@ -244,6 +244,7 @@ option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) wit
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
 # NOTE: These are automatically enabled when building tests/benchmarks for accurate performance measurement
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_JEMALLOC "Use jemalloc allocator as alternative (best fragmentation resistance, Linux/Mac only)" OFF)
 option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
 option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
 option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
@@ -297,6 +298,7 @@ option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
 option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+option(THEMIS_ENABLE_PER_QUERY_COST_MODEL "Enable per-query cost model integration with query optimizer (+10-30% plan accuracy)" OFF)
 
 # Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
 # Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
@@ -326,6 +328,36 @@ if(THEMIS_ENABLE_MIMALLOC)
         endif()
     endif()
 endif()
+
+if(THEMIS_ENABLE_JEMALLOC)
+    if(WIN32)
+        message(WARNING "jemalloc is not supported on Windows. THEMIS_ENABLE_JEMALLOC will be ignored.")
+        set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not supported on Windows" FORCE)
+    else()
+        message(STATUS "Enabling jemalloc allocator (best fragmentation resistance for RocksDB-heavy workloads)")
+        if(THEMIS_ENABLE_MIMALLOC)
+            message(WARNING "Both THEMIS_ENABLE_JEMALLOC and THEMIS_ENABLE_MIMALLOC are ON. jemalloc takes priority.")
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Disabled: jemalloc selected" FORCE)
+        endif()
+        find_package(jemalloc CONFIG QUIET)
+        if(NOT jemalloc_FOUND)
+            # Try pkg-config fallback
+            find_package(PkgConfig QUIET)
+            if(PkgConfig_FOUND)
+                pkg_check_modules(jemalloc QUIET jemalloc)
+            endif()
+        endif()
+        if(NOT jemalloc_FOUND AND NOT jemalloc_LIBRARIES)
+            message(WARNING "jemalloc not found via vcpkg or pkg-config. Install with: vcpkg install jemalloc OR apt install libjemalloc-dev")
+            message(WARNING "Building without jemalloc. Performance optimization disabled.")
+            set(THEMIS_ENABLE_JEMALLOC OFF CACHE BOOL "jemalloc not available" FORCE)
+        else()
+            message(STATUS "Found jemalloc")
+            add_compile_definitions(THEMIS_ENABLE_JEMALLOC)
+        endif()
+    endif()
+endif()
+
 
 if(THEMIS_ENABLE_HUGE_PAGES)
     message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
@@ -1087,6 +1119,33 @@ elseif(NOT zstd_FOUND)
     endif()
 endif()
 
+# Optional LZ4 for connection-level frame compression
+find_package(lz4 CONFIG QUIET)
+if(lz4_FOUND)
+    if(TARGET LZ4::lz4_shared)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+    elseif(TARGET LZ4::lz4_static)
+        set(THEMIS_LZ4_TARGET LZ4::lz4_static)
+    elseif(TARGET lz4::lz4)
+        set(THEMIS_LZ4_TARGET lz4::lz4)
+    endif()
+    message(STATUS "LZ4 found via CONFIG")
+else()
+    # Fallback: pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(LZ4_PKG QUIET liblz4)
+        if(LZ4_PKG_FOUND AND NOT TARGET LZ4::lz4_shared)
+            add_library(LZ4::lz4_shared INTERFACE IMPORTED)
+            set_target_properties(LZ4::lz4_shared PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${LZ4_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${LZ4_PKG_LIBRARIES}")
+            set(THEMIS_LZ4_TARGET LZ4::lz4_shared)
+            message(STATUS "LZ4 found via pkg-config")
+        endif()
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -1322,6 +1381,8 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/schema_constraints.cpp
     ../src/metadata/schema_version_manager.cpp
     ../src/metadata/index_recommender.cpp
+    ../src/metadata/column_lineage.cpp
+    ../src/metadata/catalog_exporter.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
@@ -1364,6 +1425,7 @@ set(THEMIS_CORE_SOURCES
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
+    ../src/performance/workload_predictor.cpp
     
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -1530,7 +1592,10 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/warmup.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/predictive_prefetcher.cpp
+    ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
+    ../src/cache/distributed_cache_coordinator.cpp
+    ../src/cache/redis_cache_coordinator.cpp
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -1546,8 +1611,15 @@ set(THEMIS_CORE_SOURCES
     ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
-    # Temporal conflict resolution
+    # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/temporal_aggregator.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/retention_manager.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -1706,6 +1778,8 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
+    ../src/geo/temporal_spatial_query.cpp
+    ../src/geo/tile_server.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
@@ -1940,6 +2014,9 @@ endif()
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
+    # per_query_cost_model is always compiled because query_optimizer.cpp
+    # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
+    ../src/performance/phase3/per_query_cost_model.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -1965,6 +2042,10 @@ endif()
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
+endif()
+
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    message(STATUS "Per-query cost model integration enabled (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
 endif()
 
 # Phase 4 Performance Optimizations (Issue #2424)
@@ -2649,6 +2730,12 @@ if(DEFINED THEMIS_ZSTD_TARGET)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_ZSTD)
 endif()
 
+# Link LZ4 if available and define compile flag
+if(DEFINED THEMIS_LZ4_TARGET)
+    target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
+endif()
+
 # Define THEMIS_ENABLE_CURL if CURL is found
 if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
@@ -2671,6 +2758,17 @@ elseif(TARGET msgpack::msgpack)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
 else()
     message(STATUS "MessagePack target not found - buffer binary protocol may fail to build")
+endif()
+
+# Link hiredis for Redis distributed cache coordination if enabled
+if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+    if(TARGET hiredis::hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis::hiredis)
+    elseif(TARGET hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis)
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_REDIS=1)
+    message(STATUS "Redis distributed cache coordination linked (hiredis)")
 endif()
 
 # RFC 3161 Timestamp Authority (TSA) - OpenSSL implementation
@@ -2730,6 +2828,9 @@ endif()
 if(THEMIS_ENABLE_BAO)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
 endif()
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+endif()
 if(THEMIS_ENABLE_PMEM)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PMEM)
 endif()
@@ -2752,6 +2853,18 @@ if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# Phase 3: Link jemalloc as alternative allocator (best fragmentation resistance)
+if(THEMIS_ENABLE_JEMALLOC)
+    if(jemalloc_FOUND)
+        target_link_libraries(themis_core PUBLIC jemalloc::jemalloc)
+    elseif(jemalloc_LIBRARIES)
+        target_link_libraries(themis_core PUBLIC ${jemalloc_LIBRARIES})
+        target_include_directories(themis_core PUBLIC ${jemalloc_INCLUDE_DIRS})
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_JEMALLOC)
+    message(STATUS "jemalloc linked to themis_core")
 endif()
 
 # FFmpeg support for video processing (optional)
@@ -3521,6 +3634,23 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
+    if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+        add_executable(test_per_query_cost_model
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_per_query_cost_model.cpp
+        )
+        target_link_libraries(test_per_query_cost_model
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_per_query_cost_model
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_per_query_cost_model>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
     # Phase 4 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_PMEM)
         add_executable(test_pmem_storage
@@ -3538,6 +3668,22 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
+
+    # ML-based workload predictor tests (Phase 4)
+    add_executable(test_workload_predictor
+        ${THEMIS_ROOT_DIR}/tests/performance/test_workload_predictor.cpp
+    )
+    target_link_libraries(test_workload_predictor
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_predictor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
+        EXTRA_ARGS --gtest_color=yes
+    )
 
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)

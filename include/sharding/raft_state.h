@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_state.h                                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:38                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     287                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     295                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -228,6 +228,12 @@ public:
      * @return List of all cluster member IDs
      */
     std::vector<std::string> getClusterMembers() const;
+
+    /**
+     * @brief Update the cluster member list after a committed membership change
+     * @param members New authoritative list of cluster member IDs
+     */
+    void setClusterMembers(const std::vector<std::string>& members);
 
     /**
      * @brief Get quorum size

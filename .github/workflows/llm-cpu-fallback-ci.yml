@@ -79,3 +79,19 @@ jobs:
         run: |
           cd build
           ctest --output-on-failure -R "KernelFusionCPUFallback"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🤖 LLM CPU Fallback CI – Kernel Fusion Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Build type** | Release (CPU only, CUDA=OFF) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test filter** | \`KernelFusionCPUFallback\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Validates \`src/llm/kernel_fusion.cpp\` CPU fallback path (no GPU hardware required)." >> "$GITHUB_STEP_SUMMARY"

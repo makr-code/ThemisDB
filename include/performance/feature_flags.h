@@ -139,6 +139,17 @@ public:
     bool pmem_enabled() const { return pmem_enabled_.load(); }
     void set_pmem_enabled(bool enabled) { pmem_enabled_.store(enabled); }
 
+    /**
+     * @brief ML-based workload predictor for proactive resource scaling
+     * Technique: EMA smoothing + OLS linear regression over a sliding observation window.
+     * Forecasts QPS, CPU/memory utilization, and query latency; recommends
+     * thread-pool and cache-size adjustments before resource pressure occurs.
+     * Compile: THEMIS_ENABLE_ML_WORKLOAD_PREDICTOR
+     * Runtime: performance.enable_ml_workload_predictor
+     */
+    bool ml_workload_predictor_enabled() const { return ml_workload_predictor_enabled_.load(); }
+    void set_ml_workload_predictor_enabled(bool enabled) { ml_workload_predictor_enabled_.store(enabled); }
+
     // Configuration loading
     void load_from_config(const std::unordered_map<std::string, bool>& config) {
         for (const auto& [key, value] : config) {
@@ -151,6 +162,7 @@ public:
             else if (key == "enable_diskann") set_diskann_enabled(value);
             else if (key == "enable_bw_tree") set_bw_tree_enabled(value);
             else if (key == "enable_pmem") set_pmem_enabled(value);
+            else if (key == "enable_ml_workload_predictor") set_ml_workload_predictor_enabled(value);
         }
     }
 
@@ -165,7 +177,8 @@ public:
             {"cicada_cc", cicada_cc_enabled()},
             {"diskann", diskann_enabled()},
             {"bw_tree", bw_tree_enabled()},
-            {"pmem", pmem_enabled()}
+            {"pmem", pmem_enabled()},
+            {"ml_workload_predictor", ml_workload_predictor_enabled()}
         };
     }
 
@@ -199,6 +212,9 @@ private:
         #ifdef THEMIS_ENABLE_PMEM
         pmem_enabled_.store(true);
         #endif
+        #ifdef THEMIS_ENABLE_ML_WORKLOAD_PREDICTOR
+        ml_workload_predictor_enabled_.store(true);
+        #endif
     }
 
     // Atomic flags for thread-safe runtime toggling
@@ -211,6 +227,7 @@ private:
     std::atomic<bool> diskann_enabled_{false};
     std::atomic<bool> bw_tree_enabled_{false};
     std::atomic<bool> pmem_enabled_{false};
+    std::atomic<bool> ml_workload_predictor_enabled_{false};
 };
 
 // Convenience macros for checking feature flags
@@ -232,6 +249,8 @@ private:
     (::themis::performance::PerformanceFeatureFlags::instance().bw_tree_enabled())
 #define THEMIS_PERF_PMEM_ENABLED() \
     (::themis::performance::PerformanceFeatureFlags::instance().pmem_enabled())
+#define THEMIS_PERF_ML_WORKLOAD_PREDICTOR_ENABLED() \
+    (::themis::performance::PerformanceFeatureFlags::instance().ml_workload_predictor_enabled())
 
 } // namespace performance
 } // namespace themis

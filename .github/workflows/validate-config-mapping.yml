@@ -57,3 +57,17 @@ jobs:
             exit 1
           fi
           echo "✅ Schema file exists"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ⚙️ Validate Config Mapping" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Validator** | \`scripts/validate_config_mapping.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Schema** | \`config/schema/path_mapping.schema.json\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"

@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     333                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     461                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
@@ -313,8 +313,133 @@ TEST_F(GPUMetricsTest, NsightExport_Reset_ClearsKernels) {
 }
 
 // ---------------------------------------------------------------------------
-// Thread safety
+// Thermal and power telemetry
 // ---------------------------------------------------------------------------
+
+TEST_F(GPUMetricsTest, Temperature_GaugeUpdated) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setTemperature(0, 72.5);
+    const auto snap = m.snapshot();
+    bool found = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_temperature_celsius") != std::string::npos &&
+            s.name.find("\"0\"") != std::string::npos) {
+            EXPECT_DOUBLE_EQ(s.value, 72.5);
+            EXPECT_EQ(s.type, "gauge");
+            found = true;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(GPUMetricsTest, Temperature_MultipleDevices) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setTemperature(0, 68.0);
+    m.setTemperature(1, 75.0);
+    const auto snap = m.snapshot();
+    bool found0 = false, found1 = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_temperature_celsius") != std::string::npos) {
+            if (s.name.find("\"0\"") != std::string::npos) { EXPECT_DOUBLE_EQ(s.value, 68.0); found0 = true; }
+            if (s.name.find("\"1\"") != std::string::npos) { EXPECT_DOUBLE_EQ(s.value, 75.0); found1 = true; }
+        }
+    }
+    EXPECT_TRUE(found0);
+    EXPECT_TRUE(found1);
+}
+
+TEST_F(GPUMetricsTest, Temperature_OverwritesPreviousValue) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setTemperature(0, 60.0);
+    m.setTemperature(0, 85.0);
+    const auto snap = m.snapshot();
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_temperature_celsius") != std::string::npos &&
+            s.name.find("\"0\"") != std::string::npos) {
+            EXPECT_DOUBLE_EQ(s.value, 85.0);
+        }
+    }
+}
+
+TEST_F(GPUMetricsTest, PowerDraw_GaugeUpdated) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setPowerDraw(0, 250.0);
+    const auto snap = m.snapshot();
+    bool found = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_power_draw_watts") != std::string::npos &&
+            s.name.find("\"0\"") != std::string::npos) {
+            EXPECT_DOUBLE_EQ(s.value, 250.0);
+            EXPECT_EQ(s.type, "gauge");
+            found = true;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(GPUMetricsTest, PowerDraw_MultipleDevices) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setPowerDraw(0, 200.0);
+    m.setPowerDraw(1, 350.0);
+    const auto snap = m.snapshot();
+    bool found0 = false, found1 = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_power_draw_watts") != std::string::npos) {
+            if (s.name.find("\"0\"") != std::string::npos) { EXPECT_DOUBLE_EQ(s.value, 200.0); found0 = true; }
+            if (s.name.find("\"1\"") != std::string::npos) { EXPECT_DOUBLE_EQ(s.value, 350.0); found1 = true; }
+        }
+    }
+    EXPECT_TRUE(found0);
+    EXPECT_TRUE(found1);
+}
+
+TEST_F(GPUMetricsTest, PowerLimit_GaugeUpdated) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setPowerLimit(0, 400.0);
+    const auto snap = m.snapshot();
+    bool found = false;
+    for (const auto& s : snap) {
+        if (s.name.find("themis_gpu_power_limit_watts") != std::string::npos &&
+            s.name.find("\"0\"") != std::string::npos) {
+            EXPECT_DOUBLE_EQ(s.value, 400.0);
+            EXPECT_EQ(s.type, "gauge");
+            found = true;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST_F(GPUMetricsTest, ThermalPower_ResetClearsAll) {
+    auto& m = GPUMetrics::GetInstance();
+    m.setTemperature(0, 80.0);
+    m.setPowerDraw(0, 300.0);
+    m.setPowerLimit(0, 400.0);
+    m.reset();
+    const auto snap = m.snapshot();
+    for (const auto& s : snap) {
+        EXPECT_EQ(s.name.find("themis_gpu_temperature_celsius"), std::string::npos);
+        EXPECT_EQ(s.name.find("themis_gpu_power_draw_watts"),    std::string::npos);
+        EXPECT_EQ(s.name.find("themis_gpu_power_limit_watts"),   std::string::npos);
+    }
+}
+
+TEST_F(GPUMetricsTest, ThermalPower_ConcurrentWrites_NoDataRace) {
+    auto& m = GPUMetrics::GetInstance();
+    constexpr int THREADS = 4, OPS = 50;
+    std::vector<std::thread> threads;
+    threads.reserve(THREADS);
+    for (int t = 0; t < THREADS; ++t) {
+        threads.emplace_back([&m, t] {
+            for (int i = 0; i < OPS; ++i) {
+                m.setTemperature(t, static_cast<double>(60 + i));
+                m.setPowerDraw(t, static_cast<double>(100 + i));
+                m.setPowerLimit(t, 400.0);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    EXPECT_FALSE(m.snapshot().empty());
+}
 
 TEST_F(GPUMetricsTest, Concurrent_Writes_NoDataRace) {
     auto& m = GPUMetrics::GetInstance();

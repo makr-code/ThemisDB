@@ -166,6 +166,32 @@ jobs:
             benchmark_results/
           retention-days: 30
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ⚡ Acceleration Benchmark CI – Benchmarks" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **OS** | \`${{ matrix.os }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Steps" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Regression detector unit tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- CPU acceleration benchmarks (JSON output)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Performance regression detection (minor ≥5%, major ≥10%, critical ≥20%)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f benchmark_results/regression_report.txt ]; then
+            echo "### Regression Report" >> "$GITHUB_STEP_SUMMARY"
+            echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+            cat benchmark_results/regression_report.txt >> "$GITHUB_STEP_SUMMARY"
+            echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   # ---------------------------------------------------------------------------
   # Commit updated baseline back to main after a successful benchmark run.
   # Runs only on main branch push to keep the reference point current.
@@ -245,6 +271,22 @@ jobs:
             echo "✅ Acceleration baseline committed to main."
           fi
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ⚡ Acceleration Benchmark CI – Update Baseline" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Baseline file: \`benchmarks/baselines/acceleration/baseline.json\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Committed updated CPU benchmark baseline back to \`main\` (if changed)." >> "$GITHUB_STEP_SUMMARY"
+
   # ---------------------------------------------------------------------------
   # Summary / gate job – all matrix legs must pass
   # ---------------------------------------------------------------------------
@@ -269,3 +311,17 @@ jobs:
             echo "❌ Acceleration benchmarks failed or detected blocking regressions."
             exit 1
           fi
+
+      - name: Write job summary
+        if: always()
+        run: |
+          result="${{ needs.acceleration-benchmarks.result }}"
+          echo "## ⚡ Acceleration Benchmark CI – Gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Benchmark result** | \`${result}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"

@@ -16,6 +16,8 @@ LABELS_TO_CREATE = {
     "type:refactor": {"color": "a371f7", "description": "Code refactoring"},
     "type:chore": {"color": "cfcfcf", "description": "Chores"},
     "priority:critical": {"color": "dc2626", "description": "Critical priority"},
+    "priority:high": {"color": "f97316", "description": "High priority"},
+    "priority:medium": {"color": "eab308", "description": "Medium priority"},
     "priority:low": {"color": "6b7280", "description": "Low priority"},
     "status:open": {"color": "0075ca", "description": "Status: open"},
     "status:in_progress": {"color": "1f6feb", "description": "Status: in progress"},
@@ -34,16 +36,7 @@ LABELS_TO_CREATE = {
     # ── Copilot Issue Dispatcher labels ────────────────────────────────────
     # Issue labels
     "queue/copilot": {"color": "7057ff", "description": "Issue is eligible for automatic Copilot processing"},
-    "in-progress/copilot": {"color": "1f6feb", "description": "Issue has been claimed by the Copilot dispatcher"},
-    # PR labels
-    "pr/copilot": {"color": "0075ca", "description": "PR created by the Copilot dispatcher"},
-    "copilot-pr": {"color": "0052cc", "description": "PR created and managed by the Copilot dispatcher (alias for pr/copilot)"},
-    "copilot/status-working": {"color": "ffc837", "description": "Copilot is actively working on this PR (counts against WIP limit)"},
-    "copilot/status-ready-requested": {"color": "a371f7", "description": "Copilot signals it is done; readiness gate will promote once CI is green"},
-    "copilot/status-ready": {"color": "10b981", "description": "Copilot work complete and all gates green; PR no longer counts against WIP limit"},
-    "copilot/status-blocked": {"color": "d73a49", "description": "Copilot cannot proceed; requires human intervention"},
-    # Agent task label
-    "agent:copilot-task": {"color": "7c3aed", "description": "PR created as a Copilot agent task (contains @Copilot agent task body)"},
+    "copilot/delegated": {"color": "1f6feb", "description": "Delegation comment posted; Copilot Coding Agent has been tasked"},
 }
 
 def create_label(name, data):

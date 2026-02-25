@@ -320,3 +320,114 @@ TEST_F(GPUQueryAcceleratorTest, ForceCPUOverridesThreshold) {
     EXPECT_EQ(acc.getStats().cpu_fallback_ops, 1u);
     EXPECT_EQ(acc.getStats().gpu_ops, 0u);
 }
+
+// ============================================================================
+// dotProduct — FP16/BF16 Tensor Core support
+// ============================================================================
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_FP32_CorrectResult) {
+    GPUQueryAccelerator acc(cpuConfig());
+    std::vector<float> a = {1.0f, 2.0f, 3.0f};
+    std::vector<float> b = {4.0f, 5.0f, 6.0f};
+    // 1*4 + 2*5 + 3*6 = 32
+    auto res = acc.dotProduct(a, b);
+    EXPECT_NEAR(res.value, 32.0, 1e-5);
+    EXPECT_EQ(res.precision_used, GPUQueryAccelerator::PrecisionMode::FP32);
+    EXPECT_EQ(acc.getStats().total_dot_products, 1u);
+    EXPECT_EQ(acc.getStats().fp16_ops, 0u);
+    EXPECT_EQ(acc.getStats().bf16_ops, 0u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_FP16_ProducesCloserResult) {
+    GPUQueryAccelerator::Config cfg = cpuConfig();
+    cfg.precision_mode = GPUQueryAccelerator::PrecisionMode::FP16;
+    GPUQueryAccelerator acc(cfg);
+
+    std::vector<float> a = {1.0f, 2.0f, 3.0f};
+    std::vector<float> b = {4.0f, 5.0f, 6.0f};
+    auto res = acc.dotProduct(a, b);
+    // FP16 round-trip of small integers is exact; result should still be 32.
+    EXPECT_NEAR(res.value, 32.0, 0.1);
+    EXPECT_EQ(res.precision_used, GPUQueryAccelerator::PrecisionMode::FP16);
+    EXPECT_EQ(acc.getStats().fp16_ops, 1u);
+    EXPECT_EQ(acc.getStats().bf16_ops, 0u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_BF16_ProducesCloseResult) {
+    GPUQueryAccelerator::Config cfg = cpuConfig();
+    cfg.precision_mode = GPUQueryAccelerator::PrecisionMode::BF16;
+    GPUQueryAccelerator acc(cfg);
+
+    std::vector<float> a = {1.0f, 2.0f, 3.0f};
+    std::vector<float> b = {4.0f, 5.0f, 6.0f};
+    auto res = acc.dotProduct(a, b);
+    EXPECT_NEAR(res.value, 32.0, 0.5);
+    EXPECT_EQ(res.precision_used, GPUQueryAccelerator::PrecisionMode::BF16);
+    EXPECT_EQ(acc.getStats().bf16_ops, 1u);
+    EXPECT_EQ(acc.getStats().fp16_ops, 0u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_FP16_PrecisionLossVisible) {
+    // Use a value that cannot be represented exactly in FP16 to verify that
+    // quantisation actually changes the result vs FP32.
+    GPUQueryAccelerator::Config cfg_fp32 = cpuConfig();
+    GPUQueryAccelerator         acc_fp32(cfg_fp32);
+
+    GPUQueryAccelerator::Config cfg_fp16 = cpuConfig();
+    cfg_fp16.precision_mode = GPUQueryAccelerator::PrecisionMode::FP16;
+    GPUQueryAccelerator acc_fp16(cfg_fp16);
+
+    // 1/3 cannot be represented exactly in FP16.
+    std::vector<float> a(64, 1.0f / 3.0f);
+    std::vector<float> b(64, 1.0f / 3.0f);
+
+    auto res32 = acc_fp32.dotProduct(a, b);
+    auto res16 = acc_fp16.dotProduct(a, b);
+
+    // Both should be close to 64/9 ≈ 7.111, but the FP16 result may differ
+    // slightly due to the limited 10-bit mantissa.
+    EXPECT_NEAR(res32.value, 64.0 / 9.0, 0.01);
+    EXPECT_NEAR(res16.value, 64.0 / 9.0, 0.5);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_BF16_PrecisionLossVisible) {
+    GPUQueryAccelerator::Config cfg_fp32 = cpuConfig();
+    GPUQueryAccelerator         acc_fp32(cfg_fp32);
+
+    GPUQueryAccelerator::Config cfg_bf16 = cpuConfig();
+    cfg_bf16.precision_mode = GPUQueryAccelerator::PrecisionMode::BF16;
+    GPUQueryAccelerator acc_bf16(cfg_bf16);
+
+    std::vector<float> a(64, 1.0f / 3.0f);
+    std::vector<float> b(64, 1.0f / 3.0f);
+
+    auto res32 = acc_fp32.dotProduct(a, b);
+    auto res16 = acc_bf16.dotProduct(a, b);
+
+    EXPECT_NEAR(res32.value, 64.0 / 9.0, 0.01);
+    EXPECT_NEAR(res16.value, 64.0 / 9.0, 0.5);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_EmptyVectors_ReturnsZero) {
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.dotProduct({}, {});
+    EXPECT_NEAR(res.value, 0.0, 1e-9);
+    EXPECT_EQ(acc.getStats().total_dot_products, 1u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_SizeMismatch_ReturnsZero) {
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.dotProduct({1.0f, 2.0f}, {3.0f});
+    EXPECT_NEAR(res.value, 0.0, 1e-9);
+}
+
+TEST_F(GPUQueryAcceleratorTest, DotProduct_UpdatesStats) {
+    GPUQueryAccelerator::Config cfg = cpuConfig();
+    cfg.precision_mode = GPUQueryAccelerator::PrecisionMode::FP16;
+    GPUQueryAccelerator acc(cfg);
+
+    acc.dotProduct({1.0f}, {2.0f});
+    acc.dotProduct({3.0f}, {4.0f});
+    EXPECT_EQ(acc.getStats().total_dot_products, 2u);
+    EXPECT_EQ(acc.getStats().fp16_ops, 2u);
+}
