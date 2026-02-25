@@ -86,10 +86,30 @@ PerQueryCostModel::getRecentRecords(size_t limit) const {
     }
 
     size_t count = std::min(limit, records_.size());
-    // Return the tail (most recent)
-    size_t start = records_.size() > count ? records_.size() - count : 0;
-    return std::vector<QueryCostRecord>(records_.begin() + static_cast<std::ptrdiff_t>(start),
-                                        records_.end());
+
+    // Has the ring buffer rolled over?
+    bool has_rolled = total_queries_.load(std::memory_order_relaxed) > MAX_RECORDS;
+
+    if (!has_rolled) {
+        // Not yet wrapped: vector is in insertion order; return the tail.
+        size_t start = records_.size() > count ? records_.size() - count : 0;
+        return std::vector<QueryCostRecord>(
+            records_.begin() + static_cast<std::ptrdiff_t>(start),
+            records_.end());
+    }
+
+    // Wrapped: write_pos_ % MAX_RECORDS is the index of the NEXT write slot.
+    // The most recently written slot is at (write_pos_ - 1) % MAX_RECORDS,
+    // the slot before that at (write_pos_ - 2) % MAX_RECORDS, etc.
+    // Return the most recent 'count' records in chronological order.
+    size_t next_write = write_pos_.load(std::memory_order_relaxed) % MAX_RECORDS;
+    std::vector<QueryCostRecord> result;
+    result.reserve(count);
+    for (size_t i = count; i > 0; --i) {
+        size_t pos = (next_write + MAX_RECORDS - i) % MAX_RECORDS;
+        result.push_back(records_[pos]);
+    }
+    return result;
 }
 
 // -----------------------------------------------------------------

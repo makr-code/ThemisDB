@@ -51,13 +51,13 @@ namespace phase3 {
  * buffer inside PerQueryCostModel.
  */
 struct QueryCostRecord {
-    std::string query_type;        ///< "table_scan", "index_scan", "join", etc.
-    uint64_t    cycles_elapsed;    ///< CPU cycles measured with RDTSCP
-    double      execution_time_ms; ///< Wall-clock duration in milliseconds
-    size_t      rows_processed;    ///< Rows touched during execution
-    size_t      pages_read;        ///< Pages fetched from storage
-    double      estimated_cost;    ///< OptimizerCostModel estimate at plan time
-    double      cost_ratio;        ///< estimated_cost / actual_cost (>1 = over-estimated)
+    std::string query_type;            ///< "table_scan", "index_scan", "join", etc.
+    uint64_t    cycles_elapsed   = 0;  ///< CPU cycles measured with RDTSCP
+    double      execution_time_ms = 0.0; ///< Wall-clock duration in milliseconds
+    size_t      rows_processed   = 0;  ///< Rows touched during execution
+    size_t      pages_read       = 0;  ///< Pages fetched from storage
+    double      estimated_cost   = 0.0; ///< OptimizerCostModel estimate at plan time
+    double      cost_ratio       = 1.0; ///< estimated_cost / actual_cost (>1 = over-estimated)
 };
 
 /**
@@ -79,7 +79,7 @@ struct QueryCostRecord {
  *
  *   // Wrap a query execution:
  *   {
- *       auto guard = pcm.beginQuery("q1", "index_scan", 42.0 /*estimated*/);
+ *       auto guard = pcm.beginQuery("index_scan", 42.0 /*estimated*/);
  *       // ... execute query ...
  *       guard.end(rows_returned, pages_read);
  *   }

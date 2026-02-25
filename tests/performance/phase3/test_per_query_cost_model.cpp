@@ -25,6 +25,7 @@
 #include "query/optimizer_cost_model.h"
 
 #include <gtest/gtest.h>
+#include <cmath>
 #include <thread>
 #include <chrono>
 
@@ -106,18 +107,25 @@ TEST_F(PerQueryCostModelTest, MultipleQueriesAccumulate) {
 // ============================================================
 
 TEST_F(PerQueryCostModelTest, RollingWindowLimitsRecords) {
-    // Fill past MAX_RECORDS
+    // Fill past MAX_RECORDS, using distinct estimated_cost to distinguish generations
     const size_t OVER = PerQueryCostModel::MAX_RECORDS + 10;
     for (size_t i = 0; i < OVER; ++i) {
-        auto guard = model.beginQuery("scan", 1.0);
+        auto guard = model.beginQuery("scan", static_cast<double>(i));
         guard.end(1, 0);
     }
 
     EXPECT_EQ(model.totalQueries(), OVER);
 
-    auto records = model.getRecentRecords(OVER + 100);
-    // The internal store is capped at MAX_RECORDS
-    EXPECT_LE(records.size(), PerQueryCostModel::MAX_RECORDS);
+    auto records = model.getRecentRecords(20);
+    // After rollover, must not exceed MAX_RECORDS in the internal store
+    EXPECT_LE(records.size(), 20u);
+    EXPECT_EQ(records.size(), 20u);
+
+    // The most recent records should have the largest estimated_cost values
+    // (i.e., from the last 20 iterations: indices OVER-20 .. OVER-1)
+    double first_expected_cost = static_cast<double>(OVER - 20);
+    EXPECT_DOUBLE_EQ(records.front().estimated_cost, first_expected_cost);
+    EXPECT_DOUBLE_EQ(records.back().estimated_cost, static_cast<double>(OVER - 1));
 }
 
 // ============================================================
@@ -183,7 +191,7 @@ TEST_F(PerQueryCostModelTest, CalibrationFactorsAfterRecords) {
 }
 
 TEST_F(PerQueryCostModelTest, CalibrateUpdatesOptimizerCostModel) {
-    // Record some rows-heavy queries
+    // Record some rows-heavy queries so that cpuCostPerRow can be derived
     for (int i = 0; i < 5; ++i) {
         auto g = model.beginQuery("table_scan", 2.0);
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -191,14 +199,18 @@ TEST_F(PerQueryCostModelTest, CalibrateUpdatesOptimizerCostModel) {
     }
 
     OptimizerCostModel ocm;
-    double original_cpu_cost = ocm.calculateCpuCost(1, 1.0); // 1 row at default rate
-
     model.calibrate(ocm);
 
-    // After calibration the model has been updated; we cannot guarantee the
-    // direction of change without knowing the exact timing, but we can verify
-    // that calibrate() completes without throwing.
-    SUCCEED();
+    // calibrate() must produce at least one calibration factor
+    auto factors = model.getCalibrationFactors();
+    EXPECT_FALSE(factors.empty());
+
+    // The calibrated model's cpuCostPerRow constant must be within sane bounds;
+    // verify by computing a cost with 1 row at cost-per-row == 1 (identity)
+    // and checking the result is positive and finite.
+    double cost = ocm.calculateCpuCost(100, ocm.calculateCpuCost(1, 1.0));
+    EXPECT_GT(cost, 0.0);
+    EXPECT_TRUE(std::isfinite(cost));
 }
 
 // ============================================================

@@ -1945,6 +1945,9 @@ endif()
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
+    # per_query_cost_model is always compiled because query_optimizer.cpp
+    # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
+    ../src/performance/phase3/per_query_cost_model.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -1973,8 +1976,7 @@ if(THEMIS_ENABLE_BAO)
 endif()
 
 if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
-    message(STATUS "Including per-query cost model integration (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
-    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/per_query_cost_model.cpp)
+    message(STATUS "Per-query cost model integration enabled (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
 endif()
 
 # Phase 4 Performance Optimizations (Issue #2424)
