@@ -71,7 +71,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp`
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
-### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
+### Phase 3: Distributed & ML-Augmented Analytics (Status: In Progress 🚧)
 - [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
 - [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
 - [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
