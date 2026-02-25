@@ -63,6 +63,15 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // Precision mode for Tensor Core-style operations (FP16/BF16)
+    // -----------------------------------------------------------------------
+    enum class PrecisionMode {
+        FP32,  ///< Full 32-bit float (default)
+        FP16,  ///< IEEE 754 half-precision (16-bit); lossy, ~3.3 decimal digits
+        BF16,  ///< bfloat16 (top 16 bits of FP32); same exponent range as FP32
+    };
+
+    // -----------------------------------------------------------------------
     // Aggregate function
     // -----------------------------------------------------------------------
     enum class AggFunc { SUM, COUNT, MIN, MAX, AVG };
@@ -103,6 +112,15 @@ public:
     struct JoinResult {
         std::vector<std::pair<Row, Row>> pairs;
         bool used_gpu = false;
+    };
+
+    // -----------------------------------------------------------------------
+    // Dot-product result (Tensor Core path)
+    // -----------------------------------------------------------------------
+    struct DotProductResult {
+        double        value          = 0.0;   ///< Computed dot product
+        PrecisionMode precision_used = PrecisionMode::FP32;
+        bool          used_gpu       = false;
     };
 
     // -----------------------------------------------------------------------
@@ -182,6 +200,25 @@ public:
                         const std::vector<Row>& right,
                         JoinKeyFn               left_key,
                         JoinKeyFn               right_key);
+
+    /**
+     * @brief Compute the dot product of two float vectors using the configured
+     *        precision mode (FP32, FP16, or BF16).
+     *
+     * In FP16/BF16 modes inputs are first quantised to the target precision
+     * then de-quantised back to float before accumulation, simulating the
+     * precision loss of Tensor Core operations on hardware that does not
+     * accumulate FP32 internally.  On real hardware this call would be
+     * replaced by a cuBLAS `cublasSgemv` (FP32), `cublasHgemm` (FP16), or
+     * `cublasGemmEx` with `CUBLAS_COMPUTE_16F` / `CUDA_R_16BF` (BF16).
+     *
+     * @param a  First operand; must be the same length as @p b.
+     * @param b  Second operand.
+     * @return   DotProductResult with `value` and the precision actually used.
+     *           Returns 0.0 on empty or size-mismatch input.
+     */
+    DotProductResult dotProduct(const std::vector<float>& a,
+                                const std::vector<float>& b);
 
     // -----------------------------------------------------------------------
     // Stats
