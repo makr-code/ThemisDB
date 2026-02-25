@@ -223,22 +223,35 @@ ITree buildITree(const FeatureMatrix& fm,
                  int height, int height_limit,
                  std::mt19937& rng) {
     ITree tree;
-    // Iterative build using a stack to avoid deep C++ recursion
-    struct Frame { std::vector<size_t> idx; int height; };
+    // Iterative build: each frame carries the parent node id and which child
+    // slot (0=left, 1=right) it should fill in, so we can write the index back
+    // once the new node is allocated.
+    struct Frame {
+        std::vector<size_t> idx;
+        int height;
+        int parent_id;  // -1 for root
+        int side;       // 0 = left, 1 = right
+    };
     std::vector<Frame> stack;
-    stack.push_back({indices, height});
+    stack.push_back({indices, height, -1, 0});
     tree.height_limit = height_limit;
 
     while (!stack.empty()) {
-        auto [idx, h] = std::move(stack.back()); stack.pop_back();
+        auto [idx, h, parent_id, side] = std::move(stack.back()); stack.pop_back();
 
+        // Allocate node; write index back to parent before building children.
+        int node_id = static_cast<int>(tree.nodes.size());
         IFNode node;
         node.size = static_cast<int>(idx.size());
-        int node_id = static_cast<int>(tree.nodes.size());
-        tree.nodes.push_back(node);  // placeholder
+        tree.nodes.push_back(node);
+
+        if (parent_id >= 0) {
+            if (side == 0) tree.nodes[static_cast<size_t>(parent_id)].left  = node_id;
+            else           tree.nodes[static_cast<size_t>(parent_id)].right = node_id;
+        }
 
         if (idx.size() <= 1 || h >= height_limit) {
-            // leaf – already a leaf (split_feature == -1)
+            // leaf – split_feature remains -1
             continue;
         }
 
@@ -273,21 +286,13 @@ ITree buildITree(const FeatureMatrix& fm,
             else               right_idx.push_back(i);
         }
 
-        int left_id  = static_cast<int>(tree.nodes.size());
-        int right_id = left_id + 1;  // will be pushed after left subtree
-
         tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
         tree.nodes[static_cast<size_t>(node_id)].split_value   = split_val;
-        tree.nodes[static_cast<size_t>(node_id)].left          = left_id;
-        tree.nodes[static_cast<size_t>(node_id)].right         = right_id;
+        // left/right child indices will be filled when those frames are processed
 
-        // Push placeholders for left and right
-        tree.nodes.push_back(IFNode{});  // left
-        tree.nodes.push_back(IFNode{});  // right
-
-        // Push subtrees (right first so left is processed first)
-        stack.push_back({std::move(right_idx), h + 1});
-        stack.push_back({std::move(left_idx),  h + 1});
+        // Push right first so left is processed first (LIFO)
+        stack.push_back({std::move(right_idx), h + 1, node_id, 1});
+        stack.push_back({std::move(left_idx),  h + 1, node_id, 0});
     }
     return tree;
 }
