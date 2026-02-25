@@ -301,7 +301,14 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
         // Default: global lat/lon bounds
         cfg.total_bounds = geo::MBR(-180.0, -90.0, 180.0, 90.0);
     }
-    
+
+    // Invalidate any stale in-memory R-tree state for this table so that a
+    // subsequent ensureRTree() rebuilds cleanly from the new (empty) index.
+    std::string table_str(table);
+    rtrees_.erase(table_str);
+    mbr_cache_.erase(table_str);
+    rtree_built_.erase(table_str);
+
     return saveConfig(table, cfg);
 }
 
@@ -316,7 +323,14 @@ SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_vi
         db_.del(key);
         return true;
     });
-    
+
+    // Clear in-memory R-tree state so stale entries are not returned if the
+    // index is recreated later.
+    std::string table_str(table);
+    rtrees_.erase(table_str);
+    mbr_cache_.erase(table_str);
+    rtree_built_.erase(table_str);
+
     return Status::OK();
 }
 

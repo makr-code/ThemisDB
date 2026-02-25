@@ -230,3 +230,25 @@ TEST_F(RTreeCpuIntegrationTest, RemoveBatch_RTreeUpdated) {
     auto res = mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0));
     EXPECT_TRUE(res.empty());
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Drop + recreate: stale R-tree must not leak into the new index
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RTreeCpuIntegrationTest, DropAndRecreate_StaleRTreeCleared) {
+    // Insert data into the original index.
+    ASSERT_TRUE(mgr_->insert(kTable, "berlin", pointSidecar(13.4, 52.5)));
+    EXPECT_EQ(mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0)).size(), 1u);
+
+    // Drop the index — must clear in-memory R-tree.
+    ASSERT_TRUE(mgr_->dropSpatialIndex(kTable));
+
+    // Recreate the index (empty) and query without inserting any new data.
+    RTreeConfig rtcfg;
+    rtcfg.total_bounds = MBR(-180.0, -90.0, 180.0, 90.0);
+    ASSERT_TRUE(mgr_->createSpatialIndex(kTable, "geometry", rtcfg));
+
+    // The new (empty) index must return no results.
+    auto res = mgr_->searchIntersects(kTable, MBR(12.0, 51.0, 15.0, 54.0));
+    EXPECT_TRUE(res.empty()) << "Stale R-tree entries leaked after drop+recreate";
+}
