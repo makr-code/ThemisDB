@@ -91,6 +91,7 @@ Automatically improve cost estimates based on actual execution statistics.
 - ✅ Learning from execution history (EMA per algorithm)
 - ✅ Per-algorithm cost model with confidence level
 - ✅ Automatic model re-calibration via `recordExecution`
+- ✅ Adaptive plan selection: `selectAlgorithm` compares estimated costs for all feasible algorithms using learned EMA data when confidence > 0
 - ✅ `exportCostModel()` / `importCostModel()` for persistence
 - ✅ Disabled when `enableAdaptiveLearning(false)` is called
 - Persistence to disk (use `exportCostModel()` + file I/O)
