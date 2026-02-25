@@ -178,8 +178,10 @@ ArrowRecordBatch::Metadata ArrowRecordBatch::getMetadata() const {
     size_t total_bytes = 0;
     for (const auto& col : columns_) {
         // Approximate size calculation
-        total_bytes += col.data.size() * 8;  // Rough estimate
+        total_bytes += col.data.size() * 8;  // Rough estimate (variant storage)
         total_bytes += col.null_bitmap.size() / 8;  // Bitmap size
+        total_bytes += col.int64_buffer.size() * sizeof(int64_t);  // Zero-copy int64 buffer
+        total_bytes += col.double_buffer.size() * sizeof(double);  // Zero-copy double buffer
     }
     meta.total_bytes = total_bytes;
     
