@@ -2528,6 +2528,8 @@ nlohmann::json AdaptiveQueryCache::getPrefetchStats() const {
     // Enrich with the hit counter maintained in enhanced_metrics_
     j["prefetch_hits_from_metrics"] = enhanced_metrics_.prefetch_hits.load();
     return j;
+}
+
 // ============================================================================
 // Phase 4: Cache Replication for High-Availability Multi-Node Deployments
 // ============================================================================
@@ -2668,6 +2670,10 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
     } catch (const std::regex_error& e) {
         THEMIS_WARN("CacheReplication: invalid pattern received from peer: {} ({})",
                     pattern, e.what());
+    }
+}
+
+// ============================================================================
 // Phase 4: Cache Replication for High-Availability
 // ============================================================================
 

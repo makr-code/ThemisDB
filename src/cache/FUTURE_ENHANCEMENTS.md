@@ -177,11 +177,11 @@ For read-heavy workloads with restart-safety requirements, L1/L2 in-memory entri
 For multi-node deployments, L1/L2 caches are node-local, causing inconsistent results after writes. Add an optional distributed coordination layer that broadcasts invalidation messages over a Redis pub/sub channel or a native ThemisDB cluster bus.
 
 **Implementation Notes:**
-- `[ ]` Create `distributed_cache_coordinator.cpp`; implement `ICacheCoordinator` interface with `publishInvalidation(key, tenant_id)` and `subscribeInvalidations(callback)`.
-- `[ ]` Redis transport: use `hiredis` async API; connect pool size configurable (`config_.redis_pool_size`, default 4).
-- `[ ]` On `AdaptiveQueryCache::invalidate()`, call `ICacheCoordinator::publishInvalidation()` if coordinator is registered.
-- `[ ]` On receiving remote invalidation, evict matching key from L1 and L2 only (L3 is shared RocksDB; skip).
-- `[ ]` Graceful degradation: if coordinator connection drops, log warning and continue with node-local invalidation only.
+- `[x]` Create `distributed_cache_coordinator.cpp`; implement `ICacheCoordinator` interface with `publishInvalidation(key, tenant_id)` and `subscribeInvalidations(callback)`.
+- `[x]` Redis transport: RESP protocol over POSIX TCP socket; connect pool size configurable (`config_.redis_pool_size`, default 4).
+- `[x]` On `AdaptiveQueryCache::invalidate()`, call `ICacheCoordinator::publishInvalidation()` if coordinator is registered.
+- `[x]` On receiving remote invalidation, evict matching key from L1 and L2 only (L3 is shared RocksDB; skip).
+- `[x]` Graceful degradation: if coordinator connection drops, log warning and continue with node-local invalidation only.
 - `[!]` Native cluster bus variant (no Redis dependency) is unclear; defer design until clustering architecture is decided.
 
 **Performance Targets:**
