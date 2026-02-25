@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers planned and recently implemented enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Features here describe the engineering work required to complete full GeoJSON spec coverage, add CUDA kernel dispatch to the GPU backend, and introduce remaining spatial operations (ST_UNION, spatial JOIN). ST_BUFFER has been implemented; entries below reflect its completed status.
+This document covers planned enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Features here describe the engineering work required to complete full GeoJSON spec coverage, add CUDA kernel dispatch to the GPU backend, and introduce new spatial operations (ST_BUFFER, spatial JOIN) that are currently planned. Note: ST_UNION and ST_DIFFERENCE are now implemented (CPU-exact backend via Greiner-Hormann; Boost backend via `boost::geometry::union_`/`difference`; GPU backend via CPU fallback; AQL functions `ST_UNION`/`ST_DIFFERENCE`).
 
 ## Design Constraints
 
@@ -15,8 +15,9 @@ This document covers planned and recently implemented enhancements to the Geospa
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `GeoBackend::stBuffer(geom, distance_m)` | AQL `GEO_BUFFER()` function, spatial JOIN planner | **Implemented**: `cpu_backend.cpp` (geodesic circle/ring expansion) and `boost_cpu_exact_backend.cpp` (Boost.Geometry buffer); GPU path delegates to CPU with audit log entry — CUDA kernel deferred to v2.1.0 |
-| `GeoBackend::stUnion(geom_a, geom_b)` | AQL `GEO_UNION()` function | CPU-only initially; GPU deferred to v2.2.0 |
+| `GeoBackend::stBuffer(geom, distance_m)` | AQL `GEO_BUFFER()` function, spatial JOIN planner | New operation; must be implemented in both `cpu_backend.cpp` and the GPU path |
+| `GeoBackend::stUnion(geom_a, geom_b)` | AQL `ST_UNION()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`union_`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
+| `GeoBackend::stDifference(geom_a, geom_b)` | AQL `ST_DIFFERENCE()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`difference`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
 | `GeoJsonParser::parseGeometryCollection()` | `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp` | Currently incomplete; must cover all seven GeoJSON geometry types per RFC 7946 |
 | `SpatialIndex::rTreeQuery(bbox)` | `cpu_backend.cpp` query planner | New R-tree index replaces linear scan for contains/intersects on large datasets |
 | `GpuKernelDispatcher::dispatch(op, geom[], n)` | `gpu_backend_stub.cpp` | New CUDA kernel entry point; stub to be replaced with real kernel in v2.1.0 |
