@@ -26,6 +26,7 @@
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 
@@ -808,6 +809,299 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Cache env-var configuration tests
+// ═══════════════════════════════════════════════════════════
+
+class CacheEnvConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::setCachingEnabled(true);
+    }
+};
+
+TEST_F(CacheEnvConfigTest, DefaultCacheTtlConstantIs300) {
+    EXPECT_EQ(ConfigPathResolver::kDefaultCacheTtlSeconds, 300);
+}
+
+TEST_F(CacheEnvConfigTest, DefaultCacheSizeConstantIs1000) {
+    EXPECT_EQ(ConfigPathResolver::kDefaultCacheSize, 1000u);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheTtlSecondsIsPositive) {
+    EXPECT_GT(ConfigPathResolver::kCacheTtlSeconds, 0);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheTtlSecondsMatchesCacheStats) {
+    // When no THEMIS_CONFIG_CACHE_TTL env var is set, kCacheTtlSeconds should
+    // equal the default (300).  The test binary is run without the env var set,
+    // so we can assert the default value here.
+    if (std::getenv("THEMIS_CONFIG_CACHE_TTL") == nullptr) {
+        EXPECT_EQ(ConfigPathResolver::kCacheTtlSeconds, ConfigPathResolver::kDefaultCacheTtlSeconds);
+    }
+}
+
+TEST_F(CacheEnvConfigTest, CacheCapacityMatchesEnvOrDefault) {
+    // When THEMIS_CONFIG_CACHE_SIZE is not set the capacity must equal the default.
+    auto stats = ConfigPathResolver::cacheStats();
+    if (std::getenv("THEMIS_CONFIG_CACHE_SIZE") == nullptr) {
+        EXPECT_EQ(stats.capacity, ConfigPathResolver::kDefaultCacheSize);
+    } else {
+        EXPECT_GT(stats.capacity, 0u);
+    }
+}
+
+TEST_F(CacheEnvConfigTest, MetricsExporterReportsTtlMatchingKCacheTtlSeconds) {
+    std::string output = ConfigMetricsExporter::collect();
+    const std::string expected = "themis_config_cache_ttl_seconds " +
+                                 std::to_string(ConfigPathResolver::kCacheTtlSeconds);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "TTL metric must match kCacheTtlSeconds. Output:\n" << output;
+}
+
+TEST_F(CacheEnvConfigTest, MetricsExporterReportsCapacityMatchingEnvOrDefault) {
+    auto stats = ConfigPathResolver::cacheStats();
+    std::string output = ConfigMetricsExporter::collect();
+    const std::string expected = "themis_config_cache_capacity " +
+                                 std::to_string(stats.capacity);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "Capacity metric must match actual cache capacity. Output:\n" << output;
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigReturnsPositiveCapacityAndTtl) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    EXPECT_GT(cfg.capacity, 0u);
+    EXPECT_GT(cfg.ttl_seconds, 0);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigMatchesCacheStats) {
+    auto cfg   = ConfigPathResolver::currentCacheConfig();
+    auto stats = ConfigPathResolver::cacheStats();
+    EXPECT_EQ(cfg.capacity, stats.capacity);
+    EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kCacheTtlSeconds);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigUsesDefaultsWhenEnvVarsAbsent) {
+    // This test is only authoritative when neither env var is set (normal test environment).
+    if (std::getenv("THEMIS_CONFIG_CACHE_SIZE") == nullptr &&
+        std::getenv("THEMIS_CONFIG_CACHE_TTL") == nullptr)
+    {
+        auto cfg = ConfigPathResolver::currentCacheConfig();
+        EXPECT_EQ(cfg.capacity, ConfigPathResolver::kDefaultCacheSize);
+        EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kDefaultCacheTtlSeconds);
+    }
+// ConfigAuditLog Tests
+// ═══════════════════════════════════════════════════════════
+
+class ConfigAuditLogTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::setAuditLogEnabled(false);
+        ConfigPathResolver::clearAuditLog();
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+
+        test_dir_ = std::filesystem::temp_directory_path() / "themisdb_audit_test";
+        std::filesystem::create_directories(test_dir_ / "config");
+    }
+
+    void TearDown() override {
+        ConfigPathResolver::setAuditLogEnabled(false);
+        ConfigPathResolver::clearAuditLog();
+        std::error_code ec;
+        std::filesystem::remove_all(test_dir_, ec);
+    }
+
+    void createFile(const std::filesystem::path& p) {
+        std::filesystem::create_directories(p.parent_path());
+        std::ofstream f(p);
+        f << "test: data\n";
+    }
+
+    std::filesystem::path test_dir_;
+};
+
+TEST_F(ConfigAuditLogTest, AuditLogEmptyByDefault) {
+    auto entries = ConfigPathResolver::auditLog();
+    EXPECT_TRUE(entries.empty());
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogDisabledByDefault_NoEntriesRecorded) {
+    // Audit logging must be disabled by default; resolutions should not record entries.
+    createFile(test_dir_ / "config" / "plain.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    ConfigPathResolver::tryResolve("config/plain.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    EXPECT_TRUE(ConfigPathResolver::auditLog().empty())
+        << "Audit log should be empty when disabled";
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogRecordsEntryWhenEnabled) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    createFile(test_dir_ / "config" / "plain.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    auto result = ConfigPathResolver::tryResolve("config/plain.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    ASSERT_TRUE(result.has_value());
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_EQ(entries[0].requested_path, "config/plain.yaml");
+    EXPECT_EQ(entries[0].resolved_path, "config/plain.yaml");
+    EXPECT_FALSE(entries[0].is_cache_hit);
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogRecordsTimestamp) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    auto before = std::chrono::system_clock::now();
+    createFile(test_dir_ / "config" / "ts_test.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    ConfigPathResolver::tryResolve("config/ts_test.yaml");
+    std::filesystem::current_path(prev_cwd);
+    auto after = std::chrono::system_clock::now();
+
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_GE(entries[0].timestamp, before);
+    EXPECT_LE(entries[0].timestamp, after);
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogMarksLegacyFallback) {
+    // Use a known legacy path (pii_patterns.yaml → config/security/pii_patterns.yaml).
+    // Only create the legacy file so the resolver falls back to it.
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    createFile(test_dir_ / "config" / "pii_patterns.yaml");
+    // Deliberately do NOT create config/security/pii_patterns.yaml.
+
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    auto result = ConfigPathResolver::tryResolve("config/pii_patterns.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    ASSERT_TRUE(result.has_value());
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 1u);
+    EXPECT_TRUE(entries[0].is_legacy) << "Entry should be flagged as legacy fallback";
+    EXPECT_FALSE(entries[0].is_cache_hit);
+    EXPECT_EQ(entries[0].resolved_path, "config/pii_patterns.yaml");
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogMarksCacheHit) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setCachingEnabled(true);
+
+    createFile(test_dir_ / "config" / "cache_hit_test.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    // First access: cache miss, no cache_hit flag
+    ConfigPathResolver::tryResolve("config/cache_hit_test.yaml");
+    // Second access: should be served from cache
+    ConfigPathResolver::tryResolve("config/cache_hit_test.yaml");
+
+    std::filesystem::current_path(prev_cwd);
+
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 2u);
+    EXPECT_FALSE(entries[0].is_cache_hit) << "First access should not be a cache hit";
+    EXPECT_TRUE(entries[1].is_cache_hit)  << "Second access should be a cache hit";
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogClearWorks) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    createFile(test_dir_ / "config" / "clear_test.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+    ConfigPathResolver::tryResolve("config/clear_test.yaml");
+    std::filesystem::current_path(prev_cwd);
+
+    ASSERT_FALSE(ConfigPathResolver::auditLog().empty());
+    ConfigPathResolver::clearAuditLog();
+    EXPECT_TRUE(ConfigPathResolver::auditLog().empty());
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogBoundedByMaxEntries) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setAuditLogMaxEntries(3);
+
+    // Create 5 distinct files and resolve each one
+    for (int i = 0; i < 5; ++i) {
+        std::string name = "file" + std::to_string(i) + ".yaml";
+        createFile(test_dir_ / "config" / name);
+        auto prev_cwd = std::filesystem::current_path();
+        std::filesystem::current_path(test_dir_);
+        ConfigPathResolver::clearCache(); // avoid cache hits masking resolution
+        ConfigPathResolver::tryResolve("config/" + name);
+        std::filesystem::current_path(prev_cwd);
+    }
+
+    auto entries = ConfigPathResolver::auditLog();
+    EXPECT_LE(entries.size(), 3u) << "Audit log should be bounded by max entries";
+}
+
+TEST_F(ConfigAuditLogTest, AuditLogNotRecordingOnFailedResolution) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    // Resolve a path that does not exist – should not produce an audit entry
+    ConfigPathResolver::tryResolve("config/nonexistent_for_audit_test.yaml");
+
+    EXPECT_TRUE(ConfigPathResolver::auditLog().empty())
+        << "Failed resolutions must not produce audit entries";
+}
+
+TEST_F(ConfigAuditLogTest, ResolveThrowingVariantRecordsAuditEntry) {
+    // resolve() (non-optional) should record an audit entry on success,
+    // since it delegates to tryResolve() internally.
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    createFile(test_dir_ / "config" / "resolve_audit_test.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    std::string resolved;
+    ASSERT_NO_THROW(resolved = ConfigPathResolver::resolve("config/resolve_audit_test.yaml"));
+
+    std::filesystem::current_path(prev_cwd);
+
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 1u)
+        << "resolve() should record an audit entry on success";
+    EXPECT_EQ(entries[0].requested_path, "config/resolve_audit_test.yaml");
+    EXPECT_EQ(entries[0].resolved_path, resolved);
+}
+
+TEST_F(ConfigAuditLogTest, ShrinkingMaxEntriesEvictsOldestFirst) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setAuditLogMaxEntries(5);
+
+    // Create and resolve 5 distinct files
+    for (int i = 0; i < 5; ++i) {
+        std::string name = "evict" + std::to_string(i) + ".yaml";
+        createFile(test_dir_ / "config" / name);
+        auto prev_cwd = std::filesystem::current_path();
+        std::filesystem::current_path(test_dir_);
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve("config/" + name);
+        std::filesystem::current_path(prev_cwd);
+    }
+    ASSERT_EQ(ConfigPathResolver::auditLog().size(), 5u);
+
+    // Reduce limit to 3 – the 2 oldest should be evicted
+    ConfigPathResolver::setAuditLogMaxEntries(3);
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 3u) << "Shrinking max_entries should evict oldest entries";
+    // The remaining entries should be the 3 most-recently added (evict2, evict3, evict4)
+    EXPECT_EQ(entries[0].requested_path, "config/evict2.yaml");
+    EXPECT_EQ(entries[2].requested_path, "config/evict4.yaml");
 // Env-var Cache Configuration Tests
 // ═══════════════════════════════════════════════════════════
 

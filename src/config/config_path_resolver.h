@@ -30,6 +30,7 @@
 #include <optional>
 #include <atomic>
 #include <chrono>
+#include "config/config_audit_log.h"
 #include <csignal>
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
@@ -49,7 +50,8 @@ namespace config {
  *   - All public methods are thread-safe for concurrent reads
  *   - The PATH_MAPPING table is const and initialized at compile-time
  *   - Metrics use atomic operations for thread-safe updates
- *   - No locks are required for read operations
+ *   - No locks are required for read operations on the PATH_MAPPING or Metrics
+ *   - ConfigAuditLog uses an internal mutex; audit recording adds a lock acquisition per resolved path when enabled
  *   - File system operations may have platform-specific thread-safety guarantees
  *   - SIGHUP handler only sets a volatile sig_atomic_t flag (async-signal-safe);
  *     the actual cache clear is performed inside tryResolve() on the calling thread
@@ -152,6 +154,11 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Effective LRU cache TTL in seconds.
+     * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
+     * variable; falls back to the default of 300 seconds (5 minutes) when the
+     * variable is absent or invalid.
+     *
      * LRU cache TTL in seconds.
      * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
      * program startup; falls back to 300 (5 minutes) when the variable is
@@ -212,6 +219,42 @@ public:
      * Default LRU cache capacity.
      * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_CAPACITY.
      */
+    static const int kCacheTtlSeconds;
+
+    /**
+     * Default LRU cache TTL in seconds (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_TTL is not set.
+     */
+    static constexpr int kDefaultCacheTtlSeconds = 300;
+
+    /**
+     * Default LRU cache capacity (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_SIZE is not set.
+     */
+    static constexpr size_t kDefaultCacheSize = 1000;
+
+    /**
+     * Snapshot of the effective cache configuration as determined at startup
+     * from environment variables (or compile-time defaults).
+     */
+    struct CacheConfig {
+        size_t capacity;   ///< Maximum number of cached entries
+        int ttl_seconds;   ///< Entry time-to-live in seconds
+    };
+
+    /**
+     * Return the active cache configuration (capacity and TTL).
+     *
+     * Values reflect what was read from the environment at program startup,
+     * or the compile-time defaults when the variables were absent or invalid.
+     * This is a pure read with no locking overhead — suitable for observability
+     * endpoints that need to confirm which values are actually in use.
+     *
+     * @return CacheConfig{capacity, ttl_seconds}
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {cacheStats().capacity, kCacheTtlSeconds};
+    }
     static constexpr int kCacheCapacity = 1000;
 
     /**
@@ -291,6 +334,41 @@ public:
      */
     static std::vector<DeprecationEntry> deprecationReport();
 
+    // ── Audit log API ────────────────────────────────────────────────────
+
+    /**
+     * Enable or disable config path audit logging.
+     *
+     * When enabled, every successful path resolution is appended to the
+     * audit log with the requested path, the resolved path, a timestamp,
+     * and flags indicating whether the result was a legacy fallback or a
+     * cache hit.  Audit logging is disabled by default.
+     *
+     * @param enabled  true to enable, false to disable.
+     */
+    static void setAuditLogEnabled(bool enabled);
+
+    /**
+     * Return a snapshot of all audit entries recorded since the last
+     * clearAuditLog() call (oldest entry first).
+     *
+     * @return Vector of AuditEntry objects.
+     */
+    static std::vector<AuditEntry> auditLog();
+
+    /**
+     * Clear all entries from the audit log.
+     */
+    static void clearAuditLog();
+
+    /**
+     * Set the maximum number of audit entries retained in memory.
+     * Entries beyond this limit are evicted oldest-first.
+     *
+     * @param max  Maximum number of entries (clamped to >= 1).
+     */
+    static void setAuditLogMaxEntries(std::size_t max);
+
 private:
     // Mapping table from legacy paths to new hierarchical paths
     static const std::map<std::string, std::string> PATH_MAPPING;
@@ -323,6 +401,8 @@ private:
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
 
+    // Audit log (records all successful path resolutions with timestamps)
+    static ConfigAuditLog audit_log_;
     // Legacy fallback rate threshold alerting
     static std::atomic<double> legacy_fallback_threshold_;
     // Fallback count at which the last threshold warning was emitted.

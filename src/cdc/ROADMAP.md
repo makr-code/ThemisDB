@@ -28,10 +28,10 @@
 - [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
-- [I] Outbox pattern support for transactional change publishing (Issue: #1612)
+- [P] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)
-- [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
+- [P] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [I] Debezium-compatible change event format (Issue: #1614)
 - [I] Cross-collection change aggregation streams (Issue: #1615)
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
@@ -55,7 +55,7 @@
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
 - [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
-- [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
+- [P] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [I] Add Debezium-compatible change event envelope format (Issue: #1621)
 - [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
 
@@ -68,7 +68,7 @@
 - [x] API stability guaranteed for changefeed and subscription APIs
 
 ## Known Issues & Limitations
-- WebSocket transport not yet implemented; SSE only
+- WebSocket transport is implemented (`cdc_ws_handler.cpp`); endpoint wiring to HTTP server is a follow-up
 - Consumer offset tracking is available via `ConsumerGroupManager`;
   full log scan is no longer required for existing groups
 - Change log retention policies are not configurable at runtime
@@ -76,9 +76,9 @@
   `ConsumerGroupManager::fetchEventsAtLeastOnce`;
   in-flight state is in-memory and resets on server restart
   (consumers resume from the last durably committed offset)
-- No consumer offset tracking; replay requires full log scan
 - At-least-once delivery is not yet guaranteed for SSE connections
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
+- Outbox relay in-flight state is in-memory; FAILED records survive restarts but PENDING records relayed-but-not-marked would be re-relayed after restart (at-least-once semantics)
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)

@@ -247,6 +247,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cdc/changefeed.cpp
     ../src/cdc/dead_letter_queue.cpp
     ../src/cdc/cdc_ws_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
 
 set(THEMIS_QUERY_SOURCES

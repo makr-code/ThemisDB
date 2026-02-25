@@ -23,6 +23,7 @@
  */
 
 #include "config/config_path_resolver.h"
+#include "config/config_audit_log.h"
 #include "config/config_errors.h"
 #include "config/path_mapping_metadata.h"
 #include <spdlog/spdlog.h>
@@ -198,6 +199,47 @@ private:
 
 namespace {
 
+/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent or out of range [10, 100000].
+size_t initCacheSize() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0') {
+            if (val >= 10 && val <= 100000) {
+                return static_cast<size_t>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_SIZE=%ld is out of range [10, 100000]; "
+                    "using default %zu\n",
+                    val, ConfigPathResolver::kDefaultCacheSize);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheSize;
+}
+
+/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent or out of range [1, 86400].
+int initCacheTtl() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0') {
+            if (val >= 1 && val <= 86400) {
+                return static_cast<int>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_TTL=%ld is out of range [1, 86400]; "
+                    "using default %d\n",
+                    val, ConfigPathResolver::kDefaultCacheTtlSeconds);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheTtlSeconds;
+}
+
+} // anonymous namespace
 /// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
 /// Valid range: [10, 100000]. Falls back to 1000 and prints a warning to
 /// stderr when the variable is absent, unparseable, or out of range.
@@ -312,6 +354,12 @@ static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
+// kCacheTtlSeconds must be defined before cache_ so the cache constructor
+// receives the correct TTL at program startup.
+const int ConfigPathResolver::kCacheTtlSeconds = initCacheTtl();
+
+ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(initCacheSize(), ConfigPathResolver::kCacheTtlSeconds); // env-configurable size and TTL
 const size_t ConfigPathResolver::kCacheSize        = readCacheSizeFromEnv();
 const int    ConfigPathResolver::kCacheTtlSeconds  = readCacheTtlFromEnv();
 
@@ -325,6 +373,7 @@ LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
 std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
+ConfigAuditLog ConfigPathResolver::audit_log_;
 std::atomic<double> ConfigPathResolver::legacy_fallback_threshold_{0.0};
 std::atomic<uint64_t> ConfigPathResolver::last_threshold_warn_count_{0};
 
@@ -1037,6 +1086,16 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         auto cached = cache_.get(normalized);
         if (cached) {
             metrics_.cache_hits++;
+            if (audit_log_.isEnabled()) {
+                // is_legacy: the path is a known legacy key AND the cached
+                // resolved path is the legacy path itself (meaning the new path
+                // was absent when first resolved, so legacy fallback was used).
+                bool is_legacy = isLegacyPath(normalized) && (*cached == normalized);
+                audit_log_.record({legacy_path, *cached,
+                    std::chrono::system_clock::now(), is_legacy, true});
+                spdlog::trace("[CONFIG AUDIT] path='{}' resolved='{}' legacy={} cache_hit=true",
+                              legacy_path, *cached, is_legacy);
+            }
             return *cached;
         }
         metrics_.cache_misses++;
@@ -1052,6 +1111,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     // Try new path first
     std::string new_path = mapLegacyToNew(normalized);
     std::string resolved_path;
+    bool was_legacy_fallback = false;
     
     if (!new_path.empty() && std::filesystem::exists(new_path)) {
         if (normalized != new_path) {
@@ -1066,6 +1126,7 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         if (!new_path.empty() && new_path != normalized) {
             // Track usage for aggregation report
             aggregator_.incrementUsage(normalized);
+            was_legacy_fallback = true;
 
             if (!aggregation_enabled_.load()) {
                 // Per-call warning (only when aggregation is disabled)
@@ -1099,7 +1160,15 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     if (caching_enabled_.load()) {
         cache_.put(normalized, resolved_path);
     }
-    
+
+    // Record audit entry for this successful resolution
+    if (audit_log_.isEnabled()) {
+        audit_log_.record({legacy_path, resolved_path,
+            std::chrono::system_clock::now(), was_legacy_fallback, false});
+        spdlog::trace("[CONFIG AUDIT] path='{}' resolved='{}' legacy={} cache_hit=false",
+                      legacy_path, resolved_path, was_legacy_fallback);
+    }
+
     return resolved_path;
 }
 
@@ -1313,6 +1382,24 @@ std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
     return new_path.substr(first_slash + 1, second_slash - first_slash - 1);
 }
 
+void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
+    if (enabled) {
+        audit_log_.enable();
+    } else {
+        audit_log_.disable();
+    }
+}
+
+std::vector<AuditEntry> ConfigPathResolver::auditLog() {
+    return audit_log_.getEntries();
+}
+
+void ConfigPathResolver::clearAuditLog() {
+    audit_log_.clear();
+}
+
+void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
+    audit_log_.setMaxEntries(max);
 // ═══════════════════════════════════════════════════════════
 // SIGHUP Hot-Reload
 // ═══════════════════════════════════════════════════════════
