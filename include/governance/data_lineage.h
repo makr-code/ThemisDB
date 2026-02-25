@@ -16,9 +16,9 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <optional>
 #include <memory>
 #include <mutex>
+#include <atomic>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
@@ -47,8 +47,8 @@ std::string lineageEventTypeToString(LineageEventType type);
 struct LineageEvent {
     std::string event_id;           ///< Unique event identifier (UUID or sequence)
     std::string dataset_id;         ///< The governed dataset this event belongs to
-    LineageEventType event_type;    ///< Kind of operation
-    int64_t timestamp_ms;           ///< Unix epoch time in milliseconds
+    LineageEventType event_type{LineageEventType::INGESTION};  ///< Kind of operation
+    int64_t timestamp_ms{0};           ///< Unix epoch time in milliseconds
 
     std::string performed_by;       ///< User or service that triggered the operation
     std::string operation;          ///< Free-form operation description
