@@ -57,10 +57,10 @@ ThemisDB is a **multi-model database** (scientific research) that combines relat
 
 ## 📚 Module Documentation
 
-ThemisDB has **comprehensive documentation for all 39 modules** (139 files total) with production-ready standards:
+ThemisDB has **comprehensive documentation for all 44 modules** (139 files total) with production-ready standards:
 
 <details>
-<summary><b>🏗️ Foundation Layer</b> (6 modules)</summary>
+<summary><b>🏗️ Foundation Layer</b> (7 modules)</summary>
 
 - **[Core](src/core/README.md)** - ConcernsContext DI framework, ILogger/ITracer/IMetrics/ICache interfaces, adapter implementations ([Future Enhancements](src/core/FUTURE_ENHANCEMENTS.md))
 - **[Storage](src/storage/README.md)** - RocksDB MVCC wrapper, 7 blob backends (S3/Azure/GCS/MinIO/local/memory/hybrid), backup/PITR ([Future Enhancements](src/storage/FUTURE_ENHANCEMENTS.md))
@@ -68,6 +68,7 @@ ThemisDB has **comprehensive documentation for all 39 modules** (139 files total
 - **[Themis](src/themis/README.md)** - Core framework, module loading with X.509/GPG signatures, edition management ([Future Enhancements](src/themis/FUTURE_ENHANCEMENTS.md))
 - **[Base](src/base/README.md)** - Base utilities and common infrastructure ([Future Enhancements](src/base/FUTURE_ENHANCEMENTS.md))
 - **[Utils](src/utils/README.md)** - General utility functions and helpers ([Future Enhancements](src/utils/FUTURE_ENHANCEMENTS.md))
+- **[Config](src/config/README.md)** - Backward-compatible config path resolution, LRU caching, JSON Schema validation, Prometheus metrics ([Future Enhancements](src/config/FUTURE_ENHANCEMENTS.md))
 
 </details>
 
@@ -103,12 +104,14 @@ ThemisDB has **comprehensive documentation for all 39 modules** (139 files total
 </details>
 
 <details>
-<summary><b>🧠 Intelligence Layer</b> (4 modules)</summary>
+<summary><b>🧠 Intelligence Layer</b> (6 modules)</summary>
 
 - **[RAG](src/rag/README.md)** - 23 components: RAG Judge (faithfulness/relevance/completeness), Knowledge Gap Detector, LLM Bridge, Bias Detector ([Future Enhancements](src/rag/FUTURE_ENHANCEMENTS.md))
 - **[LLM](src/llm/README.md)** - LLM integration framework with llama.cpp ([Future Enhancements](src/llm/FUTURE_ENHANCEMENTS.md))
 - **[Analytics](src/analytics/README.md)** - OLAP (CUBE/ROLLUP), process mining, CEP, SIMD vectorization (4.5x-6.9x speedup) ([Future Enhancements](src/analytics/FUTURE_ENHANCEMENTS.md))
 - **[Voice](src/voice/README.md)** - NLU pipeline (STT→LLM→TTS), speaker diarization, meeting protocols ([Future Enhancements](src/voice/FUTURE_ENHANCEMENTS.md))
+- **[Prompt Engineering](src/prompt_engineering/README.md)** - Prompt template lifecycle (CRUD, versioning, A/B testing), self-improvement orchestrator, injection detection ([Future Enhancements](src/prompt_engineering/FUTURE_ENHANCEMENTS.md))
+- **[Training](src/training/README.md)** - Domain-specific LLM fine-tuning: auto-labeling, incremental LoRA adapter training, knowledge graph enrichment ([Future Enhancements](src/training/FUTURE_ENHANCEMENTS.md))
 
 </details>
 
@@ -123,12 +126,13 @@ ThemisDB has **comprehensive documentation for all 39 modules** (139 files total
 </details>
 
 <details>
-<summary><b>🔄 Data Integration</b> (4 modules)</summary>
+<summary><b>🔄 Data Integration</b> (5 modules)</summary>
 
 - **[Importers](src/importers/README.md)** - Data import from various sources ([Future Enhancements](src/importers/FUTURE_ENHANCEMENTS.md))
 - **[Exporters](src/exporters/README.md)** - Data export to multiple formats ([Future Enhancements](src/exporters/FUTURE_ENHANCEMENTS.md))
 - **[CDC](src/cdc/README.md)** - Change Data Capture for real-time data replication ([Future Enhancements](src/cdc/FUTURE_ENHANCEMENTS.md))
 - **[Plugins](src/plugins/README.md)** - Plugin system for extensibility ([Future Enhancements](src/plugins/FUTURE_ENHANCEMENTS.md))
+- **[Ingestion](src/ingestion/README.md)** - Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing, quarantine queue ([Future Enhancements](src/ingestion/FUTURE_ENHANCEMENTS.md))
 
 </details>
 
