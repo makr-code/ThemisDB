@@ -118,6 +118,13 @@ public:
         /// Maximum worker threads for parallel BFS (0 = use hardware_concurrency/2,
         /// clamped to [2, 16]).  Ignored when enable_parallel = false.
         uint32_t num_threads = 0;
+        /// When true, route BFS/DFS through the GPU-accelerated traversal path
+        /// (GPUGraphTraversal) for large graphs.  Automatically falls back to
+        /// the CPU path when no GPU hardware is available or when the graph is
+        /// smaller than GPUGraphTraversal::Config::min_vertices_for_gpu.
+        bool use_gpu = false;
+        /// GPU device index (0-based) used when use_gpu = true.
+        int gpu_device = 0;
         
         QueryConstraints() = default;
     };

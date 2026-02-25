@@ -67,7 +67,7 @@
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
-- [ ] GPU-accelerated BFS/DFS for massive graphs
+- [~] GPU-accelerated BFS/DFS for massive graphs
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)

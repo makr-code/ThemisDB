@@ -833,6 +833,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )
 

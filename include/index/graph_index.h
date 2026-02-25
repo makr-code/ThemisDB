@@ -272,6 +272,12 @@ public:
     // Optional: provide FieldEncryption for encrypting sensitive edge fields
     void setFieldEncryption(std::shared_ptr<class FieldEncryption> fe) { field_encryption_ = fe; }
 
+    // Returns a deduplicated list of all vertex IDs present in the in-memory
+    // topology (union of source vertices in outEdges_ and target vertices in
+    // inEdges_).  Returns an empty vector when the topology has not been
+    // populated yet.
+    std::pair<Status, std::vector<std::string>> allVertices() const;
+
 private:
     RocksDBWrapper& db_;
 

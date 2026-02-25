@@ -642,6 +642,15 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 	return nodes.size();
 }
 
+std::pair<GraphIndexManager::Status, std::vector<std::string>>
+GraphIndexManager::allVertices() const {
+	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::unordered_set<std::string> seen;
+	for (const auto& [v, _] : outEdges_) seen.insert(v);
+	for (const auto& [v, _] : inEdges_)  seen.insert(v);
+	return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
+}
+
 size_t GraphIndexManager::getTopologyEdgeCount() const {
 	std::lock_guard<std::mutex> lock(topology_mutex_);
 	size_t total = 0;
