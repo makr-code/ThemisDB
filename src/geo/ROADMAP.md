@@ -40,8 +40,8 @@
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
 - [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
 - [x] Temporal-spatial queries (location at time T) (Issue: #1746)
-- [I] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
-- [I] Tile server integration for map visualization (Issue: #1748)
+- [x] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
+- [x] Tile server integration for map visualization (Issue: #1748)
 
 ## Implementation Phases
 
@@ -74,8 +74,9 @@
 
 ## Known Issues & Limitations
 - ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU path; dedicated CUDA kernels for these set operations are deferred to v2.2.0
-- ROCm/HIP geo kernel dispatch requires `THEMIS_ENABLE_HIP=ON` and a ROCm runtime installation; it is not enabled by default
-- Temporal-spatial distance queries use a linear scan over alive rows; R-tree acceleration for radius queries is deferred to a future release
+- ROCm/HIP geo kernel dispatch is implemented (`THEMIS_GEO_HIP`); requires `THEMIS_ENABLE_HIP=ON` and ROCm runtime
+- DBSCAN and k-means clustering use O(n²) brute-force distance computation; spatial-index acceleration is deferred to a future release
+- Clustering is CPU-only; no GPU-accelerated path exists yet for `dbscanCluster` or `kmeansCluster`
 
 ## Breaking Changes
 - GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates

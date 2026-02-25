@@ -72,6 +72,11 @@ function(themis_add_module MODULE_NAME)
         target_compile_definitions(themis_${MODULE_NAME} PRIVATE MI_SHARED_LIB=1 MI_SHARED_LIB_EXPORT=0)
     endif()
     
+    # jemalloc compile definitions for all modules
+    if(THEMIS_ENABLE_JEMALLOC)
+        target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_ENABLE_JEMALLOC)
+    endif()
+    
     # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols
     if(MSVC)
         set_target_properties(themis_${MODULE_NAME} PROPERTIES
@@ -804,6 +809,7 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
+    ../src/geo/geo_clustering.cpp
     ../src/gpu/device_discovery.cpp
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
@@ -912,6 +918,13 @@ function(themis_build_modular)
     endif()
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         list(APPEND _themis_security_deps mimalloc)
+    endif()
+    if(THEMIS_ENABLE_JEMALLOC)
+        if(TARGET jemalloc::jemalloc)
+            list(APPEND _themis_security_deps jemalloc::jemalloc)
+        elseif(jemalloc_LIBRARIES)
+            list(APPEND _themis_security_deps ${jemalloc_LIBRARIES})
+        endif()
     endif()
     if(WIN32)
         list(APPEND _themis_security_deps Secur32)
@@ -1037,6 +1050,13 @@ function(themis_build_modular)
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)
         endif()
+        if(THEMIS_ENABLE_JEMALLOC)
+            if(TARGET jemalloc::jemalloc)
+                target_link_libraries(themis_llm PUBLIC jemalloc::jemalloc)
+            elseif(jemalloc_LIBRARIES)
+                target_link_libraries(themis_llm PUBLIC ${jemalloc_LIBRARIES})
+            endif()
+        endif()
         if(TARGET llama)
             target_link_libraries(themis_llm PUBLIC llama)
         elseif(llama_LIBRARIES)
@@ -1127,8 +1147,13 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         target_link_libraries(themis_storage PUBLIC mimalloc)
     endif()
-    
-    # Create convenience variable for all modules to link against
+    if(THEMIS_ENABLE_JEMALLOC)
+        if(TARGET jemalloc::jemalloc)
+            target_link_libraries(themis_storage PUBLIC jemalloc::jemalloc)
+        elseif(jemalloc_LIBRARIES)
+            target_link_libraries(themis_storage PUBLIC ${jemalloc_LIBRARIES})
+        endif()
+    endif()
     set(THEMIS_ALL_MODULES
         themis_base
         themis_storage
