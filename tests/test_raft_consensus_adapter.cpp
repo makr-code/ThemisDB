@@ -427,3 +427,20 @@ TEST_F(RaftConsensusAdapterTest, GetStatus_IncludesSnapshotFields) {
 
     adapter.stop();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getStatus includes joint-consensus field (audit fix)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RaftConsensusAdapterTest, GetStatus_IncludesJointConsensusField) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    auto status = adapter.getStatus();
+    // Field must exist and must be false when no membership change is in progress
+    ASSERT_TRUE(status.contains("is_joint_consensus"));
+    EXPECT_FALSE(status["is_joint_consensus"].get<bool>());
+
+    adapter.stop();
+}
