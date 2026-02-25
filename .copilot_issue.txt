@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2280 – [search] Distributed search across shards with result merging
+**URL:** https://github.com/makr-code/ThemisDB/issues/2280
+**Branch:** copilot/issue-2280-search-distributed-search-across-shards-with-resul
+**Base:** develop
+**Created:** 2026-02-25T14:52:48.923Z
+
+Copilot will push real changes here to resolve the issue.
