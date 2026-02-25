@@ -662,6 +662,29 @@ ReplicationStream::ReplicationStream(
     follower_info_.role = ReplicationRole::FOLLOWER;
     follower_info_.last_applied_sequence = 0;
     follower_info_.last_heartbeat = std::chrono::system_clock::now();
+
+    // Build compressed stream if WAL compression is enabled
+    if (config_.enable_wal_compression) {
+        CompressedReplicationStream::CompressionConfig cc;
+        cc.compression_level    = config_.wal_compression_level;
+        cc.min_batch_size       = static_cast<uint32_t>(config_.wal_compression_min_batch_bytes);
+
+        const auto& algo = config_.wal_compression_algorithm;
+        if (algo == "lz4") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::LZ4;
+        } else if (algo == "snappy") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::SNAPPY;
+        } else if (algo == "auto") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+        } else if (algo == "none") {
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
+        } else {
+            // Default (including "zstd" and unknown values) → ZSTD
+            cc.algorithm = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+        }
+
+        compressed_stream_ = std::make_unique<CompressedReplicationStream>(follower_endpoint, cc);
+    }
 }
 
 ReplicationStream::~ReplicationStream() {
@@ -725,8 +748,14 @@ uint32_t ReplicationStream::computeBackoffMs() const {
 }
 
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // In a real implementation, this would serialize entries and send them over
-    // a mTLS connection to the follower endpoint, then wait for acknowledgement.
+    // When WAL compression is configured, delegate to CompressedReplicationStream
+    // which serialises, compresses (Zstd/LZ4/Snappy), and ships the batch.
+    if (compressed_stream_) {
+        return compressed_stream_->sendBatch(entries);
+    }
+
+    // Uncompressed path: in a real deployment this would serialise the entries
+    // and transmit them via the mTLS connection to the follower endpoint.
     // The retry/backoff logic is managed by the caller (streamLoop).
     (void)entries;
     return true;
@@ -1567,6 +1596,13 @@ bool ReplicationManager::validateConfig() {
             "leader_lease_duration_ms ({}) must be strictly less than "
             "election_timeout_min_ms ({}) to guarantee linearizability",
             config_.leader_lease_duration_ms, config_.election_timeout_min_ms);
+        return false;
+    }
+
+    if (config_.enable_wal_compression &&
+        (config_.wal_compression_level < 1 || config_.wal_compression_level > 9)) {
+        THEMIS_ERROR("wal_compression_level must be 1-9 when WAL compression is enabled, got {}",
+                     config_.wal_compression_level);
         return false;
     }
 
