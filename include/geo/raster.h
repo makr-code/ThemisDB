@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <limits>
-#include <string>
 #include <vector>
 
 namespace themis {

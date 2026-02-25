@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions. Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -28,7 +28,7 @@
 - [x] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
 - [x] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
 - [x] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
-- [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
+- [x] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
 - [x] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
@@ -59,7 +59,7 @@
 - [x] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
 - [P] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
 - [P] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
-- [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
+- [x] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
@@ -73,7 +73,6 @@
 - CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
 - ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
 - ROCm/HIP support is not available
-- Raster data queries (`sampleAt` bilinear interpolation, `queryBBox` sub-raster extraction, and `generateHeatmap` Gaussian KDE) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`.
 
 ## Breaking Changes
 - GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates
