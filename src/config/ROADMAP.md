@@ -34,7 +34,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
 - [I] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
 - [I] Config audit trail: log which paths were accessed and when (Issue: #1668)
-- [I] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
+- [x] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## Implementation Phases
 
@@ -55,11 +55,11 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Complete `METADATA_TABLE` entries for all 60+ mapped paths in `config/path_mapping_metadata.h` (Issue: #1676)
 - [I] Harden absolute path validation to reject symlinks outside the config root (Issue: #1677)
 
-### Phase 4: Tooling and Observability (Status: Planned)
+### Phase 4: Tooling and Observability (Status: In Progress)
 - [x] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
 - [I] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
 - [I] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
-- [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
+- [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673, implemented in #1669)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1674)

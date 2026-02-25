@@ -631,6 +631,42 @@ TEST_F(ConfigEnvOverlayTest, SetAndGetEnvironmentRoundTrip) {
     EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::PROD);
 }
 
+TEST_F(ConfigEnvOverlayTest, UnmappedPathInDevDoesNotProbeOverlay) {
+    // An unmapped path (not in PATH_MAPPING) should not be probed via the
+    // overlay root; it should just be checked at its own path.
+    createFile("config/custom_unmapped.yaml");
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto result = ConfigPathResolver::tryResolve("config/custom_unmapped.yaml");
+
+    // The unmapped file exists at the literal path; it should be found directly
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/custom_unmapped.yaml");
+}
+
+TEST_F(ConfigEnvOverlayTest, ResolveErrorMessageIncludesOverlayPathInDevEnv) {
+    // When resolution fails in a non-prod env, the ConfigNotFoundException's
+    // attempted_paths list should include the overlay path so operators can
+    // understand what was tried.
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+
+    try {
+        ConfigPathResolver::resolve("config/lora_training_config.yaml");
+        FAIL() << "Expected ConfigNotFoundException";
+    } catch (const ConfigNotFoundException& e) {
+        const auto& attempted = e.attempted_paths();
+        bool found_overlay = false;
+        for (const auto& p : attempted) {
+            if (p.find("config/dev/") != std::string::npos) {
+                found_overlay = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_overlay)
+            << "ConfigNotFoundException should list the dev overlay path as attempted";
+    }
+}
+
 // ═══════════════════════════════════════════════════════════
 // ConfigMetricsExporter Tests
 // ═══════════════════════════════════════════════════════════

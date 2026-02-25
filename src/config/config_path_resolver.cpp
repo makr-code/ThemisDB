@@ -345,7 +345,18 @@ std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     std::vector<std::string> attempted_paths;
     std::string normalized = normalizePath(legacy_path);
     std::string new_path = mapLegacyToNew(normalized);
-    
+    ConfigEnvironment env = current_env_.load();
+
+    // Include the overlay path in the error message when a non-prod environment is active
+    if (env != ConfigEnvironment::PROD && !new_path.empty() && new_path != normalized) {
+        std::string relative_part = new_path;
+        const std::string config_prefix = "config/";
+        if (relative_part.starts_with(config_prefix)) {
+            relative_part = relative_part.substr(config_prefix.size());
+        }
+        attempted_paths.push_back("config/" + envToString(env) + "/" + relative_part);
+    }
+
     if (!new_path.empty() && new_path != normalized) {
         attempted_paths.push_back(new_path);
     }
