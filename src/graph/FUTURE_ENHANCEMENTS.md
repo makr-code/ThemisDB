@@ -255,6 +255,8 @@ Extend PathConstraints with more sophisticated constraint types.
 **Features:**
 - **Node Property Constraints** ✅ DONE – `addNodePropertyConstraint(key, value)` prunes BFS traversal
 - **Weight Constraints** ✅ DONE – `addMaxWeight(threshold)` prunes BFS; `addMinWeight(threshold)` rejects at acceptance
+- **Schema-Aware Node Label Hints** ✅ DONE – `QueryConstraints::node_labels` filters BFS/DFS by `_labels` field
+- **Excluded Edge Type Hints** ✅ DONE – `QueryConstraints::excluded_edge_types` reduces cost-model fanout estimate
 - **Temporal Constraints**: Path valid at specific time ⏳ Planned
 - **Probability Constraints**: Min probability for uncertain graphs ⏳ Planned
 - **Resource Constraints**: Capacity limits on paths ⏳ Planned
@@ -570,6 +572,7 @@ Process graphs as streams of edge insertions/deletions.
 3. ✅ Advanced Constraint Types
 4. ✅ Latency Histogram & Prometheus Scrape Endpoint
 5. ✅ Query Rate Limiter (per-second budget, ERR_GRAPH_RATE_LIMIT_EXCEEDED)
+6. ✅ Property Graph Schema-Aware Optimizer Hints (Issue: #1819)
 
 **v1.8.0 (Q1 2027):**
 1. Distributed Graph Queries
@@ -586,7 +589,54 @@ Process graphs as streams of edge insertions/deletions.
 
 ## Implemented Features (v1.7.0)
 
-### Query Timeout / SLO Enforcement ✅ DONE
+### Property Graph Schema-Aware Optimizer Hints ✅ DONE
+
+`QueryConstraints::node_labels` and `QueryConstraints::excluded_edge_types` allow
+callers to embed property-graph schema information directly in a query so that the
+optimizer can choose a more accurate cost estimate and the traversal runtime can
+prune the search space accordingly.
+
+**node_labels** (OR semantics): only visit nodes that carry at least one of the
+listed labels (matched against the comma-separated `_labels` field stored on each
+node entity by `PropertyGraphManager`).
+
+**excluded_edge_types**: cost-model hint that reduces the estimated edge fanout by
+the fraction represented by each excluded type (uses `edge_type_selectivity` from
+`GraphStatistics`).
+
+`setNodeLabelStats(label_counts)` lets callers supply per-label node counts so that
+the optimizer can derive label selectivity automatically and apply it during
+`estimateCost`.
+
+```cpp
+// Register schema statistics (e.g. loaded from PropertyGraphManager)
+optimizer.setNodeLabelStats({{"Person", 400}, {"Company", 100}});
+// → Person selectivity = 400/total_nodes, Company = 100/total_nodes
+
+// Restrict BFS to Person nodes only
+GraphQueryOptimizer::QueryConstraints c;
+c.node_labels = {"Person"};       // only traverse Person-labeled nodes
+c.excluded_edge_types = {"DEPRECATED"};  // cost model reduces fanout
+
+auto plan = optimizer.optimizeShortestPath("alice", "bob", c);
+// plan.active_schema_hints describes the active hints
+// plan.explanation includes "Schema Hints Active:" section
+
+auto result = optimizer.executeBFS("alice", 3, c);
+// BFS skips neighbors without a "Person" label in their _labels field
+```
+
+**Key design decisions:**
+- `node_labels` filtering is applied only to *outgoing neighbors*, never to the
+  explicitly provided start vertex (which is controlled by the caller).
+- `nodeMatchesLabels` performs whole-token matching so "Person" never accidentally
+  matches "SuperPerson".
+- When a label is not present in `node_label_selectivity`, a conservative default
+  selectivity of 0.5 is applied to cost estimation.
+- Schema hints are included in both exact and structural plan-cache keys so that
+  queries with different hints never share a cached plan.
+
+
 
 `QueryConstraints::timeout_ms` – when set to a non-zero value BFS and DFS
 traversals abort after the given number of milliseconds and return

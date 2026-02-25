@@ -94,6 +94,12 @@ public:
         // Edge type statistics
         std::unordered_map<std::string, size_t> edge_type_counts;
         std::unordered_map<std::string, double> edge_type_selectivity;
+
+        // Node label statistics for schema-aware cost estimation.
+        // node_label_counts["Person"] = number of nodes with label "Person".
+        // node_label_selectivity["Person"] = fraction of all nodes with that label [0,1].
+        std::unordered_map<std::string, size_t> node_label_counts;
+        std::unordered_map<std::string, double> node_label_selectivity;
     };
 
     /**
@@ -118,6 +124,23 @@ public:
         /// Maximum worker threads for parallel BFS (0 = use hardware_concurrency/2,
         /// clamped to [2, 16]).  Ignored when enable_parallel = false.
         uint32_t num_threads = 0;
+
+        // -----------------------------------------------------------------------
+        // Property-graph schema-aware optimizer hints
+        // -----------------------------------------------------------------------
+
+        /// Node label hints: only traverse (and include in results) nodes that
+        /// carry at least one of these labels.  Labels are matched against the
+        /// comma-separated "_labels" field stored on each node entity by
+        /// PropertyGraphManager.  OR semantics – a node is kept when it has ANY
+        /// of the listed labels.  Empty = no label filtering (default).
+        std::vector<std::string> node_labels;
+
+        /// Edge type exclusions: during cost estimation these type strings are
+        /// subtracted from the effective edge fanout, reducing the estimated
+        /// search space.  Types are matched against the "_type" field of edge
+        /// entities.  Empty = no type exclusions (default).
+        std::vector<std::string> excluded_edge_types;
         
         QueryConstraints() = default;
     };
@@ -278,6 +301,12 @@ public:
         
         // Alternative plans considered
         std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
+
+        /// Human-readable descriptions of active schema hints (node labels,
+        /// excluded edge types, etc.) that influenced cost estimation and
+        /// algorithm selection.  Populated during plan construction; empty when
+        /// no schema hints are provided.
+        std::vector<std::string> active_schema_hints;
     };
 
     /**
@@ -417,6 +446,19 @@ public:
      * Get current graph statistics
      */
     const GraphStatistics& getStatistics() const { return statistics_; }
+
+    /**
+     * @brief Provide per-label node counts for schema-aware cost estimation.
+     *
+     * Callers may supply label statistics obtained from PropertyGraphManager
+     * (e.g. via `getNodesByLabel`) so that the optimizer can apply label
+     * selectivity when `QueryConstraints::node_labels` is set.
+     *
+     * @param label_counts Map from label string to absolute node count with that label.
+     *                     The optimizer derives selectivity automatically using the
+     *                     current `statistics_.vertex_count`.
+     */
+    void setNodeLabelStats(const std::unordered_map<std::string, size_t>& label_counts);
 
     /**
      * Estimate selectivity for edge type

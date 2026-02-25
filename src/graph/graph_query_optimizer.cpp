@@ -46,6 +46,61 @@
 namespace themis {
 namespace graph {
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Schema-aware helper: check whether a node's comma-separated "_labels" field
+// contains at least one of the required labels (OR semantics).
+// Returns true when required_labels is empty (no filtering) or when the node's
+// label string includes any of the entries in required_labels.
+// ─────────────────────────────────────────────────────────────────────────────
+static bool nodeMatchesLabels(GraphIndexManager& mgr,
+                               const std::string& node_id,
+                               const std::vector<std::string>& required_labels) {
+    if (required_labels.empty()) return true;
+    auto labels_opt = mgr.getNodeField(node_id, "_labels");
+    if (!labels_opt.has_value() || labels_opt->empty()) return false;
+    const std::string& labels_str = *labels_opt;
+    for (const auto& lbl : required_labels) {
+        // Match whole label tokens in the comma-separated list
+        // e.g. "Person,Employee" contains "Person" but not "son"
+        std::string::size_type pos = 0;
+        while ((pos = labels_str.find(lbl, pos)) != std::string::npos) {
+            // Verify it is a complete token (preceded by start-of-string or ',')
+            bool valid_start = (pos == 0) || (labels_str[pos - 1] == ',');
+            // Verify it is a complete token (followed by end-of-string or ',')
+            std::string::size_type end = pos + lbl.size();
+            bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
+            if (valid_start && valid_end) return true;
+            pos = end;
+        }
+    }
+    return false;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Schema-aware helper: populate active_schema_hints in an OptimizationPlan
+// from QueryConstraints.
+// ─────────────────────────────────────────────────────────────────────────────
+static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
+                              const GraphQueryOptimizer::QueryConstraints& constraints) {
+    if (!constraints.node_labels.empty()) {
+        std::string hint = "Node labels (OR): ";
+        for (size_t i = 0; i < constraints.node_labels.size(); ++i) {
+            if (i > 0) hint += ", ";
+            hint += constraints.node_labels[i];
+        }
+        plan.active_schema_hints.push_back(std::move(hint));
+    }
+    if (!constraints.excluded_edge_types.empty()) {
+        std::string hint = "Excluded edge types: ";
+        for (size_t i = 0; i < constraints.excluded_edge_types.size(); ++i) {
+            if (i > 0) hint += ", ";
+            hint += constraints.excluded_edge_types[i];
+        }
+        plan.active_schema_hints.push_back(std::move(hint));
+    }
+}
+
+
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
     // Initialize with basic statistics
@@ -129,6 +184,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     // Determine if parallel execution is beneficial; caller can also force it on
     plan.enable_parallel = constraints.enable_parallel ||
                            shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+
+    // Populate schema hint metadata before generating explanation
+    applySchemaHints(plan, constraints);
     
     // Generate explanation
     plan.explanation = explainPlan(plan);
@@ -187,7 +245,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     plan.enable_early_termination = true; // Stop at depth k
     plan.enable_parallel = constraints.enable_parallel ||
                            shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
-    
+
+    applySchemaHints(plan, constraints);
     plan.explanation = explainPlan(plan);
 
     // Store under structural key for reuse across different start vertices
@@ -243,7 +302,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
     plan.use_cache = false; // Cache not helpful for pattern matching
     plan.enable_early_termination = true; // Stop when pattern found
     plan.enable_parallel = false; // Pattern matching doesn't parallelize well
-    
+
+    applySchemaHints(plan, constraints);
     plan.explanation = explainPlan(plan);
 
     if (plan_caching_enabled_) {
@@ -307,7 +367,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     plan.enable_early_termination = true; // Stop as soon as path found
     plan.enable_parallel = constraints.enable_parallel ||
                            shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
-    
+
+    applySchemaHints(plan, constraints);
     plan.explanation = explainPlan(plan);
 
     // Cache under both exact and structural keys
@@ -514,6 +575,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                     if (std::find(constraints.forbidden_vertices.begin(),
                                   constraints.forbidden_vertices.end(), nb) !=
                         constraints.forbidden_vertices.end()) continue;
+                    // Schema hint: skip nodes that do not carry a required label
+                    if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
                     visited.insert(nb);
                     next_frontier.push_back(nb);
                 }
@@ -552,6 +615,9 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                         }
                         cr.edges_seen += neighbors.size();
                         for (const auto& nb : neighbors) {
+                            // Schema hint: filter by node labels in the parallel task
+                            // (read-only access to graph_manager_ is safe across threads)
+                            if (!nodeMatchesLabels(graph_manager_, nb, constraints.node_labels)) continue;
                             cr.neighbors.push_back(nb);
                         }
                     }
@@ -670,6 +736,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         
         for (const auto& neighbor : neighbors) {
             if (visited.find(neighbor) == visited.end()) {
+                // Schema hint: skip nodes that do not carry a required label
+                if (!nodeMatchesLabels(graph_manager_, neighbor, constraints.node_labels)) continue;
                 stack.push_back({neighbor, depth + 1});
             }
         }
@@ -1195,6 +1263,18 @@ double GraphQueryOptimizer::estimateEdgeTypeSelectivity(std::string_view edge_ty
     return 1.0; // Default: no filtering
 }
 
+void GraphQueryOptimizer::setNodeLabelStats(
+    const std::unordered_map<std::string, size_t>& label_counts) {
+    statistics_.node_label_counts = label_counts;
+    statistics_.node_label_selectivity.clear();
+    if (statistics_.vertex_count == 0) return;
+    const double total = static_cast<double>(statistics_.vertex_count);
+    for (const auto& [label, count] : label_counts) {
+        statistics_.node_label_selectivity[label] =
+            std::max(0.0, std::min(1.0, static_cast<double>(count) / total));
+    }
+}
+
 std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const {
     std::string algo_name;
     switch (plan.algorithm) {
@@ -1237,6 +1317,13 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
                 case TraversalAlgorithm::DIJKSTRA: alt_name = "Dijkstra"; break;
             }
             explanation += "  " + alt_name + ": " + std::to_string(alt_cost) + "\n";
+        }
+    }
+
+    if (!plan.active_schema_hints.empty()) {
+        explanation += "\nSchema Hints Active:\n";
+        for (const auto& hint : plan.active_schema_hints) {
+            explanation += "  " + hint + "\n";
         }
     }
     
@@ -1296,6 +1383,43 @@ double GraphQueryOptimizer::estimateCost(
     if (constraints.edge_type.has_value()) {
         double selectivity = estimateEdgeTypeSelectivity(constraints.edge_type.value());
         base_cost *= selectivity; // Reduce cost based on edge type filtering
+    }
+
+    // Schema-aware hint: node label selectivity.
+    // When node_labels is set, only a fraction of nodes match; reduce the
+    // effective search space accordingly.  For OR-semantics with multiple
+    // labels we use the maximum selectivity (upper bound on matching nodes).
+    if (!constraints.node_labels.empty()) {
+        double label_sel = 0.0;
+        bool any_known = false;
+        for (const auto& lbl : constraints.node_labels) {
+            auto it = statistics_.node_label_selectivity.find(lbl);
+            if (it != statistics_.node_label_selectivity.end()) {
+                label_sel = std::max(label_sel, it->second);
+                any_known = true;
+            }
+        }
+        // When selectivity is known, scale cost; fall back to 0.5 (moderate) when unknown.
+        const double effective_sel = any_known ? std::max(0.01, label_sel) : 0.5;
+        base_cost *= effective_sel;
+    }
+
+    // Schema-aware hint: excluded edge types.
+    // Each excluded edge type reduces the effective branching factor.
+    // Use a conservative 10% reduction per excluded type.
+    if (!constraints.excluded_edge_types.empty()) {
+        double type_reduction = 1.0;
+        for (const auto& et : constraints.excluded_edge_types) {
+            auto it = statistics_.edge_type_selectivity.find(et);
+            if (it != statistics_.edge_type_selectivity.end()) {
+                // Exclude edges whose fraction is `it->second`
+                type_reduction *= (1.0 - it->second);
+            } else {
+                // Unknown type: assume 10% reduction
+                type_reduction *= 0.9;
+            }
+        }
+        base_cost *= std::max(0.01, type_reduction);
     }
 
     // Adaptive cost model: blend learned EMA cost proportional to confidence.
@@ -1409,6 +1533,22 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     if (constraints.enable_parallel) {
         key += ":par";
     }
+
+    // Schema hints: include each node label so different label sets yield
+    // distinct cache entries (labels influence estimated cost and explanation).
+    if (!constraints.node_labels.empty()) {
+        key += ":nl=";
+        for (const auto& lbl : constraints.node_labels) {
+            key += lbl + "|";
+        }
+    }
+
+    if (!constraints.excluded_edge_types.empty()) {
+        key += ":xet=";
+        for (const auto& et : constraints.excluded_edge_types) {
+            key += et + "|";
+        }
+    }
     
     return key;
 }
@@ -1451,6 +1591,16 @@ std::string GraphQueryOptimizer::generateStructuralCacheKey(
 
     if (!constraints.required_vertices.empty()) {
         key += ":rv=" + std::to_string(constraints.required_vertices.size());
+    }
+
+    // Schema hints: encode the count of node labels and excluded edge types so
+    // that queries with different schema hints get different structural keys.
+    if (!constraints.node_labels.empty()) {
+        key += ":nl=" + std::to_string(constraints.node_labels.size());
+    }
+
+    if (!constraints.excluded_edge_types.empty()) {
+        key += ":xet=" + std::to_string(constraints.excluded_edge_types.size());
     }
 
     return key;
