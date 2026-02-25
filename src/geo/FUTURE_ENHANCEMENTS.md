@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Features here describe the engineering work required to complete full GeoJSON spec coverage, add CUDA kernel dispatch to the GPU backend, and introduce new spatial operations (ST_BUFFER, spatial JOIN) that are currently planned. Note: ST_UNION and ST_DIFFERENCE are now implemented (CPU-exact backend via Greiner-Hormann; Boost backend via `boost::geometry::union_`/`difference`; GPU backend via CPU fallback; AQL functions `ST_UNION`/`ST_DIFFERENCE`).
+This document covers planned enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Note: the following features are now fully implemented — ST_BUFFER, spatial JOIN, ST_UNION, ST_DIFFERENCE, full GeoJSON RFC 7946 spec coverage, CUDA kernel dispatch, and raster data queries (elevation, heatmaps). Items listed below without an ✅ status are still planned.
 
 ## Design Constraints
 
@@ -27,18 +27,9 @@ This document covers planned enhancements to the Geospatial module beyond what i
 ### Full GeoJSON Spec Coverage (RFC 7946)
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented in `src/geo/cpu_backend.cpp` and `src/geo/boost_cpu_exact_backend.cpp`
 
-Complete the GeoJSON parser to handle all seven geometry types: `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`, and `GeometryCollection`. The current implementation in `cpu_backend.cpp` handles `Point` and `Polygon` reliably; `MultiPolygon` and `GeometryCollection` are partially parsed and may silently drop rings or members.
-
-**Implementation Notes:**
-- Extend the GeoJSON parser in `cpu_backend.cpp` to validate the `type` discriminator before dispatching; add a `ParseError` enum with distinct codes for unknown type, invalid coordinates array, and out-of-range longitude/latitude.
-- `GeometryCollection` must recursively parse member geometries up to a configurable nesting depth (default 8) to prevent stack overflow on adversarial input.
-- Stricter parsing will reject previously accepted malformed inputs; document this as a breaking change in the changelog and add a `GEO_COMPAT_LAX` build flag for a one-release migration window.
-- Add golden-file unit tests in `tests/geo/` covering each geometry type against the RFC 7946 example payloads.
-
-**Performance Targets:**
-- Parse 100 000 `MultiPolygon` features (average 20 rings each) in ≤ 2 s on a single core.
-- Zero allocations per coordinate after initial parse (use `std::span` views over the parsed coordinate array).
+All seven geometry types (`Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`, `GeometryCollection`) are handled. `GeometryCollection` is parsed recursively. Strict coordinate-range validation rejects out-of-range WGS84 values; a `THEMIS_GEO_COMPAT_LAX` build flag provides a one-release migration window.
 
 ---
 
@@ -83,18 +74,9 @@ Replace the linear scan in `boost_cpu_exact_backend.cpp` for `contains` and `int
 ### CUDA Kernel Dispatch for GPU Backend
 **Priority:** Medium
 **Target Version:** v2.1.0
+**Status:** ✅ Implemented in `src/geo/gpu_backend_cuda.cu` and `src/acceleration/cuda/geo_kernels.cu`
 
-Replace the CPU-fallback stub in `gpu_backend_stub.cpp` with real CUDA kernels for `contains`, `intersects`, and `distance` operations on `Point` arrays. The GPU backend targets datasets where N > 1 M points and latency requirements preclude CPU processing.
-
-**Implementation Notes:**
-- Add `gpu_backend_cuda.cu` with a `__global__` kernel for batch point-in-polygon using the ray-casting algorithm; one CUDA thread per query point.
-- Device memory management via the existing `gpu_memory_manager.cpp` in `src/llm/`; introduce a shared `GpuMemoryPool` abstraction that both modules can register with.
-- On `cudaErrorNoDevice` or any CUDA runtime error, set the circuit-breaker flag in `gpu_backend_stub.cpp` and log a structured entry with `backend=gpu`, `op=contains`, `error=<cudaGetErrorString>`.
-- Add a CMake option `THEMIS_GEO_CUDA=ON` gated on `CMAKE_CUDA_COMPILER` being found; default OFF so CPU-only builds are unaffected.
-
-**Performance Targets:**
-- Batch `contains` query (1 M points, 1 polygon) completes in ≤ 50 ms on an NVIDIA A10G (vs ~4 s on a single CPU core).
-- GPU memory allocation for a 1 M point batch ≤ 32 MB device memory.
+Real CUDA kernels (`haversineDistanceKernel`, `pointInPolygonKernel`) are implemented with host↔device memory management via `GpuKernelDispatcher`. The CMake option `THEMIS_GEO_CUDA=ON` enables the CUDA path; CPU-only builds use the fallback path unchanged. Any CUDA runtime error triggers the circuit-breaker in `gpu_backend_stub.cpp` and logs a structured audit entry.
 
 ---
 
@@ -114,6 +96,31 @@ Add a spatial JOIN operation that finds all pairs (A, B) from two geometry colle
 **Performance Targets:**
 - Spatial JOIN of two 100 000-point collections with 1 km threshold returns first 1 000 results in ≤ 500 ms.
 - Memory usage during JOIN bounded by R-tree index size + O(batch_size) working set.
+
+---
+
+### Raster Data Query Support (Elevation, Heatmaps)
+**Priority:** Low
+**Target Version:** v2.3.0
+**Status:** ✅ Implemented in `include/geo/raster.h` + `src/geo/raster.cpp`
+
+Provide a lightweight, header-only-friendly raster abstraction for elevation maps, heatmaps, and any regularly-gridded scalar dataset referenced to geographic coordinates.
+
+**What was implemented:**
+- `RasterGrid` struct: 2D row-major grid of `float` values with WGS84 bounding box, configurable no-data sentinel (default: quiet NaN), and O(1) cell accessors `at()` / `set()`.
+- `sampleAt(grid, lon, lat)` — bilinear interpolation with no-data cell exclusion and re-normalisation; returns a `RasterSampleResult{value, valid}` pair.
+- `queryBBox(grid, bbox)` — copies the sub-raster whose cell centres fall inside `bbox` into a new `RasterGrid`; O(output cells) work with no allocations beyond the output buffer.
+- `generateHeatmap(points, bbox, config)` — Gaussian kernel density estimator: bandwidth in metres converted to degrees at the grid's centre latitude; 3σ kernel radius cutoff; optional normalisation to [0, 1]; points outside `bbox` are skipped.
+
+**Implementation Notes:**
+- `RasterGrid` stores data independently of any geometry backend; it can be used without `ISpatialComputeBackend`.
+- Bandwidth conversion uses the Haversine-consistent `metresToDegreesLon/Lat` helpers local to `raster.cpp` to avoid pulling in the full spatial backend at compile time.
+- No dynamic allocation occurs inside `sampleAt` or `queryBBox` hot paths; the output vector for `queryBBox` is pre-sized once.
+
+**Performance Targets:**
+- `sampleAt` on a 1 M-cell grid: ≤ 1 µs per call (single core, no SIMD).
+- `queryBBox` extracting 10 000 cells from a 1 M-cell grid: ≤ 10 ms.
+- `generateHeatmap` of 100 000 points onto a 100×100 grid at 500 m bandwidth: ≤ 500 ms single-threaded.
 
 ---
 
