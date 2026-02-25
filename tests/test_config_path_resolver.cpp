@@ -559,6 +559,194 @@ TEST_F(ConfigPathResolverTest, DeprecationReportSortedByUsageCountDescending) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Multi-Environment Config Overlay Tests
+// ═══════════════════════════════════════════════════════════
+
+class ConfigEnvOverlayTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        // Always start in PROD so tests are isolated
+        ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+
+        test_dir_ = std::filesystem::temp_directory_path() / "themisdb_env_overlay_test";
+        std::filesystem::remove_all(test_dir_);
+        std::filesystem::create_directories(test_dir_);
+
+        prev_cwd_ = std::filesystem::current_path();
+        std::filesystem::current_path(test_dir_);
+    }
+
+    void TearDown() override {
+        std::filesystem::current_path(prev_cwd_);
+        std::filesystem::remove_all(test_dir_);
+        // Restore to PROD so other tests are not affected
+        ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+        ConfigPathResolver::resetMetrics();
+    }
+
+    void createFile(const std::filesystem::path& rel_path) {
+        auto abs = test_dir_ / rel_path;
+        std::filesystem::create_directories(abs.parent_path());
+        std::ofstream f(abs);
+        f << "test: data\n";
+    }
+
+    std::filesystem::path test_dir_;
+    std::filesystem::path prev_cwd_;
+};
+
+TEST_F(ConfigEnvOverlayTest, DefaultEnvironmentIsProd) {
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::PROD);
+}
+
+TEST_F(ConfigEnvOverlayTest, SetEnvironmentChangesActiveEnv) {
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::DEV);
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::STAGING);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::STAGING);
+}
+
+TEST_F(ConfigEnvOverlayTest, SetEnvironmentClearsCache) {
+    // Put something in the cache
+    createFile("config/ai_ml/lora_training_config.yaml");
+    ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+    EXPECT_GT(ConfigPathResolver::cacheStats().size, 0u);
+
+    // Changing environment must clear the cache
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    EXPECT_EQ(ConfigPathResolver::cacheStats().size, 0u);
+}
+
+TEST_F(ConfigEnvOverlayTest, DevOverlayTakesPrecedenceOverNewPath) {
+    // Create both the standard new path and the dev overlay
+    createFile("config/ai_ml/lora_training_config.yaml");      // new path
+    createFile("config/dev/ai_ml/lora_training_config.yaml");  // dev overlay
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/dev/ai_ml/lora_training_config.yaml")
+        << "Dev overlay should take precedence over the standard new path";
+}
+
+TEST_F(ConfigEnvOverlayTest, StagingOverlayTakesPrecedenceOverNewPath) {
+    createFile("config/ai_ml/lora_training_config.yaml");
+    createFile("config/staging/ai_ml/lora_training_config.yaml");
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::STAGING);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/staging/ai_ml/lora_training_config.yaml");
+}
+
+TEST_F(ConfigEnvOverlayTest, ProdEnvironmentDoesNotUseOverlay) {
+    createFile("config/ai_ml/lora_training_config.yaml");
+    createFile("config/prod/ai_ml/lora_training_config.yaml"); // should NOT be used
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/ai_ml/lora_training_config.yaml")
+        << "PROD must not use an overlay; standard new path should be returned";
+}
+
+TEST_F(ConfigEnvOverlayTest, DevFallsBackToNewPathWhenOverlayAbsent) {
+    // Only the standard new path exists; no dev overlay
+    createFile("config/ai_ml/lora_training_config.yaml");
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/ai_ml/lora_training_config.yaml")
+        << "Should fall back to new path when dev overlay does not exist";
+}
+
+TEST_F(ConfigEnvOverlayTest, DevFallsBackToLegacyPathWhenBothAbsent) {
+    // Only the legacy path exists
+    createFile("config/lora_training_config.yaml");
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/lora_training_config.yaml")
+        << "Should fall back to legacy path when both overlay and new path are absent";
+}
+
+TEST_F(ConfigEnvOverlayTest, CacheKeyIncludesEnvironment) {
+    // Create new path only (no overlay)
+    createFile("config/ai_ml/lora_training_config.yaml");
+
+    // Resolve in PROD; this caches "prod:config/lora_training_config.yaml" -> new path
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+    auto prod_result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+    ASSERT_TRUE(prod_result.has_value());
+    EXPECT_EQ(prod_result.value(), "config/ai_ml/lora_training_config.yaml");
+
+    // Now create a dev overlay
+    createFile("config/dev/ai_ml/lora_training_config.yaml");
+
+    // Switch to DEV; the cache should be cleared and the overlay must be found
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto dev_result = ConfigPathResolver::tryResolve("config/lora_training_config.yaml");
+    ASSERT_TRUE(dev_result.has_value());
+    EXPECT_EQ(dev_result.value(), "config/dev/ai_ml/lora_training_config.yaml")
+        << "Cache key must include environment to prevent returning prod-cached path";
+}
+
+TEST_F(ConfigEnvOverlayTest, SetAndGetEnvironmentRoundTrip) {
+    // Verify the helper returns the expected strings used for overlay dirs
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::DEV);
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::STAGING);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::STAGING);
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::PROD);
+    EXPECT_EQ(ConfigPathResolver::getEnvironment(), ConfigEnvironment::PROD);
+}
+
+TEST_F(ConfigEnvOverlayTest, UnmappedPathInDevDoesNotProbeOverlay) {
+    // An unmapped path (not in PATH_MAPPING) should not be probed via the
+    // overlay root; it should just be checked at its own path.
+    createFile("config/custom_unmapped.yaml");
+
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+    auto result = ConfigPathResolver::tryResolve("config/custom_unmapped.yaml");
+
+    // The unmapped file exists at the literal path; it should be found directly
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result.value(), "config/custom_unmapped.yaml");
+}
+
+TEST_F(ConfigEnvOverlayTest, ResolveErrorMessageIncludesOverlayPathInDevEnv) {
+    // When resolution fails in a non-prod env, the ConfigNotFoundException's
+    // attempted_paths list should include the overlay path so operators can
+    // understand what was tried.
+    ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+
+    try {
+        ConfigPathResolver::resolve("config/lora_training_config.yaml");
+        FAIL() << "Expected ConfigNotFoundException";
+    } catch (const ConfigNotFoundException& e) {
+        const auto& attempted = e.attempted_paths();
+        bool found_overlay = false;
+        for (const auto& p : attempted) {
+            if (p.find("config/dev/") != std::string::npos) {
+                found_overlay = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_overlay)
+            << "ConfigNotFoundException should list the dev overlay path as attempted";
+    }
 // Legacy Fallback Rate Threshold Tests
 // ═══════════════════════════════════════════════════════════
 

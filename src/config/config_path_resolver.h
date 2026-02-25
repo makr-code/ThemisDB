@@ -40,6 +40,24 @@ namespace themis {
 namespace config {
 
 /**
+ * Deployment environment for config overlay resolution.
+ *
+ * When the active environment is not PROD, the resolver probes an
+ * environment-specific overlay directory (`config/<env>/`) before
+ * falling back to the standard path hierarchy.  This allows dev and
+ * staging deployments to override individual config files without
+ * modifying the production set.
+ *
+ * The active environment can also be set via the `THEMIS_CONFIG_ENV`
+ * environment variable (`dev`, `staging`, `prod`; case-insensitive).
+ */
+enum class ConfigEnvironment {
+    DEV,     ///< Development environment (overlay root: config/dev/)
+    STAGING, ///< Staging environment     (overlay root: config/staging/)
+    PROD,    ///< Production environment  (no overlay; default)
+};
+
+/**
  * ConfigPathResolver provides backward-compatible config path resolution.
  * 
  * This utility maps legacy config paths to their new hierarchical locations
@@ -154,6 +172,23 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Set the active deployment environment.
+     *
+     * When set to DEV or STAGING the resolver probes the environment-specific
+     * overlay directory (`config/<env>/`) before the standard new and legacy
+     * paths.  Calling this method clears the cache to prevent stale overlay
+     * entries from a previous environment from being returned.
+     *
+     * @param env The environment to activate
+     */
+    static void setEnvironment(ConfigEnvironment env);
+
+    /**
+     * Get the currently active deployment environment.
+     *
+     * @return Current ConfigEnvironment value
+     */
+    static ConfigEnvironment getEnvironment();
      * Effective LRU cache TTL in seconds.
      * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
      * variable; falls back to the default of 300 seconds (5 minutes) when the
@@ -401,6 +436,14 @@ private:
     static DeprecationAggregator aggregator_;
     static std::atomic<bool> aggregation_enabled_;
 
+    // Active deployment environment (used for overlay path probing)
+    static std::atomic<ConfigEnvironment> current_env_;
+
+    // Converts a ConfigEnvironment to its lowercase string name
+    static std::string envToString(ConfigEnvironment env);
+
+    // Reads and validates THEMIS_CONFIG_ENV at initialisation time
+    static ConfigEnvironment envFromEnvironmentVariable();
     // Audit log (records all successful path resolutions with timestamps)
     static ConfigAuditLog audit_log_;
     // Legacy fallback rate threshold alerting
