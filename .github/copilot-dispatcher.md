@@ -1,62 +1,91 @@
 # Copilot Issue Dispatcher
 
-## PR Body Format (Copilot Agent Task)
+The Copilot Issue Dispatcher is a GitHub Actions automation that delegates
+queued issues to the **GitHub Copilot Coding Agent** by posting a structured
+comment on each issue.  Copilot then opens a pull request itself – the
+dispatcher never creates branches or PRs directly.
 
-Every PR created by the dispatcher uses the **Copilot Agent Task** format so that
-the GitHub Copilot agent can immediately understand the task scope:
+---
+
+## Prerequisites
+
+- **GitHub Copilot Coding Agent** must be enabled for the repository or
+  organisation.  Without it the `@copilot` mention in the delegation comment
+  will have no effect.
+- The workflow requires only `issues: write` permission (post comments, add/remove
+  labels).  No `contents: write` or `pull-requests: write` permissions are needed.
+
+---
+
+## How it works
+
+1. The dispatcher runs on a schedule (every 30 min) or via manual trigger.
+2. It finds all open issues that have the label **`queue/copilot`** but NOT
+   **`copilot/delegated`** and are not `blocked`.
+3. For each qualifying issue (up to `max_delegations_per_run`) it:
+   a. Sorts the eligible issues by **priority** (critical → high → medium → low →
+      unlabelled), then by creation date within the same priority tier.
+   b. Checks the issue's comment thread for the idempotency marker
+      `<!-- copilot-delegated -->`.  If the marker is already present the
+      issue is skipped (prevents double-delegation).
+   c. Posts a **delegation comment** that mentions `@copilot` and includes:
+      - A link to the issue.
+      - Acceptance criteria extracted from the issue body (task-list checkboxes)
+        or a generated default criterion.
+      - Task notes: target branch, coding standards, test requirements,
+        `Closes #<N>` instruction.
+   d. Applies the label **`copilot/delegated`** to the issue.
+   e. Removes the label **`queue/copilot`** from the issue.
+4. Copilot picks up the mention, implements the changes, and opens a PR that
+   closes the issue.
+
+---
+
+## Delegation comment format
 
 ```markdown
-### @Copilot agent task
+<!-- copilot-delegated -->
+@copilot Please implement the changes required to resolve this issue and open a pull request.
 
-#### Problem Statement
-- **Issue:** [#<N> – <title>](<url>)
-- <first non-heading line of the issue body, up to 200 characters>
+## Issue: [#<N> – <title>](<url>)
 
-#### Acceptance Criteria
+> <first non-heading line of the issue body, up to 300 characters>
+
+## Requirements / Acceptance Criteria
+
 - [ ] <checkbox items extracted from the issue body>
       (falls back to "Resolve issue #<N>: <title>" when the issue body has no checkboxes)
 
-#### Task Type
-agent-task
+## Task Notes
+
+- Target the `<base_branch>` branch for your pull request.
+- Follow the repository's contribution guidelines and code standards.
+- Ensure all existing tests pass and add new tests where appropriate.
+- Reference this issue in the PR body with `Closes #<N>`.
 
 ---
 
-Closes #<N>
+*This delegation was posted automatically by the Copilot Issue Dispatcher.*
 ```
 
-### Acceptance Criteria extraction
-
-The dispatcher scans the issue body for Markdown task-list items
-(`- [ ] …` or `* [ ] …`).  All matched items are re-emitted as open checkboxes
-in the PR body.  When the issue body contains no checkboxes the dispatcher
-generates a single default criterion:
-
-```
-- [ ] Resolve issue #<N>: <issue title>
-```
+The HTML comment `<!-- copilot-delegated -->` acts as the **idempotency marker** –
+the dispatcher will skip any issue whose comment thread already contains this string.
 
 ---
 
+## Priority ordering
 
-The Copilot Issue Dispatcher is a GitHub Actions automation that keeps up to
-**5** Copilot-working PRs active at a time.  When capacity is freed it
-automatically pulls the next issues from a labeled queue and creates PRs for
-them.
+The dispatcher processes eligible issues in the following order within each run:
 
----
+| Priority label | Aliases | Order |
+|---|---|---|
+| `priority:critical` | `P0` | 1st – processed first |
+| `priority:high` | `P1` | 2nd |
+| `priority:medium` | `P2` | 3rd |
+| `priority:low` | `P3` | 4th |
+| *(no priority label)* | — | Last |
 
-## Overview
-
-The dispatcher runs on a scheduled heartbeat (every 30 min) and on PR/CI
-events.  For every eligible issue it:
-
-1. Creates a branch off the configured base branch (`develop` by default).
-2. Pushes a placeholder commit when the branch has no diff yet.
-3. Opens a PR whose body follows the **Copilot Agent Task** format (see below).
-4. Applies the labels `pr/copilot`, `copilot/status-working`, `copilot-pr`,
-   and `agent:copilot-task`.
-5. Assigns the `copilot` bot (configurable) and the issue author.
-6. Requests a review from both the `copilot` bot and the issue author.
+Within the same priority tier issues are processed oldest-first (by creation date).
 
 ---
 
@@ -66,83 +95,9 @@ events.  For every eligible issue it:
 
 | Label | Purpose |
 |---|---|
-| `queue/copilot` | Mark an issue as eligible for automatic Copilot processing. |
-| `in-progress/copilot` | Set by the dispatcher once it has claimed the issue. Do **not** remove manually unless you want the issue re-queued. |
+| `queue/copilot` | Mark an issue as eligible for Copilot delegation. Removed by the dispatcher after posting the delegation comment. |
+| `copilot/delegated` | Set by the dispatcher after the delegation comment is posted. Prevents re-delegation on subsequent runs. |
 | `blocked` | Issues with this label are skipped by the dispatcher. |
-
-### PR labels
-
-| Label | Purpose |
-|---|---|
-| `pr/copilot` | Applied by the dispatcher to every PR it creates. |
-| `copilot-pr` | Applied by the dispatcher alongside `pr/copilot`; indicates this PR is created and managed by the Copilot dispatcher. |
-| `copilot/status-working` | Copilot is actively working on this PR. Counts against the 5-slot WIP limit. |
-| `copilot/status-ready-requested` | Copilot signals it is done. The readiness gate will promote this to `copilot/status-ready` once all CI checks pass **and** the required Copilot review is present. |
-| `copilot/status-ready` | Copilot work is complete and all gates are green. This PR **no longer counts** against the WIP limit. Human review and merge remain fully independent. |
-| `copilot/status-blocked` | Copilot cannot proceed. The PR stays in the WIP count until a human intervenes. |
-| `agent:copilot-task` | PR body follows the `@Copilot agent task` format. Set on all dispatcher-created PRs. |
-
----
-
-## Automatic assignees and reviewer
-
-After creating a PR the dispatcher automatically:
-
-1. **Assigns `copilot`** as assignee (the Copilot service account working on the PR).
-2. **Assigns the issue author** as an additional assignee so the original reporter stays
-   in the loop.
-3. **Requests a review from the issue author** so they receive a notification and can
-   provide feedback.
-
-Both operations are best-effort: if the account does not exist, does not have repository
-access, or the API call fails for any other reason, the dispatcher logs a warning and
-continues – the PR is still created and labelled correctly.
-
-### Prerequisites
-
-| Requirement | Details |
-|---|---|
-| `copilot` account | Must be a member of the organisation or a collaborator with at least `read` access to the repository, otherwise the assignee call will return a 422. |
-| Issue author account | Must have repository access. External authors without access will be silently ignored by GitHub's assignee API. |
-| `pull-requests: write` permission | Already declared in the workflow – covers `requestReviewers`. |
-| `issues: write` permission | Already declared – covers `addAssignees` (PRs share the Issues API). |
-
----
-
-## Error handling and pipeline abort
-
-The dispatcher uses a **fail-fast** strategy for all unrecoverable errors:
-
-* Every critical API call (paginate queries, label claims, branch creation, dummy commit,
-  PR creation) is wrapped in a `try/catch`.
-* On failure the dispatcher:
-  1. **Rolls back** the `in-progress/copilot` label on the current issue (best-effort)
-     so the issue stays available for the next run.
-  2. Calls `core.setFailed()` to mark the workflow run as **failed**.
-  3. Throws an error to **stop the dispatch loop immediately** – no further issues are
-     processed in the same run.
-  4. Emits a **budget hint** in the failure message:
-     > *💡 Budget hint: every failed run consumes GitHub Actions minutes. Fix the
-     > underlying issue (permissions, rate-limits, configuration) before re-running
-     > the dispatcher.*
-
-* **Best-effort operations** (adding PR labels, assigning users, requesting reviews) use
-  `core.warning()` and do **not** abort the pipeline, because their failure does not
-  prevent Copilot from working on the issue.
-
-| Operation | Failure behaviour |
-|---|---|
-| Query active / open PRs | **Abort** |
-| Query queued issues | **Abort** |
-| Apply `in-progress/copilot` label to issue | **Abort** |
-| Resolve base-branch SHA | Rollback + **Abort** |
-| Create issue branch | Rollback + **Abort** (422 = reuse branch, not an error) |
-| Compare commits (diff guard) | Rollback + **Abort** |
-| Create dummy commit | Rollback + **Abort** |
-| Create PR | Rollback + **Abort** |
-| Add `pr/copilot` / `copilot/status-working` labels to PR | Warning only |
-| Add assignees to PR | Warning only |
-| Request review from issue author | Warning only |
 
 ---
 
@@ -151,160 +106,56 @@ The dispatcher uses a **fail-fast** strategy for all unrecoverable errors:
 1. Open or find an existing issue.
 2. Add the label **`queue/copilot`**.
 3. The dispatcher will pick it up within ≤ 30 minutes (or immediately on the
-   next PR/check-suite event that frees a slot).
+   next manual trigger).
 
 ---
 
-## How Copilot signals "ready"
-
-There are two paths:
-
-### Path A – via label (recommended)
-Copilot (or a human acting on its behalf) adds the label
-`copilot/status-ready-requested` to the PR.
-
-The readiness gate workflow then checks:
-1. All required CI checks on the PR head commit are `success`.
-2. A GitHub review with state `APPROVED` exists from one of the logins
-   configured in `.github/copilot-dispatcher.yml` under
-   `copilot_reviewer_logins`.
-
-If both conditions are met the gate atomically:
-- adds `copilot/status-ready`
-- removes `copilot/status-working`
-- removes `copilot/status-ready-requested`
-
-### Path B – direct label
-Copilot (or automation) adds `copilot/status-ready` directly.  The dispatcher
-treats any open `pr/copilot` PR that already carries `copilot/status-ready` as
-**free capacity** immediately.
-
----
-
-## Configuring the Copilot reviewer identity
+## Configuration
 
 Edit `.github/copilot-dispatcher.yml`:
 
 ```yaml
-copilot_reviewer_logins:
-  - "copilot-pull-request-reviewer[bot]"   # GitHub Copilot PR review bot
-  - "github-actions[bot]"                  # fallback / manual testing
+# Maximum issues delegated per dispatcher run.
+max_delegations_per_run: 5
+
+# Base branch Copilot should target when opening PRs.
+base_branch: develop
 ```
 
-If the list is **empty**, the review check is skipped (all CI-passing PRs with
-`copilot/status-ready-requested` are promoted immediately).
+### Manual override
+
+When triggering the workflow manually via **Actions → Copilot Issue Dispatcher →
+Run workflow**, you can override the per-run limit with the `max_delegations`
+input (leave at `0` to use the configured default).
 
 ---
 
-## Configuring draft vs. ready PRs
+## Idempotency
 
-By default the dispatcher creates PRs as **drafts** so they are not accidentally
-merged before Copilot has finished working on them.  To change this, edit
-`.github/copilot-dispatcher.yml`:
+The dispatcher is safe to re-run at any time:
 
-```yaml
-# true  → PRs are opened as drafts (default)
-# false → PRs are opened as regular (non-draft) PRs
-draft: true
-```
+- Issues that already have `copilot/delegated` are excluded by the GitHub
+  search query.
+- As an additional guard, the dispatcher reads the issue's comments and skips
+  any issue whose thread already contains the delegation marker
+  `<!-- copilot-delegated -->`.  This covers the edge case where the comment
+  was posted but the label update failed in a previous run.
 
 ---
 
-## Automatic assignees and reviewer
+## Error handling
 
-After a PR is successfully created the dispatcher automatically:
-
-1. **Assigns `copilot`** (or the login configured via `copilot_assignee_login`) as
-   an assignee on the PR so that GitHub routes the work to the Copilot agent.
-2. **Assigns the issue author** as an additional assignee on the PR.
-3. **Requests a review from the issue author** so they are notified and can
-   approve or request changes once Copilot finishes.
-
-Both the assignee and reviewer steps are non-fatal – if either API call fails
-(e.g. the user does not have repository access) a warning is logged and the
-dispatcher continues normally.
-
-### Configuration
-
-```yaml
-# copilot_assignee_login: GitHub login assigned as Copilot worker on every PR.
-# Set to "" to disable automatic Copilot assignment.
-copilot_assignee_login: "copilot"
-
-# add_issue_author_as_reviewer: when true (default) the issue author is added
-# as both an assignee and a review requester on the PR.
-add_issue_author_as_reviewer: true
-```
-
-### Prerequisites
-
-| Requirement | Details |
+| Operation | Failure behaviour |
 |---|---|
-| **`copilot_assignee_login` user** | Must be a repository collaborator (or organisation member) with at least **Write** access. For the `copilot` bot, GitHub Copilot must be enabled at the organisation or repository level. |
-| **Issue author** | Must have at least **Read** access to the repository. GitHub silently drops reviewer requests for users with no repository access. |
-| **Workflow permissions** | The workflow already requests `pull-requests: write`, which covers both `addAssignees` and `requestReviewers`. No additional permission changes are needed. |
-| **`gh` CLI (manual use)** | If you need to assign/review manually: `gh pr edit <PR> --add-assignee copilot` and `gh pr edit <PR> --add-reviewer <login>` |
+| Fetch queued issues | **Abort** the run |
+| Read comments (idempotency check) | Warning + skip the issue |
+| Post delegation comment | Warning + skip the issue |
+| Apply `copilot/delegated` label | Warning only (comment already posted) |
+| Remove `queue/copilot` label | Warning only (404 = already absent, ignored) |
 
----
-
-## What to do when a PR is stuck
-
-1. Add the label **`copilot/status-blocked`** to the PR and leave a comment
-   explaining what is wrong.
-2. Investigate and fix the blocking issue (e.g., merge conflicts, failing
-   checks, ambiguous requirements).
-3. When ready to resume, remove `copilot/status-blocked` and add
-   `copilot/status-working` again.
-
-A blocked PR **still counts** against the WIP limit.  If you want to free the
-slot entirely while keeping the PR open, close the PR (the dispatcher will then
-skip it) or manually remove the `pr/copilot` label.
-
----
-
-## Capacity calculation
-
-```
-active = open PRs with label pr/copilot AND NOT label copilot/status-ready
-needed = wip_limit - active
-today  = PRs with label pr/copilot created on the current UTC calendar day
-```
-
-The dispatcher selects up to `min(needed, daily_dispatch_limit - today)` open issues that carry
-`queue/copilot` but NOT `in-progress/copilot` and NOT `blocked` / `status:blocked`,
-in creation-date order (oldest first).
-
-### Daily dispatch limit
-
-The `daily_dispatch_limit` setting caps the total number of new Copilot PRs created
-across **all runs within one UTC calendar day**.  The dispatcher queries how many
-`pr/copilot` PRs were already created today and stops once that count reaches the
-configured limit.
-
-| Value | Behaviour |
-|---|---|
-| `50` (default) | At most 50 new Copilot PRs per day |
-| `0` | Daily limit disabled – only `wip_limit` applies |
-| any positive integer | PRs created that calendar day (UTC) |
-
-Configure in `.github/copilot-dispatcher.yml`:
-
-```yaml
-# Maximum number of issues processed per UTC calendar day.
-# Set to 0 to disable.
-daily_dispatch_limit: 50
-```
-
----
-
-## Triggers
-
-| Event | Reason |
-|---|---|
-| `schedule` every 30 min | Baseline heartbeat |
-| `workflow_dispatch` | Manual trigger |
-| `pull_request` labeled / unlabeled / closed / synchronize | Capacity may have changed |
-| `check_suite` completed | CI results arrived; readiness gate may fire |
+Critical failures (e.g., cannot query issues) abort the entire run immediately
+with `core.setFailed()` and emit a budget hint so operators know a re-run costs
+Actions minutes.
 
 ---
 
@@ -320,61 +171,18 @@ Or create the required labels manually:
 
 | Label | Kind | Purpose |
 |---|---|---|
-| `queue/copilot` | Issue | Mark issue as eligible for Copilot processing |
-| `in-progress/copilot` | Issue | Claimed by dispatcher; an open Copilot PR exists |
-| `pr/copilot` | PR | PR was created by the dispatcher |
-| `copilot-pr` | PR | PR was created and is managed by the Copilot dispatcher (alias/supplement to `pr/copilot`) |
-| `copilot/status-working` | PR | Copilot is actively working; counts against WIP limit |
-| `copilot/status-ready-requested` | PR | Copilot signals done; awaiting readiness gate promotion |
-| `copilot/status-ready` | PR | All gates green; PR no longer counts against WIP limit |
-| `copilot/status-blocked` | PR | Copilot cannot proceed; human intervention required |
-| `agent:copilot-task` | PR | PR body uses the `@Copilot agent task` format; set by the dispatcher on every PR it creates |
-
----
-
-## Diff check and dummy commit before PR creation
-
-Before opening a pull request the dispatcher compares the newly-created issue
-branch against the base branch using the GitHub Commits Compare API
-(`repos.compareCommits`).
-
-| Result | Action |
-|---|---|
-| Branch is **ahead** of base or has changed files | PR is created as usual. |
-| Branch is **identical** to base (no diff) | A **dummy commit** is pushed to the branch automatically (file `.copilot_issue.txt` with issue metadata), making the branch non-empty. The dispatcher then proceeds to open the PR normally. |
-| Compare API call fails | PR creation is **skipped** defensively; the `in-progress/copilot` label is removed so the issue stays available for re-dispatch. |
-
-### Dummy commit
-
-When the branch has no changes relative to the base the dispatcher creates a
-lightweight placeholder file `.copilot_issue.txt` via `repos.createOrUpdateFileContents`.
-The file contains a human-readable reference to the issue (number, title, URL,
-branch name, creation timestamp) and a note that Copilot will replace it with
-real changes.
-
-Commit message format:
-
-```
-chore: init Copilot workspace for issue #<N>
-```
-
-This prevents the GitHub API validation error
-`"No commits between <base> and <head>"` that would otherwise abort the
-workflow with a non-zero exit code.  Copilot is expected to push substantive
-changes on top of (or replacing) this placeholder commit while addressing the
-issue.
-
-**For developers:** if you push commits to an existing issue branch and re-run
-the dispatcher manually, the diff check will detect the changes and skip the
-dummy-commit step, creating the PR normally.
+| `queue/copilot` | Issue | Mark issue as eligible for Copilot delegation |
+| `copilot/delegated` | Issue | Delegation comment posted; Copilot has been tasked |
+| `blocked` | Issue | Skip this issue in the dispatcher |
 
 ---
 
 ## Important notes
 
-- The dispatcher is **idempotent**: re-runs do not create duplicate PRs for
-  the same issue (it checks for an existing open PR with
-  `Closes #<issue-number>` in the body before creating a new one).
+- The dispatcher does **not** create branches, push commits, or open PRs.
+  All of that is handled by the GitHub Copilot Coding Agent after receiving
+  the delegation comment.
+- GitHub Copilot Coding Agent must be **enabled** on the repository or
+  organisation for the `@copilot` mention to trigger automated work.
 - Auto-merge is **not** implemented.  Human review and merge are fully
   independent of the dispatcher.
-- All PRs target the `develop` branch (configurable via `base_branch`).
