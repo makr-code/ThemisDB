@@ -27,3 +27,25 @@ draft: true
 copilot_reviewer_logins:
   - "copilot-pull-request-reviewer[bot]"
   - "github-actions[bot]"
+
+# GitHub login that will be added as an assignee on every PR created by the
+# dispatcher.  Set to "copilot" to assign the GitHub Copilot bot that can
+# autonomously work on pull requests.  Set to an empty string ("") to disable
+# automatic Copilot assignment.
+#
+# Prerequisite: the account identified by this login must be a collaborator on
+# the repository (or a member of the owning organisation) with at least Write
+# access.  For the "copilot" bot specifically, GitHub Copilot must be enabled
+# on the repository/organisation plan.
+copilot_assignee_login: "copilot"
+
+# When true (default), the dispatcher will:
+#   1. Add the issue author as an assignee on the created PR.
+#   2. Request a review from the issue author.
+# Set to false to disable both actions (useful when issues are filed by bots
+# or service accounts that cannot be assigned/requested as reviewers).
+#
+# Prerequisite: the issue author must have at least Read access to the
+# repository for reviewer requests to succeed; otherwise the GitHub API will
+# silently ignore or reject the request.
+add_issue_author_as_reviewer: true

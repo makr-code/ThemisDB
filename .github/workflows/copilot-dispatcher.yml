@@ -51,7 +51,7 @@ jobs:
             const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
 
             // ── Load configuration ──────────────────────────────────────────
-            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [] };
+            let config = { wip_limit: 5, base_branch: 'develop', draft: true, copilot_reviewer_logins: [], copilot_assignee_login: 'copilot', add_issue_author_as_reviewer: true };
             try {
               const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
               config = { ...config, ...yaml.load(raw) };
@@ -307,7 +307,7 @@ jobs:
                   owner: OWNER,
                   repo: REPO,
                   issue_number: pr.number,
-                  labels: ['pr/copilot', 'copilot/status-working'],
+                  labels: ['pr/copilot', 'copilot/status-working', 'copilot-pr'],
                 });
               } catch (e) {
                 core.warning(`Could not add labels to PR #${pr.number}: ${e.message}`);
@@ -330,6 +330,28 @@ jobs:
 
               // ── Request review from issue author ──────────────────────────
               if (issueAuthor) {
+              // ── Assign copilot + issue author to the PR ───────────────────
+              const assignees = [];
+              const copilotLogin = config.copilot_assignee_login ?? 'copilot';
+              if (copilotLogin) assignees.push(copilotLogin);
+              const issueAuthorLogin = issue.user?.login;
+              if (issueAuthorLogin && issueAuthorLogin !== copilotLogin) assignees.push(issueAuthorLogin);
+              if (assignees.length > 0) {
+                try {
+                  await github.rest.issues.addAssignees({
+                    owner: OWNER,
+                    repo: REPO,
+                    issue_number: pr.number,
+                    assignees,
+                  });
+                  core.info(`Assigned [${assignees.join(', ')}] to PR #${pr.number}.`);
+                } catch (e) {
+                  core.warning(`Could not assign users to PR #${pr.number}: ${e.message}`);
+                }
+              }
+
+              // ── Request review from issue author ──────────────────────────
+              if ((config.add_issue_author_as_reviewer ?? true) && issueAuthorLogin) {
                 try {
                   await github.rest.pulls.requestReviewers({
                     owner: OWNER,
@@ -340,6 +362,11 @@ jobs:
                   core.info(`Requested review from '@${issueAuthor}' on PR #${pr.number}.`);
                 } catch (e) {
                   core.warning(`Could not request review from '@${issueAuthor}' on PR #${pr.number}: ${e.message}`);
+                    reviewers: [issueAuthorLogin],
+                  });
+                  core.info(`Requested review from @${issueAuthorLogin} on PR #${pr.number}.`);
+                } catch (e) {
+                  core.warning(`Could not request review from @${issueAuthorLogin} on PR #${pr.number}: ${e.message}`);
                 }
               }
 
