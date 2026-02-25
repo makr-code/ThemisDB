@@ -31,8 +31,8 @@
 ### Long-term (6-12 months)
 - [P] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
 - [I] SOC 2 compliance controls and evidence collection (Issue: #1769)
-- [~] PCI-DSS data isolation rules (Issue: #1770)
-- [I] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
+- [I] PCI-DSS data isolation rules (Issue: #1770)
+- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
 - [I] Cross-tenant governance policy inheritance (Issue: #1772)
 - [I] Automated data masking for sensitive fields in query results (Issue: #1773)
 
@@ -65,11 +65,11 @@
 - [x] API stability guaranteed for policy engine and rule evaluation
 
 ## Known Issues & Limitations
-- Policy hot-reload requires restart currently
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
 - OPA integration implemented: `OpaAdapter` in `src/server/opa_adapter.cpp`; configure via `THEMIS_OPA_ENDPOINT_URL`, `THEMIS_OPA_POLICY_PATH`, and `THEMIS_OPA_TIMEOUT_MS` environment variables
 - Automated data masking in query results is not yet implemented
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
+- AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)
 
 ## Breaking Changes
 - OPA integration will introduce a new policy language alongside existing rule format (additive)

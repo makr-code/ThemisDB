@@ -23,6 +23,7 @@
  */
 
 #include "governance/policy_engine.h"
+#include "governance/model_governance.h"
 #include "utils/logger.h"
 #include "utils/audit_logger.h"
 #include "observability/metrics_collector.h"
@@ -437,6 +438,53 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request
 
     // NOTE: Dry-run / simulation mode – audit log is intentionally NOT written.
     return result;
+}
+
+void PolicyEngine::setModelGovernancePolicy(
+    std::shared_ptr<ModelGovernancePolicy> policy)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    model_governance_policy_ = std::move(policy);
+}
+
+ModelGovernanceDecision PolicyEngine::checkExportPermission(
+    const ModelTrainingExportRequest& request) const
+{
+    // Snapshot the model governance policy under the lock (may be null)
+    std::shared_ptr<ModelGovernancePolicy> mgp;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        mgp = model_governance_policy_;
+    }
+
+    if (mgp) {
+        // Delegate entirely to the configured ModelGovernancePolicy
+        return mgp->checkExportPermission(request);
+    }
+
+    // ── Fallback: no ModelGovernancePolicy configured ─────────────────────────
+    // Apply the built-in classification rule: "geheim" and "streng-geheim"
+    // data must never be exported for model training.
+    const std::string cls_lower = [&] {
+        std::string s = request.classification;
+        std::transform(s.begin(), s.end(), s.begin(),
+            [](unsigned char c) { return static_cast<char>(::tolower(c)); });
+        return s;
+    }();
+
+    ModelGovernanceDecision decision;
+    if (cls_lower == "geheim" || cls_lower == "streng-geheim") {
+        decision.is_permitted  = false;
+        decision.denial_reason = "Data classification '" + request.classification +
+                                  "' is not permitted for model training";
+        THEMIS_WARN("PolicyEngine::checkExportPermission: denied for job '{}': {}",
+            request.export_job_id, decision.denial_reason);
+    } else {
+        decision.is_permitted = true;
+        THEMIS_INFO("PolicyEngine::checkExportPermission: permitted for job '{}' (fallback path)",
+            request.export_job_id);
+    }
+    return decision;
 }
 
 } // namespace governance

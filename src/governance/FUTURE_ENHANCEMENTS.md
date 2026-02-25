@@ -96,17 +96,18 @@ Add an OPA adapter so that operators can write policies in Rego and evaluate the
 
 ---
 
-### AI/ML Model Governance
+### AI/ML Model Governance ✅ **Implemented in v2.0.0**
 **Priority:** Low
 **Target Version:** v2.0.0
 
 Extend the Governance module to track training data lineage for models trained on ThemisDB collections, detect bias indicators in training datasets, and enforce data-use policies that restrict which collections may be used for model training.
 
-**Implementation Notes:**
-- Add `ModelGovernancePolicy` rule type to `policy_engine.cpp`; evaluated when the Exporters module calls `PolicyEngine::checkExportPermission()` with a `purpose=MODEL_TRAINING` context.
-- Record training data lineage in a new `model_lineage` collection: export job ID, collection IDs, field selectors, timestamp, and requesting user; linked to the resulting LoRA adapter metadata via `adapter_id`.
-- Add `BiasAuditReport` to `compliance_reporter.cpp` that computes demographic parity and representation statistics over configurable fields in the training dataset.
-- Bias audit runs as a background job triggered by the Exporters module post-export; results are stored in the audit trail and surfaced via `GET /governance/model/{adapter_id}/bias-report`.
+**Status:** Implemented. See `include/governance/model_governance.h`, `src/governance/model_governance.cpp`.
+
+- `ModelGovernancePolicy` implemented with `checkExportPermission()` evaluated when an export job carries `purpose=MODEL_TRAINING`; denies requests for "geheim"/"streng-geheim" data and for operator-restricted collections.
+- Training data lineage recorded via `DataLineageTracker` as `MODEL_TRAINING` events (new enum value); captures export job ID, collection IDs, field selectors, timestamp, requesting user, and `adapter_id`.
+- `BiasFieldStats` and `BiasAuditReport` structs added; `ComplianceReporter::generateBiasAuditReport()` computes demographic parity and representation statistics over configurable fields, assigning PASSED / FLAGGED / FAILED status and actionable recommendations.
+- `governance_model_export_total` Prometheus counter (labels: `result=permitted|denied_classification|denied_restricted_collection`) emitted on every export permission decision.
 
 **Performance Targets:**
 - `ModelGovernancePolicy` evaluation at export time adds ≤ 2 ms to export job startup.
