@@ -186,3 +186,90 @@ Or create the required labels manually:
   organisation for the `@copilot` mention to trigger automated work.
 - Auto-merge is **not** implemented.  Human review and merge are fully
   independent of the dispatcher.
+
+---
+
+## PR Copilot Trigger
+
+After the Copilot Coding Agent opens a **draft PR** in response to a delegated
+issue, the companion workflow **`pr-copilot-trigger.yml`** ensures the agent
+receives a follow-up signal so it can continue the implementation.
+
+### How it works
+
+1. The workflow fires on every `pull_request` event (`opened`, `synchronize`,
+   `reopened`).
+2. It passes two gates before posting a comment:
+   - **Gate 1 – Draft only**: the PR must be in draft state.
+   - **Gate 2 – Label check**: the PR must carry the label `pr/copilot` **or**
+     `agent:copilot-task`.
+3. **Idempotency**: on `opened` / `reopened` events the workflow checks whether
+   a comment with the marker `<!-- copilot-pr-trigger -->` already exists.  If
+   it does, no duplicate comment is posted.  On `synchronize` events (new
+   commits pushed) a fresh comment is always posted so the agent sees the
+   latest CI context.
+4. The trigger comment is built from:
+   - PR number, title, URL, branch info.
+   - An excerpt of the PR body (first 300 characters, headings stripped).
+   - **CI scope** – which areas of the codebase were changed, as reported by
+     the `ci-scope-classifier` reusable workflow.
+   - **CI status** – current pass / fail / pending counts from GitHub check
+     runs on the PR head SHA.
+   - A *Next Steps* section instructing the agent to finish the implementation
+     and convert the PR to ready-for-review when done.
+
+### Trigger comment format
+
+```markdown
+<!-- copilot-pr-trigger -->
+@copilot This draft PR was created for you. Please continue the implementation.
+
+## PR Context
+
+| Field | Value |
+|---|---|
+| **PR** | [#<N> – <title>](<url>) |
+| **Branch** | `<head>` → `<base>` |
+| **Event** | `opened` |
+| **Draft** | yes |
+
+> <PR body excerpt>
+
+### CI Scope (changed areas)
+
+- <list of changed areas from ci-scope-classifier>
+
+### CI Status
+
+- ✅ Passed/skipped: N
+- ⏳ Pending: N (check-name, ...)
+- ❌ Failed: N (check-name, ...)
+
+## Next Steps
+
+- Implement all items listed in the PR description / linked issue.
+- Ensure all existing tests pass and add new tests where appropriate.
+- Follow the repository's contribution guidelines and code standards.
+- When implementation is complete, mark the PR ready for review
+  (convert from draft) and request a review.
+
+---
+
+*This comment was posted automatically by the PR Copilot Trigger workflow.*
+```
+
+### Required labels
+
+The workflow checks for these labels on the PR:
+
+| Label | Purpose |
+|---|---|
+| `pr/copilot` | Marks a PR as Copilot-owned; triggers the workflow |
+| `agent:copilot-task` | Alternative Copilot-task label; also triggers the workflow |
+
+### Integration with Copilot Readiness Gate
+
+Once the agent has finished and converts the PR from draft to ready-for-review,
+the **`copilot-readiness-gate.yml`** workflow takes over: it verifies that all
+CI checks pass and a Copilot review has been approved, then promotes the PR with
+the `copilot/status-ready` label.

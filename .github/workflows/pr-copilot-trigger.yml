@@ -1,0 +1,220 @@
+name: PR Copilot Trigger
+
+# Triggers the Copilot Coding Agent to continue working on draft PRs that were
+# opened in response to a delegated issue.  The workflow posts a structured
+# @copilot mention with full PR context so the agent knows where to pick up.
+#
+# Trigger conditions (ALL must be true):
+#   1. PR event is opened, synchronize, or reopened.
+#   2. The PR is a draft.
+#   3. The PR carries the label  pr/copilot  OR  agent:copilot-task.
+#
+# Idempotency:
+#   Before posting, the workflow checks whether a comment with the marker
+#   <!-- copilot-pr-trigger --> already exists on the PR.  If it does the job
+#   exits without posting a duplicate.  On `synchronize` events (new commits)
+#   a fresh comment IS intentional so the agent sees the latest CI context.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Only one trigger run per PR at a time – subsequent pushes queue, not cancel,
+# so the agent always gets a signal for the latest commit.
+concurrency:
+  group: pr-copilot-trigger-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write  # post comments
+  issues: write         # add/remove labels (PRs share the issues API)
+  checks: read          # read CI check results for context
+
+jobs:
+  # ── Phase 1: classify changed files (reuses existing reusable workflow) ───
+  ci-scope-classifier:
+    name: Classify CI scope
+    uses: ./.github/workflows/ci-scope-classifier.yml
+
+  # ── Phase 2: decide whether to post and, if so, post the trigger comment ──
+  trigger:
+    name: Trigger Copilot on draft PR
+    runs-on: ubuntu-latest
+    needs: ci-scope-classifier
+
+    steps:
+      - name: Check labels and draft status
+        id: gate
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+
+            // Gate 1: must be a draft PR.
+            if (!pr.draft) {
+              core.info('PR is not a draft – skipping trigger.');
+              core.setOutput('should_trigger', 'false');
+              return;
+            }
+
+            // Gate 2: must carry pr/copilot or agent:copilot-task label.
+            const TRIGGER_LABELS = new Set(['pr/copilot', 'agent:copilot-task']);
+            const prLabels = (pr.labels ?? []).map(l => l.name);
+            const hasLabel = prLabels.some(n => TRIGGER_LABELS.has(n));
+            if (!hasLabel) {
+              core.info(`PR #${pr.number} has none of [${[...TRIGGER_LABELS].join(', ')}] – skipping trigger.`);
+              core.setOutput('should_trigger', 'false');
+              return;
+            }
+
+            core.info(`PR #${pr.number} is a draft with a Copilot label – will evaluate.`);
+            core.setOutput('should_trigger', 'true');
+
+      - name: Idempotency check and post trigger comment
+        if: steps.gate.outputs.should_trigger == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const OWNER  = context.repo.owner;
+            const REPO   = context.repo.repo;
+            const pr     = context.payload.pull_request;
+            const prNum  = pr.number;
+            const event  = context.eventName === 'pull_request'
+                           ? context.payload.action   // opened / synchronize / reopened
+                           : 'unknown';
+
+            const TRIGGER_MARKER = '<!-- copilot-pr-trigger -->';
+
+            // ── Idempotency: skip if a trigger comment already exists ────────
+            // Exception: on 'synchronize' we always post (new commit = new context).
+            if (event !== 'synchronize') {
+              let existingComments;
+              try {
+                existingComments = await github.paginate(
+                  github.rest.issues.listComments,
+                  { owner: OWNER, repo: REPO, issue_number: prNum, per_page: 100 }
+                );
+              } catch (e) {
+                core.warning(`Could not fetch comments on PR #${prNum}: ${e.message}. Proceeding to post.`);
+                existingComments = [];
+              }
+
+              const alreadyTriggered = existingComments.some(c => (c.body ?? '').includes(TRIGGER_MARKER));
+              if (alreadyTriggered) {
+                core.info(`PR #${prNum}: trigger comment already present – skipping (event=${event}).`);
+                return;
+              }
+            }
+
+            // ── Collect CI scope context from classifier outputs ─────────────
+            const scope = {
+              code:     '${{ needs.ci-scope-classifier.outputs.has_code_changes }}',
+              security: '${{ needs.ci-scope-classifier.outputs.has_security_changes }}',
+              gpu:      '${{ needs.ci-scope-classifier.outputs.has_gpu_changes }}',
+              llm:      '${{ needs.ci-scope-classifier.outputs.has_llm_changes }}',
+              docOnly:  '${{ needs.ci-scope-classifier.outputs.has_doc_only_changes }}',
+              config:   '${{ needs.ci-scope-classifier.outputs.has_config_changes }}',
+              grafana:  '${{ needs.ci-scope-classifier.outputs.has_grafana_changes }}',
+            };
+
+            const scopeLines = [];
+            if (scope.code     === 'true') scopeLines.push('- C++/CUDA/Python source files changed');
+            if (scope.security === 'true') scopeLines.push('- Security / auth files changed');
+            if (scope.gpu      === 'true') scopeLines.push('- GPU module files changed');
+            if (scope.llm      === 'true') scopeLines.push('- LLM/RAG/CUDA kernel files changed');
+            if (scope.config   === 'true') scopeLines.push('- CMake/config/workflow files changed');
+            if (scope.grafana  === 'true') scopeLines.push('- Grafana dashboard JSON files changed');
+            if (scope.docOnly  === 'true') scopeLines.push('- Documentation-only changes detected');
+
+            const scopeSection = scopeLines.length > 0
+              ? ['### CI Scope (changed areas)', '', ...scopeLines, ''].join('\n')
+              : '';
+
+            // ── Collect latest CI check results ─────────────────────────────
+            let ciSummary = '';
+            try {
+              const runs = await github.paginate(
+                github.rest.checks.listForRef,
+                { owner: OWNER, repo: REPO, ref: pr.head.sha, per_page: 100 },
+                response => response.data
+              );
+              if (runs.length > 0) {
+                const failed  = runs.filter(r => r.status === 'completed' && r.conclusion !== 'success' && r.conclusion !== 'skipped' && r.conclusion !== 'neutral');
+                const pending = runs.filter(r => r.status !== 'completed');
+                const passed  = runs.filter(r => r.status === 'completed' && (r.conclusion === 'success' || r.conclusion === 'skipped' || r.conclusion === 'neutral'));
+
+                const lines = ['### CI Status', ''];
+                lines.push(`- ✅ Passed/skipped: ${passed.length}`);
+                if (pending.length > 0) lines.push(`- ⏳ Pending: ${pending.length} (${pending.map(r => r.name).join(', ')})`);
+                if (failed.length  > 0) lines.push(`- ❌ Failed: ${failed.length} (${failed.map(r => r.name).join(', ')})`);
+                ciSummary = lines.join('\n') + '\n';
+              }
+            } catch (e) {
+              core.warning(`Could not read check runs for PR #${prNum}: ${e.message}`);
+            }
+
+            // ── Extract PR body excerpt (first 300 chars, skip headings) ────
+            const prBodyLines = (pr.body ?? '').split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
+            const prBodyExcerpt = prBodyLines.length > 0 ? prBodyLines[0].slice(0, 300) : '';
+
+            // ── Build the trigger comment ────────────────────────────────────
+            const triggerComment = [
+              TRIGGER_MARKER,
+              `@copilot This draft PR was created for you. Please continue the implementation.`,
+              '',
+              `## PR Context`,
+              '',
+              `| Field | Value |`,
+              `|---|---|`,
+              `| **PR** | [#${prNum} – ${pr.title}](${pr.html_url}) |`,
+              `| **Branch** | \`${pr.head.ref}\` → \`${pr.base.ref}\` |`,
+              `| **Event** | \`${event}\` |`,
+              `| **Draft** | yes |`,
+              '',
+              ...(prBodyExcerpt ? [`> ${prBodyExcerpt}`, ''] : []),
+              scopeSection,
+              ciSummary,
+              `## Next Steps`,
+              '',
+              `- Implement all items listed in the PR description / linked issue.`,
+              `- Ensure all existing tests pass and add new tests where appropriate.`,
+              `- Follow the repository's contribution guidelines and code standards.`,
+              `- When implementation is complete, mark the PR ready for review`,
+              `  (convert from draft) and request a review.`,
+              '',
+              `---`,
+              '',
+              `*This comment was posted automatically by the PR Copilot Trigger workflow.*`,
+            ].join('\n');
+
+            // ── Post the comment ─────────────────────────────────────────────
+            try {
+              await github.rest.issues.createComment({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: prNum,
+                body: triggerComment,
+              });
+              core.info(`Posted Copilot trigger comment on PR #${prNum} (event=${event}).`);
+            } catch (e) {
+              core.setFailed(`Failed to post trigger comment on PR #${prNum}: ${e.message}`);
+            }
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🤖 PR Copilot Trigger" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **PR** | #${{ github.event.pull_request.number }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event.action }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Draft** | ${{ github.event.pull_request.draft }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.event.pull_request.head.ref }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Draft PRs with label \`pr/copilot\` or \`agent:copilot-task\` receive a \`@copilot\` trigger comment." >> "$GITHUB_STEP_SUMMARY"
