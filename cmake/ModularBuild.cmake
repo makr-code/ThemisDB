@@ -388,6 +388,7 @@ set(THEMIS_SECURITY_SOURCES
     
     # Governance
     ../src/governance/policy_engine.cpp
+    ../src/governance/data_lineage.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp
