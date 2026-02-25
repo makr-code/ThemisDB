@@ -1205,6 +1205,40 @@ else()
     message(STATUS "Cache Replication tests not found")
 endif()
 
+# ============================================================================
+# Multi-Region Active-Active Tests (Phase 4 – bounded staleness)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_region_active_active.cpp")
+    message(STATUS "Adding Multi-Region Active-Active tests")
+
+    add_executable(test_multi_region_active_active
+        test_multi_region_active_active.cpp
+    )
+
+    target_link_libraries(test_multi_region_active_active PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_region_active_active PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiRegionActiveActiveTests COMMAND test_multi_region_active_active)
+
+    set_tests_properties(MultiRegionActiveActiveTests PROPERTIES
+        LABELS "replication;multi-region;active-active;bounded-staleness;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Multi-Region Active-Active: bounded staleness, session tokens, consistency levels, metrics")
+else()
+    message(STATUS "Multi-Region Active-Active tests not found")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 
