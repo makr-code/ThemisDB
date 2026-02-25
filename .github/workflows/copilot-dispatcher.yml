@@ -233,3 +233,18 @@ jobs:
             }
 
             core.info(`Dispatcher finished. Delegated ${delegated} issue(s) to the Copilot Coding Agent.`);
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🤖 Copilot Issue Dispatcher" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Max delegations** | ${{ github.event.inputs.max_delegations || '(config default)' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Issues with label \`queue/copilot\` are delegated to the Copilot Coding Agent (sorted by priority)." >> "$GITHUB_STEP_SUMMARY"

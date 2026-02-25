@@ -199,3 +199,18 @@ jobs:
             }
 
             core.info('Readiness gate evaluation complete.');
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ✅ Copilot Readiness Gate" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **PR number** | ${{ github.event.inputs.pr_number || '(auto-scan)' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Evaluates Copilot PRs: all CI checks passed + Copilot review approved → promotes to \`copilot/status-ready\`." >> "$GITHUB_STEP_SUMMARY"

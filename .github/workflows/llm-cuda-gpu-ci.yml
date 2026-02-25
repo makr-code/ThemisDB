@@ -122,6 +122,22 @@ jobs:
           echo "✅ kernel_fusion.cu compiled successfully for sm_${{ matrix.cuda_arch }}"
           ls -lh /tmp/kernel_fusion_sm${{ matrix.cuda_arch }}.o
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔬 LLM CUDA GPU CI – Compile Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **CUDA arch** | sm_${{ matrix.cuda_arch }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **CUDA toolkit** | 12.4 (nvcc) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Syntax/type check of \`src/llm/kernel_fusion.cu\` — no GPU hardware required." >> "$GITHUB_STEP_SUMMARY"
+
   # ─────────────────────────────────────────────────────────────────────────
   # Job 2: Full GPU correctness test (self-hosted runner with CUDA GPU)
   # ─────────────────────────────────────────────────────────────────────────
@@ -179,3 +195,19 @@ jobs:
         if: always()
         run: |
           echo "GPU test run complete. Architecture: $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          GPU_NAME=$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1 2>/dev/null || echo "unknown")
+          echo "## 🚀 LLM CUDA GPU CI – Kernel Tests (GPU)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **GPU** | ${GPU_NAME} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **CUDA archs** | 80, 86, 89 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Test filter** | \`KernelFusionCUDATest\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"

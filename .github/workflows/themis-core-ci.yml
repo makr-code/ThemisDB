@@ -296,6 +296,25 @@ jobs:
             build/build_manifest.json
           retention-days: 30
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🧪 Themis Core CI – Core Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **OS** | \`${{ matrix.os }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Tests executed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Build info, wire protocol V2 & performance, module sandbox/loader" >> "$GITHUB_STEP_SUMMARY"
+          echo "- License client, fuzz-style core, JWT/RBAC/Vault negative tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Wire performance benchmarks, concerns context & feature flags" >> "$GITHUB_STEP_SUMMARY"
+
   # ───────────────────────────────────────────────────────────────────────────
   # 2.  Coverage report (GCC only, Debug + gcov)
   # ───────────────────────────────────────────────────────────────────────────
@@ -389,6 +408,22 @@ jobs:
             coverage_filtered.info
           retention-days: 30
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📊 Themis Core CI – Coverage Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **OS** | \`ubuntu-22.04\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`gcc-12\` (gcov-12) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Coverage report uploaded as artifact \`coverage-report\` (HTML + lcov info)." >> "$GITHUB_STEP_SUMMARY"
+
   # ───────────────────────────────────────────────────────────────────────────
   # 3.  Docs lint – validate the developer guide
   # ───────────────────────────────────────────────────────────────────────────
@@ -463,6 +498,23 @@ jobs:
             echo "::warning::${count} open TODO/FIXME items in core sources"
           fi
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📝 Themis Core CI – Docs Lint" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks performed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Developer guide presence (THEMIS_CORE_GUIDE.md, LICENSE_RUNTIME guides)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Referenced header file existence" >> "$GITHUB_STEP_SUMMARY"
+          echo "- TODO/FIXME scan in core sources" >> "$GITHUB_STEP_SUMMARY"
+
   # ───────────────────────────────────────────────────────────────────────────
   # 4.  License server Python tests
   # ───────────────────────────────────────────────────────────────────────────
@@ -506,3 +558,19 @@ jobs:
           name: license-server-test-results
           path: scripts/license-server/.pytest_cache/
           retention-days: 14
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔑 Themis Core CI – License Server Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Python** | 3.11 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Framework** | FastAPI / pytest |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Test file: \`scripts/license-server/test_license_server.py\`" >> "$GITHUB_STEP_SUMMARY"

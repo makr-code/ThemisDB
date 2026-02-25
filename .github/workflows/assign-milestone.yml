@@ -49,3 +49,16 @@ jobs:
           MILESTONE_INPUT: ${{ github.event.inputs.milestone }}
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: python .github/scripts/assign_milestone.py
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🎯 Assign Issues to Milestone" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Setting | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Milestone** | ${{ github.event.inputs.milestone }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Dry-run** | ${{ github.event.inputs.dry_run }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"

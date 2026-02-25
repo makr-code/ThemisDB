@@ -99,3 +99,24 @@ jobs:
           cd benchmarks/chimera
           python demo.py
           ls -la demo_reports/
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🧬 CHIMERA Suite Tests – Python ${{ matrix.python-version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Python** | ${{ matrix.python-version }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Test suites" >> "$GITHUB_STEP_SUMMARY"
+          echo "- \`test_chimera.py\` – core CHIMERA tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- \`test_database_adapters.py\` – database adapter tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- \`test_llm_rag_ethics.py\` – LLM/RAG/ethics tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Combined coverage report (uploaded to Codecov for Python 3.12)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Neutrality linter" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Package import & demo script smoke test" >> "$GITHUB_STEP_SUMMARY"

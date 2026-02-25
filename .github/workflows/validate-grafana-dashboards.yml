@@ -73,3 +73,22 @@ jobs:
           echo "NOTE: Live Grafana smoke-testing (Grafana 10.x import + panel render check)"
           echo "      is a manual step performed by the observability team before each release."
           echo "      See docs/operations/llm/METRICS_SCRAPE_TROUBLESHOOTING.md for instructions."
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📊 Validate Grafana Dashboards" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Directory** | \`grafana/\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Validator** | \`scripts/validate_grafana_dashboards.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks performed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- JSON syntax, required fields (title, panels), unique panel IDs" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Panel structure, grid overlap, non-empty PromQL targets" >> "$GITHUB_STEP_SUMMARY"
+          echo "- LLM dashboard: required panels present, all metrics use \`llm_\` prefix" >> "$GITHUB_STEP_SUMMARY"

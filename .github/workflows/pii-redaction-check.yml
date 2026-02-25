@@ -60,6 +60,21 @@ jobs:
         # Exit code 1 means violations found → CI fails.
         # Exit code 2 means script configuration error.
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔒 PII Redaction – Leakage Static Lint" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`.github/scripts/check_pii_leakage.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Scans \`src/\`, \`include/\`, \`tests/\`, \`fuzz/\` for PII leakage patterns." >> "$GITHUB_STEP_SUMMARY"
+
   pii-pattern-config-validation:
     needs: ci-scope-classifier
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
@@ -128,6 +143,19 @@ jobs:
           print("All PII pattern configs are valid.")
           EOF
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔒 PII Redaction – Pattern Config Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Files checked** | \`config/pii_patterns.yaml\`, \`config/security/pii_patterns.yaml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+
   pii-docs-check:
     needs: ci-scope-classifier
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
@@ -171,3 +199,18 @@ jobs:
             exit 1
           fi
           echo "OK: All required sections present in $DOC"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔒 PII Redaction – Documentation Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Policy doc** | \`docs/en/security/PII_REDACTION_POLICY.md\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Required sections: What is PII, Redaction Policy, Configuration, Extending" >> "$GITHUB_STEP_SUMMARY"

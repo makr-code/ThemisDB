@@ -123,6 +123,22 @@ jobs:
             build/importer_test_output.txt
           retention-days: 14
 
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📥 Importer Tests – Unit Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **OS** | \`${{ matrix.os }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Compiler** | \`${{ matrix.compiler }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Importer modules: PostgreSQL (Pg12–Pg16), MySQL, MongoDB, async API, import metrics." >> "$GITHUB_STEP_SUMMARY"
+
   # ---------------------------------------------------------------------------
   # Validate documentation
   # ---------------------------------------------------------------------------
@@ -164,3 +180,19 @@ jobs:
             fi
             echo "OK: $f ($(wc -l < $f) lines)"
           done
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📝 Importer Tests – Docs Lint" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Checks performed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- markdownlint on \`docs/importers_roadmap.md\` and \`docs/importers_runbook.md\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Fixture file existence (pg12, pg14, pg15, pg16, mongo)" >> "$GITHUB_STEP_SUMMARY"
