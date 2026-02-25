@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     489                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,6 +22,7 @@
 #include "utils/zstd_codec.h"
 #include <algorithm>
 #include <iostream>
+#include <lz4.h>
 
 namespace themis::sharding {
 
@@ -276,13 +277,33 @@ bool WALShipper::shipBatch(const std::string& endpoint,
                     std::lock_guard<std::mutex> lock(stats_mutex_);
                     stats_.total_bytes_uncompressed += uncompressed_size;
                     double ratio = static_cast<double>(uncompressed_size) / compressed_bytes.size();
-                    stats_.avg_compression_ratio = 
-                        (stats_.avg_compression_ratio * (stats_.total_batches - 1) + ratio) / 
-                        stats_.total_batches;
+                    // Running average: use total_batches (count before this batch) as N-1
+                    double n = static_cast<double>(stats_.total_batches);
+                    stats_.avg_compression_ratio = (stats_.avg_compression_ratio * n + ratio) / (n + 1.0);
+                }
+            }
+        } else if (config_.compression == WALShipperConfig::CompressionType::LZ4) {
+            int src_size = static_cast<int>(uncompressed_size);
+            int bound = LZ4_compressBound(src_size);
+            std::vector<char> lz4_buf(static_cast<size_t>(bound));
+            int lz4_size = LZ4_compress_default(
+                serialized_entries.data(), lz4_buf.data(), src_size, bound
+            );
+            if (lz4_size > 0) {
+                payload_data = std::string(lz4_buf.data(), static_cast<size_t>(lz4_size));
+                request["compression"] = "lz4";
+                compressed = true;
+
+                // Update statistics
+                {
+                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    stats_.total_bytes_uncompressed += uncompressed_size;
+                    double ratio = static_cast<double>(uncompressed_size) / lz4_size;
+                    double n = static_cast<double>(stats_.total_batches);
+                    stats_.avg_compression_ratio = (stats_.avg_compression_ratio * n + ratio) / (n + 1.0);
                 }
             }
         }
-        // LZ4 support can be added here in the future
     }
     
     // If compression failed or not enabled, use uncompressed
@@ -467,9 +488,9 @@ WALShipperConfig::CompressionType WALShipper::selectCompressionType(
         return WALShipperConfig::CompressionType::None;
     }
     
-    // CPU constrained: Use faster or no compression
+    // CPU constrained: Use no compression
     if (cpu_utilization > 0.85) {
-        return WALShipperConfig::CompressionType::None;  // or LZ4 if available
+        return WALShipperConfig::CompressionType::None;
     }
     
     // Medium CPU load and repetitive data: Use Zstd
