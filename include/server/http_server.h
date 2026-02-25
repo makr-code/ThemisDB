@@ -112,6 +112,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/auth_middleware.h"
 #include "server/request_validation_middleware.h"
 #include "server/policy_engine.h"
+#include "server/opa_adapter.h"
 #include "server/ranger_adapter.h"
 #include "utils/pii_pseudonymizer.h"
 #include "utils/update_checker.h"
@@ -743,6 +744,7 @@ private:
     std::unique_ptr<ContinuousAggregateManager> ts_agg_manager_;
     // Governance Policy Engine
     std::unique_ptr<themis::PolicyEngine> policy_engine_;
+    std::unique_ptr<themis::OpaAdapter> opa_adapter_;
     std::unique_ptr<themis::server::RangerClient> ranger_client_;
     
     // Audit Logger

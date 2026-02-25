@@ -1215,7 +1215,32 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
         }
     }
-    
+
+    // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.
+    // OPA acts as an alternative policy evaluation engine (policy-as-code via Rego).
+    // If OPA is unreachable or times out, PolicyEngine falls back to native evaluation
+    // and increments the opa_fallback_total metric.
+    if (auto opa_url = themis_get_env("THEMIS_OPA_ENDPOINT_URL")) {
+        themis::OpaAdapter::Config opa_cfg;
+        opa_cfg.endpoint_url = *opa_url;
+        if (auto path = themis_get_env("THEMIS_OPA_POLICY_PATH")) {
+            opa_cfg.policy_path = *path;
+        }
+        if (auto tms = themis_get_env("THEMIS_OPA_TIMEOUT_MS")) {
+            try { opa_cfg.timeout_ms = std::stol(*tms); } catch (...) {}
+        }
+        try {
+            opa_adapter_ = std::make_unique<themis::OpaAdapter>(opa_cfg);
+            if (policy_engine_) {
+                policy_engine_->setOpaEvaluator(opa_adapter_.get());
+            }
+            THEMIS_INFO("OPA evaluator configured: endpoint={}, path={}, timeout={}ms",
+                opa_cfg.endpoint_url, opa_cfg.policy_path, opa_cfg.timeout_ms);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
+        }
+    }
+
     // Initialize Rate Limiter for DoS protection
     RateLimitConfig rate_config;
     rate_config.bucket_capacity = 100;
