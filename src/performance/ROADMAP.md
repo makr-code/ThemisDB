@@ -37,7 +37,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Long-term (6-12 months)
 - [I] ML-based workload predictor for proactive resource scaling (Issue: #2214)
-- [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
+- [P] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
 - [I] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
 - [P] Persistent memory (Optane) aware storage layout (Issue: #2424)
@@ -74,7 +74,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [ ] ML-based workload predictor for proactive resource scaling
-- [ ] Hardware performance counter (PMU) integration for cache miss analysis
+- [~] Hardware performance counter (PMU) integration for cache miss analysis
 - [ ] Cross-module performance regression detection in CI
 - [ ] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout
