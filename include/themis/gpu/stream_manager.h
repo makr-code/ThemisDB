@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     178                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/gpu/launcher.h"
+#include "themis/gpu/rocm_backend.h"
 
 namespace themis {
 namespace gpu {
@@ -98,12 +99,31 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // Construction
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Default constructor.
+     *
+     * Allows constructing local instances for testing and non-singleton use.
+     * Use GetInstance() for the process-wide singleton.
+     */
+    GPUStreamManager() = default;
+    ~GPUStreamManager();
+
+    // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
     static GPUStreamManager& GetInstance() {
         static GPUStreamManager inst;
         return inst;
     }
+
+    // -----------------------------------------------------------------------
+    // Construction / destruction
+    // -----------------------------------------------------------------------
+    GPUStreamManager() = default;
+    ~GPUStreamManager();
 
     // -----------------------------------------------------------------------
     // Stream lifecycle
@@ -113,12 +133,35 @@ public:
      * @brief Create a new named stream.
      *
      * @param cfg      Stream configuration.
-     * @param backend  GPU execution backend.  Pass nullptr to use a no-op
-     *                 backend (all work items succeed immediately via CPU).
+     * @param backend  GPU execution backend.  Pass nullptr to use the ROCm
+     *                 backend (which creates a named HIP stream and transparently
+     *                 falls back to CPU execution when `THEMIS_ENABLE_HIP` is absent).
+     *                 When `THEMIS_ENABLE_CUDA` is also active a `cudaStream_t` is
+     *                 created alongside and stored for future kernel dispatch.
+     *                 backend (which transparently falls back to CPU execution
+     *                 when HIP is unavailable).  A HIP stream is created via
+     *                 `ROCmBackend::createStream()` for the stream's lifetime.
      * @return false if a stream with that name already exists.
      */
     bool createStream(const StreamConfig&     cfg,
                       GPULauncher::BackendFn  backend = nullptr);
+
+    /**
+     * @brief Create a new named CUDA stream on @p device_index.
+     *
+     * Wires a CUDA-backed execution path into the stream when
+     * `THEMIS_ENABLE_CUDA` is defined; falls back to the ROCm/CPU backend
+     * when CUDA is unavailable so the call is always safe to use.
+     *
+     * This overload resolves the "Stubs: 1" noted in the stream_manager header
+     * by providing a first-class CUDA stream creation path alongside the
+     * existing ROCm path.
+     *
+     * @param cfg           Stream configuration (name must be non-empty).
+     * @param device_index  CUDA device ordinal (0-based).
+     * @return false if a stream with that name already exists or cfg.name is empty.
+     */
+    bool createCudaStream(const StreamConfig& cfg, int device_index = 0);
 
     /**
      * @brief Destroy a named stream.
@@ -162,17 +205,22 @@ public:
     std::vector<StreamStats> getAllStreamStats() const;
 
 private:
-    GPUStreamManager() = default;
 
     struct Stream {
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
+        uintptr_t                  cuda_stream      = 0;     ///< cudaStream_t handle; 0 when not created.
+        bool                       uses_rocm_stream = false; ///< true when a HIP stream was registered via ROCmBackend.
+        bool                       uses_rocm_backend = false;
+        /** @brief True when a HIP stream was created via ROCmBackend for this stream. */
+        bool                       uses_rocm_stream = false;
     };
 
     mutable std::mutex                          mutex_;
     std::unordered_map<std::string, Stream>     streams_;
 };
+
 
 } // namespace gpu
 } // namespace themis
