@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2253 – [replication] Implement joint consensus for membership changes in Raft v2
+**URL:** https://github.com/makr-code/ThemisDB/issues/2253
+**Branch:** copilot/issue-2253-replication-implement-joint-consensus-for-membersh
+**Base:** develop
+**Created:** 2026-02-25T09:30:56.344Z
+
+Copilot will push real changes here to resolve the issue.
