@@ -163,6 +163,81 @@ std::string SpatialIndexManager::makeSpatialPerPKKey(
     return getSpatialKeyPrefix(table) + "pk:" + buf + ":" + std::string(pk);
 }
 
+// ── R-tree helpers ────────────────────────────────────────────────────────
+
+/// Convert an MBR to a minimal Polygon GeometryInfo for GeoRTree indexing.
+/// The polygon's computeMBR() returns the same MBR, ensuring stable insert/remove.
+geo::GeometryInfo SpatialIndexManager::mbrToGeometryInfo(const geo::MBR& mbr) {
+    geo::GeometryInfo g(geo::GeometryType::Polygon);
+    g.rings.push_back({
+        {mbr.minx, mbr.miny}, {mbr.maxx, mbr.miny},
+        {mbr.maxx, mbr.maxy}, {mbr.minx, mbr.maxy},
+        {mbr.minx, mbr.miny}  // close ring
+    });
+    return g;
+}
+
+/// Lazily build the in-memory R-tree for `table` from per-PK RocksDB keys.
+/// No-op if the R-tree has already been initialised for this table.
+/// Falls back gracefully when per-PK keys are absent (e.g. very old data);
+/// in that case the table's R-tree remains empty and searchIntersects uses
+/// the Morton code scan instead.
+void SpatialIndexManager::ensureRTree(std::string_view table) const {
+    std::string table_str(table);
+    if (rtree_built_.count(table_str)) return;
+
+    // Mark as built immediately to avoid re-entry in recursive / concurrent paths.
+    rtree_built_.insert(table_str);
+
+    // Scan all per-PK spatial keys for this table.
+    // Key format: spatial:<table>:pk:<16hex>:<primary_key>
+    // Value format: JSON {"mbr":{"minx":...,"miny":...,"maxx":...,"maxy":...}}
+    const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
+    constexpr std::size_t kMortonChars = 16; // 64-bit Morton code: 16 hex characters
+    const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+
+    std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+    auto& cache = mbr_cache_[table_str];
+
+    db_.scanRange(pk_prefix, pk_prefix + "~",
+        [&](std::string_view k, std::string_view v) {
+            if (k.size() <= pk_strip) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
+                            "for table='{}' (len={})", table_str, k.size());
+                return true;
+            }
+            std::string pk(k.substr(pk_strip));
+            try {
+                auto j = json::parse(std::string(v));
+                const auto& mbr_j = j.at("mbr");
+                geo::MBR mbr;
+                mbr.minx = mbr_j.at("minx").get<double>();
+                mbr.miny = mbr_j.at("miny").get<double>();
+                mbr.maxx = mbr_j.at("maxx").get<double>();
+                mbr.maxy = mbr_j.at("maxy").get<double>();
+                cache[pk] = mbr;
+                bulk_entries.emplace_back(pk, mbrToGeometryInfo(mbr));
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: failed to parse "
+                            "sidecar for pk='{}' in table='{}': {}",
+                            pk, table_str, ex.what());
+            } catch (...) {
+                THEMIS_WARN("SpatialIndexManager::ensureRTree: unknown error "
+                            "parsing sidecar for pk='{}' in table='{}'",
+                            pk, table_str);
+            }
+            return true;
+        });
+
+    if (!bulk_entries.empty()) {
+        rtrees_[table_str].bulkLoad(bulk_entries);
+        THEMIS_INFO("SpatialIndexManager: R-tree built for table='{}': "
+                    "entries={}, geo_index_bytes_allocated={}",
+                    table_str, rtrees_[table_str].size(),
+                    rtrees_[table_str].memoryBytes());
+    }
+}
+
 // Config persistence
 std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table) const {
     auto value = db_.get(getConfigKey(table));
@@ -226,7 +301,14 @@ SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
         // Default: global lat/lon bounds
         cfg.total_bounds = geo::MBR(-180.0, -90.0, 180.0, 90.0);
     }
-    
+
+    // Invalidate any stale in-memory R-tree state for this table so that a
+    // subsequent ensureRTree() rebuilds cleanly from the new (empty) index.
+    std::string table_str(table);
+    rtrees_.erase(table_str);
+    mbr_cache_.erase(table_str);
+    rtree_built_.erase(table_str);
+
     return saveConfig(table, cfg);
 }
 
@@ -241,7 +323,14 @@ SpatialIndexManager::Status SpatialIndexManager::dropSpatialIndex(std::string_vi
         db_.del(key);
         return true;
     });
-    
+
+    // Clear in-memory R-tree state so stale entries are not returned if the
+    // index is recreated later.
+    std::string table_str(table);
+    rtrees_.erase(table_str);
+    mbr_cache_.erase(table_str);
+    rtree_built_.erase(table_str);
+
     return Status::OK();
 }
 
@@ -372,7 +461,16 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     const auto pk_dump = pk_sidecar.dump();
     std::vector<uint8_t> pk_bytes(pk_dump.begin(), pk_dump.end());
     db_.put(pk_key, pk_bytes); // Best effort, don't fail on error
-    
+
+    // Update in-memory R-tree and MBR cache.
+    std::string table_str(table);
+    std::string pk_str(primary_key);
+    mbr_cache_[table_str][pk_str] = sidecar.mbr;
+    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+    // Mark the table's R-tree as built so ensureRTree won't overwrite our
+    // incrementally maintained index on the first query.
+    rtree_built_.insert(table_str);
+
     return Status::OK();
 }
 
@@ -421,7 +519,15 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     const auto pk_dump = pk_sidecar.dump();
     std::vector<uint8_t> pk_bytes(pk_dump.begin(), pk_dump.end());
     batch.put(pk_key, pk_bytes);
-    
+
+    // Update in-memory R-tree and MBR cache (R-tree is always in-memory;
+    // updating it here keeps it consistent with the pending batch write).
+    std::string table_str(table);
+    std::string pk_str(primary_key);
+    mbr_cache_[table_str][pk_str] = sidecar.mbr;
+    rtrees_[table_str].insert(pk_str, mbrToGeometryInfo(sidecar.mbr));
+    rtree_built_.insert(table_str);
+
     return Status::OK();
 }
 
@@ -447,11 +553,21 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     // Delete per-PK key from WriteBatch
     std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
     batch.del(pk_key);
-    
+
+    // Update in-memory R-tree and MBR cache.
+    std::string table_str(table);
+    std::string pk_str(primary_key);
+    auto& cache = mbr_cache_[table_str];
+    auto it = cache.find(pk_str);
+    if (it != cache.end()) {
+        rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(it->second));
+        cache.erase(it);
+    }
+
     // Note: We rely on per-PK keys for spatial queries to avoid bucket-level
     // read-modify-write conflicts. The bucket key is kept for backward compatibility
     // but is not updated here to prevent concurrent write conflicts.
-    
+
     return Status::OK();
 }
 
@@ -491,7 +607,17 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Storage improvement: Also delete per-PK key
     std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
     db_.del(pk_key); // Best effort
-    
+
+    // Update in-memory R-tree and MBR cache.
+    std::string table_str(table);
+    std::string pk_str(primary_key);
+    auto& cache = mbr_cache_[table_str];
+    auto it = cache.find(pk_str);
+    if (it != cache.end()) {
+        rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(it->second));
+        cache.erase(it);
+    }
+
     if (entries.empty()) {
         return db_.del(key) ? Status::OK() : Status::Error("failed to remove");
     } else {
@@ -538,115 +664,162 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
 ) const {
     // G5: Track query metrics
     metrics_.query_count++;
-    
+
     auto config = getConfig(table);
     if (!config) return {};
-    
-    // Get Morton ranges
+
+    // ── Fast path: use in-memory R-tree when available ───────────────────
+    // ensureRTree() builds the R-tree lazily from per-PK RocksDB keys on the
+    // first call; subsequent calls are no-ops (O(1) set-lookup).
+    ensureRTree(table);
+
+    std::string table_str(table);
+    const auto& rtree = rtrees_[table_str];
+
+    if (rtree.size() > 0) {
+        // R-tree path: O(log n + k) MBR pre-filter, where k = number of hits.
+        auto candidate_keys = rtree.intersects(query_bbox);
+
+        std::vector<SpatialResult> results;
+        const auto& cache = mbr_cache_[table_str];
+
+        size_t mbr_candidates_this_query = static_cast<size_t>(candidate_keys.size());
+        size_t exact_checks_this_query = 0;
+        size_t exact_passed_this_query = 0;
+
+        for (const auto& pk : candidate_keys) {
+            // Look up the stored MBR from the in-memory cache.
+            auto cache_it = cache.find(pk);
+            geo::MBR entry_mbr;
+            if (cache_it != cache.end()) {
+                entry_mbr = cache_it->second;
+            }
+
+            // Phase 2: Exact geometry check (if backend available).
+            bool exact_match = true;
+            if (exact_backend_) {
+                exact_checks_this_query++;
+                try {
+                    std::string entity_key = "entity:" + table_str + ":" + pk;
+                    auto blob = db_.get(entity_key);
+                    if (blob) {
+                        std::string blob_str(reinterpret_cast<const char*>(blob->data()),
+                                             blob->size());
+                        try {
+                            auto j = json::parse(blob_str);
+                            if (j.contains("geometry") && j["geometry"].is_object()) {
+                                std::string geojson = j["geometry"].dump();
+                                auto entity_geom = geo::EWKBParser::parseGeoJSON(geojson);
+                                geo::GeometryInfo query_geom(geo::GeometryType::Polygon);
+                                query_geom.coords = {
+                                    geo::Coordinate(query_bbox.minx, query_bbox.miny),
+                                    geo::Coordinate(query_bbox.maxx, query_bbox.miny),
+                                    geo::Coordinate(query_bbox.maxx, query_bbox.maxy),
+                                    geo::Coordinate(query_bbox.minx, query_bbox.maxy),
+                                    geo::Coordinate(query_bbox.minx, query_bbox.miny)
+                                };
+                                exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
+                                if (exact_match) exact_passed_this_query++;
+                            }
+                        } catch (...) { exact_match = true; }
+                    }
+                } catch (...) { exact_match = true; }
+            }
+
+            if (exact_match) {
+                SpatialResult result;
+                result.primary_key = pk;
+                result.mbr = entry_mbr;
+                results.push_back(result);
+            }
+        }
+
+        // G5: Update global metrics
+        metrics_.mbr_candidate_count += mbr_candidates_this_query;
+        metrics_.exact_check_count += exact_checks_this_query;
+        metrics_.exact_check_passed += exact_passed_this_query;
+        metrics_.exact_check_failed += (exact_checks_this_query - exact_passed_this_query);
+
+        return results;
+    }
+
+    // ── Fallback path: Morton code range scan ────────────────────────────
+    // Used when the R-tree is empty (no data inserted in this session and no
+    // per-PK keys found during lazy rebuild, e.g. very old bucket-only data).
     auto ranges = MortonEncoder::getRanges(query_bbox, config->total_bounds);
-    
+
     std::vector<SpatialResult> results;
     size_t mbr_candidates_this_query = 0;
     size_t exact_checks_this_query = 0;
     size_t exact_passed_this_query = 0;
-    
+
     for (const auto& [min_code, max_code] : ranges) {
-        // Scan RocksDB range
         std::string start_key = makeSpatialKey(table, min_code);
         std::string end_key = makeSpatialKey(table, max_code);
-        
+
         std::vector<std::pair<std::string,std::string>> kvs;
         db_.scanRange(start_key, end_key, [&kvs](std::string_view k, std::string_view v){
             kvs.emplace_back(std::string(k), std::string(v));
             return true;
         });
-        
+
         for (const auto& [key, value] : kvs) {
             auto entries = parseSidecarList(value);
-            
+
             for (const auto& entry : entries) {
-                // Phase 1: MBR intersection check (fast filter)
-                if (!entry.sidecar.mbr.intersects(query_bbox)) {
-                    continue; // Skip if MBR doesn't intersect
-                }
-                
-                // G5: Count MBR candidates
+                if (!entry.sidecar.mbr.intersects(query_bbox)) continue;
+
                 mbr_candidates_this_query++;
-                
-                // Phase 2: Exact geometry check (if backend available)
-                bool exact_match = true; // Default: assume match if no exact backend
-                
+
+                bool exact_match = true;
                 if (exact_backend_) {
                     exact_checks_this_query++;
-                    
                     try {
-                        // Load entity blob to get full geometry
                         std::string entity_key = "entity:" + std::string(table) + ":" + entry.primary_key;
                         auto blob = db_.get(entity_key);
-                        
                         if (blob) {
-                            // Parse entity blob to extract geometry
                             std::string blob_str(reinterpret_cast<const char*>(blob->data()), blob->size());
-                            
                             try {
                                 auto j = json::parse(blob_str);
-                                std::vector<uint8_t> geom_blob;
-                                
-                                // Extract geometry from entity
                                 if (j.contains("geometry") && j["geometry"].is_object()) {
                                     std::string geojson = j["geometry"].dump();
                                     auto entity_geom = geo::EWKBParser::parseGeoJSON(geojson);
-                                    
-                                    // Create query geometry from bbox (as polygon)
                                     geo::GeometryInfo query_geom(geo::GeometryType::Polygon);
                                     query_geom.coords = {
                                         geo::Coordinate(query_bbox.minx, query_bbox.miny),
                                         geo::Coordinate(query_bbox.maxx, query_bbox.miny),
                                         geo::Coordinate(query_bbox.maxx, query_bbox.maxy),
                                         geo::Coordinate(query_bbox.minx, query_bbox.maxy),
-                                        geo::Coordinate(query_bbox.minx, query_bbox.miny) // close ring
+                                        geo::Coordinate(query_bbox.minx, query_bbox.miny)
                                     };
-                                    
-                                    // Exact intersection check
                                     exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
-                                    
-                                    // G5: Track exact check results
-                                    if (exact_match) {
-                                        exact_passed_this_query++;
-                                    }
+                                    if (exact_match) exact_passed_this_query++;
                                 }
-                            } catch (...) {
-                                // Parse error - keep candidate (conservative approach)
-                                exact_match = true;
-                            }
+                            } catch (...) { exact_match = true; }
                         }
-                    } catch (...) {
-                        // Error loading/parsing - keep candidate (conservative)
-                        exact_match = true;
-                    }
+                    } catch (...) { exact_match = true; }
                 }
-                
-                // Only add to results if exact check passed (or no exact backend)
+
                 if (exact_match) {
                     SpatialResult result;
                     result.primary_key = entry.primary_key;
                     result.mbr = entry.sidecar.mbr;
-                    result.z_min = entry.sidecar.z_min != 0.0 
+                    result.z_min = entry.sidecar.z_min != 0.0
                         ? std::optional<double>(entry.sidecar.z_min) : std::nullopt;
-                    result.z_max = entry.sidecar.z_max != 0.0 
+                    result.z_max = entry.sidecar.z_max != 0.0
                         ? std::optional<double>(entry.sidecar.z_max) : std::nullopt;
                     results.push_back(result);
                 }
             }
         }
     }
-    
+
     // G5: Update global metrics
     metrics_.mbr_candidate_count += mbr_candidates_this_query;
     metrics_.exact_check_count += exact_checks_this_query;
     metrics_.exact_check_passed += exact_passed_this_query;
     metrics_.exact_check_failed += (exact_checks_this_query - exact_passed_this_query);
-    
+
     return results;
 }
 

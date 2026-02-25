@@ -9,7 +9,7 @@ The Config module provides backward-compatible configuration path resolution for
 | Interface / File | Role |
 |-----------------|------|
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
-| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus metrics exporter — exposes resolution counters and cache stats on `/metrics` |
+| `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
 | `config_errors.h` | Typed exception hierarchy for config-related errors |
@@ -24,6 +24,7 @@ The Config module provides backward-compatible configuration path resolution for
 - Thread-safe metrics tracking (hits, misses, cache hits, legacy fallbacks)
 - Prometheus metrics export via `ConfigMetricsExporter::collect()` (served on `/metrics`)
 - Typed exception hierarchy for config errors
+- Config path access audit trail (bounded in-memory log with timestamps)
 
 **Out of Scope:**
 - Parsing or loading config file contents (YAML/JSON)
@@ -44,7 +45,6 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 - **Optional API**: `tryResolve()` returns `std::nullopt` instead of throwing on failure
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
 - **Thread-Safe Metrics**: All counters use `std::atomic` — safe for concurrent reads with no locking
-
 - **LRU Cache**: Resolved paths are cached to avoid repeated filesystem `exists()` calls. Capacity and TTL are configurable via environment variables (see [Environment Variables](#environment-variables) below).
 - **Symlink Hardening**: `validatePath()` rejects symlinks that resolve outside the config root
 - **Deprecation Aggregation**: `deprecationReport()` returns a usage-sorted snapshot of all legacy paths accessed since startup
@@ -53,16 +53,31 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 
 | Variable | Default | Valid Range | Description |
 |---|---|---|---|
-| `THEMIS_CONFIG_CACHE_CAPACITY` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
-| `THEMIS_CONFIG_CACHE_TTL_SECONDS` | 300 | 1–86 400 | Entry TTL in seconds; 0 forces every resolve to hit the filesystem |
+| `THEMIS_CONFIG_CACHE_SIZE` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
+| `THEMIS_CONFIG_CACHE_TTL` | 300 | 1–86 400 | Entry TTL in seconds; expired entries are evicted on next access |
 
 Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
-
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access
 - The `PATH_MAPPING` table is `const` and initialized at compile time
 - Metrics use `std::atomic<uint64_t>`; no locks needed for reads
+- `ConfigAuditLog` uses an internal `std::mutex`; audit recording is a separate lock acquisition from path resolution
+
+### ConfigAuditLog
+**Location:** `config_audit_log.h`, `config_audit_log.cpp`
+
+Bounded, thread-safe in-memory audit trail for config path accesses. Disabled by default; enabled via `ConfigPathResolver::setAuditLogEnabled(true)`. Each successful resolution appends an `AuditEntry` containing:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `requested_path` | `std::string` | The path as originally passed by the caller |
+| `resolved_path` | `std::string` | The final filesystem path returned |
+| `timestamp` | `std::chrono::system_clock::time_point` | UTC time of the access |
+| `is_legacy` | `bool` | `true` if the legacy fallback path was used |
+| `is_cache_hit` | `bool` | `true` if the result was served from the LRU cache |
+
+The log is bounded (default 10,000 entries); oldest entries are evicted when the limit is reached. Failed resolutions are never recorded.
 
 ### LRUCacheWithTTL
 **Location:** `lru_cache.h`
@@ -120,15 +135,15 @@ Caller
             │
             ├─ normalizePath()         ← strip "./" and backslashes
             ├─ validatePath()          ← reject ".." traversal
-            ├─ LRUCacheWithTTL::get()  ← return if cached
+            ├─ LRUCacheWithTTL::get()  ← return if cached (+ audit entry if enabled)
             │
             ├─ mapLegacyToNew()        ← look up PATH_MAPPING table
             │
-            ├─ filesystem::exists(new_path)?  → return new path
+            ├─ filesystem::exists(new_path)?  → return new path (+ audit entry if enabled)
             │
             └─ filesystem::exists(legacy_path)?
-                  ├─ yes → log deprecation warning, return legacy path
-                  └─ no  → throw ConfigNotFoundException
+                  ├─ yes → log deprecation warning, return legacy path (+ audit entry if enabled)
+                  └─ no  → throw ConfigNotFoundException (no audit entry)
 ```
 
 ## Dependencies
@@ -137,6 +152,7 @@ Caller
 - `config/lru_cache.h` — LRU cache with TTL
 - `config/path_mapping_metadata.h` — deprecation metadata struct
 - `config/config_errors.h` — typed exception hierarchy
+- `config/config_audit_log.h` — bounded in-memory audit trail
 
 ### External Dependencies
 - `spdlog` — structured logging for deprecation warnings and debug traces
@@ -195,10 +211,26 @@ for (const auto& [legacy, new_path] : ConfigPathResolver::legacyPathMappings()) 
 ConfigPathResolver::setCachingEnabled(false);
 ConfigPathResolver::resetMetrics();
 
-// Query the effective cache configuration (reflects env-var overrides)
-auto cfg = ConfigPathResolver::currentCacheConfig();
-// cfg.capacity     — effective max entries
-// cfg.ttl_seconds  — effective TTL
+// Enable config path audit trail
+ConfigPathResolver::setAuditLogEnabled(true);
+
+std::string path2 = ConfigPathResolver::resolve("config/pii_patterns.yaml");
+
+// Query all recorded audit entries (oldest first)
+for (const auto& entry : ConfigPathResolver::auditLog()) {
+    // entry.requested_path  — original caller path
+    // entry.resolved_path   — path that was returned
+    // entry.timestamp       — std::chrono::system_clock::time_point
+    // entry.is_legacy       — true if legacy fallback was used
+    // entry.is_cache_hit    — true if served from LRU cache
+}
+
+// Clear audit entries and disable logging
+ConfigPathResolver::clearAuditLog();
+ConfigPathResolver::setAuditLogEnabled(false);
+
+// Limit audit log to 500 entries (oldest are evicted when limit is reached)
+ConfigPathResolver::setAuditLogMaxEntries(500);
 ```
 
 ## Environment Variables

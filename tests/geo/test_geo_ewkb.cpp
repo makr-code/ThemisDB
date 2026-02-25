@@ -588,4 +588,224 @@ TEST_F(EWKBTest, GeoJSONPolygonInvalidCoordThrows) {
     GTEST_SKIP() << "THEMIS_GEO_COMPAT_LAX: coordinate validation disabled";
 #endif
 }
+
+// ============================================================
+// GeometryInfo type-check helper tests (isMultiPolygon, isGeometryCollection)
+// ============================================================
+
+TEST_F(EWKBTest, IsMultiPolygon_True) {
+    GeometryInfo geom(GeometryType::MultiPolygon);
+    EXPECT_TRUE(geom.isMultiPolygon());
+    EXPECT_FALSE(geom.isPolygon());
+    EXPECT_FALSE(geom.isGeometryCollection());
+}
+
+TEST_F(EWKBTest, IsMultiPolygonZ_True) {
+    GeometryInfo geom(GeometryType::MultiPolygonZ);
+    EXPECT_TRUE(geom.isMultiPolygon());
+}
+
+TEST_F(EWKBTest, IsGeometryCollection_True) {
+    GeometryInfo geom(GeometryType::GeometryCollection);
+    EXPECT_TRUE(geom.isGeometryCollection());
+    EXPECT_FALSE(geom.isMultiPolygon());
+    EXPECT_FALSE(geom.isPolygon());
+}
+
+TEST_F(EWKBTest, IsGeometryCollectionZ_True) {
+    GeometryInfo geom(GeometryType::GeometryCollectionZ);
+    EXPECT_TRUE(geom.isGeometryCollection());
+}
+
+TEST_F(EWKBTest, IsPolygon_NotMultiPolygon) {
+    GeometryInfo geom(GeometryType::Polygon);
+    EXPECT_TRUE(geom.isPolygon());
+    EXPECT_FALSE(geom.isMultiPolygon());
+    EXPECT_FALSE(geom.isGeometryCollection());
+}
+
+// ============================================================
+// exactIntersects: MultiPolygon and GeometryCollection (CPU backend)
+// ============================================================
+
+#include "geo/spatial_backend.h"
+
+namespace {
+
+static GeometryInfo makeTestPoint(double x, double y) {
+    GeometryInfo g(GeometryType::Point);
+    g.coords.push_back({x, y});
+    return g;
+}
+
+static GeometryInfo makeTestPolygon(std::initializer_list<std::pair<double,double>> pts) {
+    GeometryInfo g(GeometryType::Polygon);
+    std::vector<Coordinate> ring;
+    for (auto& p : pts) ring.push_back({p.first, p.second});
+    g.rings.push_back(ring);
+    return g;
+}
+
+static GeometryInfo makeTestMultiPolygon(
+    std::initializer_list<std::initializer_list<std::pair<double,double>>> polys) {
+    GeometryInfo g(GeometryType::MultiPolygon);
+    for (const auto& pts : polys) {
+        GeometryInfo poly(GeometryType::Polygon);
+        std::vector<Coordinate> ring;
+        for (const auto& p : pts) ring.push_back({p.first, p.second});
+        poly.rings.push_back(ring);
+        g.geometries.push_back(poly);
+    }
+    return g;
+}
+
+} // namespace
+
+// Test: Point inside one polygon of a MultiPolygon → true
+TEST_F(EWKBTest, ExactIntersects_PointInsideMultiPolygon_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto mp = makeTestMultiPolygon({
+        {{0,0},{1,0},{1,1},{0,1},{0,0}},   // first polygon: [0-1, 0-1]
+        {{5,5},{6,5},{6,6},{5,6},{5,5}}    // second polygon: [5-6, 5-6]
+    });
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(0.5, 0.5), mp));
+}
+
+// Test: Point inside second polygon of a MultiPolygon → true
+TEST_F(EWKBTest, ExactIntersects_PointInsideSecondPolygonOfMulti_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto mp = makeTestMultiPolygon({
+        {{0,0},{1,0},{1,1},{0,1},{0,0}},
+        {{5,5},{6,5},{6,6},{5,6},{5,5}}
+    });
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(5.5, 5.5), mp));
+}
+
+// Test: Point outside all polygons of a MultiPolygon → false
+TEST_F(EWKBTest, ExactIntersects_PointOutsideMultiPolygon_False) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto mp = makeTestMultiPolygon({
+        {{0,0},{1,0},{1,1},{0,1},{0,0}},
+        {{5,5},{6,5},{6,6},{5,6},{5,5}}
+    });
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(3.0, 3.0), mp));
+}
+
+// Test: MultiPolygon × MultiPolygon overlapping → true
+TEST_F(EWKBTest, ExactIntersects_MultiPolygonMultiPolygon_Overlapping_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto mp1 = makeTestMultiPolygon({{{0,0},{2,0},{2,2},{0,2},{0,0}}});
+    auto mp2 = makeTestMultiPolygon({{{1,1},{3,1},{3,3},{1,3},{1,1}}});
+    EXPECT_TRUE(cpu->exactIntersects(mp1, mp2));
+}
+
+// Test: MultiPolygon × MultiPolygon disjoint → false
+TEST_F(EWKBTest, ExactIntersects_MultiPolygonMultiPolygon_Disjoint_False) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto mp1 = makeTestMultiPolygon({{{0,0},{1,0},{1,1},{0,1},{0,0}}});
+    auto mp2 = makeTestMultiPolygon({{{5,5},{6,5},{6,6},{5,6},{5,5}}});
+    EXPECT_FALSE(cpu->exactIntersects(mp1, mp2));
+}
+
+// Test: Empty MultiPolygon → false
+TEST_F(EWKBTest, ExactIntersects_EmptyMultiPolygon_False) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    GeometryInfo empty_mp(GeometryType::MultiPolygon);
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(0.5, 0.5), empty_mp));
+    EXPECT_FALSE(cpu->exactIntersects(empty_mp, makeTestPoint(0.5, 0.5)));
+}
+
+// Test: GeometryCollection containing a polygon that intersects the point → true
+TEST_F(EWKBTest, ExactIntersects_PointInsideGeometryCollection_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    GeometryInfo gc(GeometryType::GeometryCollection);
+    gc.geometries.push_back(makeTestPoint(10.0, 10.0));
+    gc.geometries.push_back(makeTestPolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(0.5, 0.5), gc));
+}
+
+// Test: GeometryCollection with no intersecting member → false
+TEST_F(EWKBTest, ExactIntersects_PointOutsideGeometryCollection_False) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    GeometryInfo gc(GeometryType::GeometryCollection);
+    gc.geometries.push_back(makeTestPolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+    gc.geometries.push_back(makeTestPolygon({{5,5},{6,5},{6,6},{5,6},{5,5}}));
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(3.0, 3.0), gc));
+}
+
+// Test: GeometryCollection × GeometryCollection with matching members → true
+TEST_F(EWKBTest, ExactIntersects_GeometryCollectionGeometryCollection_Match_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    GeometryInfo gc1(GeometryType::GeometryCollection);
+    gc1.geometries.push_back(makeTestPolygon({{0,0},{2,0},{2,2},{0,2},{0,0}}));
+    GeometryInfo gc2(GeometryType::GeometryCollection);
+    gc2.geometries.push_back(makeTestPolygon({{1,1},{3,1},{3,3},{1,3},{1,1}}));
+    EXPECT_TRUE(cpu->exactIntersects(gc1, gc2));
+}
+
+// Test: Empty GeometryCollection → false
+TEST_F(EWKBTest, ExactIntersects_EmptyGeometryCollection_False) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    GeometryInfo empty_gc(GeometryType::GeometryCollection);
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(0.5, 0.5), empty_gc));
+    EXPECT_FALSE(cpu->exactIntersects(empty_gc, makeTestPoint(0.5, 0.5)));
+}
+
+// Test: Polygon intersects MultiPolygon (asymmetric call) → true
+TEST_F(EWKBTest, ExactIntersects_PolygonIntersectsMultiPolygon_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto poly = makeTestPolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    auto mp = makeTestMultiPolygon({{{1,1},{3,1},{3,3},{1,3},{1,1}}});
+    EXPECT_TRUE(cpu->exactIntersects(poly, mp));
+    EXPECT_TRUE(cpu->exactIntersects(mp, poly));  // symmetric
+}
+
+// Test: GeoJSON-parsed MultiPolygon with exactIntersects
+TEST_F(EWKBTest, ExactIntersects_ParsedMultiPolygon_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    std::string geojson = R"({
+        "type": "MultiPolygon",
+        "coordinates": [
+            [[[0.0,0.0],[1.0,0.0],[1.0,1.0],[0.0,1.0],[0.0,0.0]]],
+            [[[5.0,5.0],[6.0,5.0],[6.0,6.0],[5.0,6.0],[5.0,5.0]]]
+        ]
+    })";
+    auto mp = EWKBParser::parseGeoJSON(geojson);
+    EXPECT_EQ(mp.type, GeometryType::MultiPolygon);
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(0.5, 0.5), mp));
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(5.5, 5.5), mp));
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(3.0, 3.0), mp));
+}
+
+// Test: GeoJSON-parsed GeometryCollection with exactIntersects
+TEST_F(EWKBTest, ExactIntersects_ParsedGeometryCollection_True) {
+    auto* cpu = themis::geo::getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    std::string geojson = R"({
+        "type": "GeometryCollection",
+        "geometries": [
+            {"type":"Point","coordinates":[10.0,10.0]},
+            {"type":"Polygon","coordinates":[[[0.0,0.0],[1.0,0.0],[1.0,1.0],[0.0,1.0],[0.0,0.0]]]}
+        ]
+    })";
+    auto gc = EWKBParser::parseGeoJSON(geojson);
+    EXPECT_EQ(gc.type, GeometryType::GeometryCollection);
+    // Point (10,10) is in the collection — point-point intersection
+    EXPECT_TRUE(cpu->exactIntersects(makeTestPoint(10.0, 10.0), gc));
+    // A point outside all members
+    EXPECT_FALSE(cpu->exactIntersects(makeTestPoint(5.0, 5.0), gc));
+}
+
  
