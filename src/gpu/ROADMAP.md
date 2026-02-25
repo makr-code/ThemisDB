@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, and memory defragmentation are implemented. Multi-node GPU coordination is still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and GPU profiling integration (NVIDIA Nsight / ROCm Profiler) are implemented. Multi-node GPU coordination is still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints

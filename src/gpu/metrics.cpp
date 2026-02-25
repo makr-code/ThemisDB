@@ -10,11 +10,12 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     223                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     269                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
+    • c110763    2026-02-25  Add rocm_profiler_export() Chrome trace JSON export   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
