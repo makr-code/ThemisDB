@@ -18,7 +18,7 @@
  */
 
 // Test for performance allocator
-// Tests memory allocation with optional mimalloc optimization
+// Tests memory allocation with optional jemalloc or mimalloc optimization
 
 #include <performance/allocator.h>
 #include <gtest/gtest.h>
@@ -100,12 +100,18 @@ TEST(PerformanceAllocatorTest, AllocatorInfo) {
     ASSERT_NE(name, nullptr);
     EXPECT_TRUE(std::strlen(name) > 0);
     
-    #ifdef THEMIS_ENABLE_MIMALLOC
+    #ifdef THEMIS_ENABLE_JEMALLOC
+    EXPECT_STREQ(name, "jemalloc");
+    EXPECT_TRUE(is_jemalloc_enabled());
+    EXPECT_FALSE(is_mimalloc_enabled());
+    #elif defined(THEMIS_ENABLE_MIMALLOC)
     EXPECT_STREQ(name, "mimalloc");
     EXPECT_TRUE(is_mimalloc_enabled());
+    EXPECT_FALSE(is_jemalloc_enabled());
     #else
     EXPECT_STREQ(name, "system");
     EXPECT_FALSE(is_mimalloc_enabled());
+    EXPECT_FALSE(is_jemalloc_enabled());
     #endif
 }
 
@@ -128,7 +134,10 @@ TEST(PerformanceAllocatorTest, PerformanceBenchmark) {
     // Just verify it completes in reasonable time (not a real perf test)
     EXPECT_LT(duration.count(), 100000) << "Allocations took too long: " << duration.count() << "us";
     
-    #ifdef THEMIS_ENABLE_MIMALLOC
+    #ifdef THEMIS_ENABLE_JEMALLOC
+    std::cout << "Jemalloc performance: " << duration.count() << "us for " 
+              << iterations << " allocations" << std::endl;
+    #elif defined(THEMIS_ENABLE_MIMALLOC)
     std::cout << "Mimalloc performance: " << duration.count() << "us for " 
               << iterations << " allocations" << std::endl;
     #endif
