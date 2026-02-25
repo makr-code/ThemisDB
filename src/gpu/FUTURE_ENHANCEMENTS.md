@@ -47,6 +47,10 @@ Accelerate database query operations using GPU.
 - ✅ CPU-path fallback for environments without GPU
 - ✅ GPU-threshold dispatch: switches to GPU path above
   `Config::gpu_threshold_rows`
+- ✅ FP16/BF16 Tensor Core dot-product (`PrecisionMode::FP16` / `::BF16`):
+  inputs are round-tripped through half/bfloat16 encoding to simulate Tensor
+  Core precision; on real hardware replaced by cuBLAS `cublasHgemm` (FP16) or
+  `cublasGemmEx` with `CUDA_R_16BF` (BF16)
 - ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
 
 **Remaining (hardware required):**

@@ -28,6 +28,105 @@ namespace themis {
 namespace gpu {
 
 // ---------------------------------------------------------------------------
+// FP16 / BF16 quantisation helpers (CPU simulation of Tensor Core precision)
+// ---------------------------------------------------------------------------
+
+/// Encode a float32 to IEEE 754 FP16 bits (uint16_t).
+static uint16_t fp32_to_fp16(float f) noexcept {
+    uint32_t bits;
+    std::memcpy(&bits, &f, 4);
+    const uint32_t sign     = (bits >> 31) & 0x1u;
+    const int32_t  exp32    = static_cast<int32_t>((bits >> 23) & 0xFFu) - 127;
+    const uint32_t mant32   = bits & 0x7FFFFFu;
+
+    // Special cases
+    if (exp32 == 128) {
+        // Inf or NaN
+        return static_cast<uint16_t>((sign << 15) | 0x7C00u |
+               (mant32 ? 0x0200u : 0u));  // preserve NaN signal
+    }
+    if (exp32 < -24) {
+        // Too small: flush to ±0
+        return static_cast<uint16_t>(sign << 15);
+    }
+    if (exp32 < -14) {
+        // Subnormal FP16
+        uint32_t shift = static_cast<uint32_t>(-14 - exp32);
+        uint32_t mant16 = (mant32 | 0x800000u) >> (shift + 13);
+        return static_cast<uint16_t>((sign << 15) | mant16);
+    }
+    if (exp32 > 15) {
+        // Overflow: return ±Inf
+        return static_cast<uint16_t>((sign << 15) | 0x7C00u);
+    }
+    // Normalised
+    uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
+    uint32_t mant16 = mant32 >> 13;
+    // Round to nearest even
+    uint32_t round  = mant32 & 0x1FFFu;
+    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) ++mant16;
+    if (mant16 >= 0x400u) { ++exp16; mant16 = 0; }
+    return static_cast<uint16_t>((sign << 15) | (exp16 << 10) | (mant16 & 0x3FFu));
+}
+
+/// Decode IEEE 754 FP16 bits back to float32.
+static float fp16_to_fp32(uint16_t h) noexcept {
+    const uint32_t sign  = static_cast<uint32_t>((h >> 15) & 0x1u);
+    const uint32_t exp16 = (h >> 10) & 0x1Fu;
+    const uint32_t mant16 = h & 0x3FFu;
+
+    uint32_t bits;
+    if (exp16 == 0x1F) {
+        // Inf or NaN
+        bits = (sign << 31) | 0x7F800000u | (mant16 << 13);
+    } else if (exp16 == 0) {
+        // Zero or subnormal
+        if (mant16 == 0) {
+            bits = sign << 31;
+        } else {
+            // Normalise the subnormal
+            uint32_t m = mant16;
+            int32_t  e = -14;
+            while ((m & 0x400u) == 0) { m <<= 1; --e; }
+            m &= 0x3FFu;
+            bits = (sign << 31) | (static_cast<uint32_t>(e + 127) << 23) | (m << 13);
+        }
+    } else {
+        bits = (sign << 31) | ((exp16 + 112u) << 23) | (mant16 << 13);
+    }
+    float f;
+    std::memcpy(&f, &bits, 4);
+    return f;
+}
+
+/// Round-trip a float through FP16 to simulate Tensor Core precision loss.
+static float quantise_fp16(float f) noexcept {
+    return fp16_to_fp32(fp32_to_fp16(f));
+}
+
+/// Encode a float32 to BF16 bits (uint16_t) — top 16 bits of FP32 with RNE.
+static uint16_t fp32_to_bf16(float f) noexcept {
+    uint32_t bits;
+    std::memcpy(&bits, &f, 4);
+    // Round to nearest even
+    bits += 0x7FFFu + ((bits >> 16) & 1u);
+    return static_cast<uint16_t>(bits >> 16);
+}
+
+/// Decode BF16 bits back to float32 — restore the truncated mantissa bits as 0.
+static float bf16_to_fp32(uint16_t b) noexcept {
+    uint32_t bits = static_cast<uint32_t>(b) << 16;
+    float f;
+    std::memcpy(&f, &bits, 4);
+    return f;
+}
+
+/// Round-trip a float through BF16 to simulate Tensor Core precision loss.
+static float quantise_bf16(float f) noexcept {
+    return bf16_to_fp32(fp32_to_bf16(f));
+}
+
+// ---------------------------------------------------------------------------
 // Construction
 // ---------------------------------------------------------------------------
 
@@ -214,6 +313,62 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_joins;
     recordOp(left.size() + right.size(), bytes, result.used_gpu);
+
+    return result;
+}
+
+// ---------------------------------------------------------------------------
+// dotProduct
+// ---------------------------------------------------------------------------
+
+GPUQueryAccelerator::DotProductResult
+GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
+                                const std::vector<float>& b)
+{
+    DotProductResult result;
+    result.precision_used = config_.precision_mode;
+
+    if (a.empty() || a.size() != b.size()) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        ++stats_.total_dot_products;
+        recordOp(0, 0, false);
+        return result;
+    }
+
+    bool use_gpu = shouldUseGPU(a.size());
+    result.used_gpu = use_gpu;
+
+    // GPU stub: would dispatch to cublasSgemv (FP32), cublasHgemm (FP16), or
+    // cublasGemmEx with CUDA_R_16BF (BF16).  CPU simulation path below.
+
+    double sum = 0.0;
+    switch (config_.precision_mode) {
+        case PrecisionMode::FP16:
+            for (size_t i = 0; i < a.size(); ++i) {
+                sum += static_cast<double>(quantise_fp16(a[i]) *
+                                           quantise_fp16(b[i]));
+            }
+            break;
+        case PrecisionMode::BF16:
+            for (size_t i = 0; i < a.size(); ++i) {
+                sum += static_cast<double>(quantise_bf16(a[i]) *
+                                           quantise_bf16(b[i]));
+            }
+            break;
+        case PrecisionMode::FP32:
+        default:
+            for (size_t i = 0; i < a.size(); ++i) {
+                sum += static_cast<double>(a[i]) * static_cast<double>(b[i]);
+            }
+            break;
+    }
+    result.value = sum;
+
+    std::lock_guard<std::mutex> lk(mutex_);
+    ++stats_.total_dot_products;
+    if (config_.precision_mode == PrecisionMode::FP16) ++stats_.fp16_ops;
+    else if (config_.precision_mode == PrecisionMode::BF16) ++stats_.bf16_ops;
+    recordOp(a.size(), a.size() * sizeof(float) * 2, result.used_gpu);
 
     return result;
 }
