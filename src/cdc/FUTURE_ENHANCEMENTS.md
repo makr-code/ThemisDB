@@ -112,6 +112,63 @@ txn->Commit();   // both commits atomically or both roll back
 
 All methods thread-safe; 16 unit tests in `tests/test_cdc_outbox.cpp`.
 
+### Schema-aware CDC with Avro/Protobuf Schema Registry Integration ✅ (Implemented - Issue #2255)
+
+`SchemaRegistryClient` + `CdcSchemaEncoder` (`include/cdc/schema_registry.h`, header-only) implement
+schema registration, caching, and Confluent-compatible wire-format encoding for CDC change events,
+enabling downstream consumers (Kafka, Kafka Connect, Flink, etc.) to decode messages via any
+Confluent-compatible schema registry client.
+
+**Wire format (Confluent Schema Registry protocol):**
+```
++--------+------------------+--------------------------+
+| 0x00   |  schema_id (4B)  |  serialized payload      |
+| magic  |  big-endian      |  JSON / Avro / Protobuf  |
++--------+------------------+--------------------------+
+```
+
+**Components:**
+- `SchemaFormat` — format identifier: `JSON`, `AVRO`, `PROTOBUF`
+- `SchemaInfo` — schema metadata (id, version, subject, definition, format)
+- `SchemaRegistryConfig` — connection and behaviour settings (URL, auth, TTL, auto-register)
+- `ISchemaRegistryBackend` — abstract interface (register / lookup schemas)
+- `InMemorySchemaRegistryBackend` — thread-safe in-memory backend for testing and standalone use
+- `SchemaRegistryClient` — TTL-based caching client wrapping an `ISchemaRegistryBackend`
+- `CdcSchemaEncoder` — encodes `ChangeEvent` records using the Confluent wire format
+
+**`CdcSchemaEncoder`:**
+- `encode(event, collection)` — wire-format bytes: `[magic][schema_id 4B BE][JSON payload]`
+- `decodeToJson(wire_bytes)` — round-trip decode for testing and debugging
+- `extractSchemaId(wire_bytes)` — extract schema ID from header (static)
+- `ensureCollectionSchema(collection)` — auto-register default schema on first use per collection
+- `clearLocalCache()` — invalidate per-encoder schema ID cache after schema evolution
+- Default schema templates: `defaultAvroSchema()`, `defaultJsonSchema()`, `defaultProtobufSchema()`
+
+**`SchemaRegistryClient`:**
+- `ensureSchema(subject, schema_json, format)` — register (idempotent) and cache
+- `getSchema(id)` — cached lookup by schema ID
+- `getLatestSchema(subject)` — cached lookup by subject
+- `clearCache()` — invalidate all cached entries
+- Pluggable backend: pass a custom `ISchemaRegistryBackend` for HTTP-based registries
+- Default: `InMemorySchemaRegistryBackend` when no backend is specified
+
+**Auto-registration:**
+When `auto_register_schemas = true` (default) the encoder registers the appropriate default
+schema template (Avro record, JSON Schema, or Protobuf descriptor) the first time a collection
+is seen, then caches the schema ID in-process.
+
+**Payload serialisation:**
+The payload is serialised as UTF-8 JSON bytes.  Full Avro binary (avro-cpp) and Protobuf
+binary encoding is intentionally left to a custom `ISchemaRegistryBackend` implementation
+that can also drive the serialiser; this keeps the header dependency-free.
+
+**Thread safety:** `InMemorySchemaRegistryBackend` and `SchemaRegistryClient` are fully
+thread-safe; `CdcSchemaEncoder` is thread-safe when the `SchemaRegistryClient` it holds is
+thread-safe.
+
+**Tests:** 18+ unit tests in `tests/test_cdc_schema_registry.cpp` covering wire-format header,
+round-trip decode, auto-registration (JSON/Avro/Protobuf), error paths, and cache behaviour.
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport

@@ -41,8 +41,8 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ### Long-term (6-12 months)
 - [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
 - [~] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
-- [I] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
-- [~] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
+- [P] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
+- [I] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
 - [I] Kubernetes operator for automated topology management (Issue: #2257)
 
 ## Implementation Phases
@@ -80,8 +80,8 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)
 - [~] Multi-region active-active with bounded staleness guarantees
-- [ ] Schema-aware CDC with Avro/Protobuf schema registry integration
-- [~] Conflict-free Replicated Data Types (CRDT) library expansion
+- [P] Schema-aware CDC with Avro/Protobuf schema registry integration
+- [ ] Conflict-free Replicated Data Types (CRDT) library expansion
 - [ ] Kubernetes operator for automated topology management
 
 ## Production Readiness Checklist
