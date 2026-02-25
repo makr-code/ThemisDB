@@ -44,11 +44,12 @@ size_t GPUTensorBuffer::Shape::numElements() const noexcept {
 
 size_t GPUTensorBuffer::Shape::elementBytes(DType dtype) noexcept {
     switch (dtype) {
-        case DType::FLOAT32: return 4;
-        case DType::FLOAT16: return 2;
-        case DType::INT32:   return 4;
-        case DType::INT8:    return 1;
-        case DType::UINT8:   return 1;
+        case DType::FLOAT32:  return 4;
+        case DType::FLOAT16:  return 2;
+        case DType::BFLOAT16: return 2;
+        case DType::INT32:    return 4;
+        case DType::INT8:     return 1;
+        case DType::UINT8:    return 1;
     }
     return 4;
 }
@@ -140,6 +141,17 @@ void GPUTensorBuffer::fill(double value) {
             case DType::FLOAT16: {
                 // Store raw bits of float cast to 16-bit placeholder.
                 uint16_t v = static_cast<uint16_t>(static_cast<float>(value));
+                std::memcpy(dest, &v, 2);
+                break;
+            }
+            case DType::BFLOAT16: {
+                // BF16 = top 16 bits of the float32 bit pattern (with round-to-nearest).
+                float f = static_cast<float>(value);
+                uint32_t bits;
+                std::memcpy(&bits, &f, 4);
+                // Round to nearest even by adding 0x7FFF + ((bits >> 16) & 1).
+                bits += 0x7FFFu + ((bits >> 16) & 1u);
+                uint16_t v = static_cast<uint16_t>(bits >> 16);
                 std::memcpy(dest, &v, 2);
                 break;
             }
