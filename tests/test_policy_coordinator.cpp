@@ -19,6 +19,8 @@
 
 #include <gtest/gtest.h>
 #include "governance/policy_coordinator.h"
+#include <filesystem>
+#include <fstream>
 #include <memory>
 
 using namespace themis::governance;
@@ -266,4 +268,83 @@ TEST_F(PolicyCoordinatorTest, RedactionLevelCombination) {
     
     // Most strict redaction should win
     EXPECT_EQ(decision.redaction, "strict");
+}
+
+// ---------------------------------------------------------------------------
+// PolicyCoordinator hot-reload via startHotReload / stopHotReload
+// ---------------------------------------------------------------------------
+
+class PolicyCoordinatorHotReloadTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        tmp_dir_ = std::filesystem::temp_directory_path() / "coord_hotreload_test";
+        std::filesystem::create_directories(tmp_dir_);
+        yaml_path_ = (tmp_dir_ / "governance.yaml").string();
+        policy_engine_ = std::make_shared<PolicyEngine>();
+        policy_manager_ = std::make_shared<PolicyManager>();
+        coordinator_ = std::make_unique<PolicyCoordinator>(policy_engine_, policy_manager_);
+    }
+
+    void TearDown() override {
+        coordinator_->stopHotReload();
+        std::filesystem::remove_all(tmp_dir_);
+    }
+
+    void writeYaml(const char* content) {
+        std::ofstream f(yaml_path_, std::ios::trunc);
+        ASSERT_TRUE(f.good());
+        f << content;
+        f.flush();
+    }
+
+    std::filesystem::path tmp_dir_;
+    std::string yaml_path_;
+    std::shared_ptr<PolicyEngine> policy_engine_;
+    std::shared_ptr<PolicyManager> policy_manager_;
+    std::unique_ptr<PolicyCoordinator> coordinator_;
+};
+
+TEST_F(PolicyCoordinatorHotReloadTest, StartStopHotReload) {
+    writeYaml(R"(
+vs_classification:
+  offen:
+    encryption_required: false
+    ann_allowed: true
+    export_allowed: true
+    cache_allowed: true
+    redaction_level: "none"
+    retention_days: 90
+    log_encryption: false
+enforcement:
+  default_mode: enforce
+)");
+    ASSERT_TRUE(policy_engine_->loadFromYAML(yaml_path_));
+
+    EXPECT_FALSE(coordinator_->isHotReloadRunning());
+    EXPECT_TRUE(coordinator_->startHotReload());
+    EXPECT_TRUE(coordinator_->isHotReloadRunning());
+
+    coordinator_->stopHotReload();
+    EXPECT_FALSE(coordinator_->isHotReloadRunning());
+}
+
+TEST_F(PolicyCoordinatorHotReloadTest, StartHotReloadNoEngine_ReturnsFalse) {
+    auto coordinator_no_engine = std::make_unique<PolicyCoordinator>(nullptr, policy_manager_);
+    EXPECT_FALSE(coordinator_no_engine->startHotReload());
+}
+
+TEST_F(PolicyCoordinatorHotReloadTest, DoubleStartIsNoOp) {
+    writeYaml(R"(
+vs_classification:
+  offen:
+    encryption_required: false
+enforcement:
+  default_mode: enforce
+)");
+    ASSERT_TRUE(policy_engine_->loadFromYAML(yaml_path_));
+
+    EXPECT_TRUE(coordinator_->startHotReload());
+    EXPECT_TRUE(coordinator_->startHotReload());  // second call is a no-op
+    EXPECT_TRUE(coordinator_->isHotReloadRunning());
+    coordinator_->stopHotReload();
 }
