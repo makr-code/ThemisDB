@@ -32,6 +32,19 @@ namespace themis {
 namespace gpu {
 
 // ============================================================================
+// Construction / destruction
+// ============================================================================
+
+GPUStreamManager::~GPUStreamManager() {
+    // Clean up any HIP streams that were created via ROCmBackend.
+    for (const auto& kv : streams_) {
+        if (kv.second.uses_rocm_stream) {
+            ROCmBackend::GetInstance().destroyStream(kv.first);
+        }
+    }
+}
+
+// ============================================================================
 // Stream lifecycle
 // ============================================================================
 
@@ -64,6 +77,22 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     s.launcher            = std::make_unique<GPULauncher>(std::move(fn));
     s.stats.name          = cfg.name;
     s.uses_rocm_backend   = rocm;
+    Stream s;
+    s.config     = cfg;
+    s.stats.name = cfg.name;
+
+    if (backend) {
+        s.launcher = std::make_unique<GPULauncher>(std::move(backend));
+    } else {
+        // When no backend is supplied, create a real HIP stream via the ROCm
+        // backend (which transparently falls back to CPU execution when
+        // THEMIS_ENABLE_HIP is not defined) and use it as the execution backend.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+        s.uses_rocm_stream = true;
+        s.launcher = std::make_unique<GPULauncher>(
+            ROCmBackend::GetInstance().createBackendFn());
+    }
+
     streams_.emplace(cfg.name, std::move(s));
     return true;
 }
@@ -78,6 +107,9 @@ bool GPUStreamManager::destroyStream(const std::string& name) {
         ROCmBackend::GetInstance().destroyStream(name);
     }
 
+    if (it->second.uses_rocm_stream) {
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
     streams_.erase(it);
     return true;
 }

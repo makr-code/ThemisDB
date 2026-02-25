@@ -107,6 +107,12 @@ public:
     }
 
     // -----------------------------------------------------------------------
+    // Construction / destruction
+    // -----------------------------------------------------------------------
+    GPUStreamManager() = default;
+    ~GPUStreamManager();
+
+    // -----------------------------------------------------------------------
     // Stream lifecycle
     // -----------------------------------------------------------------------
 
@@ -114,8 +120,10 @@ public:
      * @brief Create a new named stream.
      *
      * @param cfg      Stream configuration.
-     * @param backend  GPU execution backend.  Pass nullptr to use a no-op
-     *                 backend (all work items succeed immediately via CPU).
+     * @param backend  GPU execution backend.  Pass nullptr to use the ROCm
+     *                 backend (which transparently falls back to CPU execution
+     *                 when HIP is unavailable).  A HIP stream is created via
+     *                 `ROCmBackend::createStream()` for the stream's lifetime.
      * @return false if a stream with that name already exists.
      */
     bool createStream(const StreamConfig&     cfg,
@@ -163,13 +171,14 @@ public:
     std::vector<StreamStats> getAllStreamStats() const;
 
 private:
-    GPUStreamManager() = default;
 
     struct Stream {
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
         bool                       uses_rocm_backend = false;
+        /** @brief True when a HIP stream was created via ROCmBackend for this stream. */
+        bool                       uses_rocm_stream = false;
     };
 
     mutable std::mutex                          mutex_;
