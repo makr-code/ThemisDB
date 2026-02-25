@@ -51,6 +51,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 20 unit tests covering: empty index, insert, bulkLoad (including replace-on-reload),
     remove, clear, intersects (single/multiple/overlapping/world), contains
     (single/multiple/boundary), memory reporting, and move semantics.
+- **Geo Module: ST_UNION and ST_DIFFERENCE geometry operations** 🔷
+  - New `ISpatialComputeBackend::stUnion(geom1, geom2)` and `stDifference(geom1, geom2)`
+    virtual methods added to `include/geo/spatial_backend.h`.
+  - `CpuExactBackend` (cpu-only, no Boost dependency): full implementation using
+    the Greiner-Hormann polygon clipping algorithm (ACM TOG 1998) with fast-paths
+    for containment, disjoint, and B-inside-A (returns polygon with hole ring).
+    Point and Point-Polygon cases handled with simple coordinate logic.
+  - `BoostCpuExactBackend`: implementation via `boost::geometry::union_` and
+    `boost::geometry::difference`; falls back to CpuExactBackend for non-polygon types.
+  - `GpuBatchBackend`: delegates to `getCpuExactBackend()` with audit log and
+    metrics records — same pattern as the existing `stBuffer` GPU fallback.
+  - AQL functions `ST_UNION(geom1, geom2)` and `ST_DIFFERENCE(geom1, geom2)` registered
+    in `include/query/functions/geo_functions.h`; return GeoJSON geometry.
+  - 15 new unit tests in `tests/geo/test_geo_st_union_difference.cpp` (parameterised
+    over `cpu_exact` and `gpu_spatial` backends) and 7 AQL-level tests added to
+    `tests/geo/test_aql_st_functions.cpp`.
 
 ### ⚠️ Breaking Changes
 - **GeoJSON strict parsing** (`EWKBParser::parseGeoJSON`): coordinate values outside

@@ -172,7 +172,8 @@ GPU backend stub: check for CUDA device
 
 - GPU backend (`gpu_backend_stub.cpp`) is a stub; CUDA kernels are planned.
 - Full GeoJSON RFC 7946 parsing is planned (currently partial).
-- `ST_Buffer`, `ST_Union`, `ST_Difference` are planned.
+- `ST_Buffer` is implemented (CPU-exact and Boost.Geometry backends; GPU backend falls back to CPU — CUDA kernel dispatch is deferred to v2.1.0).
+- `ST_Union` and `ST_Difference` are planned.
 - 3D geometry operations (Z-coordinate) are partially implemented.
 - Routing/navigation algorithms (shortest path via road network) are out of scope.
 

@@ -311,24 +311,11 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
 
 // ---------------------------------------------------------------------------
 // populateGeoDispatch
+//
+// Returns CUDA kernel launchers when THEMIS_ENABLE_CUDA is defined and a GPU
+// device is available; otherwise returns CPU-fallback launchers so the
+// dispatch table is always fully populated.
 // ---------------------------------------------------------------------------
-
-GeoKernelDispatch GeoAccelerationBridge::populateGeoDispatch() const {
-    GeoKernelDispatch d;
-    d.launchDistance    = bridge_geo_distance;
-    d.launchContainment = bridge_geo_containment;
-    return d;
-}
-
-} // namespace acceleration
-} // namespace themis
-
-// ---------------------------------------------------------------------------
-// GeoKernelDispatch population
-// ---------------------------------------------------------------------------
-
-namespace themis {
-namespace acceleration {
 
 GeoKernelDispatch GeoAccelerationBridge::populateGeoDispatch() const {
 #ifdef THEMIS_ENABLE_CUDA
@@ -340,9 +327,12 @@ GeoKernelDispatch GeoAccelerationBridge::populateGeoDispatch() const {
         return d;
     }
 #endif
-    // CPU fallback: always available, no GPU required.
-    CPUGeoBackend cpu;
-    return cpu.populateGeoDispatch();
+    // CPU fallback: bridge_geo_distance / bridge_geo_containment are always
+    // available, so the dispatch table is never left with null entries.
+    GeoKernelDispatch d;
+    d.launchDistance    = bridge_geo_distance;
+    d.launchContainment = bridge_geo_containment;
+    return d;
 }
 
 } // namespace acceleration
