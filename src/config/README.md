@@ -45,7 +45,6 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 - **Optional API**: `tryResolve()` returns `std::nullopt` instead of throwing on failure
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
 - **Thread-Safe Metrics**: All counters use `std::atomic` — safe for concurrent reads with no locking
-
 - **LRU Cache**: Resolved paths are cached to avoid repeated filesystem `exists()` calls. Capacity and TTL are configurable via environment variables (see [Environment Variables](#environment-variables) below).
 - **Symlink Hardening**: `validatePath()` rejects symlinks that resolve outside the config root
 - **Deprecation Aggregation**: `deprecationReport()` returns a usage-sorted snapshot of all legacy paths accessed since startup
@@ -54,11 +53,10 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 
 | Variable | Default | Valid Range | Description |
 |---|---|---|---|
-| `THEMIS_CONFIG_CACHE_CAPACITY` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
-| `THEMIS_CONFIG_CACHE_TTL_SECONDS` | 300 | 1–86 400 | Entry TTL in seconds; 0 forces every resolve to hit the filesystem |
+| `THEMIS_CONFIG_CACHE_SIZE` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
+| `THEMIS_CONFIG_CACHE_TTL` | 300 | 1–86 400 | Entry TTL in seconds; expired entries are evicted on next access |
 
 Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
-
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access

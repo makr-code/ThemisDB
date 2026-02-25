@@ -26,6 +26,7 @@
 #include "config/config_path_resolver.h"
 #include "config/config_metrics_exporter.h"
 #include "config/config_errors.h"
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 
@@ -808,6 +809,88 @@ TEST_F(ConfigMetricsExporterTest, CollectContainsPerCategoryFallbackMetric) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Cache env-var configuration tests
+// ═══════════════════════════════════════════════════════════
+
+class CacheEnvConfigTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        ConfigPathResolver::resetMetrics();
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::setCachingEnabled(true);
+    }
+};
+
+TEST_F(CacheEnvConfigTest, DefaultCacheTtlConstantIs300) {
+    EXPECT_EQ(ConfigPathResolver::kDefaultCacheTtlSeconds, 300);
+}
+
+TEST_F(CacheEnvConfigTest, DefaultCacheSizeConstantIs1000) {
+    EXPECT_EQ(ConfigPathResolver::kDefaultCacheSize, 1000u);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheTtlSecondsIsPositive) {
+    EXPECT_GT(ConfigPathResolver::kCacheTtlSeconds, 0);
+}
+
+TEST_F(CacheEnvConfigTest, KCacheTtlSecondsMatchesCacheStats) {
+    // When no THEMIS_CONFIG_CACHE_TTL env var is set, kCacheTtlSeconds should
+    // equal the default (300).  The test binary is run without the env var set,
+    // so we can assert the default value here.
+    if (std::getenv("THEMIS_CONFIG_CACHE_TTL") == nullptr) {
+        EXPECT_EQ(ConfigPathResolver::kCacheTtlSeconds, ConfigPathResolver::kDefaultCacheTtlSeconds);
+    }
+}
+
+TEST_F(CacheEnvConfigTest, CacheCapacityMatchesEnvOrDefault) {
+    // When THEMIS_CONFIG_CACHE_SIZE is not set the capacity must equal the default.
+    auto stats = ConfigPathResolver::cacheStats();
+    if (std::getenv("THEMIS_CONFIG_CACHE_SIZE") == nullptr) {
+        EXPECT_EQ(stats.capacity, ConfigPathResolver::kDefaultCacheSize);
+    } else {
+        EXPECT_GT(stats.capacity, 0u);
+    }
+}
+
+TEST_F(CacheEnvConfigTest, MetricsExporterReportsTtlMatchingKCacheTtlSeconds) {
+    std::string output = ConfigMetricsExporter::collect();
+    const std::string expected = "themis_config_cache_ttl_seconds " +
+                                 std::to_string(ConfigPathResolver::kCacheTtlSeconds);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "TTL metric must match kCacheTtlSeconds. Output:\n" << output;
+}
+
+TEST_F(CacheEnvConfigTest, MetricsExporterReportsCapacityMatchingEnvOrDefault) {
+    auto stats = ConfigPathResolver::cacheStats();
+    std::string output = ConfigMetricsExporter::collect();
+    const std::string expected = "themis_config_cache_capacity " +
+                                 std::to_string(stats.capacity);
+    EXPECT_NE(output.find(expected), std::string::npos)
+        << "Capacity metric must match actual cache capacity. Output:\n" << output;
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigReturnsPositiveCapacityAndTtl) {
+    auto cfg = ConfigPathResolver::currentCacheConfig();
+    EXPECT_GT(cfg.capacity, 0u);
+    EXPECT_GT(cfg.ttl_seconds, 0);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigMatchesCacheStats) {
+    auto cfg   = ConfigPathResolver::currentCacheConfig();
+    auto stats = ConfigPathResolver::cacheStats();
+    EXPECT_EQ(cfg.capacity, stats.capacity);
+    EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kCacheTtlSeconds);
+}
+
+TEST_F(CacheEnvConfigTest, CurrentCacheConfigUsesDefaultsWhenEnvVarsAbsent) {
+    // This test is only authoritative when neither env var is set (normal test environment).
+    if (std::getenv("THEMIS_CONFIG_CACHE_SIZE") == nullptr &&
+        std::getenv("THEMIS_CONFIG_CACHE_TTL") == nullptr)
+    {
+        auto cfg = ConfigPathResolver::currentCacheConfig();
+        EXPECT_EQ(cfg.capacity, ConfigPathResolver::kDefaultCacheSize);
+        EXPECT_EQ(cfg.ttl_seconds, ConfigPathResolver::kDefaultCacheTtlSeconds);
+    }
 // ConfigAuditLog Tests
 // ═══════════════════════════════════════════════════════════
 

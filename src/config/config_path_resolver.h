@@ -154,6 +154,11 @@ public:
     static void clearCache() { cache_.clear(); }
 
     /**
+     * Effective LRU cache TTL in seconds.
+     * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
+     * variable; falls back to the default of 300 seconds (5 minutes) when the
+     * variable is absent or invalid.
+     *
      * LRU cache TTL in seconds.
      * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
      * program startup; falls back to 300 (5 minutes) when the variable is
@@ -214,6 +219,42 @@ public:
      * Default LRU cache capacity.
      * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_CAPACITY.
      */
+    static const int kCacheTtlSeconds;
+
+    /**
+     * Default LRU cache TTL in seconds (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_TTL is not set.
+     */
+    static constexpr int kDefaultCacheTtlSeconds = 300;
+
+    /**
+     * Default LRU cache capacity (compile-time constant).
+     * Used as the fallback when THEMIS_CONFIG_CACHE_SIZE is not set.
+     */
+    static constexpr size_t kDefaultCacheSize = 1000;
+
+    /**
+     * Snapshot of the effective cache configuration as determined at startup
+     * from environment variables (or compile-time defaults).
+     */
+    struct CacheConfig {
+        size_t capacity;   ///< Maximum number of cached entries
+        int ttl_seconds;   ///< Entry time-to-live in seconds
+    };
+
+    /**
+     * Return the active cache configuration (capacity and TTL).
+     *
+     * Values reflect what was read from the environment at program startup,
+     * or the compile-time defaults when the variables were absent or invalid.
+     * This is a pure read with no locking overhead — suitable for observability
+     * endpoints that need to confirm which values are actually in use.
+     *
+     * @return CacheConfig{capacity, ttl_seconds}
+     */
+    static CacheConfig currentCacheConfig() noexcept {
+        return {cacheStats().capacity, kCacheTtlSeconds};
+    }
     static constexpr int kCacheCapacity = 1000;
 
     /**

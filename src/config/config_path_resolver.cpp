@@ -199,6 +199,47 @@ private:
 
 namespace {
 
+/// Read THEMIS_CONFIG_CACHE_SIZE; return default 1000 when absent or out of range [10, 100000].
+size_t initCacheSize() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_SIZE");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0') {
+            if (val >= 10 && val <= 100000) {
+                return static_cast<size_t>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_SIZE=%ld is out of range [10, 100000]; "
+                    "using default %zu\n",
+                    val, ConfigPathResolver::kDefaultCacheSize);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheSize;
+}
+
+/// Read THEMIS_CONFIG_CACHE_TTL (seconds); return default 300 when absent or out of range [1, 86400].
+int initCacheTtl() {
+    const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL");
+    if (env) {
+        char* end = nullptr;
+        long val = std::strtol(env, &end, 10);
+        if (end != env && *end == '\0') {
+            if (val >= 1 && val <= 86400) {
+                return static_cast<int>(val);
+            }
+            // Valid integer but out of range – warn and fall through to default.
+            fprintf(stderr,
+                    "[THEMIS CONFIG] THEMIS_CONFIG_CACHE_TTL=%ld is out of range [1, 86400]; "
+                    "using default %d\n",
+                    val, ConfigPathResolver::kDefaultCacheTtlSeconds);
+        }
+    }
+    return ConfigPathResolver::kDefaultCacheTtlSeconds;
+}
+
+} // anonymous namespace
 /// Read THEMIS_CONFIG_CACHE_SIZE from the environment.
 /// Valid range: [10, 100000]. Falls back to 1000 and prints a warning to
 /// stderr when the variable is absent, unparseable, or out of range.
@@ -313,6 +354,12 @@ static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
+// kCacheTtlSeconds must be defined before cache_ so the cache constructor
+// receives the correct TTL at program startup.
+const int ConfigPathResolver::kCacheTtlSeconds = initCacheTtl();
+
+ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(initCacheSize(), ConfigPathResolver::kCacheTtlSeconds); // env-configurable size and TTL
 const size_t ConfigPathResolver::kCacheSize        = readCacheSizeFromEnv();
 const int    ConfigPathResolver::kCacheTtlSeconds  = readCacheTtlFromEnv();
 
