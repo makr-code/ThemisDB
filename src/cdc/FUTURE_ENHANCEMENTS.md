@@ -36,6 +36,23 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 - Configurable back-pressure limit (`max_pending_per_consumer`)
 - All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
 
+### Debezium-compatible Change Event Format ✅ (Implemented - Issue #1614/#1621)
+
+`DebeziumFormatter` (`include/cdc/debezium_format.h`, header-only) converts `Changefeed::ChangeEvent`
+records into the standard Debezium unified change-event envelope, enabling zero-config
+integration with Kafka Connect, Debezium Server sinks, and other Debezium-aware consumers.
+
+- `toEnvelope(event, collection)` — produce a `DebeziumEnvelope` from a `ChangeEvent`
+- `toJson(event, collection)` — serialize directly to Debezium wire JSON (payload only)
+- `toJsonWithSchema(event, collection)` — include an embedded schema descriptor block
+- Operation mapping: `EVENT_PUT` (no before_snapshot) → `c`; `EVENT_PUT` (with before_snapshot) → `u`;
+  `EVENT_DELETE` → `d`; `EVENT_TRANSACTION_*` → `r`
+- `before` / `after` populated from `before_snapshot` / `after_snapshot`; fallback to `value` field for creates
+- Invalid JSON in snapshot fields degraded gracefully via `{"_raw": ...}` key
+- Configurable via `DebeziumFormatter::Config` (server name, db name, version string)
+- Redacted events encode `source.snapshot = "redacted"` for audit consumers
+- 23 unit tests in `tests/test_cdc_debezium_format.cpp`
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport

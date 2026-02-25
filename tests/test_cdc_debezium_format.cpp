@@ -105,6 +105,20 @@ TEST(DebeziumFormatterTest, Delete_MapsToDelete) {
     EXPECT_EQ(j["payload"]["op"].get<std::string>(), "d");
 }
 
+TEST(DebeziumFormatterTest, TransactionRollback_MapsToRead) {
+    DebeziumFormatter fmt;
+    Changefeed::ChangeEvent ev;
+    ev.sequence     = 4;
+    ev.type         = Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK;
+    ev.key          = "orders:99";
+    ev.timestamp_ms = 1740000000003LL;
+    auto env = fmt.toEnvelope(ev);
+    EXPECT_EQ(env.op, DebeziumOp::READ);
+
+    auto j = env.toJson();
+    EXPECT_EQ(j["payload"]["op"].get<std::string>(), "r");
+}
+
 TEST(DebeziumFormatterTest, TransactionCommit_MapsToRead) {
     DebeziumFormatter fmt;
     auto env = fmt.toEnvelope(makeTxCommitEvent());
