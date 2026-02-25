@@ -1546,8 +1546,15 @@ set(THEMIS_CORE_SOURCES
     ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
-    # Temporal conflict resolution
+    # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/temporal_aggregator.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/retention_manager.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -1706,6 +1713,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
+    ../src/geo/temporal_spatial_query.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
