@@ -785,6 +785,52 @@ TEST_F(ConfigAuditLogTest, AuditLogNotRecordingOnFailedResolution) {
         << "Failed resolutions must not produce audit entries";
 }
 
+TEST_F(ConfigAuditLogTest, ResolveThrowingVariantRecordsAuditEntry) {
+    // resolve() (non-optional) should record an audit entry on success,
+    // since it delegates to tryResolve() internally.
+    ConfigPathResolver::setAuditLogEnabled(true);
+
+    createFile(test_dir_ / "config" / "resolve_audit_test.yaml");
+    auto prev_cwd = std::filesystem::current_path();
+    std::filesystem::current_path(test_dir_);
+
+    std::string resolved;
+    ASSERT_NO_THROW(resolved = ConfigPathResolver::resolve("config/resolve_audit_test.yaml"));
+
+    std::filesystem::current_path(prev_cwd);
+
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 1u)
+        << "resolve() should record an audit entry on success";
+    EXPECT_EQ(entries[0].requested_path, "config/resolve_audit_test.yaml");
+    EXPECT_EQ(entries[0].resolved_path, resolved);
+}
+
+TEST_F(ConfigAuditLogTest, ShrinkingMaxEntriesEvictsOldestFirst) {
+    ConfigPathResolver::setAuditLogEnabled(true);
+    ConfigPathResolver::setAuditLogMaxEntries(5);
+
+    // Create and resolve 5 distinct files
+    for (int i = 0; i < 5; ++i) {
+        std::string name = "evict" + std::to_string(i) + ".yaml";
+        createFile(test_dir_ / "config" / name);
+        auto prev_cwd = std::filesystem::current_path();
+        std::filesystem::current_path(test_dir_);
+        ConfigPathResolver::clearCache();
+        ConfigPathResolver::tryResolve("config/" + name);
+        std::filesystem::current_path(prev_cwd);
+    }
+    ASSERT_EQ(ConfigPathResolver::auditLog().size(), 5u);
+
+    // Reduce limit to 3 – the 2 oldest should be evicted
+    ConfigPathResolver::setAuditLogMaxEntries(3);
+    auto entries = ConfigPathResolver::auditLog();
+    ASSERT_EQ(entries.size(), 3u) << "Shrinking max_entries should evict oldest entries";
+    // The remaining entries should be the 3 most-recently added (evict2, evict3, evict4)
+    EXPECT_EQ(entries[0].requested_path, "config/evict2.yaml");
+    EXPECT_EQ(entries[2].requested_path, "config/evict4.yaml");
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

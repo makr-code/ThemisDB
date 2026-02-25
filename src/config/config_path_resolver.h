@@ -48,7 +48,8 @@ namespace config {
  *   - All public methods are thread-safe for concurrent reads
  *   - The PATH_MAPPING table is const and initialized at compile-time
  *   - Metrics use atomic operations for thread-safe updates
- *   - No locks are required for read operations
+ *   - No locks are required for read operations on the PATH_MAPPING or Metrics
+ *   - ConfigAuditLog uses an internal mutex; audit recording adds a lock acquisition per resolved path when enabled
  *   - File system operations may have platform-specific thread-safety guarantees
  * 
  * Usage:

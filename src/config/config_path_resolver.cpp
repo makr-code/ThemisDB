@@ -368,6 +368,8 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                 bool is_legacy = isLegacyPath(normalized) && (*cached == normalized);
                 audit_log_.record({legacy_path, *cached,
                     std::chrono::system_clock::now(), is_legacy, true});
+                spdlog::trace("[CONFIG AUDIT] path='{}' resolved='{}' legacy={} cache_hit=true",
+                              legacy_path, *cached, is_legacy);
             }
             return *cached;
         }
@@ -437,6 +439,8 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     if (audit_log_.isEnabled()) {
         audit_log_.record({legacy_path, resolved_path,
             std::chrono::system_clock::now(), was_legacy_fallback, false});
+        spdlog::trace("[CONFIG AUDIT] path='{}' resolved='{}' legacy={} cache_hit=false",
+                      legacy_path, resolved_path, was_legacy_fallback);
     }
 
     return resolved_path;

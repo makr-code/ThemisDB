@@ -9,6 +9,7 @@ The Config module provides backward-compatible configuration path resolution for
 | Interface / File | Role |
 |-----------------|------|
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
+| `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
 | `config_errors.h` | Typed exception hierarchy for config-related errors |
@@ -22,6 +23,7 @@ The Config module provides backward-compatible configuration path resolution for
 - Deprecation/removal-date metadata per mapped path
 - Thread-safe metrics tracking (hits, misses, cache hits, legacy fallbacks)
 - Typed exception hierarchy for config errors
+- Config path access audit trail (bounded in-memory log with timestamps)
 
 **Out of Scope:**
 - Parsing or loading config file contents (YAML/JSON)
@@ -43,11 +45,28 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
 - **Thread-Safe Metrics**: All counters use `std::atomic` — safe for concurrent reads with no locking
 - **LRU Cache**: Resolved paths are cached (capacity 1000, TTL 5 min) to avoid repeated filesystem `exists()` calls
+- **Audit Trail**: Optional bounded in-memory audit log records every successful resolution with timestamp and legacy/cache-hit flags
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access
 - The `PATH_MAPPING` table is `const` and initialized at compile time
 - Metrics use `std::atomic<uint64_t>`; no locks needed for reads
+- `ConfigAuditLog` uses an internal `std::mutex`; audit recording is a separate lock acquisition from path resolution
+
+### ConfigAuditLog
+**Location:** `config_audit_log.h`, `config_audit_log.cpp`
+
+Bounded, thread-safe in-memory audit trail for config path accesses. Disabled by default; enabled via `ConfigPathResolver::setAuditLogEnabled(true)`. Each successful resolution appends an `AuditEntry` containing:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `requested_path` | `std::string` | The path as originally passed by the caller |
+| `resolved_path` | `std::string` | The final filesystem path returned |
+| `timestamp` | `std::chrono::system_clock::time_point` | UTC time of the access |
+| `is_legacy` | `bool` | `true` if the legacy fallback path was used |
+| `is_cache_hit` | `bool` | `true` if the result was served from the LRU cache |
+
+The log is bounded (default 10,000 entries); oldest entries are evicted when the limit is reached. Failed resolutions are never recorded.
 
 ### LRUCacheWithTTL
 **Location:** `lru_cache.h`
@@ -80,15 +99,15 @@ Caller
             │
             ├─ normalizePath()         ← strip "./" and backslashes
             ├─ validatePath()          ← reject ".." traversal
-            ├─ LRUCacheWithTTL::get()  ← return if cached
+            ├─ LRUCacheWithTTL::get()  ← return if cached (+ audit entry if enabled)
             │
             ├─ mapLegacyToNew()        ← look up PATH_MAPPING table
             │
-            ├─ filesystem::exists(new_path)?  → return new path
+            ├─ filesystem::exists(new_path)?  → return new path (+ audit entry if enabled)
             │
             └─ filesystem::exists(legacy_path)?
-                  ├─ yes → log deprecation warning, return legacy path
-                  └─ no  → throw ConfigNotFoundException
+                  ├─ yes → log deprecation warning, return legacy path (+ audit entry if enabled)
+                  └─ no  → throw ConfigNotFoundException (no audit entry)
 ```
 
 ## Dependencies
@@ -97,6 +116,7 @@ Caller
 - `config/lru_cache.h` — LRU cache with TTL
 - `config/path_mapping_metadata.h` — deprecation metadata struct
 - `config/config_errors.h` — typed exception hierarchy
+- `config/config_audit_log.h` — bounded in-memory audit trail
 
 ### External Dependencies
 - `spdlog` — structured logging for deprecation warnings and debug traces
@@ -138,6 +158,27 @@ const auto& m = ConfigPathResolver::metrics();
 // Disable caching (e.g., in tests)
 ConfigPathResolver::setCachingEnabled(false);
 ConfigPathResolver::resetMetrics();
+
+// Enable config path audit trail
+ConfigPathResolver::setAuditLogEnabled(true);
+
+std::string path2 = ConfigPathResolver::resolve("config/pii_patterns.yaml");
+
+// Query all recorded audit entries (oldest first)
+for (const auto& entry : ConfigPathResolver::auditLog()) {
+    // entry.requested_path  — original caller path
+    // entry.resolved_path   — path that was returned
+    // entry.timestamp       — std::chrono::system_clock::time_point
+    // entry.is_legacy       — true if legacy fallback was used
+    // entry.is_cache_hit    — true if served from LRU cache
+}
+
+// Clear audit entries and disable logging
+ConfigPathResolver::clearAuditLog();
+ConfigPathResolver::setAuditLogEnabled(false);
+
+// Limit audit log to 500 entries (oldest are evicted when limit is reached)
+ConfigPathResolver::setAuditLogMaxEntries(500);
 ```
 
 ## Production Readiness
