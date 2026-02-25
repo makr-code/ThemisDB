@@ -804,6 +804,7 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
+    ../src/geo/geo_clustering.cpp
     ../src/gpu/device_discovery.cpp
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
