@@ -25,6 +25,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Raft leader lease reads for linearizable read-scale-out (Issue: #2258)
 - [x] Replication topology visualizer (web UI) (Issue: #2443)
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction (Issue: #2444)
+- [x] Automated lag-based read traffic shifting (Issue: #2251)
 
 ## In Progress 🚧
 

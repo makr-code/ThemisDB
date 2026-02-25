@@ -255,10 +255,10 @@ public:
 
     /// Result of a routing decision.
     struct RoutingDecision {
-        std::string node_id;        ///< Selected node (empty = no eligible node)
-        bool        is_primary;     ///< true when the primary was selected
-        int64_t     replica_lag_ms; ///< Lag of the selected replica (-1 for primary)
-        std::string reason;         ///< Human-readable explanation
+        std::string node_id;                  ///< Selected node (empty = no eligible node)
+        bool        is_primary     = false;   ///< true when the primary was selected
+        int64_t     replica_lag_ms = -1;      ///< Lag of the selected replica (-1 for primary)
+        std::string reason;                   ///< Human-readable explanation
     };
 
     LagBasedReadRouter();  ///< Uses default RouterConfig (lag_threshold_ms = 10000)
