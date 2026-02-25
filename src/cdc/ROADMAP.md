@@ -31,7 +31,7 @@
 - [P] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)
-- [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
+- [P] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [I] Debezium-compatible change event format (Issue: #1614)
 - [I] Cross-collection change aggregation streams (Issue: #1615)
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
@@ -55,7 +55,7 @@
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
 - [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
-- [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
+- [P] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [I] Add Debezium-compatible change event envelope format (Issue: #1621)
 - [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
 

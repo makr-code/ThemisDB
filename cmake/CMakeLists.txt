@@ -403,6 +403,7 @@ option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Alread
 option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
+option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -1521,6 +1522,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cdc/changefeed.cpp
     ../src/cdc/consumer_group.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
     ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
     ../src/cdc/outbox.cpp
@@ -2800,6 +2802,20 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket protocol support enabled")
 endif()
 
+# Kafka CDC Producer Support
+if(THEMIS_ENABLE_KAFKA)
+    find_package(RdKafka CONFIG QUIET)
+    if(RdKafka_FOUND)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_KAFKA)
+        target_link_libraries(themis_core PUBLIC RdKafka::rdkafka RdKafka::rdkafka++)
+        message(STATUS "Kafka CDC producer enabled (librdkafka found)")
+    else()
+        message(WARNING "THEMIS_ENABLE_KAFKA=ON but librdkafka not found; "
+                        "KafkaCDCProducer will compile as a no-op stub. "
+                        "Install librdkafka or add it via vcpkg to enable Kafka support.")
+    endif()
+endif()
+
 # MCP (Model Context Protocol) Support
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
@@ -2935,6 +2951,8 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
     # Note: Boost.Beast already provides WebSocket support, just needs integration
 endif()
+
+# Kafka CDC Producer Support (handled above with full librdkafka setup)
 
 # MQTT Protocol Support (placeholder for future implementation)
 if(THEMIS_ENABLE_MQTT)
