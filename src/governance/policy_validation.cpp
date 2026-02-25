@@ -22,6 +22,7 @@
 
 #include "governance/policy_validation.h"
 #include "governance/ccpa_rules.h"
+#include "governance/pci_dss_rules.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -125,6 +126,10 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectConflicts(
     // Detect CCPA/HIPAA cross-framework conflicts
     auto ccpa_hipaa = detectCcpaHipaaConflicts(policy_mgr);
     all_conflicts.insert(all_conflicts.end(), ccpa_hipaa.begin(), ccpa_hipaa.end());
+
+    // Detect PCI-DSS/GDPR cross-framework conflicts
+    auto pci_dss_gdpr = detectPciDssGdprConflicts(policy_mgr);
+    all_conflicts.insert(all_conflicts.end(), pci_dss_gdpr.begin(), pci_dss_gdpr.end());
     
     THEMIS_INFO("Detected {} total conflicts", all_conflicts.size());
     
@@ -1390,6 +1395,43 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectCcpaHipaaCon
     }
 
     THEMIS_INFO("Found {} CCPA/HIPAA cross-framework conflicts", conflicts.size());
+
+    return conflicts;
+}
+
+// ========== PolicyValidator PCI-DSS/GDPR Conflict Detection ==========
+
+std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectPciDssGdprConflicts(
+    const PolicyManager& policy_mgr) const
+{
+    std::vector<ConflictResult> conflicts;
+    PciDssRuleSet pci_rules;
+    auto all_rules = policy_mgr.listRules();
+
+    THEMIS_DEBUG("Checking {} rules for PCI-DSS/GDPR cross-framework conflicts",
+                 all_rules.size());
+
+    for (const auto& rule : all_rules) {
+        if (!rule.enabled) continue;
+
+        auto rule_conflicts = pci_rules.detectGdprConflicts(rule);
+        for (const auto& desc : rule_conflicts) {
+            ConflictResult result;
+            result.conflict_id          = "pci_dss_gdpr_" + rule.id;
+            result.conflict_type        = "pci_dss_gdpr";
+            result.conflicting_rule_ids = {rule.id};
+            result.description          = desc;
+            result.severity             = "high";
+            result.recommendation =
+                "Review rule '" + rule.id + "' to ensure both PCI-DSS and GDPR "
+                "requirements are satisfied simultaneously. Enable require_encryption "
+                "for any rule that allows export, and ensure audit-log retention_days "
+                "meets the PCI-DSS Req 10.7 minimum of 365 days.";
+            conflicts.push_back(std::move(result));
+        }
+    }
+
+    THEMIS_INFO("Found {} PCI-DSS/GDPR cross-framework conflicts", conflicts.size());
 
     return conflicts;
 }

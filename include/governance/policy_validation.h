@@ -24,6 +24,7 @@
 
 #include "governance/policy_manager.h"
 #include "governance/ccpa_rules.h"
+#include "governance/pci_dss_rules.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -104,6 +105,17 @@ public:
     /// Integrates the CcpaRuleSet::detectHipaaConflicts() evaluator.
     /// @return List of ConflictResult entries, one per detected cross-framework conflict.
     std::vector<ConflictResult> detectCcpaHipaaConflicts(const PolicyManager& policy_mgr) const;
+
+    /// Detect conflicts between PCI-DSS and GDPR requirements for a policy rule set.
+    ///
+    /// PCI-DSS Req 10.7 mandates 12-month audit-log retention while GDPR Art. 5(1)(e)
+    /// (storage limitation) pushes for minimal retention.  Additionally, PCI-DSS Req 4
+    /// forbids unencrypted export while GDPR Art. 32 requires appropriate technical
+    /// measures — rules with allow_export=true and require_encryption=false violate both
+    /// simultaneously.  Integrates the PciDssRuleSet::detectGdprConflicts() evaluator.
+    ///
+    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    std::vector<ConflictResult> detectPciDssGdprConflicts(const PolicyManager& policy_mgr) const;
     
     /// Calculate effectiveness metrics for all rules
     std::unordered_map<std::string, EffectivenessMetrics> calculateEffectiveness(
