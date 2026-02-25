@@ -138,8 +138,11 @@ The change log grows unboundedly. Implement size-based and TTL-based retention p
 When a data-subject deletion request arrives, all historical change log entries referencing that subject's key prefix must have their `value` field scrubbed. Implement `CDCAdmin::redactByKeyPrefix(tenant_id, key_prefix)` that rewrites affected log entries in place.
 
 **Implementation Notes:**
-- `[ ]` Scan RocksDB change log column family for entries where `key` matches `key_prefix`; replace `value` JSON field with `"[REDACTED]"` and append `"redacted":true` to the event JSON.
-- `[ ]` Preserve `sequence`, `type`, `key`, `timestamp_ms` for audit trail integrity; only `value` is scrubbed.
+- `[x]` Scan RocksDB change log column family for entries where `key` matches `key_prefix`; replace `value` JSON field with `"[REDACTED]"` and append `"redacted":true` to the event JSON.
+- `[x]` Preserve `sequence`, `type`, `key`, `timestamp_ms` for audit trail integrity; only `value` is scrubbed.
+- `[x]` `CDCAdmin::redactByKeyPrefix(tenant_id, key_prefix, operator_id)` implemented in `src/cdc/cdc_admin.cpp`; returns `GDPRRedactionResult` with scan/redaction counts, timing, and full audit context.
+- `[x]` HTTP endpoint `POST /changefeed/redact` exposed via `ChangefeedApiHandler::handleGdprRedact` (requires `cdc:admin` scope).
+- `[x]` Unit + integration tests in `tests/test_cdc_gdpr_redaction.cpp` (10 tests covering redaction, audit-field preservation, idempotency, empty-prefix rejection, DELETE events).
 - `[ ]` Record a redaction audit log entry in a separate `cdc_redactions` RocksDB column family: `{"key_prefix":"user:42","redacted_count":17,"timestamp_ms":...,"operator":"admin@acme"}`.
 - `[ ]` Propagate redaction to Kafka: publish a tombstone record (null value, key = original key) if Kafka producer is configured.
 - `[!]` Whether in-flight SSE/WebSocket consumers receive the redacted value or the original is unclear; decision needed before implementation.
