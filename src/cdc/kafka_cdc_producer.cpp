@@ -17,7 +17,6 @@
 #include "utils/logger.h"
 
 #include <chrono>
-#include <stdexcept>
 #include <thread>
 
 namespace themis {
@@ -66,6 +65,11 @@ KafkaCDCProducer::~KafkaCDCProducer() {
 bool KafkaCDCProducer::start() {
     if (running_.load(std::memory_order_acquire)) {
         return true;  // Already running.
+    }
+
+    if (!changefeed_) {
+        THEMIS_ERROR("KafkaCDCProducer: cannot start without a valid Changefeed");
+        return false;
     }
 
     // ── Build librdkafka configuration ──────────────────────────────────────

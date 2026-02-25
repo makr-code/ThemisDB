@@ -5,39 +5,133 @@
   "description": "ThemisDB v1.3.0 - Multi-model database with native LLM integration",
   "license": "MIT",
   "builtin-baseline": "05442024c3fda64320bd25d2251cc9807b84fb6f",
-
   "dependencies": [
-    { "name": "openssl", "version>=": "3.6.0" },
-    { "name": "zlib", "version>=": "1.3" },
-    { "name": "rocksdb", "features": ["lz4", "snappy", "zlib", "zstd"] },
-    { "name": "simdjson", "version>=": "3.0.0" },
-    { "name": "tbb", "version>=": "2021.5.0" },
-    { "name": "hnswlib" },
-    { "name": "faiss" },
-    { "name": "gtest", "version>=": "1.14.0" },
-    { "name": "benchmark", "version>=": "1.8.0" },
-    { "name": "boost-asio", "version>=": "1.83.0" },
-    { "name": "boost-beast", "version>=": "1.83.0" },
-    { "name": "boost-variant", "version>=": "1.83.0" },
-    { "name": "boost-url", "version>=": "1.83.0" },
-    { "name": "spdlog", "version>=": "1.12.0" },
-    { "name": "nlohmann-json", "version>=": "3.11.3" },
-    { "name": "c-ares" },
-    { "name": "grpc", "version>=": "1.60.0" },
-    { "name": "opentelemetry-cpp", "features": ["otlp-http"], "version>=": "1.24.0" },
-    { "name": "curl", "version>=": "8.10.0" },
-    { "name": "yaml-cpp", "version>=": "0.7.0" },
-    { "name": "zstd", "version>=": "1.5.0" },
-    { "name": "mimalloc", "version>=": "2.2.6" },
-    { "name": "prometheus-cpp", "features": ["pull"] },
-    { "name": "libzip" },
-    { "name": "pugixml" },
-    { "name": "crc32c" },
-    { "name": "cpp-httplib" },
-    { "name": "msgpack" },
-    { "name": "tl-expected" },
-    { "name": "onnxruntime" },
-    { "name": "arrow", "features": ["parquet"] }
+    {
+      "name": "openssl",
+      "version>=": "3.6.0"
+    },
+    {
+      "name": "zlib",
+      "version>=": "1.3"
+    },
+    {
+      "name": "rocksdb",
+      "features": [
+        "lz4",
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
+    {
+      "name": "simdjson",
+      "version>=": "3.0.0"
+    },
+    {
+      "name": "tbb",
+      "version>=": "2021.5.0"
+    },
+    {
+      "name": "hnswlib"
+    },
+    {
+      "name": "faiss"
+    },
+    {
+      "name": "gtest",
+      "version>=": "1.14.0"
+    },
+    {
+      "name": "benchmark",
+      "version>=": "1.8.0"
+    },
+    {
+      "name": "boost-asio",
+      "version>=": "1.83.0"
+    },
+    {
+      "name": "boost-beast",
+      "version>=": "1.83.0"
+    },
+    {
+      "name": "boost-variant",
+      "version>=": "1.83.0"
+    },
+    {
+      "name": "boost-url",
+      "version>=": "1.83.0"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.12.0"
+    },
+    {
+      "name": "nlohmann-json",
+      "version>=": "3.11.3"
+    },
+    {
+      "name": "c-ares"
+    },
+    {
+      "name": "grpc",
+      "version>=": "1.60.0"
+    },
+    {
+      "name": "opentelemetry-cpp",
+      "features": [
+        "otlp-http"
+      ],
+      "version>=": "1.24.0"
+    },
+    {
+      "name": "curl",
+      "version>=": "8.10.0"
+    },
+    {
+      "name": "yaml-cpp",
+      "version>=": "0.7.0"
+    },
+    {
+      "name": "zstd",
+      "version>=": "1.5.0"
+    },
+    {
+      "name": "mimalloc",
+      "version>=": "2.2.6"
+    },
+    {
+      "name": "prometheus-cpp",
+      "features": [
+        "pull"
+      ]
+    },
+    {
+      "name": "libzip"
+    },
+    {
+      "name": "pugixml"
+    },
+    {
+      "name": "crc32c"
+    },
+    {
+      "name": "cpp-httplib"
+    },
+    {
+      "name": "msgpack"
+    },
+    {
+      "name": "tl-expected"
+    },
+    {
+      "name": "onnxruntime"
+    },
+    {
+      "name": "arrow",
+      "features": [
+        "parquet"
+      ]
+    }
   ],
   "features": {
     "gpu": {
@@ -61,13 +155,20 @@
     },
     "http2": {
       "description": "Enable HTTP/2 protocol support with Server Push",
-      "dependencies": ["nghttp2"]
+      "dependencies": [
+        "nghttp2"
+      ]
     },
     "http3": {
       "description": "Enable HTTP/3 (QUIC) protocol support",
       "dependencies": [
         "nghttp3",
-        { "name": "ngtcp2", "features": ["openssl"] }
+        {
+          "name": "ngtcp2",
+          "features": [
+            "openssl"
+          ]
+        }
       ]
     },
     "grpc": {
@@ -87,7 +188,9 @@
     },
     "mqtt": {
       "description": "Enable MQTT protocol support for IoT deployments",
-      "dependencies": ["paho-mqttpp3"]
+      "dependencies": [
+        "paho-mqttpp3"
+      ]
     },
     "postgres-wire": {
       "description": "Enable PostgreSQL Wire Protocol support for SQL tool compatibility",
@@ -95,14 +198,33 @@
     },
     "gdal": {
       "description": "Enable GDAL integration for Shapefile and GeoTIFF support",
-      "dependencies": ["gdal"]
+      "dependencies": [
+        "gdal"
+      ]
     },
     "cloud-storage": {
       "description": "Enable cloud storage backends (AWS S3, Azure Blob, Google Cloud Storage) for backup automation",
       "dependencies": [
-        { "name": "aws-sdk-cpp", "features": ["s3", "transfer"] },
+        {
+          "name": "aws-sdk-cpp",
+          "features": [
+            "s3",
+            "transfer"
+          ]
+        },
         "azure-storage-cpp",
-        { "name": "google-cloud-cpp", "features": ["storage"] }
+        {
+          "name": "google-cloud-cpp",
+          "features": [
+            "storage"
+          ]
+        }
+      ]
+    },
+    "kafka": {
+      "description": "Enable Kafka-compatible CDC producer (requires librdkafka)",
+      "dependencies": [
+        "librdkafka"
       ]
     }
   }
