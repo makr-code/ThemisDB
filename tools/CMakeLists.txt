@@ -106,6 +106,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora_provenance_cli.cpp")
 endif()
 
 # ============================================================================
+# Config Migration Scanner
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config_migration_scanner.cpp")
+    message(STATUS "Adding config_migration_scanner tool")
+
+    project(ThemisTools LANGUAGES CXX)
+
+    add_executable(config_migration_scanner
+        config_migration_scanner.cpp
+        ../src/config/config_path_resolver.cpp
+        ../src/config/config_metrics_exporter.cpp
+    )
+
+    target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
+
+    target_include_directories(config_migration_scanner PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    # spdlog is required by config_path_resolver
+    find_package(spdlog QUIET)
+    if(spdlog_FOUND)
+        target_link_libraries(config_migration_scanner PRIVATE spdlog::spdlog)
+    endif()
+
+    # observability::MetricsCollector is referenced by config_metrics_exporter;
+    # link against themis_core if available so the symbol is resolved.
+    if(TARGET themis_core)
+        target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    endif()
+
+    install(TARGETS config_migration_scanner
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+
+    message(STATUS "config_migration_scanner tool configured")
+endif()
+
+# ============================================================================
 # .NET Admin Tools
 # ============================================================================
 

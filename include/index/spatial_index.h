@@ -24,6 +24,7 @@
 
 #include "utils/geo/ewkb.h"
 #include "geo/spatial_backend.h"
+#include "geo/geo_rtree.h"
 #include "storage/rocksdb_wrapper.h"
 #include <string>
 #include <string_view>
@@ -32,6 +33,8 @@
 #include <optional>
 #include <cfloat>
 #include <atomic>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace index {
@@ -258,6 +261,25 @@ private:
     RocksDBWrapper& db_;
     geo::ISpatialComputeBackend* exact_backend_ = nullptr; // Optional exact geometry backend
     mutable Metrics metrics_; // G5: Performance metrics
+
+    // ── In-memory R-tree index (per table) ──────────────────────────────
+    // Populated lazily on first spatial query; updated on every write.
+    // Provides O(log n + k) MBR pre-filtering, replacing the O(n) Morton
+    // code range scan for tables with > 10 000 entries.
+    mutable std::unordered_map<std::string, geo::GeoRTree> rtrees_;
+    // Per-table, per-PK MBR cache used to reconstruct SpatialResult after
+    // R-tree query (avoids a per-PK RocksDB point lookup in the hot path).
+    mutable std::unordered_map<std::string,
+                               std::unordered_map<std::string, geo::MBR>> mbr_cache_;
+    // Set of tables whose R-tree has been built (lazily or from writes).
+    mutable std::unordered_set<std::string> rtree_built_;
+
+    // Lazily build the R-tree for `table` by scanning per-PK RocksDB keys.
+    // No-op if already built.  Called automatically inside searchIntersects.
+    void ensureRTree(std::string_view table) const;
+
+    // Convert an MBR to a GeometryInfo (polygon) suitable for GeoRTree.
+    static geo::GeometryInfo mbrToGeometryInfo(const geo::MBR& mbr);
     
     // RocksDB key prefixes
     std::string getSpatialKeyPrefix(std::string_view table) const;

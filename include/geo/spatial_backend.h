@@ -76,6 +76,27 @@ public:
         (void)geom; (void)distance_m; (void)arc_points;
         return GeometryInfo{};
     }
+
+    // ST_UNION: compute the geometric union of two geometries.
+    // Returns a geometry that contains all points in either geom1 or geom2.
+    // For two non-overlapping polygons the result is a GeometryCollection.
+    // For overlapping polygons the result is a merged Polygon.
+    // Returns an empty GeometryInfo on unsupported type combinations.
+    virtual GeometryInfo stUnion(const GeometryInfo& geom1,
+                                 const GeometryInfo& geom2) {
+        (void)geom1; (void)geom2;
+        return GeometryInfo{};
+    }
+
+    // ST_DIFFERENCE: compute geom1 minus geom2 (the set-difference).
+    // Returns a geometry containing all points in geom1 that are not in geom2.
+    // Returns geom1 unchanged when the two geometries do not intersect.
+    // Returns an empty GeometryInfo when geom1 is fully contained in geom2.
+    virtual GeometryInfo stDifference(const GeometryInfo& geom1,
+                                      const GeometryInfo& geom2) {
+        (void)geom1; (void)geom2;
+        return GeometryInfo{};
+    }
 };
 
 // Registry for dynamically loaded plugins
@@ -89,11 +110,29 @@ public:
 // extern "C" void RegisterGeoPlugin(IGeoRegistry* registry);
 using RegisterGeoPluginFn = void(*)(IGeoRegistry*);
 
+// Precision mode for spatial computation backends.
+// Exact mode uses full geometric algorithms (ray-casting, segment-intersection).
+// Approximate mode uses MBR (bounding-box) overlap for faster but potentially
+// conservative checks (no false negatives; may produce false positives).
+enum class GeoPrecisionMode {
+    Exact,       // Full geometric exactness; higher CPU cost.
+    Approximate  // MBR-based fast approximation; safe for pre-filtering.
+};
+
 // Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
 
 // Get the built-in CPU exact backend (always available, no Boost dependency)
 ISpatialComputeBackend* getCpuExactBackend();
+
+// Get the built-in CPU approximate backend (always available).
+// Uses MBR overlap checks for fast conservative spatial tests.
+ISpatialComputeBackend* getCpuApproximateBackend();
+
+// Get a backend for the requested precision mode.
+// Exact   → getCpuExactBackend()
+// Approximate → getCpuApproximateBackend()
+ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();

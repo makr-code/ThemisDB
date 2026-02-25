@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     233                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -130,13 +130,22 @@ public:
      * PII-sensitive field values SHOULD be redacted by the implementation before
      * they are written to the sink.
      *
-     * Default implementation falls back to plain log() for backends that do not
-     * override this method.
+     * Default implementation appends fields as key=value pairs to the message
+     * so that trace/span IDs injected via logWithContext() are not silently
+     * dropped by backends that only override log().
      */
     virtual void logStructured(Level level,
                                const std::string& message,
                                const Fields& fields = {}) {
-        log(level, message);
+        if (fields.empty()) {
+            log(level, message);
+            return;
+        }
+        std::string full_msg = message;
+        for (const auto& kv : fields) {
+            full_msg += " " + kv.first + "=" + kv.second;
+        }
+        log(level, full_msg);
     }
 
     /**

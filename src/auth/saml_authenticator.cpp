@@ -479,8 +479,10 @@ SAMLClaims SAMLAuthenticator::processResponse(
         return processResponseImpl(saml_response_b64, in_response_to);
     } catch (const AuthException& ex) {
         if (audit_logger_) {
+            const auto& err = ex.error();
+            const std::string reason = err.internalMessage().empty() ? err.publicMessage() : err.internalMessage();
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
-                "", "saml/assertion", {{"reason", ex.error().message}});
+                "", "saml/assertion", {{"reason", reason}});
         }
         throw;
     } catch (const std::exception& ex) {

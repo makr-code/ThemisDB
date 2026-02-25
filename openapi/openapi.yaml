@@ -3077,6 +3077,59 @@ paths:
                   success: { type: boolean }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
+  /changefeed/redact:
+    post:
+      summary: GDPR right-to-erasure — redact PII from change log entries
+      description: |
+        Scrubs PII from all change log entries whose `key` starts with
+        `key_prefix`.  The `value`, `before_snapshot`, and `after_snapshot`
+        fields are replaced with `"[REDACTED]"` and `redacted` is set to
+        `true`.  Audit-critical fields (`sequence`, `type`, `key`,
+        `timestamp_ms`) are preserved.  Already-redacted events are skipped.
+      operationId: redactChangefeedByKeyPrefix
+      tags: [changefeed]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [key_prefix]
+              properties:
+                key_prefix:
+                  type: string
+                  description: Non-empty key prefix identifying the data subject (e.g. "user:42")
+                  example: "user:42"
+                tenant_id:
+                  type: string
+                  description: Tenant scope for the audit record (optional)
+                  example: "acme"
+                operator_id:
+                  type: string
+                  description: Identity of the requesting operator (optional, audit record)
+                  example: "dpo@acme.com"
+      responses:
+        '200':
+          description: Redaction complete
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events_scanned:  { type: integer, format: int64, description: Total events examined }
+                  events_redacted: { type: integer, format: int64, description: Events whose value was scrubbed }
+                  elapsed_time_ms: { type: integer, format: int64, description: Wall-clock time of the operation (ms) }
+                  key_prefix:      { type: string, description: Key prefix that was matched }
+                  tenant_id:       { type: string, description: Tenant scope }
+                  operator_id:     { type: string, description: Requesting operator identity }
+                  timestamp_ms:    { type: integer, format: int64, description: Epoch ms when redaction completed }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '503':
+          description: CDC feature not available
+
   /api/v1/restore/pitr:
     post:
       summary: Point-in-time recovery restore
@@ -6508,7 +6561,7 @@ paths:
     get:
       summary: Get cache health status
       description: |
-        Returns per-tier status (L1/L2/L3) and circuit breaker state.
+        Returns per-tier status (L1/L2/L3), circuit breaker state, and overall health.
         Responds with HTTP 200 when healthy, 503 when degraded or unavailable.
         Requires `admin:cache:read` scope.
       operationId: adminCacheHealth
@@ -6517,11 +6570,52 @@ paths:
         - bearerAuth: [admin:cache:read]
       responses:
         '200':
-          description: Cache is healthy
+          description: Cache health status (healthy)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CacheHealthResponse'
+                type: object
+                properties:
+                  healthy:
+                    type: boolean
+                    description: True when all tiers are operational and circuit breaker is CLOSED.
+                  warnings:
+                    type: array
+                    items: { type: string }
+                    description: List of non-fatal warnings (e.g. high memory pressure).
+                  tiers:
+                    type: object
+                    description: Per-tier operational status.
+                    properties:
+                      l1:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          entries: { type: integer }
+                          max_entries: { type: integer }
+                          utilization: { type: number, format: double }
+                          ttl_seconds: { type: integer }
+                      l2:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          entries: { type: integer }
+                          max_entries: { type: integer }
+                          utilization: { type: number, format: double }
+                          ttl_seconds: { type: integer }
+                      l3:
+                        type: object
+                        properties:
+                          status: { type: string, example: OK }
+                          enabled: { type: boolean }
+                          path: { type: string }
+                          ttl_seconds: { type: integer }
+                  circuit_breaker:
+                    type: object
+                    properties:
+                      state: { type: string, enum: [CLOSED, OPEN, HALF_OPEN] }
+                      enabled: { type: boolean }
+                      failure_count: { type: integer }
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
         '503':
@@ -6529,7 +6623,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CacheHealthResponse'
+                $ref: '#/components/schemas/ErrorResponse'
 
   /v1/admin/cache/stats:
     get:
@@ -6716,6 +6810,105 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
         '500': { $ref: '#/components/responses/InternalError' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/tenants:
+    get:
+      summary: List all tenants with cache statistics
+      description: |
+        Returns aggregated cache statistics for all known tenants: bytes used,
+        quota, utilization ratio, hit/miss counts, hit rate, and eviction count.
+        Requires `admin:cache:read` scope.
+      operationId: adminCacheListTenants
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:read]
+      responses:
+        '200':
+          description: Tenant list with cache statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheTenantListResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/tenant/{tenant_id}/stats:
+    get:
+      summary: Get cache statistics for a specific tenant
+      description: |
+        Returns per-tenant cache statistics including bytes used, quota, utilization,
+        hit/miss counts, hit rate, and eviction count.
+        Returns 404 when the tenant has no recorded cache activity.
+        Requires `admin:cache:read` scope.
+      operationId: adminCacheTenantStats
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:read]
+      parameters:
+        - in: path
+          name: tenant_id
+          required: true
+          schema:
+            type: string
+          description: Tenant ID to query statistics for
+      responses:
+        '200':
+          description: Per-tenant cache statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheTenantStatsResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /v1/admin/cache/tenant/{tenant_id}/quota:
+    patch:
+      summary: Update cache quota for a specific tenant
+      description: |
+        Updates the cache size quota for the specified tenant.
+        A `quota_bytes` value of 0 resets the tenant to the global default quota
+        (configured via `per_tenant_max_bytes`).
+        Requires `admin:cache:write` scope.
+      operationId: adminCacheUpdateTenantQuota
+      tags: [cache-admin]
+      security:
+        - bearerAuth: [admin:cache:write]
+      parameters:
+        - in: path
+          name: tenant_id
+          required: true
+          schema:
+            type: string
+          description: Tenant ID whose quota should be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CacheTenantQuotaRequest'
+            examples:
+              set_50mb:
+                value:
+                  quota_bytes: 52428800
+              reset_to_default:
+                value:
+                  quota_bytes: 0
+      responses:
+        '200':
+          description: Quota updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheTenantQuotaResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
 
 components:
@@ -6964,6 +7157,134 @@ components:
         out_path:
           type: string
           description: Path of the snapshot file that was written.
+
+    CacheTenantEntry:
+      type: object
+      description: Cache statistics for a single tenant.
+      properties:
+        bytes_used:
+          type: integer
+          format: int64
+          description: Total bytes currently occupied in the cache by this tenant.
+          example: 10485760
+        quota:
+          type: integer
+          format: int64
+          description: Maximum cache bytes allowed for this tenant (0 = global default).
+          example: 104857600
+        utilization:
+          type: number
+          format: double
+          description: Fraction of quota in use (bytes_used / quota). 0.0 if quota is unset.
+          example: 0.1
+        hits:
+          type: integer
+          format: int64
+          description: Number of cache hits recorded for this tenant.
+          example: 982301
+        misses:
+          type: integer
+          format: int64
+          description: Number of cache misses recorded for this tenant.
+          example: 12034
+        hit_rate:
+          type: number
+          format: double
+          description: Fraction of lookups that resulted in a cache hit (0.0–1.0).
+          example: 0.9879
+        evictions:
+          type: integer
+          format: int64
+          description: Number of entries evicted (via invalidateTenant or eviction pressure).
+          example: 301
+
+    CacheTenantListResponse:
+      type: object
+      description: Response from GET /v1/admin/cache/tenants.
+      required: [enabled, tenants]
+      properties:
+        enabled:
+          type: boolean
+          description: Whether per-tenant isolation is active.
+          example: true
+        tenants:
+          type: object
+          description: Map of tenant_id to per-tenant cache statistics.
+          additionalProperties:
+            $ref: '#/components/schemas/CacheTenantEntry'
+
+    CacheTenantStatsResponse:
+      type: object
+      description: Response from GET /v1/admin/cache/tenant/{tenant_id}/stats.
+      required: [found, tenant_id]
+      properties:
+        found:
+          type: boolean
+          description: True when the tenant has recorded cache activity.
+          example: true
+        tenant_id:
+          type: string
+          description: The queried tenant identifier.
+          example: acme
+        bytes_used:
+          type: integer
+          format: int64
+          example: 10485760
+        quota:
+          type: integer
+          format: int64
+          example: 104857600
+        utilization:
+          type: number
+          format: double
+          example: 0.1
+        hits:
+          type: integer
+          format: int64
+          example: 982301
+        misses:
+          type: integer
+          format: int64
+          example: 12034
+        hit_rate:
+          type: number
+          format: double
+          example: 0.9879
+        evictions:
+          type: integer
+          format: int64
+          example: 301
+
+    CacheTenantQuotaRequest:
+      type: object
+      description: Request body for PATCH /v1/admin/cache/tenant/{tenant_id}/quota.
+      required: [quota_bytes]
+      properties:
+        quota_bytes:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            New cache size quota in bytes for the tenant.
+            Set to 0 to reset to the global default (`per_tenant_max_bytes`).
+          example: 52428800
+
+    CacheTenantQuotaResponse:
+      type: object
+      description: Response after updating a tenant quota.
+      required: [status, tenant_id, quota_bytes]
+      properties:
+        status:
+          type: string
+          example: ok
+        tenant_id:
+          type: string
+          example: acme
+        quota_bytes:
+          type: integer
+          format: int64
+          description: The quota value that was set (0 means reset to global default).
+          example: 52428800
 
     # ── End Cache Admin API schemas ──────────────────────────────────────────
     CreateSessionRequest:

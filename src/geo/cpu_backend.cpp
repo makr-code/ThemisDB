@@ -248,7 +248,9 @@ public:
     }
     
     // Exact geometry intersection check.
-    // Supports: Point×Point, Point×Polygon (symmetric), Polygon×Polygon.
+    // Supports: Point×Point, Point×Polygon (symmetric), Polygon×Polygon,
+    // MultiPolygon (decomposed into constituent polygons),
+    // GeometryCollection (decomposed into member geometries).
     // Uses ray-casting (point-in-polygon) and segment-intersection
     // to handle all cases including edge-only polygon crossings.
     bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
@@ -301,6 +303,34 @@ public:
                 return polygonIntersects(poly1, poly2);
             }
             
+            // MultiPolygon: intersects if any constituent polygon intersects
+            if (geom1.isMultiPolygon()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isMultiPolygon()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
+            // GeometryCollection: intersects if any member intersects
+            if (geom1.isGeometryCollection()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isGeometryCollection()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
             // For all other geometry-type combinations or inconclusive cases,
             // we conservatively report no intersection rather than using an
             // approximate MBR-based fallback, to avoid false positives.
@@ -357,11 +387,490 @@ public:
         }
         return GeometryInfo{};
     }
+
+    // ST_UNION / ST_DIFFERENCE implementation
+    GeometryInfo stUnion(const GeometryInfo& geom1,
+                         const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                return cpuPolyUnion(geom1, geom2);
+            }
+            if (geom1.isPoint() && geom2.isPoint()) {
+                if (geom1.coords.empty()) return geom2;
+                if (geom2.coords.empty()) return geom1;
+                const auto& p1 = geom1.coords[0];
+                const auto& p2 = geom2.coords[0];
+                if (std::abs(p1.x - p2.x) < kCpuEpsilon &&
+                    std::abs(p1.y - p2.y) < kCpuEpsilon) {
+                    return geom1;
+                }
+                GeometryInfo col(GeometryType::GeometryCollection);
+                col.geometries.push_back(geom1);
+                col.geometries.push_back(geom2);
+                return col;
+            }
+            if (geom1.isPoint() && geom2.isPolygon()) {
+                if (geom1.coords.empty()) return geom2;
+                const auto& ring = geom2.rings.empty() ? geom2.coords : geom2.rings[0];
+                if (pointInPolygon(geom1.coords[0].x, geom1.coords[0].y, ring)) {
+                    return geom2;
+                }
+                GeometryInfo col(GeometryType::GeometryCollection);
+                col.geometries.push_back(geom1);
+                col.geometries.push_back(geom2);
+                return col;
+            }
+            if (geom1.isPolygon() && geom2.isPoint()) {
+                return stUnion(geom2, geom1);
+            }
+            THEMIS_WARN("CPU stUnion: unsupported geometry type combination");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("CPU stUnion error: {}", e.what());
+        }
+        return GeometryInfo{};
+    }
+
+    GeometryInfo stDifference(const GeometryInfo& geom1,
+                              const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                return cpuPolyDiff(geom1, geom2);
+            }
+            if (geom1.isPoint() && geom2.isPoint()) {
+                if (geom1.coords.empty()) return GeometryInfo{};
+                if (geom2.coords.empty()) return geom1;
+                const auto& p1 = geom1.coords[0];
+                const auto& p2 = geom2.coords[0];
+                if (std::abs(p1.x - p2.x) < kCpuEpsilon &&
+                    std::abs(p1.y - p2.y) < kCpuEpsilon) {
+                    return GeometryInfo{};
+                }
+                return geom1;
+            }
+            if (geom1.isPoint() && geom2.isPolygon()) {
+                if (geom1.coords.empty()) return GeometryInfo{};
+                const auto& ring = geom2.rings.empty() ? geom2.coords : geom2.rings[0];
+                if (pointInPolygon(geom1.coords[0].x, geom1.coords[0].y, ring)) {
+                    return GeometryInfo{};
+                }
+                return geom1;
+            }
+            if (geom1.isPolygon() && geom2.isPoint()) {
+                // Subtracting a point from a polygon has no effect on area
+                return geom1;
+            }
+            THEMIS_WARN("CPU stDifference: unsupported geometry type combination");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("CPU stDifference error: {}", e.what());
+        }
+        return GeometryInfo{};
+    }
+
+private:
+    // -----------------------------------------------------------------------
+    // Greiner-Hormann polygon boolean operations
+    // Reference: Greiner & Hormann, "Efficient Clipping of Arbitrary Polygons",
+    //            ACM TOG 1998.
+    // Supports Union and Difference for simple (non-self-intersecting) polygons.
+    // -----------------------------------------------------------------------
+
+    struct GHVert {
+        double x{0}, y{0};
+        double alpha{0};      // parametric position along the chain; original vertices
+                              // store their integer index; intersection vertices store
+                              // edge_index + t where t ∈ (0,1)
+        bool   is_isect{false};
+        bool   ent_B{false};  // (A vertex) entering B when traversing A forward
+        bool   ent_A{false};  // (B vertex) entering A when traversing B forward
+        bool   used{false};
+        int    link{-1};
+    };
+
+    // Build an open chain from a ring (drops the closing duplicate vertex).
+    static std::vector<GHVert> ghChain(const std::vector<Coordinate>& ring) {
+        std::size_t n = ring.size();
+        while (n > 1 &&
+               std::abs(ring[n-1].x - ring[0].x) < kCpuEpsilon &&
+               std::abs(ring[n-1].y - ring[0].y) < kCpuEpsilon) {
+            --n;
+        }
+        std::vector<GHVert> v(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            v[i].x = ring[i].x;
+            v[i].y = ring[i].y;
+            v[i].alpha = static_cast<double>(i);
+        }
+        return v;
+    }
+
+    // Strict interior segment intersection: t,s ∈ (eps, 1-eps).
+    static bool ghSegIsect(double x1, double y1, double x2, double y2,
+                           double x3, double y3, double x4, double y4,
+                           double& t, double& s) {
+        const double dx = x2-x1, dy = y2-y1;
+        const double ex = x4-x3, ey = y4-y3;
+        const double D  = dx*ey - dy*ex;
+        if (std::abs(D) < kCpuEpsilon) return false;
+        const double fx = x3-x1, fy = y3-y1;
+        t = (fx*ey - fy*ex) / D;
+        s = (fx*dy - fy*dx) / D;
+        return t > kCpuEpsilon && t < 1.0-kCpuEpsilon &&
+               s > kCpuEpsilon && s < 1.0-kCpuEpsilon;
+    }
+
+    // Phase 1: find all edge-edge intersections; insert and sort; cross-link.
+    static void ghPhase1(std::vector<GHVert>& A, std::vector<GHVert>& B) {
+        const std::size_t na = A.size(), nb = B.size();
+        struct IP { double aa, ab, x, y; };
+        std::vector<IP> ips;
+        for (std::size_t i = 0; i < na; ++i) {
+            const std::size_t i2 = (i+1) % na;
+            for (std::size_t j = 0; j < nb; ++j) {
+                const std::size_t j2 = (j+1) % nb;
+                double t, s;
+                if (ghSegIsect(A[i].x, A[i].y, A[i2].x, A[i2].y,
+                               B[j].x, B[j].y, B[j2].x, B[j2].y, t, s)) {
+                    ips.push_back({static_cast<double>(i)+t,
+                                   static_cast<double>(j)+s,
+                                   A[i].x + t*(A[i2].x - A[i].x),
+                                   A[i].y + t*(A[i2].y - A[i].y)});
+                }
+            }
+        }
+        if (ips.empty()) return;
+        for (const auto& ip : ips) {
+            GHVert v; v.x=ip.x; v.y=ip.y; v.alpha=ip.aa; v.is_isect=true;
+            A.push_back(v);
+        }
+        std::stable_sort(A.begin(), A.end(), [](const GHVert& a, const GHVert& b){
+            return a.alpha < b.alpha; });
+        for (const auto& ip : ips) {
+            GHVert v; v.x=ip.x; v.y=ip.y; v.alpha=ip.ab; v.is_isect=true;
+            B.push_back(v);
+        }
+        std::stable_sort(B.begin(), B.end(), [](const GHVert& a, const GHVert& b){
+            return a.alpha < b.alpha; });
+        // Cross-link by matching position.
+        for (std::size_t ia = 0; ia < A.size(); ++ia) {
+            if (!A[ia].is_isect || A[ia].link >= 0) continue;
+            for (std::size_t ib = 0; ib < B.size(); ++ib) {
+                if (!B[ib].is_isect || B[ib].link >= 0) continue;
+                if (std::abs(A[ia].x - B[ib].x) < kCpuEpsilon &&
+                    std::abs(A[ia].y - B[ib].y) < kCpuEpsilon) {
+                    A[ia].link = static_cast<int>(ib);
+                    B[ib].link = static_cast<int>(ia);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Phase 2A: label each A intersection as entering (ent_B) or exiting B.
+    static void ghPhase2A(std::vector<GHVert>& A,
+                          const std::vector<Coordinate>& b_ring) {
+        bool inside = false;
+        for (const auto& v : A) {
+            if (!v.is_isect) { inside = pointInPolygon(v.x, v.y, b_ring); break; }
+        }
+        for (auto& v : A) {
+            if (!v.is_isect) continue;
+            v.ent_B = !inside;
+            inside = !inside;
+        }
+    }
+
+    // Phase 2B: label each B intersection as entering (ent_A) or exiting A.
+    static void ghPhase2B(std::vector<GHVert>& B,
+                          const std::vector<Coordinate>& a_ring) {
+        bool inside = false;
+        for (const auto& v : B) {
+            if (!v.is_isect) { inside = pointInPolygon(v.x, v.y, a_ring); break; }
+        }
+        for (auto& v : B) {
+            if (!v.is_isect) continue;
+            v.ent_A = !inside;
+            inside = !inside;
+        }
+    }
+
+    // Collect one union polygon ring starting from an unvisited A-exiting intersection.
+    // Returns an empty vector if no suitable start vertex is found.
+    static std::vector<Coordinate> ghTraverseUnion(
+            std::vector<GHVert>& A, std::vector<GHVert>& B) {
+        const int na = static_cast<int>(A.size());
+        const int nb = static_cast<int>(B.size());
+        int start_a = -1;
+        for (int i = 0; i < na; ++i) {
+            if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }
+        }
+        if (start_a < 0) return {};
+
+        std::vector<Coordinate> ring;
+        bool on_A = true;
+        int cur_a = start_a, cur_b = -1;
+
+        for (int iter = 0; iter < na + nb + 8; ++iter) {
+            if (on_A) {
+                if (cur_a == start_a && ring.size() > 1) break;
+                GHVert& v = A[cur_a];
+                ring.push_back({v.x, v.y});
+                v.used = true;
+                if (v.is_isect && v.ent_B) {
+                    cur_b = v.link;
+                    B[cur_b].used = true;
+                    cur_b = (cur_b + 1) % nb;
+                    on_A = false;
+                } else {
+                    cur_a = (cur_a + 1) % na;
+                }
+            } else {
+                GHVert& v = B[cur_b];
+                if (v.is_isect && v.ent_A) {
+                    ring.push_back({v.x, v.y});
+                    v.used = true;
+                    cur_a = v.link;
+                    A[cur_a].used = true;
+                    if (cur_a == start_a) break;
+                    on_A = true;
+                    cur_a = (cur_a + 1) % na;
+                } else {
+                    ring.push_back({v.x, v.y});
+                    v.used = true;
+                    cur_b = (cur_b + 1) % nb;
+                }
+            }
+        }
+        // Close the ring if not already closed.
+        if (ring.size() > 2 &&
+            (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon ||
+             std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
+            ring.push_back(ring[0]);
+        }
+        return ring;
+    }
+
+    // Collect one difference polygon ring starting from an unvisited A-exiting
+    // intersection.  Returns an empty vector if none is found.
+    static std::vector<Coordinate> ghTraverseDiff(
+            std::vector<GHVert>& A, std::vector<GHVert>& B) {
+        const int na = static_cast<int>(A.size());
+        const int nb = static_cast<int>(B.size());
+        int start_a = -1;
+        for (int i = 0; i < na; ++i) {
+            if (A[i].is_isect && !A[i].used && !A[i].ent_B) { start_a = i; break; }
+        }
+        if (start_a < 0) return {};
+
+        std::vector<Coordinate> ring;
+        bool on_A = true;
+        int cur_a = start_a, cur_b = -1;
+
+        for (int iter = 0; iter < na + nb + 8; ++iter) {
+            if (on_A) {
+                if (cur_a == start_a && ring.size() > 1) break;
+                GHVert& v = A[cur_a];
+                ring.push_back({v.x, v.y});
+                v.used = true;
+                if (v.is_isect && v.ent_B) {
+                    // Switch to B traversed backward.
+                    cur_b = v.link;
+                    B[cur_b].used = true;
+                    cur_b = ((cur_b - 1) + nb) % nb;
+                    on_A = false;
+                } else {
+                    cur_a = (cur_a + 1) % na;
+                }
+            } else {
+                GHVert& v = B[cur_b];
+                if (v.is_isect && v.ent_A) {
+                    // B enters A going forward → switch back to A.
+                    ring.push_back({v.x, v.y});
+                    v.used = true;
+                    cur_a = v.link;
+                    A[cur_a].used = true;
+                    if (cur_a == start_a) break;
+                    on_A = true;
+                    cur_a = (cur_a + 1) % na;
+                } else {
+                    ring.push_back({v.x, v.y});
+                    v.used = true;
+                    cur_b = ((cur_b - 1) + nb) % nb;
+                }
+            }
+        }
+        if (ring.size() > 2 &&
+            (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon ||
+             std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
+            ring.push_back(ring[0]);
+        }
+        return ring;
+    }
+
+    // Extract the outer ring from a GeometryInfo polygon.
+    static const std::vector<Coordinate>& outerRing(const GeometryInfo& g) {
+        return g.rings.empty() ? g.coords : g.rings[0];
+    }
+
+    // Polygon-Polygon union using Greiner-Hormann.
+    static GeometryInfo cpuPolyUnion(const GeometryInfo& geom1,
+                                     const GeometryInfo& geom2) {
+        const auto& ring1 = outerRing(geom1);
+        const auto& ring2 = outerRing(geom2);
+        if (ring1.size() < 3 || ring2.size() < 3) return GeometryInfo{};
+
+        // Fast-path: no overlap.
+        if (!polygonIntersects(ring1, ring2)) {
+            // Check containment.
+            if (pointInPolygon(ring1[0].x, ring1[0].y, ring2)) return geom2; // A ⊆ B
+            if (pointInPolygon(ring2[0].x, ring2[0].y, ring1)) return geom1; // B ⊆ A
+            // Truly disjoint.
+            GeometryInfo col(GeometryType::GeometryCollection);
+            col.geometries.push_back(geom1);
+            col.geometries.push_back(geom2);
+            return col;
+        }
+
+        auto A = ghChain(ring1);
+        auto B = ghChain(ring2);
+        ghPhase1(A, B);
+
+        // Check if intersections were actually found (handles edge cases
+        // where polygonIntersects returned true but only at endpoints/edges).
+        bool has_isect = false;
+        for (const auto& v : A) { if (v.is_isect) { has_isect = true; break; } }
+        if (!has_isect) {
+            // Containment fallback.
+            if (!ring1.empty() && pointInPolygon(ring1[0].x, ring1[0].y, ring2))
+                return geom2;
+            if (!ring2.empty() && pointInPolygon(ring2[0].x, ring2[0].y, ring1))
+                return geom1;
+            GeometryInfo col(GeometryType::GeometryCollection);
+            col.geometries.push_back(geom1);
+            col.geometries.push_back(geom2);
+            return col;
+        }
+
+        ghPhase2A(A, ring2);
+        ghPhase2B(B, ring1);
+
+        GeometryInfo result(GeometryType::Polygon);
+        for (;;) {
+            auto r = ghTraverseUnion(A, B);
+            if (r.size() < 4) break;
+            result.rings.push_back(std::move(r));
+        }
+        if (result.rings.empty()) {
+            // Fallback: return the bounding union approximation.
+            GeometryInfo col(GeometryType::GeometryCollection);
+            col.geometries.push_back(geom1);
+            col.geometries.push_back(geom2);
+            return col;
+        }
+        return result;
+    }
+
+    // Polygon-Polygon difference (geom1 \ geom2) using Greiner-Hormann.
+    static GeometryInfo cpuPolyDiff(const GeometryInfo& geom1,
+                                    const GeometryInfo& geom2) {
+        const auto& ring1 = outerRing(geom1);
+        const auto& ring2 = outerRing(geom2);
+        if (ring1.size() < 3) return GeometryInfo{};
+        if (ring2.size() < 3) return geom1;
+
+        // Fast-path: no overlap.
+        if (!polygonIntersects(ring1, ring2)) {
+            if (pointInPolygon(ring1[0].x, ring1[0].y, ring2)) return GeometryInfo{}; // A ⊆ B
+            // B ⊆ A: return A with B as a hole (subtracts B's area from A).
+            if (!ring2.empty() && pointInPolygon(ring2[0].x, ring2[0].y, ring1)) {
+                GeometryInfo result(GeometryType::Polygon);
+                // Outer ring: geom1's outer ring (already closed).
+                result.rings.push_back(ring1);
+                // Hole: geom2's outer ring (already closed).
+                result.rings.push_back(ring2);
+                return result;
+            }
+            return geom1; // Disjoint.
+        }
+
+        // Check if A is fully inside B.
+        auto A = ghChain(ring1);
+        auto B = ghChain(ring2);
+        ghPhase1(A, B);
+
+        bool has_isect = false;
+        for (const auto& v : A) { if (v.is_isect) { has_isect = true; break; } }
+        if (!has_isect) {
+            if (!ring1.empty() && pointInPolygon(ring1[0].x, ring1[0].y, ring2))
+                return GeometryInfo{}; // A ⊆ B → empty difference
+            // B ⊆ A (edges touch but don't cross): return A with B as hole.
+            if (!ring2.empty() && pointInPolygon(ring2[0].x, ring2[0].y, ring1)) {
+                GeometryInfo result(GeometryType::Polygon);
+                result.rings.push_back(ring1);
+                result.rings.push_back(ring2);
+                return result;
+            }
+            return geom1; // Disjoint (edge-touching only)
+        }
+
+        ghPhase2A(A, ring2);
+        ghPhase2B(B, ring1);
+
+        GeometryInfo result(GeometryType::Polygon);
+        for (;;) {
+            auto r = ghTraverseDiff(A, B);
+            if (r.size() < 4) break;
+            result.rings.push_back(std::move(r));
+        }
+        if (result.rings.empty()) return geom1; // Fallback
+        return result;
+    }
 };
 
 // Simple internal registry stub (no global linkage yet)
 struct NullRegistry : public IGeoRegistry {
     void registerBackend(std::unique_ptr<ISpatialComputeBackend>) override {}
+};
+
+// ---------------------------------------------------------------------------
+// Approximate CPU backend
+// Uses MBR (bounding-box) overlap as a conservative spatial check.
+// Never returns a false negative (if geometries truly intersect, their MBRs
+// overlap). May return false positives (MBRs overlap but geometries do not).
+// This makes it suitable as a fast pre-filter for spatial queries.
+// ---------------------------------------------------------------------------
+
+// Forward declaration — defined after CpuExactBackend below.
+static CpuExactBackend& getCpuExactBackendInstance();
+
+class ApproximateCpuBackend final : public ISpatialComputeBackend {
+public:
+    const char* name() const noexcept override { return "cpu_approximate"; }
+    bool isAvailable() const noexcept override { return true; }
+
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+        SpatialBatchResults out;
+        out.mask.assign(in.count, 0u);
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        for (std::size_t i = 0; i < n; ++i) {
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+        }
+        return out;
+    }
+
+    // Approximate intersection check using MBR overlap.
+    // Guaranteed no false negatives; may have false positives.
+    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
+        const auto mbr1 = geom1.computeMBR();
+        const auto mbr2 = geom2.computeMBR();
+        return mbr1.intersects(mbr2);
+    }
+
+    // stBuffer delegates to the exact backend; buffering correctness matters
+    // regardless of the caller's chosen precision mode.
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
+                          int arc_points) override {
+        return getCpuExactBackendInstance().stBuffer(geom, distance_m, arc_points);
+    }
 };
 
 static void register_builtin_cpu_backend() {
@@ -385,6 +894,26 @@ static CpuExactBackend& getCpuExactBackendInstance() {
 
 ISpatialComputeBackend* getCpuExactBackend() {
     return &getCpuExactBackendInstance();
+}
+
+// Public factory: returns the built-in CPU approximate backend singleton.
+static ApproximateCpuBackend& getCpuApproximateBackendInstance() {
+    static ApproximateCpuBackend instance;
+    return instance;
+}
+
+ISpatialComputeBackend* getCpuApproximateBackend() {
+    return &getCpuApproximateBackendInstance();
+}
+
+ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode) {
+    switch (mode) {
+        case GeoPrecisionMode::Approximate:
+            return getCpuApproximateBackend();
+        case GeoPrecisionMode::Exact:
+        default:
+            return getCpuExactBackend();
+    }
 }
 
 // Ensure the object file isn't discarded

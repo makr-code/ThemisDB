@@ -28,12 +28,28 @@
 // when no GPU is present.
 
 #include "geo/spatial_backend.h"
+#include "geo/gpu_kernel_dispatcher.h"
 #include "themis/gpu/device_discovery.h"
 #include "themis/gpu/safe_fail.h"
 #include "themis/gpu/metrics.h"
 #include "themis/gpu/audit_log.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
+
+#ifdef THEMIS_GEO_CUDA
+#include <cstdint>
+extern "C" {
+int launchGeoDistanceKernel(
+    const double* d_lats1, const double* d_lons1,
+    const double* d_lats2, const double* d_lons2,
+    float* d_distances, int count,
+    themis::acceleration::GeoDistanceFormula formula, void* stream);
+int launchGeoContainmentKernel(
+    const double* d_point_lats, const double* d_point_lons, int numPoints,
+    const double* d_polygon_coords, int numPolygonVertices,
+    uint8_t* d_results, void* stream);
+} // extern "C"
+#endif // THEMIS_GEO_CUDA
 
 #include <algorithm>
 #include <atomic>
@@ -162,6 +178,7 @@ public:
               /*oom_threshold=*/cfg.vram_threshold_fraction,
               /*enable_cpu_fallback=*/true})
         , audit_log_(256)
+        , kernel_dispatcher_(buildDispatchTable())
     {
         auto devices = themis::gpu::DeviceDiscovery::Enumerate();
         gpu_device_present_ = themis::gpu::DeviceDiscovery::HasGPU(devices);
@@ -192,12 +209,12 @@ public:
     // ------------------------------------------------------------------
     // batchIntersects
     //
-    // Iterates over the geometry pairs in SpatialBatchInputs and calls
-    // the CPU exact-intersection predicate for each.  When a real GPU is
-    // present the circuit-breaker gate is exercised; the actual compute
-    // kernel is run on CPU (GPU kernel dispatch is a FUTURE_ENHANCEMENT).
-    // All metrics, audit events, and fallback paths are instrumented so
-    // that operators can observe behaviour in production.
+    // For batches where all geoms_a are Points and geoms_b[0] is a Polygon
+    // and the batch meets the gpu_batch_threshold, dispatches to CUDA
+    // kernels via GpuKernelDispatcher (when THEMIS_GEO_CUDA is defined
+    // and a GPU is present).  Falls back to the CPU exact-intersection
+    // predicate otherwise.  All metrics, audit events, and fallback paths
+    // are instrumented so that operators can observe behaviour.
     // ------------------------------------------------------------------
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         const auto t0 = std::chrono::steady_clock::now();
@@ -207,13 +224,44 @@ public:
 
         if (in.count == 0) return out;
 
+        // Attempt GPU kernel dispatch for the common point-in-polygon pattern.
+        const bool have_geoms = !in.geoms_a.empty() && !in.geoms_b.empty();
+        const std::size_t n   = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+
+        if (have_geoms && n >= cfg_.gpu_batch_threshold &&
+                gpu_device_present_ && active_device_.is_healthy &&
+                safe_fail_.shouldAttemptGPU() &&
+                kernel_dispatcher_.isAvailable() &&
+                isAllPointsVsPolygon(in, n)) {
+            auto gpu_result = tryGpuContainmentDispatch(in, n);
+            if (gpu_result.dispatched) {
+                safe_fail_.recordSuccess();
+                const std::size_t m = std::min(out.mask.size(), gpu_result.mask.size());
+                for (std::size_t i = 0; i < m; ++i) {
+                    out.mask[i] = gpu_result.mask[i];
+                }
+                batch_pairs_processed_ += static_cast<uint64_t>(m);
+                recordLatency(t0);
+                return out;
+            }
+            // GPU dispatch failed — record failure and fall through to CPU.
+            safe_fail_.recordFailure(
+                themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                "geo containment kernel error: " +
+                    std::to_string(gpu_result.error_code));
+            audit_log_.recordFallbackToCPU(
+                "batchIntersects: GPU kernel error; falling back to CPU",
+                "error_code=" + std::to_string(gpu_result.error_code));
+            themis::gpu::GPUMetrics::GetInstance().recordFallback(
+                "batch_gpu_kernel_error");
+        }
+
         bool ok = safe_fail_.executeWithFallback(
             /*gpu_op=*/[&]() -> bool {
                 if (!gpu_device_present_ || !active_device_.is_healthy) return false;
-                // TODO(gpu-spatial): dispatch real GPU kernel once a CUDA/OpenCL
-                // implementation is wired in (FUTURE_ENHANCEMENTS §GPU_SPATIAL_KERNELS).
-                // The circuit-breaker is still exercised so that device-loss events
-                // are tracked even in the CPU-compute path.
+                // GPU device is present but no kernel dispatch was performed
+                // (batch too small or geometry type mismatch).  Record a
+                // circuit-breaker success so device-loss events are still tracked.
                 safe_fail_.recordSuccess();
                 return true;
             },
@@ -230,10 +278,7 @@ public:
             return out;
         }
 
-        // Compute intersection results using the CPU predicate.
-        // When geoms_a / geoms_b are populated the mask reflects real geometry
-        // intersection tests; when they are empty all mask entries stay 0.
-        const bool have_geoms = !in.geoms_a.empty() || !in.geoms_b.empty();
+        // CPU exact-intersection fallback.
         if (have_geoms &&
             (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
@@ -241,8 +286,8 @@ public:
                         in.geoms_a.size(), in.geoms_b.size(), in.count,
                         std::min({in.count, in.geoms_a.size(), in.geoms_b.size()}));
         }
-        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
-        for (std::size_t i = 0; i < n; ++i) {
+        const std::size_t n_cpu = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        for (std::size_t i = 0; i < n_cpu; ++i) {
             try {
                 out.mask[i] = computeExactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
             } catch (const std::exception& e) {
@@ -253,18 +298,8 @@ public:
         }
 
         // Record latency and throughput.
-        const uint64_t elapsed_ns = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::nanoseconds>(
-                std::chrono::steady_clock::now() - t0).count());
-        batch_latency_ns_total_ += elapsed_ns;
-        batch_pairs_processed_  += static_cast<uint64_t>(n);
-        // Update max latency with a lock-free compare-exchange loop.
-        uint64_t cur = batch_latency_ns_max_.load(std::memory_order_relaxed);
-        while (elapsed_ns > cur &&
-               !batch_latency_ns_max_.compare_exchange_weak(
-                   cur, elapsed_ns,
-                   std::memory_order_relaxed, std::memory_order_relaxed)) {}
-
+        batch_pairs_processed_ += static_cast<uint64_t>(n_cpu);
+        recordLatency(t0);
         return out;
     }
 
@@ -297,13 +332,14 @@ public:
     // Stats (for admin/ops)
     // ------------------------------------------------------------------
     struct Stats {
-        uint64_t batch_calls          = 0;
-        uint64_t batch_fallbacks      = 0;
+        uint64_t batch_calls           = 0;
+        uint64_t batch_fallbacks       = 0;
         uint64_t batch_pairs_processed = 0;
-        uint64_t exact_calls          = 0;
-        uint64_t exact_errors         = 0;
-        bool     gpu_present          = false;
-        bool     circuit_open         = false;
+        uint64_t exact_calls           = 0;
+        uint64_t exact_errors          = 0;
+        bool     gpu_present           = false;
+        bool     circuit_open          = false;
+        bool     gpu_kernel_available  = false; ///< true when CUDA dispatch is wired
         std::string device_name;
         /// Average batch call latency in microseconds (0 when no calls yet).
         double   batch_avg_latency_us = 0.0;
@@ -313,7 +349,7 @@ public:
 
     Stats getStats() const {
         auto status = safe_fail_.getStatus();
-        const uint64_t calls = batch_calls_.load();
+        const uint64_t calls    = batch_calls_.load();
         const uint64_t ns_total = batch_latency_ns_total_.load();
         const uint64_t ns_max   = batch_latency_ns_max_.load();
         return Stats{
@@ -324,6 +360,7 @@ public:
             exact_errors_.load(),
             gpu_device_present_,
             status.state == themis::gpu::GPUSafeFail::State::CIRCUIT_OPEN,
+            kernel_dispatcher_.isAvailable(),
             gpu_device_present_ ? active_device_.name : "(none)",
             calls > 0 ? static_cast<double>(ns_total) / static_cast<double>(calls) * 0.001 : 0.0,
             static_cast<double>(ns_max) * 0.001
@@ -412,6 +449,34 @@ private:
             return ringsIntersect(outerRing(g1), outerRing(g2));
         }
 
+        // MultiPolygon: intersects if any constituent polygon intersects
+        if (g1.isMultiPolygon()) {
+            for (const auto& sub : g1.geometries) {
+                if (computeExactIntersects(sub, g2)) return true;
+            }
+            return false;
+        }
+        if (g2.isMultiPolygon()) {
+            for (const auto& sub : g2.geometries) {
+                if (computeExactIntersects(g1, sub)) return true;
+            }
+            return false;
+        }
+
+        // GeometryCollection: intersects if any member intersects
+        if (g1.isGeometryCollection()) {
+            for (const auto& sub : g1.geometries) {
+                if (computeExactIntersects(sub, g2)) return true;
+            }
+            return false;
+        }
+        if (g2.isGeometryCollection()) {
+            for (const auto& sub : g2.geometries) {
+                if (computeExactIntersects(g1, sub)) return true;
+            }
+            return false;
+        }
+
         // Unsupported combination — conservative false
         return false;
     }
@@ -419,17 +484,35 @@ private:
     // ------------------------------------------------------------------
     // stBuffer
     //
-    // CUDA kernel dispatch for ST_BUFFER is deferred to a future release
-    // (see FUTURE_ENHANCEMENTS.md §CUDA_KERNEL_DISPATCH).  This implementation
-    // falls back to the CPU exact backend and records the fallback in the audit
-    // log so that when a GPU kernel is eventually wired in, the counters start
-    // from 0.
+    // CUDA kernel dispatch for ST_BUFFER is deferred to a future release.
+    // This implementation falls back to the CPU exact backend and records
+    // the fallback in the audit log.
     // ------------------------------------------------------------------
     GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
                           int arc_points) override {
         audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel not yet implemented)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
+    }
+
+    // ------------------------------------------------------------------
+    // stUnion / stDifference
+    //
+    // CUDA kernel dispatch for set-operations is deferred to a future
+    // release.  Both operations fall back to the CPU exact backend.
+    // ------------------------------------------------------------------
+    GeometryInfo stUnion(const GeometryInfo& geom1,
+                         const GeometryInfo& geom2) override {
+        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel not yet implemented)", "");
+        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
+        return getCpuExactBackend()->stUnion(geom1, geom2);
+    }
+
+    GeometryInfo stDifference(const GeometryInfo& geom1,
+                              const GeometryInfo& geom2) override {
+        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel not yet implemented)", "");
+        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
+        return getCpuExactBackend()->stDifference(geom1, geom2);
     }
 
     // ------------------------------------------------------------------
@@ -440,6 +523,7 @@ private:
     themis::gpu::GPUAuditLog       audit_log_;
     themis::gpu::DeviceInfo        active_device_;
     bool                           gpu_device_present_{false};
+    GpuKernelDispatcher            kernel_dispatcher_;
 
     std::atomic<uint64_t> batch_calls_{0};
     std::atomic<uint64_t> batch_fallbacks_{0};
@@ -448,6 +532,83 @@ private:
     std::atomic<uint64_t> batch_latency_ns_max_{0};
     std::atomic<uint64_t> exact_calls_{0};
     std::atomic<uint64_t> exact_errors_{0};
+
+    // ------------------------------------------------------------------
+    // Private helpers
+    // ------------------------------------------------------------------
+
+    /// Build the kernel dispatch table at construction time.
+    static themis::acceleration::GeoKernelDispatch buildDispatchTable() noexcept {
+#ifdef THEMIS_GEO_CUDA
+        themis::acceleration::GeoKernelDispatch d;
+        d.launchDistance    = launchGeoDistanceKernel;
+        d.launchContainment = launchGeoContainmentKernel;
+        return d;
+#else
+        return themis::acceleration::GeoKernelDispatch{};
+#endif
+    }
+
+    /// Returns true if the batch is all Points vs the same Polygon — the
+    /// pattern that maps directly to the GPU containment kernel.
+    static bool isAllPointsVsPolygon(const SpatialBatchInputs& in,
+                                     std::size_t n) noexcept {
+        if (n == 0 || in.geoms_a.size() < n || in.geoms_b.size() < n) return false;
+        if (!in.geoms_b[0].isPolygon()) return false;
+        for (std::size_t i = 0; i < n; ++i) {
+            if (!in.geoms_a[i].isPoint()) return false;
+            if (!in.geoms_b[i].isPolygon()) return false;
+        }
+        return true;
+    }
+
+    /// Attempt GPU containment dispatch for a batch of points vs a polygon.
+    GpuKernelDispatcher::ContainmentResult tryGpuContainmentDispatch(
+            const SpatialBatchInputs& in, std::size_t n) {
+        // Extract point coordinates.
+        // Note: in ThemisDB's Coordinate struct, x = latitude and y = longitude.
+        // This non-standard convention is consistent throughout the geo module
+        // (see geo_acceleration_bridge.cpp, bridge_geo_containment).
+        std::vector<double> lats(n), lons(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            if (in.geoms_a[i].coords.empty()) {
+                return GpuKernelDispatcher::ContainmentResult{};
+            }
+            lats[i] = in.geoms_a[i].coords[0].x;
+            lons[i] = in.geoms_a[i].coords[0].y;
+        }
+
+        // Extract polygon vertices from geoms_b[0] (all geoms_b are the same polygon).
+        // Interleaved format: [lat0=x, lon0=y, lat1=x, lon1=y, ...] matching the
+        // pointInPolygonKernel's polygon_coords convention.
+        const auto& poly_ring = outerRing(in.geoms_b[0]);
+        if (poly_ring.size() < 3) {
+            return GpuKernelDispatcher::ContainmentResult{};
+        }
+        std::vector<double> poly_coords;
+        poly_coords.reserve(poly_ring.size() * 2);
+        for (const auto& v : poly_ring) {
+            poly_coords.push_back(v.x);
+            poly_coords.push_back(v.y);
+        }
+
+        return kernel_dispatcher_.dispatchContainment(
+            lats.data(), lons.data(), static_cast<int>(n),
+            poly_coords.data(), static_cast<int>(poly_ring.size()));
+    }
+
+    /// Record batch latency atomics; called at the end of batchIntersects().
+    void recordLatency(const std::chrono::steady_clock::time_point& t0) {
+        const uint64_t elapsed_ns = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::steady_clock::now() - t0).count());
+        batch_latency_ns_total_ += elapsed_ns;
+        uint64_t cur = batch_latency_ns_max_.load(std::memory_order_relaxed);
+        while (elapsed_ns > cur &&
+               !batch_latency_ns_max_.compare_exchange_weak(
+                   cur, elapsed_ns,
+                   std::memory_order_relaxed, std::memory_order_relaxed)) {}
+    }
 };
 
 // ---------------------------------------------------------------------------
@@ -487,10 +648,11 @@ std::string getGpuSpatialBackendStatsJson() {
       << "\"batch_calls\":"           << s.batch_calls                   << ","
       << "\"batch_fallbacks\":"       << s.batch_fallbacks               << ","
       << "\"batch_pairs_processed\":" << s.batch_pairs_processed         << ","
-      << "\"exact_calls\":"           << s.exact_calls                   << ","
-      << "\"exact_errors\":"          << s.exact_errors                  << ","
-      << "\"batch_avg_latency_us\":"  << s.batch_avg_latency_us          << ","
-      << "\"batch_max_latency_us\":"  << s.batch_max_latency_us
+      << "\"exact_calls\":"              << s.exact_calls                   << ","
+      << "\"exact_errors\":"             << s.exact_errors                  << ","
+      << "\"gpu_kernel_available\":"     << boolStr(s.gpu_kernel_available) << ","
+      << "\"batch_avg_latency_us\":"     << s.batch_avg_latency_us          << ","
+      << "\"batch_max_latency_us\":"     << s.batch_max_latency_us
       << "}";
     return j.str();
 }

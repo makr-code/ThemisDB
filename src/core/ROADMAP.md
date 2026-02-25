@@ -33,7 +33,7 @@
 ### Short-term (Next 3-6 months)
 - [x] OpenTelemetry trace and span propagation (Issue: #1407)
 - [x] Prometheus-compatible metrics adapter (Issue: #1408)
-- [I] Structured log correlation (trace ID injection into log records) (Issue: #2377)
+- [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
 - [x] Configuration-driven adapter selection (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
@@ -42,7 +42,7 @@
 - [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
 - [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
 - [x] Circuit breaker interface as a first-class concern (Issue: #1415)
-- [x] Feature flag interface (enable/disable features without redeployment) (Issue: #1416)
+- [x] Feature flag interface for runtime enable/disable (Issue: #1416)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
 - [I] Audit event interface for compliance logging (Issue: #1418)
 
@@ -70,7 +70,7 @@
 - [x] Structured log correlation (trace ID injection into log records)
 - [x] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
-- [I] Feature flag interface for runtime enable/disable (Issue: #1707)
+- [x] Feature flag interface for runtime enable/disable (Issue: #1707)
 - [x] Secrets interface for credential injection into components
 
 ## Production Readiness Checklist
@@ -82,7 +82,6 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- Prometheus adapter not yet implemented; metrics are in-memory only
 - Context propagation across async/thread boundaries is supported via `startSpanFromHeaders` / `injectContext`; caller is responsible for passing headers across async boundaries
 - Feature flags are now a first-class concern in the DI system via `IFeatureFlags` / `InMemoryFeatureFlags`
 

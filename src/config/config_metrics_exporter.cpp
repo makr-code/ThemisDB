@@ -85,11 +85,12 @@ std::string ConfigMetricsExporter::collect() {
         << "# TYPE themis_config_cache_capacity gauge\n"
         << "themis_config_cache_capacity " << cache_stats.capacity << "\n";
 
-    // Cache TTL (info)
+    // Cache TTL (info) — use runtime value in case env var overrode the default
+    const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
     out << "# HELP themis_config_cache_ttl_seconds "
-           "Default time-to-live of entries in the config path LRU cache, in seconds.\n"
+           "Time-to-live of entries in the config path LRU cache, in seconds.\n"
         << "# TYPE themis_config_cache_ttl_seconds gauge\n"
-        << "themis_config_cache_ttl_seconds " << ConfigPathResolver::kCacheTtlSeconds << "\n";
+        << "themis_config_cache_ttl_seconds " << cache_cfg.ttl_seconds << "\n";
 
     // Per-category legacy fallback counters (derived from deprecation aggregator)
     const auto dep_report = ConfigPathResolver::deprecationReport();
@@ -142,7 +143,8 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     collector.setGauge("themis_config_cache_hit_ratio",            cache_hit_ratio);
     collector.setGauge("themis_config_cache_size",                 static_cast<double>(cache_stats.size));
     collector.setGauge("themis_config_cache_capacity",             static_cast<double>(cache_stats.capacity));
-    collector.setGauge("themis_config_cache_ttl_seconds",          static_cast<double>(ConfigPathResolver::kCacheTtlSeconds));
+    const auto cache_cfg = ConfigPathResolver::currentCacheConfig();
+    collector.setGauge("themis_config_cache_ttl_seconds",          static_cast<double>(cache_cfg.ttl_seconds));
 
     // Per-category legacy fallback gauges
     const auto dep_report = ConfigPathResolver::deprecationReport();
