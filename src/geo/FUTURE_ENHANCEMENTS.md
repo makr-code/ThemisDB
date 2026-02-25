@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Features here describe the engineering work required to complete full GeoJSON spec coverage, add CUDA kernel dispatch to the GPU backend, and introduce new spatial operations (ST_BUFFER, ST_UNION, spatial JOIN) that are currently absent from the module.
+This document covers planned enhancements to the Geospatial module beyond what is tracked in `ROADMAP.md`. It focuses on `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, and `gpu_backend_stub.cpp`. Features here describe the engineering work required to complete full GeoJSON spec coverage, add CUDA kernel dispatch to the GPU backend, and introduce new spatial operations (ST_BUFFER, spatial JOIN) that are currently planned. Note: ST_UNION and ST_DIFFERENCE are now implemented (CPU-exact backend via Greiner-Hormann; Boost backend via `boost::geometry::union_`/`difference`; GPU backend via CPU fallback; AQL functions `ST_UNION`/`ST_DIFFERENCE`).
 
 ## Design Constraints
 
@@ -16,7 +16,8 @@ This document covers planned enhancements to the Geospatial module beyond what i
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
 | `GeoBackend::stBuffer(geom, distance_m)` | AQL `GEO_BUFFER()` function, spatial JOIN planner | New operation; must be implemented in both `cpu_backend.cpp` and the GPU path |
-| `GeoBackend::stUnion(geom_a, geom_b)` | AQL `GEO_UNION()` function | CPU-only initially; GPU deferred to v2.2.0 |
+| `GeoBackend::stUnion(geom_a, geom_b)` | AQL `ST_UNION()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`union_`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
+| `GeoBackend::stDifference(geom_a, geom_b)` | AQL `ST_DIFFERENCE()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`difference`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
 | `GeoJsonParser::parseGeometryCollection()` | `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp` | Currently incomplete; must cover all seven GeoJSON geometry types per RFC 7946 |
 | `SpatialIndex::rTreeQuery(bbox)` | `cpu_backend.cpp` query planner | New R-tree index replaces linear scan for contains/intersects on large datasets |
 | `GpuKernelDispatcher::dispatch(op, geom[], n)` | `gpu_backend_stub.cpp` | New CUDA kernel entry point; stub to be replaced with real kernel in v2.1.0 |
@@ -59,19 +60,21 @@ Replace the linear scan in `boost_cpu_exact_backend.cpp` for `contains` and `int
 
 ---
 
-### ST_BUFFER Operation
-**Priority:** Medium
-**Target Version:** v1.7.0
+### ST_BUFFER Operation ✅ Implemented
+**Target Version:** v1.7.0 — **Status: Complete**
 
-Implement `ST_BUFFER(geometry, distance_meters)` which expands a geometry by a fixed geodesic distance. This is required by several planned AQL spatial query patterns (proximity search, corridor queries) and is listed as a blocker in the geo module roadmap.
+`ST_BUFFER(geometry, distance_meters)` expands a geometry by a fixed geodesic distance.  Both the `cpu_backend.cpp` (exact) and `boost_cpu_exact_backend.cpp` (Boost.Geometry) backends implement `ISpatialComputeBackend::stBuffer()`; the GPU backend delegates to the CPU path with an audit-log entry pending a future CUDA kernel (v2.1.0).
 
-**Implementation Notes:**
-- Implement in `cpu_backend.cpp` using `boost::geometry::buffer` with a point-circle strategy for geodesic accuracy at the target distance scales (1 m – 100 km).
-- For polygons, use the `join_round` and `end_round` Boost.Geometry strategies with a configurable point count per arc (default 36; user-overridable via `GeoConfig::buffer_arc_points`).
-- Add AQL binding `GEO_BUFFER(doc.location, 500)` (distance in metres) documented in `docs/aql/geo_functions.md`.
-- GPU path deferred: initial release is CPU-only with a note in `gpu_backend_stub.cpp` marking `stBuffer` as unsupported; it falls back to CPU automatically via the circuit breaker.
+**What was implemented:**
+- `CpuExactBackend::stBuffer()` — geodesic-aware, latitude-based degree conversion:
+  - Point → circular polygon ring (`arc_points` vertices, default 36, minimum 3)
+  - Polygon → outward ring expansion via edge-shift + adjacent-edge intersection
+- `BoostCpuExactBackend::stBuffer()` — uses `bg::buffer` with `join_round`/`end_round` strategies for smooth output; converts metres to degrees at the geometry's centroid latitude
+- `GpuBatchBackend::stBuffer()` — CPU fallback with audit log + GPU metrics counter
+- AQL binding `ST_Buffer(geom, distance)` in `let_evaluator.cpp` and `query_engine.cpp` (MVP cartesian: Point → square, Polygon → MBR expansion)
+- 9 parametric unit tests (×2 backends) in `tests/geo/test_geo_st_buffer.cpp`; 2 AQL-layer tests in `tests/geo/test_aql_st_functions.cpp`
 
-**Performance Targets:**
+**Performance Targets (design):**
 - Buffer 10 000 `Point` geometries at 500 m radius in ≤ 200 ms on a single core.
 - Output polygon vertex count ≤ 200 per buffered point at default arc resolution.
 
@@ -98,6 +101,7 @@ Replace the CPU-fallback stub in `gpu_backend_stub.cpp` with real CUDA kernels f
 ### Spatial JOIN Support
 **Priority:** Low
 **Target Version:** v2.2.0
+**Status:** ✅ Implemented in `include/geo/spatial_join.h` + `src/geo/spatial_join.cpp`
 
 Add a spatial JOIN operation that finds all pairs (A, B) from two geometry collections where `distance(A, B) ≤ threshold`. This enables nearest-neighbour and within-radius multi-collection queries from AQL.
 
@@ -127,7 +131,7 @@ Add a spatial JOIN operation that finds all pairs (A, B) from two geometry colle
 |--------|---------|--------|--------|
 | `intersects` query, 1 M points, linear scan | ~2 000 ms | ≤ 5 ms (R-tree) | `benchmarks/geo_bench.cpp`, 1 M point fixture |
 | GeoJSON parse, 100 K MultiPolygon features | ~5 s (estimate) | ≤ 2 s | Parse-only benchmark in `tests/geo/bench_parse.cpp` |
-| ST_BUFFER, 10 K points at 500 m | N/A | ≤ 200 ms | New benchmark in `benchmarks/geo_bench.cpp` |
+| ST_BUFFER, 10 K points at 500 m | N/A (CPU) | ≤ 200 ms | New benchmark in `benchmarks/geo_bench.cpp` |
 | GPU contains, 1 M points (A10G) | N/A (CPU fallback) | ≤ 50 ms | CUDA kernel benchmark gated on `THEMIS_GEO_CUDA=ON` |
 
 ## Security / Reliability

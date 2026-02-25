@@ -278,7 +278,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_feature_flags\\.cpp$"
     ".*test_gpu_kernel_validator\\.cpp$"
     ".*test_mongodb_adapter\\.cpp$"
-    ".*test_geo_rtree\\.cpp$"
     ".*test_ai_orchestrator\\.cpp$"
     ".*test_acceleration\\.cpp$"
     ".*test_acceleration_dispatch\\.cpp$"
@@ -499,6 +498,8 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+            $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
+            ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
