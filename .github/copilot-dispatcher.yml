@@ -8,6 +8,11 @@ wip_limit: 5
 # Base branch that every Copilot-created PR will target.
 base_branch: develop
 
+# Whether the dispatcher should create PRs as drafts.
+# Set to true to open draft PRs (recommended for initial automation rollout).
+# Set to false to open regular (non-draft) PRs immediately ready for review.
+draft: true
+
 # Logins that are recognised as the "Copilot reviewer" when the readiness gate
 # evaluates submitted reviews.  The gate looks for an APPROVED review from any
 # login in this list.
