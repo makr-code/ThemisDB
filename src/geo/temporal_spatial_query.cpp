@@ -3,8 +3,6 @@
 #include "utils/logger.h"
 
 #include <algorithm>
-#include <cmath>
-#include <stdexcept>
 
 namespace themis {
 namespace geo {
