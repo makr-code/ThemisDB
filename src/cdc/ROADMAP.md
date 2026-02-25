@@ -33,7 +33,7 @@
 ### Long-term (6-12 months)
 - [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [x] Debezium-compatible change event format (Issue: #1614)
-- [I] Cross-collection change aggregation streams (Issue: #1615)
+- [x] Cross-collection change aggregation streams (Issue: #1615)
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
 - [I] CDC-based materialized view maintenance (Issue: #1617)
 - [I] Change stream compression for high-volume feeds (Issue: #1618)
