@@ -223,72 +223,76 @@ ITree buildITree(const FeatureMatrix& fm,
                  int height, int height_limit,
                  std::mt19937& rng) {
     ITree tree;
-    // Iterative build using a stack to avoid deep C++ recursion
-    struct Frame { std::vector<size_t> idx; int height; };
-    std::vector<Frame> stack;
-    stack.push_back({indices, height});
     tree.height_limit = height_limit;
 
-    while (!stack.empty()) {
-        auto [idx, h] = std::move(stack.back()); stack.pop_back();
+    const size_t n_features = fm.names.size();
+    if (n_features == 0) {
+        return tree;
+    }
 
-        IFNode node;
-        node.size = static_cast<int>(idx.size());
-        int node_id = static_cast<int>(tree.nodes.size());
-        tree.nodes.push_back(node);  // placeholder
+    auto build_node = [&](auto&& self, const std::vector<size_t>& idx, int h) -> int {
+        const int node_id = static_cast<int>(tree.nodes.size());
+        tree.nodes.push_back(IFNode{});
+        tree.nodes[static_cast<size_t>(node_id)].size = static_cast<int>(idx.size());
 
         if (idx.size() <= 1 || h >= height_limit) {
-            // leaf – already a leaf (split_feature == -1)
-            continue;
+            return node_id;
         }
 
-        size_t n_features = fm.names.size();
-        if (n_features == 0) continue;
-
-        // Pick a random feature that has some variance
         std::uniform_int_distribution<size_t> feat_dist(0, n_features - 1);
-        size_t feat = feat_dist(rng);
+        size_t feat = 0;
+        double fmin = 0.0;
+        double fmax = 0.0;
+        bool found_split_feature = false;
 
-        double fmin = std::numeric_limits<double>::max();
-        double fmax = std::numeric_limits<double>::lowest();
-        for (size_t i : idx) {
-            if (feat < fm.rows[i].size()) {
-                fmin = std::min(fmin, fm.rows[i][feat]);
-                fmax = std::max(fmax, fm.rows[i][feat]);
+        for (size_t attempt = 0; attempt < n_features; ++attempt) {
+            feat = feat_dist(rng);
+            fmin = std::numeric_limits<double>::max();
+            fmax = std::numeric_limits<double>::lowest();
+            for (size_t i : idx) {
+                const double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
+                fmin = std::min(fmin, v);
+                fmax = std::max(fmax, v);
+            }
+            if (fmin < fmax) {
+                found_split_feature = true;
+                break;
             }
         }
 
-        if (fmin >= fmax) {
-            // No split possible on this feature – treat as leaf
-            continue;
+        if (!found_split_feature) {
+            return node_id;
         }
 
         std::uniform_real_distribution<double> val_dist(fmin, fmax);
-        double split_val = val_dist(rng);
+        const double split_val = val_dist(rng);
 
-        std::vector<size_t> left_idx, right_idx;
+        std::vector<size_t> left_idx;
+        std::vector<size_t> right_idx;
+        left_idx.reserve(idx.size());
+        right_idx.reserve(idx.size());
         for (size_t i : idx) {
-            double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
-            if (v < split_val) left_idx.push_back(i);
-            else               right_idx.push_back(i);
+            const double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
+            if (v < split_val) {
+                left_idx.push_back(i);
+            } else {
+                right_idx.push_back(i);
+            }
         }
 
-        int left_id  = static_cast<int>(tree.nodes.size());
-        int right_id = left_id + 1;  // will be pushed after left subtree
+        if (left_idx.empty() || right_idx.empty()) {
+            return node_id;
+        }
 
         tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
-        tree.nodes[static_cast<size_t>(node_id)].split_value   = split_val;
-        tree.nodes[static_cast<size_t>(node_id)].left          = left_id;
-        tree.nodes[static_cast<size_t>(node_id)].right         = right_id;
+        tree.nodes[static_cast<size_t>(node_id)].split_value = split_val;
+        tree.nodes[static_cast<size_t>(node_id)].left = self(self, left_idx, h + 1);
+        tree.nodes[static_cast<size_t>(node_id)].right = self(self, right_idx, h + 1);
 
-        // Push placeholders for left and right
-        tree.nodes.push_back(IFNode{});  // left
-        tree.nodes.push_back(IFNode{});  // right
+        return node_id;
+    };
 
-        // Push subtrees (right first so left is processed first)
-        stack.push_back({std::move(right_idx), h + 1});
-        stack.push_back({std::move(left_idx),  h + 1});
-    }
+    build_node(build_node, indices, height);
     return tree;
 }
 
@@ -402,7 +406,7 @@ struct AnomalyDetector::Impl {
         std::vector<double> c(x.size(), 0.0);
         for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
-            c[i] = std::abs(x[i] - means[i]) / sd;
+            c[i] = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
         return c;
     }
@@ -411,7 +415,7 @@ struct AnomalyDetector::Impl {
         std::vector<double> c(x.size(), 0.0);
         for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
-            c[i] = 0.6745 * std::abs(x[i] - medians[i]) / mad;
+            c[i] = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
         return c;
     }

@@ -5,9 +5,12 @@
 #include <gtest/gtest.h>
 #include "cdc/outbox.h"
 #include "cdc/changefeed.h"
+#include "cdc/cdc_error.h"
 #include "storage/rocksdb_wrapper.h"
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 #include <chrono>
+#include <thread>
 #include <stdexcept>
 
 using namespace themis;

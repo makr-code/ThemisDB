@@ -262,8 +262,8 @@ public:
 
     KnowledgeGraph(const KnowledgeGraph&)            = delete;
     KnowledgeGraph& operator=(const KnowledgeGraph&) = delete;
-    KnowledgeGraph(KnowledgeGraph&&)                 = default;
-    KnowledgeGraph& operator=(KnowledgeGraph&&)      = default;
+    KnowledgeGraph(KnowledgeGraph&&);
+    KnowledgeGraph& operator=(KnowledgeGraph&&);
 
     // ── Node management ────────────────────────────────────────────────────
 

@@ -3,32 +3,6 @@
 
 #include <gtest/gtest.h>
 #include "cache/adaptive_query_cache.h"
-#include "cache/cache_replication_coordinator.h"
-#include <nlohmann/json.hpp>
-#include <thread>
-#include <chrono>
-#include <filesystem>
-
-using namespace themis;
-using json = nlohmann::json;
-
-// ---------------------------------------------------------------------------
-// Helper: create a small AdaptiveQueryCache config that avoids RocksDB I/O
-// ---------------------------------------------------------------------------
-static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_suffix = "") {
-    AdaptiveQueryCache::Config cfg;
-    cfg.l3_db_path = "/tmp/themis_repl_test_cache_" + db_suffix + "_" +
-                     std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
-    cfg.l1_max_entries  = 20;
-    cfg.l2_max_entries  = 40;
-    cfg.l1_ttl_seconds  = 300;
-    cfg.l2_ttl_seconds  = 600;
-    cfg.l3_ttl_seconds  = 3600;
-    cfg.enable_replication = true;
-// Phase 4: Unit tests for cache replication (high-availability deployments)
-
-#include <gtest/gtest.h>
-#include "cache/adaptive_query_cache.h"
 #include "cache/cache_replication.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -44,7 +18,6 @@ using json = nlohmann::json;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
 static std::string uniqueTmpPath(const std::string& suffix = "") {
     auto ts = std::chrono::system_clock::now().time_since_epoch().count();
     return "/tmp/themis_repl_test_" + std::to_string(ts) + suffix;
@@ -345,6 +318,8 @@ TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     std::filesystem::remove_all(dp_a);
     std::filesystem::remove_all(dp_b);
     std::filesystem::remove_all(dp_c);
+}
+
 // In-process mock listener that records all received events
 // ---------------------------------------------------------------------------
 
@@ -562,7 +537,7 @@ TEST_F(CacheReplicationManagerTest, ReAddSameReplicaIsIdempotent) {
 // Tests: AdaptiveQueryCache integration with replication listener
 // ===========================================================================
 
-class CacheReplicationIntegrationTest : public ::testing::Test {
+class CacheReplicationListenerIntegrationTest : public ::testing::Test {
 protected:
     std::string db_path_;
     std::shared_ptr<MockCacheReplicationListener> listener_;
@@ -579,7 +554,7 @@ protected:
     }
 };
 
-TEST_F(CacheReplicationIntegrationTest, PutNotifiesListenerOnSuccess) {
+TEST_F(CacheReplicationListenerIntegrationTest, PutNotifiesListenerOnSuccess) {
     AdaptiveQueryCache cache(makeTestConfig(db_path_));
     cache.setReplicationListener(listener_);
 
@@ -590,7 +565,7 @@ TEST_F(CacheReplicationIntegrationTest, PutNotifiesListenerOnSuccess) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 1u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, InvalidateNotifiesListener) {
+TEST_F(CacheReplicationListenerIntegrationTest, InvalidateNotifiesListener) {
     AdaptiveQueryCache cache(makeTestConfig(db_path_));
     cache.setReplicationListener(listener_);
 
@@ -603,7 +578,7 @@ TEST_F(CacheReplicationIntegrationTest, InvalidateNotifiesListener) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::INVALIDATE), 1u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, InvalidateTenantNotifiesListener) {
+TEST_F(CacheReplicationListenerIntegrationTest, InvalidateTenantNotifiesListener) {
     AdaptiveQueryCache::Config cfg = makeTestConfig(db_path_);
     cfg.enable_tenant_isolation = true;
     AdaptiveQueryCache cache(cfg);
@@ -619,7 +594,7 @@ TEST_F(CacheReplicationIntegrationTest, InvalidateTenantNotifiesListener) {
     EXPECT_EQ(listener_->events().back().tenant_id, "tenant-x");
 }
 
-TEST_F(CacheReplicationIntegrationTest, UnregisterListenerStopsNotifications) {
+TEST_F(CacheReplicationListenerIntegrationTest, UnregisterListenerStopsNotifications) {
     AdaptiveQueryCache cache(makeTestConfig(db_path_));
     cache.setReplicationListener(listener_);
 
@@ -632,7 +607,7 @@ TEST_F(CacheReplicationIntegrationTest, UnregisterListenerStopsNotifications) {
     EXPECT_EQ(listener_->countByType(CacheReplicationEventType::WRITE), 0u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
+TEST_F(CacheReplicationListenerIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     // A listener that always throws
     class ThrowingListener : public ICacheReplicationListener {
     public:
@@ -657,7 +632,7 @@ TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     EXPECT_NO_THROW(cache.put(fp, {}, {{"ok", true}}));
 }
 
-TEST_F(CacheReplicationIntegrationTest, ReplicationManagerReceivesCacheWrites) {
+TEST_F(CacheReplicationListenerIntegrationTest, ReplicationManagerReceivesCacheWrites) {
     CacheReplicationConfig repCfg;
     auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
     mgr->addReplica(listener_);

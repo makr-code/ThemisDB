@@ -19,6 +19,8 @@
 
 #include "auth/totp_secret_encryption.h"
 #include "utils/logger.h"
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
