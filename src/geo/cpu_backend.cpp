@@ -344,6 +344,87 @@ public:
         }
     }
 
+    // Geodesic distance on the WGS-84 ellipsoid (Vincenty inverse formula).
+    // Accurate to sub-millimetre for all non-degenerate point pairs.
+    // Returns the distance in metres. Returns 0.0 for coincident points.
+    // Returns -1.0 for nearly-antipodal points where the iterative formula
+    // does not converge within the maximum iteration count.
+    double geodesicDistance(double lat1, double lon1,
+                            double lat2, double lon2) const override {
+        // WGS-84 ellipsoid parameters
+        static constexpr double a       = 6378137.0;           // semi-major axis (m)
+        static constexpr double f       = 1.0 / 298.257223563; // flattening
+        static constexpr double b       = a * (1.0 - f);       // semi-minor axis (m)
+        static constexpr int    kMaxIter = 200;
+        static constexpr double kTol    = 1e-12;
+
+        const double phi1 = lat1 * kCpuPi / 180.0;
+        const double phi2 = lat2 * kCpuPi / 180.0;
+        const double L    = (lon2 - lon1) * kCpuPi / 180.0;
+
+        const double U1 = std::atan((1.0 - f) * std::tan(phi1));
+        const double U2 = std::atan((1.0 - f) * std::tan(phi2));
+        const double sinU1 = std::sin(U1), cosU1 = std::cos(U1);
+        const double sinU2 = std::sin(U2), cosU2 = std::cos(U2);
+
+        // Degenerate case: one or both endpoints at a geographic pole.
+        // At the poles cosU ≈ 0, which causes sinSigma = 0 in the first
+        // Vincenty iteration and would incorrectly return distance = 0.
+        if (cosU1 < kTol && cosU2 < kTol) {
+            if (sinU1 * sinU2 > 0.0) return 0.0; // same pole
+            // Opposite poles: half the WGS-84 meridional circumference.
+            return 20003931.459;
+        }
+
+        double lambda = L;
+        double sinSigma = 0.0, cosSigma = 0.0, sigma = 0.0;
+        double sinAlpha = 0.0, cos2Alpha = 0.0, cos2SigmaM = 0.0;
+        bool converged = false;
+
+        for (int iter = 0; iter < kMaxIter; ++iter) {
+            const double sinLambda = std::sin(lambda);
+            const double cosLambda = std::cos(lambda);
+
+            const double a1 = cosU2 * sinLambda;
+            const double a2 = cosU1 * sinU2 - sinU1 * cosU2 * cosLambda;
+            sinSigma = std::sqrt(a1 * a1 + a2 * a2);
+
+            if (sinSigma < kTol) return 0.0; // coincident points
+
+            cosSigma   = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+            sigma      = std::atan2(sinSigma, cosSigma);
+            sinAlpha   = cosU1 * cosU2 * sinLambda / sinSigma;
+            cos2Alpha  = 1.0 - sinAlpha * sinAlpha;
+            cos2SigmaM = (cos2Alpha > kTol)
+                         ? cosSigma - 2.0 * sinU1 * sinU2 / cos2Alpha
+                         : 0.0; // equatorial line
+
+            const double C = f / 16.0 * cos2Alpha * (4.0 + f * (4.0 - 3.0 * cos2Alpha));
+            const double lambda_prev = lambda;
+            lambda = L + (1.0 - C) * f * sinAlpha *
+                     (sigma + C * sinSigma *
+                      (cos2SigmaM + C * cosSigma *
+                       (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)));
+
+            if (std::abs(lambda - lambda_prev) <= kTol) { converged = true; break; }
+        }
+
+        if (!converged) return -1.0; // nearly antipodal — did not converge
+
+        const double u2  = cos2Alpha * (a * a - b * b) / (b * b);
+        const double kA  = 1.0 + u2 / 16384.0 *
+                           (4096.0 + u2 * (-768.0 + u2 * (320.0 - 175.0 * u2)));
+        const double kB  = u2 / 1024.0 *
+                           (256.0 + u2 * (-128.0 + u2 * (74.0 - 47.0 * u2)));
+        const double dSigma = kB * sinSigma *
+                              (cos2SigmaM + kB / 4.0 *
+                               (cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM) -
+                                kB / 6.0 * cos2SigmaM *
+                                (-3.0 + 4.0 * sinSigma * sinSigma) *
+                                (-3.0 + 4.0 * cos2SigmaM * cos2SigmaM)));
+        return b * kA * (sigma - dSigma);
+    }
+
     // ST_BUFFER: expand a geometry by distance_m metres.
     // Supported types: Point → closed polygon ring, Polygon → outward expansion.
     // arc_points controls the vertex count used for curved approximations.

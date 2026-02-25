@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_coordinator.h                               ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:19                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     176                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     205                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -23,6 +23,7 @@
 #pragma once
 
 #include "governance/policy_engine.h"
+#include "governance/policy_file_watcher.h"
 #include "governance/policy_manager.h"
 #include "security/rbac.h"
 
@@ -160,10 +161,38 @@ public:
      * @brief Get policy manager (for direct access if needed)
      */
     std::shared_ptr<PolicyManager> getPolicyManager() const { return policy_manager_; }
-    
+
+    /**
+     * @brief Start automatic hot-reload of the governance policy YAML file.
+     *
+     * Creates and starts a @c PolicyFileWatcher that polls the file loaded into
+     * the @c PolicyEngine and calls @c PolicyEngine::reloadIfChanged() whenever
+     * the file modification time changes.  The coordinator owns the watcher;
+     * call @c stopHotReload() or destroy the coordinator to stop it.
+     *
+     * Calling @c startHotReload() while the watcher is already running is a
+     * no-op and returns @c true.
+     *
+     * @param config  Watcher configuration (poll interval, debounce, callback).
+     * @return @c true on success, @c false if no policy engine is attached.
+     */
+    bool startHotReload(PolicyFileWatcher::Config config = {});
+
+    /**
+     * @brief Stop the hot-reload background thread.
+     *
+     * Blocks until the watcher thread has joined.  Safe to call even if
+     * @c startHotReload() was never called.
+     */
+    void stopHotReload();
+
+    /// @return @c true if the hot-reload watcher is currently running.
+    bool isHotReloadRunning() const noexcept;
+
 private:
     std::shared_ptr<PolicyEngine> policy_engine_;
     std::shared_ptr<PolicyManager> policy_manager_;
+    std::unique_ptr<PolicyFileWatcher> file_watcher_;
     
     /// Combine decisions from both systems (most restrictive wins)
     UnifiedPolicyDecision combineDecisions(
