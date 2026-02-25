@@ -72,6 +72,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 - ✅ Parallel Δ-Stepping Dijkstra (bucket-based parallelism, no global locks)
 - ✅ Configurable thread pool size (`num_threads`, 0 = auto-detect)
 - ✅ Thread-safe adjacency access via `GraphIndexManager::outAdjacency`
+- ✅ Intra-frontier fan-out parallelism for BFS (`fan_out_threshold`: when frontier ≥ threshold, neighbor lookups are dispatched to multiple threads; 0 = disabled)
 
 **Planned (not yet implemented):**
 - Work-stealing queue for load balancing

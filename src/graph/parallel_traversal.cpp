@@ -126,7 +126,6 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
 
             struct ChunkResult {
                 std::vector<std::string> candidates;
-                size_t edges = 0;
             };
 
             std::vector<std::future<ChunkResult>> futures;
@@ -146,7 +145,6 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
                             auto [status, neighbors] =
                                 graph_manager_.outNeighbors(current_frontier[i]);
                             if (!status.ok) continue;
-                            cr.edges += neighbors.size();
                             for (const auto& nb : neighbors) {
                                 cr.candidates.push_back(nb);
                             }
@@ -157,13 +155,13 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(
 
             for (auto& fut : futures) {
                 auto cr = fut.get();
-                result.edges_traversed += cr.edges;
                 for (const auto& nb : cr.candidates) {
                     if (visited.count(nb)) continue;
                     if (std::find(forbidden.begin(), forbidden.end(), nb) !=
                         forbidden.end()) continue;
                     visited.insert(nb);
                     next_frontier.push_back(nb);
+                    ++result.edges_traversed;
                 }
             }
         } else {

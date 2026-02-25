@@ -19,6 +19,7 @@
 - [x] Query plan reuse across structurally similar queries
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
+- [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 
 ## In Progress 🚧
 - [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2386)
@@ -26,7 +27,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811) ✅
+- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)
