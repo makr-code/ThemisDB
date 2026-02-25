@@ -2,13 +2,14 @@
 
 ## Module Purpose
 
-The Config module provides backward-compatible configuration path resolution for ThemisDB. It maps legacy flat-file config paths to their new hierarchical directory structure, enabling a seamless migration window where both old and new paths are supported simultaneously. It includes LRU caching for resolved paths, structured deprecation metadata, and a typed exception hierarchy for config-related errors.
+The Config module provides backward-compatible configuration path resolution and JSON/YAML schema validation for ThemisDB. It maps legacy flat-file config paths to their new hierarchical directory structure, enabling a seamless migration window where both old and new paths are supported simultaneously. It includes LRU caching for resolved paths, structured deprecation metadata, a typed exception hierarchy for config-related errors, and a `ConfigSchemaValidator` that validates YAML/JSON configuration files against JSON Schema (Draft 7 subset) definitions.
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |-----------------|------|
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
+| `config_schema_validator.h` / `config_schema_validator.cpp` | JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
 | `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
@@ -24,12 +25,12 @@ The Config module provides backward-compatible configuration path resolution for
 - Thread-safe metrics tracking (hits, misses, cache hits, legacy fallbacks)
 - Prometheus metrics export via `ConfigMetricsExporter::collect()` (served on `/metrics`)
 - Typed exception hierarchy for config errors
+- JSON Schema (Draft 7 subset) validation of YAML and JSON config files
 - Config path access audit trail (bounded in-memory log with timestamps)
 
 **Out of Scope:**
-- Parsing or loading config file contents (YAML/JSON)
+- Parsing or loading config file contents (YAML/JSON) beyond what is needed for schema validation
 - Runtime configuration hot-reload
-- Configuration schema validation
 - Secrets management or credential injection
 
 ## Key Components
@@ -114,6 +115,20 @@ Static utility that formats `ConfigPathResolver` metrics in Prometheus text-expo
 
 Holds deprecation and removal timestamps, category, and a link to the migration guide for each mapped legacy path. Used to emit structured warnings when legacy paths are accessed.
 
+### ConfigSchemaValidator
+**Location:** `config_schema_validator.h`, `config_schema_validator.cpp`
+
+Static utility that validates YAML and JSON config files against JSON Schema (Draft 7 subset) definitions. YAML files are loaded via `yaml-cpp` and converted to an internal JSON representation before validation. JSON files are parsed directly with `nlohmann::json`. Schema file lookups use `ConfigPathResolver::tryResolve()` so that legacy-to-new path mapping applies automatically.
+
+**Supported JSON Schema keywords:**
+- `type`, `properties`, `required`, `additionalProperties`
+- `minLength`, `maxLength`, `pattern` (string)
+- `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` (number/integer)
+- `minItems`, `maxItems`, `items` (array)
+- `enum`, `const`
+
+**Thread Safety:** All public methods are stateless static functions; safe for concurrent use.
+
 ### Config Exception Hierarchy
 **Location:** `config_errors.h`
 
@@ -125,6 +140,7 @@ Typed exceptions for config-related failures:
 | `MappingNotFoundException` | No mapping found for a legacy path |
 | `InvalidPathException` | Path contains `..` (traversal attempt) or is otherwise invalid |
 | `ConfigPermissionException` | Filesystem permission denied |
+| `SchemaValidationException` | A config or schema file cannot be read or parsed by `ConfigSchemaValidator` |
 
 ## Architecture
 
@@ -157,6 +173,8 @@ Caller
 ### External Dependencies
 - `spdlog` — structured logging for deprecation warnings and debug traces
 - `<filesystem>` (C++17) — file existence checks and path manipulation
+- `yaml-cpp` — YAML file parsing used by `ConfigSchemaValidator`
+- `nlohmann/json` — JSON file parsing and schema representation used by `ConfigSchemaValidator`
 
 ## Usage Examples
 
@@ -249,6 +267,37 @@ When a variable is absent, empty, not a valid integer, or outside its valid rang
 ```bash
 # Large deployment with many config paths
 THEMIS_CONFIG_CACHE_SIZE=5000 THEMIS_CONFIG_CACHE_TTL=60 ./themisdb
+```
+
+```cpp
+#include "config/config_schema_validator.h"
+
+using namespace themis::config;
+
+// Validate a YAML config file against an inline JSON Schema
+nlohmann::json schema = R"({
+    "type": "object",
+    "required": ["host", "port"],
+    "properties": {
+        "host": { "type": "string" },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "worker_threads": { "type": "integer", "minimum": 1 }
+    }
+})"_json;
+
+auto result = ConfigSchemaValidator::validate("config/server.yaml", schema);
+if (!result.valid) {
+    spdlog::error("Config validation failed:\n{}", result.formatErrors());
+}
+
+// Validate against a JSON Schema file on disk
+// (schema_path is resolved via ConfigPathResolver for legacy/new path mapping)
+auto result2 = ConfigSchemaValidator::validateWithSchemaFile(
+    "config/server.yaml",
+    "config/schema/server.schema.json");
+
+// Load any YAML or JSON file as nlohmann::json (e.g., for custom processing)
+nlohmann::json data = ConfigSchemaValidator::loadAsJson("config/server.yaml");
 ```
 
 ## Migration Scanner Tool
