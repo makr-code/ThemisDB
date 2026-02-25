@@ -247,8 +247,9 @@ std::pair<double, double> WorkloadPredictor::linear_regression(
     }
 
     // x = 0, 1, 2, …, n-1
-    const double sum_x  = static_cast<double>(n * (n - 1)) / 2.0;
-    const double sum_x2 = static_cast<double>(n * (n - 1) * (2 * n - 1)) / 6.0;
+    const double dn     = static_cast<double>(n);
+    const double sum_x  = dn * (dn - 1.0) / 2.0;
+    const double sum_x2 = dn * (dn - 1.0) * (2.0 * dn - 1.0) / 6.0;
     const double sum_y  = std::accumulate(values.begin(), values.end(), 0.0);
 
     double sum_xy = 0.0;
@@ -256,13 +257,13 @@ std::pair<double, double> WorkloadPredictor::linear_regression(
         sum_xy += static_cast<double>(i) * values[i];
     }
 
-    const double denom = static_cast<double>(n) * sum_x2 - sum_x * sum_x;
+    const double denom = dn * sum_x2 - sum_x * sum_x;
     if (std::abs(denom) < 1e-12) {
-        return {0.0, sum_y / static_cast<double>(n)};
+        return {0.0, sum_y / dn};
     }
 
-    const double slope     = (static_cast<double>(n) * sum_xy - sum_x * sum_y) / denom;
-    const double intercept = (sum_y - slope * sum_x) / static_cast<double>(n);
+    const double slope     = (dn * sum_xy - sum_x * sum_y) / denom;
+    const double intercept = (sum_y - slope * sum_x) / dn;
     return {slope, intercept};
 }
 

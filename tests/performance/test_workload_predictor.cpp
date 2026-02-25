@@ -88,7 +88,7 @@ TEST(WorkloadPredictorTest, ResetClearsHistory) {
 // Sliding window eviction
 // ============================================================================
 
-TEST(WorkloadPredictorTest, SlidingWindowEvidesOldestEntry) {
+TEST(WorkloadPredictorTest, SlidingWindowEvictsOldestEntry) {
     WorkloadPredictor::Config cfg;
     cfg.history_window = 5;
     WorkloadPredictor predictor(cfg);
@@ -365,4 +365,43 @@ TEST(WorkloadPredictorTest, ConcurrentPredictIsThreadSafe) {
     }
     for (auto& th : threads) th.join();
     EXPECT_EQ(success_count.load(), kThreads);
+}
+
+// ============================================================================
+// Edge case: predict with zero-horizon
+// ============================================================================
+
+TEST(WorkloadPredictorTest, PredictZeroHorizonReturnsCurrentEstimate) {
+    WorkloadPredictor predictor;
+    for (int i = 0; i < 5; ++i) {
+        predictor.record(make_snapshot(
+            static_cast<uint64_t>(i) * 1'000'000ULL,
+            300.0, 0.5, 0.5));
+    }
+    // horizon_us = 0: forecast_timestamp should equal last snapshot timestamp
+    const WorkloadForecast f = predictor.predict(0ULL);
+    EXPECT_EQ(f.forecast_timestamp_us, 4'000'000ULL);
+    // Predicted QPS should be non-negative (stable signal → near 300)
+    EXPECT_GE(f.predicted_qps, 0.0);
+    EXPECT_LE(f.predicted_cpu_utilization, 1.0);
+}
+
+// ============================================================================
+// Feature flag: load_from_config for new key
+// ============================================================================
+
+TEST(WorkloadPredictorFeatureFlagTest, LoadFromConfigSetsNewFlag) {
+    auto& flags = PerformanceFeatureFlags::instance();
+    const bool initial = flags.ml_workload_predictor_enabled();
+
+    // Enable via config map
+    flags.load_from_config({{"enable_ml_workload_predictor", true}});
+    EXPECT_TRUE(flags.ml_workload_predictor_enabled());
+
+    // Disable via config map
+    flags.load_from_config({{"enable_ml_workload_predictor", false}});
+    EXPECT_FALSE(flags.ml_workload_predictor_enabled());
+
+    // Restore
+    flags.set_ml_workload_predictor_enabled(initial);
 }
