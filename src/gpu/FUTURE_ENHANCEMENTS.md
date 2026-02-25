@@ -118,6 +118,40 @@ Training loop coordinator for GPU-backed ML workloads.
 
 ---
 
+### CUDA Graph Capture for Recurring Query Execution Patterns
+**Priority:** High | **Target Version:** v1.4.0 | **Status:** ✅ Infrastructure implemented
+
+Eliminates repeated kernel-launch overhead for queries that share the same
+execution shape (operation type, row count, parameter profile) by capturing
+the kernel sequence once and replaying it on subsequent calls.
+
+**Implemented infrastructure:**
+- ✅ `GPUGraphCache` (`include/themis/gpu/graph_cache.h`, `src/gpu/graph_cache.cpp`)
+  — LRU-bounded cache (max 32 entries) keyed on `QueryShape`
+  (`OpType` × `row_count` × `param_hash`).  Tracks `capture_count`,
+  `replay_count`, and `last_access` for each entry.
+- ✅ `QueryShape` + `QueryShapeHash` — FNV-1a–based identity and hash for
+  recurring query patterns.
+- ✅ `GPUQueryAccelerator` integration — all four operations (`scan`, `sort`,
+  `aggregate`, `hashJoin`) check the graph cache when
+  `Config::enable_graph_cache = true`.  Cache hit/miss counters visible in
+  `GPUQueryAccelerator::Stats::graph_cache_hits` /
+  `graph_cache_misses`.
+- ✅ Runtime enable/disable via `enableGraphCache()` / `disableGraphCache()`.
+- ✅ `getGraphCacheStats()` exposes hit/miss/eviction counters.
+- ✅ Full unit-test coverage (`tests/test_gpu_graph_cache.cpp`)
+
+**Remaining (hardware required):**
+- Populate `GraphEntry::graph` / `GraphEntry::exec` with real `cudaGraph_t` /
+  `cudaGraphExec_t` handles when `THEMIS_ENABLE_CUDA` is defined.
+- Replace the CPU-simulation `capture()` body with
+  `cudaStreamBeginCapture` → kernel launches → `cudaStreamEndCapture` →
+  `cudaGraphInstantiate`.
+- Replace the CPU `lookup()` replay path with `cudaGraphLaunch` on the main
+  stream, then `cudaMemcpy` to copy results back.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
