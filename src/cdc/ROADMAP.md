@@ -28,7 +28,7 @@
 - [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
-- [I] Outbox pattern support for transactional change publishing (Issue: #1612)
+- [P] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)
 - [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
