@@ -156,7 +156,7 @@ Or create the required labels manually:
 
 ---
 
-## Diff check before PR creation
+## Diff check and dummy commit before PR creation
 
 Before opening a pull request the dispatcher compares the newly-created issue
 branch against the base branch using the GitHub Commits Compare API
@@ -165,16 +165,32 @@ branch against the base branch using the GitHub Commits Compare API
 | Result | Action |
 |---|---|
 | Branch is **ahead** of base or has changed files | PR is created as usual. |
-| Branch is **identical** to base (no diff) | PR creation is **skipped**; a warning is emitted (`No diff – skipping PR creation`) and the `in-progress/copilot` label is removed so the issue stays available for re-dispatch once real changes land on the branch. |
-| Compare API call fails | PR creation is **skipped** defensively; same label rollback as above. |
+| Branch is **identical** to base (no diff) | A **dummy commit** is pushed to the branch automatically (file `.copilot_issue.txt` with issue metadata), making the branch non-empty. The dispatcher then proceeds to open the PR normally. |
+| Compare API call fails | PR creation is **skipped** defensively; the `in-progress/copilot` label is removed so the issue stays available for re-dispatch. |
 
-This guard prevents the GitHub API validation error
+### Dummy commit
+
+When the branch has no changes relative to the base the dispatcher creates a
+lightweight placeholder file `.copilot_issue.txt` via `repos.createOrUpdateFileContents`.
+The file contains a human-readable reference to the issue (number, title, URL,
+branch name, creation timestamp) and a note that Copilot will replace it with
+real changes.
+
+Commit message format:
+
+```
+chore: init Copilot workspace for issue #<N>
+```
+
+This prevents the GitHub API validation error
 `"No commits between <base> and <head>"` that would otherwise abort the
-workflow with a non-zero exit code.
+workflow with a non-zero exit code.  Copilot is expected to push substantive
+changes on top of (or replacing) this placeholder commit while addressing the
+issue.
 
 **For developers:** if you push commits to an existing issue branch and re-run
-the dispatcher manually, the diff check will detect the changes and create the
-PR normally.
+the dispatcher manually, the diff check will detect the changes and skip the
+dummy-commit step, creating the PR normally.
 
 ---
 

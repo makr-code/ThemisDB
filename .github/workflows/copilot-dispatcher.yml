@@ -196,7 +196,8 @@ jobs:
                 }
               }
 
-              // ── Diff guard: skip PR if branch has no changes vs base ─────
+              // ── Diff guard: if branch has no changes vs base, push a dummy
+              //    commit so the branch is non-empty and a PR can be opened. ──
               try {
                 const { data: comparison } = await github.rest.repos.compareCommits({
                   owner: OWNER,
@@ -206,14 +207,40 @@ jobs:
                 });
                 const hasDiff = comparison.ahead_by > 0 || (comparison.files && comparison.files.length > 0);
                 if (!hasDiff) {
-                  core.warning(`No diff between '${branchName}' and '${BASE_BRANCH}' – skipping PR creation for issue #${issueNumber}.`);
-                  await github.rest.issues.removeLabel({
-                    owner: OWNER,
-                    repo: REPO,
-                    issue_number: issueNumber,
-                    name: 'in-progress/copilot',
-                  }).catch(() => {});
-                  continue;
+                  // Branch is identical to base – create a lightweight placeholder
+                  // commit so that GitHub allows PR creation ("No commits between
+                  // <base> and <head>" would otherwise be rejected by the API).
+                  core.info(`No diff on '${branchName}' – creating dummy commit for issue #${issueNumber}.`);
+                  try {
+                    const dummyContent = Buffer.from(
+                      `# Copilot Issue Tracker\n\n` +
+                      `This file was created automatically by the Copilot Issue Dispatcher.\n\n` +
+                      `**Issue:** #${issueNumber} – ${issue.title}\n` +
+                      `**URL:** ${issue.html_url}\n` +
+                      `**Branch:** ${branchName}\n` +
+                      `**Base:** ${BASE_BRANCH}\n` +
+                      `**Created:** ${new Date().toISOString()}\n\n` +
+                      `Copilot will push real changes here to resolve the issue.\n`
+                    ).toString('base64');
+                    await github.rest.repos.createOrUpdateFileContents({
+                      owner: OWNER,
+                      repo: REPO,
+                      path: '.copilot_issue.txt',
+                      message: `chore: init Copilot workspace for issue #${issueNumber}`,
+                      content: dummyContent,
+                      branch: branchName,
+                    });
+                    core.info(`Dummy commit created on '${branchName}'.`);
+                  } catch (e) {
+                    core.warning(`Failed to create dummy commit for issue #${issueNumber}: ${e.message}. Skipping PR creation.`);
+                    await github.rest.issues.removeLabel({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: issueNumber,
+                      name: 'in-progress/copilot',
+                    }).catch(() => {});
+                    continue;
+                  }
                 }
               } catch (e) {
                 core.warning(`Could not compare '${branchName}' with '${BASE_BRANCH}' for issue #${issueNumber}: ${e.message} – skipping PR creation.`);
