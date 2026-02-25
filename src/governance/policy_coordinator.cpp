@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_coordinator.cpp                             ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:04                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     193                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     215                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -187,6 +187,28 @@ UnifiedPolicyDecision PolicyCoordinator::combineDecisions(
                  unified.redaction);
     
     return unified;
+}
+
+bool PolicyCoordinator::startHotReload(PolicyFileWatcher::Config config) {
+    if (!policy_engine_) {
+        THEMIS_WARN("PolicyCoordinator::startHotReload: no policy engine attached");
+        return false;
+    }
+    if (file_watcher_ && file_watcher_->isRunning()) {
+        return true;  // Already running
+    }
+    file_watcher_ = std::make_unique<PolicyFileWatcher>(*policy_engine_, std::move(config));
+    return file_watcher_->start();
+}
+
+void PolicyCoordinator::stopHotReload() {
+    if (file_watcher_) {
+        file_watcher_->stop();
+    }
+}
+
+bool PolicyCoordinator::isHotReloadRunning() const noexcept {
+    return file_watcher_ && file_watcher_->isRunning();
 }
 
 } // namespace governance
