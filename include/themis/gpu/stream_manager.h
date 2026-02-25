@@ -121,6 +121,23 @@ public:
                       GPULauncher::BackendFn  backend = nullptr);
 
     /**
+     * @brief Create a new named CUDA stream on @p device_index.
+     *
+     * Wires a CUDA-backed execution path into the stream when
+     * `THEMIS_ENABLE_CUDA` is defined; falls back to the ROCm/CPU backend
+     * when CUDA is unavailable so the call is always safe to use.
+     *
+     * This overload resolves the "Stubs: 1" noted in the stream_manager header
+     * by providing a first-class CUDA stream creation path alongside the
+     * existing ROCm path.
+     *
+     * @param cfg           Stream configuration (name must be non-empty).
+     * @param device_index  CUDA device ordinal (0-based).
+     * @return false if a stream with that name already exists or cfg.name is empty.
+     */
+    bool createCudaStream(const StreamConfig& cfg, int device_index = 0);
+
+    /**
      * @brief Destroy a named stream.
      *
      * @return false if no stream with that name exists.

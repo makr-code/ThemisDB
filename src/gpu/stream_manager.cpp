@@ -27,6 +27,26 @@
 #include "themis/gpu/stream_manager.h"
 #include "themis/gpu/rocm_backend.h"
 #include <stdexcept>
+#include <mutex>
+#include <unordered_map>
+
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#endif
+
+#ifdef THEMIS_ENABLE_CUDA
+namespace {
+// Maps stream name → cudaStream_t, kept as uintptr_t for portability.
+static std::unordered_map<std::string, uintptr_t>& cudaStreamRegistry() {
+    static std::unordered_map<std::string, uintptr_t> registry;
+    return registry;
+}
+static std::mutex& cudaStreamMutex() {
+    static std::mutex mtx;
+    return mtx;
+}
+} // anonymous namespace
+#endif
 
 namespace themis {
 namespace gpu {
@@ -57,9 +77,83 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     return true;
 }
 
-bool GPUStreamManager::destroyStream(const std::string& name) {
+// ----------------------------------------------------------------------------
+// createCudaStream — CUDA stream creation (resolves Stubs: 1)
+// ----------------------------------------------------------------------------
+
+bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
+                                         int device_index)
+{
+    if (cfg.name.empty()) return false;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (streams_.count(cfg.name)) return false;
+    }
+
+    GPULauncher::BackendFn backend_fn;
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Create a real CUDA stream on the requested device.
+    cudaStream_t cuda_stream = nullptr;
+    if (cudaSetDevice(device_index) != cudaSuccess) {
+        // Device unavailable — fall back to the ROCm/CPU backend.
+        backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+    } else if (cudaStreamCreate(&cuda_stream) != cudaSuccess) {
+        backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+    } else {
+        // Register the native handle so destroyStream() can clean it up.
+        {
+            std::lock_guard<std::mutex> clk(cudaStreamMutex());
+            cudaStreamRegistry()[cfg.name] =
+                reinterpret_cast<uintptr_t>(cuda_stream);
+        }
+
+        // Build a BackendFn that synchronises the CUDA stream after each work
+        // item so the caller receives a well-defined completion signal.
+        backend_fn = [cuda_stream](const GPULauncher::WorkItem&) -> bool {
+            return cudaStreamSynchronize(cuda_stream) == cudaSuccess;
+        };
+    }
+#else
+    // CUDA not available — delegate to ROCm / CPU fallback.
+    (void)device_index;
+    backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
+#endif
+
     std::lock_guard<std::mutex> lock(mutex_);
-    return streams_.erase(name) > 0;
+    // Re-check after acquiring the lock (TOCTOU guard).
+    if (streams_.count(cfg.name)) return false;
+
+    Stream s;
+    s.config     = cfg;
+    s.launcher   = std::make_unique<GPULauncher>(std::move(backend_fn));
+    s.stats.name = cfg.name;
+    streams_.emplace(cfg.name, std::move(s));
+    return true;
+}
+
+bool GPUStreamManager::destroyStream(const std::string& name) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!streams_.erase(name)) return false;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Destroy the associated CUDA stream if one was created via createCudaStream().
+    {
+        std::lock_guard<std::mutex> clk(cudaStreamMutex());
+        auto& reg = cudaStreamRegistry();
+        auto it   = reg.find(name);
+        if (it != reg.end()) {
+            cudaStream_t s = reinterpret_cast<cudaStream_t>(it->second);
+            cudaStreamDestroy(s);
+            reg.erase(it);
+        }
+    }
+#endif
+
+    return true;
 }
 
 bool GPUStreamManager::hasStream(const std::string& name) const {

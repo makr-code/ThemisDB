@@ -372,6 +372,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU cluster topology test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUClusterTopology
+# (NVLink / InfiniBand topology detection) and GPUClusterCoordinator
+# (multi-node cluster coordination).  It uses only the CPU-side bookkeeping
+# simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_topology.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual

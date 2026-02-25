@@ -20,7 +20,7 @@ Custom CUDA/ROCm kernels for specialised operations.
 - ✅ `GPULauncher` — typed async work-item / batch launcher with `BackendFn` hook
 - ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement;
   default backend now wires through `ROCmBackend::createBackendFn()` instead of
-  a no-op lambda
+  a no-op lambda; `createCudaStream()` provides a first-class CUDA stream path
 - ✅ `ROCmBackend` — HIP stream lifecycle (`hipStreamCreate` / `hipStreamDestroy`
   / `hipStreamSynchronize`), device memory (`hipMalloc` / `hipFree` / `hipMemset`),
   and launcher `BackendFn` with CPU fallback when `THEMIS_ENABLE_HIP` is absent
@@ -66,7 +66,7 @@ Support for multiple GPUs and distributed computation.
 
 **Remaining (hardware required):**
 - `cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers
-- NVLink / XGMI topology detection
+- ~~NVLink / XGMI topology detection~~ (implemented via `GPUClusterTopology`)
 
 ---
 
