@@ -17,10 +17,19 @@ Custom CUDA/ROCm kernels for specialised operations.
 
 **Implemented infrastructure:**
 - ✅ `GPUKernelValidator` — checksum/whitelist registry, validate-before-launch
-- ✅ `GPULauncher` — typed async work-item / batch launcher with `BackendFn` hook
+- ✅ `GPULauncher` — typed async work-item / batch launcher with `BackendFn` hook;
+  `timeout_ms` is now enforced via `std::async` + `wait_for`, with `timed_out`
+  counter incremented on expiry
 - ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement;
-  default backend now wires through `ROCmBackend::createBackendFn()` instead of
-  a no-op lambda; `createCudaStream()` provides a first-class CUDA stream path
+  default backend registers a named HIP stream via `ROCmBackend::createStream()`
+  (enabling future `synchronizeStream()` calls) and uses `ROCmBackend::createBackendFn()`
+  as the work dispatcher; when `THEMIS_ENABLE_CUDA` is active a `cudaStream_t` is
+  also created via `cudaStreamCreate()`; both handles are properly destroyed in
+  `destroyStream()` and `~GPUStreamManager()`
+  `createStream(nullptr)` now calls `ROCmBackend::createStream()` to own a real
+  HIP stream for the stream's lifetime; `destroyStream()` calls
+  `ROCmBackend::destroyStream()` for proper HIP stream cleanup; destructor
+  tears down all ROCm-owned streams
 - ✅ `ROCmBackend` — HIP stream lifecycle (`hipStreamCreate` / `hipStreamDestroy`
   / `hipStreamSynchronize`), device memory (`hipMalloc` / `hipFree` / `hipMemset`),
   and launcher `BackendFn` with CPU fallback when `THEMIS_ENABLE_HIP` is absent
@@ -43,6 +52,10 @@ Accelerate database query operations using GPU.
 - ✅ CPU-path fallback for environments without GPU
 - ✅ GPU-threshold dispatch: switches to GPU path above
   `Config::gpu_threshold_rows`
+- ✅ FP16/BF16 Tensor Core dot-product (`PrecisionMode::FP16` / `::BF16`):
+  inputs are round-tripped through half/bfloat16 encoding to simulate Tensor
+  Core precision; on real hardware replaced by cuBLAS `cublasHgemm` (FP16) or
+  `cublasGemmEx` with `CUDA_R_16BF` (BF16)
 - ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
 
 **Remaining (hardware required):**
@@ -63,6 +76,9 @@ Support for multiple GPUs and distributed computation.
   per-device VRAM tracking, `markDeviceFailed` / `resetDevice`
 - ✅ `GPUDeviceDiscovery` — enumerate CUDA/ROCm devices, CPU-fallback sentinel,
   `GetBestDevice`, `GetHealthyDevices`
+- ✅ `GPUClusterCoordinator` — multi-node cluster coordination with heartbeat-based
+  health tracking, stale-node expiry, least-loaded node selection, and optional
+  `ClusterConfig` block (STANDALONE / COORDINATOR / WORKER modes)
 
 **Remaining (hardware required):**
 - `cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers
@@ -115,6 +131,40 @@ Training loop coordinator for GPU-backed ML workloads.
 
 **Remaining (hardware required):**
 - Wire a real CUDA/ROCm forward+backward pass into the `LossFn` callback
+
+---
+
+### CUDA Graph Capture for Recurring Query Execution Patterns
+**Priority:** High | **Target Version:** v1.4.0 | **Status:** ✅ Infrastructure implemented
+
+Eliminates repeated kernel-launch overhead for queries that share the same
+execution shape (operation type, row count, parameter profile) by capturing
+the kernel sequence once and replaying it on subsequent calls.
+
+**Implemented infrastructure:**
+- ✅ `GPUGraphCache` (`include/themis/gpu/graph_cache.h`, `src/gpu/graph_cache.cpp`)
+  — LRU-bounded cache (max 32 entries) keyed on `QueryShape`
+  (`OpType` × `row_count` × `param_hash`).  Tracks `capture_count`,
+  `replay_count`, and `last_access` for each entry.
+- ✅ `QueryShape` + `QueryShapeHash` — FNV-1a–based identity and hash for
+  recurring query patterns.
+- ✅ `GPUQueryAccelerator` integration — all four operations (`scan`, `sort`,
+  `aggregate`, `hashJoin`) check the graph cache when
+  `Config::enable_graph_cache = true`.  Cache hit/miss counters visible in
+  `GPUQueryAccelerator::Stats::graph_cache_hits` /
+  `graph_cache_misses`.
+- ✅ Runtime enable/disable via `enableGraphCache()` / `disableGraphCache()`.
+- ✅ `getGraphCacheStats()` exposes hit/miss/eviction counters.
+- ✅ Full unit-test coverage (`tests/test_gpu_graph_cache.cpp`)
+
+**Remaining (hardware required):**
+- Populate `GraphEntry::graph` / `GraphEntry::exec` with real `cudaGraph_t` /
+  `cudaGraphExec_t` handles when `THEMIS_ENABLE_CUDA` is defined.
+- Replace the CPU-simulation `capture()` body with
+  `cudaStreamBeginCapture` → kernel launches → `cudaStreamEndCapture` →
+  `cudaGraphInstantiate`.
+- Replace the CPU `lookup()` replay path with `cudaGraphLaunch` on the main
+  stream, then `cudaMemcpy` to copy results back.
 
 ---
 

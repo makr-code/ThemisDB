@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     223                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     247                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
@@ -136,6 +136,27 @@ void GPUMetrics::setVRAMPeak(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_vram_peak_bytes", {},
              static_cast<double>(bytes));
+}
+
+void GPUMetrics::setTemperature(int device_id, double celsius) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_temperature_celsius",
+             {{"device", std::to_string(device_id)}},
+             celsius);
+}
+
+void GPUMetrics::setPowerDraw(int device_id, double watts) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_power_draw_watts",
+             {{"device", std::to_string(device_id)}},
+             watts);
+}
+
+void GPUMetrics::setPowerLimit(int device_id, double watts) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    setGauge("themis_gpu_power_limit_watts",
+             {{"device", std::to_string(device_id)}},
+             watts);
 }
 
 void GPUMetrics::recordKernelDuration(const KernelRecord& record) {

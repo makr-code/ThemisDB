@@ -22,24 +22,27 @@
 - [x] JSON admin stats API with tenant breakdown and dry-run simulation
 - [x] Integration facade: policy → circuit-breaker → alloc → launch pipeline
 - [x] Named async GPU streams with CPU fallback budget
+- [x] CUDA stream creation in `GPUStreamManager` for long-running workloads
 - [x] Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
+- [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
 - [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
 
 ## In Progress 🚧
-- (none)
+- [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
+## In Progress 🚧
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
+- [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
-- [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
-- [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
-- [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
+- [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
+- [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
+- [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
 
 ### Long-term (6-12 months)
@@ -66,17 +69,18 @@
 - [x] JSON admin stats API with tenant breakdown and dry-run simulation
 - [x] Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch (`gpu/query_accelerator.cpp`)
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
+- [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
 ### Phase 2: Backend Parity & Cluster Coordination (Status: Complete ✅)
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
 - [x] GPU memory defragmentation routine (Target: Q2 2026)
-- [x] Multi-node GPU cluster coordination (Target: Q3 2026)
+- [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`, Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
 - [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
-- [ ] CUDA Graph capture for recurring query execution patterns
+- [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
 - [ ] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
@@ -90,8 +94,9 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
-- Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is not yet implemented
+- Multi-node GPU cluster coordination requires external orchestration
+- CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
 - MIG partitioning is not yet supported
 
 ## Breaking Changes

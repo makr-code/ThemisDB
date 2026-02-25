@@ -19,12 +19,14 @@
 
 #pragma once
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "themis/gpu/graph_cache.h"
 
 namespace themis {
 namespace gpu {
@@ -58,6 +60,15 @@ public:
     struct Row {
         uint64_t             id   = 0;
         std::vector<uint8_t> data;   ///< serialised payload
+    };
+
+    // -----------------------------------------------------------------------
+    // Precision mode for Tensor Core-style operations (FP16/BF16)
+    // -----------------------------------------------------------------------
+    enum class PrecisionMode {
+        FP32,  ///< Full 32-bit float (default)
+        FP16,  ///< IEEE 754 half-precision (16-bit); lossy, ~3.3 decimal digits
+        BF16,  ///< bfloat16 (top 16 bits of FP32); same exponent range as FP32
     };
 
     // -----------------------------------------------------------------------
@@ -104,17 +115,28 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // Dot-product result (Tensor Core path)
+    // -----------------------------------------------------------------------
+    struct DotProductResult {
+        double        value          = 0.0;   ///< Computed dot product
+        PrecisionMode precision_used = PrecisionMode::FP32;
+        bool          used_gpu       = false;
+    };
+
+    // -----------------------------------------------------------------------
     // Statistics
     // -----------------------------------------------------------------------
     struct Stats {
-        size_t   total_scans       = 0;
-        size_t   total_sorts       = 0;
-        size_t   total_aggregates  = 0;
-        size_t   total_joins       = 0;
-        uint64_t rows_processed    = 0;
-        uint64_t bytes_scanned     = 0;
-        size_t   gpu_ops           = 0;
-        size_t   cpu_fallback_ops  = 0;
+        size_t   total_scans         = 0;
+        size_t   total_sorts         = 0;
+        size_t   total_aggregates    = 0;
+        size_t   total_joins         = 0;
+        uint64_t rows_processed      = 0;
+        uint64_t bytes_scanned       = 0;
+        size_t   gpu_ops             = 0;
+        size_t   cpu_fallback_ops    = 0;
+        size_t   graph_cache_hits    = 0;   ///< Operations served via graph replay
+        size_t   graph_cache_misses  = 0;   ///< New patterns captured into the cache
     };
 
     // -----------------------------------------------------------------------
@@ -125,6 +147,8 @@ public:
         size_t gpu_threshold_rows = 10'000;
         /// Force CPU path unconditionally (useful for testing or CPU-only builds).
         bool force_cpu = false;
+        /// Enable CUDA graph capture for recurring query execution patterns.
+        bool enable_graph_cache = false;
     };
 
     // -----------------------------------------------------------------------
@@ -177,19 +201,72 @@ public:
                         JoinKeyFn               left_key,
                         JoinKeyFn               right_key);
 
+    /**
+     * @brief Compute the dot product of two float vectors using the configured
+     *        precision mode (FP32, FP16, or BF16).
+     *
+     * In FP16/BF16 modes inputs are first quantised to the target precision
+     * then de-quantised back to float before accumulation, simulating the
+     * precision loss of Tensor Core operations on hardware that does not
+     * accumulate FP32 internally.  On real hardware this call would be
+     * replaced by a cuBLAS `cublasSgemv` (FP32), `cublasHgemm` (FP16), or
+     * `cublasGemmEx` with `CUBLAS_COMPUTE_16F` / `CUDA_R_16BF` (BF16).
+     *
+     * @param a  First operand; must be the same length as @p b.
+     * @param b  Second operand.
+     * @return   DotProductResult with `value` and the precision actually used.
+     *           Returns 0.0 on empty or size-mismatch input.
+     */
+    DotProductResult dotProduct(const std::vector<float>& a,
+                                const std::vector<float>& b);
+
     // -----------------------------------------------------------------------
     // Stats
     // -----------------------------------------------------------------------
     Stats getStats() const;
     void  resetStats();
 
+    // -----------------------------------------------------------------------
+    // Graph cache control
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Enable CUDA graph capture for recurring query patterns.
+     *
+     * When enabled, each operation checks the graph cache before executing.
+     * On a cache miss the shape is captured; on a hit the cached graph is
+     * replayed and the `graph_cache_hits` stat is incremented.
+     *
+     * In a production CUDA build, replaying a cached graph eliminates
+     * per-launch kernel-setup overhead via `cudaGraphLaunch`.
+     */
+    void enableGraphCache();
+
+    /**
+     * @brief Disable CUDA graph capture.  The existing cache is preserved
+     * but will not be consulted until re-enabled.
+     */
+    void disableGraphCache();
+
+    /**
+     * @brief Return statistics from the underlying GPUGraphCache.
+     */
+    GPUGraphCache::Stats getGraphCacheStats() const;
+
 private:
-    Config             config_;
-    mutable std::mutex mutex_;
-    Stats              stats_;
+    Config               config_;
+    mutable std::mutex   mutex_;
+    Stats                stats_;
+    GPUGraphCache        graph_cache_;
+    std::atomic<bool>    graph_cache_enabled_{false};
 
     bool shouldUseGPU(size_t num_rows) const noexcept;
     void recordOp(size_t rows, uint64_t bytes, bool gpu_used);
+
+    /// Build a QueryShape for a single-sided operation.
+    static QueryShape makeShape(QueryShape::OpType op,
+                                size_t             row_count,
+                                uint64_t           param_hash = 0) noexcept;
 };
 
 } // namespace gpu

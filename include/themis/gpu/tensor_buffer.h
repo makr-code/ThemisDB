@@ -31,11 +31,12 @@ namespace gpu {
  * @brief Data type tag for tensor elements.
  */
 enum class DType {
-    FLOAT32,  ///< 4 bytes
-    FLOAT16,  ///< 2 bytes (host-side stored as uint16_t placeholder)
-    INT32,    ///< 4 bytes
-    INT8,     ///< 1 byte
-    UINT8,    ///< 1 byte
+    FLOAT32,   ///< 4 bytes
+    FLOAT16,   ///< 2 bytes (IEEE 754 half-precision, host-side stored as uint16_t)
+    BFLOAT16,  ///< 2 bytes (bfloat16: top 16 bits of float32, host-side as uint16_t)
+    INT32,     ///< 4 bytes
+    INT8,      ///< 1 byte
+    UINT8,     ///< 1 byte
 };
 
 /**
