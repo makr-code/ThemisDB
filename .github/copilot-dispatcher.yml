@@ -1,57 +1,12 @@
 # Copilot Issue Dispatcher Configuration
 # See .github/copilot-dispatcher.md for full documentation.
 
-# Maximum number of active Copilot PRs (PRs with pr/copilot label that do NOT
-# carry the copilot/status-ready label).
-wip_limit: 5
+# Maximum number of issues delegated to the Copilot Coding Agent per dispatcher run.
+# The dispatcher posts a delegation comment (mentioning @copilot) on each qualifying
+# issue and sets the copilot/delegated label.  Copilot then opens the PR itself.
+# Set to 0 to process all queued issues in every run (not recommended).
+max_delegations_per_run: 5
 
-# Base branch that every Copilot-created PR will target.
+# Base branch that Copilot should target when opening pull requests.
+# This is communicated to Copilot via the delegation comment.
 base_branch: develop
-
-# Whether the dispatcher should create PRs as drafts.
-# Set to true to open draft PRs (recommended for initial automation rollout).
-# Set to false to open regular (non-draft) PRs immediately ready for review.
-draft: true
-
-# Logins that are recognised as the "Copilot reviewer" when the readiness gate
-# evaluates submitted reviews.  The gate looks for an APPROVED review from any
-# login in this list.
-#
-# Common values:
-#   - "copilot-pull-request-reviewer[bot]"  (GitHub Copilot PR review bot)
-#   - "github-actions[bot]"                 (actions-triggered review)
-#   - "<your-org-copilot-service-account>"
-#
-# If this list is empty the gate skips the review check (useful during initial
-# rollout). Set it to at least one login in production.
-copilot_reviewer_logins:
-  - "copilot-pull-request-reviewer[bot]"
-  - "github-actions[bot]"
-
-# GitHub login that will be added as an assignee on every PR created by the
-# dispatcher.  Set to "copilot" to assign the GitHub Copilot bot that can
-# autonomously work on pull requests.  Set to an empty string ("") to disable
-# automatic Copilot assignment.
-#
-# Prerequisite: the account identified by this login must be a collaborator on
-# the repository (or a member of the owning organisation) with at least Write
-# access.  For the "copilot" bot specifically, GitHub Copilot must be enabled
-# on the repository/organisation plan.
-copilot_assignee_login: "copilot"
-
-# When true (default), the dispatcher will:
-#   1. Add the issue author as an assignee on the created PR.
-#   2. Request a review from the issue author.
-# Set to false to disable both actions (useful when issues are filed by bots
-# or service accounts that cannot be assigned/requested as reviewers).
-#
-# Prerequisite: the issue author must have at least Read access to the
-# repository for reviewer requests to succeed; otherwise the GitHub API will
-# silently ignore or reject the request.
-add_issue_author_as_reviewer: true
-
-# Maximum number of issues that the dispatcher may process in a single UTC calendar day.
-# Across all runs within one day, the dispatcher will not create more PRs than this limit.
-# Set to 0 to disable the daily limit entirely.
-# Default: 50
-daily_dispatch_limit: 50
