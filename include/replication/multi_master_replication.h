@@ -263,7 +263,9 @@ public:
         PN_COUNTER,         // Positive-Negative Counter
         G_SET,              // Grow-only Set
         OR_SET,             // Observed-Remove Set
-        LWW_MAP             // Last-Write-Wins Map
+        LWW_MAP,            // Last-Write-Wins Map
+        TWO_P_SET,          // Two-Phase Set (supports removal via tombstones)
+        RGA                 // Replicated Growable Array (ordered sequences)
     };
     
     explicit CRDTMergeResolver(CRDTType type);
@@ -286,6 +288,8 @@ private:
     std::string mergeGSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeORSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
+    std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
+    std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
 };
 
 /**
