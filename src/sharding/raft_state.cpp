@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_state.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:27                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     330                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     338                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -210,6 +210,11 @@ std::string RaftState::getNodeId() const {
 
 std::vector<std::string> RaftState::getClusterMembers() const {
     return config_.cluster_members;
+}
+
+void RaftState::setClusterMembers(const std::vector<std::string>& members) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    config_.cluster_members = members;
 }
 
 size_t RaftState::getQuorumSize() const {

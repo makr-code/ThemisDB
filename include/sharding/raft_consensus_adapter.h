@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_consensus_adapter.h                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:38                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     145                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     150                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +25,7 @@
 
 #include "sharding/consensus_module.h"
 #include "sharding/raft_consensus.h"
+#include "sharding/raft_configuration.h"
 #include <memory>
 #include <mutex>
 
@@ -137,6 +138,9 @@ private:
     nlohmann::json snapshot_data_;
     uint64_t snapshot_index_{0};
     uint64_t snapshot_term_{0};
+
+    // Joint-consensus membership tracker (Raft v2)
+    std::unique_ptr<themis::sharding::RaftConfiguration> membership_;
 };
 
 } // namespace sharding

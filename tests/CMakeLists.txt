@@ -814,6 +814,42 @@ else()
     message(STATUS "Raft Consensus Adapter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_consensus_adapter.cpp")
 endif()
 
+# Raft Configuration (joint consensus) Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_configuration.cpp")
+    message(STATUS "Adding Raft Configuration tests")
+
+    add_executable(test_raft_configuration
+        test_raft_configuration.cpp
+        ../src/sharding/raft_configuration.cpp
+    )
+
+    target_include_directories(test_raft_configuration PRIVATE
+        ${CMAKE_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    )
+
+    target_link_libraries(test_raft_configuration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_raft_configuration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RaftConfigurationTests COMMAND test_raft_configuration)
+
+    set_tests_properties(RaftConfigurationTests PROPERTIES
+        LABELS "sharding;consensus;raft;membership;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Raft Configuration: joint consensus, membership changes, quorum")
+else()
+    message(STATUS "Raft Configuration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_configuration.cpp")
+endif()
+
 # ============================================================================
 # Property Graph Tests
 # ============================================================================
