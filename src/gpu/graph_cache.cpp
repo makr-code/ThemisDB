@@ -9,7 +9,6 @@ namespace gpu {
 
 const GraphEntry* GPUGraphCache::lookup(const QueryShape& shape) {
     std::lock_guard<std::mutex> lock(mutex_);
-    ++stats_.entries;  // refreshed below; just ensure it's always current
 
     auto it = entries_.find(shape);
     if (it == entries_.end()) {

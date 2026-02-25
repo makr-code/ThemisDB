@@ -24,13 +24,11 @@ GPUQueryAccelerator::GPUQueryAccelerator(const Config& config)
 // ---------------------------------------------------------------------------
 
 void GPUQueryAccelerator::enableGraphCache() {
-    std::lock_guard<std::mutex> lk(mutex_);
-    graph_cache_enabled_ = true;
+    graph_cache_enabled_.store(true, std::memory_order_relaxed);
 }
 
 void GPUQueryAccelerator::disableGraphCache() {
-    std::lock_guard<std::mutex> lk(mutex_);
-    graph_cache_enabled_ = false;
+    graph_cache_enabled_.store(false, std::memory_order_relaxed);
 }
 
 GPUGraphCache::Stats GPUQueryAccelerator::getGraphCacheStats() const {

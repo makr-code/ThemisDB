@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -216,11 +217,11 @@ public:
     GPUGraphCache::Stats getGraphCacheStats() const;
 
 private:
-    Config             config_;
-    mutable std::mutex mutex_;
-    Stats              stats_;
-    GPUGraphCache      graph_cache_;
-    bool               graph_cache_enabled_ = false;
+    Config               config_;
+    mutable std::mutex   mutex_;
+    Stats                stats_;
+    GPUGraphCache        graph_cache_;
+    std::atomic<bool>    graph_cache_enabled_{false};
 
     bool shouldUseGPU(size_t num_rows) const noexcept;
     void recordOp(size_t rows, uint64_t bytes, bool gpu_used);
