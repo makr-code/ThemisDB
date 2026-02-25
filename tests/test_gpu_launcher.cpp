@@ -156,6 +156,45 @@ TEST(GPULauncherTest, WorkItem_KernelIdPreservedInResult) {
 }
 
 // ---------------------------------------------------------------------------
+// Timeout enforcement
+// ---------------------------------------------------------------------------
+
+TEST(GPULauncherTest, Timeout_ExceededBySlowBackend_CountsAsTimedOut) {
+    GPULauncher launcher([](const GPULauncher::WorkItem&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        return true;
+    });
+    GPULauncher::WorkItem w = makeItem("slow_kernel");
+    w.timeout_ms = 10;  // 10 ms — backend sleeps 200 ms
+    const auto result = launcher.submit(std::move(w)).get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_GE(launcher.getStats().timed_out, 1u);
+    EXPECT_GE(launcher.getStats().failed, 1u);
+}
+
+TEST(GPULauncherTest, Timeout_NotExceededByFastBackend_Succeeds) {
+    GPULauncher launcher([](const GPULauncher::WorkItem&) { return true; });
+    GPULauncher::WorkItem w = makeItem("fast_kernel");
+    w.timeout_ms = 5000;  // 5 s — backend returns immediately
+    const auto result = launcher.submit(std::move(w)).get();
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(launcher.getStats().timed_out, 0u);
+}
+
+TEST(GPULauncherTest, Timeout_ZeroMeansNoTimeout) {
+    GPULauncher launcher([](const GPULauncher::WorkItem&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        return true;
+    });
+    GPULauncher::WorkItem w = makeItem("no_timeout_kernel");
+    w.timeout_ms = 0;  // no timeout
+    const auto result = launcher.submit(std::move(w)).get();
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(launcher.getStats().timed_out, 0u);
+}
+
+// ---------------------------------------------------------------------------
 // Concurrent submits
 // ---------------------------------------------------------------------------
 
