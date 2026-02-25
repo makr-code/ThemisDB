@@ -601,6 +601,109 @@ themisdb_cross_cluster_subscription_last_applied_sequence{subscription="orders_s
 - **CDC stream authentication**: Authentication of the CDC stream is the
   responsibility of downstream consumers (see [SECURITY.md](./SECURITY.md)).
 
+## Multi-Region Active-Active with Bounded Staleness
+
+Multi-region active-active deployments allow every region to accept writes
+simultaneously.  `MultiRegionActiveActiveManager` coordinates consistency
+guarantees across regions by tracking per-region replication lag and
+enforcing the requested `ConsistencyLevel` on each read.
+
+### Consistency Levels
+
+| Level | Guarantee | Rejected when |
+|---|---|---|
+| `STRONG` | Linearizable – local replica is fully up-to-date | `staleness_ms > 0` |
+| `BOUNDED_STALENESS` | Stale reads permitted up to `max_staleness_ms` | `staleness_ms > max_staleness_ms` |
+| `SESSION` | Read-your-writes within a session token | local sequence < token sequence |
+| `EVENTUAL` | No guarantee – best availability | Never rejected |
+
+### Configuration
+
+```cpp
+MultiRegionActiveActiveConfig cfg;
+cfg.local_region_id     = "us-east-1";
+cfg.peer_region_ids     = {"eu-west-1", "ap-south-1"};
+cfg.default_consistency = ConsistencyLevel::BOUNDED_STALENESS;
+cfg.max_staleness_ms    = 5000;   // 5-second staleness bound
+cfg.session_token_ttl_ms = 30000; // session tokens valid for 30 s
+cfg.conflict_strategy   = ConflictResolution::LAST_WRITE_WINS;
+
+MultiRegionActiveActiveManager mgr(cfg);
+```
+
+### Writing with a Session Token
+
+```cpp
+// Write returns a session token embedding the write sequence.
+auto w = mgr.write("orders", "ord-1", "INSERT", payload,
+                   ConsistencyLevel::SESSION);
+
+// Pass the session token back on the next read to guarantee read-your-writes.
+auto r = mgr.read("orders", "ord-1", ConsistencyLevel::SESSION, w.session_token);
+assert(r.success);  // guaranteed because local seq >= w.sequence_number
+```
+
+### Bounded-Staleness Read
+
+```cpp
+// The read succeeds only when local lag <= 5 s.
+auto r = mgr.read("analytics", "summary", ConsistencyLevel::BOUNDED_STALENESS);
+if (!r.success) {
+    // staleness exceeded; retry on a fresher replica or degrade to EVENTUAL
+}
+```
+
+### Feeding Staleness Updates from the Replication Layer
+
+The replication layer must call `updateRegionStaleness()` whenever a
+heartbeat or WAL acknowledgement arrives from a remote region so that
+the manager has up-to-date lag information:
+
+```cpp
+// Called by ReplicationManager on each heartbeat ACK from eu-west-1
+mgr.updateRegionStaleness(
+    "eu-west-1",
+    peer_lag_ms,              // measured replication lag in ms
+    peer_last_applied_seq     // last WAL sequence applied by that region
+);
+```
+
+### Prometheus Metrics
+
+```
+# Total writes accepted by the local region
+themisdb_mraaa_writes_total{region="us-east-1"}
+
+# Total read attempts (all consistency levels combined)
+themisdb_mraaa_reads_total{region="us-east-1"}
+
+# Reads rejected because staleness exceeded the configured bound
+themisdb_mraaa_staleness_rejections_total{region="us-east-1"}
+
+# Reads per consistency level
+themisdb_mraaa_strong_reads_total{region="us-east-1"}
+themisdb_mraaa_bounded_staleness_reads_total{region="us-east-1"}
+themisdb_mraaa_session_reads_total{region="us-east-1"}
+themisdb_mraaa_eventual_reads_total{region="us-east-1"}
+
+# Current replication lag per region (gauge)
+themisdb_mraaa_region_staleness_ms{region="eu-west-1"}
+```
+
+### Constraints & Notes
+
+- **Staleness feeds are caller-managed**: the manager does not measure lag
+  itself; the replication layer must call `updateRegionStaleness()` on every
+  WAL ACK or heartbeat.
+- **No cross-region RPC**: `write()` and `read()` operate on local state
+  only.  Actual WAL shipping to peer regions is handled by the underlying
+  `ReplicationManager`.
+- **STRONG reads require 0 lag**: `staleness_ms` must be exactly 0 for a
+  STRONG read to succeed.  A local `write()` resets the local region's
+  staleness to 0 immediately.
+- **Session tokens are stateless**: tokens embed the required sequence and
+  an expiry timestamp and are validated without server-side storage.
+
 ## Performance Tuning
 
 ### High-Throughput Workloads

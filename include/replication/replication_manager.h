@@ -1427,10 +1427,6 @@ private:
     mutable std::shared_mutex staleness_mutex_;
     std::map<std::string, RegionStalenessInfo> region_staleness_;
 
-    // Session storage: token_id -> (sequence, expiry)
-    mutable std::mutex session_mutex_;
-    std::map<std::string, std::pair<uint64_t, std::chrono::system_clock::time_point>> sessions_;
-
     // Monotonic write sequence counter for this region
     std::atomic<uint64_t> local_sequence_{0};
 
@@ -1443,10 +1439,9 @@ private:
     std::atomic<uint64_t> session_reads_{0};
     std::atomic<uint64_t> eventual_reads_{0};
 
-    std::string generateWriteId() const;
+    std::string generateWriteId(uint64_t sequence) const;
     std::string generateSessionToken(uint64_t sequence) const;
     uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
-    void        evictExpiredSessions();
 };
 
 } // namespace replication

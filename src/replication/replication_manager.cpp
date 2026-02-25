@@ -4053,13 +4053,15 @@ MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
     }
 }
 
-std::string MultiRegionActiveActiveManager::generateWriteId() const {
-    // Combine region id, sequence, and a nanosecond timestamp for uniqueness
-    uint64_t seq = local_sequence_.load();
+std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) const {
+    // Combine region id, the caller-supplied sequence, and a nanosecond timestamp for uniqueness.
+    // Using the already-computed sequence (not a fresh load) avoids a TOCTOU race where
+    // another concurrent write could have incremented local_sequence_ between the caller's
+    // atomic increment and this read.
     auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     std::ostringstream oss;
-    oss << config_.local_region_id << "-" << seq << "-" << now_ns;
+    oss << config_.local_region_id << "-" << sequence << "-" << now_ns;
     return oss.str();
 }
 
@@ -4088,18 +4090,6 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
         return std::stoull(seq_str);
     } catch (...) {
         return 0;
-    }
-}
-
-void MultiRegionActiveActiveManager::evictExpiredSessions() {
-    auto now = std::chrono::system_clock::now();
-    std::lock_guard<std::mutex> lock(session_mutex_);
-    for (auto it = sessions_.begin(); it != sessions_.end(); ) {
-        if (it->second.second < now) {
-            it = sessions_.erase(it);
-        } else {
-            ++it;
-        }
     }
 }
 
@@ -4132,7 +4122,7 @@ MultiRegionActiveActiveManager::write(
 
     WriteResult result;
     result.success          = true;
-    result.write_id         = generateWriteId();
+    result.write_id         = generateWriteId(seq);
     result.region_id        = config_.local_region_id;
     result.sequence_number  = seq;
     result.session_token    = generateSessionToken(seq);
