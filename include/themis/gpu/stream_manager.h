@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     178                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -98,6 +98,18 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // Construction
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Default constructor.
+     *
+     * Allows constructing local instances for testing and non-singleton use.
+     * Use GetInstance() for the process-wide singleton.
+     */
+    GPUStreamManager() = default;
+
+    // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
     static GPUStreamManager& GetInstance() {
@@ -162,17 +174,17 @@ public:
     std::vector<StreamStats> getAllStreamStats() const;
 
 private:
-    GPUStreamManager() = default;
-
     struct Stream {
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
+        uintptr_t                  cuda_stream = 0;  ///< cudaStream_t handle; 0 when not created.
     };
 
     mutable std::mutex                          mutex_;
     std::unordered_map<std::string, Stream>     streams_;
 };
+
 
 } // namespace gpu
 } // namespace themis

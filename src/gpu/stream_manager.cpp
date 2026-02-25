@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 140dad5bc  2026-02-22  feat(gpu): implement ROCm/HIP backend parity with CUDA fe... ║
@@ -27,6 +27,10 @@
 #include "themis/gpu/stream_manager.h"
 #include "themis/gpu/rocm_backend.h"
 #include <stdexcept>
+
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#endif
 
 namespace themis {
 namespace gpu {
@@ -54,12 +58,36 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     s.launcher = std::make_unique<GPULauncher>(std::move(fn));
     s.stats.name = cfg.name;
     streams_.emplace(cfg.name, std::move(s));
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Create a real CUDA stream for long-running workloads.  Errors are
+    // non-fatal: the logical stream still functions via the ROCm/CPU path.
+    {
+        auto& entry = streams_.at(cfg.name);
+        cudaStream_t cs = nullptr;
+        if (cudaStreamCreate(&cs) == cudaSuccess) {
+            entry.cuda_stream = reinterpret_cast<uintptr_t>(cs);
+        }
+    }
+#endif
+
     return true;
 }
 
 bool GPUStreamManager::destroyStream(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return streams_.erase(name) > 0;
+    auto it = streams_.find(name);
+    if (it == streams_.end()) return false;
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (it->second.cuda_stream != 0) {
+        cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second.cuda_stream));
+        it->second.cuda_stream = 0;
+    }
+#endif
+
+    streams_.erase(it);
+    return true;
 }
 
 bool GPUStreamManager::hasStream(const std::string& name) const {

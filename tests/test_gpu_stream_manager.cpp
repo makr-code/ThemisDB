@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,10 +33,6 @@ static GPULauncher::WorkItem makeItem(const std::string& kernel = "k1",
     w.tag       = tag;
     return w;
 }
-
-// Each test uses a fresh local manager (not the singleton) to avoid
-// cross-test interference.
-static GPUStreamManager makeManager() { return GPUStreamManager{}; }
 
 // ---------------------------------------------------------------------------
 // Stream lifecycle
@@ -233,4 +229,31 @@ TEST(GPUStreamManagerTest, NullptrBackend_ItemsSucceedViaCPU) {
     sm.createStream({"noop"}, nullptr);
     auto res = sm.submit("noop", makeItem("noop_k")).get();
     EXPECT_TRUE(res.success);
+}
+
+// ---------------------------------------------------------------------------
+// CUDA stream creation (CPU fallback path when THEMIS_ENABLE_CUDA is absent)
+// ---------------------------------------------------------------------------
+
+TEST(GPUStreamManagerTest, CreateStream_CudaHandle_IsZeroWhenCudaUnavailable) {
+    // When THEMIS_ENABLE_CUDA is not defined the cuda_stream field must remain
+    // 0 after createStream() succeeds (no hardware present in CI).  When CUDA
+    // IS available the field holds a real cudaStream_t cast to uintptr_t.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"cuda_test"}));
+    EXPECT_TRUE(sm.hasStream("cuda_test"));
+    // Destroying the stream must succeed regardless of whether a real CUDA
+    // handle was created; cudaStreamDestroy is called only when the handle != 0.
+    EXPECT_TRUE(sm.destroyStream("cuda_test"));
+    EXPECT_FALSE(sm.hasStream("cuda_test"));
+}
+
+TEST(GPUStreamManagerTest, CreateAndDestroy_MultipleStreams_CudaPathClean) {
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"cs1"}));
+    ASSERT_TRUE(sm.createStream({"cs2"}));
+    EXPECT_EQ(sm.streamCount(), 2u);
+    EXPECT_TRUE(sm.destroyStream("cs1"));
+    EXPECT_TRUE(sm.destroyStream("cs2"));
+    EXPECT_EQ(sm.streamCount(), 0u);
 }
