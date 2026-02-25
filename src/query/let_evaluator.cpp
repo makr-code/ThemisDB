@@ -470,8 +470,8 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         }
         auto geom = evaluateExpression(args[0], currentDoc);
         
-        // If already GeoJSON object, convert to string
-        if (geom.is_object() && geom.contains("type") && geom.contains("coordinates")) {
+        // If already a GeoJSON object (all types: coordinates-based or geometries-based)
+        if (geom.is_object() && geom.contains("type")) {
             return geom.dump();
         }
         
@@ -482,56 +482,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             try {
                 auto geomInfo = geo::EWKBParser::parse(ewkb);
-                nlohmann::json geojson;
-                
-                // Map GeometryType to GeoJSON type string
-                switch (geomInfo.type) {
-                    case geo::GeometryType::Point:
-                    case geo::GeometryType::PointZ:
-                        geojson["type"] = "Point";
-                        if (!geomInfo.coords.empty()) {
-                            const auto& c = geomInfo.coords[0];
-                            geojson["coordinates"] = {c.x, c.y};
-                            if (geomInfo.type == geo::GeometryType::PointZ) {
-                                geojson["coordinates"].push_back(c.z.value_or(0.0));
-                            }
-                        }
-                        break;
-                    case geo::GeometryType::LineString:
-                    case geo::GeometryType::LineStringZ:
-                        geojson["type"] = "LineString";
-                        geojson["coordinates"] = nlohmann::json::array();
-                        for (const auto& c : geomInfo.coords) {
-                            if (geomInfo.type == geo::GeometryType::LineStringZ) {
-                                geojson["coordinates"].push_back({c.x, c.y, c.z.value_or(0.0)});
-                            } else {
-                                geojson["coordinates"].push_back({c.x, c.y});
-                            }
-                        }
-                        break;
-                    case geo::GeometryType::Polygon:
-                    case geo::GeometryType::PolygonZ:
-                        geojson["type"] = "Polygon";
-                        geojson["coordinates"] = nlohmann::json::array();
-                        // Note: Polygon rings not fully parsed in current EWKB parser
-                        // This is a simplified version
-                        {
-                            nlohmann::json ring = nlohmann::json::array();
-                            for (const auto& c : geomInfo.coords) {
-                                if (geomInfo.type == geo::GeometryType::PolygonZ) {
-                                    ring.push_back({c.x, c.y, c.z.value_or(0.0)});
-                                } else {
-                                    ring.push_back({c.x, c.y});
-                                }
-                            }
-                            geojson["coordinates"].push_back(ring);
-                        }
-                        break;
-                    default:
-                        throw std::runtime_error("ST_AsGeoJSON: Unsupported geometry type");
-                }
-                
-                return geojson.dump();
+                return geo::EWKBParser::toGeoJSON(geomInfo);
             } catch (const std::exception& e) {
                 throw std::runtime_error("ST_AsGeoJSON: Failed to parse EWKB: " + std::string(e.what()));
             }

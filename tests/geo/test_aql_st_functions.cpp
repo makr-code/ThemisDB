@@ -211,7 +211,37 @@ TEST_F(STFunctionsTest, ST_AsGeoJSON_LineString) {
     EXPECT_EQ(parsed["coordinates"].size(), 2);
 }
 
-TEST_F(STFunctionsTest, ST_AsText_Point2D) {
+TEST_F(STFunctionsTest, ST_AsGeoJSON_MultiPolygon) {
+    json mp = {
+        {"type", "MultiPolygon"},
+        {"coordinates", json::array({
+            json::array({json::array({{0.0,0.0},{1.0,0.0},{1.0,1.0},{0.0,1.0},{0.0,0.0}})}),
+            json::array({json::array({{5.0,5.0},{6.0,5.0},{6.0,6.0},{5.0,6.0},{5.0,5.0}})})
+        })}
+    };
+    json result = callFunction("ST_AsGeoJSON", {mp});
+    ASSERT_TRUE(result.is_string());
+    json parsed = json::parse(result.get<std::string>());
+    EXPECT_EQ(parsed["type"], "MultiPolygon");
+    EXPECT_EQ(parsed["coordinates"].size(), 2);
+}
+
+TEST_F(STFunctionsTest, ST_AsGeoJSON_GeometryCollection) {
+    json gc = {
+        {"type", "GeometryCollection"},
+        {"geometries", json::array({
+            json({{"type","Point"},{"coordinates",{1.0,2.0}}}),
+            json({{"type","LineString"},{"coordinates",{{0.0,0.0},{1.0,1.0}}}})
+        })}
+    };
+    json result = callFunction("ST_AsGeoJSON", {gc});
+    ASSERT_TRUE(result.is_string());
+    json parsed = json::parse(result.get<std::string>());
+    EXPECT_EQ(parsed["type"], "GeometryCollection");
+    EXPECT_EQ(parsed["geometries"].size(), 2);
+}
+
+
     json point = {
         {"type", "Point"},
         {"coordinates", {13.405, 52.52}}
