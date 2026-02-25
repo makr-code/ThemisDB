@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2251 – [replication] Automated lag-based read traffic shifting
+**URL:** https://github.com/makr-code/ThemisDB/issues/2251
+**Branch:** copilot/issue-2251-replication-automated-lag-based-read-traffic-shift
+**Base:** develop
+**Created:** 2026-02-25T09:30:48.820Z
+
+Copilot will push real changes here to resolve the issue.
