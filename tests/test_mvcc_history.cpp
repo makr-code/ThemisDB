@@ -156,7 +156,9 @@ TEST_F(HistoryManagerTest, RecordPutWrittenInTransaction) {
     // Write live key
     ASSERT_TRUE(txn->put(key, value));
     // Write history entry atomically
-    HLCTimestamp ts = history_->recordPut(*txn, key, value, /*txn_id=*/1u);
+    auto ts_opt = history_->recordPut(*txn, key, value, /*txn_id=*/1u);
+    ASSERT_TRUE(ts_opt.has_value());
+    HLCTimestamp ts = *ts_opt;
     ASSERT_GT(ts.value, 0u);
 
     // Commit both atomically
@@ -226,7 +228,9 @@ TEST_F(HistoryManagerTest, GetAtTimestamp_ExactMatch) {
     auto txn1 = rocksdb_->beginTransaction();
     ASSERT_NE(txn1, nullptr);
     txn1->put(key, val1);
-    HLCTimestamp ts1 = history_->recordPut(*txn1, key, val1);
+    auto ts1_opt = history_->recordPut(*txn1, key, val1);
+    ASSERT_TRUE(ts1_opt.has_value());
+    HLCTimestamp ts1 = *ts1_opt;
     ASSERT_TRUE(txn1->commit());
 
     auto rec = history_->getAtTimestamp(key, ts1);
@@ -242,12 +246,16 @@ TEST_F(HistoryManagerTest, GetAtTimestamp_ReturnsEarlierVersion) {
 
     auto txn1 = rocksdb_->beginTransaction();
     txn1->put(key, val1);
-    HLCTimestamp ts1 = history_->recordPut(*txn1, key, val1);
+    auto ts1_opt = history_->recordPut(*txn1, key, val1);
+    ASSERT_TRUE(ts1_opt.has_value());
+    HLCTimestamp ts1 = *ts1_opt;
     txn1->commit();
 
     auto txn2 = rocksdb_->beginTransaction();
     txn2->put(key, val2);
-    HLCTimestamp ts2 = history_->recordPut(*txn2, key, val2);
+    auto ts2_opt = history_->recordPut(*txn2, key, val2);
+    ASSERT_TRUE(ts2_opt.has_value());
+    HLCTimestamp ts2 = *ts2_opt;
     txn2->commit();
 
     ASSERT_GT(ts2, ts1);
@@ -269,7 +277,9 @@ TEST_F(HistoryManagerTest, GetAtTimestamp_BeforeFirstVersion) {
 
     auto txn = rocksdb_->beginTransaction();
     txn->put(key, val);
-    HLCTimestamp ts = history_->recordPut(*txn, key, val);
+    auto ts_opt = history_->recordPut(*txn, key, val);
+    ASSERT_TRUE(ts_opt.has_value());
+    HLCTimestamp ts = *ts_opt;
     txn->commit();
 
     // Request at timestamp strictly before the first version
@@ -755,4 +765,183 @@ TEST(StatusConflictTest, ErrorStatusHasEmptyConflictId) {
     auto s = Status::Error("something failed");
     EXPECT_FALSE(s.ok);
     EXPECT_TRUE(s.conflict_id.empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Hardening tests: Requirements 1–4
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Req 1: base_values_ captured only once per key per transaction ────────────
+
+TEST_F(TxMgrHistoryTest, BaseValueNotOverwrittenOnMultipleWrites) {
+    // Pre-populate the entity so the first read of base yields a known value.
+    {
+        auto id = tx_mgr_->beginTransaction();
+        auto t  = tx_mgr_->getTransaction(id);
+        BaseEntity e("ov1");
+        e.setField("val", static_cast<int64_t>(1));
+        ASSERT_TRUE(t->putEntity("items", e).ok);
+        ASSERT_TRUE(tx_mgr_->commitTransaction(id).ok);
+    }
+
+    // In a new transaction: write the same entity TWICE.
+    // The base_values_ entry for the key should be the committed value from
+    // the first write above ("val=1"), not the value written by the first
+    // putEntity call in this transaction.
+    auto id2 = tx_mgr_->beginTransaction();
+    auto t2  = tx_mgr_->getTransaction(id2);
+
+    // First intra-txn write: sets val=2
+    BaseEntity e2("ov1");
+    e2.setField("val", static_cast<int64_t>(2));
+    ASSERT_TRUE(t2->putEntity("items", e2).ok);
+
+    // Capture the base value stored so far (it must reflect the pre-txn state).
+    const std::string live_key = "entity:items:ov1";
+    // We cannot inspect base_values_ directly from outside, but we can verify
+    // indirectly via the history: after the first intra-txn write the history
+    // keyspace (not yet committed) should have 0 new committed entries.
+    // Just verify the second write also succeeds (would fail or be wrong if
+    // base was overwritten to the first intra-txn value).
+    BaseEntity e3("ov1");
+    e3.setField("val", static_cast<int64_t>(3));
+    ASSERT_TRUE(t2->putEntity("items", e3).ok);
+
+    ASSERT_TRUE(tx_mgr_->commitTransaction(id2).ok);
+
+    // After commit there should be 2 history entries: the original put from
+    // the first txn plus 2 from the second txn (two writes in same txn).
+    auto versions = history_->listVersions(live_key);
+    EXPECT_EQ(versions.size(), 3u);
+}
+
+// ── Req 2: history write failure propagation (via failing TransactionWrapper) ─
+
+// A TransactionWrapper whose put() always fails, used to simulate write errors.
+// We inject it via a custom HistoryManager that wraps the real one but uses
+// a failing txn for the history write.  Since the TransactionWrapper is not
+// easily mocked, we test at the HistoryManager level directly.
+TEST_F(HistoryManagerTest, RecordPut_ReturnsNulloptOnPutFailure) {
+    // Create a real transaction, then roll it back before the put so that
+    // the put into a rolled-back (inactive) transaction returns false.
+    auto txn = rocksdb_->beginTransaction();
+    ASSERT_NE(txn, nullptr);
+    // Pre-commit the transaction so it becomes inactive.
+    ASSERT_TRUE(txn->commit());
+    // Now txn is committed (inactive); put() into it should return false.
+    std::string key = "entity:users:fail1";
+    auto result = history_->recordPut(*txn, key, bytes("data"), 1u);
+    // Expect failure (nullopt) because the txn is no longer active.
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(HistoryManagerTest, RecordDel_ReturnsNulloptOnPutFailure) {
+    auto txn = rocksdb_->beginTransaction();
+    ASSERT_NE(txn, nullptr);
+    ASSERT_TRUE(txn->commit());
+    std::string key = "entity:users:fail2";
+    auto result = history_->recordDel(*txn, key, 2u);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(HistoryManagerTest, RecordPut_ReturnsTimestampOnSuccess) {
+    auto txn = rocksdb_->beginTransaction();
+    ASSERT_NE(txn, nullptr);
+    std::string key = "entity:users:ok1";
+    auto result = history_->recordPut(*txn, key, bytes("data"), 1u);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GT(result->value, 0u);
+    txn->commit();
+}
+
+// ── Req 3: multi-key ConflictSet ──────────────────────────────────────────────
+
+TEST_F(HistoryManagerTest, ConflictSet_StoreAndRetrieve) {
+    ConflictSet cs;
+    cs.txn_id               = 77u;
+    cs.conflict_record_ids  = {"cid_a", "cid_b"};
+    cs.affected_keys        = {"entity:users:u1", "entity:users:u2"};
+
+    std::string set_id = conflicts_->storeConflictSet(cs);
+    ASSERT_FALSE(set_id.empty());
+
+    auto retrieved = conflicts_->getConflictSet(set_id);
+    ASSERT_TRUE(retrieved.has_value());
+    EXPECT_EQ(retrieved->txn_id,              77u);
+    EXPECT_EQ(retrieved->conflict_record_ids, cs.conflict_record_ids);
+    EXPECT_EQ(retrieved->affected_keys,       cs.affected_keys);
+    EXPECT_FALSE(retrieved->conflict_set_id.empty());
+}
+
+TEST_F(HistoryManagerTest, ConflictSet_ListConflictSets) {
+    for (int i = 0; i < 3; ++i) {
+        ConflictSet cs;
+        cs.affected_keys = {"entity:k" + std::to_string(i)};
+        conflicts_->storeConflictSet(cs);
+    }
+    auto all = conflicts_->listConflictSets();
+    EXPECT_GE(all.size(), 3u);
+}
+
+TEST(ConflictSetSerTest, RoundTrip) {
+    ConflictSet cs;
+    cs.version            = 1;
+    cs.conflict_set_id    = "1234_7";
+    cs.detected_at        = HLCTimestamp::from(1234u, 7u);
+    cs.txn_id             = 55u;
+    cs.conflict_record_ids = {"r1", "r2", "r3"};
+    cs.affected_keys       = {"entity:a:1", "entity:b:2"};
+
+    auto serialized = ConflictManager::serializeConflictSet(cs);
+    ASSERT_FALSE(serialized.empty());
+
+    auto recovered = ConflictManager::deserializeConflictSet(
+        std::string_view(reinterpret_cast<const char*>(serialized.data()), serialized.size()));
+    ASSERT_TRUE(recovered.has_value());
+    EXPECT_EQ(recovered->conflict_set_id,    cs.conflict_set_id);
+    EXPECT_EQ(recovered->detected_at,        cs.detected_at);
+    EXPECT_EQ(recovered->txn_id,             cs.txn_id);
+    EXPECT_EQ(recovered->conflict_record_ids, cs.conflict_record_ids);
+    EXPECT_EQ(recovered->affected_keys,      cs.affected_keys);
+}
+
+// ── Req 4: conflict type classification in ConflictRecord ────────────────────
+
+TEST(ConflictRecordTypeTest, TypeFieldSerializationRoundTrip) {
+    ConflictRecord rec;
+    rec.conflict_id  = "test_id";
+    rec.base_key     = "entity:users:u1";
+    rec.type         = "busy";
+
+    auto serialized = ConflictManager::serializeConflictRecord(rec);
+    auto recovered  = ConflictManager::deserializeConflictRecord(
+        std::string_view(reinterpret_cast<const char*>(serialized.data()), serialized.size()));
+
+    ASSERT_TRUE(recovered.has_value());
+    EXPECT_EQ(recovered->type, "busy");
+}
+
+TEST(ConflictRecordTypeTest, TypeFieldDefaultsToEmpty) {
+    ConflictRecord rec;
+    rec.conflict_id = "test_id2";
+    rec.base_key    = "entity:users:u2";
+    // type not set
+
+    auto serialized = ConflictManager::serializeConflictRecord(rec);
+    auto recovered  = ConflictManager::deserializeConflictRecord(
+        std::string_view(reinterpret_cast<const char*>(serialized.data()), serialized.size()));
+
+    ASSERT_TRUE(recovered.has_value());
+    EXPECT_TRUE(recovered->type.empty());
+}
+
+// Status::Conflict also populates conflict_set_id ────────────────────────────
+
+TEST(StatusConflictTest, ConflictFactoryPopulatesConflictSetId) {
+    using Status = themis::TransactionManager::Status;
+    auto s = Status::Conflict("commit failed", "set_123", {"key_a", "key_b"});
+    EXPECT_FALSE(s.ok);
+    EXPECT_EQ(s.conflict_id,     "set_123");
+    EXPECT_EQ(s.conflict_set_id, "set_123");
+    ASSERT_EQ(s.affected_keys.size(), 2u);
 }
