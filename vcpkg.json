@@ -134,6 +134,12 @@
     }
   ],
   "features": {
+    "redis": {
+      "description": "Enable Redis-compatible distributed cache coordination via hiredis pub/sub",
+      "dependencies": [
+        "hiredis"
+      ]
+    },
     "gpu": {
       "description": "Enable GPU acceleration for vector search",
       "dependencies": []

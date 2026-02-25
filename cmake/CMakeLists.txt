@@ -1531,6 +1531,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/predictive_prefetcher.cpp
     ../src/cache/cache_replication_coordinator.cpp
+    ../src/cache/redis_cache_coordinator.cpp
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -2671,6 +2672,17 @@ elseif(TARGET msgpack::msgpack)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
 else()
     message(STATUS "MessagePack target not found - buffer binary protocol may fail to build")
+endif()
+
+# Link hiredis for Redis distributed cache coordination if enabled
+if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+    if(TARGET hiredis::hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis::hiredis)
+    elseif(TARGET hiredis)
+        target_link_libraries(themis_core PUBLIC hiredis)
+    endif()
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_REDIS=1)
+    message(STATUS "Redis distributed cache coordination linked (hiredis)")
 endif()
 
 # RFC 3161 Timestamp Authority (TSA) - OpenSSL implementation
