@@ -491,6 +491,26 @@ TEST_F(ConfigSchemaValidatorTest, ValidationResultFormatErrors) {
     EXPECT_NE(fmt.find("WARNING:"), std::string::npos);
 }
 
+// ═══════════════════════════════════════════════════════════
+// Integration: validate config.json against its JSON Schema
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, MainConfigJsonPassesOfficialSchema) {
+    // config/ is copied into the build directory by CMake so tests can find it
+    // via relative paths when run from ${CMAKE_BINARY_DIR}.
+    const std::string config_path = "config/config.json";
+    const std::string schema_path = "config/schema/themisdb.config.schema.json";
+
+    if (!std::filesystem::exists(config_path) || !std::filesystem::exists(schema_path)) {
+        GTEST_SKIP() << "config/config.json or config/schema/themisdb.config.schema.json "
+                        "not found relative to the current working directory";
+    }
+
+    auto result = ConfigSchemaValidator::validateWithSchemaFile(config_path, schema_path);
+    EXPECT_TRUE(result.valid) << "config.json does not satisfy themisdb.config.schema.json:\n"
+                              << result.formatErrors();
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

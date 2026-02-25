@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing, YAML/JSON schema validation, secrets management, and runtime hot-reload are explicitly out of scope for this module.
+This document covers implementation-specific future enhancements for the Config module (`src/config/`), comprising `config_path_resolver.cpp` (legacy-to-new path mapping, 60+ paths), `config_path_resolver.h`, `config_schema_validator.cpp` / `config_schema_validator.h` (JSON Schema Draft 7 subset validation), `lru_cache.h` (`LRUCacheWithTTL<K,V>`, capacity 1,000, TTL 5 min), `config_errors.h` (typed exception hierarchy), and `path_mapping_metadata.h` (`PathMappingMetadata` with deprecation dates and migration guide URLs). Config file parsing beyond what is needed for schema validation, runtime hot-reload, and secrets management are explicitly out of scope for this module.
 
 ## Design Constraints
 
@@ -118,11 +118,36 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 - One additional filesystem `exists()` check per cache miss (overlay root probed first); negligible impact when cache hit rate > 95%.
 - `setEnvironment()` clears the cache atomically to prevent stale overlay entries.
 
+---
+
+### ConfigSchemaValidator: Extended JSON Schema Keyword Support
+**Priority:** Low
+**Target Version:** v2.0.0
+
+`ConfigSchemaValidator` currently implements a Draft 7 subset. Extend it to cover the most commonly needed remaining keywords.
+
+**Implementation Notes:**
+- `[ ]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
+- `[ ]` Add `not` — assert a value does NOT match a sub-schema.
+- `[ ]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
+- `[ ]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
+- `[ ]` Add `uniqueItems` for array validation.
+- `[ ]` Extend `ConfigSchemaValidator::loadAsJson()` to accept an in-memory YAML string (not only a file path) to support inline config parsing in tests and server-side config hot-checks.
+
+**Performance Targets:**
+- `validate()` for a 100-field JSON config against a 200-rule schema completes in < 5 ms on a single thread.
+- Memory allocation per validation call < 1 MB (no large intermediate copies).
+
+**Security / Reliability:**
+- `$ref` resolution must be restricted to `$defs`/`definitions` within the same schema document; external URI resolution is explicitly out of scope to prevent SSRF.
+- Recursive `$ref` cycles must be detected and reported as a schema error, not trigger infinite recursion.
+
 ## Test Strategy
 
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
 | Unit | >80% new code | Test `DeprecationAggregator` with 60 legacy paths; test LRU env-var override with mock environment; test CLI scanner with synthetic file tree in tmp dir |
+| Unit | >80% new code | `ConfigSchemaValidator`: all keyword branches, YAML/JSON loading, missing-file error reporting — covered by `tests/test_config_schema_validator.cpp` |
 | Integration | `ConfigPathResolver::resolve()` with new/legacy/missing paths | Existing `tests/config/config_path_resolver_test.cpp`; extend with overlay and multi-env scenarios |
 | Performance | `resolve()` hot path < 1 µs on L1 cache hit | `benchmarks/config_bench.cpp` microbench; regression alert at 5% |
 
