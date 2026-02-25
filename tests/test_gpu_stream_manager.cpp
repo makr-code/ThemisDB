@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "themis/gpu/stream_manager.h"
+#include "themis/gpu/rocm_backend.h"
 #include <atomic>
 #include <chrono>
 #include <thread>
@@ -256,4 +257,30 @@ TEST(GPUStreamManagerTest, CreateAndDestroy_MultipleStreams_CudaPathClean) {
     EXPECT_TRUE(sm.destroyStream("cs1"));
     EXPECT_TRUE(sm.destroyStream("cs2"));
     EXPECT_EQ(sm.streamCount(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// ROCm stream lifecycle (CPU fallback path when THEMIS_ENABLE_HIP is absent)
+// ---------------------------------------------------------------------------
+
+TEST(GPUStreamManagerTest, NullBackend_RegistersRocmStream) {
+    // When createStream() is called without a backend, a named HIP stream
+    // must be registered in ROCmBackend (virtual when no HIP hardware is
+    // present).  After destroyStream() the ROCm entry must be gone.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"rocm_stream_test"}));
+    EXPECT_TRUE(ROCmBackend::GetInstance().hasStream("rocm_stream_test"));
+
+    EXPECT_TRUE(sm.destroyStream("rocm_stream_test"));
+    EXPECT_FALSE(ROCmBackend::GetInstance().hasStream("rocm_stream_test"));
+}
+
+TEST(GPUStreamManagerTest, CustomBackend_DoesNotRegisterRocmStream) {
+    // When a caller-supplied backend is passed, GPUStreamManager must NOT
+    // create a ROCm stream (caller owns the backend lifecycle).
+    GPUStreamManager sm;
+    sm.createStream({"custom_backend_stream"},
+                    [](const GPULauncher::WorkItem&) { return true; });
+    EXPECT_FALSE(ROCmBackend::GetInstance().hasStream("custom_backend_stream"));
+    sm.destroyStream("custom_backend_stream");
 }

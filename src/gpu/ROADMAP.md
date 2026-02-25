@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, and memory defragmentation are implemented. Multi-node GPU coordination is still in progress.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and CUDA stream creation in `GPUStreamManager` are implemented. Multi-node GPU coordination is still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -22,8 +22,10 @@
 - [x] JSON admin stats API with tenant breakdown and dry-run simulation
 - [x] Integration facade: policy → circuit-breaker → alloc → launch pipeline
 - [x] Named async GPU streams with CPU fallback budget
+- [x] CUDA stream creation in `GPUStreamManager` for long-running workloads
 - [x] Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
+- [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
@@ -36,6 +38,7 @@
 ### Short-term (Next 3-6 months)
 - [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
+- [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
@@ -65,6 +68,7 @@
 - [x] JSON admin stats API with tenant breakdown and dry-run simulation
 - [x] Parallel scan/filter/sort/aggregate/join with GPU threshold dispatch (`gpu/query_accelerator.cpp`)
 - [x] Typed tensor containers with shape/dtype, views, and checkpointing
+- [x] CUDA stream creation in `GPUStreamManager` (`gpu/stream_manager.cpp`)
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
 ### Phase 2: Backend Parity & Cluster Coordination (Status: Partially Complete 🔶)

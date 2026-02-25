@@ -36,6 +36,26 @@ namespace themis {
 namespace gpu {
 
 // ============================================================================
+// Construction / destruction
+// ============================================================================
+
+GPUStreamManager::~GPUStreamManager() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto& kv : streams_) {
+#ifdef THEMIS_ENABLE_CUDA
+        if (kv.second.cuda_stream != 0) {
+            cudaStreamDestroy(
+                reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
+        }
+#endif
+        if (kv.second.uses_rocm_stream) {
+            ROCmBackend::GetInstance().destroyStream(kv.first);
+        }
+    }
+    streams_.clear();
+}
+
+// ============================================================================
 // Stream lifecycle
 // ============================================================================
 
@@ -47,16 +67,23 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     std::lock_guard<std::mutex> lock(mutex_);
     if (streams_.count(cfg.name)) return false;   // already exists
 
-    // When no backend is supplied, use the ROCm backend (which transparently
-    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined).
-    GPULauncher::BackendFn fn = backend
-        ? backend
-        : ROCmBackend::GetInstance().createBackendFn();
-
     Stream s;
-    s.config   = cfg;
-    s.launcher = std::make_unique<GPULauncher>(std::move(fn));
+    s.config     = cfg;
     s.stats.name = cfg.name;
+
+    if (backend) {
+        s.launcher = std::make_unique<GPULauncher>(std::move(backend));
+    } else {
+        // When no backend is supplied, register a named HIP stream via the
+        // ROCm backend (which transparently falls back to CPU execution when
+        // THEMIS_ENABLE_HIP is not defined).  Registering the stream enables
+        // ROCmBackend::synchronizeStream() to be called on it later.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+        s.uses_rocm_stream = true;
+        s.launcher = std::make_unique<GPULauncher>(
+            ROCmBackend::GetInstance().createBackendFn());
+    }
+
     streams_.emplace(cfg.name, std::move(s));
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -85,6 +112,10 @@ bool GPUStreamManager::destroyStream(const std::string& name) {
         it->second.cuda_stream = 0;
     }
 #endif
+
+    if (it->second.uses_rocm_stream) {
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
 
     streams_.erase(it);
     return true;

@@ -108,6 +108,7 @@ public:
      * Use GetInstance() for the process-wide singleton.
      */
     GPUStreamManager() = default;
+    ~GPUStreamManager();
 
     // -----------------------------------------------------------------------
     // Singleton
@@ -125,8 +126,11 @@ public:
      * @brief Create a new named stream.
      *
      * @param cfg      Stream configuration.
-     * @param backend  GPU execution backend.  Pass nullptr to use a no-op
-     *                 backend (all work items succeed immediately via CPU).
+     * @param backend  GPU execution backend.  Pass nullptr to use the ROCm
+     *                 backend (which creates a named HIP stream and transparently
+     *                 falls back to CPU execution when `THEMIS_ENABLE_HIP` is absent).
+     *                 When `THEMIS_ENABLE_CUDA` is also active a `cudaStream_t` is
+     *                 created alongside and stored for future kernel dispatch.
      * @return false if a stream with that name already exists.
      */
     bool createStream(const StreamConfig&     cfg,
@@ -178,7 +182,8 @@ private:
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
-        uintptr_t                  cuda_stream = 0;  ///< cudaStream_t handle; 0 when not created.
+        uintptr_t                  cuda_stream      = 0;     ///< cudaStream_t handle; 0 when not created.
+        bool                       uses_rocm_stream = false; ///< true when a HIP stream was registered via ROCmBackend.
     };
 
     mutable std::mutex                          mutex_;

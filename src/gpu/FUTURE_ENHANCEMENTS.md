@@ -19,8 +19,11 @@ Custom CUDA/ROCm kernels for specialised operations.
 - ✅ `GPUKernelValidator` — checksum/whitelist registry, validate-before-launch
 - ✅ `GPULauncher` — typed async work-item / batch launcher with `BackendFn` hook
 - ✅ `GPUStreamManager` — named async streams, CPU fallback budget enforcement;
-  default backend now wires through `ROCmBackend::createBackendFn()` instead of
-  a no-op lambda
+  default backend registers a named HIP stream via `ROCmBackend::createStream()`
+  (enabling future `synchronizeStream()` calls) and uses `ROCmBackend::createBackendFn()`
+  as the work dispatcher; when `THEMIS_ENABLE_CUDA` is active a `cudaStream_t` is
+  also created via `cudaStreamCreate()`; both handles are properly destroyed in
+  `destroyStream()` and `~GPUStreamManager()`
 - ✅ `ROCmBackend` — HIP stream lifecycle (`hipStreamCreate` / `hipStreamDestroy`
   / `hipStreamSynchronize`), device memory (`hipMalloc` / `hipFree` / `hipMemset`),
   and launcher `BackendFn` with CPU fallback when `THEMIS_ENABLE_HIP` is absent
