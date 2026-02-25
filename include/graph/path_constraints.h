@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     301                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
@@ -53,9 +53,8 @@ namespace graph {
  * Implemented using BFS traversal with constraint validation during graph exploration.
  * Integrates with GraphIndexManager for graph operations and GraphQueryOptimizer
  * for query planning and cost estimation.
- * 
- * @note Node and edge property constraints have partial support (defined in API but
- * not fully validated during traversal). All other constraint types are fully implemented.
+ * All constraint types are fully implemented, including node and edge property
+ * constraints validated via GraphIndexManager::getNodeField / getEdgeField.
  */
 class PathConstraints {
 public:

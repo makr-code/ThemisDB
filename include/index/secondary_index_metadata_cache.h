@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index_metadata_cache.h                   ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:22                                ║
+  Last Modified:   2026-02-25 20:40:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     144                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     147                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -47,10 +47,13 @@ public:
         std::vector<std::string> geo_indexes;           // Geo indexes
         std::vector<std::string> ttl_indexes;           // TTL indexes
         std::vector<std::string> fulltext_indexes;      // Fulltext indexes
+        std::vector<std::string> partial_indexes;       // Partial/filtered indexes (column names)
         
         // Unique constraint tracking
         std::unordered_map<std::string, bool> regular_unique;
         std::unordered_map<std::string, bool> sparse_unique;
+        std::unordered_map<std::string, std::string> partial_predicates; // column -> predicate
+        std::unordered_map<std::string, bool> partial_unique; // column -> unique flag
     };
 
     /// Singleton instance

@@ -151,63 +151,73 @@ for (const auto& anomaly : anomalies) {
 ---
 
 ### Predictive Analytics and Forecasting
+**Status:** ✅ Core implemented (v1.7.0) — extended algorithms planned (v1.9.0)  
 **Priority:** High  
-**Target Version:** v1.8.0
+**Target Version (extensions):** v1.9.0
 
-Time-series forecasting and predictive modeling capabilities.
+Core time-series forecasting and predictive modeling is **available now** in `analytics/forecasting.h`.
 
-**Algorithms:**
-- **ARIMA/SARIMA**: Autoregressive integrated moving average
-- **Exponential Smoothing**: Holt-Winters, ETS
-- **Prophet**: Facebook's forecasting algorithm
-- **LSTM**: Long Short-Term Memory neural networks
-- **XGBoost**: Gradient boosting for regression
-- **Linear Regression**: Simple baseline models
-- **Ensemble Forecasting**: Combine multiple models
+**Implemented Algorithms (v1.7.0):**
+- **LINEAR_REGRESSION**: Ordinary least-squares trend-line extrapolation
+- **EXP_SMOOTHING**: Simple exponential smoothing (SES/ETS-ANN)
+- **HOLT_WINTERS**: Triple exponential smoothing — additive and multiplicative seasonality
+- **ARIMA**: AR(p) + I(d) + MA(q) via Yule–Walker / Levinson–Durbin
+- **ENSEMBLE**: Weighted combination of all four models above
 
-**Features:**
+**Planned Extensions (v1.9.0):**
+- **SARIMA**: Seasonal ARIMA with full seasonal orders (P, D, Q, m)
+- **Prophet-style**: Piecewise trend + Fourier seasonality (pure C++, no Python)
+- **LSTM surrogate**: Lightweight single-layer recurrence for non-linear patterns
+
+**Implemented Features (v1.7.0):**
 - Multi-step ahead forecasting
-- Confidence intervals
-- Seasonal decomposition
+- Confidence intervals (empirical, Beasley–Springer–Moro quantile approximation)
+- Seasonal decomposition (additive / multiplicative)
 - Trend analysis
-- Automatic hyperparameter tuning
-- Model selection and comparison
-- Forecast accuracy metrics (MAE, RMSE, MAPE)
+- Automatic hyperparameter tuning (`auto_tune` grid search)
+- Forecast accuracy metrics (MAE, RMSE, MAPE, sMAPE)
+- Model serialisation / deserialisation (full IEEE-754 precision round-trip)
 
-**API Example:**
+**API Example (current v1.7.0):**
 ```cpp
 #include "analytics/forecasting.h"
+using namespace themisdb::analytics;
 
-// Load time-series data
-TimeSeries ts = loadFromCollection("sales", {
-    .timestamp_field = "date",
-    .value_field = "revenue"
-});
+// Build time-series
+TimeSeries ts;
+ts.push(1000LL, 120.0);   // timestamp_ms, value
+ts.push(2000LL, 135.0);
+// ...
 
-// Train forecasting model
-ForecastModel model(ForecastMethod::PROPHET);
-model.fit(ts, {
-    .seasonality_mode = "multiplicative",
-    .yearly_seasonality = true,
-    .weekly_seasonality = true
-});
+// Configure and train
+ForecastConfig cfg;
+cfg.seasonality = 12;      // monthly data → yearly season
+cfg.alpha = 0.3;
+cfg.auto_tune = true;      // grid-search optimal alpha/beta/gamma
 
-// Forecast next 30 days
-auto forecast = model.predict(30, {
-    .include_confidence = true,
-    .confidence_level = 0.95
-});
+ForecastModel model(ForecastMethod::HOLT_WINTERS);
+model.fit(ts, cfg);
 
-std::cout << "Forecast for next 30 days:\n";
-for (const auto& point : forecast) {
-    std::cout << point.date << ": " << point.value 
-              << " [" << point.lower << ", " << point.upper << "]\n";
+// Forecast next 30 steps
+auto forecast = model.predict(30);
+for (const auto& fp : forecast) {
+    std::cout << fp.timestamp_ms << ": " << fp.value
+              << " [" << fp.lower << ", " << fp.upper << "]\n";
 }
 
-// Evaluate accuracy
-auto metrics = model.evaluate(test_set);
-std::cout << "RMSE: " << metrics.rmse << std::endl;
-std::cout << "MAPE: " << metrics.mape << "%\n";
+// Evaluate accuracy on hold-out set
+auto [train, test] = ts.trainTestSplit(0.8);
+model.fit(train, cfg);
+ForecastMetrics m = model.evaluate(test);
+std::cout << "RMSE: " << m.rmse << "  MAPE: " << m.mape << "%\n";
+
+// Seasonal decomposition
+auto dr = model.decompose(/*multiplicative=*/false);
+// dr.trend, dr.seasonal, dr.residual — each has ts.size() elements
+
+// Serialise / restore
+std::string state = model.serialize();
+ForecastModel restored = ForecastModel::deserialize(state);
 ```
 
 **Use Cases:**
