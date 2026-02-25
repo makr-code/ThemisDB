@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     4199                                           ║
+    • Total Lines:     4922                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -2002,6 +2002,8 @@ MMWriteEntry CRDTMergeResolver::resolve(
         case CRDTType::G_SET:        merged_data = mergeGSet(conflicting_writes);        break;
         case CRDTType::OR_SET:       merged_data = mergeORSet(conflicting_writes);       break;
         case CRDTType::LWW_MAP:      merged_data = mergeLWWMap(conflicting_writes);      break;
+        case CRDTType::TWO_P_SET:    merged_data = mergeTwoPSet(conflicting_writes);     break;
+        case CRDTType::RGA:          merged_data = mergeRGA(conflicting_writes);         break;
     }
 
     // Base entry is the LWW winner; replace its data with the merged payload
@@ -2020,6 +2022,8 @@ std::string CRDTMergeResolver::strategyName() const {
         case CRDTType::G_SET:        return "G_SET";
         case CRDTType::OR_SET:       return "OR_SET";
         case CRDTType::LWW_MAP:      return "LWW_MAP";
+        case CRDTType::TWO_P_SET:    return "TWO_P_SET";
+        case CRDTType::RGA:          return "RGA";
     }
     return "UNKNOWN";
 }
@@ -2074,6 +2078,56 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     return fields;
 }
 
+// Helper: extract the sub-object string for a named key, e.g. extractSubObject(doc,"P")
+// returns the raw content between the outermost braces of "P": { ... }
+static std::string extractSubObject(const std::string& doc, const std::string& key) {
+    std::string search = "\"" + key + "\"";
+    auto pos = doc.find(search);
+    if (pos == std::string::npos) return "";
+    pos += search.size();
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
+    if (pos >= doc.size() || doc[pos] != '{') return "";
+    size_t depth = 0, start = pos;
+    while (pos < doc.size()) {
+        if (doc[pos] == '{') ++depth;
+        else if (doc[pos] == '}') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
+        ++pos;
+    }
+    return "";
+}
+
+// Helper: extract quoted string tokens from a JSON array  e.g. ["a","b"] → {"a","b"}
+static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
+    std::set<std::string> result;
+    size_t p = 0;
+    while (p < arr.size()) {
+        auto qs = arr.find('"', p);
+        if (qs == std::string::npos) break;
+        auto qe = arr.find('"', qs + 1);
+        if (qe == std::string::npos) break;
+        result.insert(arr.substr(qs + 1, qe - qs - 1));
+        p = qe + 1;
+    }
+    return result;
+}
+
+// Helper: find the raw JSON array string for a named key, e.g. extractSubArray(doc,"add")
+static std::string extractSubArray(const std::string& doc, const std::string& key) {
+    std::string search = "\"" + key + "\"";
+    auto pos = doc.find(search);
+    if (pos == std::string::npos) return "";
+    pos += search.size();
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
+    if (pos >= doc.size() || doc[pos] != '[') return "";
+    size_t depth = 0, start = pos;
+    while (pos < doc.size()) {
+        if (doc[pos] == '[') ++depth;
+        else if (doc[pos] == ']') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
+        ++pos;
+    }
+    return "";
+}
+
 std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& writes) {
     // Grow-only counter: for each node-keyed counter take the maximum value
     std::map<std::string, int64_t> merged;
@@ -2096,14 +2150,42 @@ std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& wr
 }
 
 std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& writes) {
-    // PN counter: each entry has a "positive" and "negative" sub-counter per node
-    // Simplified: treat all numeric fields as GCounter
-    return mergeGCounter(writes);
+    // PN-Counter: two separate G-Counters (P = increments, N = decrements) per node.
+    // Expected data format: {"P":{"nodeA":5,"nodeB":3},"N":{"nodeA":2,"nodeB":1}}
+    // Merge: take max per key for both P and N sub-counters.
+    std::map<std::string, int64_t> mergedP, mergedN;
+    for (const auto& w : writes) {
+        auto pSub = extractSubObject(w.data, "P");
+        if (!pSub.empty()) {
+            for (const auto& [k, v] : extractJsonInts(pSub))
+                mergedP[k] = std::max(mergedP[k], v);
+        }
+        auto nSub = extractSubObject(w.data, "N");
+        if (!nSub.empty()) {
+            for (const auto& [k, v] : extractJsonInts(nSub))
+                mergedN[k] = std::max(mergedN[k], v);
+        }
+    }
+    // Serialise as {"P":{...},"N":{...}}
+    auto serializeMap = [](const std::map<std::string, int64_t>& m) {
+        std::ostringstream o;
+        o << "{";
+        bool first = true;
+        for (const auto& [k, v] : m) {
+            if (!first) o << ",";
+            o << "\"" << k << "\":" << v;
+            first = false;
+        }
+        o << "}";
+        return o.str();
+    };
+    std::ostringstream oss;
+    oss << "{\"P\":" << serializeMap(mergedP) << ",\"N\":" << serializeMap(mergedN) << "}";
+    return oss.str();
 }
 
 std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
-    // Grow-only set: union of all string values inside JSON arrays
-    // Simplified: concatenate unique tokens from all payloads
+    // Grow-only set: union of all quoted string tokens across all payloads
     std::set<std::string> seen;
     for (const auto& w : writes) {
         size_t p = 0;
@@ -2129,8 +2211,67 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
 }
 
 std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& writes) {
-    // OR-Set: observed-remove set; delegate to GSet for simplicity
-    return mergeGSet(writes);
+    // OR-Set (Observed-Remove Set): each add operation tags an element with a unique id;
+    // a remove operation records the tag in the tombstone set.  An element is present iff
+    // it has at least one tag that is not tombstoned.
+    //
+    // Expected data format:
+    //   {"add":[["apple","tag-1"],["banana","tag-2"]],"tombstones":["tag-1"]}
+    // Each add entry is a two-element array [element, unique-tag].
+    // Merge: union of all add pairs, union of all tombstones.
+
+    // Collect all (element, tag) pairs and all tombstones across writes.
+    std::vector<std::pair<std::string, std::string>> allAdds;
+    std::set<std::string> tombstones;
+
+    for (const auto& w : writes) {
+        // Parse tombstones array
+        auto tsArr = extractSubArray(w.data, "tombstones");
+        for (const auto& t : extractJsonArrayStrings(tsArr))
+            tombstones.insert(t);
+
+        // Parse add array – find "add": [ ... ] then iterate inner arrays
+        auto addArr = extractSubArray(w.data, "add");
+        // Each inner element looks like ["element","tag"]
+        size_t p = 0;
+        while (p < addArr.size()) {
+            auto lb = addArr.find('[', p);
+            if (lb == std::string::npos) break;
+            auto rb = addArr.find(']', lb + 1);
+            if (rb == std::string::npos) break;
+            std::string pair = addArr.substr(lb + 1, rb - lb - 1);
+            auto tokens = extractJsonArrayStrings("[" + pair + "]");
+            if (tokens.size() == 2) {
+                auto it = tokens.begin();
+                std::string elem = *it++;
+                std::string tag  = *it;
+                allAdds.emplace_back(elem, tag);
+            }
+            p = rb + 1;
+        }
+    }
+
+    // Determine which elements are still live (have ≥1 non-tombstoned tag)
+    std::map<std::string, std::vector<std::string>> elemTags;
+    for (const auto& [elem, tag] : allAdds)
+        elemTags[elem].push_back(tag);
+
+    std::set<std::string> liveElements;
+    for (const auto& [elem, tags] : elemTags)
+        for (const auto& t : tags)
+            if (tombstones.find(t) == tombstones.end()) { liveElements.insert(elem); break; }
+
+    // Produce JSON array of live elements
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& e : liveElements) {
+        if (!first) oss << ",";
+        oss << "\"" << e << "\"";
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
 }
 
 std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writes) {
@@ -2154,6 +2295,137 @@ std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writ
         first = false;
     }
     oss << "}";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& writes) {
+    // Two-Phase Set (2P-Set): an element may be added and removed; once removed it cannot
+    // be re-added (tombstone is permanent).
+    //
+    // Expected data format: {"add":["apple","banana","cherry"],"remove":["banana"]}
+    // Merge: union(add) across writes, union(remove) across writes.
+    // Result: elements that appear in the merged add-set but NOT in the merged remove-set.
+    std::set<std::string> addSet, removeSet;
+    for (const auto& w : writes) {
+        auto addArr    = extractSubArray(w.data, "add");
+        auto removeArr = extractSubArray(w.data, "remove");
+        for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);
+        for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);
+    }
+    // Build result: elements in addSet not in removeSet
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& e : addSet) {
+        if (removeSet.count(e)) continue;
+        if (!first) oss << ",";
+        oss << "\"" << e << "\"";
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes) {
+    // Replicated Growable Array (RGA): an ordered sequence where each element carries a
+    // unique logical identifier.  Concurrent inserts are ordered deterministically by id;
+    // deleted elements are kept as tombstones to preserve ordering.
+    //
+    // Expected data format (array of element objects):
+    //   [{"id":"100:nodeA","v":"hello","del":false},{"id":"200:nodeB","v":"world","del":false}]
+    //
+    // Merge: union of all elements by unique id; if an id appears in multiple writes, prefer
+    // the tombstoned version (a deletion is irrevocable).  Sort by id lexicographically.
+
+    // Element struct: id, value, deleted
+    struct RGAElem {
+        std::string id;
+        std::string value;
+        bool deleted{false};
+    };
+
+    std::map<std::string, RGAElem> byId;
+
+    for (const auto& w : writes) {
+        // Parse each object inside the top-level JSON array
+        const std::string& src = w.data;
+        size_t p = 0;
+        // Skip leading '[' if present
+        while (p < src.size() && src[p] != '{') ++p;
+        while (p < src.size()) {
+            auto ob = src.find('{', p);
+            if (ob == std::string::npos) break;
+            // Find matching '}'
+            size_t depth = 0, oe = ob;
+            while (oe < src.size()) {
+                if (src[oe] == '{') ++depth;
+                else if (src[oe] == '}') { if (--depth == 0) break; }
+                ++oe;
+            }
+            std::string obj = src.substr(ob, oe - ob + 1);
+
+            // Extract "id" field
+            RGAElem elem;
+            {
+                auto kp = obj.find("\"id\"");
+                if (kp != std::string::npos) {
+                    auto vs = obj.find('"', kp + 4);
+                    if (vs != std::string::npos) {
+                        auto ve = obj.find('"', vs + 1);
+                        if (ve != std::string::npos)
+                            elem.id = obj.substr(vs + 1, ve - vs - 1);
+                    }
+                }
+            }
+            if (elem.id.empty()) { p = oe + 1; continue; }
+
+            // Extract "v" field
+            {
+                auto kp = obj.find("\"v\"");
+                if (kp != std::string::npos) {
+                    auto vs = obj.find('"', kp + 3);
+                    if (vs != std::string::npos) {
+                        auto ve = obj.find('"', vs + 1);
+                        if (ve != std::string::npos)
+                            elem.value = obj.substr(vs + 1, ve - vs - 1);
+                    }
+                }
+            }
+
+            // Extract "del" field
+            {
+                auto kp = obj.find("\"del\"");
+                if (kp != std::string::npos) {
+                    auto vp = kp + 5;
+                    while (vp < obj.size() && (obj[vp] == ' ' || obj[vp] == ':')) ++vp;
+                    elem.deleted = (obj.substr(vp, 4) == "true");
+                }
+            }
+
+            // Merge: deletion is irrevocable
+            auto it = byId.find(elem.id);
+            if (it == byId.end()) {
+                byId[elem.id] = std::move(elem);
+            } else {
+                if (elem.deleted) it->second.deleted = true;
+                // Keep the value from the first observed insert (already stored)
+            }
+            p = oe + 1;
+        }
+    }
+
+    // Produce sorted JSON array (include tombstones so remote nodes can apply deletes)
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& [id, elem] : byId) {
+        if (!first) oss << ",";
+        oss << "{\"id\":\"" << elem.id << "\","
+            << "\"v\":\"" << elem.value << "\","
+            << "\"del\":" << (elem.deleted ? "true" : "false") << "}";
+        first = false;
+    }
+    oss << "]";
     return oss.str();
 }
 
