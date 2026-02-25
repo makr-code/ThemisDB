@@ -34,7 +34,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
+- [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [!] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
