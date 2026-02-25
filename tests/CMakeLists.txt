@@ -380,6 +380,21 @@ endif()
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_stream_manager.cpp
+# Re-include the GPU cluster coordinator test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates multi-node GPU cluster
+# coordination (node registration, heartbeat tracking, stale-node expiry, and
+# least-loaded node selection).  It uses only CPU-side bookkeeping and requires
+# no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_coordinator.cpp
+# Re-include the GPU graph cache test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUGraphCache (QueryShape hashing, capture/replay,
+# LRU eviction) and the GPUQueryAccelerator graph-cache integration.  It uses only
+# CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_cache.cpp
     )
 endif()
 

@@ -50,11 +50,12 @@ TEST_F(GPUTensorBufferTest, ShapeNumElementsEmpty) {
 }
 
 TEST_F(GPUTensorBufferTest, ShapeElementBytes) {
-    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT32), 4u);
-    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT16), 2u);
-    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT32),   4u);
-    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT8),    1u);
-    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::UINT8),   1u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT32),  4u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::FLOAT16),  2u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::BFLOAT16), 2u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT32),    4u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::INT8),     1u);
+    EXPECT_EQ(GPUTensorBuffer::Shape::elementBytes(DType::UINT8),    1u);
 }
 
 TEST_F(GPUTensorBufferTest, ShapeTotalBytes) {
@@ -142,6 +143,27 @@ TEST_F(GPUTensorBufferTest, FillZero) {
     std::vector<float> out(8);
     buf.copyToHost(out.data(), 8 * sizeof(float));
     for (float v : out) EXPECT_EQ(v, 0.0f);
+}
+
+TEST_F(GPUTensorBufferTest, FillFloat16_ProperIEEE754Encoding) {
+    // Verify that FLOAT16 fill stores proper IEEE 754 half-precision bits.
+    // 1.0f in FP16 = 0x3C00; 2.0f in FP16 = 0x4000.
+    GPUTensorBuffer buf16("h16", GPUTensorBuffer::Shape{{2}}, DType::FLOAT16);
+    buf16.fill(1.0);
+    std::vector<uint16_t> raw(2);
+    buf16.copyToHost(raw.data(), 2 * sizeof(uint16_t));
+    EXPECT_EQ(raw[0], static_cast<uint16_t>(0x3C00u));  // 1.0 in FP16
+    EXPECT_EQ(raw[1], static_cast<uint16_t>(0x3C00u));
+}
+
+TEST_F(GPUTensorBufferTest, FillBFloat16_ProperEncoding) {
+    // 1.0f in BF16 = upper 16 bits of float32 0x3F800000 = 0x3F80.
+    GPUTensorBuffer buf_bf16("bf16", GPUTensorBuffer::Shape{{2}}, DType::BFLOAT16);
+    buf_bf16.fill(1.0);
+    std::vector<uint16_t> raw(2);
+    buf_bf16.copyToHost(raw.data(), 2 * sizeof(uint16_t));
+    EXPECT_EQ(raw[0], static_cast<uint16_t>(0x3F80u));  // 1.0 in BF16
+    EXPECT_EQ(raw[1], static_cast<uint16_t>(0x3F80u));
 }
 
 // ============================================================================

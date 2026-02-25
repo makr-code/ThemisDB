@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/gpu/launcher.h"
+#include "themis/gpu/rocm_backend.h"
 
 namespace themis {
 namespace gpu {
@@ -119,6 +120,12 @@ public:
     }
 
     // -----------------------------------------------------------------------
+    // Construction / destruction
+    // -----------------------------------------------------------------------
+    GPUStreamManager() = default;
+    ~GPUStreamManager();
+
+    // -----------------------------------------------------------------------
     // Stream lifecycle
     // -----------------------------------------------------------------------
 
@@ -131,6 +138,9 @@ public:
      *                 falls back to CPU execution when `THEMIS_ENABLE_HIP` is absent).
      *                 When `THEMIS_ENABLE_CUDA` is also active a `cudaStream_t` is
      *                 created alongside and stored for future kernel dispatch.
+     *                 backend (which transparently falls back to CPU execution
+     *                 when HIP is unavailable).  A HIP stream is created via
+     *                 `ROCmBackend::createStream()` for the stream's lifetime.
      * @return false if a stream with that name already exists.
      */
     bool createStream(const StreamConfig&     cfg,
@@ -178,12 +188,16 @@ public:
     std::vector<StreamStats> getAllStreamStats() const;
 
 private:
+
     struct Stream {
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
         uintptr_t                  cuda_stream      = 0;     ///< cudaStream_t handle; 0 when not created.
         bool                       uses_rocm_stream = false; ///< true when a HIP stream was registered via ROCmBackend.
+        bool                       uses_rocm_backend = false;
+        /** @brief True when a HIP stream was created via ROCmBackend for this stream. */
+        bool                       uses_rocm_stream = false;
     };
 
     mutable std::mutex                          mutex_;

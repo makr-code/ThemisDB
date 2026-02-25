@@ -48,6 +48,8 @@ GPUStreamManager::~GPUStreamManager() {
                 reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
         }
 #endif
+    // Clean up any HIP streams that were created via ROCmBackend.
+    for (const auto& kv : streams_) {
         if (kv.second.uses_rocm_stream) {
             ROCmBackend::GetInstance().destroyStream(kv.first);
         }
@@ -68,6 +70,28 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     if (streams_.count(cfg.name)) return false;   // already exists
 
     Stream s;
+    // When no backend is supplied, use the ROCm backend (which transparently
+    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined) and
+    // also register the stream in the ROCm backend so that HIP stream
+    // lifecycle (hipStreamCreate / hipStreamDestroy) is correctly managed.
+    bool rocm = (backend == nullptr);
+    GPULauncher::BackendFn fn = backend
+        ? std::move(backend)
+        : ROCmBackend::GetInstance().createBackendFn();
+
+    if (rocm) {
+        // Create the hardware stream in the ROCm backend.  When HIP is absent
+        // this is a no-op that records a virtual entry; the result is ignored
+        // because the CPU-fallback path is always available.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+    }
+
+    Stream s;
+    s.config              = cfg;
+    s.launcher            = std::make_unique<GPULauncher>(std::move(fn));
+    s.stats.name          = cfg.name;
+    s.uses_rocm_backend   = rocm;
+    Stream s;
     s.config     = cfg;
     s.stats.name = cfg.name;
 
@@ -78,6 +102,9 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
         // ROCm backend (which transparently falls back to CPU execution when
         // THEMIS_ENABLE_HIP is not defined).  Registering the stream enables
         // ROCmBackend::synchronizeStream() to be called on it later.
+        // When no backend is supplied, create a real HIP stream via the ROCm
+        // backend (which transparently falls back to CPU execution when
+        // THEMIS_ENABLE_HIP is not defined) and use it as the execution backend.
         ROCmBackend::GetInstance().createStream(cfg.name);
         s.uses_rocm_stream = true;
         s.launcher = std::make_unique<GPULauncher>(
@@ -112,6 +139,10 @@ bool GPUStreamManager::destroyStream(const std::string& name) {
         it->second.cuda_stream = 0;
     }
 #endif
+    if (it->second.uses_rocm_backend) {
+        // Release the underlying HIP stream (no-op when HIP is absent).
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
 
     if (it->second.uses_rocm_stream) {
         ROCmBackend::GetInstance().destroyStream(name);
