@@ -66,6 +66,22 @@ struct PolicyDecision {
     int retention_days = 365;
 };
 
+/// Request passed to simulateDecision() for dry-run policy preview.
+struct SimulationRequest {
+    std::unordered_map<std::string, std::string> headers;
+    std::string route;
+};
+
+/// Result returned by simulateDecision().
+/// Contains the computed PolicyDecision plus dry-run metadata.
+/// No audit entry is written when this result is produced.
+struct SimulationResult {
+    PolicyDecision decision;         // The computed access decision
+    std::string matched_profile;     // Classification profile used ("" = heuristic fallback)
+    std::string matched_resource;    // Resource-mapping key that resolved the classification
+    bool dry_run = true;             // Always true; confirms no audit entry was written
+};
+
 class PolicyEngine {
 public:
     PolicyEngine() = default;
@@ -98,6 +114,18 @@ public:
     // If audit logger is set and mode is "enforce", logs the policy decision
     PolicyDecision evaluate(const std::unordered_map<std::string, std::string>& headers,
                             const std::string& route) const;
+
+    /// Evaluate policies in dry-run (simulation) mode without writing an audit entry.
+    ///
+    /// Performs the same classification lookup, profile resolution, and header-override
+    /// steps as evaluate(), but intentionally suppresses audit logging so that the
+    /// caller can preview the access decision without any side effects on the audit
+    /// trail.  This satisfies the "deterministic and side-effect-free" requirement for
+    /// policy_validator.cpp dry-run usage described in FUTURE_ENHANCEMENTS.md.
+    ///
+    /// @param request  The simulation request (headers + route).
+    /// @return SimulationResult containing the decision and which rule/profile was matched.
+    SimulationResult simulateDecision(const SimulationRequest& request) const;
 
     // Get classification profile by name
     std::optional<ClassificationProfile> getClassificationProfile(const std::string& level) const;

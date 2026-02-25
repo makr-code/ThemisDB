@@ -320,5 +320,93 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     return d;
 }
 
+SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request) const {
+    const auto& headers = request.headers;
+    const auto& route   = request.route;
+
+    auto get = [&](const char* key) -> std::string {
+        auto it = headers.find(key);
+        if (it != headers.end()) return it->second;
+        return std::string();
+    };
+
+    // Snapshot policy data under lock so a concurrent reload doesn't race
+    std::unordered_map<std::string, ClassificationProfile> profiles;
+    std::unordered_map<std::string, std::string> resource_map;
+    std::string mode;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        profiles     = classification_profiles_;
+        resource_map = resource_mapping_;
+        mode         = default_mode_;
+        // audit_logger_ is intentionally NOT captured – dry-run must not log
+    }
+
+    SimulationResult result;
+    result.dry_run = true;
+    PolicyDecision& d = result.decision;
+
+    // Classification
+    auto cls = normalize(get("X-Classification"));
+    if (cls.empty()) {
+        auto res_it = resource_map.find(route);
+        if (res_it != resource_map.end()) {
+            cls = res_it->second;
+            result.matched_resource = route;
+        } else {
+            cls = "vs-nfd"; // ultimate default
+        }
+    }
+    d.classification = cls;
+
+    // Mode
+    auto req_mode = normalize(get("X-Governance-Mode"));
+    if (req_mode != "observe") req_mode = mode;
+    d.mode = req_mode;
+
+    // Lookup profile
+    auto prof_it = profiles.find(normalize(cls));
+    if (prof_it != profiles.end()) {
+        const auto& profile = prof_it->second;
+        d.encrypt_logs               = profile.log_encryption;
+        d.redaction                  = profile.redaction_level;
+        d.ann_allowed                = profile.ann_allowed;
+        d.require_content_encryption = profile.encryption_required;
+        d.export_allowed             = profile.export_allowed;
+        d.cache_allowed              = profile.cache_allowed;
+        d.retention_days             = profile.retention_days;
+        result.matched_profile       = profile.level;
+    } else {
+        // Fallback if profile not found (heuristic)
+        bool strict = isStrictClass(cls);
+        d.encrypt_logs               = strict;
+        d.redaction                  = strict ? "strict" : "standard";
+        d.ann_allowed                = !strict;
+        d.require_content_encryption = strict;
+        d.export_allowed             = !strict;
+        d.cache_allowed              = !strict;
+        d.retention_days             = 365;
+    }
+
+    // Allow header override for encrypt_logs
+    auto enc_logs = normalize(get("X-Encrypt-Logs"));
+    if (!enc_logs.empty()) {
+        if (enc_logs == "true" || enc_logs == "1" || enc_logs == "yes") {
+            d.encrypt_logs = true;
+        } else if (enc_logs == "false" || enc_logs == "0" || enc_logs == "no") {
+            d.encrypt_logs = false;
+        }
+    }
+
+    // Allow header override for redaction
+    auto redact = normalize(get("X-Redaction-Level"));
+    if (!redact.empty()) {
+        d.redaction = redact;
+    }
+
+    // NOTE: Dry-run / simulation mode – audit log is intentionally NOT written.
+    return result;
+}
+
 } // namespace governance
 } // namespace themis
