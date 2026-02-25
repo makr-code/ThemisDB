@@ -62,18 +62,6 @@ static ClusterConfig MakeWorkerConfig() {
     return cfg;
 }
 
-// Each test creates its own coordinator instance to avoid singleton
-// state leakage between tests.
-static GPUClusterCoordinator MakeCoordinator() {
-    return {};   // private default ctor — use friend-like approach via a subclass
-}
-
-// Since GPUClusterCoordinator has a private default constructor exposed
-// only to the singleton, we test through a thin wrapper that copies the
-// essential logic using the public API.
-//
-// The singleton itself is used for tests that verify GetInstance() state.
-
 // ---------------------------------------------------------------------------
 // STANDALONE mode
 // ---------------------------------------------------------------------------

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     178                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <vector>
 #include "themis/gpu/launcher.h"
+#include "themis/gpu/rocm_backend.h"
 
 namespace themis {
 namespace gpu {
@@ -168,6 +169,7 @@ private:
         StreamConfig               config;
         std::unique_ptr<GPULauncher> launcher;
         StreamStats                stats;
+        bool                       uses_rocm_backend = false;
     };
 
     mutable std::mutex                          mutex_;

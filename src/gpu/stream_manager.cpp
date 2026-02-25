@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     169                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 140dad5bc  2026-02-22  feat(gpu): implement ROCm/HIP backend parity with CUDA fe... ║
@@ -44,22 +44,42 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     if (streams_.count(cfg.name)) return false;   // already exists
 
     // When no backend is supplied, use the ROCm backend (which transparently
-    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined).
+    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined) and
+    // also register the stream in the ROCm backend so that HIP stream
+    // lifecycle (hipStreamCreate / hipStreamDestroy) is correctly managed.
+    bool rocm = (backend == nullptr);
     GPULauncher::BackendFn fn = backend
-        ? backend
+        ? std::move(backend)
         : ROCmBackend::GetInstance().createBackendFn();
 
+    if (rocm) {
+        // Create the hardware stream in the ROCm backend.  When HIP is absent
+        // this is a no-op that records a virtual entry; the result is ignored
+        // because the CPU-fallback path is always available.
+        ROCmBackend::GetInstance().createStream(cfg.name);
+    }
+
     Stream s;
-    s.config   = cfg;
-    s.launcher = std::make_unique<GPULauncher>(std::move(fn));
-    s.stats.name = cfg.name;
+    s.config              = cfg;
+    s.launcher            = std::make_unique<GPULauncher>(std::move(fn));
+    s.stats.name          = cfg.name;
+    s.uses_rocm_backend   = rocm;
     streams_.emplace(cfg.name, std::move(s));
     return true;
 }
 
 bool GPUStreamManager::destroyStream(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return streams_.erase(name) > 0;
+    auto it = streams_.find(name);
+    if (it == streams_.end()) return false;
+
+    if (it->second.uses_rocm_backend) {
+        // Release the underlying HIP stream (no-op when HIP is absent).
+        ROCmBackend::GetInstance().destroyStream(name);
+    }
+
+    streams_.erase(it);
+    return true;
 }
 
 bool GPUStreamManager::hasStream(const std::string& name) const {
