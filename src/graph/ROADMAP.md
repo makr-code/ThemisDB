@@ -31,7 +31,7 @@
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)
-- [I] Plan cache eviction with size and TTL controls (Issue: #1827)
+- [I] Plan cache eviction with size and TTL controls (Issue: #1827) ✅
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
@@ -65,7 +65,7 @@
 - [ ] Subgraph isomorphism queries (pattern matching)
 - [ ] Incremental graph query execution on live updates
 - [ ] Distributed graph query execution across shards
-- [ ] Plan cache eviction with size and TTL controls
+- [x] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
 - [ ] GPU-accelerated BFS/DFS for massive graphs
 

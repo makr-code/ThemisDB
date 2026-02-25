@@ -109,6 +109,7 @@ public:
      *   "total_edges_traversed": 5678,
      *   "plan_cache_hits": 30,
      *   "plan_cache_misses": 12,
+     *   "plan_cache_evictions": 5,
      *   "error_rate": 0.0238
      * }
      * ```
