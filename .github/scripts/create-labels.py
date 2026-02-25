@@ -16,6 +16,8 @@ LABELS_TO_CREATE = {
     "type:refactor": {"color": "a371f7", "description": "Code refactoring"},
     "type:chore": {"color": "cfcfcf", "description": "Chores"},
     "priority:critical": {"color": "dc2626", "description": "Critical priority"},
+    "priority:high": {"color": "f97316", "description": "High priority"},
+    "priority:medium": {"color": "eab308", "description": "Medium priority"},
     "priority:low": {"color": "6b7280", "description": "Low priority"},
     "status:open": {"color": "0075ca", "description": "Status: open"},
     "status:in_progress": {"color": "1f6feb", "description": "Status: in progress"},
