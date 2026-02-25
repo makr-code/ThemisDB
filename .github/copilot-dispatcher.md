@@ -84,6 +84,68 @@ events.  For every eligible issue it:
 
 ---
 
+## Automatic assignees and reviewer
+
+After creating a PR the dispatcher automatically:
+
+1. **Assigns `copilot`** as assignee (the Copilot service account working on the PR).
+2. **Assigns the issue author** as an additional assignee so the original reporter stays
+   in the loop.
+3. **Requests a review from the issue author** so they receive a notification and can
+   provide feedback.
+
+Both operations are best-effort: if the account does not exist, does not have repository
+access, or the API call fails for any other reason, the dispatcher logs a warning and
+continues – the PR is still created and labelled correctly.
+
+### Prerequisites
+
+| Requirement | Details |
+|---|---|
+| `copilot` account | Must be a member of the organisation or a collaborator with at least `read` access to the repository, otherwise the assignee call will return a 422. |
+| Issue author account | Must have repository access. External authors without access will be silently ignored by GitHub's assignee API. |
+| `pull-requests: write` permission | Already declared in the workflow – covers `requestReviewers`. |
+| `issues: write` permission | Already declared – covers `addAssignees` (PRs share the Issues API). |
+
+---
+
+## Error handling and pipeline abort
+
+The dispatcher uses a **fail-fast** strategy for all unrecoverable errors:
+
+* Every critical API call (paginate queries, label claims, branch creation, dummy commit,
+  PR creation) is wrapped in a `try/catch`.
+* On failure the dispatcher:
+  1. **Rolls back** the `in-progress/copilot` label on the current issue (best-effort)
+     so the issue stays available for the next run.
+  2. Calls `core.setFailed()` to mark the workflow run as **failed**.
+  3. Throws an error to **stop the dispatch loop immediately** – no further issues are
+     processed in the same run.
+  4. Emits a **budget hint** in the failure message:
+     > *💡 Budget hint: every failed run consumes GitHub Actions minutes. Fix the
+     > underlying issue (permissions, rate-limits, configuration) before re-running
+     > the dispatcher.*
+
+* **Best-effort operations** (adding PR labels, assigning users, requesting reviews) use
+  `core.warning()` and do **not** abort the pipeline, because their failure does not
+  prevent Copilot from working on the issue.
+
+| Operation | Failure behaviour |
+|---|---|
+| Query active / open PRs | **Abort** |
+| Query queued issues | **Abort** |
+| Apply `in-progress/copilot` label to issue | **Abort** |
+| Resolve base-branch SHA | Rollback + **Abort** |
+| Create issue branch | Rollback + **Abort** (422 = reuse branch, not an error) |
+| Compare commits (diff guard) | Rollback + **Abort** |
+| Create dummy commit | Rollback + **Abort** |
+| Create PR | Rollback + **Abort** |
+| Add `pr/copilot` / `copilot/status-working` labels to PR | Warning only |
+| Add assignees to PR | Warning only |
+| Request review from issue author | Warning only |
+
+---
+
 ## How to queue an issue
 
 1. Open or find an existing issue.
