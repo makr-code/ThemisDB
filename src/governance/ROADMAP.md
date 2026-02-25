@@ -24,7 +24,7 @@
 - [I] Conflict detection for overlapping access control policies (Issue: #1763)
 - [I] CCPA / CPRA data subject rights enforcement (Issue: #1764)
 - [I] Data lineage tracking for governed datasets (Issue: #1765)
-- [I] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
+- [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
 - [I] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
