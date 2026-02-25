@@ -282,6 +282,65 @@ stats_collector.clearStats("users");
 
 ---
 
+## External Catalog Integration (Apache Atlas & DataHub)
+
+`CatalogExporter` (`include/metadata/catalog_exporter.h`) publishes ThemisDB schema
+metadata to external data governance catalogs.
+
+### Apache Atlas
+
+Entities published: `rdbms_db` (one per call) + `rdbms_table` + `rdbms_column` per table.  
+Endpoint: `POST /api/atlas/v2/entity/bulk`
+
+```cpp
+#include "metadata/catalog_exporter.h"
+
+CatalogExporter::Config cfg;
+cfg.type          = CatalogExporter::CatalogType::APACHE_ATLAS;
+cfg.endpoint      = "http://atlas-host:21000";
+cfg.username      = "admin";
+cfg.password      = "admin";
+cfg.database_name = "production";   // logical catalog name
+
+CatalogExporter exporter(cfg);
+auto result = exporter.publishSchema(schema_mgr.getAllTables());
+if (!result.success) {
+    spdlog::error("Atlas sync failed: {}", result.error);
+} else {
+    spdlog::info("Published {} entities to Atlas", result.entities_published);
+}
+```
+
+### DataHub
+
+Two `MetadataChangeProposal` objects are emitted per table:
+- `datasetProperties` aspect – name, description, custom properties
+- `schemaMetadata` aspect – field list with native types
+
+Endpoint: `POST /aspects?action=ingestProposal`
+
+```cpp
+CatalogExporter::Config cfg;
+cfg.type          = CatalogExporter::CatalogType::DATAHUB;
+cfg.endpoint      = "http://datahub-gms:8080";
+cfg.token         = "eyJ...";   // GMS access token
+cfg.database_name = "production";
+
+CatalogExporter exporter(cfg);
+auto result = exporter.publishSchema(schema_mgr.getAllTables());
+```
+
+### Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| HTTP 401 | Wrong credentials / token | Verify `username`/`password` (Atlas) or `token` (DataHub) |
+| HTTP 404 | Wrong endpoint URL | Check `cfg.endpoint` (no trailing slash) |
+| HTTP 500 | Atlas entity type not registered | Import Atlas RDBMS typedefs before first publish |
+| `result.success == false` with `entities_published > 0` (DataHub) | Partial failure mid-batch | Re-run; each proposal is idempotent (UPSERT) |
+
+---
+
 ## See Also
 
 - [`docs/metadata/schema_migration_runbook.md`](./schema_migration_runbook.md)

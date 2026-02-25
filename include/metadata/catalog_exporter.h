@@ -23,10 +23,10 @@
 #pragma once
 
 #include "metadata/schema_manager.h"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include <functional>
-#include <memory>
 
 namespace themis {
 
