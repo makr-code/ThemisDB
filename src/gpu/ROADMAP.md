@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, and multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, and GPU profiling integration (NVIDIA Nsight / ROCm Profiler) are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -30,6 +30,7 @@
 - [x] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`)
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
 - [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
+- [x] GPU profiling integration with NVIDIA Nsight (NVTX markers) and ROCm Profiler (rocTX markers) (`gpu/profiler.cpp`)
 
 ## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
@@ -43,7 +44,7 @@
 - [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
-- [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
+- [x] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
