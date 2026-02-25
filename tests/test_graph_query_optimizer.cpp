@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1493                                           ║
+    • Total Lines:     1595                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -1231,6 +1231,36 @@ TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_ImportedModelInfluencesRea
     ASSERT_TRUE(plan);
     using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
     EXPECT_EQ(plan.value().algorithm, Algo::BIDIRECTIONAL);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_HasAlternatives) {
+    // optimizePatternMatch now generates a DFS/BFS alternatives list.
+    std::vector<std::string> verts = {"A", "B"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_FALSE(plan.value().alternatives.empty());
+    // Default (no adaptive model) must still prefer DFS
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(plan.value().algorithm, Algo::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_BFSWinsWhenFaster) {
+    // Import a model where BFS is dramatically faster than DFS.
+    const std::string synthetic = R"({
+        "DFS": {"ema_cost_ms": 800.0, "exec_count": 100, "confidence": 1.0},
+        "BFS": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic));
+
+    std::vector<std::string> verts = {"A", "B", "C"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}, {"B", "C"}};
+    auto plan = opt2.optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // BFS has ema_cost_ms=1 (blended cost ≈10) vs DFS ema_cost_ms=800 (≈8000)
+    EXPECT_EQ(plan.value().algorithm, Algo::BFS);
 }
 
 

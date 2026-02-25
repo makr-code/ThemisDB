@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1576                                           ║
+    • Total Lines:     1664                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -240,12 +240,21 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
 
     OptimizationPlan plan;
     plan.pattern = QueryPattern::PATTERN_MATCH;
-    
-    // Pattern matching uses DFS for better memory efficiency
-    plan.algorithm = TraversalAlgorithm::DFS;
-    
-    // Estimate depth based on pattern size
-    plan.estimated_cost = estimateCost(TraversalAlgorithm::DFS, pattern_depth, constraints);
+
+    // Generate alternative plans; selectAlgorithm() picks the lowest-cost one
+    // using the adaptive cost model when learned data is available.
+    double dfs_cost = estimateCost(TraversalAlgorithm::DFS, pattern_depth, constraints);
+    double bfs_cost = estimateCost(TraversalAlgorithm::BFS, pattern_depth, constraints);
+    std::vector<std::pair<TraversalAlgorithm, double>> alternatives = {
+        {TraversalAlgorithm::DFS, dfs_cost},
+        {TraversalAlgorithm::BFS, bfs_cost},
+    };
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    plan.algorithm = selectAlgorithm(QueryPattern::PATTERN_MATCH, pattern_depth, constraints);
+    plan.estimated_cost = estimateCost(plan.algorithm, pattern_depth, constraints);
+    plan.alternatives = std::move(alternatives);
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, pattern_depth) * 0.5); // Pruning helps
     plan.estimated_time_ms = plan.estimated_cost * 0.15; // Pattern matching is more expensive
