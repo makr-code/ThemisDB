@@ -21,6 +21,7 @@
 // Multiplexed binary protocol with server push and flow control
 
 #include "themis/network/wire_protocol_v2.hpp"
+#include "network/connection_compression.h"
 
 #include <atomic>
 #include <chrono>
@@ -54,6 +55,22 @@ static uint32_t htonl32(uint32_t v) { return htonl(v); }
 static uint32_t ntohl32(uint32_t v) { return ntohl(v); }
 static uint16_t htons16(uint16_t v) { return htons(v); }
 static uint16_t ntohs16(uint16_t v) { return ntohs(v); }
+
+// Bring compression utilities into this translation unit as thin wrappers.
+static std::vector<uint8_t> compressLZ4(
+    const std::vector<uint8_t>& data, uint32_t min_size)
+{ return themis::network::compressLZ4(data, min_size); }
+
+static std::vector<uint8_t> compressZstd(
+    const std::vector<uint8_t>& data, uint32_t min_size, int level)
+{ return themis::network::compressZstd(data, min_size, level); }
+
+static std::vector<uint8_t> decompressLZ4(const std::vector<uint8_t>& data)
+{ return themis::network::decompressLZ4(data); }
+
+static std::vector<uint8_t> decompressZstd(const std::vector<uint8_t>& data)
+{ return themis::network::decompressZstd(data); }
+
 
 // Serialise a V2FrameHeader to wire bytes (big-endian fields where required)
 static std::array<uint8_t, V2_HEADER_SIZE> serializeHeader(const V2FrameHeader& h) {
@@ -125,19 +142,43 @@ public:
     void send_data(uint32_t stream_id,
                    const std::vector<uint8_t>& data,
                    bool end_stream) override {
+        // Attempt connection-level compression (Zstd preferred over LZ4).
+        // Only use the compressed result when it is actually smaller than the
+        // original (compression is not beneficial for high-entropy data).
+        const std::vector<uint8_t>* payload = &data;
+        std::vector<uint8_t> compressed_buf;
+
+        if (cfg_.enable_zstd_compression) {
+            compressed_buf = compressZstd(data, cfg_.min_compression_payload_size,
+                                          cfg_.zstd_compression_level);
+        } else if (cfg_.enable_lz4_compression) {
+            compressed_buf = compressLZ4(data, cfg_.min_compression_payload_size);
+        }
+
         V2FrameHeader hdr{};
-        hdr.magic          = WIRE_V2_MAGIC;
-        hdr.version        = WIRE_VERSION_2;
-        hdr.frame_type     = static_cast<uint8_t>(V2FrameType::DATA);
-        hdr.stream_id      = stream_id;
-        hdr.payload_length = static_cast<uint32_t>(data.size());
+        hdr.magic      = WIRE_V2_MAGIC;
+        hdr.version    = WIRE_VERSION_2;
+        hdr.frame_type = static_cast<uint8_t>(V2FrameType::DATA);
+        hdr.stream_id  = stream_id;
         if (end_stream)
             hdr.flags |= static_cast<uint16_t>(V2FrameFlags::END_STREAM);
+
+        // Use compressed payload only when it actually saves bytes
+        if (!compressed_buf.empty() && compressed_buf.size() < data.size()) {
+            payload = &compressed_buf;
+            if (cfg_.enable_zstd_compression) {
+                hdr.flags |= static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
+            } else {
+                hdr.flags |= static_cast<uint16_t>(V2FrameFlags::COMPRESSED);
+            }
+        }
+
+        hdr.payload_length = static_cast<uint32_t>(payload->size());
 
         auto hdr_bytes = serializeHeader(hdr);
         std::vector<uint8_t> frame;
         frame.insert(frame.end(), hdr_bytes.begin(), hdr_bytes.end());
-        frame.insert(frame.end(), data.begin(), data.end());
+        frame.insert(frame.end(), payload->begin(), payload->end());
 
         std::lock_guard<std::mutex> lock(write_mutex_);
         net::async_write(socket_,
@@ -309,8 +350,30 @@ private:
         case V2FrameType::DATA: {
             ensureStreamOpen(hdr.stream_id);
             bool eos = hdr.has_flag(V2FrameFlags::END_STREAM);
+
+            // Decompress payload when a compression flag is set
+            std::vector<uint8_t> decompressed;
+            const std::vector<uint8_t>* effective_payload = &payload;
+            if (hdr.has_flag(V2FrameFlags::ZSTD_COMPRESSED)) {
+                decompressed = decompressZstd(payload);
+                if (!decompressed.empty()) {
+                    effective_payload = &decompressed;
+                } else {
+                    std::cerr << "[WireV2] Zstd decompression failed on stream "
+                              << hdr.stream_id << " (payload=" << payload.size() << "B)\n";
+                }
+            } else if (hdr.has_flag(V2FrameFlags::COMPRESSED)) {
+                decompressed = decompressLZ4(payload);
+                if (!decompressed.empty()) {
+                    effective_payload = &decompressed;
+                } else {
+                    std::cerr << "[WireV2] LZ4 decompression failed on stream "
+                              << hdr.stream_id << " (payload=" << payload.size() << "B)\n";
+                }
+            }
+
             if (data_handler_)
-                data_handler_(hdr.stream_id, payload, eos);
+                data_handler_(hdr.stream_id, *effective_payload, eos);
             if (eos) closeStream(hdr.stream_id, true /*remote*/);
 
             // Flow control: send WINDOW_UPDATE to replenish remote window

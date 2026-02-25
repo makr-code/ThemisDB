@@ -157,6 +157,9 @@ TEST(V2ConnectionConfig, Defaults) {
     EXPECT_TRUE(cfg.enable_server_push);
     EXPECT_TRUE(cfg.enable_flow_control);
     EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_FALSE(cfg.enable_zstd_compression);
+    EXPECT_EQ(cfg.zstd_compression_level, 3);
+    EXPECT_EQ(cfg.min_compression_payload_size, 256u);
     EXPECT_EQ(cfg.port,             7890u);
     EXPECT_EQ(cfg.num_io_threads,   4u);
 }
@@ -212,3 +215,76 @@ TEST(V2Server, HandlerRegistrationDoesNotThrow) {
             [](uint32_t, uint32_t) {});
     });
 }
+
+// ===== V2FrameFlags Compression Tests =====
+
+TEST(V2FrameFlags, ZstdCompressedFlag) {
+    EXPECT_EQ(static_cast<uint16_t>(V2FrameFlags::COMPRESSED),      0x0100u);
+    EXPECT_EQ(static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED), 0x0200u);
+    // Flags must be distinct (no overlap)
+    EXPECT_EQ(static_cast<uint16_t>(V2FrameFlags::COMPRESSED) &
+              static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED), 0u);
+}
+
+TEST(V2FrameHeader, ZstdCompressedFlagDetection) {
+    V2FrameHeader h{};
+    h.flags = static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));
+    EXPECT_FALSE(h.has_flag(V2FrameFlags::COMPRESSED));
+}
+
+TEST(V2FrameHeader, BothCompressionFlagsIndependent) {
+    V2FrameHeader h{};
+    h.flags = static_cast<uint16_t>(V2FrameFlags::COMPRESSED) |
+              static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));
+}
+
+// ===== V2ConnectionConfig Compression Config Tests =====
+
+TEST(V2ConnectionConfig, LZ4CompressionConfig) {
+    V2ConnectionConfig cfg;
+    cfg.enable_lz4_compression       = true;
+    cfg.enable_zstd_compression      = false;
+    cfg.min_compression_payload_size = 512;
+
+    EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_FALSE(cfg.enable_zstd_compression);
+    EXPECT_EQ(cfg.min_compression_payload_size, 512u);
+}
+
+TEST(V2ConnectionConfig, ZstdCompressionConfig) {
+    V2ConnectionConfig cfg;
+    cfg.enable_lz4_compression       = false;
+    cfg.enable_zstd_compression      = true;
+    cfg.zstd_compression_level       = 9;
+    cfg.min_compression_payload_size = 128;
+
+    EXPECT_FALSE(cfg.enable_lz4_compression);
+    EXPECT_TRUE(cfg.enable_zstd_compression);
+    EXPECT_EQ(cfg.zstd_compression_level, 9);
+    EXPECT_EQ(cfg.min_compression_payload_size, 128u);
+}
+
+TEST(V2ConnectionConfig, ZstdOverridesLZ4WhenBothEnabled) {
+    // When both flags are set, Zstd takes precedence (config semantics).
+    // Verify that a config with both enabled is representable.
+    V2ConnectionConfig cfg;
+    cfg.enable_lz4_compression  = true;
+    cfg.enable_zstd_compression = true;
+
+    EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_TRUE(cfg.enable_zstd_compression);
+    // The send_data() implementation selects Zstd first when both are true.
+}
+
+TEST(V2ConnectionConfig, NoCompressionConfig) {
+    V2ConnectionConfig cfg;
+    cfg.enable_lz4_compression  = false;
+    cfg.enable_zstd_compression = false;
+
+    EXPECT_FALSE(cfg.enable_lz4_compression);
+    EXPECT_FALSE(cfg.enable_zstd_compression);
+}
+
