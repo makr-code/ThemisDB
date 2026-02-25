@@ -64,6 +64,11 @@ func ReplicaHealthFromPod(pod *corev1.Pod) vccv1alpha1.ReplicaHealth {
 	return replicaHealthFromPod(pod)
 }
 
+// ReplicaRoleFromAnnotation exposes replicaRoleFromAnnotation.
+func ReplicaRoleFromAnnotation(pod *corev1.Pod) vccv1alpha1.ReplicaRole {
+	return replicaRoleFromAnnotation(pod)
+}
+
 // LagMsFromAnnotation exposes lagMsFromAnnotation.
 func LagMsFromAnnotation(pod *corev1.Pod) int64 {
 	return lagMsFromAnnotation(pod)
