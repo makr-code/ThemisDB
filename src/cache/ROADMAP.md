@@ -37,7 +37,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [P] Cache hit rate SLO alerting (Issue: #1586)
 
 ### Long-term (6-12 months)
-- [I] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
+- [P] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
 - [I] Write-through cache mode for read-heavy workloads (Issue: #1588)
 - [x] Predictive pre-fetching based on query history (Issue: #1589)
 - [I] Cache replication for high-availability deployments (Issue: #1590)
@@ -69,7 +69,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
 
 ### Phase 4: Distributed Cache and Predictive Features (Status: In Progress)
-- [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
+- [P] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
 - [x] Add write-through cache mode for read-heavy workloads (Issue: #1593)
 - [x] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
 - [I] Add cache replication for high-availability multi-node deployments (Issue: #1595)
@@ -85,7 +85,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 ## Known Issues & Limitations
 - Admin API is implemented (`/v1/admin/cache/` endpoints); tenant management API is still in progress
 - Adaptive TTL tuning is not yet active
-- Distributed cache coordination requires external Redis or future built-in cluster mode
+- Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
 - Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller
 
 ## Breaking Changes

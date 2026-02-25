@@ -174,15 +174,20 @@ For read-heavy workloads with restart-safety requirements, L1/L2 in-memory entri
 ### Distributed Cache Coordination (Redis-Compatible Protocol)
 **Priority:** Low
 **Target Version:** v2.0.0
-For multi-node deployments, L1/L2 caches are node-local, causing inconsistent results after writes. Add an optional distributed coordination layer that broadcasts invalidation messages over a Redis pub/sub channel or a native ThemisDB cluster bus.
+**Status:** ✅ Implemented (PR open)
+
+For multi-node deployments, L1/L2 caches are node-local, causing inconsistent results after writes. Added an optional distributed coordination layer that broadcasts cache entries and invalidation messages over a Redis pub/sub channel.
 
 **Implementation Notes:**
-- `[ ]` Create `distributed_cache_coordinator.cpp`; implement `ICacheCoordinator` interface with `publishInvalidation(key, tenant_id)` and `subscribeInvalidations(callback)`.
-- `[ ]` Redis transport: use `hiredis` async API; connect pool size configurable (`config_.redis_pool_size`, default 4).
-- `[ ]` On `AdaptiveQueryCache::invalidate()`, call `ICacheCoordinator::publishInvalidation()` if coordinator is registered.
-- `[ ]` On receiving remote invalidation, evict matching key from L1 and L2 only (L3 is shared RocksDB; skip).
-- `[ ]` Graceful degradation: if coordinator connection drops, log warning and continue with node-local invalidation only.
-- `[!]` Native cluster bus variant (no Redis dependency) is unclear; defer design until clustering architecture is decided.
+- `[x]` Created `src/cache/redis_cache_coordinator.cpp`; implements `ICacheCoordinator` interface via `RedisCacheCoordinator` class.
+- `[x]` Redis transport: uses `hiredis` synchronous API; publish connection pool size configurable (`config_.pool_size`, default 4); subscribe connection runs on a dedicated background thread.
+- `[x]` `publishEntry()` serialises `ENTRY_PUT` messages as JSON and PUBLISHes to `{channel_prefix}:replication` channel; peer nodes pre-populate their L1/L2 caches via the registered `subscribeEntries` callback.
+- `[x]` `publishInvalidation()` broadcasts `INVALIDATE` messages; peers evict matching entries from L1/L2 (L3 is shared RocksDB; skip).
+- `[x]` Graceful degradation: if Redis connection fails, logs a warning and the local cache operation completes; background thread retries reconnection at `reconnect_interval_ms` intervals.
+- `[x]` Self-echo prevention: each message carries a `node_id` field; receivers discard messages from their own node.
+- `[~]` Native cluster bus variant (no Redis dependency): covered by existing `InProcessCacheCoordinator` for single-binary deployments; true cluster bus deferred.
+- `[x]` Enable via `THEMIS_ENABLE_REDIS=ON` CMake option; compiles to a no-op stub without hiredis.
+- `[x]` Unit tests in `tests/test_distributed_cache_coordinator.cpp` (graceful degradation, ICacheCoordinator compliance, stats, channel naming).
 
 **Performance Targets:**
 - Invalidation broadcast latency < 5 ms (p99) within a 3-node cluster on same LAN.
