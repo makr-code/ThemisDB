@@ -34,10 +34,10 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
+- [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [?] Adaptive I/O thread scaling based on connection load
 - [I] Per-tenant network bandwidth quotas (Issue: #2205)
-- [!] Connection-level compression (LZ4, Zstd) (Issue: #2416)
+- [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
@@ -74,9 +74,9 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 
 ### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
 - [ ] gRPC native transport (separate from server module)
-- [ ] Connection multiplexing (multiple logical streams per TCP connection)
+- [x] Connection multiplexing (multiple logical streams per TCP connection)
 - [ ] Per-tenant network bandwidth quotas
-- [ ] Connection-level compression (LZ4, Zstd)
+- [x] Connection-level compression (LZ4, Zstd)
 - [ ] Network topology-aware routing for geo-distributed clusters
 - [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
 
@@ -87,6 +87,15 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] `getActiveConnections()` counts both binary and WebSocket sessions
 - [x] Binary/text frame mode correctly tracked per queued message
 - [x] Welcome frame sent on connect; graceful close handling
+- [x] V2 multiplexed protocol fully implemented (`wire_protocol_v2.cpp`)
+  - Frame types: DATA, HEADERS, RST_STREAM, SETTINGS, PING, GOAWAY, WINDOW_UPDATE, PUSH_PROMISE
+  - Stream state machine: IDLE → OPEN → HALF_CLOSED_{LOCAL,REMOTE} → CLOSED
+  - Flow control: per-stream WINDOW_UPDATE on DATA frame receipt
+  - Server push: `push_promise()` + `send_data()` on even stream IDs
+  - Session cleanup: disconnected sessions erased from server map
+  - Buffer lifetime safety: all async writes use `shared_ptr`-owned buffers
+  - COMPRESSED DATA frames guarded with RST_STREAM (LZ4 tracked in #2416)
+- [x] Unit tests added for V2 protocol (`test_wire_protocol_v2.cpp`, 29 tests)
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
