@@ -68,6 +68,11 @@ public:
     bool bao_enabled() const { return bao_enabled_.load(std::memory_order_relaxed); }
     void set_bao_enabled(bool enabled) { bao_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // Per-query cost model integration with query optimizer (Phase 3, Issue #2419)
+    // Calibrates OptimizerCostModel constants from actual hardware cycle measurements.
+    // Expected gain: ~10-30% better plan selection accuracy on repeat queries.
+    bool per_query_cost_model_enabled() const { return per_query_cost_model_enabled_.load(std::memory_order_relaxed); }
+    void set_per_query_cost_model_enabled(bool enabled) { per_query_cost_model_enabled_.store(enabled, std::memory_order_relaxed); }
     // Memory Pressure Monitoring with Automatic Cache Eviction
     // Monitors system RAM usage and triggers registered eviction callbacks
     // when configurable thresholds are exceeded.
@@ -88,6 +93,7 @@ private:
     std::atomic<bool> splinterdb_enabled_{false};
     std::atomic<bool> gunrock_enabled_{false};
     std::atomic<bool> bao_enabled_{false};
+    std::atomic<bool> per_query_cost_model_enabled_{false};
     std::atomic<bool> memory_pressure_enabled_{false};
 };
 
@@ -122,6 +128,10 @@ private:
     #define THEMIS_PHASE3_BAO_ENABLED() (false)
 #endif
 
+#ifdef THEMIS_ENABLE_PER_QUERY_COST_MODEL
+    #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().per_query_cost_model_enabled())
+#else
+    #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (false)
 #ifdef THEMIS_ENABLE_MEMORY_PRESSURE
     #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())
 #else

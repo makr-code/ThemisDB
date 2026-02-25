@@ -53,6 +53,9 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
             if (phase3.contains("bao_enabled")) {
                 set_bao_enabled(phase3["bao_enabled"]);
             }
+            if (phase3.contains("per_query_cost_model_enabled")) {
+                set_per_query_cost_model_enabled(phase3["per_query_cost_model_enabled"]);
+            }
             if (phase3.contains("memory_pressure_enabled")) {
                 set_memory_pressure_enabled(phase3["memory_pressure_enabled"]);
             }

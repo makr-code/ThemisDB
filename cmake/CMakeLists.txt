@@ -298,6 +298,7 @@ option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
 option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+option(THEMIS_ENABLE_PER_QUERY_COST_MODEL "Enable per-query cost model integration with query optimizer (+10-30% plan accuracy)" OFF)
 
 # Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
 # Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
@@ -2011,6 +2012,9 @@ endif()
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase3/feature_flags.cpp
+    # per_query_cost_model is always compiled because query_optimizer.cpp
+    # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
+    ../src/performance/phase3/per_query_cost_model.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -2036,6 +2040,10 @@ endif()
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
+endif()
+
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    message(STATUS "Per-query cost model integration enabled (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
 endif()
 
 # Phase 4 Performance Optimizations (Issue #2424)
@@ -2817,6 +2825,9 @@ if(THEMIS_ENABLE_GUNROCK)
 endif()
 if(THEMIS_ENABLE_BAO)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
+endif()
+if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PER_QUERY_COST_MODEL)
 endif()
 if(THEMIS_ENABLE_PMEM)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_PMEM)
@@ -3617,6 +3628,23 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(test_bao
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
+        add_executable(test_per_query_cost_model
+            ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_per_query_cost_model.cpp
+        )
+        target_link_libraries(test_per_query_cost_model
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_per_query_cost_model
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_per_query_cost_model>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
