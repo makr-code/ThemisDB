@@ -34,7 +34,7 @@
 - [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [I] Debezium-compatible change event format (Issue: #1614)
 - [I] Cross-collection change aggregation streams (Issue: #1615)
-- [I] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
+- [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
 - [I] CDC-based materialized view maintenance (Issue: #1617)
 - [I] Change stream compression for high-volume feeds (Issue: #1618)
 
@@ -57,7 +57,7 @@
 - [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
 - [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [I] Add Debezium-compatible change event envelope format (Issue: #1621)
-- [I] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
+- [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1623)

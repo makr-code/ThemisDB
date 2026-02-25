@@ -278,7 +278,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_feature_flags\\.cpp$"
     ".*test_gpu_kernel_validator\\.cpp$"
     ".*test_mongodb_adapter\\.cpp$"
-    ".*test_geo_rtree\\.cpp$"
     ".*test_ai_orchestrator\\.cpp$"
     ".*test_acceleration\\.cpp$"
     ".*test_acceleration_dispatch\\.cpp$"

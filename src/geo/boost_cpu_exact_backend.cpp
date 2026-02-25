@@ -44,6 +44,8 @@
 
 #include <boost/geometry/algorithms/touches.hpp>
 #include <boost/geometry/algorithms/equals.hpp>
+#include <boost/geometry/algorithms/union.hpp>
+#include <boost/geometry/algorithms/difference.hpp>
 #define BOOST_GEO_AVAILABLE 1
 #else
 // Boost Geometry headers not found - using fallback implementation
@@ -151,7 +153,35 @@ public:
                 Point pt2(geom2.coords[0].x, geom2.coords[0].y);
                 return bg::equals(pt1, pt2);
             }
-            
+
+            // MultiPolygon: intersects if any constituent polygon intersects
+            if (geom1.isMultiPolygon()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isMultiPolygon()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
+            // GeometryCollection: intersects if any member intersects
+            if (geom1.isGeometryCollection()) {
+                for (const auto& sub : geom1.geometries) {
+                    if (exactIntersects(sub, geom2)) return true;
+                }
+                return false;
+            }
+            if (geom2.isGeometryCollection()) {
+                for (const auto& sub : geom2.geometries) {
+                    if (exactIntersects(geom1, sub)) return true;
+                }
+                return false;
+            }
+
             // Fallback: use MBR intersection for unsupported types
             auto mbr1 = geom1.computeMBR();
             auto mbr2 = geom2.computeMBR();
@@ -246,6 +276,91 @@ public:
             THEMIS_WARN("Boost stBuffer error: {}", e.what());
         }
         return GeometryInfo{};
+    }
+
+    // ST_UNION: geometric union of two geometries.
+    // For Polygon inputs uses boost::geometry::union_ which handles all
+    // convex/concave cases correctly.  Falls back to the CPU-exact backend
+    // for point and mixed type combinations.
+    GeometryInfo stUnion(const GeometryInfo& geom1,
+                         const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                using MultiPoly = bg::model::multi_polygon<Polygon>;
+                const Polygon poly1 = toBoostPolygon(geom1);
+                const Polygon poly2 = toBoostPolygon(geom2);
+                MultiPoly result;
+                bg::union_(poly1, poly2, result);
+                if (result.empty()) {
+                    GeometryInfo col(GeometryType::GeometryCollection);
+                    col.geometries.push_back(geom1);
+                    col.geometries.push_back(geom2);
+                    return col;
+                }
+                if (result.size() == 1) {
+                    // Single merged polygon.
+                    return boostPolyToGeomInfo(result[0]);
+                }
+                // Multiple disjoint polygons.
+                GeometryInfo col(GeometryType::GeometryCollection);
+                for (const auto& p : result) {
+                    col.geometries.push_back(boostPolyToGeomInfo(p));
+                }
+                return col;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stUnion error: {}", e.what());
+        }
+        // Delegate non-polygon or error cases to the CPU-exact backend.
+        return getCpuExactBackend()->stUnion(geom1, geom2);
+    }
+
+    // ST_DIFFERENCE: geometric difference geom1 \ geom2.
+    // For Polygon inputs uses boost::geometry::difference.
+    GeometryInfo stDifference(const GeometryInfo& geom1,
+                              const GeometryInfo& geom2) override {
+        try {
+            if (geom1.isPolygon() && geom2.isPolygon()) {
+                using MultiPoly = bg::model::multi_polygon<Polygon>;
+                const Polygon poly1 = toBoostPolygon(geom1);
+                const Polygon poly2 = toBoostPolygon(geom2);
+                MultiPoly result;
+                bg::difference(poly1, poly2, result);
+                if (result.empty()) return GeometryInfo{};
+                if (result.size() == 1) {
+                    return boostPolyToGeomInfo(result[0]);
+                }
+                GeometryInfo col(GeometryType::GeometryCollection);
+                for (const auto& p : result) {
+                    col.geometries.push_back(boostPolyToGeomInfo(p));
+                }
+                return col;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Boost stDifference error: {}", e.what());
+        }
+        return getCpuExactBackend()->stDifference(geom1, geom2);
+    }
+
+private:
+    // Convert a Boost polygon back to GeometryInfo.
+    static GeometryInfo boostPolyToGeomInfo(const Polygon& poly) {
+        GeometryInfo result(GeometryType::Polygon);
+        std::vector<Coordinate> outer;
+        outer.reserve(poly.outer().size());
+        for (const auto& p : poly.outer()) {
+            outer.push_back({bg::get<0>(p), bg::get<1>(p)});
+        }
+        result.rings.push_back(std::move(outer));
+        for (const auto& inner : poly.inners()) {
+            std::vector<Coordinate> hole;
+            hole.reserve(inner.size());
+            for (const auto& p : inner) {
+                hole.push_back({bg::get<0>(p), bg::get<1>(p)});
+            }
+            result.rings.push_back(std::move(hole));
+        }
+        return result;
     }
 };
 
