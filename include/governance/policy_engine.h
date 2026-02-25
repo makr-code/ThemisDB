@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.h                                    ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:19                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -25,6 +25,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <optional>
 #include <memory>
 #include <mutex>
@@ -64,6 +65,13 @@ struct PolicyDecision {
     bool export_allowed = true;
     bool cache_allowed = true;
     int retention_days = 365;
+
+    // CCPA/CPRA: set to true when the data subject has opted out of data sale.
+    // When true, callers must not share or export this subject's data to third
+    // parties.  PolicyEngine::evaluate() sets this flag automatically when a
+    // subject ID is present in the headers and the subject is registered in the
+    // opt-out registry via setCcpaOptOutSubjects().
+    bool ccpa_opted_out = false;
 };
 
 /// Request passed to simulateDecision() for dry-run policy preview.
@@ -110,6 +118,18 @@ public:
     // Set audit logger for automatic logging of policy evaluations
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
+    // ---- CCPA/CPRA opt-out registry ----------------------------------------
+
+    /// Register a set of data subject IDs that have opted out of data sale.
+    /// PolicyEngine::evaluate() will set PolicyDecision::ccpa_opted_out=true
+    /// and PolicyDecision::export_allowed=false for any request whose
+    /// "X-User-Id" header matches a subject in this registry.
+    /// Thread-safe; atomically replaces the previous registry.
+    void setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry);
+
+    /// Return true if the given subject ID is registered as opted-out.
+    bool isCcpaOptedOut(const std::string& subject_id) const;
+
     // Evaluate headers for a given route key (e.g., "/vector/search" or handler name)
     // If audit logger is set and mode is "enforce", logs the policy decision
     PolicyDecision evaluate(const std::unordered_map<std::string, std::string>& headers,
@@ -142,6 +162,9 @@ private:
     // Hot-reload state
     std::string loaded_yaml_path_;
     std::filesystem::file_time_type last_loaded_mtime_{};
+
+    // CCPA/CPRA opt-out registry (may be null – treated as empty)
+    std::shared_ptr<std::unordered_set<std::string>> ccpa_opt_out_subjects_;
 
     static std::string normalize(const std::string& s);
 };

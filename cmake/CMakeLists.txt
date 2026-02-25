@@ -220,6 +220,18 @@ else()
         "CUDA geo kernels (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
 endif()
 
+# Geospatial HIP kernel dispatch (ROCm/AMD hardware)
+# Enables real HIP kernels for batch point-in-polygon and Haversine distance in
+# the geo GPU backend.  Requires THEMIS_ENABLE_HIP=ON.
+# THEMIS_GEO_CUDA takes precedence when both are available.
+# Default OFF so CPU-only and CUDA-only builds are unaffected.
+if(THEMIS_ENABLE_HIP AND NOT THEMIS_GEO_CUDA)
+    option(THEMIS_GEO_HIP "Enable HIP kernel dispatch in geo GPU backend (AMD ROCm)" ON)
+else()
+    set(THEMIS_GEO_HIP OFF CACHE BOOL
+        "HIP geo kernels (requires THEMIS_ENABLE_HIP=ON and THEMIS_GEO_CUDA=OFF)" FORCE)
+endif()
+
 # PDF Document Processing (Q2 2026)
 # Enables poppler-cpp integration for layout-preserving PDF text extraction
 option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
@@ -1682,12 +1694,14 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/review_scheduler.cpp
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
+    ../src/governance/ccpa_rules.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
+    ../src/geo/raster.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
@@ -1869,9 +1883,11 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/merge_engine.cpp
 )
 
-# Geo CUDA kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA.
+# Geo CUDA/HIP kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA / THEMIS_GEO_HIP.
 if(THEMIS_GEO_CUDA)
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_cuda.cu)
+elseif(THEMIS_GEO_HIP)
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_hip.cpp)
 else()
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
 endif()
@@ -2315,6 +2331,13 @@ if(THEMIS_ENABLE_CUDA)
         target_compile_definitions(themis_core PUBLIC THEMIS_GEO_CUDA)
         message(STATUS "Geo CUDA kernel dispatch: ENABLED (THEMIS_GEO_CUDA=ON)")
     endif()
+endif()
+
+# Propagate geo-HIP flag to the build system (outside the CUDA block so it
+# works for HIP-only builds where THEMIS_ENABLE_CUDA is OFF).
+if(THEMIS_GEO_HIP)
+    target_compile_definitions(themis_core PUBLIC THEMIS_GEO_HIP)
+    message(STATUS "Geo HIP kernel dispatch: ENABLED (THEMIS_GEO_HIP=ON)")
 endif()
 
 # Graphics API backends

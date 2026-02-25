@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:04                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -213,6 +213,22 @@ void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> lo
     audit_logger_ = std::move(logger);
 }
 
+void PolicyEngine::setCcpaOptOutSubjects(
+    std::shared_ptr<std::unordered_set<std::string>> opt_out_registry)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    ccpa_opt_out_subjects_ = std::move(opt_out_registry);
+    THEMIS_INFO("PolicyEngine: CCPA opt-out registry updated ({} subjects)",
+        ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
+}
+
+bool PolicyEngine::isCcpaOptedOut(const std::string& subject_id) const {
+    if (subject_id.empty()) return false;
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!ccpa_opt_out_subjects_) return false;
+    return ccpa_opt_out_subjects_->count(subject_id) > 0;
+}
+
 PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string>& headers,
                                       const std::string& route) const {
     auto get = [&](const char* key) -> std::string {
@@ -226,12 +242,14 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::unordered_map<std::string, std::string> resource_map;
     std::string mode;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
+    std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        profiles     = classification_profiles_;
-        resource_map = resource_mapping_;
-        mode         = default_mode_;
-        audit_log    = audit_logger_;
+        profiles       = classification_profiles_;
+        resource_map   = resource_mapping_;
+        mode           = default_mode_;
+        audit_log      = audit_logger_;
+        ccpa_registry  = ccpa_opt_out_subjects_;
     }
 
     PolicyDecision d;
@@ -293,6 +311,19 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         d.redaction = redact;
     }
 
+    // ---- CCPA/CPRA opt-out enforcement ------------------------------------
+    // If the requesting subject has opted out of data sale, override
+    // export_allowed=false so the query layer cannot forward this data to
+    // third parties.  The opt-out check adds negligible overhead (<< 0.5 ms)
+    // because it is a single hash-set lookup on the snapshotted registry.
+    const std::string subject_id = get("X-User-Id");
+    if (!subject_id.empty() && ccpa_registry &&
+        ccpa_registry->count(subject_id) > 0)
+    {
+        d.ccpa_opted_out   = true;
+        d.export_allowed   = false;  // Data sale / third-party export blocked
+    }
+
     // Audit log if in enforce mode and logger is configured
     if (audit_log && d.mode == "enforce") {
         nlohmann::json audit_event = {
@@ -304,14 +335,14 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
             {"encrypt_logs", d.encrypt_logs},
             {"redaction", d.redaction},
             {"retention_days", d.retention_days},
+            {"ccpa_opted_out", d.ccpa_opted_out},
             {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count()}
         };
         
         // Add user context if available in headers
-        auto user_it = headers.find("X-User-Id");
-        if (user_it != headers.end()) {
-            audit_event["user_id"] = user_it->second;
+        if (!subject_id.empty()) {
+            audit_event["user_id"] = subject_id;
         }
         
         audit_log->logEvent(audit_event);

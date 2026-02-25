@@ -23,6 +23,7 @@
 #pragma once
 
 #include "governance/policy_manager.h"
+#include "governance/ccpa_rules.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -96,6 +97,13 @@ public:
     
     /// Check for circular dependencies
     std::vector<ConflictResult> detectCircularDependencies(const PolicyManager& policy_mgr) const;
+
+    /// Detect conflicts between CCPA and HIPAA rules.
+    /// HIPAA mandates disclosure/audit requirements that can conflict with
+    /// CCPA right-to-delete and opt-out-of-sale obligations.
+    /// Integrates the CcpaRuleSet::detectHipaaConflicts() evaluator.
+    /// @return List of ConflictResult entries, one per detected cross-framework conflict.
+    std::vector<ConflictResult> detectCcpaHipaaConflicts(const PolicyManager& policy_mgr) const;
     
     /// Calculate effectiveness metrics for all rules
     std::unordered_map<std::string, EffectivenessMetrics> calculateEffectiveness(

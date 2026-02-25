@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compliance_reporting.cpp                      ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:49                                ║
+  Last Modified:   2026-02-25 08:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     877                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     940                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -731,7 +731,69 @@ TEST_F(ComplianceReportingTest, ComplianceReporter_ExportReportJSON) {
     EXPECT_NE(exported.find("test"), std::string::npos);
 }
 
-// ========== Edge Cases and Integration Tests ==========
+TEST_F(ComplianceReportingTest, ComplianceReporter_ExportReportHTML) {
+    ComplianceReporter reporter;
+    
+    nlohmann::json test_report;
+    test_report["report_type"] = "summary";
+    test_report["generated_at"] = static_cast<int64_t>(
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+    test_report["total_rules"] = 5;
+    test_report["compliance_score"] = 85.0;
+    
+    auto exported = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::HTML);
+    
+    EXPECT_FALSE(exported.empty());
+    EXPECT_NE(exported.find("<!DOCTYPE html>"), std::string::npos);
+    EXPECT_NE(exported.find("Compliance Report"), std::string::npos);
+    EXPECT_NE(exported.find("</html>"), std::string::npos);
+    EXPECT_NE(exported.find("total_rules"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, ComplianceReporter_ExportReportPDF) {
+    ComplianceReporter reporter;
+    
+    nlohmann::json test_report;
+    test_report["report_type"] = "risk_assessment";
+    test_report["generated_at"] = static_cast<int64_t>(
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+    test_report["total_rules"] = 10;
+    test_report["compliance_score"] = 72.5;
+    
+    auto exported = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::PDF);
+    
+    EXPECT_FALSE(exported.empty());
+    // PDF must start with the PDF magic bytes
+    EXPECT_EQ(exported.substr(0, 7), "%PDF-1.");
+    // Must end with %%EOF marker
+    EXPECT_NE(exported.rfind("%%EOF"), std::string::npos);
+    // Must contain cross-reference table
+    EXPECT_NE(exported.find("xref"), std::string::npos);
+    EXPECT_NE(exported.find("trailer"), std::string::npos);
+    EXPECT_NE(exported.find("startxref"), std::string::npos);
+}
+
+TEST_F(ComplianceReportingTest, ComplianceReporter_ExportReportPDF_MultiPage) {
+    ComplianceReporter reporter;
+    
+    // Create a report with many fields to trigger multi-page PDF generation
+    nlohmann::json test_report;
+    test_report["report_type"] = "compliance";
+    test_report["generated_at"] = static_cast<int64_t>(
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+    nlohmann::json items = nlohmann::json::array();
+    for (int i = 0; i < 100; ++i) {
+        items.push_back("item_" + std::to_string(i) + "_value");
+    }
+    test_report["items"] = items;
+    
+    auto exported = reporter.exportReport(test_report, ComplianceReporter::ReportFormat::PDF);
+    
+    EXPECT_FALSE(exported.empty());
+    EXPECT_EQ(exported.substr(0, 7), "%PDF-1.");
+    EXPECT_NE(exported.rfind("%%EOF"), std::string::npos);
+}
+
 
 TEST_F(ComplianceReportingTest, EdgeCase_EmptyPolicyManager) {
     PolicyManager empty_mgr;
