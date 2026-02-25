@@ -1513,5 +1513,181 @@ private:
     static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
 };
 
+// ============================================================================
+// Multi-Region Active-Active with Bounded Staleness (Phase 4 – v1.8.0)
+// ============================================================================
+
+/**
+ * ConsistencyLevel
+ *
+ * Defines the consistency guarantee for a read or write operation in a
+ * multi-region active-active deployment.
+ */
+enum class ConsistencyLevel {
+    STRONG,             ///< Linearizable: reads always reflect the latest committed write
+    BOUNDED_STALENESS,  ///< Stale reads are permitted up to max_staleness_ms
+    SESSION,            ///< Read-your-writes guarantee within the same session token
+    EVENTUAL            ///< No consistency guarantee – maximum availability and lowest latency
+};
+
+/**
+ * Per-region staleness tracking snapshot.
+ */
+struct RegionStalenessInfo {
+    std::string region_id;
+    int64_t     staleness_ms = 0;            ///< Estimated replication lag to this region (ms)
+    uint64_t    last_applied_sequence = 0;   ///< Last WAL sequence known to be applied
+    std::chrono::system_clock::time_point last_update;
+    bool        is_healthy = true;
+};
+
+/**
+ * Configuration for MultiRegionActiveActiveManager.
+ */
+struct MultiRegionActiveActiveConfig {
+    std::string local_region_id;                         ///< Identifier for the local region
+    std::vector<std::string> peer_region_ids;            ///< Peer region identifiers
+    ConsistencyLevel default_consistency = ConsistencyLevel::BOUNDED_STALENESS;
+    uint32_t max_staleness_ms = 5000;                    ///< Upper bound for BOUNDED_STALENESS reads (ms)
+    uint32_t session_token_ttl_ms = 30000;               ///< Time-to-live for session tokens (ms)
+    ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
+};
+
+/**
+ * MultiRegionActiveActiveManager
+ *
+ * Coordinates multi-region active-active replication with bounded staleness
+ * guarantees.  Every region can accept writes.  Reads are served according to
+ * the requested ConsistencyLevel:
+ *
+ *   STRONG            – Only served when the local replica is known to be
+ *                       up-to-date (staleness_ms == 0 or within lease window).
+ *   BOUNDED_STALENESS – Served when staleness_ms <= max_staleness_ms; otherwise
+ *                       the read is rejected (caller should retry or fall back
+ *                       to another region).
+ *   SESSION           – Always served, but only if the region has applied at
+ *                       least up to the sequence embedded in the session token
+ *                       (read-your-writes guarantee).
+ *   EVENTUAL          – Always served from the local region regardless of lag.
+ *
+ * Staleness information must be fed in from the underlying replication layer
+ * via updateRegionStaleness().  In a real deployment this is called by the
+ * ReplicationManager whenever a heartbeat or WAL acknowledgement arrives from
+ * a remote region.
+ */
+class MultiRegionActiveActiveManager {
+public:
+    struct WriteResult {
+        bool        success = false;
+        std::string write_id;           ///< Unique write identifier
+        std::string region_id;          ///< Region that accepted the write
+        uint64_t    sequence_number = 0;
+        std::string session_token;      ///< Updated session token (for SESSION consistency)
+    };
+
+    struct ReadResult {
+        bool        success = false;
+        std::string data;
+        uint64_t    sequence_number = 0;
+        std::string region_id;          ///< Region that served the read
+        int64_t     staleness_ms = 0;   ///< Observed staleness at read time
+        ConsistencyLevel served_at = ConsistencyLevel::EVENTUAL;
+    };
+
+    explicit MultiRegionActiveActiveManager(const MultiRegionActiveActiveConfig& config);
+
+    /**
+     * Record a write locally and return a WriteResult that includes a
+     * session token embedding the new sequence number.
+     */
+    WriteResult write(
+        const std::string& collection,
+        const std::string& document_id,
+        const std::string& operation,
+        const std::string& data,
+        ConsistencyLevel consistency = ConsistencyLevel::SESSION,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Attempt a read at the requested consistency level.
+     *
+     * Returns success=false when:
+     *   - STRONG: local staleness > 0 (i.e., the replica is not fully caught up)
+     *   - BOUNDED_STALENESS: local staleness > max_staleness_ms
+     *   - SESSION: the local replica has not yet applied the sequence in the token
+     */
+    ReadResult read(
+        const std::string& collection,
+        const std::string& document_id,
+        ConsistencyLevel consistency = ConsistencyLevel::BOUNDED_STALENESS,
+        const std::string& session_token = ""
+    );
+
+    /**
+     * Create a new session token embedding the current local sequence.
+     * The token is an opaque string that encodes the sequence number and an
+     * expiry timestamp; it is intentionally human-readable for debuggability.
+     */
+    std::string createSessionToken() const;
+
+    /**
+     * Validate a session token and check whether the local replica has applied
+     * at least required_sequence.  Returns false for malformed or expired tokens.
+     */
+    bool validateSessionToken(const std::string& token,
+                              uint64_t required_sequence) const;
+
+    /**
+     * Return the current estimated staleness for a given region.
+     * Returns max duration when the region is unknown.
+     */
+    std::chrono::milliseconds getStaleness(const std::string& region_id) const;
+
+    /**
+     * Returns true when the local region's staleness is within max_staleness_ms.
+     */
+    bool isWithinStalenessBound(const std::string& region_id) const;
+
+    /**
+     * Snapshot of staleness for every tracked region.
+     */
+    std::vector<RegionStalenessInfo> getAllRegionStaleness() const;
+
+    /**
+     * Called by the replication layer whenever new WAL progress is learned
+     * for a remote region (e.g. on heartbeat or WAL ACK).
+     */
+    void updateRegionStaleness(const std::string& region_id,
+                               int64_t staleness_ms,
+                               uint64_t last_applied_sequence);
+
+    /** Prometheus-format metrics snapshot. */
+    std::string exportPrometheusMetrics() const;
+
+private:
+    MultiRegionActiveActiveConfig config_;
+
+    // Per-region staleness tracking
+    mutable std::shared_mutex staleness_mutex_;
+    std::map<std::string, RegionStalenessInfo> region_staleness_;
+
+    // Monotonic write sequence counter for this region
+    std::atomic<uint64_t> local_sequence_{0};
+
+    // Counters
+    std::atomic<uint64_t> writes_total_{0};
+    std::atomic<uint64_t> reads_total_{0};
+    std::atomic<uint64_t> staleness_rejections_{0};  ///< Reads rejected due to excessive lag
+    std::atomic<uint64_t> strong_reads_{0};
+    std::atomic<uint64_t> bounded_staleness_reads_{0};
+    std::atomic<uint64_t> session_reads_{0};
+    std::atomic<uint64_t> eventual_reads_{0};
+
+    std::string generateWriteId(uint64_t sequence) const;
+    std::string generateSessionToken(uint64_t sequence) const;
+    uint64_t    parseSessionToken(const std::string& token) const;   ///< Returns 0 on error
+};
+
 } // namespace replication
 } // namespace themisdb

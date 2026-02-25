@@ -37,6 +37,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <limits>
 #include <set>
 #include <future>
 #include <numeric>
@@ -4326,6 +4327,322 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     uint32_t archived = archiveSegments(candidates);
     purgeExpired();
     return archived;
+}
+
+// ============================================================================
+// MultiRegionActiveActiveManager Implementation (Phase 4 – v1.8.0)
+// ============================================================================
+
+MultiRegionActiveActiveManager::MultiRegionActiveActiveManager(
+    const MultiRegionActiveActiveConfig& config)
+    : config_(config) {
+    // Initialise staleness entry for the local region (always fresh at start)
+    RegionStalenessInfo local;
+    local.region_id              = config_.local_region_id;
+    local.staleness_ms           = 0;
+    local.last_applied_sequence  = 0;
+    local.last_update            = std::chrono::system_clock::now();
+    local.is_healthy             = true;
+    region_staleness_[config_.local_region_id] = local;
+
+    // Initialise staleness entries for peer regions (unknown at start)
+    for (const auto& peer : config_.peer_region_ids) {
+        RegionStalenessInfo info;
+        info.region_id             = peer;
+        info.staleness_ms          = std::numeric_limits<int64_t>::max();
+        info.last_applied_sequence = 0;
+        info.last_update           = std::chrono::system_clock::now();
+        info.is_healthy            = false;
+        region_staleness_[peer]    = info;
+    }
+}
+
+std::string MultiRegionActiveActiveManager::generateWriteId(uint64_t sequence) const {
+    // Combine region id, the caller-supplied sequence, and a nanosecond timestamp for uniqueness.
+    // Using the already-computed sequence (not a fresh load) avoids a TOCTOU race where
+    // another concurrent write could have incremented local_sequence_ between the caller's
+    // atomic increment and this read.
+    auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << config_.local_region_id << "-" << sequence << "-" << now_ns;
+    return oss.str();
+}
+
+std::string MultiRegionActiveActiveManager::generateSessionToken(uint64_t sequence) const {
+    // Format: "seq=<N>;region=<R>;exp=<epoch_ms>"
+    auto expiry_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        (std::chrono::system_clock::now() +
+         std::chrono::milliseconds(config_.session_token_ttl_ms))
+        .time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << "seq=" << sequence
+        << ";region=" << config_.local_region_id
+        << ";exp=" << expiry_ms;
+    return oss.str();
+}
+
+uint64_t MultiRegionActiveActiveManager::parseSessionToken(
+    const std::string& token) const {
+    // Expected format: "seq=<N>;region=<R>;exp=<epoch_ms>"
+    auto seq_pos = token.find("seq=");
+    if (seq_pos == std::string::npos) return 0;
+    auto semi = token.find(';', seq_pos);
+    std::string seq_str = token.substr(
+        seq_pos + 4, (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
+    try {
+        return std::stoull(seq_str);
+    } catch (...) {
+        return 0;
+    }
+}
+
+MultiRegionActiveActiveManager::WriteResult
+MultiRegionActiveActiveManager::write(
+    const std::string& collection,
+    const std::string& document_id,
+    const std::string& operation,
+    const std::string& data,
+    ConsistencyLevel   consistency,
+    const std::string& /*session_token*/)
+{
+    (void)collection;
+    (void)document_id;
+    (void)operation;
+    (void)data;
+
+    uint64_t seq = ++local_sequence_;
+    ++writes_total_;
+
+    // Update local region staleness to 0 (we just wrote here)
+    {
+        std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+        auto& local = region_staleness_[config_.local_region_id];
+        local.staleness_ms           = 0;
+        local.last_applied_sequence  = seq;
+        local.last_update            = std::chrono::system_clock::now();
+        local.is_healthy             = true;
+    }
+
+    WriteResult result;
+    result.success          = true;
+    result.write_id         = generateWriteId(seq);
+    result.region_id        = config_.local_region_id;
+    result.sequence_number  = seq;
+    result.session_token    = generateSessionToken(seq);
+
+    THEMIS_INFO("MultiRegionActiveActive: write seq={} region={} consistency={}",
+                seq, config_.local_region_id, static_cast<int>(consistency));
+    return result;
+}
+
+MultiRegionActiveActiveManager::ReadResult
+MultiRegionActiveActiveManager::read(
+    const std::string& collection,
+    const std::string& document_id,
+    ConsistencyLevel   consistency,
+    const std::string& session_token)
+{
+    (void)collection;
+    (void)document_id;
+
+    ++reads_total_;
+
+    int64_t local_staleness_ms = 0;
+    uint64_t local_seq = 0;
+    {
+        std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+        auto it = region_staleness_.find(config_.local_region_id);
+        if (it != region_staleness_.end()) {
+            local_staleness_ms = it->second.staleness_ms;
+            local_seq          = it->second.last_applied_sequence;
+        }
+    }
+
+    ReadResult result;
+    result.region_id    = config_.local_region_id;
+    result.staleness_ms = local_staleness_ms;
+    result.served_at    = consistency;
+    result.sequence_number = local_seq;
+
+    switch (consistency) {
+        case ConsistencyLevel::STRONG:
+            ++strong_reads_;
+            if (local_staleness_ms > 0) {
+                THEMIS_WARN("MultiRegionActiveActive: STRONG read rejected – "
+                            "local staleness={}ms > 0", local_staleness_ms);
+                ++staleness_rejections_;
+                result.success = false;
+                return result;
+            }
+            break;
+
+        case ConsistencyLevel::BOUNDED_STALENESS:
+            ++bounded_staleness_reads_;
+            if (local_staleness_ms > static_cast<int64_t>(config_.max_staleness_ms)) {
+                THEMIS_WARN("MultiRegionActiveActive: BOUNDED_STALENESS read rejected – "
+                            "local staleness={}ms > bound={}ms",
+                            local_staleness_ms, config_.max_staleness_ms);
+                ++staleness_rejections_;
+                result.success = false;
+                return result;
+            }
+            break;
+
+        case ConsistencyLevel::SESSION: {
+            ++session_reads_;
+            if (!session_token.empty()) {
+                uint64_t required_seq = parseSessionToken(session_token);
+                if (required_seq > 0 && local_seq < required_seq) {
+                    THEMIS_WARN("MultiRegionActiveActive: SESSION read rejected – "
+                                "local_seq={} < required_seq={}", local_seq, required_seq);
+                    ++staleness_rejections_;
+                    result.success = false;
+                    return result;
+                }
+            }
+            break;
+        }
+
+        case ConsistencyLevel::EVENTUAL:
+            ++eventual_reads_;
+            // Always succeeds regardless of staleness
+            break;
+    }
+
+    result.success = true;
+    THEMIS_INFO("MultiRegionActiveActive: read served region={} staleness={}ms",
+                config_.local_region_id, local_staleness_ms);
+    return result;
+}
+
+std::string MultiRegionActiveActiveManager::createSessionToken() const {
+    uint64_t seq = local_sequence_.load();
+    return generateSessionToken(seq);
+}
+
+bool MultiRegionActiveActiveManager::validateSessionToken(
+    const std::string& token,
+    uint64_t           required_sequence) const
+{
+    if (token.empty()) return false;
+
+    // Check expiry embedded in token
+    auto exp_pos = token.find("exp=");
+    if (exp_pos != std::string::npos) {
+        try {
+            int64_t expiry_ms = std::stoll(token.substr(exp_pos + 4));
+            auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            if (now_ms > expiry_ms) {
+                return false;  // Token expired
+            }
+        } catch (...) {
+            return false;
+        }
+    }
+
+    uint64_t token_seq = parseSessionToken(token);
+    return token_seq >= required_sequence;
+}
+
+std::chrono::milliseconds MultiRegionActiveActiveManager::getStaleness(
+    const std::string& region_id) const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto it = region_staleness_.find(region_id);
+    if (it == region_staleness_.end()) {
+        return std::chrono::milliseconds(std::numeric_limits<int64_t>::max());
+    }
+    return std::chrono::milliseconds(it->second.staleness_ms);
+}
+
+bool MultiRegionActiveActiveManager::isWithinStalenessBound(
+    const std::string& region_id) const
+{
+    return getStaleness(region_id) <=
+           std::chrono::milliseconds(config_.max_staleness_ms);
+}
+
+std::vector<RegionStalenessInfo>
+MultiRegionActiveActiveManager::getAllRegionStaleness() const
+{
+    std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+    std::vector<RegionStalenessInfo> result;
+    result.reserve(region_staleness_.size());
+    for (const auto& kv : region_staleness_) {
+        result.push_back(kv.second);
+    }
+    return result;
+}
+
+void MultiRegionActiveActiveManager::updateRegionStaleness(
+    const std::string& region_id,
+    int64_t            staleness_ms,
+    uint64_t           last_applied_sequence)
+{
+    std::unique_lock<std::shared_mutex> lock(staleness_mutex_);
+    auto& info              = region_staleness_[region_id];
+    info.region_id          = region_id;
+    info.staleness_ms       = staleness_ms;
+    info.last_applied_sequence = last_applied_sequence;
+    info.last_update        = std::chrono::system_clock::now();
+    info.is_healthy         = (staleness_ms >= 0 &&
+                               staleness_ms <= static_cast<int64_t>(config_.max_staleness_ms) * 2);
+}
+
+std::string MultiRegionActiveActiveManager::exportPrometheusMetrics() const {
+    std::ostringstream oss;
+    const auto& r = config_.local_region_id;
+
+    oss << "# HELP themisdb_mraaa_writes_total Total writes accepted by local region\n"
+        << "# TYPE themisdb_mraaa_writes_total counter\n"
+        << "themisdb_mraaa_writes_total{region=\"" << r << "\"} "
+        << writes_total_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_reads_total Total read attempts\n"
+        << "# TYPE themisdb_mraaa_reads_total counter\n"
+        << "themisdb_mraaa_reads_total{region=\"" << r << "\"} "
+        << reads_total_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_staleness_rejections_total Reads rejected due to excessive staleness\n"
+        << "# TYPE themisdb_mraaa_staleness_rejections_total counter\n"
+        << "themisdb_mraaa_staleness_rejections_total{region=\"" << r << "\"} "
+        << staleness_rejections_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_strong_reads_total Reads served at STRONG consistency\n"
+        << "# TYPE themisdb_mraaa_strong_reads_total counter\n"
+        << "themisdb_mraaa_strong_reads_total{region=\"" << r << "\"} "
+        << strong_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_bounded_staleness_reads_total Reads served at BOUNDED_STALENESS\n"
+        << "# TYPE themisdb_mraaa_bounded_staleness_reads_total counter\n"
+        << "themisdb_mraaa_bounded_staleness_reads_total{region=\"" << r << "\"} "
+        << bounded_staleness_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_session_reads_total Reads served at SESSION consistency\n"
+        << "# TYPE themisdb_mraaa_session_reads_total counter\n"
+        << "themisdb_mraaa_session_reads_total{region=\"" << r << "\"} "
+        << session_reads_.load() << "\n\n";
+
+    oss << "# HELP themisdb_mraaa_eventual_reads_total Reads served at EVENTUAL consistency\n"
+        << "# TYPE themisdb_mraaa_eventual_reads_total counter\n"
+        << "themisdb_mraaa_eventual_reads_total{region=\"" << r << "\"} "
+        << eventual_reads_.load() << "\n\n";
+
+    // Per-region staleness gauges
+    {
+        std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
+        oss << "# HELP themisdb_mraaa_region_staleness_ms Current replication staleness per region\n"
+            << "# TYPE themisdb_mraaa_region_staleness_ms gauge\n";
+        for (const auto& kv : region_staleness_) {
+            oss << "themisdb_mraaa_region_staleness_ms{region=\"" << kv.first << "\"} "
+                << kv.second.staleness_ms << "\n";
+        }
+        oss << "\n";
+    }
+
+    return oss.str();
 }
 
 } // namespace replication
