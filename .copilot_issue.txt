@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2281 – [search] Autocomplete/Type-Ahead Query Suggestions
+**URL:** https://github.com/makr-code/ThemisDB/issues/2281
+**Branch:** copilot/issue-2281-search-autocomplete-type-ahead-query-suggestions
+**Base:** develop
+**Created:** 2026-02-25T14:52:56.332Z
+
+Copilot will push real changes here to resolve the issue.
