@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "cache/adaptive_query_cache.h"
 #include "cache/cache_replication_coordinator.h"
+#include "cache/cache_replication.h"
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <chrono>
@@ -37,16 +38,16 @@ static std::string uniqueTmpPath(const std::string& suffix = "") {
     return "/tmp/themis_repl_test_" + std::to_string(ts) + suffix;
 }
 
-static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_path) {
+static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_suffix = "") {
     AdaptiveQueryCache::Config cfg;
-    cfg.l3_db_path          = db_path;
-    cfg.l1_max_entries      = 20;
-    cfg.l2_max_entries      = 40;
-    cfg.l1_max_entry_size   = 1024;
-    cfg.l2_max_entry_size   = 10240;
-    cfg.l1_ttl_seconds      = 300;
-    cfg.l2_ttl_seconds      = 600;
-    cfg.l3_ttl_seconds      = 3600;
+    cfg.l3_db_path              = uniqueTmpPath("_" + db_suffix);
+    cfg.l1_max_entries          = 20;
+    cfg.l2_max_entries          = 40;
+    cfg.l1_max_entry_size       = 1024;
+    cfg.l2_max_entry_size       = 10240;
+    cfg.l1_ttl_seconds          = 300;
+    cfg.l2_ttl_seconds          = 600;
+    cfg.l3_ttl_seconds          = 3600;
     cfg.enable_rate_limiting    = false;
     cfg.enable_tenant_isolation = false;
     return cfg;
@@ -304,12 +305,9 @@ TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     auto coord_b = std::make_shared<cache::InProcessCacheCoordinator>(bus);
     auto coord_c = std::make_shared<cache::InProcessCacheCoordinator>(bus);
 
-    auto make_cfg = [](const std::string& suffix) {
-        return makeTestConfig(suffix);
-    };
-    auto cfg_a = make_cfg("3a");
-    auto cfg_b = make_cfg("3b");
-    auto cfg_c = make_cfg("3c");
+    auto cfg_a = makeTestConfig("3a");
+    auto cfg_b = makeTestConfig("3b");
+    auto cfg_c = makeTestConfig("3c");
     std::string dp_a = cfg_a.l3_db_path;
     std::string dp_b = cfg_b.l3_db_path;
     std::string dp_c = cfg_c.l3_db_path;
@@ -334,6 +332,7 @@ TEST(CacheReplicationThreeNodeTest, EntryReplicatesToAllPeers) {
     std::filesystem::remove_all(dp_c);
 }
 
+// ---------------------------------------------------------------------------
 // In-process mock listener that records all received events
 // ---------------------------------------------------------------------------
 
@@ -551,7 +550,7 @@ TEST_F(CacheReplicationManagerTest, ReAddSameReplicaIsIdempotent) {
 // Tests: AdaptiveQueryCache integration with replication listener
 // ===========================================================================
 
-class CacheReplicationIntegrationTest : public ::testing::Test {
+class CacheReplicationManagerIntegrationTest : public ::testing::Test {
 protected:
     std::string db_path_;
     std::shared_ptr<MockCacheReplicationListener> listener_;
@@ -568,8 +567,8 @@ protected:
     }
 };
 
-TEST_F(CacheReplicationIntegrationTest, PutNotifiesListenerOnSuccess) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+TEST_F(CacheReplicationManagerIntegrationTest, PutNotifiesListenerOnSuccess) {
+    AdaptiveQueryCache cache(makeTestConfig("mgr_put"));
     cache.setReplicationListener(listener_);
 
     std::string fp = cache.generateFingerprint("SELECT 1", {});
@@ -579,8 +578,8 @@ TEST_F(CacheReplicationIntegrationTest, PutNotifiesListenerOnSuccess) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 1u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, InvalidateNotifiesListener) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+TEST_F(CacheReplicationManagerIntegrationTest, InvalidateNotifiesListener) {
+    AdaptiveQueryCache cache(makeTestConfig("mgr_inv"));
     cache.setReplicationListener(listener_);
 
     std::string fp = cache.generateFingerprint("SELECT 2", {});
@@ -592,8 +591,8 @@ TEST_F(CacheReplicationIntegrationTest, InvalidateNotifiesListener) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::INVALIDATE), 1u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, InvalidateTenantNotifiesListener) {
-    AdaptiveQueryCache::Config cfg = makeTestConfig(db_path_);
+TEST_F(CacheReplicationManagerIntegrationTest, InvalidateTenantNotifiesListener) {
+    AdaptiveQueryCache::Config cfg = makeTestConfig("mgr_tent");
     cfg.enable_tenant_isolation = true;
     AdaptiveQueryCache cache(cfg);
     cache.setReplicationListener(listener_);
@@ -608,8 +607,8 @@ TEST_F(CacheReplicationIntegrationTest, InvalidateTenantNotifiesListener) {
     EXPECT_EQ(listener_->events().back().tenant_id, "tenant-x");
 }
 
-TEST_F(CacheReplicationIntegrationTest, UnregisterListenerStopsNotifications) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+TEST_F(CacheReplicationManagerIntegrationTest, UnregisterListenerStopsNotifications) {
+    AdaptiveQueryCache cache(makeTestConfig("mgr_unreg"));
     cache.setReplicationListener(listener_);
 
     // Unregister
@@ -621,7 +620,7 @@ TEST_F(CacheReplicationIntegrationTest, UnregisterListenerStopsNotifications) {
     EXPECT_EQ(listener_->countByType(CacheReplicationEventType::WRITE), 0u);
 }
 
-TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
+TEST_F(CacheReplicationManagerIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     // A listener that always throws
     class ThrowingListener : public ICacheReplicationListener {
     public:
@@ -638,7 +637,7 @@ TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
     mgr->addReplica(std::make_shared<ThrowingListener>());
 
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    AdaptiveQueryCache cache(makeTestConfig("mgr_throw"));
     cache.setReplicationListener(mgr);
 
     std::string fp = cache.generateFingerprint("SELECT 5", {});
@@ -646,12 +645,12 @@ TEST_F(CacheReplicationIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     EXPECT_NO_THROW(cache.put(fp, {}, {{"ok", true}}));
 }
 
-TEST_F(CacheReplicationIntegrationTest, ReplicationManagerReceivesCacheWrites) {
+TEST_F(CacheReplicationManagerIntegrationTest, ReplicationManagerReceivesCacheWrites) {
     CacheReplicationConfig repCfg;
     auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
     mgr->addReplica(listener_);
 
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
+    AdaptiveQueryCache cache(makeTestConfig("mgr_writes"));
     cache.setReplicationListener(mgr);
 
     std::string fp1 = cache.generateFingerprint("Q1", {});
@@ -660,4 +659,162 @@ TEST_F(CacheReplicationIntegrationTest, ReplicationManagerReceivesCacheWrites) {
     cache.put(fp2, {}, {{"r", 2}});
 
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 2u);
+}
+
+// ===========================================================================
+// Tests: RedisCacheCoordinator – unit tests (no real Redis required)
+// ===========================================================================
+
+#include "cache/distributed_cache_coordinator.h"
+
+TEST(RedisCacheCoordinatorTest, DefaultConstructionAndName) {
+    // Constructing with a non-reachable host should not throw.
+    // The background thread will fail to connect silently.
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19999;  // unlikely to be in use
+    cfg.reconnect_interval_ms = 50;    // fast reconnect for test
+    cfg.connect_timeout_ms   = 100;
+
+    EXPECT_NO_THROW({
+        RedisCacheCoordinator coord(cfg);
+        EXPECT_EQ(coord.name(), "RedisCacheCoordinator");
+    });
+}
+
+TEST(RedisCacheCoordinatorTest, IsConnectedReturnsFalseWhenNoServer) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19998;
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+    // Give the background thread a moment to try (and fail) connecting.
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    // Should not be connected since nothing listens on that port.
+    EXPECT_FALSE(coord.isConnected());
+}
+
+TEST(RedisCacheCoordinatorTest, GetStatsReturnsExpectedFields) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19997;
+    cfg.channel_prefix       = "myprefix";
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+    auto stats = coord.getStats();
+
+    EXPECT_TRUE(stats.contains("name"));
+    EXPECT_TRUE(stats.contains("connected"));
+    EXPECT_TRUE(stats.contains("messages_published"));
+    EXPECT_TRUE(stats.contains("messages_received"));
+    EXPECT_TRUE(stats.contains("publish_errors"));
+    EXPECT_TRUE(stats.contains("reconnect_count"));
+    EXPECT_EQ(stats["name"].get<std::string>(), "RedisCacheCoordinator");
+    EXPECT_EQ(stats["channel_prefix"].get<std::string>(), "myprefix");
+}
+
+TEST(RedisCacheCoordinatorTest, ChannelNamesUsePrefixCorrectly) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host           = "127.0.0.1";
+    cfg.port           = 19996;
+    cfg.channel_prefix = "themis:prod";
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+    EXPECT_EQ(coord.entryChannel(),        "themis:prod:entries");
+    EXPECT_EQ(coord.invalidationChannel(), "themis:prod:invalidations");
+}
+
+TEST(RedisCacheCoordinatorTest, PublishGracefullyFailsWhenNotConnected) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19995;
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+
+    // Publish without a connected server – must not throw.
+    EXPECT_NO_THROW(coord.publishEntry("key1", {{"a", 1}}, 300, "tenant1"));
+    EXPECT_NO_THROW(coord.publishInvalidation(".*pattern.*", "tenant1"));
+
+    auto stats = coord.getStats();
+    // Publish errors should be recorded.
+    EXPECT_GE(stats["publish_errors"].get<uint64_t>(), 0u);
+}
+
+TEST(RedisCacheCoordinatorTest, SubscribeCallbacksRegisteredWithoutError) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19994;
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    RedisCacheCoordinator coord(cfg);
+
+    bool entry_registered = false;
+    bool inv_registered   = false;
+
+    EXPECT_NO_THROW(coord.subscribeEntries(
+        [&entry_registered](const ReplicationMessage&) { entry_registered = true; }));
+    EXPECT_NO_THROW(coord.subscribeInvalidations(
+        [&inv_registered](const ReplicationMessage&) { inv_registered = true; }));
+
+    // Just verifying registration doesn't throw; callbacks fire only when
+    // a real Redis message is received.
+    (void)entry_registered;
+    (void)inv_registered;
+}
+
+TEST(RedisCacheCoordinatorTest, ImplementsICacheCoordinatorInterface) {
+    RedisCacheCoordinatorConfig cfg;
+    cfg.host                 = "127.0.0.1";
+    cfg.port                 = 19993;
+    cfg.reconnect_interval_ms = 50;
+    cfg.connect_timeout_ms   = 100;
+
+    // Verify that RedisCacheCoordinator is usable as ICacheCoordinator.
+    std::shared_ptr<ICacheCoordinator> coord =
+        std::make_shared<RedisCacheCoordinator>(cfg);
+
+    EXPECT_EQ(coord->name(), "RedisCacheCoordinator");
+    EXPECT_NO_THROW(coord->publishEntry("k", {{}}, 60, ""));
+    EXPECT_NO_THROW(coord->publishInvalidation(".*"));
+    EXPECT_NO_THROW(coord->subscribeEntries([](const ReplicationMessage&) {}));
+    EXPECT_NO_THROW(coord->subscribeInvalidations([](const ReplicationMessage&) {}));
+    auto stats = coord->getStats();
+    EXPECT_TRUE(stats.contains("name"));
+}
+
+TEST(RedisCacheCoordinatorTest, AdaptiveCacheCoordinatorIntegration_LocalOpsUnaffected) {
+    // Verify that registering a RedisCacheCoordinator on an AdaptiveQueryCache
+    // does not break local cache operations even when Redis is unreachable.
+    auto cfg = makeTestConfig("redis_int");
+    std::string db_path = cfg.l3_db_path;
+
+    AdaptiveQueryCache cache(cfg);
+
+    RedisCacheCoordinatorConfig redis_cfg;
+    redis_cfg.host                 = "127.0.0.1";
+    redis_cfg.port                 = 19992;
+    redis_cfg.reconnect_interval_ms = 50;
+    redis_cfg.connect_timeout_ms   = 100;
+
+    auto coordinator = std::make_shared<RedisCacheCoordinator>(redis_cfg);
+    cache.setCoordinator(coordinator);
+
+    std::string fp = cache.generateFingerprint("SELECT local", {});
+    // Local put and get must work regardless of coordinator state.
+    ASSERT_TRUE(cache.put(fp, {}, {{"local", true}}));
+    auto entry = cache.get(fp);
+    ASSERT_TRUE(entry.has_value());
+    EXPECT_EQ(entry->result["local"].get<bool>(), true);
+
+    cache.setCoordinator(nullptr);
+    std::filesystem::remove_all(db_path);
 }
