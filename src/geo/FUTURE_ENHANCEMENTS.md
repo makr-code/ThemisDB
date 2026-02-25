@@ -141,6 +141,34 @@ Provide a lightweight, header-only-friendly raster abstraction for elevation map
 | ST_BUFFER, 10 K points at 500 m | N/A (CPU) | ≤ 200 ms | New benchmark in `benchmarks/geo_bench.cpp` |
 | GPU contains, 1 M points (A10G) | N/A (CPU fallback) | ≤ 50 ms | CUDA kernel benchmark gated on `THEMIS_GEO_CUDA=ON` |
 
+---
+
+### Geo Point Clustering: DBSCAN and k-means
+**Priority:** Medium
+**Target Version:** v2.4.0
+**Status:** ✅ Implemented in `include/geo/geo_clustering.h` + `src/geo/geo_clustering.cpp`
+
+**What was implemented:**
+- `dbscanCluster(points, DbscanConfig)` — density-based spatial clustering:
+  - Haversine distance for all pairwise neighbour queries
+  - Noise points receive label `kDbscanNoise` (-1)
+  - Non-Point geometries are silently assigned noise label
+  - O(n²) complexity; suitable for collections up to ~50 000 points
+- `kmeansCluster(points, KMeansConfig)` — Lloyd's algorithm:
+  - Deterministic initialisation (first k distinct points, `seed == 0`) or
+    k-means++ probabilistic seeding (`seed != 0`, LCG PRNG)
+  - Centroid updates via arithmetic mean of (lon, lat) — valid for clusters
+    spanning < a few hundred kilometres
+  - Convergence check: stops early when all centroid shifts ≤ `tolerance_m`
+  - Non-Point geometries receive label -1 and are excluded from centroid
+    computation
+  - Throws `std::invalid_argument` when k == 0 or k > valid point count
+- 20 unit tests in `tests/geo/test_geo_clustering.cpp`
+
+**Performance Targets (design):**
+- DBSCAN: 10 000 points at 500 m epsilon in ≤ 5 s single-threaded (CPU).
+- k-means: k=10, 100 000 points, 100 iterations in ≤ 2 s single-threaded (CPU).
+
 ## Security / Reliability
 
 - All GeoJSON inputs must be validated for coordinate range (longitude ∈ [−180, 180], latitude ∈ [−90, 90]) before being passed to any backend; out-of-range values are rejected with a typed error, not silently clamped.
