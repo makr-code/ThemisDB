@@ -123,7 +123,22 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
 
     std::lock_guard<std::mutex> lock(mutex_);
     // Re-check after acquiring the lock (TOCTOU guard).
-    if (streams_.count(cfg.name)) return false;
+    if (streams_.count(cfg.name)) {
+#ifdef THEMIS_ENABLE_CUDA
+        // Clean up any CUDA stream that was registered before we re-acquired
+        // the lock, to avoid leaking the native handle.
+        {
+            std::lock_guard<std::mutex> clk(cudaStreamMutex());
+            auto& reg = cudaStreamRegistry();
+            auto it   = reg.find(cfg.name);
+            if (it != reg.end()) {
+                cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
+                reg.erase(it);
+            }
+        }
+#endif
+        return false;
+    }
 
     Stream s;
     s.config     = cfg;

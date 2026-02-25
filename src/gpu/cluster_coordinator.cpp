@@ -31,7 +31,7 @@ namespace gpu {
 // Constants
 // ---------------------------------------------------------------------------
 
-static constexpr float kDefaultInfiniBandBwGbps = 100.0f; // HDR IB ~200 Gb/s ÷ 8 ≈ 25 GB/s; use 25 GB/s for a 200 Gb/s fabric
+static constexpr float kDefaultInfiniBandBwGbps  = 25.0f;  // HDR IB 200 Gb/s ÷ 8 = 25 GB/s
 static constexpr float kDefaultInfiniBandLatencyUs = 2.0f;
 
 // ---------------------------------------------------------------------------
@@ -151,7 +151,7 @@ GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const
     if (config_.enable_nvlink && topology_.has_nvlink) {
         // Sum outgoing NVLink bandwidths per device to find the best-connected
         // device on the NVLink fabric.
-        int   best_dev = 0;
+        int   best_dev = -1;
         float best_sum = -1.0f;
 
         for (int i = 0; i < topology_.num_gpus; ++i) {
@@ -172,11 +172,15 @@ GPUClusterCoordinator::selectDevice(uint64_t required_vram_bytes) const
             }
         }
 
-        result.device_index    = best_dev;
-        result.route           = InterconnectType::NVLINK;
-        result.bandwidth_gbps  = best_sum;
-        result.reason          = "NVLink-aware placement";
-        return result;
+        // Only return an NVLink placement when at least one eligible device was found.
+        if (best_dev >= 0) {
+            result.device_index    = best_dev;
+            result.route           = InterconnectType::NVLINK;
+            result.bandwidth_gbps  = best_sum;
+            result.reason          = "NVLink-aware placement";
+            return result;
+        }
+        // Fall through to the regular fallback when no device qualified.
     }
 
     // Fallback: pick the first healthy device that meets VRAM requirements.

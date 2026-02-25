@@ -221,9 +221,6 @@ public:
 
 private:
     std::unordered_map<std::string, ClusterNode> node_map_;
-
-    // Rebuild the bandwidth_matrix from the current links list.
-    void rebuildBandwidthMatrix_();
 };
 
 } // namespace gpu

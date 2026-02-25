@@ -200,6 +200,18 @@ void GPUClusterTopology::addLink(const TopologyLink& link) {
         if (link.type == InterconnectType::INFINIBAND) {
             has_infiniband = true;
         }
+    } else {
+        // Intra-node link: keep bandwidth_matrix in sync so that
+        // bandwidthBetween() reflects any manually-added links.
+        const int si = link.src_device_index;
+        const int di = link.dst_device_index;
+        if (si >= 0 && di >= 0 && si < num_gpus && di < num_gpus) {
+            if (link.bandwidth_gbps > bandwidth_matrix
+                    [static_cast<size_t>(si)][static_cast<size_t>(di)]) {
+                bandwidth_matrix[static_cast<size_t>(si)]
+                                [static_cast<size_t>(di)] = link.bandwidth_gbps;
+            }
+        }
     }
     links.push_back(link);
 }
@@ -287,32 +299,6 @@ ClusterNode GPUClusterTopology::getNode(const std::string& node_id) const {
         return ClusterNode{};
     }
     return it->second;
-}
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-void GPUClusterTopology::rebuildBandwidthMatrix_() {
-    if (num_gpus <= 0) return;
-    bandwidth_matrix.assign(
-        static_cast<size_t>(num_gpus),
-        std::vector<float>(static_cast<size_t>(num_gpus), 0.0f));
-
-    for (const auto& lnk : links) {
-        if (!lnk.is_inter_node() &&
-            lnk.src_device_index >= 0 &&
-            lnk.dst_device_index >= 0 &&
-            lnk.src_device_index < num_gpus &&
-            lnk.dst_device_index < num_gpus) {
-            float& entry = bandwidth_matrix
-                [static_cast<size_t>(lnk.src_device_index)]
-                [static_cast<size_t>(lnk.dst_device_index)];
-            if (lnk.bandwidth_gbps > entry) {
-                entry = lnk.bandwidth_gbps;
-            }
-        }
-    }
 }
 
 } // namespace gpu
