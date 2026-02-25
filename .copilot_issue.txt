@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2254 – [replication] Multi-region active-active with bounded staleness guarantees
+**URL:** https://github.com/makr-code/ThemisDB/issues/2254
+**Branch:** copilot/issue-2254-replication-multi-region-active-active-with-bounde
+**Base:** develop
+**Created:** 2026-02-25T09:31:00.184Z
+
+Copilot will push real changes here to resolve the issue.
