@@ -173,6 +173,12 @@ if(THEMIS_ENABLE_MQTT)
     message(STATUS "vcpkg feature: mqtt (paho-mqttpp3)")
 endif()
 
+# Kafka CDC producer
+if(THEMIS_ENABLE_KAFKA)
+    list(APPEND VCPKG_MANIFEST_FEATURES "kafka")
+    message(STATUS "vcpkg feature: kafka (librdkafka)")
+endif()
+
 # PostgreSQL wire protocol (no extra dependencies)
 if(THEMIS_ENABLE_POSTGRES_WIRE)
     list(APPEND VCPKG_MANIFEST_FEATURES "postgres-wire")

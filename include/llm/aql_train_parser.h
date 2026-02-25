@@ -114,7 +114,7 @@ struct MultiModelEnrichment {
 };
 
 /// Distributed training configuration
-struct DistributedTrainingConfig {
+struct AQLDistributedTrainingConfig {
     bool enabled = false;
     std::string sync_strategy = "ALL_REDUCE";   // "ALL_REDUCE", "PARAMETER_SERVER"
     std::string coordinator_shard;              // Shard to coordinate training
@@ -122,7 +122,7 @@ struct DistributedTrainingConfig {
     int sync_frequency = 1;                     // Sync every N batches
     
     nlohmann::json toJSON() const;
-    static DistributedTrainingConfig fromJSON(const nlohmann::json& j);
+    static AQLDistributedTrainingConfig fromJSON(const nlohmann::json& j);
 };
 
 /// TRAIN ADAPTER statement AST node
@@ -141,7 +141,7 @@ struct TrainAdapterStmt {
     TrainStatementConfig config;
     
     // Distributed training (optional)
-    DistributedTrainingConfig distributed;
+    AQLDistributedTrainingConfig distributed;
     
     // Output
     std::string output_path;                    // Where to save adapter
@@ -234,7 +234,7 @@ private:
     GraphContextConfig parseGraphContext(const std::string& args);
     VectorSimilarityConfig parseVectorSimilarity(const std::string& args);
     RelationalJoinConfig parseRelationalJoin(const std::string& args);
-    DistributedTrainingConfig parseDistributed(const std::string& aql);
+    AQLDistributedTrainingConfig parseDistributed(const std::string& aql);
     
     // Tokenization helpers
     std::vector<std::string> tokenize(const std::string& input);
@@ -277,7 +277,7 @@ public:
     TrainingQueryBuilder& signAdapter(bool sign);
     
     // Distributed training
-    TrainingQueryBuilder& distributed(const DistributedTrainingConfig& config);
+    TrainingQueryBuilder& distributed(const AQLDistributedTrainingConfig& config);
     
     // Output
     TrainingQueryBuilder& outputPath(const std::string& path);

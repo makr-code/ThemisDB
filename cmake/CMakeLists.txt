@@ -209,6 +209,17 @@ option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
 
+# Geospatial CUDA kernel dispatch (v2.1.0+)
+# Enables real CUDA kernels for batch point-in-polygon and Haversine distance in
+# the geo GPU backend.  Requires THEMIS_ENABLE_CUDA=ON and CMAKE_CUDA_COMPILER.
+# Default OFF so CPU-only builds are unaffected.
+if(THEMIS_ENABLE_CUDA AND CMAKE_CUDA_COMPILER)
+    option(THEMIS_GEO_CUDA "Enable CUDA kernel dispatch in geo GPU backend" ON)
+else()
+    set(THEMIS_GEO_CUDA OFF CACHE BOOL
+        "CUDA geo kernels (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
+
 # PDF Document Processing (Q2 2026)
 # Enables poppler-cpp integration for layout-preserving PDF text extraction
 option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (requires poppler-cpp)" OFF)
@@ -392,6 +403,7 @@ option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Alread
 option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
+option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -1343,6 +1355,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
+    ../src/config/config_audit_log.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1510,8 +1523,10 @@ set(THEMIS_CORE_SOURCES
     ../src/cdc/changefeed.cpp
     ../src/cdc/consumer_group.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
     ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
@@ -1539,6 +1554,8 @@ set(THEMIS_CORE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/adapters/otel_tracer.cpp
+    ../src/core/concerns/prometheus_metrics.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/pki_client.cpp
     ../src/utils/input_validator.cpp
@@ -1637,6 +1654,17 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
+    ../src/auth/mfa_authenticator.cpp
+    ../src/auth/password_policy.cpp
+    ../src/auth/webauthn_authenticator.cpp
+    ../src/auth/auth_metrics.cpp
+    ../src/auth/auth_error.cpp
+    ../src/auth/jwks_security.cpp
+    ../src/auth/kerberos_security.cpp
+    ../src/auth/totp_replay_cache.cpp
+    ../src/auth/totp_secret_encryption.cpp
+    ../src/auth/jwt_key_rotation_manager.cpp
+    ../src/auth/principal_validator.cpp
     ../src/auth/webauthn_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
@@ -1657,6 +1685,8 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/geo/geo_rtree.cpp
+    ../src/geo/spatial_join.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
@@ -1837,6 +1867,13 @@ set(THEMIS_CORE_SOURCES
     # Phase 5: Three-Way Merge
     ../src/transaction/merge_engine.cpp
 )
+
+# Geo CUDA kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA.
+if(THEMIS_GEO_CUDA)
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_cuda.cu)
+else()
+    list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
+endif()
 
 # HTTP Server API handlers (only if HTTP server enabled)
 if(THEMIS_ENABLE_HTTP_SERVER)
@@ -2154,6 +2191,24 @@ if(THEMIS_BUILD_MODULAR)
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)
     target_link_libraries(themis_core INTERFACE ${THEMIS_ALL_MODULES})
+    foreach(_themis_mod IN ITEMS
+        themis_base
+        themis_storage
+        themis_query
+        themis_security
+        themis_transaction
+        themis_network
+        themis_sharding
+        themis_timeseries
+        themis_llm
+        themis_geo
+        themis_graph
+        themis_content
+    )
+        if(TARGET ${_themis_mod})
+            target_link_libraries(themis_core INTERFACE ${_themis_mod})
+        endif()
+    endforeach()
     
     message(STATUS "Created themis_core interface library linking: ${THEMIS_ALL_MODULES}")
     
@@ -2253,6 +2308,12 @@ if(THEMIS_ENABLE_CUDA)
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+    
+    # Propagate geo-CUDA flag to the build system.
+    if(THEMIS_GEO_CUDA)
+        target_compile_definitions(themis_core PUBLIC THEMIS_GEO_CUDA)
+        message(STATUS "Geo CUDA kernel dispatch: ENABLED (THEMIS_GEO_CUDA=ON)")
+    endif()
 endif()
 
 # Graphics API backends
@@ -2742,6 +2803,20 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket protocol support enabled")
 endif()
 
+# Kafka CDC Producer Support
+if(THEMIS_ENABLE_KAFKA)
+    find_package(RdKafka CONFIG QUIET)
+    if(RdKafka_FOUND)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_KAFKA)
+        target_link_libraries(themis_core PUBLIC RdKafka::rdkafka RdKafka::rdkafka++)
+        message(STATUS "Kafka CDC producer enabled (librdkafka found)")
+    else()
+        message(WARNING "THEMIS_ENABLE_KAFKA=ON but librdkafka not found; "
+                        "KafkaCDCProducer will compile as a no-op stub. "
+                        "Install librdkafka or add it via vcpkg to enable Kafka support.")
+    endif()
+endif()
+
 # MCP (Model Context Protocol) Support
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
@@ -2877,6 +2952,8 @@ if(THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
     # Note: Boost.Beast already provides WebSocket support, just needs integration
 endif()
+
+# Kafka CDC Producer Support (handled above with full librdkafka setup)
 
 # MQTT Protocol Support (placeholder for future implementation)
 if(THEMIS_ENABLE_MQTT)

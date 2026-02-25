@@ -38,6 +38,7 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 | File | Role |
 |---|---|
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Main path resolution logic (60+ mappings, LRU cache, metrics) |
+| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus text-format exporter; wired into `/metrics` endpoint |
 | `lru_cache.h` | Generic LRU cache with per-entry TTL eviction |
 | `path_mapping_metadata.h` | Deprecation date, removal date, migration guide URL per mapped path |
 | `config_errors.h` | Typed exception hierarchy: `ConfigNotFoundException`, `MappingNotFoundException`, `InvalidPathException`, `ConfigPermissionException` |
@@ -61,6 +62,13 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 │  6. neither exists → throw ConfigNotFoundException               │
 │                                                                  │
 │  Metrics: total_resolves, cache_hits, legacy_fallbacks, errors   │
+└──────────────────────┬──────────────────────────────────────────┘
+                       │ metrics() / cacheStats() / deprecationReport()
+┌──────────────────────▼──────────────────────────────────────────┐
+│                ConfigMetricsExporter (static)                    │
+│                                                                  │
+│  collect()             → Prometheus text format (for /metrics)   │
+│  updateMetricsCollector() → push gauges to MetricsCollector      │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -104,8 +112,10 @@ resolve("llm_config.yaml")
 | Direction | Module | Interface |
 |---|---|---|
 | **Used by** | All modules that load config files | `ConfigPathResolver::resolve()` |
+| **Used by** | `MonitoringApiHandler` (`/metrics` endpoint) | `ConfigMetricsExporter::collect()`, `ConfigMetricsExporter::updateMetricsCollector()` |
 | **Uses** | Filesystem (std::filesystem) | Path existence checks |
 | **Uses** | spdlog | Deprecation warning logging |
+| **Uses** | `observability::MetricsCollector` | `updateMetricsCollector()` pushes gauges for Grafana integration |
 | **Provides to** | Operators / tooling | `getMetadata()` for migration guides |
 
 ---
@@ -145,11 +155,13 @@ resolve("llm_config.yaml")
 
 The Config module itself has no runtime configuration file. Its behavior is controlled by:
 
-| Constant | Value | Description |
-|---|---|---|
-| `LRU_CACHE_CAPACITY` | 1000 | Max cached path resolutions |
-| `LRU_CACHE_TTL_MINUTES` | 5 | Cache entry TTL |
-| `PATH_MAPPING` | 60+ entries | Static legacy→new mapping table |
+| Parameter | Default | Env Variable | Description |
+|---|---|---|---|
+| `LRU_CACHE_CAPACITY` | 1000 | `THEMIS_CONFIG_CACHE_SIZE` | Max cached path resolutions (valid range: 10–100000) |
+| `LRU_CACHE_TTL_SECONDS` | 300 | `THEMIS_CONFIG_CACHE_TTL` | Cache entry TTL in seconds (valid range: 1–86400) |
+| `PATH_MAPPING` | 60+ entries | — | Static legacy→new mapping table (compile-time constant) |
+
+Both `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` are read once at static initialization. Values outside the valid range cause a `stderr` warning and fall back to the defaults.
 
 ---
 
