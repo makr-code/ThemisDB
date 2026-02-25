@@ -97,8 +97,13 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
         e = cudaDeviceSynchronize();
         if (e == cudaSuccess) {
             res.mask.resize(static_cast<size_t>(numPoints));
-            cudaMemcpy(res.mask.data(), d_res, out_sz, cudaMemcpyDeviceToHost);
-            res.dispatched = true;
+            e = cudaMemcpy(res.mask.data(), d_res, out_sz, cudaMemcpyDeviceToHost);
+            if (e == cudaSuccess) {
+                res.dispatched = true;
+            } else {
+                res.error_code = static_cast<int>(e);
+                res.mask.clear();
+            }
         } else {
             res.error_code = static_cast<int>(e);
         }
@@ -172,9 +177,14 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
         e = cudaDeviceSynchronize();
         if (e == cudaSuccess) {
             res.distances_km.resize(static_cast<size_t>(count));
-            cudaMemcpy(res.distances_km.data(), d_out, out_sz,
-                       cudaMemcpyDeviceToHost);
-            res.dispatched = true;
+            e = cudaMemcpy(res.distances_km.data(), d_out, out_sz,
+                           cudaMemcpyDeviceToHost);
+            if (e == cudaSuccess) {
+                res.dispatched = true;
+            } else {
+                res.error_code = static_cast<int>(e);
+                res.distances_km.clear();
+            }
         } else {
             res.error_code = static_cast<int>(e);
         }

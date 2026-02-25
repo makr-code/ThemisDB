@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete; GPU CUDA kernel dispatch is deferred to v2.1.0.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER CPU implementation is complete. CUDA kernel dispatch for batch point-in-polygon and Haversine distance is implemented (v2.1.0).
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -69,7 +69,7 @@
 - [x] API stability guaranteed for spatial query API
 
 ## Known Issues & Limitations
-- ST_BUFFER uses CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
+- ST_BUFFER uses CPU fallback for the GPU backend; CUDA kernel dispatch for ST_BUFFER is deferred to a future release
 - ROCm/HIP support is not available
 - Raster data is not supported
 
