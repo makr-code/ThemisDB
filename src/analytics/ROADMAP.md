@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, real-time anomaly detection, and model serving / online inference pipeline.
+Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, real-time anomaly detection, model serving / online inference pipeline, and predictive analytics / time-series forecasting.
 
 ## Completed ✅
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS
@@ -29,6 +29,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] CEP engine-level backpressure handling and buffer management: engine queue depth limit, drop policy, backpressure signal at configurable threshold, Prometheus metrics (`analytics/cep_engine.cpp`)
 - [x] Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` abstraction with `DataPoint` integration and graceful degradation when backends are absent (`analytics/ml_serving.cpp`)
 - [x] Model serving and online inference pipeline: thread-safe named+versioned model registry, online/batch inference, class-probability output, per-model health metrics, serialization round-trip (`analytics/model_serving.cpp`)
+- [x] Predictive analytics and time-series forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters triple exponential smoothing, ARIMA (AR+I+MA via Yule–Walker), ENSEMBLE with weighted combination; confidence intervals, seasonal decomposition, accuracy metrics (MAE, RMSE, MAPE, sMAPE), model serialization round-trip (`analytics/forecasting.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
@@ -41,8 +42,8 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [I] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
-- [I] Predictive analytics and time-series forecasting (Issue: #1473)
-- [x] AutoML integration for automated model selection (Issue: #1485)
+- [x] Predictive analytics and time-series forecasting (Issue: #1473)
+- [x] AutoML integration for automated model selection (Issue: #1485) ✅
 - [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [x] Model serving and online inference pipeline (Issue: #1477)
@@ -80,10 +81,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) (Issue: #1477)
 
 ## Production Readiness Checklist
-- [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
+- [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)
 - [I] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run) (Issue: #2135)
 - [x] Integration tests (query module, index module, CDC)
 - [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`)
+- [x] Forecasting unit tests (`tests/analytics/test_forecasting.cpp`) — TimeSeries, all five algorithms, fit/predict/evaluate/decompose, serialize/deserialize, edge cases
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
 - [x] Security audit (LLM API key handling, data export sanitization)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)

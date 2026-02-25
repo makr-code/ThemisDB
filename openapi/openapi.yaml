@@ -2569,9 +2569,25 @@ paths:
           application/json:
             schema:
               type: object
+              required: [table, column]
               properties:
-                table: { type: string }
-                column: { type: string }
+                table: { type: string, description: Table name }
+                column: { type: string, description: Column name (use "col1+col2" for composite) }
+                online:
+                  type: boolean
+                  default: false
+                  description: >
+                    When true, the live index remains readable throughout the rebuild.
+                    New entries are written to a shadow prefix and atomically swapped
+                    into the live prefix once the scan completes.
+                throttle_us:
+                  type: integer
+                  format: int32
+                  minimum: 0
+                  default: 0
+                  description: >
+                    Microseconds to sleep every 100 entities during an online rebuild
+                    (0 = no throttling). Only effective when online=true.
       responses:
         '200':
           description: Index rebuilt
@@ -2581,6 +2597,11 @@ paths:
                 type: object
                 properties:
                   success: { type: boolean }
+                  table: { type: string }
+                  column: { type: string }
+                  online: { type: boolean }
+                  entry_count: { type: integer, format: int64 }
+                  estimated_size_bytes: { type: integer, format: int64 }
         '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
