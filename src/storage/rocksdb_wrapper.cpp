@@ -1059,9 +1059,17 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
         rocksdb::Status status = txn_->Commit();
         
         if (!status.ok()) {
-            if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
-                THEMIS_WARN("MVCC Conflict detected: {} - Transaction must be retried", status.ToString());
+            if (status.IsBusy()) {
+                last_commit_failure_type_ = CommitFailureType::Busy;
+                THEMIS_WARN("MVCC Conflict detected (busy): {} - Transaction must be retried", status.ToString());
+            } else if (status.IsTimedOut()) {
+                last_commit_failure_type_ = CommitFailureType::TimedOut;
+                THEMIS_WARN("MVCC Conflict detected (timed out): {} - Transaction must be retried", status.ToString());
+            } else if (status.IsTryAgain()) {
+                last_commit_failure_type_ = CommitFailureType::TryAgain;
+                THEMIS_WARN("MVCC Conflict detected (try again): {} - Transaction must be retried", status.ToString());
             } else {
+                last_commit_failure_type_ = CommitFailureType::CommitError;
                 THEMIS_ERROR("Transaction commit failed: {}", status.ToString());
             }
             // Transaction is still active but commit failed, caller should rollback
