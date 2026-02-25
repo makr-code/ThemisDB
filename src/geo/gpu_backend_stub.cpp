@@ -51,6 +51,21 @@ int launchGeoContainmentKernel(
 } // extern "C"
 #endif // THEMIS_GEO_CUDA
 
+#ifdef THEMIS_GEO_HIP
+#include <cstdint>
+extern "C" {
+int hip_launchGeoDistanceKernel(
+    const double* d_lats1, const double* d_lons1,
+    const double* d_lats2, const double* d_lons2,
+    float* d_distances, int count,
+    themis::acceleration::GeoDistanceFormula formula, void* stream);
+int hip_launchGeoContainmentKernel(
+    const double* d_point_lats, const double* d_point_lons, int numPoints,
+    const double* d_polygon_coords, int numPolygonVertices,
+    uint8_t* d_results, void* stream);
+} // extern "C"
+#endif // THEMIS_GEO_HIP
+
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -543,6 +558,11 @@ private:
         themis::acceleration::GeoKernelDispatch d;
         d.launchDistance    = launchGeoDistanceKernel;
         d.launchContainment = launchGeoContainmentKernel;
+        return d;
+#elif defined(THEMIS_GEO_HIP)
+        themis::acceleration::GeoKernelDispatch d;
+        d.launchDistance    = hip_launchGeoDistanceKernel;
+        d.launchContainment = hip_launchGeoContainmentKernel;
         return d;
 #else
         return themis::acceleration::GeoKernelDispatch{};
