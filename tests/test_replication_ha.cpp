@@ -989,6 +989,56 @@ TEST(MMCRDTResolverTest, RGATombstoneIrrevocable) {
     EXPECT_EQ(result.data.find("\"del\":false"), std::string::npos) << result.data;
 }
 
+// MV_REGISTER: multi-value register returns all concurrent values as a JSON array
+TEST(MMCRDTResolverTest, MVRegisterReturnsAllConcurrentValues) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::MV_REGISTER);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"v":"valueA"})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"v":"valueB"})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Result should be an array containing both values
+    EXPECT_EQ(result.data[0], '[') << result.data;
+    EXPECT_NE(result.data.find("valueA"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("valueB"), std::string::npos) << result.data;
+}
+
+// LWW_MAP: per-key last-write-wins using HLC – key present in both writes, newer wins
+TEST(MMCRDTResolverTest, LWWMapPicksLatestValuePerKey) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::LWW_MAP);
+
+    // e1 has score=10 written at t=100; e2 has score=20 written at t=200
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"score":10,"level":3})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"score":20})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // "score" should be 20 (latest write wins); "level" only exists in e1
+    EXPECT_NE(result.data.find("\"score\":20"), std::string::npos) << result.data;
+    EXPECT_EQ(result.data.find("\"score\":10"), std::string::npos) << result.data;
+    EXPECT_NE(result.data.find("\"level\":3"),  std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, StrategyNameLWWMapAndMVRegister) {
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::MV_REGISTER).strategyName(),
+              "MV_REGISTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::LWW_MAP).strategyName(),
+              "LWW_MAP");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::PN_COUNTER).strategyName(),
+              "PN_COUNTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::OR_SET).strategyName(),
+              "OR_SET");
+}
+
 // ============================================================================
 // 12. MMWriteEntry serialize / deserialize round-trip
 // ============================================================================

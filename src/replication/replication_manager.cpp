@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     4199                                           ║
+    • Total Lines:     4922                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -2185,8 +2185,7 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
 }
 
 std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
-    // Grow-only set: union of all string values inside JSON arrays
-    // Simplified: concatenate unique tokens from all payloads
+    // Grow-only set: union of all quoted string tokens across all payloads
     std::set<std::string> seen;
     for (const auto& w : writes) {
         size_t p = 0;
