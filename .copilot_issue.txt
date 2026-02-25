@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2278 – [search] Cross-lingual semantic search for multilingual embeddings
+**URL:** https://github.com/makr-code/ThemisDB/issues/2278
+**Branch:** copilot/issue-2278-search-cross-lingual-semantic-search-for-multiling
+**Base:** develop
+**Created:** 2026-02-25T14:52:32.653Z
+
+Copilot will push real changes here to resolve the issue.
