@@ -1523,6 +1523,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp

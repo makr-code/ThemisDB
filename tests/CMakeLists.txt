@@ -498,6 +498,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
