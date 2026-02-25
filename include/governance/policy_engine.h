@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.h                                    ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:19                                ║
+  Last Modified:   2026-02-25 08:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     121                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     150                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -25,6 +25,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <optional>
 #include <memory>
 #include <mutex>
@@ -64,6 +65,29 @@ struct PolicyDecision {
     bool export_allowed = true;
     bool cache_allowed = true;
     int retention_days = 365;
+
+    // CCPA/CPRA: set to true when the data subject has opted out of data sale.
+    // When true, callers must not share or export this subject's data to third
+    // parties.  PolicyEngine::evaluate() sets this flag automatically when a
+    // subject ID is present in the headers and the subject is registered in the
+    // opt-out registry via setCcpaOptOutSubjects().
+    bool ccpa_opted_out = false;
+};
+
+/// Request passed to simulateDecision() for dry-run policy preview.
+struct SimulationRequest {
+    std::unordered_map<std::string, std::string> headers;
+    std::string route;
+};
+
+/// Result returned by simulateDecision().
+/// Contains the computed PolicyDecision plus dry-run metadata.
+/// No audit entry is written when this result is produced.
+struct SimulationResult {
+    PolicyDecision decision;         // The computed access decision
+    std::string matched_profile;     // Classification profile used ("" = heuristic fallback)
+    std::string matched_resource;    // Resource-mapping key that resolved the classification
+    bool dry_run = true;             // Always true; confirms no audit entry was written
 };
 
 class PolicyEngine {
@@ -94,10 +118,34 @@ public:
     // Set audit logger for automatic logging of policy evaluations
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
+    // ---- CCPA/CPRA opt-out registry ----------------------------------------
+
+    /// Register a set of data subject IDs that have opted out of data sale.
+    /// PolicyEngine::evaluate() will set PolicyDecision::ccpa_opted_out=true
+    /// and PolicyDecision::export_allowed=false for any request whose
+    /// "X-User-Id" header matches a subject in this registry.
+    /// Thread-safe; atomically replaces the previous registry.
+    void setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry);
+
+    /// Return true if the given subject ID is registered as opted-out.
+    bool isCcpaOptedOut(const std::string& subject_id) const;
+
     // Evaluate headers for a given route key (e.g., "/vector/search" or handler name)
     // If audit logger is set and mode is "enforce", logs the policy decision
     PolicyDecision evaluate(const std::unordered_map<std::string, std::string>& headers,
                             const std::string& route) const;
+
+    /// Evaluate policies in dry-run (simulation) mode without writing an audit entry.
+    ///
+    /// Performs the same classification lookup, profile resolution, and header-override
+    /// steps as evaluate(), but intentionally suppresses audit logging so that the
+    /// caller can preview the access decision without any side effects on the audit
+    /// trail.  This satisfies the "deterministic and side-effect-free" requirement for
+    /// policy_validator.cpp dry-run usage described in FUTURE_ENHANCEMENTS.md.
+    ///
+    /// @param request  The simulation request (headers + route).
+    /// @return SimulationResult containing the decision and which rule/profile was matched.
+    SimulationResult simulateDecision(const SimulationRequest& request) const;
 
     // Get classification profile by name
     std::optional<ClassificationProfile> getClassificationProfile(const std::string& level) const;
@@ -114,6 +162,9 @@ private:
     // Hot-reload state
     std::string loaded_yaml_path_;
     std::filesystem::file_time_type last_loaded_mtime_{};
+
+    // CCPA/CPRA opt-out registry (may be null – treated as empty)
+    std::shared_ptr<std::unordered_set<std::string>> ccpa_opt_out_subjects_;
 
     static std::string normalize(const std::string& s);
 };

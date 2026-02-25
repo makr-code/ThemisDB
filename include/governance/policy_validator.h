@@ -23,6 +23,7 @@
 #pragma once
 
 #include "governance/policy_manager.h"
+#include "governance/ccpa_rules.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -109,6 +110,16 @@ public:
     /// Check security best practices
     /// @return List of security violations
     std::vector<SecurityViolation> checkSecurityBestPractices() const;
+    
+    /// Detect conflicts between CCPA/CPRA requirements and policy rules.
+    ///
+    /// Identifies policy rules whose retention or export settings may conflict
+    /// with CCPA data subject rights (e.g., a HIPAA-mandated long retention
+    /// rule that would prevent honoring a CCPA right-to-delete request).
+    /// Intended to be called at policy load time.
+    ///
+    /// @return List of security violations describing each detected conflict.
+    std::vector<SecurityViolation> detectCcpaConflicts() const;
     
     /// Validate current ruleset
     /// @return Comprehensive validation report

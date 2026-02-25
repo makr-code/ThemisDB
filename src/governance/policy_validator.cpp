@@ -114,21 +114,32 @@ PolicyValidator::PolicyValidator(std::shared_ptr<PolicyManager> policy_manager)
 std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
     std::vector<PolicyConflict> conflicts;
     
+    if (!policy_manager_) return conflicts;
     auto rules = policy_manager_->listRules();
     
-    // Check each pair for contradictions
+    // Check each pair for contradictions, skipping disabled rules
     for (size_t i = 0; i < rules.size(); i++) {
+        if (!rules[i].enabled) continue;
         for (size_t j = i + 1; j < rules.size(); j++) {
+            if (!rules[j].enabled) continue;
             if (areContradictory(rules[i], rules[j])) {
                 PolicyConflict conflict;
                 conflict.conflict_type = "contradictory";
-                conflict.severity = "high";
+                // Determine severity based on which attribute conflicts
+                if (rules[i].require_encryption != rules[j].require_encryption) {
+                    conflict.severity = "critical";
+                } else if (rules[i].allow_export != rules[j].allow_export) {
+                    conflict.severity = "high";
+                } else {
+                    conflict.severity = "medium";
+                }
                 conflict.affected_rules = {rules[i].id, rules[j].id};
-                conflict.description = "Rules have contradictory requirements";
+                conflict.description = "Rules '" + rules[i].name + "' and '" +
+                    rules[j].name + "' have contradictory requirements for overlapping resources/actions";
                 conflict.resolution_suggestions = {
                     "Review rule priorities",
                     "Merge or consolidate rules",
-                    "Clarify rule scope"
+                    "Clarify rule scope to eliminate overlap"
                 };
                 conflicts.push_back(conflict);
             }
@@ -141,10 +152,13 @@ std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
 std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() const {
     std::vector<PolicyConflict> overlaps;
     
+    if (!policy_manager_) return overlaps;
     auto rules = policy_manager_->listRules();
     
     for (size_t i = 0; i < rules.size(); i++) {
+        if (!rules[i].enabled) continue;
         for (size_t j = i + 1; j < rules.size(); j++) {
+            if (!rules[j].enabled) continue;
             const auto& r1 = rules[i];
             const auto& r2 = rules[j];
             
@@ -411,6 +425,73 @@ std::vector<SecurityViolation> PolicyValidator::checkSecurityBestPractices() con
     return violations;
 }
 
+std::vector<SecurityViolation> PolicyValidator::detectCcpaConflicts() const {
+    std::vector<SecurityViolation> violations;
+
+    auto rules = policy_manager_->listRules();
+
+    // HIPAA mandates a minimum 6-year (2190 day) retention for medical records.
+    // CCPA grants California residents the right to request deletion at any time.
+    // A policy rule that enforces long-retention without acknowledging CCPA
+    // deletion rights represents a regulatory conflict that must be resolved
+    // (typically by carving out a HIPAA exemption in the CCPA workflow).
+    constexpr int HIPAA_MIN_RETENTION_DAYS = 2190; // 6 years
+
+    std::vector<std::string> hipaa_ccpa_conflict_rules;
+    std::vector<std::string> ccpa_export_block_rules;
+
+    for (const auto& rule : rules) {
+        if (!rule.enabled) continue;
+
+        // Detect HIPAA-style long-retention rules that conflict with CCPA deletion
+        if (rule.retention_days >= HIPAA_MIN_RETENTION_DAYS) {
+            hipaa_ccpa_conflict_rules.push_back(rule.id);
+        }
+
+        // Detect rules that block export on all resources (would prevent CCPA
+        // data portability from being fulfilled)
+        bool blocks_all_export = !rule.allow_export &&
+            (rule.resources.size() == 1 && rule.resources[0] == "*");
+        if (blocks_all_export) {
+            ccpa_export_block_rules.push_back(rule.id);
+        }
+    }
+
+    if (!hipaa_ccpa_conflict_rules.empty()) {
+        SecurityViolation v;
+        v.violation_type = "ccpa_hipaa_retention_conflict";
+        v.severity = "medium";
+        v.affected_rules = hipaa_ccpa_conflict_rules;
+        v.description = "Rules enforce long retention (≥ 6 years) that may conflict with "
+                         "CCPA right-to-delete (Cal. Civ. Code § 1798.105). "
+                         "HIPAA-covered entities may invoke the HIPAA exemption, but the "
+                         "conflict must be explicitly documented in policy.";
+        v.recommendations = {
+            "Document the HIPAA exemption to CCPA deletion in the rule description",
+            "Ensure CCPA deletion requests trigger a HIPAA-exemption review workflow",
+            "Consider splitting PHI resources from general PI resources for cleaner control"
+        };
+        violations.push_back(v);
+    }
+
+    if (!ccpa_export_block_rules.empty()) {
+        SecurityViolation v;
+        v.violation_type = "ccpa_portability_blocked";
+        v.severity = "high";
+        v.affected_rules = ccpa_export_block_rules;
+        v.description = "Rules block export on all resources, which would prevent fulfilling "
+                         "CCPA data portability requests (Cal. Civ. Code § 1798.100).";
+        v.recommendations = {
+            "Allow export for CCPA data portability requests by scoping the export restriction "
+            "to specific non-PI resources rather than '*'",
+            "Add a dedicated portability exception rule with higher priority"
+        };
+        violations.push_back(v);
+    }
+
+    return violations;
+}
+
 ValidationReport PolicyValidator::validateRuleset() const {
     ValidationReport report;
     report.report_id = "validation_" + std::to_string(
@@ -422,8 +503,15 @@ ValidationReport PolicyValidator::validateRuleset() const {
     report.conflicts = detectConflicts();
     auto overlaps = detectOverlappingPermissions();
     report.conflicts.insert(report.conflicts.end(), overlaps.begin(), overlaps.end());
+    auto circular = detectCircularDependencies();
+    report.conflicts.insert(report.conflicts.end(), circular.begin(), circular.end());
     
     report.violations = checkSecurityBestPractices();
+
+    // Include CCPA/HIPAA conflict detection (per FUTURE_ENHANCEMENTS.md)
+    auto ccpa_violations = detectCcpaConflicts();
+    report.violations.insert(report.violations.end(), ccpa_violations.begin(), ccpa_violations.end());
+
     report.effectiveness_metrics = calculateEffectiveness();
     
     // Calculate summary
@@ -483,30 +571,38 @@ void PolicyValidator::recordRuleHit(const std::string& rule_id, double evaluatio
 }
 
 bool PolicyValidator::areContradictory(const PolicyRule& rule1, const PolicyRule& rule2) const {
-    // Rules are contradictory if they apply to same resource/action but have opposite effects
-    
-    // Check resource/action overlap
-    bool has_overlap = false;
+    // Rules are contradictory if they apply to overlapping resources/actions but have opposite effects
+
+    // Check resource overlap (including wildcard "*")
+    bool res_overlap = false;
     for (const auto& r1_res : rule1.resources) {
         for (const auto& r2_res : rule2.resources) {
-            if (r1_res == r2_res) {
-                has_overlap = true;
+            if (r1_res == r2_res || r1_res == "*" || r2_res == "*") {
+                res_overlap = true;
                 break;
             }
         }
-        if (has_overlap) break;
+        if (res_overlap) break;
     }
-    
-    if (!has_overlap) return false;
-    
-    // Check for contradictory settings
-    if (rule1.require_encryption != rule2.require_encryption ||
-        rule1.allow_export != rule2.allow_export ||
-        rule1.allow_cache != rule2.allow_cache) {
-        return true;
+    if (!res_overlap) return false;
+
+    // Check action overlap (including wildcard "*")
+    bool act_overlap = false;
+    for (const auto& r1_act : rule1.actions) {
+        for (const auto& r2_act : rule2.actions) {
+            if (r1_act == r2_act || r1_act == "*" || r2_act == "*") {
+                act_overlap = true;
+                break;
+            }
+        }
+        if (act_overlap) break;
     }
-    
-    return false;
+    if (!act_overlap) return false;
+
+    // Check for contradictory access-control settings
+    return (rule1.require_encryption != rule2.require_encryption ||
+            rule1.allow_export      != rule2.allow_export       ||
+            rule1.allow_cache       != rule2.allow_cache);
 }
 
 bool PolicyValidator::followsSecurityBestPractices(const PolicyRule& rule) const {
