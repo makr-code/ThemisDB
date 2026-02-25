@@ -1,0 +1,11 @@
+# Copilot Issue Tracker
+
+This file was created automatically by the Copilot Issue Dispatcher.
+
+**Issue:** #2274 – [search] Re-rank with LLM feedback loop
+**URL:** https://github.com/makr-code/ThemisDB/issues/2274
+**Branch:** copilot/issue-2274-search-re-rank-with-llm-feedback-loop
+**Base:** develop
+**Created:** 2026-02-25T13:06:22.893Z
+
+Copilot will push real changes here to resolve the issue.
