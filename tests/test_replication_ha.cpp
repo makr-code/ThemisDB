@@ -3148,3 +3148,175 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
     // errors_total = 1
     EXPECT_NE(m.find("{subscription=\"err_sub\"} 1"), std::string::npos);
 }
+
+// ============================================================================
+// LagBasedReadRouter Tests (v1.7.0)
+// ============================================================================
+
+namespace {
+
+// Build a minimal ReplicaInfo for testing.
+static ReplicaInfo makeReplica(const std::string& node_id,
+                                int64_t lag_ms,
+                                HealthStatus health = HealthStatus::HEALTHY)
+{
+    ReplicaInfo r;
+    r.node_id              = node_id;
+    r.role                 = ReplicationRole::FOLLOWER;
+    r.health_status        = health;
+    r.last_applied_sequence = 100;
+    r.last_applied_term     = 1;
+    r.last_heartbeat        = std::chrono::system_clock::now() -
+                              std::chrono::milliseconds(lag_ms);
+    return r;
+}
+
+} // anonymous namespace
+
+// 1. When no replicas exist, selectReplica falls back to primary for
+//    SECONDARY_PREFERRED and PRIMARY_PREFERRED preferences.
+TEST(LagBasedReadRouterTest, FallsBackToPrimaryWhenNoReplicas) {
+    LagBasedReadRouter router;
+    std::vector<ReplicaInfo> replicas;  // empty
+
+    auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+                                    replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "primary-1");
+    EXPECT_TRUE(dec.is_primary);
+
+    dec = router.selectReplica(ReadPreference::PRIMARY_PREFERRED,
+                               replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "primary-1");
+    EXPECT_TRUE(dec.is_primary);
+}
+
+// 2. ReadPreference::PRIMARY always selects primary regardless of replicas.
+TEST(LagBasedReadRouterTest, PrimaryPreferenceAlwaysReturnsPrimary) {
+    LagBasedReadRouter router;
+    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 0) };
+
+    auto dec = router.selectReplica(ReadPreference::PRIMARY, replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "primary-1");
+    EXPECT_TRUE(dec.is_primary);
+}
+
+// 3. Replica within lag threshold is selected over primary for SECONDARY_PREFERRED.
+TEST(LagBasedReadRouterTest, SelectsEligibleReplicaOverPrimary) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 5000;
+    LagBasedReadRouter router(cfg);
+
+    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 1000) };
+
+    auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+                                    replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "r1");
+    EXPECT_FALSE(dec.is_primary);
+    EXPECT_GE(dec.replica_lag_ms, 0);
+}
+
+// 4. Replica exceeding the lag threshold is excluded; falls back to primary.
+TEST(LagBasedReadRouterTest, ExcludesHighLagReplicaAndFallsBackToPrimary) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 2000;
+    LagBasedReadRouter router(cfg);
+
+    // Replica lag exceeds threshold (last_heartbeat far in the past)
+    ReplicaInfo r = makeReplica("r1", 10000);  // 10 s heartbeat delay
+    std::vector<ReplicaInfo> replicas = { r };
+
+    auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+                                    replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "primary-1");
+    EXPECT_TRUE(dec.is_primary);
+    EXPECT_FALSE(dec.reason.empty());
+}
+
+// 5. Among multiple replicas, the one with the lowest lag is selected.
+TEST(LagBasedReadRouterTest, SelectsLowestLagReplica) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 10000;
+    LagBasedReadRouter router(cfg);
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1", 3000),
+        makeReplica("r2", 500),
+        makeReplica("r3", 1500),
+    };
+
+    auto dec = router.selectReplica(ReadPreference::NEAREST, replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "r2");
+    EXPECT_FALSE(dec.is_primary);
+}
+
+// 6. FAILED replicas are excluded even if their lag is within threshold.
+TEST(LagBasedReadRouterTest, ExcludesFailedReplicas) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 10000;
+    LagBasedReadRouter router(cfg);
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1", 100, HealthStatus::FAILED),
+    };
+
+    auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+                                    replicas, "primary-1");
+    EXPECT_EQ(dec.node_id, "primary-1");
+    EXPECT_TRUE(dec.is_primary);
+}
+
+// 7. ReadPreference::SECONDARY returns empty node_id when no eligible replica.
+TEST(LagBasedReadRouterTest, SecondaryPreferenceReturnsEmptyWhenNoEligible) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 100;
+    LagBasedReadRouter router(cfg);
+
+    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 5000) };
+
+    auto dec = router.selectReplica(ReadPreference::SECONDARY, replicas, "primary-1");
+    EXPECT_TRUE(dec.node_id.empty());
+    EXPECT_FALSE(dec.is_primary);
+}
+
+// 8. eligibleReplicaCount returns correct count.
+TEST(LagBasedReadRouterTest, EligibleReplicaCountIsCorrect) {
+    LagBasedReadRouter::RouterConfig cfg;
+    cfg.lag_threshold_ms = 3000;
+    LagBasedReadRouter router(cfg);
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1", 1000),                        // eligible
+        makeReplica("r2", 5000),                        // too much lag
+        makeReplica("r3", 2000),                        // eligible
+        makeReplica("r4", 100, HealthStatus::FAILED),   // failed
+    };
+
+    EXPECT_EQ(router.eligibleReplicaCount(replicas), 2u);
+}
+
+// 9. Prometheus metrics string contains expected metric names.
+TEST(LagBasedReadRouterTest, PrometheusMetricsContainExpectedKeys) {
+    LagBasedReadRouter router;
+    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 500) };
+
+    std::string m = router.exportPrometheusMetrics(replicas);
+    EXPECT_NE(m.find("themisdb_lag_router_eligible_replicas"), std::string::npos);
+    EXPECT_NE(m.find("themisdb_lag_router_threshold_ms"),       std::string::npos);
+    EXPECT_NE(m.find("themisdb_lag_router_replica_eligible"),   std::string::npos);
+}
+
+// 10. ReplicationManager::selectReadReplica returns primary node for single-node cluster.
+TEST(LagBasedReadRouterTest, ReplicationManagerSelectReadReplicaReturnsPrimaryWhenNoReplicas) {
+    TempWALDir wd("/tmp/themis_lag_router_mgr");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    auto dec = mgr.selectReadReplica();
+    // Single-node: no replicas, should fall back to primary (this node)
+    EXPECT_FALSE(dec.node_id.empty());
+
+    mgr.shutdown();
+}

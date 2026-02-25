@@ -34,7 +34,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [I] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154)
 - [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 - [I] CDC event filtering by operation type (INSERT/UPDATE/DELETE) (Issue: #2439)
-- [I] Automated lag-based read traffic shifting (Issue: #2251)
+- [x] Automated lag-based read traffic shifting (Issue: #2251)
 - [x] Cross-cluster logical replication (publish/subscribe model) (Issue: #2440)
 
 ### Long-term (6-12 months)
@@ -73,7 +73,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [ ] Witness node support (vote-only, no data) for quorum in 2-node clusters
 - [ ] Replication slot management API (pause/resume individual slots)
 - [ ] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
-- [ ] Automated lag-based read traffic shifting
+- [x] Automated lag-based read traffic shifting
 - [x] Cross-cluster logical replication (publish/subscribe model)
 
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
