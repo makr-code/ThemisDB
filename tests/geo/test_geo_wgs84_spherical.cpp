@@ -144,14 +144,19 @@ TEST(GeoWGS84Spherical, MeridianArc_MidLatitude) {
 }
 
 // ---------------------------------------------------------------------------
-// GPU spatial backend delegates to CPU (returns non-negative value)
+// GPU spatial backend delegates to CPU (returns real geodesic distance)
 // ---------------------------------------------------------------------------
 
 TEST(GeoWGS84Spherical, GpuBackend_DelegatesToCpu) {
     ISpatialComputeBackend* gpu = getGpuSpatialBackend();
     ASSERT_NE(gpu, nullptr);
-    // GPU backend may return 0.0 (default stub) or a real value;
-    // either way it must be non-negative for a valid input.
-    const double dist = gpu->geodesicDistance(52.5200, 13.4050, 48.8566, 2.3522);
-    EXPECT_GE(dist, 0.0) << "geodesicDistance must be non-negative";
+    // GPU backend must delegate to the CPU exact backend and return the
+    // same geodesic distance value (Vincenty WGS-84).
+    const double cpu_dist = getCpuExactBackend()->geodesicDistance(
+        52.5200, 13.4050, 48.8566, 2.3522); // Berlin→Paris
+    const double gpu_dist = gpu->geodesicDistance(
+        52.5200, 13.4050, 48.8566, 2.3522);
+    EXPECT_GT(gpu_dist, 0.0) << "GPU geodesicDistance must return real distance, not stub 0";
+    EXPECT_NEAR(gpu_dist, cpu_dist, 1e-6)
+        << "GPU backend must delegate to CPU exact backend";
 }
