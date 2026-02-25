@@ -377,6 +377,36 @@ FOR reading IN sensor_data
 - Timestamp + Location evolution
 - Geo-fencing for time-series data
 
+**Temporal-Spatial Query API (C++):**
+
+The `TemporalSpatialQuery` class (see `include/geo/temporal_spatial_query.h`) bridges the
+`SystemVersionedTable` temporal versioning layer with geospatial queries.  Every entity row
+stores a GeoJSON geometry string in its `data["location"]` field (or a custom field name).
+
+```cpp
+#include "geo/temporal_spatial_query.h"
+#include "temporal/system_versioned_table.h"
+using namespace themis::geo;
+using namespace themisdb::temporal;
+
+SystemVersionedTable vehicles{"vehicles", "node_a"};
+// ... insert/update rows with { "location": "{\"type\":\"Point\",\"coordinates\":[lon,lat]}" }
+
+// Q1: Where was bus1 at time T?
+auto geom = TemporalSpatialQuery::locationAtTime(vehicles, "bus1", t);
+
+// Q2: All vehicles alive at time T (returns vector of (key, geometry) pairs)
+auto all = TemporalSpatialQuery::allLocationsAtTime(vehicles, t);
+
+// Q3: Vehicles inside Germany bounding box at time T
+MBR germany{5.8, 47.2, 15.1, 55.1};
+auto in_germany = TemporalSpatialQuery::entitiesInBBoxAtTime(vehicles, germany, t);
+
+// Q4: Vehicles within 5 km of Berlin Mitte at time T, sorted by distance
+auto nearby = TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(
+    vehicles, 13.4050, 52.5200, 5000.0, t);
+```
+
 ---
 
 ## 6. Implementation Status
@@ -478,6 +508,21 @@ FOR reading IN sensor_data
 - [ ] Cost estimation
 - [ ] Metrics (spatial.index_hits, etc.)
 - [ ] Tests: End-to-end spatial queries
+
+### ✅ Phase 0.5: Temporal-Spatial Queries (COMPLETED)
+
+**Files:**
+- `include/geo/temporal_spatial_query.h`
+- `src/geo/temporal_spatial_query.cpp`
+- `tests/geo/test_temporal_spatial_query.cpp` (unit tests)
+
+**Features:**
+- ✅ `TemporalSpatialQuery::locationAtTime(table, key, as_of)` — entity geometry at point-in-time T
+- ✅ `TemporalSpatialQuery::allLocationsAtTime(table, as_of)` — all alive entity geometries at T
+- ✅ `TemporalSpatialQuery::entitiesInBBoxAtTime(table, bbox, as_of)` — bounding-box filter at T
+- ✅ `TemporalSpatialQuery::entitiesWithinDistanceAtTime(table, lon, lat, dist_m, as_of)` — radius filter at T (Haversine)
+- ✅ `TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(...)` — radius filter sorted by distance
+- ✅ `TemporalSpatialQuery::extractGeometry(doc, field)` — parse GeoJSON from document field
 
 ---
 

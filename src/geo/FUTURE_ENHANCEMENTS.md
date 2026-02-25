@@ -124,6 +124,48 @@ Provide a lightweight, header-only-friendly raster abstraction for elevation map
 
 ---
 
+### Temporal-Spatial Queries (Location at Time T)
+**Priority:** Medium
+**Target Version:** v2.4.0
+**Status:** ✅ Implemented in `include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`
+
+Bridge between the temporal versioning system (`SystemVersionedTable`) and geospatial queries.
+Answers questions of the form "where was entity X at time T?" or "which entities were inside
+region R at time T?".
+
+**What was implemented:**
+- `TemporalSpatialQuery::extractGeometry(doc, field)` — parse a GeoJSON geometry from a
+  named field of a `VersionedDocument`; field value may be a JSON string or an embedded JSON
+  object.
+- `TemporalSpatialQuery::locationAtTime(table, key, as_of)` — return the geometry stored in
+  the version of `key` that was current at `as_of` (ms since epoch); returns `std::nullopt`
+  when the key did not exist at that time or the geometry field is absent / invalid.
+- `TemporalSpatialQuery::allLocationsAtTime(table, as_of)` — return `(key, geometry)` pairs
+  for every entity alive at time T that carries a parseable geometry field.
+- `TemporalSpatialQuery::entitiesInBBoxAtTime(table, bbox, as_of)` — filter alive entities
+  at time T whose geometry centroid falls inside the given axis-aligned bounding box (WGS-84).
+- `TemporalSpatialQuery::entitiesWithinDistanceAtTime(table, lon, lat, distance_m, as_of)` —
+  filter alive entities at time T within `distance_m` metres of a centre point; uses the
+  Haversine spherical-earth formula via `haversineDistanceM()` from `spatial_join.h`.
+- `TemporalSpatialQuery::entitiesWithinDistanceAtTimeSorted(...)` — same as above but returns
+  `(document, distance_m)` pairs sorted ascending by distance.
+
+**Implementation Notes:**
+- All methods are `static` and stateless; thread-safe as long as the `SystemVersionedTable`
+  reference remains stable during the call.
+- Geometry is always read from the named field in `VersionedDocument::data` (default:
+  `"location"`); a custom field name can be supplied via the `geo_field` parameter.
+- Invalid or missing geometry fields produce `std::nullopt` / skip that row (no exception
+  thrown to the caller); parse failures are logged at WARN level via `THEMIS_WARN`.
+- The centroid representative point is used for BBox and distance filters: Point geometries
+  use their single coordinate directly; all other types use `GeometryInfo::computeCentroid()`.
+
+**Performance Targets:**
+- `locationAtTime` on a table with 100 K rows: ≤ 1 ms (delegates to `SystemVersionedTable::getAsOf` which is O(log n)).
+- `entitiesWithinDistanceAtTime` over 10 K alive entities: ≤ 50 ms single-threaded (linear scan; R-tree optimisation deferred to a future release).
+
+---
+
 ## Test Strategy
 
 | Test Type | Coverage Target | Notes |
