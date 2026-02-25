@@ -78,13 +78,14 @@ enum class V2FrameType : uint8_t {
 // =============================================================================
 
 enum class V2FrameFlags : uint16_t {
-    NONE          = 0x0000,
-    END_STREAM    = 0x0001, ///< Last frame for this stream
-    END_HEADERS   = 0x0004, ///< This HEADERS frame ends the header block
-    PADDED        = 0x0008, ///< DATA frame carries padding
-    PRIORITY_FLAG = 0x0020, ///< HEADERS frame has priority fields
-    ACK           = 0x0001, ///< SETTINGS or PING acknowledgement
-    COMPRESSED    = 0x0100, ///< Payload is LZ4-compressed
+    NONE           = 0x0000,
+    END_STREAM     = 0x0001, ///< Last frame for this stream
+    END_HEADERS    = 0x0004, ///< This HEADERS frame ends the header block
+    PADDED         = 0x0008, ///< DATA frame carries padding
+    PRIORITY_FLAG  = 0x0020, ///< HEADERS frame has priority fields
+    ACK            = 0x0001, ///< SETTINGS or PING acknowledgement
+    COMPRESSED     = 0x0100, ///< Payload is LZ4-compressed
+    ZSTD_COMPRESSED = 0x0200, ///< Payload is Zstd-compressed
 };
 
 // =============================================================================
@@ -173,6 +174,9 @@ struct V2ConnectionConfig {
     bool     enable_server_push      = true;
     bool     enable_flow_control     = true;
     bool     enable_lz4_compression  = true;
+    bool     enable_zstd_compression = false;  ///< Zstd overrides LZ4 when both enabled
+    int      zstd_compression_level  = 3;      ///< Zstd compression level (1–22)
+    uint32_t min_compression_payload_size = 256; ///< Skip compression for smaller payloads
     uint16_t port                    = 7890; ///< Default V2 protocol port
     size_t   num_io_threads          = 4;
 };

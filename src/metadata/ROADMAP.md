@@ -36,7 +36,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [I] Distributed metadata catalog across shards (Issue: #1961)
 - [?] Schema registry with compatibility enforcement (forward/backward)
 - [?] Auto-generated OpenAPI schema from stored documents
-- [!] Integration with external data catalogs (Apache Atlas, DataHub) (Issue: #2414)
+- [P] Integration with external data catalogs (Apache Atlas, DataHub) (Issue: #2414)
 - [!] Column lineage and data provenance tracking (Issue: #2413)
 
 ## Implementation Phases
@@ -64,7 +64,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [?] Schema registry with forward/backward compatibility enforcement
 - [ ] Cross-collection relationship graph (ER diagram export)
 - [ ] Column lineage and data provenance tracking
-- [ ] Integration with external data catalogs (Apache Atlas, DataHub)
+- [x] Integration with external data catalogs (Apache Atlas, DataHub)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

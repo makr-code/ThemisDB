@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER is complete on CPU and Boost backends. CUDA kernels for distance and containment are implemented in `gpu_backend_cuda.cu`; ST_BUFFER/UNION/DIFFERENCE CUDA kernels are deferred to v2.2.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions. Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`. Tile server integration (XYZ tile coordinate conversion, tile bounding box queries, URL templating, and vector tile encoding) is implemented in `include/geo/tile_server.h` + `src/geo/tile_server.cpp`.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON RFC 7946 import/export is complete. ST_BUFFER is complete on CPU and Boost backends. CUDA kernels for distance and containment are implemented in `gpu_backend_cuda.cu`; ST_BUFFER/UNION/DIFFERENCE CUDA kernels are deferred to v2.2.0. ST_UNION and ST_DIFFERENCE geometry operations are implemented in the CPU-exact, Boost, and GPU-fallback backends and exposed as `ST_UNION` / `ST_DIFFERENCE` AQL functions. Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) are implemented in `include/geo/raster.h` + `src/geo/raster.cpp`. Temporal-spatial queries (location at time T) are implemented in `include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)
@@ -20,8 +20,7 @@
 - [x] ST_BUFFER operation (CPU-exact and Boost backends; GPU backend delegates to CPU with audit log)
 - [x] CUDA kernel dispatch for distance and containment (`src/acceleration/cuda/geo_kernels.cu` + `src/geo/gpu_backend_cuda.cu`)
 - [x] Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) (`include/geo/raster.h` + `src/geo/raster.cpp`)
-- [x] Tile server integration for map visualization (`include/geo/tile_server.h` + `src/geo/tile_server.cpp`)
-- [x] Clustering algorithms: DBSCAN and k-means for geo points (`include/geo/geo_clustering.h` + `src/geo/geo_clustering.cpp`)
+- [x] Temporal-spatial queries (location at time T) (`include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`)
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -40,7 +39,7 @@
 - [x] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
 - [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
-- [I] Temporal-spatial queries (location at time T) (Issue: #1746)
+- [x] Temporal-spatial queries (location at time T) (Issue: #1746)
 - [x] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
 - [x] Tile server integration for map visualization (Issue: #1748)
 

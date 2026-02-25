@@ -33,6 +33,7 @@
 #  include <boost/beast/http.hpp>
 #  include <boost/beast/websocket.hpp>
 #endif
+#include "network/qos_manager.h"
 #include <memory>
 #include <string>
 #include <thread>
@@ -195,6 +196,59 @@ public:
     };
     Stats getStats() const;
 
+    // -------------------------------------------------------------------------
+    // Per-tenant bandwidth quota management
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Register or update an aggregate bandwidth quota for a tenant.
+     *
+     * All connections that have been assigned to this tenant via
+     * Session::setTenant() share a single token bucket enforcing the
+     * aggregate limit.  Call this during server configuration or whenever
+     * the tenant's quota changes.
+     *
+     * @param tenant_id   Unique tenant identifier.
+     * @param rate_bps    Sustained aggregate bandwidth in bits per second
+     *                    (0 = unlimited).
+     * @param burst_bytes Maximum burst in bytes (0 = auto: 1 s of sustained rate).
+     */
+    void registerTenantQuota(const std::string& tenant_id,
+                              uint64_t rate_bps,
+                              uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Update an existing tenant quota at runtime.
+     *
+     * Alias for registerTenantQuota; creates the entry when absent.
+     */
+    void setTenantQuota(const std::string& tenant_id,
+                        uint64_t rate_bps,
+                        uint64_t burst_bytes = 0);
+
+    /**
+     * @brief Remove the bandwidth quota for a tenant.
+     *
+     * Existing connections assigned to this tenant continue to work but
+     * without the aggregate quota constraint.
+     *
+     * @param tenant_id Tenant identifier.
+     */
+    void unregisterTenantQuota(const std::string& tenant_id);
+
+    /**
+     * @brief Retrieve bandwidth statistics for a specific tenant.
+     * @param tenant_id Tenant identifier.
+     * @return Stats snapshot; default-constructed if tenant not found.
+     */
+    QoSManager::TenantQuotaStats getTenantBandwidthStats(
+        const std::string& tenant_id) const;
+
+    /**
+     * @brief Retrieve bandwidth statistics for all registered tenants.
+     */
+    std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
+
 private:
     class Session;  // Forward declaration
 
@@ -253,6 +307,9 @@ private:
     mutable std::mutex rate_limit_mutex_;
     std::unordered_map<std::string, RateLimitState> rate_limits_;
 
+    // Per-tenant bandwidth quota enforcement
+    QoSManager qos_manager_;
+
     // Server state
     std::atomic<bool> running_{false};
     std::atomic<uint64_t> session_id_counter_{0};
@@ -289,6 +346,17 @@ public:
     std::string getRemoteIP() const;
     uint64_t getSessionID() const { return session_id_; }
     bool isAuthenticated() const { return authenticated_.load(); }
+
+    /**
+     * @brief Assign this session to a tenant for bandwidth quota enforcement.
+     *
+     * Called after successful authentication once the tenant identity is known.
+     * Registers the connection with the server's QoSManager so that the
+     * per-tenant token bucket is enforced on subsequent sends.
+     *
+     * @param tenant_id Unique tenant identifier.
+     */
+    void setTenant(const std::string& tenant_id);
 
 private:
     // Async operations
@@ -341,6 +409,9 @@ private:
     std::atomic<bool> authenticated_{false};
     std::string username_;
     std::string client_ip_;
+
+    // Tenant assigned to this session (set after authentication)
+    std::string tenant_id_;
 
     // Read buffers
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header

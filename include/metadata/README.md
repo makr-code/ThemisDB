@@ -36,6 +36,48 @@ nlohmann::json json = schema_mgr.toJSON();
 
 ---
 
+### catalog_exporter.h
+**Purpose:** Publish ThemisDB schema metadata to external data governance catalogs
+
+**Key Classes:**
+- `CatalogExporter`: Main export interface
+- `CatalogExporter::Config`: Connection parameters (endpoint, auth, database name)
+- `CatalogExporter::PublishResult`: Result with success flag, entity count, and error message
+- `CatalogExporter::CatalogType`: `APACHE_ATLAS` or `DATAHUB`
+
+**Usage:**
+```cpp
+#include "metadata/catalog_exporter.h"
+
+using namespace themis;
+
+// Apache Atlas
+CatalogExporter::Config cfg;
+cfg.type     = CatalogExporter::CatalogType::APACHE_ATLAS;
+cfg.endpoint = "http://atlas-host:21000";
+cfg.username = "admin";
+cfg.password = "admin";
+
+CatalogExporter exporter(cfg);
+auto result = exporter.publishSchema(schema_mgr.getAllTables());
+if (!result.success) {
+    spdlog::error("Publish failed: {}", result.error);
+}
+
+// DataHub
+CatalogExporter::Config dh_cfg;
+dh_cfg.type     = CatalogExporter::CatalogType::DATAHUB;
+dh_cfg.endpoint = "http://datahub-gms:8080";
+dh_cfg.token    = "my-token";
+
+CatalogExporter dh_exporter(dh_cfg);
+dh_exporter.publishTable(schema_mgr.getTable("users").value());
+```
+
+**Thread Safety:** Not shared-state; create per-thread or use external synchronization.
+
+---
+
 ## Core Types
 
 ### TableSchema
