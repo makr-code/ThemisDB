@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     531                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -289,7 +289,7 @@ ComplianceTemplate::ComplianceTemplate()
     framework_param.name = "compliance_framework";
     framework_param.type = "string";
     framework_param.description = "Compliance framework (e.g., GDPR, SOX, HIPAA)";
-    framework_param.allowed_values = {"GDPR", "SOX", "HIPAA", "PCI-DSS", "ISO27001"};
+    framework_param.allowed_values = {"GDPR", "SOX", "HIPAA", "PCI-DSS", "ISO27001", "SOC2"};
     framework_param.required = true;
     addParameter(framework_param);
 
@@ -442,6 +442,86 @@ PolicyRule TimeBasedAccessTemplate::instantiateImpl(
     return rule;
 }
 
+// ========== Soc2ComplianceTemplate Implementation ==========
+
+Soc2ComplianceTemplate::Soc2ComplianceTemplate()
+    : PolicyTemplate(
+        "soc2_compliance",
+        "SOC 2 Compliance",
+        "Enforce SOC 2 Trust Services Criteria controls: field-level encryption, "
+        "audit logging, change management, and role-based access",
+        "compliance"
+    )
+{
+    TemplateParameter resource_param;
+    resource_param.name = "resource_pattern";
+    resource_param.type = "string";
+    resource_param.description = "Resource pattern to protect under SOC 2 controls";
+    resource_param.required = true;
+    addParameter(resource_param);
+
+    TemplateParameter role_param;
+    role_param.name = "required_role";
+    role_param.type = "string";
+    role_param.description = "Role authorized to access the resource";
+    role_param.required = true;
+    addParameter(role_param);
+
+    TemplateParameter retention_param;
+    retention_param.name = "retention_days";
+    retention_param.type = "int";
+    retention_param.description = "Data retention period in days (A1.1 availability commitment)";
+    retention_param.default_value = 365;
+    retention_param.required = false;
+    addParameter(retention_param);
+
+    TemplateParameter classification_param;
+    classification_param.name = "classification_level";
+    classification_param.type = "string";
+    classification_param.description = "Data classification level";
+    classification_param.allowed_values = {"offen", "vs-nfd", "geheim", "streng-geheim"};
+    classification_param.default_value = "vs-nfd";
+    classification_param.required = false;
+    addParameter(classification_param);
+}
+
+PolicyRule Soc2ComplianceTemplate::instantiateImpl(
+    const nlohmann::json& params,
+    const std::string& rule_id
+) const {
+    PolicyRule rule;
+    rule.id   = rule_id;
+    rule.name = "SOC 2: " + params["resource_pattern"].get<std::string>();
+    rule.description = "SOC 2 Trust Services Criteria compliance rule for "
+                       + params["resource_pattern"].get<std::string>();
+    rule.resources           = {params["resource_pattern"].get<std::string>()};
+    rule.actions             = {"*"};
+    rule.required_roles      = {params["required_role"].get<std::string>()};
+    rule.classification_level = getParam<std::string>(params, "classification_level", "vs-nfd");
+    rule.retention_days      = getParam<int>(params, "retention_days", 365);
+
+    // CC6.1: Field-level encryption and role-based access control
+    rule.require_encryption = true;
+    // CC8.1: Authorized change procedures require digital signature
+    rule.require_signature  = true;
+    // CC7.2: System operations – detect unauthorized access and changes
+    rule.audit_access       = true;
+    rule.audit_changes      = true;
+    // C1.1: Confidentiality – restrict export and apply redaction
+    rule.allow_export       = false;
+    rule.allow_cache        = false;
+    rule.redaction_level    = "standard";
+
+    rule.priority = 200;
+    rule.enabled  = true;
+
+    auto now = nowSeconds();
+    rule.created_at = now;
+    rule.updated_at = now;
+
+    return rule;
+}
+
 // ========== PolicyTemplateManager Implementation ==========
 
 PolicyTemplateManager::PolicyTemplateManager() {
@@ -523,6 +603,7 @@ void PolicyTemplateManager::registerBuiltInTemplates() {
     registerTemplate(std::make_shared<ComplianceTemplate>());
     registerTemplate(std::make_shared<SeparationOfDutiesTemplate>());
     registerTemplate(std::make_shared<TimeBasedAccessTemplate>());
+    registerTemplate(std::make_shared<Soc2ComplianceTemplate>());
 
     THEMIS_INFO("Registered {} built-in policy templates", templates_.size());
 }

@@ -3635,6 +3635,139 @@ std::string ReplicationAnalytics::exportPrometheusMetrics() const {
 }
 
 // ============================================================================
+// LagBasedReadRouter Implementation (v1.7.0)
+// ============================================================================
+
+LagBasedReadRouter::LagBasedReadRouter()
+    : config_()
+{
+}
+
+LagBasedReadRouter::LagBasedReadRouter(const RouterConfig& config)
+    : config_(config)
+{
+}
+
+void LagBasedReadRouter::setConfig(const RouterConfig& config) {
+    config_ = config;
+}
+
+size_t LagBasedReadRouter::eligibleReplicaCount(
+    const std::vector<ReplicaInfo>& replicas) const
+{
+    size_t count = 0;
+    for (const auto& r : replicas) {
+        if (r.role == ReplicationRole::FOLLOWER &&
+            r.health_status != HealthStatus::FAILED &&
+            r.replicationLagMs() <= config_.lag_threshold_ms) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+LagBasedReadRouter::RoutingDecision LagBasedReadRouter::selectReplica(
+    ReadPreference preference,
+    const std::vector<ReplicaInfo>& replicas,
+    const std::string& primary_node_id) const
+{
+    RoutingDecision decision;
+    decision.is_primary     = false;
+    decision.replica_lag_ms = -1;
+
+    // PRIMARY preference: always route to primary.
+    if (preference == ReadPreference::PRIMARY) {
+        decision.node_id    = primary_node_id;
+        decision.is_primary = true;
+        decision.reason     = "ReadPreference::PRIMARY – routing to primary";
+        return decision;
+    }
+
+    // Collect eligible secondaries (lag within threshold, not FAILED).
+    const ReplicaInfo* best = nullptr;
+    int64_t best_lag = std::numeric_limits<int64_t>::max();
+
+    for (const auto& r : replicas) {
+        if (r.role != ReplicationRole::FOLLOWER) continue;
+        if (r.health_status == HealthStatus::FAILED)  continue;
+
+        int64_t lag = r.replicationLagMs();
+        if (lag > config_.lag_threshold_ms) continue;
+
+        if (lag < best_lag) {
+            best_lag = lag;
+            best     = &r;
+        }
+    }
+
+    if (best) {
+        decision.node_id        = best->node_id;
+        decision.replica_lag_ms = best_lag;
+        decision.reason         = "Lag-based routing: selected replica with lag=" +
+                                  std::to_string(best_lag) + "ms";
+        return decision;
+    }
+
+    // No eligible secondary found.
+    if (preference == ReadPreference::SECONDARY) {
+        // SECONDARY_ONLY: return empty node to signal no eligible replica.
+        decision.reason = "ReadPreference::SECONDARY – no eligible replica within lag threshold";
+        return decision;
+    }
+
+    // Fall back to primary for PRIMARY_PREFERRED, SECONDARY_PREFERRED, NEAREST.
+    decision.node_id    = primary_node_id;
+    decision.is_primary = true;
+    decision.reason     = "All secondaries exceed lag threshold (" +
+                          std::to_string(config_.lag_threshold_ms) +
+                          "ms) – falling back to primary";
+    return decision;
+}
+
+std::string LagBasedReadRouter::exportPrometheusMetrics(
+    const std::vector<ReplicaInfo>& replicas) const
+{
+    std::ostringstream oss;
+    oss << "# HELP themisdb_lag_router_eligible_replicas "
+           "Number of replicas currently eligible for read routing\n"
+        << "# TYPE themisdb_lag_router_eligible_replicas gauge\n"
+        << "themisdb_lag_router_eligible_replicas "
+        << eligibleReplicaCount(replicas) << "\n"
+        << "# HELP themisdb_lag_router_threshold_ms "
+           "Configured lag threshold for read routing eligibility\n"
+        << "# TYPE themisdb_lag_router_threshold_ms gauge\n"
+        << "themisdb_lag_router_threshold_ms "
+        << config_.lag_threshold_ms << "\n";
+    for (const auto& r : replicas) {
+        if (r.role != ReplicationRole::FOLLOWER) continue;
+        int64_t lag     = r.replicationLagMs();
+        int     eligible = (r.health_status != HealthStatus::FAILED &&
+                            lag <= config_.lag_threshold_ms) ? 1 : 0;
+        oss << "themisdb_lag_router_replica_eligible{node_id=\"" << r.node_id
+            << "\"} " << eligible << "\n";
+    }
+    return oss.str();
+}
+
+// ============================================================================
+// ReplicationManager::selectReadReplica
+// ============================================================================
+
+LagBasedReadRouter::RoutingDecision ReplicationManager::selectReadReplica(
+    std::optional<ReadPreference> preference) const
+{
+    ReadPreference pref = preference.value_or(config_.default_read_preference);
+    LagBasedReadRouter router(
+        LagBasedReadRouter::RouterConfig{
+            static_cast<int64_t>(config_.max_replication_lag_ms),
+            true
+        });
+
+    std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+    return router.selectReplica(pref, replicas_, node_id_);
+}
+
+// ============================================================================
 // ReplicationBenchmark Implementation (v1.6.0)
 // ============================================================================
 
