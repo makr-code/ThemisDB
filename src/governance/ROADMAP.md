@@ -29,7 +29,7 @@
 - [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
-- [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
+- [P] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
 - [I] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [~] PCI-DSS data isolation rules (Issue: #1770)
 - [I] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
@@ -54,7 +54,7 @@
 - [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
 - [P] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [I] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
-- [I] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
+- [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1778)
@@ -67,7 +67,7 @@
 ## Known Issues & Limitations
 - Policy hot-reload requires restart currently
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
-- OPA integration is planned but not started
+- OPA integration implemented: `OpaAdapter` in `src/server/opa_adapter.cpp`; configure via `THEMIS_OPA_ENDPOINT_URL`, `THEMIS_OPA_POLICY_PATH`, and `THEMIS_OPA_TIMEOUT_MS` environment variables
 - Automated data masking in query results is not yet implemented
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
 
