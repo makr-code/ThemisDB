@@ -23,6 +23,7 @@
 #pragma once
 
 #include "governance/policy_manager.h"
+#include "governance/ccpa_rules.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -224,7 +225,48 @@ public:
         std::string toCSV() const;
         std::string toHTML() const;
     };
-    
+
+    /// CCPA/CPRA compliance report produced by generateCcpaReport().
+    struct CcpaReport {
+        /// Data categories covered by the active PolicyRules (derived from
+        /// classification levels present in the policy set).
+        std::vector<std::string> data_categories;
+
+        /// Rules that allow export (potential third-party disclosures).
+        std::vector<std::string> third_party_disclosure_rule_ids;
+
+        /// Total number of subjects registered as opted-out.
+        int opt_out_count = 0;
+
+        /// Number of rules that pass all CCPA compliance checks.
+        int ccpa_compliant_rules = 0;
+
+        /// Number of rules that fail at least one CCPA compliance check.
+        int ccpa_non_compliant_rules = 0;
+
+        /// Rules that do not satisfy the RightToKnow evaluator.
+        std::vector<std::string> missing_right_to_know;
+
+        /// Rules that do not satisfy the RightToDelete evaluator.
+        std::vector<std::string> missing_right_to_delete;
+
+        /// Rules that do not satisfy the OptOutOfSale evaluator.
+        std::vector<std::string> missing_opt_out_of_sale;
+
+        /// Rules that do not satisfy the DataPortability evaluator.
+        std::vector<std::string> missing_data_portability;
+
+        /// Time window this report covers (Unix timestamps).
+        int64_t start_time = 0;
+        int64_t end_time   = 0;
+
+        /// Report generation timestamp.
+        int64_t generated_at = 0;
+
+        nlohmann::json toJson() const;
+        std::string toCSV() const;
+    };
+
     /// Generate policy summary report
     PolicySummaryReport generatePolicySummary(const PolicyManager& policy_mgr) const;
     
@@ -248,6 +290,23 @@ public:
         int64_t end_time = INT64_MAX
     ) const;
     
+    /// Generate CCPA/CPRA compliance report.
+    /// Evaluates all active PolicyRules against the CCPA rule set and
+    /// summarises data categories, third-party disclosure candidates,
+    /// opt-out counts, and compliance gaps.
+    /// @param policy_mgr  Current policy manager instance.
+    /// @param opt_out_count  Number of subjects currently opted out (provided
+    ///        by the caller because the reporter does not own the opt-out registry).
+    /// @param start_time  Start of the reporting window (Unix seconds, default: epoch).
+    /// @param end_time    End of the reporting window (Unix seconds, default: MAX).
+    /// @return Structured CCPA report as a CcpaReport.
+    CcpaReport generateCcpaReport(
+        const PolicyManager& policy_mgr,
+        int opt_out_count = 0,
+        int64_t start_time = 0,
+        int64_t end_time = INT64_MAX
+    ) const;
+
     /// Export report in specified format
     std::string exportReport(const nlohmann::json& report, ReportFormat format) const;
     

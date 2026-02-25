@@ -35,7 +35,7 @@
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
-- [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
+- [x] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
 - [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
 - [I] Temporal-spatial queries (location at time T) (Issue: #1746)
@@ -74,6 +74,10 @@
 ## Known Issues & Limitations
 - ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU path; dedicated CUDA kernels for these set operations are deferred to v2.2.0
 - ROCm/HIP support is not available
+- CUDA kernels for GPU dispatch are not yet written; GPU backend uses CPU fallback
+- ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU backend; CUDA kernel dispatch is deferred to v2.1.0
+- ROCm/HIP geo kernel dispatch is implemented (`THEMIS_GEO_HIP`); requires `THEMIS_ENABLE_HIP=ON` and ROCm runtime
+- Raster data is not supported
 
 ## Breaking Changes
 - GeoJSON parsing is now strict: unknown geometry types and out-of-range WGS84 coordinates
