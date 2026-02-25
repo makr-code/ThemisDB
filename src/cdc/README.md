@@ -8,7 +8,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 
 ## Subsystem Scope
 
-**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management.
+**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams.
 
 **Out of scope:** Message broker integration (Kafka planned), WebSocket transport (in progress), consumer offset tracking (planned).
 
@@ -18,6 +18,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - `sse_streamer.cpp` — Server-Sent Events transport
 - `change_log.cpp` — persistent change log
 - `subscription_manager.cpp` — subscription lifecycle
+- `cross_collection_stream.cpp` — cross-collection change aggregation (`CrossCollectionStream`)
 
 ## Current Delivery Status
 
@@ -29,6 +30,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - Server-Sent Events (SSE) streaming
 - Change log management
 - Subscription management
+- Cross-collection change aggregation (`CrossCollectionStream`)
 
 ## Features
 
@@ -36,6 +38,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - SSE-based event streaming
 - Filtered change subscriptions
 - Historical change replay
+- Cross-collection merged event streams with per-collection resume cursors
 
 ## Documentation
 

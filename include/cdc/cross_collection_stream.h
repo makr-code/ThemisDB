@@ -113,8 +113,8 @@ public:
     CrossCollectionStream(const CrossCollectionStream&) = delete;
     CrossCollectionStream& operator=(const CrossCollectionStream&) = delete;
 
-    CrossCollectionStream(CrossCollectionStream&&) = default;
-    CrossCollectionStream& operator=(CrossCollectionStream&&) = default;
+    CrossCollectionStream(CrossCollectionStream&&) = delete;
+    CrossCollectionStream& operator=(CrossCollectionStream&&) = delete;
 
     // ----------------------------------------------------------------
     // Collection registry

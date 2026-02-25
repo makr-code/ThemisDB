@@ -36,6 +36,23 @@ transport-agnostic at-least-once delivery semantics for CDC change events.
 - Configurable back-pressure limit (`max_pending_per_consumer`)
 - All methods thread-safe; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp`
 
+### Cross-Collection Change Aggregation Stream ✅ (Implemented - PR #2848)
+
+`CrossCollectionStream` (`include/cdc/cross_collection_stream.h`, `src/cdc/cross_collection_stream.cpp`)
+provides a unified, globally-ordered view of change events across multiple named `Changefeed` instances.
+
+- `addCollection(name, feed)` / `removeCollection(name)` — register or deregister named feeds
+- `listEvents(StreamOptions)` — merge events from all (or a subset of) registered collections,
+  sorted by `(timestamp_ms, collection, sequence)`
+- `listEventsFor(collection_names, limit)` — convenience overload for collection-subset queries
+- `getHighWatermark(collection_names)` — highest sequence seen across the specified collections
+- `StreamOptions` supports per-collection resume cursors (`from_sequence`), `key_prefix`,
+  `event_types`, `collections` (subset filter), and `limit`
+- `AggregatedEvent` wraps `Changefeed::ChangeEvent` with a `collection` field; `toJson()` adds
+  `"collection"` to the standard event JSON envelope
+- Thread-safe: takes a lock snapshot before querying individual feeds
+- 19 unit tests in `tests/test_cdc_cross_collection_stream.cpp`
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport

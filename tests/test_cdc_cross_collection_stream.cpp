@@ -9,6 +9,7 @@
 
 #include <filesystem>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -17,36 +18,47 @@ using namespace themis;
 using namespace themis::cdc;
 
 // ============================================================
-// Test fixture: provides two independent Changefeed instances
-// backed by the same RocksDB database (different key spaces via
-// the collection prefix on the key, so there is no collision).
+// Test fixture: each collection gets its own RocksDB database so
+// that the changefeed sequence counter and event key-space are
+// fully isolated.  Sharing a single database would cause all
+// feeds to read each other's events (they all scan the same
+// "changefeed:..." key prefix) and share one sequence counter,
+// making cross-collection tests non-deterministic.
 // ============================================================
 
 class CrossCollectionStreamTest : public ::testing::Test {
 protected:
-    void SetUp() override {
-        test_db_path_ = "./data/themis_cdc_cross_collection_test";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+    // Open a fresh RocksDB database at the given path.
+    static std::unique_ptr<RocksDBWrapper> openDB(const std::string& path) {
+        if (std::filesystem::exists(path)) {
+            std::filesystem::remove_all(path);
         }
-
         RocksDBWrapper::Config cfg;
-        cfg.db_path             = test_db_path_;
+        cfg.db_path             = path;
         cfg.memtable_size_mb    = 64;
         cfg.block_cache_size_mb = 128;
+        auto db = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db->open()) {
+            throw std::runtime_error("Failed to open test DB at " + path);
+        }
+        return db;
+    }
 
-        db_ = std::make_unique<RocksDBWrapper>(cfg);
-        ASSERT_TRUE(db_->open());
+    void SetUp() override {
+        orders_db_    = openDB("./data/themis_cdc_xcs_orders");
+        inventory_db_ = openDB("./data/themis_cdc_xcs_inventory");
+        users_db_     = openDB("./data/themis_cdc_xcs_users");
 
-        auto* raw_db = db_->getDB();
-        ASSERT_NE(raw_db, nullptr);
+        ASSERT_NE(orders_db_->getDB(),    nullptr);
+        ASSERT_NE(inventory_db_->getDB(), nullptr);
+        ASSERT_NE(users_db_->getDB(),     nullptr);
 
         Changefeed::RetentionPolicy ret;
         ret.enabled = false;
 
-        orders_feed_     = std::make_unique<Changefeed>(raw_db, nullptr, ret);
-        inventory_feed_  = std::make_unique<Changefeed>(raw_db, nullptr, ret);
-        users_feed_      = std::make_unique<Changefeed>(raw_db, nullptr, ret);
+        orders_feed_    = std::make_unique<Changefeed>(orders_db_->getDB(),    nullptr, ret);
+        inventory_feed_ = std::make_unique<Changefeed>(inventory_db_->getDB(), nullptr, ret);
+        users_feed_     = std::make_unique<Changefeed>(users_db_->getDB(),     nullptr, ret);
     }
 
     void TearDown() override {
@@ -54,14 +66,20 @@ protected:
         orders_feed_.reset();
         inventory_feed_.reset();
         users_feed_.reset();
-        db_->close();
-        db_.reset();
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        orders_db_->close();
+        inventory_db_->close();
+        users_db_->close();
+        orders_db_.reset();
+        inventory_db_.reset();
+        users_db_.reset();
+        for (const auto& p : {"./data/themis_cdc_xcs_orders",
+                               "./data/themis_cdc_xcs_inventory",
+                               "./data/themis_cdc_xcs_users"}) {
+            if (std::filesystem::exists(p)) std::filesystem::remove_all(p);
         }
     }
 
-    // Helper: record an event in a feed with a given key and optional value.
+    // Helper: build a ChangeEvent with explicit fields.
     static Changefeed::ChangeEvent makeEvent(
         const std::string& key,
         Changefeed::ChangeEventType type = Changefeed::ChangeEventType::EVENT_PUT,
@@ -75,11 +93,14 @@ protected:
         return ev;
     }
 
-    std::string                       test_db_path_;
-    std::unique_ptr<RocksDBWrapper>   db_;
-    std::unique_ptr<Changefeed>       orders_feed_;
-    std::unique_ptr<Changefeed>       inventory_feed_;
-    std::unique_ptr<Changefeed>       users_feed_;
+    std::unique_ptr<RocksDBWrapper> orders_db_;
+    std::unique_ptr<RocksDBWrapper> inventory_db_;
+    std::unique_ptr<RocksDBWrapper> users_db_;
+
+    std::unique_ptr<Changefeed>     orders_feed_;
+    std::unique_ptr<Changefeed>     inventory_feed_;
+    std::unique_ptr<Changefeed>     users_feed_;
+
     std::unique_ptr<CrossCollectionStream> stream_ =
         std::make_unique<CrossCollectionStream>();
 };
