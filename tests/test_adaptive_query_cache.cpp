@@ -498,6 +498,9 @@ TEST_F(AdaptiveQueryCacheTest, ClearAlsoClearsPIIIndex) {
 
     // After clear, invalidatePII should find nothing (index was cleared)
     EXPECT_EQ(cache.invalidatePII(pii_uuid), 0u);
+}
+
+// ============================================================================
 // Phase 4: Write-Through Cache Mode Tests
 // ============================================================================
 
@@ -572,6 +575,8 @@ TEST_F(AdaptiveQueryCacheTest, WriteThroughModeReportedInDetailedInfo) {
     EXPECT_TRUE(info["write_through"]["enabled"].get<bool>());
     EXPECT_TRUE(info["write_through"].contains("total"));
     EXPECT_TRUE(info["write_through"].contains("errors"));
+}
+
 TEST_F(AdaptiveQueryCacheTest, WriteThroughDefaultDisabled) {
     // Write-through must be opt-in and off by default
     EXPECT_FALSE(config_.enable_write_through);

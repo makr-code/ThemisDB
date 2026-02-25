@@ -1241,6 +1241,40 @@ else()
 endif()
 
 # ============================================================================
+# Distributed Cache Coordinator Tests (Phase 4 – Redis-compatible protocol)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_coordinator.cpp")
+    message(STATUS "Adding Distributed Cache Coordinator tests")
+
+    add_executable(test_distributed_cache_coordinator
+        test_distributed_cache_coordinator.cpp
+    )
+
+    target_link_libraries(test_distributed_cache_coordinator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_cache_coordinator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedCacheCoordinatorTests COMMAND test_distributed_cache_coordinator)
+
+    set_tests_properties(DistributedCacheCoordinatorTests PROPERTIES
+        LABELS "cache;distributed;coordinator;redis;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Distributed Cache Coordinator: RedisCacheCoordinator, graceful degradation, pub/sub, stats")
+else()
+    message(STATUS "Distributed Cache Coordinator tests not found")
+endif()
+
+# ============================================================================
 # Multi-Region Active-Active Tests (Phase 4 – bounded staleness)
 # ============================================================================
 

@@ -521,6 +521,23 @@ if(THEMIS_ENABLE_HTTP3)
 endif()
 
 # ============================================================================
+# Redis – distributed cache coordination (optional, via hiredis)
+# ============================================================================
+option(THEMIS_ENABLE_REDIS "Enable Redis-compatible distributed cache coordination (hiredis)" OFF)
+if(THEMIS_ENABLE_REDIS)
+    find_package(hiredis CONFIG QUIET)
+    if(hiredis_FOUND)
+        message(STATUS "hiredis found – enabling Redis distributed cache coordination")
+        add_compile_definitions(THEMIS_ENABLE_REDIS=1)
+    else()
+        message(WARNING "THEMIS_ENABLE_REDIS=ON but hiredis not found – Redis transport disabled")
+        set(THEMIS_ENABLE_REDIS OFF CACHE BOOL "Disabled: hiredis not found" FORCE)
+    endif()
+else()
+    message(STATUS "Redis distributed cache coordination disabled (THEMIS_ENABLE_REDIS=OFF)")
+endif()
+
+# ============================================================================
 # HARDWARE ACCELERATION DEPENDENCIES
 # ============================================================================
 
