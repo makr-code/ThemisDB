@@ -114,21 +114,32 @@ PolicyValidator::PolicyValidator(std::shared_ptr<PolicyManager> policy_manager)
 std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
     std::vector<PolicyConflict> conflicts;
     
+    if (!policy_manager_) return conflicts;
     auto rules = policy_manager_->listRules();
     
-    // Check each pair for contradictions
+    // Check each pair for contradictions, skipping disabled rules
     for (size_t i = 0; i < rules.size(); i++) {
+        if (!rules[i].enabled) continue;
         for (size_t j = i + 1; j < rules.size(); j++) {
+            if (!rules[j].enabled) continue;
             if (areContradictory(rules[i], rules[j])) {
                 PolicyConflict conflict;
                 conflict.conflict_type = "contradictory";
-                conflict.severity = "high";
+                // Determine severity based on which attribute conflicts
+                if (rules[i].require_encryption != rules[j].require_encryption) {
+                    conflict.severity = "critical";
+                } else if (rules[i].allow_export != rules[j].allow_export) {
+                    conflict.severity = "high";
+                } else {
+                    conflict.severity = "medium";
+                }
                 conflict.affected_rules = {rules[i].id, rules[j].id};
-                conflict.description = "Rules have contradictory requirements";
+                conflict.description = "Rules '" + rules[i].name + "' and '" +
+                    rules[j].name + "' have contradictory requirements for overlapping resources/actions";
                 conflict.resolution_suggestions = {
                     "Review rule priorities",
                     "Merge or consolidate rules",
-                    "Clarify rule scope"
+                    "Clarify rule scope to eliminate overlap"
                 };
                 conflicts.push_back(conflict);
             }
@@ -483,30 +494,38 @@ void PolicyValidator::recordRuleHit(const std::string& rule_id, double evaluatio
 }
 
 bool PolicyValidator::areContradictory(const PolicyRule& rule1, const PolicyRule& rule2) const {
-    // Rules are contradictory if they apply to same resource/action but have opposite effects
-    
-    // Check resource/action overlap
-    bool has_overlap = false;
+    // Rules are contradictory if they apply to overlapping resources/actions but have opposite effects
+
+    // Check resource overlap (including wildcard "*")
+    bool res_overlap = false;
     for (const auto& r1_res : rule1.resources) {
         for (const auto& r2_res : rule2.resources) {
-            if (r1_res == r2_res) {
-                has_overlap = true;
+            if (r1_res == r2_res || r1_res == "*" || r2_res == "*") {
+                res_overlap = true;
                 break;
             }
         }
-        if (has_overlap) break;
+        if (res_overlap) break;
     }
-    
-    if (!has_overlap) return false;
-    
-    // Check for contradictory settings
-    if (rule1.require_encryption != rule2.require_encryption ||
-        rule1.allow_export != rule2.allow_export ||
-        rule1.allow_cache != rule2.allow_cache) {
-        return true;
+    if (!res_overlap) return false;
+
+    // Check action overlap (including wildcard "*")
+    bool act_overlap = false;
+    for (const auto& r1_act : rule1.actions) {
+        for (const auto& r2_act : rule2.actions) {
+            if (r1_act == r2_act || r1_act == "*" || r2_act == "*") {
+                act_overlap = true;
+                break;
+            }
+        }
+        if (act_overlap) break;
     }
-    
-    return false;
+    if (!act_overlap) return false;
+
+    // Check for contradictory access-control settings
+    return (rule1.require_encryption != rule2.require_encryption ||
+            rule1.allow_export      != rule2.allow_export       ||
+            rule1.allow_cache       != rule2.allow_cache);
 }
 
 bool PolicyValidator::followsSecurityBestPractices(const PolicyRule& rule) const {
