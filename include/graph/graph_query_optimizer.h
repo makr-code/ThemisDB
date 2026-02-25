@@ -33,6 +33,7 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <unordered_set>
 #include <functional>
 #include <atomic>
 #include <chrono>
@@ -296,6 +297,123 @@ public:
         /// Algorithm that produced this execution; used by the adaptive cost model.
         TraversalAlgorithm algorithm = TraversalAlgorithm::BFS;
     };
+
+    // -----------------------------------------------------------------------
+    // Incremental Graph Query Execution (v1.9.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Represents an atomic set of graph changes (edge/vertex additions
+     *        and removals) that can be applied to trigger incremental query
+     *        re-execution.
+     */
+    struct GraphChangeSet {
+        enum class ChangeType {
+            EDGE_ADDED,
+            EDGE_REMOVED,
+            VERTEX_ADDED,
+            VERTEX_REMOVED
+        };
+
+        struct Change {
+            ChangeType type;
+            std::string id;    ///< Edge ID or vertex ID
+            std::string from;  ///< Source vertex (EDGE_ADDED / EDGE_REMOVED only)
+            std::string to;    ///< Target vertex (EDGE_ADDED / EDGE_REMOVED only)
+        };
+
+        std::vector<Change> changes;
+
+        void addEdgeAdded(std::string id, std::string from, std::string to) {
+            changes.push_back({ChangeType::EDGE_ADDED, std::move(id),
+                               std::move(from), std::move(to)});
+        }
+        void addEdgeRemoved(std::string id, std::string from, std::string to) {
+            changes.push_back({ChangeType::EDGE_REMOVED, std::move(id),
+                               std::move(from), std::move(to)});
+        }
+        void addVertexAdded(std::string id) {
+            changes.push_back({ChangeType::VERTEX_ADDED, std::move(id), {}, {}});
+        }
+        void addVertexRemoved(std::string id) {
+            changes.push_back({ChangeType::VERTEX_REMOVED, std::move(id), {}, {}});
+        }
+        bool empty() const { return changes.empty(); }
+        size_t size() const { return changes.size(); }
+    };
+
+    /**
+     * @brief Result of an incremental query re-execution: the delta between
+     *        the previous result set and the newly computed result set.
+     */
+    struct IncrementalQueryResult {
+        std::vector<std::string> added;    ///< Vertices newly reachable after the change
+        std::vector<std::string> removed;  ///< Vertices no longer reachable after the change
+        std::vector<std::string> current;  ///< Complete current result set
+        bool reexecuted = false;           ///< True if the query was actually re-executed
+        ExecutionStats stats;              ///< Execution statistics of the re-execution
+    };
+
+    /// Opaque handle returned by registerIncrementalBFS(); use it to unregister.
+    using IncrementalQueryHandle = uint64_t;
+
+    /// Callback invoked for each registered query whenever the graph changes
+    /// and the query result is affected.
+    using IncrementalQueryCallback = std::function<void(const IncrementalQueryResult&)>;
+
+    /**
+     * @brief Register a BFS query for incremental re-execution on graph changes.
+     *
+     * Executes the BFS query immediately to capture the initial result set,
+     * then stores the query so that subsequent calls to `onGraphChange()` can
+     * re-execute it when the affected portion of the graph changes.
+     *
+     * The registered callback receives an `IncrementalQueryResult` that contains:
+     * - `added`: vertices newly reachable after the change
+     * - `removed`: vertices no longer reachable after the change
+     * - `current`: the complete updated result set
+     *
+     * @param start_vertex Starting vertex for BFS traversal
+     * @param max_depth    Maximum BFS depth
+     * @param constraints  Query constraints (edge type, forbidden vertices, etc.)
+     * @param callback     Called each time the query result changes
+     * @return Handle that can be passed to `unregisterIncrementalQuery()`
+     */
+    IncrementalQueryHandle registerIncrementalBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
+        IncrementalQueryCallback callback);
+
+    /**
+     * @brief Unregister a previously registered incremental query.
+     *
+     * After this call the callback will never be invoked again, even if
+     * `onGraphChange()` is called with relevant changes.
+     *
+     * @param handle Handle returned by `registerIncrementalBFS()`
+     */
+    void unregisterIncrementalQuery(IncrementalQueryHandle handle);
+
+    /**
+     * @brief Notify the optimizer that the graph has changed.
+     *
+     * For each registered incremental query whose result might be affected by
+     * the supplied changes, the query is re-executed and its callback is invoked
+     * with the delta (`added` / `removed` vertices and the complete `current`
+     * result set).
+     *
+     * A query is considered affected when:
+     * - Any changed vertex (or edge endpoint) appears in its previous result set, or
+     * - The query's start vertex is directly affected by a vertex change.
+     *
+     * Queries whose previous result set is completely disjoint from the changed
+     * vertices are skipped to avoid unnecessary re-execution.
+     *
+     * @param changes Set of graph changes (edge/vertex additions and removals)
+     * @return Number of registered queries that were re-executed
+     */
+    size_t onGraphChange(const GraphChangeSet& changes);
 
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
 
@@ -671,6 +789,23 @@ private:
 
     // Query rate limiter
     QueryRateLimiter rate_limiter_;
+
+    // -----------------------------------------------------------------------
+    // Incremental query execution state
+    // -----------------------------------------------------------------------
+
+    struct IncrementalQueryEntry {
+        IncrementalQueryHandle handle;
+        std::string start_vertex;
+        int max_depth = 0;
+        QueryConstraints constraints;
+        IncrementalQueryCallback callback;
+        /// Previous result set; used to compute added/removed deltas.
+        std::unordered_set<std::string> last_result;
+    };
+
+    std::unordered_map<IncrementalQueryHandle, IncrementalQueryEntry> incremental_queries_;
+    std::atomic<uint64_t> next_incremental_handle_{1};
 
     /**
      * Estimate cost for traversal algorithm

@@ -22,7 +22,7 @@
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
 
 ## In Progress 🚧
-(none)
+- [~] Incremental graph query execution on live updates (Issue: #1825)
 
 ## Planned Features 📋
 
@@ -30,7 +30,6 @@
 - [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
-- [I] Incremental graph query execution on live updates (Issue: #1825)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
@@ -61,9 +60,9 @@
 - [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
 - [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
-### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
+### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [ ] Subgraph isomorphism queries (pattern matching)
-- [ ] Incremental graph query execution on live updates
+- [~] Incremental graph query execution on live updates (Issue: #1825)
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)

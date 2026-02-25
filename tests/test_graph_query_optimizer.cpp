@@ -31,6 +31,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include <algorithm>
 #include <filesystem>
 #include <chrono>
 #include <nlohmann/json.hpp>
@@ -1673,4 +1674,264 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
         optimizer_->getAlgorithmCostModels().at(Algo::BFS).confidence,
         expected_confidence
     );
+}
+
+// ============================================================================
+// Incremental Graph Query Execution Tests (v1.9.0)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_RegisterReturnsNonZeroHandle) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    EXPECT_GT(handle, 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_TwoRegistrationsHaveDifferentHandles) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto h1 = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    EXPECT_NE(h1, h2);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_CallsCallbackForAffectedQuery) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            ++callback_count;
+            EXPECT_TRUE(result.reexecuted);
+        });
+
+    // Add an edge touching vertex B (which is in A's BFS result)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_new", "B", "E");
+
+    const size_t reexecuted = optimizer_->onGraphChange(changes);
+    EXPECT_EQ(reexecuted, 1u);
+    EXPECT_EQ(callback_count, 1);
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_NoCallbackForUnaffectedQuery) {
+    // Register a BFS starting from vertex A (reaches B, C, D within depth 3)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++callback_count;
+        });
+
+    // Change only touches vertex Z (not reachable from A)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_z", "Z", "W");
+
+    optimizer_->onGraphChange(changes);
+    EXPECT_EQ(callback_count, 0);
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_UnregisterStopsCallbacks) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++callback_count;
+        });
+
+    optimizer_->unregisterIncrementalQuery(handle);
+
+    // Change touches A directly – would have fired callback if still registered
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addVertexAdded("A");
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_EQ(callback_count, 0);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_DeltaContainsAddedVertex) {
+    // Initial graph: A->B->C->D, A->C
+    // After change: add edge A->E (E was not reachable before)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 2;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 2, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    // Add edge A->E and vertex E
+    themis::BaseEntity eNew("edgeE");
+    eNew.setField("id", "edgeE");
+    eNew.setField("_from", "A");
+    eNew.setField("_to", "E");
+    eNew.setField("_weight", "1.0");
+    graph_mgr_->addEdge(eNew);
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeE", "A", "E");
+
+    optimizer_->onGraphChange(changes);
+
+    // E should appear in the added set (it is within depth 1 of A)
+    EXPECT_TRUE(captured.reexecuted);
+    const bool e_added = std::find(captured.added.begin(), captured.added.end(), "E")
+                         != captured.added.end();
+    EXPECT_TRUE(e_added) << "Expected 'E' in added vertices";
+    EXPECT_FALSE(captured.current.empty());
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_DeltaContainsRemovedVertex) {
+    // Add an extra edge A->F so F is reachable, then remove it
+    themis::BaseEntity eF("edgeF");
+    eF.setField("id", "edgeF");
+    eF.setField("_from", "A");
+    eF.setField("_to", "F");
+    eF.setField("_weight", "1.0");
+    graph_mgr_->addEdge(eF);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 2;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 2, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    // Now delete edge A->F so F is no longer reachable
+    graph_mgr_->deleteEdge("edgeF");
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeRemoved("edgeF", "A", "F");
+
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_TRUE(captured.reexecuted);
+    const bool f_removed = std::find(captured.removed.begin(), captured.removed.end(), "F")
+                           != captured.removed.end();
+    EXPECT_TRUE(f_removed) << "Expected 'F' in removed vertices";
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_CurrentResultIsComplete) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeX", "B", "X");
+
+    optimizer_->onGraphChange(changes);
+
+    // current should be non-empty (A reachable, etc.)
+    EXPECT_FALSE(captured.current.empty());
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_MultipleQueriesTrackedIndependently) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    int cb_a = 0, cb_z = 0;
+    auto ha = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb_a; });
+    auto hz = optimizer_->registerIncrementalBFS(
+        "Z", 3, c,  // Z has no edges, won't be affected by changes to A's neighbourhood
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb_z; });
+
+    // Change affects B (in A's neighbourhood only)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeB2", "B", "Y");
+
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_EQ(cb_a, 1);  // A's query re-executed
+    EXPECT_EQ(cb_z, 0);  // Z's query unaffected
+
+    optimizer_->unregisterIncrementalQuery(ha);
+    optimizer_->unregisterIncrementalQuery(hz);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_EmptyChangeSet_NoCalls) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int cb = 0;
+    auto h = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb; });
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet empty;
+    const size_t count = optimizer_->onGraphChange(empty);
+    EXPECT_EQ(count, 0u);
+    EXPECT_EQ(cb, 0);
+
+    optimizer_->unregisterIncrementalQuery(h);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_ReturnsReexecutedCount) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    auto h1 = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+
+    // Change affects B (in A's result) — both queries should fire
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeN", "B", "N");
+    const size_t count = optimizer_->onGraphChange(changes);
+    EXPECT_EQ(count, 2u);
+
+    optimizer_->unregisterIncrementalQuery(h1);
+    optimizer_->unregisterIncrementalQuery(h2);
+}
+
+TEST_F(GraphQueryOptimizerTest, GraphChangeSet_Helpers_WorkCorrectly) {
+    themis::graph::GraphQueryOptimizer::GraphChangeSet cs;
+    EXPECT_TRUE(cs.empty());
+    EXPECT_EQ(cs.size(), 0u);
+
+    cs.addEdgeAdded("e1", "A", "B");
+    cs.addEdgeRemoved("e2", "C", "D");
+    cs.addVertexAdded("V1");
+    cs.addVertexRemoved("V2");
+
+    EXPECT_FALSE(cs.empty());
+    EXPECT_EQ(cs.size(), 4u);
+
+    using CT = themis::graph::GraphQueryOptimizer::GraphChangeSet::ChangeType;
+    EXPECT_EQ(cs.changes[0].type, CT::EDGE_ADDED);
+    EXPECT_EQ(cs.changes[0].from, "A");
+    EXPECT_EQ(cs.changes[0].to, "B");
+    EXPECT_EQ(cs.changes[1].type, CT::EDGE_REMOVED);
+    EXPECT_EQ(cs.changes[2].type, CT::VERTEX_ADDED);
+    EXPECT_EQ(cs.changes[2].id, "V1");
+    EXPECT_EQ(cs.changes[3].type, CT::VERTEX_REMOVED);
+    EXPECT_EQ(cs.changes[3].id, "V2");
 }
