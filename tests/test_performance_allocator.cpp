@@ -18,7 +18,7 @@
  */
 
 // Test for performance allocator
-// Tests memory allocation with optional mimalloc optimization
+// Tests memory allocation with optional jemalloc or mimalloc optimization
 
 #include <performance/allocator.h>
 #include <gtest/gtest.h>

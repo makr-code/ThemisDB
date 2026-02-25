@@ -33,7 +33,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
 - [!] Per-query cost model integration with query optimizer (Issue: #2419)
 - [I] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
-- [!] Jemalloc integration as alternative allocator (Issue: #2421)
+- [x] Jemalloc integration as alternative allocator (Issue: #2421)
 
 ### Long-term (6-12 months)
 - [I] ML-based workload predictor for proactive resource scaling (Issue: #2214)
@@ -70,7 +70,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [ ] Adaptive batch size tuning for LLM inference
 - [ ] Per-query cost model integration with query optimizer
 - [ ] Memory pressure monitoring with automatic cache eviction
-- [ ] Jemalloc integration as alternative allocator
+- [x] Jemalloc integration as alternative allocator
 
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [ ] ML-based workload predictor for proactive resource scaling
