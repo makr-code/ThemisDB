@@ -11,10 +11,12 @@
  * - BiasFieldStats::toJson()
  * - BiasAuditReport::toJson()
  * - ComplianceReporter::generateBiasAuditReport() – PASSED / FLAGGED / FAILED
+ * - PolicyEngine::checkExportPermission() – integration via PolicyEngine facade
  */
 
 #include <gtest/gtest.h>
 #include "governance/model_governance.h"
+#include "governance/policy_engine.h"
 #include "governance/compliance_reporter.h"
 #include "governance/data_lineage.h"
 #include "governance/policy_manager.h"
@@ -336,4 +338,74 @@ TEST_F(BiasAuditReportTest, GeneratedAtIsPositive) {
     };
     auto report = reporter.generateBiasAuditReport("a", "b", stats);
     EXPECT_GT(report.generated_at, 0LL);
+}
+
+// ─── PolicyEngine::checkExportPermission ─────────────────────────────────────
+// Verifies that PolicyEngine (the Exporters module entry point) correctly
+// delegates to ModelGovernancePolicy and applies the built-in fallback when
+// no ModelGovernancePolicy is attached.
+
+class PolicyEngineExportPermissionTest : public ::testing::Test {
+protected:
+    PolicyEngine engine;
+    std::shared_ptr<DataLineageTracker> tracker{std::make_shared<DataLineageTracker>()};
+};
+
+TEST_F(PolicyEngineExportPermissionTest, FallbackPermitsUnclassifiedRequest) {
+    // No ModelGovernancePolicy attached → fallback path
+    auto req = makeRequest("vs-nfd");
+    auto dec = engine.checkExportPermission(req);
+    EXPECT_TRUE(dec.is_permitted);
+    EXPECT_TRUE(dec.denial_reason.empty());
+}
+
+TEST_F(PolicyEngineExportPermissionTest, FallbackDeniesGeheim) {
+    auto req = makeRequest("geheim");
+    auto dec = engine.checkExportPermission(req);
+    EXPECT_FALSE(dec.is_permitted);
+    EXPECT_FALSE(dec.denial_reason.empty());
+}
+
+TEST_F(PolicyEngineExportPermissionTest, FallbackDeniesStrengGeheim) {
+    auto req = makeRequest("streng-geheim");
+    auto dec = engine.checkExportPermission(req);
+    EXPECT_FALSE(dec.is_permitted);
+    EXPECT_FALSE(dec.denial_reason.empty());
+}
+
+TEST_F(PolicyEngineExportPermissionTest, DelegatesWhenModelGovernancePolicySet) {
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->setLineageTracker(tracker);
+    mgp->addRestrictedCollection("restricted_col");
+    engine.setModelGovernancePolicy(mgp);
+
+    // Permitted: no restricted collection, allowed classification
+    auto req_ok = makeRequest("offen", {"open_col"}, "adapter-eng", "job-eng-ok");
+    EXPECT_TRUE(engine.checkExportPermission(req_ok).is_permitted);
+
+    // Denied: restricted collection
+    auto req_deny = makeRequest("offen", {"restricted_col"}, "adapter-eng", "job-eng-deny");
+    EXPECT_FALSE(engine.checkExportPermission(req_deny).is_permitted);
+}
+
+TEST_F(PolicyEngineExportPermissionTest, DelegateRecordsLineageInTracker) {
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->setLineageTracker(tracker);
+    engine.setModelGovernancePolicy(mgp);
+
+    auto req = makeRequest("vs-nfd", {"col_a"}, "adapter-pe", "job-pe-lin");
+    auto dec = engine.checkExportPermission(req);
+    ASSERT_TRUE(dec.is_permitted);
+
+    auto record = tracker->getLineage("job-pe-lin");
+    ASSERT_EQ(record.events.size(), 1u);
+    EXPECT_EQ(record.events[0].event_type, LineageEventType::MODEL_TRAINING);
+}
+
+TEST_F(PolicyEngineExportPermissionTest, FallbackCaseInsensitive) {
+    for (const auto& cls : {"GEHEIM", "Geheim", "STRENG-GEHEIM"}) {
+        auto req = makeRequest(cls);
+        EXPECT_FALSE(engine.checkExportPermission(req).is_permitted)
+            << "Expected denial for classification: " << cls;
+    }
 }

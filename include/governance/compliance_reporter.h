@@ -3,17 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporter.h                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:19                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-25                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     134                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     208                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c9b77cb  2026-02-25  feat(governance): add BiasAuditReport and  ║
+                           generateBiasAuditReport() for AI/ML model  ║
+                           governance (training data lineage + bias   ║
+                           auditing)                                  ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

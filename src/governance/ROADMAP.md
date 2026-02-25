@@ -65,11 +65,11 @@
 - [x] API stability guaranteed for policy engine and rule evaluation
 
 ## Known Issues & Limitations
-- Policy hot-reload requires restart currently
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
 - OPA integration is planned but not started
 - Automated data masking in query results is not yet implemented
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
+- AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)
 
 ## Breaking Changes
 - OPA integration will introduce a new policy language alongside existing rule format (additive)
