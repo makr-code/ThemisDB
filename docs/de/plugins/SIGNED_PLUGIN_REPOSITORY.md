@@ -45,7 +45,7 @@ struct RepositoryEntry {
 };
 ```
 
-Die Signatur wird über das **kanonische JSON** des Manifests erstellt (alphabetisch sortierte Felder, kein Whitespace) – nicht über die serialisierte `ManifestManifest`-Struktur direkt.
+Die Signatur wird über das **kanonische JSON** des Manifests erstellt (alphabetisch sortierte Felder, kein Whitespace) – nicht über die serialisierte `MarketplaceManifest`-Struktur direkt.
 
 ### Kanonisches JSON
 
