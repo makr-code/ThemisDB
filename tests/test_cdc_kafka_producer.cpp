@@ -6,11 +6,15 @@
 //  - Topic-routing logic (per-collection vs single-topic)
 //  - Metric counter initialisation
 //  - getStats() snapshot
+//  - ICDCTransport interface compliance
 //
 // Live-broker integration tests require a running Kafka instance and are
 // outside the scope of the unit-test suite.
 
 #include <gtest/gtest.h>
+#include <memory>
+#include <type_traits>
+#include "cdc/icdc_transport.h"
 #include "cdc/kafka_cdc_producer.h"
 
 using namespace themis;
@@ -136,4 +140,34 @@ TEST(KafkaCDCProducerTest, ConfigPerCollectionTopicPrefix) {
     cfg.topic_prefix = "db.cdc.";
     EXPECT_TRUE(cfg.single_topic.empty());
     // With single_topic empty, per-collection routing uses topic_prefix.
+}
+
+// ── ICDCTransport interface compliance ────────────────────────────────────────
+
+// Verify that KafkaCDCProducer is a subtype of ICDCTransport so it can be
+// used polymorphically through the transport interface.
+TEST(KafkaCDCProducerTest, ImplementsICDCTransport) {
+    static_assert(std::is_base_of<ICDCTransport, KafkaCDCProducer>::value,
+                  "KafkaCDCProducer must derive from ICDCTransport");
+    KafkaCDCProducer producer(nullptr);
+    ICDCTransport* transport = &producer;
+    // Interface methods must be callable via the base pointer.
+    EXPECT_FALSE(transport->start());
+    EXPECT_NO_THROW(transport->stop());
+    Changefeed::ChangeEvent ev;
+    ev.sequence     = 1;
+    ev.type         = Changefeed::ChangeEventType::EVENT_PUT;
+    ev.key          = "col:1";
+    ev.timestamp_ms = 0;
+    EXPECT_FALSE(transport->publish(ev));
+}
+
+// Verify that a unique_ptr<ICDCTransport> can own a KafkaCDCProducer, which
+// is the expected usage pattern in enterprise CDC pipeline setup code.
+TEST(KafkaCDCProducerTest, PolymorphicOwnershipViaUniquePtr) {
+    std::unique_ptr<ICDCTransport> transport =
+        std::make_unique<KafkaCDCProducer>(nullptr);
+    ASSERT_NE(transport, nullptr);
+    EXPECT_FALSE(transport->start());
+    transport->stop();
 }
