@@ -2094,6 +2094,15 @@ ContentManager::IngestResult ContentManager::ingestStream(
     int64_t total_bytes = static_cast<int64_t>(header_read);
     int seq_num = 0;
     std::vector<std::string> chunk_ids;
+    // Incremental hash: XOR-combine per-chunk hashes (consistent with the
+    // placeholder computeSHA256 approach; upgraded together when real SHA-256
+    // is introduced for the non-streaming path).
+    size_t running_hash = std::hash<std::string>{}(filename);
+    auto updateHash = [&](const std::string& data) {
+        size_t h = std::hash<std::string>{}(data);
+        running_hash ^= h + 0x9e3779b9u + (running_hash << 6) + (running_hash >> 2);
+    };
+    updateHash(header_buf);
 
     // --- Load indexing config (mirrors importContent) ---
     bool auto_fulltext_index = false;
@@ -2125,6 +2134,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     // --- Helper: store one text segment as a chunk ---
     auto storeTextChunk = [&](const std::string& text) {
         if (text.empty()) return;
+        updateHash(text);
         ChunkMeta cm;
         cm.id         = generateUuid();
         cm.content_id = content_id;
@@ -2223,7 +2233,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
     meta.size_bytes       = total_bytes;
     meta.created_at       = now;
     meta.modified_at      = now;
-    meta.hash_sha256      = computeSHA256(std::to_string(total_bytes) + ":" + filename);
+    meta.hash_sha256      = toHex(std::string(reinterpret_cast<const char*>(&running_hash), sizeof(running_hash)) +
+                                 std::string(reinterpret_cast<const char*>(&total_bytes), sizeof(total_bytes)));
     meta.text_extracted   = true;
     meta.chunk_count      = static_cast<int>(chunk_ids.size());
     meta.chunked          = meta.chunk_count > 0;
@@ -2260,7 +2271,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
     return result;
 }
 
-ContentManager::Stats ContentManager::getStats() {    Stats s{};
+ContentManager::Stats ContentManager::getStats() {
+    Stats s{};
     s.total_content_items = 0;
     s.total_chunks = 0;
     s.total_embeddings = 0;
