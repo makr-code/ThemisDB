@@ -1141,6 +1141,64 @@ public:
     }
 };
 
+/**
+ * @brief ST_BUFFER(geom, distance_m [, arc_points]) - Expand a geometry by a
+ * fixed geodesic distance.
+ *
+ * Returns a GeoJSON Polygon that approximates the input geometry expanded
+ * outward by `distance_m` metres.  Converts metres to degrees using the
+ * latitude of the geometry's centroid for geodesic accuracy at scales up to
+ * ~100 km.
+ *
+ * Supported input types:
+ *   - Point   → circular polygon with `arc_points` vertices (default 36).
+ *   - Polygon → outward ring expansion via edge-shift method.
+ *
+ * Returns an empty GeometryCollection for unsupported geometry types or when
+ * `distance_m` ≤ 0.
+ *
+ * Uses the CPU-exact spatial backend.
+ */
+class StBufferFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            "ST_BUFFER",
+            "Geo",
+            "Expand a geometry by a fixed geodesic distance in metres",
+            {
+                {"geometry",   ArgType::GEOMETRY, true,  nullptr, "Input geometry (Point or Polygon)"},
+                {"distance_m", ArgType::NUMBER,   true,  nullptr, "Buffer distance in metres (must be > 0)"},
+                {"arc_points", ArgType::NUMBER,   false, 36,      "Vertices per arc for circular approximation (default 36, min 3)"}
+            },
+            ArgType::GEOMETRY,
+            true,
+            false,
+            {"ST_BUFFER(point, 500)", "ST_BUFFER(polygon, 1000)", "ST_BUFFER(point, 500, 64)"}
+        };
+    }
+
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
+        using namespace themis::geo;
+        const GeometryInfo geom = EWKBParser::parseGeoJSON(args[0].dump());
+        const double distance_m = args[1].get<double>();
+        // Truncation is intentional: arc_points must be a whole number of vertices.
+        const int arc_points = (args.size() >= 3 && args[2].is_number())
+                               ? static_cast<int>(args[2].get<double>())
+                               : 36;
+        const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
+        const std::string json_str = EWKBParser::toGeoJSON(result);
+        if (json_str == "{}" || json_str.empty()) {
+            nlohmann::json empty;
+            empty["type"] = "GeometryCollection";
+            empty["geometries"] = nlohmann::json::array();
+            return empty;
+        }
+        return nlohmann::json::parse(json_str);
+    }
+};
+
 // ============================================================================
 // Registration Function
 // ============================================================================
@@ -1265,6 +1323,7 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
     // Processing
     registry.registerFunction(std::make_unique<StCentroidFunction>());
     registry.registerFunction(std::make_unique<StEnvelopeFunction>());
+    registry.registerFunction(std::make_unique<StBufferFunction>());
     registry.registerFunction(std::make_unique<StUnionFunction>());
     registry.registerFunction(std::make_unique<StDifferenceFunction>());
 }
