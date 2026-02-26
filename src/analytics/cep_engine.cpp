@@ -239,7 +239,8 @@ struct ExprEvaluator {
                 rhs = cur().text; rhs_num = cur().num; rhs_is_num = true; advance();
             } else if (cur().type == TokType::IDENT) {
                 auto it = ctx.find(cur().text);
-                rhs = (it != ctx.end()) ? it->second : ""; advance();
+                rhs = (it != ctx.end()) ? it->second : cur().text;
+                advance();
             }
             auto it = ctx.find(lhs_name);
             std::string lhs = (it != ctx.end()) ? it->second : "";
@@ -603,16 +604,36 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event& event) {
 
     // CONJUNCTION: collect all expected types within tolerance window
     if (config_.type == PatternType::CONJUNCTION) {
+        const auto now = std::chrono::steady_clock::now();
+        bool event_relevant = false;
         for (const auto& et : config_.event_types) {
-            if (matchesEventType(event, et) && evaluateCondition(event)) {
-                PartialMatch pm;
-                pm.current_state = 0;
-                pm.matched_events.push_back(event);
-                pm.start_time = std::chrono::steady_clock::now();
-                active.push_back(std::move(pm));
+            if (matchesEventType(event, et)) {
+                event_relevant = true;
+                break;
             }
         }
-        // Check if any partial match has collected all event types
+
+        if (event_relevant && evaluateCondition(event)) {
+            // Extend currently active conjunction candidates.
+            for (auto& pm : active) {
+                const bool within_tolerance =
+                    (config_.tolerance.count() <= 0) ||
+                    (std::chrono::duration_cast<std::chrono::milliseconds>(now - pm.start_time) <=
+                     config_.tolerance);
+                if (within_tolerance) {
+                    pm.matched_events.push_back(event);
+                }
+            }
+
+            // Start a new candidate with the current event as first seen member.
+            PartialMatch pm;
+            pm.current_state = 0;
+            pm.matched_events.push_back(event);
+            pm.start_time = now;
+            active.push_back(std::move(pm));
+        }
+
+        // Check if any candidate has collected all required event types.
         std::vector<PartialMatch> remaining;
         for (auto& pm : active) {
             std::set<std::string> seen;
@@ -1594,6 +1615,25 @@ void CEPEngine::initialize(const CEPConfig& config) {
     }
 
     config_ = config;
+
+    // Reset runtime state so repeated initialize()/shutdown() cycles in tests
+    // always start from a clean slate.
+    {
+        std::lock_guard lk(queue_mutex_);
+        std::queue<std::pair<std::string, Event>> empty;
+        std::swap(event_queue_, empty);
+    }
+    {
+        std::lock_guard lk(alerts_mutex_);
+        alerts_.clear();
+    }
+    events_received_ = 0;
+    events_processed_ = 0;
+    events_dropped_ = 0;
+    backpressure_events_ = 0;
+    pattern_matches_ = 0;
+    alerts_generated_ = 0;
+
     rule_engine_ = std::make_unique<RuleEngine>(this);
 
     if (config_.enabled) {
@@ -1642,6 +1682,11 @@ void CEPEngine::shutdown() {
         std::unique_lock lk(streams_mutex_);
         streams_.clear();
         default_stream_.reset();
+    }
+    {
+        std::lock_guard lk(queue_mutex_);
+        std::queue<std::pair<std::string, Event>> empty;
+        std::swap(event_queue_, empty);
     }
     initialized_ = false;
     spdlog::info("CEPEngine shut down");

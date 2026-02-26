@@ -17,7 +17,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#if defined(_WIN32)
+#if defined(_WIN32) && defined(THEMIS_PROCESS_MINING_WINDOWS_STUB)
 #include "analytics/process_mining.h"
 #include "utils/logger.h"
 

@@ -31,6 +31,13 @@ using json = nlohmann::json;
 namespace beast = boost::beast;
 namespace http  = beast::http;
 
+#ifdef TOKEN_READ
+#undef TOKEN_READ
+#endif
+#ifdef TOKEN_ADMIN
+#undef TOKEN_ADMIN
+#endif
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Shared tokens used throughout this suite
 // ─────────────────────────────────────────────────────────────────────────────

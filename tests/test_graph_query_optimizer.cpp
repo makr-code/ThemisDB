@@ -1853,3 +1853,318 @@ TEST_F(GraphQueryOptimizerTest, StreamBFS_LargeGraph_AllNodesReachable) {
     EXPECT_GE(count, 9u);
 }
 
+// Subgraph Isomorphism Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternReturnsEmptyMatch) {
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 1u);
+    EXPECT_TRUE(result.value().matches[0].empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SingleVertexFindsAllDataVertices) {
+    // Pattern: single vertex "u" - should match every data vertex reachable from A
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // The test graph has vertices A,B,C,D - all should be matched
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        EXPECT_EQ(m.size(), 1u);
+        EXPECT_TRUE(m.count("u"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EdgePatternFindsDirectEdges) {
+    // Pattern: u -> v; should match A->B, A->C, B->C, C->D
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u") && m.count("v"));
+        const std::string& mu = m.at("u");
+        const std::string& mv = m.at("v");
+        // Verify injective: both mapped to different data vertices
+        EXPECT_NE(mu, mv);
+        // Verify edge exists in test graph
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mu);
+        ASSERT_TRUE(st.ok);
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ChainPatternMatchesPath) {
+    // Pattern: p -> q -> r; must match A->B->C and A->C->D and B->C->D
+    std::vector<std::string> verts = {"p", "q", "r"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"p", "q"}, {"q", "r"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 3u);
+        // Verify chain structure in data graph
+        auto [st1, n1] = graph_mgr_->outNeighbors(m.at("p"));
+        ASSERT_TRUE(st1.ok);
+        EXPECT_NE(std::find(n1.begin(), n1.end(), m.at("q")), n1.end());
+        auto [st2, n2] = graph_mgr_->outNeighbors(m.at("q"));
+        ASSERT_TRUE(st2.ok);
+        EXPECT_NE(std::find(n2.begin(), n2.end(), m.at("r")), n2.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_MaxResultsLimitsMatches) {
+    // Pattern with many matches; limit results
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_results = 1;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    EXPECT_LE(result.value().matches.size(), 1u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ForbiddenVertexExcludesIt) {
+    // Pattern: single vertex "u"; B is forbidden -> B must not appear in matches
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.forbidden_vertices = {"B"};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        EXPECT_NE(m.at("u"), "B");
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_InjectiveNoReusedDataVertex) {
+    // Pattern: two disconnected vertices; each data vertex used at most once
+    std::vector<std::string> verts = {"x", "y"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 2u);
+        EXPECT_NE(m.at("x"), m.at("y"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_OptimizePlanSelectsDFS) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_EQ(plan.value().pattern,
+              themis::graph::GraphQueryOptimizer::QueryPattern::PATTERN_MATCH);
+    EXPECT_EQ(plan.value().algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ExecutionStatsPopulated) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_GE(stats.nodes_explored, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternRejectedWhenDataEdgeMissing) {
+    // Pattern: single vertex "u" with a self-loop u -> u.
+    // The test graph (A->B->C->D, A->C) has no self-loop edges, so no match.
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternMatchesWhenEdgeExists) {
+    // Add a self-loop on vertex "S" to the graph, then verify the pattern matches.
+    themis::BaseEntity self_edge("sel1");
+    self_edge.setField("id", "sel1");
+    self_edge.setField("_from", "S");
+    self_edge.setField("_to", "S");
+    graph_mgr_->addEdge(self_edge);
+
+    // Pattern: single vertex with self-loop
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // At least "S" must appear as a match
+    bool found_S = false;
+    for (const auto& m : result.value().matches) {
+        if (m.count("u") && m.at("u") == "S") { found_S = true; break; }
+    }
+    EXPECT_TRUE(found_S);
+    // Verify every match vertex actually has a self-loop
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        const std::string& mv = m.at("u");
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mv);
+        ASSERT_TRUE(st.ok) << "outNeighbors failed for vertex " << mv << ": " << st.message;
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end())
+            << "Match vertex " << mv << " has no self-loop";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne) {
+    // Verify metrics: empty pattern should count as 1 path found (not 0 / failure)
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(stats.paths_found, 1u);
+// Analytics Module Integration Tests (Issue #1821)
+// ============================================================================
+
+class GraphAnalyticsIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = "./data/themis_graph_analytics_integration_test";
+        fs::remove_all(test_db_path_);
+
+        themis::RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        config.memtable_size_mb = 64;
+        config.block_cache_size_mb = 256;
+        config.max_background_jobs = 2;
+        config.compression_default = "lz4";
+        config.compression_bottommost = "zstd";
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        graph_mgr_  = std::make_unique<themis::GraphIndexManager>(*db_);
+        optimizer_  = std::make_unique<themis::graph::GraphQueryOptimizer>(*graph_mgr_);
+        analytics_  = std::make_unique<themis::GraphAnalytics>(*graph_mgr_);
+
+        // Graph: A -> B -> C -> D, also A -> C
+        auto addEdge = [&](const std::string& id,
+                           const std::string& from,
+                           const std::string& to,
+                           double weight = 1.0) {
+            themis::BaseEntity e(id);
+            e.setField("id", id);
+            e.setField("_from", from);
+            e.setField("_to", to);
+            e.setField("_weight", std::to_string(weight));
+            graph_mgr_->addEdge(e);
+        };
+        addEdge("e1", "A", "B", 1.0);
+        addEdge("e2", "B", "C", 1.0);
+        addEdge("e3", "C", "D", 1.0);
+        addEdge("e4", "A", "C", 2.0);
+    }
+
+    void TearDown() override {
+        analytics_.reset();
+        optimizer_.reset();
+        graph_mgr_.reset();
+        db_.reset();
+        fs::remove_all(test_db_path_);
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::GraphIndexManager> graph_mgr_;
+    std::unique_ptr<themis::graph::GraphQueryOptimizer> optimizer_;
+    std::unique_ptr<themis::GraphAnalytics> analytics_;
+};
+
+TEST_F(GraphAnalyticsIntegrationTest, AttachDetach_HasAnalyticsReflectsState) {
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+
+    optimizer_->attachAnalytics(*analytics_);
+    EXPECT_TRUE(optimizer_->hasAnalytics());
+
+    optimizer_->detachAnalytics();
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_WithoutAnalytics_ReturnsError) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_InvalidK_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 0, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_FindsPathsViaAnalytics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_TRUE(result.has_value()) << (result ? "" : result.error().message());
+
+    const auto& paths = result.value();
+    EXPECT_GE(paths.size(), 1u);
+
+    // All returned paths must start at A and end at D
+    for (const auto& path : paths) {
+        ASSERT_FALSE(path.vertices.empty());
+        EXPECT_EQ(path.vertices.front(), "A");
+        EXPECT_EQ(path.vertices.back(),  "D");
+        EXPECT_GT(path.hop_count, 0);
+    }
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_ReturnsAtMostKPaths) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 3, c);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_LE(result.value().size(), 3u);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_PopulatesExecutionStats) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c, "", &stats);
+    ASSERT_TRUE(result.has_value());
+
+    EXPECT_GE(stats.paths_found, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_UpdatesQueryMetrics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    const auto queries_before =
+        optimizer_->getQueryMetrics().total_queries.load();
+
+    optimizer_->executeKShortestPaths("A", "D", 1, c);
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().total_queries.load(),
+              queries_before + 1);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_AfterDetach_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    optimizer_->detachAnalytics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 1, c);
+    EXPECT_FALSE(result.has_value());
+}
