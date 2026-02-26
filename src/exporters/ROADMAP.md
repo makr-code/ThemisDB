@@ -23,7 +23,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Parquet export with configurable schema (Issue: #1713)
+- [x] Parquet export with configurable schema (Issue: #1713)
 - [I] Arrow IPC export for zero-copy pipelines (Issue: #1714)
 - [I] Export filtering with AQL predicates (Issue: #1715)
 - [I] Incremental/delta export (only changed documents since last export) (Issue: #1716)
@@ -67,7 +67,7 @@
 
 ## Known Issues & Limitations
 - No delta/incremental export; each run exports the full selection
-- No built-in deduplication of training examples
+- JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
 
 ## Breaking Changes
 - Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)

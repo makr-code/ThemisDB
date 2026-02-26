@@ -87,40 +87,61 @@ Complete implementation of production-readiness roadmap for the exporters module
 - Graceful termination on limit reached
 - `SizeLimitException` on overflow
 
+### P3 (High Priority) ✅ - Columnar Export
+
+**Parquet Export with Configurable Arrow Schema**
+- `ParquetExporter` class implementing `IExporter`
+- Dual implementation: Apache Arrow path (`ARROW_ENABLED`) and minimal hand-written fallback (no external deps)
+- Configurable per-column type hints: `INT64`, `DOUBLE`, `BOOLEAN`, `STRING` / `AUTO`
+- Schema auto-detection from entity fields (`auto_detect_schema = true`)
+- Row-group size configuration (default 65,536 rows as per Parquet spec)
+- Compression codec selection: `none`, `snappy`, `gzip`, `zstd`
+- File metadata key-value pairs written to Parquet footer
+- Include/exclude column lists (mirrors JSONL exporter field selection)
+- PII detection and redaction (same strategies as JSONL exporter)
+- Tenant isolation enforcement (same scope-based auth as JSONL exporter)
+- Deduplication by primary key (always active)
+- Progress callbacks with configurable interval
+- `exporter_parquet_bytes_written_total` Prometheus counter in `ExporterMetrics`
+- Produces files readable by pyarrow, Pandas, Spark, and all compliant Parquet readers
+
 ## Implementation Statistics
 
 ### Code Metrics
 
 | Metric | Count |
 |--------|-------|
-| New Files Created | 9 |
+| New Files Created | 11 |
 | Files Modified | 7 |
-| Total Lines Added | ~3,400 |
-| New Classes | 8 |
-| New Features | 20+ |
+| Total Lines Added | ~4,400 |
+| New Classes | 9 |
+| New Features | 25+ |
 | Test Cases | 47 (20 P0 + 11 P1/P2 + 16 streaming) |
 | Error Codes | 10 |
 | Exception Types | 7 |
 
 ### File Breakdown
 
-**Headers (5):**
+**Headers (6):**
 - `include/exporters/exporter_errors.h` (159 lines)
 - `include/exporters/exporter_metrics.h` (148 lines)
 - `include/exporters/pii_detector.h` (107 lines)
 - `include/exporters/stream_writer.h` (62 lines)
 - `include/exporters/streaming_exporter.h` (139 lines)
+- `include/exporters/parquet_exporter.h` (155 lines)
 
-**Implementation (5):**
+**Implementation (6):**
 - `src/exporters/exporter_metrics.cpp` (280 lines)
 - `src/exporters/pii_detector.cpp` (214 lines)
 - `src/exporters/stream_writer.cpp` (183 lines)
 - `src/exporters/streaming_exporter.cpp` (335 lines)
 - `src/exporters/jsonl_llm_exporter.cpp` (300+ lines modified)
+- `src/exporters/parquet_exporter.cpp` (960 lines)
 
-**Tests (2):**
+**Tests (3):**
 - `tests/exporters/test_jsonl_llm_exporter.cpp` (780 lines total)
 - `tests/exporters/test_streaming_exporter.cpp` (419 lines)
+- `tests/exporters/test_parquet_exporter.cpp` (430 lines)
 
 **Documentation (3):**
 - `docs/exporters_roadmap.md` (297 lines)
@@ -172,8 +193,38 @@ Complete implementation of production-readiness roadmap for the exporters module
 - `getName()`, `getVersion()` metadata
 - Supported formats list
 - Metrics attached to stats
+### Parquet Export Tests (29)
+- Basic export with magic bytes validation
+- Non-empty file assertion
+- Empty entity set produces valid Parquet file
+- Stats: total_entities matches input
+- Stats: metrics pointer attached
+- Include columns filter
+- Exclude columns filter
+- ExportOptions.include_fields respected
+- Row-group size configuration
+- Compression codec: none
+- `setConfig()` / `getConfig()` round-trip
+- Column type hints (INT64, DOUBLE, STRING)
+- File metadata written to footer
+- Deduplication by primary key (always active)
+- Progress callback invoked
+- Tenant isolation: matching tenant passes
+- Tenant isolation: cross-tenant rows blocked
+- Tenant insufficient scopes throws
+- PII detection tracks hits without redaction
+- PII redaction with mask strategy
+- PII fail-on-detection throws
+- Invalid output path returns error stats
+- Empty output path throws `ConfigException`
+- Metrics recorded after export
+- Metrics reset works
+- `exporter_parquet_bytes_written_total` counter tracked
+- Bytes counter matches `bytes_written`
+- Bytes counter accumulates across exports
+- Large-batch export exercises row-group flushing
 
-## Usage Examples
+
 
 ### Example 1: Basic Secure Export
 
@@ -389,6 +440,6 @@ The implementation follows best practices for:
 ## References
 
 - Source code: `src/exporters/`, `include/exporters/`
-- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`, `tests/exporters/test_streaming_exporter.cpp`
+- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`, `tests/exporters/test_streaming_exporter.cpp`, `tests/exporters/test_parquet_exporter.cpp`
 - Documentation: `docs/exporters/`
 - Error codes: `include/utils/error_registry.h`
