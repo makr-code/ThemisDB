@@ -16,7 +16,6 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
-#include <functional>
 #include <regex>
 #include <sstream>
 #include <unordered_map>
@@ -172,7 +171,38 @@ std::string HtmlProcessor::removeScriptsAndStyles(const std::string& html) {
     return result;
 }
 
-std::string HtmlProcessor::stripTags(const std::string& html) {
+std::string HtmlProcessor::stripTags(const std::string& html,
+                                      bool preserve_headings) {
+    std::string text = html;
+
+    if (preserve_headings) {
+        // Single-pass replacement: <h1>–<h6> → "# "…"###### " markers
+        static const std::regex heading_open(R"(<\s*h([1-6])[^>]*>)",
+                                             std::regex::icase);
+        static const std::regex heading_close(R"(<\s*/\s*h[1-6][^>]*>)",
+                                              std::regex::icase);
+
+        std::string replaced;
+        replaced.reserve(text.size());
+        size_t last_pos = 0;
+
+        auto it  = std::sregex_iterator(text.begin(), text.end(), heading_open);
+        auto end = std::sregex_iterator();
+        for (; it != end; ++it) {
+            const std::smatch& m = *it;
+            replaced.append(text, last_pos, static_cast<size_t>(m.position()) - last_pos);
+            int level = m[1].str()[0] - '0';  // 1–6
+            replaced += '\n';
+            replaced.append(static_cast<size_t>(level), '#');
+            replaced += ' ';
+            last_pos = static_cast<size_t>(m.position()) + static_cast<size_t>(m.length());
+        }
+        replaced.append(text, last_pos, text.size() - last_pos);
+
+        // Replace closing heading tags with newline
+        text = std::regex_replace(replaced, heading_close, "\n");
+    }
+
     // Block-level elements that should produce a newline
     static const std::regex block_tags(
         R"(<\s*/?\s*(p|div|article|section|main|h[1-6]|li|ul|ol|blockquote|pre|br|tr|td|th|dt|dd)[^>]*>)",
@@ -180,7 +210,7 @@ std::string HtmlProcessor::stripTags(const std::string& html) {
     );
 
     // Replace block-level tags with newline placeholder
-    std::string text = std::regex_replace(html, block_tags, "\n");
+    text = std::regex_replace(text, block_tags, "\n");
 
     // Strip all remaining tags
     static const std::regex any_tag("<[^>]*>");
@@ -315,12 +345,12 @@ json HtmlProcessor::extractMetaTags(const std::string& html) {
 
         // Extract name attribute
         static const std::regex name_re(
-            R"(\bname\s*=\s*"([^"]*)")",
+            R"re(\bname\s*=\s*"([^"]*)")re",
             std::regex::icase
         );
         // Extract content attribute
         static const std::regex content_re(
-            R"(\bcontent\s*=\s*"([^"]*)")",
+            R"re(\bcontent\s*=\s*"([^"]*)")re",
             std::regex::icase
         );
 
@@ -425,7 +455,7 @@ ExtractionResult HtmlProcessor::extract(
     }
 
     // 4. Strip remaining tags
-    std::string text = stripTags(working);
+    std::string text = stripTags(working, config_.preserve_heading_markers);
 
     // 5. Decode HTML entities
     if (config_.decode_entities) {
@@ -578,6 +608,18 @@ std::vector<float> HtmlProcessor::generateEmbedding(const std::string& chunk_dat
     }
 
     return embedding;
+}
+
+// ============================================================================
+// Factory functions
+// ============================================================================
+
+std::unique_ptr<IContentProcessor> createHtmlProcessor() {
+    return std::make_unique<HtmlProcessor>();
+}
+
+std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config config) {
+    return std::make_unique<HtmlProcessor>(std::move(config));
 }
 
 } // namespace content

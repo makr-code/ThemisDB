@@ -131,9 +131,13 @@ public:
      * from adjacent elements are not concatenated.
      *
      * @param html  HTML string (should have scripts/styles already removed)
+     * @param preserve_headings  When true, replaces &lt;h1&gt;–&lt;h6&gt;
+     *                           opening tags with markdown-style markers
+     *                           ("# ", "## ", …"###### ") before stripping.
      * @return Plain text
      */
-    static std::string stripTags(const std::string& html);
+    static std::string stripTags(const std::string& html,
+                                  bool preserve_headings = false);
 
     /**
      * @brief Decode common HTML entities
@@ -167,6 +171,21 @@ private:
     // (handles nested elements of the same name)
     static std::string removeElement(const std::string& html, const std::string& tag);
 };
+
+/**
+ * @brief Factory function for HtmlProcessor
+ *
+ * @return Unique pointer to HtmlProcessor with default configuration
+ */
+std::unique_ptr<IContentProcessor> createHtmlProcessor();
+
+/**
+ * @brief Factory function for HtmlProcessor with custom configuration
+ *
+ * @param config  Processor configuration
+ * @return Unique pointer to HtmlProcessor
+ */
+std::unique_ptr<IContentProcessor> createHtmlProcessor(HtmlProcessor::Config config);
 
 } // namespace content
 } // namespace themis

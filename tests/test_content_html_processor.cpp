@@ -460,3 +460,91 @@ TEST(HtmlProcessorTest, GetSupportedCategories) {
     ASSERT_EQ(cats.size(), 1u);
     EXPECT_EQ(cats[0], ContentCategory::TEXT);
 }
+
+// ============================================================================
+// preserve_heading_markers
+// ============================================================================
+
+TEST(HtmlProcessorTest, StripTags_PreserveHeadings_H1) {
+    std::string html = "<h1>Main Title</h1><p>Text</p>";
+    std::string result = HtmlProcessor::stripTags(html, /*preserve_headings=*/true);
+    EXPECT_NE(result.find("# Main Title"), std::string::npos);
+    EXPECT_NE(result.find("Text"), std::string::npos);
+    EXPECT_EQ(result.find('<'), std::string::npos);
+}
+
+TEST(HtmlProcessorTest, StripTags_PreserveHeadings_AllLevels) {
+    std::string html =
+        "<h1>H1</h1><h2>H2</h2><h3>H3</h3>"
+        "<h4>H4</h4><h5>H5</h5><h6>H6</h6>";
+    std::string result = HtmlProcessor::stripTags(html, /*preserve_headings=*/true);
+    EXPECT_NE(result.find("# H1"), std::string::npos);
+    EXPECT_NE(result.find("## H2"), std::string::npos);
+    EXPECT_NE(result.find("### H3"), std::string::npos);
+    EXPECT_NE(result.find("#### H4"), std::string::npos);
+    EXPECT_NE(result.find("##### H5"), std::string::npos);
+    EXPECT_NE(result.find("###### H6"), std::string::npos);
+}
+
+TEST(HtmlProcessorTest, StripTags_NoPreserveHeadings_Default) {
+    // Without preserve_headings, headings should not produce # markers
+    std::string html = "<h1>Title</h1><p>Content</p>";
+    std::string result = HtmlProcessor::stripTags(html);  // default: preserve_headings=false
+    // Heading text preserved but no # prefix
+    EXPECT_NE(result.find("Title"), std::string::npos);
+    EXPECT_EQ(result.find("# Title"), std::string::npos);
+}
+
+TEST(HtmlProcessorTest, Extract_PreserveHeadingMarkers) {
+    HtmlProcessor::Config cfg;
+    cfg.preserve_heading_markers = true;
+    HtmlProcessor proc(cfg);
+    ContentType ct = makeHtmlType();
+    std::string html = "<h1>Section One</h1><p>Body text.</p><h2>Sub Section</h2><p>More text.</p>";
+    auto result = proc.extract(html, ct);
+    EXPECT_TRUE(result.ok);
+    EXPECT_NE(result.text.find("# Section One"), std::string::npos);
+    EXPECT_NE(result.text.find("## Sub Section"), std::string::npos);
+    EXPECT_NE(result.text.find("Body text"), std::string::npos);
+}
+
+// ============================================================================
+// Factory function tests
+// ============================================================================
+
+TEST(HtmlProcessorTest, CreateHtmlProcessor_Default) {
+    auto proc = createHtmlProcessor();
+    ASSERT_NE(proc, nullptr);
+    EXPECT_EQ(proc->getName(), "HtmlProcessor");
+}
+
+TEST(HtmlProcessorTest, CreateHtmlProcessor_WithConfig) {
+    HtmlProcessor::Config cfg;
+    cfg.remove_boilerplate = false;
+    auto proc = createHtmlProcessor(cfg);
+    ASSERT_NE(proc, nullptr);
+    // With boilerplate removal disabled, nav content should appear
+    ContentType ct = makeHtmlType();
+    auto result = proc->extract("<nav><a>Nav</a></nav><p>Content</p>", ct);
+    EXPECT_TRUE(result.ok);
+    EXPECT_NE(result.text.find("Nav"), std::string::npos);
+}
+
+// ============================================================================
+// application/xhtml+xml routing
+// ============================================================================
+
+TEST(HtmlProcessorTest, Extract_XhtmlMimeType) {
+    HtmlProcessor proc;
+    ContentType ct;
+    ct.mime_type = "application/xhtml+xml";
+    ct.category  = ContentCategory::TEXT;
+    std::string xhtml = R"xhtml(<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>XHTML Page</title></head>
+<body><p>XHTML content</p></body></html>)xhtml";
+    auto result = proc.extract(xhtml, ct);
+    EXPECT_TRUE(result.ok);
+    EXPECT_NE(result.text.find("XHTML content"), std::string::npos);
+    EXPECT_EQ(result.metadata["mime_type"].get<std::string>(), "application/xhtml+xml");
+}
