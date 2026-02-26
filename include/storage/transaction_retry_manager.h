@@ -30,6 +30,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <thread>
 #include <unordered_map>
 
 namespace themisdb {
@@ -113,6 +114,29 @@ struct RetryStatistics {
     std::atomic<uint64_t> total_retry_attempts{0};
     std::atomic<uint64_t> circuit_breaker_blocks{0};
     std::atomic<uint64_t> total_latency_ms{0};
+
+    RetryStatistics() = default;
+    RetryStatistics(const RetryStatistics& o)
+        : total_operations{o.total_operations.load()},
+          successful_operations{o.successful_operations.load()},
+          failed_operations{o.failed_operations.load()},
+          retried_operations{o.retried_operations.load()},
+          total_retry_attempts{o.total_retry_attempts.load()},
+          circuit_breaker_blocks{o.circuit_breaker_blocks.load()},
+          total_latency_ms{o.total_latency_ms.load()},
+          errors_by_type{o.errors_by_type} {}
+    RetryStatistics& operator=(const RetryStatistics& o) {
+        if (this == &o) return *this;
+        total_operations.store(o.total_operations.load());
+        successful_operations.store(o.successful_operations.load());
+        failed_operations.store(o.failed_operations.load());
+        retried_operations.store(o.retried_operations.load());
+        total_retry_attempts.store(o.total_retry_attempts.load());
+        circuit_breaker_blocks.store(o.circuit_breaker_blocks.load());
+        total_latency_ms.store(o.total_latency_ms.load());
+        errors_by_type = o.errors_by_type;
+        return *this;
+    }
     
     // Per-error-type counters
     std::unordered_map<ErrorType, uint64_t> errors_by_type;
