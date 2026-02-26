@@ -13,7 +13,7 @@ vs_classification:
     redaction_level: "none"
     retention_days: 365
     log_encryption: false
-  
+
   vs-nfd:
     description: "Restricted (Verschlusssache - Nur für den Dienstgebrauch)"
     encryption_required: true
@@ -23,7 +23,7 @@ vs_classification:
     redaction_level: "standard"
     retention_days: 1825  # 5 years
     log_encryption: true
-  
+
   geheim:
     description: "Secret (Geheim)"
     encryption_required: true
@@ -33,7 +33,7 @@ vs_classification:
     redaction_level: "strict"
     retention_days: 3650  # 10 years
     log_encryption: true
-  
+
   streng-geheim:
     description: "Top Secret (Streng Geheim)"
     encryption_required: true
@@ -101,20 +101,20 @@ retention:
   default_policy:
     retention_days: 365
     archive_after_days: 180
-  
+
   metric_policies:
     - metric: "audit_log"
       retention_days: 2555  # 7 years (compliance)
       archive_after_days: 365
-    
+
     - metric: "saga_log"
       retention_days: 3650  # 10 years
       archive_after_days: 730
-    
+
     - metric: "application_metrics"
       retention_days: 90
       archive_after_days: 30
-  
+
   archive_compression: "zstd"
   archive_encryption: true
 
@@ -128,19 +128,53 @@ enforcement:
     "/content/import": "offen"
     "/transaction/*": "vs-nfd"
     "/query/aql": "vs-nfd"
-  
+
   # Governance headers accepted by endpoints
   governance_headers:
     classification: "X-Classification"
     mode: "X-Governance-Mode"
     encrypt_logs: "X-Encrypt-Logs"
     redaction: "X-Redaction-Level"
-  
+
   # Default enforcement mode
   default_mode: "enforce"  # or "observe" for gradual rollout
-  
+
   # Compliance frameworks
   frameworks:
     - "GDPR"
     - "VSA"
     - "BSI-C5"
+
+# Automated Data Masking – sensitive field rules applied to query results
+# (GDPR Article 25 – data protection by design)
+# Strategies:
+#   redact    – replace value with "[REDACTED]"
+#   tokenize  – stable HMAC-SHA256 pseudonym keyed on collection_secret
+#   truncate  – keep first truncate_length characters + "..."
+#   hash      – SHA-256 hex digest (prefix "sha_")
+data_masking:
+  enabled: true
+  rules:
+    - field: "ssn"
+      strategy: "redact"
+    - field: "social_security_number"
+      strategy: "redact"
+    - field: "credit_card"
+      strategy: "hash"
+    - field: "credit_card_number"
+      strategy: "hash"
+    - field: "patient_id"
+      strategy: "tokenize"
+      # ⚠️  SECURITY WARNING: collection_secret must be set to a strong,
+      # ⚠️  unique value per collection and stored securely in your KMS
+      # ⚠️  DO NOT commit real secrets to version control
+      collection_secret: "change-me-in-production"
+    - field: "national_id"
+      strategy: "tokenize"
+      # ⚠️  SECURITY WARNING: collection_secret must be set to a strong,
+      # ⚠️  unique value per collection and stored securely in your KMS
+      # ⚠️  DO NOT commit real secrets to version control
+      collection_secret: "change-me-in-production"
+    - field: "date_of_birth"
+      strategy: "truncate"
+      truncate_length: 4
