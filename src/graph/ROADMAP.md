@@ -20,9 +20,10 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Incremental graph query execution on live updates (Issue: #1825)
 
 ## In Progress 🚧
-- [~] Incremental graph query execution on live updates (Issue: #1825)
+(none)
 
 ## Planned Features 📋
 
@@ -62,7 +63,7 @@
 
 ### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [ ] Subgraph isomorphism queries (pattern matching)
-- [~] Incremental graph query execution on live updates (Issue: #1825)
+- [x] Incremental graph query execution on live updates (Issue: #1825)
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
@@ -78,6 +79,8 @@
 
 ## Known Issues & Limitations
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
+- Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
+- Incremental query execution is not thread-safe (same as the optimizer itself)
 - Subgraph isomorphism (pattern matching) is not yet available
 - Distributed graph queries across shards are not yet supported
 

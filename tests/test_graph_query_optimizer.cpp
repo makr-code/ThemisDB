@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:57                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1493                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1972                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b147c2c63  2026-02-26  feat(graph): implement incremental graph query execu... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
-    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1934,4 +1934,39 @@ TEST_F(GraphQueryOptimizerTest, GraphChangeSet_Helpers_WorkCorrectly) {
     EXPECT_EQ(cs.changes[2].id, "V1");
     EXPECT_EQ(cs.changes[3].type, CT::VERTEX_REMOVED);
     EXPECT_EQ(cs.changes[3].id, "V2");
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_CallbackCanSafelyUnregisterItselfDuringOnGraphChange) {
+    // This test validates the iterator-safety fix: a callback that calls
+    // unregisterIncrementalQuery() on its own handle must not cause
+    // undefined behaviour (e.g. use-after-free or iterator invalidation).
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryHandle captured_handle = 0;
+    int cb_count = 0;
+
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++cb_count;
+            // Unregister self from within the callback – must be safe.
+            optimizer_->unregisterIncrementalQuery(captured_handle);
+        });
+    captured_handle = handle;
+
+    // Second query (different start vertex so its callback is not triggered).
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "Z", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+
+    // Trigger re-execution by touching B (in A's result).
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_selfunreg", "B", "Q");
+
+    // Must not crash or exhibit UB.
+    EXPECT_NO_FATAL_FAILURE(optimizer_->onGraphChange(changes));
+    EXPECT_EQ(cb_count, 1);
+
+    optimizer_->unregisterIncrementalQuery(h2);
 }

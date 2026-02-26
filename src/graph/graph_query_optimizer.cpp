@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:06                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1576                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1779                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b147c2c63  2026-02-26  feat(graph): implement incremental graph query execu... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1698,7 +1698,17 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
         }
     }
 
-    size_t reexecuted_count = 0;
+    // First pass: determine affected queries, re-execute them, build deltas,
+    // and update last_result. Callbacks are collected for deferred invocation
+    // so that a callback calling unregisterIncrementalQuery() cannot invalidate
+    // the ongoing iteration of incremental_queries_.
+    // PendingCallback: holds the callback and its delta snapshot for deferred
+    // invocation after the map iteration is complete.
+    struct PendingCallback {
+        IncrementalQueryCallback callback;
+        IncrementalQueryResult delta;
+    };
+    std::vector<PendingCallback> pending;
 
     for (auto& [handle, entry] : incremental_queries_) {
         // A query is affected when:
@@ -1752,11 +1762,17 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
             entry.last_result.clear();
         }
 
-        entry.callback(delta);
-        ++reexecuted_count;
+        pending.push_back({entry.callback, std::move(delta)});
     }
 
-    return reexecuted_count;
+    // Second pass: invoke callbacks outside the map iteration.
+    // This ensures that any unregisterIncrementalQuery() call inside a callback
+    // does not invalidate iterators used in the first pass above.
+    for (auto& p : pending) {
+        p.callback(p.delta);
+    }
+
+    return pending.size();
 }
 
 } // namespace graph
