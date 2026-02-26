@@ -137,9 +137,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 - `[x]` `PATH_MAPPING` keys are unchanged; only the filesystem search order gains the overlay prefix.
 - `[x]` Cache key must incorporate `env` to prevent cross-environment cache poisoning: `cache_key = env + ":" + legacy_path`.
 - `[x]` `setEnvironment()` clears the cache atomically to prevent stale overlay entries.
-- `[?]` Decision needed: should `getMetadata()` return environment-specific `PathMappingMetadata` or only the global metadata?
-
-**Resolution:** `getMetadata()` returns global metadata only; the overlay affects filesystem resolution only, not path mapping metadata.
+- `[x]` Decision: `getMetadata()` returns global metadata only; the overlay affects filesystem resolution only, not path mapping metadata.
 
 **Performance Targets:**
 - One additional filesystem `exists()` check per cache miss (overlay root probed first); negligible impact when cache hit rate > 95%.
@@ -192,4 +190,5 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 
 - `[x]` `validatePath()` must reject any input containing `..` or null bytes before cache lookup or filesystem access, preventing path traversal; the existing implementation covers this but must be exercised in every new code path that calls `resolve()`.
 - `[x]` CLI `--fix` mode must create `.bak` backup files before overwriting any config file; if backup creation fails, the tool must abort rather than overwrite without a backup.
-- `[x]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`) are validated (range-checked) before use; invalid values are rejected with a stderr warning and fall back to safe defaults. Note: `THEMIS_CONFIG_ENV` is not yet implemented (planned for multi-environment overlay, Issue: #1673).
+- `[x]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`) are validated (range-checked) before use; invalid values are rejected with a stderr warning and fall back to safe defaults.
+- `[x]` `THEMIS_CONFIG_ENV` is validated at startup; unknown values fall back to `prod` with a stderr warning. Implemented as part of multi-environment overlay support (Issue: #1673).
