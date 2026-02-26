@@ -1745,14 +1745,18 @@ TEST_F(GraphAnalyticsIntegrationTest, AttachDetach_HasAnalyticsReflectsState) {
 TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_WithoutAnalytics_ReturnsError) {
     themis::graph::GraphQueryOptimizer::QueryConstraints c;
     auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
-    EXPECT_FALSE(result.has_value());
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
 }
 
 TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_InvalidK_ReturnsError) {
     optimizer_->attachAnalytics(*analytics_);
     themis::graph::GraphQueryOptimizer::QueryConstraints c;
     auto result = optimizer_->executeKShortestPaths("A", "D", 0, c);
-    EXPECT_FALSE(result.has_value());
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
 }
 
 TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_FindsPathsViaAnalytics) {
