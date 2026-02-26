@@ -105,6 +105,7 @@ private:
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
     std::string extractSubtitles(const std::vector<uint8_t>& blob);
     std::vector<int64_t> detectScenes(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> extractKeyframes(const std::vector<uint8_t>& blob);
     
 #ifdef THEMIS_HAS_FFMPEG
     // FFmpeg-specific helper methods

@@ -223,6 +223,17 @@ ContentExtractionResult VideoProcessor::extract(
             result.thumbnail_mime_type = "image/jpeg";
         }
         
+        // Extract keyframe timestamps if requested
+        if (options.extract_keyframes) {
+            auto keyframes = extractKeyframes(blob);
+            media.keyframe_timestamps = keyframes;
+            json kf_times = json::array();
+            for (const auto& time : keyframes) {
+                kf_times.push_back(time);
+            }
+            result.metadata["keyframe_timestamps_ms"] = kf_times;
+        }
+        
         // Extract subtitles if requested (via options or plugin config)
         if (options.extract_subtitles || extract_subtitles_) {
             std::string subtitles = extractSubtitles(blob);
@@ -408,6 +419,15 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
     // 1. Decode video frames
     // 2. Calculate frame differences/histograms
     // 3. Detect scene changes based on threshold
+    
+    return std::vector<int64_t>();
+}
+
+std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>& blob) {
+    // Real implementation would:
+    // 1. Iterate through video packets
+    // 2. Collect timestamps of keyframe (I-frame) packets
+    // 3. Limit to max_keyframes_ count
     
     return std::vector<int64_t>();
 }
