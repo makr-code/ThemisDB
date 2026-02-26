@@ -115,18 +115,22 @@ std::string hexEncode(const std::string& s) {
     return out;
 }
 
-/** Hex-decode a hex string; silently ignores non-hex characters */
+/** Hex-decode a hex string; silently skips pairs with non-hex characters */
 std::string hexDecode(const std::string& hex) {
     std::string out;
     out.reserve(hex.size() / 2);
+    auto nibble = [](char c) -> int {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        return -1;
+    };
     for (size_t i = 0; i + 1 < hex.size(); i += 2) {
-        auto nibble = [](char c) -> uint8_t {
-            if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
-            if (c >= 'a' && c <= 'f') return static_cast<uint8_t>(c - 'a' + 10);
-            if (c >= 'A' && c <= 'F') return static_cast<uint8_t>(c - 'A' + 10);
-            return 0;
-        };
-        out += static_cast<char>((nibble(hex[i]) << 4) | nibble(hex[i + 1]));
+        int hi = nibble(hex[i]);
+        int lo = nibble(hex[i + 1]);
+        if (hi >= 0 && lo >= 0) {
+            out += static_cast<char>((hi << 4) | lo);
+        }
     }
     return out;
 }
