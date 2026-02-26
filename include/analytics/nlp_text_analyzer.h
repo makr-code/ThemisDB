@@ -308,6 +308,22 @@ public:
     std::string stemWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
     /**
+     * @brief Lemmatize a word to its canonical dictionary form (full morphological lemmatization)
+     *
+     * Applies language-specific morphological rules and irregular-form lookup tables to
+     * return the base (dictionary) form of a word for the given language.  Unlike
+     * stemWord(), the result is always a valid word in the target language.
+     *
+     * Supported languages: ENGLISH, GERMAN, FRENCH, SPANISH, ITALIAN, DUTCH.
+     * Falls back to lowercased input for UNKNOWN.
+     *
+     * @param word   Input word (case-insensitive)
+     * @param lang   Target language (default: ENGLISH)
+     * @return       Canonical lemma of the word
+     */
+    std::string lemmatizeWord(std::string_view word, Language lang = Language::ENGLISH) const;
+
+    /**
      * @brief Calculate similarity between two texts
      * @param text1 First text
      * @param text2 Second text
@@ -362,6 +378,9 @@ private:
     };
     mutable std::vector<LegalModalityPattern> legal_modality_patterns_;
 
+    // Morphological lemmatization: per-language irregular-form maps (inflected -> lemma)
+    std::unordered_map<Language, std::unordered_map<std::string, std::string>> irregular_lemmas_;
+
     // Statistics
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
@@ -390,6 +409,11 @@ private:
     bool containsSubquery(std::string_view query) const;
     std::vector<std::string> extractTableNames(std::string_view query) const;
     
+    // Morphological lemmatization helpers
+    void initializeLemmatizationData();
+    std::string applyMorphologicalRules(const std::string& lower,
+                                        Language lang) const;
+
     // Legal modality helpers
     bool loadLegalModalityConfig(const std::string& config_path) const;
     std::string getDefaultLegalConfigPath(const std::string& language_code) const;
