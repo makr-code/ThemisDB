@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     367                                            ║
+    • Total Lines:     373                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -355,13 +355,19 @@ TEST_F(ExplainAqlTest, GraphTraversal_AnalyzeMode_IncludesActualTimeSentinel) {
     EXPECT_EQ((*result)["plan"]["actual_time_ms"].get<double>(), -1.0);
 }
 
-TEST_F(ExplainAqlTest, GraphTraversal_DeepPath_UsesBidirectional) {
-    // Depth > 5 for SHORTEST_PATH should select Bidirectional algorithm
+TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_AlgorithmIsBFS) {
+    // SHORTEST_PATH without explicit depth uses BFS (maxDepth defaults to 1, ≤ 5)
     const char* aql =
         "FOR v IN OUTBOUND SHORTEST_PATH 'persons/alice' TO 'persons/bob' "
         "GRAPH 'social' RETURN v";
-    // Even with default depth 1, the algorithm selection logic is tested via the attribute
     auto result = explainAql(aql, *engine_);
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_EQ((*result)["plan"]["type"].get<std::string>(), "GraphTraversal");
+    ASSERT_EQ((*result)["plan"]["type"].get<std::string>(), "GraphTraversal");
+    // Algorithm should be BFS since depth ≤ 5
+    ASSERT_TRUE((*result)["plan"].contains("attributes"));
+    bool found_bfs = false;
+    for (const auto& a : (*result)["plan"]["attributes"]) {
+        if (a.get<std::string>() == "algorithm: BFS") { found_bfs = true; break; }
+    }
+    EXPECT_TRUE(found_bfs) << "expected algorithm: BFS for SHORTEST_PATH with default depth";
 }
