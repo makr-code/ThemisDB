@@ -4511,10 +4511,28 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     endif()
 endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
 
+# Config Migration Scanner CLI Tool
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
+    add_executable(config_migration_scanner
+        ${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp
+    )
+    target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
+    target_include_directories(config_migration_scanner PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
+    install(TARGETS config_migration_scanner
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+endif()
+
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
 endif()
 
 # LLM Model Management CLI Tool (themis-model)
