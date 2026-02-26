@@ -29,7 +29,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
 - [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
 - [x] Plugin health monitoring and automatic restart (Issue: #2373)
-- [I] Signed plugin repository with key pinning (Issue: #1571)
+- [P] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
 - [I] WASM-based plugin isolation for untrusted code (Issue: #1572)
@@ -61,7 +61,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Runtime plugin capability negotiation (version ranges)
 - [x] Plugin sandboxing with resource limits (memory, CPU)
 - [x] Plugin health monitoring and automatic restart
-- [ ] Signed plugin repository with key pinning
+- [x] Signed plugin repository with key pinning
 - [ ] WASM-based plugin isolation for untrusted code
 
 ## Production Readiness Checklist
