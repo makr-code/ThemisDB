@@ -329,7 +329,7 @@ Suggested heuristic: assign to the **earliest open milestone** of the module.
 | #1614 | Q2 2026 | `- [I] Debezium-compatible change event format (Issue: #1614)` |
 | #1615 | Q2 2026 | `- [I] Cross-collection change aggregation streams (Issue: #1615)` |
 | #1616 | Q2 2026 | `- [I] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)` |
-| #1617 | Q2 2026 | `- [I] CDC-based materialized view maintenance (Issue: #1617)` |
+| #1617 | Q2 2026 | `- [x] CDC-based materialized view maintenance (Issue: #1617)` — implemented via `CDCMaterializedViewMaintainer` |
 | #1618 | Q2 2026 | `- [I] Change stream compression for high-volume feeds (Issue: #1618)` |
 | #1619 | Q2 2026 | `- [I] Implement consumer group semantics with offset tracking per group (`cdc/co` |
 | #1620 | Q2 2026 | `- [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines` |

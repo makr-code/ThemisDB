@@ -169,6 +169,44 @@ thread-safe.
 **Tests:** 18+ unit tests in `tests/test_cdc_schema_registry.cpp` covering wire-format header,
 round-trip decode, auto-registration (JSON/Avro/Protobuf), error paths, and cache behaviour.
 
+### CDC-based Materialized View Maintenance ✅ (Implemented - Issue #1617)
+
+`CDCMaterializedViewMaintainer` (`include/cdc/cdc_materialized_view.h`,
+`src/cdc/cdc_materialized_view.cpp`) bridges `Changefeed::ChangeEvent` records to
+`analytics::IncrementalViewManager`, enabling GROUP BY materialized views to be kept
+up-to-date incrementally as CDC events arrive — without a full re-scan per change.
+
+**Collection derivation:** the collection name is the substring of the event key before the
+first `':'` (e.g. `"orders:42"` → `"orders"`).  Keys without `':'` use the full key.
+
+**Change-type mapping:**
+- `EVENT_PUT` + no `before_snapshot`  →  `INSERT`
+- `EVENT_PUT` + has `before_snapshot` →  `UPDATE`
+- `EVENT_DELETE`                      →  `DELETE`
+- `EVENT_TRANSACTION_*`               →  skipped (not counted in `totalEventsProcessed()`)
+
+**Row data:** `before_snapshot` / `after_snapshot` JSON strings are parsed to typed
+`ChangeRecord::Row` (null / bool / int64 / double / string / serialized-json).
+Falls back to the event's `value` field when a snapshot is absent.
+
+**API:**
+- `createView(ViewDefinition)` / `dropView(name)` / `hasView(name)` / `listViews()`
+- `getView(name)` — returns the underlying `IncrementalView` for direct inspection
+- `applyEvent(event)` — single-event ingest
+- `applyEvents(events)` — batch ingest (acquires per-view locks once for the batch)
+- `query(view_name, filters, limit, offset)` — paged query with optional runtime filters
+- `totalEventsProcessed()` — monotonic counter (TRANSACTION_* events not counted)
+
+**Thread safety:** all public methods are thread-safe; locking is delegated entirely to
+`IncrementalViewManager`'s existing `shared_mutex`.
+
+**Tests:** 15 unit tests in `tests/test_cdc_materialized_view.cpp` covering INSERT /
+DELETE / UPDATE delta correctness, transaction-event skipping, collection prefix extraction,
+value-field fallback, batch ingestion, multi-view fan-out, pagination, missing-view query,
+and invalid JSON graceful handling.
+
+---
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport
