@@ -200,10 +200,22 @@ nlohmann::json DataMasker::maskFieldsArray(const nlohmann::json &docs, const Fie
         return maskFields(docs, policy);
     }
 
+    // Build the field-name → rule index once for the entire array so that the
+    // O(rules) hash-map construction is not repeated for every document.
+    // rule_index stores pointers into policy.rules; policy is valid for the
+    // entire call so all pointers remain live throughout the loop.
+    RuleIndex rule_index;
+    rule_index.reserve(policy.rules.size());
+    for (const auto &rule : policy.rules) {
+        if (!rule.field_name.empty()) {
+            rule_index.emplace(rule.field_name, &rule); // first entry wins
+        }
+    }
+
     nlohmann::json out = nlohmann::json::array();
     out.reserve(docs.size());
     for (const auto &doc : docs) {
-        out.push_back(maskFields(doc, policy));
+        out.push_back(maskNode(doc, "", rule_index));
     }
     return out;
 }

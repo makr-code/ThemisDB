@@ -90,6 +90,23 @@ TEST(DataMaskerStrategyTest, TokenizeDifferentInputsProduceDifferentPseudonyms) 
     EXPECT_NE(DataMasker::applyStrategy("alice", rule), DataMasker::applyStrategy("bob", rule));
 }
 
+TEST(DataMaskerStrategyTest, TokenizeWithEmptySecretFallsBackToSHA256) {
+    // When collection_secret is empty the implementation falls back to plain
+    // SHA-256 (unkeyed) and still returns a "tkn_" prefixed hex string.
+    FieldMaskingRule rule_empty  = makeRule("f", MaskingStrategy::TOKENIZE, 4, "");
+    FieldMaskingRule rule_keyed  = makeRule("f", MaskingStrategy::TOKENIZE, 4, "some-key");
+    const std::string with_empty = DataMasker::applyStrategy("value", rule_empty);
+    const std::string with_key   = DataMasker::applyStrategy("value", rule_keyed);
+
+    // Both must have the "tkn_" prefix and be 68 chars total.
+    EXPECT_EQ(with_empty.substr(0, 4), "tkn_");
+    EXPECT_EQ(with_empty.size(), 4u + 64u);
+    // Empty-secret result differs from the keyed result (SHA-256 ≠ HMAC-SHA256).
+    EXPECT_NE(with_empty, with_key);
+    // Empty-secret result is stable (same call → same output).
+    EXPECT_EQ(with_empty, DataMasker::applyStrategy("value", rule_empty));
+}
+
 // ---------------------------------------------------------------------------
 // Strategy: TRUNCATE
 // ---------------------------------------------------------------------------

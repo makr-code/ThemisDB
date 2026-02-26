@@ -162,9 +162,10 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
             // If stat fails use a zero time_point; reloadIfChanged will retry
         }
 
-        // Capture size for logging before the move
+        // Capture sizes for logging before the move (must be outside the lock)
         const size_t n_profiles = new_profiles.size();
         const size_t n_mappings = new_mapping.size();
+        const size_t n_masking  = new_masking.rules.size();
 
         // Atomically swap policy data under the mutex
         {
@@ -178,7 +179,7 @@ bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
         }
 
         THEMIS_INFO("Loaded governance policies from {}: {} classifications, {} resource mappings, {} masking rules",
-                    yaml_path, n_profiles, n_mappings, masking_rules_.rules.size());
+                    yaml_path, n_profiles, n_mappings, n_masking);
         return true;
 
     } catch (const YAML::Exception &e) {
