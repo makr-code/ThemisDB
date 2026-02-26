@@ -21,6 +21,7 @@
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Plan cache eviction with size and TTL controls (Issue: #1827)
   - LRU eviction via `setPlanCacheMaxSize()` (0 = unlimited), TTL expiry via `setPlanCacheTTL(ms)` (0 = no expiry)
   - `planCacheInsert` / `planCacheLookup` helpers in `graph_query_optimizer.cpp`; `plan_cache_evictions` counter in `GraphQueryMetrics`; exposed in JSON and Prometheus endpoints
@@ -37,7 +38,7 @@
 - [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
-- [I] Incremental graph query execution on live updates (Issue: #1825)
+- [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
@@ -69,7 +70,7 @@
 
 ### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [x] Subgraph isomorphism queries (pattern matching)
-- [ ] Incremental graph query execution on live updates
+- [x] Incremental graph query execution on live updates (Issue: #1825)
 - [ ] Distributed graph query execution across shards
 - [x] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
@@ -85,6 +86,9 @@
 
 ## Known Issues & Limitations
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
+- Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
+- Incremental query execution is not thread-safe (same as the optimizer itself)
+- Subgraph isomorphism (pattern matching) is not yet available
 - Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
 - Distributed graph queries across shards are not yet supported
 

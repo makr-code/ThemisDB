@@ -4,22 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:17:00                                ║
+  Last Modified:   2026-02-26 05:17:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1715                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1779                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 93959e4d5  2026-02-25  feat(graph): implement plan cache eviction with LRU size an... ║
+    • b147c2c63  2026-02-26  feat(graph): implement incremental graph query execu... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1990,6 +1989,131 @@ GraphQueryOptimizer::calibrateFromHistory() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Incremental graph query execution on live updates (v1.9.0)
+// ─────────────────────────────────────────────────────────────────────────────
+
+GraphQueryOptimizer::IncrementalQueryHandle
+GraphQueryOptimizer::registerIncrementalBFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    IncrementalQueryCallback callback) {
+
+    const IncrementalQueryHandle handle =
+        next_incremental_handle_.fetch_add(1, std::memory_order_relaxed);
+
+    IncrementalQueryEntry entry;
+    entry.handle       = handle;
+    entry.start_vertex = std::string(start_vertex);
+    entry.max_depth    = max_depth;
+    entry.constraints  = constraints;
+    entry.callback     = std::move(callback);
+
+    // Execute initial BFS to seed the last_result snapshot.
+    auto result = executeBFS(start_vertex, max_depth, constraints);
+    if (result) {
+        entry.last_result.insert(result.value().begin(), result.value().end());
+    }
+
+    incremental_queries_[handle] = std::move(entry);
+    return handle;
+}
+
+void GraphQueryOptimizer::unregisterIncrementalQuery(IncrementalQueryHandle handle) {
+    incremental_queries_.erase(handle);
+}
+
+size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
+    if (changes.empty() || incremental_queries_.empty()) {
+        return 0;
+    }
+
+    // Collect all vertex IDs touched by the change set (edge endpoints + vertex IDs).
+    std::unordered_set<std::string> changed_vertices;
+    for (const auto& change : changes.changes) {
+        if (!change.from.empty()) changed_vertices.insert(change.from);
+        if (!change.to.empty())   changed_vertices.insert(change.to);
+        if (change.type == GraphChangeSet::ChangeType::VERTEX_ADDED ||
+            change.type == GraphChangeSet::ChangeType::VERTEX_REMOVED) {
+            if (!change.id.empty()) changed_vertices.insert(change.id);
+        }
+    }
+
+    // First pass: determine affected queries, re-execute them, build deltas,
+    // and update last_result. Callbacks are collected for deferred invocation
+    // so that a callback calling unregisterIncrementalQuery() cannot invalidate
+    // the ongoing iteration of incremental_queries_.
+    // PendingCallback: holds the callback and its delta snapshot for deferred
+    // invocation after the map iteration is complete.
+    struct PendingCallback {
+        IncrementalQueryCallback callback;
+        IncrementalQueryResult delta;
+    };
+    std::vector<PendingCallback> pending;
+
+    for (auto& [handle, entry] : incremental_queries_) {
+        // A query is affected when:
+        //   1. Its start_vertex is directly changed, or
+        //   2. Any changed vertex appears in the previous result set.
+        bool affected = changed_vertices.count(entry.start_vertex) > 0;
+        if (!affected) {
+            for (const auto& v : changed_vertices) {
+                if (entry.last_result.count(v)) {
+                    affected = true;
+                    break;
+                }
+            }
+        }
+        if (!affected) {
+            continue;
+        }
+
+        // Re-execute the BFS.
+        ExecutionStats stats;
+        auto result = executeBFS(entry.start_vertex, entry.max_depth,
+                                 entry.constraints, &stats);
+
+        IncrementalQueryResult delta;
+        delta.reexecuted = true;
+        delta.stats      = stats;
+
+        if (result) {
+            const std::unordered_set<std::string> new_result(result.value().begin(),
+                                                              result.value().end());
+            delta.current.assign(result.value().begin(), result.value().end());
+
+            // Added: in new result but not in previous result.
+            for (const auto& v : new_result) {
+                if (!entry.last_result.count(v)) {
+                    delta.added.push_back(v);
+                }
+            }
+            // Removed: in previous result but not in new result.
+            for (const auto& v : entry.last_result) {
+                if (!new_result.count(v)) {
+                    delta.removed.push_back(v);
+                }
+            }
+
+            entry.last_result = new_result;
+        } else {
+            // On error, report all previous vertices as removed.
+            delta.removed.assign(entry.last_result.begin(), entry.last_result.end());
+            delta.current.clear();
+            entry.last_result.clear();
+        }
+
+        pending.push_back({entry.callback, std::move(delta)});
+    }
+
+    // Second pass: invoke callbacks outside the map iteration.
+    // This ensures that any unregisterIncrementalQuery() call inside a callback
+    // does not invalidate iterators used in the first pass above.
+    for (auto& p : pending) {
+        p.callback(p.delta);
+    }
+
+    return pending.size();
 // Analytics Module Integration (Issue #1821)
 // ─────────────────────────────────────────────────────────────────────────────
 
