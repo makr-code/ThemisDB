@@ -37,6 +37,7 @@
 // Optional native Arrow Flight headers
 // ---------------------------------------------------------------------------
 #ifdef THEMIS_HAS_ARROW_FLIGHT
+#include <thread>
 #include <arrow/api.h>
 #include <arrow/flight/api.h>
 #endif
@@ -178,42 +179,58 @@ public:
 
     RecordBatch doGet(const std::string& endpoint,
                       const FlightDescriptor& descriptor) const {
-        std::lock_guard<std::mutex> lk(mutex_);
-        auto sit = servers_.find(endpoint);
-        if (sit == servers_.end()) {
-            throw std::runtime_error(
-                "[ArrowFlight] no server at endpoint: " + endpoint);
+        // Copy the producer function under the lock so we can invoke it
+        // outside the lock.  Calling an arbitrary user callback while holding
+        // the registry mutex risks a deadlock if the callback itself registers
+        // or unregisters datasets.
+        std::function<RecordBatch()> producer;
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            auto sit = servers_.find(endpoint);
+            if (sit == servers_.end()) {
+                throw std::runtime_error(
+                    "[ArrowFlight] no server at endpoint: " + endpoint);
+            }
+            const std::string key = descriptorToKey(descriptor);
+            auto dit = sit->second.find(key);
+            if (dit == sit->second.end() || !dit->second.producer) {
+                throw std::runtime_error(
+                    "[ArrowFlight] dataset not found: " + descriptor.toString());
+            }
+            producer = dit->second.producer;  // cheap shared_ptr copy
         }
-        const std::string key = descriptorToKey(descriptor);
-        auto dit = sit->second.find(key);
-        if (dit == sit->second.end() || !dit->second.producer) {
-            throw std::runtime_error(
-                "[ArrowFlight] dataset not found: " + descriptor.toString());
-        }
-        spdlog::debug("[ArrowFlight] doGet '{}' from '{}'", key, endpoint);
-        return dit->second.producer();
+        spdlog::debug("[ArrowFlight] doGet '{}' from '{}'",
+                      descriptorToKey(descriptor), endpoint);
+        return producer();  // invoked outside the lock
     }
 
     FlightPutResult doPut(const std::string& endpoint,
                           const FlightDescriptor& descriptor,
                           RecordBatch batch) {
-        std::lock_guard<std::mutex> lk(mutex_);
-        auto sit = servers_.find(endpoint);
-        if (sit == servers_.end()) {
-            return {false, "[ArrowFlight] no server at endpoint: " + endpoint,
-                    0, 0};
-        }
-        const std::string key = descriptorToKey(descriptor);
-        auto dit = sit->second.find(key);
-        if (dit == sit->second.end() || !dit->second.put_handler) {
-            return {false,
-                    "[ArrowFlight] no put handler for: " + descriptor.toString(),
-                    0, 0};
+        // Copy the handler function under the lock, then invoke outside.
+        // This prevents a deadlock if the handler itself registers or
+        // unregisters datasets on the registry.
+        std::function<void(RecordBatch)> handler;
+        {
+            std::lock_guard<std::mutex> lk(mutex_);
+            auto sit = servers_.find(endpoint);
+            if (sit == servers_.end()) {
+                return {false, "[ArrowFlight] no server at endpoint: " + endpoint,
+                        0, 0};
+            }
+            const std::string key = descriptorToKey(descriptor);
+            auto dit = sit->second.find(key);
+            if (dit == sit->second.end() || !dit->second.put_handler) {
+                return {false,
+                        "[ArrowFlight] no put handler for: " + descriptor.toString(),
+                        0, 0};
+            }
+            handler = dit->second.put_handler;  // cheap shared_ptr copy
         }
         const int64_t rows = static_cast<int64_t>(batch.rowCount());
         spdlog::debug("[ArrowFlight] doPut '{}' to '{}' ({} rows)",
-                      key, endpoint, rows);
-        dit->second.put_handler(std::move(batch));
+                      descriptorToKey(descriptor), endpoint, rows);
+        handler(std::move(batch));  // invoked outside the lock
         return {true, "OK", rows, 0};
     }
 

@@ -552,3 +552,59 @@ TEST(ArrowFlightServerTest, CrossServerClientIsolation) {
     s1->stop();
     s2->stop();
 }
+
+// ===========================================================================
+// Re-entrant callback safety (regression test for deadlock fix)
+// ===========================================================================
+
+TEST(ArrowFlightClientTest, DoGetProducerCanRegisterNewDataset) {
+    // Regression test: a producer callback must be able to call
+    // registerDataset on the server without deadlocking.  Before the fix the
+    // registry mutex was held while the producer was invoked, causing a
+    // deadlock whenever the producer tried to register another dataset.
+    auto server = ArrowFlightServer::create(makeServerOpts(18900));
+    server->start();
+
+    // Producer that registers a second dataset during its invocation
+    server->registerDataset({"trigger"}, [&server]() {
+        // This call must NOT deadlock
+        server->registerDataset({"dynamic"}, []() { return makeBatch(2); });
+        return makeBatch(1);
+    });
+
+    auto client = ArrowFlightClient::connect(makeClientOpts(18900));
+    // doGet("trigger") invokes the producer which registers "dynamic"
+    auto batch = client->doGet(FlightDescriptor::fromPath({"trigger"}));
+    EXPECT_EQ(batch.rowCount(), 1u);
+
+    // The dynamically registered dataset should now be reachable
+    auto batch2 = client->doGet(FlightDescriptor::fromPath({"dynamic"}));
+    EXPECT_EQ(batch2.rowCount(), 2u);
+
+    client->close();
+    server->stop();
+}
+
+TEST(ArrowFlightClientTest, DoPutHandlerCanRegisterNewDataset) {
+    // Regression test: a put handler must be able to call registerDataset
+    // on the server without deadlocking.
+    auto server = ArrowFlightServer::create(makeServerOpts(18901));
+    server->start();
+
+    server->registerPutHandler({"loader"}, [&server](RecordBatch b) {
+        // Register the received data as a readable dataset – must NOT deadlock
+        server->registerDataset({"loaded"}, [b]() { return b; });
+    });
+
+    auto client = ArrowFlightClient::connect(makeClientOpts(18901));
+    auto pushed = makeBatch(4);
+    auto result = client->doPut(pushed, FlightDescriptor::fromPath({"loader"}));
+    EXPECT_TRUE(result.success);
+
+    // The handler should have registered "loaded" with the pushed data
+    auto got = client->doGet(FlightDescriptor::fromPath({"loaded"}));
+    EXPECT_EQ(got.rowCount(), 4u);
+
+    client->close();
+    server->stop();
+}
