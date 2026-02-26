@@ -237,9 +237,11 @@ public:
      * whitespace to ensure a deterministic byte sequence independent of JSON
      * library or platform.
      *
-     * Covered fields (subset of @ref MarketplaceManifest):
-     *   name, version, type, description, author, license, min_themis_version,
-     *   sha256_linux, sha256_windows, sha256_macos, verified_publisher.
+     * Covered fields (subset of @ref MarketplaceManifest), serialised in
+     * alphabetical key order:
+     *   author, binary_linux, binary_macos, binary_windows, description,
+     *   expected_hash, license, min_themis_version, name, type,
+     *   verified_publisher, version.
      *
      * @param manifest  Manifest to serialise.
      * @return Canonical JSON string.
@@ -253,6 +255,10 @@ private:
 
     /// Find a pinned key by fingerprint (caller must hold mutex_).
     const PinnedKey* findPinnedKeyLocked(const std::string& fingerprint) const;
+
+    /// Verify entry signature and key-pin status.
+    /// Caller **must** hold mutex_ before calling this method.
+    bool verifyEntryLocked(const RepositoryEntry& entry) const;
 
     /// Verify an Ed25519 signature using the given raw public key.
     bool verifyEd25519Signature(

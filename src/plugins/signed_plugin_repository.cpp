@@ -126,12 +126,12 @@ std::vector<PinnedKey> SignedPluginRepository::getPinnedKeys() const {
 // =============================================================================
 
 bool SignedPluginRepository::addEntry(const RepositoryEntry& entry) {
-    // Verify before acquiring the write lock so verification work is done
-    // outside the critical section.
-    if (!verifyEntry(entry)) {
+    // Hold the lock for the entire verify+insert sequence to prevent a TOCTOU
+    // race where a pinned key is deactivated between verification and insertion.
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!verifyEntryLocked(entry)) {
         return false;
     }
-    std::lock_guard<std::mutex> lock(mutex_);
     // Replace existing entry with the same (name, version).
     for (auto& e : entries_) {
         if (e.manifest.name == entry.manifest.name &&
@@ -146,16 +146,7 @@ bool SignedPluginRepository::addEntry(const RepositoryEntry& entry) {
 
 bool SignedPluginRepository::verifyEntry(const RepositoryEntry& entry) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    const PinnedKey* key = findPinnedKeyLocked(entry.key_fingerprint);
-    if (!key || !key->active) {
-        return false;
-    }
-    std::vector<uint8_t> sig = base64Decode(entry.signature_b64);
-    if (sig.empty()) {
-        return false;
-    }
-    const std::string payload = canonicalManifestJson(entry.manifest);
-    return verifyEd25519Signature(key->public_key, payload, sig);
+    return verifyEntryLocked(entry);
 }
 
 std::optional<RepositoryEntry> SignedPluginRepository::findEntry(
@@ -284,6 +275,19 @@ const PinnedKey* SignedPluginRepository::findPinnedKeyLocked(
         }
     }
     return nullptr;
+}
+
+bool SignedPluginRepository::verifyEntryLocked(const RepositoryEntry& entry) const {
+    const PinnedKey* key = findPinnedKeyLocked(entry.key_fingerprint);
+    if (!key || !key->active) {
+        return false;
+    }
+    std::vector<uint8_t> sig = base64Decode(entry.signature_b64);
+    if (sig.empty()) {
+        return false;
+    }
+    const std::string payload = canonicalManifestJson(entry.manifest);
+    return verifyEd25519Signature(key->public_key, payload, sig);
 }
 
 bool SignedPluginRepository::verifyEd25519Signature(

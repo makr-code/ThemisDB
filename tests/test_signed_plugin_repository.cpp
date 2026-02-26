@@ -24,6 +24,7 @@
 #include <openssl/buffer.h>
 #include <openssl/bio.h>
 
+#include <chrono>
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -491,6 +492,50 @@ TEST_F(SignedPluginRepositoryTest, RemovingOneKeyDoesNotAffectOthers) {
 
     auto entry_kp1 = makeEntry(kp_, fp_, makeManifest("plugin_a"));
     EXPECT_TRUE(repo_.verifyEntry(entry_kp1));
+}
+
+// ============================================================================
+// Performance benchmark
+// ============================================================================
+
+// Validates the design target: Ed25519 signature verification < 1 ms per entry.
+TEST_F(SignedPluginRepositoryTest, VerifyEntryMeetsPerformanceTarget) {
+    auto manifest = makeManifest("perf_plugin", "1.0.0");
+    auto entry    = makeEntry(kp_, fp_, manifest);
+
+    // Warm-up: one verification pass to allow JIT / cache effects to settle.
+    repo_.verifyEntry(entry);
+
+    const int ITERATIONS = 100;
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < ITERATIONS; ++i) {
+        ASSERT_TRUE(repo_.verifyEntry(entry));
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+
+    double avg_us = std::chrono::duration<double, std::micro>(end - start).count()
+                    / static_cast<double>(ITERATIONS);
+
+    // Design target: < 1 ms (1000 µs) per verification.
+    EXPECT_LT(avg_us, 1000.0)
+        << "Ed25519 verification exceeded 1 ms target: " << avg_us << " µs average";
+}
+
+// Validates that deactivating a key after entry creation prevents insertion
+// (no TOCTOU window in addEntry).
+TEST_F(SignedPluginRepositoryTest, AddEntryRejectsEntryWhenKeyDeactivatedBeforeInsert) {
+    auto manifest = makeManifest("deact_plugin", "1.0.0");
+    auto entry    = makeEntry(kp_, fp_, manifest);
+
+    // Deactivate the key so that addEntry's atomic verify+insert fails.
+    PinnedKey inactive;
+    inactive.fingerprint = fp_;
+    inactive.public_key  = kp_.public_key;
+    inactive.active      = false;
+    repo_.addPinnedKey(inactive);
+
+    EXPECT_FALSE(repo_.addEntry(entry));
+    EXPECT_EQ(0u, repo_.listEntries().size());
 }
 
 // ============================================================================
