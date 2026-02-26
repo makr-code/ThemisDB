@@ -48,6 +48,8 @@
 namespace themis {
 namespace content {
 
+class ContentMetrics;  // forward declaration
+
 /**
  * @brief Office Document Type
  */
@@ -104,7 +106,7 @@ struct PowerPointInfo {
         std::vector<std::string> notes;
     };
     std::vector<Slide> slides;
-    int slide_count;
+    int slide_count = 0;
 };
 
 /**
@@ -150,6 +152,7 @@ public:
         bool include_hidden_text = false;
         int max_cell_count = 1000000;      // XLSX: limit cells to extract
         std::string password;              // For encrypted documents
+        ContentMetrics* metrics = nullptr; // Optional: report office_extracted / extract_error counters
     };
 
     OfficeProcessor();

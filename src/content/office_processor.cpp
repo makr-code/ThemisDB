@@ -31,6 +31,7 @@
  */
 
 #include "content/office_processor.h"
+#include "content/content_metrics.h"
 #include <regex>
 #include <sstream>
 #include <cstring>
@@ -167,30 +168,34 @@ ExtractionResult OfficeProcessor::extract(
         case OfficeDocumentType::DOCX:
             result.metadata["document_type"] = "docx";
             result.metadata["mime_type"] = DOCX_CONTENT_TYPE;
-            return extractDOCX(blob);
+            result = extractDOCX(blob);
+            break;
             
         case OfficeDocumentType::XLSX:
             result.metadata["document_type"] = "xlsx";
             result.metadata["mime_type"] = XLSX_CONTENT_TYPE;
-            return extractXLSX(blob);
+            result = extractXLSX(blob);
+            break;
             
         case OfficeDocumentType::PPTX:
             result.metadata["document_type"] = "pptx";
             result.metadata["mime_type"] = PPTX_CONTENT_TYPE;
-            return extractPPTX(blob);
+            result = extractPPTX(blob);
+            break;
             
         case OfficeDocumentType::ODT:
         case OfficeDocumentType::ODS:
         case OfficeDocumentType::ODP:
             result.metadata["document_type"] = "odf";
-            return extractODF(blob, doc_type);
+            result = extractODF(blob, doc_type);
+            break;
             
         case OfficeDocumentType::DOC:
         case OfficeDocumentType::XLS:
         case OfficeDocumentType::PPT:
             result.error_message = "Legacy Office formats (DOC/XLS/PPT) not fully supported. Please convert to OOXML format.";
             result.metadata["document_type"] = "legacy_office";
-            return result;
+            break;
             
         case OfficeDocumentType::RTF:
             result.metadata["document_type"] = "rtf";
@@ -213,12 +218,23 @@ ExtractionResult OfficeProcessor::extract(
                 result.metadata["extraction_method"] = "basic_rtf";
                 result.ok = true;
             }
-            return result;
+            break;
             
         default:
             result.error_message = "Unknown or unsupported Office document format";
-            return result;
+            break;
     }
+
+    // Report metrics if a ContentMetrics instance was configured
+    if (config_.metrics) {
+        if (result.ok) {
+            config_.metrics->recordOfficeExtracted();
+        } else {
+            config_.metrics->recordExtractError();
+        }
+    }
+
+    return result;
 }
 
 ExtractionResult OfficeProcessor::extractDOCX(const std::string& blob) {

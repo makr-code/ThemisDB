@@ -80,6 +80,10 @@ void ContentMetrics::recordPdfExtracted() {
     pdf_extracted_total_++;
 }
 
+void ContentMetrics::recordOfficeExtracted() {
+    office_extracted_total_++;
+}
+
 void ContentMetrics::recordExtractError() {
     extract_errors_total_++;
 }
@@ -271,6 +275,7 @@ json ContentMetrics::toJson() const {
 
     // Format-specific extraction stats
     j["format_stats"]["pdf_extracted_total"] = pdf_extracted_total_.load();
+    j["format_stats"]["office_extracted_total"] = office_extracted_total_.load();
     
     {
         std::lock_guard<std::mutex> lock(error_mutex_);
@@ -364,6 +369,10 @@ std::string ContentMetrics::toPrometheusFormat() const {
     oss << "# HELP content_pdf_extracted_total Total successfully extracted PDF documents\n";
     oss << "# TYPE content_pdf_extracted_total counter\n";
     oss << "content_pdf_extracted_total " << pdf_extracted_total_.load() << "\n\n";
+
+    oss << "# HELP content_office_extracted_total Total successfully extracted Office documents\n";
+    oss << "# TYPE content_office_extracted_total counter\n";
+    oss << "content_office_extracted_total " << office_extracted_total_.load() << "\n\n";
 
     oss << "# HELP content_extract_errors_total Total PDF/document extraction errors\n";
     oss << "# TYPE content_extract_errors_total counter\n";
@@ -461,6 +470,7 @@ void ContentMetrics::reset() {
     total_errors_ = 0;
     total_timeouts_ = 0;
     pdf_extracted_total_ = 0;
+    office_extracted_total_ = 0;
     extract_errors_total_ = 0;
     embedding_failures_ = 0;
     cache_hits_ = 0;

@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction, OCR, and audio transcription support are planned.
+**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction (poppler-cpp) and Office document extraction (DOCX/XLSX/PPTX/ODF via libzip+pugixml) are implemented. OCR and audio transcription support are planned.
 
 ## Completed ✅
 - [x] Content manager with ingestion pipeline
@@ -53,9 +53,9 @@
 - [I] Implement content deduplication via SHA-256 hash before storage (Issue: #1702)
 - [I] Add configurable processor chain to enable/disable stages per content type (Issue: #1703)
 
-### Phase 3: Advanced Format Support (Status: Planned)
-- [~] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
-- [I] Add Office document text extraction via LibreOffice headless subprocess (Issue: #1694)
+### Phase 3: Advanced Format Support (Status: In Progress)
+- [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
+- [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
 - [I] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
@@ -69,7 +69,7 @@
 - [x] API stability guaranteed for ingestion pipeline
 
 ## Known Issues & Limitations
-- PDF and Office document extraction not yet implemented
+- Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported; OOXML (DOCX/XLSX/PPTX) and ODF are handled
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
 - OCR is not yet integrated
 - Large file streaming ingestion may buffer entire file in memory
