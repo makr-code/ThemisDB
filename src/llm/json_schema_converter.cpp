@@ -230,12 +230,12 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 
 std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     if (schema.is_null() || !schema.is_object()) {
-        spdlog::debug("JsonSchemaConverter::schemaToEbnf: empty/null schema, returning empty string");
-        return "";
+        spdlog::debug("JsonSchemaConverter::schemaToEbnf: empty/null schema, returning default grammar");
+        return "value ::= .*";
     }
 
     std::vector<std::pair<std::string, std::string>> new_rules;
-    std::string root_body = schemaNodeToRuleBody(schema, "root", new_rules);
+        std::string root_body = schemaNodeToRuleBody(schema, "root", new_rules);
 
     std::ostringstream out;
     out << kBaseRules;
@@ -246,9 +246,9 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
 
     std::string result = out.str();
     if (result.size() > kMaxGrammarBytes) {
-        spdlog::warn("JsonSchemaConverter::schemaToEbnf: generated grammar exceeds {} bytes, rejecting",
-                     kMaxGrammarBytes);
-        return "";
+            spdlog::warn("JsonSchemaConverter::schemaToEbnf: generated grammar exceeds {} bytes, rejecting",
+                         kMaxGrammarBytes);
+            return "value ::= .*\\n";
     }
     return result;
 }
