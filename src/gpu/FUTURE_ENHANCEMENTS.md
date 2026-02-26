@@ -248,6 +248,41 @@ explicit `cudaMemcpy` transfers for workloads that share data between CPU and GP
 
 ---
 
+### Dynamic GPU Time-Slicing for Multi-Tenant Isolation
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Prevents any single tenant from monopolizing the GPU by assigning each
+tenant a configurable time quantum and dispatching work in round-robin order.
+
+**Implemented infrastructure:**
+- ✅ `GPUTimeSliceScheduler` (`include/themis/gpu/time_slice_scheduler.h`,
+  `src/gpu/time_slice_scheduler.cpp`) — round-robin time-sliced dispatcher.
+  - `registerTenant(TenantConfig)` / `unregisterTenant(tenant_id)` — tenant lifecycle.
+  - `submit(tenant_id, WorkItem)` — enqueue work for a tenant's FIFO queue.
+  - `dispatch(backend)` — one scheduling round: visit each tenant in
+    registration order; execute items until the slice (`slice_ms`) expires,
+    then move to the next tenant.  Remaining items are deferred to the next
+    `dispatch()` call; `preempted` counter incremented when the slice expires
+    with items still in the queue.
+  - `drainAll(backend)` — calls `dispatch()` until all queues are empty;
+    safe for batch workflows and tests.
+  - `allQueuesEmpty()` — predicate for scheduler idle detection.
+  - `getTenantStats(tenant_id)` / `getAllTenantStats()` / `getStats()` —
+    per-tenant and aggregate observability (`submitted`, `completed`,
+    `preempted`, `total_elapsed_ms`, `queue_depth`, `slice_ms`).
+  - `resetStats()` — clear counters and queues, keeps tenant registrations.
+- ✅ CPU no-op backend used automatically when `dispatch(nullptr)` is called.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_time_slice_scheduler.cpp`).
+
+**Remaining (hardware required):**
+- Wire a real CUDA/ROCm stream into the `dispatch()` `BackendFn` so items
+  are submitted to `cudaStream_t` / `hipStream_t` rather than a CPU callback.
+- Implement hardware-level preemption (CUDA MPS context switching) for
+  true sub-kernel preemption within a running CUDA kernel.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
