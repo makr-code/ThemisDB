@@ -1395,6 +1395,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/index/vector_index.cpp
+    ../src/index/ann_index.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
@@ -3550,6 +3551,27 @@ if(THEMIS_BUILD_TESTS)
 
     # Note: themis_tests discovery is now handled in tests/CMakeLists.txt
     
+    # ScaNN / DiskANN alternative ANN index tests (Issue #1865/#1876)
+    # ScaNN is pure C++ – always build when tests are enabled
+    add_executable(test_ann_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_ann_index.cpp
+    )
+    target_link_libraries(test_ann_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    if(THEMIS_ENABLE_DISKANN)
+        target_compile_definitions(test_ann_index PRIVATE THEMIS_ENABLE_DISKANN)
+    endif()
+    gtest_discover_tests(test_ann_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
         add_executable(test_diskann
