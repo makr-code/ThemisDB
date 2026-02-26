@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -27,7 +28,7 @@ namespace gpu {
  * which preserves single-node behaviour for existing deployments.
  *
  * Callers enable multi-node mode by setting `enabled = true`, providing a
- * unique `node_id`, and configuring `peer_nodes` / `ib_device`.
+ * unique `node_id`, and selecting a `mode`.
  */
 struct ClusterConfig {
     // -----------------------------------------------------------------------
@@ -39,6 +40,20 @@ struct ClusterConfig {
      * When false the coordinator runs in single-node pass-through mode.
      */
     bool enabled = false;
+
+    // -----------------------------------------------------------------------
+    // Node role
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Operating mode for this node in the cluster.
+     */
+    enum class Mode {
+        STANDALONE,   ///< Single-node operation (default, backward-compatible)
+        COORDINATOR,  ///< This node is the authoritative cluster coordinator
+        WORKER,       ///< This node is a worker managed by a coordinator
+    };
+    Mode mode = Mode::STANDALONE;
 
     // -----------------------------------------------------------------------
     // Node identity
@@ -61,14 +76,49 @@ struct ClusterConfig {
     int world_size  = 1;
 
     // -----------------------------------------------------------------------
-    // Peer nodes
+    // Coordinator connectivity
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Address of the coordinator node ("host:port").
+     * Required when mode == WORKER.
+     */
+    std::string coordinator_address;
+
+    // -----------------------------------------------------------------------
+    // Heartbeat / health-check
+    // -----------------------------------------------------------------------
+
+    /** @brief Interval between heartbeat ticks, in milliseconds. */
+    uint32_t heartbeat_interval_ms = 5000;
+
+    /** @brief Time after which a node with no heartbeat is considered offline, in ms. */
+    uint32_t node_timeout_ms = 15000;
+
+    // -----------------------------------------------------------------------
+    // Static cluster membership (seeded by the coordinator)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Per-node entry used to seed the coordinator's node registry at
+     *        startup.  Only relevant when mode == COORDINATOR.
+     */
+    struct NodeEntry {
+        std::string id;
+        std::string address;   ///< "host:port"
+        int         gpu_count = 0;
+    };
+
+    /** @brief Static list of cluster members (coordinator mode). */
+    std::vector<NodeEntry> nodes;
+
+    // -----------------------------------------------------------------------
+    // Peer nodes (topology-aware path)
     // -----------------------------------------------------------------------
 
     /**
      * @brief Host:port or node-id strings for all peer nodes.
-     *
-     * Used to register remote cluster nodes in the topology and to set up
-     * InfiniBand / RDMA routes when InfiniBand is available.
+     * Used to register remote cluster nodes in the topology.
      */
     std::vector<std::string> peer_nodes;
 

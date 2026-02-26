@@ -267,6 +267,8 @@ GPUClusterCoordinator::clusterHealth() const
     h.nvlink_available   = topology_.has_nvlink;
     h.infiniband_available = topology_.has_infiniband;
     return h;
+}
+
 // ============================================================================
 // Internal helper
 // ============================================================================
