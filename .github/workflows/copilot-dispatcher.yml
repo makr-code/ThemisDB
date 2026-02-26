@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: '*/30 * * * *'
 
+  # Event-driven: react immediately when queue/copilot is added to an issue.
+  issues:
+    types: [labeled]
+
   # Manual trigger from the Actions UI.
   workflow_dispatch:
     inputs:
@@ -30,12 +34,15 @@ jobs:
       - name: Checkout repository (needed to read config)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          # Branch strategy: always check out 'develop' – the branch where
+          # Copilot automation config is maintained, matching the dispatcher ref.
+          ref: develop
 
       - name: Install js-yaml
         run: npm install js-yaml
 
       - name: Run dispatcher
+        id: dispatcher
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -118,6 +125,7 @@ jobs:
 
             // ── Delegate up to MAX_DELEGATIONS issues ───────────────────────
             let delegated = 0;
+            const delegatedIssueNumbers = [];
             for (const issue of queuedIssues) {
               if (delegated >= MAX_DELEGATIONS) {
                 core.info(`Delegation limit of ${MAX_DELEGATIONS} reached – stopping.`);
@@ -229,10 +237,13 @@ jobs:
               }
 
               delegated++;
+              delegatedIssueNumbers.push(`#${issueNumber}`);
               core.info(`Delegated ${delegated}/${MAX_DELEGATIONS}: issue #${issueNumber}.`);
             }
 
             core.info(`Dispatcher finished. Delegated ${delegated} issue(s) to the Copilot Coding Agent.`);
+            core.setOutput('delegated_count', String(delegated));
+            core.setOutput('delegated_issues', delegatedIssueNumbers.join(', ') || 'none');
 
       - name: Write job summary
         if: always()
@@ -246,5 +257,7 @@ jobs:
           echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Issues delegated** | ${{ steps.dispatcher.outputs.delegated_count || '0' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Delegated issues** | ${{ steps.dispatcher.outputs.delegated_issues || 'none' }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Issues with label \`queue/copilot\` are delegated to the Copilot Coding Agent (sorted by priority)." >> "$GITHUB_STEP_SUMMARY"
