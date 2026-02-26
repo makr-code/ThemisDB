@@ -423,24 +423,60 @@ TEST_F(SpatialIndexTest, SearchIntersectsWithZ_FiltersOnZ) {
     spatial_mgr_->insert("z_test", "high", high_sc);
 
     MBR wide(-180.0, -90.0, 180.0, 90.0);
+    auto hasPK = [](const std::vector<SpatialResult>& v, const char* pk) {
+        return std::any_of(v.begin(), v.end(),
+                           [pk](const SpatialResult& r){ return r.primary_key == pk; });
+    };
 
     // Query Z range [0, 200] — should include "low" only.
     auto results = spatial_mgr_->searchIntersectsWithZ("z_test", wide, 0.0, 200.0);
-    bool has_low  = std::any_of(results.begin(), results.end(),
-                                [](const SpatialResult& r){ return r.primary_key == "low"; });
-    bool has_high = std::any_of(results.begin(), results.end(),
-                                [](const SpatialResult& r){ return r.primary_key == "high"; });
-    EXPECT_TRUE(has_low);
-    EXPECT_FALSE(has_high);
+    EXPECT_TRUE(hasPK(results, "low"));
+    EXPECT_FALSE(hasPK(results, "high"));
 
     // Query Z range [400, 700] — should include "high" only.
     results = spatial_mgr_->searchIntersectsWithZ("z_test", wide, 400.0, 700.0);
-    has_low  = std::any_of(results.begin(), results.end(),
-                           [](const SpatialResult& r){ return r.primary_key == "low"; });
-    has_high = std::any_of(results.begin(), results.end(),
-                           [](const SpatialResult& r){ return r.primary_key == "high"; });
-    EXPECT_FALSE(has_low);
-    EXPECT_TRUE(has_high);
+    EXPECT_FALSE(hasPK(results, "low"));
+    EXPECT_TRUE(hasPK(results, "high"));
+}
+
+// ─── searchZRange ─────────────────────────────────────────────────────────────
+
+TEST_F(SpatialIndexTest, SearchZRange_ReturnsMatchingElevations) {
+    spatial_mgr_->createSpatialIndex("zrange_test");
+
+    // Insert two entities with distinct Z ranges.
+    GeoSidecar ground;
+    ground.mbr      = MBR(10.0, 50.0, 11.0, 51.0);
+    ground.centroid = ground.mbr.center();
+    ground.z_min    = 0.0;
+    ground.z_max    = 100.0;
+    spatial_mgr_->insert("zrange_test", "ground", ground);
+
+    GeoSidecar sky;
+    sky.mbr      = MBR(12.0, 52.0, 13.0, 53.0);
+    sky.centroid = sky.mbr.center();
+    sky.z_min    = 1000.0;
+    sky.z_max    = 2000.0;
+    spatial_mgr_->insert("zrange_test", "sky", sky);
+
+    // Query Z [0, 200]: should match "ground" only.
+    auto results = spatial_mgr_->searchZRange("zrange_test", 0.0, 200.0);
+    auto hasPK = [&](const std::vector<SpatialResult>& v, const char* pk) {
+        return std::any_of(v.begin(), v.end(),
+                           [pk](const SpatialResult& r){ return r.primary_key == pk; });
+    };
+    EXPECT_TRUE(hasPK(results, "ground"));
+    EXPECT_FALSE(hasPK(results, "sky"));
+
+    // Query Z [900, 1500]: should match "sky" only.
+    results = spatial_mgr_->searchZRange("zrange_test", 900.0, 1500.0);
+    EXPECT_FALSE(hasPK(results, "ground"));
+    EXPECT_TRUE(hasPK(results, "sky"));
+}
+
+TEST_F(SpatialIndexTest, SearchZRange_NoIndexReturnsEmpty) {
+    auto results = spatial_mgr_->searchZRange("nonexistent_table", 0.0, 100.0);
+    EXPECT_TRUE(results.empty());
 }
 
  
