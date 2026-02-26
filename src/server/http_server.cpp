@@ -1102,7 +1102,6 @@ HttpServer::HttpServer(
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
     THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
-    // Initialize UDF Registration Handler – AQL-callable user-defined functions
     udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
     THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
 

@@ -88,6 +88,59 @@ nlohmann::json UdfDefinition::toJson() const {
     };
 }
 
+std::string UdfDefinition::validateBody(const nlohmann::json& expr, int depth) {
+    constexpr int kMaxValidateDepth = 64;
+    if (depth > kMaxValidateDepth) {
+        return "expression body exceeds maximum nesting depth";
+    }
+    if (!expr.is_object()) {
+        return "expression node must be a JSON object";
+    }
+    if (!expr.contains("type") || !expr["type"].is_string()) {
+        return "expression node must have a string 'type' field";
+    }
+
+    const std::string type = expr["type"].get<std::string>();
+
+    if (type == "const") {
+        if (!expr.contains("value")) return "'const' node requires 'value'";
+    } else if (type == "arg") {
+        if (!expr.contains("index") || !expr["index"].is_number_integer())
+            return "'arg' node requires integer 'index'";
+    } else if (type == "call") {
+        if (!expr.contains("function") || !expr["function"].is_string())
+            return "'call' node requires string 'function'";
+        if (expr.contains("args")) {
+            if (!expr["args"].is_array()) return "'call' node 'args' must be an array";
+            for (const auto& a : expr["args"]) {
+                auto err = validateBody(a, depth + 1);
+                if (!err.empty()) return err;
+            }
+        }
+    } else if (type == "op") {
+        if (!expr.contains("op") || !expr["op"].is_string())
+            return "'op' node requires string 'op'";
+        if (!expr.contains("left") || !expr.contains("right"))
+            return "'op' node requires 'left' and 'right'";
+        auto err = validateBody(expr["left"], depth + 1);
+        if (!err.empty()) return err;
+        err = validateBody(expr["right"], depth + 1);
+        if (!err.empty()) return err;
+    } else if (type == "if") {
+        if (!expr.contains("cond") || !expr.contains("then") || !expr.contains("else"))
+            return "'if' node requires 'cond', 'then', 'else'";
+        auto err = validateBody(expr["cond"], depth + 1);
+        if (!err.empty()) return err;
+        err = validateBody(expr["then"], depth + 1);
+        if (!err.empty()) return err;
+        err = validateBody(expr["else"], depth + 1);
+        if (!err.empty()) return err;
+    } else {
+        return "unknown expression type '" + type + "'";
+    }
+    return "";
+}
+
 // ============================================================================
 // UdfFunction
 // ============================================================================
@@ -111,14 +164,19 @@ nlohmann::json UdfFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context) const
 {
-    return evalExpr(def_.body, args, context);
+    return evalExpr(def_.body, args, context, /*depth=*/0);
 }
 
 nlohmann::json UdfFunction::evalExpr(
     const nlohmann::json& expr,
     const std::vector<nlohmann::json>& args,
-    const FunctionContext& context) const
+    const FunctionContext& context,
+    int depth) const
 {
+    if (depth > kMaxExprDepth) {
+        throw std::runtime_error(def_.name + ": expression depth limit exceeded");
+    }
+
     if (!expr.is_object()) {
         throw std::runtime_error(def_.name + ": body expression must be an object");
     }
@@ -160,7 +218,7 @@ nlohmann::json UdfFunction::evalExpr(
         std::vector<nlohmann::json> callArgs;
         if (expr.contains("args") && expr["args"].is_array()) {
             for (const auto& a : expr["args"]) {
-                callArgs.push_back(evalExpr(a, args, context));
+                callArgs.push_back(evalExpr(a, args, context, depth + 1));
             }
         }
         return FunctionRegistry::instance().call(fname, callArgs, context);
@@ -176,8 +234,8 @@ nlohmann::json UdfFunction::evalExpr(
         }
 
         const std::string op    = expr["op"].get<std::string>();
-        nlohmann::json    left  = evalExpr(expr["left"],  args, context);
-        nlohmann::json    right = evalExpr(expr["right"], args, context);
+        nlohmann::json    left  = evalExpr(expr["left"],  args, context, depth + 1);
+        nlohmann::json    right = evalExpr(expr["right"], args, context, depth + 1);
 
         // Arithmetic (numeric)
         auto toNum = [](const nlohmann::json& v) -> double {
@@ -257,12 +315,12 @@ nlohmann::json UdfFunction::evalExpr(
         if (!expr.contains("cond") || !expr.contains("then") || !expr.contains("else")) {
             throw std::runtime_error(def_.name + ": 'if' node requires 'cond', 'then', 'else'");
         }
-        nlohmann::json cond = evalExpr(expr["cond"], args, context);
+        nlohmann::json cond = evalExpr(expr["cond"], args, context, depth + 1);
         bool condVal = false;
         if (cond.is_boolean()) condVal = cond.get<bool>();
         else if (!cond.is_null()) condVal = true;
 
-        return evalExpr(condVal ? expr["then"] : expr["else"], args, context);
+        return evalExpr(condVal ? expr["then"] : expr["else"], args, context, depth + 1);
     }
 
     throw std::runtime_error(def_.name + ": unknown expression type '" + type + "'");
@@ -281,6 +339,12 @@ void UdfRegistry::registerUdf(UdfDefinition def) {
         if (c == ' ' || c == '\t') {
             throw std::runtime_error("UDF name must not contain whitespace");
         }
+    }
+
+    // Validate expression body before storing
+    auto bodyErr = UdfDefinition::validateBody(def.body);
+    if (!bodyErr.empty()) {
+        throw std::runtime_error("Invalid UDF body: " + bodyErr);
     }
 
     auto& freg = FunctionRegistry::instance();

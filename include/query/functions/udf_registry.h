@@ -66,6 +66,18 @@ struct UdfDefinition {
 
     /// Serialise ArgType to string.
     static std::string argTypeToString(ArgType t);
+
+    /**
+     * @brief Validate an expression body before storage.
+     *
+     * Performs a shallow structural check (type field present, required sub-keys
+     * present) without evaluating values.  Returns empty string on success, or
+     * an error message on failure.
+     *
+     * @param expr  The JSON expression node to validate.
+     * @param depth Current recursion depth (callers pass 0).
+     */
+    static std::string validateBody(const nlohmann::json& expr, int depth = 0);
 };
 
 // ============================================================================
@@ -93,10 +105,15 @@ private:
     FunctionSignature sig_;
 
     /// Recursively evaluate a body expression node.
+    /// @param depth  Current recursion depth (starts at 0, max kMaxExprDepth).
     nlohmann::json evalExpr(
         const nlohmann::json& expr,
         const std::vector<nlohmann::json>& args,
-        const FunctionContext& context) const;
+        const FunctionContext& context,
+        int depth = 0) const;
+
+    /// Maximum recursion depth for expression evaluation (resource exhaustion guard).
+    static constexpr int kMaxExprDepth = 64;
 };
 
 // ============================================================================

@@ -315,3 +315,204 @@ TEST_F(UdfExprTest, ReplaceExistingUdf) {
     UdfRegistry::instance().registerUdf(def2);
     EXPECT_EQ(callUdf("EXPR_REPLACE", {}), "v2");
 }
+
+// ---------------------------------------------------------------------------
+// Name validation
+// ---------------------------------------------------------------------------
+
+TEST_F(UdfApiHandlerTest, Register_WhitespaceName_Returns400) {
+    json body = {
+        {"name", "   "},
+        {"body", {{"type", "const"}, {"value", 1}}}
+    };
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", body.dump()));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+// ---------------------------------------------------------------------------
+// Body expression pre-validation
+// ---------------------------------------------------------------------------
+
+TEST_F(UdfApiHandlerTest, Register_UnknownExprType_Returns400) {
+    json body = {
+        {"name", "TEST_BADEXPR"},
+        {"body", {{"type", "unknown_type"}}}
+    };
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", body.dump()));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(UdfApiHandlerTest, Register_InvalidArgType_Returns400) {
+    json body = {
+        {"name", "TEST_BADARGTYPE"},
+        {"arguments", json::array({json{{"name", "x"}, {"type", "NOTATYPE"}}})},
+        {"body", {{"type", "const"}, {"value", 0}}}
+    };
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", body.dump()));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+TEST_F(UdfApiHandlerTest, Register_InvalidReturnType_Returns400) {
+    json body = {
+        {"name", "TEST_BADRETTYPE"},
+        {"return_type", "BADTYPE"},
+        {"body", {{"type", "const"}, {"value", 0}}}
+    };
+    auto res = handler.handleRegister(makeReq(http::verb::post, "/api/v1/query/udfs", body.dump()));
+    EXPECT_EQ(res.result(), http::status::bad_request);
+}
+
+// ---------------------------------------------------------------------------
+// Expression DSL – remaining operators
+// ---------------------------------------------------------------------------
+
+TEST_F(UdfExprTest, OpSubtract) {
+    UdfDefinition def;
+    def.name = "EXPR_SUB";
+    def.arguments = {ArgSpec{"a", ArgType::NUMBER, true}, ArgSpec{"b", ArgType::NUMBER, true}};
+    def.body = {{"type","op"},{"op","-"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_EQ(callUdf("EXPR_SUB", {10, 3}), 7.0);
+}
+
+TEST_F(UdfExprTest, OpMultiply) {
+    UdfDefinition def;
+    def.name = "EXPR_MUL";
+    def.arguments = {ArgSpec{"a", ArgType::NUMBER, true}, ArgSpec{"b", ArgType::NUMBER, true}};
+    def.body = {{"type","op"},{"op","*"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_EQ(callUdf("EXPR_MUL", {4, 5}), 20.0);
+}
+
+TEST_F(UdfExprTest, OpDivide) {
+    UdfDefinition def;
+    def.name = "EXPR_DIV";
+    def.arguments = {ArgSpec{"a", ArgType::NUMBER, true}, ArgSpec{"b", ArgType::NUMBER, true}};
+    def.body = {{"type","op"},{"op","/"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_DOUBLE_EQ(callUdf("EXPR_DIV", {10, 4}).get<double>(), 2.5);
+}
+
+TEST_F(UdfExprTest, OpDivideByZero_Throws) {
+    UdfDefinition def;
+    def.name = "EXPR_DIVZERO";
+    def.body = {{"type","op"},{"op","/"},{"left",json{{"type","const"},{"value",1}}},{"right",json{{"type","const"},{"value",0}}}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_THROW(callUdf("EXPR_DIVZERO", {}), std::exception);
+}
+
+TEST_F(UdfExprTest, OpModulo) {
+    UdfDefinition def;
+    def.name = "EXPR_MOD";
+    def.arguments = {ArgSpec{"a", ArgType::NUMBER, true}, ArgSpec{"b", ArgType::NUMBER, true}};
+    def.body = {{"type","op"},{"op","%"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_DOUBLE_EQ(callUdf("EXPR_MOD", {10, 3}).get<double>(), 1.0);
+}
+
+TEST_F(UdfExprTest, OpEquals) {
+    UdfDefinition def;
+    def.name = "EXPR_EQ";
+    def.body = {{"type","op"},{"op","=="},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    def.arguments = {ArgSpec{"a", ArgType::ANY, true}, ArgSpec{"b", ArgType::ANY, true}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_EQ(callUdf("EXPR_EQ", {42, 42}), true);
+    EXPECT_EQ(callUdf("EXPR_EQ", {42, 43}), false);
+}
+
+TEST_F(UdfExprTest, OpLogicalAnd) {
+    UdfDefinition def;
+    def.name = "EXPR_AND";
+    def.body = {{"type","op"},{"op","&&"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    def.arguments = {ArgSpec{"a", ArgType::BOOLEAN, true}, ArgSpec{"b", ArgType::BOOLEAN, true}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_EQ(callUdf("EXPR_AND", {true, true}), true);
+    EXPECT_EQ(callUdf("EXPR_AND", {true, false}), false);
+}
+
+TEST_F(UdfExprTest, OpLogicalOr) {
+    UdfDefinition def;
+    def.name = "EXPR_OR";
+    def.body = {{"type","op"},{"op","||"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","arg"},{"index",1}}}};
+    def.arguments = {ArgSpec{"a", ArgType::BOOLEAN, true}, ArgSpec{"b", ArgType::BOOLEAN, true}};
+    UdfRegistry::instance().registerUdf(def);
+    EXPECT_EQ(callUdf("EXPR_OR", {false, true}), true);
+    EXPECT_EQ(callUdf("EXPR_OR", {false, false}), false);
+}
+
+TEST_F(UdfExprTest, ArgIndexOutOfRange_Throws) {
+    UdfDefinition def;
+    def.name = "EXPR_OOBARG";
+    def.arguments = {ArgSpec{"x", ArgType::ANY, true}};
+    def.body = {{"type","arg"},{"index",5}};
+    UdfRegistry::instance().registerUdf(def);
+    // Function expects 1 argument, but body requests index 5
+    EXPECT_THROW(callUdf("EXPR_OOBARG", {"only_one"}), std::exception);
+}
+
+TEST_F(UdfExprTest, UdfCallingAnotherUdf) {
+    // Register a helper UDF, then register one that calls it
+    UdfDefinition helper;
+    helper.name = "EXPR_HELPER";
+    helper.arguments = {ArgSpec{"x", ArgType::NUMBER, true}};
+    helper.body = {{"type","op"},{"op","*"},{"left",json{{"type","arg"},{"index",0}}},{"right",json{{"type","const"},{"value",2}}}};
+    UdfRegistry::instance().registerUdf(helper);
+
+    UdfDefinition caller;
+    caller.name = "EXPR_CALLER";
+    caller.arguments = {ArgSpec{"x", ArgType::NUMBER, true}};
+    caller.body = {
+        {"type","call"},{"function","EXPR_HELPER"},
+        {"args",json::array({json{{"type","arg"},{"index",0}}})}
+    };
+    UdfRegistry::instance().registerUdf(caller);
+
+    EXPECT_EQ(callUdf("EXPR_CALLER", {7}), 14.0);
+}
+
+// ---------------------------------------------------------------------------
+// validateBody static method
+// ---------------------------------------------------------------------------
+
+class UdfValidateBodyTest : public ::testing::Test {};
+
+TEST_F(UdfValidateBodyTest, ValidConst_ReturnsEmpty) {
+    EXPECT_EQ(UdfDefinition::validateBody({{"type","const"},{"value",1}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, MissingType_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({{"value",1}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, UnknownType_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({{"type","foo"}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, ConstMissingValue_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({{"type","const"}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, ArgMissingIndex_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({{"type","arg"}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, CallMissingFunction_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({{"type","call"}}), "");
+}
+
+TEST_F(UdfValidateBodyTest, IfMissingThen_ReturnsError) {
+    EXPECT_NE(UdfDefinition::validateBody({
+        {"type","if"},
+        {"cond",{{"type","const"},{"value",true}}},
+        {"else",{{"type","const"},{"value",0}}}
+    }), "");
+}
+
+TEST_F(UdfValidateBodyTest, ValidNestedExpr_ReturnsEmpty) {
+    EXPECT_EQ(UdfDefinition::validateBody({
+        {"type","if"},
+        {"cond",{{"type","const"},{"value",true}}},
+        {"then",{{"type","const"},{"value",1}}},
+        {"else",{{"type","const"},{"value",0}}}
+    }), "");
+}
