@@ -26,7 +26,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Column-level statistics histograms for improved query planning (Issue: #1949)
+- [~] Column-level statistics histograms for improved query planning (Issue: #1949)
 - [I] Cross-collection relationship graph (ER diagram export) (Issue: #1993)
 - [?] Metadata API endpoint (`GET /api/v1/schema`)
 - [?] Schema validation against user-defined constraints
@@ -59,7 +59,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [P] Adaptive TTL based on table mutation rate (Target: Q3 2026)
 
 ### Phase 3: Distributed Catalog & Lineage (Status: Planned 📋)
-- [ ] Column-level statistics histograms for improved query planning
+- [~] Column-level statistics histograms for improved query planning
 - [ ] Distributed metadata catalog across shards
 - [?] Schema registry with forward/backward compatibility enforcement
 - [ ] Cross-collection relationship graph (ER diagram export)
@@ -76,7 +76,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 
 ## Known Issues & Limitations
 - Full table scan required on first load; large databases may experience slow initial discovery.
-- Statistics are approximate; histogram support planned for v1.5.0.
+- Statistics are approximate; equi-height histograms and range selectivity estimation added in v1.5.x.
 - Schema version history is stored in-memory; persistence across restarts is limited.
 
 ## Breaking Changes
