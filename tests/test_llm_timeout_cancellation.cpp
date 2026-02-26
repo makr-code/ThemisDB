@@ -30,6 +30,7 @@
 #include "llm/llm_plugin_interface.h"
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <thread>
 #include <spdlog/spdlog.h>
 
@@ -516,3 +517,230 @@ TEST_F(AsyncEngineTimeoutCancelTest, DropOldestTargetsLowestPriorityNotFIFO) {
     try { h_high.get();   } catch (...) {}
     try { h_new.get();    } catch (...) {}
 }
+
+// ═══════════════════════════════════════════════════════════
+// Deduplication cache tests
+// ═══════════════════════════════════════════════════════════
+
+class AsyncEngineDedupCacheTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto cache_dir_path = std::filesystem::temp_directory_path() /
+                              std::filesystem::path("dedup_cache_test_" +
+                                  std::to_string(std::chrono::steady_clock::now()
+                                                     .time_since_epoch()
+                                                     .count()));
+        cache_dir_ = cache_dir_path.string();
+    }
+
+    void TearDown() override {
+        if (!cache_dir_.empty()) {
+            std::error_code ec;
+            std::filesystem::remove_all(cache_dir_, ec);
+        }
+    }
+
+    std::string cache_dir_;
+};
+
+// Test 1: Cache hit returns cached response without calling the plugin again.
+TEST_F(AsyncEngineDedupCacheTest, CacheHitSkipsPluginCall) {
+    std::atomic<int> plugin_calls{0};
+
+    class CountingPlugin : public FastMockPlugin {
+    public:
+        explicit CountingPlugin(std::atomic<int>& counter) : counter_(counter) {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            ++counter_;
+            return FastMockPlugin::generate(request);
+        }
+    private:
+        std::atomic<int>& counter_;
+    };
+
+    auto plugin = std::make_shared<CountingPlugin>(plugin_calls);
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+    cfg.enable_dedup_cache = true;
+    cfg.dedup_cache_config.cache_dir = cache_dir_;
+    cfg.dedup_cache_config.similarity_threshold = 0.99f;  // High threshold: near-exact match required
+
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    InferenceRequest req;
+    req.prompt = "What is ThemisDB?";
+
+    // First request: cache miss, plugin called
+    auto h1 = engine.submit(req);
+    auto r1 = h1.get();
+    EXPECT_EQ(plugin_calls.load(), 1);
+    EXPECT_FALSE(r1.cache_hit);
+
+    // Second request with same prompt: cache hit, plugin NOT called again
+    auto h2 = engine.submit(req);
+    auto r2 = h2.get();
+    EXPECT_EQ(plugin_calls.load(), 1);  // no additional call
+    EXPECT_TRUE(r2.cache_hit);
+    EXPECT_EQ(r2.text, r1.text);
+
+    engine.shutdown();
+}
+
+// Test 2: Different prompts each get their own inference call.
+TEST_F(AsyncEngineDedupCacheTest, DifferentPromptsCauseSeparateInference) {
+    std::atomic<int> plugin_calls{0};
+
+    class CountingPlugin : public FastMockPlugin {
+    public:
+        explicit CountingPlugin(std::atomic<int>& counter) : counter_(counter) {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            ++counter_;
+            InferenceResponse r = FastMockPlugin::generate(request);
+            r.text = "response for: " + request.prompt;
+            return r;
+        }
+    private:
+        std::atomic<int>& counter_;
+    };
+
+    auto plugin = std::make_shared<CountingPlugin>(plugin_calls);
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+    cfg.enable_dedup_cache = true;
+    cfg.dedup_cache_config.cache_dir = cache_dir_;
+    cfg.dedup_cache_config.similarity_threshold = 0.99f;
+
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    InferenceRequest req1, req2;
+    req1.prompt = "Prompt A";
+    req2.prompt = "Prompt B";
+
+    auto h1 = engine.submit(req1);
+    auto h2 = engine.submit(req2);
+
+    auto r1 = h1.get();
+    auto r2 = h2.get();
+
+    EXPECT_EQ(plugin_calls.load(), 2);
+    EXPECT_NE(r1.text, r2.text);
+
+    engine.shutdown();
+}
+
+// Test 3: Dedup cache stats are updated correctly.
+TEST_F(AsyncEngineDedupCacheTest, StatsReflectHitsAndMisses) {
+    auto plugin = std::make_shared<FastMockPlugin>();
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+    cfg.enable_dedup_cache = true;
+    cfg.dedup_cache_config.cache_dir = cache_dir_;
+    cfg.dedup_cache_config.similarity_threshold = 0.99f;
+
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    InferenceRequest req;
+    req.prompt = "Stats test prompt";
+
+    // First call: miss
+    engine.submit(req).get();
+    // Second call: hit
+    engine.submit(req).get();
+
+    auto worker_stats = engine.getWorkerStats();
+    EXPECT_EQ(worker_stats["total_dedup_cache_hits"].get<size_t>(), 1u);
+    EXPECT_EQ(worker_stats["total_dedup_cache_misses"].get<size_t>(), 1u);
+
+    auto cache_stats = engine.getDedupCacheStats();
+    EXPECT_GE(cache_stats.hits.load(), 1u);
+
+    engine.shutdown();
+}
+
+// Test 4: Disabled cache (default) performs no caching.
+TEST_F(AsyncEngineDedupCacheTest, DisabledCacheByDefault) {
+    std::atomic<int> plugin_calls{0};
+
+    class CountingPlugin : public FastMockPlugin {
+    public:
+        explicit CountingPlugin(std::atomic<int>& counter) : counter_(counter) {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            ++counter_;
+            return FastMockPlugin::generate(request);
+        }
+    private:
+        std::atomic<int>& counter_;
+    };
+
+    auto plugin = std::make_shared<CountingPlugin>(plugin_calls);
+
+    // Default config: enable_dedup_cache = false
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    InferenceRequest req;
+    req.prompt = "Same prompt";
+
+    engine.submit(req).get();
+    engine.submit(req).get();
+
+    // Both calls must reach the plugin
+    EXPECT_EQ(plugin_calls.load(), 2);
+
+    // getDedupCacheStats returns empty/default stats when cache is disabled
+    auto cache_stats = engine.getDedupCacheStats();
+    EXPECT_EQ(cache_stats.hits.load(), 0u);
+    EXPECT_EQ(cache_stats.misses.load(), 0u);
+
+    engine.shutdown();
+}
+
+// Test 5: setDedupCache allows injecting an external cache.
+TEST_F(AsyncEngineDedupCacheTest, SetDedupCacheExternalInjection) {
+    std::atomic<int> plugin_calls{0};
+
+    class CountingPlugin : public FastMockPlugin {
+    public:
+        explicit CountingPlugin(std::atomic<int>& counter) : counter_(counter) {}
+        InferenceResponse generate(const InferenceRequest& request) override {
+            ++counter_;
+            return FastMockPlugin::generate(request);
+        }
+    private:
+        std::atomic<int>& counter_;
+    };
+
+    auto plugin = std::make_shared<CountingPlugin>(plugin_calls);
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    AsyncInferenceEngine engine(plugin, cfg);
+
+    // Inject external cache
+    LLMResponseCache::Config cache_cfg;
+    cache_cfg.cache_dir = cache_dir_;
+    cache_cfg.similarity_threshold = 0.99f;
+    auto external_cache = std::make_shared<LLMResponseCache>("external_dedup", cache_cfg);
+    engine.setDedupCache(external_cache);
+
+    InferenceRequest req;
+    req.prompt = "External cache test";
+
+    engine.submit(req).get();              // cache miss
+    auto r2 = engine.submit(req).get();    // cache hit
+
+    EXPECT_EQ(plugin_calls.load(), 1);
+    EXPECT_TRUE(r2.cache_hit);
+
+    auto worker_stats = engine.getWorkerStats();
+    EXPECT_EQ(worker_stats["total_dedup_cache_hits"].get<size_t>(), 1u);
+
+    engine.shutdown();
+}
+
