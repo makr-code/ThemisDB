@@ -35,7 +35,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [I] WASM-based plugin isolation for untrusted code (Issue: #1572)
 - [I] Remote plugin loading from authenticated registry (Issue: #1562)
 - [I] Plugin dependency graph visualization (Issue: #1563)
-- [I] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
+- [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
 - [I] A/B testing framework using module swapping (Issue: #1565)
 
 ## Implementation Phases

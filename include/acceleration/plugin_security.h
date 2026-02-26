@@ -291,6 +291,7 @@ struct PluginSecurityEvent {
     enum class EventType {
         PLUGIN_LOADED,
         PLUGIN_LOAD_FAILED,
+        PLUGIN_UNLOADED,
         SIGNATURE_VERIFIED,
         SIGNATURE_VERIFICATION_FAILED,
         HASH_MISMATCH,

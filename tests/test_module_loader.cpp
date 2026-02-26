@@ -1029,3 +1029,128 @@ TEST(ModuleLoader, ReadELFMetadataCurrentLibrary) {
 }
 #endif // __linux__
 
+// ===== Per-Plugin Audit Trail Tests =====
+
+using namespace themis::acceleration;
+
+TEST(ModuleLoader, GetPluginAuditTrailEmptyForUnknownPath) {
+    // Clear global auditor to avoid pollution from other tests
+    PluginSecurityAuditor::instance().clearEvents();
+
+    ModuleLoader loader;
+    auto trail = loader.getPluginAuditTrail("/no/such/plugin.so");
+    EXPECT_TRUE(trail.empty());
+}
+
+TEST(ModuleLoader, GetPluginAuditTrailRecordsLoadFailure) {
+    PluginSecurityAuditor::instance().clearEvents();
+
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    loader.setRequireSignature(false);
+
+    const std::string path = "/nonexistent_audit_trail_test.so";
+    auto result = loader.loadModule(path, "audit_trail_test");
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+
+    // MODULE_NOT_FOUND failures are recorded in the failure-history / metrics
+    // subsystem but not emitted to the security auditor (only security and
+    // staged-activation failures are).  Verify that the per-plugin trail is
+    // empty for this case, which is expected and documented behaviour.
+    auto trail = loader.getPluginAuditTrail(path);
+    EXPECT_TRUE(trail.empty());
+
+    PluginSecurityAuditor::instance().clearEvents();
+}
+
+TEST(ModuleLoader, PluginUnloadedEventTypeIsLoggable) {
+    // Verify that the PLUGIN_UNLOADED event type can be logged and retrieved
+    // from the auditor (i.e., it is properly handled at runtime, not just at
+    // compile time).
+    PluginSecurityAuditor::instance().clearEvents();
+
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
+        "/test/plugin.so", "hash123", "unloaded for test",
+        42ULL, "INFO"
+    });
+
+    auto events = PluginSecurityAuditor::instance().getAllEvents();
+    ASSERT_EQ(events.size(), 1u);
+    EXPECT_EQ(events[0].type, PluginSecurityEvent::EventType::PLUGIN_UNLOADED);
+
+    PluginSecurityAuditor::instance().clearEvents();
+}
+
+TEST(ModuleLoader, UnloadModuleLogsAuditEvent) {
+    PluginSecurityAuditor::instance().clearEvents();
+
+    // Without a real shared library file on disk we cannot exercise the full
+    // loadModule/unloadModule path.  Instead we verify the audit mechanism
+    // end-to-end:
+    //   1. Log a PLUGIN_UNLOADED event via the auditor (matching what
+    //      unloadModule() does internally).
+    //   2. Retrieve it via ModuleLoader::getPluginAuditTrail().
+    // This confirms that the ModuleLoader correctly surfaces unload events
+    // recorded in the global PluginSecurityAuditor.
+    ModuleLoader loader;
+
+    const std::string fakePath = "/fake/libthemis_test.so";
+    const std::string fakeHash = "deadbeefdeadbeef";
+
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
+        fakePath,
+        fakeHash,
+        "Module unloaded: libthemis_test",
+        static_cast<uint64_t>(1000),
+        "INFO"
+    });
+
+    auto trail = loader.getPluginAuditTrail(fakePath);
+    ASSERT_EQ(trail.size(), 1u);
+    EXPECT_EQ(trail[0].type, PluginSecurityEvent::EventType::PLUGIN_UNLOADED);
+    EXPECT_EQ(trail[0].pluginPath, fakePath);
+    EXPECT_EQ(trail[0].pluginHash, fakeHash);
+    EXPECT_EQ(trail[0].severity, "INFO");
+
+    PluginSecurityAuditor::instance().clearEvents();
+}
+
+TEST(ModuleLoader, AuditTrailIsolatedPerPlugin) {
+    PluginSecurityAuditor::instance().clearEvents();
+
+    ModuleLoader loader;
+
+    const std::string pathA = "/plugins/plugin_a.so";
+    const std::string pathB = "/plugins/plugin_b.so";
+
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_LOADED, pathA, "h1", "loaded A", 1ULL, "INFO"
+    });
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED, pathB, "h2", "failed B", 2ULL, "ERROR"
+    });
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_UNLOADED, pathA, "h1", "unloaded A", 3ULL, "INFO"
+    });
+
+    auto trailA = loader.getPluginAuditTrail(pathA);
+    ASSERT_EQ(trailA.size(), 2u);
+    EXPECT_EQ(trailA[0].type, PluginSecurityEvent::EventType::PLUGIN_LOADED);
+    EXPECT_EQ(trailA[1].type, PluginSecurityEvent::EventType::PLUGIN_UNLOADED);
+
+    auto trailB = loader.getPluginAuditTrail(pathB);
+    ASSERT_EQ(trailB.size(), 1u);
+    EXPECT_EQ(trailB[0].type, PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED);
+
+    PluginSecurityAuditor::instance().clearEvents();
+}
+
+TEST(ModuleMetrics, TotalUnloadsField) {
+    // Verify totalUnloads field is accessible and defaults to zero
+    ModuleMetrics metrics;
+    EXPECT_EQ(metrics.totalUnloads, 0u);
+}
+

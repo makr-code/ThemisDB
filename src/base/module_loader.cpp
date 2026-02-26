@@ -418,6 +418,16 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
             // Health check failed - unload and return error
             spdlog::error("Health checks failed for module: {}", moduleName);
             unloadLibrary(handle);
+            // Log health check / activation failure to per-plugin audit trail
+            auto& auditor = PluginSecurityAuditor::instance();
+            auditor.logEvent({
+                PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED,
+                modulePath,
+                result.moduleHash,
+                result.errorMessage,
+                result.verificationTimestamp,
+                "ERROR"
+            });
             recordFailure(modulePath, result.errorCode, result.errorMessage);
             updateMetrics(false, static_cast<uint64_t>(durationMs), result.errorCode);
             return result;
@@ -432,6 +442,20 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     loadedModules_.push_back(module);
     ModuleRegistry::instance().registerModule(module);
     
+    // Log successful load to per-plugin audit trail
+    {
+        auto& auditor = PluginSecurityAuditor::instance();
+        auditor.logEvent({
+            PluginSecurityEvent::EventType::PLUGIN_LOADED,
+            modulePath,
+            result.moduleHash,
+            "Module activated: " + moduleName +
+                " (version=" + module.version + ")",
+            result.verificationTimestamp,
+            "INFO"
+        });
+    }
+
     // Success - clear failure history and update metrics
     clearFailureHistory(modulePath);
     updateMetrics(true, static_cast<uint64_t>(durationMs), ModuleErrorCode::SUCCESS);
@@ -499,18 +523,41 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
     
     if (it != loadedModules_.end()) {
         spdlog::info("Unloading module: {}", moduleName);
+        uint64_t now = static_cast<uint64_t>(std::time(nullptr));
+        // Log unload event to per-plugin audit trail before releasing the handle
+        auto& auditor = PluginSecurityAuditor::instance();
+        auditor.logEvent({
+            PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
+            it->path,
+            it->fileHash,
+            "Module unloaded: " + moduleName,
+            now,
+            "INFO"
+        });
         unloadLibrary(it->handle);
         ModuleRegistry::instance().unregisterModule(moduleName);
         loadedModules_.erase(it);
+        metrics_.totalUnloads++;
     }
 }
 
 void ModuleLoader::unloadAllModules() {
     spdlog::info("Unloading all modules ({} loaded)", loadedModules_.size());
     
+    auto& auditor = PluginSecurityAuditor::instance();
+    uint64_t now = static_cast<uint64_t>(std::time(nullptr));
     for (auto& module : loadedModules_) {
+        auditor.logEvent({
+            PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
+            module.path,
+            module.fileHash,
+            "Module unloaded: " + module.name,
+            now,
+            "INFO"
+        });
         unloadLibrary(module.handle);
         ModuleRegistry::instance().unregisterModule(module.name);
+        metrics_.totalUnloads++;
     }
     
     loadedModules_.clear();
@@ -568,6 +615,11 @@ bool ModuleLoader::setHashManifest(const std::string& manifestPath) {
 bool ModuleLoader::exportAuditLog(const std::string& outputPath) const {
     auto& auditor = PluginSecurityAuditor::instance();
     return auditor.exportEvents(outputPath);
+}
+
+std::vector<PluginSecurityEvent> ModuleLoader::getPluginAuditTrail(const std::string& modulePath) const {
+    auto& auditor = PluginSecurityAuditor::instance();
+    return auditor.getEventsForPlugin(modulePath);
 }
 
 // ============================================================================
