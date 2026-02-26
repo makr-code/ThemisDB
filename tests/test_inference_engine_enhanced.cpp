@@ -682,3 +682,137 @@ TEST_F(InferenceEngineEnhancedTest, AsyncEngineHotSwapPluginNullRejected) {
 
     engine.shutdown();
 }
+
+// ═══════════════════════════════════════════════════════════
+// Test 15: Concurrent Hot-Swap (AsyncInferenceEngine)
+// Verifies thread-safety: swap while requests are in-flight.
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, AsyncEngineConcurrentHotSwap) {
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 2;
+
+    // Slow plugin so requests are in-flight when swap happens
+    auto slow_plugin = std::make_shared<MockLLMPlugin>("slow", 80);
+    AsyncInferenceEngine engine(slow_plugin, cfg);
+
+    // Submit several requests that will all be in-flight during the swap
+    const int num_requests = 8;
+    std::vector<InferenceHandle> handles;
+    handles.reserve(num_requests);
+    for (int i = 0; i < num_requests; ++i) {
+        InferenceRequest req;
+        req.request_id = "concurrent_swap_" + std::to_string(i);
+        req.prompt = "Concurrent request " + std::to_string(i);
+        handles.push_back(engine.submit(req));
+    }
+
+    // Swap while the requests are being processed
+    auto new_plugin = std::make_shared<MockLLMPlugin>("fast", 5);
+    engine.swapPlugin(new_plugin);
+
+    // All in-flight requests must complete without crashing
+    int completed = 0;
+    for (auto& h : handles) {
+        auto response = h.get();
+        EXPECT_FALSE(response.text.empty());
+        ++completed;
+    }
+    EXPECT_EQ(completed, num_requests);
+
+    // A request submitted after the swap must use the new plugin
+    InferenceRequest post_req;
+    post_req.request_id = "post_concurrent_swap";
+    post_req.prompt = "After concurrent swap";
+    auto post_handle = engine.submit(post_req);
+    auto post_response = post_handle.get();
+    EXPECT_EQ(post_response.model_id, "fast");
+
+    spdlog::info("AsyncEngineConcurrentHotSwap: {} requests completed without crash",
+                 completed);
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 16: Concurrent Hot-Swap (InferenceEngineEnhanced)
+// Verifies thread-safety: swapModel while requests are in-flight.
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, EnhancedEngineConcurrentHotSwap) {
+    config_.num_worker_threads = 2;
+    InferenceEngineEnhanced engine(config_);
+
+    auto slow_plugin = std::make_shared<MockLLMPlugin>("slow", 80);
+    engine.registerModel("model1", slow_plugin);
+    engine.start();
+
+    const int num_requests = 8;
+    std::vector<InferenceHandle> handles;
+    handles.reserve(num_requests);
+    for (int i = 0; i < num_requests; ++i) {
+        InferenceEngineEnhanced::EnhancedInferenceRequest req;
+        req.request_id = "enh_concurrent_swap_" + std::to_string(i);
+        req.base_request.prompt = "Concurrent request " + std::to_string(i);
+        req.allow_caching = false;
+        handles.push_back(engine.submit(req));
+    }
+
+    // Swap while in-flight
+    auto new_plugin = std::make_shared<MockLLMPlugin>("fast", 5);
+    engine.swapModel("model1", new_plugin);
+
+    int completed = 0;
+    for (auto& h : handles) {
+        auto response = h.get();
+        EXPECT_FALSE(response.text.empty());
+        ++completed;
+    }
+    EXPECT_EQ(completed, num_requests);
+
+    // Post-swap request must use new plugin
+    InferenceEngineEnhanced::EnhancedInferenceRequest post_req;
+    post_req.request_id = "enh_post_concurrent_swap";
+    post_req.base_request.prompt = "After concurrent swap";
+    post_req.allow_caching = false;
+    auto post_response = engine.submit(post_req).get();
+    EXPECT_EQ(post_response.model_id, "fast");
+
+    spdlog::info("EnhancedEngineConcurrentHotSwap: {} requests completed without crash",
+                 completed);
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 17: Rapid Successive Swaps (AsyncInferenceEngine)
+// Verifies that multiple rapid swaps are all applied correctly.
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, AsyncEngineRapidSuccessiveSwaps) {
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 1;
+
+    auto plugin_v1 = std::make_shared<MockLLMPlugin>("v1", 5);
+    AsyncInferenceEngine engine(plugin_v1, cfg);
+
+    // Rapidly swap several times
+    auto plugin_v2 = std::make_shared<MockLLMPlugin>("v2", 5);
+    auto plugin_v3 = std::make_shared<MockLLMPlugin>("v3", 5);
+    auto plugin_v4 = std::make_shared<MockLLMPlugin>("v4", 5);
+
+    engine.swapPlugin(plugin_v2);
+    engine.swapPlugin(plugin_v3);
+    engine.swapPlugin(plugin_v4);
+
+    // After all swaps the last plugin (v4) must be active
+    InferenceRequest req;
+    req.request_id = "after_rapid_swaps";
+    req.prompt = "Final model check";
+    auto response = engine.submit(req).get();
+    EXPECT_EQ(response.model_id, "v4");
+
+    spdlog::info("AsyncEngineRapidSuccessiveSwaps: final model_id={}", response.model_id);
+
+    engine.shutdown();
+}
