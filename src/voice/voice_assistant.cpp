@@ -4,13 +4,13 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:32                                ║
+  Last Modified:   2026-02-26                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     554                                            ║
+    • Total Lines:     619                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -244,6 +244,24 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
 ) {
     if (!initialized_) {
         return {};
+    }
+
+    // Voice biometric authentication gate (mirrors processVoiceCommand)
+    if (config_.enable_voice_auth) {
+        auto auth_session = getSession(session_id);
+        const std::string& uid = auth_session.user_id;
+        if (!uid.empty()) {
+            auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            if (!auth_result.authenticated) {
+                content::TTSOptions tts_opts;
+                tts_opts.voice_id = config_.tts_voice;
+                tts_opts.format   = "wav";
+                auto tts_result   = tts_processor_->synthesize(
+                    "Voice authentication failed. Please try again.",
+                    tts_opts);
+                return tts_result.audio_data;
+            }
+        }
     }
 
     auto session = getSession(session_id);
