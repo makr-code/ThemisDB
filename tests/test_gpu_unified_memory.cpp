@@ -366,3 +366,26 @@ TEST_F(GPUUnifiedMemoryTest, Concurrent_AllocFree_NoRaces) {
     // (each thread freed its own pointer).
     EXPECT_EQ(alloc.getStats().allocated_bytes, 0u);
 }
+
+TEST_F(GPUUnifiedMemoryTest, Concurrent_IsSupported_NoRace) {
+    // Verify isSupported() is safe to call from multiple threads concurrently.
+    // Uses the C++11 thread-safe static-init path; should never produce a
+    // TSan data-race warning.
+    // Note: std::vector<bool> is bit-packed; use int to avoid bit-level races.
+    constexpr int THREADS = 8;
+    std::vector<int> results(THREADS, -1);
+    std::vector<std::thread> threads;
+    threads.reserve(THREADS);
+
+    for (int t = 0; t < THREADS; ++t) {
+        threads.emplace_back([&results, t]() {
+            results[t] = GPUUnifiedMemoryAllocator::isSupported() ? 1 : 0;
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    // All threads must observe the same value (CPU-only → 0 / false).
+    for (int t = 1; t < THREADS; ++t) {
+        EXPECT_EQ(results[t], results[0]);
+    }
+}

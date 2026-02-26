@@ -48,32 +48,30 @@ namespace gpu {
 // ============================================================================
 
 bool GPUUnifiedMemoryAllocator::isSupported() noexcept {
-    static bool cached = false;
-    static bool result = false;
-    if (cached) return result;
-    cached = true;
-
+    // C++11 guarantees that initialization of a function-local static is
+    // performed exactly once, even under concurrent calls.  Using a single
+    // const static avoids the two-variable (cached + result) pattern that is
+    // susceptible to a data race on the first concurrent call.
+    static const bool result = []() noexcept -> bool {
 #ifdef THEMIS_ENABLE_CUDA
-    int device_count = 0;
-    if (cudaGetDeviceCount(&device_count) == cudaSuccess && device_count > 0) {
-        cudaDeviceProp prop{};
-        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
-            result = (prop.unifiedAddressing != 0);
-            return result;
+        int device_count = 0;
+        if (cudaGetDeviceCount(&device_count) == cudaSuccess && device_count > 0) {
+            cudaDeviceProp prop{};
+            if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+                return prop.unifiedAddressing != 0;
+            }
         }
-    }
 #elif defined(THEMIS_ENABLE_HIP)
-    int device_count = 0;
-    if (hipGetDeviceCount(&device_count) == hipSuccess && device_count > 0) {
-        hipDeviceProp_t prop{};
-        if (hipGetDeviceProperties(&prop, 0) == hipSuccess) {
-            result = (prop.unifiedAddressing != 0);
-            return result;
+        int device_count = 0;
+        if (hipGetDeviceCount(&device_count) == hipSuccess && device_count > 0) {
+            hipDeviceProp_t prop{};
+            if (hipGetDeviceProperties(&prop, 0) == hipSuccess) {
+                return prop.unifiedAddressing != 0;
+            }
         }
-    }
 #endif
-
-    result = false;
+        return false;
+    }();
     return result;
 }
 
@@ -128,32 +126,37 @@ void* GPUUnifiedMemoryAllocator::allocate(size_t             bytes,
 bool GPUUnifiedMemoryAllocator::free(void* ptr) {
     if (!ptr) return false;
 
-    std::lock_guard<std::mutex> lock(mutex_);
+    size_t      bytes     = 0;
+    std::string tenant_id;
 
-    auto it = std::find_if(active_.begin(), active_.end(),
-                           [ptr](const AllocationRecord& r) { return r.ptr == ptr; });
-    if (it == active_.end()) return false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
 
-    const size_t      bytes     = it->bytes;
-    const std::string tenant_id = it->tenant_id;
+        auto it = std::find_if(active_.begin(), active_.end(),
+                               [ptr](const AllocationRecord& r) { return r.ptr == ptr; });
+        if (it == active_.end()) return false;
 
-    active_.erase(it);
-    ++total_frees_;
-    if (allocated_bytes_ >= static_cast<uint64_t>(bytes)) {
-        allocated_bytes_ -= static_cast<uint64_t>(bytes);
-    } else {
-        allocated_bytes_ = 0;
-    }
-    if (!tenant_id.empty()) {
-        auto tit = tenant_bytes_.find(tenant_id);
-        if (tit != tenant_bytes_.end()) {
-            if (tit->second >= static_cast<uint64_t>(bytes)) {
-                tit->second -= static_cast<uint64_t>(bytes);
-            } else {
-                tit->second = 0;
+        bytes     = it->bytes;
+        tenant_id = it->tenant_id;
+
+        active_.erase(it);
+        ++total_frees_;
+        if (allocated_bytes_ >= static_cast<uint64_t>(bytes)) {
+            allocated_bytes_ -= static_cast<uint64_t>(bytes);
+        } else {
+            allocated_bytes_ = 0;
+        }
+        if (!tenant_id.empty()) {
+            auto tit = tenant_bytes_.find(tenant_id);
+            if (tit != tenant_bytes_.end()) {
+                if (tit->second >= static_cast<uint64_t>(bytes)) {
+                    tit->second -= static_cast<uint64_t>(bytes);
+                } else {
+                    tit->second = 0;
+                }
             }
         }
-    }
+    } // mutex released here — platform free runs without holding the lock
 
 #ifdef THEMIS_ENABLE_CUDA
     cudaFree(ptr);
@@ -297,6 +300,16 @@ void GPUUnifiedMemoryAllocator::reset() {
     peak_bytes_        = 0;
     prefetch_calls_    = 0;
     advise_calls_      = 0;
+}
+
+// ============================================================================
+// Destructor
+// ============================================================================
+
+GPUUnifiedMemoryAllocator::~GPUUnifiedMemoryAllocator() {
+    // Free any allocations not explicitly freed by the caller.
+    // Mirrors the cleanup pattern in GPUStreamManager::~GPUStreamManager().
+    reset();
 }
 
 } // namespace gpu

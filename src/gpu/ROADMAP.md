@@ -36,7 +36,6 @@
 ## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
-## In Progress 🚧
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)

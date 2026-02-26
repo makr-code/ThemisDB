@@ -117,7 +117,17 @@ public:
     }
 
     GPUUnifiedMemoryAllocator() = default;
-    ~GPUUnifiedMemoryAllocator() = default;
+    /**
+     * @brief Destructor — frees any allocations that were not explicitly
+     * freed by the caller.
+     *
+     * For the singleton instance this runs at process exit.  On CUDA/HIP
+     * builds the runtime is typically still active at that point, but
+     * callers that construct local instances must ensure the runtime is
+     * still active when the destructor runs (or call reset() explicitly
+     * before destruction).
+     */
+    ~GPUUnifiedMemoryAllocator();
 
     // Non-copyable.
     GPUUnifiedMemoryAllocator(const GPUUnifiedMemoryAllocator&) = delete;
