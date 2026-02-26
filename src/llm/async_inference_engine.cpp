@@ -41,6 +41,8 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!plugin_) {
         throw std::invalid_argument("Plugin cannot be null");
     }
+    // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
+    active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
     
     spdlog::info("AsyncInferenceEngine starting with {} worker threads",
                  config_.num_worker_threads);
@@ -72,6 +74,7 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!plugin_) {
         throw std::invalid_argument("Plugin cannot be null");
     }
+    active_plugin_ = owned_plugin_;
     spdlog::info("AsyncInferenceEngine starting with {} worker threads",
                  config_.num_worker_threads);
     workers_.reserve(config_.num_worker_threads);
@@ -106,6 +109,8 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!shared_pool_) {
         throw std::invalid_argument("SharedWorkerPool cannot be null");
     }
+    // Wrap raw pointer in a non-owning shared_ptr for hot-swap support.
+    active_plugin_ = std::shared_ptr<ILLMPlugin>(plugin_, [](ILLMPlugin*){});
     spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
                  shared_pool_->numThreads());
     // Private worker threads are NOT started; the shared pool is used instead.
@@ -133,6 +138,7 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     if (!shared_pool_) {
         throw std::invalid_argument("SharedWorkerPool cannot be null");
     }
+    active_plugin_ = owned_plugin_;
     spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
                  shared_pool_->numThreads());
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
@@ -610,8 +616,16 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         stats_.total_dedup_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
     
+    // Grab a snapshot of the active plugin under a shared (read) lock so that a
+    // concurrent swapPlugin() call does not race with the generate() invocation.
+    std::shared_ptr<ILLMPlugin> plugin_snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lock(plugin_mutex_);
+        plugin_snapshot = active_plugin_;
+    }
+
     // Call plugin (blocking inference)
-    InferenceResponse response = plugin_->generate(effective_request);
+    InferenceResponse response = plugin_snapshot->generate(effective_request);
     
     // Store in deduplication cache (skip for streaming requests)
     if (dedup_cache_ && !effective_request.stream_callback) {
@@ -639,6 +653,17 @@ LLMResponseCache::CacheStatistics AsyncInferenceEngine::getDedupCacheStats() con
         return dedup_cache_->getStatistics();
     }
     return LLMResponseCache::CacheStatistics{};
+}
+
+void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
+    if (!new_plugin) {
+        throw std::invalid_argument("New plugin cannot be null");
+    }
+    std::unique_lock<std::shared_mutex> lock(plugin_mutex_);
+    owned_plugin_ = std::move(new_plugin);
+    plugin_ = owned_plugin_.get();
+    active_plugin_ = owned_plugin_;
+    spdlog::info("AsyncInferenceEngine: plugin hot-swapped");
 }
 
 std::string AsyncInferenceEngine::generateRequestId() {
