@@ -44,6 +44,9 @@ struct ExportStats {
     size_t bytes_written = 0;
     std::chrono::milliseconds duration{0};
     std::vector<std::string> errors;
+
+    /// Estimated time remaining in seconds (populated during streaming exports)
+    double estimated_eta_seconds = 0.0;
     
     // Optional: Detailed metrics
     std::shared_ptr<ExporterMetrics> metrics;
