@@ -18,14 +18,20 @@
  */
 
 #include "ingestion/huggingface_connector.h"
+#include <curl/curl.h>
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
 #include <thread>
 
-// Note: For actual HTTP requests, libcurl would be used in production.
-// This implementation provides the structure with simulated HTTP calls and
-// production-ready retry / back-off logic.
+#ifdef ERROR
+#undef ERROR
+#endif
+
+// Note: For actual HTTP GET requests, a simulated HttpClient is used to
+// preserve the existing stub structure (real libcurl replacement is tracked
+// as a separate roadmap item).  OAuth 2.0 token refresh POST requests are
+// performed via real libcurl (apiHttpPost) when no test hook is injected.
 
 namespace themis {
 namespace ingestion {
@@ -115,6 +121,78 @@ static HttpResponse getWithRetry(const std::string& url,
     return response;
 }
 
+namespace {
+
+// libcurl write callback used by the production OAuth POST.
+static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
+    const auto total = size * nmemb;
+    static_cast<std::string*>(userdata)->append(ptr, total);
+    return total;
+}
+
+// Production HTTP POST via libcurl (OAuth 2.0 token refresh only).
+static HttpResponse hfHttpPost(const std::string& url,
+                                const std::string& body,
+                                int timeout_ms) {
+    HttpResponse r;
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        r.error = "Failed to initialize libcurl handle";
+        return r;
+    }
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers,
+                                "Content-Type: application/x-www-form-urlencoded");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, hfCurlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        r.error = curl_easy_strerror(res);
+        r.status_code = 0;
+    } else {
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        r.status_code = static_cast<int>(http_code);
+    }
+
+    if (headers) curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+    return r;
+}
+
+// Minimal JSON string-field extractor for OAuth token response parsing.
+static std::string hfJsonExtractStringValue(const std::string& json,
+                                             const std::string& key) {
+    std::string needle = "\"" + key + "\":\"";
+    auto start = json.find(needle);
+    if (start == std::string::npos) return "";
+    start += needle.size();
+    std::string value;
+    bool escape = false;
+    for (size_t i = start; i < json.size(); ++i) {
+        char c = json[i];
+        if (escape) { value += c; escape = false; continue; }
+        if (c == '\\') { escape = true; continue; }
+        if (c == '"') break;
+        value += c;
+    }
+    return value;
+}
+
+} // anonymous namespace
+
 // Pimpl implementation
 class HuggingFaceConnector::Impl {
 public:
@@ -148,7 +226,18 @@ public:
         if (it != config.options.end()) {
             api_token_ = it->second;
         }
-        
+
+        // OAuth 2.0 configuration from options
+        auto opt = [&](const std::string& k) -> std::string {
+            auto oit = config.options.find(k);
+            return (oit != config.options.end()) ? oit->second : "";
+        };
+        oauth_config_.token_endpoint = opt("oauth_token_endpoint");
+        oauth_config_.client_id      = opt("oauth_client_id");
+        oauth_config_.client_secret  = opt("oauth_client_secret");
+        oauth_config_.refresh_token  = opt("oauth_refresh_token");
+        oauth_config_.access_token   = opt("oauth_access_token");
+
         return true;
     }
     
@@ -162,7 +251,7 @@ public:
             std::string api_url = "https://huggingface.co/api/datasets/" + dataset_name_;
             
             // Make HTTP request (simulated)
-            auto response = HttpClient::get(api_url, api_token_, retry_config_.timeout_ms);
+            auto response = HttpClient::get(api_url, buildAuthToken(), retry_config_.timeout_ms);
             
             // Check if dataset exists (200 OK)
             return response.status_code == 200;
@@ -181,7 +270,7 @@ public:
             std::string api_url = "https://huggingface.co/api/datasets/" + 
                                 dataset_name_ + "/metadata";
             
-            auto response = HttpClient::get(api_url, api_token_, retry_config_.timeout_ms);
+            auto response = HttpClient::get(api_url, buildAuthToken(), retry_config_.timeout_ms);
             
             if (response.status_code == 200) {
                 // Parse JSON response to get row count
@@ -240,7 +329,68 @@ public:
     }
     
 private:
-    // Helper: Streaming ingestion with retry
+    // Returns the effective authentication token, preferring the OAuth access
+    // token when one is available.
+    std::string buildAuthToken() const {
+        return !oauth_config_.access_token.empty() ? oauth_config_.access_token
+                                                   : api_token_;
+    }
+
+    // Perform an HTTP POST, delegating to the test hook when set.
+    HttpResponse httpPost(const std::string& url, const std::string& body,
+                          int timeout_ms) const {
+        if (http_post_fn_) {
+            auto [status, resp_body] = http_post_fn_(url, body);
+            HttpResponse r;
+            r.status_code = status;
+            r.body        = std::move(resp_body);
+            return r;
+        }
+        return hfHttpPost(url, body, timeout_ms);
+    }
+
+    // Percent-encode a string for application/x-www-form-urlencoded.
+    static std::string urlEncode(const std::string& value) {
+        std::string encoded;
+        for (unsigned char c : value) {
+            if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+                encoded += static_cast<char>(c);
+            } else {
+                char buf[4];
+                std::snprintf(buf, sizeof(buf), "%%%02X", c);
+                encoded += buf;
+            }
+        }
+        return encoded;
+    }
+
+    // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
+    // Returns true and updates oauth_config_.access_token on success.
+    bool refreshOAuthToken(int timeout_ms) {
+        std::string body = "grant_type=refresh_token"
+                           "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
+        if (!oauth_config_.client_id.empty())
+            body += "&client_id=" + urlEncode(oauth_config_.client_id);
+        if (!oauth_config_.client_secret.empty())
+            body += "&client_secret=" + urlEncode(oauth_config_.client_secret);
+
+        auto resp = httpPost(oauth_config_.token_endpoint, body, timeout_ms);
+        if (resp.status_code != 200) return false;
+
+        std::string new_token = hfJsonExtractStringValue(resp.body, "access_token");
+        if (new_token.empty()) return false;
+
+        oauth_config_.access_token = std::move(new_token);
+
+        // Update the refresh token if the server issued a new one (RFC 6749 §6).
+        std::string new_refresh = hfJsonExtractStringValue(resp.body, "refresh_token");
+        if (!new_refresh.empty())
+            oauth_config_.refresh_token = std::move(new_refresh);
+
+        return true;
+    }
+
+    // Helper: Streaming ingestion with retry and OAuth token refresh
     IngestionStats ingestStreaming(const std::string& api_url,
                                   const std::string& /*target_collection*/,
                                   ProgressCallback callback) {
@@ -256,7 +406,20 @@ private:
                 "?offset=" + std::to_string(processed) +
                 "&limit="  + std::to_string(chunk_size);
 
-            auto response = getWithRetry(chunk_url, api_token_, retry_config_, stats);
+            auto response = getWithRetry(chunk_url, buildAuthToken(), retry_config_, stats);
+
+            // OAuth 2.0 token refresh on HTTP 401 (RFC 6749 §6).
+            if (response.status_code == 401 && oauth_config_.isRefreshable()) {
+                if (refreshOAuthToken(retry_config_.timeout_ms)) {
+                    if (!stats.errors.empty() &&
+                        stats.errors.back().code == IngestionErrorCode::HTTP_UNAUTHORIZED) {
+                        stats.errors.pop_back();
+                        --stats.metrics.error_count;
+                    }
+                    response = HttpClient::get(chunk_url, buildAuthToken(),
+                                               retry_config_.timeout_ms);
+                }
+            }
 
             if (response.status_code != 200) {
                 // Non-retryable failure: record and abort streaming
@@ -285,13 +448,26 @@ private:
         return stats;
     }
     
-    // Helper: Batch ingestion with retry
+    // Helper: Batch ingestion with retry and OAuth token refresh
     IngestionStats ingestBatch(const std::string& api_url,
                                const std::string& /*target_collection*/,
                                ProgressCallback callback) {
         IngestionStats stats;
         
-        auto response = getWithRetry(api_url, api_token_, retry_config_, stats);
+        auto response = getWithRetry(api_url, buildAuthToken(), retry_config_, stats);
+
+        // OAuth 2.0 token refresh on HTTP 401 (RFC 6749 §6).
+        if (response.status_code == 401 && oauth_config_.isRefreshable()) {
+            if (refreshOAuthToken(retry_config_.timeout_ms)) {
+                if (!stats.errors.empty() &&
+                    stats.errors.back().code == IngestionErrorCode::HTTP_UNAUTHORIZED) {
+                    stats.errors.pop_back();
+                    --stats.metrics.error_count;
+                }
+                response = HttpClient::get(api_url, buildAuthToken(),
+                                           retry_config_.timeout_ms);
+            }
+        }
 
         if (response.status_code == 200) {
             size_t total_docs = getDocumentCount();
@@ -333,6 +509,14 @@ public:
         retry_config_ = config;
     }
 
+    void setOAuthConfig(const OAuthConfig& config) {
+        oauth_config_ = config;
+    }
+
+    void setHttpPostForTesting(ApiHttpPostFn fn) {
+        http_post_fn_ = std::move(fn);
+    }
+
 private:
     SourceConfig config_;
     std::string dataset_name_;
@@ -341,6 +525,8 @@ private:
     size_t batch_size_;
     bool streaming_enabled_;
     RetryConfig retry_config_;
+    OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
+    ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
 };
 
 // Public API implementation
@@ -381,6 +567,14 @@ void HuggingFaceConnector::setStreamingMode(bool enabled) {
 
 void HuggingFaceConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
+}
+
+void HuggingFaceConnector::setOAuthConfig(const OAuthConfig& config) {
+    impl_->setOAuthConfig(config);
+}
+
+void HuggingFaceConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
+    impl_->setHttpPostForTesting(std::move(fn));
 }
 
 } // namespace ingestion

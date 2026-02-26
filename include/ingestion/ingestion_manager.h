@@ -244,6 +244,54 @@ using ApiHttpGetFn =
                                               const std::string& auth)>;
 
 /**
+ * @brief Function type for injecting a mock HTTP POST response in tests.
+ *
+ * Returns `{status_code, response_body}`.  When injected via
+ * `GenericApiConnector::setHttpPostForTesting()` or
+ * `HuggingFaceConnector::setHttpPostForTesting()`, this function is called
+ * for OAuth token endpoint POST requests instead of a real libcurl request.
+ * Intended for unit tests only.
+ */
+using ApiHttpPostFn =
+    std::function<std::pair<int, std::string>(const std::string& url,
+                                              const std::string& body)>;
+
+/**
+ * @brief OAuth 2.0 token refresh configuration for ingestion connectors
+ *
+ * When configured, connectors automatically refresh an expired access token
+ * using the stored refresh token (RFC 6749 §6) upon receiving HTTP 401.
+ * The refreshed access token is cached in `access_token` and used for all
+ * subsequent requests within the same ingestion run.
+ *
+ * Set via `GenericApiConnector::setOAuthConfig()` or
+ * `HuggingFaceConnector::setOAuthConfig()`.
+ *
+ * Supported `SourceConfig::options` keys (alternative to calling setOAuthConfig):
+ * | Key                    | Description                                |
+ * |------------------------|--------------------------------------------|
+ * | `oauth_token_endpoint` | Token endpoint URL                         |
+ * | `oauth_client_id`      | OAuth client ID                            |
+ * | `oauth_client_secret`  | OAuth client secret                        |
+ * | `oauth_refresh_token`  | Refresh token obtained during initial auth |
+ * | `oauth_access_token`   | Initial access token (optional)            |
+ */
+struct OAuthConfig {
+    std::string token_endpoint;  ///< Token endpoint URL (e.g. https://auth.example.com/token)
+    std::string client_id;       ///< OAuth client ID
+    std::string client_secret;   ///< OAuth client secret (empty for public clients)
+    std::string refresh_token;   ///< Refresh token for RFC 6749 §6 token refresh
+    std::string access_token;    ///< Current access token (updated automatically on refresh)
+
+    OAuthConfig() = default;
+
+    /** @brief Returns true when a token refresh can be attempted */
+    bool isRefreshable() const {
+        return !token_endpoint.empty() && !refresh_token.empty();
+    }
+};
+
+/**
  * @brief Ingestion statistics
  */
 struct IngestionStats {
