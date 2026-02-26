@@ -169,6 +169,7 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/plugin_health_monitor.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
