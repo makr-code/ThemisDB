@@ -374,4 +374,160 @@ Result<IndexType> IndexManager::getIndexType(std::string_view name) const {
                            fmt::format("Index '{}' not found", name_str));
 }
 
+// =============================================================================
+// Multi-tenancy index isolation
+// =============================================================================
+
+std::string IndexManager::makeTenantIndexName(std::string_view tenant_id,
+                                               std::string_view index_name) {
+    return fmt::format("tenant:{}:{}", tenant_id, index_name);
+}
+
+// -- tenant-scoped create ----------------------------------------------------
+
+Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
+    std::string_view tenant_id,
+    std::string_view name,
+    std::string_view field_name,
+    const std::string& config) {
+
+    if (tenant_id.empty()) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "tenant_id must not be empty");
+    }
+    return createSecondaryIndex(makeTenantIndexName(tenant_id, name),
+                                field_name, config);
+}
+
+Result<IVectorIndex*> IndexManager::createVectorIndex(
+    std::string_view tenant_id,
+    std::string_view name,
+    uint32_t dimension,
+    const std::string& config) {
+
+    if (tenant_id.empty()) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "tenant_id must not be empty");
+    }
+    return createVectorIndex(makeTenantIndexName(tenant_id, name),
+                             dimension, config);
+}
+
+Result<IGraphIndex*> IndexManager::createGraphIndex(
+    std::string_view tenant_id,
+    std::string_view name,
+    const std::string& config) {
+
+    if (tenant_id.empty()) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "tenant_id must not be empty");
+    }
+    return createGraphIndex(makeTenantIndexName(tenant_id, name), config);
+}
+
+// -- tenant-scoped get -------------------------------------------------------
+
+Result<ISecondaryIndex*> IndexManager::getSecondaryIndex(
+    std::string_view tenant_id,
+    std::string_view name) const {
+
+    if (tenant_id.empty()) {
+        return Err<ISecondaryIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                     "tenant_id must not be empty");
+    }
+    return getSecondaryIndex(makeTenantIndexName(tenant_id, name));
+}
+
+Result<IVectorIndex*> IndexManager::getVectorIndex(
+    std::string_view tenant_id,
+    std::string_view name) const {
+
+    if (tenant_id.empty()) {
+        return Err<IVectorIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                   "tenant_id must not be empty");
+    }
+    return getVectorIndex(makeTenantIndexName(tenant_id, name));
+}
+
+Result<IGraphIndex*> IndexManager::getGraphIndex(
+    std::string_view tenant_id,
+    std::string_view name) const {
+
+    if (tenant_id.empty()) {
+        return Err<IGraphIndex*>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                                  "tenant_id must not be empty");
+    }
+    return getGraphIndex(makeTenantIndexName(tenant_id, name));
+}
+
+// -- tenant-scoped drop ------------------------------------------------------
+
+Result<void> IndexManager::dropIndex(std::string_view tenant_id,
+                                      std::string_view name) {
+    if (tenant_id.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                       "tenant_id must not be empty");
+    }
+    return dropIndex(makeTenantIndexName(tenant_id, name));
+}
+
+Result<void> IndexManager::dropTenantIndexes(std::string_view tenant_id) {
+    if (tenant_id.empty()) {
+        return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                       "tenant_id must not be empty");
+    }
+
+    const std::string prefix = fmt::format("tenant:{}:", tenant_id);
+
+    // Collect all keys belonging to this tenant under lock, then drop each one.
+    std::vector<std::string> to_drop;
+    {
+        std::lock_guard<std::mutex> lock(registry_mutex_);
+        for (const auto& [key, _] : index_types_) {
+            if (key.starts_with(prefix)) {
+                to_drop.push_back(key);
+            }
+        }
+    }
+
+    for (const auto& key : to_drop) {
+        auto res = dropIndex(key);
+        if (!res.has_value()) {
+            THEMIS_WARN("IndexManager::dropTenantIndexes: failed to drop '{}': {}",
+                        key, res.error().message());
+        }
+    }
+
+    THEMIS_INFO("IndexManager::dropTenantIndexes: dropped {} index(es) for tenant '{}'",
+                to_drop.size(), tenant_id);
+    return OkVoid();
+}
+
+// -- tenant-scoped list / type -----------------------------------------------
+
+std::vector<std::string> IndexManager::listIndexes(
+    std::string_view tenant_id) const {
+
+    const std::string prefix = fmt::format("tenant:{}:", tenant_id);
+    std::lock_guard<std::mutex> lock(registry_mutex_);
+
+    std::vector<std::string> result;
+    for (const auto& [key, _] : index_types_) {
+        if (key.starts_with(prefix)) {
+            // Return the logical name without the "tenant:<id>:" prefix.
+            result.push_back(key.substr(prefix.size()));
+        }
+    }
+    return result;
+}
+
+Result<IndexType> IndexManager::getIndexType(std::string_view tenant_id,
+                                              std::string_view name) const {
+    if (tenant_id.empty()) {
+        return Err<IndexType>(errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                              "tenant_id must not be empty");
+    }
+    return getIndexType(makeTenantIndexName(tenant_id, name));
+}
+
 } // namespace themis
