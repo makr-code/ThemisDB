@@ -8,6 +8,12 @@
 #include <gtest/gtest.h>
 #include "plugins/plugin_interface.h"
 #include <nlohmann/json.hpp>
+#include <fstream>
+
+// Project root used by integration tests that load plugin.json files from disk.
+#ifndef THEMIS_PROJECT_ROOT
+#define THEMIS_PROJECT_ROOT "/home/runner/work/ThemisDB/ThemisDB"
+#endif
 
 using namespace themis::plugins;
 using json = nlohmann::json;
@@ -157,7 +163,7 @@ TEST(ManifestSchemaValidator, AcceptsFullMarketplaceFields) {
     j["load_priority"]      = 50;
     j["expected_hash"]      = std::string(64, 'a');
     j["signature"] = json{
-        {"fingerprint", "deadbeef"},
+        {"fingerprint", "deadbeef00112233"},
         {"algorithm",   "ed25519"},
         {"signed_at",   "2026-01-01T00:00:00Z"}
     };
@@ -237,10 +243,20 @@ TEST(ManifestSchemaValidator, RejectsSignatureMissingFingerprint) {
     EXPECT_FALSE(ManifestSchemaValidator::validate(j).valid);
 }
 
+TEST(ManifestSchemaValidator, RejectsSignatureFingerprintTooShort) {
+    auto j = minimalValidManifest();
+    j["signature"] = json{
+        {"fingerprint", "deadbeef"},   // only 8 chars, schema requires >= 16
+        {"algorithm",   "ed25519"},
+        {"signed_at",   "2026-01-01T00:00:00Z"}
+    };
+    EXPECT_FALSE(ManifestSchemaValidator::validate(j).valid);
+}
+
 TEST(ManifestSchemaValidator, RejectsSignatureInvalidAlgorithm) {
     auto j = minimalValidManifest();
     j["signature"] = json{
-        {"fingerprint", "deadbeef"},
+        {"fingerprint", "deadbeef00112233"},
         {"algorithm",   "md5"},
         {"signed_at",   "2026-01-01T00:00:00Z"}
     };
@@ -254,7 +270,7 @@ TEST(ManifestSchemaValidator, AcceptsAllValidSignatureAlgorithms) {
     for (const auto& algo : algos) {
         auto j = minimalValidManifest();
         j["signature"] = json{
-            {"fingerprint", "deadbeef"},
+            {"fingerprint", "deadbeef00112233"},
             {"algorithm",   algo},
             {"signed_at",   "2026-01-01T00:00:00Z"}
         };
@@ -360,14 +376,14 @@ TEST(ParseMarketplaceManifest, PopulatesCapabilities) {
 TEST(ParseMarketplaceManifest, PopulatesSignature) {
     auto j = minimalValidManifest();
     j["signature"] = json{
-        {"fingerprint", "abc123"},
+        {"fingerprint", "abc1230000000000"},   // >= 16 chars
         {"algorithm",   "ed25519"},
         {"signed_at",   "2026-02-01T12:00:00Z"}
     };
 
     auto m = ManifestSchemaValidator::parseMarketplaceManifest(j);
     ASSERT_TRUE(m.has_value());
-    EXPECT_EQ(m->signature.fingerprint, "abc123");
+    EXPECT_EQ(m->signature.fingerprint, "abc1230000000000");
     EXPECT_EQ(m->signature.algorithm, "ed25519");
     EXPECT_EQ(m->signature.signed_at, "2026-02-01T12:00:00Z");
 }
@@ -442,4 +458,81 @@ TEST(MarketplaceManifest, InheritsPluginManifestFields) {
     EXPECT_EQ(base.name, "my_plugin");
     EXPECT_EQ(base.version, "2.0.0");
     EXPECT_EQ(base.type, PluginType::BLOB_STORAGE);
+}
+
+// ---------------------------------------------------------------------------
+// ManifestSchemaValidator – expected_hash length validation
+// ---------------------------------------------------------------------------
+
+TEST(ManifestSchemaValidator, RejectsExpectedHashWrongLength) {
+    auto j = minimalValidManifest();
+    j["expected_hash"] = "abc123";  // too short (not 64 chars)
+    EXPECT_FALSE(ManifestSchemaValidator::validate(j).valid);
+}
+
+TEST(ManifestSchemaValidator, RejectsExpectedHashTooLong) {
+    auto j = minimalValidManifest();
+    j["expected_hash"] = std::string(65, 'a');  // one char too many
+    EXPECT_FALSE(ManifestSchemaValidator::validate(j).valid);
+}
+
+TEST(ManifestSchemaValidator, AcceptsExpectedHashExactly64Chars) {
+    auto j = minimalValidManifest();
+    j["expected_hash"] = std::string(64, 'a');  // exactly 64 hex chars
+    EXPECT_TRUE(ManifestSchemaValidator::validate(j).valid);
+}
+
+TEST(ManifestSchemaValidator, AcceptsAbsentExpectedHash) {
+    // expected_hash is optional – absence must not cause validation failure
+    EXPECT_TRUE(ManifestSchemaValidator::validate(minimalValidManifest()).valid);
+}
+
+// ---------------------------------------------------------------------------
+// Integration – existing in-tree plugin.json files must validate
+// ---------------------------------------------------------------------------
+
+static json loadJsonFile(const std::string& path) {
+    std::ifstream f(path);
+    if (!f) {
+        ADD_FAILURE() << "Cannot open plugin.json file: " << path;
+        return json{};
+    }
+    json j;
+    f >> j;
+    return j;
+}
+
+TEST(ManifestSchemaValidator, ExistingPluginS3ValidatesOk) {
+    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/blob_storage/s3/plugin.json");
+    auto r = ManifestSchemaValidator::validate(j);
+    EXPECT_TRUE(r.valid) << [&]() {
+        std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
+}
+
+TEST(ManifestSchemaValidator, ExistingPluginAzureValidatesOk) {
+    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/blob_storage/azure/plugin.json");
+    auto r = ManifestSchemaValidator::validate(j);
+    EXPECT_TRUE(r.valid) << [&]() {
+        std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
+}
+
+TEST(ManifestSchemaValidator, ExistingPluginHuggingfaceValidatesOk) {
+    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/huggingface/plugin.json");
+    auto r = ManifestSchemaValidator::validate(j);
+    EXPECT_TRUE(r.valid) << [&]() {
+        std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
+}
+
+TEST(ManifestSchemaValidator, ExistingPluginPostgresValidatesOk) {
+    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/importers/postgres/plugin.json");
+    auto r = ManifestSchemaValidator::validate(j);
+    EXPECT_TRUE(r.valid) << [&]() {
+        std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
+}
+
+TEST(ManifestSchemaValidator, ExistingPluginJsonlLlmExporterValidatesOk) {
+    auto j = loadJsonFile(std::string(THEMIS_PROJECT_ROOT) + "/plugins/exporters/jsonl_llm/plugin.json");
+    auto r = ManifestSchemaValidator::validate(j);
+    EXPECT_TRUE(r.valid) << [&]() {
+        std::string m; for (const auto& e : r.errors) m += e + "\n"; return m; }();
 }

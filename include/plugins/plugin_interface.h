@@ -26,6 +26,7 @@
 #include <tuple>
 #include <cstdio>
 #include <optional>
+#include <algorithm>
 #include <nlohmann/json.hpp>
 
 /**
@@ -548,6 +549,15 @@ public:
         checkOptionalString(j, "max_themis_version", 0, 32, result);
         checkOptionalString(j, "expected_hash", 0, 128, result);
 
+        // expected_hash, when present, must be exactly 64 hex characters (SHA-256)
+        if (j.contains("expected_hash") && j["expected_hash"].is_string()) {
+            const auto& h = j["expected_hash"].get<std::string>();
+            if (!h.empty() && h.size() != 64) {
+                result.errors.push_back(
+                    "Field 'expected_hash' must be exactly 64 hex characters (SHA-256)");
+            }
+        }
+
         if (j.contains("auto_load") && !j["auto_load"].is_boolean()) {
             result.errors.push_back("Field 'auto_load' must be a boolean");
         }
@@ -612,6 +622,14 @@ public:
                             || sig[field].get<std::string>().empty()) {
                         result.errors.push_back(
                             "Field 'signature." + field + "' is required and must be a non-empty string");
+                    }
+                }
+                // Fingerprint must be at least 16 hex characters (matches schema minLength: 16)
+                if (sig.contains("fingerprint") && sig["fingerprint"].is_string()) {
+                    const auto fp = sig["fingerprint"].get<std::string>();
+                    if (fp.size() < 16) {
+                        result.errors.push_back(
+                            "Field 'signature.fingerprint' must be at least 16 characters");
                     }
                 }
                 static const std::vector<std::string> valid_algos = {
