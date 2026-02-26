@@ -725,6 +725,14 @@ set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
     TIMEOUT 600
 )
+
+# Session management and revocation endpoint tests (subset of AllTests)
+add_test(NAME SessionManagerTests
+    COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+set_tests_properties(SessionManagerTests PROPERTIES
+    LABELS "auth;session;revocation;unit"
+    TIMEOUT 60
+)
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
 if(FALSE)
