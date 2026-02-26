@@ -39,7 +39,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Short-term (Next 3-6 months)
 - [P] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
 - [P] Zero-copy Arrow data transfer optimizations (Issue: #1471)
-- [I] Arrow Flight RPC support for remote analytics (Issue: #1472)
+- [P] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
 - [x] Predictive analytics and time-series forecasting (Issue: #1473)

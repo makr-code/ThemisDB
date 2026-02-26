@@ -1952,6 +1952,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/ml_serving.cpp
     # Model Serving and Online Inference Pipeline (Issue #1477)
     ../src/analytics/model_serving.cpp
+
+    # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_flight.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
