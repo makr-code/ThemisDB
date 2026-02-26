@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     372                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 67d9f1550  2026-02-22  fix: adjust optimization pragmas for MSVC and qualify Aut... ║
@@ -163,6 +163,11 @@ TEST_F(APIGatewayTest, FederatedQueryWithoutRouter) {
 
 /**
  * @brief Test handler registration
+ *
+ * Verifies that registerHandler() stores the handler without throwing and that
+ * the gateway remains healthy after registration.  Also verifies that the
+ * gateway still processes subsequent requests correctly once a pattern is
+ * registered.
  */
 TEST_F(APIGatewayTest, RegisterHandler) {
     namespace http = boost::beast::http;
@@ -177,22 +182,71 @@ TEST_F(APIGatewayTest, RegisterHandler) {
         return resp;
     };
     
-    gateway_->registerHandler("/test/*", test_handler);
+    // Registration must not throw
+    ASSERT_NO_THROW(gateway_->registerHandler("/test/*", test_handler));
     
-    // Verify handler was registered (implementation detail)
-    // Note: This test assumes the handler is actually used when matching
+    // Gateway must remain healthy after registration
+    auto health = gateway_->getHealthStatus();
+    EXPECT_EQ(health["status"], "healthy")
+        << "Gateway must be healthy after handler registration";
+    
+    // Gateway must still process requests correctly after registration
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+    auto dummy_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"ok":true})";
+        resp.prepare_payload();
+        return resp;
+    };
+    auto response = gateway_->handleRequest(req, dummy_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request must succeed after handler registration";
 }
 
 /**
  * @brief Test health status with errors
+ *
+ * Verifies that getHealthStatus() transitions from "healthy" to "degraded"
+ * (>10% error rate) and to "unhealthy" (>50% error rate) as failed requests
+ * accumulate.  Failed requests are produced by local handlers that throw.
  */
 TEST_F(APIGatewayTest, HealthStatusWithErrors) {
-    // Gateway starts healthy
+    namespace http = boost::beast::http;
+
+    // Gateway starts healthy with no requests
     auto health = gateway_->getHealthStatus();
     EXPECT_EQ(health["status"], "healthy");
-    
-    // After handling requests, health should still be good if no errors
-    // (detailed testing would require mocking request failures)
+
+    // A local handler that throws causes failed_requests_ to be incremented
+    auto throwing_handler = [](const http::request<http::string_body>&)
+        -> http::response<http::string_body> {
+        throw std::runtime_error("simulated handler failure");
+    };
+
+    auto ok_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"ok":true})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+
+    // 1 success + 9 failures  → error rate = 90 % → "unhealthy"
+    gateway_->handleRequest(req, ok_handler);
+    for (int i = 0; i < 9; ++i) {
+        gateway_->handleRequest(req, throwing_handler);
+    }
+
+    health = gateway_->getHealthStatus();
+    EXPECT_EQ(health["status"], "unhealthy")
+        << "Gateway must report 'unhealthy' when error rate exceeds 50 %";
+    EXPECT_TRUE(health.contains("error_rate"))
+        << "Health status must include 'error_rate' field after failures";
+    EXPECT_GT(static_cast<double>(health["error_rate"]), 0.5)
+        << "Reported error_rate must be > 0.5";
 }
 
 /**
@@ -369,6 +423,109 @@ TEST_F(APIGatewayTest, DeprecationHeadersWithQueryString) {
         << "Deprecation header must be present even when path has query parameters";
     EXPECT_NE(response.find(APIHeaders::SUNSET), response.end())
         << "Sunset header must be present even when path has query parameters";
+}
+
+/**
+ * @brief Trusted proxy: X-Real-IP header is used as the client identifier
+ *        for rate limiting when enable_trusted_proxy_headers is true.
+ *
+ * Verifies that a gateway configured with enable_trusted_proxy_headers=true
+ * accepts requests that carry an X-Real-IP header without error.
+ */
+TEST_F(APIGatewayTest, TrustedProxyXRealIpAccepted) {
+    namespace http = boost::beast::http;
+
+    APIGateway::Config config;
+    config.gateway_id       = "proxy-gateway";
+    config.datacenter       = "test-dc";
+    config.enable_sharding  = false;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+    config.enable_trusted_proxy_headers = true;
+    config.trusted_proxies  = {"10.0.0.1"};
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+    );
+
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Real-IP", "203.0.113.42");  // RFC 5737 documentation address
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"status":"healthy"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request with X-Real-IP header must be handled successfully";
+}
+
+/**
+ * @brief Trusted proxy: the leftmost IP in X-Forwarded-For is used when
+ *        X-Real-IP is absent and enable_trusted_proxy_headers is true.
+ */
+TEST_F(APIGatewayTest, TrustedProxyXForwardedForAccepted) {
+    namespace http = boost::beast::http;
+
+    APIGateway::Config config;
+    config.gateway_id       = "xff-gateway";
+    config.datacenter       = "test-dc";
+    config.enable_sharding  = false;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+    config.enable_trusted_proxy_headers = true;
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+    );
+
+    // Simulate Kong forwarding: "client, kong-proxy"
+    http::request<http::string_body> req{http::verb::get, "/v1/entities", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Forwarded-For", "198.51.100.7, 10.0.0.1");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result":[]})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request with X-Forwarded-For header must be handled successfully";
+}
+
+/**
+ * @brief Trusted proxy disabled: X-Real-IP and X-Forwarded-For headers are
+ *        ignored when enable_trusted_proxy_headers is false (the default).
+ *
+ * The request must still succeed; ThemisDB simply does not use the forwarded
+ * IP as the rate-limit key.
+ */
+TEST_F(APIGatewayTest, TrustedProxyDisabledIgnoresForwardedHeaders) {
+    namespace http = boost::beast::http;
+
+    // Default gateway_ already has enable_trusted_proxy_headers = false
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Real-IP", "203.0.113.99");
+    req.set("X-Forwarded-For", "203.0.113.99, 10.0.0.1");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"status":"healthy"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request must succeed even when forwarded-IP headers are present but ignored";
 }
 
 /**

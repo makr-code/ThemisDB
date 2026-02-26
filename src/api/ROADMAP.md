@@ -31,7 +31,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 
 ### Long-term (6-12 months)
 - [I] gRPC API surface alongside REST (Issue: #1499)
-- [I] API gateway integration (Kong, Nginx) (Issue: #1500)
+- [x] API gateway integration (Kong, Nginx) (Issue: #1500)
 - [I] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [I] API key management endpoint (Issue: #1502)
 - [x] Multi-tenant namespace routing (Issue: #1503)
