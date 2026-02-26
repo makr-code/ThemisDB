@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.cpp                                     ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-23 03:57:57                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-26 12:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2005                                           ║
+    • Total Lines:     2242                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
-    • 99e1daf3c  2026-02-22  Fix compile error, race condition, and COUNT aggregation ... ║
-    • fc9260856  2026-02-22  Implement CEP restoreFromCheckpoint: parse checkpoint fil... ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
+    • 545d9f5e9  2026-02-26  fix(cep): hexDecode properly skips invalid char pairs  ║
+    • 5f1b20fc0  2026-02-26  feat(cep): implement stateful pattern matching with cp  ║
+    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub     ║
+    • 99e1daf3c  2026-02-22  Fix compile error, race condition, COUNT aggregation    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -101,6 +101,38 @@ std::string fieldValueToString(const FieldValue& v) {
     if (auto* d = std::get_if<double>(&v)) return std::to_string(*d);
     if (auto* b = std::get_if<bool>(&v)) return *b ? "true" : "false";
     return "<complex>";
+}
+
+/** Hex-encode a byte string */
+std::string hexEncode(const std::string& s) {
+    static const char hex[] = "0123456789abcdef";
+    std::string out;
+    out.reserve(s.size() * 2);
+    for (unsigned char c : s) {
+        out += hex[c >> 4];
+        out += hex[c & 0xF];
+    }
+    return out;
+}
+
+/** Hex-decode a hex string; silently skips pairs with non-hex characters */
+std::string hexDecode(const std::string& hex) {
+    std::string out;
+    out.reserve(hex.size() / 2);
+    auto nibble = [](char c) -> int {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        return -1;
+    };
+    for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+        int hi = nibble(hex[i]);
+        int lo = nibble(hex[i + 1]);
+        if (hi >= 0 && lo >= 0) {
+            out += static_cast<char>((hi << 4) | lo);
+        }
+    }
+    return out;
 }
 
 /** Compute percentile (p in [0,100]) from a sorted or unsorted vector */
@@ -752,9 +784,67 @@ size_t PatternMatcher::getPendingMatchCount() const {
     return total;
 }
 
-// ============================================================================
-// WindowManager
-// ============================================================================
+std::string PatternMatcher::serializeState() const {
+    std::lock_guard lk(state_mutex_);
+    auto now = std::chrono::steady_clock::now();
+    std::ostringstream oss;
+    for (const auto& [group_key, matches] : partial_matches_) {
+        if (matches.empty()) continue;
+        std::string gk_hex = hexEncode(group_key);
+        for (const auto& pm : matches) {
+            int64_t age_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - pm.start_time).count();
+            oss << "pm_match=" << gk_hex << "|" << pm.current_state
+                << "|" << age_ms << "\n";
+            for (const auto& ev : pm.matched_events) {
+                auto bytes = ev.serialize();
+                oss << "pm_ev=" << hexEncode(std::string(bytes.begin(), bytes.end())) << "\n";
+            }
+        }
+    }
+    return oss.str();
+}
+
+void PatternMatcher::restoreState(const std::string& data) {
+    std::lock_guard lk(state_mutex_);
+    partial_matches_.clear();
+    if (data.empty()) return;
+
+    auto now = std::chrono::steady_clock::now();
+    std::istringstream iss(data);
+    std::string line;
+    PartialMatch* current_pm = nullptr;
+    std::string current_group_key;
+
+    while (std::getline(iss, line)) {
+        if (line.rfind("pm_match=", 0) == 0) {
+            std::string rest = line.substr(9);
+            auto p1 = rest.find('|');
+            auto p2 = rest.find('|', p1 + 1);
+            if (p1 == std::string::npos || p2 == std::string::npos) continue;
+            current_group_key = hexDecode(rest.substr(0, p1));
+            uint32_t state = 0;
+            int64_t age_ms = 0;
+            try {
+                state = static_cast<uint32_t>(std::stoul(rest.substr(p1 + 1, p2 - p1 - 1)));
+                age_ms = std::stoll(rest.substr(p2 + 1));
+            } catch (...) { continue; }
+            PartialMatch pm;
+            pm.current_state = state;
+            pm.start_time = now - std::chrono::milliseconds(age_ms);
+            partial_matches_[current_group_key].push_back(std::move(pm));
+            current_pm = &partial_matches_[current_group_key].back();
+        } else if (line.rfind("pm_ev=", 0) == 0 && current_pm != nullptr) {
+            std::string bytes_str = hexDecode(line.substr(6));
+            std::vector<uint8_t> bytes(bytes_str.begin(), bytes_str.end());
+            auto ev = Event::deserialize(bytes);
+            if (ev.has_value()) {
+                current_pm->matched_events.push_back(std::move(*ev));
+            }
+        }
+    }
+}
+
 
 WindowManager::WindowManager(const WindowConfig& config)
     : config_(config), watermark_(std::chrono::system_clock::time_point{}) {
@@ -1599,9 +1689,47 @@ RuleEngine::RuleStats RuleEngine::getRuleStats(const std::string& rule_id) const
     return it->second.stats;
 }
 
-// ============================================================================
-// CEPEngine
-// ============================================================================
+std::string RuleEngine::serializeMatcherStates() const {
+    std::shared_lock lk(rules_mutex_);
+    std::ostringstream oss;
+    for (const auto& [rule_id, state] : rules_) {
+        if (!state.pattern_matcher) continue;
+        std::string matcher_state = state.pattern_matcher->serializeState();
+        if (matcher_state.empty()) continue;
+        oss << "pm_rule=" << rule_id << "\n" << matcher_state << "pm_rule_end\n";
+    }
+    return oss.str();
+}
+
+void RuleEngine::restoreMatcherStates(const std::string& data) {
+    if (data.empty()) return;
+    std::unique_lock lk(rules_mutex_);
+    std::string current_rule_id;
+    std::ostringstream current_block;
+    bool in_rule = false;
+
+    std::istringstream iss(data);
+    std::string line;
+    while (std::getline(iss, line)) {
+        if (line.rfind("pm_rule=", 0) == 0) {
+            current_rule_id = line.substr(8);
+            current_block.str("");
+            current_block.clear();
+            in_rule = true;
+        } else if (line == "pm_rule_end" && in_rule) {
+            auto it = rules_.find(current_rule_id);
+            if (it != rules_.end() && it->second.pattern_matcher) {
+                it->second.pattern_matcher->restoreState(current_block.str());
+                spdlog::debug("CEP RuleEngine: restored matcher state for rule '{}'",
+                              current_rule_id);
+            }
+            in_rule = false;
+        } else if (in_rule) {
+            current_block << line << "\n";
+        }
+    }
+}
+
 
 CEPEngine& CEPEngine::getInstance() {
     static CEPEngine instance;
@@ -1957,6 +2085,11 @@ bool CEPEngine::createCheckpoint() {
             f << "rule=" << rule.rule_id << ":" << rule.rule_name
               << ":" << (rule.enabled ? "1" : "0") << "\n";
         }
+        // Write stateful NFA partial match states for all pattern matchers
+        std::string matcher_states = rule_engine_->serializeMatcherStates();
+        if (!matcher_states.empty()) {
+            f << matcher_states;
+        }
     }
 
     spdlog::info("CEPEngine: checkpoint '{}' created", cp_id);
@@ -1964,8 +2097,10 @@ bool CEPEngine::createCheckpoint() {
 }
 
 // Parses the text checkpoint produced by createCheckpoint().
-// Only "rule=<id>:<name>:<1|0>" lines are acted upon: the enabled flag is
-// applied to any rule currently registered in the rule engine.
+// "rule=<id>:<name>:<1|0>" lines restore the enabled/disabled state of each rule.
+// "pm_rule=" / "pm_rule_end" blocks restore the NFA partial match state of each
+// pattern matcher, allowing in-progress stateful pattern sequences to survive
+// a shutdown/restart cycle.
 // Counter lines (events_received=, etc.) are intentionally skipped because
 // they are cumulative since engine initialisation and cannot be meaningfully
 // restored.
@@ -1985,8 +2120,27 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
     }
 
     std::string line;
+    std::string pm_rule_id;
+    std::ostringstream pm_state_block;
+    bool in_pm_rule = false;
+
     while (std::getline(f, line)) {
-        if (line.rfind("rule=", 0) == 0) {
+        if (in_pm_rule) {
+            if (line == "pm_rule_end") {
+                if (rule_engine_) {
+                    rule_engine_->restoreMatcherStates(
+                        "pm_rule=" + pm_rule_id + "\n" + pm_state_block.str() + "pm_rule_end\n");
+                }
+                in_pm_rule = false;
+            } else {
+                pm_state_block << line << "\n";
+            }
+        } else if (line.rfind("pm_rule=", 0) == 0) {
+            pm_rule_id = line.substr(8);
+            pm_state_block.str("");
+            pm_state_block.clear();
+            in_pm_rule = true;
+        } else if (line.rfind("rule=", 0) == 0) {
             // Format: rule=<rule_id>:<rule_name>:<enabled>
             std::string rest = line.substr(5);
             auto colon1 = rest.find(':');
@@ -2001,8 +2155,8 @@ bool CEPEngine::restoreFromCheckpoint(const std::string& checkpoint_id) {
                              checkpoint_id, line);
                 continue;
             }
-            std::string rule_id    = rest.substr(0, colon1);
-            std::string flag_str   = rest.substr(colon2 + 1);
+            std::string rule_id  = rest.substr(0, colon1);
+            std::string flag_str = rest.substr(colon2 + 1);
             // Trim trailing whitespace
             auto trim_end = flag_str.find_last_not_of(" \t\r\n");
             if (trim_end != std::string::npos) flag_str = flag_str.substr(0, trim_end + 1);
