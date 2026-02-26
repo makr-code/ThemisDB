@@ -59,10 +59,10 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
+- [x] Unit tests coverage > 80% (69+ unit tests + 12 integration tests + 26 injection tests for few-shot library and handler)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [I] Performance benchmarks (Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()` and `translateNLToAQLStreaming()`)  
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`)  
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [I] API stability guaranteed (Issue: #1524)
 

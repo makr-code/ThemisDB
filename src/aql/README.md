@@ -53,6 +53,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 
 **Core Features:**
 - **Natural Language to AQL**: `translateNLToAQL()` - Schema-aware query translation with automatic syntax validation of the generated AQL
+- **Few-Shot Translation**: `translateNLToAQLWithExamples()` - Improved accuracy via curated NL/AQL example library (`AQLFewShotExampleLibrary`)
 - **Streaming AQL Explanations**: `streamExplainAQL()` / `streamExplainAQLAsSSE()` — token-by-token streaming of natural language explanations for long AQL queries
 - **Chat Interface**: `executeChat()` - Multi-turn conversations with message history
 - **LLM INFER**: Generate text using loaded language models (with model/LoRA selection)
@@ -74,6 +75,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - ✅ `translateNLToAQL()` validates generated AQL and logs structural issues
 - ✅ `translateNLToAQL()` sanitizes `nl_query` and `schema_context` inputs to prevent prompt injection (instruction overrides, persona hijacking, system-block markers, null bytes)
 - ✅ `streamExplainAQL()` / `streamExplainAQLAsSSE()` — real-time streaming explanations for long AQL queries
+- ✅ `translateNLToAQLWithExamples()` — few-shot prompt injection from `AQLFewShotExampleLibrary` for improved NL-to-AQL accuracy
 - ✅ Comprehensive test coverage
 
 **Syntax Examples:**
@@ -435,6 +437,63 @@ aql_query = handler.translateNLToAQL(nl_query, schema_context);
 **Performance:**
 - Translation typically completes in < 2 seconds (target)
 - Depends on LLM model size and hardware acceleration
+
+### Few-Shot Example Library
+
+The `AQLFewShotExampleLibrary` provides a curated corpus of natural-language / AQL pairs that
+can be injected into LLM prompts to improve NL-to-AQL translation accuracy, especially for
+uncommon or complex query patterns.
+
+```cpp
+#include "aql/llm_aql_handler.h"
+#include "aql/aql_fewshot_example_library.h"
+
+LLMAQLHandler handler;
+AQLFewShotExampleLibrary lib;  // 37 built-in examples across 6 domains
+
+// Translate using few-shot examples (auto-selected by relevance)
+std::string nl_query = "Find the 5 nearest restaurants to my location";
+std::string aql = handler.translateNLToAQLWithExamples(nl_query, lib);
+
+// With schema context and custom example count
+std::string schema = "Collections:\n- restaurants: {name, location, rating, cuisine}";
+aql = handler.translateNLToAQLWithExamples(nl_query, lib, schema, /*max_examples=*/3);
+
+// Retrieve examples manually for custom prompt construction
+auto relevant = lib.findRelevant(nl_query, 3);
+std::string prompt_section = AQLFewShotExampleLibrary::formatForPrompt(relevant);
+
+// Find examples by domain
+auto graph_examples = lib.findByDomain(AQLExampleDomain::GRAPH);
+auto vector_examples = lib.findByDomain(AQLExampleDomain::VECTOR);
+
+// Register custom examples
+lib.registerExample({
+    "custom_timeseries",
+    "Get sensor readings from last hour",
+    "FOR r IN sensors\n  FILTER r.ts >= DATE_SUBTRACT(DATE_NOW(), 1, \"hour\")\n  RETURN r",
+    AQLExampleDomain::TIMESERIES,
+    "Custom time-range example",
+    {"timeseries", "sensor"}
+});
+```
+
+**Built-in domains and example counts:**
+
+| Domain       | Description                              | Examples |
+|--------------|------------------------------------------|----------|
+| DOCUMENT     | CRUD, filter, sort, update, delete       | 9        |
+| GRAPH        | Traversal, shortest path, edge filters   | 6        |
+| VECTOR       | ANN search, hybrid, L2, dot-product      | 4        |
+| GEOSPATIAL   | Radius, nearest, polygon, combined       | 4        |
+| TIMESERIES   | Range, between, aggregation, latest      | 4        |
+| AGGREGATION  | Count, sum, avg, HAVING-style filters    | 4        |
+| GENERAL      | Subquery join, nested, fulltext, array   | 6        |
+
+**Security:** `translateNLToAQLWithExamples()` applies the same prompt-injection prevention
+as `translateNLToAQL()` — both `nl_query` and `schema_context` are sanitized before prompt
+assembly. Injection patterns (instruction overrides, persona hijacking, system markers, DAN
+jailbreaks, null bytes) raise `LLMException(PROMPT_INJECTION)`.
 
 ### Streaming AQL Explanations
 
