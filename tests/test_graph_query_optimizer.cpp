@@ -1798,3 +1798,53 @@ TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ExecutionStatsPopulated) {
     EXPECT_GE(stats.nodes_explored, 1u);
     EXPECT_GE(stats.execution_time_ms, 0.0);
 }
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternRejectedWhenDataEdgeMissing) {
+    // Pattern: single vertex "u" with a self-loop u -> u.
+    // The test graph (A->B->C->D, A->C) has no self-loop edges, so no match.
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternMatchesWhenEdgeExists) {
+    // Add a self-loop on vertex "S" to the graph, then verify the pattern matches.
+    themis::BaseEntity self_edge("sel1");
+    self_edge.setField("id", "sel1");
+    self_edge.setField("_from", "S");
+    self_edge.setField("_to", "S");
+    graph_mgr_->addEdge(self_edge);
+
+    // Pattern: single vertex with self-loop
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // At least "S" must appear as a match
+    bool found_S = false;
+    for (const auto& m : result.value().matches) {
+        if (m.count("u") && m.at("u") == "S") { found_S = true; break; }
+    }
+    EXPECT_TRUE(found_S);
+    // Verify every match vertex actually has a self-loop
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        const std::string& mv = m.at("u");
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mv);
+        ASSERT_TRUE(st.ok) << "outNeighbors failed for vertex " << mv << ": " << st.message;
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end())
+            << "Match vertex " << mv << " has no self-loop";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne) {
+    // Verify metrics: empty pattern should count as 1 path found (not 0 / failure)
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(stats.paths_found, 1u);
+}

@@ -1182,6 +1182,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
         // Empty pattern matches trivially with an empty mapping
         result.matches.push_back({});
         result.execution_time_ms = 0.0;
+        local_stats.paths_found = 1;
         if (stats) *stats = local_stats;
         recordExecution(local_stats);
         return Ok(result);
@@ -1229,10 +1230,19 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // is it consistent with all pattern edges involving already-mapped vertices?
     auto isFeasible = [&](size_t depth, const std::string& dv) -> bool {
         const std::string& pu = pattern_vertices[depth];
-        // Check edges from pu to already-mapped pattern vertices
+        // Check edges from pu to already-mapped pattern vertices (and self-loops)
         auto pit = pattern_adj.find(pu);
         if (pit != pattern_adj.end()) {
             for (const auto& pv_target : pit->second) {
+                if (pv_target == pu) {
+                    // Self-loop in pattern: dv must have a self-loop in the data graph
+                    auto ait = data_adj_cache.find(dv);
+                    if (ait == data_adj_cache.end() ||
+                        ait->second.find(dv) == ait->second.end()) {
+                        return false;
+                    }
+                    continue;
+                }
                 auto mit = mapping.find(pv_target);
                 if (mit != mapping.end()) {
                     // Pattern edge pu -> pv_target must exist as dv -> mit->second
@@ -1310,6 +1320,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // Return a timeout error only if we timed out and found no matches at all
     if (local_stats.early_terminated && result.matches.empty() &&
         constraints.timeout_ms > 0) {
+        metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
         return Err<SubgraphIsomorphismResult>(
             errors::ErrorCode::ERR_QUERY_TIMEOUT,
             "SubgraphIsomorphism query exceeded timeout of " +
