@@ -30,7 +30,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 
 ### Short-term (Next 3-6 months)
 - [I] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921)
-- [I] Function / tool calling support (JSON schema binding) (Issue: #1922)
+- [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [I] Model hot-swap without engine restart (Issue: #1923)
 - [I] Request deduplication cache (same prompt → cached response) (Issue: #1924)
 - [I] Per-model resource quotas (memory, concurrency) (Issue: #1925)

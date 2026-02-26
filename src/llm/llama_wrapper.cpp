@@ -26,6 +26,7 @@
 #include "llm/paged_block_manager.h"
 #include "llm/llamacpp_inference_engine.h"
 #include "llm/llm_model_storage.h"
+#include "llm/json_schema_converter.h"
 #include "storage/blob_storage_manager.h"
 #include "security/encryption.h"
 #include "utils/error_registry.h"
@@ -1029,6 +1030,17 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         // Cache the successful response
         if (response_cache_) {
             response_cache_->put(request.prompt, response);
+        }
+
+        // Tool call parsing: if tools were specified, parse the model output
+        // as a tool call and populate response.tool_calls (Issue #1922).
+        if (!request.tools.empty()) {
+            auto tool_call = JsonSchemaConverter::parseToolCall(response.text);
+            if (tool_call.has_value()) {
+                response.tool_calls.push_back(std::move(tool_call.value()));
+            } else {
+                spdlog::debug("Tool calling: model output could not be parsed as tool call");
+            }
         }
         
         // Cleanup: Deactivate adapter if it was applied (optional - enables adapter hot-swapping)
@@ -2416,8 +2428,13 @@ std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
 }
 
 std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest& request) {
-    // Check if grammar is requested
-    if (!request.grammar_type.has_value() && !request.grammar_ebnf.has_value()) {
+    // Check if any grammar source is requested
+    const bool has_explicit_grammar =
+        request.grammar_type.has_value() || request.grammar_ebnf.has_value();
+    const bool has_schema_binding =
+        request.json_schema.has_value() || !request.tools.empty();
+
+    if (!has_explicit_grammar && !has_schema_binding) {
         return nullptr;
     }
     
@@ -2451,6 +2468,36 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
             spdlog::error("Unknown built-in grammar: {}", grammar_name);
             return nullptr;
         }
+    }
+    // JSON schema binding: convert schema to EBNF (Issue #1922)
+    else if (request.json_schema.has_value()) {
+        ebnf_text = JsonSchemaConverter::schemaToEbnf(request.json_schema.value());
+        if (ebnf_text.empty()) {
+            spdlog::warn("getOrCreateGrammar: json_schema conversion produced empty EBNF, "
+                         "falling back to built-in json grammar");
+            auto it = builtin_grammars_.find("json");
+            if (it != builtin_grammars_.end()) {
+                ebnf_text = it->second;
+                grammar_key = "json";
+            } else {
+                return nullptr;
+            }
+        } else {
+            size_t hash = std::hash<std::string>{}(ebnf_text);
+            size_t len = ebnf_text.length();
+            grammar_key = "schema_" + std::to_string(hash) + "_" + std::to_string(len);
+        }
+    }
+    // Tool calling: generate tool call grammar (Issue #1922)
+    else if (!request.tools.empty()) {
+        ebnf_text = JsonSchemaConverter::toolsToEbnf(request.tools);
+        if (ebnf_text.empty()) {
+            spdlog::warn("getOrCreateGrammar: toolsToEbnf produced empty EBNF");
+            return nullptr;
+        }
+        size_t hash = std::hash<std::string>{}(ebnf_text);
+        size_t len = ebnf_text.length();
+        grammar_key = "tools_" + std::to_string(hash) + "_" + std::to_string(len);
     }
     
     if (ebnf_text.empty()) {
