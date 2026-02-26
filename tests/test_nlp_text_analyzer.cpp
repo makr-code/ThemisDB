@@ -59,6 +59,18 @@ TEST_F(NlpMultiLanguageTest, DetectDutch) {
     EXPECT_EQ(lang, NlpTextAnalyzer::Language::DUTCH);
 }
 
+TEST_F(NlpMultiLanguageTest, DetectFrenchNotSpanishWithLa) {
+    // "la" appears in both French and Spanish; other French words must dominate
+    auto lang = analyzer.detectLanguage("Le chat est dans la maison et les enfants ne sont pas là.");
+    EXPECT_EQ(lang, NlpTextAnalyzer::Language::FRENCH);
+}
+
+TEST_F(NlpMultiLanguageTest, DetectSpanishNotFrenchWithLa) {
+    // "la" appears in both; other Spanish words must dominate
+    auto lang = analyzer.detectLanguage("El perro y los niños van para la playa pero una pelota no está.");
+    EXPECT_EQ(lang, NlpTextAnalyzer::Language::SPANISH);
+}
+
 // ========== Stop Words Tests ==========
 
 TEST_F(NlpMultiLanguageTest, SpanishStopWords) {
