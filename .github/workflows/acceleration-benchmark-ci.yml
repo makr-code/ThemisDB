@@ -51,7 +51,7 @@ jobs:
   # ---------------------------------------------------------------------------
   acceleration-benchmarks:
     needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    if: needs.ci-scope-classifier.outputs.has_acceleration_changes == 'true'
     name: Acceleration Benchmarks (CPU, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
