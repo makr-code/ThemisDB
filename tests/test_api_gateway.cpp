@@ -372,6 +372,109 @@ TEST_F(APIGatewayTest, DeprecationHeadersWithQueryString) {
 }
 
 /**
+ * @brief Trusted proxy: X-Real-IP header is used as the client identifier
+ *        for rate limiting when enable_trusted_proxy_headers is true.
+ *
+ * Verifies that a gateway configured with enable_trusted_proxy_headers=true
+ * accepts requests that carry an X-Real-IP header without error.
+ */
+TEST_F(APIGatewayTest, TrustedProxyXRealIpAccepted) {
+    namespace http = boost::beast::http;
+
+    APIGateway::Config config;
+    config.gateway_id       = "proxy-gateway";
+    config.datacenter       = "test-dc";
+    config.enable_sharding  = false;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+    config.enable_trusted_proxy_headers = true;
+    config.trusted_proxies  = {"10.0.0.1"};
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+    );
+
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Real-IP", "203.0.113.42");  // RFC 5737 documentation address
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"status":"healthy"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request with X-Real-IP header must be handled successfully";
+}
+
+/**
+ * @brief Trusted proxy: the leftmost IP in X-Forwarded-For is used when
+ *        X-Real-IP is absent and enable_trusted_proxy_headers is true.
+ */
+TEST_F(APIGatewayTest, TrustedProxyXForwardedForAccepted) {
+    namespace http = boost::beast::http;
+
+    APIGateway::Config config;
+    config.gateway_id       = "xff-gateway";
+    config.datacenter       = "test-dc";
+    config.enable_sharding  = false;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+    config.enable_trusted_proxy_headers = true;
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+    );
+
+    // Simulate Kong forwarding: "client, kong-proxy"
+    http::request<http::string_body> req{http::verb::get, "/v1/entities", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Forwarded-For", "198.51.100.7, 10.0.0.1");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result":[]})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request with X-Forwarded-For header must be handled successfully";
+}
+
+/**
+ * @brief Trusted proxy disabled: X-Real-IP and X-Forwarded-For headers are
+ *        ignored when enable_trusted_proxy_headers is false (the default).
+ *
+ * The request must still succeed; ThemisDB simply does not use the forwarded
+ * IP as the rate-limit key.
+ */
+TEST_F(APIGatewayTest, TrustedProxyDisabledIgnoresForwardedHeaders) {
+    namespace http = boost::beast::http;
+
+    // Default gateway_ already has enable_trusted_proxy_headers = false
+    http::request<http::string_body> req{http::verb::get, "/health", 11};
+    req.set(http::field::host, "localhost");
+    req.set("X-Real-IP", "203.0.113.99");
+    req.set("X-Forwarded-For", "203.0.113.99, 10.0.0.1");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"status":"healthy"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok)
+        << "Request must succeed even when forwarded-IP headers are present but ignored";
+}
+
+/**
  * @brief Versioned URL routing: /v1/{path} sets the API-Version response header
  *        to the latest resolved v1 version (not v1.0.0 specifically).
  */

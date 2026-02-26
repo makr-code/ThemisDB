@@ -56,6 +56,14 @@ namespace {
         FeatureDisabled = 1,
         ConfigurationError = 2
     };
+
+    // Trim leading and trailing ASCII whitespace from a string in-place.
+    inline void trimInPlace(std::string& s) {
+        auto first = s.find_first_not_of(" \t");
+        if (first == std::string::npos) { s.clear(); return; }
+        s.erase(0, first);
+        s.erase(s.find_last_not_of(" \t") + 1);
+    }
 }
 
 namespace themis::server {
@@ -485,6 +493,14 @@ APIGateway::RouteTarget APIGateway::determineRouteTarget(
 }
 
 bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
+    // Build a client ID derived from the originating IP when no auth token is
+    // available. Respects trusted gateway headers (X-Real-IP, X-Forwarded-For)
+    // when enable_trusted_proxy_headers is true.
+    auto ipClientId = [this, &req]() -> std::string {
+        std::string ip = extractClientIp(req);
+        return ip.empty() ? "anonymous" : ("ip:" + ip);
+    };
+
     // Prefer V2 rate limiter if available
     if (rate_limiter_v2_) {
         // Extract client ID from request (prefer user ID from JWT)
@@ -513,6 +529,9 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
                 // Non-bearer auth or malformed: use generic ID
                 client_id = "authenticated";
             }
+        } else {
+            // No auth header: fall back to client IP (respects trusted proxy headers)
+            client_id = ipClientId();
         }
         
         // Determine priority based on client attributes
@@ -538,7 +557,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
         client_id = std::string(auth_header->value());
     } else {
         // Fall back to IP or other identifier
-        client_id = "anonymous";
+        client_id = ipClientId();
     }
     
     return rate_limiter_->allowRequest(client_id);
@@ -908,6 +927,41 @@ std::string APIGateway::stripVersionPrefix(const std::string& path) const {
         stripped = "/";
     }
     return stripped;
+}
+
+std::string APIGateway::extractClientIp(
+    const http::request<http::string_body>& req
+) const {
+    if (!config_.enable_trusted_proxy_headers) {
+        return {};
+    }
+
+    // X-Real-IP is set by Nginx and Kong to the originating client IP.
+    // Prefer it over X-Forwarded-For when present because it is always a
+    // single IP address with no list parsing required.
+    auto real_ip_it = req.find("X-Real-IP");
+    if (real_ip_it != req.end()) {
+        std::string ip = std::string(real_ip_it->value());
+        trimInPlace(ip);
+        if (!ip.empty()) {
+            return ip;
+        }
+    }
+
+    // X-Forwarded-For is a comma-separated list: "client, proxy1, proxy2".
+    // The leftmost entry is the originating client.
+    auto xff_it = req.find("X-Forwarded-For");
+    if (xff_it != req.end()) {
+        std::string xff = std::string(xff_it->value());
+        auto comma = xff.find(',');
+        std::string ip = (comma != std::string::npos) ? xff.substr(0, comma) : xff;
+        trimInPlace(ip);
+        if (!ip.empty()) {
+            return ip;
+        }
+    }
+
+    return {};
 }
 
 } // namespace themis::server
