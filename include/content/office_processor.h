@@ -104,7 +104,7 @@ struct PowerPointInfo {
         std::vector<std::string> notes;
     };
     std::vector<Slide> slides;
-    int slide_count;
+    int slide_count = 0;
 };
 
 /**
