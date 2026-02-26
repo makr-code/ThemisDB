@@ -312,6 +312,9 @@ set(THEMIS_QUERY_SOURCES
     # Model Serving and Online Inference Pipeline (Issue #1477)
     ../src/analytics/model_serving.cpp
     ../src/analytics/distributed_analytics.cpp
+
+    # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_flight.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp

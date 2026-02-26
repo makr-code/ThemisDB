@@ -98,15 +98,53 @@ config/
 
 ### 1. Identify Legacy Paths
 
-Run this command to find legacy paths in your codebase:
+Use the `config_migration_scanner` tool to find all files referencing legacy config paths:
+
+```bash
+# Scan a deployment directory and print a text report
+config_migration_scanner --root /srv/themis
+
+# JSON output (suitable for CI/CD integration)
+config_migration_scanner --root /srv/themis --output json
+
+# CSV output
+config_migration_scanner --root /srv/themis --output csv
+```
+
+The tool scans `.yaml`, `.yml`, `.json`, `.toml`, `.ini`, and `.env` files recursively and prints each occurrence with:
+- `file` and `line` number
+- `legacy_path` → `new_path` mapping
+- `deprecated_date`, `removal_date`, migration guide URL
+- `[OVERDUE]` flag for paths whose removal date has passed
+
+You can also use `grep` for a quick manual check:
 
 ```bash
 grep -r "config/[^/]*\.yaml" your-code-directory
 ```
 
-### 2. Update Configuration References
+### 2. Automatically Fix Legacy Path References
 
-Replace legacy paths with new paths in your code:
+Use `config_migration_scanner --fix` to automatically rewrite legacy path strings in config files:
+
+```bash
+# Dry-run: see what would be changed without modifying files
+config_migration_scanner --root /srv/themis --dry-run --fix
+
+# Apply fixes in-place (creates .bak backups before modifying)
+config_migration_scanner --root /srv/themis --fix
+```
+
+Each modified file gets a `.bak` backup (e.g. `deploy.yaml.bak`) before changes are written.
+
+**Exit codes:**
+- `0` – No overdue legacy paths found
+- `1` – At least one path past its `removal_date` (usable as a CI gate)
+- `2` – Argument / usage error
+
+### 3. Update Configuration References Manually
+
+If you prefer to update references by hand, replace legacy paths with their new hierarchical locations:
 
 ```cpp
 // Before
@@ -116,7 +154,7 @@ std::string path = "config/lora_training_config.yaml";
 std::string path = "config/ai_ml/lora_training_config.yaml";
 ```
 
-### 3. Use ConfigPathResolver (Transitional)
+### 4. Use ConfigPathResolver (Transitional)
 
 During migration, you can use `ConfigPathResolver` which automatically handles fallback:
 
@@ -131,7 +169,7 @@ std::string resolved = themis::config::ConfigPathResolver::resolve(
 // Returns: "config/ai_ml/lora_training_config.yaml" if it exists
 ```
 
-### 4. Verify Migration
+### 5. Verify Migration
 
 Check logs for deprecation warnings:
 
@@ -139,7 +177,7 @@ Check logs for deprecation warnings:
 grep "Using legacy config path" your-logs.txt
 ```
 
-### 5. Update Deployment Scripts
+### 6. Update Deployment Scripts
 
 Update your deployment scripts to copy/create files in new locations:
 

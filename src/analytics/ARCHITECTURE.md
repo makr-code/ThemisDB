@@ -44,7 +44,7 @@ manages.
 | `llm_process_analyzer.cpp` | LLM-powered process analysis and anomaly explanation |
 | `nlp_text_analyzer.cpp` | Sentiment analysis, entity extraction, modality detection |
 | `diff_engine.cpp` | Dataset diffing and change detection |
-| `cep_engine.cpp` | Complex Event Processing (stub / in progress) |
+| `cep_engine.cpp` | Complex Event Processing (production-ready) |
 | `streaming_window.cpp` | Sliding / tumbling / session windows for CEP |
 | `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters) |
 | `anomaly_detection.cpp` | Statistical and ML-based anomaly detection |
@@ -71,7 +71,7 @@ manages.
 ┌──────▼──┐  ┌─────▼──────┐ ┌───▼──────┐ ┌───────▼────────┐
 │  OLAP   │  │  Process   │ │   NLP    │ │      CEP       │
 │ Engine  │  │  Mining    │ │Analyzer  │ │    Engine      │
-│         │  │            │ │          │ │ (stub/partial) │
+│         │  │            │ │          │ │  (full impl)   │
 └──────┬──┘  └─────┬──────┘ └───┬──────┘ └───────┬────────┘
        │           │              │                │
 ┌──────▼───────────▼──────────────▼────────────────▼────────────┐
@@ -182,7 +182,7 @@ Analytics Dispatcher
 
 ## 11. Known Limitations & Future Work
 
-- CEP engine (`cep_engine.cpp`) is a stub; full streaming event processing is planned.
+- CEP engine (`cep_engine.cpp`) is fully implemented with NFA-based pattern matching, EPL parsing, window management, aggregation, alert dispatch, CDC integration, and stateful checkpointing.
 - Windows platform uses stub implementations for most analytics functions.
 - Distributed analytics fan-out is experimental; result merging for CUBE across shards is partial.
 - AutoML (`automl.cpp`) is in early development.
