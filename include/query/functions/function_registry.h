@@ -484,6 +484,11 @@ public:
         return aliases_.find(name) != aliases_.end();
     }
 
+    /// Unregister a function by name.  No-op if not found.
+    void unregisterFunction(const std::string& name) {
+        functions_.erase(name);
+    }
+
 private:
     FunctionRegistry() = default;
     std::unordered_map<std::string, std::unique_ptr<IFunction>> functions_;

@@ -1102,6 +1102,10 @@ HttpServer::HttpServer(
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
     THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
 
+    // Initialize UDF Registration Handler – AQL-callable user-defined functions
+    udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
+    THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
+
     // Initialize Async Job API Handler – long-running AQL query submission/polling
     {
         // Executor: builds a synthetic Beast request and delegates to
@@ -2253,6 +2257,12 @@ namespace {
     SessionDeleteById,       // DELETE /auth/sessions/{id}
     SessionDeleteOthers,     // DELETE /auth/sessions  (revoke all others)
 
+    // UDF registration API – AQL user-defined functions
+    UdfPost,                 // POST   /api/v1/query/udfs
+    UdfListGet,              // GET    /api/v1/query/udfs
+    UdfGet,                  // GET    /api/v1/query/udfs/{name}
+    UdfDelete,               // DELETE /api/v1/query/udfs/{name}
+
         NotFound
     };
 
@@ -2723,6 +2733,20 @@ namespace {
     }
     if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
         if (method == http::verb::delete_) return Route::SessionDeleteById;
+    }
+
+    // UDF registration API: /api/v1/query/udfs and /api/v1/query/udfs/{name}
+    if (path_only == "/api/v1/query/udfs") {
+        if (method == http::verb::post) return Route::UdfPost;
+        if (method == http::verb::get)  return Route::UdfListGet;
+    }
+    {
+        static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
+        if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
+            path_only.size() > kUdfPrefix.size()) {
+            if (method == http::verb::get)     return Route::UdfGet;
+            if (method == http::verb::delete_) return Route::UdfDelete;
+        }
     }
 
         return Route::NotFound;
@@ -4506,6 +4530,32 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::SessionDeleteOthers:
             response = handleSessionRevokeOthers(req);
             break;
+
+        // ── UDF Registration API ──────────────────────────────────────────────
+        case Route::UdfPost:
+            response = udf_api_handler_->handleRegister(req);
+            break;
+        case Route::UdfListGet:
+            response = udf_api_handler_->handleList(req);
+            break;
+        case Route::UdfGet: {
+            static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
+            std::string path_only = std::string(req.target());
+            if (auto qp = path_only.find('?'); qp != std::string::npos)
+                path_only = path_only.substr(0, qp);
+            std::string udf_name = path_only.substr(kUdfPfx.size());
+            response = udf_api_handler_->handleGet(req, udf_name);
+            break;
+        }
+        case Route::UdfDelete: {
+            static constexpr std::string_view kUdfPfx{"/api/v1/query/udfs/"};
+            std::string path_only = std::string(req.target());
+            if (auto qp = path_only.find('?'); qp != std::string::npos)
+                path_only = path_only.substr(0, qp);
+            std::string udf_name = path_only.substr(kUdfPfx.size());
+            response = udf_api_handler_->handleDelete(req, udf_name);
+            break;
+        }
 
         case Route::NotFound:
         default:

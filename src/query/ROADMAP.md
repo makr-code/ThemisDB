@@ -70,7 +70,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [P] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [ ] Parallel scan for large collection full-table queries
-- [ ] User-defined functions (UDF) registration API
+- [~] User-defined functions (UDF) registration API
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
 - [ ] Vectorized execution engine (column-store style batch processing)

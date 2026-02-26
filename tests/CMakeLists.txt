@@ -1778,8 +1778,46 @@ else()
 endif()
 
 # ============================================================================
-# Inverted Index (standalone full-text search module) Tests
+# UDF API Handler Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
+    message(STATUS "Adding UDF API Handler tests")
+
+    add_executable(test_udf_api_handler
+        test_udf_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/udf_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/query/functions/udf_registry.cpp
+    )
+
+    target_include_directories(test_udf_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_udf_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_udf_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UdfApiHandlerTests
+             COMMAND test_udf_api_handler)
+
+    set_tests_properties(UdfApiHandlerTests PROPERTIES
+        LABELS "server;query;udf;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  UDF API Handler: register, list, get, delete, expression DSL")
+else()
+    message(STATUS "UDF API Handler tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
     message(STATUS "Adding InvertedIndex unit tests")
