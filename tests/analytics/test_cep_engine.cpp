@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     957                                            ║
+    • Total Lines:     1240                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -728,6 +728,181 @@ TEST_F(RuleEngineTest, ParseEPLWithWindow) {
     ASSERT_TRUE(cfg->window.has_value());
     EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
     EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLCreateRuleAsSyntax) {
+    std::string epl = "CREATE RULE fraud_detection AS SELECT * FROM PaymentEvents ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->rule_name, "fraud_detection");
+    ASSERT_FALSE(cfg->streams.empty());
+    EXPECT_EQ(cfg->streams[0], "PaymentEvents");
+}
+
+TEST_F(RuleEngineTest, ParseEPLSelectAggregations) {
+    std::string epl = "SELECT COUNT(*) as cnt, SUM(amount) as total, AVG(latency_ms) as avg_lat "
+                      "FROM events ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_EQ(cfg->aggregations.size(), 3u);
+    EXPECT_EQ(cfg->aggregations[0].first, "cnt");
+    EXPECT_EQ(cfg->aggregations[0].second, AggregationType::COUNT);
+    EXPECT_EQ(cfg->aggregations[1].first, "total");
+    EXPECT_EQ(cfg->aggregations[1].second, AggregationType::SUM);
+    EXPECT_EQ(cfg->aggregations[2].first, "avg_lat");
+    EXPECT_EQ(cfg->aggregations[2].second, AggregationType::AVG);
+}
+
+TEST_F(RuleEngineTest, ParseEPLGroupBy) {
+    std::string epl = "SELECT COUNT(*) FROM events GROUP BY userId, region ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_EQ(cfg->group_by.size(), 2u);
+    EXPECT_EQ(cfg->group_by[0], "userId");
+    EXPECT_EQ(cfg->group_by[1], "region");
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowParenthesizedMinutes) {
+    std::string epl = "SELECT * FROM events WINDOW TUMBLING(5 MINUTES) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5 * 60 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowParenthesizedHours) {
+    std::string epl = "SELECT * FROM events WINDOW TUMBLING(1 HOUR) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(3600 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowSlidingWithSlide) {
+    std::string epl = "SELECT * FROM events WINDOW SLIDING(5 MINUTES, 1 MINUTE) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::SLIDING);
+    EXPECT_EQ(cfg->window->size,  std::chrono::milliseconds(5 * 60 * 1000));
+    EXPECT_EQ(cfg->window->slide, std::chrono::milliseconds(1 * 60 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowCountEvents) {
+    std::string epl = "SELECT * FROM events WINDOW COUNT(100 EVENTS) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::COUNT);
+    EXPECT_EQ(cfg->window->count, 100u);
+}
+
+TEST_F(RuleEngineTest, ParseEPLPatternWithinMinutes) {
+    std::string epl = "SELECT * FROM stream "
+                      "PATTERN SEQUENCE(LoginEvent, PurchaseEvent) WITHIN 1 HOUR "
+                      "ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->pattern.has_value());
+    EXPECT_EQ(cfg->pattern->type, PatternType::SEQUENCE);
+    EXPECT_EQ(cfg->pattern->event_types.size(), 2u);
+    EXPECT_EQ(cfg->pattern->within, std::chrono::milliseconds(3600 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionWebhook) {
+    std::string epl = "SELECT * FROM events "
+                      "ACTION webhook('https://api.example.com/alert', '{\"key\":\"val\"}')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::WEBHOOK);
+    EXPECT_EQ(cfg->actions[0].target, "https://api.example.com/alert");
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionDbWrite) {
+    std::string epl = "SELECT * FROM events ACTION db_write('alerts_collection')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::DB_WRITE);
+    EXPECT_EQ(cfg->actions[0].target, "alerts_collection");
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionAlertWithParams) {
+    std::string epl = "SELECT * FROM events "
+                      "ACTION alert('security', 'critical', 'Suspicious activity detected')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::ALERT);
+    EXPECT_EQ(cfg->actions[0].target, "security");
+    EXPECT_EQ(cfg->tags.at("severity"), "critical");
+    EXPECT_EQ(cfg->actions[0].template_str, "Suspicious activity detected");
+}
+
+TEST_F(RuleEngineTest, ParseEPLMultiLineCreateRule) {
+    std::string epl =
+        "CREATE RULE brute_force AS\n"
+        "SELECT userId, COUNT(*) as attempts\n"
+        "FROM AuthEvents\n"
+        "WHERE success = false\n"
+        "WINDOW TUMBLING(5 MINUTES)\n"
+        "GROUP BY userId\n"
+        "HAVING COUNT(*) >= 5\n"
+        "ACTION alert('security', 'critical', 'Brute force detected');";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->rule_name, "brute_force");
+    ASSERT_FALSE(cfg->streams.empty());
+    EXPECT_EQ(cfg->streams[0], "AuthEvents");
+    EXPECT_FALSE(cfg->filter.empty());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5 * 60 * 1000));
+    ASSERT_EQ(cfg->group_by.size(), 1u);
+    EXPECT_EQ(cfg->group_by[0], "userId");
+    EXPECT_FALSE(cfg->having.empty());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::ALERT);
+    EXPECT_EQ(cfg->tags.at("severity"), "critical");
+}
+
+TEST_F(RuleEngineTest, ParseEPLHavingClause) {
+    std::string epl = "SELECT COUNT(*) FROM events HAVING COUNT(*) > 10 ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_FALSE(cfg->having.empty());
+}
+
+TEST_F(RuleEngineTest, ParseEPLAllAggregationTypes) {
+    std::string epl = "SELECT "
+                      "MIN(price) as min_p, MAX(price) as max_p, "
+                      "FIRST(ts) as first_ts, LAST(ts) as last_ts, "
+                      "STDDEV(val) as sd, VARIANCE(val) as var, "
+                      "DISTINCT_COUNT(userId) as dc, "
+                      "PERCENTILE(latency, 99) as p99 "
+                      "FROM events ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->aggregations.size(), 8u);
+
+    std::map<std::string, AggregationType> expected = {
+        {"min_p",   AggregationType::MIN},
+        {"max_p",   AggregationType::MAX},
+        {"first_ts",AggregationType::FIRST},
+        {"last_ts", AggregationType::LAST},
+        {"sd",      AggregationType::STDDEV},
+        {"var",     AggregationType::VARIANCE},
+        {"dc",      AggregationType::DISTINCT_COUNT},
+        {"p99",     AggregationType::PERCENTILE},
+    };
+    for (const auto& agg : cfg->aggregations) {
+        auto it = expected.find(agg.first);
+        ASSERT_NE(it, expected.end()) << "Unexpected alias: " << agg.first;
+        EXPECT_EQ(agg.second, it->second);
+    }
 }
 
 TEST_F(RuleEngineTest, RuleStatsUpdated) {

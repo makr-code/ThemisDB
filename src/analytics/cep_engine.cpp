@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2005                                           ║
+    • Total Lines:     2260                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -1436,72 +1436,138 @@ std::vector<Alert> RuleEngine::processEvent(const Event& event) {
 }
 
 std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
-    // Minimal EPL parser: supports
-    //   SELECT <aggregations> FROM <stream> [WHERE <filter>] [HAVING <having>]
-    //   [PATTERN (SEQ|AND|OR) (<event_types>) WITHIN <ms>ms]
-    //   [WINDOW TUMBLING <ms>ms | SLIDING <ms>ms SLIDE <ms>ms | SESSION GAP <ms>ms]
-    //   [ON MATCH ALERT severity=<severity> message=<msg>]
+    // EPL parser: supports
+    //   [CREATE RULE <name> AS | NAME <name>]
+    //   SELECT [<aggregations>] FROM <stream> [WHERE <filter>]
+    //   [PATTERN (SEQ|AND|OR|NOT) (<event_types>) WITHIN <n>(ms|s|MINUTES|HOURS)]
+    //   [WINDOW TUMBLING(<n> UNIT) | TUMBLING <n>ms | SLIDING(<n> UNIT[, <n> UNIT]) | ...]
+    //   [GROUP BY <fields>]
+    //   [HAVING <having>]
+    //   [ACTION alert(...) | webhook(...) | db_write(...) | ON MATCH ALERT ...]
     RuleConfig cfg;
     cfg.rule_id = generateId();
     cfg.created_at = std::chrono::system_clock::now();
     cfg.updated_at = cfg.created_at;
 
-    std::string upper = epl;
-    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+    // Normalize multi-line EPL: collapse whitespace sequences (including newlines) to a single space
+    std::string norm;
+    norm.reserve(epl.size());
+    bool in_ws = false;
+    for (char c : epl) {
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+            if (!in_ws) { norm += ' '; in_ws = true; }
+        } else {
+            norm += c;
+            in_ws = false;
+        }
+    }
+    // Trim leading/trailing space
+    if (!norm.empty() && norm.front() == ' ') norm.erase(norm.begin());
+    if (!norm.empty() && norm.back()  == ' ') norm.pop_back();
 
-    // Extract rule name (NAME <name>)
+    // Helper: convert (value_str, unit_str) to milliseconds
+    auto timeToMs = [](const std::string& val_str, const std::string& unit_str) -> uint64_t {
+        uint64_t val = 0;
+        try { val = std::stoull(val_str); } catch (...) { return 0; }
+        std::string u = unit_str;
+        std::transform(u.begin(), u.end(), u.begin(), ::tolower);
+        if (u == "s" || u == "second" || u == "seconds") return val * 1000;
+        if (u == "min" || u == "minute" || u == "minutes") return val * 60000;
+        if (u == "h" || u == "hour" || u == "hours") return val * 3600000;
+        if (u == "d" || u == "day" || u == "days") return val * 86400000ULL;
+        return val; // default: ms
+    };
+
+    // Extract rule name from CREATE RULE <name> AS, then NAME <name>
     {
-        std::regex name_re(R"(NAME\s+(\S+))", std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, name_re)) {
+        std::regex create_re(R"(CREATE\s+RULE\s+(\S+)\s+AS\b)", std::regex::icase);
+        if (std::regex_search(norm, m, create_re)) {
             cfg.rule_name = m[1];
         } else {
-            cfg.rule_name = "rule_" + cfg.rule_id.substr(0, 8);
+            std::regex name_re(R"(\bNAME\s+(\S+))", std::regex::icase);
+            if (std::regex_search(norm, m, name_re)) {
+                cfg.rule_name = m[1];
+            } else {
+                cfg.rule_name = "rule_" + cfg.rule_id.substr(0, 8);
+            }
         }
     }
 
     // Extract FROM stream
     {
-        std::regex from_re(R"(FROM\s+(\S+))", std::regex::icase);
+        std::regex from_re(R"(\bFROM\s+(\S+))", std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, from_re)) {
+        if (std::regex_search(norm, m, from_re)) {
             cfg.streams.push_back(m[1]);
         }
     }
 
-    // Extract WHERE filter
+    // Extract SELECT aggregations (COUNT(*), SUM(field), AVG(field), etc.)
     {
-        std::regex where_re(R"(WHERE\s+(.+?)(?:\s+HAVING|\s+PATTERN|\s+WINDOW|\s+ON\s+MATCH|$))",
-                            std::regex::icase);
+        std::regex select_re(R"(\bSELECT\s+(.+?)\s+FROM\b)", std::regex::icase);
+        std::smatch sm;
+        if (std::regex_search(norm, sm, select_re)) {
+            std::string proj = sm[1];
+            std::regex agg_re(
+                R"(\b(COUNT|SUM|AVG|MIN|MAX|FIRST|LAST|STDDEV|VARIANCE|PERCENTILE|DISTINCT_COUNT|COLLECT|TOPN)\s*\(\s*([^)]*?)\s*\)(?:\s+[Aa][Ss]\s+(\w+))?)",
+                std::regex::icase);
+            auto it = std::sregex_iterator(proj.begin(), proj.end(), agg_re);
+            for (; it != std::sregex_iterator(); ++it) {
+                std::smatch am = *it;
+                std::string fn = am[1]; std::transform(fn.begin(), fn.end(), fn.begin(), ::toupper);
+                std::string field = am[2];
+                field.erase(0, field.find_first_not_of(" \t"));
+                if (!field.empty()) field.erase(field.find_last_not_of(" \t") + 1);
+
+                AggregationType at = AggregationType::COUNT;
+                if      (fn == "COUNT")          at = AggregationType::COUNT;
+                else if (fn == "SUM")            at = AggregationType::SUM;
+                else if (fn == "AVG")            at = AggregationType::AVG;
+                else if (fn == "MIN")            at = AggregationType::MIN;
+                else if (fn == "MAX")            at = AggregationType::MAX;
+                else if (fn == "FIRST")          at = AggregationType::FIRST;
+                else if (fn == "LAST")           at = AggregationType::LAST;
+                else if (fn == "STDDEV")         at = AggregationType::STDDEV;
+                else if (fn == "VARIANCE")       at = AggregationType::VARIANCE;
+                else if (fn == "PERCENTILE")     at = AggregationType::PERCENTILE;
+                else if (fn == "DISTINCT_COUNT") at = AggregationType::DISTINCT_COUNT;
+                else if (fn == "COLLECT")        at = AggregationType::COLLECT;
+                else if (fn == "TOPN")           at = AggregationType::TOPN;
+
+                // Use AS alias if present, otherwise use field name (or "*" for COUNT(*))
+                std::string alias = am[3].matched ? am[3].str()
+                                  : (field.empty() || field == "*" ? fn : field);
+                cfg.aggregations.emplace_back(alias, at);
+            }
+        }
+    }
+
+    // Extract WHERE filter (stops before HAVING/PATTERN/WINDOW/GROUP BY/ON MATCH/ACTION)
+    {
+        std::regex where_re(
+            R"(\bWHERE\s+(.+?)(?:\s+HAVING\b|\s+PATTERN\b|\s+WINDOW\b|\s+GROUP\s+BY\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
+            std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, where_re)) {
+        if (std::regex_search(norm, m, where_re)) {
             cfg.filter = m[1];
         }
     }
 
-    // Extract HAVING
+    // Extract PATTERN (supports both space-before-paren and no-space, plus time units for WITHIN)
     {
-        std::regex having_re(R"(HAVING\s+(.+?)(?:\s+PATTERN|\s+WINDOW|\s+ON\s+MATCH|$))",
-                             std::regex::icase);
+        std::regex pat_re(
+            R"(\bPATTERN\s+(SEQUENCE|SEQ|AND|OR|NOT)\s*\(([^)]+)\)(?:\s+WITHIN\s+(\d+)\s*(ms|s|second|seconds|minute|minutes|hour|hours|day|days)?)?)",
+            std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, having_re)) {
-            cfg.having = m[1];
-        }
-    }
-
-    // Extract PATTERN
-    {
-        std::regex pat_re(R"(PATTERN\s+(SEQUENCE|SEQ|AND|OR|NOT)\s*\(([^)]+)\)(?:\s+WITHIN\s+(\d+)ms)?)",
-                          std::regex::icase);
-        std::smatch m;
-        if (std::regex_search(epl, m, pat_re)) {
+        if (std::regex_search(norm, m, pat_re)) {
             PatternConfig pc;
             pc.pattern_id = generateId();
             std::string pt = m[1]; std::transform(pt.begin(), pt.end(), pt.begin(), ::toupper);
-            if (pt == "SEQUENCE" || pt == "SEQ") pc.type = PatternType::SEQUENCE;
-            else if (pt == "AND")  pc.type = PatternType::CONJUNCTION;
-            else if (pt == "OR")   pc.type = PatternType::DISJUNCTION;
-            else if (pt == "NOT")  pc.type = PatternType::NEGATION;
+            if      (pt == "SEQUENCE" || pt == "SEQ") pc.type = PatternType::SEQUENCE;
+            else if (pt == "AND") pc.type = PatternType::CONJUNCTION;
+            else if (pt == "OR")  pc.type = PatternType::DISJUNCTION;
+            else if (pt == "NOT") pc.type = PatternType::NEGATION;
 
             std::string events_str = m[2];
             std::istringstream iss(events_str);
@@ -1513,78 +1579,184 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             }
 
             if (m[3].matched) {
-                try { pc.within = std::chrono::milliseconds(std::stoul(m[3])); } catch (...) {}
+                std::string unit = m[4].matched ? m[4].str() : "ms";
+                try { pc.within = std::chrono::milliseconds(timeToMs(m[3], unit)); } catch (...) {}
             }
             cfg.pattern = std::move(pc);
         }
     }
 
-    // Extract WINDOW
+    // Extract WINDOW - supports both:
+    //   Parenthesized: WINDOW TYPE(N UNIT[, M UNIT][EVENTS])
+    //   Legacy:        WINDOW TYPE N[ms|s] [SLIDE N[ms|s]] [GAP N[ms|s]]
     {
-        std::regex win_re(R"(WINDOW\s+(TUMBLING|SLIDING|SESSION|HOPPING|COUNT)\s+(\d+)(ms|s)?\s*(?:SLIDE\s+(\d+)(ms|s)?)?(?:\s+GAP\s+(\d+)(ms|s)?)?)",
-                          std::regex::icase);
+        std::regex win_paren_re(
+            R"(\bWINDOW\s+(TUMBLING|SLIDING|SESSION|HOPPING|COUNT)\s*\(\s*(\d+)\s*(SECOND|SECONDS|MINUTE|MINUTES|HOUR|HOURS|DAY|DAYS|ms|s|min|h|d)?\s*(?:EVENTS?)?\s*(?:,\s*(\d+)\s*(SECOND|SECONDS|MINUTE|MINUTES|HOUR|HOURS|DAY|DAYS|ms|s|min|h|d)?\s*)?\))",
+            std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, win_re)) {
+        if (std::regex_search(norm, m, win_paren_re)) {
             WindowConfig wc;
             std::string wt = m[1]; std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
-            if (wt == "TUMBLING") wc.type = WindowType::TUMBLING;
-            else if (wt == "SLIDING") wc.type = WindowType::SLIDING;
-            else if (wt == "SESSION") wc.type = WindowType::SESSION;
-            else if (wt == "HOPPING") wc.type = WindowType::HOPPING;
-            else if (wt == "COUNT")   {
-                wc.type = WindowType::COUNT;
-                try { wc.count = std::stoul(m[2]); } catch (...) {}
-            }
+            if      (wt == "TUMBLING") wc.type = WindowType::TUMBLING;
+            else if (wt == "SLIDING")  wc.type = WindowType::SLIDING;
+            else if (wt == "SESSION")  wc.type = WindowType::SESSION;
+            else if (wt == "HOPPING")  wc.type = WindowType::HOPPING;
+            else if (wt == "COUNT")    wc.type = WindowType::COUNT;
 
-            if (wt != "COUNT") {
-                try {
-                uint64_t sz = std::stoul(m[2]);
-                std::string unit = m[3]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                wc.size = (unit == "s")
-                    ? std::chrono::milliseconds(sz * 1000)
-                    : std::chrono::milliseconds(sz);
-                } catch (...) {}
+            if (wt == "COUNT") {
+                try { wc.count = std::stoull(m[2]); } catch (...) {}
+            } else {
+                std::string unit = m[3].matched ? m[3].str() : "ms";
+                wc.size = std::chrono::milliseconds(timeToMs(m[2], unit));
             }
 
             if (m[4].matched) {
-                try {
-                uint64_t sl = std::stoul(m[4]);
-                std::string unit = m[5]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                wc.slide = (unit == "s")
-                    ? std::chrono::milliseconds(sl * 1000)
-                    : std::chrono::milliseconds(sl);
-                } catch (...) {}
-            }
-
-            if (m[6].matched) {
-                try {
-                uint64_t gap = std::stoul(m[6]);
-                std::string unit = m[7]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
-                wc.gap = (unit == "s")
-                    ? std::chrono::milliseconds(gap * 1000)
-                    : std::chrono::milliseconds(gap);
-                } catch (...) {}
+                std::string unit2 = m[5].matched ? m[5].str() : "ms";
+                uint64_t ms2 = timeToMs(m[4], unit2);
+                if (wt == "SLIDING" || wt == "HOPPING") wc.slide = std::chrono::milliseconds(ms2);
+                else if (wt == "SESSION")               wc.gap   = std::chrono::milliseconds(ms2);
             }
             cfg.window = std::move(wc);
+        } else {
+            // Legacy format: WINDOW TYPE N[ms|s] [SLIDE N[ms|s]] [GAP N[ms|s]]
+            std::regex win_re(
+                R"(\bWINDOW\s+(TUMBLING|SLIDING|SESSION|HOPPING|COUNT)\s+(\d+)(ms|s)?\s*(?:SLIDE\s+(\d+)(ms|s)?)?(?:\s+GAP\s+(\d+)(ms|s)?)?)",
+                std::regex::icase);
+            if (std::regex_search(norm, m, win_re)) {
+                WindowConfig wc;
+                std::string wt = m[1]; std::transform(wt.begin(), wt.end(), wt.begin(), ::toupper);
+                if      (wt == "TUMBLING") wc.type = WindowType::TUMBLING;
+                else if (wt == "SLIDING")  wc.type = WindowType::SLIDING;
+                else if (wt == "SESSION")  wc.type = WindowType::SESSION;
+                else if (wt == "HOPPING")  wc.type = WindowType::HOPPING;
+                else if (wt == "COUNT")    wc.type = WindowType::COUNT;
+
+                if (wt == "COUNT") {
+                    try { wc.count = std::stoull(m[2]); } catch (...) {}
+                } else {
+                    try {
+                    uint64_t sz = std::stoull(m[2]);
+                    std::string unit = m[3]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                    wc.size = (unit == "s") ? std::chrono::milliseconds(sz * 1000)
+                                           : std::chrono::milliseconds(sz);
+                    } catch (...) {}
+                }
+
+                if (m[4].matched) {
+                    try {
+                    uint64_t sl = std::stoull(m[4]);
+                    std::string unit = m[5]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                    wc.slide = (unit == "s") ? std::chrono::milliseconds(sl * 1000)
+                                            : std::chrono::milliseconds(sl);
+                    } catch (...) {}
+                }
+
+                if (m[6].matched) {
+                    try {
+                    uint64_t gap = std::stoull(m[6]);
+                    std::string unit = m[7]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
+                    wc.gap = (unit == "s") ? std::chrono::milliseconds(gap * 1000)
+                                          : std::chrono::milliseconds(gap);
+                    } catch (...) {}
+                }
+                cfg.window = std::move(wc);
+            }
         }
     }
 
-    // Extract ON MATCH ALERT
+    // Extract GROUP BY
     {
-        std::regex alert_re(R"(ON\s+MATCH\s+ALERT\s*(?:severity=(\S+))?\s*(?:message=(.+?))?$)",
-                            std::regex::icase);
+        std::regex group_re(
+            R"(\bGROUP\s+BY\s+(.+?)(?:\s+HAVING\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
+            std::regex::icase);
         std::smatch m;
-        if (std::regex_search(epl, m, alert_re)) {
+        if (std::regex_search(norm, m, group_re)) {
+            std::string fields_str = m[1];
+            std::istringstream iss(fields_str);
+            std::string token;
+            while (std::getline(iss, token, ',')) {
+                token.erase(0, token.find_first_not_of(" \t"));
+                token.erase(token.find_last_not_of(" \t") + 1);
+                if (!token.empty()) cfg.group_by.push_back(token);
+            }
+        }
+    }
+
+    // Extract HAVING (stops before ON MATCH / ACTION)
+    {
+        std::regex having_re(
+            R"(\bHAVING\s+(.+?)(?:\s+PATTERN\b|\s+WINDOW\b|\s+ON\s+MATCH\b|\s+ACTION\b|;|$))",
+            std::regex::icase);
+        std::smatch m;
+        if (std::regex_search(norm, m, having_re)) {
+            cfg.having = m[1];
+        }
+    }
+
+    // Extract ACTION <type>(<params>) - new syntax; falls back to ON MATCH ALERT
+    {
+        std::regex action_re(
+            R"(\bACTION\s+(alert|webhook|db_write|log|slack|kafka|email)\s*\(([^)]*)\))",
+            std::regex::icase);
+        std::smatch m;
+        std::string search = norm;
+        bool found_action = false;
+        while (std::regex_search(search, m, action_re)) {
+            found_action = true;
             ActionConfig ac;
-            ac.type = ActionType::ALERT;
-            if (m[1].matched) cfg.tags["severity"] = m[1];
-            if (m[2].matched) ac.template_str = m[2];
+            std::string at_str = m[1]; std::transform(at_str.begin(), at_str.end(), at_str.begin(), ::toupper);
+            if      (at_str == "ALERT")    ac.type = ActionType::ALERT;
+            else if (at_str == "WEBHOOK")  ac.type = ActionType::WEBHOOK;
+            else if (at_str == "DB_WRITE") ac.type = ActionType::DB_WRITE;
+            else if (at_str == "LOG")      ac.type = ActionType::LOG;
+            else if (at_str == "SLACK")    ac.type = ActionType::SLACK;
+            else if (at_str == "KAFKA")    ac.type = ActionType::KAFKA;
+            else if (at_str == "EMAIL")    ac.type = ActionType::EMAIL;
+
+            // Parse parameters: quoted strings ('...') or plain tokens
+            std::vector<std::string> params;
+            std::string params_str = m[2];
+            std::regex param_re(R"x('([^']*)'|"([^"]*)"|([^,\s]+))x");
+            auto pit = std::sregex_iterator(params_str.begin(), params_str.end(), param_re);
+            for (; pit != std::sregex_iterator(); ++pit) {
+                std::smatch pm = *pit;
+                std::string val = pm[1].matched ? pm[1].str()
+                                : pm[2].matched ? pm[2].str()
+                                                : pm[3].str();
+                if (!val.empty()) params.push_back(val);
+            }
+
+            if (ac.type == ActionType::WEBHOOK || ac.type == ActionType::DB_WRITE) {
+                if (!params.empty()) ac.target = params[0];
+                if (params.size() > 1) ac.template_str = params[1];
+            } else if (ac.type == ActionType::ALERT) {
+                // alert('channel', 'severity', 'message')
+                if (!params.empty()) ac.target = params[0];
+                if (params.size() > 1) cfg.tags["severity"] = params[1];
+                if (params.size() > 2) ac.template_str = params[2];
+            } else {
+                if (!params.empty()) ac.target = params[0];
+                if (params.size() > 1) ac.template_str = params[1];
+            }
             cfg.actions.push_back(std::move(ac));
-        } else {
-            // Default: add ALERT action
-            ActionConfig ac;
-            ac.type = ActionType::ALERT;
-            cfg.actions.push_back(std::move(ac));
+            search = m.suffix().str();
+        }
+
+        if (!found_action) {
+            // Legacy: ON MATCH ALERT [severity=<s>] [message=<msg>]
+            std::regex alert_re(R"(\bON\s+MATCH\s+ALERT\s*(?:severity=(\S+))?\s*(?:message=(.+?))?$)",
+                                std::regex::icase);
+            if (std::regex_search(norm, m, alert_re)) {
+                ActionConfig ac;
+                ac.type = ActionType::ALERT;
+                if (m[1].matched) cfg.tags["severity"] = m[1];
+                if (m[2].matched) ac.template_str = m[2];
+                cfg.actions.push_back(std::move(ac));
+            } else {
+                ActionConfig ac;
+                ac.type = ActionType::ALERT;
+                cfg.actions.push_back(std::move(ac));
+            }
         }
     }
 
