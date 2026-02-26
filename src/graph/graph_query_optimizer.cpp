@@ -1647,5 +1647,92 @@ GraphQueryOptimizer::calibrateFromHistory() {
     return report;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Analytics Module Integration (Issue #1821)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void GraphQueryOptimizer::attachAnalytics(GraphAnalytics& analytics) {
+    analytics_ = &analytics;
+}
+
+void GraphQueryOptimizer::detachAnalytics() {
+    analytics_ = nullptr;
+}
+
+Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShortestPaths(
+    std::string_view source,
+    std::string_view target,
+    int k,
+    const QueryConstraints& constraints,
+    std::string_view weight_attr,
+    ExecutionStats* stats)
+{
+    using ReturnType = std::vector<GraphAnalytics::PathInfo>;
+
+    // Precondition checks – do not touch any counters for caller errors
+    if (!analytics_) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            "No analytics instance attached; call attachAnalytics() first");
+    }
+
+    if (k <= 0) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            "k must be positive");
+    }
+
+    // Apply rate limiting before executing (no counter updates on rejection)
+    if (!rate_limiter_.allowQuery()) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "k-shortest-paths query rejected: rate limit exceeded");
+    }
+
+    const auto t_start = std::chrono::steady_clock::now();
+    ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DIJKSTRA; // Yen's uses Dijkstra internally
+
+    // Delegate to the analytics module (Yen's algorithm)
+    auto [status, paths] = analytics_->kShortestPaths(
+        std::string(source), std::string(target), k, std::string(weight_attr));
+
+    const auto t_end = std::chrono::steady_clock::now();
+    local_stats.execution_time_ms =
+        std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+    // Check timeout – consistent with BFS/DFS/Dijkstra pattern
+    if (constraints.timeout_ms > 0 &&
+        local_stats.execution_time_ms > static_cast<double>(constraints.timeout_ms)) {
+        local_stats.early_terminated = true;
+        metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+        if (stats) { *stats = local_stats; }
+        recordExecution(local_stats);
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_TIMEOUT,
+            "k-shortest-paths query exceeded timeout of " +
+                std::to_string(constraints.timeout_ms) + "ms");
+    }
+
+    if (!status.ok) {
+        // Record the failed attempt so total_queries and failed_queries stay accurate
+        // (paths_found stays 0, so recordExecution will increment failed_queries)
+        recordExecution(local_stats);
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND, status.message);
+    }
+
+    // Populate output stats
+    local_stats.paths_found = paths.size();
+    if (!paths.empty()) {
+        local_stats.nodes_explored = paths[0].vertices.size();
+        // hop_count is int; guard against any unexpected negative value
+        const int hc = paths[0].hop_count;
+        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0u;
+    }
+
+    if (stats) { *stats = local_stats; }
+    // recordExecution is the single source that increments total_queries,
+    // failed_queries, total_execution_time_ms, latency_histogram, etc.
+    recordExecution(local_stats);
+
+    return Ok(std::move(paths));
+}
+
 } // namespace graph
 } // namespace themis

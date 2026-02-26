@@ -27,6 +27,7 @@
 #pragma once
 
 #include "index/graph_index.h"
+#include "index/graph_analytics.h"
 #include "utils/expected.h"
 #include <string>
 #include <vector>
@@ -650,7 +651,68 @@ public:
         const class PathConstraints& constraints
     );
 
+    // -----------------------------------------------------------------------
+    // Analytics Module Integration (Issue #1821)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Attach a GraphAnalytics instance to enable algorithm reuse.
+     *
+     * When an analytics instance is attached, the optimizer can delegate
+     * complex analytics operations (e.g., k-shortest paths via Yen's
+     * algorithm) to the analytics module instead of re-implementing them.
+     * The caller retains ownership; the pointer must remain valid for the
+     * lifetime of this optimizer or until `detachAnalytics()` is called.
+     *
+     * @param analytics Reference to a GraphAnalytics instance.
+     */
+    void attachAnalytics(GraphAnalytics& analytics);
+
+    /**
+     * @brief Detach the previously attached analytics instance.
+     *
+     * After calling this, `executeKShortestPaths` will return an error
+     * until a new analytics instance is attached.
+     */
+    void detachAnalytics();
+
+    /**
+     * @brief Returns true if an analytics instance is currently attached.
+     */
+    bool hasAnalytics() const { return analytics_ != nullptr; }
+
+    /**
+     * @brief Execute K-Shortest Paths using the attached analytics module.
+     *
+     * Delegates to `GraphAnalytics::kShortestPaths` (Yen's algorithm) to
+     * find the `k` shortest loopless paths from `source` to `target`.
+     * This avoids duplicating the Yen's algorithm implementation inside the
+     * query optimizer and reuses the production-tested analytics code.
+     *
+     * Execution statistics are recorded so the adaptive cost model learns
+     * from k-shortest-paths workloads.
+     *
+     * @param source      Source vertex primary key.
+     * @param target      Target vertex primary key.
+     * @param k           Number of shortest paths to return (must be > 0).
+     * @param constraints Query constraints; `timeout_ms` and rate limiting apply.
+     * @param weight_attr Optional edge weight attribute name (empty = default `_weight`).
+     * @param stats       Optional output parameter for execution statistics.
+     * @return Vector of PathInfo results (at most k paths), or an error.
+     *         Returns ERR_GRAPH_PATH_NOT_FOUND if no path exists.
+     */
+    Result<std::vector<GraphAnalytics::PathInfo>> executeKShortestPaths(
+        std::string_view source,
+        std::string_view target,
+        int k,
+        const QueryConstraints& constraints,
+        std::string_view weight_attr = "",
+        ExecutionStats* stats = nullptr
+    );
+
 private:
+    // Pointer to an optional analytics instance for algorithm reuse (not owned).
+    GraphAnalytics* analytics_ = nullptr;
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;
     bool plan_caching_enabled_ = true;
