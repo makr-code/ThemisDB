@@ -1614,7 +1614,6 @@ set(THEMIS_CORE_SOURCES
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
-    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal versioning and query engine
