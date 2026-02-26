@@ -118,6 +118,35 @@ public:
      */
     void setRetryConfig(const RetryConfig& config);
 
+    /**
+     * @brief Configure OAuth 2.0 token refresh for this connector
+     *
+     * When set, the connector automatically attempts a token refresh
+     * (RFC 6749 §6) upon receiving HTTP 401 from the HuggingFace Hub API.
+     * The refreshed access token is cached inside the connector and used for
+     * all subsequent requests in the same ingestion run.
+     *
+     * `config.access_token` is used immediately as the Bearer token; if it is
+     * empty, the static API token (set via `setApiToken()` or
+     * `options["token"]`) is used until the first refresh.
+     *
+     * @param config  OAuth configuration including token endpoint, client
+     *                credentials, and the refresh token.
+     */
+    void setOAuthConfig(const OAuthConfig& config);
+
+    /**
+     * @brief Inject a mock HTTP POST function for OAuth token refresh (unit testing only)
+     *
+     * When set, every token-refresh POST that would normally be performed
+     * via libcurl is replaced by a call to @p fn.  The function receives the
+     * token endpoint URL and the URL-encoded form body, and returns
+     * `{status_code, response_body}`.
+     *
+     * Pass an empty `ApiHttpPostFn{}` to restore the real libcurl path.
+     */
+    void setHttpPostForTesting(ApiHttpPostFn fn);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
