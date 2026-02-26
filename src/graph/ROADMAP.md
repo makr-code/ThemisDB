@@ -20,6 +20,7 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 
 ## In Progress 🚧
 (none)
@@ -36,7 +37,6 @@
 
 ### Long-term (6-12 months)
 - [I] Distributed graph query execution across shards (Issue: #1826)
-- [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 - [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
@@ -61,12 +61,12 @@
 - [x] Adaptive cost model: EMA per algorithm, confidence-weighted blending into cost estimates
 - [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
-### Phase 3: Pattern Matching & Distribution (Status: Planned 📋)
+### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [ ] Subgraph isomorphism queries (pattern matching)
 - [ ] Incremental graph query execution on live updates
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
-- [ ] Temporal graph query optimization (time-ranged traversals)
+- [x] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [ ] GPU-accelerated BFS/DFS for massive graphs
 
 ## Production Readiness Checklist

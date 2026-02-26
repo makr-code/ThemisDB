@@ -451,12 +451,14 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
     const size_t estimated_depth = static_cast<size_t>(max_depth);
 
     // Base cost: BFS over estimated depth.
+    // NOTE: estimateCost() already applies temporal selectivity when
+    // constraints.hasTemporalRange() is true, so no extra multiplication is
+    // needed here.
     double base_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
 
-    // Temporal selectivity: a time-range filter reduces the number of edges
-    // that must be traversed.  When both bounds are known we compute a rough
-    // selectivity based on the ratio of the query window to a 5-year reference
-    // span; otherwise use a conservative 0.5 reduction.
+    // Compute temporal selectivity separately — used only for
+    // estimated_nodes_explored and the explanation string, not for cost
+    // adjustment (which estimateCost already handles).
     double temporal_selectivity = 1.0;
     if (constraints.hasTemporalRange()) {
         if (constraints.time_range_start_ms.has_value() &&
@@ -473,12 +475,10 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
         } else {
             temporal_selectivity = 0.5; // one-sided bound: moderate reduction
         }
-        base_cost *= temporal_selectivity;
     }
 
-    // Alternative: DFS cost
+    // Alternative: DFS cost (estimateCost handles temporal selectivity)
     double dfs_cost = estimateCost(TraversalAlgorithm::DFS, estimated_depth, constraints);
-    if (constraints.hasTemporalRange()) dfs_cost *= temporal_selectivity;
     plan.alternatives.emplace_back(TraversalAlgorithm::DFS, dfs_cost);
 
     plan.estimated_cost = base_cost;
