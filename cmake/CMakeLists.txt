@@ -1598,7 +1598,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
     ../src/cache/distributed_cache_coordinator.cpp
-    ../src/cache/redis_cache_coordinator.cpp
+    # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -2055,6 +2055,7 @@ endif()
 # Conditionally add Phase 4 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
     ../src/performance/phase4/feature_flags.cpp
+    ../src/performance/phase4/pmu_counters.cpp
 )
 
 if(THEMIS_ENABLE_PMEM)

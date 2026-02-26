@@ -141,6 +141,12 @@
       ]
     }
   ],
+  "overrides": [
+    {
+      "name": "lz4",
+      "version": "1.10.0"
+    }
+  ],
   "features": {
     "redis": {
       "description": "Enable Redis-compatible distributed cache coordination via hiredis pub/sub",

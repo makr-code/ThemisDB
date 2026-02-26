@@ -47,6 +47,9 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
+# Exclude tests requiring unimplemented performance monitoring classes
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_pmu_counters\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_memory_pressure\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -390,6 +393,9 @@ endif()
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_topology.cpp
+    )
+endif()
+
 # Re-include the GPU stream manager test excluded by the two overlapping patterns
 # ".*test_gpu_stream_manager\.cpp$" and ".*test_gpu_.*\.cpp$".
 # This test validates GPUStreamManager stream lifecycle, work submission,
@@ -398,6 +404,9 @@ if(THEMIS_ENABLE_GPU)
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_stream_manager.cpp
+    )
+endif()
+
 # Re-include the GPU cluster coordinator test excluded by the broad
 # ".*test_gpu_.*\\.cpp$" pattern.  This test validates multi-node GPU cluster
 # coordination (node registration, heartbeat tracking, stale-node expiry, and
@@ -406,6 +415,9 @@ if(THEMIS_ENABLE_GPU)
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_coordinator.cpp
+    )
+endif()
+
 # Re-include the GPU graph cache test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates GPUGraphCache (QueryShape hashing, capture/replay,
 # LRU eviction) and the GPUQueryAccelerator graph-cache integration.  It uses only

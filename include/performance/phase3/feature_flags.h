@@ -132,6 +132,8 @@ private:
     #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().per_query_cost_model_enabled())
 #else
     #define THEMIS_PHASE3_PER_QUERY_COST_MODEL_ENABLED() (false)
+#endif
+
 #ifdef THEMIS_ENABLE_MEMORY_PRESSURE
     #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())
 #else

@@ -549,7 +549,6 @@ TEST_F(CacheReplicationManagerTest, ReAddSameReplicaIsIdempotent) {
 // Tests: AdaptiveQueryCache integration with replication listener
 // ===========================================================================
 
-class CacheReplicationListenerIntegrationTest : public ::testing::Test {
 class CacheReplicationManagerIntegrationTest : public ::testing::Test {
 protected:
     std::string db_path_;
@@ -567,8 +566,6 @@ protected:
     }
 };
 
-TEST_F(CacheReplicationListenerIntegrationTest, PutNotifiesListenerOnSuccess) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
 TEST_F(CacheReplicationManagerIntegrationTest, PutNotifiesListenerOnSuccess) {
     AdaptiveQueryCache cache(makeTestConfig("mgr_put"));
     cache.setReplicationListener(listener_);
@@ -580,8 +577,6 @@ TEST_F(CacheReplicationManagerIntegrationTest, PutNotifiesListenerOnSuccess) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::WRITE), 1u);
 }
 
-TEST_F(CacheReplicationListenerIntegrationTest, InvalidateNotifiesListener) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
 TEST_F(CacheReplicationManagerIntegrationTest, InvalidateNotifiesListener) {
     AdaptiveQueryCache cache(makeTestConfig("mgr_inv"));
     cache.setReplicationListener(listener_);
@@ -595,8 +590,6 @@ TEST_F(CacheReplicationManagerIntegrationTest, InvalidateNotifiesListener) {
     EXPECT_GE(listener_->countByType(CacheReplicationEventType::INVALIDATE), 1u);
 }
 
-TEST_F(CacheReplicationListenerIntegrationTest, InvalidateTenantNotifiesListener) {
-    AdaptiveQueryCache::Config cfg = makeTestConfig(db_path_);
 TEST_F(CacheReplicationManagerIntegrationTest, InvalidateTenantNotifiesListener) {
     AdaptiveQueryCache::Config cfg = makeTestConfig("mgr_tent");
     cfg.enable_tenant_isolation = true;
@@ -613,8 +606,6 @@ TEST_F(CacheReplicationManagerIntegrationTest, InvalidateTenantNotifiesListener)
     EXPECT_EQ(listener_->events().back().tenant_id, "tenant-x");
 }
 
-TEST_F(CacheReplicationListenerIntegrationTest, UnregisterListenerStopsNotifications) {
-    AdaptiveQueryCache cache(makeTestConfig(db_path_));
 TEST_F(CacheReplicationManagerIntegrationTest, UnregisterListenerStopsNotifications) {
     AdaptiveQueryCache cache(makeTestConfig("mgr_unreg"));
     cache.setReplicationListener(listener_);
@@ -628,7 +619,6 @@ TEST_F(CacheReplicationManagerIntegrationTest, UnregisterListenerStopsNotificati
     EXPECT_EQ(listener_->countByType(CacheReplicationEventType::WRITE), 0u);
 }
 
-TEST_F(CacheReplicationListenerIntegrationTest, ListenerExceptionDoesNotCrashCache) {
 TEST_F(CacheReplicationManagerIntegrationTest, ListenerExceptionDoesNotCrashCache) {
     // A listener that always throws
     class ThrowingListener : public ICacheReplicationListener {
@@ -654,7 +644,6 @@ TEST_F(CacheReplicationManagerIntegrationTest, ListenerExceptionDoesNotCrashCach
     EXPECT_NO_THROW(cache.put(fp, {}, {{"ok", true}}));
 }
 
-TEST_F(CacheReplicationListenerIntegrationTest, ReplicationManagerReceivesCacheWrites) {
 TEST_F(CacheReplicationManagerIntegrationTest, ReplicationManagerReceivesCacheWrites) {
     CacheReplicationConfig repCfg;
     auto mgr = std::make_shared<CacheReplicationManager>(repCfg);
@@ -706,7 +695,7 @@ TEST(RedisCacheCoordinatorTest, IsConnectedReturnsFalseWhenNoServer) {
     EXPECT_FALSE(coord.isConnected());
 }
 
-TEST(RedisCacheCoordinatorTest, GetStatsReturnsExpectedFields) {
+TEST(RedisCacheCoordinatorTest, GetStatsViaReplicationIntegration) {
     RedisCacheCoordinatorConfig cfg;
     cfg.host                 = "127.0.0.1";
     cfg.port                 = 19997;

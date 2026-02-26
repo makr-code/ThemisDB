@@ -23,6 +23,7 @@
 
 #include <nlohmann/json.hpp>
 
+#if !defined(_WIN32)
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -31,6 +32,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/time.h>
+#endif
 
 #include <cstring>
 #include <sstream>
@@ -40,6 +42,110 @@
 
 namespace themis {
 namespace cache {
+
+#if defined(_WIN32)
+
+RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig& config)
+    : config_(config) {
+    THEMIS_WARN("RedisCacheCoordinator: Windows stub active - network pub/sub disabled");
+}
+
+RedisCacheCoordinator::~RedisCacheCoordinator() = default;
+
+void RedisCacheCoordinator::publishEntry(const std::string&,
+                                          const nlohmann::json&,
+                                          int,
+                                          const std::string&) {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    ++publish_errors_;
+}
+
+void RedisCacheCoordinator::publishInvalidation(const std::string&,
+                                                 const std::string&) {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    ++publish_errors_;
+}
+
+void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    entry_cb_ = std::move(callback);
+}
+
+void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    invalidation_cb_ = std::move(callback);
+}
+
+bool RedisCacheCoordinator::isConnected() const {
+    return false;
+}
+
+nlohmann::json RedisCacheCoordinator::getStats() const {
+    std::lock_guard<std::mutex> lk(stats_mutex_);
+    return {
+        {"name", "RedisCacheCoordinator"},
+        {"connected", false},
+        {"channel_prefix", config_.channel_prefix},
+        {"messages_published", messages_published_},
+        {"messages_received", messages_received_},
+        {"publish_errors", publish_errors_},
+        {"reconnect_count", reconnect_count_}
+    };
+}
+
+std::string RedisCacheCoordinator::entryChannel() const {
+    return config_.channel_prefix + ":entries";
+}
+
+std::string RedisCacheCoordinator::invalidationChannel() const {
+    return config_.channel_prefix + ":invalidations";
+}
+
+RedisCacheCoordinator::SocketFd RedisCacheCoordinator::tcpConnect() {
+    return kInvalidSocket;
+}
+
+void RedisCacheCoordinator::closeSocket(SocketFd& fd) {
+    fd = kInvalidSocket;
+}
+
+bool RedisCacheCoordinator::sendAll(SocketFd, const std::string&) {
+    return false;
+}
+
+bool RedisCacheCoordinator::readLine(SocketFd, std::string&) {
+    return false;
+}
+
+std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string>&) {
+    return {};
+}
+
+bool RedisCacheCoordinator::redisHandshake(SocketFd) {
+    return false;
+}
+
+bool RedisCacheCoordinator::ensurePublisherConnected() {
+    return false;
+}
+
+bool RedisCacheCoordinator::redisPublish(const std::string&, const std::string&) {
+    return false;
+}
+
+void RedisCacheCoordinator::subscriberLoop() {}
+
+void RedisCacheCoordinator::subscriberSession(SocketFd) {}
+
+bool RedisCacheCoordinator::readPubSubMessage(SocketFd,
+                                               std::string&,
+                                               std::string&) {
+    return false;
+}
+
+void RedisCacheCoordinator::dispatchMessage(const std::string&, const std::string&) {}
+
+#else
 
 // ---------------------------------------------------------------------------
 // Constructor / Destructor
@@ -526,6 +632,8 @@ void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
                     e.what());
     }
 }
+
+#endif
 
 } // namespace cache
 } // namespace themis

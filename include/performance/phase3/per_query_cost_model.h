@@ -79,7 +79,7 @@ struct QueryCostRecord {
  *
  *   // Wrap a query execution:
  *   {
- *       auto guard = pcm.beginQuery("index_scan", 42.0 /*estimated*/);
+ *       auto guard = pcm.beginQuery("index_scan", 42.0); // estimated
  *       // ... execute query ...
  *       guard.end(rows_returned, pages_read);
  *   }

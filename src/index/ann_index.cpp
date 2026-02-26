@@ -185,7 +185,7 @@ float ScaNN::PQCodebook::decode_distance(const float* query,
 // ScaNN public API
 // ---------------------------------------------------------------------------
 
-ScaNN::ScaNN(ScaннConfig cfg) : cfg_(std::move(cfg)) {}
+ScaNN::ScaNN(ScaNNConfig cfg) : cfg_(std::move(cfg)) {}
 
 bool ScaNN::build(const float* vectors, const int64_t* ids,
                   size_t count, size_t dim) {

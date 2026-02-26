@@ -85,7 +85,7 @@ public:
 // ---------------------------------------------------------------------------
 
 /// ScaNN configuration
-struct ScaннConfig {
+struct ScaNNConfig {
     // Partitioning
     size_t num_leaves            = 1000;  ///< Target number of Voronoi cells
     size_t num_leaves_to_search  = 100;   ///< Cells probed per query
@@ -106,7 +106,7 @@ struct ScaннConfig {
 /// ScaNN index (self-contained, no external dependencies)
 class ScaNN final : public IAnnIndex {
 public:
-    explicit ScaNN(ScaннConfig cfg = {});
+    explicit ScaNN(ScaNNConfig cfg = {});
     ~ScaNN() override = default;
 
     bool build(const float* vectors, const int64_t* ids,
@@ -122,7 +122,7 @@ public:
 
     size_t size() const override;
 
-    const ScaннConfig& config() const { return cfg_; }
+    const ScaNNConfig& config() const { return cfg_; }
 
 private:
     // ---- internal types ----
@@ -154,7 +154,7 @@ private:
                         std::vector<size_t>& assignments);
 
     // ---- state ----
-    ScaннConfig cfg_;
+    ScaNNConfig cfg_;
     size_t dim_ = 0;
     std::vector<Leaf>     leaves_;
     PQCodebook            codebook_;

@@ -1019,6 +1019,8 @@ public:
         std::string_view start_vertex,
         int max_depth,
         const QueryConstraints& constraints,
+        ExecutionStats* stats = nullptr);
+
     // Analytics Module Integration (Issue #1821)
     // -----------------------------------------------------------------------
 

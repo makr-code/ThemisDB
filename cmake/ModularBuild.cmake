@@ -282,6 +282,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
+    ../src/performance/cycle_metrics.cpp
+    ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
@@ -422,8 +424,10 @@ set(THEMIS_SECURITY_SOURCES
     # Storage-backed PII and vector index (require both storage and security)
     ../src/utils/pii_pseudonymizer.cpp
     ../src/index/vector_index.cpp
+    ../src/index/ann_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
+    ../src/search/llm_reranker.cpp
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
@@ -854,6 +858,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/query/result_stream.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )
@@ -953,6 +958,7 @@ function(themis_build_modular)
     endif()
     if(TARGET prometheus-cpp::util)
         list(APPEND _themis_security_deps prometheus-cpp::util)
+    endif()
     if(THEMIS_ENABLE_JEMALLOC)
         if(TARGET jemalloc::jemalloc)
             list(APPEND _themis_security_deps jemalloc::jemalloc)
