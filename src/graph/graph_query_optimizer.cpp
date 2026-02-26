@@ -652,6 +652,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     local_stats.algorithm = TraversalAlgorithm::BFS;
     local_stats.estimated_cost_ms =
         estimateCost(TraversalAlgorithm::BFS, static_cast<size_t>(max_depth), constraints) * 0.1;
+    // Note: 0.1 converts cost units → ms (same factor used in optimizeXxx plan construction)
 
     auto timedOut = [&]() -> bool {
         if (constraints.timeout_ms == 0) return false;
