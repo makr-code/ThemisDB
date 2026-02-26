@@ -21,7 +21,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] SQLite importer (Issue: #1838)
+- [P] SQLite importer (Issue: #1838)
 - [I] CSV / TSV / Parquet flat-file importer (Issue: #1839)
 - [I] S3-compatible object-storage source (Issue: #1840)
 - [I] Schema auto-detection and validation on import (Issue: #1856)
