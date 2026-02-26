@@ -360,6 +360,10 @@ public:
         size_t cache_misses = 0;
         /// Algorithm that produced this execution; used by the adaptive cost model.
         TraversalAlgorithm algorithm = TraversalAlgorithm::BFS;
+        /// Estimated execution time (ms) from the cost model before execution.
+        /// Set automatically by execute* methods to enable calibration accuracy
+        /// tracking.  Zero when no estimate is available.
+        double estimated_cost_ms = 0.0;
     };
 
     // -----------------------------------------------------------------------
@@ -845,13 +849,24 @@ public:
 
     /**
      * @brief Per-algorithm statistics derived from execution history.
+     *
+     * In addition to actual execution time statistics, records how well the
+     * cost model's estimates compared to actual execution times when
+     * `ExecutionStats::estimated_cost_ms` was populated during execution.
+     * These accuracy fields are zero when no estimation data is available.
      */
     struct AlgorithmCalibrationStats {
-        double mean_execution_ms  = 0.0;  ///< Mean actual execution time (ms)
-        double stddev_execution_ms = 0.0; ///< Standard deviation of execution times (ms)
-        double min_execution_ms   = 0.0;  ///< Minimum observed execution time (ms)
-        double max_execution_ms   = 0.0;  ///< Maximum observed execution time (ms)
-        size_t sample_count       = 0;    ///< Number of observations used
+        double mean_execution_ms   = 0.0;  ///< Mean actual execution time (ms)
+        double stddev_execution_ms = 0.0;  ///< Standard deviation of execution times (ms)
+        double min_execution_ms    = 0.0;  ///< Minimum observed execution time (ms)
+        double max_execution_ms    = 0.0;  ///< Maximum observed execution time (ms)
+        size_t sample_count        = 0;    ///< Number of observations used
+
+        // Cost estimation accuracy fields (populated when estimated_cost_ms > 0)
+        double mean_estimated_ms        = 0.0;  ///< Mean of pre-execution estimated times (ms)
+        double mean_absolute_error_ms   = 0.0;  ///< Mean |actual - estimated| (ms)
+        double cost_ratio               = 0.0;  ///< mean_estimated_ms / mean_execution_ms; >1 = over-estimated, <1 = under-estimated; 0 when no estimate data
+        size_t estimation_sample_count  = 0;    ///< Records that had estimated_cost_ms > 0
     };
 
     /**
@@ -884,6 +899,11 @@ public:
      * the confidence to `min(1.0, sample_count / MAX_CONF_OBS)` so the model
      * immediately reflects the measured behaviour rather than waiting for the
      * EMA to converge.
+     *
+     * When history entries contain a non-zero `estimated_cost_ms` (populated
+     * automatically by the execute* methods), the report also includes
+     * cost accuracy statistics: `mean_estimated_ms`, `mean_absolute_error_ms`,
+     * and `cost_ratio` in each `AlgorithmCalibrationStats`.
      *
      * Algorithms with fewer than `MIN_CALIBRATION_SAMPLES` observations are
      * left unchanged (they appear in the report with `sample_count < threshold`

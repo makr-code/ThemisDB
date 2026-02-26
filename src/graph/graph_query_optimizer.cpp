@@ -650,6 +650,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BFS;
+    local_stats.estimated_cost_ms =
+        estimateCost(TraversalAlgorithm::BFS, static_cast<size_t>(max_depth), constraints) * 0.1;
 
     auto timedOut = [&]() -> bool {
         if (constraints.timeout_ms == 0) return false;
@@ -752,6 +754,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BFS;
+    local_stats.estimated_cost_ms =
+        estimateCost(TraversalAlgorithm::BFS, static_cast<size_t>(max_depth), constraints) * 0.1;
 
     // GPU-accelerated path: dispatch to GPUGraphTraversal when requested.
     if (constraints.use_gpu) {
@@ -971,6 +975,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DFS;
+    local_stats.estimated_cost_ms =
+        estimateCost(TraversalAlgorithm::DFS, static_cast<size_t>(max_depth), constraints) * 0.1;
 
     // GPU-accelerated path.
     if (constraints.use_gpu) {
@@ -1129,6 +1135,12 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
+    {
+        const size_t depth_hint = constraints.max_depth.has_value()
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+        local_stats.estimated_cost_ms =
+            estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
+    }
 
     // -----------------------------------------------------------------------
     // Parallel path: Δ-Stepping shortest-path algorithm (Phase 3.2)
@@ -1400,6 +1412,12 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::ASTAR;
+    {
+        const size_t depth_hint = constraints.max_depth.has_value()
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+        local_stats.estimated_cost_ms =
+            estimateCost(TraversalAlgorithm::ASTAR, depth_hint, constraints) * 0.1;
+    }
     
     // Use existing A* implementation from GraphIndexManager
     auto [status, path_result] = graph_manager_.aStar(start_vertex, target_vertex, heuristic);
@@ -1440,6 +1458,12 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
+    {
+        const size_t depth_hint = constraints.max_depth.has_value()
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+        local_stats.estimated_cost_ms =
+            estimateCost(TraversalAlgorithm::BIDIRECTIONAL, depth_hint, constraints) * 0.1;
+    }
     
     // Implement bidirectional search
     std::unordered_map<std::string, int> forward_distances;
@@ -2447,36 +2471,48 @@ GraphQueryOptimizer::calibrateFromHistory() {
         return report;
     }
 
-    // Group execution times by algorithm
+    // Accumulate per-algorithm statistics in one pass over execution_history_
+    struct AlgoAcc {
+        std::vector<double> actual_times;
+        double est_sum  = 0.0;  // sum of estimated_cost_ms (paired entries only)
+        double mae_sum  = 0.0;  // sum of |actual - estimated|
+        size_t paired   = 0;    // entries that had estimated_cost_ms > 0
+    };
     std::unordered_map<TraversalAlgorithm,
-                       std::vector<double>,
-                       std::hash<TraversalAlgorithm>> times_by_algo;
+                       AlgoAcc,
+                       std::hash<TraversalAlgorithm>> acc_by_algo;
 
-    for (const auto& stats : execution_history_) {
-        times_by_algo[stats.algorithm].push_back(stats.execution_time_ms);
+    for (const auto& s : execution_history_) {
+        auto& acc = acc_by_algo[s.algorithm];
+        acc.actual_times.push_back(s.execution_time_ms);
+        if (s.estimated_cost_ms > 0.0) {
+            acc.est_sum += s.estimated_cost_ms;
+            acc.mae_sum += std::abs(s.execution_time_ms - s.estimated_cost_ms);
+            ++acc.paired;
+        }
     }
 
     report.total_samples = execution_history_.size();
 
-    for (auto& [algo, times] : times_by_algo) {
-        const size_t n = times.size();
+    for (auto& [algo, acc] : acc_by_algo) {
+        const size_t n = acc.actual_times.size();
 
-        // Compute mean
+        // Compute mean of actual times
         double sum = 0.0;
-        for (double t : times) sum += t;
+        for (double t : acc.actual_times) sum += t;
         const double mean = sum / static_cast<double>(n);
 
         // Compute variance / stddev
         double variance = 0.0;
-        for (double t : times) {
+        for (double t : acc.actual_times) {
             double diff = t - mean;
             variance += diff * diff;
         }
         const double stddev = n > 1 ? std::sqrt(variance / static_cast<double>(n - 1)) : 0.0;
 
         // Min / max
-        const double mn = *std::min_element(times.begin(), times.end());
-        const double mx = *std::max_element(times.begin(), times.end());
+        const double mn = *std::min_element(acc.actual_times.begin(), acc.actual_times.end());
+        const double mx = *std::max_element(acc.actual_times.begin(), acc.actual_times.end());
 
         AlgorithmCalibrationStats ast;
         ast.mean_execution_ms   = mean;
@@ -2484,6 +2520,17 @@ GraphQueryOptimizer::calibrateFromHistory() {
         ast.min_execution_ms    = mn;
         ast.max_execution_ms    = mx;
         ast.sample_count        = n;
+
+        // Cost accuracy statistics – only when estimated_cost_ms was populated
+        // by the execute* methods in at least one history entry.
+        if (acc.paired > 0) {
+            const double mean_est = acc.est_sum / static_cast<double>(acc.paired);
+            ast.mean_estimated_ms       = mean_est;
+            ast.mean_absolute_error_ms  = acc.mae_sum / static_cast<double>(acc.paired);
+            ast.cost_ratio              = (mean > 0.0) ? (mean_est / mean) : 0.0;
+            ast.estimation_sample_count = acc.paired;
+        }
+
         report.algorithm_stats[algo] = ast;
 
         // Re-seed the EMA only when adaptive learning is enabled and there
