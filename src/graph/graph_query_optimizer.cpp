@@ -1621,6 +1621,10 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     SubgraphIsomorphismResult result;
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DFS;
+    // Use pattern vertex count as depth proxy for cost estimation
+    // (0.1 converts cost units → ms; same factor used in optimizeXxx plan construction)
+    local_stats.estimated_cost_ms =
+        estimateCost(TraversalAlgorithm::DFS, pattern_vertices.size(), constraints) * 0.1;
 
     if (pattern_vertices.empty()) {
         // Empty pattern matches trivially with an empty mapping
@@ -2720,6 +2724,14 @@ Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShort
     const auto t_start = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DIJKSTRA; // Yen's uses Dijkstra internally
+    {
+        // Default depth of 10 is consistent with other Dijkstra call sites when
+        // max_depth is not constrained; 0.1 converts cost units → ms.
+        const size_t depth_hint = constraints.max_depth.has_value()
+            ? static_cast<size_t>(constraints.max_depth.value()) : 10u;
+        local_stats.estimated_cost_ms =
+            estimateCost(TraversalAlgorithm::DIJKSTRA, depth_hint, constraints) * 0.1;
+    }
 
     // Delegate to the analytics module (Yen's algorithm)
     auto [status, paths] = analytics_->kShortestPaths(

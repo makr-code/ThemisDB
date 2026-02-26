@@ -1796,15 +1796,13 @@ TEST_F(GraphQueryOptimizerTest, ExecutionStats_HasEstimatedCostMs_AfterDFS) {
     EXPECT_GT(stats.estimated_cost_ms, 0.0);
 }
 
-TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_AccuracyFields_ZeroWhenNoEstimates) {
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_AccuracyFields_PopulatedAfterExecution) {
     using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
-    // Manually push history entries without estimated_cost_ms to verify
-    // the accuracy fields default to zero when no estimates are present.
     const size_t threshold = themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES;
     themis::graph::GraphQueryOptimizer::QueryConstraints c;
 
     // Run enough executions to trigger calibration (estimated_cost_ms is set
-    // by the execute method but we verify it is positive).
+    // by the execute method so accuracy fields should be populated).
     for (size_t i = 0; i < threshold; ++i) {
         optimizer_->executeBFS("A", 2, c);
     }
@@ -1857,7 +1855,6 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_MAE_IsNonNegative) {
     ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
     EXPECT_GE(report.algorithm_stats.at(Algo::BFS).mean_absolute_error_ms, 0.0);
 }
-
 
 
 // ============================================================================
