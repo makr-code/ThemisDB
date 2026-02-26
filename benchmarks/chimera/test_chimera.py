@@ -40,6 +40,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from chimera import ChimeraReporter, StatisticalAnalyzer, ColorBlindPalette, CitationManager
+from chimera import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod, NormalizedScore, CompositeScore
 from chimera.statistics import DescriptiveStats, StatisticalResult
 
 
@@ -353,6 +354,365 @@ class TestIntegration:
         html_content = html_path.read_text()
         assert 'Neutrality' in html_content
         assert 'Statistical Analysis' in html_content
+
+
+class TestBenchmarkScorer:
+    """Test benchmark result normalization and scoring framework."""
+
+    # ------------------------------------------------------------------
+    # MetricConfig validation
+    # ------------------------------------------------------------------
+
+    def test_metric_config_positive_weight(self):
+        """MetricConfig raises ValueError for non-positive weight."""
+        with pytest.raises(ValueError, match="weight"):
+            MetricConfig("latency", MetricDirection.LOWER_IS_BETTER, weight=0.0)
+
+    def test_metric_config_defaults(self):
+        """MetricConfig default weight and unit are correct."""
+        cfg = MetricConfig("throughput", MetricDirection.HIGHER_IS_BETTER)
+        assert cfg.weight == 1.0
+        assert cfg.unit == ""
+
+    # ------------------------------------------------------------------
+    # BenchmarkScorer construction guards
+    # ------------------------------------------------------------------
+
+    def test_scorer_requires_metrics(self):
+        """BenchmarkScorer raises ValueError when no metrics are given."""
+        with pytest.raises(ValueError, match="MetricConfig"):
+            BenchmarkScorer(metrics=[])
+
+    def test_scorer_baseline_without_name_raises(self):
+        """BASELINE normalization without baseline_system raises ValueError."""
+        cfg = MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)
+        with pytest.raises(ValueError, match="baseline_system"):
+            BenchmarkScorer(
+                metrics=[cfg],
+                normalization_method=NormalizationMethod.BASELINE,
+            )
+
+    # ------------------------------------------------------------------
+    # add_results validation
+    # ------------------------------------------------------------------
+
+    def test_add_results_unknown_metric_raises(self):
+        """add_results raises KeyError for unregistered metric names."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("latency", MetricDirection.LOWER_IS_BETTER)]
+        )
+        with pytest.raises(KeyError, match="throughput"):
+            scorer.add_results("SystemA", "throughput", [100.0])
+
+    def test_add_results_empty_data_raises(self):
+        """add_results raises ValueError when data list is empty."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("latency", MetricDirection.LOWER_IS_BETTER)]
+        )
+        with pytest.raises(ValueError, match="empty"):
+            scorer.add_results("SystemA", "latency", [])
+
+    # ------------------------------------------------------------------
+    # MIN_MAX normalization – HIGHER_IS_BETTER
+    # ------------------------------------------------------------------
+
+    def test_min_max_higher_is_better_best_system_scores_100(self):
+        """Highest throughput system receives score 100 with min-max normalization."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Fast", "thr", [1000.0, 1000.0])
+        scorer.add_results("Slow", "thr", [500.0, 500.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["Fast"].normalized_score == pytest.approx(100.0)
+        assert scores["thr"]["Slow"].normalized_score == pytest.approx(0.0)
+
+    def test_min_max_higher_is_better_intermediate(self):
+        """Intermediate throughput yields an intermediate normalized score."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("A", "thr", [0.0])
+        scorer.add_results("B", "thr", [50.0])
+        scorer.add_results("C", "thr", [100.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["B"].normalized_score == pytest.approx(50.0)
+
+    # ------------------------------------------------------------------
+    # MIN_MAX normalization – LOWER_IS_BETTER
+    # ------------------------------------------------------------------
+
+    def test_min_max_lower_is_better_lowest_latency_scores_100(self):
+        """Lowest latency system receives score 100 with min-max normalization."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER)]
+        )
+        scorer.add_results("Fast", "lat", [5.0])
+        scorer.add_results("Slow", "lat", [20.0])
+
+        scores = scorer.normalize()
+        assert scores["lat"]["Fast"].normalized_score == pytest.approx(100.0)
+        assert scores["lat"]["Slow"].normalized_score == pytest.approx(0.0)
+
+    # ------------------------------------------------------------------
+    # Degenerate case: all values identical
+    # ------------------------------------------------------------------
+
+    def test_min_max_identical_values_all_score_100(self):
+        """When all systems have the same mean, every system scores 100."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER)]
+        )
+        scorer.add_results("A", "lat", [10.0, 10.0])
+        scorer.add_results("B", "lat", [10.0, 10.0])
+
+        scores = scorer.normalize()
+        for ns in scores["lat"].values():
+            assert ns.normalized_score == pytest.approx(100.0)
+
+    # ------------------------------------------------------------------
+    # BASELINE normalization
+    # ------------------------------------------------------------------
+
+    def test_baseline_normalization_baseline_system_scores_100(self):
+        """Baseline system always scores exactly 100 with BASELINE normalization."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)],
+            normalization_method=NormalizationMethod.BASELINE,
+            baseline_system="Reference",
+        )
+        scorer.add_results("Reference", "thr", [1000.0])
+        scorer.add_results("Candidate", "thr", [1200.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["Reference"].normalized_score == pytest.approx(100.0)
+        assert scores["thr"]["Candidate"].normalized_score == pytest.approx(120.0)
+
+    def test_baseline_normalization_lower_is_better(self):
+        """BASELINE normalization inverts for LOWER_IS_BETTER metrics."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER)],
+            normalization_method=NormalizationMethod.BASELINE,
+            baseline_system="Reference",
+        )
+        scorer.add_results("Reference", "lat", [10.0])
+        scorer.add_results("Better",    "lat", [5.0])   # half the latency → 200
+
+        scores = scorer.normalize()
+        assert scores["lat"]["Reference"].normalized_score == pytest.approx(100.0)
+        assert scores["lat"]["Better"].normalized_score == pytest.approx(200.0)
+
+    def test_baseline_missing_data_raises(self):
+        """BASELINE normalization raises when baseline system has no data for metric."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)],
+            normalization_method=NormalizationMethod.BASELINE,
+            baseline_system="Reference",
+        )
+        scorer.add_results("Other", "thr", [100.0])
+        with pytest.raises(ValueError, match="no data"):
+            scorer.normalize()
+
+    # ------------------------------------------------------------------
+    # Z-SCORE normalization
+    # ------------------------------------------------------------------
+
+    def test_z_score_normalization_range(self):
+        """Z-score normalization maps the best system to 100 and worst to 0."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)],
+            normalization_method=NormalizationMethod.Z_SCORE,
+        )
+        scorer.add_results("A", "thr", [100.0])
+        scorer.add_results("B", "thr", [200.0])
+        scorer.add_results("C", "thr", [150.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["B"].normalized_score == pytest.approx(100.0)
+        assert scores["thr"]["A"].normalized_score == pytest.approx(0.0)
+        assert 0.0 < scores["thr"]["C"].normalized_score < 100.0
+
+    # ------------------------------------------------------------------
+    # Composite scoring
+    # ------------------------------------------------------------------
+
+    def test_composite_score_single_metric(self):
+        """Composite score equals the per-metric score when only one metric exists."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Best",  "thr", [100.0])
+        scorer.add_results("Worst", "thr", [0.0])
+
+        composites = scorer.compute_composite_scores()
+        by_name = {cs.system_name: cs for cs in composites}
+        assert by_name["Best"].composite_score == pytest.approx(100.0)
+        assert by_name["Worst"].composite_score == pytest.approx(0.0)
+
+    def test_composite_score_weighted_average(self):
+        """Composite score is the weighted mean of per-metric scores."""
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER, weight=2.0),
+                MetricConfig("lat", MetricDirection.LOWER_IS_BETTER,  weight=1.0),
+            ]
+        )
+        # System A: throughput best (100), latency worst (0)  → (2*100 + 1*0) / 3 ≈ 66.7
+        # System B: throughput worst (0),  latency best (100) → (2*0 + 1*100) / 3 ≈ 33.3
+        scorer.add_results("A", "thr", [100.0])
+        scorer.add_results("A", "lat", [20.0])
+        scorer.add_results("B", "thr", [0.0])
+        scorer.add_results("B", "lat", [5.0])
+
+        composites = {cs.system_name: cs for cs in scorer.compute_composite_scores()}
+        assert composites["A"].composite_score == pytest.approx(100.0 * 2 / 3, abs=1e-6)
+        assert composites["B"].composite_score == pytest.approx(100.0 / 3, abs=1e-6)
+
+    # ------------------------------------------------------------------
+    # rank_systems
+    # ------------------------------------------------------------------
+
+    def test_rank_systems_ordering(self):
+        """rank_systems returns systems sorted best-first with correct rank field."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Mid",  "thr", [50.0])
+        scorer.add_results("High", "thr", [100.0])
+        scorer.add_results("Low",  "thr", [10.0])
+
+        ranked = scorer.rank_systems()
+
+        assert ranked[0].system_name == "High"
+        assert ranked[0].rank == 1
+        assert ranked[1].system_name == "Mid"
+        assert ranked[1].rank == 2
+        assert ranked[2].system_name == "Low"
+        assert ranked[2].rank == 3
+
+    # ------------------------------------------------------------------
+    # Per-metric ranks
+    # ------------------------------------------------------------------
+
+    def test_per_metric_rank_assigned(self):
+        """normalize() assigns rank 1 to the best system on each metric."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER)]
+        )
+        scorer.add_results("Fast",   "lat", [5.0])
+        scorer.add_results("Medium", "lat", [10.0])
+        scorer.add_results("Slow",   "lat", [20.0])
+
+        scores = scorer.normalize()
+        assert scores["lat"]["Fast"].rank == 1
+        assert scores["lat"]["Medium"].rank == 2
+        assert scores["lat"]["Slow"].rank == 3
+
+    # ------------------------------------------------------------------
+    # generate_summary
+    # ------------------------------------------------------------------
+
+    def test_generate_summary_structure(self):
+        """generate_summary returns the expected top-level keys."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER, unit="ops/s")]
+        )
+        scorer.add_results("A", "thr", [100.0])
+        scorer.add_results("B", "thr", [80.0])
+
+        summary = scorer.generate_summary()
+
+        assert "normalization_method" in summary
+        assert "metrics" in summary
+        assert "rankings" in summary
+        assert len(summary["rankings"]) == 2
+        assert summary["rankings"][0]["rank"] == 1
+
+    def test_generate_summary_metric_metadata(self):
+        """generate_summary includes direction and unit for each metric."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER, unit="ms")]
+        )
+        scorer.add_results("X", "lat", [10.0])
+
+        summary = scorer.generate_summary()
+        metric_info = summary["metrics"][0]
+
+        assert metric_info["name"] == "lat"
+        assert metric_info["direction"] == "lower_is_better"
+        assert metric_info["unit"] == "ms"
+
+    # ------------------------------------------------------------------
+    # raw_mean / raw_std in NormalizedScore
+    # ------------------------------------------------------------------
+
+    def test_normalized_score_raw_statistics(self):
+        """NormalizedScore contains correct raw_mean and raw_std."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        data = [100.0, 110.0, 90.0]
+        scorer.add_results("System", "thr", data)
+        scorer.add_results("Other", "thr", [50.0])
+
+        scores = scorer.normalize()
+        ns = scores["thr"]["System"]
+        assert ns.raw_mean == pytest.approx(np.mean(data))
+        assert ns.raw_std == pytest.approx(np.std(data, ddof=1))
+
+
+class TestBenchmarkScorerIntegration:
+    """Integration tests covering multi-metric, multi-system scenarios."""
+
+    def test_three_systems_two_metrics(self):
+        """Verify composite ranking with three systems and two metrics."""
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("throughput", MetricDirection.HIGHER_IS_BETTER, weight=1.0),
+                MetricConfig("latency",    MetricDirection.LOWER_IS_BETTER,  weight=1.0),
+            ]
+        )
+        # Alpha: best throughput, worst latency
+        scorer.add_results("Alpha", "throughput", [1000.0])
+        scorer.add_results("Alpha", "latency",    [50.0])
+        # Beta: worst throughput, best latency
+        scorer.add_results("Beta", "throughput", [200.0])
+        scorer.add_results("Beta", "latency",    [5.0])
+        # Gamma: middle on both
+        scorer.add_results("Gamma", "throughput", [600.0])
+        scorer.add_results("Gamma", "latency",    [25.0])
+
+        ranked = scorer.rank_systems()
+
+        # All ranks are assigned
+        assert {cs.rank for cs in ranked} == {1, 2, 3}
+        # Composite scores are non-negative
+        assert all(cs.composite_score >= 0 for cs in ranked)
+        # Best rank has highest score
+        assert ranked[0].composite_score >= ranked[1].composite_score >= ranked[2].composite_score
+
+    def test_summary_json_serializable(self):
+        """generate_summary output is serializable to JSON (all values are primitives)."""
+        import json
+
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("ops", MetricDirection.HIGHER_IS_BETTER),
+                MetricConfig("p99", MetricDirection.LOWER_IS_BETTER),
+            ]
+        )
+        scorer.add_results("Alpha", "ops", [500.0, 510.0, 490.0])
+        scorer.add_results("Alpha", "p99", [12.0, 13.0, 11.0])
+        scorer.add_results("Beta",  "ops", [300.0, 310.0, 290.0])
+        scorer.add_results("Beta",  "p99", [8.0,   9.0,   7.0])
+
+        summary = scorer.generate_summary()
+        # Should not raise
+        json_str = json.dumps(summary)
+        assert "Alpha" in json_str
+        assert "Beta" in json_str
 
 
 if __name__ == '__main__':

@@ -19,7 +19,7 @@
 ## In Progress 🚧
 - [I] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
 - [P] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
-- [I] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
+- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
 
 ## Planned Features 📋
 
@@ -55,7 +55,7 @@
 ### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
 - [I] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026) (Issue: #1656)
 - [P] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026) (Issue: #1657)
-- [ ] Benchmark result normalization and scoring framework (Target: Q3 2026)
+- [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
 - [ ] Weaviate adapter (native vector database)
