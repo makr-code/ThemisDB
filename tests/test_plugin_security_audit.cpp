@@ -275,11 +275,37 @@ TEST_F(AuditorExportTest, ExportCreatesJsonFile) {
     EXPECT_TRUE(PluginSecurityAuditor::instance().exportEvents(outFile.string()));
     EXPECT_TRUE(fs::exists(outFile));
     EXPECT_GT(fs::file_size(outFile), 0u);
+
+    // Verify the exported JSON uses human-readable string type names
+    std::ifstream f(outFile);
+    ASSERT_TRUE(f.is_open()) << "Failed to open exported audit file";
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    EXPECT_NE(content.find("BLACKLISTED"), std::string::npos)
+        << "Export should use string event type names, not integers";
 }
 
 TEST_F(AuditorExportTest, ExportToInvalidPathReturnsFalse) {
     EXPECT_FALSE(PluginSecurityAuditor::instance()
                      .exportEvents("/nonexistent_dir_xyz/audit.json"));
+}
+
+TEST_F(AuditorExportTest, ExportContainsPluginUnloadedTypeName) {
+    PluginSecurityAuditor::instance().logEvent({
+        PluginSecurityEvent::EventType::PLUGIN_UNLOADED,
+        "/plugins/test.so", "abc123", "plugin unloaded",
+        99ULL, "INFO"
+    });
+
+    fs::path outFile = test_dir_ / "audit_unloaded.json";
+    EXPECT_TRUE(PluginSecurityAuditor::instance().exportEvents(outFile.string()));
+
+    std::ifstream f(outFile);
+    ASSERT_TRUE(f.is_open()) << "Failed to open exported audit file";
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    EXPECT_NE(content.find("PLUGIN_UNLOADED"), std::string::npos)
+        << "Export must emit 'PLUGIN_UNLOADED' string for unload events";
 }
 
 // ============================================================================
