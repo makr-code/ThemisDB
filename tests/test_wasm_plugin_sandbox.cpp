@@ -1,0 +1,535 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_wasm_plugin_sandbox.cpp                       ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-02-26                                         ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/// @file test_wasm_plugin_sandbox.cpp
+/// @brief Unit tests for WasmPluginSandbox, WasmModuleValidator, and
+///        WasmRuntime injection (Phase 3 – WASM-based plugin isolation).
+
+#include <gtest/gtest.h>
+#include "themis/base/wasm_plugin_sandbox.h"
+
+#include <cstring>
+#include <vector>
+#include <string>
+
+using namespace themis::modules;
+
+// =============================================================================
+// Helpers – minimal WASM binary builders
+// =============================================================================
+
+/// Minimal valid WASM binary: magic + version only (8 bytes).
+static std::vector<uint8_t> minimalWasm() {
+    return { 0x00, 0x61, 0x73, 0x6d,   // magic
+             0x01, 0x00, 0x00, 0x00 }; // version 1
+}
+
+/// Corrupt header – wrong magic bytes.
+static std::vector<uint8_t> corruptMagicWasm() {
+    return { 0xDE, 0xAD, 0xBE, 0xEF,
+             0x01, 0x00, 0x00, 0x00 };
+}
+
+/// Correct magic but wrong version (version 2).
+static std::vector<uint8_t> wrongVersionWasm() {
+    return { 0x00, 0x61, 0x73, 0x6d,
+             0x02, 0x00, 0x00, 0x00 };
+}
+
+/// Too short to be WASM.
+static std::vector<uint8_t> tooShortWasm() {
+    return { 0x00, 0x61, 0x73 };
+}
+
+/// Build a LEB-128 encoded u32.
+static std::vector<uint8_t> leb128(uint32_t v) {
+    std::vector<uint8_t> out;
+    do {
+        uint8_t byte = v & 0x7f;
+        v >>= 7;
+        if (v) byte |= 0x80;
+        out.push_back(byte);
+    } while (v);
+    return out;
+}
+
+/// Build a WASM name entry (length-prefixed UTF-8 string).
+static std::vector<uint8_t> wasmName(const std::string& s) {
+    std::vector<uint8_t> out = leb128(static_cast<uint32_t>(s.size()));
+    for (char c : s) out.push_back(static_cast<uint8_t>(c));
+    return out;
+}
+
+/// Append bytes from src to dst.
+static void append(std::vector<uint8_t>& dst, const std::vector<uint8_t>& src) {
+    dst.insert(dst.end(), src.begin(), src.end());
+}
+
+/**
+ * @brief Build a tiny WASM binary with one import entry (section id=2).
+ *
+ * Import section layout:
+ *   section_id=2, section_size, count=1,
+ *   module_name, function_name, kind=0 (func), type_index=0
+ */
+static std::vector<uint8_t> wasmWithImport(const std::string& mod,
+                                            const std::string& fn) {
+    // Build section body
+    std::vector<uint8_t> body;
+    append(body, leb128(1)); // count = 1
+    append(body, wasmName(mod));
+    append(body, wasmName(fn));
+    body.push_back(0x00); // kind = function
+    append(body, leb128(0)); // type index = 0
+
+    // Build full binary
+    std::vector<uint8_t> out = minimalWasm();
+    out.push_back(0x02); // section id = import
+    append(out, leb128(static_cast<uint32_t>(body.size())));
+    append(out, body);
+    return out;
+}
+
+/**
+ * @brief Build a tiny WASM binary with one export entry (section id=7).
+ */
+static std::vector<uint8_t> wasmWithExport(const std::string& name) {
+    std::vector<uint8_t> body;
+    append(body, leb128(1));         // count = 1
+    append(body, wasmName(name));    // export name
+    body.push_back(0x00);            // kind = function
+    append(body, leb128(0));         // function index = 0
+
+    std::vector<uint8_t> out = minimalWasm();
+    out.push_back(0x07); // section id = export
+    append(out, leb128(static_cast<uint32_t>(body.size())));
+    append(out, body);
+    return out;
+}
+
+// =============================================================================
+// WasmModuleValidator tests
+// =============================================================================
+
+TEST(WasmModuleValidator, MagicBytesAreCorrect) {
+    const uint8_t* magic = WasmModuleValidator::magicBytes();
+    ASSERT_NE(magic, nullptr);
+    EXPECT_EQ(magic[0], 0x00);
+    EXPECT_EQ(magic[1], 0x61);
+    EXPECT_EQ(magic[2], 0x73);
+    EXPECT_EQ(magic[3], 0x6d);
+}
+
+TEST(WasmModuleValidator, ValidMinimalWasm) {
+    auto info = WasmModuleValidator::validate(minimalWasm());
+    EXPECT_TRUE(info.valid);
+    EXPECT_EQ(info.wasm_version, 1u);
+    EXPECT_EQ(info.byte_size, 8u);
+}
+
+TEST(WasmModuleValidator, InvalidMagicBytes) {
+    auto info = WasmModuleValidator::validate(corruptMagicWasm());
+    EXPECT_FALSE(info.valid);
+}
+
+TEST(WasmModuleValidator, TooShortBinary) {
+    auto info = WasmModuleValidator::validate(tooShortWasm());
+    EXPECT_FALSE(info.valid);
+}
+
+TEST(WasmModuleValidator, EmptyBinary) {
+    auto info = WasmModuleValidator::validate({});
+    EXPECT_FALSE(info.valid);
+}
+
+TEST(WasmModuleValidator, WasmWithImportSection) {
+    auto bytes = wasmWithImport("themis", "log");
+    auto info  = WasmModuleValidator::validate(bytes);
+    EXPECT_TRUE(info.valid);
+    ASSERT_EQ(info.imports.size(), 1u);
+    EXPECT_EQ(info.imports[0], "themis.log");
+}
+
+TEST(WasmModuleValidator, WasmWithExportSection) {
+    auto bytes = wasmWithExport("process");
+    auto info  = WasmModuleValidator::validate(bytes);
+    EXPECT_TRUE(info.valid);
+    ASSERT_EQ(info.exports.size(), 1u);
+    EXPECT_EQ(info.exports[0], "process");
+}
+
+TEST(WasmModuleValidator, SummaryNonEmpty) {
+    auto info = WasmModuleValidator::validate(minimalWasm());
+    EXPECT_FALSE(info.summary().empty());
+}
+
+TEST(WasmModuleValidator, MissingFilePath) {
+    auto info = WasmModuleValidator::validateFile("/nonexistent/path/plugin.wasm");
+    EXPECT_FALSE(info.valid);
+}
+
+// =============================================================================
+// WasmPluginSandbox – construction and configuration
+// =============================================================================
+
+TEST(WasmPluginSandbox, DefaultConstruction) {
+    EXPECT_NO_THROW({ WasmPluginSandbox sb; });
+}
+
+TEST(WasmPluginSandbox, InitiallyNotLoaded) {
+    WasmPluginSandbox sb;
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, DefaultConfigValues) {
+    WasmPluginSandbox::Config cfg;
+    EXPECT_EQ(cfg.linear_memory_pages, 256u);
+    EXPECT_EQ(cfg.max_memory_mb,       64u);
+    EXPECT_EQ(cfg.max_cpu_time_seconds, 0u);
+    EXPECT_FALSE(cfg.allow_unregistered_imports);
+}
+
+TEST(WasmPluginSandbox, NoRuntimeByDefault) {
+    WasmPluginSandbox sb;
+    EXPECT_FALSE(sb.hasRuntime());
+    EXPECT_TRUE(sb.engineName().empty());
+}
+
+// =============================================================================
+// WasmPluginSandbox – host function registration
+// =============================================================================
+
+TEST(WasmPluginSandbox, AddHostFunction) {
+    WasmPluginSandbox sb;
+    sb.addHostFunction({ "themis", "log", [](auto*, auto, auto&, auto&) { return true; }, "Log" });
+    EXPECT_EQ(sb.hostFunctionCount(), 1u);
+}
+
+TEST(WasmPluginSandbox, ClearHostFunctions) {
+    WasmPluginSandbox sb;
+    sb.addHostFunction({ "themis", "log", [](auto*, auto, auto&, auto&) { return true; }, "Log" });
+    sb.clearHostFunctions();
+    EXPECT_EQ(sb.hostFunctionCount(), 0u);
+}
+
+TEST(WasmPluginSandbox, MultipleHostFunctions) {
+    WasmPluginSandbox sb;
+    sb.addHostFunction({ "themis", "log",   [](auto*, auto, auto&, auto&) { return true; }, "" });
+    sb.addHostFunction({ "themis", "abort", [](auto*, auto, auto&, auto&) { return false; }, "" });
+    EXPECT_EQ(sb.hostFunctionCount(), 2u);
+}
+
+// =============================================================================
+// WasmPluginSandbox – loading invalid binaries
+// =============================================================================
+
+TEST(WasmPluginSandbox, LoadBytesInvalidMagic) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromBytes(corruptMagicWasm());
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.lastError().empty());
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, LoadBytesTooShort) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromBytes(tooShortWasm());
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, LoadBytesEmptyBuffer) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromBytes({});
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, LoadBytesWrongVersion) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromBytes(wrongVersionWasm());
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+// =============================================================================
+// WasmPluginSandbox – loading valid minimal WASM (no imports = no allowlist check)
+// =============================================================================
+
+TEST(WasmPluginSandbox, LoadMinimalWasmSucceeds) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromBytes(minimalWasm(), "test_module");
+    EXPECT_TRUE(ok) << "Error: " << sb.lastError();
+    EXPECT_TRUE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, LoadMinimalWasmHasLinearMemory) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_NE(sb.linearMemory(), nullptr);
+    EXPECT_GT(sb.linearMemorySize(), 0u);
+}
+
+TEST(WasmPluginSandbox, LinearMemoryIsZeroInitialized) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    const uint8_t* mem = sb.linearMemory();
+    size_t sz = sb.linearMemorySize();
+    // Spot-check first and last 16 bytes
+    for (size_t i = 0; i < std::min(sz, size_t(16)); ++i)
+        EXPECT_EQ(mem[i], 0u);
+    if (sz >= 16) {
+        for (size_t i = sz - 16; i < sz; ++i)
+            EXPECT_EQ(mem[i], 0u);
+    }
+}
+
+TEST(WasmPluginSandbox, ModuleInfoPopulated) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm(), "my_module"));
+    EXPECT_TRUE(sb.moduleInfo().valid);
+    EXPECT_EQ(sb.moduleInfo().wasm_version, 1u);
+}
+
+TEST(WasmPluginSandbox, LoadWarningsAreStrings) {
+    WasmPluginSandbox sb;
+    sb.loadFromBytes(minimalWasm());
+    for (const auto& w : sb.loadWarnings())
+        EXPECT_FALSE(w.empty());
+}
+
+// =============================================================================
+// WasmPluginSandbox – allowlist enforcement
+// =============================================================================
+
+TEST(WasmPluginSandbox, UnregisteredImportIsRejected) {
+    // Build a WASM with one import that is NOT in the allowlist.
+    auto bytes = wasmWithImport("themis", "secret_fn");
+    WasmPluginSandbox sb;
+    // No host functions registered → import rejected by default
+    bool ok = sb.loadFromBytes(bytes, "restricted_plugin");
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.lastError().empty());
+    EXPECT_FALSE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, RegisteredImportIsAccepted) {
+    auto bytes = wasmWithImport("themis", "log");
+    WasmPluginSandbox sb;
+    sb.addHostFunction({ "themis", "log", [](auto*, auto, auto&, auto&) { return true; }, "Log" });
+    bool ok = sb.loadFromBytes(bytes, "allowed_plugin");
+    EXPECT_TRUE(ok) << sb.lastError();
+    EXPECT_TRUE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, AllowUnregisteredImportsFlag) {
+    auto bytes = wasmWithImport("ext", "anything");
+    WasmPluginSandbox::Config cfg;
+    cfg.allow_unregistered_imports = true;
+    WasmPluginSandbox sb(cfg);
+    bool ok = sb.loadFromBytes(bytes, "permissive_plugin");
+    EXPECT_TRUE(ok) << sb.lastError();
+}
+
+// =============================================================================
+// WasmPluginSandbox – callExport without a runtime
+// =============================================================================
+
+TEST(WasmPluginSandbox, CallExportWithoutRuntimeFails) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+
+    auto result = sb.callExport("process", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error.empty());
+}
+
+TEST(WasmPluginSandbox, CallExportBeforeLoadFails) {
+    WasmPluginSandbox sb;
+    auto result = sb.callExport("process", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error.empty());
+}
+
+TEST(WasmPluginSandbox, StatsAttemptedCountedOnCallWithoutRuntime) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    sb.callExport("fn", {});
+    EXPECT_EQ(sb.stats().calls_attempted, 1u);
+    EXPECT_EQ(sb.stats().calls_trapped,   1u);
+    EXPECT_EQ(sb.stats().calls_succeeded, 0u);
+}
+
+// =============================================================================
+// WasmPluginSandbox – unload / reload
+// =============================================================================
+
+TEST(WasmPluginSandbox, UnloadResetsState) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    ASSERT_TRUE(sb.isLoaded());
+    sb.unload();
+    EXPECT_FALSE(sb.isLoaded());
+    EXPECT_EQ(sb.linearMemory(), nullptr);
+    EXPECT_EQ(sb.linearMemorySize(), 0u);
+}
+
+TEST(WasmPluginSandbox, ReloadAfterUnload) {
+    WasmPluginSandbox sb;
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm(), "first"));
+    sb.unload();
+    EXPECT_FALSE(sb.isLoaded());
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm(), "second"));
+    EXPECT_TRUE(sb.isLoaded());
+}
+
+TEST(WasmPluginSandbox, DestructorWithLoadedModule) {
+    {
+        WasmPluginSandbox sb;
+        ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+        ASSERT_TRUE(sb.isLoaded());
+    } // ~WasmPluginSandbox should call unload() without crash
+    SUCCEED();
+}
+
+// =============================================================================
+// WasmPluginSandbox – runtime injection via a mock
+// =============================================================================
+
+/**
+ * @brief Minimal mock WasmRuntime for unit tests.
+ */
+class MockWasmRuntime : public WasmRuntime {
+public:
+    bool instantiate_called = false;
+    bool call_called        = false;
+    bool call_result        = true; // Configurable: true = success, false = trap
+
+    bool instantiate(const std::vector<uint8_t>&,
+                     const std::vector<WasmHostFunction>&,
+                     uint8_t*, size_t) override {
+        instantiate_called = true;
+        return true;
+    }
+
+    bool call(const std::string&, const std::vector<uint8_t>&,
+              std::vector<uint8_t>& out) override {
+        call_called = true;
+        if (call_result) out = { 0x42 }; // dummy return value
+        return call_result;
+    }
+
+    void destroy() override {}
+
+    std::string engineName() const override { return "mock-1.0"; }
+};
+
+TEST(WasmPluginSandbox, RuntimeInjectionReported) {
+    WasmPluginSandbox sb;
+    auto rt = std::make_unique<MockWasmRuntime>();
+    sb.setRuntime(std::move(rt));
+    EXPECT_TRUE(sb.hasRuntime());
+    EXPECT_EQ(sb.engineName(), "mock-1.0");
+}
+
+TEST(WasmPluginSandbox, RuntimeInstantiatedOnLoad) {
+    WasmPluginSandbox sb;
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm(), "mocked_plugin"));
+    EXPECT_TRUE(raw->instantiate_called);
+}
+
+TEST(WasmPluginSandbox, CallExportSucceedsWithRuntime) {
+    WasmPluginSandbox sb;
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    auto result = sb.callExport("process", {});
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(raw->call_called);
+    ASSERT_EQ(result.output.size(), 1u);
+    EXPECT_EQ(result.output[0], 0x42u);
+}
+
+TEST(WasmPluginSandbox, CallExportTrapCountedWithRuntime) {
+    WasmPluginSandbox sb;
+    auto* raw = new MockWasmRuntime();
+    raw->call_result = false; // simulate WASM trap
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    auto result = sb.callExport("fn", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(sb.stats().calls_trapped, 1u);
+}
+
+TEST(WasmPluginSandbox, StatsAccumulateAcrossCalls) {
+    WasmPluginSandbox sb;
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    sb.callExport("fn1", {});
+    sb.callExport("fn2", {});
+    sb.callExport("fn3", {});
+    EXPECT_EQ(sb.stats().calls_attempted, 3u);
+    EXPECT_EQ(sb.stats().calls_succeeded, 3u);
+}
+
+TEST(WasmPluginSandbox, ExportsParsedWithRuntime) {
+    auto bytes = wasmWithExport("run");
+    WasmPluginSandbox sb;
+    auto* raw = new MockWasmRuntime();
+    sb.setRuntime(std::unique_ptr<WasmRuntime>(raw));
+    ASSERT_TRUE(sb.loadFromBytes(bytes));
+    ASSERT_EQ(sb.moduleInfo().exports.size(), 1u);
+    EXPECT_EQ(sb.moduleInfo().exports[0], "run");
+}
+
+// =============================================================================
+// WasmPluginSandbox – linear memory custom configuration
+// =============================================================================
+
+TEST(WasmPluginSandbox, ZeroLinearMemoryPages) {
+    WasmPluginSandbox::Config cfg;
+    cfg.linear_memory_pages = 0;
+    WasmPluginSandbox sb(cfg);
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.linearMemorySize(), 0u);
+}
+
+TEST(WasmPluginSandbox, OnePageLinearMemory) {
+    WasmPluginSandbox::Config cfg;
+    cfg.linear_memory_pages = 1;
+    WasmPluginSandbox sb(cfg);
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.linearMemorySize(), 65536u); // 1 × 64 KiB
+}
+
+TEST(WasmPluginSandbox, FourPagesLinearMemory) {
+    WasmPluginSandbox::Config cfg;
+    cfg.linear_memory_pages = 4;
+    WasmPluginSandbox sb(cfg);
+    ASSERT_TRUE(sb.loadFromBytes(minimalWasm()));
+    EXPECT_EQ(sb.linearMemorySize(), 4u * 65536u);
+}
+
+// =============================================================================
+// WasmPluginSandbox – load from non-existent file
+// =============================================================================
+
+TEST(WasmPluginSandbox, LoadFromNonExistentFile) {
+    WasmPluginSandbox sb;
+    bool ok = sb.loadFromFile("/nonexistent/plugin.wasm");
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(sb.lastError().empty());
+    EXPECT_FALSE(sb.isLoaded());
+}
