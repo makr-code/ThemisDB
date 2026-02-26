@@ -1,6 +1,7 @@
 #include "query/functions/udf_registry.h"
 
 #include <chrono>
+#include <cmath>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -199,8 +200,7 @@ nlohmann::json UdfFunction::evalExpr(
         if (op == "%") {
             double r = toNum(right);
             if (r == 0.0) throw std::runtime_error(def_.name + ": modulo by zero");
-            double l = toNum(left);
-            return l - static_cast<long long>(l / r) * r;
+            return std::fmod(toNum(left), r);
         }
 
         // Comparison
