@@ -152,7 +152,7 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 #### 2.4 AQL — Extended Language Features
 - [I] Streaming NL responses for long AQL explanations (Issue: #2012) (Target: Q2 2026)
 - [I] AQL query validation and linting before LLM submission (Issue: #1525) (Target: Q2 2026)
-- [I] Few-shot example library for improved NL-to-AQL accuracy (Issue: #1521) (Target: Q3 2026)
+- [x] Few-shot example library for improved NL-to-AQL accuracy (Issue: #1521) (Target: Q3 2026)
 
 #### 2.5 Analytics — GPU-Accelerated OLAP
 - [P] GPU-accelerated OLAP aggregations via CUDA (Issue: #1469) (Target: Q3 2026)
