@@ -416,5 +416,3 @@ TEST_F(StreamingExporterTest, MetricsTracked) {
     // After export the metrics object should have recorded the operation
     EXPECT_EQ(stats.metrics, metrics);
 }
-
-} // namespace (no anonymous namespace needed – tests use the fixture)

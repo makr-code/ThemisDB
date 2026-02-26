@@ -70,6 +70,17 @@ Complete implementation of production-readiness roadmap for the exporters module
 - Size limit enforcement
 - Compression ratio tracking
 
+**Streaming Export for Large Collections**
+- `StreamingExporter` class: cursor-driven, page-by-page processing
+- `ExportCursor` abstraction for paginated entity access
+- `VectorExportCursor` concrete implementation for in-memory collections
+- Peak memory bounded by `max_buffer_bytes` (default 256 MB)
+- Progress callbacks with records exported, bytes written, and estimated ETA
+- Resumable export via atomic checkpoint files (`rename()`)
+- `ExporterMetrics::recordCheckpoint()` for Prometheus/Grafana resume-event observability
+- Field filtering (include_fields / exclude_fields) at the streaming layer
+- Full `IExporter` compatibility via `exportEntities()` delegation
+
 **Resource Limits**
 - Max file size enforcement
 - Buffer size configuration
@@ -82,31 +93,34 @@ Complete implementation of production-readiness roadmap for the exporters module
 
 | Metric | Count |
 |--------|-------|
-| New Files Created | 7 |
-| Files Modified | 6 |
-| Total Lines Added | ~2,500 |
-| New Classes | 5 |
-| New Features | 15+ |
-| Test Cases | 31 (20 P0 + 11 P1/P2) |
+| New Files Created | 9 |
+| Files Modified | 7 |
+| Total Lines Added | ~3,400 |
+| New Classes | 8 |
+| New Features | 20+ |
+| Test Cases | 47 (20 P0 + 11 P1/P2 + 16 streaming) |
 | Error Codes | 10 |
 | Exception Types | 7 |
 
 ### File Breakdown
 
-**Headers (4):**
+**Headers (5):**
 - `include/exporters/exporter_errors.h` (159 lines)
-- `include/exporters/exporter_metrics.h` (141 lines)
+- `include/exporters/exporter_metrics.h` (148 lines)
 - `include/exporters/pii_detector.h` (107 lines)
 - `include/exporters/stream_writer.h` (62 lines)
+- `include/exporters/streaming_exporter.h` (139 lines)
 
-**Implementation (4):**
-- `src/exporters/exporter_metrics.cpp` (267 lines)
+**Implementation (5):**
+- `src/exporters/exporter_metrics.cpp` (280 lines)
 - `src/exporters/pii_detector.cpp` (214 lines)
 - `src/exporters/stream_writer.cpp` (183 lines)
+- `src/exporters/streaming_exporter.cpp` (335 lines)
 - `src/exporters/jsonl_llm_exporter.cpp` (300+ lines modified)
 
-**Tests (1):**
+**Tests (2):**
 - `tests/exporters/test_jsonl_llm_exporter.cpp` (780 lines total)
+- `tests/exporters/test_streaming_exporter.cpp` (419 lines)
 
 **Documentation (3):**
 - `docs/exporters_roadmap.md` (297 lines)
@@ -140,6 +154,24 @@ Complete implementation of production-readiness roadmap for the exporters module
 - Uncompressed export
 - File size limits
 - Buffer size configuration
+
+### Streaming Export Tests (16)
+- Cursor pagination with configurable page sizes
+- `seekTo()` for checkpoint-based resume
+- Empty collection handling
+- Basic export via `IExporter` interface
+- Primary key presence in output
+- Page size 1 and very large page sizes
+- Progress callback invocation and frequency
+- ETA value during progress callbacks
+- Final stats ETA is zero on completion
+- Field include/exclude filtering
+- Checkpoint file written after each page
+- Checkpoint-based resume with metrics
+- GZIP compression via streaming path
+- `getName()`, `getVersion()` metadata
+- Supported formats list
+- Metrics attached to stats
 
 ## Usage Examples
 
@@ -277,7 +309,6 @@ auto stats = exporter.exportEntities(large_dataset, options);
 - Output file encryption (AES-256-GCM)
 - Digital signatures (Ed25519, RSA)
 - Key management integration (KMS, Vault)
-- Resumable exports with checkpoints
 - Migration tools for format changes
 - Backward compatibility testing
 
@@ -321,7 +352,7 @@ auto stats = exporter.exportEntities(large_dataset, options);
 - ✅ Multi-tenant isolation verified
 
 ### Testing
-- ✅ 31 integration tests passing
+- ✅ 47 integration tests passing
 - ✅ All features covered
 - ✅ Edge cases tested
 - ✅ Error paths validated
@@ -358,6 +389,6 @@ The implementation follows best practices for:
 ## References
 
 - Source code: `src/exporters/`, `include/exporters/`
-- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`
+- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`, `tests/exporters/test_streaming_exporter.cpp`
 - Documentation: `docs/exporters/`
 - Error codes: `include/utils/error_registry.h`
