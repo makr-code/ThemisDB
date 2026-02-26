@@ -55,10 +55,10 @@ struct HistogramBucket {
 };
 
 /// Upper-bound epsilon added to histogram's last bucket to make it right-closed
-static constexpr double kHistogramUpperBoundEpsilon = 1e-9;
+inline constexpr double kHistogramUpperBoundEpsilon = 1e-9;
 
 /// Tolerance for floating-point comparisons (e.g., "all values identical")
-static constexpr double kFloatingPointTolerance = 1e-12;
+inline constexpr double kFloatingPointTolerance = 1e-12;
 
 /// Per-column statistics for query optimization
 struct ColumnStats {

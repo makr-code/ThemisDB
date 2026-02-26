@@ -528,7 +528,7 @@ TEST_F(StatisticsCollectorTest, EquiHeightHistogramEqualFrequencies) {
 }
 
 TEST_F(StatisticsCollectorTest, EquiHeightHistogramSkewedData) {
-    // Insert skewed data: 15 values at 0, then 5 values at 1..5
+    // Insert skewed data: 15 identical zeros, then 5 distinct values 1..5
     for (int i = 0; i < 15; ++i) {
         insertRow("skew", "s0_" + std::to_string(i), {{"v", double(0)}});
     }
@@ -550,14 +550,15 @@ TEST_F(StatisticsCollectorTest, EquiHeightHistogramSkewedData) {
     for (const auto& b : buckets) total += b.frequency;
     EXPECT_EQ(total, 20u);
 
-    // For equi-height, even with skewed data the first bucket(s) should absorb
-    // the concentrated values, giving a more balanced bucket count than equi-width.
-    // Verify that no single bucket exceeds 3/4 of all values (equi-width would have
-    // ~75% in one bucket for this data; equi-height spreads it across at most 1 bucket).
+    // Equi-height cannot split identical values: all 15 zeros must end up in a
+    // single bucket.  The maximum bucket frequency should therefore be exactly 15.
+    // (An equi-width histogram over [0,5] with 20 buckets would also yield one
+    // large bucket but with a different bucket width; here we verify the
+    // grouping-of-equals property of the equi-height implementation.)
     size_t max_freq = 0;
     for (const auto& b : buckets) max_freq = std::max(max_freq, b.frequency);
-    // With 20 values and default 20 buckets: equi-height gives ≤ total/num_buckets + margin
-    EXPECT_LE(max_freq, (total + 1));  // Sanity: no bucket exceeds all values
+    EXPECT_EQ(max_freq, 15u)
+        << "All 15 identical zeros must be grouped into a single bucket";
 }
 
 // ============================================================================
