@@ -182,7 +182,40 @@ jobs:
 
 ---
 
-## 5. Common mistakes to avoid
+## 5. Scheduled audits for repo-wide checks
+
+Repo-wide quality audits (error-handling compliance, PII scans, code maturity,
+research-link validation, …) are **expensive** because they scan the entire
+source tree — not just the files changed in a PR.  They should run on a
+`schedule` (nightly or weekly) rather than on every PR or push, while still
+accepting a `workflow_dispatch` for on-demand runs.  A focused `pull_request`
+trigger with narrow `paths:` can be added to catch regressions caused by
+changes to the audit tool itself.
+
+```yaml
+on:
+  schedule:
+    - cron: '0 2 * * *'   # Nightly at 02:00 UTC
+  workflow_dispatch:
+  # Optional: run on PRs that touch the audit tool itself
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'tools/my_audit_tool.py'
+      - '.github/workflows/my-audit.yml'
+```
+
+### Workflows currently using this pattern
+
+| Workflow | Schedule |
+|----------|----------|
+| `code-maturity-analysis.yml` | Weekly (Mon 03:00 UTC) |
+| `error-handling-audit.yml` | Nightly (02:00 UTC) + path-filtered PR |
+| `research-validation.yml` | Weekly (Mon 09:00 UTC) + doc-path PR |
+
+---
+
+## 6. Common mistakes to avoid
 
 | Anti-pattern | Correct pattern |
 |---|---|
@@ -190,10 +223,12 @@ jobs:
 | `pull_request:` with no `paths:` (broad trigger) | Add a `paths:` filter matching the module's sources |
 | Job with no `if:` condition after `ci-scope-classifier` | Add `if: needs.ci-scope-classifier.outputs.<scope> == 'true'` |
 | Running heavy GPU jobs on doc-only PRs | Gate with `has_gpu_changes` or `has_llm_changes` |
+| Repo-wide audit on every PR/push | Convert to `schedule:` (nightly/weekly) + `workflow_dispatch:` |
+| `push:` trigger on `feature/**` / `bugfix/**` / `copilot/**` | Remove; the `pull_request:` trigger already covers those branches |
 
 ---
 
-## 6. See also
+## 7. See also
 
 - `.github/ci-scope-config.yaml` — path-pattern → scope mappings
 - `.github/scripts/classify_ci_scope.py` — classifier implementation
