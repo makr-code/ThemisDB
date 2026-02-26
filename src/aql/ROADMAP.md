@@ -26,7 +26,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ## In Progress 🚧
 - [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
 - [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
-- [P] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
+- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## Planned Features 📋
 ### Short-term (Next 3-6 months)
@@ -49,7 +49,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
 - [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
 - [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
-- [P] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
+- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
 - [x] AQL syntax highlighting and error annotation in LLM responses (Issue: #1353)
