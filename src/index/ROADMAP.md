@@ -32,7 +32,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [I] Index statistics export to metadata module (Issue: #1866)
 - [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
-- [I] Configurable GPU memory budget per index (Issue: #1869)
+- [P] Configurable GPU memory budget per index (Issue: #1869)
 
 ### Long-term (6-12 months)
 - [I] Distributed vector index across shards (Issue: #1879)

@@ -20,7 +20,9 @@
 #include "index/gpu_vector_index.h"
 #include "acceleration/compute_backend.h"
 #include "acceleration/cuda_backend.h"
+#include "themis/gpu/memory_manager.h"
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <cmath>
 #include <stdexcept>
@@ -82,7 +84,16 @@ public:
     std::chrono::steady_clock::time_point lastQueryTime;
     size_t queryCount = 0;
     double totalQueryTimeMs = 0.0;
-    
+
+    // Per-index GPU memory budget (populated when config.maxVRAM_MB > 0)
+    std::string vramBudgetTag;         // Unique tenant tag for GPUMemoryManager
+    uint64_t vramAllocatedBytes = 0;   // Bytes currently tracked against the budget
+
+    // Returns the raw memory footprint of one vector in bytes
+    uint64_t bytesPerVector() const {
+        return static_cast<uint64_t>(dimension) * sizeof(float);
+    }
+
     Impl(const Config& cfg) : config(cfg) {}
     
     ~Impl() {
@@ -131,6 +142,26 @@ public:
         
         stats.activeBackend = activeBackend;
         initialized = true;
+
+        // Register per-index VRAM budget when a limit is configured and the
+        // current edition supports GPU VRAM tracking (GetMaxGPUVRAMBytes() > 0).
+        if (config.maxVRAM_MB > 0 &&
+            themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() > 0) {
+            static std::atomic<uint64_t> indexCounter{0};
+            vramBudgetTag = "gpu_vector_index_" +
+                            std::to_string(indexCounter.fetch_add(1, std::memory_order_relaxed));
+            uint64_t budgetBytes =
+                static_cast<uint64_t>(config.maxVRAM_MB) * 1024ULL * 1024ULL;
+            // Cap the per-index budget at the edition limit to avoid setting an
+            // unreachable quota.
+            uint64_t editionLimit = themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes();
+            if (budgetBytes > editionLimit) {
+                budgetBytes = editionLimit;
+            }
+            themis::gpu::GPUMemoryManager::GetInstance().SetTenantQuota(
+                vramBudgetTag, budgetBytes);
+        }
+
         return true;
     }
     
@@ -140,6 +171,18 @@ public:
             vulkanBackend.reset();
         }
         #endif
+
+        // Release any VRAM tracked against the per-index budget
+        if (!vramBudgetTag.empty()) {
+            auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
+            if (vramAllocatedBytes > 0) {
+                mgr.DeallocateGPU(vramAllocatedBytes, vramBudgetTag);
+                vramAllocatedBytes = 0;
+            }
+            mgr.RemoveTenantQuota(vramBudgetTag);
+            vramBudgetTag.clear();
+        }
+
         initialized = false;
     }
     
@@ -196,9 +239,21 @@ public:
         // Check if ID already exists
         auto it = idToIndex.find(id);
         if (it != idToIndex.end()) {
-            // Update existing vector
+            // Update existing vector — no new VRAM needed
             vectorData[it->second] = vector;
         } else {
+            // Enforce per-index VRAM budget for new vectors
+            if (!vramBudgetTag.empty()) {
+                uint64_t bytes = bytesPerVector();
+                auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
+                if (!mgr.TryAllocateGPU(bytes, "vector", vramBudgetTag)) {
+                    std::cerr << "GPUVectorIndex: VRAM budget exceeded (limit "
+                              << config.maxVRAM_MB << " MB)\n";
+                    return false;
+                }
+                vramAllocatedBytes += bytes;
+            }
+
             // Add new vector
             size_t index = vectorData.size();
             vectorIds.push_back(id);
@@ -240,6 +295,17 @@ public:
         vectorIds.pop_back();
         vectorData.pop_back();
         idToIndex.erase(id);
+
+        // Release the per-vector VRAM budget allocation
+        if (!vramBudgetTag.empty()) {
+            uint64_t bytes = bytesPerVector();
+            themis::gpu::GPUMemoryManager::GetInstance().DeallocateGPU(bytes, vramBudgetTag);
+            if (vramAllocatedBytes >= bytes) {
+                vramAllocatedBytes -= bytes;
+            } else {
+                vramAllocatedBytes = 0;
+            }
+        }
         
         // Cache invalidation would be for CUDA backend (not currently used)
         // invalidateFlatVectorsCache();
@@ -709,6 +775,11 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
         stats.throughputQPS = vulkanStats.throughputQPS;
     }
     #endif
+
+    // Expose per-index budget usage when a VRAM limit is active
+    if (!pImpl->vramBudgetTag.empty()) {
+        stats.vramUsageBytes = pImpl->vramAllocatedBytes;
+    }
     
     return stats;
 }
