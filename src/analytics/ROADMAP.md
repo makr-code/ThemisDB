@@ -47,7 +47,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [x] Model serving and online inference pipeline (Issue: #1477)
-- [I] Multi-language NLP support (beyond English) (Issue: #1478)
+- [x] Multi-language NLP support (beyond English) (Issue: #1478)
 - [I] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
