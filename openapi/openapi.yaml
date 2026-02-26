@@ -1551,7 +1551,7 @@ paths:
     post:
       summary: Create a new snapshot tag
       operationId: createSnapshotTag
-      tags: [mvcc, snapshots]
+      tags: [snapshots]
       description: |
         Creates a named snapshot/tag for the current database state.
         Tags are persistent and survive database restarts.
@@ -1602,7 +1602,7 @@ paths:
     get:
       summary: List all snapshot tags
       operationId: listSnapshotTags
-      tags: [mvcc, snapshots]
+      tags: [snapshots]
       description: |
         Returns all snapshot tags with optional sorting and pagination.
       parameters:
@@ -1641,7 +1641,7 @@ paths:
     get:
       summary: Get a specific snapshot tag
       operationId: getSnapshotTag
-      tags: [mvcc, snapshots]
+      tags: [snapshots]
       parameters:
         - in: path
           name: name
@@ -1666,7 +1666,7 @@ paths:
     delete:
       summary: Delete a snapshot tag
       operationId: deleteSnapshotTag
-      tags: [mvcc, snapshots]
+      tags: [snapshots]
       parameters:
         - in: path
           name: name
@@ -1700,7 +1700,7 @@ paths:
     get:
       summary: Get snapshot statistics
       operationId: getSnapshotStats
-      tags: [mvcc, snapshots]
+      tags: [snapshots]
       description: |
         Returns statistics about all snapshots including counts and sequence ranges.
       responses:
@@ -1719,7 +1719,7 @@ paths:
     get:
       summary: Compute structured diff between two database states
       operationId: computeDiff
-      tags: [mvcc, diff]
+      tags: [diff]
       description: |
         Computes differences between two points in time with categorization into Added/Modified/Deleted.
         Supports diff by sequence numbers, timestamps, or tags.
@@ -1798,7 +1798,7 @@ paths:
     get:
       summary: Get diff cache statistics
       operationId: getDiffCacheStats
-      tags: [mvcc, diff]
+      tags: [diff]
       responses:
         '200':
           description: Cache statistics
@@ -1819,7 +1819,7 @@ paths:
     delete:
       summary: Clear diff cache
       operationId: clearDiffCache
-      tags: [mvcc, diff]
+      tags: [diff]
       responses:
         '200':
           description: Cache cleared successfully
@@ -2271,7 +2271,7 @@ paths:
     get:
       summary: Plugin metrics
       operationId: getPluginMetrics
-      tags: [plugins, observability]
+      tags: [plugins]
       security:
         - bearerAuth: []
       responses:
@@ -2868,7 +2868,7 @@ paths:
     get:
       summary: Graph metrics (JSON)
       operationId: getGraphMetrics
-      tags: [graph, observability]
+      tags: [graph]
       security:
         - bearerAuth: []
       responses:
@@ -2885,7 +2885,7 @@ paths:
     get:
       summary: Graph metrics (Prometheus format)
       operationId: getGraphMetricsPrometheus
-      tags: [graph, observability]
+      tags: [graph]
       security:
         - bearerAuth: []
       responses:
@@ -3729,7 +3729,7 @@ paths:
     get:
       summary: Time series metrics
       operationId: getTsMetrics
-      tags: [timeseries, observability]
+      tags: [timeseries]
       security:
         - bearerAuth: []
       responses:
@@ -7458,11 +7458,8 @@ components:
           example: "2026-02-24T10:00:01Z"
         result:
           description: AQL query result; present only when status is `completed`.
-          oneOf:
-            - type: array
-              items: {}
-            - type: object
-              additionalProperties: true
+          type: object
+          additionalProperties: true
         error:
           type: string
           description: Error message; present only when status is `failed`.
