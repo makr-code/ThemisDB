@@ -325,6 +325,146 @@ BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, AbortTransaction)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
+// Benchmark: Savepoint Create and Rollback
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointCreateAndRollback)(benchmark::State& state) {
+    const int writes_before = state.range(0);
+    const int writes_after  = state.range(1);
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Writes committed to the transaction before the savepoint
+        for (int i = 0; i < writes_before; ++i) {
+            BaseEntity entity("sp_before_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(counter));
+            txn->putEntity("bench", entity);
+        }
+
+        // Create a named savepoint
+        txn->createSavepoint("bench_sp");
+
+        // Writes that will be rolled back
+        for (int i = 0; i < writes_after; ++i) {
+            BaseEntity entity("sp_after_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(counter));
+            txn->putEntity("bench", entity);
+        }
+
+        // Partial rollback to the savepoint (discards the writes_after entities)
+        txn->rollbackToSavepoint("bench_sp");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    // Count both kept and rolled-back writes to reflect total work performed
+    // (including savepoint overhead and rollback cost).
+    state.SetItemsProcessed(state.iterations() * (writes_before + writes_after));
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointCreateAndRollback)
+    ->Args({0, 5})    // 0 writes before, 5 rolled back
+    ->Args({5, 5})    // 5 writes kept,   5 rolled back
+    ->Args({5, 20})   // 5 writes kept,  20 rolled back
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Nested Savepoints with Rollback
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointNested)(benchmark::State& state) {
+    const int depth = state.range(0); // number of nested savepoints
+    size_t counter  = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create `depth` nested savepoints, each with one write
+        for (int d = 0; d < depth; ++d) {
+            BaseEntity entity("sp_nest_" + std::to_string(counter++));
+            entity.setField("depth", static_cast<int64_t>(d));
+            txn->putEntity("bench", entity);
+            txn->createSavepoint("sp_" + std::to_string(d));
+        }
+
+        // Write after the last savepoint (will be rolled back)
+        BaseEntity last("sp_last_" + std::to_string(counter++));
+        last.setField("depth", static_cast<int64_t>(depth));
+        txn->putEntity("bench", last);
+
+        // Rollback to the first savepoint: discards writes made after "sp_0" was
+        // created (depth-1 writes + the final write).  The write at d=0 is kept
+        // because it was committed to the transaction before "sp_0" was set.
+        txn->rollbackToSavepoint("sp_0");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * (depth + 1));
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+    state.counters["savepoint_depth"] = depth;
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointNested)
+    ->Arg(2)
+    ->Arg(5)
+    ->Arg(10)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: Savepoint Release (no rollback)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, SavepointRelease)(benchmark::State& state) {
+    const int num_savepoints = state.range(0);
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create several savepoints and release them without rolling back
+        for (int i = 0; i < num_savepoints; ++i) {
+            BaseEntity entity("sp_rel_" + std::to_string(counter++));
+            entity.setField("value", static_cast<int64_t>(i));
+            txn->putEntity("bench", entity);
+            txn->createSavepoint("sp_" + std::to_string(i));
+        }
+
+        // Release the first savepoint (also releases all newer ones)
+        txn->releaseSavepoint("sp_0");
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations() * num_savepoints);
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointRelease)
+    ->Arg(1)
+    ->Arg(5)
+    ->Arg(10)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
 // Benchmark: Concurrent Transaction Contention
 // ============================================================================
 
