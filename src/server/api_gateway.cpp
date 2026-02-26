@@ -180,31 +180,6 @@ http::response<http::string_body> APIGateway::handleRequest(
             }
         }
         
-        // 4. Determine routing target
-        RouteTarget target = determineRouteTarget(req);
-
-        // Strip version prefix from path so local handlers receive canonical paths
-        // (e.g. "/v1/entities/123" → "/entities/123").  The original req is kept
-        // for version header processing and metrics; only the handler sees the
-        // stripped path.
-        http::request<http::string_body> dispatched_req = req;
-        {
-            std::string raw_target = std::string(req.target());
-            // Split path and query string before stripping to handle paths like
-            // "/v1/resource?query=foo" correctly (query string is re-appended).
-            auto qmark = raw_target.find('?');
-            std::string raw_path = (qmark != std::string::npos)
-                                       ? raw_target.substr(0, qmark)
-                                       : raw_target;
-            std::string query_part = (qmark != std::string::npos)
-                                         ? raw_target.substr(qmark)
-                                         : "";
-            std::string stripped = stripVersionPrefix(raw_path) + query_part;
-            if (stripped != raw_target) {
-                dispatched_req.target(stripped);
-            }
-        }
-
         // 4. Determine routing target (uses normalized path)
         RouteTarget target = determineRouteTarget(normalized_req);
         
@@ -220,15 +195,15 @@ http::response<http::string_body> APIGateway::handleRequest(
             case RouteTarget::SHARD:
                 distributed_requests_++;
                 if (shard_router_) {
-                    auto urn = extractUrnFromPath(std::string(dispatched_req.target()));
+                    auto urn = extractUrnFromPath(std::string(normalized_req.target()));
                     if (urn) {
-                        response = dispatchShardOperation(*urn, dispatched_req);
+                        response = dispatchShardOperation(*urn, normalized_req);
                     } else {
                         // No valid URN — fall back to local execution
-                        response = executeLocal(dispatched_req, local_handler);
+                        response = executeLocal(normalized_req, local_handler);
                     }
                 } else {
-                    response = executeLocal(dispatched_req, local_handler);
+                    response = executeLocal(normalized_req, local_handler);
                 }
                 break;
                 
@@ -801,6 +776,7 @@ APIVersion APIGateway::processVersionHeaders(
     // Strip query string before inspecting the path so that a target like
     // "/v1/entities?page=2" is correctly resolved to version "v1".
     std::string version_header;
+    std::optional<std::string> url_version_str;
     {
         std::string raw_target = std::string(req.target());
         auto qpos = raw_target.find('?');
@@ -809,6 +785,7 @@ APIVersion APIGateway::processVersionHeaders(
                                     : raw_target;
         auto path_version = extractVersionFromPath(path_only);
         if (path_version) {
+            url_version_str = *path_version;
             version_header = *path_version;
         } else {
             // Fall back to Accept-Version header

@@ -531,6 +531,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/merge_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/security/query_masking_policy.cpp
             ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
@@ -929,6 +930,47 @@ else()
 endif()
 
 # ============================================================================
+# Graph Query Optimizer Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+    message(STATUS "Adding Graph Query Optimizer tests")
+
+    add_executable(test_graph_query_optimizer
+        test_graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_query_optimizer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_query_optimizer PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphQueryOptimizerTests COMMAND test_graph_query_optimizer)
+
+    set_tests_properties(GraphQueryOptimizerTests PROPERTIES
+        LABELS "graph;optimizer;query;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
+else()
+    message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
@@ -1048,6 +1090,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
 
     add_executable(test_themisdb_grpc_service
         test_themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/api/themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_themisdb_grpc_service PRIVATE
@@ -1258,6 +1302,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
 
     add_executable(test_cache_replication
         test_cache_replication.cpp
+        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_cache_replication PRIVATE
