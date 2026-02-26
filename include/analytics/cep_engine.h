@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:13                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 12:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1125                                           ║
+    • Total Lines:     1182                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
+    • 5f1b20fc0  2026-02-26  feat(cep): add serializeState/restoreState APIs        ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale ann  ║
+    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub     ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1022,23 +1023,43 @@ public:
     // ========== Checkpointing ==========
     
     /**
-     * Create checkpoint
+     * Create a checkpoint of the current engine state.
+     *
+     * Writes a text file to the configured checkpoint_path directory containing:
+     *   - Basic counters (events_received, events_processed, alerts_generated)
+     *   - Rule enabled/disabled states
+     *   - In-progress NFA partial match states for all registered pattern matchers
+     *
+     * The checkpoint can be used with restoreFromCheckpoint() to resume stateful
+     * pattern sequences across restarts.
+     *
+     * @return true on success, false if checkpointing is disabled or an I/O error
+     *         occurs.
      */
     bool createCheckpoint();
     
     /**
      * Restore engine state from a previously created checkpoint.
      *
-     * Reads the checkpoint file written by createCheckpoint() and restores
-     * the enabled/disabled state of each rule that was registered at the time
-     * the checkpoint was taken.  Rules that exist in the checkpoint but are no
-     * longer registered in the engine are silently skipped.
+     * Reads the checkpoint file written by createCheckpoint() and restores:
+     *   1. The enabled/disabled state of each rule.
+     *   2. The in-progress NFA partial match state for each pattern matcher,
+     *      allowing stateful sequences (e.g. SEQUENCE A→B) that were partially
+     *      matched before the checkpoint to continue after restart.
      *
-     * Checkpoint file format (one entry per line):
+     * Rules / matchers that exist in the checkpoint but are no longer registered
+     * in the engine are silently skipped.
+     *
+     * Checkpoint file format:
      *   events_received=<N>
      *   events_processed=<N>
      *   alerts_generated=<N>
-     *   rule=<rule_id>:<rule_name>:<1|0>   (1 = enabled, 0 = disabled)
+     *   rule=<rule_id>:<rule_name>:<1|0>          (1 = enabled, 0 = disabled)
+     *   pm_rule=<rule_id>                          (start of matcher state block)
+     *   pm_match=<group_key_hex>|<nfa_state>|<age_ms>
+     *   pm_ev=<hex-encoded-serialized-event>       (one line per matched event)
+     *   ...additional pm_match/pm_ev lines...
+     *   pm_rule_end                                (end of matcher state block)
      *
      * @param checkpoint_id  Name of the checkpoint (stem of the .txt file
      *                       inside the configured checkpoint_path directory).

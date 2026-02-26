@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.cpp                                     ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-23 03:57:57                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-26 12:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2005                                           ║
+    • Total Lines:     2242                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
-    • 99e1daf3c  2026-02-22  Fix compile error, race condition, and COUNT aggregation ... ║
-    • fc9260856  2026-02-22  Implement CEP restoreFromCheckpoint: parse checkpoint fil... ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
+    • 545d9f5e9  2026-02-26  fix(cep): hexDecode properly skips invalid char pairs  ║
+    • 5f1b20fc0  2026-02-26  feat(cep): implement stateful pattern matching with cp  ║
+    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub     ║
+    • 99e1daf3c  2026-02-22  Fix compile error, race condition, COUNT aggregation    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
