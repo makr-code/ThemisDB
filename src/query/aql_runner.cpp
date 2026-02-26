@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:16                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:28:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     675                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9a1cb143d  2026-02-26  feat(graph): implement EXPLAIN AQL output for graph query... ║
     • 8ce3b5039  2026-02-21  fix(query): use error().message() consistently in explain... ║
     • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
