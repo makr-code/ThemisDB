@@ -775,6 +775,11 @@ GPUVectorIndex::Statistics GPUVectorIndex::getStatistics() const {
         stats.throughputQPS = vulkanStats.throughputQPS;
     }
     #endif
+
+    // Expose per-index budget usage when a VRAM limit is active
+    if (!pImpl->vramBudgetTag.empty()) {
+        stats.vramUsageBytes = pImpl->vramAllocatedBytes;
+    }
     
     return stats;
 }

@@ -726,3 +726,30 @@ TEST_F(GPUVectorIndexTest, VRAMBudget_ReleasedOnShutdown) {
         themis::gpu::GPUMemoryManager::GetInstance().GetGPUMemoryUsed();
     EXPECT_LT(usedAfter, usedBefore);
 }
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_StatisticsReflectsUsage) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    // Initially no VRAM used
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, 0u);
+
+    // Add a vector and check that vramUsageBytes increases accordingly
+    ASSERT_TRUE(index.addVector("v0", testVectors[0]));
+    const uint64_t expectedBytes =
+        static_cast<uint64_t>(dimension) * sizeof(float);
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, expectedBytes);
+
+    // Remove the vector and check that vramUsageBytes decreases back to zero
+    ASSERT_TRUE(index.removeVector("v0"));
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, 0u);
+
+    index.shutdown();
+}
