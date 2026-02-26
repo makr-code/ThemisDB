@@ -117,6 +117,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_adaptive_query_cache\\.cpp$"
         ".*test_streaming_handler\\.cpp$"
         ".*test_shared_worker_pool\\.cpp$"
+        ".*test_json_schema_binding\\.cpp$"
     )
 endif()
 
