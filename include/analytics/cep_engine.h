@@ -568,6 +568,24 @@ public:
      */
     size_t getPendingMatchCount() const;
 
+    /**
+     * Serialize in-progress NFA partial match state to a multi-line string.
+     * Used by CEPEngine::createCheckpoint() to persist stateful pattern matching
+     * across restarts.
+     *
+     * Format (one partial match per "pm_match=" line, followed by pm_ev= lines):
+     *   pm_match=<group_key_hex>|<current_state>|<age_ms>
+     *   pm_ev=<event_hex>
+     *   ...
+     */
+    std::string serializeState() const;
+
+    /**
+     * Restore in-progress NFA partial match state from the string produced by
+     * serializeState().  Clears existing partial matches before restoring.
+     */
+    void restoreState(const std::string& data);
+
 private:
     PatternConfig config_;
     std::atomic<uint64_t> match_count_{0};
@@ -823,6 +841,19 @@ public:
         std::chrono::milliseconds avg_processing_time{0};
     };
     RuleStats getRuleStats(const std::string& rule_id) const;
+
+    /**
+     * Serialize all pattern matcher states for use in a checkpoint.
+     * Returns a multi-line string with pm_rule= / pm_rule_end blocks.
+     */
+    std::string serializeMatcherStates() const;
+
+    /**
+     * Restore pattern matcher states from the string produced by
+     * serializeMatcherStates().  Only matchers for rules that currently exist
+     * in the engine are restored; unknown rule IDs are silently skipped.
+     */
+    void restoreMatcherStates(const std::string& data);
 
 private:
     CEPEngine* engine_;
