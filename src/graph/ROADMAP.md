@@ -38,7 +38,7 @@
 - [I] Distributed graph query execution across shards (Issue: #1826)
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
-- [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
+- [P] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 - [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 - [I] Graph query result streaming for large path sets (Issue: #1822)
 
@@ -67,7 +67,7 @@
 - [ ] Distributed graph query execution across shards
 - [ ] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
-- [~] GPU-accelerated BFS/DFS for massive graphs
+- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)

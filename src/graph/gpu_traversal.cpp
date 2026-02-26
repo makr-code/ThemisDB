@@ -70,7 +70,8 @@ Result<bool> GPUGraphTraversal::load(const std::vector<std::string>& vertex_ids)
                 "GPUGraphTraversal::load: failed to enumerate vertices: " +
                     status.message);
         }
-        all_vertices = std::move(verts);    }
+        all_vertices = std::move(verts);
+    }
 
     // Build vertex ↔ integer mapping.
     vertex_to_id_.clear();
@@ -208,9 +209,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(
         std::vector<uint32_t> next_frontier;
         for (uint32_t v : current_frontier) {
             const uint32_t begin = row_offsets_[v];
-            const uint32_t end   = (v + 1 < row_offsets_.size())
-                                   ? row_offsets_[v + 1]
-                                   : static_cast<uint32_t>(column_indices_.size());
+            const uint32_t end   = row_offsets_[v + 1];
             for (uint32_t e = begin; e < end; ++e) {
                 const uint32_t nb = column_indices_[e];
                 ++result.edges_traversed;
@@ -278,9 +277,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(
         if (depth >= config.max_depth) continue;
 
         const uint32_t begin = row_offsets_[cur];
-        const uint32_t end   = (cur + 1 < row_offsets_.size())
-                               ? row_offsets_[cur + 1]
-                               : static_cast<uint32_t>(column_indices_.size());
+        const uint32_t end   = row_offsets_[cur + 1];
         for (uint32_t e = begin; e < end; ++e) {
             const uint32_t nb = column_indices_[e];
             ++result.edges_traversed;

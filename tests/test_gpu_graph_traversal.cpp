@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "graph/gpu_traversal.h"
+#include "graph/graph_query_optimizer.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -362,4 +363,172 @@ TEST_F(GPUGraphTraversalTest, Config_DefaultValues) {
     EXPECT_EQ(cfg.max_depth, 10);
     EXPECT_EQ(cfg.max_results, 0u);
     EXPECT_TRUE(cfg.forbidden_vertices.empty());
+}
+
+// ---------------------------------------------------------------------------
+// GraphIndexManager::allVertices() — unit tests
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUGraphTraversalTest, AllVertices_ReturnsAllVerticesBeforeRebuildTopology) {
+    // allVertices() must enumerate vertices even without rebuildTopology().
+    auto [status, verts] = graph_mgr_->allVertices();
+    EXPECT_TRUE(status.ok);
+    EXPECT_FALSE(verts.empty());
+    // All 6 vertices from the test graph must be present.
+    std::unordered_set<std::string> vset(verts.begin(), verts.end());
+    for (const char* v : {"A", "B", "C", "D", "E", "F"}) {
+        EXPECT_TRUE(vset.count(v) > 0) << v << " missing from allVertices()";
+    }
+}
+
+TEST_F(GPUGraphTraversalTest, AllVertices_CountMatchesExpected) {
+    auto [status, verts] = graph_mgr_->allVertices();
+    EXPECT_TRUE(status.ok);
+    EXPECT_EQ(verts.size(), 6u);
+}
+
+// ---------------------------------------------------------------------------
+// GraphQueryOptimizer integration — use_gpu = true
+// ---------------------------------------------------------------------------
+
+class GPUGraphOptimizerIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = "./data/themis_gpu_optimizer_integration_test";
+        fs::remove_all(test_db_path_);
+
+        themis::RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        config.memtable_size_mb = 64;
+        config.block_cache_size_mb = 256;
+        config.max_background_jobs = 2;
+        config.compression_default = "lz4";
+        config.compression_bottommost = "zstd";
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        graph_mgr_   = std::make_unique<themis::GraphIndexManager>(*db_);
+        optimizer_   = std::make_unique<themis::graph::GraphQueryOptimizer>(*graph_mgr_);
+
+        buildGraph();
+    }
+
+    void TearDown() override {
+        optimizer_.reset();
+        graph_mgr_.reset();
+        db_.reset();
+        fs::remove_all(test_db_path_);
+    }
+
+    void buildGraph() {
+        auto addEdge = [&](const std::string& id,
+                           const std::string& from, const std::string& to) {
+            themis::BaseEntity e(id);
+            e.setField("id",     id);
+            e.setField("_from",  from);
+            e.setField("_to",    to);
+            e.setField("_weight","1.0");
+            graph_mgr_->addEdge(e);
+        };
+        addEdge("e1", "A", "B");
+        addEdge("e2", "B", "C");
+        addEdge("e3", "C", "D");
+        addEdge("e4", "A", "C");
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper>               db_;
+    std::unique_ptr<themis::GraphIndexManager>            graph_mgr_;
+    std::unique_ptr<themis::graph::GraphQueryOptimizer>   optimizer_;
+};
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteBFS_UseGpu_ReturnsReachableVertices) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.use_gpu = true;
+
+    auto result = optimizer_->executeBFS("A", 5, c);
+    ASSERT_TRUE(result.has_value());
+
+    const auto& visited = *result;
+    EXPECT_FALSE(visited.empty());
+    // A, B, C, D should all be reachable from A
+    for (const char* v : {"A", "B", "C", "D"}) {
+        EXPECT_NE(std::find(visited.begin(), visited.end(), v), visited.end())
+            << v << " should be in BFS result (use_gpu=true)";
+    }
+}
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteBFS_UseGpu_ProducesSameResultAsCpu) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints gpu_c;
+    gpu_c.use_gpu = true;
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints cpu_c;
+    cpu_c.use_gpu = false;
+
+    auto gpu_res = optimizer_->executeBFS("A", 5, gpu_c);
+    auto cpu_res = optimizer_->executeBFS("A", 5, cpu_c);
+
+    ASSERT_TRUE(gpu_res.has_value());
+    ASSERT_TRUE(cpu_res.has_value());
+
+    auto gpu_v = *gpu_res;
+    auto cpu_v = *cpu_res;
+    std::sort(gpu_v.begin(), gpu_v.end());
+    std::sort(cpu_v.begin(), cpu_v.end());
+    EXPECT_EQ(gpu_v, cpu_v)
+        << "GPU and CPU BFS must reach identical vertex sets";
+}
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteDFS_UseGpu_ReturnsReachableVertices) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.use_gpu = true;
+
+    auto result = optimizer_->executeDFS("A", 5, c);
+    ASSERT_TRUE(result.has_value());
+
+    const auto& visited = *result;
+    for (const char* v : {"A", "B", "C", "D"}) {
+        EXPECT_NE(std::find(visited.begin(), visited.end(), v), visited.end())
+            << v << " should be in DFS result (use_gpu=true)";
+    }
+}
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteDFS_UseGpu_ProducesSameResultAsCpu) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints gpu_c;
+    gpu_c.use_gpu = true;
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints cpu_c;
+    cpu_c.use_gpu = false;
+
+    auto gpu_res = optimizer_->executeDFS("A", 5, gpu_c);
+    auto cpu_res = optimizer_->executeDFS("A", 5, cpu_c);
+
+    ASSERT_TRUE(gpu_res.has_value());
+    ASSERT_TRUE(cpu_res.has_value());
+
+    auto gpu_v = *gpu_res;
+    auto cpu_v = *cpu_res;
+    std::sort(gpu_v.begin(), gpu_v.end());
+    std::sort(cpu_v.begin(), cpu_v.end());
+    EXPECT_EQ(gpu_v, cpu_v)
+        << "GPU and CPU DFS must reach identical vertex sets";
+}
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteBFS_UseGpu_UnknownVertex_ReturnsError) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.use_gpu = true;
+
+    auto result = optimizer_->executeBFS("DOES_NOT_EXIST", 3, c);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(GPUGraphOptimizerIntegrationTest, ExecuteBFS_UseGpu_MaxDepth_Respected) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.use_gpu    = true;
+    c.max_depth  = 1;
+
+    auto result = optimizer_->executeBFS("A", 1, c);
+    ASSERT_TRUE(result.has_value());
+    // D is 2+ hops from A; must not appear with max_depth=1
+    EXPECT_EQ(std::find(result->begin(), result->end(), "D"), result->end());
 }

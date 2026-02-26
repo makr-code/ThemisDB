@@ -196,11 +196,39 @@ auto result = dist_graph.shortestPath(
 
 ---
 
-### GPU-Accelerated Graph Processing
+### GPU-Accelerated Graph Processing ✅ IMPLEMENTED (BFS/DFS)
 **Priority:** Medium  
 **Target Version:** v1.9.0
 
 Offload graph computations to GPU for massive parallelism.
+
+**Implemented Features (Issue #1829):**
+- ✅ `GPUGraphTraversal` class — CSR-based BFS/DFS with CPU fallback (`include/graph/gpu_traversal.h`, `src/graph/gpu_traversal.cpp`)
+- ✅ Level-synchronous BFS (mirrors GPU parallel frontier expansion)
+- ✅ Iterative DFS with depth tracking
+- ✅ CSR (Compressed Sparse Row) graph representation for cache-efficient traversal
+- ✅ Integer node ID mapping (string ↔ `uint32_t`) for performance
+- ✅ `use_gpu` / `gpu_device` fields added to `GraphQueryOptimizer::QueryConstraints`
+- ✅ GPU dispatch in `executeBFS()` / `executeDFS()` of `GraphQueryOptimizer`
+- ✅ Automatic CPU fallback when no GPU hardware is present
+- ✅ `GraphIndexManager::allVertices()` — enumerate all vertices (with RocksDB fallback)
+
+**API (Implemented):**
+```cpp
+// Via GPUGraphTraversal directly:
+GPUGraphTraversal gpu_trav(graph_manager);
+gpu_trav.load();
+auto result = gpu_trav.bfs("start_vertex", cfg);
+// result->visited_vertices, result->distances, result->used_cpu_fallback
+
+// Via GraphQueryOptimizer (recommended):
+GraphQueryOptimizer::QueryConstraints constraints;
+constraints.use_gpu    = true;
+constraints.gpu_device = 0;  // GPU index; ignored on CPU fallback
+
+auto result = optimizer.executeBFS("start", 10, constraints);
+// Automatically uses GPUGraphTraversal; falls back to CPU when no GPU present
+```
 
 **Features:**
 - CUDA/OpenCL graph kernels
