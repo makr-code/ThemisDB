@@ -14,10 +14,16 @@ on:
       - 'scripts/generate-sdks.sh'
   workflow_dispatch:
 
+# Default: read-only; the commit job overrides to contents:write
+permissions:
+  contents: read
+
 jobs:
   validate-spec:
     name: Validate OpenAPI Spec
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +36,8 @@ jobs:
     name: Generate Python SDK
     runs-on: ubuntu-latest
     needs: validate-spec
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -66,6 +74,8 @@ jobs:
     name: Generate JavaScript/TypeScript SDK
     runs-on: ubuntu-latest
     needs: validate-spec
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -102,6 +112,8 @@ jobs:
     name: Generate Go SDK
     runs-on: ubuntu-latest
     needs: validate-spec
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -143,6 +155,8 @@ jobs:
       - generate-go-sdk
     # Only commit on push to main/develop (not on PRs)
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
