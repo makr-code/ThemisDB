@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:20                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     680                                            ║
+    • Total Lines:     803                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 93959e4d5  2026-02-25  feat(graph): implement plan cache eviction with LRU size an... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
@@ -35,6 +36,7 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <list>
 #include <functional>
 #include <atomic>
 #include <chrono>
@@ -147,6 +149,7 @@ public:
         std::atomic<uint64_t> total_edges_traversed{0};
         std::atomic<uint64_t> plan_cache_hits{0};
         std::atomic<uint64_t> plan_cache_misses{0};
+        std::atomic<uint64_t> plan_cache_evictions{0};
 
         /**
          * @brief Fixed-bucket latency histogram for percentile computation.
@@ -534,6 +537,31 @@ public:
     void setPlanCachingEnabled(bool enabled) { plan_caching_enabled_ = enabled; }
 
     /**
+     * Set the maximum number of entries in the plan cache (LRU eviction).
+     * When the cache reaches this limit, the least recently used entry is
+     * evicted before a new one is inserted.  Set to 0 for unlimited size.
+     * Default: 0 (unlimited).
+     */
+    void setPlanCacheMaxSize(size_t max_size) { plan_cache_max_size_ = max_size; }
+
+    /// Returns the configured maximum cache size (0 = unlimited).
+    size_t getPlanCacheMaxSize() const { return plan_cache_max_size_; }
+
+    /**
+     * Set the time-to-live for plan cache entries.
+     * Cached entries older than `ttl` are treated as expired on the next lookup
+     * and will be evicted lazily.  Set to zero duration to disable TTL.
+     * Default: 0 (no TTL).
+     */
+    void setPlanCacheTTL(std::chrono::milliseconds ttl) { plan_cache_ttl_ = ttl; }
+
+    /// Returns the configured TTL (zero = no TTL expiry).
+    std::chrono::milliseconds getPlanCacheTTL() const { return plan_cache_ttl_; }
+
+    /// Returns the current number of entries in the plan cache.
+    size_t getPlanCacheSize() const { return plan_cache_.size(); }
+
+    /**
      * Clear plan cache
      */
     void clearPlanCache();
@@ -815,9 +843,36 @@ private:
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;
     bool plan_caching_enabled_ = true;
-    
-    // Plan cache: query signature -> plan
-    std::unordered_map<std::string, OptimizationPlan> plan_cache_;
+
+    // -----------------------------------------------------------------------
+    // Plan cache with LRU eviction and TTL expiry
+    // -----------------------------------------------------------------------
+
+    /// A single cache entry: the cached plan plus its insertion timestamp.
+    struct PlanCacheEntry {
+        OptimizationPlan plan;
+        std::chrono::steady_clock::time_point inserted_at;
+    };
+
+    /// Maximum number of cache entries (0 = unlimited).
+    size_t plan_cache_max_size_ = 0;
+
+    /// Per-entry TTL; entries older than this are expired (zero = no expiry).
+    std::chrono::milliseconds plan_cache_ttl_{0};
+
+    /// LRU access-order list: front = most recently used, back = LRU victim.
+    std::list<std::string> plan_cache_lru_;
+
+    /// Plan cache: key → (entry, iterator into lru list).
+    std::unordered_map<std::string,
+                       std::pair<PlanCacheEntry, std::list<std::string>::iterator>>
+        plan_cache_;
+
+    /// Insert or update a plan in the cache, enforcing LRU size limit.
+    void planCacheInsert(const std::string& key, const OptimizationPlan& plan);
+
+    /// Look up a plan in the cache.  Returns nullptr when not found or expired.
+    const OptimizationPlan* planCacheLookup(const std::string& key);
     
     // Execution history for adaptive optimization
     std::vector<ExecutionStats> execution_history_;

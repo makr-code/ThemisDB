@@ -34,6 +34,7 @@
 #include "storage/key_schema.h"
 #include <filesystem>
 #include <chrono>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
@@ -1677,6 +1678,168 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
 }
 
 // ============================================================================
+// Plan Cache Eviction: Size (LRU) and TTL Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_DefaultNoBoundsApplied) {
+    // By default max size = 0 (unlimited) and TTL = 0 (no expiry)
+    EXPECT_EQ(optimizer_->getPlanCacheMaxSize(), 0u);
+    EXPECT_EQ(optimizer_->getPlanCacheTTL().count(), 0);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_GetPlanCacheSizeReflectsInsertions) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Each unique constraint combination produces a different structural key
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 1;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 2;
+
+    optimizer_->optimizeShortestPath("A", "D", c1);
+    optimizer_->optimizeShortestPath("A", "D", c2);
+
+    // Expect at least 2 entries (exact key + structural key per query,
+    // though structural dedup may share between queries with same depth).
+    EXPECT_GE(optimizer_->getPlanCacheSize(), 2u);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_LRU_EvictsLeastRecentlyUsed) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Allow only 2 entries in the cache
+    optimizer_->setPlanCacheMaxSize(2);
+
+    // Insert two distinct plans (different structural keys via different depths)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 10;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 20;
+
+    optimizer_->optimizeKHopNeighborhood("A", 10, c1); // key1
+    optimizer_->optimizeKHopNeighborhood("A", 20, c2); // key2
+
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 2u);
+
+    // Inserting a third distinct entry must evict the LRU (key1, inserted first)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c3;
+    c3.max_depth = 30;
+    optimizer_->optimizeKHopNeighborhood("A", 30, c3); // key3
+
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 2u)
+        << "Cache size should stay at max_size after eviction";
+
+    // Eviction counter must have incremented
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_LRU_EvictionCounterIncrementsPerEviction) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+    optimizer_->setPlanCacheMaxSize(1);
+
+    const uint64_t evictions_before =
+        optimizer_->getQueryMetrics().plan_cache_evictions.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 5;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 6;
+
+    optimizer_->optimizeKHopNeighborhood("A", 5, c1);
+    optimizer_->optimizeKHopNeighborhood("A", 6, c2); // triggers 1 eviction
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(),
+              evictions_before);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_TTL_ExpiredEntryNotReturned) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Set a very short TTL (1 ms)
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(1));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan1.has_value());
+
+    // Wait for TTL to expire
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    const uint64_t hits_before =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Second query: TTL expired, so it must be a miss (entry evicted on lookup)
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Expired TTL entry must not be served as a cache hit";
+
+    // The eviction counter should have incremented for the expired entry
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(), 0u);
+
+    // Restore unlimited TTL for other tests
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(0));
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_TTL_NonExpiredEntryIsServed) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Set a generous TTL (10 seconds)
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(10000));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 4;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Immediate second query: entry is within TTL, should be a cache hit
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Non-expired entry must be served from cache";
+
+    // Plans must match
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(0));
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_ClearResetsSize) {
+    optimizer_->setPlanCachingEnabled(true);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->optimizeShortestPath("A", "D", c);
+
+    EXPECT_GT(optimizer_->getPlanCacheSize(), 0u);
+
+    optimizer_->clearPlanCache();
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 0u);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_ContainsPlanCacheEvictions) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+
+    auto j = nlohmann::json::parse(res.body());
+    EXPECT_TRUE(j.contains("plan_cache_evictions"));
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsPlanCacheEvictions) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    EXPECT_NE(res.body().find("themis_graph_plan_cache_evictions_total"),
+              std::string::npos);
 // Graph Query Result Streaming Tests (Issue #1822)
 // ============================================================================
 
