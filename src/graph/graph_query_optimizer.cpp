@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:06                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1576                                           ║
+    • Total Lines:     1715                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 93959e4d5  2026-02-25  feat(graph): implement plan cache eviction with LRU size an... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
@@ -79,8 +80,11 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
         auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
         if (const auto* cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            planCacheInsert(cache_key, *cached2); // promote to exact key for faster future lookup
-            return Ok(*cached2);
+            // Copy plan by value before calling planCacheInsert: emplace may rehash
+            // the map and invalidate the raw pointer returned by planCacheLookup.
+            OptimizationPlan promoted = *cached2;
+            planCacheInsert(cache_key, promoted); // promote to exact key for faster future lookup
+            return Ok(promoted);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -280,8 +284,10 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
         auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
         if (const auto* cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            planCacheInsert(cache_key, *cached2);
-            return Ok(*cached2);
+            // Copy before planCacheInsert: emplace may rehash and invalidate cached2.
+            OptimizationPlan promoted = *cached2;
+            planCacheInsert(cache_key, promoted);
+            return Ok(promoted);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }

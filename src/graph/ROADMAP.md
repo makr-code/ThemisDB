@@ -20,6 +20,10 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Plan cache eviction with size and TTL controls (Issue: #1827)
+  - LRU eviction via `setPlanCacheMaxSize()` (0 = unlimited), TTL expiry via `setPlanCacheTTL(ms)` (0 = no expiry)
+  - `planCacheInsert` / `planCacheLookup` helpers in `graph_query_optimizer.cpp`; `plan_cache_evictions` counter in `GraphQueryMetrics`; exposed in JSON and Prometheus endpoints
+  - Unit tests: 8 new tests covering LRU eviction, eviction counter, TTL expiry, TTL non-expiry, cache size introspection, metrics endpoints
 
 ## In Progress 🚧
 (none)
@@ -31,7 +35,6 @@
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Incremental graph query execution on live updates (Issue: #1825)
-- [I] Plan cache eviction with size and TTL controls (Issue: #1827) ✅
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
