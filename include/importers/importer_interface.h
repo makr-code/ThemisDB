@@ -70,6 +70,7 @@ enum class ImportErrorCode : uint32_t {
     FILE_OPEN_FAILED     = 101,
     FILE_READ_FAILED     = 102,
     NOT_A_PG_DUMP        = 103,
+    NOT_A_SQLITE_DUMP    = 104,  ///< File does not appear to be a SQLite dump
 
     // SQL parsing errors (200-299)
     PARSE_CREATE_TABLE   = 200,

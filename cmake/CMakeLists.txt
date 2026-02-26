@@ -1927,6 +1927,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
+    ../src/importers/sqlite_importer.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
