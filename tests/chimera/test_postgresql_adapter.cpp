@@ -798,6 +798,47 @@ TEST_F(PostgreSQLSecurityTest, ShortSchemeCredentialsNotExposed) {
 }
 
 // ---------------------------------------------------------------------------
+// AdapterFactory integration tests
+// ---------------------------------------------------------------------------
+
+class PostgreSQLFactoryTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Register PostgreSQL adapter once; subsequent calls are no-ops (factory
+        // rejects duplicate registrations) so tests are safe to run in any order.
+        AdapterFactory::register_adapter("PostgreSQL",
+            []() { return std::make_unique<PostgreSQLAdapter>(); });
+    }
+
+    static constexpr const char* kConnString = "postgresql://localhost:5432/testdb";
+};
+
+TEST_F(PostgreSQLFactoryTest, RegisterAndCreate) {
+    EXPECT_TRUE(AdapterFactory::is_supported("PostgreSQL"));
+
+    auto adapter = AdapterFactory::create("PostgreSQL");
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_FALSE(adapter->is_connected());
+}
+
+TEST_F(PostgreSQLFactoryTest, CapabilitiesViaFactory) {
+    auto adapter = AdapterFactory::create("PostgreSQL");
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_TRUE(adapter->has_capability(Capability::RELATIONAL_QUERIES));
+    EXPECT_TRUE(adapter->has_capability(Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(adapter->has_capability(Capability::GRAPH_TRAVERSAL));
+}
+
+TEST_F(PostgreSQLFactoryTest, ConnectViaFactory) {
+    auto adapter = AdapterFactory::create("PostgreSQL");
+    ASSERT_NE(adapter, nullptr);
+
+    auto result = adapter->connect(kConnString);
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter->is_connected());
+}
+
+// ---------------------------------------------------------------------------
 // Performance / overhead benchmarks
 // ---------------------------------------------------------------------------
 
