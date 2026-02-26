@@ -19,6 +19,21 @@ static GeometryInfo makePoint(double lon, double lat) {
     return g;
 }
 
+/// Make a small axis-aligned square Polygon centred at (lon, lat).
+/// The centroid of the resulting ring should be very close to (lon, lat).
+static GeometryInfo makeSquarePolygon(double lon, double lat, double half_deg = 0.0001) {
+    GeometryInfo g(GeometryType::Polygon);
+    // Closed ring: 5 vertices (last == first)
+    g.rings.push_back({
+        {lon - half_deg, lat - half_deg},
+        {lon + half_deg, lat - half_deg},
+        {lon + half_deg, lat + half_deg},
+        {lon - half_deg, lat + half_deg},
+        {lon - half_deg, lat - half_deg},
+    });
+    return g;
+}
+
 static bool hasPair(const std::vector<SpatialJoinPair>& pairs,
                     const std::string& ka, const std::string& kb) {
     for (const auto& p : pairs) {
@@ -227,4 +242,23 @@ TEST(SpatialJoin, SelfJoin_IdenticalCollections) {
     EXPECT_TRUE(hasPair(result, "p1", "p1"));
     EXPECT_TRUE(hasPair(result, "p2", "p2"));
     EXPECT_FALSE(hasPair(result, "p0", "p2"));
+}
+
+TEST(SpatialJoin, NonPointGeometry_UsesCentroid) {
+    // For non-Point geometries the centroid is used for distance computation.
+    // A tiny square polygon centred at Berlin should behave like a point there.
+    std::vector<std::pair<std::string, GeometryInfo>> outer{
+        {"poly_berlin", makeSquarePolygon(13.4050, 52.5200)}
+    };
+    std::vector<std::pair<std::string, GeometryInfo>> inner{
+        // pt_near: 0.0045° lat north of Berlin.  At ~111 320 m/degree, that is
+        // ≈ 501 m (verified via haversineDistanceM(13.4050,52.5200,13.4050,52.5245)).
+        {"pt_near",    makePoint(13.4050, 52.5245)},
+        // pt_distant: Paris at (2.3522, 48.8566) — ≈ 877 km from Berlin.
+        {"pt_distant", makePoint(2.3522,  48.8566)}
+    };
+    auto result = spatialJoin(outer, inner, 1000.0);
+    EXPECT_EQ(result.size(), 1u);
+    EXPECT_TRUE(hasPair(result, "poly_berlin", "pt_near"));
+    EXPECT_FALSE(hasPair(result, "poly_berlin", "pt_distant"));
 }
