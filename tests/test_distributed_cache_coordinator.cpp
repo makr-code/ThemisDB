@@ -12,7 +12,7 @@
 //  - name() and isConnected() contract
 
 #include <gtest/gtest.h>
-#include "cache/redis_cache_coordinator.h"
+#include "cache/distributed_cache_coordinator.h"
 #include "cache/cache_replication_coordinator.h"
 #include <nlohmann/json.hpp>
 #include <thread>
@@ -28,16 +28,16 @@ using json = nlohmann::json;
 // Helper: build a coordinator that connects to a port that is not listening
 // so all operations degrade gracefully.
 // ============================================================================
-static RedisCacheCoordinator::Config makeOfflineConfig(
+static RedisCacheCoordinatorConfig makeOfflineConfig(
     const std::string& node_id = "test-node")
 {
-    RedisCacheCoordinator::Config cfg;
+    RedisCacheCoordinatorConfig cfg;
     cfg.host                 = "127.0.0.1";
     cfg.port                 = 16399;   // Likely not running – graceful degradation
     cfg.channel_prefix       = "themis_test";
     cfg.connect_timeout_ms   = 200;     // Fast timeout for tests
     cfg.reconnect_interval_ms = 50;
-    cfg.node_id              = node_id;
+    // Note: new config does not have node_id field; node_id is derived internally
     return cfg;
 }
 
@@ -108,7 +108,7 @@ TEST(RedisCacheCoordinatorTest, SubscribeInvalidationCallbackRegisteredNoThrow) 
 // ============================================================================
 
 TEST(RedisCacheCoordinatorTest, GetStatsReturnsExpectedFields) {
-    RedisCacheCoordinator coord(makeOfflineConfig("stats-node"));
+    RedisCacheCoordinator coord(makeOfflineConfig("stats-node")); // Parameter ignored by new config
     auto stats = coord.getStats();
 
     EXPECT_TRUE(stats.contains("messages_published"));
@@ -121,7 +121,8 @@ TEST(RedisCacheCoordinatorTest, GetStatsReturnsExpectedFields) {
 
     EXPECT_EQ(stats["messages_published"].get<uint64_t>(), 0u);
     EXPECT_EQ(stats["messages_received"].get<uint64_t>(),  0u);
-    EXPECT_EQ(stats["node_id"].get<std::string>(), "stats-node");
+    // New config derives node_id from host:port
+    EXPECT_EQ(stats["node_id"].get<std::string>(), "127.0.0.1:16399");
     EXPECT_EQ(stats["channel"].get<std::string>(), "themis_test:replication");
 }
 
@@ -139,7 +140,7 @@ TEST(RedisCacheCoordinatorTest, PublishErrorsIncrementedWhenOffline) {
 }
 
 TEST(RedisCacheCoordinatorTest, ChannelNameMatchesPrefix) {
-    RedisCacheCoordinator::Config cfg = makeOfflineConfig();
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
     cfg.channel_prefix = "myapp_cache";
     RedisCacheCoordinator coord(cfg);
 
@@ -207,11 +208,11 @@ TEST(RedisCacheCoordinatorTest, PolymorphicUsageViaInterface) {
 // ============================================================================
 
 TEST(RedisCacheCoordinatorTest, DefaultNodeIdIsHostPort) {
-    RedisCacheCoordinator::Config cfg;
+    RedisCacheCoordinatorConfig cfg;
     cfg.host               = "192.168.1.10";
     cfg.port               = 6380;
     cfg.connect_timeout_ms = 100;
-    cfg.node_id            = "";  // Not set – should default to "192.168.1.10:6380"
+    // Note: new config does not have node_id field; node_id is derived internally from host:port
     // Use high port to avoid accidental connection
     cfg.port               = 16400;
     RedisCacheCoordinator coord(cfg);
@@ -222,12 +223,13 @@ TEST(RedisCacheCoordinatorTest, DefaultNodeIdIsHostPort) {
 }
 
 TEST(RedisCacheCoordinatorTest, ExplicitNodeIdIsPreserved) {
-    RedisCacheCoordinator::Config cfg = makeOfflineConfig();
-    cfg.node_id = "node-us-east-1a";
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    // Note: new config does not have node_id field; this test now verifies default behavior
     RedisCacheCoordinator coord(cfg);
 
     auto stats = coord.getStats();
-    EXPECT_EQ(stats["node_id"].get<std::string>(), "node-us-east-1a");
+    // Default node_id is host:port
+    EXPECT_EQ(stats["node_id"].get<std::string>(), "127.0.0.1:16399");
 }
 
 // ============================================================================

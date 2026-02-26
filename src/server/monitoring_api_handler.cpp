@@ -1497,6 +1497,35 @@ void MonitoringApiHandler::registerRoutes() {
                  {"headers",{{"API-Version",{{"$ref","#/components/headers/API-Version"}}}}}}},
          {"400",{{"description","AQL syntax error"}}}}
     }});
+
+    // --- UDF Registration ---
+    reg.registerRoute({"/api/v1/query/udfs", "post", {
+        "Register or replace an AQL user-defined function (UDF)", "", "registerUdf", {"udf"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","UDF registered"}}},
+         {"400",{{"description","Invalid UDF definition"}}}}
+    }});
+    reg.registerRoute({"/api/v1/query/udfs", "get", {
+        "List all registered AQL user-defined functions", "", "listUdfs", {"udf"},
+        {},
+        {},
+        {{"200",{{"description","UDF list"}}}}
+    }});
+    reg.registerRoute({"/api/v1/query/udfs/{name}", "get", {
+        "Get a single AQL user-defined function definition", "", "getUdf", {"udf"},
+        {RouteParam{"name","path",true,"UDF name",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","UDF definition"}}},
+         {"404",{{"description","UDF not found"}}}}
+    }});
+    reg.registerRoute({"/api/v1/query/udfs/{name}", "delete", {
+        "Unregister an AQL user-defined function", "", "deleteUdf", {"udf"},
+        {RouteParam{"name","path",true,"UDF name",{{"type","string"}}}},
+        {},
+        {{"204",{{"description","UDF deleted"}}},
+         {"404",{{"description","UDF not found"}}}}
+    }});
 }
 
 } // namespace server

@@ -519,7 +519,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	     advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN)) {
 		try {
 			if (advanced_config_.index_type == AdvancedIndexConfig::Type::SCANN) {
-				index::ScaннConfig scann_cfg;
+				index::ScaNNConfig scann_cfg;
 				scann_cfg.num_leaves           = advanced_config_.scann_num_leaves;
 				scann_cfg.num_leaves_to_search = advanced_config_.scann_leaves_to_search;
 				scann_cfg.reorder_num_neighbors = advanced_config_.scann_reorder_num_neighbors;

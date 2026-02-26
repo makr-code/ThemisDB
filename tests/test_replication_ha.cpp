@@ -614,7 +614,7 @@ TEST(VectorClockTest, IncrementAndGet) {
     EXPECT_EQ(vc.get("node-Z"), 0u);
 }
 
-TEST(VectorClockTest, Merge) {
+TEST(VectorClockTest, MergeInHAContext) {
     VectorClock a("node-A");
     a.increment("node-A");
     a.increment("node-A");  // A: {A:2}
@@ -3361,9 +3361,9 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
 namespace {
 
 // Build a minimal ReplicaInfo for testing.
-static ReplicaInfo makeReplica(const std::string& node_id,
-                                int64_t lag_ms,
-                                HealthStatus health = HealthStatus::HEALTHY)
+static ReplicaInfo makeLagReplica(const std::string& node_id,
+                                   int64_t lag_ms,
+                                   HealthStatus health = HealthStatus::HEALTHY)
 {
     ReplicaInfo r;
     r.node_id              = node_id;
@@ -3398,7 +3398,7 @@ TEST(LagBasedReadRouterTest, FallsBackToPrimaryWhenNoReplicas) {
 // 2. ReadPreference::PRIMARY always selects primary regardless of replicas.
 TEST(LagBasedReadRouterTest, PrimaryPreferenceAlwaysReturnsPrimary) {
     LagBasedReadRouter router;
-    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 0) };
+    std::vector<ReplicaInfo> replicas = { makeLagReplica("r1", 0) };
 
     auto dec = router.selectReplica(ReadPreference::PRIMARY, replicas, "primary-1");
     EXPECT_EQ(dec.node_id, "primary-1");
@@ -3411,7 +3411,7 @@ TEST(LagBasedReadRouterTest, SelectsEligibleReplicaOverPrimary) {
     cfg.lag_threshold_ms = 5000;
     LagBasedReadRouter router(cfg);
 
-    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 1000) };
+    std::vector<ReplicaInfo> replicas = { makeLagReplica("r1", 1000) };
 
     auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
                                     replicas, "primary-1");
@@ -3427,7 +3427,7 @@ TEST(LagBasedReadRouterTest, ExcludesHighLagReplicaAndFallsBackToPrimary) {
     LagBasedReadRouter router(cfg);
 
     // Replica lag exceeds threshold (last_heartbeat far in the past)
-    ReplicaInfo r = makeReplica("r1", 10000);  // 10 s heartbeat delay
+    ReplicaInfo r = makeLagReplica("r1", 10000);  // 10 s heartbeat delay
     std::vector<ReplicaInfo> replicas = { r };
 
     auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
@@ -3444,9 +3444,9 @@ TEST(LagBasedReadRouterTest, SelectsLowestLagReplica) {
     LagBasedReadRouter router(cfg);
 
     std::vector<ReplicaInfo> replicas = {
-        makeReplica("r1", 3000),
-        makeReplica("r2", 500),
-        makeReplica("r3", 1500),
+        makeLagReplica("r1", 3000),
+        makeLagReplica("r2", 500),
+        makeLagReplica("r3", 1500),
     };
 
     auto dec = router.selectReplica(ReadPreference::NEAREST, replicas, "primary-1");
@@ -3461,7 +3461,7 @@ TEST(LagBasedReadRouterTest, ExcludesFailedReplicas) {
     LagBasedReadRouter router(cfg);
 
     std::vector<ReplicaInfo> replicas = {
-        makeReplica("r1", 100, HealthStatus::FAILED),
+        makeLagReplica("r1", 100, HealthStatus::FAILED),
     };
 
     auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
@@ -3476,7 +3476,7 @@ TEST(LagBasedReadRouterTest, SecondaryPreferenceReturnsEmptyWhenNoEligible) {
     cfg.lag_threshold_ms = 100;
     LagBasedReadRouter router(cfg);
 
-    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 5000) };
+    std::vector<ReplicaInfo> replicas = { makeLagReplica("r1", 5000) };
 
     auto dec = router.selectReplica(ReadPreference::SECONDARY, replicas, "primary-1");
     EXPECT_TRUE(dec.node_id.empty());
@@ -3490,10 +3490,10 @@ TEST(LagBasedReadRouterTest, EligibleReplicaCountIsCorrect) {
     LagBasedReadRouter router(cfg);
 
     std::vector<ReplicaInfo> replicas = {
-        makeReplica("r1", 1000),                        // eligible
-        makeReplica("r2", 5000),                        // too much lag
-        makeReplica("r3", 2000),                        // eligible
-        makeReplica("r4", 100, HealthStatus::FAILED),   // failed
+        makeLagReplica("r1", 1000),                        // eligible
+        makeLagReplica("r2", 5000),                        // too much lag
+        makeLagReplica("r3", 2000),                        // eligible
+        makeLagReplica("r4", 100, HealthStatus::FAILED),   // failed
     };
 
     EXPECT_EQ(router.eligibleReplicaCount(replicas), 2u);
@@ -3502,7 +3502,7 @@ TEST(LagBasedReadRouterTest, EligibleReplicaCountIsCorrect) {
 // 9. Prometheus metrics string contains expected metric names.
 TEST(LagBasedReadRouterTest, PrometheusMetricsContainExpectedKeys) {
     LagBasedReadRouter router;
-    std::vector<ReplicaInfo> replicas = { makeReplica("r1", 500) };
+    std::vector<ReplicaInfo> replicas = { makeLagReplica("r1", 500) };
 
     std::string m = router.exportPrometheusMetrics(replicas);
     EXPECT_NE(m.find("themisdb_lag_router_eligible_replicas"), std::string::npos);

@@ -976,5 +976,33 @@ TEST_F(STFunctionsTest, ST_Difference_OverlappingPolygons_ReturnsClipped) {
         << "Difference of overlapping polygons should be a clipped Polygon";
 }
 
+// ============================================================================
+// GEO_BUFFER — ArangoDB-compatible alias for ST_BUFFER (geodesic backend)
+// ============================================================================
 
+TEST_F(STFunctionsTest, GeoBuffer_PointProducesPolygon) {
+    // GEO_BUFFER must be an alias for ST_BUFFER and use the geodesic backend.
+    json point = callFunction("ST_Point", {13.405, 52.52}); // Berlin
+    json result = callFunction("GEO_BUFFER", {point, 500.0});
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "Polygon")
+        << "GEO_BUFFER on a Point should return a Polygon";
+    ASSERT_TRUE(result["coordinates"].is_array());
+    ASSERT_FALSE(result["coordinates"].empty());
+    // Ring should be closed (first == last vertex)
+    const auto& ring = result["coordinates"][0];
+    ASSERT_GE(ring.size(), 4u);
+    EXPECT_DOUBLE_EQ(ring.front()[0].get<double>(), ring.back()[0].get<double>());
+    EXPECT_DOUBLE_EQ(ring.front()[1].get<double>(), ring.back()[1].get<double>());
+}
+
+TEST_F(STFunctionsTest, GeoBuffer_NegativeDistance_ReturnsEmptyCollection) {
+    json point = callFunction("ST_Point", {0.0, 0.0});
+    json result = callFunction("GEO_BUFFER", {point, -100.0});
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "GeometryCollection")
+        << "GEO_BUFFER with negative distance must return empty GeometryCollection";
+}
  

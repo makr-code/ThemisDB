@@ -33,7 +33,7 @@
 - [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [I] PCI-DSS data isolation rules (Issue: #1770)
 - [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
-- [I] Cross-tenant governance policy inheritance (Issue: #1772)
+- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
 - [I] Automated data masking for sensitive fields in query results (Issue: #1773)
 
 ## Implementation Phases
@@ -55,6 +55,14 @@
 - [P] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [I] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
 - [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
+
+### Phase 4: Cross-Tenant Policy Inheritance (Status: Completed)
+- [x] Implement `CrossTenantPolicyInheritance` class for tenant hierarchy management (Target: Q1 2026) (`governance/cross_tenant_policy_inheritance.cpp`)
+- [x] Implement cycle detection for parent-child tenant registration (Target: Q1 2026)
+- [x] Implement most-restrictive-wins merge semantics across ancestor chains (Target: Q1 2026)
+- [x] Implement `evaluateEffectivePolicy()` merging decisions from full ancestor chain (Target: Q1 2026)
+- [x] Implement `resolveEffectiveRules()` returning flattened rule list (Target: Q1 2026)
+- [x] Unit tests covering hierarchy registration, cycle prevention, merge semantics, and edge cases (Target: Q1 2026)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1778)

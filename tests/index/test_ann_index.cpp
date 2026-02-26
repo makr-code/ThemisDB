@@ -157,7 +157,7 @@ TEST_F(ScaNNTest, IAnnIndex_Search_Distances_Ascending) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ScaNNTest, Recall_At_K_Acceptable) {
-    ScaннConfig cfg;
+    ScaNNConfig cfg;
     cfg.num_leaves            = 50;
     cfg.num_leaves_to_search  = 20;
     cfg.reorder_num_neighbors = 100;
@@ -257,7 +257,7 @@ TEST_F(ScaNNTest, Small_Dataset_Single_Vector) {
 }
 
 TEST_F(ScaNNTest, Config_Respected) {
-    ScaннConfig cfg;
+    ScaNNConfig cfg;
     cfg.num_leaves           = 10;
     cfg.num_leaves_to_search = 5;
     ScaNN idx(cfg);

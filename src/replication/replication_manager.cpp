@@ -2851,6 +2851,61 @@ MultiMasterReplicationManager::Stats MultiMasterReplicationManager::getStats() c
     return s;
 }
 
+MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::getTopologySnapshot() const {
+    TopologySnapshot snapshot;
+    snapshot.local_node_id = config_.node_id;
+    snapshot.replication_mode = "MULTI_MASTER";
+
+    auto stateToString = [](MMNodeState state) -> std::string {
+        switch (state) {
+            case MMNodeState::ACTIVE: return "ACTIVE";
+            case MMNodeState::SYNCING: return "SYNCING";
+            case MMNodeState::PARTITIONED: return "PARTITIONED";
+            case MMNodeState::RECOVERING: return "RECOVERING";
+            case MMNodeState::OFFLINE:
+            default:
+                return "OFFLINE";
+        }
+    };
+
+    TopologyNode local;
+    local.node_id = config_.node_id;
+    local.endpoint = config_.node_id;
+    local.datacenter = config_.datacenter;
+    local.region = config_.region;
+    local.state = running_.load() ? "ACTIVE" : "OFFLINE";
+    local.replication_lag_ms = 0;
+    local.is_local = true;
+    snapshot.nodes.push_back(std::move(local));
+
+    {
+        std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+        snapshot.nodes.reserve(snapshot.nodes.size() + peers_.size());
+        snapshot.edges.reserve(peers_.size());
+
+        for (const auto& [peer_id, peer] : peers_) {
+            TopologyNode node;
+            node.node_id = peer.node_id;
+            node.endpoint = peer.endpoint;
+            node.datacenter = peer.datacenter;
+            node.region = peer.region;
+            node.state = stateToString(peer.state);
+            node.replication_lag_ms = peer.replication_lag_ms;
+            node.is_local = false;
+            snapshot.nodes.push_back(std::move(node));
+
+            TopologyEdge edge;
+            edge.from = config_.node_id;
+            edge.to = peer_id;
+            edge.type = "PEER";
+            snapshot.edges.push_back(std::move(edge));
+        }
+    }
+
+    snapshot.max_lag_ms = getReplicationLag();
+    return snapshot;
+}
+
 std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
     auto s = getStats();
     std::ostringstream oss;

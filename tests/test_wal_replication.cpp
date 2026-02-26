@@ -444,10 +444,10 @@ protected:
         std::filesystem::remove_all(wal_dir_);
         std::filesystem::create_directories(wal_dir_);
 
-        WALConfig wal_cfg;
+        WALManagerConfig wal_cfg;
         wal_cfg.wal_directory = wal_dir_;
-        wal_cfg.segment_size_bytes = 4 * 1024 * 1024;
-        wal_cfg.sync_on_commit = false;
+        wal_cfg.segment_size = 4 * 1024 * 1024;
+        wal_cfg.sync_on_write = false;
         wal_ = std::make_shared<WALManager>(wal_cfg);
     }
     void TearDown() override {

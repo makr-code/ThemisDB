@@ -33,7 +33,9 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
 - [P] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
 - [!] Query cancellation via request ID (Issue: #2431)
-- [I] Parallel scan for large collection full-table queries (Issue: #2432)
+- [x] Parallel scan for large collection full-table queries (Issue: #2432)
+  - Implemented in `include/query/parallel_scan.h` + `src/query/query_engine.cpp` (morsel-driven TBB path in `fullScanAndFilter_`)
+  - Tests: `tests/test_parallel_scan.cpp` (sequential path, parallel path, range predicates, empty table)
 - [I] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
@@ -69,8 +71,8 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Query result type annotations for client SDK code generation
 - [P] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
-- [ ] Parallel scan for large collection full-table queries
-- [ ] User-defined functions (UDF) registration API
+- [x] Parallel scan for large collection full-table queries
+- [P] User-defined functions (UDF) registration API
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
 - [ ] Vectorized execution engine (column-store style batch processing)

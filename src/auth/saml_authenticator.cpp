@@ -1003,7 +1003,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
         claims.email = claims.subject_name_id;
     }
 
-    THEMIS_INFO("SAML: Authentication successful: subject={}, email={}, issuer={}",
+    THEMIS_INFO("SAML: Authentication successful: subject={}, email={}, issuer={}", // NOPII: both subject_name_id and email (which may equal subject_name_id) are individually masked via AuthError::maskSensitiveData() before logging
                 AuthError::maskSensitiveData(claims.subject_name_id),
                 AuthError::maskSensitiveData(claims.email),
                 claims.issuer);

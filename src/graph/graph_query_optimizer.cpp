@@ -541,7 +541,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
         auto it = plan_cache_.find(struct_key);
         if (it != plan_cache_.end()) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second);
+            return Ok(it->second.first.plan);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -616,7 +616,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::K_HOP_NEIGHBORS, constraints,
             static_cast<size_t>(max_depth));
-        plan_cache_[struct_key] = plan;
+        planCacheInsert(struct_key, plan);
     }
 
     return Ok(plan);
@@ -2000,6 +2000,8 @@ double GraphQueryOptimizer::estimateCost(
             temporal_selectivity = std::max(0.05, std::min(0.95, temporal_selectivity));
         }
         base_cost *= temporal_selectivity;
+    }
+
     // Schema-aware hint: node label selectivity.
     // When node_labels is set, only a fraction of nodes match; reduce the
     // effective search space accordingly.  For OR-semantics with multiple
@@ -2209,6 +2211,8 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
     }
     if (constraints.time_range_require_containment) {
         key += ":tr_contain";
+    }
+
     // Schema hints: sort labels so that {"A","B"} and {"B","A"} produce the
     // same key; different label sets produce distinct exact cache entries.
     if (!constraints.node_labels.empty()) {
@@ -2282,6 +2286,8 @@ std::string GraphQueryOptimizer::generateStructuralCacheKey(
     }
     if (constraints.time_range_require_containment) {
         key += ":tr_contain";
+    }
+
     // Schema hints: encode actual sorted label values so that queries with the
     // same number of labels but different names get distinct structural keys.
     // Sorting ensures {"A","B"} and {"B","A"} map to the same structural key.
@@ -2623,6 +2629,8 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     }
 
     return pending.size();
+}
+
 // Analytics Module Integration (Issue #1821)
 // ─────────────────────────────────────────────────────────────────────────────
 

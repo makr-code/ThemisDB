@@ -230,13 +230,6 @@ ITree buildITree(const FeatureMatrix& fm,
         return tree;
     }
 
-    auto build_node = [&](auto&& self, const std::vector<size_t>& idx, int h) -> int {
-        const int node_id = static_cast<int>(tree.nodes.size());
-        tree.nodes.push_back(IFNode{});
-        tree.nodes[static_cast<size_t>(node_id)].size = static_cast<int>(idx.size());
-
-        if (idx.size() <= 1 || h >= height_limit) {
-            return node_id;
     // Iterative build: each frame carries the parent node id and which child
     // slot (0=left, 1=right) it should fill in, so we can write the index back
     // once the new node is allocated.
@@ -291,7 +284,7 @@ ITree buildITree(const FeatureMatrix& fm,
         }
 
         if (!found_split_feature) {
-            return node_id;
+            continue;
         }
 
         std::uniform_real_distribution<double> val_dist(fmin, fmax);
@@ -311,18 +304,9 @@ ITree buildITree(const FeatureMatrix& fm,
         }
 
         if (left_idx.empty() || right_idx.empty()) {
-            return node_id;
+            continue;
         }
 
-        tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
-        tree.nodes[static_cast<size_t>(node_id)].split_value = split_val;
-        tree.nodes[static_cast<size_t>(node_id)].left = self(self, left_idx, h + 1);
-        tree.nodes[static_cast<size_t>(node_id)].right = self(self, right_idx, h + 1);
-
-        return node_id;
-    };
-
-    build_node(build_node, indices, height);
         tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
         tree.nodes[static_cast<size_t>(node_id)].split_value   = split_val;
         // left/right child indices will be filled when those frames are processed

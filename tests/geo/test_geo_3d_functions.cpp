@@ -309,3 +309,62 @@ TEST_F(Geo3DFunctionsTest, StAsText3D) {
     EXPECT_TRUE(wkt.find("52.5") != std::string::npos);
     EXPECT_TRUE(wkt.find("100") != std::string::npos);
 }
+
+// ============================================================================
+// ST_BUFFER function registry tests
+// ============================================================================
+
+TEST_F(Geo3DFunctionsTest, StBuffer_IsRegistered) {
+    auto& registry = FunctionRegistry::instance();
+    EXPECT_TRUE(registry.hasFunction("ST_BUFFER"));
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_PointProducesPolygon) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    // Berlin (~52.52 N, 13.41 E), 500 m buffer
+    json point = {{"type", "Point"}, {"coordinates", {13.405, 52.52}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, 500.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "Polygon");
+    ASSERT_TRUE(result["coordinates"].is_array());
+    ASSERT_FALSE(result["coordinates"].empty());
+    // Default arc_points is 36; ring has 36 unique + 1 closing vertex = 37.
+    EXPECT_EQ(result["coordinates"][0].size(), 37u);
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_ArcPointsParameter) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    json point = {{"type", "Point"}, {"coordinates", {0.0, 0.0}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, 100.0, 16.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "Polygon");
+    // arc_points=16 → ring has 16 unique + 1 closing vertex = 17.
+    EXPECT_EQ(result["coordinates"][0].size(), 17u);
+}
+
+TEST_F(Geo3DFunctionsTest, StBuffer_NegativeDistance_ReturnsEmptyCollection) {
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_BUFFER"));
+
+    json point = {{"type", "Point"}, {"coordinates", {0.0, 0.0}}};
+    FunctionContext ctx;
+    std::vector<json> args = {point, -100.0};
+
+    json result = registry.call("ST_BUFFER", args, ctx);
+
+    // Non-positive distance must return an empty GeometryCollection.
+    ASSERT_TRUE(result.is_object());
+    EXPECT_EQ(result["type"].get<std::string>(), "GeometryCollection");
+}

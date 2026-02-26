@@ -42,9 +42,14 @@ using json = nlohmann::json;
 class ProcessMiningE2ETest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Initialize matcher (mock dependencies for now)
-        // Minimal RocksDB wrapper (not opened) to satisfy constructor
-        db_wrapper_ = std::make_unique<RocksDBWrapper>(RocksDBWrapper::Config{});
+        // Initialize matcher with RocksDB backend
+        RocksDBWrapper::Config db_cfg;
+        db_cfg.db_path = "/tmp/test_process_mining_e2e_db";
+        db_wrapper_ = std::make_unique<RocksDBWrapper>(db_cfg);
+        // Open the database for testing
+        if (!db_wrapper_->open()) {
+            GTEST_SKIP() << "Could not open test RocksDB for E2E tests";
+        }
         matcher = std::make_unique<ProcessPatternMatcher>(*db_wrapper_, nullptr, nullptr);
         
         // Load test models (may be empty in stub implementation)

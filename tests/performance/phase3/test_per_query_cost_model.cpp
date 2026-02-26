@@ -205,12 +205,19 @@ TEST_F(PerQueryCostModelTest, CalibrateUpdatesOptimizerCostModel) {
     auto factors = model.getCalibrationFactors();
     EXPECT_FALSE(factors.empty());
 
-    // The calibrated model's cpuCostPerRow constant must be within sane bounds;
-    // verify by computing a cost with 1 row at cost-per-row == 1 (identity)
-    // and checking the result is positive and finite.
-    double cost = ocm.calculateCpuCost(100, ocm.calculateCpuCost(1, 1.0));
-    EXPECT_GT(cost, 0.0);
-    EXPECT_TRUE(std::isfinite(cost));
+    // Validate via public API: a table-scan estimate should produce
+    // positive finite CPU and total cost after calibration.
+    OptimizerCostModel::TableStatistics ts;
+    ts.tableName = "t";
+    ts.rowCount = 100;
+    ts.pageCount = 10;
+    ts.avgRowSize = 64.0;
+
+    auto scan = ocm.estimateTableScan(ts);
+    EXPECT_GT(scan.cpuCost, 0.0);
+    EXPECT_GT(scan.totalCost, 0.0);
+    EXPECT_TRUE(std::isfinite(scan.cpuCost));
+    EXPECT_TRUE(std::isfinite(scan.totalCost));
 }
 
 // ============================================================
