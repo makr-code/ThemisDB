@@ -230,7 +230,7 @@ public:
                 auto result = operation();
                 
                 // Success!
-                recordSuccess(operation_name);
+                recordSuccess();
                 
                 // Update stats
                 auto end_time = std::chrono::steady_clock::now();
@@ -264,18 +264,19 @@ public:
                     // Non-retryable error - fail immediately
                     stats_.failed_operations.fetch_add(1);
                     stats_.total_operations.fetch_add(1);
-                    recordFailure(operation_name);
+                    recordFailure();
                     throw;
                 }
                 
                 // Check if we've exceeded max total timeout
                 auto now = std::chrono::steady_clock::now();
-                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now - start_time).count();
+                auto elapsed = static_cast<uint64_t>(
+                    std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now - start_time).count());
                 if (elapsed >= config_.max_total_timeout_ms) {
                     stats_.failed_operations.fetch_add(1);
                     stats_.total_operations.fetch_add(1);
-                    recordFailure(operation_name);
+                    recordFailure();
                     throw std::runtime_error("Max total timeout exceeded for: " + operation_name);
                 }
                 
@@ -283,7 +284,7 @@ public:
                 if (attempt >= max_attempts) {
                     stats_.failed_operations.fetch_add(1);
                     stats_.total_operations.fetch_add(1);
-                    recordFailure(operation_name);
+                    recordFailure();
                     throw std::runtime_error("Max retry attempts exceeded for: " + operation_name);
                 }
                 
@@ -300,7 +301,7 @@ public:
         // Should never reach here
         stats_.failed_operations.fetch_add(1);
         stats_.total_operations.fetch_add(1);
-        recordFailure(operation_name);
+        recordFailure();
         throw std::runtime_error("Unexpected retry exhaustion for: " + operation_name);
     }
     
@@ -348,12 +349,12 @@ private:
     /**
      * @brief Record successful operation (for circuit breaker)
      */
-    void recordSuccess(const std::string& operation_name);
+    void recordSuccess();
     
     /**
      * @brief Record failed operation (for circuit breaker)
      */
-    void recordFailure(const std::string& operation_name);
+    void recordFailure();
     
     /**
      * @brief Check if circuit breaker is open
@@ -363,16 +364,16 @@ private:
     /**
      * @brief Transition circuit breaker state
      */
-    void transitionCircuitState(CircuitState new_state);
+    void transitionCircuitState(CircuitState new_state) const;
     
     TransactionRetryConfig config_;
     RetryStatistics stats_;
     
     // Circuit breaker state
     mutable std::mutex circuit_mutex_;
-    CircuitState circuit_state_{CircuitState::HEALTHY};
-    size_t consecutive_failures_{0};
-    std::chrono::steady_clock::time_point circuit_opened_time_;
+    mutable CircuitState circuit_state_{CircuitState::HEALTHY};
+    mutable size_t consecutive_failures_{0};
+    mutable std::chrono::steady_clock::time_point circuit_opened_time_;
     
     // Random number generator for jitter
     mutable std::mutex rng_mutex_;
