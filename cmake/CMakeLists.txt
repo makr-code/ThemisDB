@@ -2099,6 +2099,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
+    ../src/aql/aql_fewshot_example_library.cpp
     ../src/aql/aql_conversation_context.cpp
     ../src/aql/aql_schema_provider.cpp
     ../src/aql/aql_lora_finetuner.cpp
