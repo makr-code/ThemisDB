@@ -939,6 +939,8 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
 // K-Nearest Neighbors search using the in-memory R-tree.
 // Expands an initial search window exponentially until k candidates are found
 // or the window covers the full table bounds.
+// Note: the optional `z` parameter is reserved for future 3D distance
+// filtering; it is currently unused and 2D Haversine distance is used.
 std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     std::string_view table,
     double x,
@@ -946,7 +948,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     size_t k,
     std::optional<double> z
 ) const {
-    (void)z; // unused parameter
+    (void)z; // unused parameter — reserved for future 3D distance filtering
     if (k == 0) return {};
 
     auto config = getConfig(table);
@@ -957,12 +959,18 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
 
     const geo::MBR& bounds = config->total_bounds;
 
-    // Initial search radius in degrees (~1 km).
-    double radius = 0.009;
+    // Initial search radius (~1 km at the equator: 1000 m / 111 320 m·deg⁻¹ ≈ 0.009°).
+    // The radius doubles each iteration until k candidates are found or the
+    // full table bounds are covered.  20 doublings allow expansion from 1 km to
+    // ~1 000 000 km, which exceeds Earth's circumference and guarantees termination.
+    static constexpr double kInitialRadiusDeg = 0.009;
+    static constexpr int    kMaxExpansionIter = 20;
+
+    double radius = kInitialRadiusDeg;
     std::vector<SpatialResult> candidates;
 
     // Double the search window until we have k candidates or exceed world bounds.
-    for (int iter = 0; iter < 20 && candidates.size() < k; ++iter) {
+    for (int iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
         geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
         // Clamp to table bounds
         bbox.minx = std::max(bbox.minx, bounds.minx);
@@ -1016,7 +1024,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
         [&](std::string_view k, std::string_view value) {
             constexpr std::size_t kMortonChars = 16;
             const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+            // Validate key length and the expected ':' separator between morton code and PK.
             if (k.size() <= pk_strip) return true;
+            if (k[pk_prefix.size() + kMortonChars] != ':') return true;
             std::string pk(k.substr(pk_strip));
             try {
                 auto j = json::parse(std::string(value));
@@ -1047,6 +1057,13 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
 // Combined spatial + Z-range filter.
 // After the R-tree pre-filter, fetches Z metadata from per-PK RocksDB keys
 // for each spatial candidate and applies the Z range check.
+//
+// Conservative-inclusion contract: if an entity was stored without Z metadata
+// (z_min / z_max absent from the per-PK RocksDB value), it is included in the
+// result regardless of the requested Z range.  This avoids false negatives for
+// legacy data that pre-dates Z storage and is safe because the caller receives
+// a superset of the true answer.  Applications that require exact Z exclusion
+// must store z_min / z_max in the GeoSidecar at insert time.
 std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
     std::string_view table,
     const geo::MBR& query_bbox,

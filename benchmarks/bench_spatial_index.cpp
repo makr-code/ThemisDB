@@ -58,7 +58,7 @@ static void BM_RTree_BulkLoad(benchmark::State& state) {
 }
 BENCHMARK(BM_RTree_BulkLoad)
     ->RangeMultiplier(10)
-    ->Range(1'000, 100'000)
+    ->Range(1000, 100000)
     ->Complexity();
 
 // ─── R-tree: intersects query ─────────────────────────────────────────────────
@@ -90,7 +90,7 @@ static void BM_RTree_Intersects(benchmark::State& state) {
 }
 BENCHMARK(BM_RTree_Intersects)
     ->RangeMultiplier(10)
-    ->Range(1'000, 100'000)
+    ->Range(1000, 100000)
     ->Complexity();
 
 // ─── Linear scan: intersects (baseline for comparison) ───────────────────────
@@ -123,7 +123,7 @@ static void BM_LinearScan_Intersects(benchmark::State& state) {
 }
 BENCHMARK(BM_LinearScan_Intersects)
     ->RangeMultiplier(10)
-    ->Range(1'000, 100'000)
+    ->Range(1000, 100000)
     ->Complexity();
 
 // ─── R-tree: contains (point-in-MBR) query ───────────────────────────────────
@@ -154,7 +154,7 @@ static void BM_RTree_Contains(benchmark::State& state) {
 }
 BENCHMARK(BM_RTree_Contains)
     ->RangeMultiplier(10)
-    ->Range(1'000, 100'000)
+    ->Range(1000, 100000)
     ->Complexity();
 
 // ─── R-tree: incremental inserts ─────────────────────────────────────────────
@@ -184,7 +184,7 @@ static void BM_RTree_IncrementalInsert(benchmark::State& state) {
 }
 BENCHMARK(BM_RTree_IncrementalInsert)
     ->RangeMultiplier(10)
-    ->Range(1'000, 10'000)
+    ->Range(1000, 10000)
     ->Complexity();
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
