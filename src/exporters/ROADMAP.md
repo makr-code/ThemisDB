@@ -24,7 +24,7 @@
 
 ### Short-term (Next 3-6 months)
 - [x] Parquet export with configurable schema (Issue: #1713)
-- [I] Arrow IPC export for zero-copy pipelines (Issue: #1714)
+- [x] Arrow IPC export for zero-copy pipelines (Issue: #1714)
 - [I] Export filtering with AQL predicates (Issue: #1715)
 - [I] Incremental/delta export (only changed documents since last export) (Issue: #1716)
 - [I] Export progress tracking and resumability (Issue: #1717)
