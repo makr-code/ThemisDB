@@ -704,6 +704,14 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 	return total;
 }
 
+std::vector<std::string> GraphIndexManager::getAllVertices() const {
+	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::unordered_set<std::string> nodes;
+	for (const auto& [node, _] : outEdges_) nodes.insert(node);
+	for (const auto& [node, _] : inEdges_) nodes.insert(node);
+	return {nodes.begin(), nodes.end()};
+}
+
 // ────────────────────────────────────────────────────────────────────────────
 // Shortest-Path-Algorithmen
 // ────────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,243 @@
+2026/02/20-09:28:19.476472 264c RocksDB version: 10.10.1
+2026/02/20-09:28:19.476548 264c Git sha 0
+2026/02/20-09:28:19.476584 264c Compile date 2026-02-14 18:31:16
+2026/02/20-09:28:19.476615 264c DB SUMMARY
+2026/02/20-09:28:19.476648 264c Host name (Env):  DESKTOP-712S8LO
+2026/02/20-09:28:19.476686 264c DB Session ID:  PLQ79TWB9SBU7WI61VSP
+2026/02/20-09:28:19.483432 264c CURRENT file:  CURRENT
+2026/02/20-09:28:19.483475 264c IDENTITY file:  IDENTITY
+2026/02/20-09:28:19.483596 264c MANIFEST file:  MANIFEST-000701 size: 163 Bytes
+2026/02/20-09:28:19.483647 264c SST files in ./llm_cache dir, Total Num: 0, files: 
+2026/02/20-09:28:19.483704 264c Write Ahead Log file in ./llm_cache: 000004.log size: 0 ; 000010.log size: 0 ; 000016.log size: 0 ; 000022.log size: 0 ; 000028.log size: 0 ; 000034.log size: 0 ; 000040.log size: 0 ; 000046.log size: 0 ; 000052.log size: 0 ; 000058.log size: 0 ; 000064.log size: 0 ; 000070.log size: 0 ; 000076.log size: 0 ; 000082.log size: 0 ; 000088.log size: 0 ; 000094.log size: 0 ; 000100.log size: 0 ; 000106.log size: 0 ; 000112.log size: 0 ; 000118.log size: 0 ; 000124.log size: 0 ; 000130.log size: 0 ; 000136.log size: 0 ; 000142.log size: 0 ; 000148.log size: 0 ; 000154.log size: 0 ; 000160.log size: 0 ; 000166.log size: 0 ; 000172.log size: 0 ; 000178.log size: 0 ; 000184.log size: 0 ; 000190.log size: 0 ; 000196.log size: 0 ; 000202.log size: 0 ; 000208.log size: 0 ; 000214.log size: 0 ; 000220.log size: 0 ; 000226.log size: 0 ; 000232.log size: 0 ; 000238.log size: 0 ; 000244.log size: 0 ; 000250.log size: 0 ; 000256.log size: 0 ; 000262.log size: 0 ; 000268.log size: 0 ; 000274.log size: 0 ; 000280.log size: 0 ; 000286.log size: 0 ; 000292.log size: 0 ; 000298.log size: 0 ; 000304.log size: 0 ; 000310.log size: 0 ; 000316.log size: 0 ; 000322.log size: 0 ; 000328.log size: 0 ; 000334.log size: 0 ; 000340.log size: 0 ; 000346.log size: 0 ; 000352.log size: 0 ; 000358.log size: 0 ; 000364.log size: 0 ; 000370.log size: 0 ; 000376.log size: 0 ; 000382.log size: 0 ; 000388.log size: 0 ; 000394.log size: 0 ; 000400.log size: 0 ; 000406.log size: 0 ; 000412.log size: 0 ; 000418.log size: 0 ; 000424.log size: 0 ; 000430.log size: 0 ; 000436.log size: 0 ; 000442.log size: 0 ; 000448.log size: 0 ; 000454.log size: 0 ; 000460.log size: 0 ; 000466.log size: 0 ; 000472.log size: 0 ; 000478.log size: 0 ; 000484.log size: 0 ; 000490.log size: 0 ; 000496.log size: 0 ; 000502.log size: 0 ; 000508.log size: 0 ; 000514.log size: 0 ; 000520.log size: 0 ; 000526.log size: 0 ; 000532.log size: 0 ; 000538.log size: 0 ; 000544.log size: 0 ; 000550.log size: 0 ; 000556.log size: 0 ; 000562.log size: 0 ; 000568.log size: 0 ; 000574.log size: 0 ; 000580.log size: 0 ; 000586.log size: 0 ; 000592.log size: 0 ; 000598.log size: 0 ; 000604.log size: 0 ; 000610.log size: 0 ; 000616.log size: 0 ; 000622.log size: 0 ; 000628.log size: 0 ; 000634.log size: 0 ; 000640.log size: 0 ; 000646.log size: 0 ; 000652.log size: 0 ; 000658.log size: 0 ; 000664.log size: 0 ; 000670.log size: 0 ; 000676.log size: 0 ; 000682.log size: 0 ; 000688.log size: 0 ; 000694.log size: 0 ; 000700.log size: 0 ; 
+2026/02/20-09:28:19.483861 264c                         Options.error_if_exists: 0
+2026/02/20-09:28:19.483880 264c                       Options.create_if_missing: 1
+2026/02/20-09:28:19.483895 264c                         Options.paranoid_checks: 1
+2026/02/20-09:28:19.483909 264c             Options.flush_verify_memtable_count: 1
+2026/02/20-09:28:19.483923 264c          Options.compaction_verify_record_count: 1
+2026/02/20-09:28:19.483936 264c                               Options.track_and_verify_wals_in_manifest: 0
+2026/02/20-09:28:19.483949 264c                               Options.track_and_verify_wals: 0
+2026/02/20-09:28:19.483963 264c        Options.verify_sst_unique_id_in_manifest: 1
+2026/02/20-09:28:19.483976 264c                                     Options.env: 000001ABA562FAA0
+2026/02/20-09:28:19.483989 264c                                      Options.fs: WinFS
+2026/02/20-09:28:19.484004 264c                                Options.info_log: 000001ABA5FBC8D0
+2026/02/20-09:28:19.484052 264c                Options.max_file_opening_threads: 16
+2026/02/20-09:28:19.484068 264c                              Options.statistics: 000001ABA5EB9110
+2026/02/20-09:28:19.484080 264c                              Options.statistics stats level: 1
+2026/02/20-09:28:19.484091 264c                               Options.use_fsync: 0
+2026/02/20-09:28:19.484102 264c                       Options.max_log_file_size: 0
+2026/02/20-09:28:19.484113 264c                   Options.log_file_time_to_roll: 0
+2026/02/20-09:28:19.484124 264c                       Options.keep_log_file_num: 1000
+2026/02/20-09:28:19.484136 264c                    Options.recycle_log_file_num: 0
+2026/02/20-09:28:19.484148 264c                         Options.allow_fallocate: 1
+2026/02/20-09:28:19.484160 264c                        Options.allow_mmap_reads: 0
+2026/02/20-09:28:19.484171 264c                       Options.allow_mmap_writes: 0
+2026/02/20-09:28:19.484182 264c                        Options.use_direct_reads: 0
+2026/02/20-09:28:19.484193 264c                        Options.use_direct_io_for_flush_and_compaction: 0
+2026/02/20-09:28:19.484203 264c          Options.create_missing_column_families: 0
+2026/02/20-09:28:19.484214 264c                              Options.db_log_dir: 
+2026/02/20-09:28:19.484226 264c                                 Options.wal_dir: 
+2026/02/20-09:28:19.484239 264c                Options.table_cache_numshardbits: 6
+2026/02/20-09:28:19.484250 264c                         Options.WAL_ttl_seconds: 0
+2026/02/20-09:28:19.484261 264c                       Options.WAL_size_limit_MB: 0
+2026/02/20-09:28:19.484273 264c                        Options.max_write_batch_group_size_bytes: 1048576
+2026/02/20-09:28:19.484284 264c                     Options.is_fd_close_on_exec: 1
+2026/02/20-09:28:19.484295 264c                   Options.advise_random_on_open: 1
+2026/02/20-09:28:19.484306 264c                    Options.db_write_buffer_size: 2147483648
+2026/02/20-09:28:19.484318 264c                    Options.write_buffer_manager: 000001ABA5BB29B0
+2026/02/20-09:28:19.484331 264c                      Options.use_adaptive_mutex: 0
+2026/02/20-09:28:19.484343 264c                            Options.rate_limiter: 0000000000000000
+2026/02/20-09:28:19.484354 264c     Options.sst_file_manager.rate_bytes_per_sec: 0
+2026/02/20-09:28:19.484365 264c                       Options.wal_recovery_mode: 2
+2026/02/20-09:28:19.484376 264c                  Options.enable_thread_tracking: 0
+2026/02/20-09:28:19.484387 264c                  Options.enable_pipelined_write: 0
+2026/02/20-09:28:19.484398 264c                  Options.unordered_write: 0
+2026/02/20-09:28:19.484410 264c         Options.allow_concurrent_memtable_write: 1
+2026/02/20-09:28:19.484422 264c      Options.enable_write_thread_adaptive_yield: 1
+2026/02/20-09:28:19.484433 264c             Options.write_thread_max_yield_usec: 100
+2026/02/20-09:28:19.484444 264c            Options.write_thread_slow_yield_usec: 3
+2026/02/20-09:28:19.484455 264c                               Options.row_cache: None
+2026/02/20-09:28:19.484466 264c                              Options.wal_filter: None
+2026/02/20-09:28:19.484478 264c             Options.avoid_flush_during_recovery: 0
+2026/02/20-09:28:19.484489 264c             Options.allow_ingest_behind: 0
+2026/02/20-09:28:19.484501 264c             Options.two_write_queues: 1
+2026/02/20-09:28:19.484513 264c             Options.manual_wal_flush: 0
+2026/02/20-09:28:19.484525 264c             Options.wal_compression: 0
+2026/02/20-09:28:19.484536 264c             Options.background_close_inactive_wals: 0
+2026/02/20-09:28:19.484547 264c             Options.atomic_flush: 0
+2026/02/20-09:28:19.484557 264c             Options.avoid_unnecessary_blocking_io: 0
+2026/02/20-09:28:19.484568 264c             Options.prefix_seek_opt_in_only: 0
+2026/02/20-09:28:19.484579 264c                 Options.persist_stats_to_disk: 0
+2026/02/20-09:28:19.484591 264c                 Options.write_dbid_to_manifest: 1
+2026/02/20-09:28:19.484603 264c                 Options.write_identity_file: 1
+2026/02/20-09:28:19.484646 264c                 Options.log_readahead_size: 0
+2026/02/20-09:28:19.484660 264c                 Options.file_checksum_gen_factory: Unknown
+2026/02/20-09:28:19.484672 264c                 Options.best_efforts_recovery: 0
+2026/02/20-09:28:19.484684 264c                Options.max_bgerror_resume_count: 2147483647
+2026/02/20-09:28:19.484695 264c            Options.bgerror_resume_retry_interval: 1000000
+2026/02/20-09:28:19.484706 264c             Options.allow_data_in_errors: 0
+2026/02/20-09:28:19.484718 264c             Options.db_host_id: __hostname__
+2026/02/20-09:28:19.484729 264c             Options.enforce_single_del_contracts: true
+2026/02/20-09:28:19.484742 264c             Options.metadata_write_temperature: kUnknown
+2026/02/20-09:28:19.484754 264c             Options.wal_write_temperature: kUnknown
+2026/02/20-09:28:19.484765 264c             Options.max_background_jobs: 4
+2026/02/20-09:28:19.484776 264c             Options.max_background_compactions: -1
+2026/02/20-09:28:19.484787 264c             Options.max_subcompactions: 1
+2026/02/20-09:28:19.484798 264c             Options.avoid_flush_during_shutdown: 0
+2026/02/20-09:28:19.484810 264c           Options.writable_file_max_buffer_size: 1048576
+2026/02/20-09:28:19.484822 264c             Options.delayed_write_rate : 16777216
+2026/02/20-09:28:19.484833 264c             Options.max_total_wal_size: 0
+2026/02/20-09:28:19.484845 264c             Options.delete_obsolete_files_period_micros: 21600000000
+2026/02/20-09:28:19.484856 264c                   Options.stats_dump_period_sec: 600
+2026/02/20-09:28:19.484867 264c                 Options.stats_persist_period_sec: 600
+2026/02/20-09:28:19.484877 264c                 Options.stats_history_buffer_size: 1048576
+2026/02/20-09:28:19.484888 264c                          Options.max_open_files: -1
+2026/02/20-09:28:19.484900 264c                          Options.bytes_per_sync: 0
+2026/02/20-09:28:19.484913 264c                      Options.wal_bytes_per_sync: 0
+2026/02/20-09:28:19.484924 264c                   Options.strict_bytes_per_sync: 0
+2026/02/20-09:28:19.484935 264c       Options.compaction_readahead_size: 2097152
+2026/02/20-09:28:19.484946 264c                  Options.max_background_flushes: -1
+2026/02/20-09:28:19.484957 264c                  Options.max_manifest_file_size: 1073741824
+2026/02/20-09:28:19.484968 264c                  Options.max_manifest_space_amp_pct: 500
+2026/02/20-09:28:19.484979 264c             Options.manifest_preallocation_size: 4194304
+2026/02/20-09:28:19.484991 264c Options.daily_offpeak_time_utc: 
+2026/02/20-09:28:19.485003 264c Compression algorithms supported:
+2026/02/20-09:28:19.485015 264c 	kZSTD supported: 1
+2026/02/20-09:28:19.485027 264c 	kCustomCompressionA3 supported: 0
+2026/02/20-09:28:19.485037 264c 	kSnappyCompression supported: 1
+2026/02/20-09:28:19.485048 264c 	kCustomCompressionA5 supported: 0
+2026/02/20-09:28:19.485059 264c 	kBZip2Compression supported: 0
+2026/02/20-09:28:19.485069 264c 	kZlibCompression supported: 1
+2026/02/20-09:28:19.485082 264c 	kLZ4Compression supported: 1
+2026/02/20-09:28:19.485094 264c 	kXpressCompression supported: 0
+2026/02/20-09:28:19.485105 264c 	kCustomCompressionA7 supported: 0
+2026/02/20-09:28:19.485117 264c 	kLZ4HCCompression supported: 1
+2026/02/20-09:28:19.485128 264c 	kCustomCompressionB2 supported: 0
+2026/02/20-09:28:19.485139 264c 	kCustomCompression9C supported: 0
+2026/02/20-09:28:19.485150 264c 	kCustomCompression80 supported: 0
+2026/02/20-09:28:19.485160 264c 	kCustomCompressionB3 supported: 0
+2026/02/20-09:28:19.485173 264c 	kCustomCompression9B supported: 0
+2026/02/20-09:28:19.485184 264c 	kCustomCompression81 supported: 0
+2026/02/20-09:28:19.485196 264c 	kCustomCompressionB0 supported: 0
+2026/02/20-09:28:19.485208 264c 	kCustomCompression9A supported: 0
+2026/02/20-09:28:19.485218 264c 	kCustomCompression82 supported: 0
+2026/02/20-09:28:19.485229 264c 	kCustomCompressionB1 supported: 0
+2026/02/20-09:28:19.485240 264c 	kCustomCompression83 supported: 0
+2026/02/20-09:28:19.485251 264c 	kCustomCompressionB6 supported: 0
+2026/02/20-09:28:19.485266 264c 	kCustomCompression84 supported: 0
+2026/02/20-09:28:19.485279 264c 	kCustomCompressionB7 supported: 0
+2026/02/20-09:28:19.485291 264c 	kCustomCompression9F supported: 0
+2026/02/20-09:28:19.485302 264c 	kCustomCompression85 supported: 0
+2026/02/20-09:28:19.485313 264c 	kCustomCompressionB4 supported: 0
+2026/02/20-09:28:19.485324 264c 	kCustomCompression9E supported: 0
+2026/02/20-09:28:19.485334 264c 	kCustomCompression86 supported: 0
+2026/02/20-09:28:19.485345 264c 	kCustomCompressionB5 supported: 0
+2026/02/20-09:28:19.485357 264c 	kCustomCompression9D supported: 0
+2026/02/20-09:28:19.485370 264c 	kCustomCompression87 supported: 0
+2026/02/20-09:28:19.485381 264c 	kCustomCompression88 supported: 0
+2026/02/20-09:28:19.485392 264c 	kCustomCompression89 supported: 0
+2026/02/20-09:28:19.485403 264c 	kCustomCompression92 supported: 0
+2026/02/20-09:28:19.485413 264c 	kCustomCompression8A supported: 0
+2026/02/20-09:28:19.485424 264c 	kCustomCompression91 supported: 0
+2026/02/20-09:28:19.485435 264c 	kCustomCompression8B supported: 0
+2026/02/20-09:28:19.485447 264c 	kCustomCompression90 supported: 0
+2026/02/20-09:28:19.485459 264c 	kCustomCompression8C supported: 0
+2026/02/20-09:28:19.485471 264c 	kCustomCompression97 supported: 0
+2026/02/20-09:28:19.485481 264c 	kCustomCompression8D supported: 0
+2026/02/20-09:28:19.485492 264c 	kCustomCompression96 supported: 0
+2026/02/20-09:28:19.485503 264c 	kCustomCompression8E supported: 0
+2026/02/20-09:28:19.485514 264c 	kCustomCompression95 supported: 0
+2026/02/20-09:28:19.485525 264c 	kCustomCompression8F supported: 0
+2026/02/20-09:28:19.485537 264c 	kCustomCompression93 supported: 0
+2026/02/20-09:28:19.485549 264c 	kCustomCompression94 supported: 0
+2026/02/20-09:28:19.485569 264c 	kCustomCompression98 supported: 0
+2026/02/20-09:28:19.485581 264c 	kCustomCompression99 supported: 0
+2026/02/20-09:28:19.485591 264c 	kCustomCompressionA0 supported: 0
+2026/02/20-09:28:19.485602 264c 	kCustomCompressionA1 supported: 0
+2026/02/20-09:28:19.485613 264c 	kCustomCompressionA2 supported: 0
+2026/02/20-09:28:19.485625 264c 	kCustomCompressionA4 supported: 0
+2026/02/20-09:28:19.485637 264c 	kCustomCompressionA6 supported: 0
+2026/02/20-09:28:19.485649 264c 	kCustomCompressionA8 supported: 0
+2026/02/20-09:28:19.485659 264c 	kCustomCompressionA9 supported: 0
+2026/02/20-09:28:19.485670 264c 	kCustomCompressionAA supported: 0
+2026/02/20-09:28:19.485681 264c 	kCustomCompressionAB supported: 0
+2026/02/20-09:28:19.485692 264c 	kCustomCompressionAC supported: 0
+2026/02/20-09:28:19.485702 264c 	kCustomCompressionAD supported: 0
+2026/02/20-09:28:19.485714 264c 	kCustomCompressionAE supported: 0
+2026/02/20-09:28:19.485726 264c 	kCustomCompressionAF supported: 0
+2026/02/20-09:28:19.485736 264c 	kCustomCompressionB8 supported: 0
+2026/02/20-09:28:19.485747 264c 	kCustomCompressionB9 supported: 0
+2026/02/20-09:28:19.485758 264c 	kCustomCompressionBA supported: 0
+2026/02/20-09:28:19.485768 264c 	kCustomCompressionBB supported: 0
+2026/02/20-09:28:19.485779 264c 	kCustomCompressionBC supported: 0
+2026/02/20-09:28:19.485789 264c 	kCustomCompressionBD supported: 0
+2026/02/20-09:28:19.485801 264c 	kCustomCompressionBE supported: 0
+2026/02/20-09:28:19.485813 264c 	kCustomCompressionBF supported: 0
+2026/02/20-09:28:19.485824 264c 	kCustomCompressionC0 supported: 0
+2026/02/20-09:28:19.485835 264c 	kCustomCompressionC1 supported: 0
+2026/02/20-09:28:19.485845 264c 	kCustomCompressionC2 supported: 0
+2026/02/20-09:28:19.485856 264c 	kCustomCompressionC3 supported: 0
+2026/02/20-09:28:19.485867 264c 	kCustomCompressionC4 supported: 0
+2026/02/20-09:28:19.485878 264c 	kCustomCompressionC5 supported: 0
+2026/02/20-09:28:19.485890 264c 	kCustomCompressionC6 supported: 0
+2026/02/20-09:28:19.485901 264c 	kCustomCompressionC7 supported: 0
+2026/02/20-09:28:19.485911 264c 	kCustomCompressionC8 supported: 0
+2026/02/20-09:28:19.485921 264c 	kCustomCompressionC9 supported: 0
+2026/02/20-09:28:19.485930 264c 	kCustomCompressionCA supported: 0
+2026/02/20-09:28:19.485941 264c 	kCustomCompressionCB supported: 0
+2026/02/20-09:28:19.485985 264c 	kCustomCompressionCC supported: 0
+2026/02/20-09:28:19.486002 264c 	kCustomCompressionCD supported: 0
+2026/02/20-09:28:19.486015 264c 	kCustomCompressionCE supported: 0
+2026/02/20-09:28:19.486027 264c 	kCustomCompressionCF supported: 0
+2026/02/20-09:28:19.486037 264c 	kCustomCompressionD0 supported: 0
+2026/02/20-09:28:19.486044 264c 	kCustomCompressionD1 supported: 0
+2026/02/20-09:28:19.486049 264c 	kCustomCompressionD2 supported: 0
+2026/02/20-09:28:19.486055 264c 	kCustomCompressionD3 supported: 0
+2026/02/20-09:28:19.486062 264c 	kCustomCompressionD4 supported: 0
+2026/02/20-09:28:19.486068 264c 	kCustomCompressionD5 supported: 0
+2026/02/20-09:28:19.486075 264c 	kCustomCompressionD6 supported: 0
+2026/02/20-09:28:19.486081 264c 	kCustomCompressionD7 supported: 0
+2026/02/20-09:28:19.486088 264c 	kCustomCompressionD8 supported: 0
+2026/02/20-09:28:19.486094 264c 	kCustomCompressionD9 supported: 0
+2026/02/20-09:28:19.486100 264c 	kCustomCompressionDA supported: 0
+2026/02/20-09:28:19.486106 264c 	kCustomCompressionDB supported: 0
+2026/02/20-09:28:19.486111 264c 	kCustomCompressionDC supported: 0
+2026/02/20-09:28:19.486117 264c 	kCustomCompressionDD supported: 0
+2026/02/20-09:28:19.486124 264c 	kCustomCompressionDE supported: 0
+2026/02/20-09:28:19.486131 264c 	kCustomCompressionDF supported: 0
+2026/02/20-09:28:19.486137 264c 	kCustomCompressionE0 supported: 0
+2026/02/20-09:28:19.486144 264c 	kCustomCompressionE1 supported: 0
+2026/02/20-09:28:19.486150 264c 	kCustomCompressionE2 supported: 0
+2026/02/20-09:28:19.486155 264c 	kCustomCompressionE3 supported: 0
+2026/02/20-09:28:19.486161 264c 	kCustomCompressionE4 supported: 0
+2026/02/20-09:28:19.486168 264c 	kCustomCompressionE5 supported: 0
+2026/02/20-09:28:19.486179 264c 	kCustomCompressionE6 supported: 0
+2026/02/20-09:28:19.486189 264c 	kCustomCompressionE7 supported: 0
+2026/02/20-09:28:19.486199 264c 	kCustomCompressionE8 supported: 0
+2026/02/20-09:28:19.486207 264c 	kCustomCompressionE9 supported: 0
+2026/02/20-09:28:19.486216 264c 	kCustomCompressionEA supported: 0
+2026/02/20-09:28:19.486225 264c 	kCustomCompressionEB supported: 0
+2026/02/20-09:28:19.486235 264c 	kCustomCompressionEC supported: 0
+2026/02/20-09:28:19.486245 264c 	kCustomCompressionED supported: 0
+2026/02/20-09:28:19.486257 264c 	kCustomCompressionEE supported: 0
+2026/02/20-09:28:19.486269 264c 	kCustomCompressionEF supported: 0
+2026/02/20-09:28:19.486281 264c 	kCustomCompressionF0 supported: 0
+2026/02/20-09:28:19.486292 264c 	kCustomCompressionF1 supported: 0
+2026/02/20-09:28:19.486303 264c 	kCustomCompressionF2 supported: 0
+2026/02/20-09:28:19.486314 264c 	kCustomCompressionF3 supported: 0
+2026/02/20-09:28:19.486325 264c 	kCustomCompressionF4 supported: 0
+2026/02/20-09:28:19.486336 264c 	kCustomCompressionF5 supported: 0
+2026/02/20-09:28:19.486349 264c 	kCustomCompressionF6 supported: 0
+2026/02/20-09:28:19.486361 264c 	kCustomCompressionF7 supported: 0
+2026/02/20-09:28:19.486372 264c 	kCustomCompressionF8 supported: 0
+2026/02/20-09:28:19.486384 264c 	kCustomCompressionF9 supported: 0
+2026/02/20-09:28:19.486395 264c 	kCustomCompressionFA supported: 0
+2026/02/20-09:28:19.486406 264c 	kCustomCompressionFB supported: 0
+2026/02/20-09:28:19.486417 264c 	kCustomCompressionFC supported: 0
+2026/02/20-09:28:19.486428 264c 	kCustomCompressionFD supported: 0
+2026/02/20-09:28:19.486440 264c 	kCustomCompressionFE supported: 0
+2026/02/20-09:28:19.486454 264c Fast CRC32 supported: Not supported on x86
+2026/02/20-09:28:19.486467 264c DMutex implementation: std::mutex
+2026/02/20-09:28:19.486479 264c Jemalloc supported: 0
+2026/02/20-09:28:19.486951 264c [WARN] [db\db_impl\db_impl_open.cc:2688] DB::Open() failed: IO error: Failed to create lock file: ./llm_cache/LOCK: Der Prozess kann nicht auf die Datei zugreifen, da sie von einem anderen Prozess verwendet wird.
+2026/02/20-09:28:19.486976 264c [db\db_impl\db_impl.cc:467] Shutdown: canceling all background work
+2026/02/20-09:28:19.487060 264c [db\db_impl\db_impl.cc:681] Shutdown complete

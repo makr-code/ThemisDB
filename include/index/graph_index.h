@@ -251,6 +251,11 @@ public:
     size_t getTopologyNodeCount() const;
     size_t getTopologyEdgeCount() const;
 
+    /// Return all vertex IDs present in the in-memory topology (sources and
+    /// targets of all edges added via addEdge). When the topology has not been
+    /// loaded, returns an empty vector. Thread-safe.
+    std::vector<std::string> getAllVertices() const;
+
     // Edge attribute retrieval (for weighted graph algorithms)
     // Returns edge weight from specified attribute (default: "_weight")
     // Falls back to 1.0 if attribute doesn't exist or edge not found

@@ -27,6 +27,7 @@
 #pragma once
 
 #include "index/graph_index.h"
+#include "index/graph_analytics.h"
 #include "utils/expected.h"
 #include <string>
 #include <vector>
@@ -304,6 +305,23 @@ public:
         TraversalAlgorithm algorithm = TraversalAlgorithm::BFS;
     };
 
+    /**
+     * @brief Result of a subgraph isomorphism (pattern matching) query.
+     *
+     * Each element of `matches` is a mapping from pattern vertex label to the
+     * actual vertex ID that was matched in the data graph.  For example, if the
+     * pattern has vertices {"u", "v"} and the match maps u→"A", v→"B", the
+     * corresponding entry is {{"u","A"}, {"v","B"}}.
+     */
+    struct SubgraphIsomorphismResult {
+        /// All mappings pattern_vertex → data_vertex found in the graph.
+        std::vector<std::unordered_map<std::string, std::string>> matches;
+        /// Number of (pattern_vertex, data_vertex) candidate pairs evaluated.
+        size_t candidate_pairs_checked = 0;
+        /// Total execution time in milliseconds.
+        double execution_time_ms = 0.0;
+    };
+
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
 
     /**
@@ -410,6 +428,38 @@ public:
         std::string_view start_vertex,
         std::string_view target_vertex,
         const QueryConstraints& constraints,
+        ExecutionStats* stats = nullptr
+    );
+
+    /**
+     * @brief Execute a subgraph isomorphism (pattern matching) query.
+     *
+     * Finds all injective mappings from the pattern graph onto subgraphs of the
+     * data graph.  The algorithm is a VF2-style recursive backtracking search:
+     *
+     *  1. The pattern is described by a list of vertex labels and directed edges
+     *     (pairs of labels).
+     *  2. For each candidate extension (pattern_vertex → data_vertex), the method
+     *     checks structural feasibility: every edge in the pattern that connects
+     *     already-mapped vertices must be present in the data graph.
+     *  3. The mapping is injective: each data vertex may appear at most once.
+     *
+     * Constraints supported via `QueryConstraints`:
+     *  - `timeout_ms`: abort and return partial results after the given deadline.
+     *  - `max_results`: stop after the first N matches are found.
+     *  - `forbidden_vertices`: data vertices that must not appear in any match.
+     *
+     * @param pattern_vertices  Ordered list of vertex labels in the pattern graph.
+     * @param pattern_edges     Directed edges as (source_label, target_label) pairs.
+     * @param constraints       Optional execution constraints.
+     * @param stats             Optional output execution statistics.
+     * @return SubgraphIsomorphismResult containing all matches, or an error if the
+     *         query timed out before the first result could be produced.
+     */
+    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
+        const std::vector<std::string>& pattern_vertices,
+        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+        const QueryConstraints& constraints = QueryConstraints{},
         ExecutionStats* stats = nullptr
     );
 
@@ -657,7 +707,68 @@ public:
         const class PathConstraints& constraints
     );
 
+    // -----------------------------------------------------------------------
+    // Analytics Module Integration (Issue #1821)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Attach a GraphAnalytics instance to enable algorithm reuse.
+     *
+     * When an analytics instance is attached, the optimizer can delegate
+     * complex analytics operations (e.g., k-shortest paths via Yen's
+     * algorithm) to the analytics module instead of re-implementing them.
+     * The caller retains ownership; the pointer must remain valid for the
+     * lifetime of this optimizer or until `detachAnalytics()` is called.
+     *
+     * @param analytics Reference to a GraphAnalytics instance.
+     */
+    void attachAnalytics(GraphAnalytics& analytics);
+
+    /**
+     * @brief Detach the previously attached analytics instance.
+     *
+     * After calling this, `executeKShortestPaths` will return an error
+     * until a new analytics instance is attached.
+     */
+    void detachAnalytics();
+
+    /**
+     * @brief Returns true if an analytics instance is currently attached.
+     */
+    bool hasAnalytics() const { return analytics_ != nullptr; }
+
+    /**
+     * @brief Execute K-Shortest Paths using the attached analytics module.
+     *
+     * Delegates to `GraphAnalytics::kShortestPaths` (Yen's algorithm) to
+     * find the `k` shortest loopless paths from `source` to `target`.
+     * This avoids duplicating the Yen's algorithm implementation inside the
+     * query optimizer and reuses the production-tested analytics code.
+     *
+     * Execution statistics are recorded so the adaptive cost model learns
+     * from k-shortest-paths workloads.
+     *
+     * @param source      Source vertex primary key.
+     * @param target      Target vertex primary key.
+     * @param k           Number of shortest paths to return (must be > 0).
+     * @param constraints Query constraints; `timeout_ms` and rate limiting apply.
+     * @param weight_attr Optional edge weight attribute name (empty = default `_weight`).
+     * @param stats       Optional output parameter for execution statistics.
+     * @return Vector of PathInfo results (at most k paths), or an error.
+     *         Returns ERR_GRAPH_PATH_NOT_FOUND if no path exists.
+     */
+    Result<std::vector<GraphAnalytics::PathInfo>> executeKShortestPaths(
+        std::string_view source,
+        std::string_view target,
+        int k,
+        const QueryConstraints& constraints,
+        std::string_view weight_attr = "",
+        ExecutionStats* stats = nullptr
+    );
+
 private:
+    // Pointer to an optional analytics instance for algorithm reuse (not owned).
+    GraphAnalytics* analytics_ = nullptr;
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;
     bool plan_caching_enabled_ = true;
