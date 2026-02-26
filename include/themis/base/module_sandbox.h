@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     298                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -216,7 +216,8 @@ public:
     // ── Configuration ─────────────────────────────────────────────────────
     struct Config {
         size_t max_memory_mb       = 256;   ///< Hard memory limit
-        int    max_cpu_percent     = 50;    ///< CPU share (0 = unlimited)
+        int    max_cpu_percent     = 50;    ///< CPU share (0 = unlimited); used on Windows
+        size_t max_cpu_time_seconds = 0;    ///< Hard CPU-time limit in seconds (0 = unlimited); used as RLIMIT_CPU fallback on Linux
         bool   allow_network       = false; ///< Allow outbound network calls
         FilesystemAccess fs_access = FilesystemAccess::READ_ONLY;
         std::string work_directory;         ///< Used when fs_access = READ_WRITE
