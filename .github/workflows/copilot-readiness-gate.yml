@@ -27,6 +27,7 @@ permissions:
   pull-requests: write  # add/remove labels
   issues: write         # add/remove labels (PRs share the issues API)
   checks: read          # read check suites / runs
+  actions: write        # trigger copilot-dispatcher via createWorkflowDispatch
 
 jobs:
   evaluate:
@@ -37,7 +38,9 @@ jobs:
       - name: Checkout repository (needed to read config)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          # Branch strategy: always check out 'develop' – consistent with
+          # the dispatcher, ensuring config is read from the same branch.
+          ref: develop
 
       - name: Install js-yaml
         run: npm install js-yaml
@@ -190,12 +193,20 @@ jobs:
               core.info(`PR #${prNumber}: promoted to copilot/status-ready. Capacity freed.`);
 
               // ── Trigger the dispatcher to fill the freed slot ─────────────
-              await github.rest.actions.createWorkflowDispatch({
-                owner: OWNER,
-                repo: REPO,
-                workflow_id: 'copilot-dispatcher.yml',
-                ref: context.payload?.repository?.default_branch ?? 'develop',
-              }).catch(e => core.warning(`Could not trigger dispatcher: ${e.message}`));
+              // Branch strategy: always dispatch on 'develop' – this is where
+              // the Copilot automation workflows are maintained, ensuring we
+              // always run the intended version of the dispatcher.
+              try {
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: OWNER,
+                  repo: REPO,
+                  workflow_id: 'copilot-dispatcher.yml',
+                  ref: 'develop',
+                });
+                core.info(`Triggered copilot-dispatcher.yml on branch 'develop'.`);
+              } catch (e) {
+                core.warning(`Could not trigger dispatcher (check actions: write permission): ${e.message}`);
+              }
             }
 
             core.info('Readiness gate evaluation complete.');
