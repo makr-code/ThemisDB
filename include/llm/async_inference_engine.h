@@ -28,6 +28,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/llm_response_cache.h"
 #include "llm/shared_worker_pool.h"
 #include <thread>
 #include <algorithm>
@@ -128,6 +129,10 @@ public:
             REJECT          // Reject new request
         };
         BackpressurePolicy backpressure = BackpressurePolicy::BLOCK;
+        
+        // Deduplication cache: return cached response for identical prompts
+        bool enable_dedup_cache = false;
+        LLMResponseCache::Config dedup_cache_config;  // Cache config (set cache_dir before use)
     };
     
     /**
@@ -242,6 +247,22 @@ public:
      */
     void shutdown();
     
+    /**
+     * @brief Attach an external deduplication cache.
+     *
+     * Allows sharing a single LLMResponseCache instance across engines.
+     * Overrides any cache created from Config::enable_dedup_cache.
+     *
+     * @param cache Shared LLMResponseCache instance; may be nullptr to disable.
+     */
+    void setDedupCache(std::shared_ptr<LLMResponseCache> cache);
+
+    /**
+     * @brief Get deduplication cache statistics.
+     * @return Cache statistics, or default-constructed stats if cache is disabled.
+     */
+    LLMResponseCache::CacheStatistics getDedupCacheStats() const;
+    
 private:
     Config config_;
     ILLMPlugin* plugin_;
@@ -249,6 +270,9 @@ private:
 
     // Optional shared worker pool (nullptr → private workers used instead)
     std::shared_ptr<SharedWorkerPool> shared_pool_;
+
+    // Optional deduplication cache (nullptr if disabled)
+    std::shared_ptr<LLMResponseCache> dedup_cache_;
 
     // Worker threads
     std::vector<std::thread> workers_;
@@ -288,6 +312,8 @@ private:
         std::atomic<size_t> total_timed_out{0};
         std::atomic<double> total_inference_time_ms{0.0};
         std::atomic<double> total_queue_time_ms{0.0};
+        std::atomic<size_t> total_dedup_cache_hits{0};
+        std::atomic<size_t> total_dedup_cache_misses{0};
     };
     Stats stats_;
     

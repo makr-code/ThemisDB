@@ -18,6 +18,7 @@
  */
 
 #include "llm/async_inference_engine.h"
+#include "llm/llm_response_cache.h"
 #include "llm/shared_worker_pool.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -52,6 +53,14 @@ AsyncInferenceEngine::AsyncInferenceEngine(
 
     // Start timeout monitor thread
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+
+    // Initialize deduplication cache if enabled
+    if (config_.enable_dedup_cache) {
+        dedup_cache_ = std::make_shared<LLMResponseCache>("async_dedup_cache",
+                                                          config_.dedup_cache_config);
+        spdlog::info("AsyncInferenceEngine: deduplication cache enabled (dir={})",
+                     config_.dedup_cache_config.cache_dir);
+    }
     
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
@@ -72,6 +81,14 @@ AsyncInferenceEngine::AsyncInferenceEngine(
 
     // Start timeout monitor thread
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+
+    // Initialize deduplication cache if enabled
+    if (config_.enable_dedup_cache) {
+        dedup_cache_ = std::make_shared<LLMResponseCache>("async_dedup_cache",
+                                                          config_.dedup_cache_config);
+        spdlog::info("AsyncInferenceEngine: deduplication cache enabled (dir={})",
+                     config_.dedup_cache_config.cache_dir);
+    }
 
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
@@ -94,6 +111,14 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     // Private worker threads are NOT started; the shared pool is used instead.
     // Only the timeout monitor runs locally.
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+
+    // Initialize deduplication cache if enabled
+    if (config_.enable_dedup_cache) {
+        dedup_cache_ = std::make_shared<LLMResponseCache>("async_dedup_cache",
+                                                          config_.dedup_cache_config);
+        spdlog::info("AsyncInferenceEngine: deduplication cache enabled (dir={})",
+                     config_.dedup_cache_config.cache_dir);
+    }
 }
 
 AsyncInferenceEngine::AsyncInferenceEngine(
@@ -111,6 +136,14 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     spdlog::info("AsyncInferenceEngine started with shared worker pool ({} threads)",
                  shared_pool_->numThreads());
     timeout_thread_ = std::thread(&AsyncInferenceEngine::timeoutMonitorLoop, this);
+
+    // Initialize deduplication cache if enabled
+    if (config_.enable_dedup_cache) {
+        dedup_cache_ = std::make_shared<LLMResponseCache>("async_dedup_cache",
+                                                          config_.dedup_cache_config);
+        spdlog::info("AsyncInferenceEngine: deduplication cache enabled (dir={})",
+                     config_.dedup_cache_config.cache_dir);
+    }
 }
 
 AsyncInferenceEngine::~AsyncInferenceEngine() {
@@ -379,6 +412,9 @@ json AsyncInferenceEngine::getWorkerStats() const {
         stats["avg_queue_time_ms"] = 
             stats_.total_queue_time_ms.load() / completed;
     }
+
+    stats["total_dedup_cache_hits"] = stats_.total_dedup_cache_hits.load();
+    stats["total_dedup_cache_misses"] = stats_.total_dedup_cache_misses.load();
     
     return stats;
 }
@@ -557,9 +593,30 @@ InferenceResponse AsyncInferenceEngine::processRequest(
             original_cb(token);
         };
     }
+
+    // Check deduplication cache (skip for streaming requests as they cannot be cached)
+    if (dedup_cache_ && !effective_request.stream_callback) {
+        auto cached = dedup_cache_->get(effective_request.prompt);
+        if (cached.has_value()) {
+            stats_.total_dedup_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            spdlog::debug("Dedup cache hit for request {}", request.request_id);
+            cached->cache_hit = true;
+            cached->metadata["async"] = true;
+            cached->metadata["queue_time_ms"] = queue_time;
+            cached->metadata["request_id"] = request.request_id;
+            cached->metadata["priority"] = request.priority;
+            return *cached;
+        }
+        stats_.total_dedup_cache_misses.fetch_add(1, std::memory_order_relaxed);
+    }
     
     // Call plugin (blocking inference)
     InferenceResponse response = plugin_->generate(effective_request);
+    
+    // Store in deduplication cache (skip for streaming requests)
+    if (dedup_cache_ && !effective_request.stream_callback) {
+        dedup_cache_->put(effective_request.prompt, response);
+    }
     
     // Add metadata
     response.metadata["async"] = true;
@@ -571,6 +628,17 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     stats_.total_inference_time_ms.fetch_add(response.inference_time_ms);
     
     return response;
+}
+
+void AsyncInferenceEngine::setDedupCache(std::shared_ptr<LLMResponseCache> cache) {
+    dedup_cache_ = std::move(cache);
+}
+
+LLMResponseCache::CacheStatistics AsyncInferenceEngine::getDedupCacheStats() const {
+    if (dedup_cache_) {
+        return dedup_cache_->getStatistics();
+    }
+    return LLMResponseCache::CacheStatistics{};
 }
 
 std::string AsyncInferenceEngine::generateRequestId() {
