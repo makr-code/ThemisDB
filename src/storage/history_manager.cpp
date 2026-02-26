@@ -111,7 +111,7 @@ std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::strin
 
 // ── Transactional write helpers ───────────────────────────────────────────────
 
-HLCTimestamp HistoryManager::recordPut(
+std::optional<HLCTimestamp> HistoryManager::recordPut(
     RocksDBWrapper::TransactionWrapper& txn,
     std::string_view base_key,
     const std::vector<uint8_t>& value,
@@ -126,11 +126,13 @@ HLCTimestamp HistoryManager::recordPut(
     rec.txn_id    = txn_id;
     auto hkey  = historyKey(base_key, ts);
     auto hval  = serializeHistoryRecord(rec);
-    txn.put(hkey, hval);
+    if (!txn.put(hkey, hval)) {
+        return std::nullopt;
+    }
     return ts;
 }
 
-HLCTimestamp HistoryManager::recordDel(
+std::optional<HLCTimestamp> HistoryManager::recordDel(
     RocksDBWrapper::TransactionWrapper& txn,
     std::string_view base_key,
     uint64_t txn_id
@@ -143,7 +145,9 @@ HLCTimestamp HistoryManager::recordDel(
     rec.txn_id    = txn_id;
     auto hkey  = historyKey(base_key, ts);
     auto hval  = serializeHistoryRecord(rec);
-    txn.put(hkey, hval);
+    if (!txn.put(hkey, hval)) {
+        return std::nullopt;
+    }
     return ts;
 }
 
@@ -231,6 +235,14 @@ std::string ConflictManager::conflictKey(std::string_view conflict_id) {
     return key;
 }
 
+std::string ConflictManager::conflictSetKey(std::string_view conflict_set_id) {
+    std::string key;
+    key.reserve(12 + conflict_set_id.size());
+    key += "conflictset:";
+    key.append(conflict_set_id.data(), conflict_set_id.size());
+    return key;
+}
+
 // ── Serialization ─────────────────────────────────────────────────────────────
 
 std::vector<uint8_t> ConflictManager::serializeConflictRecord(const ConflictRecord& rec) {
@@ -243,6 +255,7 @@ std::vector<uint8_t> ConflictManager::serializeConflictRecord(const ConflictReco
     j["base_hex"]    = bytesToHex(rec.base_value);
     j["ours_hex"]    = bytesToHex(rec.ours_value);
     j["theirs_hex"]  = bytesToHex(rec.theirs_value);
+    j["type"]        = rec.type;
     auto s = j.dump();
     return std::vector<uint8_t>(s.begin(), s.end());
 }
@@ -259,6 +272,7 @@ std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::st
         rec.base_value   = hexToBytes(j.value("base_hex", std::string{}));
         rec.ours_value   = hexToBytes(j.value("ours_hex", std::string{}));
         rec.theirs_value = hexToBytes(j.value("theirs_hex", std::string{}));
+        rec.type         = j.value("type", std::string{});
         return rec;
     } catch (...) {
         return std::nullopt;
@@ -297,6 +311,70 @@ std::vector<ConflictRecord> ConflictManager::listConflicts() const {
     db_->scanPrefix("conflict:", [&](std::string_view /*key*/, std::string_view val) -> bool {
         auto rec = deserializeConflictRecord(val);
         if (rec) result.push_back(std::move(*rec));
+        return true;
+    });
+    return result;
+}
+
+// ── ConflictSet serialization ─────────────────────────────────────────────────
+
+std::vector<uint8_t> ConflictManager::serializeConflictSet(const ConflictSet& set) {
+    nlohmann::json j;
+    j["v"]                   = set.version;
+    j["conflict_set_id"]     = set.conflict_set_id;
+    j["detected_at"]         = set.detected_at.value;
+    j["txn_id"]              = set.txn_id;
+    j["conflict_record_ids"] = set.conflict_record_ids;
+    j["affected_keys"]       = set.affected_keys;
+    auto s = j.dump();
+    return std::vector<uint8_t>(s.begin(), s.end());
+}
+
+std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_view data) {
+    try {
+        auto j = nlohmann::json::parse(data.begin(), data.end());
+        ConflictSet set;
+        set.version           = j.value("v", 1);
+        set.conflict_set_id   = j.value("conflict_set_id", std::string{});
+        set.detected_at       = HLCTimestamp{j.value("detected_at", uint64_t{0})};
+        set.txn_id            = j.value("txn_id", uint64_t{0});
+        set.conflict_record_ids = j.value("conflict_record_ids", std::vector<std::string>{});
+        set.affected_keys     = j.value("affected_keys", std::vector<std::string>{});
+        return set;
+    } catch (...) {
+        return std::nullopt;
+    }
+}
+
+// ── ConflictSet write/read ────────────────────────────────────────────────────
+
+std::string ConflictManager::storeConflictSet(ConflictSet& set) {
+    if (set.conflict_set_id.empty()) {
+        HLCTimestamp ts = clock_->now();
+        set.conflict_set_id = std::to_string(ts.physical()) + "_" +
+                              std::to_string(ts.logical());
+        set.detected_at = ts;
+    }
+    auto ckey = conflictSetKey(set.conflict_set_id);
+    auto cval = serializeConflictSet(set);
+    db_->put(ckey, cval);
+    return set.conflict_set_id;
+}
+
+std::optional<ConflictSet> ConflictManager::getConflictSet(std::string_view conflict_set_id) const {
+    auto ckey = conflictSetKey(conflict_set_id);
+    auto raw = db_->get(ckey);
+    if (!raw) return std::nullopt;
+    return deserializeConflictSet(
+        std::string_view(reinterpret_cast<const char*>(raw->data()), raw->size())
+    );
+}
+
+std::vector<ConflictSet> ConflictManager::listConflictSets() const {
+    std::vector<ConflictSet> result;
+    db_->scanPrefix("conflictset:", [&](std::string_view /*key*/, std::string_view val) -> bool {
+        auto set = deserializeConflictSet(val);
+        if (set) result.push_back(std::move(*set));
         return true;
     });
     return result;

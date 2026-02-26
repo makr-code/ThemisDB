@@ -380,13 +380,26 @@ public:
         /// Get the snapshot (for debugging)
         /// Returns error if transaction is inactive or not initialized
         Result<const rocksdb::Snapshot*> getSnapshot() const;
-        
+
+        /// Reason why the most recent commit() call returned false.
+        enum class CommitFailureType {
+            None,        ///< No failure (commit succeeded or not yet attempted)
+            Busy,        ///< RocksDB IsBusy() – write-write conflict / lock contention
+            TimedOut,    ///< RocksDB IsTimedOut() – lock wait timeout
+            TryAgain,    ///< RocksDB IsTryAgain() – transient, caller should retry
+            CommitError, ///< Other commit error
+        };
+
+        /// Return the failure classification of the last commit() call.
+        CommitFailureType getLastCommitFailureType() const { return last_commit_failure_type_; }
+
     private:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
         TransactionIsolationLevel isolation_;
         State state_ = State::NotStarted;
         bool prepared_ = false;
+        CommitFailureType last_commit_failure_type_ = CommitFailureType::None;
         friend class RocksDBWrapper;
     };
     

@@ -61,6 +61,33 @@ struct ConflictRecord {
     std::vector<uint8_t> base_value;  ///< Value at transaction start (may be empty)
     std::vector<uint8_t> ours_value;  ///< Value we tried to write (may be empty)
     std::vector<uint8_t> theirs_value;///< Value committed by conflicting transaction (may be empty)
+    /// Conflict type classification.
+    /// Values: "busy" (write-write / lock contention), "timeout" (lock timeout),
+    /// "try_again" (transient, caller should retry), "commit_error" (other failure).
+    std::string type;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ConflictSet
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Groups all ConflictRecord artifacts produced by a single failed commit.
+ *
+ * A single transaction that writes N keys and then fails will produce N
+ * individual ConflictRecord entries (one per key) plus one ConflictSet that
+ * references all of them.  Callers receive the conflict_set_id in the returned
+ * Status so they can look up the full picture with a single key.
+ *
+ * Storage key: `conflictset:<conflict_set_id>`
+ */
+struct ConflictSet {
+    int         version{1};                       ///< Format version
+    std::string conflict_set_id;                  ///< Unique set ID (HLC timestamp string)
+    HLCTimestamp detected_at;                     ///< When the conflict set was created
+    uint64_t txn_id{0};                           ///< Transaction that encountered the conflict
+    std::vector<std::string> conflict_record_ids; ///< IDs of individual ConflictRecords
+    std::vector<std::string> affected_keys;        ///< Keys involved in the conflict
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -123,9 +150,10 @@ public:
      * @param base_key  The live key that was written.
      * @param value     The value that was written.
      * @param txn_id    Originating transaction ID (0 if unknown).
-     * @return The HLC timestamp assigned to this history entry.
+     * @return The HLC timestamp assigned to this history entry, or std::nullopt
+     *         if the history write failed (caller should treat the operation as failed).
      */
-    HLCTimestamp recordPut(
+    std::optional<HLCTimestamp> recordPut(
         RocksDBWrapper::TransactionWrapper& txn,
         std::string_view base_key,
         const std::vector<uint8_t>& value,
@@ -138,9 +166,10 @@ public:
      * @param txn      Active RocksDB transaction.
      * @param base_key The live key that was deleted.
      * @param txn_id   Originating transaction ID (0 if unknown).
-     * @return The HLC timestamp assigned to this history entry.
+     * @return The HLC timestamp assigned to this history entry, or std::nullopt
+     *         if the history write failed (caller should treat the operation as failed).
      */
-    HLCTimestamp recordDel(
+    std::optional<HLCTimestamp> recordDel(
         RocksDBWrapper::TransactionWrapper& txn,
         std::string_view base_key,
         uint64_t txn_id = 0
@@ -210,6 +239,13 @@ public:
      */
     static std::string conflictKey(std::string_view conflict_id);
 
+    /**
+     * @brief Build the storage key for a conflict set.
+     *
+     * Format: `conflictset:<conflict_set_id>`
+     */
+    static std::string conflictSetKey(std::string_view conflict_set_id);
+
     // ── Write ─────────────────────────────────────────────────────────────────
 
     /**
@@ -222,6 +258,16 @@ public:
      */
     std::string storeConflict(ConflictRecord& record);
 
+    /**
+     * @brief Persist a ConflictSet using a fresh non-transactional write.
+     *
+     * Assigns a unique conflict_set_id to @p set if it is empty, then writes
+     * it to the conflictset keyspace.
+     *
+     * @return The assigned conflict_set_id.
+     */
+    std::string storeConflictSet(ConflictSet& set);
+
     // ── Read ──────────────────────────────────────────────────────────────────
 
     /**
@@ -232,16 +278,33 @@ public:
     std::optional<ConflictRecord> getConflict(std::string_view conflict_id) const;
 
     /**
+     * @brief Retrieve a specific ConflictSet by ID.
+     *
+     * @return The set, or std::nullopt if not found.
+     */
+    std::optional<ConflictSet> getConflictSet(std::string_view conflict_set_id) const;
+
+    /**
      * @brief List all stored conflict records, most-recent first.
      *
      * Note: this is an O(N) scan over all conflict entries.
      */
     std::vector<ConflictRecord> listConflicts() const;
 
+    /**
+     * @brief List all stored conflict sets, most-recent first.
+     *
+     * Note: this is an O(N) scan over all conflictset entries.
+     */
+    std::vector<ConflictSet> listConflictSets() const;
+
     // ── Serialization helpers (public for testing) ────────────────────────────
 
     static std::vector<uint8_t> serializeConflictRecord(const ConflictRecord& rec);
     static std::optional<ConflictRecord> deserializeConflictRecord(std::string_view data);
+
+    static std::vector<uint8_t> serializeConflictSet(const ConflictSet& set);
+    static std::optional<ConflictSet> deserializeConflictSet(std::string_view data);
 
 private:
     std::shared_ptr<RocksDBWrapper>     db_;

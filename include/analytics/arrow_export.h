@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     155                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -33,13 +33,15 @@ namespace themis {
 namespace analytics {
 
 /**
- * @brief Arrow RecordBatch placeholder
- * 
- * This is a placeholder class to demonstrate extensibility for Apache Arrow integration.
- * It represents a batch of records in columnar format, similar to Apache Arrow's RecordBatch.
- * 
- * Note: This is NOT a real Apache Arrow dependency, but a design placeholder to show
- * how the analytics module can be extended for Arrow export functionality.
+ * @brief Columnar record batch with zero-copy Arrow export support.
+ *
+ * Stores records in a columnar format compatible with Apache Arrow's RecordBatch.
+ * Each numeric column (INT64, DOUBLE, TIMESTAMP) maintains a contiguous typed
+ * buffer alongside the variant storage, enabling zero-copy transfer to Apache
+ * Arrow arrays via arrow::Buffer::Wrap() when THEMIS_HAS_ARROW is enabled.
+ *
+ * When THEMIS_HAS_ARROW is not enabled the class still provides full JSON/CSV
+ * export and serves as the in-process columnar representation.
  */
 class ArrowRecordBatch {
 public:
@@ -75,7 +77,13 @@ public:
             std::string,
             bool
         >> data;
-        std::vector<bool> null_bitmap;  // Track null values
+        std::vector<bool> null_bitmap;  // Track null values (true = null)
+
+        // Typed contiguous buffers for zero-copy Arrow integration.
+        // Populated for INT64/TIMESTAMP and DOUBLE columns respectively.
+        // Null rows store 0 as a placeholder; consult null_bitmap for validity.
+        std::vector<int64_t> int64_buffer;
+        std::vector<double>  double_buffer;
     };
 
     ArrowRecordBatch() = default;
@@ -128,6 +136,32 @@ public:
         columns_.clear();
         row_count_ = 0;
     }
+
+    /**
+     * @brief Zero-copy access to INT64/TIMESTAMP column data.
+     *
+     * Returns a pointer to the contiguous int64_buffer of the column at
+     * @p col_idx, enabling Apache Arrow's Buffer::Wrap to wrap the memory
+     * without copying.  Only valid for INT64 and TIMESTAMP columns.
+     *
+     * @param col_idx Column index (0-based)
+     * @return Raw pointer into the contiguous int64 buffer, or nullptr if
+     *         the column type does not have an int64 buffer.
+     */
+    const int64_t* getInt64Data(size_t col_idx) const;
+
+    /**
+     * @brief Zero-copy access to DOUBLE column data.
+     *
+     * Returns a pointer to the contiguous double_buffer of the column at
+     * @p col_idx, enabling Apache Arrow's Buffer::Wrap to wrap the memory
+     * without copying.  Only valid for DOUBLE columns.
+     *
+     * @param col_idx Column index (0-based)
+     * @return Raw pointer into the contiguous double buffer, or nullptr if
+     *         the column type does not have a double buffer.
+     */
+    const double* getDoubleData(size_t col_idx) const;
 
     /**
      * @brief Export to JSON string (for testing/debugging)

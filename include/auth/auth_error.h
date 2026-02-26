@@ -127,9 +127,10 @@ enum class AuthErrorCode {
     LDAP_TLS_FAILED = 9406,
     LDAP_NOT_INITIALIZED = 9407,
     LDAP_OPERATION_TIMEOUT = 9408,
-    LDAP_INVALID_DN = 9409
-    // Password policy errors (9400-9409)
-    PASSWORD_POLICY_VIOLATION = 9400
+    LDAP_INVALID_DN = 9409,
+
+    // Password policy errors (9410-9419)
+    PASSWORD_POLICY_VIOLATION = 9410
 };
 
 /**

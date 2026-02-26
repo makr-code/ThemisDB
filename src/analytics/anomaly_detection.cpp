@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     989                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
@@ -223,71 +223,113 @@ ITree buildITree(const FeatureMatrix& fm,
                  int height, int height_limit,
                  std::mt19937& rng) {
     ITree tree;
-    // Iterative build using a stack to avoid deep C++ recursion
-    struct Frame { std::vector<size_t> idx; int height; };
+    tree.height_limit = height_limit;
+
+    const size_t n_features = fm.names.size();
+    if (n_features == 0) {
+        return tree;
+    }
+
+    auto build_node = [&](auto&& self, const std::vector<size_t>& idx, int h) -> int {
+        const int node_id = static_cast<int>(tree.nodes.size());
+        tree.nodes.push_back(IFNode{});
+        tree.nodes[static_cast<size_t>(node_id)].size = static_cast<int>(idx.size());
+
+        if (idx.size() <= 1 || h >= height_limit) {
+            return node_id;
+    // Iterative build: each frame carries the parent node id and which child
+    // slot (0=left, 1=right) it should fill in, so we can write the index back
+    // once the new node is allocated.
+    struct Frame {
+        std::vector<size_t> idx;
+        int height;
+        int parent_id;  // -1 for root
+        int side;       // 0 = left, 1 = right
+    };
     std::vector<Frame> stack;
-    stack.push_back({indices, height});
+    stack.push_back({indices, height, -1, 0});
     tree.height_limit = height_limit;
 
     while (!stack.empty()) {
-        auto [idx, h] = std::move(stack.back()); stack.pop_back();
+        auto [idx, h, parent_id, side] = std::move(stack.back()); stack.pop_back();
 
+        // Allocate node; write index back to parent before building children.
+        int node_id = static_cast<int>(tree.nodes.size());
         IFNode node;
         node.size = static_cast<int>(idx.size());
-        int node_id = static_cast<int>(tree.nodes.size());
-        tree.nodes.push_back(node);  // placeholder
+        tree.nodes.push_back(node);
+
+        if (parent_id >= 0) {
+            if (side == 0) tree.nodes[static_cast<size_t>(parent_id)].left  = node_id;
+            else           tree.nodes[static_cast<size_t>(parent_id)].right = node_id;
+        }
 
         if (idx.size() <= 1 || h >= height_limit) {
-            // leaf – already a leaf (split_feature == -1)
+            // leaf – split_feature remains -1
             continue;
         }
 
-        size_t n_features = fm.names.size();
-        if (n_features == 0) continue;
-
-        // Pick a random feature that has some variance
         std::uniform_int_distribution<size_t> feat_dist(0, n_features - 1);
-        size_t feat = feat_dist(rng);
+        size_t feat = 0;
+        double fmin = 0.0;
+        double fmax = 0.0;
+        bool found_split_feature = false;
 
-        double fmin = std::numeric_limits<double>::max();
-        double fmax = std::numeric_limits<double>::lowest();
-        for (size_t i : idx) {
-            if (feat < fm.rows[i].size()) {
-                fmin = std::min(fmin, fm.rows[i][feat]);
-                fmax = std::max(fmax, fm.rows[i][feat]);
+        for (size_t attempt = 0; attempt < n_features; ++attempt) {
+            feat = feat_dist(rng);
+            fmin = std::numeric_limits<double>::max();
+            fmax = std::numeric_limits<double>::lowest();
+            for (size_t i : idx) {
+                const double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
+                fmin = std::min(fmin, v);
+                fmax = std::max(fmax, v);
+            }
+            if (fmin < fmax) {
+                found_split_feature = true;
+                break;
             }
         }
 
-        if (fmin >= fmax) {
-            // No split possible on this feature – treat as leaf
-            continue;
+        if (!found_split_feature) {
+            return node_id;
         }
 
         std::uniform_real_distribution<double> val_dist(fmin, fmax);
-        double split_val = val_dist(rng);
+        const double split_val = val_dist(rng);
 
-        std::vector<size_t> left_idx, right_idx;
+        std::vector<size_t> left_idx;
+        std::vector<size_t> right_idx;
+        left_idx.reserve(idx.size());
+        right_idx.reserve(idx.size());
         for (size_t i : idx) {
-            double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
-            if (v < split_val) left_idx.push_back(i);
-            else               right_idx.push_back(i);
+            const double v = (feat < fm.rows[i].size()) ? fm.rows[i][feat] : 0.0;
+            if (v < split_val) {
+                left_idx.push_back(i);
+            } else {
+                right_idx.push_back(i);
+            }
         }
 
-        int left_id  = static_cast<int>(tree.nodes.size());
-        int right_id = left_id + 1;  // will be pushed after left subtree
+        if (left_idx.empty() || right_idx.empty()) {
+            return node_id;
+        }
 
         tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
+        tree.nodes[static_cast<size_t>(node_id)].split_value = split_val;
+        tree.nodes[static_cast<size_t>(node_id)].left = self(self, left_idx, h + 1);
+        tree.nodes[static_cast<size_t>(node_id)].right = self(self, right_idx, h + 1);
+
+        return node_id;
+    };
+
+    build_node(build_node, indices, height);
+        tree.nodes[static_cast<size_t>(node_id)].split_feature = static_cast<int>(feat);
         tree.nodes[static_cast<size_t>(node_id)].split_value   = split_val;
-        tree.nodes[static_cast<size_t>(node_id)].left          = left_id;
-        tree.nodes[static_cast<size_t>(node_id)].right         = right_id;
+        // left/right child indices will be filled when those frames are processed
 
-        // Push placeholders for left and right
-        tree.nodes.push_back(IFNode{});  // left
-        tree.nodes.push_back(IFNode{});  // right
-
-        // Push subtrees (right first so left is processed first)
-        stack.push_back({std::move(right_idx), h + 1});
-        stack.push_back({std::move(left_idx),  h + 1});
+        // Push right first so left is processed first (LIFO)
+        stack.push_back({std::move(right_idx), h + 1, node_id, 1});
+        stack.push_back({std::move(left_idx),  h + 1, node_id, 0});
     }
     return tree;
 }
@@ -375,6 +417,9 @@ struct AnomalyDetector::Impl {
     std::deque<DataPoint> ring;
     size_t ring_max = 2000;
 
+    // ---- Training sample count (set during train()) ----
+    size_t training_samples_count = 0;
+
     // ---- Sub-detectors for ENSEMBLE ----
     std::vector<std::unique_ptr<AnomalyDetector>> sub_detectors;
     std::vector<double>                           sub_weights;
@@ -402,7 +447,7 @@ struct AnomalyDetector::Impl {
         std::vector<double> c(x.size(), 0.0);
         for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
-            c[i] = std::abs(x[i] - means[i]) / sd;
+            c[i] = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
         return c;
     }
@@ -411,7 +456,7 @@ struct AnomalyDetector::Impl {
         std::vector<double> c(x.size(), 0.0);
         for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
-            c[i] = 0.6745 * std::abs(x[i] - medians[i]) / mad;
+            c[i] = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
         return c;
     }
@@ -525,8 +570,9 @@ struct AnomalyDetector::Impl {
 
     // ---- Train single-method model ----
     void trainSingleMethod(const std::vector<DataPoint>& data, const FeatureMatrix& fm) {
-        n_features    = fm.names.size();
-        feature_names = fm.names;
+        n_features            = fm.names.size();
+        feature_names         = fm.names;
+        training_samples_count = data.size();
 
         // ---- Always compute basic stats (needed for Z-Score, Mod-Z, IQR) ----
         means.resize(n_features);
@@ -622,6 +668,53 @@ struct AnomalyDetector::Impl {
     // Helper used only during LOF training
     std::vector<double> impl_extractForLof(const DataPoint& p) const {
         return extractFeatures(p);
+    }
+
+    // ---- Isolation Forest: per-feature split-depth contribution ----
+    // For each tree, walk the path taken by x and accumulate how often each
+    // feature appears as a split feature.  Normalise to [0,1].
+    std::vector<double> iforestFeatureContributions(const std::vector<double>& x) const {
+        std::vector<double> contrib(n_features, 0.0);
+        int total_splits = 0;
+        for (const auto& tree : forest) {
+            int node = 0;
+            int depth = 0;
+            while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
+                const IFNode& nd = tree.nodes[static_cast<size_t>(node)];
+                if (nd.split_feature < 0) break;  // leaf
+                size_t f = static_cast<size_t>(nd.split_feature);
+                if (f < n_features) {
+                    contrib[f] += 1.0;
+                    ++total_splits;
+                }
+                double v = (f < x.size()) ? x[f] : 0.0;
+                node = (v < nd.split_value) ? nd.left : nd.right;
+                if (++depth > tree.height_limit + 10) break;  // safety
+            }
+        }
+        if (total_splits > 0)
+            for (auto& c : contrib) c /= static_cast<double>(total_splits);
+        return contrib;
+    }
+
+    // ---- LOF: per-feature distance contribution to k-nearest neighbours ----
+    // Returns RMS per-feature distance to the k nearest training points.
+    std::vector<double> lofFeatureContributions(const std::vector<double>& x) const {
+        std::vector<double> contrib(n_features, 0.0);
+        if (lof_train.empty()) return contrib;
+        int k = std::min(static_cast<int>(cfg.k_neighbors),
+                         static_cast<int>(lof_train.size()));
+        auto neighbours = knn(lof_train, x, k);
+        if (neighbours.empty()) return contrib;
+        for (const auto& [dist, idx] : neighbours) {
+            for (size_t f = 0; f < n_features && f < lof_train[idx].size(); ++f) {
+                double d = x[f] - lof_train[idx][f];
+                contrib[f] += d * d;
+            }
+        }
+        double k_d = static_cast<double>(neighbours.size());
+        for (auto& c : contrib) c = std::sqrt(c / k_d);
+        return contrib;
     }
 
     void buildEnsemble(const std::vector<DataPoint>& data) {
@@ -760,10 +853,42 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint& point) const {
         case AnomalyMethod::IQR:
             contrib = impl_->iqrContributions(x); break;
         case AnomalyMethod::ISOLATION_FOREST:
+            contrib = impl_->iforestFeatureContributions(x);
+            break;
         case AnomalyMethod::LOF:
+            contrib = impl_->lofFeatureContributions(x);
+            break;
         case AnomalyMethod::ENSEMBLE:
-            // Use Z-Score contributions as a proxy (no direct per-feature LOF/iForest)
-            contrib = impl_->zscoreContributions(x);
+            if (!impl_->sub_detectors.empty()) {
+                contrib.assign(impl_->n_features, 0.0);
+                double total_w = 0.0;
+                for (size_t i = 0; i < impl_->sub_detectors.size(); ++i) {
+                    double w = (i < impl_->sub_weights.size()) ? impl_->sub_weights[i] : 1.0;
+                    auto sub_x = impl_->sub_detectors[i]->impl_->extractFeatures(point);
+                    std::vector<double> sc;
+                    switch (impl_->sub_detectors[i]->impl_->cfg.method) {
+                        case AnomalyMethod::Z_SCORE:
+                            sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x); break;
+                        case AnomalyMethod::MODIFIED_Z_SCORE:
+                            sc = impl_->sub_detectors[i]->impl_->modZscoreContributions(sub_x); break;
+                        case AnomalyMethod::IQR:
+                            sc = impl_->sub_detectors[i]->impl_->iqrContributions(sub_x); break;
+                        case AnomalyMethod::ISOLATION_FOREST:
+                            sc = impl_->sub_detectors[i]->impl_->iforestFeatureContributions(sub_x); break;
+                        case AnomalyMethod::LOF:
+                            sc = impl_->sub_detectors[i]->impl_->lofFeatureContributions(sub_x); break;
+                        default:
+                            sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x); break;
+                    }
+                    for (size_t f = 0; f < contrib.size() && f < sc.size(); ++f)
+                        contrib[f] += w * sc[f];
+                    total_w += w;
+                }
+                if (total_w > 0)
+                    for (auto& c : contrib) c /= total_w;
+            } else {
+                contrib = impl_->zscoreContributions(x);
+            }
             break;
         default:
             break;
@@ -900,7 +1025,7 @@ AnomalyDetector::ModelStats AnomalyDetector::getStats() const {
     s.feature_medians   = impl_->medians;
     s.feature_mads      = impl_->mads;
     s.method            = impl_->cfg.method;
-    s.training_samples  = impl_->lof_train.size();  // populated for LOF; approx for others
+    s.training_samples  = impl_->training_samples_count;
     return s;
 }
 

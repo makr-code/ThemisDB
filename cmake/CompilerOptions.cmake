@@ -231,18 +231,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     if(ipo_supported)
         # Enable IPO/LTO for all targets
         set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-        
-        if(MSVC)
-            # MSVC: Enable Link-Time Code Generation (LTCG)
-            add_compile_options(/GL)
-            add_link_options(/LTCG:INCREMENTAL)  # Incremental LTCG for faster iterative builds
-            message(STATUS "LTCG enabled: /GL (compile) + /LTCG:INCREMENTAL (link)")
-        else()
-            # GCC/Clang: Enable Link-Time Optimization (LTO)
-            add_compile_options(-flto)
-            add_link_options(-flto)
-            message(STATUS "LTO enabled: -flto")
-        endif()
+
+        # Let CMake handle compiler/linker-specific IPO flags per target.
+        # This avoids global /GL injection that conflicts with targets which
+        # must disable IPO (e.g. WINDOWS_EXPORT_ALL_SYMBOLS def generation).
+        message(STATUS "IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION")
     else()
         message(WARNING "IPO/LTO not supported: ${ipo_error}")
     endif()

@@ -137,6 +137,7 @@ set(THEMIS_BASE_SOURCES
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
+    ../src/config/config_audit_log.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
@@ -149,6 +150,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/adapters/otel_tracer.cpp
     ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
@@ -188,6 +190,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    ../src/storage/database_connection_manager.cpp
+    ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery
     ../src/storage/wal_storage.cpp
     # Compaction and GC management
@@ -228,6 +232,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/adaptive_index.cpp
     ../src/index/workload_replay.cpp
     ../src/index/spatial_index.cpp
+    ../src/geo/geo_rtree.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/utils/geo/ewkb.cpp
     
@@ -277,9 +282,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
+    ../src/cache/cache_replication.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
-    ../src/cache/warmup.cpp
     ../src/cache/predictive_prefetcher.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
@@ -328,6 +333,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
+    ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 
     # AQL metrics support
@@ -373,6 +379,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/mtls_authenticator.cpp
+    ../src/auth/api_key_authenticator.cpp
+    ../src/auth/session_manager.cpp
     ../src/auth/ldap_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
@@ -551,6 +560,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
+    ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
     ../src/llm/model_downloader.cpp
@@ -576,6 +586,10 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/grammar_cache.cpp
     ../src/llm/llm_prefix_cache.cpp
     ../src/llm/continuous_batch_scheduler.cpp
+    ../src/llm/mixed_precision_inference.cpp
+    ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/multi_gpu_memory_coordinator.cpp
+    ../src/llm/gpu_safe_fail.cpp
     ../src/llm/token_quota_manager.cpp
     ../src/llm/grafana_metrics.cpp
     ../src/llm/distributed_training_coordinator.cpp
@@ -629,11 +643,13 @@ set(THEMIS_LLM_SOURCES
     
     # RAG enhancement modules
     ../src/rag/knowledge_gap_detector.cpp
+    ../src/rag/llm_integration.cpp
     ../src/rag/llm_judge_client.cpp
     ../src/rag/nli_faithfulness_verifier.cpp
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/geval_evaluator.cpp
     ../src/rag/reranker.cpp
+    ../src/rag/document_summarizer.cpp
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
     
@@ -672,8 +688,10 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
@@ -699,6 +717,8 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/session_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/opa_adapter.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_type_adapter.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/chunked_response_writer.cpp>
@@ -786,6 +806,7 @@ set(THEMIS_NETWORK_SOURCES
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
@@ -833,6 +854,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )
 
@@ -920,6 +942,17 @@ function(themis_build_modular)
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         list(APPEND _themis_security_deps mimalloc)
     endif()
+    if(TARGET prometheus-cpp::core)
+        list(APPEND _themis_security_deps prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        list(APPEND _themis_security_deps prometheus-cpp::pull)
+    endif()
+    if(TARGET prometheus-cpp::push)
+        list(APPEND _themis_security_deps prometheus-cpp::push)
+    endif()
+    if(TARGET prometheus-cpp::util)
+        list(APPEND _themis_security_deps prometheus-cpp::util)
     if(THEMIS_ENABLE_JEMALLOC)
         if(TARGET jemalloc::jemalloc)
             list(APPEND _themis_security_deps jemalloc::jemalloc)
@@ -928,7 +961,7 @@ function(themis_build_modular)
         endif()
     endif()
     if(WIN32)
-        list(APPEND _themis_security_deps Secur32)
+        list(APPEND _themis_security_deps Secur32 Wldap32)
     endif()
     
     themis_add_module(security
@@ -954,6 +987,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+    endif()
+    if(THEMIS_MODULE_GEO)
+        list(APPEND _themis_query_deps themis_geo)
     endif()
     if(onnxruntime_FOUND)
         list(APPEND _themis_query_deps onnxruntime::onnxruntime)
@@ -1118,6 +1154,9 @@ function(themis_build_modular)
         )
         if(THEMIS_MODULE_GRAPH)
             list(APPEND _themis_content_deps themis_graph)
+        endif()
+        if(THEMIS_MODULE_LLM)
+            list(APPEND _themis_content_deps themis_llm)
         endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)
