@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph queries are planned.
+**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse, result streaming) is functional. Distributed graph queries are planned.
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection
@@ -21,6 +21,7 @@
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Graph query result streaming for large path sets (Issue: #1822)
 - [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 
 ## In Progress 🚧
@@ -42,7 +43,7 @@
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 - [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
-- [I] Graph query result streaming for large path sets (Issue: #1822)
+- [x] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases
 

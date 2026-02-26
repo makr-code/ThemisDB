@@ -29,6 +29,7 @@
 #include "graph/graph_query_optimizer.h"
 #include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
+#include "query/result_stream.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -759,6 +760,38 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     recordExecution(local_stats);
     
     return Ok(result);
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    query::StreamConfig stream_config) {
+
+    auto bfs_result = executeBFS(start_vertex, max_depth, constraints);
+    if (!bfs_result) {
+        return Err<std::shared_ptr<query::ResultStream<std::string>>>(
+            bfs_result.error().code(), bfs_result.error().context());
+    }
+
+    return Ok(std::make_shared<query::ResultStream<std::string>>(
+        std::move(*bfs_result), stream_config));
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    query::StreamConfig stream_config) {
+
+    auto dfs_result = executeDFS(start_vertex, max_depth, constraints);
+    if (!dfs_result) {
+        return Err<std::shared_ptr<query::ResultStream<std::string>>>(
+            dfs_result.error().code(), dfs_result.error().context());
+    }
+
+    return Ok(std::make_shared<query::ResultStream<std::string>>(
+        std::move(*dfs_result), stream_config));
 }
 
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
