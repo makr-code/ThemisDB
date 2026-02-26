@@ -72,6 +72,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 - ✅ Parallel Δ-Stepping Dijkstra (bucket-based parallelism, no global locks)
 - ✅ Configurable thread pool size (`num_threads`, 0 = auto-detect)
 - ✅ Thread-safe adjacency access via `GraphIndexManager::outAdjacency`
+- ✅ Intra-frontier fan-out parallelism for BFS (`fan_out_threshold`: when frontier ≥ threshold, neighbor lookups are dispatched to multiple threads; 0 = disabled)
 
 **Planned (not yet implemented):**
 - Work-stealing queue for load balancing
@@ -136,71 +137,85 @@ blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 
 ---
 
-### Distributed Graph Queries
+### Distributed Graph Queries ✅ DONE
 **Priority:** Medium  
 **Target Version:** v1.8.0
 
 Enable graph queries across distributed ThemisDB instances.
 
-**Features:**
-- Partition-aware graph traversal
-- Cross-partition edge following
-- Distributed shortest path algorithms
-- Result aggregation across nodes
-- Fault-tolerant execution
-
-**Benefits:**
-- Scale to billion-edge graphs
-- Handle graphs larger than single-node memory
-- Geographic distribution for latency optimization
-- High availability and fault tolerance
+**Implemented Features:**
+- ✅ `DistributedGraphManager` — coordinator that fans out graph traversals to registered `ShardGraphExecutor` instances in parallel, merges results
+- ✅ `LocalShardGraphExecutor` — thin wrapper around `GraphQueryOptimizer` for in-process / single-node shards (tests + embedded mode)
+- ✅ `ShardGraphExecutor` — pluggable interface for per-shard execution (supports remote implementation via RPC transport)
+- ✅ `DistributedGraphConfig` — configurable partition strategy (HASH, RANGE, GEO, CUSTOM), consistency level (EVENTUAL, STRONG), replication factor, timeout, parallelism cap
+- ✅ Partition-aware vertex routing via `resolveShardForVertex` (FNV-1a hash → uniform bucket assignment)
+- ✅ Shard qualifier syntax: `"<vertex_id>@<shard_id>"` for explicit routing
+- ✅ Distributed shortest path (`shortestPath`): Dijkstra on each healthy shard in parallel; globally cheapest path returned
+- ✅ Distributed k-hop neighbors (`kHopNeighbors`): BFS on all healthy shards in parallel; de-duplicated merged result
+- ✅ Shard-aware plan generation (`optimizePlan`): returns `OptimizationPlan` with `is_distributed=true`, `shard_ids`, `recommended_parallelism` fields
+- ✅ Fault tolerance: unhealthy shards (`isHealthy() == false`) skipped automatically
+- ✅ `OptimizationPlan` extended with shard-aware fields (`is_distributed`, `shard_ids`, `recommended_parallelism`) — backward-compatible with single-node (defaults to `false`/empty/`1`)
+- ✅ `explainPlan()` updated to print distributed shard info when `is_distributed=true`
 
 **API:**
 ```cpp
 // Define graph partitioning strategy
 DistributedGraphConfig config;
-config.partitioning = PartitionStrategy::HASH;  // or RANGE, GEO
+config.partitioning = PartitionStrategy::HASH;  // or RANGE, GEO, CUSTOM
 config.replication_factor = 3;
 config.consistency = ConsistencyLevel::EVENTUAL;
 
-DistributedGraphManager dist_graph(cluster, config);
+DistributedGraphManager dist_graph(config);
+dist_graph.addShard("shard1", std::make_shared<LocalShardGraphExecutor>("shard1", db1));
+dist_graph.addShard("shard2", std::make_shared<LocalShardGraphExecutor>("shard2", db2));
 
-// Execute distributed traversal
-auto result = dist_graph.shortestPath(
-    "node_A@shard1",
-    "node_B@shard5",
-    constraints
-);
+// Vertex IDs may carry explicit shard qualifiers:
+auto result = dist_graph.shortestPath("node_A@shard1", "node_B@shard2", constraints);
 
-// Query spans multiple shards transparently
+// K-hop neighbors across all shards:
+auto neighbors = dist_graph.kHopNeighbors("node_A", 3, constraints);
+
+// Shard-aware plan:
+auto plan = dist_graph.optimizePlan("A", "D",
+    GraphQueryOptimizer::QueryPattern::SHORTEST_PATH);
+// plan->is_distributed == true, plan->shard_ids == {"shard1","shard2"}
 ```
-
-**Partitioning Strategies:**
-- **Hash Partitioning**: Uniform distribution by node ID hash
-- **Range Partitioning**: Partition by node ID ranges
-- **Geographic Partitioning**: Partition by geographic region
-- **Community-Based**: Partition by detected communities
-- **Hybrid**: Combine multiple strategies
-
-**Distributed Algorithms:**
-- **Distributed BFS**: Level-synchronous parallel BFS
-- **Distributed Dijkstra**: Delta-stepping algorithm
-- **Distributed PageRank**: Bulk synchronous parallel
-- **Cross-Shard Joins**: Hash join with data shuffling
-
-**Challenges:**
-- Cross-partition communication overhead
-- Partition skew and load balancing
-- Consistency guarantees
-- Fault tolerance and recovery
 
 ---
 
-### GPU-Accelerated Graph Processing
+### GPU-Accelerated Graph Processing ✅ IMPLEMENTED (BFS/DFS)
 **Priority:** Medium  
 **Target Version:** v1.9.0
 
 Offload graph computations to GPU for massive parallelism.
+
+**Implemented Features (Issue #1829):**
+- ✅ `GPUGraphTraversal` class — CSR-based BFS/DFS with CPU fallback (`include/graph/gpu_traversal.h`, `src/graph/gpu_traversal.cpp`)
+- ✅ Level-synchronous BFS (mirrors GPU parallel frontier expansion)
+- ✅ Iterative DFS with depth tracking
+- ✅ CSR (Compressed Sparse Row) graph representation for cache-efficient traversal
+- ✅ Integer node ID mapping (string ↔ `uint32_t`) for performance
+- ✅ `use_gpu` / `gpu_device` fields added to `GraphQueryOptimizer::QueryConstraints`
+- ✅ GPU dispatch in `executeBFS()` / `executeDFS()` of `GraphQueryOptimizer`
+- ✅ Automatic CPU fallback when no GPU hardware is present
+- ✅ `GraphIndexManager::allVertices()` — enumerate all vertices (with RocksDB fallback)
+
+**API (Implemented):**
+```cpp
+// Via GPUGraphTraversal directly:
+GPUGraphTraversal gpu_trav(graph_manager);
+gpu_trav.load();
+auto result = gpu_trav.bfs("start_vertex", cfg);
+// result->visited_vertices, result->distances, result->used_cpu_fallback
+
+// Via GraphQueryOptimizer (recommended):
+GraphQueryOptimizer::QueryConstraints constraints;
+constraints.use_gpu    = true;
+constraints.gpu_device = 0;  // GPU index; ignored on CPU fallback
+
+auto result = optimizer.executeBFS("start", 10, constraints);
+// Automatically uses GPUGraphTraversal; falls back to CPU when no GPU present
+```
 
 **Features:**
 - CUDA/OpenCL graph kernels
@@ -575,7 +590,7 @@ Process graphs as streams of edge insertions/deletions.
 6. ✅ Property Graph Schema-Aware Optimizer Hints (Issue: #1819)
 
 **v1.8.0 (Q1 2027):**
-1. Distributed Graph Queries
+1. ✅ Distributed Graph Queries
 2. Query Rewriting
 
 **v1.9.0 (Q3 2027):**
@@ -847,6 +862,41 @@ optimizer.setMaxQueriesPerSecond(0);    // disable
 
 Applies to all five execute methods.  Uses atomic CAS sliding-window for
 thread-safe operation without mutexes.
+
+---
+
+### Subgraph Isomorphism (Pattern Matching) ✅ DONE
+
+`GraphQueryOptimizer::executeSubgraphIsomorphism` – finds all injective mappings
+from a pattern graph onto subgraphs of the data graph (VF2-style backtracking).
+
+```cpp
+// Pattern: u -> v -> w (chain of three vertices)
+std::vector<std::string> pattern_verts = {"u", "v", "w"};
+std::vector<std::pair<std::string,std::string>> pattern_edges = {{"u","v"},{"v","w"}};
+
+auto result = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges);
+// result.value().matches[i] is an unordered_map<string,string>
+// mapping pattern vertex labels to data vertex IDs
+
+// With constraints
+GraphQueryOptimizer::QueryConstraints c;
+c.max_results = 10;          // stop after first 10 matches
+c.timeout_ms = 500;          // abort after 500ms
+c.forbidden_vertices = {"X"}; // X must not appear in any match
+
+auto limited = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges, c);
+```
+
+Key properties:
+- Injective: each data vertex appears at most once per match
+- Directed edge consistency: every pattern edge (u,v) must be present as a
+  directed edge in the data graph for the matched vertices
+- Pattern vertices are user-defined labels (not data vertex IDs)
+- Supports `max_results`, `timeout_ms`, and `forbidden_vertices` constraints
+- Execution statistics available via optional `ExecutionStats*` output parameter
+- Rate-limited by `setMaxQueriesPerSecond()` like all other execute methods
+- Integrates with `optimizePatternMatch()` for cost estimation and plan caching
 
 ---
 

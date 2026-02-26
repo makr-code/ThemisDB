@@ -1043,6 +1043,19 @@ TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_LondonParis) {
     themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
     ASSERT_NE(d.launchDistance, nullptr);
 
+    const double lats1[] = {51.5074};
+    const double lons1[] = {-0.1278};
+    const double lats2[] = {48.8566};
+    const double lons2[] = {2.3522};
+    float dist = 0.f;
+
+    int rc = d.launchDistance(lats1, lons1, lats2, lons2, &dist, 1,
+                              themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                              nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NEAR(dist, 340.f, 10.f);
+}
+
 // The bridge dispatch table must have non-null slots for both distance and
 // containment; the bridge always returns a CPU-backed dispatch at minimum.
 TEST(GeoAccelerationBridge, PopulateGeoDispatch_SlotsNonNull) {
@@ -1173,13 +1186,6 @@ TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_AgreesWith_BatchDistanc
         EXPECT_NEAR(dispOut[i], batchOut[static_cast<size_t>(i)], 1e-3f)
             << "pair " << i;
     }
-    float dist = 0.f;
-
-    int rc = d.launchDistance(lats1, lons1, lats2, lons2, &dist, 1,
-                              themis::acceleration::GeoDistanceFormula::HAVERSINE,
-                              nullptr);
-    EXPECT_EQ(rc, 0);
-    EXPECT_NEAR(dist, 340.f, 10.f);
 }
 
 TEST(GeoAccelerationBridge, PopulateGeoDispatch_PointInPolygon) {
