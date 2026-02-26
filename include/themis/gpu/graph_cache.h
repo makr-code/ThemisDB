@@ -17,10 +17,11 @@ namespace gpu {
 
 struct QueryShape {
     enum class OpType : uint8_t {
-        SCAN      = 0,
-        SORT      = 1,
-        AGGREGATE = 2,
-        JOIN      = 3,
+        SCAN       = 0,
+        SORT       = 1,
+        AGGREGATE  = 2,
+        JOIN       = 3,
+        ANN_SEARCH = 4,  ///< Approximate nearest-neighbor vector similarity search
     };
 
     OpType   op         = OpType::SCAN;

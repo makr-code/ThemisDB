@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_query_accelerator.cpp                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:55                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 00:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     430                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -319,6 +319,179 @@ TEST_F(GPUQueryAcceleratorTest, ForceCPUOverridesThreshold) {
     EXPECT_FALSE(result.used_gpu);
     EXPECT_EQ(acc.getStats().cpu_fallback_ops, 1u);
     EXPECT_EQ(acc.getStats().gpu_ops, 0u);
+}
+
+// ============================================================================
+// annSearch — GPU-accelerated ANN vector similarity (cuVS/RAFT stub)
+// ============================================================================
+
+// Helper: build a flat database of `n` vectors of dimension `dim`.
+// Vector i has all components equal to (float)i.
+static std::vector<float> makeDatabase(size_t n, size_t dim) {
+    std::vector<float> db(n * dim);
+    for (size_t i = 0; i < n; ++i)
+        for (size_t d = 0; d < dim; ++d)
+            db[i * dim + d] = static_cast<float>(i);
+    return db;
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_BasicL2_ReturnsKNeighbors) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 4, n = 10, k = 3;
+
+    auto db = makeDatabase(n, dim);
+    // Query: vector close to index 5 (all components = 5.1)
+    std::vector<float> q(dim, 5.1f);
+
+    auto result = acc.annSearch(q, 1, dim, db, n, k);
+    ASSERT_EQ(result.results.size(), 1u);
+    ASSERT_EQ(result.results[0].size(), k);
+
+    // Nearest neighbor should be index 5 (all=5), then 4 or 6
+    EXPECT_EQ(result.results[0][0].index, 5u);
+    // Results must be sorted ascending by distance
+    for (size_t i = 1; i < result.results[0].size(); ++i) {
+        EXPECT_LE(result.results[0][i - 1].distance,
+                  result.results[0][i].distance);
+    }
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_KLargerThanDatabase_ClampsToN) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 2, n = 5, k = 100;
+
+    auto db = makeDatabase(n, dim);
+    std::vector<float> q(dim, 0.0f);
+
+    auto result = acc.annSearch(q, 1, dim, db, n, k);
+    ASSERT_EQ(result.results.size(), 1u);
+    // Should return at most n results, not k
+    EXPECT_EQ(result.results[0].size(), n);
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_MultipleQueries) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 3, n = 8, k = 2;
+
+    auto db = makeDatabase(n, dim);
+    // Two queries: near index 0 and near index 7
+    std::vector<float> queries = {
+        0.1f, 0.1f, 0.1f,   // near index 0
+        6.9f, 6.9f, 6.9f    // near index 7
+    };
+
+    auto result = acc.annSearch(queries, 2, dim, db, n, k);
+    ASSERT_EQ(result.results.size(), 2u);
+    EXPECT_EQ(result.results[0][0].index, 0u);
+    EXPECT_EQ(result.results[1][0].index, 7u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_ExactMatch_ZeroDistance) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 3, n = 5, k = 1;
+
+    auto db = makeDatabase(n, dim);
+    // Query exactly matches index 2 (all components = 2.0)
+    std::vector<float> q(dim, 2.0f);
+
+    auto result = acc.annSearch(q, 1, dim, db, n, k);
+    ASSERT_EQ(result.results.size(), 1u);
+    ASSERT_FALSE(result.results[0].empty());
+    EXPECT_EQ(result.results[0][0].index, 2u);
+    EXPECT_NEAR(result.results[0][0].distance, 0.0f, 1e-5f);
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_InnerProduct_ReturnsResults) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 4, n = 6, k = 2;
+
+    auto db = makeDatabase(n, dim);
+    std::vector<float> q(dim, 1.0f);
+
+    // useL2 = false → negative inner product as distance (most similar = most negative)
+    auto result = acc.annSearch(q, 1, dim, db, n, k, /*useL2=*/false);
+    ASSERT_EQ(result.results.size(), 1u);
+    EXPECT_EQ(result.results[0].size(), k);
+    // Results must still be sorted ascending by distance (most negative first)
+    if (result.results[0].size() > 1) {
+        EXPECT_LE(result.results[0][0].distance, result.results[0][1].distance);
+    }
+    // Highest inner product (index 5, all=5.0) → most negative distance → first result
+    EXPECT_EQ(result.results[0][0].index, 5u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_InvalidInputs_ReturnsEmpty) {
+    GPUQueryAccelerator acc(cpuConfig());
+
+    // dim = 0
+    EXPECT_TRUE(acc.annSearch({}, 1, 0, {}, 1, 1).results.empty());
+
+    // k = 0
+    auto db = makeDatabase(3, 2);
+    std::vector<float> q(2, 0.0f);
+    EXPECT_TRUE(acc.annSearch(q, 1, 2, db, 3, 0).results.empty());
+
+    // numQueries = 0
+    EXPECT_TRUE(acc.annSearch({}, 0, 2, db, 3, 1).results.empty());
+
+    // size mismatch: queries.size() != numQueries * dim
+    std::vector<float> bad_q(3, 0.0f);  // 3 elements but expect 2*2=4
+    EXPECT_TRUE(acc.annSearch(bad_q, 2, 2, db, 3, 1).results.empty());
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_UpdatesStats) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 2, n = 4, k = 2;
+
+    auto db = makeDatabase(n, dim);
+    std::vector<float> q(dim, 0.0f);
+
+    acc.annSearch(q, 1, dim, db, n, k);
+    acc.annSearch(q, 1, dim, db, n, k);
+
+    auto s = acc.getStats();
+    EXPECT_EQ(s.total_ann_searches, 2u);
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_SortedByDistanceAscending) {
+    GPUQueryAccelerator acc(cpuConfig());
+    const size_t dim = 1, n = 10, k = 10;
+
+    // Database: vectors at positions 0..9
+    std::vector<float> db(n * dim);
+    for (size_t i = 0; i < n; ++i) db[i] = static_cast<float>(i);
+
+    // Query at 4.6 → sorted by |4.6 - i|: 5(0.4), 4(0.6), 6(1.4), 3(1.6)...
+    std::vector<float> q = {4.6f};
+    auto result = acc.annSearch(q, 1, dim, db, n, k);
+    ASSERT_EQ(result.results.size(), 1u);
+    ASSERT_EQ(result.results[0].size(), k);
+
+    for (size_t i = 1; i < result.results[0].size(); ++i) {
+        EXPECT_LE(result.results[0][i - 1].distance,
+                  result.results[0][i].distance);
+    }
+    EXPECT_EQ(result.results[0][0].index, 5u);   // closest: dist = (4.6-5)^2 = 0.16
+}
+
+TEST_F(GPUQueryAcceleratorTest, AnnSearch_GraphCacheIntegration) {
+    GPUQueryAccelerator::Config cfg = cpuConfig();
+    cfg.enable_graph_cache = true;
+    GPUQueryAccelerator acc(cfg);
+    acc.enableGraphCache();
+
+    const size_t dim = 2, n = 6, k = 2;
+    auto db = makeDatabase(n, dim);
+    std::vector<float> q(dim, 1.0f);
+
+    // First call: cache miss
+    acc.annSearch(q, 1, dim, db, n, k);
+    EXPECT_EQ(acc.getStats().graph_cache_misses, 1u);
+    EXPECT_EQ(acc.getStats().graph_cache_hits,   0u);
+
+    // Second call with same shape: cache hit
+    acc.annSearch(q, 1, dim, db, n, k);
+    EXPECT_EQ(acc.getStats().graph_cache_hits, 1u);
 }
 
 // ============================================================================
