@@ -27,6 +27,7 @@
 
 #include <gtest/gtest.h>
 #include "content/office_processor.h"
+#include "content/content_metrics.h"
 #include <string>
 #include <vector>
 
@@ -242,6 +243,7 @@ TEST_F(OfficeProcessorTest, ConfigDefaultValues) {
     EXPECT_FALSE(config.include_hidden_text);
     EXPECT_EQ(config.max_cell_count, 1000000);
     EXPECT_TRUE(config.password.empty());
+    EXPECT_EQ(config.metrics, nullptr);
 }
 
 // ============================================================================
@@ -265,4 +267,77 @@ TEST_F(OfficeProcessorTest, PowerPointInfoInitialization) {
     EXPECT_TRUE(ppt_info.slides.empty());
 }
 
+// ============================================================================
+// Metrics reporting via ContentMetrics
+// ============================================================================
+
+TEST(OfficeProcessorMetricsTest, DefaultConfigHasNullMetrics) {
+    OfficeProcessor::Config config;
+    EXPECT_EQ(config.metrics, nullptr);
+}
+
+TEST(OfficeProcessorMetricsTest, SuccessfulRTFExtractionIncrementsCounter) {
+    ContentMetrics metrics;
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
+
+    OfficeProcessor::Config cfg;
+    cfg.metrics = &metrics;
+    OfficeProcessor proc(std::move(cfg));
+    ContentType ct;
+
+    // RTF blob — always succeeds via the basic regex path
+    std::string rtf_blob = "{\\rtf1\\ansi\\deff0 Hello World}";
+    auto result = proc.extract(rtf_blob, ct);
+    EXPECT_TRUE(result.ok);
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 1u);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 0u);
+}
+
+TEST(OfficeProcessorMetricsTest, UnknownFormatIncrementsErrorCounter) {
+    ContentMetrics metrics;
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 0u);
+
+    OfficeProcessor::Config cfg;
+    cfg.metrics = &metrics;
+    OfficeProcessor proc(std::move(cfg));
+    ContentType ct;
+
+    // Completely unrecognised blob — detectDocumentType returns UNKNOWN
+    auto result = proc.extract("This is not an Office document", ct);
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 1u);
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
+}
+
+TEST(OfficeProcessorMetricsTest, NoMetricsPointerDoesNotCrash) {
+    // Default config has metrics=nullptr; extraction must not segfault
+    OfficeProcessor proc;
+    ContentType ct;
+    EXPECT_NO_FATAL_FAILURE(proc.extract("Not an office document.", ct));
+}
+
+TEST(OfficeProcessorMetricsTest, MetricsResetClearsOfficeCounters) {
+    ContentMetrics metrics;
+    metrics.recordOfficeExtracted();
+    metrics.recordOfficeExtracted();
+    metrics.recordExtractError();
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 2u);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 1u);
+
+    metrics.reset();
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 0u);
+}
+
+TEST(OfficeProcessorMetricsTest, PrometheusFormatContainsOfficeCounters) {
+    ContentMetrics metrics;
+    metrics.recordOfficeExtracted();
+    metrics.recordOfficeExtracted();
+    metrics.recordOfficeExtracted();
+    metrics.recordExtractError();
+
+    std::string prom = metrics.toPrometheusFormat();
+    EXPECT_NE(prom.find("content_office_extracted_total 3"), std::string::npos);
+    EXPECT_NE(prom.find("content_extract_errors_total 1"), std::string::npos);
+}
 

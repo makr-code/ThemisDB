@@ -106,6 +106,11 @@ public:
     void recordPdfExtracted();
 
     /**
+     * @brief Record a successful Office document extraction (content_office_extracted_total)
+     */
+    void recordOfficeExtracted();
+
+    /**
      * @brief Record a PDF or generic extract-stage error (content_extract_errors_total)
      */
     void recordExtractError();
@@ -269,6 +274,11 @@ public:
     uint64_t getPdfExtractedTotal() const { return pdf_extracted_total_.load(); }
 
     /**
+     * @brief Get total successfully extracted Office documents
+     */
+    uint64_t getOfficeExtractedTotal() const { return office_extracted_total_.load(); }
+
+    /**
      * @brief Get total PDF/document extraction errors
      */
     uint64_t getExtractErrorsTotal() const { return extract_errors_total_.load(); }
@@ -318,8 +328,9 @@ private:
     std::atomic<uint64_t> total_errors_{0};
     std::atomic<uint64_t> total_timeouts_{0};
 
-    // Format-specific counters (content_pdf_extracted_total, content_extract_errors_total)
+    // Format-specific counters (content_pdf_extracted_total, content_office_extracted_total, content_extract_errors_total)
     std::atomic<uint64_t> pdf_extracted_total_{0};
+    std::atomic<uint64_t> office_extracted_total_{0};
     std::atomic<uint64_t> extract_errors_total_{0};
     
     // Cache counters
