@@ -192,4 +192,5 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 
 - `[x]` `validatePath()` must reject any input containing `..` or null bytes before cache lookup or filesystem access, preventing path traversal; the existing implementation covers this but must be exercised in every new code path that calls `resolve()`.
 - `[x]` CLI `--fix` mode must create `.bak` backup files before overwriting any config file; if backup creation fails, the tool must abort rather than overwrite without a backup.
-- `[x]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`) are validated (range-checked) before use; invalid values are rejected with a stderr warning and fall back to safe defaults. Note: `THEMIS_CONFIG_ENV` is not yet implemented (planned for multi-environment overlay, Issue: #1673).
+- `[x]` Environment variable values (`THEMIS_CONFIG_CACHE_CAPACITY`, `THEMIS_CONFIG_CACHE_TTL_SECONDS`) are validated (range-checked) before use; invalid values are rejected with a stderr warning and fall back to safe defaults.
+- `[x]` `THEMIS_CONFIG_ENV` is validated at startup; unknown values fall back to `prod` with a stderr warning. Implemented as part of multi-environment overlay support (Issue: #1673).
