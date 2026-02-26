@@ -96,6 +96,7 @@ Automatically improve cost estimates based on actual execution statistics.
 - ✅ `exportCostModel()` / `importCostModel()` for persistence
 - ✅ Disabled when `enableAdaptiveLearning(false)` is called
 - ✅ Batch calibration from full execution history via `calibrateFromHistory()` (Issue: #2386)
+- ✅ Cost accuracy tracking: `ExecutionStats::estimated_cost_ms` populated by all execute* methods; `AlgorithmCalibrationStats` reports `mean_estimated_ms`, `mean_absolute_error_ms`, and `cost_ratio` after calibration (Issue: #2386)
 - Persistence to disk (use `exportCostModel()` + file I/O)
 - Decay of old statistics (future enhancement)
 - Separate models per graph type/size (future)
