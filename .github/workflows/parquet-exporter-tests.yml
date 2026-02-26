@@ -74,7 +74,7 @@ jobs:
           # Arrow-enabled path: tests the Apache Arrow code path (#ifdef ARROW_ENABLED).
           # Requires libarrow-dev and libparquet-dev packages available on ubuntu-24.04.
           - os: ubuntu-24.04
-            compiler: gcc-14
+            compiler: gcc-14-arrow
             cc: gcc-14
             cxx: g++-14
             arrow_enabled: true

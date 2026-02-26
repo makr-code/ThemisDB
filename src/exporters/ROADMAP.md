@@ -67,7 +67,7 @@
 
 ## Known Issues & Limitations
 - No delta/incremental export; each run exports the full selection
-- No built-in deduplication of training examples
+- JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
 
 ## Breaking Changes
 - Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)
