@@ -39,7 +39,6 @@
 #include <filesystem>
 
 // TODO(v1.3.0): Content plugin API drift (PluginConfig/ExtractionOptions fields). Disable extended video processor tests until updated.
-#if 0
 
 using namespace themis::content;
 
@@ -276,8 +275,8 @@ TEST_F(VideoProcessorExtendedTest, KeyframeDetection) {
     
     EXPECT_TRUE(result.success);
     // Keyframes may be available
-    if (result.media_data && result.media_data->keyframe_timestamps.size() > 0) {
-        EXPECT_GT(result.media_data->keyframe_timestamps.size(), 0);
+    if (result.media.has_value() && result.media->keyframe_timestamps.size() > 0) {
+        EXPECT_GT(result.media->keyframe_timestamps.size(), 0);
     }
 }
 
@@ -298,8 +297,8 @@ TEST_F(VideoProcessorExtendedTest, KeyframeLimitConfiguration) {
     
     auto result = limited_processor.extract(video_data, "video/mp4", options);
     
-    if (result.media_data && result.media_data->keyframe_timestamps.size() > 0) {
-        EXPECT_LE(result.media_data->keyframe_timestamps.size(), 5);
+    if (result.media.has_value() && result.media->keyframe_timestamps.size() > 0) {
+        EXPECT_LE(result.media->keyframe_timestamps.size(), 5);
     }
     
     limited_processor.shutdown();
@@ -316,11 +315,11 @@ TEST_F(VideoProcessorExtendedTest, KeyframeTimestampOrdering) {
     
     auto result = processor.extract(video_data, "video/mp4", options);
     
-    if (result.media_data && result.media_data->keyframe_timestamps.size() > 1) {
+    if (result.media.has_value() && result.media->keyframe_timestamps.size() > 1) {
         // Verify timestamps are in ascending order
-        for (size_t i = 1; i < result.media_data->keyframe_timestamps.size(); ++i) {
-            EXPECT_GE(result.media_data->keyframe_timestamps[i],
-                     result.media_data->keyframe_timestamps[i-1]);
+        for (size_t i = 1; i < result.media->keyframe_timestamps.size(); ++i) {
+            EXPECT_GE(result.media->keyframe_timestamps[i],
+                     result.media->keyframe_timestamps[i-1]);
         }
     }
 }
@@ -378,9 +377,9 @@ TEST_F(VideoProcessorExtendedTest, SceneBoundaryConsistency) {
     
     auto result = processor.extract(video_data, "video/mp4", options);
     
-    if (result.media_data && result.media_data->scene_boundaries.size() > 0) {
+    if (result.media.has_value() && result.media->scene_boundaries.size() > 0) {
         // Scene boundaries should be within video duration
-        for (const auto& boundary : result.media_data->scene_boundaries) {
+        for (const auto& boundary : result.media->scene_boundaries) {
             EXPECT_GE(boundary, 0);
         }
     }
@@ -416,9 +415,9 @@ TEST_F(VideoProcessorExtendedTest, SubtitleFormatHandling) {
     
     auto result = processor.extract(video_data, "video/mp4", options);
     
-    if (result.media_data && !result.media_data->subtitles.empty()) {
+    if (result.media.has_value() && !result.media->subtitles.empty()) {
         // Verify subtitle format
-        EXPECT_FALSE(result.media_data->subtitles.empty());
+        EXPECT_FALSE(result.media->subtitles.empty());
     }
 }
 
@@ -438,8 +437,8 @@ TEST_F(VideoProcessorExtendedTest, ThumbnailGeneration) {
     auto result = processor.extract(video_data, "video/mp4", options);
     
     EXPECT_TRUE(result.success);
-    if (result.media_data && result.media_data->thumbnail_data.size() > 0) {
-        EXPECT_GT(result.media_data->thumbnail_data.size(), 0);
+    if (result.thumbnail.size() > 0) {
+        EXPECT_GT(result.thumbnail.size(), 0);
     }
 }
 
@@ -651,4 +650,4 @@ TEST_F(VideoProcessorExtendedTest, ChunkSizeConfiguration) {
 // Main function for Google Test
 
 
-#endif // disabled video processor extended tests pending API update
+
