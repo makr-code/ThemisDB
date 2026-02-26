@@ -31,6 +31,7 @@
 #include <memory>
 #include <functional>
 #include <map>
+#include <sstream>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -59,6 +60,7 @@ enum class IngestionJobStatus {
  */
 enum class IngestionJobType {
     SINGLE_FILE,        // Single file upload
+    STREAM_FILE,        // Stream-based ingestion for large files
     ARCHIVE,            // Archive extraction and ingestion
     BATCH_FILES,        // Multiple files (directory upload)
     URL_FETCH,          // Fetch from URL (future)
@@ -77,6 +79,7 @@ struct IngestionJob {
     IngestionJobStatus status;
     std::string filename;
     std::string blob;  // Binary data
+    std::istream* stream = nullptr;  // Stream for STREAM_FILE jobs (not owned)
     json config;       // Job-specific configuration
     std::string user_context;
     
@@ -166,7 +169,31 @@ public:
         const std::string& user_context = "",
         const json& config = json::object()
     );
-    
+
+    /**
+     * @brief Submit a stream for chunked ingestion (large-file support)
+     *
+     * Reads content from the stream in configurable chunks
+     * (see ContentManager::ingestStream for config keys).
+     * The stream must remain valid until the job completes when
+     * wait_for_completion = true; for async jobs the caller is
+     * responsible for the stream lifetime.
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename (for MIME detection and metadata)
+     * @param mime_type    Optional MIME type override
+     * @param user_context User context for auth/encryption
+     * @param config       Optional job configuration (chunk_size_bytes, etc.)
+     * @return Job ID for tracking
+     */
+    std::string submitStream(
+        std::istream& stream,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
     /**
      * @brief Submit an archive for extraction and ingestion
      * 
@@ -370,6 +397,7 @@ private:
     // Job processing
     void processJob(IngestionJob& job);
     void processSingleFile(IngestionJob& job);
+    void processStreamFile(IngestionJob& job);  // Stream-based large file ingestion
     void processArchive(IngestionJob& job);
     void processBatchFiles(IngestionJob& job);
     void processPluginJob(IngestionJob& job);  // NEW: Plugin-based processing
