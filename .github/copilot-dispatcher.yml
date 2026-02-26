@@ -16,3 +16,26 @@ base_branch: develop
 # review check is skipped and only CI checks are required.
 copilot_reviewer_logins:
   - copilot-pull-request-reviewer[bot]
+
+# Labels that trigger automatic queueing for the Copilot Coding Agent.
+# When ANY of these labels is added to an open issue (and the issue is not
+# already queued/delegated/blocked), the auto-queue-issues workflow
+# automatically adds the `queue/copilot` label so the dispatcher picks it up.
+# Set to an empty list `[]` to disable automatic queueing entirely
+# (all queueing must then be done manually by adding `queue/copilot`).
+auto_queue_labels:
+  - enhancement
+  - type:feature
+  - type:bug
+
+# Labels that BLOCK automatic queueing even when an auto_queue_label is present.
+# Issues carrying any of these labels are skipped by the auto-queue workflow.
+auto_queue_exclude_labels:
+  - blocked
+  - status:blocked
+  - wontfix
+  - duplicate
+  - invalid
+  - question
+  - copilot/delegated
+  - queue/copilot
