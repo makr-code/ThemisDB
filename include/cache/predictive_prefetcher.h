@@ -56,9 +56,11 @@ public:
         /// Minimum prediction confidence [0.0, 1.0]: fraction of transitions
         /// from the source key that must lead to the successor.
         double min_confidence = 0.0;
+
+        static Config defaults() { return {}; }
     };
 
-    explicit PredictivePrefetcher(const Config& config = Config{});
+    explicit PredictivePrefetcher(const Config& config = Config::defaults());
     ~PredictivePrefetcher() = default;
 
     PredictivePrefetcher(const PredictivePrefetcher&) = delete;

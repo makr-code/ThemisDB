@@ -138,9 +138,11 @@ public:
         
         // Principal-to-role mapping rules
         std::vector<MappingRule> mapping_rules;
+
+        static Config defaults() { return {}; }
     };
     
-    explicit PrincipalValidator(const Config& config = Config());
+    explicit PrincipalValidator(const Config& config = Config::defaults());
 
     /**
      * @brief Attach an AuditLogger to receive PERMISSION_DENIED / LOGIN_SUCCESS events.

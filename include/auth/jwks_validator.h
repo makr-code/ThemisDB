@@ -85,9 +85,11 @@ public:
         
         // Require use field
         bool require_use = false;
+
+        static Config defaults() { return {}; }
     };
     
-    explicit JWKSValidator(const Config& config = Config());
+    explicit JWKSValidator(const Config& config = Config::defaults());
     
     /**
      * @brief Validate a JWKS document

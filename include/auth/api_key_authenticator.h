@@ -121,12 +121,13 @@ public:
         bool check_expiry{true};        ///< Reject keys whose expiry has passed
         size_t max_key_id_length{128};  ///< Maximum allowed key_id length
         size_t max_secret_length{512};  ///< Maximum allowed secret length
+        static Config defaults() { return {}; }
     };
 
     /**
      * @brief Construct with optional configuration
      */
-    explicit ApiKeyAuthenticator(const Config& config = Config());
+    explicit ApiKeyAuthenticator(const Config& config = Config::defaults());
 
     /**
      * @brief Attach an AuditLogger to receive LOGIN_SUCCESS / LOGIN_FAILED events.

@@ -50,9 +50,10 @@ public:
         std::chrono::seconds rag_timeout{600};        // 10 minutes default (RAG is slower)
         std::chrono::seconds embed_timeout{60};       // 1 minute default
         std::chrono::seconds model_load_timeout{900}; // 15 minutes default
+        static TimeoutConfig defaults() { return {}; }
     };
     
-    explicit LLMTimeoutManager(const TimeoutConfig& config = TimeoutConfig{})
+    explicit LLMTimeoutManager(const TimeoutConfig& config = TimeoutConfig::defaults())
         : config_(config) {}
     
     /**
@@ -245,9 +246,10 @@ public:
         std::chrono::milliseconds initial_delay{100};
         double backoff_multiplier = 2.0;
         std::chrono::milliseconds max_delay{10000};  // 10 seconds max
+        static Config defaults() { return {}; }
     };
     
-    explicit RetryPolicy(const Config& config = Config{})
+    explicit RetryPolicy(const Config& config = Config::defaults())
         : config_(config) {}
     
     /**

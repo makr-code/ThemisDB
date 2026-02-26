@@ -314,9 +314,10 @@ public:
         uint32_t success_threshold = 2;        // Successes before closing from half-open
         uint32_t timeout_ms = 60000;           // Time before trying half-open (1 minute)
         uint32_t half_open_max_calls = 3;      // Max calls in half-open state
+        static Config defaults() { return {}; }
     };
     
-    explicit CircuitBreaker(const Config& config = Config())
+    explicit CircuitBreaker(const Config& config = Config::defaults())
         : config_(config)
         , state_(State::CLOSED)
         , failure_count_(0)
@@ -443,9 +444,10 @@ public:
     struct Config {
         uint32_t max_requests_per_second = 10000;  // Rate limit
         uint32_t burst_size = 0;                    // Burst size (0 = same as rate)
+        static Config defaults() { return {}; }
     };
     
-    explicit RateLimiter(const Config& config = Config())
+    explicit RateLimiter(const Config& config = Config::defaults())
         : config_(config)
         , tokens_(config.max_requests_per_second)
         , last_refill_time_(std::chrono::steady_clock::now()) {

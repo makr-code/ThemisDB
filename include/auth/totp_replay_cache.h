@@ -60,9 +60,10 @@ public:
         
         // Maximum entries per user (prevents memory exhaustion)
         size_t max_entries_per_user = 10;
+        static Config defaults() { return {}; }
     };
     
-    explicit TOTPReplayCache(const Config& config = Config());
+    explicit TOTPReplayCache(const Config& config = Config::defaults());
     ~TOTPReplayCache() = default;
     
     // Disable copy, allow move
@@ -171,9 +172,10 @@ public:
         // Replay cache config
         bool enable_replay_protection = true;
         TOTPReplayCache::Config replay_cache_config;
+        static Config defaults() { return {}; }
     };
     
-    explicit SecureMFAValidator(const Config& config = Config());
+    explicit SecureMFAValidator(const Config& config = Config::defaults());
     
     /**
      * @brief Validate TOTP code with replay protection

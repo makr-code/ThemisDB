@@ -124,9 +124,10 @@ public:
         std::chrono::seconds window_duration = std::chrono::hours(24);
         bool enable_alerting = true;
         double alert_threshold = 0.9;  // Alert when error budget reaches 90%
+        static Config defaults() { return {}; }
     };
     
-    explicit SLOMonitor(const Config& config = Config());
+    explicit SLOMonitor(const Config& config = Config::defaults());
     ~SLOMonitor() = default;
     
     // Update SLO measurements
@@ -201,9 +202,10 @@ public:
         std::string output_path = "/var/log/themisdb/slo_reports/";
         bool enable_json_export = true;
         bool enable_prometheus_export = true;
+        static Config defaults() { return {}; }
     };
     
-    explicit SLOReporter(SLOMonitor& monitor, const Config& config = Config());
+    explicit SLOReporter(SLOMonitor& monitor, const Config& config = Config::defaults());
     ~SLOReporter();
     
     // Start/stop periodic reporting

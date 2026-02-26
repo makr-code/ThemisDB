@@ -107,6 +107,7 @@ public:
         bool fallback_to_original = true;
         /// Character budget per individual rewrite; longer strings are dropped.
         size_t max_rewrite_length = 256;
+        static Config defaults() { return {}; }
     };
 
     /**
@@ -116,7 +117,7 @@ public:
      * @param backend  LLM backend callable; may be nullptr / empty.
      * @throws std::invalid_argument if num_rewrites == 0.
      */
-    explicit LlmQueryRewriter(const Config& config = Config{},
+    explicit LlmQueryRewriter(const Config& config = Config::defaults(),
                                LlmBackend backend = nullptr);
 
     LlmQueryRewriter(const LlmQueryRewriter&) = delete;
