@@ -44,6 +44,7 @@
 #include "utils/tracing.h"
 #include "utils/simd_distance.h"
 #include "utils/geo/ewkb.h"
+#include "geo/spatial_backend.h"
 #include "utils/error_registry.h"
 #include <sstream>
 #include <cmath>
@@ -1810,6 +1811,42 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		nlohmann::json ring=nlohmann::json::array({ {u.minx,u.miny},{u.maxx,u.miny},{u.maxx,u.maxy},{u.minx,u.maxy},{u.minx,u.miny} });
 		nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=nlohmann::json::array({ring});
 		return Ok(nlohmann::json(poly));
+	}
+
+	// GEO_BUFFER(geom, distance_m [, arc_points]) — geodesic ST_BUFFER via the CPU-exact backend.
+	// ArangoDB-compatible name; distance_m is in metres (geodesic-aware).
+	if (funcName == "GEO_BUFFER" || funcName == "ST_BUFFER") {
+		if (args.size() < 2 || args.size() > 3) {
+			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				fmt::format("{} expects 2 or 3 arguments, got {}", funcName, args.size()));
+		}
+		auto gRes = evalArg(0);
+		if (!gRes) return gRes;
+		auto distRes = evalArg(1);
+		if (!distRes) return distRes;
+		const double distance_m = qe_toNumber(*distRes);
+		int arc_points = 36;
+		if (args.size() == 3) {
+			auto apRes = evalArg(2);
+			if (!apRes) return apRes;
+			// Clamp arc_points to [3, 360]: backend already clamps < 3, but guard upper bound here.
+			arc_points = static_cast<int>(qe_toNumber(*apRes));
+			if (arc_points < 3) arc_points = 3;
+			if (arc_points > 360) arc_points = 360;
+		}
+		try {
+			const geo::GeometryInfo geom = geo::EWKBParser::parseGeoJSON(gRes->dump());
+			const geo::GeometryInfo result = geo::getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
+			const std::string json_str = geo::EWKBParser::toGeoJSON(result);
+			if (json_str == "{}" || json_str.empty()) {
+				nlohmann::json empty; empty["type"]="GeometryCollection"; empty["geometries"]=nlohmann::json::array();
+				return Ok(nlohmann::json(empty));
+			}
+			return Ok(nlohmann::json::parse(json_str));
+		} catch (const std::exception& e) {
+			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+				fmt::format("{} error: {}", funcName, e.what()));
+		}
 	}
 
 	return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,

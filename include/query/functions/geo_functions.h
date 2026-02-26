@@ -1324,6 +1324,8 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
     registry.registerFunction(std::make_unique<StCentroidFunction>());
     registry.registerFunction(std::make_unique<StEnvelopeFunction>());
     registry.registerFunction(std::make_unique<StBufferFunction>());
+    // ArangoDB-compatible alias: GEO_BUFFER maps to the same geodesic ST_BUFFER backend.
+    registry.registerAlias("GEO_BUFFER", "ST_BUFFER");
     registry.registerFunction(std::make_unique<StUnionFunction>());
     registry.registerFunction(std::make_unique<StDifferenceFunction>());
 }
