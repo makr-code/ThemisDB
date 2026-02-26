@@ -207,6 +207,48 @@ and invalid JSON graceful handling.
 
 ---
 
+### Change Stream Compression for High-Volume Feeds ✅ (Implemented - Issue #1618)
+
+`ChangeStreamCompressor` (`include/cdc/change_stream_compressor.h`, header-only) provides
+batch compression of CDC change events for efficient transport over SSE or WebSocket streams,
+targeting high-volume feed scenarios where uncompressed JSON payloads create network or
+memory pressure.
+
+**Wire format:**
+```
++----------+---------+-----------+---------------+-------------+---...---+
+| magic    | version | algorithm | original_size | event_count | payload |
+| 4 bytes  | 1 byte  | 1 byte    | 4 bytes LE    | 4 bytes LE  | N bytes |
++----------+---------+-----------+---------------+-------------+---...---+
+magic = 0x43 0x44 0x43 0x5A ("CDCZ")
+```
+
+**Components:**
+- `StreamCompressionAlgorithm` — algorithm selector (`NONE`, `ZSTD`)
+- `CompressedBatch` — self-describing wire-format batch; `serialize()` / `deserialize()` for framing
+- `ChangeStreamCompressor` — compress/decompress batches of `Changefeed::ChangeEvent` records
+
+**`ChangeStreamCompressor`:**
+- `compress(events)` — serialize events as JSON array, compress with Zstd, return `CompressedBatch`
+- `decompress(batch)` — decompress and reconstruct `Changefeed::ChangeEvent` records
+- `Config` — `algorithm` (ZSTD default), `level` (1–22, default 3), `min_compression_size_bytes` (256)
+- Batches below `min_compression_size_bytes` are stored uncompressed (`algorithm = NONE`) to avoid overhead
+- `getStats()` / `resetStats()` — cumulative stats: `batches_compressed`, `events_compressed`,
+  `bytes_in`, `bytes_out`, `batches_skipped`, `decompress_errors`, `compression_ratio()`
+
+**Thread safety:** `compress()`, `decompress()`, `getStats()`, `resetStats()`, and `setConfig()`
+are all thread-safe.  Config reads are snapshotted under `config_mutex_`; stats use atomics.
+
+**Tests:** 20 unit tests in `tests/test_cdc_change_stream_compressor.cpp` covering:
+default config, empty batch round-trip, single-event round-trip, large batch ZSTD selection,
+below-threshold uncompressed path, explicit NONE config, serialize/deserialize header
+preservation, truncated/wrong-magic rejection, NONE batch decompress, ZSTD round-trip,
+corrupted payload exception, stats tracking, skipped-batch counter, decompress error counter,
+compression ratio > 1, resetStats, setConfig, all event fields preserved, DELETE event
+round-trip.
+
+---
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport
