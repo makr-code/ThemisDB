@@ -243,7 +243,7 @@ TEST(JaegerTracerAdapterTest, StartSpanFromEmptyHeadersReturnsNonNull) {
     EXPECT_NE(span, nullptr);
 }
 
-TEST(JaegerTracerAdapterTest, StartSpanFromHeadersW3CTakesprecedenceOverUberTraceId) {
+TEST(JaegerTracerAdapterTest, StartSpanFromHeadersW3CTakesPrecedenceOverUberTraceId) {
     JaegerTracerAdapter adapter;
     std::map<std::string, std::string> headers;
     headers["traceparent"]   = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
