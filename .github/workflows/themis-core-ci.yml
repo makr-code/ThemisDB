@@ -268,6 +268,15 @@ jobs:
             --gtest_output="xml:concerns_results.xml" \
             2>&1 | tee concerns_output.txt
 
+      # ── CCPA/CPRA data subject rights tests ──────────────────────────────
+      - name: Run CCPA/CPRA data subject rights tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="RightToKnow*:RightToDelete*:OptOutOfSale*:DataPortability*:CcpaRuleSetTest*:PolicyEngineWithCcpa*:CcpaReportTest*:PolicyValidatorCcpaHipaa*:DataSubjectRequest*:CcpaRuleEvalResult*" \
+            --gtest_output="xml:ccpa_results.xml" \
+            2>&1 | tee ccpa_output.txt
+
       # ── Export build manifest ────────────────────────────────────────────
       - name: Export build manifest
         run: |
@@ -361,6 +370,10 @@ jobs:
           CORE_FILTER="${CORE_FILTER}:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*"
           CORE_FILTER="${CORE_FILTER}:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*"
           CORE_FILTER="${CORE_FILTER}:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*"
+          # CCPA/CPRA data subject rights tests
+          CCPA_FILTER="RightToKnow*:RightToDelete*:OptOutOfSale*:DataPortability*"
+          CCPA_FILTER="${CCPA_FILTER}:CcpaRuleSetTest*:PolicyEngineWithCcpa*:CcpaReportTest*"
+          CCPA_FILTER="${CCPA_FILTER}:PolicyValidatorCcpaHipaa*:DataSubjectRequest*:CcpaRuleEvalResult*"
           # Security negative tests
           SEC_FILTER="JWTNegativeTest*:JWTValidationTest*:JWTValidatorTest*:KidRevocationTest*"
           SEC_FILTER="${SEC_FILTER}:RBACNegativeTest*:RBACTest*:PermissionTest*"
@@ -374,8 +387,7 @@ jobs:
           AUTH_FILTER="${AUTH_FILTER}:TOTPSecretEncryptionTest*:KeyRotationTest*"
           cd build
           ./tests/themis_tests \
-            --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*:WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*:AbiChecker*:ModuleSandbox*:ModuleLoader*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*:WirePerfBenchmark*" \
-            --gtest_filter="${CORE_FILTER}:${SEC_FILTER}:${AUTH_FILTER}" \
+            --gtest_filter="${CORE_FILTER}:${SEC_FILTER}:${AUTH_FILTER}:${CCPA_FILTER}" \
             2>&1 | tee coverage_test_output.txt || true
 
       - name: Capture lcov data

@@ -41,6 +41,9 @@
 
 #include <benchmark/benchmark.h>
 #include "governance/policy_engine.h"
+#include "governance/ccpa_rules.h"
+#include "governance/policy_manager.h"
+#include "governance/compliance_reporting.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "security/hsm_provider.h"
@@ -49,6 +52,7 @@
 #include <random>
 #include <string>
 #include <memory>
+#include <unordered_set>
 
 using namespace themis::governance;
 using namespace themis;
@@ -716,6 +720,152 @@ static void BM_RealWorld_ClassifiedDocumentProcessing(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_RealWorld_ClassifiedDocumentProcessing);
+
+// ============================================================================
+// CCPA/CPRA Data Subject Rights Performance Benchmarks
+// Validates: CCPA opt-out flag lookup adds ≤ 0.5 ms to query-time p99
+// ============================================================================
+
+/// Baseline: PolicyEngine::evaluate() without CCPA opt-out registry set.
+static void BM_PolicyEvaluation_NoCcpa(benchmark::State& state) {
+    PolicyEngine engine;
+    std::unordered_map<std::string, std::string> headers = {
+        {"X-User-Id", "user-001"},
+        {"X-Classification", "vs-nfd"}
+    };
+    for (auto _ : state) {
+        auto decision = engine.evaluate(headers, "/api/data");
+        benchmark::DoNotOptimize(decision);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_PolicyEvaluation_NoCcpa);
+
+/// WithCcpa (not opted out): PolicyEngine::evaluate() with opt-out registry
+/// attached but the requesting subject is NOT in the registry.
+static void BM_PolicyEvaluation_WithCcpaNotOptedOut(benchmark::State& state) {
+    PolicyEngine engine;
+
+    // Registry with 10K opted-out subjects – the requesting user is not in it.
+    auto registry = std::make_shared<std::unordered_set<std::string>>();
+    for (int i = 0; i < 10000; ++i) {
+        registry->insert("opted-out-" + std::to_string(i));
+    }
+    engine.setCcpaOptOutSubjects(registry);
+
+    std::unordered_map<std::string, std::string> headers = {
+        {"X-User-Id", "normal-user"},
+        {"X-Classification", "vs-nfd"}
+    };
+    for (auto _ : state) {
+        auto decision = engine.evaluate(headers, "/api/data");
+        benchmark::DoNotOptimize(decision);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_PolicyEvaluation_WithCcpaNotOptedOut);
+
+/// WithCcpa (opted out): PolicyEngine::evaluate() where the requesting subject
+/// IS in the opt-out registry — export_allowed must be forced false.
+static void BM_PolicyEvaluation_WithCcpaOptedOut(benchmark::State& state) {
+    PolicyEngine engine;
+
+    auto registry = std::make_shared<std::unordered_set<std::string>>();
+    registry->insert("opted-out-subject");
+    for (int i = 0; i < 9999; ++i) {
+        registry->insert("other-user-" + std::to_string(i));
+    }
+    engine.setCcpaOptOutSubjects(registry);
+
+    std::unordered_map<std::string, std::string> headers = {
+        {"X-User-Id", "opted-out-subject"},
+        {"X-Classification", "vs-nfd"}
+    };
+    for (auto _ : state) {
+        auto decision = engine.evaluate(headers, "/api/data");
+        benchmark::DoNotOptimize(decision);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_PolicyEvaluation_WithCcpaOptedOut);
+
+/// CcpaRuleSet::evaluateRule() latency for a single PolicyRule against all
+/// four CCPA evaluators (RightToKnow, RightToDelete, OptOutOfSale, DataPortability).
+static void BM_CcpaRuleSet_EvaluateRule(benchmark::State& state) {
+    CcpaRuleSet ccpa;
+
+    PolicyRule rule;
+    rule.id              = "bench-rule";
+    rule.name            = "Benchmark Rule";
+    rule.enabled         = true;
+    rule.audit_access    = true;
+    rule.audit_changes   = true;
+    rule.allow_export    = false;
+    rule.require_signature = false;
+    rule.retention_days  = 365;
+    rule.resources       = {"data/*"};
+    rule.actions         = {"read"};
+
+    for (auto _ : state) {
+        auto results = ccpa.evaluateRule(rule);
+        benchmark::DoNotOptimize(results);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_CcpaRuleSet_EvaluateRule);
+
+/// CcpaRuleSet opt-out registry lookup scaling: measures CcpaRuleSet::isOptedOut()
+/// latency for different registry sizes (10, 1K, 100K subjects).
+static void BM_CcpaRuleSet_OptOutLookup(benchmark::State& state) {
+    const int registry_size = static_cast<int>(state.range(0));
+    CcpaRuleSet ccpa;
+    for (int i = 0; i < registry_size; ++i) {
+        ccpa.addOptOut("subject-" + std::to_string(i));
+    }
+    const std::string target = "subject-" + std::to_string(registry_size / 2);
+
+    for (auto _ : state) {
+        bool opted_out = ccpa.isOptedOut(target);
+        benchmark::DoNotOptimize(opted_out);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_CcpaRuleSet_OptOutLookup)
+    ->Arg(10)
+    ->Arg(1000)
+    ->Arg(100000);
+
+/// ComplianceReporter::generateCcpaReport() latency for different rule counts.
+static void BM_CcpaReport_Generation(benchmark::State& state) {
+    const int rule_count = static_cast<int>(state.range(0));
+    PolicyManager mgr;
+    for (int i = 0; i < rule_count; ++i) {
+        PolicyRule r;
+        r.id              = "rule-" + std::to_string(i);
+        r.name            = "Rule " + std::to_string(i);
+        r.enabled         = true;
+        r.audit_access    = (i % 2 == 0);
+        r.audit_changes   = (i % 3 == 0);
+        r.allow_export    = (i % 4 == 0);
+        r.retention_days  = 365 + (i % 1000);
+        r.classification_level = (i % 3 == 0) ? "geheim" : "vs-nfd";
+        r.resources       = {"data/*"};
+        r.actions         = {"read"};
+        mgr.addRule(r);
+    }
+    ComplianceReporter reporter;
+    const int opt_out_count = rule_count / 10;
+
+    for (auto _ : state) {
+        auto report = reporter.generateCcpaReport(mgr, opt_out_count);
+        benchmark::DoNotOptimize(report);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_CcpaReport_Generation)
+    ->Arg(10)
+    ->Arg(100)
+    ->Arg(500);
 
 // ============================================================================
 // Main
