@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     312                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
@@ -252,6 +252,9 @@ public:
      *
      * Allows sharing a single LLMResponseCache instance across engines.
      * Overrides any cache created from Config::enable_dedup_cache.
+     *
+     * Thread-safety: must be called before inference requests are submitted
+     * (i.e. during engine setup, not while worker threads are active).
      *
      * @param cache Shared LLMResponseCache instance; may be nullptr to disable.
      */
