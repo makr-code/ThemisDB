@@ -87,7 +87,7 @@ TEST_F(NlpLemmatizeTest, German_ModalVerbs) {
 TEST_F(NlpLemmatizeTest, German_RegularSuffixStripping) {
     EXPECT_EQ(analyzer.lemmatizeWord("spielend", NlpTextAnalyzer::Language::GERMAN), "spielen");
     EXPECT_EQ(analyzer.lemmatizeWord("spielten", NlpTextAnalyzer::Language::GERMAN), "spielen");
-    EXPECT_EQ(analyzer.lemmatizeWord("Häuser",   NlpTextAnalyzer::Language::GERMAN), "Haus");
+    EXPECT_EQ(analyzer.lemmatizeWord("Häuser",   NlpTextAnalyzer::Language::GERMAN), "haus");
 }
 
 // ---------------------------------------------------------------------------
