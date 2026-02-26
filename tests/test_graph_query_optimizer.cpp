@@ -4,17 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:17:25                                ║
+  Last Modified:   2026-02-26 05:15:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1972                                           ║
+    • Total Lines:     1976                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • b147c2c63  2026-02-26  feat(graph): implement incremental graph query execu... ║
+    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
@@ -1679,6 +1679,303 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
 }
 
 // ============================================================================
+// Property graph schema-aware optimizer hints (Issue #1819)
+// ============================================================================
+
+// Helper: store a node with _labels field (comma-separated).
+static void storeNodeWithLabels(themis::RocksDBWrapper& db,
+                                 const std::string& pk,
+                                 const std::string& labels_csv) {
+    themis::BaseEntity v(pk);
+    v.setField("id", pk);
+    v.setField("_labels", labels_csv);
+    db.put(themis::KeySchema::makeGraphNodeKey(pk), v.serialize());
+}
+
+// ── Cost estimation ───────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_NodeLabels_ReducesCostEstimate) {
+    // Provide label stats: "Person" covers 3 of the 4 nodes in the test graph.
+    // selectivity = 3/4 = 0.75 → cost estimate should be reduced proportionally.
+    optimizer_->collectStatistics();
+    optimizer_->setNodeLabelStats({{"Person", 3}});
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.node_labels = {"Person"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // With a 0.75 selectivity, estimated cost should be strictly lower than without hint
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExcludedEdgeTypes_ReducesCostEstimate) {
+    // Excluding an unknown edge type applies a 10% conservative reduction.
+    // This verifies the fallback path (no selectivity stats registered).
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    optimizer_->clearPlanCache();
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.excluded_edge_types = {"UNKNOWN_TYPE"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // 10% reduction for one unknown type → estimated cost should be lower
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_UnknownLabel_UsesDefaultSelectivity) {
+    // No label stats registered → fallback selectivity (0.5) is applied.
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    optimizer_->clearPlanCache();
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.node_labels = {"UnknownLabel"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // Fallback selectivity = 0.5 → cost should be lower
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+// ── Plan explanation ──────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExplanationContainsNodeLabels) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person", "Employee"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    EXPECT_NE(plan->explanation.find("Person"), std::string::npos);
+    EXPECT_NE(plan->explanation.find("Employee"), std::string::npos);
+    EXPECT_NE(plan->explanation.find("Schema Hints Active"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExplanationContainsExcludedEdgeTypes) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.excluded_edge_types = {"BLOCKED"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan);
+    EXPECT_NE(plan->explanation.find("BLOCKED"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_NoHints_ExplanationUnchanged) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;  // no schema hints
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    // "Schema Hints Active" should NOT appear when no hints are set
+    EXPECT_EQ(plan->explanation.find("Schema Hints Active"), std::string::npos);
+    EXPECT_TRUE(plan->active_schema_hints.empty());
+}
+
+// ── Active schema hints field ─────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ActiveSchemaHintsPopulated) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    c.excluded_edge_types = {"DEPRECATED"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    ASSERT_EQ(plan->active_schema_hints.size(), 2u);
+    // First hint describes node labels
+    EXPECT_NE(plan->active_schema_hints[0].find("Person"), std::string::npos);
+    // Second hint describes excluded edge types
+    EXPECT_NE(plan->active_schema_hints[1].find("DEPRECATED"), std::string::npos);
+}
+
+// ── Plan cache keys ───────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_DifferentLabelsDifferentCacheEntries) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.node_labels = {"Person"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t hits_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.node_labels = {"Organization"};
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t hits_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // c2 has a different node label → different cache key → one more miss
+    EXPECT_GT(hits_after2, hits_after1);
+}
+
+// ── BFS label filtering ───────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_FiltersNodesByLabel) {
+    // Store node "B" with label "Person"; "C" has no labels.
+    // Graph: A -> B -> C (B labeled Person, C unlabeled)
+    storeNodeWithLabels(*db_, "B", "Person");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    auto result = optimizer_->executeBFS("A", 3, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // "A" is the start node (not filtered), "B" has label "Person" (included),
+    // "C" has no labels (excluded by hint).
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end())
+        << "Start node should always be present";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+        << "B (Person) should be included";
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (no labels) should be excluded by the hint";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_OR_Semantics_MatchesAnyLabel) {
+    // "B" has label "Employee", "C" has label "Manager".
+    // With node_labels={"Employee","Manager"}, both B and C should be included.
+    storeNodeWithLabels(*db_, "B", "Employee");
+    storeNodeWithLabels(*db_, "C", "Manager");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Employee", "Manager"};  // OR: either label matches
+    auto result = optimizer_->executeBFS("A", 4, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // The start node "A" is always present regardless of labels (never filtered)
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end())
+        << "Start node A should always be present regardless of label filter";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+        << "B (Employee) should be included";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (Manager) should be included via OR semantics";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_LabelOrderIndependent) {
+    // {"Person","Employee"} and {"Employee","Person"} must produce the same key
+    // and therefore share a cached plan.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.node_labels = {"Person", "Employee"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.node_labels = {"Employee", "Person"};  // same labels, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit exact cache (same sorted key) → no new miss
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed label order should reuse cached plan via same sorted key";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_ExcludedEdgeTypeOrderIndependent) {
+    // {"FOLLOWS","LIKES"} and {"LIKES","FOLLOWS"} must produce the same key.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.excluded_edge_types = {"FOLLOWS", "LIKES"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.excluded_edge_types = {"LIKES", "FOLLOWS"};  // same types, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit the cached plan (same sorted key)
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed excluded_edge_types order should reuse cached plan";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_NoFilter_AllNodesTraversed) {
+    // Without node_labels, all reachable nodes should appear.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c; // no hint
+    auto result = optimizer_->executeBFS("A", 4, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "D"), nodes.end());
+}
+
+// ── DFS label filtering ───────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_DFS_FiltersNodesByLabel) {
+    storeNodeWithLabels(*db_, "B", "Person");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    auto result = optimizer_->executeDFS("A", 3, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (no labels) should be excluded";
+}
+
+// ── setNodeLabelStats ─────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SetNodeLabelStats_PopulatesSelectivity) {
+    // The test graph has 4 vertices (A, B, C, D); collectStatistics discovers them.
+    auto stats_result = optimizer_->collectStatistics();
+    ASSERT_TRUE(stats_result);
+    const size_t vertex_count = optimizer_->getStatistics().vertex_count;
+    ASSERT_GT(vertex_count, 0u);
+
+    // Supply counts that are always ≤ vertex_count
+    const size_t person_count = vertex_count;   // 100% → selectivity = 1.0
+    const size_t company_count = 0;             // 0%   → selectivity = 0.0
+
+    optimizer_->setNodeLabelStats({{"Person", person_count}, {"Company", company_count}});
+
+    const auto& stats = optimizer_->getStatistics();
+    ASSERT_NE(stats.node_label_counts.find("Person"), stats.node_label_counts.end());
+    EXPECT_EQ(stats.node_label_counts.at("Person"), person_count);
+    ASSERT_NE(stats.node_label_selectivity.find("Person"), stats.node_label_selectivity.end());
+    EXPECT_DOUBLE_EQ(stats.node_label_selectivity.at("Person"), 1.0);
+    ASSERT_NE(stats.node_label_selectivity.find("Company"), stats.node_label_selectivity.end());
+    EXPECT_DOUBLE_EQ(stats.node_label_selectivity.at("Company"), 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, SetNodeLabelStats_ClearsOldEntries) {
+    optimizer_->collectStatistics();
+
+    optimizer_->setNodeLabelStats({{"Person", 1}});
+    optimizer_->setNodeLabelStats({{"Company", 1}});  // replaces previous
+
+    const auto& stats = optimizer_->getStatistics();
+    // Old "Person" entry should be gone after the second call
+    EXPECT_EQ(stats.node_label_counts.find("Person"), stats.node_label_counts.end());
+    ASSERT_NE(stats.node_label_counts.find("Company"), stats.node_label_counts.end());
+    EXPECT_EQ(stats.node_label_counts.at("Company"), 1u);
 // Incremental Graph Query Execution Tests (v1.9.0)
 // ============================================================================
 

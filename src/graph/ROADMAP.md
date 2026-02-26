@@ -21,6 +21,7 @@
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Property graph schema-aware optimizer hints (Issue: #1819)
 - [x] Distributed graph query execution across shards (Issue: #1826)
 - [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Plan cache eviction with size and TTL controls (Issue: #1827)
@@ -45,7 +46,7 @@
 ### Long-term (6-12 months)
 - [x] Distributed graph query execution across shards (Issue: #1826)
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
-- [I] Property graph schema-aware optimizer hints (Issue: #1819)
+- [x] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 - [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 - [x] Graph query result streaming for large path sets (Issue: #1822)
