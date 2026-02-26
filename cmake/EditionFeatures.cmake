@@ -50,5 +50,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/cluster_topology.cpp
         ../src/gpu/cluster_coordinator.cpp
         ../src/gpu/profiler.cpp
+        ../src/gpu/unified_memory.cpp
     )
 endif()

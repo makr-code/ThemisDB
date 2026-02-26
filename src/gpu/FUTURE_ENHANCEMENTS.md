@@ -203,6 +203,51 @@ the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
 
 ---
 
+---
+
+### Unified Memory Support (CPU+GPU Shared Address Space)
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Unified memory allocates a single managed address space accessible by both the
+CPU and any configured CUDA or HIP device.  The CUDA/HIP runtime automatically
+migrates pages between CPU DRAM and GPU VRAM as they are accessed, eliminating
+explicit `cudaMemcpy` transfers for workloads that share data between CPU and GPU.
+
+**Implemented infrastructure:**
+- ✅ `GPUUnifiedMemoryAllocator` (`include/themis/gpu/unified_memory.h`,
+  `src/gpu/unified_memory.cpp`) — `allocate`, `free`, `prefetch`, `advise`,
+  `isSupported`, `getStats`, `getActiveAllocations`, `getTenantBytes`, `reset`.
+- ✅ CUDA path: `cudaMallocManaged` / `cudaFree` / `cudaMemPrefetchAsync` /
+  `cudaMemAdvise` — gated on `THEMIS_ENABLE_CUDA`.
+- ✅ HIP path: `hipMallocManaged` / `hipFree` / `hipMemPrefetchAsync` /
+  `hipMemAdvise` — gated on `THEMIS_ENABLE_HIP`.
+- ✅ CPU fallback: `malloc` / `free`; `prefetch` and `advise` are no-ops that
+  return `true`; `isSupported()` returns `false`.
+- ✅ `MemAdvice` enum mirrors `cudaMemoryAdvise` / `hipMemoryAdvice`: six hints
+  (`SET_PREFERRED_LOCATION`, `SET_ACCESSED_BY`, `SET_READ_MOSTLY`, and their
+  `UNSET_*` counterparts).
+- ✅ Per-tenant byte tracking — each allocation may carry an optional
+  `tenant_id`; `getTenantBytes(tenant_id)` returns current live usage.
+- ✅ `Stats` struct: `total_allocations`, `total_frees`, `allocated_bytes`,
+  `peak_bytes`, `prefetch_calls`, `advise_calls`, `hardware_unified`.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_unified_memory.cpp`, 24 tests).
+
+**Remaining (hardware required):**
+- Verify hardware page-migration with a real `cudaMallocManaged` allocation on
+  an NVIDIA Volta/Ampere GPU: page-fault latency must be < 5 ms for a 256 MB
+  buffer that is first written on the CPU and then read on device via a simple
+  CUDA kernel; measured with CUDA events.
+- Benchmark unified memory throughput vs. explicit `cudaMemcpy` for ThemisDB
+  batch sizes: unified memory must achieve ≥ 0.75× the throughput of explicit
+  `cudaMemcpy` for 1M float32 vectors (4 MB) on an RTX-class GPU; measured in
+  GB/s using CUDA events averaged over 100 iterations.
+- Consider wrapping `GPUUnifiedMemoryAllocator::allocate` into an
+  RAII helper `UnifiedBuffer<T>` analogous to `make_cuda_unique<T>` in
+  `include/utils/memory_utils.h`.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
@@ -212,4 +257,4 @@ the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.3.0*
+*Module Version: v1.4.0*
