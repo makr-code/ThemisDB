@@ -1923,6 +1923,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
+    ../src/exporters/streaming_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
