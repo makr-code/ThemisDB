@@ -52,6 +52,7 @@
 #include <tbb/parallel_invoke.h>
 #include <tbb/task_group.h>
 #include <tbb/parallel_sort.h> // v1.1.0: TBB Parallel Sort
+#include "query/parallel_scan.h"
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
@@ -1953,8 +1954,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 	std::vector<std::string> out;
 	if (q.table.empty()) return out;
 	const std::string prefix = q.table + ":";
-	int64_t scanned = 0;
-	
+
 	// Helper for numeric comparison: try to parse as numbers, fall back to string comparison
 	auto compareValues = [](const std::string& a, const std::string& b) -> int {
 		try {
@@ -1962,7 +1962,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 			size_t pos_a = 0, pos_b = 0;
 			long long num_a = std::stoll(a, &pos_a);
 			long long num_b = std::stoll(b, &pos_b);
-			
+
 			// Only use numeric comparison if entire strings parsed
 			if (pos_a == a.size() && pos_b == b.size()) {
 				if (num_a < num_b) return -1;
@@ -1975,7 +1975,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				size_t pos_a = 0, pos_b = 0;
 				double num_a = std::stod(a, &pos_a);
 				double num_b = std::stod(b, &pos_b);
-				
+
 				if (pos_a == a.size() && pos_b == b.size()) {
 					if (num_a < num_b) return -1;
 					if (num_a > num_b) return 1;
@@ -1983,45 +1983,98 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				}
 			} catch (...) {}
 		}
-		
+
 		// Fall back to lexicographic string comparison
 		return a.compare(b);
 	};
-	
-	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value){
-		// Deserialize entity and test all predicates
-		std::string pk = KeySchema::extractPrimaryKey(key);
-		std::vector<uint8_t> blob(value.begin(), value.end());
-		try {
-			BaseEntity e = BaseEntity::deserialize(pk, blob);
-			++scanned;
-			bool match = true;
-			for (const auto& p : q.predicates) {
-				auto v = e.extractField(p.column);
-				if (!v || *v != p.value) { match = false; break; }
+
+	// Predicate evaluation helper – called from both sequential and parallel paths.
+	// q and compareValues are captured by reference; each invocation is independent.
+	auto matchesPredicates = [&](const BaseEntity& e) -> bool {
+		for (const auto& p : q.predicates) {
+			auto v = e.extractField(p.column);
+			if (!v || *v != p.value) return false;
+		}
+		for (const auto& r : q.rangePredicates) {
+			auto v = e.extractField(r.column);
+			if (!v) return false;
+			if (r.lower.has_value()) {
+				int cmp = compareValues(*v, *r.lower);
+				if (cmp < 0 || (cmp == 0 && !r.includeLower)) return false;
 			}
-			// Range-Prädikate mit numerischem Vergleich
-			if (match) {
-				for (const auto& r : q.rangePredicates) {
-					auto v = e.extractField(r.column);
-					if (!v) { match = false; break; }
-					if (r.lower.has_value()) {
-						int cmp = compareValues(*v, *r.lower);
-						if (cmp < 0 || (cmp == 0 && !r.includeLower)) { match = false; break; }
-					}
-					if (r.upper.has_value()) {
-						int cmp = compareValues(*v, *r.upper);
-						if (cmp > 0 || (cmp == 0 && !r.includeUpper)) { match = false; break; }
-					}
-				}
+			if (r.upper.has_value()) {
+				int cmp = compareValues(*v, *r.upper);
+				if (cmp > 0 || (cmp == 0 && !r.includeUpper)) return false;
 			}
-			if (match) out.push_back(std::move(pk));
-		} catch (...) {
-			// skip malformed entries
 		}
 		return true;
+	};
+
+	// ── Phase 1: Collect raw entries (sequential I/O) ──────────────────────────
+	// Each entry stores the primary key and the raw serialized blob.
+	struct RawEntry { std::string pk; std::vector<uint8_t> blob; };
+	std::vector<RawEntry> raw_entries;
+
+	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		std::string pk = KeySchema::extractPrimaryKey(key);
+		raw_entries.push_back({std::move(pk), {value.begin(), value.end()}});
+		return true;
 	});
-	span.setAttribute("fullscan.scanned", scanned);
+
+	const size_t n = raw_entries.size();
+	span.setAttribute("fullscan.scanned", static_cast<int64_t>(n));
+
+	static const ParallelScanConfig kScanConfig;
+
+	if (n < kScanConfig.parallel_threshold) {
+		// ── Sequential path (small collection) ────────────────────────────────
+		span.setAttribute("fullscan.mode", "sequential");
+		for (auto& entry : raw_entries) {
+			try {
+				BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
+				if (matchesPredicates(e)) out.push_back(std::move(entry.pk));
+			} catch (...) {
+				// skip malformed entries
+			}
+		}
+	} else {
+		// ── Parallel path (large collection – morsel-driven) ──────────────────
+		// Split the collected entries into fixed-size morsels; each TBB task
+		// processes one morsel independently and writes its matches into a
+		// per-morsel result bucket.  Results are merged after tg.wait().
+		span.setAttribute("fullscan.mode", "parallel");
+		const size_t morsel_size = kScanConfig.morsel_size;
+		const size_t num_morsels = (n + morsel_size - 1) / morsel_size;
+		std::vector<std::vector<std::string>> morsel_results(num_morsels);
+
+		tbb::task_group tg;
+		for (size_t m = 0; m < num_morsels; ++m) {
+			tg.run([&, m]() {
+				const size_t start = m * morsel_size;
+				const size_t end   = std::min(start + morsel_size, n);
+				std::vector<std::string> local;
+				for (size_t i = start; i < end; ++i) {
+					auto& entry = raw_entries[i];
+					try {
+						BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
+						if (matchesPredicates(e)) local.push_back(std::move(entry.pk));
+					} catch (...) {
+						// skip malformed entries
+					}
+				}
+				morsel_results[m] = std::move(local);
+			});
+		}
+		tg.wait();
+
+		// Merge per-morsel results into the output vector.
+		for (auto& bucket : morsel_results) {
+			out.insert(out.end(),
+			           std::make_move_iterator(bucket.begin()),
+			           std::make_move_iterator(bucket.end()));
+		}
+	}
+
 	span.setAttribute("query.result_count", static_cast<int64_t>(out.size()));
 	span.setStatus(true);
 	return out;
