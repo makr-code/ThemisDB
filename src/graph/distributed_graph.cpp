@@ -231,32 +231,13 @@ Result<GraphIndexManager::PathResult> DistributedGraphManager::shortestPath(
     }
 
     // Fan out to all healthy shards in parallel; keep the globally cheapest path.
-    const size_t parallelism = effectiveParallelism(shards.size());
     std::vector<std::future<Result<GraphIndexManager::PathResult>>> futures;
-    futures.reserve(parallelism);
+    futures.reserve(shards.size());
 
     for (auto& [sid, exec] : shards) {
-        // Determine local vertex IDs for this shard.
-        const std::string& sl = (start_shard.empty() || start_shard == sid) ? start_local
-                                                                              : start_local;
-        const std::string& tl = (target_shard.empty() || target_shard == sid) ? target_local
-                                                                               : target_local;
         futures.push_back(std::async(std::launch::async,
-            [exec_ptr = exec.get(), sl, tl, &constraints]() {
-                return exec_ptr->executeDijkstra(sl, tl, constraints);
-            }));
-
-        if (futures.size() >= parallelism) break;
-    }
-
-    // Also submit remaining shards beyond the parallelism cap (launch sequentially).
-    for (size_t i = parallelism; i < shards.size(); ++i) {
-        auto& [sid, exec] = shards[i];
-        const std::string& sl = start_local;
-        const std::string& tl = target_local;
-        futures.push_back(std::async(std::launch::async,
-            [exec_ptr = exec.get(), sl, tl, &constraints]() {
-                return exec_ptr->executeDijkstra(sl, tl, constraints);
+            [exec_ptr = exec.get(), &start_local, &target_local, &constraints]() {
+                return exec_ptr->executeDijkstra(start_local, target_local, constraints);
             }));
     }
 
