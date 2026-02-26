@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     310                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
@@ -39,6 +39,7 @@
 #include "content/tts_processor.h"
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
+#include "voice/voice_auth.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -121,6 +122,10 @@ public:
         bool enable_revision_control = true;
         bool compress_audio = true;
         std::string audio_format = "ogg";  // ogg, mp3, mp4
+
+        // Voice biometric authentication configuration
+        bool enable_voice_auth = false;
+        VoiceAuthConfig voice_auth_config;
 
         // Wake-word configuration
         bool enable_wake_word = false;
@@ -211,7 +216,39 @@ public:
      * @param callback  Function to call when a wake word is detected.
      */
     void setWakeWordCallback(WakeWordDetector::DetectionCallback callback);
-    
+
+    /**
+     * @brief Enroll a speaker's voice for biometric authentication.
+     *
+     * Requires at least EnrollmentConfig::min_samples (default 3) audio buffers.
+     * When Config::enable_voice_auth is false this is still callable and stores
+     * the profile, but authentication gates in processVoiceCommand are skipped.
+     *
+     * @param user_id       User identifier to associate with the profile.
+     * @param audio_samples Raw PCM enrollment samples (16-bit LE, 16 kHz recommended).
+     * @param out_profile_id Set to the new profile ID on success.
+     * @param config        Enrollment parameters.
+     * @return true on successful enrollment; false if user already enrolled,
+     *         too few samples, or quality threshold not met.
+     */
+    bool enrollSpeaker(
+        const std::string&                        user_id,
+        const std::vector<std::vector<uint8_t>>& audio_samples,
+        VoiceProfileID&                           out_profile_id,
+        const EnrollmentConfig&                   config = {});
+
+    /**
+     * @brief Authenticate a speaker via voice biometrics (liveness + 1:1 verification).
+     *
+     * @param user_id       User claiming identity.
+     * @param audio_sample  Raw PCM probe audio.
+     * @return VoiceAuthResult with authenticated==true when liveness and
+     *         speaker verification both pass.
+     */
+    VoiceAuthResult authenticateSpeaker(
+        const std::string&          user_id,
+        const std::vector<uint8_t>& audio_sample);
+
     /**
      * @brief Record and transcribe phone call
      * 
@@ -287,6 +324,9 @@ private:
     
     // Wake-word detector
     std::unique_ptr<WakeWordDetector> wake_word_detector_;
+
+    // Voice biometric authenticator
+    VoiceBiometricAuthenticator voice_authenticator_;
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;

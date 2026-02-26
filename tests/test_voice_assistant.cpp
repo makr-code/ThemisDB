@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     420                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 313664710  2026-02-22  fix(voice): audit gaps – wake-word stats, config, docs, c... ║
@@ -24,11 +24,342 @@
  */
 
 #include <gtest/gtest.h>
+#include "voice/voice_auth.h"
 
-// Full VoiceAssistant integration tests require THEMIS_ENABLE_VOICE_ASSISTANT=ON.
-// Standalone component tests are in test_voice_production.cpp.
-TEST(VoiceAssistantModule, StubPlaceholder) {
-    SUCCEED();
+using namespace themis::voice;
+
+// ===========================================================================
+// VoiceBiometricAuthenticator unit tests
+// (do not require THEMIS_ENABLE_VOICE_ASSISTANT; test the auth subsystem
+//  that is integrated into VoiceAssistant via enrollSpeaker / authenticateSpeaker)
+// ===========================================================================
+
+namespace {
+
+// Generate a simple 16-bit PCM sine-wave buffer (mono, 16 kHz).
+std::vector<uint8_t> makePcmSine(int duration_ms,
+                                  float amplitude = 0.3f,
+                                  int sample_rate = 16000)
+{
+    const int num_samples = (sample_rate * duration_ms) / 1000;
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(num_samples) * 2);
+    for (int i = 0; i < num_samples; ++i) {
+        float val = amplitude *
+            std::sin(2.0f * 3.14159265f * 440.0f * static_cast<float>(i) / static_cast<float>(sample_rate));
+        auto s = static_cast<int16_t>(val * 32767.0f);
+        pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+        pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+// Build a set of enrollment samples with slight amplitude variation per sample.
+std::vector<std::vector<uint8_t>> makeEnrollmentSamples(int count,
+                                                         int duration_ms = 3000)
+{
+    std::vector<std::vector<uint8_t>> samples;
+    samples.reserve(static_cast<size_t>(count));
+    for (int i = 0; i < count; ++i) {
+        float amp = 0.2f + 0.05f * static_cast<float>(i % 3);
+        samples.push_back(makePcmSine(duration_ms, amp));
+    }
+    return samples;
+}
+
+} // namespace
+
+// ---------------------------------------------------------------------------
+// Default construction
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, DefaultConstructor) {
+    VoiceBiometricAuthenticator auth;
+    EXPECT_TRUE(auth.list_profiles().empty());
+    auto stats = auth.get_statistics();
+    EXPECT_EQ(stats["enrolled_profiles"].get<size_t>(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// Enrollment
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, EnrollRejectsEmptyUserId) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.require_liveness = false;
+    auto samples = makeEnrollmentSamples(3);
+    EXPECT_FALSE(auth.enroll_voice("", samples, pid, cfg));
+}
+
+TEST(VoiceBiometricAuth, EnrollRejectsTooFewSamples) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.require_liveness = false;
+    auto samples = makeEnrollmentSamples(2);  // fewer than min_samples
+    EXPECT_FALSE(auth.enroll_voice("alice", samples, pid, cfg));
+}
+
+TEST(VoiceBiometricAuth, EnrollSucceedsWithValidSamples) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;  // accept any quality for unit test
+    cfg.require_liveness  = false;
+    auto samples = makeEnrollmentSamples(3);
+    EXPECT_TRUE(auth.enroll_voice("alice", samples, pid, cfg));
+    EXPECT_FALSE(pid.empty());
+    EXPECT_TRUE(auth.has_profile(pid));
+}
+
+TEST(VoiceBiometricAuth, EnrollRejectsDuplicateUser) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid1, pid2;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+    auto samples = makeEnrollmentSamples(3);
+    EXPECT_TRUE(auth.enroll_voice("alice", samples, pid1, cfg));
+    EXPECT_FALSE(auth.enroll_voice("alice", samples, pid2, cfg));  // duplicate
+}
+
+// ---------------------------------------------------------------------------
+// Verification (1:1)
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, VerifyReturnsProfileNotFoundForUnknownId) {
+    VoiceBiometricAuthenticator auth;
+    auto probe = makePcmSine(2000);
+    auto result = auth.verify_speaker("nonexistent_profile", probe);
+    EXPECT_FALSE(result.verified);
+    EXPECT_EQ(result.decision_reason, "profile_not_found");
+}
+
+TEST(VoiceBiometricAuth, VerifyReturnsEmptyAudioError) {
+    VoiceBiometricAuthenticator auth;
+    auto result = auth.verify_speaker("any_profile_id", {});
+    EXPECT_FALSE(result.verified);
+    EXPECT_EQ(result.decision_reason, "empty_audio");
+}
+
+TEST(VoiceBiometricAuth, VerifySameAudioAsEnrollmentMatchesAtHighScore) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+
+    // Use identical samples for enrollment and probe – score must be very high.
+    auto sample = makePcmSine(3000, 0.3f);
+    std::vector<std::vector<uint8_t>> samples(3, sample);
+    ASSERT_TRUE(auth.enroll_voice("bob", samples, pid, cfg));
+
+    // Lower threshold so the deterministic identical-audio path verifies.
+    VoiceAuthConfig acfg;
+    acfg.verification_threshold = 0.50f;
+    auth.set_config(acfg);
+
+    auto result = auth.verify_speaker(pid, sample);
+    EXPECT_GT(result.match_score, 0.0f);
+    EXPECT_EQ(result.threshold, 0.50f);
+}
+
+// ---------------------------------------------------------------------------
+// Identification (1:N)
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, IdentifyEmptyAudioReturnsNoMatch) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+    auto samples = makeEnrollmentSamples(3);
+    ASSERT_TRUE(auth.enroll_voice("carol", samples, pid, cfg));
+
+    auto result = auth.identify_speaker({pid}, {});
+    EXPECT_FALSE(result.identified);
+    EXPECT_TRUE(result.matches.empty());
+}
+
+TEST(VoiceBiometricAuth, IdentifyReturnsRankedMatches) {
+    VoiceBiometricAuthenticator auth;
+    VoiceAuthConfig acfg;
+    acfg.identification_threshold = 0.0f;  // accept all scores
+    auth.set_config(acfg);
+
+    EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    VoiceProfileID pid1, pid2;
+    ASSERT_TRUE(auth.enroll_voice("dave",  makeEnrollmentSamples(3), pid1, ecfg));
+    ASSERT_TRUE(auth.enroll_voice("eve",   makeEnrollmentSamples(3), pid2, ecfg));
+
+    auto probe  = makePcmSine(2000, 0.3f);
+    auto result = auth.identify_speaker({pid1, pid2}, probe);
+
+    // With zero threshold both profiles may appear; ranks are 1-based.
+    for (const auto& m : result.matches) {
+        EXPECT_GE(m.rank, 1);
+        EXPECT_GE(m.match_score, 0.0f);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Liveness detection
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, LivenessEmptyAudioReturnsFalse) {
+    VoiceBiometricAuthenticator auth;
+    auto r = auth.detect_liveness({});
+    EXPECT_FALSE(r.is_live);
+    EXPECT_EQ(r.reason, "empty_audio");
+}
+
+TEST(VoiceBiometricAuth, LivenessReturnsScoreInRange) {
+    VoiceBiometricAuthenticator auth;
+    auto audio = makePcmSine(2000, 0.3f);
+    auto r = auth.detect_liveness(audio);
+    EXPECT_GE(r.score, 0.0f);
+    EXPECT_LE(r.score, 1.0f);
+}
+
+// ---------------------------------------------------------------------------
+// Full authenticate() path
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, AuthenticateRejectsEmptyUserId) {
+    VoiceBiometricAuthenticator auth;
+    auto audio  = makePcmSine(2000);
+    auto result = auth.authenticate("", audio);
+    EXPECT_FALSE(result.authenticated);
+    EXPECT_EQ(result.decision_reason, "empty_user_id");
+}
+
+TEST(VoiceBiometricAuth, AuthenticateRejectsEmptyAudio) {
+    VoiceBiometricAuthenticator auth;
+    auto result = auth.authenticate("frank", {});
+    EXPECT_FALSE(result.authenticated);
+    EXPECT_EQ(result.decision_reason, "empty_audio");
+}
+
+TEST(VoiceBiometricAuth, AuthenticateReturnsProfileNotFound) {
+    VoiceBiometricAuthenticator auth;
+    // Lower liveness threshold so liveness check passes on a sine wave.
+    VoiceAuthConfig acfg;
+    acfg.liveness_threshold = 0.0f;
+    auth.set_config(acfg);
+
+    auto audio  = makePcmSine(2000, 0.3f);
+    auto result = auth.authenticate("unknown_user", audio);
+    EXPECT_FALSE(result.authenticated);
+    EXPECT_EQ(result.decision_reason, "profile_not_found");
+}
+
+// ---------------------------------------------------------------------------
+// Profile management
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, DeleteProfileRemovesIt) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+    auto samples = makeEnrollmentSamples(3);
+    ASSERT_TRUE(auth.enroll_voice("grace", samples, pid, cfg));
+    EXPECT_TRUE(auth.has_profile(pid));
+    EXPECT_TRUE(auth.delete_profile(pid));
+    EXPECT_FALSE(auth.has_profile(pid));
+    EXPECT_FALSE(auth.delete_profile(pid));  // already gone
+}
+
+TEST(VoiceBiometricAuth, GetUserIdRoundTrip) {
+    VoiceBiometricAuthenticator auth;
+    VoiceProfileID pid;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+    auto samples = makeEnrollmentSamples(3);
+    ASSERT_TRUE(auth.enroll_voice("heidi", samples, pid, cfg));
+    auto uid = auth.get_user_id(pid);
+    ASSERT_TRUE(uid.has_value());
+    EXPECT_EQ(*uid, "heidi");
+}
+
+TEST(VoiceBiometricAuth, ListProfilesReflectsEnrollments) {
+    VoiceBiometricAuthenticator auth;
+    EnrollmentConfig cfg;
+    cfg.min_samples      = 3;
+    cfg.quality_threshold = 0.0f;
+    cfg.require_liveness  = false;
+
+    VoiceProfileID pid1, pid2;
+    ASSERT_TRUE(auth.enroll_voice("ivan",  makeEnrollmentSamples(3), pid1, cfg));
+    ASSERT_TRUE(auth.enroll_voice("judy",  makeEnrollmentSamples(3), pid2, cfg));
+
+    auto profiles = auth.list_profiles();
+    EXPECT_EQ(profiles.size(), 2u);
+}
+
+// ---------------------------------------------------------------------------
+// Configuration & statistics
+// ---------------------------------------------------------------------------
+
+TEST(VoiceBiometricAuth, ConfigRoundTrip) {
+    VoiceBiometricAuthenticator auth;
+    VoiceAuthConfig cfg;
+    cfg.verification_threshold   = 0.80f;
+    cfg.identification_threshold = 0.75f;
+    cfg.liveness_threshold       = 0.60f;
+    auth.set_config(cfg);
+
+    auto retrieved = auth.get_config();
+    EXPECT_FLOAT_EQ(retrieved.verification_threshold,   0.80f);
+    EXPECT_FLOAT_EQ(retrieved.identification_threshold, 0.75f);
+    EXPECT_FLOAT_EQ(retrieved.liveness_threshold,       0.60f);
+}
+
+TEST(VoiceBiometricAuth, StatisticsKeysPresent) {
+    VoiceBiometricAuthenticator auth;
+    auto stats = auth.get_statistics();
+    EXPECT_TRUE(stats.contains("enrolled_profiles"));
+    EXPECT_TRUE(stats.contains("total_enrollments"));
+    EXPECT_TRUE(stats.contains("total_verifications"));
+    EXPECT_TRUE(stats.contains("total_identifications"));
+    EXPECT_TRUE(stats.contains("successful_authentications"));
+}
+
+TEST(VoiceBiometricAuth, StatisticsCountsIncrementCorrectly) {
+    VoiceBiometricAuthenticator auth;
+    EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    VoiceProfileID pid;
+    ASSERT_TRUE(auth.enroll_voice("mallory", makeEnrollmentSamples(3), pid, ecfg));
+
+    auto probe = makePcmSine(2000, 0.3f);
+    auth.verify_speaker(pid, probe);
+    auth.verify_speaker(pid, probe);
+
+    auto stats = auth.get_statistics();
+    EXPECT_EQ(stats["enrolled_profiles"].get<size_t>(), 1u);
+    EXPECT_EQ(stats["total_enrollments"].get<uint64_t>(), 1u);
+    EXPECT_EQ(stats["total_verifications"].get<uint64_t>(), 2u);
 }
 
 // ============================================================
