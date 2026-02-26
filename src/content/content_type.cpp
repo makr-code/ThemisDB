@@ -253,6 +253,17 @@ void ContentTypeRegistry::registerDefaultTypes() {
         .supports_metadata_extraction = true,
         .binary_storage_required = false
     });
+
+    registerType({
+        .mime_type = "application/xhtml+xml",
+        .category = ContentCategory::TEXT,
+        .extensions = {".xhtml", ".xht"},
+        .supports_text_extraction = true,
+        .supports_embedding = true,
+        .supports_chunking = true,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = false
+    });
     
     registerType({
         .mime_type = "application/json",

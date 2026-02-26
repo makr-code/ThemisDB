@@ -29,8 +29,10 @@
 #include <string_view>
 #include <vector>
 #include <map>
+#include <deque>
 #include <optional>
 #include <memory>
+#include <mutex>
 #include <shared_mutex>
 #include <chrono>
 #include <nlohmann/json.hpp>
@@ -43,6 +45,19 @@ class SecondaryIndexManager;
 class Changefeed;
 
 using json = nlohmann::json;
+
+/// Configuration for adaptive TTL based on table mutation rate.
+///
+/// Used with SchemaManager::enableAdaptiveTTL().
+/// When adaptive TTL is enabled, the effective cache TTL is computed as:
+///   effective_ttl = clamp(base_ttl / (1 + scale_factor * rate), min_ttl, max_ttl)
+/// where rate = mutations per second observed within the measurement window.
+struct AdaptiveTTLConfig {
+    std::chrono::seconds min_ttl{5};    ///< Minimum TTL used when mutation rate is very high
+    std::chrono::seconds max_ttl{300};  ///< Maximum TTL used when mutation rate is zero
+    std::chrono::seconds window{60};    ///< Sliding window for mutation rate measurement
+    double scale_factor{1.0};           ///< Sensitivity: higher → TTL shrinks faster with rate
+};
 
 /// SchemaManager - Database Self-Awareness and Schema Discovery
 ///
@@ -188,6 +203,28 @@ public:
     /// @param changefeed Non-owning pointer; may be nullptr to disable notifications.
     void setChangefeed(Changefeed* changefeed);
 
+    /// Record a data mutation (insert / update / delete) for a table.
+    /// When adaptive TTL is enabled, high-frequency mutations cause the cache
+    /// to expire sooner so that stale statistics are refreshed more quickly.
+    /// This method is thread-safe and non-blocking.
+    /// @param table_name Name of the table that was mutated.
+    void recordMutation(std::string_view table_name);
+
+    /// Enable adaptive TTL mode.
+    /// The effective cache TTL is recomputed on every cache-validity check
+    /// based on the per-table mutation rate observed in a sliding window.
+    /// Calling this method resets any previously collected mutation history.
+    /// @param config Adaptive TTL parameters (uses defaults if omitted).
+    void enableAdaptiveTTL(AdaptiveTTLConfig config = {});
+
+    /// Disable adaptive TTL and revert to the fixed TTL set by setCacheTTL().
+    void disableAdaptiveTTL();
+
+    /// Return the currently effective cache TTL.
+    /// When adaptive TTL is disabled, equals the value set by setCacheTTL().
+    /// When adaptive TTL is enabled, returns the rate-adjusted value.
+    std::chrono::seconds getEffectiveTTL() const;
+
     // ========================================================================
     // JSON Export API
     // ========================================================================
@@ -286,6 +323,10 @@ private:
     /// @param schema Schema to save
     void saveCustomSchema(std::string_view table_name, const TableSchema& schema);
 
+    /// Compute the adaptive TTL from current per-table mutation rates.
+    /// Caller must hold mutation_mutex_.
+    std::chrono::seconds computeAdaptiveTTL() const;
+
     // ========================================================================
     // Member Variables
     // ========================================================================
@@ -305,6 +346,13 @@ private:
 
     // Thread safety
     mutable std::shared_mutex cache_mutex_;                 // Read-write lock for cache
+
+    // Adaptive TTL
+    bool adaptive_ttl_enabled_ = false;                     // Whether adaptive TTL is active
+    AdaptiveTTLConfig adaptive_ttl_config_;                 // Adaptive TTL parameters
+    // Per-table mutation timestamps within the sliding window
+    mutable std::map<std::string, std::deque<std::chrono::system_clock::time_point>> mutation_log_;
+    mutable std::mutex mutation_mutex_;                     // Protects mutation_log_
 };
 
 } // namespace themis

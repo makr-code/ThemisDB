@@ -45,11 +45,11 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 | `nlp_text_analyzer.cpp` | NLP text analysis, sentiment, entity extraction |
 | `llm_process_analyzer.cpp` | LLM-powered process analysis integration |
 | `diff_engine.cpp` | Dataset diffing and change detection |
-| `cep_engine.cpp` | Complex Event Processing stub (planned) |
+| `cep_engine.cpp` | Complex Event Processing (production-ready) |
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Core OLAP, process mining, and NLP text analysis operational; CEP engine stub awaiting implementation.
+**Maturity:** 🟢 Production-Ready — Core OLAP, process mining, NLP text analysis, and CEP engine fully operational.
 
 ## About This Directory
 
@@ -434,7 +434,15 @@ Complex event processing for real-time streaming analytics.
 
 **Components:**
 - NFA-based event pattern matching (SEQUENCE, AND, OR, NOT, WITHIN)
-- EPL (Event Processing Language) parser
+- EPL (Event Processing Language) parser with full syntax support:
+  - `CREATE RULE <name> AS` and `NAME <name>` rule naming
+  - `SELECT` aggregations: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST, STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN with `AS alias`
+  - `GROUP BY` multi-field grouping
+  - `WINDOW TUMBLING(5 MINUTES)` / `SLIDING(5 MINUTES, 1 MINUTE)` / `SESSION(30 MINUTES)` / `COUNT(100 EVENTS)` with time units (ms/s/minutes/hours/days)
+  - `PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<event_types>) WITHIN <n> <unit>` with time units
+  - `ACTION alert('ch','sev','msg')` / `webhook('url')` / `db_write('coll')` / `log/slack/kafka/email`
+  - Multi-line EPL strings (newlines collapsed to spaces)
+  - Legacy `ON MATCH ALERT severity=<s>` and `WINDOW TYPE Nms` syntax preserved
 - Window management (tumbling, sliding, session, hopping)
 - Rule engine for event processing
 - Alert dispatch and CDC integration

@@ -189,6 +189,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_policy.*\\.cpp$"
         ".*test_pdf_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
+        ".*test_content_html_processor\\.cpp$"
     )
 endif()
 
@@ -280,7 +281,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_config\\.cpp$"
     ".*test_gpu_feature_flags\\.cpp$"
     ".*test_gpu_kernel_validator\\.cpp$"
-    ".*test_mongodb_adapter\\.cpp$"
+
     ".*test_ai_orchestrator\\.cpp$"
     ".*test_acceleration\\.cpp$"
     ".*test_acceleration_dispatch\\.cpp$"
@@ -429,6 +430,27 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU unified memory test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUUnifiedMemoryAllocator (allocate, free, prefetch,
+# advise, stats, tenant isolation, and concurrent safety).  It uses only CPU-side
+# bookkeeping (malloc/free fallback) and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_unified_memory.cpp
+    )
+endif()
+
+# Re-include the GPU time-slice scheduler test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUTimeSliceScheduler
+# (tenant lifecycle, work submission, round-robin dispatch, time-slice
+# preemption, drainAll, and statistics).  It uses only CPU-side bookkeeping
+# and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_time_slice_scheduler.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -453,6 +475,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/huggingface_connector.cpp
         ../src/ingestion/filesystem_ingester.cpp
         ../src/ingestion/api_connector.cpp
+        ../src/ingestion/kafka_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -563,6 +586,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cross_collection_stream.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_materialized_view.cpp
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
         )
@@ -1788,8 +1812,46 @@ else()
 endif()
 
 # ============================================================================
-# Inverted Index (standalone full-text search module) Tests
+# UDF API Handler Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
+    message(STATUS "Adding UDF API Handler tests")
+
+    add_executable(test_udf_api_handler
+        test_udf_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/udf_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/query/functions/udf_registry.cpp
+    )
+
+    target_include_directories(test_udf_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_udf_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_udf_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UdfApiHandlerTests
+             COMMAND test_udf_api_handler)
+
+    set_tests_properties(UdfApiHandlerTests PROPERTIES
+        LABELS "server;query;udf;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  UDF API Handler: register, list, get, delete, expression DSL")
+else()
+    message(STATUS "UDF API Handler tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
     message(STATUS "Adding InvertedIndex unit tests")

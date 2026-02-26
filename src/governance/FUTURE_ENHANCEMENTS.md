@@ -24,24 +24,28 @@ This document covers planned enhancements to the Governance module beyond what i
 ## Planned Features
 
 ### Policy Hot-Reload Without Restart
+
 **Priority:** High
 **Target Version:** v1.6.0
 
 Enable `PolicyManager` to reload policies from disk or a remote config store without restarting the server. Currently a restart is required to pick up policy changes, which creates a compliance gap during the downtime window. The implementation in `policy_manager_versioned.cpp` already tracks policy versions; hot-reload builds on that foundation.
 
 **Implementation Notes:**
+
 - Add a `PolicyFileWatcher` class that uses `inotify` (Linux) / `kqueue` (macOS) to detect changes to the policy directory; debounce events with a 500 ms settling window before triggering reload.
 - `PolicyManager::reloadPolicies()` validates the new policy set via `PolicyValidator::validate()` before swapping; on validation failure, log the error and retain the current set.
 - Use a `std::shared_ptr` double-buffer: requests in flight hold a reference to the old policy set and complete normally while the new set is atomically promoted via `std::atomic<std::shared_ptr<PolicySet>>::store(memory_order_release)`.
 - Emit a `governance_policy_reload_total` Prometheus counter (labels: `result=success|failure`) and write an audit entry with the old and new policy version hashes.
 
 **Performance Targets:**
+
 - Policy reload latency ≤ 100 ms from file change detection to new policy becoming active.
 - Zero requests dropped or erroneously denied during the reload window.
 
 ---
 
 ### CCPA / CPRA Data Subject Rights Enforcement ✅ **Implemented in v1.6.0**
+
 **Priority:** High
 **Target Version:** v1.6.0
 
@@ -55,48 +59,54 @@ Enable `PolicyManager` to reload policies from disk or a remote config store wit
 - CCPA/HIPAA conflict detection integrated into `PolicyValidator::detectConflicts()` via `detectCcpaHipaaConflicts()`.
 
 **Performance Targets:**
+
 - CCPA opt-out flag lookup adds ≤ 0.5 ms to query-time policy evaluation p99.
 - CCPA report generation for a 90-day window completes in ≤ 10 s for up to 1 M data subjects.
 
 ---
 
-### Automated Data Masking in Query Results
+### Automated Data Masking in Query Results ✅ **Implemented in v1.7.0**
+
 **Priority:** High
 **Target Version:** v1.7.0
 
-Implement `DataMasker` which post-processes query result documents to redact or tokenize sensitive fields based on the requester's policy grants. This is the last in-process defense before data leaves the query engine and is required for GDPR Article 25 (data protection by design).
+Implements `DataMasker` which post-processes query result documents to redact or tokenize sensitive fields based on configured governance rules. This is the last in-process defense before data leaves the query engine and is required for GDPR Article 25 (data protection by design).
 
-**Implementation Notes:**
-- Add `data_masker.cpp` with strategies: `REDACT` (replace value with `"[REDACTED]"`), `TOKENIZE` (replace with a stable pseudonym via HMAC-SHA256 keyed on a per-collection secret), `TRUNCATE` (keep first N characters), and `HASH` (SHA-256 hex digest).
-- `PolicyEngine::checkQueryPermission()` returns a `MaskingPolicy` alongside allow/deny; the query executor applies `DataMasker::maskFields(doc, masking_policy)` before serializing the result.
-- Masking is applied transparently to AQL `RETURN` projections and REST API responses; the caller cannot observe whether a field was masked vs absent unless granted the `VIEW_MASKED_FIELDS` privilege.
-- Add `governance_fields_masked_total` Prometheus counter (label: `strategy`) to track masking activity.
+**Status:** Implemented. See `include/governance/data_masker.h`, `src/governance/data_masker.cpp`.
 
-**Performance Targets:**
-- `DataMasker::maskFields()` overhead ≤ 1 ms per document for documents with ≤ 50 fields.
-- TOKENIZE strategy must produce the same pseudonym for the same input within the same collection to support join queries over pseudonymized identifiers.
+- `DataMasker::maskFields(doc, policy)` and `maskFieldsArray(docs, policy)` apply field-level masking to JSON query result documents.
+- Four masking strategies: `REDACT` (`"[REDACTED]"`), `TOKENIZE` (stable HMAC-SHA256 pseudonym; prefix `"tkn_"`), `TRUNCATE` (first N chars + `"..."`), `HASH` (SHA-256 hex; prefix `"sha_"`).
+- `PolicyEngine::checkQueryPermission()` returns both a `PolicyDecision` and a `FieldMaskingPolicy`; query executor calls `DataMasker::maskFields()` before serialising results.
+- Masking rules are loaded from the governance YAML `data_masking` section; hot-reloaded atomically alongside classification profiles.
+- `governance_fields_masked_total` Prometheus counter emitted per masked field (label: `strategy`).
+- TOKENIZE uses HMAC-SHA256 keyed on a per-collection secret; same input always produces same pseudonym (join-query support).
+- Operator warned at load time when placeholder `collection_secret` is detected.
 
 ---
 
 ### OPA (Open Policy Agent) Integration
+
 **Priority:** Medium
 **Target Version:** v1.8.0
 
 Add an OPA adapter so that operators can write policies in Rego and evaluate them via OPA's REST API or an embedded Wasm bundle. This enables GitOps policy-as-code workflows where policies are versioned in a repository and deployed via CI/CD without touching ThemisDB configuration files.
 
 **Implementation Notes:**
+
 - Add `opa_adapter.cpp` implementing `IPolicyEvaluator`; evaluates policy decisions by posting JSON input to `POST /v1/data/{policy_path}` of a local OPA sidecar.
 - Add a fallback chain: if OPA returns a non-2xx response or times out (configurable, default 50 ms), fall back to the native `PolicyEngine` rule evaluation and emit `governance_opa_fallback_total` counter.
 - Policy bundles are loaded into OPA out-of-band (standard OPA bundle API); `PolicyManager` only needs the OPA endpoint URL and the decision path.
 - The existing `policy_manager_versioned.cpp` version history is preserved; OPA bundle version is recorded alongside the native policy version in the audit trail.
 
 **Performance Targets:**
+
 - OPA evaluation round-trip ≤ 5 ms p99 when OPA sidecar is co-located on the same host.
 - Fallback to native evaluation must complete within the same 5 ms budget.
 
 ---
 
 ### AI/ML Model Governance ✅ **Implemented in v2.0.0**
+
 **Priority:** Low
 **Target Version:** v2.0.0
 
@@ -110,6 +120,7 @@ Extend the Governance module to track training data lineage for models trained o
 - `governance_model_export_total` Prometheus counter (labels: `result=permitted|denied_classification|denied_restricted_collection`) emitted on every export permission decision.
 
 **Performance Targets:**
+
 - `ModelGovernancePolicy` evaluation at export time adds ≤ 2 ms to export job startup.
 - Bias audit for a 1 M document training dataset completes in ≤ 5 minutes as a background job.
 

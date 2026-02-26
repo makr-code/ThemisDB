@@ -1774,6 +1774,90 @@ TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_ConfidenceReflectsSampleCou
 }
 
 // ============================================================================
+// Cost Model Accuracy Tracking Tests
+// (ExecutionStats::estimated_cost_ms + AlgorithmCalibrationStats accuracy)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, ExecutionStats_HasEstimatedCostMs_AfterBFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    optimizer_->executeBFS("A", 2, c, &stats);
+
+    // estimated_cost_ms should be populated (> 0) by the execute method
+    EXPECT_GT(stats.estimated_cost_ms, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecutionStats_HasEstimatedCostMs_AfterDFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    optimizer_->executeDFS("A", 2, c, &stats);
+
+    EXPECT_GT(stats.estimated_cost_ms, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_AccuracyFields_PopulatedAfterExecution) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    const size_t threshold = themis::graph::GraphQueryOptimizer::MIN_CALIBRATION_SAMPLES;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Run enough executions to trigger calibration (estimated_cost_ms is set
+    // by the execute method so accuracy fields should be populated).
+    for (size_t i = 0; i < threshold; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+
+    const auto& stats = report.algorithm_stats.at(Algo::BFS);
+    // estimation_sample_count should equal sample_count because executeBFS
+    // always sets estimated_cost_ms.
+    EXPECT_EQ(stats.estimation_sample_count, threshold);
+    // Accuracy fields must be populated
+    EXPECT_GT(stats.mean_estimated_ms, 0.0);
+    EXPECT_GE(stats.mean_absolute_error_ms, 0.0);
+    EXPECT_GT(stats.cost_ratio, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_CostRatioIsReasonable) {
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    const size_t n = 10;
+    for (size_t i = 0; i < n; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    const auto& stats = report.algorithm_stats.at(Algo::BFS);
+
+    // cost_ratio = mean_estimated_ms / mean_execution_ms
+    // For a tiny in-memory graph the actual execution will be near 0 ms while
+    // the estimate may be higher; we only check the ratio is non-negative.
+    EXPECT_GE(stats.cost_ratio, 0.0);
+    if (stats.mean_execution_ms > 0.0) {
+        double expected_ratio = stats.mean_estimated_ms / stats.mean_execution_ms;
+        EXPECT_DOUBLE_EQ(stats.cost_ratio, expected_ratio);
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, CalibrateFromHistory_MAE_IsNonNegative) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    const size_t n = 8;
+    for (size_t i = 0; i < n; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    ASSERT_NE(report.algorithm_stats.find(Algo::BFS), report.algorithm_stats.end());
+    EXPECT_GE(report.algorithm_stats.at(Algo::BFS).mean_absolute_error_ms, 0.0);
+}
+
+
+// ============================================================================
 // Temporal Graph Query Optimization Tests (Phase 3)
 // ============================================================================
 
@@ -3102,6 +3186,7 @@ TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne)
     auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
     ASSERT_TRUE(result);
     EXPECT_EQ(stats.paths_found, 1u);
+}
 // Analytics Module Integration Tests (Issue #1821)
 // ============================================================================
 

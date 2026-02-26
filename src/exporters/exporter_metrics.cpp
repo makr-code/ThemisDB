@@ -69,6 +69,8 @@ void ExporterMetrics::reset() {
     compression_compressed_bytes_ = 0;
 
     parquet_bytes_written_ = 0;
+
+    checkpoint_count_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -213,6 +215,14 @@ size_t ExporterMetrics::getParquetBytesWritten() const {
     return parquet_bytes_written_.load();
 }
 
+void ExporterMetrics::recordCheckpoint() {
+    checkpoint_count_++;
+}
+
+size_t ExporterMetrics::getCheckpointCount() const {
+    return checkpoint_count_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -270,6 +280,9 @@ json ExporterMetrics::toJson() const {
 
     // P3: Parquet export (exporter_parquet_bytes_written_total)
     j["exporter_parquet_bytes_written_total"] = parquet_bytes_written_.load();
+
+    // Streaming: checkpoint events
+    j["checkpoint_count"] = checkpoint_count_.load();
     
     return j;
 }

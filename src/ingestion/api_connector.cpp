@@ -100,6 +100,47 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     return r;
 }
 
+// Production HTTP POST using libcurl (used for OAuth 2.0 token refresh).
+static ApiHttpResponse apiHttpPost(const std::string& url,
+                                    const std::string& body,
+                                    int timeout_ms) {
+    ApiHttpResponse r;
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        r.error = "Failed to initialize libcurl handle";
+        return r;
+    }
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers,
+                                "Content-Type: application/x-www-form-urlencoded");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        r.error = curl_easy_strerror(res);
+        r.status_code = 0;
+    } else {
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        r.status_code = static_cast<int>(http_code);
+    }
+
+    if (headers) curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+    return r;
+}
+
 // HTTP GET with exponential back-off retry.
 static ApiHttpResponse apiGetWithRetry(const std::string& url,
                                         const std::string& auth,
@@ -237,6 +278,13 @@ public:
 
         cursor_response_field_ = opt("cursor_response_field", "next_cursor");
 
+        // OAuth 2.0 configuration from options
+        oauth_config_.token_endpoint = opt("oauth_token_endpoint", "");
+        oauth_config_.client_id      = opt("oauth_client_id",      "");
+        oauth_config_.client_secret  = opt("oauth_client_secret",  "");
+        oauth_config_.refresh_token  = opt("oauth_refresh_token",  "");
+        oauth_config_.access_token   = opt("oauth_access_token",   "");
+
         return !endpoint_.empty();
     }
 
@@ -251,6 +299,19 @@ public:
             return r;
         }
         return apiHttpGet(url, auth, timeout_ms);
+    }
+
+    // Wrapper for HTTP POST: delegates to test hook or real libcurl.
+    ApiHttpResponse httpPost(const std::string& url, const std::string& body,
+                             int timeout_ms) const {
+        if (http_post_fn_) {
+            auto [status, resp_body] = http_post_fn_(url, body);
+            ApiHttpResponse r;
+            r.status_code = status;
+            r.body        = std::move(resp_body);
+            return r;
+        }
+        return apiHttpPost(url, body, timeout_ms);
     }
 
     bool isAvailable() const {
@@ -327,6 +388,22 @@ public:
                 auto response = apiGetWithRetry(url, buildAuthHeader(),
                                                 retry_config_, stats, http_get);
 
+                // OAuth 2.0 token refresh (RFC 6749 §6): on HTTP 401, attempt to
+                // refresh the access token once and retry the page request.
+                if (response.status_code == 401 && oauth_config_.isRefreshable()) {
+                    if (refreshOAuthToken(retry_config_.timeout_ms)) {
+                        // Remove the 401 error added by apiGetWithRetry before
+                        // retrying so it doesn't inflate the error counter.
+                        if (!stats.errors.empty() &&
+                            stats.errors.back().code == IngestionErrorCode::HTTP_UNAUTHORIZED) {
+                            stats.errors.pop_back();
+                            --stats.metrics.error_count;
+                        }
+                        response = httpGet(url, buildAuthHeader(),
+                                           retry_config_.timeout_ms);
+                    }
+                }
+
                 if (response.status_code != 200) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
                                    IngestionErrorSeverity::ERROR,
@@ -399,10 +476,56 @@ public:
     void setPaginationMode(PaginationMode m)  { pagination_mode_ = m; }
     void setCursorResponseField(const std::string& f) { cursor_response_field_ = f; }
     void setHttpGetForTesting(ApiHttpGetFn fn) { http_get_fn_ = std::move(fn); }
+    void setOAuthConfig(const OAuthConfig& c) { oauth_config_ = c; }
+    void setHttpPostForTesting(ApiHttpPostFn fn) { http_post_fn_ = std::move(fn); }
 
 private:
     std::string buildAuthHeader() const {
+        // Prefer the OAuth access token when one is available.
+        if (!oauth_config_.access_token.empty())
+            return "Bearer " + oauth_config_.access_token;
         return api_key_.empty() ? "" : ("Bearer " + api_key_);
+    }
+
+    // Percent-encode a string for use in an application/x-www-form-urlencoded body.
+    static std::string urlEncode(const std::string& value) {
+        std::string encoded;
+        for (unsigned char c : value) {
+            if (std::isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+                encoded += static_cast<char>(c);
+            } else {
+                char buf[4];
+                std::snprintf(buf, sizeof(buf), "%%%02X", c);
+                encoded += buf;
+            }
+        }
+        return encoded;
+    }
+
+    // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
+    // Returns true and updates oauth_config_.access_token on success.
+    bool refreshOAuthToken(int timeout_ms) {
+        std::string body = "grant_type=refresh_token"
+                           "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
+        if (!oauth_config_.client_id.empty())
+            body += "&client_id=" + urlEncode(oauth_config_.client_id);
+        if (!oauth_config_.client_secret.empty())
+            body += "&client_secret=" + urlEncode(oauth_config_.client_secret);
+
+        auto resp = httpPost(oauth_config_.token_endpoint, body, timeout_ms);
+        if (resp.status_code != 200) return false;
+
+        std::string new_token = jsonExtractStringValue(resp.body, "access_token");
+        if (new_token.empty()) return false;
+
+        oauth_config_.access_token = std::move(new_token);
+
+        // Update the refresh token if the server issued a new one (RFC 6749 §6).
+        std::string new_refresh = jsonExtractStringValue(resp.body, "refresh_token");
+        if (!new_refresh.empty())
+            oauth_config_.refresh_token = std::move(new_refresh);
+
+        return true;
     }
 
     SourceConfig config_;
@@ -415,7 +538,9 @@ private:
     RetryConfig  retry_config_;
     PaginationMode pagination_mode_;
     std::string  cursor_response_field_;
-    ApiHttpGetFn http_get_fn_; // testing hook; empty = use real libcurl
+    ApiHttpGetFn  http_get_fn_;  // testing hook; empty = use real libcurl GET
+    ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
+    OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
 };
 
 // ---------------------------------------------------------------------------
@@ -466,6 +591,14 @@ void GenericApiConnector::setCursorResponseField(const std::string& field) {
 
 void GenericApiConnector::setHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setHttpGetForTesting(std::move(fn));
+}
+
+void GenericApiConnector::setOAuthConfig(const OAuthConfig& config) {
+    impl_->setOAuthConfig(config);
+}
+
+void GenericApiConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
+    impl_->setHttpPostForTesting(std::move(fn));
 }
 
 } // namespace ingestion

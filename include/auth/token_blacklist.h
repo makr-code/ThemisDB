@@ -61,9 +61,10 @@ public:
         uint32_t cleanup_interval_seconds = 300;
         /// Hard cap on number of stored JTIs (prevents unbounded growth).
         size_t max_entries = 100'000;
+        static Config defaults() { return {}; }
     };
 
-    explicit TokenBlacklist(const Config& config = Config());
+    explicit TokenBlacklist(const Config& config = Config::defaults());
     ~TokenBlacklist() = default;
 
     // Non-copyable, movable

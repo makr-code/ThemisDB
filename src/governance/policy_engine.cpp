@@ -23,79 +23,137 @@
  */
 
 #include "governance/policy_engine.h"
-#include "governance/model_governance.h"
-#include "utils/logger.h"
-#include "utils/audit_logger.h"
-#include "observability/metrics_collector.h"
 
 #include <algorithm>
-#include <fstream>
 #include <chrono>
 #include <filesystem>
+#include <fstream>
 #include <yaml-cpp/yaml.h>
+
+#include "governance/model_governance.h"
+#include "observability/metrics_collector.h"
+#include "utils/audit_logger.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace governance {
 
-std::string PolicyEngine::normalize(const std::string& s) {
+std::string PolicyEngine::normalize(const std::string &s) {
     std::string out = s;
-    std::transform(out.begin(), out.end(), out.begin(), [](unsigned char c){ return static_cast<char>(::tolower(c)); });
+    std::transform(out.begin(), out.end(), out.begin(),
+                   [](unsigned char c) { return static_cast<char>(::tolower(c)); });
     // trim spaces
-    auto is_space = [](unsigned char c){ return c == ' ' || c == '\t' || c == '\r' || c == '\n'; };
-    while (!out.empty() && is_space(static_cast<unsigned char>(out.front()))) out.erase(out.begin());
-    while (!out.empty() && is_space(static_cast<unsigned char>(out.back()))) out.pop_back();
+    auto is_space = [](unsigned char c) { return c == ' ' || c == '\t' || c == '\r' || c == '\n'; };
+    while (!out.empty() && is_space(static_cast<unsigned char>(out.front())))
+        out.erase(out.begin());
+    while (!out.empty() && is_space(static_cast<unsigned char>(out.back())))
+        out.pop_back();
     return out;
 }
 
-bool PolicyEngine::isStrictClass(const std::string& cls) {
+bool PolicyEngine::isStrictClass(const std::string &cls) {
     auto c = normalize(cls);
     return (c == "geheim" || c == "streng-geheim");
 }
 
-bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
+bool PolicyEngine::loadFromYAML(const std::string &yaml_path) {
     try {
         YAML::Node config = YAML::LoadFile(yaml_path);
-        
+
         std::unordered_map<std::string, ClassificationProfile> new_profiles;
         std::unordered_map<std::string, std::string> new_mapping;
         std::string new_mode = "enforce";
 
         // Load VS classification profiles
         if (config["vs_classification"]) {
-            const auto& vs = config["vs_classification"];
-            for (const auto& kv : vs) {
+            const auto &vs = config["vs_classification"];
+            for (const auto &kv : vs) {
                 std::string level = kv.first.as<std::string>();
                 ClassificationProfile profile;
                 profile.level = level;
-                
-                const auto& val = kv.second;
-                if (val["encryption_required"]) profile.encryption_required = val["encryption_required"].as<bool>();
-                if (val["ann_allowed"]) profile.ann_allowed = val["ann_allowed"].as<bool>();
-                if (val["export_allowed"]) profile.export_allowed = val["export_allowed"].as<bool>();
-                if (val["cache_allowed"]) profile.cache_allowed = val["cache_allowed"].as<bool>();
-                if (val["redaction_level"]) profile.redaction_level = val["redaction_level"].as<std::string>();
-                if (val["retention_days"]) profile.retention_days = val["retention_days"].as<int>();
-                if (val["log_encryption"]) profile.log_encryption = val["log_encryption"].as<bool>();
-                
+
+                const auto &val = kv.second;
+                if (val["encryption_required"])
+                    profile.encryption_required = val["encryption_required"].as<bool>();
+                if (val["ann_allowed"])
+                    profile.ann_allowed = val["ann_allowed"].as<bool>();
+                if (val["export_allowed"])
+                    profile.export_allowed = val["export_allowed"].as<bool>();
+                if (val["cache_allowed"])
+                    profile.cache_allowed = val["cache_allowed"].as<bool>();
+                if (val["redaction_level"])
+                    profile.redaction_level = val["redaction_level"].as<std::string>();
+                if (val["retention_days"])
+                    profile.retention_days = val["retention_days"].as<int>();
+                if (val["log_encryption"])
+                    profile.log_encryption = val["log_encryption"].as<bool>();
+
                 new_profiles[normalize(level)] = profile;
             }
         }
-        
+
         // Load enforcement resource mappings
         if (config["enforcement"] && config["enforcement"]["resource_mapping"]) {
-            const auto& mappings = config["enforcement"]["resource_mapping"];
-            for (const auto& kv : mappings) {
-                std::string resource = kv.first.as<std::string>();
+            const auto &mappings = config["enforcement"]["resource_mapping"];
+            for (const auto &kv : mappings) {
+                std::string resource  = kv.first.as<std::string>();
                 std::string min_class = kv.second.as<std::string>();
                 new_mapping[resource] = normalize(min_class);
             }
         }
-        
+
         // Load default mode
         if (config["enforcement"] && config["enforcement"]["default_mode"]) {
             new_mode = normalize(config["enforcement"]["default_mode"].as<std::string>());
         }
-        
+
+        // Load data masking configuration
+        FieldMaskingPolicy new_masking;
+        if (config["data_masking"]) {
+            const auto &dm = config["data_masking"];
+            if (dm["enabled"]) {
+                new_masking.enabled = dm["enabled"].as<bool>();
+            }
+            if (dm["rules"] && dm["rules"].IsSequence()) {
+                for (const auto &r : dm["rules"]) {
+                    FieldMaskingRule rule;
+                    if (r["field"]) {
+                        rule.field_name = r["field"].as<std::string>();
+                    }
+                    if (r["strategy"]) {
+                        const std::string strat = normalize(r["strategy"].as<std::string>());
+                        if (strat == "tokenize")
+                            rule.strategy = MaskingStrategy::TOKENIZE;
+                        else if (strat == "truncate")
+                            rule.strategy = MaskingStrategy::TRUNCATE;
+                        else if (strat == "hash")
+                            rule.strategy = MaskingStrategy::HASH;
+                        else
+                            rule.strategy = MaskingStrategy::REDACT;
+                    }
+                    if (r["truncate_length"]) {
+                        rule.truncate_length = r["truncate_length"].as<int>();
+                    }
+                    if (r["collection_secret"]) {
+                        rule.collection_secret = r["collection_secret"].as<std::string>();
+                        // Warn if using placeholder secret (TOKENIZE strategy requires secure secret)
+                        if (rule.strategy == MaskingStrategy::TOKENIZE
+                            && rule.collection_secret == "change-me-in-production") {
+                            THEMIS_WARN("Policy field '{}': collection_secret is still set to placeholder "
+                                        "'change-me-in-production'. This is insecure; the placeholder will be "
+                                        "used as-is, producing predictable pseudonyms. Configure a strong, "
+                                        "unique secret from your KMS or environment variables before "
+                                        "production use.",
+                                        rule.field_name);
+                        }
+                    }
+                    if (!rule.field_name.empty()) {
+                        new_masking.rules.push_back(std::move(rule));
+                    }
+                }
+            }
+        }
+
         // Capture mtime before taking the lock to minimise lock hold time
         std::filesystem::file_time_type mtime{};
         try {
@@ -104,9 +162,10 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
             // If stat fails use a zero time_point; reloadIfChanged will retry
         }
 
-        // Capture size for logging before the move
+        // Capture sizes for logging before the move (must be outside the lock)
         const size_t n_profiles = new_profiles.size();
         const size_t n_mappings = new_mapping.size();
+        const size_t n_masking  = new_masking.rules.size();
 
         // Atomically swap policy data under the mutex
         {
@@ -114,24 +173,25 @@ bool PolicyEngine::loadFromYAML(const std::string& yaml_path) {
             classification_profiles_ = std::move(new_profiles);
             resource_mapping_        = std::move(new_mapping);
             default_mode_            = std::move(new_mode);
+            masking_rules_           = std::move(new_masking);
             loaded_yaml_path_        = yaml_path;
             last_loaded_mtime_       = mtime;
         }
-        
-        THEMIS_INFO("Loaded governance policies from {}: {} classifications, {} resource mappings",
-            yaml_path, n_profiles, n_mappings);
+
+        THEMIS_INFO("Loaded governance policies from {}: {} classifications, {} resource mappings, {} masking rules",
+                    yaml_path, n_profiles, n_mappings, n_masking);
         return true;
-        
-    } catch (const YAML::Exception& e) {
+
+    } catch (const YAML::Exception &e) {
         THEMIS_ERROR("Failed to load governance YAML from {}: {}", yaml_path, e.what());
         return false;
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         THEMIS_ERROR("Failed to load governance config: {}", e.what());
         return false;
     }
 }
 
-bool PolicyEngine::reloadIfChanged(std::string* err) {
+bool PolicyEngine::reloadIfChanged(std::string *err) {
     // Read state under the lock then release before touching the filesystem
     std::string path;
     std::filesystem::file_time_type last_mtime;
@@ -151,15 +211,16 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     std::filesystem::file_time_type current_mtime;
     try {
         current_mtime = std::filesystem::last_write_time(path);
-    } catch (const std::exception& e) {
-        if (err) *err = std::string("stat failed: ") + e.what();
-        observability::MetricsCollector::getInstance().addCounter(
-            "governance_policy_reload_total", 1, {{"result", "failure"}});
+    } catch (const std::exception &e) {
+        if (err)
+            *err = std::string("stat failed: ") + e.what();
+        observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
+                                                                  {{"result", "failure"}});
         return false;
     }
 
     if (current_mtime <= last_mtime) {
-        return true;  // File unchanged – fast no-op
+        return true; // File unchanged – fast no-op
     }
 
     // Compute a version identifier from the file mtime for the audit trail.
@@ -173,21 +234,19 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     const bool ok = loadFromYAML(path);
 
     // Emit Prometheus counter per spec (governance_policy_reload_total)
-    observability::MetricsCollector::getInstance().addCounter(
-        "governance_policy_reload_total", 1,
-        {{"result", ok ? "success" : "failure"}});
+    observability::MetricsCollector::getInstance().addCounter("governance_policy_reload_total", 1,
+                                                              {{"result", ok ? "success" : "failure"}});
 
     // Write audit entry with old and new policy version hashes
     if (audit_log) {
-        nlohmann::json audit_event = {
-            {"event_type",      "policy_reload"},
-            {"file",            path},
-            {"old_version",     old_version},
-            {"new_version",     new_version},
-            {"result",          ok ? "success" : "failure"},
-            {"timestamp",       std::chrono::duration_cast<std::chrono::milliseconds>(
-                                    std::chrono::system_clock::now().time_since_epoch()).count()}
-        };
+        nlohmann::json audit_event = {{"event_type", "policy_reload"},
+                                      {"file", path},
+                                      {"old_version", old_version},
+                                      {"new_version", new_version},
+                                      {"result", ok ? "success" : "failure"},
+                                      {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                        std::chrono::system_clock::now().time_since_epoch())
+                                                        .count()}};
         if (!ok && err && !err->empty()) {
             audit_event["error"] = *err;
         }
@@ -202,10 +261,11 @@ std::string PolicyEngine::getLoadedFilePath() const {
     return loaded_yaml_path_;
 }
 
-std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(const std::string& level) const {
+std::optional<ClassificationProfile> PolicyEngine::getClassificationProfile(const std::string &level) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = classification_profiles_.find(normalize(level));
-    if (it == classification_profiles_.end()) return std::nullopt;
+    if (it == classification_profiles_.end())
+        return std::nullopt;
     return it->second;
 }
 
@@ -214,27 +274,28 @@ void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> lo
     audit_logger_ = std::move(logger);
 }
 
-void PolicyEngine::setCcpaOptOutSubjects(
-    std::shared_ptr<std::unordered_set<std::string>> opt_out_registry)
-{
+void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry) {
     std::lock_guard<std::mutex> lock(mutex_);
     ccpa_opt_out_subjects_ = std::move(opt_out_registry);
     THEMIS_INFO("PolicyEngine: CCPA opt-out registry updated ({} subjects)",
-        ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
+                ccpa_opt_out_subjects_ ? ccpa_opt_out_subjects_->size() : 0u);
 }
 
-bool PolicyEngine::isCcpaOptedOut(const std::string& subject_id) const {
-    if (subject_id.empty()) return false;
+bool PolicyEngine::isCcpaOptedOut(const std::string &subject_id) const {
+    if (subject_id.empty())
+        return false;
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!ccpa_opt_out_subjects_) return false;
+    if (!ccpa_opt_out_subjects_)
+        return false;
     return ccpa_opt_out_subjects_->count(subject_id) > 0;
 }
 
-PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string>& headers,
-                                      const std::string& route) const {
-    auto get = [&](const char* key) -> std::string {
+PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std::string> &headers,
+                                      const std::string &route) const {
+    auto get = [&](const char *key) -> std::string {
         auto it = headers.find(key);
-        if (it != headers.end()) return it->second;
+        if (it != headers.end())
+            return it->second;
         return std::string();
     };
 
@@ -246,11 +307,11 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        profiles       = classification_profiles_;
-        resource_map   = resource_mapping_;
-        mode           = default_mode_;
-        audit_log      = audit_logger_;
-        ccpa_registry  = ccpa_opt_out_subjects_;
+        profiles      = classification_profiles_;
+        resource_map  = resource_mapping_;
+        mode          = default_mode_;
+        audit_log     = audit_logger_;
+        ccpa_registry = ccpa_opt_out_subjects_;
     }
 
     PolicyDecision d;
@@ -270,30 +331,31 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
 
     // Mode
     auto req_mode = normalize(get("X-Governance-Mode"));
-    if (req_mode != "observe") req_mode = mode;
+    if (req_mode != "observe")
+        req_mode = mode;
     d.mode = req_mode;
 
     // Lookup profile
     auto prof_it = profiles.find(normalize(cls));
     if (prof_it != profiles.end()) {
-        const auto& profile = prof_it->second;
-        d.encrypt_logs = profile.log_encryption;
-        d.redaction = profile.redaction_level;
-        d.ann_allowed = profile.ann_allowed;
+        const auto &profile          = prof_it->second;
+        d.encrypt_logs               = profile.log_encryption;
+        d.redaction                  = profile.redaction_level;
+        d.ann_allowed                = profile.ann_allowed;
         d.require_content_encryption = profile.encryption_required;
-        d.export_allowed = profile.export_allowed;
-        d.cache_allowed = profile.cache_allowed;
-        d.retention_days = profile.retention_days;
+        d.export_allowed             = profile.export_allowed;
+        d.cache_allowed              = profile.cache_allowed;
+        d.retention_days             = profile.retention_days;
     } else {
         // Fallback if profile not found (MVP heuristics)
-        bool strict = isStrictClass(cls);
-        d.encrypt_logs = strict;
-        d.redaction = strict ? "strict" : "standard";
-        d.ann_allowed = !strict;
+        bool strict                  = isStrictClass(cls);
+        d.encrypt_logs               = strict;
+        d.redaction                  = strict ? "strict" : "standard";
+        d.ann_allowed                = !strict;
         d.require_content_encryption = strict;
-        d.export_allowed = !strict;
-        d.cache_allowed = !strict;
-        d.retention_days = 365;
+        d.export_allowed             = !strict;
+        d.cache_allowed              = !strict;
+        d.retention_days             = 365;
     }
 
     // Allow header override for encrypt_logs
@@ -318,47 +380,45 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     // third parties.  The opt-out check adds negligible overhead (<< 0.5 ms)
     // because it is a single hash-set lookup on the snapshotted registry.
     const std::string subject_id = get("X-User-Id");
-    if (!subject_id.empty() && ccpa_registry &&
-        ccpa_registry->count(subject_id) > 0)
-    {
-        d.ccpa_opted_out   = true;
-        d.export_allowed   = false;  // Data sale / third-party export blocked
+    if (!subject_id.empty() && ccpa_registry && ccpa_registry->count(subject_id) > 0) {
+        d.ccpa_opted_out = true;
+        d.export_allowed = false; // Data sale / third-party export blocked
     }
 
     // Audit log if in enforce mode and logger is configured
     if (audit_log && d.mode == "enforce") {
-        nlohmann::json audit_event = {
-            {"event_type", "policy_evaluation"},
-            {"route", route},
-            {"classification", d.classification},
-            {"mode", d.mode},
-            {"require_content_encryption", d.require_content_encryption},
-            {"encrypt_logs", d.encrypt_logs},
-            {"redaction", d.redaction},
-            {"retention_days", d.retention_days},
-            {"ccpa_opted_out", d.ccpa_opted_out},
-            {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count()}
-        };
-        
+        nlohmann::json audit_event = {{"event_type", "policy_evaluation"},
+                                      {"route", route},
+                                      {"classification", d.classification},
+                                      {"mode", d.mode},
+                                      {"require_content_encryption", d.require_content_encryption},
+                                      {"encrypt_logs", d.encrypt_logs},
+                                      {"redaction", d.redaction},
+                                      {"retention_days", d.retention_days},
+                                      {"ccpa_opted_out", d.ccpa_opted_out},
+                                      {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                        std::chrono::system_clock::now().time_since_epoch())
+                                                        .count()}};
+
         // Add user context if available in headers
         if (!subject_id.empty()) {
             audit_event["user_id"] = subject_id;
         }
-        
+
         audit_log->logEvent(audit_event);
     }
 
     return d;
 }
 
-SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request) const {
-    const auto& headers = request.headers;
-    const auto& route   = request.route;
+SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request) const {
+    const auto &headers = request.headers;
+    const auto &route   = request.route;
 
-    auto get = [&](const char* key) -> std::string {
+    auto get = [&](const char *key) -> std::string {
         auto it = headers.find(key);
-        if (it != headers.end()) return it->second;
+        if (it != headers.end())
+            return it->second;
         return std::string();
     };
 
@@ -375,15 +435,15 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request
     }
 
     SimulationResult result;
-    result.dry_run = true;
-    PolicyDecision& d = result.decision;
+    result.dry_run    = true;
+    PolicyDecision &d = result.decision;
 
     // Classification
     auto cls = normalize(get("X-Classification"));
     if (cls.empty()) {
         auto res_it = resource_map.find(route);
         if (res_it != resource_map.end()) {
-            cls = res_it->second;
+            cls                     = res_it->second;
             result.matched_resource = route;
         } else {
             cls = "vs-nfd"; // ultimate default
@@ -393,13 +453,14 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request
 
     // Mode
     auto req_mode = normalize(get("X-Governance-Mode"));
-    if (req_mode != "observe") req_mode = mode;
+    if (req_mode != "observe")
+        req_mode = mode;
     d.mode = req_mode;
 
     // Lookup profile
     auto prof_it = profiles.find(normalize(cls));
     if (prof_it != profiles.end()) {
-        const auto& profile = prof_it->second;
+        const auto &profile          = prof_it->second;
         d.encrypt_logs               = profile.log_encryption;
         d.redaction                  = profile.redaction_level;
         d.ann_allowed                = profile.ann_allowed;
@@ -410,7 +471,7 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request
         result.matched_profile       = profile.level;
     } else {
         // Fallback if profile not found (heuristic)
-        bool strict = isStrictClass(cls);
+        bool strict                  = isStrictClass(cls);
         d.encrypt_logs               = strict;
         d.redaction                  = strict ? "strict" : "standard";
         d.ann_allowed                = !strict;
@@ -440,16 +501,12 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest& request
     return result;
 }
 
-void PolicyEngine::setModelGovernancePolicy(
-    std::shared_ptr<ModelGovernancePolicy> policy)
-{
+void PolicyEngine::setModelGovernancePolicy(std::shared_ptr<ModelGovernancePolicy> policy) {
     std::lock_guard<std::mutex> lock(mutex_);
     model_governance_policy_ = std::move(policy);
 }
 
-ModelGovernanceDecision PolicyEngine::checkExportPermission(
-    const ModelTrainingExportRequest& request) const
-{
+ModelGovernanceDecision PolicyEngine::checkExportPermission(const ModelTrainingExportRequest &request) const {
     // Snapshot the model governance policy under the lock (may be null)
     std::shared_ptr<ModelGovernancePolicy> mgp;
     {
@@ -467,24 +524,46 @@ ModelGovernanceDecision PolicyEngine::checkExportPermission(
     // data must never be exported for model training.
     const std::string cls_lower = [&] {
         std::string s = request.classification;
-        std::transform(s.begin(), s.end(), s.begin(),
-            [](unsigned char c) { return static_cast<char>(::tolower(c)); });
+        std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return static_cast<char>(::tolower(c)); });
         return s;
     }();
 
     ModelGovernanceDecision decision;
     if (cls_lower == "geheim" || cls_lower == "streng-geheim") {
-        decision.is_permitted  = false;
-        decision.denial_reason = "Data classification '" + request.classification +
-                                  "' is not permitted for model training";
-        THEMIS_WARN("PolicyEngine::checkExportPermission: denied for job '{}': {}",
-            request.export_job_id, decision.denial_reason);
+        decision.is_permitted = false;
+        decision.denial_reason
+            = "Data classification '" + request.classification + "' is not permitted for model training";
+        THEMIS_WARN("PolicyEngine::checkExportPermission: denied for job '{}': {}", request.export_job_id,
+                    decision.denial_reason);
     } else {
         decision.is_permitted = true;
         THEMIS_INFO("PolicyEngine::checkExportPermission: permitted for job '{}' (fallback path)",
-            request.export_job_id);
+                    request.export_job_id);
     }
     return decision;
+}
+
+FieldMaskingPolicy PolicyEngine::getMaskingPolicy() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return masking_rules_;
+}
+
+QueryPermissionResult PolicyEngine::checkQueryPermission(const std::unordered_map<std::string, std::string> &headers,
+                                                         const std::string &route) const {
+    QueryPermissionResult result;
+
+    // Reuse the standard evaluate() path for the PolicyDecision so that CCPA,
+    // classification lookup, audit logging, and all existing logic remain in
+    // one place.
+    result.decision = evaluate(headers, route);
+
+    // Attach the masking policy (snapshot under the lock).
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.masking_policy = masking_rules_;
+    }
+
+    return result;
 }
 
 } // namespace governance

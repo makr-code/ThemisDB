@@ -853,3 +853,157 @@ TEST_F(SchemaManagerTest, CustomSchemaOverridesDiscovered) {
     EXPECT_EQ(custom->properties[0].name, "email");
 }
 
+// ============================================================================
+// Adaptive TTL Tests
+// ============================================================================
+
+TEST_F(SchemaManagerTest, AdaptiveTTLDefaultDisabled) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    // By default adaptive TTL is off; getEffectiveTTL should return base TTL
+    auto base = std::chrono::seconds(60);
+    schema_mgr.setCacheTTL(base);
+    EXPECT_EQ(schema_mgr.getEffectiveTTL().count(), base.count())
+        << "Effective TTL should equal fixed TTL when adaptive mode is off";
+}
+
+TEST_F(SchemaManagerTest, AdaptiveTTLNoMutationsUsesMaxTTL) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    AdaptiveTTLConfig config;
+    config.min_ttl = std::chrono::seconds(5);
+    config.max_ttl = std::chrono::seconds(300);
+    config.window = std::chrono::seconds(60);
+    config.scale_factor = 1.0;
+    schema_mgr.setCacheTTL(std::chrono::seconds(60));
+    schema_mgr.enableAdaptiveTTL(config);
+
+    // No mutations recorded → rate = 0 → effective = base = 60s, clamped to max=300s
+    // base / (1 + 1.0 * 0) = 60, which is within [5, 300]
+    auto effective = schema_mgr.getEffectiveTTL();
+    EXPECT_EQ(effective.count(), 60)
+        << "Zero mutation rate should give effective TTL equal to base TTL";
+}
+
+TEST_F(SchemaManagerTest, AdaptiveTTLHighMutationRateReducesTTL) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    AdaptiveTTLConfig config;
+    config.min_ttl = std::chrono::seconds(5);
+    config.max_ttl = std::chrono::seconds(300);
+    config.window = std::chrono::seconds(60);
+    config.scale_factor = 60.0;  // Aggressive: 1 mut/s halves the TTL at scale 60
+    schema_mgr.setCacheTTL(std::chrono::seconds(60));
+    schema_mgr.enableAdaptiveTTL(config);
+
+    // Record many mutations in a short window to drive rate up
+    for (int i = 0; i < 30; ++i) {
+        schema_mgr.recordMutation("orders");
+    }
+
+    auto effective = schema_mgr.getEffectiveTTL();
+    EXPECT_LT(effective.count(), 60)
+        << "High mutation rate should reduce effective TTL below base TTL";
+    EXPECT_GE(effective.count(), config.min_ttl.count())
+        << "Effective TTL must not drop below configured minimum";
+}
+
+TEST_F(SchemaManagerTest, AdaptiveTTLClampedToMinimum) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    AdaptiveTTLConfig config;
+    config.min_ttl = std::chrono::seconds(10);
+    config.max_ttl = std::chrono::seconds(300);
+    config.window = std::chrono::seconds(60);
+    config.scale_factor = 1000.0;  // Extremely aggressive to force floor
+    schema_mgr.setCacheTTL(std::chrono::seconds(60));
+    schema_mgr.enableAdaptiveTTL(config);
+
+    // Flood mutations so rate is very high
+    for (int i = 0; i < 60; ++i) {
+        schema_mgr.recordMutation("hot_table");
+    }
+
+    auto effective = schema_mgr.getEffectiveTTL();
+    EXPECT_EQ(effective.count(), config.min_ttl.count())
+        << "Effective TTL must be clamped to min_ttl under extreme mutation rate";
+}
+
+TEST_F(SchemaManagerTest, AdaptiveTTLDisableRestoresFixedTTL) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    auto base = std::chrono::seconds(45);
+    schema_mgr.setCacheTTL(base);
+
+    schema_mgr.enableAdaptiveTTL();
+    schema_mgr.recordMutation("some_table");
+
+    // Disable adaptive TTL
+    schema_mgr.disableAdaptiveTTL();
+
+    EXPECT_EQ(schema_mgr.getEffectiveTTL().count(), base.count())
+        << "After disabling adaptive TTL, effective TTL must equal fixed TTL";
+}
+
+TEST_F(SchemaManagerTest, AdaptiveTTLCacheExpiresEarlierUnderLoad) {
+    // Insert test data
+    BaseEntity user1 = BaseEntity::fromFields("u1", {{"name", std::string("Alice")}});
+    db_->put("users:u1", user1.serialize());
+
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    AdaptiveTTLConfig config;
+    config.min_ttl = std::chrono::seconds(1);
+    config.max_ttl = std::chrono::seconds(300);
+    config.window = std::chrono::seconds(10);
+    config.scale_factor = 100.0;
+    schema_mgr.setCacheTTL(std::chrono::seconds(60));
+    schema_mgr.enableAdaptiveTTL(config);
+
+    // Prime the cache
+    auto tables1 = schema_mgr.getAllTables();
+    ASSERT_EQ(tables1.size(), 1);
+
+    // Insert a new table's data
+    BaseEntity order1 = BaseEntity::fromFields("o1", {{"total", 99.99}});
+    db_->put("orders:o1", order1.serialize());
+
+    // Record many mutations to drive effective TTL to min (1s)
+    for (int i = 0; i < 60; ++i) {
+        schema_mgr.recordMutation("orders");
+    }
+
+    // Wait just over min_ttl to let the adaptive TTL expire
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    // Cache should auto-refresh and discover the new table
+    auto tables2 = schema_mgr.getAllTables();
+    EXPECT_EQ(tables2.size(), 2)
+        << "After adaptive TTL expires the cache should refresh and pick up new table";
+}
+
+TEST_F(SchemaManagerTest, RecordMutationMultipleTablesIndependent) {
+    SchemaManager schema_mgr(*db_, index_mgr_.get());
+
+    AdaptiveTTLConfig config;
+    config.min_ttl = std::chrono::seconds(5);
+    config.max_ttl = std::chrono::seconds(300);
+    config.window = std::chrono::seconds(60);
+    config.scale_factor = 60.0;
+    schema_mgr.setCacheTTL(std::chrono::seconds(60));
+    schema_mgr.enableAdaptiveTTL(config);
+
+    // Only mutate one table
+    for (int i = 0; i < 20; ++i) {
+        schema_mgr.recordMutation("hot_table");
+    }
+    // cold_table receives no mutations
+
+    // Effective TTL is driven by the hottest table
+    auto effective = schema_mgr.getEffectiveTTL();
+    EXPECT_LT(effective.count(), 60)
+        << "TTL should be reduced because hot_table has a high mutation rate";
+    EXPECT_GE(effective.count(), config.min_ttl.count())
+        << "Effective TTL must respect the configured minimum";
+}
+

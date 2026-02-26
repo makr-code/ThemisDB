@@ -20,6 +20,7 @@
 #include "auth/ldap_authenticator.h"
 #include "auth/auth_audit_logger.h"
 #include "utils/audit_logger.h"
+#include "security/pii_redaction_policy.h"
 
 #include <spdlog/spdlog.h>
 
@@ -280,7 +281,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
     const auto roles = mapGroupsToRoles(groups);
     audit.logLDAPSuccess(username, dn);
-    spdlog::info("LDAPAuthenticator: user '{}' authenticated successfully", username);
+    spdlog::info("LDAPAuthenticator: user '{}' authenticated successfully",
+                 themis::security::PIIRedactionPolicy::get().redactForLog(username));
     return LDAPAuthResult::Success(username, dn, roles, groups);
 }
 
@@ -408,7 +410,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
     const auto roles = mapGroupsToRoles(groups);
     audit.logLDAPSuccess(username, dn);
-    spdlog::info("LDAPAuthenticator: user '{}' authenticated successfully", username);
+    spdlog::info("LDAPAuthenticator: user '{}' authenticated successfully",
+                 themis::security::PIIRedactionPolicy::get().redactForLog(username));
     return LDAPAuthResult::Success(username, dn, roles, groups);
 }
 

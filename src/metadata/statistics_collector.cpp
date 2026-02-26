@@ -583,30 +583,45 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
     double min_v = sorted_values.front();
     double max_v = sorted_values.back();
 
-    if (std::abs(max_v - min_v) < 1e-12) {
+    if (std::abs(max_v - min_v) < kFloatingPointTolerance) {
         // All values identical
         HistogramBucket b;
         b.lower_bound = min_v;
-        b.upper_bound = max_v;
+        b.upper_bound = max_v + kHistogramUpperBoundEpsilon;
         b.frequency   = sorted_values.size();
         return {b};
     }
 
-    double bucket_width = (max_v - min_v) / static_cast<double>(num_buckets);
-    std::vector<HistogramBucket> buckets(num_buckets);
+    // Equi-height histogram: divide sorted values into num_buckets groups of
+    // approximately equal size so that each bucket contains roughly n/num_buckets
+    // values.  Equal values at bucket boundaries are kept in the same bucket to
+    // avoid splitting identical values across buckets.
+    const size_t n = sorted_values.size();
+    std::vector<HistogramBucket> buckets;
+    buckets.reserve(num_buckets);
 
-    for (size_t i = 0; i < num_buckets; ++i) {
-        buckets[i].lower_bound = min_v + static_cast<double>(i) * bucket_width;
-        buckets[i].upper_bound = min_v + static_cast<double>(i + 1) * bucket_width;
-        buckets[i].frequency   = 0;
-    }
-    // Make the last bucket closed on the right
-    buckets.back().upper_bound = max_v + 1e-9;
+    size_t i = 0;
+    for (size_t b = 0; b < num_buckets && i < n; ++b) {
+        // Integer division: (b+1)*n/num_buckets distributes n values evenly
+        // across num_buckets, ensuring approximately equal bucket heights.
+        size_t target_end = (b + 1) * n / num_buckets;
+        if (target_end <= i) target_end = i + 1;
 
-    for (double v : sorted_values) {
-        size_t idx = static_cast<size_t>((v - min_v) / bucket_width);
-        if (idx >= num_buckets) idx = num_buckets - 1;
-        ++buckets[idx].frequency;
+        // Extend to include all equal values at the boundary
+        while (target_end < n &&
+               sorted_values[target_end] == sorted_values[target_end - 1]) {
+            ++target_end;
+        }
+        target_end = std::min(target_end, n);
+
+        HistogramBucket bucket;
+        bucket.lower_bound = sorted_values[i];
+        bucket.upper_bound = (target_end < n)
+                                 ? sorted_values[target_end]
+                                 : max_v + kHistogramUpperBoundEpsilon;
+        bucket.frequency   = target_end - i;
+        buckets.push_back(bucket);
+        i = target_end;
     }
 
     return buckets;
@@ -663,6 +678,20 @@ std::optional<TableStats> StatisticsCollector::loadStats(std::string_view table_
                 }
                 if (cj.contains("max_value") && cj["max_value"].is_number()) {
                     cs.max_value = cj["max_value"].get<double>();
+                }
+                if (cj.contains("histogram") && cj["histogram"].is_array()) {
+                    std::vector<HistogramBucket> hist_buckets;
+                    hist_buckets.reserve(cj["histogram"].size());
+                    for (const auto& bj : cj["histogram"]) {
+                        HistogramBucket b;
+                        b.lower_bound = bj.value("lower_bound", 0.0);
+                        b.upper_bound = bj.value("upper_bound", 0.0);
+                        b.frequency   = bj.value("frequency",   size_t{0});
+                        hist_buckets.push_back(b);
+                    }
+                    if (!hist_buckets.empty()) {
+                        cs.histogram = std::move(hist_buckets);
+                    }
                 }
                 stats.column_stats[col] = std::move(cs);
             }

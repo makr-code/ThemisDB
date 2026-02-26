@@ -169,6 +169,86 @@ thread-safe.
 **Tests:** 18+ unit tests in `tests/test_cdc_schema_registry.cpp` covering wire-format header,
 round-trip decode, auto-registration (JSON/Avro/Protobuf), error paths, and cache behaviour.
 
+### CDC-based Materialized View Maintenance ✅ (Implemented - Issue #1617)
+
+`CDCMaterializedViewMaintainer` (`include/cdc/cdc_materialized_view.h`,
+`src/cdc/cdc_materialized_view.cpp`) bridges `Changefeed::ChangeEvent` records to
+`analytics::IncrementalViewManager`, enabling GROUP BY materialized views to be kept
+up-to-date incrementally as CDC events arrive — without a full re-scan per change.
+
+**Collection derivation:** the collection name is the substring of the event key before the
+first `':'` (e.g. `"orders:42"` → `"orders"`).  Keys without `':'` use the full key.
+
+**Change-type mapping:**
+- `EVENT_PUT` + no `before_snapshot`  →  `INSERT`
+- `EVENT_PUT` + has `before_snapshot` →  `UPDATE`
+- `EVENT_DELETE`                      →  `DELETE`
+- `EVENT_TRANSACTION_*`               →  skipped (not counted in `totalEventsProcessed()`)
+
+**Row data:** `before_snapshot` / `after_snapshot` JSON strings are parsed to typed
+`ChangeRecord::Row` (null / bool / int64 / double / string / serialized-json).
+Falls back to the event's `value` field when a snapshot is absent.
+
+**API:**
+- `createView(ViewDefinition)` / `dropView(name)` / `hasView(name)` / `listViews()`
+- `getView(name)` — returns the underlying `IncrementalView` for direct inspection
+- `applyEvent(event)` — single-event ingest
+- `applyEvents(events)` — batch ingest (acquires per-view locks once for the batch)
+- `query(view_name, filters, limit, offset)` — paged query with optional runtime filters
+- `totalEventsProcessed()` — monotonic counter (TRANSACTION_* events not counted)
+
+**Thread safety:** all public methods are thread-safe; locking is delegated entirely to
+`IncrementalViewManager`'s existing `shared_mutex`.
+
+**Tests:** 15 unit tests in `tests/test_cdc_materialized_view.cpp` covering INSERT /
+DELETE / UPDATE delta correctness, transaction-event skipping, collection prefix extraction,
+value-field fallback, batch ingestion, multi-view fan-out, pagination, missing-view query,
+and invalid JSON graceful handling.
+
+---
+
+### Change Stream Compression for High-Volume Feeds ✅ (Implemented - Issue #1618)
+
+`ChangeStreamCompressor` (`include/cdc/change_stream_compressor.h`, header-only) provides
+batch compression of CDC change events for efficient transport over SSE or WebSocket streams,
+targeting high-volume feed scenarios where uncompressed JSON payloads create network or
+memory pressure.
+
+**Wire format:**
+```
++----------+---------+-----------+---------------+-------------+---...---+
+| magic    | version | algorithm | original_size | event_count | payload |
+| 4 bytes  | 1 byte  | 1 byte    | 4 bytes LE    | 4 bytes LE  | N bytes |
++----------+---------+-----------+---------------+-------------+---...---+
+magic = 0x43 0x44 0x43 0x5A ("CDCZ")
+```
+
+**Components:**
+- `StreamCompressionAlgorithm` — algorithm selector (`NONE`, `ZSTD`)
+- `CompressedBatch` — self-describing wire-format batch; `serialize()` / `deserialize()` for framing
+- `ChangeStreamCompressor` — compress/decompress batches of `Changefeed::ChangeEvent` records
+
+**`ChangeStreamCompressor`:**
+- `compress(events)` — serialize events as JSON array, compress with Zstd, return `CompressedBatch`
+- `decompress(batch)` — decompress and reconstruct `Changefeed::ChangeEvent` records
+- `Config` — `algorithm` (ZSTD default), `level` (1–22, default 3), `min_compression_size_bytes` (256)
+- Batches below `min_compression_size_bytes` are stored uncompressed (`algorithm = NONE`) to avoid overhead
+- `getStats()` / `resetStats()` — cumulative stats: `batches_compressed`, `events_compressed`,
+  `bytes_in`, `bytes_out`, `batches_skipped`, `decompress_errors`, `compression_ratio()`
+
+**Thread safety:** `compress()`, `decompress()`, `getStats()`, `resetStats()`, and `setConfig()`
+are all thread-safe.  Config reads are snapshotted under `config_mutex_`; stats use atomics.
+
+**Tests:** 20 unit tests in `tests/test_cdc_change_stream_compressor.cpp` covering:
+default config, empty batch round-trip, single-event round-trip, large batch ZSTD selection,
+below-threshold uncompressed path, explicit NONE config, serialize/deserialize header
+preservation, truncated/wrong-magic rejection, NONE batch decompress, ZSTD round-trip,
+corrupted payload exception, stats tracking, skipped-batch counter, decompress error counter,
+compression ratio > 1, resetStats, setConfig, all event fields preserved, DELETE event
+round-trip.
+
+---
+
 ## Planned Features
 
 ### WebSocket Change Streaming Transport

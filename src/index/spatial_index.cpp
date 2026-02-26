@@ -657,6 +657,21 @@ double SpatialIndexManager::haversineDistance(double lat1, double lon1, double l
     return EARTH_RADIUS_METERS * c;
 }
 
+// Euclidean 3D distance
+double SpatialIndexManager::euclidean3DDistance(
+    double x1, double y1, double z1,
+    double x2, double y2, double z2) const {
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double dz = z2 - z1;
+    return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+// Z-bucket (10 m buckets; negative elevations get negative bucket IDs)
+int SpatialIndexManager::getZBucket(double z) const {
+    return static_cast<int>(std::floor(z / Z_BUCKET_SIZE));
+}
+
 // Search intersects
 std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
     std::string_view table,
@@ -918,6 +933,193 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
         results.resize(limit);
     }
     
+    return results;
+}
+
+// K-Nearest Neighbors search using the in-memory R-tree.
+// Expands an initial search window exponentially until k candidates are found
+// or the window covers the full table bounds.
+// Note: the optional `z` parameter is reserved for future 3D distance
+// filtering; it is currently unused and 2D Haversine distance is used.
+std::vector<SpatialResult> SpatialIndexManager::searchKNN(
+    std::string_view table,
+    double x,
+    double y,
+    size_t k,
+    std::optional<double> z
+) const {
+    (void)z; // unused parameter — reserved for future 3D distance filtering
+    if (k == 0) return {};
+
+    auto config = getConfig(table);
+    if (!config) return {};
+
+    // Ensure the R-tree is built before we start querying.
+    ensureRTree(table);
+
+    const geo::MBR& bounds = config->total_bounds;
+
+    // Initial search radius (~1 km at the equator: 1000 m / 111 320 m·deg⁻¹ ≈ 0.009°).
+    // The radius doubles each iteration until k candidates are found or the
+    // full table bounds are covered.  20 doublings allow expansion from 1 km to
+    // ~1 000 000 km, which exceeds Earth's circumference and guarantees termination.
+    static constexpr double kInitialRadiusDeg = 0.009;
+    static constexpr int    kMaxExpansionIter = 20;
+
+    double radius = kInitialRadiusDeg;
+    std::vector<SpatialResult> candidates;
+
+    // Double the search window until we have k candidates or exceed world bounds.
+    for (int iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
+        geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
+        // Clamp to table bounds
+        bbox.minx = std::max(bbox.minx, bounds.minx);
+        bbox.miny = std::max(bbox.miny, bounds.miny);
+        bbox.maxx = std::min(bbox.maxx, bounds.maxx);
+        bbox.maxy = std::min(bbox.maxy, bounds.maxy);
+
+        candidates = searchIntersects(table, bbox);
+
+        // Stop expanding if the window covers the full bounds.
+        if (bbox.minx <= bounds.minx && bbox.maxx >= bounds.maxx &&
+            bbox.miny <= bounds.miny && bbox.maxy >= bounds.maxy) {
+            break;
+        }
+        radius *= 2.0;
+    }
+
+    // Compute distances and sort ascending.
+    for (auto& cand : candidates) {
+        cand.distance = haversineDistance(y, x, cand.mbr.center().y, cand.mbr.center().x);
+    }
+    std::sort(candidates.begin(), candidates.end(),
+              [](const SpatialResult& a, const SpatialResult& b) {
+                  return a.distance < b.distance;
+              });
+
+    if (candidates.size() > k) {
+        candidates.resize(k);
+    }
+    return candidates;
+}
+
+// Z-range search: return all entities whose elevation overlaps [z_min, z_max].
+// Scans all per-PK spatial keys for the table and filters by Z range.
+std::vector<SpatialResult> SpatialIndexManager::searchZRange(
+    std::string_view table,
+    double z_min,
+    double z_max
+) const {
+    if (!getConfig(table)) return {};
+
+    // Ensure the R-tree (and MBR cache with Z data) is populated.
+    ensureRTree(table);
+
+    const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
+
+    std::vector<SpatialResult> results;
+    std::string table_str(table);
+
+    db_.scanRange(pk_prefix, pk_prefix + "~",
+        [&](std::string_view k, std::string_view value) {
+            constexpr std::size_t kMortonChars = 16;
+            const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
+            // Validate key length and the expected ':' separator between morton code and PK.
+            if (k.size() <= pk_strip) return true;
+            if (k[pk_prefix.size() + kMortonChars] != ':') return true;
+            std::string pk(k.substr(pk_strip));
+            try {
+                auto j = json::parse(std::string(value));
+                // Only process entries that carry Z data.
+                if (!j.contains("z_min") || !j.contains("z_max")) return true;
+                double e_min = j["z_min"].get<double>();
+                double e_max = j["z_max"].get<double>();
+                // Skip entries whose Z range does not overlap [z_min, z_max].
+                if (e_max < z_min || e_min > z_max) return true;
+
+                SpatialResult result;
+                result.primary_key = pk;
+                result.z_min = e_min;
+                result.z_max = e_max;
+                const auto& mbr_j = j.at("mbr");
+                result.mbr.minx = mbr_j.at("minx").get<double>();
+                result.mbr.miny = mbr_j.at("miny").get<double>();
+                result.mbr.maxx = mbr_j.at("maxx").get<double>();
+                result.mbr.maxy = mbr_j.at("maxy").get<double>();
+                results.push_back(std::move(result));
+            } catch (...) {}
+            return true;
+        });
+
+    return results;
+}
+
+// Combined spatial + Z-range filter.
+// After the R-tree pre-filter, fetches Z metadata from per-PK RocksDB keys
+// for each spatial candidate and applies the Z range check.
+//
+// Conservative-inclusion contract: if an entity was stored without Z metadata
+// (z_min / z_max absent from the per-PK RocksDB value), it is included in the
+// result regardless of the requested Z range.  This avoids false negatives for
+// legacy data that pre-dates Z storage and is safe because the caller receives
+// a superset of the true answer.  Applications that require exact Z exclusion
+// must store z_min / z_max in the GeoSidecar at insert time.
+std::vector<SpatialResult> SpatialIndexManager::searchIntersectsWithZ(
+    std::string_view table,
+    const geo::MBR& query_bbox,
+    double z_min,
+    double z_max
+) const {
+    auto candidates = searchIntersects(table, query_bbox);
+
+    const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
+    auto config = getConfig(table);
+    const geo::MBR bounds = config ? config->total_bounds
+                                   : geo::MBR(-180.0, -90.0, 180.0, 90.0);
+
+    std::vector<SpatialResult> results;
+    results.reserve(candidates.size());
+    for (auto& cand : candidates) {
+        // If Z values were already populated (Morton-scan path), use them directly.
+        if (cand.z_min.has_value()) {
+            if (cand.z_max.value() >= z_min && cand.z_min.value() <= z_max) {
+                results.push_back(std::move(cand));
+            }
+            continue;
+        }
+
+        // R-tree path: look up Z data from the per-PK RocksDB key.
+        uint64_t morton = MortonEncoder::encode2D(
+            cand.mbr.center().x, cand.mbr.center().y, bounds);
+        char buf[32];
+        snprintf(buf, sizeof(buf), "%016llx", static_cast<unsigned long long>(morton));
+        std::string pk_key = pk_prefix + buf + ":" + cand.primary_key;
+
+        auto blob = db_.get(pk_key);
+        if (!blob) {
+            // No Z data: include conservatively.
+            results.push_back(std::move(cand));
+            continue;
+        }
+        try {
+            std::string blob_str(reinterpret_cast<const char*>(blob->data()), blob->size());
+            auto j = json::parse(blob_str);
+            if (!j.contains("z_min") || !j.contains("z_max")) {
+                results.push_back(std::move(cand));
+                continue;
+            }
+            double e_min = j["z_min"].get<double>();
+            double e_max = j["z_max"].get<double>();
+            if (e_max >= z_min && e_min <= z_max) {
+                cand.z_min = e_min;
+                cand.z_max = e_max;
+                results.push_back(std::move(cand));
+            }
+        } catch (...) {
+            // Parse error: include conservatively.
+            results.push_back(std::move(cand));
+        }
+    }
     return results;
 }
 

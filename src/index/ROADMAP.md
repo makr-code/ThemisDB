@@ -32,10 +32,10 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [I] Index statistics export to metadata module (Issue: #1866)
 - [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
-- [I] Configurable GPU memory budget per index (Issue: #1869)
+- [P] Configurable GPU memory budget per index (Issue: #1869)
 
 ### Long-term (6-12 months)
-- [I] Distributed vector index across shards (Issue: #1879)
+- [~] Distributed vector index across shards (Issue: #1879)
 - [I] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [P] Multi-tenancy index isolation (Issue: #1872)
 - [!] Cold/warm tier index migration (Issue: #2407)
@@ -66,7 +66,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [P] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
 - [ ] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
-- [ ] Distributed vector index across shards
+- [~] Distributed vector index across shards
 - [ ] Partial / filtered indexes on secondary index manager
 - [ ] Cold/warm tier index migration
 - [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)

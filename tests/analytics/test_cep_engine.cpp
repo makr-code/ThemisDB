@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cep_engine.cpp                                ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-23 03:58:34                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-26 12:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     957                                            ║
+    • Total Lines:     1347                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
-    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
+    • 5f1b20fc0  2026-02-26  feat(cep): add StatefulCheckpoint tests                ║
+    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party deps     ║
+    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub     ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,6 +42,7 @@
 #include "analytics/cep_engine.h"
 
 #include <chrono>
+#include <fstream>
 #include <thread>
 #include <filesystem>
 
@@ -730,6 +731,181 @@ TEST_F(RuleEngineTest, ParseEPLWithWindow) {
     EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5000));
 }
 
+TEST_F(RuleEngineTest, ParseEPLCreateRuleAsSyntax) {
+    std::string epl = "CREATE RULE fraud_detection AS SELECT * FROM PaymentEvents ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->rule_name, "fraud_detection");
+    ASSERT_FALSE(cfg->streams.empty());
+    EXPECT_EQ(cfg->streams[0], "PaymentEvents");
+}
+
+TEST_F(RuleEngineTest, ParseEPLSelectAggregations) {
+    std::string epl = "SELECT COUNT(*) as cnt, SUM(amount) as total, AVG(latency_ms) as avg_lat "
+                      "FROM events ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_EQ(cfg->aggregations.size(), 3u);
+    EXPECT_EQ(cfg->aggregations[0].first, "cnt");
+    EXPECT_EQ(cfg->aggregations[0].second, AggregationType::COUNT);
+    EXPECT_EQ(cfg->aggregations[1].first, "total");
+    EXPECT_EQ(cfg->aggregations[1].second, AggregationType::SUM);
+    EXPECT_EQ(cfg->aggregations[2].first, "avg_lat");
+    EXPECT_EQ(cfg->aggregations[2].second, AggregationType::AVG);
+}
+
+TEST_F(RuleEngineTest, ParseEPLGroupBy) {
+    std::string epl = "SELECT COUNT(*) FROM events GROUP BY userId, region ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_EQ(cfg->group_by.size(), 2u);
+    EXPECT_EQ(cfg->group_by[0], "userId");
+    EXPECT_EQ(cfg->group_by[1], "region");
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowParenthesizedMinutes) {
+    std::string epl = "SELECT * FROM events WINDOW TUMBLING(5 MINUTES) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5 * 60 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowParenthesizedHours) {
+    std::string epl = "SELECT * FROM events WINDOW TUMBLING(1 HOUR) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(3600 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowSlidingWithSlide) {
+    std::string epl = "SELECT * FROM events WINDOW SLIDING(5 MINUTES, 1 MINUTE) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::SLIDING);
+    EXPECT_EQ(cfg->window->size,  std::chrono::milliseconds(5 * 60 * 1000));
+    EXPECT_EQ(cfg->window->slide, std::chrono::milliseconds(1 * 60 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLWindowCountEvents) {
+    std::string epl = "SELECT * FROM events WINDOW COUNT(100 EVENTS) ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::COUNT);
+    EXPECT_EQ(cfg->window->count, 100u);
+}
+
+TEST_F(RuleEngineTest, ParseEPLPatternWithinMinutes) {
+    std::string epl = "SELECT * FROM stream "
+                      "PATTERN SEQUENCE(LoginEvent, PurchaseEvent) WITHIN 1 HOUR "
+                      "ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_TRUE(cfg->pattern.has_value());
+    EXPECT_EQ(cfg->pattern->type, PatternType::SEQUENCE);
+    EXPECT_EQ(cfg->pattern->event_types.size(), 2u);
+    EXPECT_EQ(cfg->pattern->within, std::chrono::milliseconds(3600 * 1000));
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionWebhook) {
+    std::string epl = "SELECT * FROM events "
+                      "ACTION webhook('https://api.example.com/alert', '{\"key\":\"val\"}')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::WEBHOOK);
+    EXPECT_EQ(cfg->actions[0].target, "https://api.example.com/alert");
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionDbWrite) {
+    std::string epl = "SELECT * FROM events ACTION db_write('alerts_collection')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::DB_WRITE);
+    EXPECT_EQ(cfg->actions[0].target, "alerts_collection");
+}
+
+TEST_F(RuleEngineTest, ParseEPLActionAlertWithParams) {
+    std::string epl = "SELECT * FROM events "
+                      "ACTION alert('security', 'critical', 'Suspicious activity detected')";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::ALERT);
+    EXPECT_EQ(cfg->actions[0].target, "security");
+    EXPECT_EQ(cfg->tags.at("severity"), "critical");
+    EXPECT_EQ(cfg->actions[0].template_str, "Suspicious activity detected");
+}
+
+TEST_F(RuleEngineTest, ParseEPLMultiLineCreateRule) {
+    std::string epl =
+        "CREATE RULE brute_force AS\n"
+        "SELECT userId, COUNT(*) as attempts\n"
+        "FROM AuthEvents\n"
+        "WHERE success = false\n"
+        "WINDOW TUMBLING(5 MINUTES)\n"
+        "GROUP BY userId\n"
+        "HAVING COUNT(*) >= 5\n"
+        "ACTION alert('security', 'critical', 'Brute force detected');";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->rule_name, "brute_force");
+    ASSERT_FALSE(cfg->streams.empty());
+    EXPECT_EQ(cfg->streams[0], "AuthEvents");
+    EXPECT_FALSE(cfg->filter.empty());
+    ASSERT_TRUE(cfg->window.has_value());
+    EXPECT_EQ(cfg->window->type, WindowType::TUMBLING);
+    EXPECT_EQ(cfg->window->size, std::chrono::milliseconds(5 * 60 * 1000));
+    ASSERT_EQ(cfg->group_by.size(), 1u);
+    EXPECT_EQ(cfg->group_by[0], "userId");
+    EXPECT_FALSE(cfg->having.empty());
+    ASSERT_FALSE(cfg->actions.empty());
+    EXPECT_EQ(cfg->actions[0].type, ActionType::ALERT);
+    EXPECT_EQ(cfg->tags.at("severity"), "critical");
+}
+
+TEST_F(RuleEngineTest, ParseEPLHavingClause) {
+    std::string epl = "SELECT COUNT(*) FROM events HAVING COUNT(*) > 10 ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_FALSE(cfg->having.empty());
+}
+
+TEST_F(RuleEngineTest, ParseEPLAllAggregationTypes) {
+    std::string epl = "SELECT "
+                      "MIN(price) as min_p, MAX(price) as max_p, "
+                      "FIRST(ts) as first_ts, LAST(ts) as last_ts, "
+                      "STDDEV(val) as sd, VARIANCE(val) as var, "
+                      "DISTINCT_COUNT(userId) as dc, "
+                      "PERCENTILE(latency, 99) as p99 "
+                      "FROM events ON MATCH ALERT";
+    auto cfg = RuleEngine::parseEPL(epl);
+    ASSERT_TRUE(cfg.has_value());
+    EXPECT_EQ(cfg->aggregations.size(), 8u);
+
+    std::map<std::string, AggregationType> expected = {
+        {"min_p",   AggregationType::MIN},
+        {"max_p",   AggregationType::MAX},
+        {"first_ts",AggregationType::FIRST},
+        {"last_ts", AggregationType::LAST},
+        {"sd",      AggregationType::STDDEV},
+        {"var",     AggregationType::VARIANCE},
+        {"dc",      AggregationType::DISTINCT_COUNT},
+        {"p99",     AggregationType::PERCENTILE},
+    };
+    for (const auto& agg : cfg->aggregations) {
+        auto it = expected.find(agg.first);
+        ASSERT_NE(it, expected.end()) << "Unexpected alias: " << agg.first;
+        EXPECT_EQ(agg.second, it->second);
+    }
+}
+
 TEST_F(RuleEngineTest, RuleStatsUpdated) {
     auto rule = makeSimpleRule("stats-rule");
     rule_engine_->addRule(rule);
@@ -1062,4 +1238,111 @@ TEST(CEPEngineBackpressureTest, QueueDepthReflectsUnprocessedEvents) {
     EXPECT_NE(prom.find("themisdb_cep_queue_depth"), std::string::npos);
 
     engine.shutdown();
+}
+
+// ============================================================================
+// Stateful checkpoint tests
+// ============================================================================
+
+// Verifies that in-progress NFA partial match states are saved by
+// createCheckpoint() and restored by restoreFromCheckpoint() so that
+// a SEQUENCE pattern begun before the checkpoint can be completed after
+// restore without missing the match.
+TEST(CEPStatefulCheckpointTest, PartialMatchStateSurvivesCheckpointRestore) {
+    const std::string cp_path = "/tmp/themis_cep_stateful_cp_test";
+    std::filesystem::remove_all(cp_path);
+
+    // ── Phase 1: submit event A, checkpoint, then restart ──────────────────
+    {
+        auto& engine = CEPEngine::getInstance();
+        if (engine.isInitialized()) engine.shutdown();
+
+        CEPConfig cfg;
+        cfg.worker_threads        = 1;
+        cfg.metrics_enabled       = false;
+        cfg.checkpointing_enabled = true;
+        cfg.checkpoint_path       = cp_path;
+        engine.initialize(cfg);
+
+        // Register SEQUENCE rule: A → B
+        RuleConfig rule;
+        rule.rule_id   = "stateful-seq";
+        rule.rule_name = "stateful-seq";
+        rule.enabled   = true;
+        PatternConfig pc;
+        pc.pattern_id  = "seq-ab";
+        pc.type        = PatternType::SEQUENCE;
+        pc.event_types = {"EVT_A", "EVT_B"};
+        rule.pattern   = pc;
+        ActionConfig ac; ac.type = ActionType::ALERT;
+        rule.actions.push_back(ac);
+        engine.addRule(rule);
+
+        // Submit first event of the sequence (creates a partial match)
+        engine.submitEvent(makeEvent("EVT_A"));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        // Checkpoint (should persist the partial match state)
+        ASSERT_TRUE(engine.createCheckpoint());
+        auto cps = engine.listCheckpoints();
+        ASSERT_FALSE(cps.empty());
+
+        engine.shutdown();
+
+        // ── Phase 2: restart, restore checkpoint, submit event B ───────────
+        if (engine.isInitialized()) engine.shutdown();
+        engine.initialize(cfg);
+
+        // Re-register the same rule (simulate fresh start)
+        engine.addRule(rule);
+
+        // Restore checkpoint → should reload the partial match state
+        EXPECT_TRUE(engine.restoreFromCheckpoint(cps[0]));
+
+        // Submit the second event of the sequence
+        engine.submitEvent(makeEvent("EVT_B"));
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
+
+        // The partial match saved before restart should have completed
+        auto alerts = engine.getAlerts(20);
+        bool found = std::any_of(alerts.begin(), alerts.end(),
+            [](const Alert& a) { return a.rule_id == "stateful-seq"; });
+        EXPECT_TRUE(found) << "SEQUENCE pattern A→B should fire after checkpoint restore";
+
+        engine.shutdown();
+    }
+
+    std::filesystem::remove_all(cp_path);
+}
+
+// Verifies that when no partial matches exist the checkpoint file contains no
+// pm_rule blocks and restoreFromCheckpoint() succeeds cleanly.
+TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
+    const std::string cp_path = "/tmp/themis_cep_empty_stateful_cp";
+    std::filesystem::remove_all(cp_path);
+
+    auto& engine = CEPEngine::getInstance();
+    if (engine.isInitialized()) engine.shutdown();
+
+    CEPConfig cfg;
+    cfg.worker_threads        = 1;
+    cfg.metrics_enabled       = false;
+    cfg.checkpointing_enabled = true;
+    cfg.checkpoint_path       = cp_path;
+    engine.initialize(cfg);
+
+    ASSERT_TRUE(engine.createCheckpoint());
+    auto cps = engine.listCheckpoints();
+    ASSERT_FALSE(cps.empty());
+
+    // Verify checkpoint file contains no pm_rule= lines
+    std::ifstream f(cp_path + "/" + cps[0] + ".txt");
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    EXPECT_EQ(content.find("pm_rule="), std::string::npos);
+
+    EXPECT_TRUE(engine.restoreFromCheckpoint(cps[0]));
+
+    engine.shutdown();
+    std::filesystem::remove_all(cp_path);
 }

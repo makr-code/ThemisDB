@@ -146,6 +146,22 @@ std::vector<std::string> InferenceEngineEnhanced::getAvailableModels() const {
     return available;
 }
 
+void InferenceEngineEnhanced::swapModel(
+    const std::string& model_id,
+    std::shared_ptr<ILLMPlugin> new_plugin
+) {
+    if (!new_plugin) {
+        throw std::invalid_argument("New plugin cannot be null");
+    }
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        throw std::invalid_argument("Model not registered: " + model_id);
+    }
+    it->second.plugin = std::move(new_plugin);
+    spdlog::info("Hot-swapped plugin for model: {}", model_id);
+}
+
 // ═══════════════════════════════════════════════════════════
 // Inference Submission
 // ═══════════════════════════════════════════════════════════

@@ -114,9 +114,10 @@ public:
     // ── Configuration ────────────────────────────────────────────────────
     struct Config {
         size_t max_samples = 10'000; ///< Sliding-window size for latency samples
+        static Config defaults() { return {}; }
     };
 
-    explicit WireProtocolMetrics(const Config& cfg = Config{});
+    explicit WireProtocolMetrics(const Config& cfg = Config::defaults());
 
     // ── Record helpers ────────────────────────────────────────────────────
 
@@ -329,9 +330,10 @@ public:
         int    lz4_fast_x_acceleration = 3;      ///< used when latency is critical
         int    lz4_hc_level            = 4;      ///< LZ4HC_CLEVEL_DEFAULT
         bool   prefer_speed            = false;  ///< Prefer LZ4_FAST_X over LZ4_HC
+        static Config defaults() { return {}; }
     };
 
-    explicit CompressionAdvisor(const Config& cfg = Config{});
+    explicit CompressionAdvisor(const Config& cfg = Config::defaults());
 
     /**
      * @brief Advise on compression for a payload of @p size bytes.

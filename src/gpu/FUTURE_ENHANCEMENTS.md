@@ -168,6 +168,121 @@ the kernel sequence once and replaying it on subsequent calls.
 
 ---
 
+### GPU-Accelerated ANN (Vector Similarity) via cuVS/RAFT
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Approximate k-nearest-neighbor (ANN) vector similarity search accelerated by
+the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
+
+**Implemented infrastructure:**
+- ✅ `GPUQueryAccelerator::annSearch()` — accepts a flat query array and a flat
+  database array, returns the k nearest neighbors per query sorted ascending by
+  distance.  Supports L2 (squared Euclidean) and inner-product distance metrics.
+- ✅ CPU brute-force exact k-NN fallback (max-heap per query) — always available
+  without GPU hardware; activated when the database size is below
+  `Config::gpu_threshold_rows` or `force_cpu = true`.
+- ✅ Graph-cache integration — recurring ANN queries with the same shape
+  (`numQueries × dim`, `k`, metric) are tracked in `GPUGraphCache` with
+  `QueryShape::OpType::ANN_SEARCH`; hit/miss counters visible in
+  `GPUQueryAccelerator::Stats::graph_cache_hits` / `graph_cache_misses`.
+- ✅ `Stats::total_ann_searches` counter for observability.
+- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
+
+**Remaining (hardware required):**
+- Allocate device buffers via `cudaMalloc` and copy database + queries with
+  `cudaMemcpy`.
+- Build an IVF-Flat index using
+  `cuvs::neighbors::ivf_flat::build(handle, idx_params, db_view)`.
+- Execute the search with
+  `cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_view,
+  neighbors_view, distances_view)`.
+- Copy `neighbors` and `distances` device arrays back to host and populate
+  `AnnResult`.
+- Wire `THEMIS_ENABLE_CUDA` guard around the cuVS path; fall back to CPU on
+  `cudaMalloc` failure.
+
+---
+
+---
+
+### Unified Memory Support (CPU+GPU Shared Address Space)
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Unified memory allocates a single managed address space accessible by both the
+CPU and any configured CUDA or HIP device.  The CUDA/HIP runtime automatically
+migrates pages between CPU DRAM and GPU VRAM as they are accessed, eliminating
+explicit `cudaMemcpy` transfers for workloads that share data between CPU and GPU.
+
+**Implemented infrastructure:**
+- ✅ `GPUUnifiedMemoryAllocator` (`include/themis/gpu/unified_memory.h`,
+  `src/gpu/unified_memory.cpp`) — `allocate`, `free`, `prefetch`, `advise`,
+  `isSupported`, `getStats`, `getActiveAllocations`, `getTenantBytes`, `reset`.
+- ✅ CUDA path: `cudaMallocManaged` / `cudaFree` / `cudaMemPrefetchAsync` /
+  `cudaMemAdvise` — gated on `THEMIS_ENABLE_CUDA`.
+- ✅ HIP path: `hipMallocManaged` / `hipFree` / `hipMemPrefetchAsync` /
+  `hipMemAdvise` — gated on `THEMIS_ENABLE_HIP`.
+- ✅ CPU fallback: `malloc` / `free`; `prefetch` and `advise` are no-ops that
+  return `true`; `isSupported()` returns `false`.
+- ✅ `MemAdvice` enum mirrors `cudaMemoryAdvise` / `hipMemoryAdvice`: six hints
+  (`SET_PREFERRED_LOCATION`, `SET_ACCESSED_BY`, `SET_READ_MOSTLY`, and their
+  `UNSET_*` counterparts).
+- ✅ Per-tenant byte tracking — each allocation may carry an optional
+  `tenant_id`; `getTenantBytes(tenant_id)` returns current live usage.
+- ✅ `Stats` struct: `total_allocations`, `total_frees`, `allocated_bytes`,
+  `peak_bytes`, `prefetch_calls`, `advise_calls`, `hardware_unified`.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_unified_memory.cpp`, 24 tests).
+
+**Remaining (hardware required):**
+- Verify hardware page-migration with a real `cudaMallocManaged` allocation on
+  an NVIDIA Volta/Ampere GPU: page-fault latency must be < 5 ms for a 256 MB
+  buffer that is first written on the CPU and then read on device via a simple
+  CUDA kernel; measured with CUDA events.
+- Benchmark unified memory throughput vs. explicit `cudaMemcpy` for ThemisDB
+  batch sizes: unified memory must achieve ≥ 0.75× the throughput of explicit
+  `cudaMemcpy` for 1M float32 vectors (4 MB) on an RTX-class GPU; measured in
+  GB/s using CUDA events averaged over 100 iterations.
+- Consider wrapping `GPUUnifiedMemoryAllocator::allocate` into an
+  RAII helper `UnifiedBuffer<T>` analogous to `make_cuda_unique<T>` in
+  `include/utils/memory_utils.h`.
+
+---
+
+### Dynamic GPU Time-Slicing for Multi-Tenant Isolation
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Prevents any single tenant from monopolizing the GPU by assigning each
+tenant a configurable time quantum and dispatching work in round-robin order.
+
+**Implemented infrastructure:**
+- ✅ `GPUTimeSliceScheduler` (`include/themis/gpu/time_slice_scheduler.h`,
+  `src/gpu/time_slice_scheduler.cpp`) — round-robin time-sliced dispatcher.
+  - `registerTenant(TenantConfig)` / `unregisterTenant(tenant_id)` — tenant lifecycle.
+  - `submit(tenant_id, WorkItem)` — enqueue work for a tenant's FIFO queue.
+  - `dispatch(backend)` — one scheduling round: visit each tenant in
+    registration order; execute items until the slice (`slice_ms`) expires,
+    then move to the next tenant.  Remaining items are deferred to the next
+    `dispatch()` call; `preempted` counter incremented when the slice expires
+    with items still in the queue.
+  - `drainAll(backend)` — calls `dispatch()` until all queues are empty;
+    safe for batch workflows and tests.
+  - `allQueuesEmpty()` — predicate for scheduler idle detection.
+  - `getTenantStats(tenant_id)` / `getAllTenantStats()` / `getStats()` —
+    per-tenant and aggregate observability (`submitted`, `completed`,
+    `preempted`, `total_elapsed_ms`, `queue_depth`, `slice_ms`).
+  - `resetStats()` — clear counters and queues, keeps tenant registrations.
+- ✅ CPU no-op backend used automatically when `dispatch(nullptr)` is called.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_time_slice_scheduler.cpp`).
+
+**Remaining (hardware required):**
+- Wire a real CUDA/ROCm stream into the `dispatch()` `BackendFn` so items
+  are submitted to `cudaStream_t` / `hipStream_t` rather than a CPU callback.
+- Implement hardware-level preemption (CUDA MPS context switching) for
+  true sub-kernel preemption within a running CUDA kernel.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
@@ -177,4 +292,4 @@ the kernel sequence once and replaying it on subsequent calls.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.2.0*
+*Module Version: v1.4.0*

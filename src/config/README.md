@@ -49,15 +49,19 @@ Static utility that resolves legacy config paths to their new hierarchical locat
 - **LRU Cache**: Resolved paths are cached to avoid repeated filesystem `exists()` calls. Capacity and TTL are configurable via environment variables (see [Environment Variables](#environment-variables) below).
 - **Symlink Hardening**: `validatePath()` rejects symlinks that resolve outside the config root
 - **Deprecation Aggregation**: `deprecationReport()` returns a usage-sorted snapshot of all legacy paths accessed since startup
+- **Multi-Environment Overlay**: Dev/staging path sets allow environment-specific config overrides without touching production files (see [Multi-Environment Config Overlay](#multi-environment-config-overlay) below).
 
 **Environment Variables:**
 
-| Variable | Default | Valid Range | Description |
+| Variable | Default | Valid Values / Range | Description |
 |---|---|---|---|
-| `THEMIS_CONFIG_CACHE_SIZE` | 1000 | 10–100 000 | Maximum number of entries in the path-resolution LRU cache |
-| `THEMIS_CONFIG_CACHE_TTL` | 300 | 1–86 400 | Entry TTL in seconds; expired entries are evicted on next access |
+| `THEMIS_CONFIG_CACHE_SIZE` | `1000` | `[10, 100000]` | Maximum number of entries in the path-resolution LRU cache |
+| `THEMIS_CONFIG_CACHE_TTL` | `300` | `[1, 86400]` | Entry TTL in seconds; expired entries are evicted on next access |
+| `THEMIS_CONFIG_ENV` | `prod` | `dev` \| `staging` \| `prod` (case-insensitive) | Active deployment environment for config overlay resolution |
 
-Read the active runtime values via `ConfigPathResolver::currentCacheConfig()`.
+Read the active runtime values via `ConfigPathResolver::currentCacheConfig()` and `ConfigPathResolver::getEnvironment()`.
+
+When a variable is absent, empty, or invalid a warning is written to `stderr` and the default value is used.
 
 **Thread Safety:**
 - All public methods are safe for concurrent read access
@@ -251,22 +255,65 @@ ConfigPathResolver::setAuditLogEnabled(false);
 ConfigPathResolver::setAuditLogMaxEntries(500);
 ```
 
+## Multi-Environment Config Overlay
+
+`ConfigPathResolver` supports dev, staging, and prod path sets via an overlay
+directory mechanism.  When the active environment is `DEV` or `STAGING`, the
+resolver probes an environment-specific overlay directory **before** the
+standard config root:
+
+| Environment | Overlay root | Activated by |
+|---|---|---|
+| `DEV` | `config/dev/` | `THEMIS_CONFIG_ENV=dev` or `setEnvironment(ConfigEnvironment::DEV)` |
+| `STAGING` | `config/staging/` | `THEMIS_CONFIG_ENV=staging` or `setEnvironment(ConfigEnvironment::STAGING)` |
+| `PROD` | *(no overlay)* | default; `THEMIS_CONFIG_ENV=prod` or `setEnvironment(ConfigEnvironment::PROD)` |
+
+**Resolution order** (example: `config/lora_training_config.yaml` in DEV):
+
+1. `config/dev/ai_ml/lora_training_config.yaml` ← overlay (checked first)
+2. `config/ai_ml/lora_training_config.yaml`     ← canonical new path
+3. `config/lora_training_config.yaml`            ← legacy fallback (with deprecation warning)
+
+If the overlay file is absent the resolver falls through to the next path
+without error.  Overlay directories are located under the repository root at
+`config/dev/` and `config/staging/`; each contains a `README.md` with usage
+guidelines.
+
+**Programmatic API:**
+
+```cpp
+#include "config/config_path_resolver.h"
+using namespace themis::config;
+
+// Set active environment (also clears the LRU cache)
+ConfigPathResolver::setEnvironment(ConfigEnvironment::DEV);
+
+// Query active environment
+ConfigEnvironment env = ConfigPathResolver::getEnvironment();
+// env == ConfigEnvironment::DEV
+```
+
+**Cache isolation:** Cache keys include the active environment name
+(`"dev:config/lora_training_config.yaml"`) to prevent cross-environment cache
+poisoning.  `setEnvironment()` clears the cache atomically.
+
 ## Environment Variables
 
 The following environment variables are read **once at process startup** (during static initialization) and cannot be changed at runtime.
 
-| Variable | Default | Valid Range | Description |
+| Variable | Default | Valid Values / Range | Description |
 |---|---|---|---|
 | `THEMIS_CONFIG_CACHE_SIZE` | `1000` | `[10, 100000]` | LRU cache capacity (max number of cached path resolutions) |
 | `THEMIS_CONFIG_CACHE_TTL` | `300` | `[1, 86400]` | LRU cache TTL in seconds (300 = 5 minutes) |
+| `THEMIS_CONFIG_ENV` | `prod` | `dev` \| `staging` \| `prod` (case-insensitive) | Active deployment environment for config overlay resolution |
 
 When a variable is absent, empty, not a valid integer, or outside its valid range, a warning is written to `stderr` and the default value is used. Values outside the valid range are rejected to prevent pathological configurations (e.g., a zero-capacity cache or a TTL longer than one day).
 
 **Example:**
 
 ```bash
-# Large deployment with many config paths
-THEMIS_CONFIG_CACHE_SIZE=5000 THEMIS_CONFIG_CACHE_TTL=60 ./themisdb
+# Large deployment with many config paths, running in dev overlay mode
+THEMIS_CONFIG_CACHE_SIZE=5000 THEMIS_CONFIG_CACHE_TTL=60 THEMIS_CONFIG_ENV=dev ./themisdb
 ```
 
 ```cpp

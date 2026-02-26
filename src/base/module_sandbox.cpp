@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     409                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -191,6 +191,9 @@ struct ModuleSandbox::PlatformHandle {
     pid_t target_pid = 0;
     // rlimits saved for restoration
     struct rlimit saved_mem_limit{};
+    bool mem_limit_applied = false;
+    struct rlimit saved_cpu_limit{};
+    bool cpu_limit_applied = false;
 #endif
 };
 
@@ -237,8 +240,13 @@ void ModuleSandbox::shutdown() {
     }
 #else
     // Remove rlimit overrides by restoring saved limits
-    if (platform_->saved_mem_limit.rlim_cur != RLIM_INFINITY) {
+    if (platform_->mem_limit_applied) {
         setrlimit(RLIMIT_AS, &platform_->saved_mem_limit);
+        platform_->mem_limit_applied = false;
+    }
+    if (platform_->cpu_limit_applied) {
+        setrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
+        platform_->cpu_limit_applied = false;
     }
     // On a real production system, we'd also remove the cgroup.
     // For now, just mark as inactive.
@@ -283,7 +291,9 @@ bool ModuleSandbox::applyMemoryLimit() {
     new_limit.rlim_cur = static_cast<rlim_t>(config_.max_memory_mb) * 1024 * 1024;
     new_limit.rlim_max = new_limit.rlim_cur;
 
-    if (setrlimit(RLIMIT_AS, &new_limit) != 0) {
+    if (setrlimit(RLIMIT_AS, &new_limit) == 0) {
+        platform_->mem_limit_applied = true;
+    } else {
         launch_warnings_.push_back(
             "RLIMIT_AS not supported on this kernel – memory limit not enforced");
     }
@@ -296,7 +306,7 @@ bool ModuleSandbox::applyMemoryLimit() {
 }
 
 bool ModuleSandbox::applyCpuLimit() {
-    if (config_.max_cpu_percent == 0) return true;
+    if (config_.max_cpu_percent == 0 && config_.max_cpu_time_seconds == 0) return true;
 
 #ifdef _WIN32
     if (!platform_->job_object) {
@@ -318,11 +328,27 @@ bool ModuleSandbox::applyCpuLimit() {
     return true;
 
 #elif defined(__linux__)
-    // setrlimit RLIMIT_CPU caps total CPU seconds (coarse).
-    // Real cgroup enforcement is left to the system administrator.
-    launch_warnings_.push_back(
-        "CPU limit (cgroups): configured but requires privileged cgroup v2 setup – "
-        "RLIMIT_CPU used as fallback");
+    // setrlimit RLIMIT_CPU caps total CPU seconds (coarse fallback).
+    // Real cgroup enforcement requires privileged cgroup v2 setup.
+    if (config_.max_cpu_time_seconds > 0) {
+        getrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
+
+        struct rlimit new_limit{};
+        new_limit.rlim_cur = static_cast<rlim_t>(config_.max_cpu_time_seconds);
+        new_limit.rlim_max = new_limit.rlim_cur;
+
+        if (setrlimit(RLIMIT_CPU, &new_limit) == 0) {
+            platform_->cpu_limit_applied = true;
+        } else {
+            launch_warnings_.push_back(
+                "RLIMIT_CPU not applied on this kernel – CPU time limit not enforced");
+        }
+    }
+    if (config_.max_cpu_percent > 0) {
+        launch_warnings_.push_back(
+            "CPU rate limit (cgroups): requires privileged cgroup v2 setup – "
+            "RLIMIT_CPU used as fallback");
+    }
     return true;
 
 #else

@@ -22,6 +22,8 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] SIMD-accelerated aggregations (AVX2)
 - [x] Thread-safe OLAPEngine for concurrent queries
 - [x] CEP full engine (NFA pattern matching, EPL parser, window+aggregation pipeline, alert dispatch, CDC integration) (`analytics/cep_engine.cpp`)
+- [x] CEP: EPL (Event Processing Language) parser: `CREATE RULE … AS`, SELECT aggregations (COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/VARIANCE/PERCENTILE/DISTINCT_COUNT/COLLECT/TOPN with AS alias), GROUP BY, parenthesized WINDOW specs with human-readable time units (ms/s/minutes/hours/days), PATTERN WITHIN with time units, ACTION dispatch (alert/webhook/db_write/log/slack/kafka/email), multi-line EPL normalization (`analytics/cep_engine.cpp`)
+- [x] CEP stateful pattern matching with checkpointing: `PatternMatcher::serializeState()`/`restoreState()`, `RuleEngine::serializeMatcherStates()`/`restoreMatcherStates()`, full NFA partial-match persistence across restarts (`analytics/cep_engine.cpp`)
 - [x] Streaming aggregation windows: TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow with watermark support (`analytics/streaming_window.cpp`)
 - [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
 - [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
@@ -39,7 +41,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Short-term (Next 3-6 months)
 - [P] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
 - [P] Zero-copy Arrow data transfer optimizations (Issue: #1471)
-- [I] Arrow Flight RPC support for remote analytics (Issue: #1472)
+- [P] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
 - [x] Predictive analytics and time-series forecasting (Issue: #1473)
@@ -47,8 +49,8 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [x] Model serving and online inference pipeline (Issue: #1477)
-- [I] Multi-language NLP support (beyond English) (Issue: #1478)
-- [I] Full morphological lemmatization (Issue: #1479)
+- [x] Multi-language NLP support (beyond English) (Issue: #1478)
+- [x] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 
@@ -74,7 +76,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: In Progress 🚧)
 - [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
-- [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
+- [x] LLVM-JIT compilation for hot aggregation paths (`analytics/jit_aggregation.cpp`): hot-path detection and template-specialised aggregation dispatch; LLVM MCJIT backend reserved behind `THEMIS_HAS_LLVM_JIT` compile flag (Issue: #1482)
 - [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [x] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [x] AutoML integration for automated model selection
@@ -84,7 +86,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)
 - [I] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run) (Issue: #2135)
 - [x] Integration tests (query module, index module, CDC)
-- [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`)
+- [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`) — including stateful checkpoint lifecycle (`StatefulCheckpointPreservesPartialMatches`, `CheckpointWithNoPartialMatchesIsClean`)
 - [x] Forecasting unit tests (`tests/analytics/test_forecasting.cpp`) — TimeSeries, all five algorithms, fit/predict/evaluate/decompose, serialize/deserialize, edge cases
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
 - [x] Security audit (LLM API key handling, data export sanitization)
@@ -95,7 +97,6 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
 - LLM analyzer requires external API keys; responses are non-deterministic
 - Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
-- Basic lemmatization only; full morphological analysis not yet supported
 - Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
 
 ## Breaking Changes

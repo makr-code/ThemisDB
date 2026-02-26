@@ -90,6 +90,7 @@ public:
         bool check_expiry{true};        ///< Reject keys whose expiry has passed
         size_t max_key_id_length{128};  ///< Maximum allowed key_id length
         size_t max_secret_length{512};  ///< Maximum allowed secret length
+        static ApiKeyConfig defaults() { return {}; }
     };
 
     /// Constructor (must be defined in .cpp due to unique_ptr<JWTValidator>)
@@ -115,7 +116,7 @@ public:
     /// Tokens should be presented in the format "<key_id>.<secret>".
     /// Use addApiKeyCredential() to register key credentials.
     /// @param config API key authenticator configuration
-    void enableApiKeyAuth(const ApiKeyConfig& config = ApiKeyConfig{});
+    void enableApiKeyAuth(const ApiKeyConfig& config = ApiKeyConfig::defaults());
 
     /// Add an API key credential to the store.
     /// Use auth::ApiKeyAuthenticator::createCredential() to construct the credential.

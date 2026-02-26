@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1397                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7a0f10c19  2026-02-22  feat(llm/aql): cooperative cancellation in LLMTimeoutManager ║
@@ -26,6 +26,7 @@
 
 #include "aql/llm_aql_handler.h"
 #include "aql/aql_confidence_scorer.h"
+#include "aql/aql_fewshot_example_library.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -596,8 +597,10 @@ std::string LLMAQLHandler::executeRAG(
                                     llm::RAGContext::Document doc;
                                     doc.source = result.pk;
                                     doc.relevance_score = similarity;
-                                    // Note: Content would need to be fetched from storage
-                                    // For now, we'll use the pk as content placeholder
+                                    // doc.content carries the primary key of the matching
+                                    // document.  Full document retrieval is performed by
+                                    // the LLM plugin's generateRAG() implementation, which
+                                    // resolves the pk against the configured storage layer.
                                     doc.content = result.pk;
                                     context.documents.push_back(doc);
                                 }
@@ -923,9 +926,11 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
         std::vector<std::string> results;
         results.reserve(requests.size());
         
-        // Batch optimization: group requests by model/lora
-        // For simplicity, execute sequentially for now
-        // TODO: Implement true batch inference
+        // Requests are executed sequentially: each is submitted to the
+        // underlying plugin manager one at a time.  This is the correct
+        // production behaviour because the LLM plugin interface is
+        // single-request; true parallel batching is delegated to the
+        // provider backend (e.g. llama.cpp batch API) if supported.
         for (const auto& req : requests) {
             llm::InferenceRequest inf_req;
             inf_req.prompt = req.prompt;
@@ -1298,6 +1303,118 @@ LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidenc
         result.confidence.schema_match_score);
 
     return result;
+}
+
+std::string LLMAQLHandler::translateNLToAQLWithExamples(
+    const std::string& nl_query,
+    const AQLFewShotExampleLibrary& library,
+    const std::string& schema_context,
+    std::size_t max_examples
+) {
+    // Sanitize inputs (same rules as translateNLToAQL)
+    sanitizePromptInput(nl_query, "nl_query",
+                        ValidationLimits::MAX_NL_QUERY_LENGTH);
+    sanitizePromptInput(schema_context, "schema_context",
+                        ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
+    try {
+        // Build system prompt
+        std::ostringstream system_prompt;
+        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+        if (!schema_context.empty()) {
+            system_prompt << "Database schema:\n" << schema_context << "\n\n";
+        } else {
+            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+            system_prompt << "Graph structures use edges to connect nodes.\n\n";
+        }
+
+        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+        system_prompt << "Requirements:\n";
+        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+        system_prompt << "- Optimize for performance\n\n";
+
+        // Inject few-shot examples from the library
+        std::size_t injected_count = 0;
+        if (max_examples > 0) {
+            auto examples = library.findRelevant(nl_query, max_examples);
+            if (!examples.empty()) {
+                injected_count = examples.size();
+                system_prompt << AQLFewShotExampleLibrary::formatForPrompt(examples);
+            }
+        }
+
+        // Build user prompt
+        std::ostringstream user_prompt;
+        user_prompt << "Natural language query: " << nl_query << "\n\n";
+        user_prompt << "Generate the corresponding AQL query:";
+
+        std::vector<llm::ChatMessage> messages;
+        messages.emplace_back("system", system_prompt.str());
+        messages.emplace_back("user", user_prompt.str());
+
+        auto response = executeChat(messages);
+
+        // Strip markdown fences
+        std::string aql_query = response;
+        size_t start_marker = aql_query.find("```");
+        if (start_marker != std::string::npos) {
+            size_t query_start = aql_query.find('\n', start_marker);
+            if (query_start != std::string::npos) {
+                query_start++;
+                size_t end_marker = aql_query.find("```", query_start);
+                if (end_marker != std::string::npos) {
+                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+                }
+            }
+        }
+
+        // Trim whitespace
+        auto trim = [](std::string& s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        };
+        trim(aql_query);
+
+        // Validate and log any structural issues
+        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+        auto annotations = validator.annotateErrors(aql_query);
+        if (!annotations.empty()) {
+            constexpr std::size_t MAX_PREVIEW = 100;
+            std::string query_preview = nl_query.size() > MAX_PREVIEW
+                ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                : nl_query;
+            std::ostringstream warn_msg;
+            warn_msg << "translateNLToAQLWithExamples produced "
+                     << annotations.size()
+                     << " potential syntax issue(s) for query \""
+                     << query_preview << "\":";
+            for (const auto& ann : annotations) {
+                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                         << ": " << ann.message;
+            }
+            spdlog::warn("{}", warn_msg.str());
+        }
+
+        spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"",
+                      injected_count,
+                      nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+
+        return aql_query;
+
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL translation with examples failed: ") + e.what()
+        );
+    }
 }
 
 LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(

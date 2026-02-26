@@ -115,6 +115,12 @@ public:
 
     /// P3: Get total Parquet bytes written
     size_t getParquetBytesWritten() const;
+
+    /// Streaming: Record a checkpoint event (resume events for Prometheus/Grafana)
+    void recordCheckpoint();
+
+    /// Streaming: Get total checkpoint events
+    size_t getCheckpointCount() const;
     
     /// Export metrics as JSON
     nlohmann::json toJson() const;
@@ -165,6 +171,9 @@ private:
 
     // P3: Parquet export bytes (exporter_parquet_bytes_written_total)
     std::atomic<size_t> parquet_bytes_written_{0};
+
+    // Streaming: checkpoint events
+    std::atomic<size_t> checkpoint_count_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

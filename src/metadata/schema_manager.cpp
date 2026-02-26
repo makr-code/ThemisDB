@@ -32,6 +32,7 @@
 #include "index/secondary_index_metadata_cache.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cmath>
 #include <set>
 
 namespace themis {
@@ -285,6 +286,75 @@ void SchemaManager::setChangefeed(Changefeed* changefeed) {
     } else {
         spdlog::debug("SchemaManager: Changefeed deregistered");
     }
+}
+
+void SchemaManager::recordMutation(std::string_view table_name) {
+    std::lock_guard<std::mutex> lock(mutation_mutex_);
+    auto now = std::chrono::system_clock::now();
+    auto& log = mutation_log_[std::string(table_name)];
+    log.push_back(now);
+
+    // Prune timestamps that have fallen outside the measurement window
+    auto cutoff = now - adaptive_ttl_config_.window;
+    while (!log.empty() && log.front() < cutoff) {
+        log.pop_front();
+    }
+
+    spdlog::debug("SchemaManager: Mutation recorded for table '{}' (window count: {})",
+                  table_name, log.size());
+}
+
+void SchemaManager::enableAdaptiveTTL(AdaptiveTTLConfig config) {
+    std::lock_guard<std::mutex> lock(mutation_mutex_);
+    adaptive_ttl_config_ = config;
+    mutation_log_.clear();
+    adaptive_ttl_enabled_ = true;
+    spdlog::info("SchemaManager: Adaptive TTL enabled (min={}s, max={}s, window={}s, scale={})",
+                 config.min_ttl.count(), config.max_ttl.count(),
+                 config.window.count(), config.scale_factor);
+}
+
+void SchemaManager::disableAdaptiveTTL() {
+    std::lock_guard<std::mutex> lock(mutation_mutex_);
+    adaptive_ttl_enabled_ = false;
+    spdlog::info("SchemaManager: Adaptive TTL disabled; using fixed TTL of {}s",
+                 cache_ttl_.count());
+}
+
+std::chrono::seconds SchemaManager::getEffectiveTTL() const {
+    if (!adaptive_ttl_enabled_) {
+        return cache_ttl_;
+    }
+    std::lock_guard<std::mutex> lock(mutation_mutex_);
+    return computeAdaptiveTTL();
+}
+
+std::chrono::seconds SchemaManager::computeAdaptiveTTL() const {
+    // Caller must hold mutation_mutex_
+    auto now = std::chrono::system_clock::now();
+    auto window_secs = static_cast<double>(adaptive_ttl_config_.window.count());
+    auto cutoff = now - adaptive_ttl_config_.window;
+
+    double max_rate = 0.0;
+    for (auto& [table, log] : mutation_log_) {
+        // Prune stale entries so subsequent calls and .size() are accurate
+        while (!log.empty() && log.front() < cutoff) {
+            log.pop_front();
+        }
+        double rate = (window_secs > 0.0) ? static_cast<double>(log.size()) / window_secs : 0.0;
+        if (rate > max_rate) max_rate = rate;
+    }
+
+    // effective_ttl = base_ttl / (1 + scale * max_rate), clamped to [min_ttl, max_ttl]
+    double base = static_cast<double>(cache_ttl_.count());
+    double effective = base / (1.0 + adaptive_ttl_config_.scale_factor * max_rate);
+    double min_s = static_cast<double>(adaptive_ttl_config_.min_ttl.count());
+    double max_s = static_cast<double>(adaptive_ttl_config_.max_ttl.count());
+    int64_t clamped = static_cast<int64_t>(std::round(std::max(min_s, std::min(max_s, effective))));
+
+    spdlog::debug("SchemaManager: Adaptive TTL computed: {}s (max_rate={:.4f} mut/s)",
+                  clamped, max_rate);
+    return std::chrono::seconds(clamped);
 }
 
 void SchemaManager::notifySchemaChange(std::string_view table_name, std::string_view event_kind) {
@@ -689,6 +759,11 @@ bool SchemaManager::isCacheValid() const {
     auto now = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_refresh_);
     
+    if (adaptive_ttl_enabled_) {
+        std::lock_guard<std::mutex> lock(mutation_mutex_);
+        return elapsed < computeAdaptiveTTL();
+    }
+
     return elapsed < cache_ttl_;
 }
 

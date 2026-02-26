@@ -45,20 +45,29 @@ if(BUILD_POSTGRESQL_ADAPTER)
     find_package(libpqxx CONFIG)
     
     if(PostgreSQL_FOUND AND libpqxx_FOUND)
-        message(STATUS "PostgreSQL adapter: enabled")
+        message(STATUS "PostgreSQL adapter: enabled with libpqxx")
         message(STATUS "  PostgreSQL version: ${PostgreSQL_VERSION}")
-        
-        # Note: Actual implementation would be added here
-        # add_library(chimera_postgresql_adapter postgresql_adapter.cpp)
-        # target_link_libraries(chimera_postgresql_adapter 
-        #     PUBLIC chimera_interface
-        #     PRIVATE libpqxx::pqxx PostgreSQL::PostgreSQL
-        # )
-        
-        message(STATUS "PostgreSQL adapter: header-only template provided")
-        message(STATUS "  Implementation requires creating postgresql_adapter.cpp")
+        add_library(chimera_postgresql_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/postgresql_adapter.cpp
+        )
+        target_include_directories(chimera_postgresql_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_postgresql_adapter
+            PUBLIC chimera_interface
+            PRIVATE libpqxx::pqxx PostgreSQL::PostgreSQL
+        )
     else()
-        message(WARNING "PostgreSQL or libpqxx not found, adapter disabled")
+        message(WARNING "libpqxx not found; PostgreSQL adapter built in simulation mode (no live server required)")
+        add_library(chimera_postgresql_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/postgresql_adapter.cpp
+        )
+        target_include_directories(chimera_postgresql_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_postgresql_adapter
+            PUBLIC chimera_interface
+        )
     endif()
 endif()
 
@@ -146,6 +155,7 @@ install(
         ${CMAKE_SOURCE_DIR}/include/chimera/database_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/themisdb_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/mongodb_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/postgresql_adapter.hpp
     DESTINATION include/chimera
 )
 

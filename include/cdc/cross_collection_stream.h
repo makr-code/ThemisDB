@@ -104,6 +104,8 @@ public:
          * filter (all registered collections are queried).
          */
         std::set<std::string> collections;
+
+        static StreamOptions defaults() { return {}; }
     };
 
     CrossCollectionStream() = default;
@@ -167,7 +169,7 @@ public:
      * @return Merged, ordered list of aggregated change events.
      */
     std::vector<AggregatedEvent> listEvents(
-        const StreamOptions& options = StreamOptions{}) const;
+        const StreamOptions& options = StreamOptions::defaults()) const;
 
     /**
      * @brief Convenience overload: list events across a collection subset.

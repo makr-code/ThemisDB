@@ -169,6 +169,8 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/signed_plugin_repository.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
@@ -259,6 +261,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cdc/dead_letter_queue.cpp
     ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/cross_collection_stream.cpp
+    ../src/cdc/cdc_materialized_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
 
@@ -294,6 +297,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/lora_functions.cpp
     ../src/query/functions/process_mining_functions.cpp
+    ../src/query/functions/udf_registry.cpp
     
     # Analytics
     ../src/analytics/olap.cpp
@@ -311,6 +315,9 @@ set(THEMIS_QUERY_SOURCES
     # Model Serving and Online Inference Pipeline (Issue #1477)
     ../src/analytics/model_serving.cpp
     ../src/analytics/distributed_analytics.cpp
+
+    # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_flight.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
@@ -335,6 +342,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
+    ../src/exporters/parquet_exporter.cpp
+    ../src/exporters/streaming_exporter.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 
@@ -409,6 +418,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
+    ../src/governance/cross_tenant_policy_inheritance.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp
@@ -730,6 +740,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/health_error_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/error_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/serverless_function_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/udf_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/async_job_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/branch_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/merge_api_handler.cpp>

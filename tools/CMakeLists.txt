@@ -109,8 +109,13 @@ endif()
 # Config Migration Scanner
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config_migration_scanner.cpp")
-    message(STATUS "Adding config_migration_scanner tool")
+# This block runs only when building tools standalone (i.e. directly via
+# cmake -S tools/ ...) rather than as a subdirectory of the main project.
+# When included from cmake/CMakeLists.txt, the config_migration_scanner target
+# is already defined there (linking against themis_core), so the guard
+# prevents a duplicate-target CMake error.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config_migration_scanner.cpp" AND NOT TARGET config_migration_scanner)
+    message(STATUS "Adding config_migration_scanner tool (standalone build)")
 
     project(ThemisTools LANGUAGES CXX)
 
@@ -118,6 +123,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config_migration_scanner.cpp")
         config_migration_scanner.cpp
         ../src/config/config_path_resolver.cpp
         ../src/config/config_metrics_exporter.cpp
+        ../src/config/config_audit_log.cpp
     )
 
     target_compile_features(config_migration_scanner PRIVATE cxx_std_20)

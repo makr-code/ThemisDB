@@ -17,6 +17,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 - `content_manager.cpp` — orchestrates ingestion pipeline
 - `content_type.cpp` — MIME detection and type classification
 - `text_processor.cpp` — text extraction
+- `html_processor.cpp` — HTML text extraction with boilerplate removal
 - `image_processor.cpp` — image metadata
 - `pipeline/` — processing stage pipeline
 

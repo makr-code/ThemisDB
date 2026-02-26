@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, and GPU profiling integration (NVIDIA Nsight / ROCm Profiler) are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), and GPU-accelerated ANN (vector similarity) via cuVS/RAFT are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -31,11 +31,11 @@
 - [x] GPU memory defragmentation routine (`gpu/memory_pool.cpp`)
 - [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
 - [x] GPU profiling integration with NVIDIA Nsight (NVTX markers) and ROCm Profiler (rocTX markers) (`gpu/profiler.cpp`)
+- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT — infrastructure with CPU brute-force fallback and cuVS/RAFT stub (`gpu/query_accelerator.cpp`, Issue: #2381)
 
 ## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
-## In Progress 🚧
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
@@ -48,9 +48,15 @@
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [!] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
-- [I] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
-- [I] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
+- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+  - Implementation: `include/themis/gpu/unified_memory.h`, `src/gpu/unified_memory.cpp`
+  - Interfaces: `GPUUnifiedMemoryAllocator::{allocate, free, prefetch, advise, isSupported, getStats, getTenantBytes, reset}` + `MemAdvice` enum
+  - Tests: `tests/test_gpu_unified_memory.cpp` (24 tests, 100% public-API coverage)
+- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+  - Implementation: `include/themis/gpu/time_slice_scheduler.h`, `src/gpu/time_slice_scheduler.cpp`
+  - Interfaces: `GPUTimeSliceScheduler::{registerTenant, unregisterTenant, hasTenant, submit, dispatch, drainAll, allQueuesEmpty, getTenantStats, getAllTenantStats, getStats, resetStats}` + `TenantConfig`, `TenantStats`, `Stats`
+  - Tests: `tests/test_gpu_time_slice_scheduler.cpp`
 - [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
@@ -84,7 +90,7 @@
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
-- [ ] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
+- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1805)

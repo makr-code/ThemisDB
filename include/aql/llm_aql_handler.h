@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -27,17 +27,32 @@
 
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
+#include "aql/aql_fewshot_example_library.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
+#include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 #include <functional>
 
 namespace themis {
 namespace aql {
+
+/**
+ * @brief Frozen API contract version for the LLM AQL handler.
+ *
+ * Increment this constant (and bump the major digit) only when a
+ * **breaking** change is made to the public interface of LLMAQLHandler,
+ * AQLConversationSession, or any of their nested types.  Additive changes
+ * (new methods, new optional struct fields) do NOT require a bump.
+ *
+ * Current version: 1.0 → encoded as 100 (major * 100 + minor).
+ */
+inline constexpr uint32_t LLM_AQL_HANDLER_API_VERSION = 100; // v1.0
 
 /**
  * @brief Represents a single turn in a multi-turn AQL conversation
@@ -244,6 +259,31 @@ public:
     AQLTranslationResult translateNLToAQLWithConfidence(
         const std::string& nl_query,
         const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Translate natural language query to AQL using a few-shot example library.
+     *
+     * Selects up to @p max_examples from @p library that are most relevant to
+     * @p nl_query and injects them into the LLM prompt as demonstration pairs.
+     * This improves translation accuracy, especially for uncommon query patterns.
+     *
+     * Inputs are sanitized identically to translateNLToAQL().
+     *
+     * @param nl_query        Natural-language query.
+     * @param library         AQL few-shot example library to draw examples from.
+     * @param schema_context  Optional database schema context.
+     * @param max_examples    Maximum number of examples to inject (default: 3).
+     * @return Generated AQL query as string.
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns.
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit.
+     * @throws std::runtime_error if translation fails.
+     */
+    std::string translateNLToAQLWithExamples(
+        const std::string& nl_query,
+        const AQLFewShotExampleLibrary& library,
+        const std::string& schema_context = "",
+        std::size_t max_examples = 3
     );
 
     // Batch NL-to-AQL Translation for offline workloads

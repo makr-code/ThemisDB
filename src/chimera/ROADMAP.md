@@ -17,15 +17,15 @@
 - [x] Result type conversions and error handling
 
 ## In Progress 🚧
-- [I] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
+- [P] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
 - [P] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
-- [I] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
+- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
-- [I] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
+- [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
+- [P] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
 - [!] Weaviate adapter (native vector database) (Issue: #2374)
 - [I] Qdrant adapter (native vector database) (Issue: #1646)
 - [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
@@ -53,9 +53,9 @@
 - [x] Result type conversions and error handling
 
 ### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
-- [I] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026) (Issue: #1656)
+- [P] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026) (Issue: #1656)
 - [P] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026) (Issue: #1657)
-- [ ] Benchmark result normalization and scoring framework (Target: Q3 2026)
+- [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
 - [ ] Weaviate adapter (native vector database)
@@ -66,17 +66,17 @@
 - [ ] Neo4j adapter (native graph database)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1651)
-- [x] Integration tests (adapter factory, ThemisDB adapter)
-- [I] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
-- [I] Security audit (connection credential handling) (Issue: #1653)
+- [P] Unit tests coverage > 80% (Issue: #1651)
+- [x] Integration tests (adapter factory, ThemisDB adapter, MongoDB adapter, PostgreSQL adapter)
+- [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
+- [P] Security audit (connection credential handling) (Issue: #1653)
 - [I] Documentation complete (Issue: #1654)
-- [I] API stability guaranteed (Issue: #1655)
+- [x] API stability guaranteed
 
 ## Known Issues & Limitations
-- Only the ThemisDB reference adapter is currently implemented
+- PostgreSQL and MongoDB vendor adapters are implemented in simulation mode (no live server required for tests); production use requires linking libpqxx / mongocxx
 - Benchmark harness test suites are in a separate module and not yet integrated
-- No vendor adapters for external databases yet
+- Weaviate, Qdrant, Neo4j adapters are not yet implemented
 
 ## Breaking Changes
 - Adapter interface is stable; new capability methods will be added with default no-op implementations (backward-compatible)

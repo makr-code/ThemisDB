@@ -16,6 +16,7 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 
 - `policy_engine.cpp` — core policy evaluation engine
 - `policy_manager.cpp` — policy lifecycle management (load, validate, activate)
+- `cross_tenant_policy_inheritance.cpp` — cross-tenant governance policy inheritance
 - `compliance_reporter.cpp` — GDPR/HIPAA/CCPA compliance reporting
 - `compliance_reporting.cpp` — report generation engine (JSON, CSV, HTML)
 - `data_lineage.cpp` — data lineage tracking for governed datasets
@@ -43,6 +44,7 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 - Data classification and labeling
 - CCPA/CPRA data subject rights enforcement
 - Policy hot-reload without service restart
+- Cross-tenant governance policy inheritance with most-restrictive-wins merge semantics
 
 ## Documentation
 

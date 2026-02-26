@@ -22,14 +22,14 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Per-document quarantine retry with exponential back-off (Issue: #1916)
 - [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Issue: #1917)
 - [x] PDF and DOCX binary format ingestion via external converters (Issue: #1889)
+- [x] OAuth 2.0 token refresh handling within connectors (Issue: #2408)
 
 ## In Progress 🚧
-- [!] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2408)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Kafka consumer source connector (Issue: #1892)
+- [P] Kafka consumer source connector (Issue: #1892)
 - [I] S3/GCS/Azure Blob object-storage source (Issue: #1893)
 - [I] JDBC-compatible database source (Issue: #1894)
 - [I] Web crawler / sitemap ingestion source (Issue: #1895)
@@ -60,11 +60,11 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [P] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
 - [x] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
 - [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026) (Issue: #1917)
-- [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
+- [x] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2408)
 - [x] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
-- [I] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
+- [P] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
 - [I] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [ ] Change-data-capture (CDC) source for live database streams
@@ -80,7 +80,6 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ## Known Issues & Limitations
 - PDF/DOCX require external converters; not handled natively.
-- OAuth token refresh must be handled by callers; connectors use static tokens.
 - libcurl HTTP calls in `HuggingFaceConnector` are stubbed; replace with `curl_easy_perform` in a follow-up PR.
 - `GenericApiConnector` now uses real `curl_easy_perform` calls (PR #1915).
 

@@ -20,6 +20,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         
         # Generic REST API connector
         ../src/ingestion/api_connector.cpp
+
+        # Kafka consumer source connector
+        ../src/ingestion/kafka_connector.cpp
         
         # =====================================================================
         # Training Framework

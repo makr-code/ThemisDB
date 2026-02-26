@@ -95,15 +95,17 @@ public:
         
         // Histogram buckets for latency (in milliseconds)
         std::vector<double> latency_buckets = {1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500};
+
+        static Config defaults() { return {}; }
     };
     
 #ifdef THEMIS_HAS_PROMETHEUS
     AuthMetrics();
     explicit AuthMetrics(const Config& config);
     explicit AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
-                        const Config& config = Config());
+                        const Config& config = Config::defaults());
 #else
-    explicit AuthMetrics(const Config& config = Config());
+    explicit AuthMetrics(const Config& config = Config::defaults());
 #endif
     
     ~AuthMetrics() = default;

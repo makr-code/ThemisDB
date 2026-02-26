@@ -497,9 +497,50 @@ TEST(IncrementalViewTest, BatchApplyChanges) {
     EXPECT_EQ(view.groupCount(), 2);
 }
 
-// ============================================================================
-// IncrementalViewManager
-// ============================================================================
+TEST(IncrementalViewTest, BatchDeleteRemovesEmptyGroups) {
+    // Verify that applyChanges correctly removes groups after all rows are deleted,
+    // consistent with the single applyChange path.
+    IncrementalView view(sales_view());
+    view.applyChange(insert_rec("sales", {{"region", std::string("EU")}, {"amount", 50.0}}));
+    view.applyChange(insert_rec("sales", {{"region", std::string("US")}, {"amount", 75.0}}));
+    EXPECT_EQ(view.groupCount(), 2);
+
+    // Delete both rows in a single batch
+    std::vector<ChangeRecord> deletes = {
+        delete_rec("sales", {{"region", std::string("EU")}, {"amount", 50.0}}),
+        delete_rec("sales", {{"region", std::string("US")}, {"amount", 75.0}}),
+    };
+    int applied = view.applyChanges(deletes);
+    EXPECT_EQ(applied, 2);
+    EXPECT_EQ(view.groupCount(), 0); // Groups should be removed
+}
+
+TEST(IncrementalViewTest, BatchUpdateRemovesOldGroup) {
+    // Verify that applyChanges UPDATE correctly removes the old group when
+    // all rows in it are moved to a different group.
+    IncrementalView view(sales_view());
+    view.applyChange(insert_rec("sales", {{"region", std::string("EU")}, {"amount", 100.0}}));
+    EXPECT_EQ(view.groupCount(), 1);
+
+    // Batch UPDATE: move EU → US
+    std::vector<ChangeRecord> updates = {
+        update_rec("sales",
+            {{"region", std::string("EU")}, {"amount", 100.0}},
+            {{"region", std::string("US")}, {"amount", 100.0}}),
+    };
+    int applied = view.applyChanges(updates);
+    EXPECT_EQ(applied, 1);
+    EXPECT_EQ(view.groupCount(), 1); // Old EU group removed, new US group created
+    auto r = view.query();
+    // EU group must be completely absent from results (not just zero)
+    bool eu_found = false;
+    for (const auto& row : r.rows) {
+        auto it = row.group_key.find("region");
+        if (it != row.group_key.end() && it->second == "EU") { eu_found = true; break; }
+    }
+    EXPECT_FALSE(eu_found); // EU group should not exist at all
+    EXPECT_DOUBLE_EQ(getDouble(r, "US", "total"), 100.0);
+}
 
 TEST(IncrementalViewManagerTest, CreateAndListViews) {
     IncrementalViewManager mgr;

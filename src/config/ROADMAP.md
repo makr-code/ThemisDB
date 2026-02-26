@@ -18,6 +18,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 - [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
 - [x] Config audit trail: log which paths were accessed and when — `ConfigAuditLog` with bounded in-memory ring-buffer, `setAuditLogEnabled()` / `auditLog()` / `clearAuditLog()` API (Issue: #1668)
+- [x] Automatic legacy path migration script with dry-run mode — `config_migration_scanner` CLI (`--root`, `--output text|json|csv`, `--dry-run`, `--fix`); unit-tested via `tests/test_config_migration_scanner.cpp` (Issue: #1661)
 
 ## In Progress 🚧
 - [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
@@ -25,8 +26,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Automatic legacy path migration script with dry-run mode (Issue: #1661)
-- [I] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
+- [x] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
 - [P] Metrics export to Prometheus endpoint (Issue: #1663)
 - [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
 
@@ -74,8 +74,8 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
 - Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
 - Secrets management and credential injection are explicitly out of scope
-- Migration tooling is not yet implemented; teams must manually rename config files (use `config_migration_scanner --fix`)
-- Multi-environment config overlay is planned (Issue: #1673)
+- Migration scanner available: `config_migration_scanner --fix` rewrites legacy path strings in config files in-place (creates `.bak` backups).
+- Renaming the actual config files on disk is tracked separately (Issue: #1658).
 
 ## Breaking Changes
 - Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires

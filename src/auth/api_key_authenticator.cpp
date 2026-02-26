@@ -182,7 +182,7 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
     }
 
     if (!constantTimeEqual(presented_hash, cred.secret_hash)) {
-        spdlog::warn("ApiKeyAuthenticator: secret mismatch for key_id='{}'", key_id);
+        spdlog::warn("ApiKeyAuthenticator: secret mismatch for key_id='{}'", key_id); // NOPII: key_id is the public key identifier; "secret" here names the credential type, not a secret value
         if (audit_logger_) {
             AuthAuditLogger al(audit_logger_);
             al.logApiKeyFailure(key_id, "secret_mismatch");

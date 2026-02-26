@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nlp_text_analyzer.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:14                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 12:33:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     414                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     438                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -308,6 +308,22 @@ public:
     std::string stemWord(std::string_view word, Language lang = Language::ENGLISH) const;
 
     /**
+     * @brief Lemmatize a word to its canonical dictionary form (full morphological lemmatization)
+     *
+     * Applies language-specific morphological rules and irregular-form lookup tables to
+     * return the base (dictionary) form of a word for the given language.  Unlike
+     * stemWord(), the result is always a valid word in the target language.
+     *
+     * Supported languages: ENGLISH, GERMAN, FRENCH, SPANISH, ITALIAN, DUTCH.
+     * Falls back to lowercased input for UNKNOWN.
+     *
+     * @param word   Input word (case-insensitive)
+     * @param lang   Target language (default: ENGLISH)
+     * @return       Canonical lemma of the word
+     */
+    std::string lemmatizeWord(std::string_view word, Language lang = Language::ENGLISH) const;
+
+    /**
      * @brief Calculate similarity between two texts
      * @param text1 First text
      * @param text2 Second text
@@ -362,6 +378,9 @@ private:
     };
     mutable std::vector<LegalModalityPattern> legal_modality_patterns_;
 
+    // Morphological lemmatization: per-language irregular-form maps (inflected -> lemma)
+    std::unordered_map<Language, std::unordered_map<std::string, std::string>> irregular_lemmas_;
+
     // Statistics
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
@@ -390,6 +409,11 @@ private:
     bool containsSubquery(std::string_view query) const;
     std::vector<std::string> extractTableNames(std::string_view query) const;
     
+    // Morphological lemmatization helpers
+    void initializeLemmatizationData();
+    std::string applyMorphologicalRules(const std::string& lower,
+                                        Language lang) const;
+
     // Legal modality helpers
     bool loadLegalModalityConfig(const std::string& config_path) const;
     std::string getDefaultLegalConfigPath(const std::string& language_code) const;

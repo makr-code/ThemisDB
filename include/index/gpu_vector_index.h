@@ -84,7 +84,7 @@ public:
         // GPU-specific options
         int deviceId = 0;              // GPU device ID (0 = default)
         bool enableValidation = false; // Enable GPU validation layers (debug)
-        size_t maxVRAM_MB = 0;         // Max VRAM usage in MB (0 = auto, not yet implemented)
+        size_t maxVRAM_MB = 0;         // Max VRAM usage in MB (0 = no limit); enforced via GPUMemoryManager
         uint32_t workgroupSize = 256;  // Compute workgroup size (not yet implemented)
         
         // Memory optimization

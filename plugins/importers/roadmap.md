@@ -9,7 +9,9 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 | Importer | Implementation | Status |
 |----------|---------------|--------|
 | PostgreSQL | `src/importers/postgres_importer.cpp` | ✅ Production |
-| MongoDB | `plugins/importers/mongo/` | 🔧 TODO: verify status |
+| MySQL / MariaDB | `src/importers/mysql_importer.cpp` | ✅ Production |
+| MongoDB | `src/importers/mongo_importer.cpp` | ✅ Production |
+| SQLite | `src/importers/sqlite_importer.cpp` | ✅ Production |
 
 ---
 
@@ -21,8 +23,8 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 ## Mid-term Goals (1–3 months)
 
-- [ ] **MySQL / MariaDB importer** – common alternative to PostgreSQL.
-- [ ] **SQLite importer** – portable single-file database import.
+- [P] **MySQL / MariaDB importer** – common alternative to PostgreSQL. *(PR open)*
+- [P] **SQLite importer** – portable single-file database import. *(PR open)*
 - [ ] **CSV / TSV importer** – bulk-load flat files into ThemisDB collections.
 - [ ] Incremental import mode: import only rows added/changed since last import timestamp.
 - [ ] Schema auto-detection: infer ThemisDB collection schema from source table structure.
@@ -38,9 +40,10 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| MySQL importer MVP | TODO | 🔲 Planned |
-| CSV importer | TODO | 🔲 Planned |
-| CDC / real-time ingestion | TODO | 🔲 Planned |
+| MySQL importer MVP | Q2 2026 | ✅ Done |
+| SQLite importer MVP | Q2 2026 | ✅ Done |
+| CSV importer | Q3 2026 | 🔲 Planned |
+| CDC / real-time ingestion | 2026 | 🔲 Planned |
 
 ## Dependencies
 

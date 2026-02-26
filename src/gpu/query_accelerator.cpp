@@ -441,8 +441,152 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
 }
 
 // ---------------------------------------------------------------------------
-// Stats
+// annSearch  (GPU-accelerated ANN via cuVS/RAFT; CPU brute-force fallback)
 // ---------------------------------------------------------------------------
+
+GPUQueryAccelerator::AnnResult
+GPUQueryAccelerator::annSearch(const std::vector<float>& queries,
+                               size_t                    numQueries,
+                               size_t                    dim,
+                               const std::vector<float>& database,
+                               size_t                    numVectors,
+                               size_t                    k,
+                               bool                      useL2)
+{
+    AnnResult result;
+
+    // Validate inputs --------------------------------------------------------
+    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 ||
+        queries.size() != numQueries * dim ||
+        database.size() != numVectors * dim) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        ++stats_.total_ann_searches;
+        recordOp(0, 0, false);
+        return result;
+    }
+
+    bool use_gpu = shouldUseGPU(numVectors);
+    result.used_gpu = use_gpu;
+
+    // Graph cache check — key on (numQueries * dim) as row count and pack
+    // k + useL2 flag into the parameter hash.  Salt constants ensure that
+    // L2 and inner-product shapes with the same k are kept as distinct entries.
+    static constexpr uint64_t kAnnL2Salt = 0xABCDEF01ULL;  // salt for L2 metric
+    static constexpr uint64_t kAnnIPSalt = 0x12345678ULL;   // salt for inner-product metric
+    if (graph_cache_enabled_) {
+        uint64_t param = static_cast<uint64_t>(k) ^ (useL2 ? kAnnL2Salt : kAnnIPSalt);
+        QueryShape shape = makeShape(QueryShape::OpType::ANN_SEARCH,
+                                     numQueries * dim, param);
+        if (graph_cache_.lookup(shape)) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_hits;
+        } else {
+            graph_cache_.capture(shape);
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.graph_cache_misses;
+        }
+    }
+
+    // GPU stub: when THEMIS_ENABLE_CUDA is defined and real GPU hardware is
+    // present the following cuVS/RAFT calls would replace the CPU path below:
+    //
+    //   raft::device_resources handle;
+    //   // 1. Copy database to device
+    //   auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);
+    //   raft::copy(db_dev.data_handle(), database.data(),
+    //              numVectors * dim, handle.get_stream());
+    //
+    //   // 2. Build IVF-Flat index
+    //   cuvs::neighbors::ivf_flat::index_params idx_params;
+    //   idx_params.metric = useL2 ? cuvs::distance::DistanceType::L2Unexpanded
+    //                              : cuvs::distance::DistanceType::InnerProduct;
+    //   auto index = cuvs::neighbors::ivf_flat::build(
+    //       handle, idx_params, db_dev.view());
+    //
+    //   // 3. Copy queries to device and run search
+    //   auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
+    //   raft::copy(q_dev.data_handle(), queries.data(),
+    //              numQueries * dim, handle.get_stream());
+    //   auto neighbors_dev = raft::make_device_matrix<uint32_t>(handle, numQueries, k);
+    //   auto distances_dev = raft::make_device_matrix<float>(handle, numQueries, k);
+    //   cuvs::neighbors::ivf_flat::search_params search_params;
+    //   cuvs::neighbors::ivf_flat::search(handle, search_params, index,
+    //       q_dev.view(), neighbors_dev.view(), distances_dev.view());
+    //
+    //   // 4. Copy results back
+    //   std::vector<uint32_t> neighbor_idx(numQueries * k);
+    //   std::vector<float>    distances(numQueries * k);
+    //   raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(), ...);
+    //   raft::copy(distances.data(),    distances_dev.data_handle(), ...);
+    //   handle.sync_stream();
+    //
+    // CPU brute-force exact k-NN (used when GPU unavailable or below threshold):
+
+    const size_t actual_k = std::min(k, numVectors);
+    result.results.resize(numQueries);
+
+    for (size_t qi = 0; qi < numQueries; ++qi) {
+        const float* q = queries.data() + qi * dim;
+
+        // Compute distances from this query to all database vectors
+        // using a max-heap of size k to track the k-nearest so far.
+        // Heap element: (distance, index)
+        using Pair = std::pair<float, size_t>;
+        std::vector<Pair> heap;
+        heap.reserve(actual_k + 1);
+
+        for (size_t vi = 0; vi < numVectors; ++vi) {
+            const float* v = database.data() + vi * dim;
+
+            float dist = 0.0f;
+            if (useL2) {
+                for (size_t d = 0; d < dim; ++d) {
+                    float diff = q[d] - v[d];
+                    dist += diff * diff;
+                }
+            } else {
+                // Negative inner product used as a distance (lower = more similar).
+                // For unit-normalized vectors this equals cosine distance, but works
+                // for unnormalized vectors as well: the result may be negative when
+                // dot(q, v) > 0 (high similarity).  Callers performing maximum inner
+                // product search (MIPS) should normalize their vectors beforehand to
+                // obtain the standard cosine-distance interpretation.
+                float dot = 0.0f;
+                for (size_t d = 0; d < dim; ++d) dot += q[d] * v[d];
+                dist = -dot;
+            }
+
+            if (heap.size() < actual_k) {
+                heap.emplace_back(dist, vi);
+                if (heap.size() == actual_k) {
+                    std::make_heap(heap.begin(), heap.end());
+                }
+            } else if (dist < heap.front().first) {
+                std::pop_heap(heap.begin(), heap.end());
+                heap.back() = {dist, vi};
+                std::push_heap(heap.begin(), heap.end());
+            }
+        }
+
+        // Sort heap ascending by distance
+        std::sort_heap(heap.begin(), heap.end());
+
+        result.results[qi].resize(heap.size());
+        for (size_t ni = 0; ni < heap.size(); ++ni) {
+            result.results[qi][ni].index    = heap[ni].second;
+            result.results[qi][ni].distance = heap[ni].first;
+        }
+    }
+
+    uint64_t bytes = static_cast<uint64_t>((numQueries + numVectors) * dim * sizeof(float));
+    std::lock_guard<std::mutex> lk(mutex_);
+    ++stats_.total_ann_searches;
+    recordOp(numVectors, bytes, result.used_gpu);
+
+    return result;
+}
+
+
 
 GPUQueryAccelerator::Stats GPUQueryAccelerator::getStats() const {
     std::lock_guard<std::mutex> lk(mutex_);

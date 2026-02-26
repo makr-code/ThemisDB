@@ -34,6 +34,7 @@
 #include <algorithm>
 #include <vector>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <atomic>
 #include <future>
@@ -265,11 +266,33 @@ public:
      * @return Cache statistics, or default-constructed stats if cache is disabled.
      */
     LLMResponseCache::CacheStatistics getDedupCacheStats() const;
+
+    /**
+     * @brief Hot-swap the underlying LLM plugin without restarting the engine.
+     *
+     * Atomically replaces the plugin used for new inference requests.
+     * In-flight requests that have already acquired a reference to the old plugin
+     * will complete normally with the old plugin; requests submitted after this
+     * call returns will be routed to @p new_plugin.
+     *
+     * Thread-safe: uses an internal read-write lock so concurrent worker threads
+     * and the calling thread do not race on the plugin pointer.
+     *
+     * @param new_plugin Replacement plugin; must not be null.
+     * @throws std::invalid_argument if @p new_plugin is null.
+     */
+    void swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin);
     
 private:
     Config config_;
     ILLMPlugin* plugin_;
     std::shared_ptr<ILLMPlugin> owned_plugin_;
+
+    // Read-write lock protecting active_plugin_ for hot-swap support.
+    // Worker threads take shared (read) locks; swapPlugin() takes an exclusive lock.
+    mutable std::shared_mutex plugin_mutex_;
+    // The currently active plugin snapshot — swapped atomically by swapPlugin().
+    std::shared_ptr<ILLMPlugin> active_plugin_;
 
     // Optional shared worker pool (nullptr → private workers used instead)
     std::shared_ptr<SharedWorkerPool> shared_pool_;

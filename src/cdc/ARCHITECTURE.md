@@ -42,6 +42,7 @@ Kafka integration are on the roadmap.
 | `changefeed_buffer.cpp` | Per-tenant in-memory ring buffer for pending events |
 | `tenant_buffer_manager.cpp` | Manages per-tenant buffer lifecycle and quota enforcement |
 | `cdc_admin.cpp` | Admin API: list/create/delete subscriptions, flush buffers |
+| `cdc_materialized_view.cpp` | CDC-driven incremental materialized view maintenance: bridges `Changefeed::ChangeEvent` to `analytics::IncrementalViewManager` |
 
 ### 3.2 Component Diagram
 
@@ -120,6 +121,7 @@ Transition seamlessly to live feed at log tail
 | **Receives events from** | `src/transaction/` | Transaction commit hooks |
 | **Delivers to** | `src/server/` | SSE HTTP handlers |
 | **Delivers to** | `src/cache/` | Cache invalidation events |
+| **Delivers to** | `src/analytics/` | `IncrementalViewManager::applyChange()` via `CDCMaterializedViewMaintainer` |
 | **Uses** | `src/observability/` | CDC throughput and lag metrics |
 
 ---

@@ -182,6 +182,22 @@ public:
     void registerModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> plugin);
     void unregisterModel(const std::string& model_id);
     std::vector<std::string> getAvailableModels() const;
+
+    /**
+     * @brief Hot-swap the plugin for a registered model without restarting the engine.
+     *
+     * Atomically replaces the plugin associated with @p model_id.  In-flight
+     * requests that have already taken a reference to the old plugin complete
+     * normally; requests dispatched after this call returns will use @p new_plugin.
+     *
+     * Thread-safe: protected by the existing models_mutex_.
+     *
+     * @param model_id   The model whose plugin should be replaced.
+     * @param new_plugin Replacement plugin; must not be null.
+     * @throws std::invalid_argument if @p new_plugin is null or @p model_id is
+     *         not registered.
+     */
+    void swapModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> new_plugin);
     
     // Inference submission
     InferenceHandle submit(const EnhancedInferenceRequest& request);

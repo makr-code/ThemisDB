@@ -1409,6 +1409,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    ../src/index/distributed_vector_index.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -1472,6 +1473,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
+    ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
     ../src/prompt_engineering/feedback_collector.cpp
@@ -1499,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
+    ../src/server/udf_api_handler.cpp
     ../src/server/policy_api_handler.cpp
     ../src/server/policy_manager_api_handler.cpp
     ../src/server/policy_versioning_api_handler.cpp
@@ -1559,6 +1562,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
@@ -1611,7 +1615,6 @@ set(THEMIS_CORE_SOURCES
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
-    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal versioning and query engine
@@ -1754,6 +1757,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
+    ../src/governance/cross_tenant_policy_inheritance.cpp
     ../src/governance/policy_template.cpp
     ../src/governance/policy_coordinator.cpp
     ../src/governance/compliance_reporting.cpp
@@ -1772,6 +1776,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/soc2_controls.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
+    ../src/governance/data_masker.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1879,6 +1884,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     
     # Multi-tenancy support
@@ -1920,9 +1926,11 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
+    ../src/exporters/streaming_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
+    ../src/importers/sqlite_importer.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
@@ -1942,6 +1950,9 @@ set(THEMIS_CORE_SOURCES
     # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
     ../src/analytics/columnar_execution.cpp
 
+    # LLVM-JIT compilation for hot aggregation paths (Phase 3, Issue #1482)
+    ../src/analytics/jit_aggregation.cpp
+
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
 
@@ -1949,6 +1960,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/ml_serving.cpp
     # Model Serving and Online Inference Pipeline (Issue #1477)
     ../src/analytics/model_serving.cpp
+
+    # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_flight.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -2093,6 +2107,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_validator.cpp
     ../src/aql/aql_optimizer_advisor.cpp
     ../src/aql/aql_query_template_library.cpp
+    ../src/aql/aql_fewshot_example_library.cpp
     ../src/aql/aql_conversation_context.cpp
     ../src/aql/aql_schema_provider.cpp
     ../src/aql/aql_lora_finetuner.cpp
@@ -3576,6 +3591,23 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    # Distributed vector index across shards (Issue #1879)
+    add_executable(test_distributed_vector_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_distributed_vector_index.cpp
+    )
+    target_link_libraries(test_distributed_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_vector_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
         add_executable(test_diskann
@@ -4505,10 +4537,28 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     endif()
 endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
 
+# Config Migration Scanner CLI Tool
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
+    add_executable(config_migration_scanner
+        ${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp
+    )
+    target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
+    target_include_directories(config_migration_scanner PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
+    install(TARGETS config_migration_scanner
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+endif()
+
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
 endif()
 
 # LLM Model Management CLI Tool (themis-model)
@@ -4583,8 +4633,3 @@ if(MSVC)
         endforeach()
     endforeach()
 endif()
-
-
-
-
-

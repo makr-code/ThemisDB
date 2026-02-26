@@ -93,9 +93,10 @@ class SearchAnalytics {
 public:
     struct Config {
         size_t max_events = 10'000; ///< Maximum events to retain in memory
+        static Config defaults() { return {}; }
     };
 
-    explicit SearchAnalytics(const Config& config = Config{});
+    explicit SearchAnalytics(const Config& config = Config::defaults());
 
     // -----------------------------------------------------------------------
     // Event recording

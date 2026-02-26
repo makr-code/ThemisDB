@@ -18,6 +18,7 @@
  */
 
 #include "index/gpu_vector_index.h"
+#include "themis/gpu/memory_manager.h"
 #include <gtest/gtest.h>
 #include <vector>
 #include <string>
@@ -586,4 +587,169 @@ TEST_F(GPUVectorIndexTest, CUDACosineCPUComparison) {
     
     cpuIndex.shutdown();
     cudaIndex.shutdown();
+}
+
+// ============================================================================
+// GPU Memory Budget Tests (maxVRAM_MB per index)
+// ============================================================================
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_ZeroMeansNoLimit) {
+    // maxVRAM_MB == 0 (default) must not block any addition
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 0;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+    EXPECT_EQ(index.getStatistics().numVectors, numVectors);
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_EnforcedOnAddVector) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    // Choose a budget that holds exactly 1 vector and verify the 2nd is rejected
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    // 1 MB budget; capacity = 1 MB / (dimension * sizeof(float)) vectors.
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    // Adding up to the budget limit should succeed
+    const size_t bytesPerVec = static_cast<size_t>(dimension) * sizeof(float);
+    const size_t maxVectors = (1ULL * 1024ULL * 1024ULL) / bytesPerVec;
+
+    std::vector<std::string> ids;
+    std::vector<std::vector<float>> vecs;
+    for (size_t i = 0; i < maxVectors; ++i) {
+        ids.push_back("v_" + std::to_string(i));
+        vecs.push_back(testVectors[i % testVectors.size()]);
+    }
+    EXPECT_TRUE(index.addVectorBatch(ids, vecs));
+    EXPECT_EQ(index.getStatistics().numVectors, maxVectors);
+
+    // One more vector must be rejected because the budget is exhausted
+    EXPECT_FALSE(index.addVector("overflow", testVectors[0]));
+    EXPECT_EQ(index.getStatistics().numVectors, maxVectors);  // count unchanged
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_UpdateDoesNotConsumeExtraBudget) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    // Updating an existing vector must not allocate additional budget
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    ASSERT_TRUE(index.addVector("vec0", testVectors[0]));
+    EXPECT_EQ(index.getStatistics().numVectors, 1u);
+
+    // Fill to budget
+    const size_t bytesPerVec = static_cast<size_t>(dimension) * sizeof(float);
+    const size_t maxVectors = (1ULL * 1024ULL * 1024ULL) / bytesPerVec;
+    for (size_t i = 1; i < maxVectors; ++i) {
+        ASSERT_TRUE(index.addVector("v_" + std::to_string(i),
+                                    testVectors[i % testVectors.size()]));
+    }
+
+    // Budget is now full; updating "vec0" should still succeed (no new allocation)
+    EXPECT_TRUE(index.updateVector("vec0", testVectors[1]));
+    EXPECT_EQ(index.getStatistics().numVectors, maxVectors);
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_ReleasedOnRemoveVector) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    // After removing a vector the freed budget slot must be reusable
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    // Fill to budget
+    const size_t bytesPerVec = static_cast<size_t>(dimension) * sizeof(float);
+    const size_t maxVectors = (1ULL * 1024ULL * 1024ULL) / bytesPerVec;
+    for (size_t i = 0; i < maxVectors; ++i) {
+        ASSERT_TRUE(index.addVector("v_" + std::to_string(i),
+                                    testVectors[i % testVectors.size()]));
+    }
+
+    // Budget exhausted — adding one more must fail
+    EXPECT_FALSE(index.addVector("overflow", testVectors[0]));
+
+    // Remove one vector, then re-add should succeed
+    ASSERT_TRUE(index.removeVector("v_0"));
+    EXPECT_TRUE(index.addVector("new_vec", testVectors[0]));
+    EXPECT_EQ(index.getStatistics().numVectors, maxVectors);
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_ReleasedOnShutdown) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    // After shutdown() the GPUMemoryManager tenant usage must be zero
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVector("v0", testVectors[0]));
+
+    // Record global VRAM usage before shutdown
+    const uint64_t usedBefore =
+        themis::gpu::GPUMemoryManager::GetInstance().GetGPUMemoryUsed();
+
+    index.shutdown();
+
+    // After shutdown, global usage must decrease by at least one vector's bytes
+    const uint64_t usedAfter =
+        themis::gpu::GPUMemoryManager::GetInstance().GetGPUMemoryUsed();
+    EXPECT_LT(usedAfter, usedBefore);
+}
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_StatisticsReflectsUsage) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.maxVRAM_MB = 1;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    // Initially no VRAM used
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, 0u);
+
+    // Add a vector and check that vramUsageBytes increases accordingly
+    ASSERT_TRUE(index.addVector("v0", testVectors[0]));
+    const uint64_t expectedBytes =
+        static_cast<uint64_t>(dimension) * sizeof(float);
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, expectedBytes);
+
+    // Remove the vector and check that vramUsageBytes decreases back to zero
+    ASSERT_TRUE(index.removeVector("v0"));
+    EXPECT_EQ(index.getStatistics().vramUsageBytes, 0u);
+
+    index.shutdown();
 }

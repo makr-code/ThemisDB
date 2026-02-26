@@ -3,19 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:13                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 12:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1125                                           ║
+    • Total Lines:     1197                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub: upda... ║
+    • 5f1b20fc0  2026-02-26  feat(cep): add serializeState/restoreState APIs        ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale ann  ║
+    • 1f0a5ddaa  2026-02-22  Document the implemented restoreFromCheckpoint stub     ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -568,6 +569,24 @@ public:
      */
     size_t getPendingMatchCount() const;
 
+    /**
+     * Serialize in-progress NFA partial match state to a multi-line string.
+     * Used by CEPEngine::createCheckpoint() to persist stateful pattern matching
+     * across restarts.
+     *
+     * Format (one partial match per "pm_match=" line, followed by pm_ev= lines):
+     *   pm_match=<group_key_hex>|<current_state>|<age_ms>
+     *   pm_ev=<event_hex>
+     *   ...
+     */
+    std::string serializeState() const;
+
+    /**
+     * Restore in-progress NFA partial match state from the string produced by
+     * serializeState().  Clears existing partial matches before restoring.
+     */
+    void restoreState(const std::string& data);
+
 private:
     PatternConfig config_;
     std::atomic<uint64_t> match_count_{0};
@@ -808,7 +827,22 @@ public:
     std::vector<Alert> processEvent(const Event& event);
     
     /**
-     * Parse EPL string to rule config
+     * Parse EPL string to rule config.
+     *
+     * Supported syntax:
+     *   [CREATE RULE <name> AS | NAME <name>]
+     *   SELECT [<agg_fn>(<field>) [AS <alias>], ...] FROM <stream>
+     *   [WHERE <filter>]
+     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<types>) [WITHIN <n>(ms|s|MINUTES|HOURS)]]
+     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(<n> UNIT[, <n> UNIT])]
+     *   [GROUP BY <field>[, ...]]
+     *   [HAVING <condition>]
+     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(<params>)
+     *    | ON MATCH ALERT [severity=<s>] [message=<m>]]
+     *
+     * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
+     *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
+     * Time units: ms, s/second(s), minute(s), hour(s), day(s)
      */
     static std::optional<RuleConfig> parseEPL(const std::string& epl);
     
@@ -823,6 +857,19 @@ public:
         std::chrono::milliseconds avg_processing_time{0};
     };
     RuleStats getRuleStats(const std::string& rule_id) const;
+
+    /**
+     * Serialize all pattern matcher states for use in a checkpoint.
+     * Returns a multi-line string with pm_rule= / pm_rule_end blocks.
+     */
+    std::string serializeMatcherStates() const;
+
+    /**
+     * Restore pattern matcher states from the string produced by
+     * serializeMatcherStates().  Only matchers for rules that currently exist
+     * in the engine are restored; unknown rule IDs are silently skipped.
+     */
+    void restoreMatcherStates(const std::string& data);
 
 private:
     CEPEngine* engine_;
@@ -991,23 +1038,43 @@ public:
     // ========== Checkpointing ==========
     
     /**
-     * Create checkpoint
+     * Create a checkpoint of the current engine state.
+     *
+     * Writes a text file to the configured checkpoint_path directory containing:
+     *   - Basic counters (events_received, events_processed, alerts_generated)
+     *   - Rule enabled/disabled states
+     *   - In-progress NFA partial match states for all registered pattern matchers
+     *
+     * The checkpoint can be used with restoreFromCheckpoint() to resume stateful
+     * pattern sequences across restarts.
+     *
+     * @return true on success, false if checkpointing is disabled or an I/O error
+     *         occurs.
      */
     bool createCheckpoint();
     
     /**
      * Restore engine state from a previously created checkpoint.
      *
-     * Reads the checkpoint file written by createCheckpoint() and restores
-     * the enabled/disabled state of each rule that was registered at the time
-     * the checkpoint was taken.  Rules that exist in the checkpoint but are no
-     * longer registered in the engine are silently skipped.
+     * Reads the checkpoint file written by createCheckpoint() and restores:
+     *   1. The enabled/disabled state of each rule.
+     *   2. The in-progress NFA partial match state for each pattern matcher,
+     *      allowing stateful sequences (e.g. SEQUENCE A→B) that were partially
+     *      matched before the checkpoint to continue after restart.
      *
-     * Checkpoint file format (one entry per line):
+     * Rules / matchers that exist in the checkpoint but are no longer registered
+     * in the engine are silently skipped.
+     *
+     * Checkpoint file format:
      *   events_received=<N>
      *   events_processed=<N>
      *   alerts_generated=<N>
-     *   rule=<rule_id>:<rule_name>:<1|0>   (1 = enabled, 0 = disabled)
+     *   rule=<rule_id>:<rule_name>:<1|0>          (1 = enabled, 0 = disabled)
+     *   pm_rule=<rule_id>                          (start of matcher state block)
+     *   pm_match=<group_key_hex>|<nfa_state>|<age_ms>
+     *   pm_ev=<hex-encoded-serialized-event>       (one line per matched event)
+     *   ...additional pm_match/pm_ev lines...
+     *   pm_rule_end                                (end of matcher state block)
      *
      * @param checkpoint_id  Name of the checkpoint (stem of the .txt file
      *                       inside the configured checkpoint_path directory).

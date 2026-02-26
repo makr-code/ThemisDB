@@ -137,7 +137,8 @@
     {
       "name": "arrow",
       "features": [
-        "parquet"
+        "parquet",
+        "flight"
       ]
     }
   ],
