@@ -4,11 +4,11 @@ Change Data Capture and changefeed implementation for ThemisDB.
 
 ## Module Purpose
 
-Implements Change Data Capture for ThemisDB, providing real-time change notifications via SSE streaming, filtered subscriptions, change log management, and historical change replay.
+Implements Change Data Capture for ThemisDB, providing real-time change notifications via SSE streaming, filtered subscriptions, change log management, historical change replay, and CDC-driven incremental materialized view maintenance.
 
 ## Subsystem Scope
 
-**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams.
+**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams, CDC-based materialized view maintenance.
 
 **Out of scope:** Message broker integration (Kafka planned), WebSocket transport (in progress), consumer offset tracking (planned).
 
@@ -19,6 +19,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - `change_log.cpp` — persistent change log
 - `subscription_manager.cpp` — subscription lifecycle
 - `cross_collection_stream.cpp` — cross-collection change aggregation (`CrossCollectionStream`)
+- `cdc_materialized_view.cpp` — CDC-driven incremental materialized view maintenance (`CDCMaterializedViewMaintainer`)
 
 ## Current Delivery Status
 
@@ -31,6 +32,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - Change log management
 - Subscription management
 - Cross-collection change aggregation (`CrossCollectionStream`)
+- CDC-based incremental materialized view maintenance (`CDCMaterializedViewMaintainer`)
 
 ## Features
 
@@ -39,6 +41,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - Filtered change subscriptions
 - Historical change replay
 - Cross-collection merged event streams with per-collection resume cursors
+- CDC-driven incremental materialized view maintenance (GROUP BY aggregations updated in O(1) per change)
 
 ## Documentation
 
