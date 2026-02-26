@@ -325,26 +325,29 @@ TEST_F(ConfigMigrationScannerTest, ScanMatchHasCorrectCategory) {
 }
 
 TEST_F(ConfigMigrationScannerTest, ScanMatchHasFormattedDates) {
-    // Verify deprecated_date and removal_date are in YYYY-MM-DD format
+    // Verify deprecated_date and removal_date are in YYYY-MM-DD format.
+    // config/lora_training_config.yaml is a known mapped path with complete metadata.
     auto f = test_dir_ / "dates.yaml";
     writeFile(f, "cfg: config/lora_training_config.yaml\n");
 
     auto matches = cms::scanFile(f);
+    bool found = false;
     for (const auto& m : matches) {
         if (m.legacy_path == "config/lora_training_config.yaml") {
-            // Date format check: YYYY-MM-DD (length 10, contains dashes)
-            if (!m.deprecated_date.empty()) {
-                EXPECT_EQ(m.deprecated_date.size(), 10u);
-                EXPECT_EQ(m.deprecated_date[4], '-');
-                EXPECT_EQ(m.deprecated_date[7], '-');
-            }
-            if (!m.removal_date.empty()) {
-                EXPECT_EQ(m.removal_date.size(), 10u);
-                EXPECT_EQ(m.removal_date[4], '-');
-                EXPECT_EQ(m.removal_date[7], '-');
-            }
+            found = true;
+            // Known mapped paths must have both dates populated
+            EXPECT_FALSE(m.deprecated_date.empty()) << "deprecated_date must be set for a known legacy path";
+            EXPECT_FALSE(m.removal_date.empty())    << "removal_date must be set for a known legacy path";
+            // Date format check: YYYY-MM-DD (length 10, contains dashes at positions 4 and 7)
+            EXPECT_EQ(m.deprecated_date.size(), 10u);
+            EXPECT_EQ(m.deprecated_date[4], '-');
+            EXPECT_EQ(m.deprecated_date[7], '-');
+            EXPECT_EQ(m.removal_date.size(), 10u);
+            EXPECT_EQ(m.removal_date[4], '-');
+            EXPECT_EQ(m.removal_date[7], '-');
         }
     }
+    EXPECT_TRUE(found) << "Expected config/lora_training_config.yaml to be found";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
