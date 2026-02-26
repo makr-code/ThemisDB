@@ -106,8 +106,26 @@ Within the same priority tier issues are processed oldest-first (by creation dat
 
 ## How to queue an issue
 
+### Automatic queuing (fully automated pipeline)
+
+The **Auto-Queue Issues** workflow (`auto-queue-issues.yml`) makes the entire
+pipeline hands-free:
+
+- **New issues**: Every issue that is opened automatically receives the
+  `queue/copilot` label (unless it is already `blocked`, `status:blocked`, or
+  `copilot/delegated`).  No manual step is required.
+- **Existing/back-fill**: Trigger the workflow manually via
+  **Actions → Auto-Queue Issues for Copilot → Run workflow** to add
+  `queue/copilot` to all currently open issues that are not yet queued.  A
+  **dry-run** option lets you preview which issues would be queued before
+  writing any labels.  A **max_issues** cap prevents accidental bulk-queuing.
+
+The dispatcher then picks up every queued issue within ≤ 30 minutes.
+
+### Manual queuing
+
 1. Open or find an existing issue.
-2. Add the label **`queue/copilot`**.
+2. Add the label **`queue/copilot`** manually.
 3. The dispatcher will pick it up within ≤ 30 minutes (or immediately on the
    next manual trigger).
 

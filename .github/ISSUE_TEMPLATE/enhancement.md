@@ -25,7 +25,9 @@ Explain why this improvement would be valuable.
 ## Acceptance Criteria
 
 <!-- Add task-list items below. The Copilot dispatcher extracts these as the
-     implementation checklist when delegating this issue to the Coding Agent. -->
+     implementation checklist when delegating this issue to the Coding Agent.
+     This issue will be automatically queued for the Copilot Coding Agent
+     after creation. Add the label `blocked` to pause automatic delegation. -->
 
 - [ ] [Describe the first specific acceptance criterion]
 - [ ] [Describe the second specific acceptance criterion]
