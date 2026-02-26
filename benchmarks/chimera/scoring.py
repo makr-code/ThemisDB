@@ -23,9 +23,8 @@ References:
 - IEEE Std 7-4.3.2-2016: Criteria for Digital Computers in Safety Systems.
 """
 
-import math
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -443,8 +442,5 @@ class BenchmarkScorer:
 
         result: Dict[str, float] = {}
         for system, z in zip(systems, z_scores.tolist()):
-            if z_spread == 0.0:
-                result[system] = 100.0
-            else:
-                result[system] = (z - z_min) / z_spread * 100.0
+            result[system] = (z - z_min) / z_spread * 100.0
         return result

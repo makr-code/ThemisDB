@@ -663,6 +663,107 @@ class TestBenchmarkScorer:
         assert ns.raw_std == pytest.approx(np.std(data, ddof=1))
 
 
+    # ------------------------------------------------------------------
+    # Edge cases for branch coverage
+    # ------------------------------------------------------------------
+
+    def test_normalize_skips_metric_with_no_data(self):
+        """normalize() silently skips metrics for which no data was added."""
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER),
+                MetricConfig("lat", MetricDirection.LOWER_IS_BETTER),
+            ]
+        )
+        # Only add data for "thr"; "lat" has no data at all
+        scorer.add_results("A", "thr", [100.0])
+        scorer.add_results("B", "thr", [80.0])
+
+        scores = scorer.normalize()
+        assert "thr" in scores
+        assert "lat" not in scores
+
+    def test_composite_skips_metric_with_no_data(self):
+        """compute_composite_scores skips metrics for which no data was added."""
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER),
+                MetricConfig("lat", MetricDirection.LOWER_IS_BETTER),
+            ]
+        )
+        # Only "thr" has data; "lat" has no data
+        scorer.add_results("A", "thr", [100.0])
+        scorer.add_results("B", "thr", [80.0])
+
+        composites = {cs.system_name: cs for cs in scorer.compute_composite_scores()}
+
+        # Both systems should appear, with only "thr" in their metric_scores
+        assert "A" in composites
+        assert "B" in composites
+        assert "thr" in composites["A"].metric_scores
+        assert "lat" not in composites["A"].metric_scores
+
+    def test_composite_partial_system_data(self):
+        """Composite score only includes metrics for which a system has data."""
+        scorer = BenchmarkScorer(
+            [
+                MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER),
+                MetricConfig("lat", MetricDirection.LOWER_IS_BETTER),
+            ]
+        )
+        # Both systems have "thr"; only "Alpha" has "lat"
+        scorer.add_results("Alpha", "thr", [100.0])
+        scorer.add_results("Alpha", "lat", [5.0])
+        scorer.add_results("Beta",  "thr", [50.0])
+        # "Beta" has no "lat" data
+
+        composites = {cs.system_name: cs for cs in scorer.compute_composite_scores()}
+
+        # Alpha composite uses both metrics; Beta uses only thr
+        assert "thr" in composites["Alpha"].metric_scores
+        assert "lat" in composites["Alpha"].metric_scores
+        assert "thr" in composites["Beta"].metric_scores
+        assert "lat" not in composites["Beta"].metric_scores
+
+    def test_baseline_zero_mean_raises(self):
+        """BASELINE normalization raises when the baseline system's mean is zero."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)],
+            normalization_method=NormalizationMethod.BASELINE,
+            baseline_system="Reference",
+        )
+        scorer.add_results("Reference", "thr", [0.0, 0.0])
+        scorer.add_results("Candidate", "thr", [100.0])
+
+        with pytest.raises(ValueError, match="mean of 0"):
+            scorer.normalize()
+
+    def test_z_score_single_system_returns_100(self):
+        """Z-score normalization with a single system (sigma=0) returns 100."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)],
+            normalization_method=NormalizationMethod.Z_SCORE,
+        )
+        scorer.add_results("OnlySystem", "thr", [42.0, 42.0, 42.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["OnlySystem"].normalized_score == pytest.approx(100.0)
+
+    def test_z_score_lower_is_better_direction(self):
+        """Z-score LOWER_IS_BETTER: smallest latency gets the highest score."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("lat", MetricDirection.LOWER_IS_BETTER)],
+            normalization_method=NormalizationMethod.Z_SCORE,
+        )
+        scorer.add_results("Fast",   "lat", [5.0])
+        scorer.add_results("Slow",   "lat", [50.0])
+        scorer.add_results("Medium", "lat", [25.0])
+
+        scores = scorer.normalize()
+        assert scores["lat"]["Fast"].normalized_score == pytest.approx(100.0)
+        assert scores["lat"]["Slow"].normalized_score == pytest.approx(0.0)
+
+
 class TestBenchmarkScorerIntegration:
     """Integration tests covering multi-metric, multi-system scenarios."""
 
