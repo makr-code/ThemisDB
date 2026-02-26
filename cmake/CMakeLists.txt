@@ -1735,7 +1735,6 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
-    ../src/auth/mtls_authenticator.cpp
     ../src/auth/auth_rate_limiter.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
@@ -1753,7 +1752,6 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/totp_secret_encryption.cpp
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
-    ../src/auth/webauthn_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_template.cpp

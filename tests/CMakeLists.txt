@@ -541,6 +541,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
+            ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
@@ -675,6 +676,7 @@ endif()
 
 target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
+    THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
 
 target_include_directories(themis_tests PRIVATE
