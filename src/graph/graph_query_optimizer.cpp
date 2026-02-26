@@ -523,6 +523,218 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::explainConstr
     return optimizeConstrainedPath(start_vertex, end_vertex, constraints);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Temporal Graph Query Optimization (Phase 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTemporalTraversal(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints) {
+
+    // Structural cache key includes temporal range so plans are reused only
+    // when both pattern and time window match.
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::K_HOP_NEIGHBORS, constraints,
+            static_cast<size_t>(max_depth));
+        auto it = plan_cache_.find(struct_key);
+        if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
+            return Ok(it->second);
+        }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
+    }
+
+    OptimizationPlan plan;
+    plan.pattern = QueryPattern::K_HOP_NEIGHBORS;
+    plan.algorithm = TraversalAlgorithm::BFS; // BFS is optimal for temporal range traversals
+
+    const size_t estimated_depth = static_cast<size_t>(max_depth);
+
+    // Base cost: BFS over estimated depth.
+    // NOTE: estimateCost() already applies temporal selectivity when
+    // constraints.hasTemporalRange() is true, so no extra multiplication is
+    // needed here.
+    double base_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
+
+    // Compute temporal selectivity separately — used only for
+    // estimated_nodes_explored and the explanation string, not for cost
+    // adjustment (which estimateCost already handles).
+    double temporal_selectivity = 1.0;
+    if (constraints.hasTemporalRange()) {
+        if (constraints.time_range_start_ms.has_value() &&
+            constraints.time_range_end_ms.has_value()) {
+            const int64_t range_ms =
+                *constraints.time_range_end_ms - *constraints.time_range_start_ms;
+            // Reference span: 5 years in milliseconds
+            constexpr int64_t REFERENCE_SPAN_MS =
+                static_cast<int64_t>(5) * 365 * 24 * 3600 * 1000LL;
+            temporal_selectivity = static_cast<double>(range_ms) /
+                                   static_cast<double>(REFERENCE_SPAN_MS);
+            // Clamp to [0.05, 0.95] so we always reflect some reduction
+            temporal_selectivity = std::max(0.05, std::min(0.95, temporal_selectivity));
+        } else {
+            temporal_selectivity = 0.5; // one-sided bound: moderate reduction
+        }
+    }
+
+    // Alternative: DFS cost (estimateCost handles temporal selectivity)
+    double dfs_cost = estimateCost(TraversalAlgorithm::DFS, estimated_depth, constraints);
+    plan.alternatives.emplace_back(TraversalAlgorithm::DFS, dfs_cost);
+
+    plan.estimated_cost = base_cost;
+    plan.estimated_nodes_explored = static_cast<size_t>(
+        std::pow(statistics_.avg_branching_factor > 0 ? statistics_.avg_branching_factor : 2.0,
+                 estimated_depth) * temporal_selectivity);
+    plan.estimated_time_ms = plan.estimated_cost * 0.1;
+    plan.use_index = statistics_.has_edge_index;
+    plan.use_cache = statistics_.has_adjacency_cache;
+    plan.enable_early_termination = constraints.max_results.has_value();
+    plan.enable_parallel = constraints.enable_parallel &&
+                           shouldUseParallel(TraversalAlgorithm::BFS, plan.estimated_nodes_explored);
+
+    // Build explanation
+    std::ostringstream oss;
+    oss << "Temporal graph traversal from '" << start_vertex << "'\n";
+    oss << "Algorithm: BFS (optimal for time-range edge filtering)\n";
+    oss << "Max depth: " << max_depth << "\n";
+    if (constraints.time_range_start_ms.has_value()) {
+        oss << "Time range start: " << *constraints.time_range_start_ms << " ms\n";
+    }
+    if (constraints.time_range_end_ms.has_value()) {
+        oss << "Time range end: " << *constraints.time_range_end_ms << " ms\n";
+    }
+    oss << "Containment mode: "
+        << (constraints.time_range_require_containment ? "full containment" : "overlap") << "\n";
+    oss << "Temporal selectivity: " << temporal_selectivity << "\n";
+    oss << "Estimated cost: " << plan.estimated_cost << "\n";
+    plan.explanation = oss.str();
+
+    // Store in plan cache under the structural key
+    if (plan_caching_enabled_) {
+        auto struct_key = generateStructuralCacheKey(
+            QueryPattern::K_HOP_NEIGHBORS, constraints,
+            static_cast<size_t>(max_depth));
+        plan_cache_[struct_key] = plan;
+    }
+
+    return Ok(plan);
+}
+
+Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    ExecutionStats* stats) {
+
+    // Rate limit check
+    if (!rate_limiter_.allowQuery()) {
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "TemporalBFS query rejected: rate limit exceeded"
+        );
+    }
+
+    // When no temporal range is active, fall back to standard BFS.
+    if (!constraints.hasTemporalRange()) {
+        return executeBFS(start_vertex, max_depth, constraints, stats);
+    }
+
+    // Resolve effective bounds (use sentinel values for open-ended ranges).
+    const int64_t range_start = constraints.time_range_start_ms.value_or(
+        std::numeric_limits<int64_t>::min());
+    const int64_t range_end = constraints.time_range_end_ms.value_or(
+        std::numeric_limits<int64_t>::max());
+
+    auto start_time = std::chrono::steady_clock::now();
+    ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::BFS;
+
+    auto timedOut = [&]() -> bool {
+        if (constraints.timeout_ms == 0) return false;
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time).count();
+        return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+    };
+
+    std::vector<std::string> result;
+    std::unordered_set<std::string> visited;
+    std::vector<std::string> current_frontier;
+
+    current_frontier.push_back(std::string(start_vertex));
+    visited.insert(std::string(start_vertex));
+
+    for (int depth = 0; depth <= max_depth; ++depth) {
+        if (current_frontier.empty()) break;
+
+        if (timedOut()) {
+            local_stats.early_terminated = true;
+            metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+            if (stats) { *stats = local_stats; }
+            recordExecution(local_stats);
+            return Err<std::vector<std::string>>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "TemporalBFS query exceeded timeout of " +
+                    std::to_string(constraints.timeout_ms) + "ms"
+            );
+        }
+
+        // Emit frontier nodes into result
+        for (const auto& node : current_frontier) {
+            result.push_back(node);
+            local_stats.nodes_explored++;
+            if (constraints.max_results.has_value() &&
+                result.size() >= constraints.max_results.value()) {
+                local_stats.early_terminated = true;
+                break;
+            }
+        }
+        if (local_stats.early_terminated) break;
+
+        if (depth == max_depth) break;
+
+        // Expand frontier using time-range-filtered edges
+        std::vector<std::string> next_frontier;
+        for (const auto& node : current_frontier) {
+            auto [status, edges] = graph_manager_.getOutEdgesInTimeRange(
+                node, range_start, range_end,
+                constraints.time_range_require_containment);
+            if (!status.ok) {
+                // Non-existent node or DB error: skip silently (consistent with
+                // the bfsAtTime behaviour in GraphIndexManager).
+                continue;
+            }
+
+            local_stats.edges_traversed += edges.size();
+
+            for (const auto& edge : edges) {
+                const std::string& nb = edge.toPk;
+
+                if (visited.count(nb)) continue;
+                if (std::find(constraints.forbidden_vertices.begin(),
+                              constraints.forbidden_vertices.end(), nb) !=
+                    constraints.forbidden_vertices.end()) continue;
+
+                visited.insert(nb);
+                next_frontier.push_back(nb);
+            }
+        }
+        current_frontier = std::move(next_frontier);
+    }
+
+    auto end_time = std::chrono::steady_clock::now();
+    local_stats.execution_time_ms =
+        std::chrono::duration<double, std::milli>(end_time - start_time).count();
+    local_stats.max_depth_reached = static_cast<size_t>(max_depth);
+    local_stats.paths_found = result.size();
+
+    if (stats) { *stats = local_stats; }
+    recordExecution(local_stats);
+
+    return Ok(result);
+}
+
 Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -1771,6 +1983,23 @@ double GraphQueryOptimizer::estimateCost(
         base_cost *= selectivity; // Reduce cost based on edge type filtering
     }
 
+    // Temporal range selectivity: a time-window filter reduces the effective
+    // edge set, lowering traversal cost.  Mirrors the logic in
+    // optimizeTemporalTraversal so that algorithm selection and cost estimates
+    // are consistent.
+    if (constraints.hasTemporalRange()) {
+        double temporal_selectivity = 0.5; // default: one-sided bound
+        if (constraints.time_range_start_ms.has_value() &&
+            constraints.time_range_end_ms.has_value()) {
+            const int64_t range_ms =
+                *constraints.time_range_end_ms - *constraints.time_range_start_ms;
+            constexpr int64_t REFERENCE_SPAN_MS =
+                static_cast<int64_t>(5) * 365 * 24 * 3600 * 1000LL;
+            temporal_selectivity = static_cast<double>(range_ms) /
+                                   static_cast<double>(REFERENCE_SPAN_MS);
+            temporal_selectivity = std::max(0.05, std::min(0.95, temporal_selectivity));
+        }
+        base_cost *= temporal_selectivity;
     // Schema-aware hint: node label selectivity.
     // When node_labels is set, only a fraction of nodes match; reduce the
     // effective search space accordingly.  For OR-semantics with multiple
@@ -1970,6 +2199,16 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
         key += ":par";
     }
 
+    // Temporal range: two queries with different time windows must never share
+    // a cache entry because their edge sets differ.
+    if (constraints.time_range_start_ms.has_value()) {
+        key += ":tr_from=" + std::to_string(*constraints.time_range_start_ms);
+    }
+    if (constraints.time_range_end_ms.has_value()) {
+        key += ":tr_to=" + std::to_string(*constraints.time_range_end_ms);
+    }
+    if (constraints.time_range_require_containment) {
+        key += ":tr_contain";
     // Schema hints: sort labels so that {"A","B"} and {"B","A"} produce the
     // same key; different label sets produce distinct exact cache entries.
     if (!constraints.node_labels.empty()) {
@@ -2033,6 +2272,16 @@ std::string GraphQueryOptimizer::generateStructuralCacheKey(
         key += ":rv=" + std::to_string(constraints.required_vertices.size());
     }
 
+    // Temporal range: include time window bounds so structurally different
+    // temporal queries are not incorrectly merged in the plan cache.
+    if (constraints.time_range_start_ms.has_value()) {
+        key += ":tr_from=" + std::to_string(*constraints.time_range_start_ms);
+    }
+    if (constraints.time_range_end_ms.has_value()) {
+        key += ":tr_to=" + std::to_string(*constraints.time_range_end_ms);
+    }
+    if (constraints.time_range_require_containment) {
+        key += ":tr_contain";
     // Schema hints: encode actual sorted label values so that queries with the
     // same number of labels but different names get distinct structural keys.
     // Sorting ensures {"A","B"} and {"B","A"} map to the same structural key.

@@ -78,7 +78,7 @@
 - [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Distributed graph query execution across shards
 - [x] Plan cache eviction with size and TTL controls
-- [ ] Temporal graph query optimization (time-ranged traversals)
+- [x] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
 
 ## Production Readiness Checklist

@@ -129,6 +129,25 @@ public:
         /// clamped to [2, 16]).  Ignored when enable_parallel = false.
         uint32_t num_threads = 0;
 
+        // ── Temporal range constraints (Phase 3: Temporal Graph Optimization) ──
+        /// Start of the query time window in milliseconds since epoch.
+        /// When set together with time_range_end_ms, only edges whose validity
+        /// period overlaps [time_range_start_ms, time_range_end_ms] are traversed.
+        /// Null means unbounded past (include edges with any valid_from).
+        std::optional<int64_t> time_range_start_ms;
+        /// End of the query time window in milliseconds since epoch.
+        /// Null means unbounded future (include edges with any valid_to).
+        std::optional<int64_t> time_range_end_ms;
+        /// When true, only edges whose validity is **fully contained** within
+        /// [time_range_start_ms, time_range_end_ms] are traversed.
+        /// When false (default), edges with any temporal overlap are included.
+        bool time_range_require_containment = false;
+
+        /// Returns true if any temporal range constraint is active.
+        bool hasTemporalRange() const {
+            return time_range_start_ms.has_value() || time_range_end_ms.has_value();
+        }
+
         // -----------------------------------------------------------------------
         // Property-graph schema-aware optimizer hints
         // -----------------------------------------------------------------------
@@ -942,6 +961,64 @@ public:
     );
 
     // -----------------------------------------------------------------------
+    // Temporal Graph Query Optimization (Phase 3)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Generate an optimized plan for a time-ranged graph traversal.
+     *
+     * Produces a cost-based optimization plan for BFS/DFS traversal that
+     * restricts traversed edges to those whose validity period overlaps (or is
+     * fully contained in, when time_range_require_containment = true) the
+     * time window specified by [constraints.time_range_start_ms,
+     * constraints.time_range_end_ms].
+     *
+     * The cost model applies a temporal selectivity reduction relative to an
+     * unconstrained traversal: fewer edges are traversed when a time range is
+     * active, lowering the estimated traversal cost.
+     *
+     * @param start_vertex Starting node for the traversal
+     * @param max_depth    Maximum BFS/DFS depth
+     * @param constraints  QueryConstraints with time_range_start_ms and/or
+     *                     time_range_end_ms set.  Other constraint fields
+     *                     (forbidden/required vertices, edge type, etc.) are
+     *                     also respected.
+     * @return Optimization plan with selected algorithm, cost estimate, and
+     *         explanation indicating the active temporal range.
+     */
+    Result<OptimizationPlan> optimizeTemporalTraversal(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints
+    );
+
+    /**
+     * @brief Execute a time-range-filtered BFS traversal.
+     *
+     * Performs breadth-first search from `start_vertex` up to `max_depth`
+     * levels, traversing **only edges whose validity period has any overlap**
+     * (or full containment when time_range_require_containment = true) with
+     * the time window [constraints.time_range_start_ms,
+     * constraints.time_range_end_ms].
+     *
+     * When neither temporal bound is set in constraints, the method falls
+     * back to a standard unconstrained BFS (same as `executeBFS`).
+     *
+     * Observability: execution statistics are recorded and observability
+     * metrics are updated identically to `executeBFS`.
+     *
+     * @param start_vertex Starting node
+     * @param max_depth    Maximum BFS depth
+     * @param constraints  QueryConstraints — temporal range fields drive edge
+     *                     filtering; other fields (forbidden vertices, timeout,
+     *                     max_results) are also honoured.
+     * @param stats        Optional output for execution statistics
+     * @return Discovered reachable nodes in BFS order, or an error on failure
+     */
+    Result<std::vector<std::string>> executeTemporalBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
     // Analytics Module Integration (Issue #1821)
     // -----------------------------------------------------------------------
 
