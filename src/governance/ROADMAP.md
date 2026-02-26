@@ -23,7 +23,7 @@
 ### Short-term (Next 3-6 months)
 - [x] Policy hot-reload on configuration change (Issue: #1762)
 - [x] Conflict detection for overlapping access control policies (Issue: #1763)
-- [P] CCPA / CPRA data subject rights enforcement (Issue: #1764)
+- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
 - [x] Data lineage tracking for governed datasets (Issue: #1765)
 - [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
 - [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
@@ -52,7 +52,7 @@
 
 ### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: In Progress)
 - [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
-- [P] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
+- [x] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [I] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
 - [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
 
