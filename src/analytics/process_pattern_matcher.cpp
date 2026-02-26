@@ -71,7 +71,8 @@ ProcessPatternMatcher::ProcessPatternMatcher(
     : db_(db),
       vector_index_(vector_index),
       graph_index_(graph_index),
-      process_mining_(db) {
+    process_mining_(db),
+    statistics_{} {
     spdlog::debug("ProcessPatternMatcher initialized");
 }
 

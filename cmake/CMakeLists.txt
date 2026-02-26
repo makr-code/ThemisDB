@@ -3251,6 +3251,10 @@ if(THEMIS_ENABLE_LLM)
     endif()
 
     # Add CLIP vision encoder only when explicitly enabled
+    target_sources(themis_core PRIVATE
+        ../src/llm/vision_config.cpp
+    )
+
     if(THEMIS_ENABLE_VISION)
         target_sources(themis_core PRIVATE
             ../src/llm/vision_encoder.cpp

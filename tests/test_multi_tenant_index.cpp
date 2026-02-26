@@ -68,7 +68,7 @@ protected:
 };
 
 TEST_F(MultiTenantIndexEmptyTenant, CreateSecondaryIndex_EmptyTenant_ReturnsError) {
-    auto result = mgr_->createSecondaryIndex("", "idx", "email");
+    auto result = mgr_->createSecondaryIndex("", "idx", "email", std::string{});
     EXPECT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
@@ -80,7 +80,7 @@ TEST_F(MultiTenantIndexEmptyTenant, CreateVectorIndex_EmptyTenant_ReturnsError) 
 }
 
 TEST_F(MultiTenantIndexEmptyTenant, CreateGraphIndex_EmptyTenant_ReturnsError) {
-    auto result = mgr_->createGraphIndex("", "graph");
+    auto result = mgr_->createGraphIndex("", "graph", std::string{});
     EXPECT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }

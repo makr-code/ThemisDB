@@ -441,6 +441,11 @@ if(NOT THEMIS_ENABLE_LLM)
     )
 endif()
 
+# Ensure VisionConfig implementation is linked for vision API tests.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/llm/vision_config.cpp
+)
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
@@ -675,6 +680,11 @@ if(WIN32)
     set(_themis_vcpkg_tbb_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/tbb12.lib")
     if(EXISTS "${_themis_vcpkg_tbb_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")
+    endif()
+
+    set(_themis_vcpkg_pugixml_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/pugixml.lib")
+    if(EXISTS "${_themis_vcpkg_pugixml_lib}")
+        target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_pugixml_lib}")
     endif()
 endif()
 

@@ -588,6 +588,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/gguf_loader.cpp
     ../src/llm/grammar.cpp
     ../src/llm/grammar_cache.cpp
+    ../src/llm/json_schema_converter.cpp
     ../src/llm/llm_prefix_cache.cpp
     ../src/llm/continuous_batch_scheduler.cpp
     ../src/llm/mixed_precision_inference.cpp
@@ -814,6 +815,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
+    ../src/network/qos_manager.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
