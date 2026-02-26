@@ -227,6 +227,31 @@ public:
     void recordWorkerPoolQueueDepth(size_t depth);
     void recordWorkerPoolTasksCompleted(uint64_t total_completed);
 
+    // ── Unified dashboard metrics (Phase 2 — Q3 2026) ────────────────────────
+    // Engine-typed variants for the unified metrics dashboard.
+    // engine_type: "async"     → AsyncInferenceEngine
+    //              "enhanced"  → InferenceEngineEnhanced
+    //
+    // Prometheus metric names used:
+    //   llm_engine_inference_requests_total{model_id, engine_type}
+    //   llm_engine_inference_success_total{model_id, engine_type}
+    //   llm_engine_inference_failures_total{model_id, engine_type, error}
+    //   llm_engine_inference_duration_ms{model_id, engine_type}
+    //   llm_engine_tokens_generated_total{model_id, engine_type}
+    //   llm_engine_queue_depth{engine_type}
+    void recordEngineInferenceRequest(const std::string& model_id,
+                                      const std::string& engine_type);
+    void recordEngineInferenceSuccess(const std::string& model_id,
+                                      const std::string& engine_type,
+                                      double duration_ms);
+    void recordEngineInferenceFailure(const std::string& model_id,
+                                      const std::string& engine_type,
+                                      const std::string& error);
+    void recordEngineTokensGenerated(const std::string& model_id,
+                                     const std::string& engine_type,
+                                     size_t count);
+    void recordEngineQueueDepth(const std::string& engine_type, size_t depth);
+
 private:
     PrometheusExporter* exporter_;
     Config config_;
@@ -257,6 +282,16 @@ public:
     
     // Generate complete dashboard JSON
     std::string generateDashboard() const;
+
+    /**
+     * @brief Generate a unified Grafana dashboard JSON for both engines.
+     *
+     * Produces a Grafana dashboard that displays engine-typed metrics
+     * (label engine_type="async" for AsyncInferenceEngine and
+     * engine_type="enhanced" for InferenceEngineEnhanced) side-by-side,
+     * together with shared worker-pool and cache panels.
+     */
+    std::string generateUnifiedDashboard() const;
     
     // Generate individual panels
     std::string generateInferencePanel() const;
@@ -329,6 +364,19 @@ public:
     }
 
     /**
+     * @brief Register a callback for GET /dashboard.
+     *
+     * Invoked with no arguments; should return a Grafana dashboard JSON string.
+     * When not set, the server generates a default unified dashboard using
+     * GrafanaDashboardGenerator with default config.
+     *
+     * @param cb  Callable () -> std::string (Grafana dashboard JSON).
+     */
+    void setDashboardCallback(std::function<std::string()> cb) {
+        dashboard_cb_ = std::move(cb);
+    }
+
+    /**
      * @brief Register a callback for POST /admin/models/reload.
      *
      * Invoked with the raw POST body.  Should trigger a hot-reload of the
@@ -387,6 +435,7 @@ private:
     PrometheusExporter* exporter_;
     bool running_ = false;
     std::function<std::string()> model_info_cb_;
+    std::function<std::string()> dashboard_cb_;
     std::function<std::string(const std::string&)> reload_cb_;
     std::function<std::string(const std::string&)> simulate_cb_;
     std::function<std::string()> session_list_cb_;
