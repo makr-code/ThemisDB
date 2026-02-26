@@ -136,3 +136,27 @@ jobs:
           while IFS='=' read -r key value; do
             [ -n "$key" ] && echo "${key}=${value}" >> "$GITHUB_OUTPUT"
           done < "$OUTPUTS_FILE"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔍 CI Scope Classifier" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Scope Flags" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Scope | Changed? |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|----------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_code_changes\` | ${{ steps.classify.outputs.has_code_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_security_changes\` | ${{ steps.classify.outputs.has_security_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_gpu_changes\` | ${{ steps.classify.outputs.has_gpu_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_llm_changes\` | ${{ steps.classify.outputs.has_llm_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_doc_only_changes\` | ${{ steps.classify.outputs.has_doc_only_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_config_changes\` | ${{ steps.classify.outputs.has_config_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| \`has_grafana_changes\` | ${{ steps.classify.outputs.has_grafana_changes == 'true' && '✅ yes' || '—' }} |" >> "$GITHUB_STEP_SUMMARY"
