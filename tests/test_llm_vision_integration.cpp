@@ -24,6 +24,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <sstream>
 #include "llm/llm_plugin_interface.h"
 #include "llm/vision_encoder.h"
 
@@ -143,5 +144,59 @@ TEST(MultiModalTypeTest, GenerationParamsPropagate) {
     EXPECT_FLOAT_EQ(vis_req.temperature, 0.5f);
     EXPECT_FLOAT_EQ(vis_req.top_p, 0.8f);
     EXPECT_EQ(vis_req.top_k, 30);
+}
+
+// ============================================================================
+// Cache key uniqueness — requests with different images must not share a key
+// ============================================================================
+
+// Mirrors InferenceEngineEnhanced::generateCacheKey() input construction
+// (prompt | max_tokens | temperature | top_p | img:<path>…).
+static std::string makeCacheKeyInput(const InferenceRequest& r) {
+    std::ostringstream oss;
+    oss << r.prompt << "|" << r.max_tokens << "|" << r.temperature << "|" << r.top_p;
+    for (const auto& p : r.image_paths) oss << "|img:" << p;
+    return oss.str();
+}
+
+TEST(MultiModalCacheKeyTest, DifferentImagePathsProduceDifferentKeys) {
+    // Two requests: same text, different images → different cache keys.
+    InferenceRequest req_a;
+    req_a.prompt      = "Describe the image.";
+    req_a.max_tokens  = 256;
+    req_a.temperature = 0.7f;
+    req_a.top_p       = 0.9f;
+    req_a.image_paths = {"/photo_a.jpg"};
+
+    InferenceRequest req_b = req_a;
+    req_b.image_paths = {"/photo_b.jpg"};
+
+    EXPECT_NE(makeCacheKeyInput(req_a), makeCacheKeyInput(req_b));
+}
+
+TEST(MultiModalCacheKeyTest, SameImagePathsSameKey) {
+    InferenceRequest req_a;
+    req_a.prompt      = "Describe the image.";
+    req_a.max_tokens  = 256;
+    req_a.temperature = 0.7f;
+    req_a.top_p       = 0.9f;
+    req_a.image_paths = {"/same.jpg"};
+
+    InferenceRequest req_b = req_a;  // Exact copy → same key.
+
+    EXPECT_EQ(makeCacheKeyInput(req_a), makeCacheKeyInput(req_b));
+}
+
+TEST(MultiModalCacheKeyTest, TextOnlyVsMultiModalDiffer) {
+    InferenceRequest text_req;
+    text_req.prompt      = "What is 2+2?";
+    text_req.max_tokens  = 128;
+    text_req.temperature = 0.5f;
+    text_req.top_p       = 0.9f;
+
+    InferenceRequest mm_req = text_req;
+    mm_req.image_paths = {"/diagram.png"};
+
+    EXPECT_NE(makeCacheKeyInput(text_req), makeCacheKeyInput(mm_req));
 }
 
