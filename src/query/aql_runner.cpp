@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:16                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:28:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     675                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9a1cb143d  2026-02-26  feat(graph): implement EXPLAIN AQL output for graph query... ║
     • 8ce3b5039  2026-02-21  fix(query): use error().message() consistently in explain... ║
     • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -228,83 +229,141 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
 
 namespace {
 
-/// Parse + translate an AQL string and return the conjunctive query to be explained.
-/// For non-conjunctive forms (graph traversal, vector+geo, …) a synthetic
-/// ConjunctiveQuery with a descriptive table name and no predicates is returned
-/// so that the visualizer can still emit a meaningful SeqScan node.
+/// Build a GraphTraversal QueryPlanNode from a parsed traversal query.
+///
+/// Uses a static cost model (branching_factor^depth) to estimate cost and nodes
+/// explored since no real graph statistics are available at plan time.  The
+/// algorithm is chosen to mirror GraphQueryOptimizer::selectAlgorithm():
+///   - shortestPath: BFS (depth ≤ 5) or Bidirectional (depth > 5)
+///   - k-hop traversal: BFS
+query::QueryPlanNode buildGraphTraversalPlanNode(
+    const AQLTranslator::TranslationResult::TraversalQuery& tv)
+{
+    using TQ = AQLTranslator::TranslationResult::TraversalQuery;
+
+    // Direction label
+    std::string dir_name;
+    switch (tv.direction) {
+        case TQ::Direction::Outbound: dir_name = "OUTBOUND"; break;
+        case TQ::Direction::Inbound:  dir_name = "INBOUND";  break;
+        case TQ::Direction::Any:      dir_name = "ANY";       break;
+    }
+
+    // Algorithm selection (mirrors GraphQueryOptimizer::selectAlgorithm)
+    const int depth = tv.maxDepth > 0 ? tv.maxDepth : 1;
+    std::string algo_name;
+    if (tv.shortestPath) {
+        algo_name = (depth > 5) ? "Bidirectional" : "BFS";
+    } else {
+        algo_name = "BFS";
+    }
+
+    // Static cost estimate: branching_factor^depth (default branching = 4)
+    constexpr double kBranchingFactor = 4.0;
+    double est_nodes = 1.0;
+    for (int d = 0; d < depth; ++d) est_nodes *= kBranchingFactor;
+    double est_cost = est_nodes;
+
+    query::QueryPlanNode node;
+    node.type             = query::PlanNodeType::GraphTraversal;
+    node.description      = algo_name + " on GRAPH '" + tv.graphName + "'";
+    node.estimated_cost   = est_cost;
+    node.estimated_rows   = static_cast<size_t>(est_nodes);
+
+    node.attributes.push_back("start: " + tv.startVertex);
+    node.attributes.push_back("depth: " + std::to_string(tv.minDepth) +
+                               ".." + std::to_string(tv.maxDepth));
+    node.attributes.push_back("direction: " + dir_name);
+    node.attributes.push_back("algorithm: " + algo_name);
+    if (tv.shortestPath && !tv.endVertex.empty()) {
+        node.attributes.push_back("end: " + tv.endVertex);
+    }
+
+    return node;
+}
+
+/// Parse + translate @p aql and build the corresponding QueryPlanNode.
+///
+/// For graph traversal queries a proper GraphTraversal node is produced with
+/// algorithm selection and cost estimates.  All other non-conjunctive forms
+/// (vector+geo, content+geo, OR, join) fall back to a SeqScan node labelled
+/// with the query type.  Conjunctive queries use the existing engine optimizer.
+///
 /// Returns Err on parse or translation failure.
-Result<ConjunctiveQuery> parseAndTranslateForExplain(const std::string& aql) {
+Result<query::QueryPlanNode> buildExplainPlanNode(
+    const std::string& aql, QueryEngine& engine)
+{
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
     if (!parseResult) {
-        return Err<ConjunctiveQuery>(
+        return Err<query::QueryPlanNode>(
             errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
             parseResult.error().message()
         );
     }
     auto tr = AQLTranslator::translate(parseResult.value());
     if (!tr.success) {
-        return Err<ConjunctiveQuery>(
+        return Err<query::QueryPlanNode>(
             errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
             tr.error_message
         );
     }
-    // Non-conjunctive forms: return a synthetic query that describes the type.
+
+    // Graph traversal: build a rich GraphTraversal plan node.
+    if (tr.traversal.has_value()) {
+        return Ok(buildGraphTraversalPlanNode(*tr.traversal));
+    }
+
+    // Non-conjunctive forms: synthetic ConjunctiveQuery → SeqScan with type label.
     if (tr.vector_geo.has_value()) {
         ConjunctiveQuery q;
         q.table = "[vector+geo] " + tr.query.table;
-        return Ok(q);
+        return Ok(engine.buildExplainPlan(q));
     }
     if (tr.content_geo.has_value()) {
         ConjunctiveQuery q;
         q.table = "[content+geo] " + tr.query.table;
-        return Ok(q);
+        return Ok(engine.buildExplainPlan(q));
     }
     if (tr.disjunctive.has_value()) {
         ConjunctiveQuery q;
         q.table = "[OR] " + tr.disjunctive->table;
-        return Ok(q);
-    }
-    if (tr.traversal.has_value()) {
-        ConjunctiveQuery q;
-        q.table = "[graph-traversal] " + tr.traversal->graphName;
-        return Ok(q);
+        return Ok(engine.buildExplainPlan(q));
     }
     if (tr.join.has_value()) {
         ConjunctiveQuery q;
         q.table = "[join]";
-        return Ok(q);
+        return Ok(engine.buildExplainPlan(q));
     }
-    return Ok(tr.query);
+
+    // Conjunctive (default) form.
+    return Ok(engine.buildExplainPlan(tr.query));
 }
 
 } // anonymous namespace
 
 Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, bool analyze) {
-    auto qr = parseAndTranslateForExplain(aql);
-    if (!qr) {
-        return Err<nlohmann::json>(qr.error().code(), qr.error().message());
+    auto pn = buildExplainPlanNode(aql, engine);
+    if (!pn) {
+        return Err<nlohmann::json>(pn.error().code(), pn.error().message());
     }
-    auto plan_node = engine.buildExplainPlan(*qr);
-    return Ok(query::QueryPlanVisualizer::toJSON(plan_node, analyze));
+    return Ok(query::QueryPlanVisualizer::toJSON(*pn, analyze));
 }
 
 Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, bool analyze) {
-    auto qr = parseAndTranslateForExplain(aql);
-    if (!qr) {
-        return Err<std::string>(qr.error().code(), qr.error().message());
+    auto pn = buildExplainPlanNode(aql, engine);
+    if (!pn) {
+        return Err<std::string>(pn.error().code(), pn.error().message());
     }
-    auto plan_node = engine.buildExplainPlan(*qr);
-    return Ok(query::QueryPlanVisualizer::toText(plan_node, analyze));
+    return Ok(query::QueryPlanVisualizer::toText(*pn, analyze));
 }
 
 Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
-    auto qr = parseAndTranslateForExplain(aql);
-    if (!qr) {
-        return Err<std::string>(qr.error().code(), qr.error().message());
+    auto pn = buildExplainPlanNode(aql, engine);
+    if (!pn) {
+        return Err<std::string>(pn.error().code(), pn.error().message());
     }
-    auto plan_node = engine.buildExplainPlan(*qr);
-    return Ok(query::QueryPlanVisualizer::toDOT(plan_node));
+    return Ok(query::QueryPlanVisualizer::toDOT(*pn));
 }
 
 Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, QueryEngine& engine) {
