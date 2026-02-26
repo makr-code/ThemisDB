@@ -908,6 +908,7 @@ public:
      * | `max_messages`        | Maximum messages per run (0 = unlimited)       | `0`                |
      * | `session_timeout_ms`  | Consumer session timeout in milliseconds       | `10000`            |
      * | `security_protocol`   | Security protocol                              | `plaintext`        |
+     * | `auto_offset_reset`   | Start offset when no committed offset: `"earliest"`, `"latest"`, `"none"` | `earliest` |
      *
      * @param source_id Unique source identifier
      * @param brokers   Comma-separated broker list (e.g. `"host:9092"`)

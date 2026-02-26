@@ -374,3 +374,36 @@ TEST(KafkaConnectorTest, SetRetryConfigDoesNotCrash) {
     // Should not throw or crash.
     EXPECT_NO_THROW(conn.setRetryConfig(rc));
 }
+
+// ---------------------------------------------------------------------------
+// auto_offset_reset option
+// ---------------------------------------------------------------------------
+
+TEST(KafkaConnectorTest, AutoOffsetResetLatestInitializes) {
+    // Verify the connector initializes successfully when auto_offset_reset
+    // is explicitly set to "latest".
+    KafkaConnector conn;
+    auto cfg = makeKafkaConfig();
+    cfg.options["auto_offset_reset"] = "latest";
+    EXPECT_TRUE(conn.initialize(cfg));
+}
+
+TEST(KafkaConnectorTest, AutoOffsetResetDefaultIsEarliest) {
+    // Without an explicit option the connector should default to "earliest"
+    // and still initialize successfully.  The librdkafka "auto.offset.reset"
+    // config is verified indirectly: initialize() succeeds (config accepted)
+    // and the mock-based ingest works correctly.  Verifying the actual offset
+    // position requires a live Kafka broker and is deferred to integration tests.
+    KafkaConnector conn;
+    auto cfg = makeKafkaConfig();
+    // Do NOT set auto_offset_reset – default should apply.
+    EXPECT_TRUE(conn.initialize(cfg));
+
+    // The mock-based ingest should work normally regardless of offset setting.
+    conn.setMessageFetchForTesting([call = 0]() mutable -> std::vector<std::string> {
+        if (call++ == 0) return {R"({"text":"test"})"};
+        return {};
+    });
+    auto stats = conn.ingest("docs", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+}

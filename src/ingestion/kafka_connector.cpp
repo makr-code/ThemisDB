@@ -111,6 +111,9 @@ public:
         sasl_username_     = opt("sasl_username",     "");
         sasl_password_     = opt("sasl_password",     "");
         ssl_ca_location_   = opt("ssl_ca_location",   "");
+        // "earliest" ensures new consumer groups don't skip historical messages;
+        // callers can override to "latest" via options["auto_offset_reset"].
+        auto_offset_reset_ = opt("auto_offset_reset", "earliest");
 
         return !brokers_.empty() && !topic_.empty();
     }
@@ -271,6 +274,21 @@ private:
             return;
         }
 
+        // Disable auto-commit so that Kafka offsets are committed only when
+        // rd_kafka_consumer_close() is called (i.e., after all messages have
+        // been processed), preserving at-least-once delivery semantics.
+        if (!setConf("enable.auto.commit", "false")) {
+            rd_kafka_conf_destroy(conf);
+            return;
+        }
+
+        // Control where the consumer starts on its first run (no committed offset).
+        // Default: "earliest" to avoid silently skipping historical messages.
+        if (!setConf("auto.offset.reset", auto_offset_reset_.c_str())) {
+            rd_kafka_conf_destroy(conf);
+            return;
+        }
+
         // Security
         if (!security_protocol_.empty() && security_protocol_ != "plaintext") {
             if (!setConf("security.protocol", security_protocol_.c_str())) {
@@ -369,7 +387,6 @@ private:
                                    std::string("Kafka message error: ") +
                                    rd_kafka_message_errstr(msg),
                                    config_.source_id);
-                    stats.metrics.error_count++;
                     rd_kafka_message_destroy(msg);
                     continue;
                 }
@@ -469,6 +486,7 @@ private:
     std::string  sasl_username_;
     std::string  sasl_password_;
     std::string  ssl_ca_location_;
+    std::string  auto_offset_reset_;  // set in initialize(); default "earliest"
     RetryConfig  retry_config_;
 
     // Testing hook

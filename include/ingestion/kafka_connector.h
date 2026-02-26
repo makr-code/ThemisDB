@@ -49,6 +49,7 @@ namespace ingestion {
  * | `sasl_username`       | SASL username (never logged)                             | (none)               |
  * | `sasl_password`       | SASL password (never logged)                             | (none)               |
  * | `ssl_ca_location`     | Path to CA certificate bundle for TLS                    | (system default)     |
+ * | `auto_offset_reset`   | Where to start when no committed offset exists: `"earliest"`, `"latest"`, or `"none"` | `earliest` |
  *
  * The broker list is taken from `SourceConfig::location`.
  *
