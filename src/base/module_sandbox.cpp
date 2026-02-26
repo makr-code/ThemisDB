@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     409                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -191,6 +191,7 @@ struct ModuleSandbox::PlatformHandle {
     pid_t target_pid = 0;
     // rlimits saved for restoration
     struct rlimit saved_mem_limit{};
+    bool mem_limit_applied = false;
     struct rlimit saved_cpu_limit{};
     bool cpu_limit_applied = false;
 #endif
@@ -239,8 +240,9 @@ void ModuleSandbox::shutdown() {
     }
 #else
     // Remove rlimit overrides by restoring saved limits
-    if (platform_->saved_mem_limit.rlim_cur != RLIM_INFINITY) {
+    if (platform_->mem_limit_applied) {
         setrlimit(RLIMIT_AS, &platform_->saved_mem_limit);
+        platform_->mem_limit_applied = false;
     }
     if (platform_->cpu_limit_applied) {
         setrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
@@ -289,7 +291,9 @@ bool ModuleSandbox::applyMemoryLimit() {
     new_limit.rlim_cur = static_cast<rlim_t>(config_.max_memory_mb) * 1024 * 1024;
     new_limit.rlim_max = new_limit.rlim_cur;
 
-    if (setrlimit(RLIMIT_AS, &new_limit) != 0) {
+    if (setrlimit(RLIMIT_AS, &new_limit) == 0) {
+        platform_->mem_limit_applied = true;
+    } else {
         launch_warnings_.push_back(
             "RLIMIT_AS not supported on this kernel – memory limit not enforced");
     }
