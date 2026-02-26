@@ -2202,6 +2202,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
+# Phase 2 – Jaeger tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jaeger_tracer_adapter.cpp")
+    message(STATUS "Adding JaegerTracerAdapter unit tests (Phase 2)")
+    add_executable(test_jaeger_tracer_adapter test_jaeger_tracer_adapter.cpp)
+    target_link_libraries(test_jaeger_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_jaeger_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME JaegerTracerAdapterTests COMMAND test_jaeger_tracer_adapter)
+    set_tests_properties(JaegerTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;jaeger;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  JaegerTracerAdapter: adapter construction, span lifecycle, uber-trace-id propagation, circuit-breaker, health")
+endif()
+
+# Phase 2 – Zipkin tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zipkin_tracer_adapter.cpp")
+    message(STATUS "Adding ZipkinTracerAdapter unit tests (Phase 2)")
+    add_executable(test_zipkin_tracer_adapter test_zipkin_tracer_adapter.cpp)
+    target_link_libraries(test_zipkin_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_zipkin_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ZipkinTracerAdapterTests COMMAND test_zipkin_tracer_adapter)
+    set_tests_properties(ZipkinTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;zipkin;b3;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ZipkinTracerAdapter: adapter construction, span lifecycle, B3 propagation, circuit-breaker, health")
+endif()
+
 # Phase 2 – OpenTelemetry trace and span propagation tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
     message(STATUS "Adding OTel propagation tests (Phase 2)")
