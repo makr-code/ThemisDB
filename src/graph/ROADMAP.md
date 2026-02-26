@@ -96,7 +96,6 @@
 - Incremental query execution is not thread-safe (same as the optimizer itself)
 - Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
 - Cross-shard edge following (edges whose endpoints reside on different shards) requires caller-side coordination; the current distributed query model executes intra-shard queries in parallel and returns the globally cheapest result
-- Distributed graph queries across shards are not yet supported
 
 ## Breaking Changes
 - Distributed graph query introduces shard-aware plan nodes (new plan format, backward-compatible with single-node)
