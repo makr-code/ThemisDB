@@ -25,7 +25,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Automatic legacy path migration script with dry-run mode (Issue: #1661)
+- [x] Automatic legacy path migration script with dry-run mode (Issue: #1661)
 - [I] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
 - [P] Metrics export to Prometheus endpoint (Issue: #1663)
 - [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
