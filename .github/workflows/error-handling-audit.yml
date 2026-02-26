@@ -35,6 +35,10 @@ on:
     - cron: '0 2 * * *'  # Nightly at 02:00 UTC – full repo-wide error-handling audit
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   audit:
     name: Error-Handling Compliance Check

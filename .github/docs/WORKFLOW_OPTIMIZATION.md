@@ -225,6 +225,19 @@ on:
 | Running heavy GPU jobs on doc-only PRs | Gate with `has_gpu_changes` or `has_llm_changes` |
 | Repo-wide audit on every PR/push | Convert to `schedule:` (nightly/weekly) + `workflow_dispatch:` |
 | `push:` trigger on `feature/**` / `bugfix/**` / `copilot/**` | Remove; the `pull_request:` trigger already covers those branches |
+| No `concurrency:` group on push/PR workflow | Add `concurrency: group: ${{ github.workflow }}-${{ github.ref }}` |
+| Job gated on `has_doc_only_changes` when trigger paths include scripts | Use `github.event_name ==` check instead; `has_doc_only_changes` is `false` when code files also changed |
+| Missing `workflow_dispatch:` on push/PR workflows | Add `workflow_dispatch:` so maintainers can trigger manually from the Actions UI |
+
+### Intentional exceptions
+
+Some workflows deliberately omit filters that would normally be required:
+
+| Workflow | Missing | Reason |
+|---|---|---|
+| `copilot-readiness-gate.yml` | `paths:` on `pull_request:` | Trigger uses `types: [labeled]`; GitHub ignores `paths:` for label events |
+| `pr-copilot-trigger.yml` | `paths:` on `pull_request:` | Must fire on *all* PRs; label-based filtering is performed inside the job script |
+| `pr-copilot-trigger.yml` | `workflow_dispatch:` | Workflow reads `context.payload.pull_request` directly; adding dispatch requires non-trivial PR-fetch logic — deferred |
 
 ---
 

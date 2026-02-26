@@ -12,6 +12,11 @@ on:
       - 'scripts/generate_research_index.py'
   schedule:
     - cron: '0 9 * * MON'  # Weekly check every Monday at 09:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -26,7 +31,8 @@ jobs:
     needs: ci-scope-classifier
     if: >
       github.event_name == 'schedule' ||
-      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request'
     name: Validate Research Links
     runs-on: ubuntu-latest
     permissions:
@@ -59,7 +65,8 @@ jobs:
     needs: ci-scope-classifier
     if: >
       github.event_name == 'schedule' ||
-      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request'
     name: Validate Research Metadata
     runs-on: ubuntu-latest
     permissions:
@@ -92,7 +99,8 @@ jobs:
     needs: ci-scope-classifier
     if: >
       github.event_name == 'schedule' ||
-      needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true'
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request'
     name: Generate Research Index (dry-run)
     runs-on: ubuntu-latest
     permissions:
