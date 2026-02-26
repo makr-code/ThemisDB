@@ -24,6 +24,10 @@
 #include "themis/base/module_sandbox.h"
 #include "themis/base/module_loader.h"
 
+#ifndef _WIN32
+#  include <sys/resource.h>
+#endif
+
 using namespace themis::modules;
 
 // =============================================================================
@@ -249,4 +253,68 @@ TEST(ModuleSandbox, NetworkIsolationWarning) {
     // On most platforms, network isolation produces a warning (not a failure)
     // No assertion needed; just ensure it doesn't crash.
     SUCCEED();
+}
+
+TEST(ModuleSandbox, DefaultCpuTimeSecondsIsZero) {
+    ModuleSandbox::Config cfg;
+    EXPECT_EQ(cfg.max_cpu_time_seconds, 0u);
+}
+
+TEST(ModuleSandbox, CpuTimeLimitZeroSkipped) {
+    ModuleSandbox::Config cfg;
+    cfg.max_cpu_time_seconds = 0;
+    cfg.max_memory_mb        = 0;
+    cfg.max_cpu_percent      = 0;
+    ModuleSandbox sb(cfg);
+#if defined(__linux__)
+    struct rlimit before_launch{};
+    getrlimit(RLIMIT_CPU, &before_launch);
+#endif
+    EXPECT_TRUE(sb.launch("no_cpu_time_limit"));
+    EXPECT_TRUE(sb.isActive());
+#if defined(__linux__)
+    // RLIMIT_CPU must be unchanged since no CPU time limit was configured
+    struct rlimit after_launch{};
+    getrlimit(RLIMIT_CPU, &after_launch);
+    EXPECT_EQ(after_launch.rlim_cur, before_launch.rlim_cur);
+#endif
+}
+
+TEST(ModuleSandbox, CpuTimeLimitApplied) {
+    ModuleSandbox::Config cfg;
+    cfg.max_cpu_time_seconds = 3600; // 1-hour cap
+    cfg.max_memory_mb        = 0;
+    cfg.max_cpu_percent      = 0;
+    ModuleSandbox sb(cfg);
+    // Snapshot original limit before launch
+#if defined(__linux__)
+    struct rlimit before{};
+    getrlimit(RLIMIT_CPU, &before);
+#endif
+    // launch() must succeed regardless of whether RLIMIT_CPU is supported
+    bool ok = sb.launch("cpu_time_limited_module");
+    EXPECT_TRUE(ok) << "launch() failed: " << sb.lastError();
+    EXPECT_TRUE(sb.isActive());
+#if defined(__linux__)
+    // If RLIMIT_CPU was applied, verify the limit is now 3600 (or unchanged on failure)
+    struct rlimit after_launch{};
+    getrlimit(RLIMIT_CPU, &after_launch);
+    // If cpu_limit_applied: limit must equal 3600; otherwise it remains unchanged.
+    bool any_rlimit_warning = false;
+    for (const auto& w : sb.launchWarnings())
+        if (w.find("RLIMIT_CPU not applied") != std::string::npos) any_rlimit_warning = true;
+    if (!any_rlimit_warning) {
+        EXPECT_EQ(after_launch.rlim_cur, static_cast<rlim_t>(3600u));
+    }
+#endif
+    sb.shutdown();
+    EXPECT_FALSE(sb.isActive());
+#if defined(__linux__)
+    // After shutdown the limit should be restored to the original value
+    struct rlimit after_shutdown{};
+    getrlimit(RLIMIT_CPU, &after_shutdown);
+    if (!any_rlimit_warning) {
+        EXPECT_EQ(after_shutdown.rlim_cur, before.rlim_cur);
+    }
+#endif
 }
