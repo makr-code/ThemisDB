@@ -19,6 +19,7 @@
 #include <chrono>
 #include <cstring>
 #include <fstream>
+#include <limits>
 #include <set>
 #include <sstream>
 #include <variant>
@@ -257,7 +258,7 @@ static uint32_t buildEmptyTable(FBuf& fb) {
 //
 // Returns C_obj = cursor AFTER writing soffset_t.
 static uint32_t buildField(FBuf& fb,
-                            const std::string& name,
+                            [[maybe_unused]] const std::string& name,
                             uint32_t C_name_str,
                             uint32_t C_utf8_table,
                             uint32_t C_children_vec)
@@ -310,8 +311,6 @@ static uint32_t buildField(FBuf& fb,
     uint32_t C_vtable = fb.cursor();
 
     fb.patchSOffset(C_soffset, C_vtable);
-
-    (void)name;  // used by caller for naming; not embedded in the build path here
     return C_soffset;
 }
 
@@ -524,19 +523,31 @@ static std::vector<uint8_t> buildMessageFB(uint32_t C_header_table,
     return fb.take();
 }
 
+// ── Helper: write LE int32 to a stream ───────────────────────────────────────
+// Always writes in little-endian byte order regardless of host endianness.
+static void writeLE32(std::ostream& out, int32_t v) {
+    uint32_t u = static_cast<uint32_t>(v);
+    char buf[4];
+    buf[0] = static_cast<char>( u        & 0xFF);
+    buf[1] = static_cast<char>((u >>  8) & 0xFF);
+    buf[2] = static_cast<char>((u >> 16) & 0xFF);
+    buf[3] = static_cast<char>((u >> 24) & 0xFF);
+    out.write(buf, 4);
+}
+
 // ── Write an Arrow IPC message frame ─────────────────────────────────────────
 // Frame: [continuation int32=-1][metadata_size int32][metadata (padded-8)][body]
+// Both integer fields are written as explicit LE per the Arrow IPC spec.
 static void writeMessageFrame(std::ostream& out,
                                const std::vector<uint8_t>& metadata,
                                const std::vector<uint8_t>& body)
 {
-    // continuation marker
-    int32_t cont = kContinuationMarker;
-    out.write(reinterpret_cast<const char*>(&cont), 4);
+    // continuation marker (-1 = 0xFFFFFFFF, endian-neutral but written via
+    // writeLE32 for consistency and correctness on big-endian platforms)
+    writeLE32(out, kContinuationMarker);
 
-    // metadata size (signed int32, little-endian)
-    int32_t meta_size = static_cast<int32_t>(metadata.size());
-    out.write(reinterpret_cast<const char*>(&meta_size), 4);
+    // metadata size (signed int32, must be little-endian per Arrow IPC spec)
+    writeLE32(out, static_cast<int32_t>(metadata.size()));
 
     // metadata bytes (already padded to 8)
     out.write(reinterpret_cast<const char*>(metadata.data()),
@@ -630,6 +641,18 @@ static BatchBody buildBatchBody(
         // no bytes for validity bitmap
 
         // --- Buffer 1: offsets (int32[N+1]) ---
+        // Arrow Utf8 uses int32 offsets, so the total data per column must fit
+        // in INT32_MAX bytes.  Guard against overflow before accumulating.
+        int64_t col_data_total = 0;
+        for (const auto& s : vals) col_data_total += static_cast<int64_t>(s.size());
+        if (col_data_total > static_cast<int64_t>(std::numeric_limits<int32_t>::max())) {
+            throw SizeLimitException(
+                "Column '" + col + "' string data exceeds 2 GiB Arrow Utf8 limit; "
+                "use LargeUtf8 for larger payloads",
+                static_cast<size_t>(col_data_total),
+                static_cast<size_t>(std::numeric_limits<int32_t>::max()));
+        }
+
         int32_t offset_cursor = 0;
         std::vector<uint8_t> offsets_buf;
         offsets_buf.reserve((vals.size() + 1) * 4);
@@ -772,17 +795,6 @@ static std::vector<uint8_t> buildFooterFB(
     fb.align(8);
 
     return fb.take();
-}
-
-// ── Helper: write LE int32 ────────────────────────────────────────────────────
-static void writeLE32(std::ostream& out, int32_t v) {
-    uint32_t u = static_cast<uint32_t>(v);
-    char buf[4];
-    buf[0] = static_cast<char>( u        & 0xFF);
-    buf[1] = static_cast<char>((u >>  8) & 0xFF);
-    buf[2] = static_cast<char>((u >> 16) & 0xFF);
-    buf[3] = static_cast<char>((u >> 24) & 0xFF);
-    out.write(buf, 4);
 }
 
 // ── valueToString (shared with parquet_exporter pattern) ─────────────────────
