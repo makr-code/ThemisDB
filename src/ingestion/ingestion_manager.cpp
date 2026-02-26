@@ -28,6 +28,7 @@
 #include "ingestion/huggingface_connector.h"
 #include "ingestion/filesystem_ingester.h"
 #include "ingestion/api_connector.h"
+#include "ingestion/kafka_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -66,6 +67,7 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::FILESYSTEM:  return "FILESYSTEM";
         case SourceType::API:         return "API";
         case SourceType::DATABASE:    return "DATABASE";
+        case SourceType::KAFKA:       return "KAFKA";
         default:                      return "UNKNOWN";
     }
 }
@@ -331,6 +333,20 @@ public:
                         return stats;
                     }
                     connector = std::move(api_connector);
+                    break;
+                }
+
+                case SourceType::KAFKA: {
+                    auto kafka_connector = std::make_unique<KafkaConnector>();
+                    kafka_connector->setRetryConfig(retry_config_);
+                    if (!kafka_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize Kafka connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(kafka_connector);
                     break;
                 }
 
@@ -1157,6 +1173,24 @@ IngestionBuilder& IngestionBuilder::withApiSource(
     cfg.options   = std::move(options);
     cfg.priority  = priority;
     cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withKafkaSource(
+        const std::string& source_id,
+        const std::string& brokers,
+        const std::string& topic,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id           = source_id;
+    cfg.type                = SourceType::KAFKA;
+    cfg.location            = brokers;
+    cfg.options             = std::move(options);
+    cfg.options["topic"]    = topic;  // ensure topic is always set in options
+    cfg.priority            = priority;
+    cfg.enabled             = true;
     opts_->sources.push_back(std::move(cfg));
     return *this;
 }
