@@ -93,6 +93,43 @@ void NlpTextAnalyzer::initializeStopWords() {
         "ich", "du", "er", "sie", "es", "wir", "ihr", "ein", "eine", "einer",
         "dem", "den", "des"
     };
+
+    // French stop words
+    stopwords_[Language::FRENCH] = {
+        "le", "la", "les", "un", "une", "des", "du", "de", "et", "ou",
+        "mais", "donc", "ni", "car", "à", "en", "par", "pour", "dans",
+        "sur", "avec", "sans", "je", "tu", "il", "elle", "nous", "vous",
+        "ils", "elles", "me", "te", "se", "lui", "leur", "est", "sont",
+        "était", "été", "avoir", "ai", "as", "ont", "pas", "ne", "ce",
+        "cette", "ces", "qui", "que", "quoi", "où"
+    };
+
+    // Spanish stop words
+    stopwords_[Language::SPANISH] = {
+        "el", "la", "los", "las", "un", "una", "unos", "unas", "de", "en",
+        "por", "para", "con", "sin", "y", "o", "pero", "ni", "que", "es",
+        "son", "era", "están", "ser", "estar", "haber", "tener", "yo", "tú",
+        "él", "ella", "nosotros", "ellos", "se", "le", "les", "lo", "no",
+        "sí", "muy", "más", "también", "ya", "todo", "otro", "mismo"
+    };
+
+    // Italian stop words
+    stopwords_[Language::ITALIAN] = {
+        "il", "lo", "la", "i", "gli", "le", "un", "uno", "una", "di", "da",
+        "in", "con", "su", "per", "tra", "fra", "e", "o", "ma", "che",
+        "è", "sono", "era", "essere", "avere", "ho", "hai", "ha", "hanno",
+        "io", "tu", "lui", "lei", "noi", "voi", "loro", "mi", "ti", "si",
+        "ci", "non", "no", "sì", "molto", "più", "anche", "già", "tutto"
+    };
+
+    // Dutch stop words
+    stopwords_[Language::DUTCH] = {
+        "de", "het", "een", "en", "of", "maar", "van", "in", "op", "aan",
+        "te", "voor", "met", "bij", "uit", "na", "over", "door", "dat",
+        "die", "dit", "deze", "ik", "jij", "hij", "zij", "wij", "ze",
+        "zijn", "is", "was", "waren", "hebben", "heeft", "had", "worden",
+        "niet", "ook", "nog", "al", "wel", "hier", "daar", "nu", "zo"
+    };
 }
 
 void NlpTextAnalyzer::initializeSentimentLexicon() {
@@ -157,34 +194,38 @@ void NlpTextAnalyzer::initializeEntityPatterns() {
 NlpTextAnalyzer::Language NlpTextAnalyzer::detectLanguage(std::string_view text) const {
     std::string lower = toLowerCase(text);
     
-    // Simple heuristic-based language detection
-    // Count characteristic words per language
+    // Simple heuristic-based language detection.
+    // Each characteristic indicator word adds 1 to its language score so that
+    // texts with more matching words win over single-word coincidences.
     std::map<Language, size_t> scores;
-    
+
+    // Helper: increment score for each indicator found
+    auto count = [&](Language lang, const std::initializer_list<const char*>& indicators) {
+        for (const char* ind : indicators) {
+            if (lower.find(ind) != std::string::npos) {
+                scores[lang]++;
+            }
+        }
+    };
+
     // German indicators
-    if (lower.find(" der ") != std::string::npos ||
-        lower.find(" die ") != std::string::npos ||
-        lower.find(" und ") != std::string::npos ||
-        lower.find(" nicht ") != std::string::npos) {
-        scores[Language::GERMAN] += 3;
-    }
-    
+    count(Language::GERMAN,  {" der ", " die ", " das ", " und ", " nicht ", " mit ", " auf "});
+
     // English indicators
-    if (lower.find(" the ") != std::string::npos ||
-        lower.find(" and ") != std::string::npos ||
-        lower.find(" not ") != std::string::npos ||
-        lower.find(" this ") != std::string::npos) {
-        scores[Language::ENGLISH] += 3;
-    }
-    
-    // French indicators  
-    if (lower.find(" le ") != std::string::npos ||
-        lower.find(" la ") != std::string::npos ||
-        lower.find(" et ") != std::string::npos ||
-        lower.find(" pas ") != std::string::npos) {
-        scores[Language::FRENCH] += 3;
-    }
-    
+    count(Language::ENGLISH, {" the ", " and ", " not ", " this ", " that ", " with ", " for "});
+
+    // French indicators (use only unambiguous words; avoid " la " shared with Spanish)
+    count(Language::FRENCH,  {" le ", " les ", " et ", " pas ", " sont ", " une ", " dans "});
+
+    // Spanish indicators (use only unambiguous words; avoid " la " shared with French)
+    count(Language::SPANISH, {" el ", " los ", " las ", " para ", " con ", " una ", " pero "});
+
+    // Italian indicators
+    count(Language::ITALIAN, {" gli ", " dello ", " della ", " sono ", " per ", " del ", " che "});
+
+    // Dutch indicators
+    count(Language::DUTCH,   {" het ", " een ", " van ", " niet ", " zijn ", " met ", " naar "});
+
     // Return language with highest score
     if (scores.empty()) {
         return config_.default_language;
@@ -1046,6 +1087,72 @@ std::string NlpTextAnalyzer::lemmatizeWord(std::string_view word, Language lang)
 
     // 2. Apply language-specific morphological suffix rules
     return applyMorphologicalRules(lower, lang);
+    // Remove common French suffixes
+    else if (lang == Language::FRENCH) {
+        if (stem.ends_with("ement")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("ation")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("eur")) {
+            stem = stem.substr(0, stem.length() - 3);
+        } else if (stem.ends_with("er")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("es")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("s") && stem.length() > 3) {
+            stem = stem.substr(0, stem.length() - 1);
+        }
+    }
+    // Remove common Spanish suffixes
+    else if (lang == Language::SPANISH) {
+        if (stem.ends_with("iendo")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("ando")) {
+            stem = stem.substr(0, stem.length() - 4);
+        } else if (stem.ends_with("ción") || stem.ends_with("cion")) {
+            stem = stem.substr(0, stem.length() - 4);
+        } else if (stem.ends_with("mente")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("ar") || stem.ends_with("er") || stem.ends_with("ir")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("os") || stem.ends_with("as")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("s") && stem.length() > 3) {
+            stem = stem.substr(0, stem.length() - 1);
+        }
+    }
+    // Remove common Italian suffixes
+    else if (lang == Language::ITALIAN) {
+        if (stem.ends_with("zione")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("ando") || stem.ends_with("endo")) {
+            stem = stem.substr(0, stem.length() - 4);
+        } else if (stem.ends_with("mente")) {
+            stem = stem.substr(0, stem.length() - 5);
+        } else if (stem.ends_with("are") || stem.ends_with("ere") || stem.ends_with("ire")) {
+            stem = stem.substr(0, stem.length() - 3);
+        } else if (stem.ends_with("i") && stem.length() > 3) {
+            stem = stem.substr(0, stem.length() - 1);
+        }
+    }
+    // Remove common Dutch suffixes
+    else if (lang == Language::DUTCH) {
+        if (stem.ends_with("ing")) {
+            stem = stem.substr(0, stem.length() - 3);
+        } else if (stem.ends_with("heid")) {
+            stem = stem.substr(0, stem.length() - 4);
+        } else if (stem.ends_with("lijk")) {
+            stem = stem.substr(0, stem.length() - 4);
+        } else if (stem.ends_with("en")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("er")) {
+            stem = stem.substr(0, stem.length() - 2);
+        } else if (stem.ends_with("s") && stem.length() > 3) {
+            stem = stem.substr(0, stem.length() - 1);
+        }
+    }
+    
+    return stem;
 }
 
 double NlpTextAnalyzer::calculateSimilarity(std::string_view text1, 
@@ -1324,8 +1431,145 @@ std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string& langua
 }
 
 bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string& config_path) const {
-    // TODO: Implement YAML parsing properly
-    // For now, return false to use fallback patterns
+    // Parses a YAML file in the format of config/nlp/legal/german_modal_verbs.yaml.
+    // Expected top-level structure:
+    //   modalities:
+    //     <group_name>:           # e.g. mandatory, discretionary
+    //       - pattern: "\\bword\\b"
+    //         deontic: "O(φ)"
+    //         strength: 1.0
+    //         interpretation: "..."
+    //         category: "obligation"
+    //         context_requirements:
+    //           - "..."
+    std::ifstream file(config_path);
+    if (!file.is_open()) {
+        return false;
+    }
+
+    std::vector<LegalModalityPattern> patterns;
+    std::string line;
+
+    // State machine for parsing the YAML structure
+    enum class Section { NONE, MODALITIES, MODALITY_GROUP, ENTRY };
+    Section section = Section::NONE;
+
+    LegalModalityPattern current;
+    bool in_entry = false;
+    bool in_context_requirements = false;
+
+    auto flush_entry = [&]() {
+        if (in_entry && !current.pattern.empty()) {
+            patterns.push_back(current);
+            current = LegalModalityPattern{};
+            in_entry = false;
+        }
+        in_context_requirements = false;
+    };
+
+    while (std::getline(file, line)) {
+        // Preserve original line for indentation detection, strip for matching
+        std::string stripped = line;
+        stripped.erase(0, stripped.find_first_not_of(" \t"));
+        stripped.erase(stripped.find_last_not_of(" \t\r") + 1);
+
+        if (stripped.empty() || stripped[0] == '#') {
+            continue;
+        }
+
+        // Count leading spaces for indentation level
+        size_t indent = line.find_first_not_of(" \t");
+        if (indent == std::string::npos) indent = 0;
+
+        // Top-level key: "modalities:"
+        if (indent == 0 && stripped == "modalities:") {
+            flush_entry();
+            section = Section::MODALITIES;
+            continue;
+        }
+
+        // Exit modalities section on another top-level key
+        if (indent == 0 && stripped.back() == ':' && section != Section::NONE) {
+            flush_entry();
+            section = Section::NONE;
+            continue;
+        }
+
+        if (section != Section::MODALITIES && section != Section::MODALITY_GROUP &&
+            section != Section::ENTRY) {
+            continue;
+        }
+
+        // Group key at indent=2 (e.g., "  mandatory:", "  discretionary:")
+        if (indent == 2 && stripped.back() == ':' && stripped.find('-') == std::string::npos) {
+            flush_entry();
+            section = Section::MODALITY_GROUP;
+            continue;
+        }
+
+        // New entry marker "    - pattern:" or "    - ..." at indent=4
+        if (indent == 4 && stripped.rfind("- pattern:", 0) == 0) {
+            flush_entry();
+            in_entry = true;
+            section = Section::ENTRY;
+            std::string val = stripped.substr(10);
+            val.erase(0, val.find_first_not_of(" \t\"'"));
+            val.erase(val.find_last_not_of(" \t\"'") + 1);
+            current.pattern = val;
+            continue;
+        }
+
+        if (!in_entry) continue;
+
+        // Parse entry fields at indent=6
+        auto parse_value = [](const std::string& s, const std::string& key) -> std::string {
+            if (s.rfind(key, 0) == 0) {
+                std::string val = s.substr(key.size());
+                val.erase(0, val.find_first_not_of(" \t\"'"));
+                val.erase(val.find_last_not_of(" \t\"'") + 1);
+                return val;
+            }
+            return {};
+        };
+
+        if (indent == 6) {
+            in_context_requirements = false;
+
+            std::string val;
+            if (!(val = parse_value(stripped, "deontic:")).empty()) {
+                current.deontic_logic = val;
+            } else if (!(val = parse_value(stripped, "strength:")).empty()) {
+                try { current.strength = std::stof(val); } catch (...) {
+                    std::cerr << "WARNING: NlpTextAnalyzer: failed to parse strength value '" 
+                              << val << "' in " << config_path << std::endl;
+                }
+            } else if (!(val = parse_value(stripped, "interpretation:")).empty()) {
+                current.interpretation = val;
+            } else if (!(val = parse_value(stripped, "category:")).empty()) {
+                current.category = val;
+            } else if (stripped == "context_requirements:") {
+                in_context_requirements = true;
+            }
+        }
+
+        // context_requirements list items at indent=8
+        if (indent == 8 && in_context_requirements && stripped[0] == '-') {
+            std::string req = stripped.substr(1);
+            req.erase(0, req.find_first_not_of(" \t\"'"));
+            req.erase(req.find_last_not_of(" \t\"'") + 1);
+            if (!req.empty()) {
+                current.context_requirements.push_back(req);
+            }
+        }
+    }
+
+    flush_entry();
+
+    if (!patterns.empty()) {
+        legal_modality_patterns_ = std::move(patterns);
+        return true;
+    }
+
     return false;
 }
 
@@ -1343,14 +1587,16 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(
     
     // Load configuration (cached in legal_modality_patterns_)
     if (legal_modality_patterns_.empty()) {
-        // For now, use fallback hard-coded patterns
-        // TODO: Fix YAML loading in future iteration
-        legal_modality_patterns_ = {
-            {"\\bmuss\\b", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht", {}},
-            {"\\bhat zu\\b", "obligation", 1.0f, "O(φ)", "Formale bindende Verpflichtung", {}},
-            {"\\bsoll\\b", "default_obligation", 0.8f, "O_default(φ)", "Regelfall, Abweichung rechtfertigungsbedürftig", {"Begründungspflicht bei Abweichung", "Verhältnismäßigkeitsprüfung"}},
-            {"\\bkann\\b", "permission", 0.3f, "P(φ)", "Ermessensentscheidung", {"Ermessensausübung erforderlich", "Gleichbehandlungsgrundsatz", "Verhältnismäßigkeitsprüfung"}}
-        };
+        // Try to load from YAML config file
+        if (!loadLegalModalityConfig(cfg_path)) {
+            // Fall back to hard-coded patterns if YAML loading fails
+            legal_modality_patterns_ = {
+                {"\\bmuss\\b", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht", {}},
+                {"\\bhat zu\\b", "obligation", 1.0f, "O(φ)", "Formale bindende Verpflichtung", {}},
+                {"\\bsoll\\b", "default_obligation", 0.8f, "O_default(φ)", "Regelfall, Abweichung rechtfertigungsbedürftig", {"Begründungspflicht bei Abweichung", "Verhältnismäßigkeitsprüfung"}},
+                {"\\bkann\\b", "permission", 0.3f, "P(φ)", "Ermessensentscheidung", {"Ermessensausübung erforderlich", "Gleichbehandlungsgrundsatz", "Verhältnismäßigkeitsprüfung"}}
+            };
+        }
     }
     
     // Convert text to string for regex processing
