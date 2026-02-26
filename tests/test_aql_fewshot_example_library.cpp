@@ -25,6 +25,7 @@
 #include <gtest/gtest.h>
 #include "aql/aql_fewshot_example_library.h"
 #include <algorithm>
+#include <chrono>
 #include <unordered_map>
 
 using namespace themis::aql;
@@ -382,4 +383,52 @@ TEST_F(AQLFewShotExampleLibraryTest, SizeReflectsRegisteredExamples) {
     };
     lib.registerExample(extra);
     EXPECT_EQ(lib.size(), before + 1);
+}
+
+// ============================================================================
+// Performance benchmarks
+// ============================================================================
+
+TEST_F(AQLFewShotExampleLibraryTest, Performance_FindRelevant_UnderThreshold) {
+    // findRelevant() over 37 built-in examples must complete in < 10 ms per call
+    // (budget: 1 s total for 100 calls)
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 100; ++i) {
+        auto results = lib.findRelevant("Find all users in Seattle older than 30", 3);
+        (void)results;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto total_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    auto avg_us = total_us / 100;
+    std::cout << "findRelevant() avg: " << avg_us << " µs per call\n";
+    // 100 calls in less than 1 second total (= 10 ms/call budget)
+    EXPECT_LT(total_us, 1'000'000);
+}
+
+TEST_F(AQLFewShotExampleLibraryTest, Performance_BuildPromptSection_UnderThreshold) {
+    // buildPromptSection() must produce output in < 5 ms per call
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 100; ++i) {
+        auto section = lib.buildPromptSection("Traverse the friends graph from a start node", 5);
+        (void)section;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto total_us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    auto avg_us = total_us / 100;
+    std::cout << "buildPromptSection() avg: " << avg_us << " µs per call\n";
+    // 100 calls in less than 500 ms total (= 5 ms/call budget)
+    EXPECT_LT(total_us, 500'000);
+}
+
+TEST_F(AQLFewShotExampleLibraryTest, Performance_FindByDomain_UnderThreshold) {
+    // findByDomain() must be fast even when called frequently
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 1000; ++i) {
+        auto results = lib.findByDomain(AQLExampleDomain::GRAPH);
+        (void)results;
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto total_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "findByDomain() 1000 calls: " << total_ms << " ms\n";
+    EXPECT_LT(total_ms, 100);  // 1000 calls in under 100 ms
 }

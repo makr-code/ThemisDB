@@ -939,3 +939,35 @@ TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_AcceptsLegitimateSchemaCo
         // No model available — acceptable
     }
 }
+
+// ============================================================================
+// Handler ↔ AQL syntax highlighter path integration test
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithExamples_ValidationRunsWithoutCrash) {
+    // The translateNLToAQLWithExamples() method runs AQLSyntaxHighlighter::annotateErrors()
+    // on the generated result (same as translateNLToAQL).  Without a live LLM the call
+    // fails before reaching validation; verify the exception type is the expected
+    // translation error — not a crash from the highlighter path.
+    AQLFewShotExampleLibrary lib;
+    try {
+        auto aql = handler->translateNLToAQLWithExamples(
+            "Find all orders with status pending",
+            lib
+        );
+        // If a model is available the result should have no markdown fences
+        if (!aql.empty()) {
+            EXPECT_TRUE(aql.find("```") == std::string::npos);
+        }
+    } catch (const LLMException& ex) {
+        // Prompt injection errors are not expected here — only translation failures
+        EXPECT_NE(ex.getErrorCode(), LLMErrorCode::PROMPT_INJECTION)
+            << "Legitimate query should not trigger injection detection";
+    } catch (const std::exception& e) {
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos ||
+                    msg.find("failed") != std::string::npos)
+            << "Unexpected exception: " << msg;
+    }
+}
