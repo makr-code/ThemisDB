@@ -354,4 +354,93 @@ TEST_F(SpatialIndexTest, DropIndex) {
     EXPECT_FALSE(spatial_mgr_->hasSpatialIndex("drop_test"));
 }
 
+// ─── searchKNN ────────────────────────────────────────────────────────────────
+
+TEST_F(SpatialIndexTest, SearchKNN_ReturnsKClosest) {
+    spatial_mgr_->createSpatialIndex("knn_test");
+
+    // Insert four cities at known distances from Berlin (13.4, 52.5).
+    struct CityEntry { const char* key; double lon; double lat; };
+    CityEntry cities[] = {
+        {"berlin",  13.4,   52.5  },
+        {"hamburg", 10.0,   53.6  },
+        {"munich",  11.58,  48.14 },
+        {"london",  -0.12,  51.51 },
+    };
+    for (const auto& c : cities) {
+        GeoSidecar sc;
+        sc.mbr = MBR(c.lon, c.lat, c.lon, c.lat);
+        sc.centroid = Coordinate(c.lon, c.lat);
+        spatial_mgr_->insert("knn_test", c.key, sc);
+    }
+
+    // Ask for the 2 nearest to Berlin itself.
+    auto results = spatial_mgr_->searchKNN("knn_test", 13.4, 52.5, 2);
+    ASSERT_EQ(results.size(), 2u);
+    // The first result should be Berlin (distance ≈ 0).
+    EXPECT_EQ(results[0].primary_key, "berlin");
+    // Results must be sorted ascending by distance.
+    EXPECT_LE(results[0].distance, results[1].distance);
+}
+
+TEST_F(SpatialIndexTest, SearchKNN_ZeroK_ReturnsEmpty) {
+    spatial_mgr_->createSpatialIndex("knn_empty_test");
+    auto results = spatial_mgr_->searchKNN("knn_empty_test", 0.0, 0.0, 0);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST_F(SpatialIndexTest, SearchKNN_MoreThanAvailable_ReturnAll) {
+    spatial_mgr_->createSpatialIndex("knn_small_test");
+    for (int i = 0; i < 3; ++i) {
+        GeoSidecar sc;
+        sc.mbr = MBR(i * 1.0, 0.0, i * 1.0, 0.0);
+        sc.centroid = Coordinate(i * 1.0, 0.0);
+        spatial_mgr_->insert("knn_small_test", "p" + std::to_string(i), sc);
+    }
+    // Request more than available — should return all 3.
+    auto results = spatial_mgr_->searchKNN("knn_small_test", 0.0, 0.0, 10);
+    EXPECT_EQ(results.size(), 3u);
+}
+
+// ─── searchIntersectsWithZ ────────────────────────────────────────────────────
+
+TEST_F(SpatialIndexTest, SearchIntersectsWithZ_FiltersOnZ) {
+    spatial_mgr_->createSpatialIndex("z_test");
+
+    // Insert two points — one at low elevation, one at high elevation.
+    GeoSidecar low_sc;
+    low_sc.mbr = MBR(10.0, 50.0, 10.0, 50.0);
+    low_sc.centroid = Coordinate(10.0, 50.0);
+    low_sc.z_min = 0.0;
+    low_sc.z_max = 100.0;
+    spatial_mgr_->insert("z_test", "low", low_sc);
+
+    GeoSidecar high_sc;
+    high_sc.mbr = MBR(10.0, 50.0, 10.0, 50.0);
+    high_sc.centroid = Coordinate(10.0, 50.0);
+    high_sc.z_min = 500.0;
+    high_sc.z_max = 600.0;
+    spatial_mgr_->insert("z_test", "high", high_sc);
+
+    MBR wide(-180.0, -90.0, 180.0, 90.0);
+
+    // Query Z range [0, 200] — should include "low" only.
+    auto results = spatial_mgr_->searchIntersectsWithZ("z_test", wide, 0.0, 200.0);
+    bool has_low  = std::any_of(results.begin(), results.end(),
+                                [](const SpatialResult& r){ return r.primary_key == "low"; });
+    bool has_high = std::any_of(results.begin(), results.end(),
+                                [](const SpatialResult& r){ return r.primary_key == "high"; });
+    EXPECT_TRUE(has_low);
+    EXPECT_FALSE(has_high);
+
+    // Query Z range [400, 700] — should include "high" only.
+    results = spatial_mgr_->searchIntersectsWithZ("z_test", wide, 400.0, 700.0);
+    has_low  = std::any_of(results.begin(), results.end(),
+                           [](const SpatialResult& r){ return r.primary_key == "low"; });
+    has_high = std::any_of(results.begin(), results.end(),
+                           [](const SpatialResult& r){ return r.primary_key == "high"; });
+    EXPECT_FALSE(has_low);
+    EXPECT_TRUE(has_high);
+}
+
  
