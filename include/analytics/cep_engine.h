@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1182                                           ║
+    • Total Lines:     1197                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -827,7 +827,22 @@ public:
     std::vector<Alert> processEvent(const Event& event);
     
     /**
-     * Parse EPL string to rule config
+     * Parse EPL string to rule config.
+     *
+     * Supported syntax:
+     *   [CREATE RULE <name> AS | NAME <name>]
+     *   SELECT [<agg_fn>(<field>) [AS <alias>], ...] FROM <stream>
+     *   [WHERE <filter>]
+     *   [PATTERN (SEQUENCE|SEQ|AND|OR|NOT) (<types>) [WITHIN <n>(ms|s|MINUTES|HOURS)]]
+     *   [WINDOW (TUMBLING|SLIDING|SESSION|HOPPING|COUNT)(<n> UNIT[, <n> UNIT])]
+     *   [GROUP BY <field>[, ...]]
+     *   [HAVING <condition>]
+     *   [ACTION (alert|webhook|db_write|log|slack|kafka|email)(<params>)
+     *    | ON MATCH ALERT [severity=<s>] [message=<m>]]
+     *
+     * Aggregation functions: COUNT, SUM, AVG, MIN, MAX, FIRST, LAST,
+     *   STDDEV, VARIANCE, PERCENTILE, DISTINCT_COUNT, COLLECT, TOPN
+     * Time units: ms, s/second(s), minute(s), hour(s), day(s)
      */
     static std::optional<RuleConfig> parseEPL(const std::string& epl);
     

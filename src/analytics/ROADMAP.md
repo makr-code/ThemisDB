@@ -22,6 +22,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] SIMD-accelerated aggregations (AVX2)
 - [x] Thread-safe OLAPEngine for concurrent queries
 - [x] CEP full engine (NFA pattern matching, EPL parser, window+aggregation pipeline, alert dispatch, CDC integration) (`analytics/cep_engine.cpp`)
+- [x] CEP: EPL (Event Processing Language) parser: `CREATE RULE … AS`, SELECT aggregations (COUNT/SUM/AVG/MIN/MAX/FIRST/LAST/STDDEV/VARIANCE/PERCENTILE/DISTINCT_COUNT/COLLECT/TOPN with AS alias), GROUP BY, parenthesized WINDOW specs with human-readable time units (ms/s/minutes/hours/days), PATTERN WITHIN with time units, ACTION dispatch (alert/webhook/db_write/log/slack/kafka/email), multi-line EPL normalization (`analytics/cep_engine.cpp`)
 - [x] CEP stateful pattern matching with checkpointing: `PatternMatcher::serializeState()`/`restoreState()`, `RuleEngine::serializeMatcherStates()`/`restoreMatcherStates()`, full NFA partial-match persistence across restarts (`analytics/cep_engine.cpp`)
 - [x] Streaming aggregation windows: TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow with watermark support (`analytics/streaming_window.cpp`)
 - [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
