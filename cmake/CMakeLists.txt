@@ -1883,6 +1883,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     
     # Multi-tenancy support
