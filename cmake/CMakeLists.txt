@@ -1472,6 +1472,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
+    ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
     ../src/prompt_engineering/feedback_collector.cpp
@@ -1499,6 +1500,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/openapi_route_registry.cpp
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
+    ../src/server/udf_api_handler.cpp
     ../src/server/policy_api_handler.cpp
     ../src/server/policy_manager_api_handler.cpp
     ../src/server/policy_versioning_api_handler.cpp
