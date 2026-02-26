@@ -153,6 +153,10 @@ jobs:
                 await github.rest.issues.addLabels({
                   owner: OWNER, repo: REPO, issue_number: issueNumber, labels: [DELEGATED_LABEL],
                 }).catch(e => core.warning(`Could not sync ${DELEGATED_LABEL} label on #${issueNumber}: ${e.message}`));
+                // Ensure Copilot is assigned even if the previous run's assignment failed.
+                await github.rest.issues.addAssignees({
+                  owner: OWNER, repo: REPO, issue_number: issueNumber, assignees: ['copilot'],
+                }).catch(e => core.warning(`Could not sync copilot assignee on #${issueNumber}: ${e.message}`));
                 continue;
               }
 
@@ -205,6 +209,22 @@ jobs:
               } catch (e) {
                 core.warning(`Failed to post delegation comment on #${issueNumber}: ${e.message}. Skipping.`);
                 continue;
+              }
+
+              // ── Assign Copilot to the issue to trigger the Coding Agent ───
+              // The GitHub Copilot Coding Agent is activated by assigning the
+              // 'copilot' user to the issue.  A bare @copilot mention in a
+              // bot-posted comment is not sufficient to start the agent.
+              try {
+                await github.rest.issues.addAssignees({
+                  owner: OWNER,
+                  repo: REPO,
+                  issue_number: issueNumber,
+                  assignees: ['copilot'],
+                });
+                core.info(`Assigned 'copilot' to issue #${issueNumber} to trigger the Coding Agent.`);
+              } catch (e) {
+                core.warning(`Could not assign 'copilot' to #${issueNumber}: ${e.message}`);
               }
 
               // ── Apply copilot/delegated label ─────────────────────────────

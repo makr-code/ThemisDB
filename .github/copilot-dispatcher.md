@@ -34,9 +34,12 @@ dispatcher never creates branches or PRs directly.
         or a generated default criterion.
       - Task notes: target branch, coding standards, test requirements,
         `Closes #<N>` instruction.
-   d. Applies the label **`copilot/delegated`** to the issue.
-   e. Removes the label **`queue/copilot`** from the issue.
-4. Copilot picks up the mention, implements the changes, and opens a PR that
+   d. **Assigns the `copilot` user** to the issue to start the Copilot Coding
+      Agent.  The assignment is the authoritative trigger; a `@copilot` mention
+      posted by a bot account alone is not sufficient to start the agent.
+   e. Applies the label **`copilot/delegated`** to the issue.
+   f. Removes the label **`queue/copilot`** from the issue.
+4. Copilot picks up the assignment, implements the changes, and opens a PR that
    closes the issue.
 
 ---
@@ -150,6 +153,7 @@ The dispatcher is safe to re-run at any time:
 | Fetch queued issues | **Abort** the run |
 | Read comments (idempotency check) | Warning + skip the issue |
 | Post delegation comment | Warning + skip the issue |
+| Assign `copilot` to the issue | Warning only (comment already posted) |
 | Apply `copilot/delegated` label | Warning only (comment already posted) |
 | Remove `queue/copilot` label | Warning only (404 = already absent, ignored) |
 
@@ -181,9 +185,11 @@ Or create the required labels manually:
 
 - The dispatcher does **not** create branches, push commits, or open PRs.
   All of that is handled by the GitHub Copilot Coding Agent after receiving
-  the delegation comment.
+  the issue assignment.
 - GitHub Copilot Coding Agent must be **enabled** on the repository or
-  organisation for the `@copilot` mention to trigger automated work.
+  organisation.  The dispatcher triggers the agent by **assigning the `copilot`
+  user** to the issue; a `@copilot` mention in a bot-posted comment alone is
+  not sufficient.
 - Auto-merge is **not** implemented.  Human review and merge are fully
   independent of the dispatcher.
 
