@@ -33,6 +33,7 @@
 
 #include "cdc/changefeed.h"
 #include "utils/zstd_codec.h"
+#include <nlohmann/json.hpp>
 
 #include <atomic>
 #include <cstdint>
@@ -48,8 +49,8 @@ namespace cdc {
 // ── Wire-format constants ─────────────────────────────────────────────────────
 
 /// Four-byte magic that identifies a CDC compressed batch stream frame.
-static constexpr uint8_t kCdcBatchMagic[4] = {0x43, 0x44, 0x43, 0x5A}; // "CDCZ"
-static constexpr uint8_t kCdcBatchVersion   = 0x01;
+inline constexpr uint8_t kCdcBatchMagic[4] = {0x43, 0x44, 0x43, 0x5A}; // "CDCZ"
+inline constexpr uint8_t kCdcBatchVersion   = 0x01;
 
 // ── Algorithm identifiers ─────────────────────────────────────────────────────
 
