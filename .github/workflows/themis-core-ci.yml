@@ -36,6 +36,10 @@ on:
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
       - 'tests/test_context_propagation.cpp'
+      - 'tests/test_plugin_health_monitor.cpp'
+      - 'src/plugins/plugin_health_monitor.cpp'
+      - 'include/plugins/plugin_health_monitor.h'
+      - 'include/plugins/self_healing_plugin.h'
       - 'include/core/concerns/concerns_context.h'
       - 'include/core/concerns/noop_implementations.h'
       - 'include/core/concerns/i_feature_flags.h'
@@ -85,6 +89,10 @@ on:
       - 'tests/performance/test_wire_perf_benchmark.cpp'
       - 'tests/test_concerns_context.cpp'
       - 'tests/test_context_propagation.cpp'
+      - 'tests/test_plugin_health_monitor.cpp'
+      - 'src/plugins/plugin_health_monitor.cpp'
+      - 'include/plugins/plugin_health_monitor.h'
+      - 'include/plugins/self_healing_plugin.h'
       - 'include/core/concerns/concerns_context.h'
       - 'include/core/concerns/noop_implementations.h'
       - 'include/core/concerns/i_feature_flags.h'
@@ -268,6 +276,14 @@ jobs:
             --gtest_output="xml:concerns_results.xml" \
             2>&1 | tee concerns_output.txt
 
+      - name: Run plugin health monitor tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="PluginHealthMonitorTest*:PluginHealthMonitorSingleton*" \
+            --gtest_output="xml:plugin_health_monitor_results.xml" \
+            2>&1 | tee plugin_health_monitor_output.txt
+
       # ── CCPA/CPRA data subject rights tests ──────────────────────────────
       - name: Run CCPA/CPRA data subject rights tests
         run: |
@@ -370,6 +386,7 @@ jobs:
           CORE_FILTER="${CORE_FILTER}:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*"
           CORE_FILTER="${CORE_FILTER}:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*"
           CORE_FILTER="${CORE_FILTER}:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*"
+          CORE_FILTER="${CORE_FILTER}:PluginHealthMonitorTest*:PluginHealthMonitorSingleton*"
           # CCPA/CPRA data subject rights tests
           CCPA_FILTER="RightToKnow*:RightToDelete*:OptOutOfSale*:DataPortability*"
           CCPA_FILTER="${CCPA_FILTER}:CcpaRuleSetTest*:PolicyEngineWithCcpa*:CcpaReportTest*"
