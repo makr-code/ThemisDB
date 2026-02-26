@@ -10,3 +10,9 @@ max_delegations_per_run: 2
 # Base branch that Copilot should target when opening pull requests.
 # This is communicated to Copilot via the delegation comment.
 base_branch: develop
+
+# GitHub logins of Copilot reviewer bots whose APPROVED reviews satisfy the
+# readiness gate (copilot-readiness-gate.yml).  If the list is empty the
+# review check is skipped and only CI checks are required.
+copilot_reviewer_logins:
+  - copilot-pull-request-reviewer[bot]

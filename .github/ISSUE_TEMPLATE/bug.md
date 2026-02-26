@@ -24,6 +24,17 @@ What you expected to happen.
 
 What actually happened.
 
+## Acceptance Criteria
+
+<!-- Add task-list items below. The Copilot dispatcher extracts these as the
+     fix checklist when delegating this issue to the Coding Agent.
+     This issue will be automatically queued for the Copilot Coding Agent
+     after creation. Add the label `blocked` to pause automatic delegation. -->
+
+- [ ] Root cause identified and fixed.
+- [ ] Regression test added to prevent recurrence.
+- [ ] 
+
 ## Environment
 
 - OS:
