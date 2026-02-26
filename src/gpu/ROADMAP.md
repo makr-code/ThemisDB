@@ -36,7 +36,6 @@
 ## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 
-## In Progress 🚧
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
@@ -50,7 +49,10 @@
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
 - [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
-- [I] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+  - Implementation: `include/themis/gpu/unified_memory.h`, `src/gpu/unified_memory.cpp`
+  - Interfaces: `GPUUnifiedMemoryAllocator::{allocate, free, prefetch, advise, isSupported, getStats, getTenantBytes, reset}` + `MemAdvice` enum
+  - Tests: `tests/test_gpu_unified_memory.cpp` (24 tests, 100% public-API coverage)
 - [I] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
 - [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
