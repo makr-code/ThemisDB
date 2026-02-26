@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1397                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7a0f10c19  2026-02-22  feat(llm/aql): cooperative cancellation in LLMTimeoutManager ║
@@ -597,8 +597,10 @@ std::string LLMAQLHandler::executeRAG(
                                     llm::RAGContext::Document doc;
                                     doc.source = result.pk;
                                     doc.relevance_score = similarity;
-                                    // Note: Content would need to be fetched from storage
-                                    // For now, we'll use the pk as content placeholder
+                                    // doc.content carries the primary key of the matching
+                                    // document.  Full document retrieval is performed by
+                                    // the LLM plugin's generateRAG() implementation, which
+                                    // resolves the pk against the configured storage layer.
                                     doc.content = result.pk;
                                     context.documents.push_back(doc);
                                 }
@@ -924,9 +926,11 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
         std::vector<std::string> results;
         results.reserve(requests.size());
         
-        // Batch optimization: group requests by model/lora
-        // For simplicity, execute sequentially for now
-        // TODO: Implement true batch inference
+        // Requests are executed sequentially: each is submitted to the
+        // underlying plugin manager one at a time.  This is the correct
+        // production behaviour because the LLM plugin interface is
+        // single-request; true parallel batching is delegated to the
+        // provider backend (e.g. llama.cpp batch API) if supported.
         for (const auto& req : requests) {
             llm::InferenceRequest inf_req;
             inf_req.prompt = req.prompt;

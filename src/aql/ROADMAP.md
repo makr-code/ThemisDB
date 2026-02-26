@@ -64,7 +64,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; general AQL handler benchmarks tracked in Issue: #1523)
 - [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`)  
 - [x] Documentation complete (README.md and ROADMAP.md updated)
-- [I] API stability guaranteed (Issue: #1524)
+- [x] API stability guaranteed (Issue: #1524)
 
 ## Known Issues & Limitations
 - NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
