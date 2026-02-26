@@ -114,6 +114,8 @@ public:
         size_t max_size_bytes = DEFAULT_MAX_SIZE_BYTES; // Max size (default: 100GB)
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
         bool compact_on_cleanup = false;                // Run key-based compaction after each cleanup cycle
+
+        static RetentionPolicy defaults() { return {}; }
     };
     
     struct Watermarks {
@@ -138,7 +140,7 @@ public:
      */
     explicit Changefeed(rocksdb::TransactionDB* db, 
                         rocksdb::ColumnFamilyHandle* cf = nullptr,
-                        RetentionPolicy retention = RetentionPolicy{});
+                        RetentionPolicy retention = RetentionPolicy::defaults());
 
     ~Changefeed();
 

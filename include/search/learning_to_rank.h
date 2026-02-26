@@ -94,6 +94,7 @@ public:
         double learning_rate = 0.01;     ///< Gradient-descent step size
         size_t max_click_buffer = 1000;  ///< Maximum stored click events before training
         double regularization = 0.001;  ///< L2 regularization coefficient
+        static Config defaults() { return {}; }
     };
 
     /**
@@ -109,7 +110,7 @@ public:
      * @param config  LTR configuration.
      * @throws std::invalid_argument on invalid config.
      */
-    explicit LearningToRank(const Config& config = Config{});
+    explicit LearningToRank(const Config& config = Config::defaults());
 
     // -----------------------------------------------------------------------
     // Re-ranking

@@ -328,6 +328,7 @@ private:
     bool passesRuntimeFilters(const std::unordered_map<std::string, std::string>& gk,
                                const std::vector<ViewFilter>& filters) const;
     void applyRow(const ChangeRecord::Row& row, int sign);
+    void pruneEmptyGroup(const GroupKey& gk);
 };
 
 // ============================================================================

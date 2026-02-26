@@ -85,13 +85,14 @@ public:
         double synonym_weight = 0.8;     ///< Relative importance of synonym terms (informational)
         size_t max_expansions = 5;       ///< Maximum number of synonym terms to add
         int max_edit_distance = 2;       ///< Maximum edit distance for spelling correction
+        static Config defaults() { return {}; }
     };
 
     /**
      * @brief Construct a QueryExpander with the given config.
      * @throws std::invalid_argument if max_edit_distance < 0 or max_expansions == 0.
      */
-    explicit QueryExpander(const Config& config = Config{});
+    explicit QueryExpander(const Config& config = Config::defaults());
 
     // Not copyable (synonym map can be large); movable
     QueryExpander(const QueryExpander&) = delete;

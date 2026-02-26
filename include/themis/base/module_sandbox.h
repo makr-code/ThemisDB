@@ -224,9 +224,10 @@ public:
         std::vector<std::string> allowed_syscalls; ///< Empty = use default allow-list
 
         std::chrono::seconds shutdown_timeout{10}; ///< Grace period before SIGKILL
+        static Config defaults() { return {}; }
     };
 
-    explicit ModuleSandbox(const Config& config = Config{});
+    explicit ModuleSandbox(const Config& config = Config::defaults());
     ~ModuleSandbox();
 
     // Non-copyable

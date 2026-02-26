@@ -266,6 +266,16 @@ void IncrementalView::applyRow(const ChangeRecord::Row& row, int sign) {
     }
 }
 
+/// Remove a group from groups_ if all its aggregation states have count == 0.
+void IncrementalView::pruneEmptyGroup(const GroupKey& gk) {
+    auto git = groups_.find(gk);
+    if (git == groups_.end()) return;
+    for (const auto& [name, state] : git->second) {
+        if (state.count > 0) return;
+    }
+    groups_.erase(git);
+}
+
 bool IncrementalView::applyChange(const ChangeRecord& change) {
     if (change.collection != def_.source_collection) return false;
 
@@ -282,16 +292,7 @@ bool IncrementalView::applyChange(const ChangeRecord& change) {
         case ChangeType::DELETE: {
             if (!passesBaseFilters(change.before_row)) break;
             applyRow(change.before_row, -1);
-            // Remove empty groups
-            GroupKey gk = makeGroupKey(change.before_row);
-            auto git = groups_.find(gk);
-            if (git != groups_.end()) {
-                bool all_empty = true;
-                for (const auto& [n, s] : git->second) {
-                    if (s.count > 0) { all_empty = false; break; }
-                }
-                if (all_empty) groups_.erase(git);
-            }
+            pruneEmptyGroup(makeGroupKey(change.before_row));
             applied = true;
             break;
         }
@@ -303,18 +304,7 @@ bool IncrementalView::applyChange(const ChangeRecord& change) {
             if (before_passes) applyRow(change.before_row, -1);
             if (after_passes)  applyRow(change.after_row,  +1);
 
-            // Clean up empty groups
-            if (before_passes) {
-                GroupKey gk = makeGroupKey(change.before_row);
-                auto git = groups_.find(gk);
-                if (git != groups_.end()) {
-                    bool all_empty = true;
-                    for (const auto& [n, s] : git->second) {
-                        if (s.count > 0) { all_empty = false; break; }
-                    }
-                    if (all_empty) groups_.erase(git);
-                }
-            }
+            if (before_passes) pruneEmptyGroup(makeGroupKey(change.before_row));
             applied = before_passes || after_passes;
             break;
         }
@@ -346,6 +336,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord>& changes) {
             case ChangeType::DELETE:
                 if (passesBaseFilters(change.before_row)) {
                     applyRow(change.before_row, -1);
+                    pruneEmptyGroup(makeGroupKey(change.before_row));
                     ok = true;
                 }
                 break;
@@ -354,6 +345,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord>& changes) {
                 bool ap = passesBaseFilters(change.after_row);
                 if (bp) applyRow(change.before_row, -1);
                 if (ap) applyRow(change.after_row,  +1);
+                if (bp) pruneEmptyGroup(makeGroupKey(change.before_row));
                 ok = bp || ap;
                 break;
             }

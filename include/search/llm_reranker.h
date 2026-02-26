@@ -123,6 +123,7 @@ public:
         /// Documents with final_score below this threshold are omitted from
         /// the output. Set to 0.0 to return all candidates.
         double min_score_threshold = 0.0;
+        static Config defaults() { return {}; }
     };
 
     /**
@@ -130,7 +131,7 @@ public:
      * @param backend  LLM backend callable; may be nullptr / empty.
      * @throws std::invalid_argument on invalid config values.
      */
-    explicit LlmReranker(const Config& config = Config{},
+    explicit LlmReranker(const Config& config = Config::defaults(),
                          LlmBackend backend = nullptr);
 
     LlmReranker(const LlmReranker&) = delete;

@@ -42,6 +42,7 @@
 #include "analytics/cep_engine.h"
 
 #include <chrono>
+#include <fstream>
 #include <thread>
 #include <filesystem>
 
