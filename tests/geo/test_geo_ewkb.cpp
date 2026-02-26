@@ -437,6 +437,39 @@ TEST_F(EWKBTest, GeoJSONEmptyGeometryCollection) {
     EXPECT_EQ(geom.geometries.size(), 0u);
 }
 
+// Test: GeoJSON nesting depth limit — 8 GeometryCollection objects exceed the limit
+TEST_F(EWKBTest, GeoJSONMaxNestingDepthExceeded) {
+    // The parser allows at most 7 GC objects in a chain; the 8th triggers the depth guard.
+    std::string geojson =
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"Point","coordinates":[1.0,2.0]})"
+        R"(]}]}]}]}]}]}]}]})";
+    EXPECT_THROW(EWKBParser::parseGeoJSON(geojson), std::runtime_error);
+}
+
+// Test: GeoJSON nesting at the limit — 7 GeometryCollection objects are valid
+TEST_F(EWKBTest, GeoJSONMaxNestingDepthExactlyValid) {
+    // 7 chained GeometryCollection objects are within the allowed limit and parse correctly.
+    std::string geojson =
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"GeometryCollection","geometries":[)"
+        R"({"type":"Point","coordinates":[1.0,2.0]})"
+        R"(]}]}]}]}]}]}]})";
+    EXPECT_NO_THROW(EWKBParser::parseGeoJSON(geojson));
+}
+
 // Test: GeoJSON unsupported type throws
 TEST_F(EWKBTest, GeoJSONUnsupportedTypeThrows) {
     std::string geojson = R"({"type":"Foo","coordinates":[]})";
