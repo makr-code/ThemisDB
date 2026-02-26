@@ -3181,6 +3181,7 @@ if(THEMIS_ENABLE_LLM)
         # Phase 3.2: Grammar-Constrained Generation
         ../src/llm/grammar.cpp               # Grammar parsing and compilation
         ../src/llm/grammar_cache.cpp         # Grammar caching for performance
+        ../src/llm/json_schema_converter.cpp # JSON schema → GBNF and tool-call support (Issue #1922)
         
         # Phase 4+5 Week 4-6: llama.cpp Integration
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
