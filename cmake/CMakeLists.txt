@@ -1948,6 +1948,9 @@ set(THEMIS_CORE_SOURCES
     # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
     ../src/analytics/columnar_execution.cpp
 
+    # LLVM-JIT compilation for hot aggregation paths (Phase 3, Issue #1482)
+    ../src/analytics/jit_aggregation.cpp
+
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
 
