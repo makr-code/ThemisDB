@@ -102,8 +102,7 @@ protected:
         for (size_t i = 0; i < N; ++i)
             EXPECT_TRUE(idx.insert(pks_[i], db_[i]));
         return idx;
-    }
-};
+    }};
 
 // ---------------------------------------------------------------------------
 // Basic construction
@@ -140,17 +139,87 @@ TEST(DistributedVectorIndexLifecycle, InsertIncreasesSize) {
     EXPECT_TRUE(idx.insert("k2", v));
     EXPECT_EQ(idx.size(), 2u);
 }
-
 TEST(DistributedVectorIndexLifecycle, RemoveKnownKey) {
     DistributedVectorIndex idx;
     const std::vector<float> v(8, 1.f);
-    idx.insert("k1", v);
+    (void)idx.insert("k1", v);
     EXPECT_TRUE(idx.remove("k1"));
 }
 
 TEST(DistributedVectorIndexLifecycle, RemoveUnknownKeyReturnsFalse) {
     DistributedVectorIndex idx;
     EXPECT_FALSE(idx.remove("no_such_key"));
+}
+
+// Regression for audit finding #1: size() must reflect logical (alive) count.
+TEST(DistributedVectorIndexLifecycle, RemoveDecreasesSizeCorrectly) {
+    DistributedVectorIndex idx;
+    const std::vector<float> v(8, 1.f);
+    (void)idx.insert("k1", v);
+    (void)idx.insert("k2", v);
+    ASSERT_EQ(idx.size(), 2u);
+    (void)idx.remove("k1");
+    EXPECT_EQ(idx.size(), 1u);
+}
+
+// Regression for audit finding #2: removed vector must not appear in search().
+TEST(DistributedVectorIndexLifecycle, RemovedVectorNotInSearchResults) {
+    // Use a single shard so there's no ambiguity about which shard owns the key.
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    DistributedVectorIndex idx(cfg);
+
+    // "target" vector at (100, 0, 0, …) – very far from query (0,…)
+    // "other" vectors cluster near the origin (closer to query)
+    const size_t dim = 8;
+    std::vector<float> target(dim, 0.f);
+    target[0] = 100.f; // far from query
+
+    std::vector<float> near(dim, 0.f);
+    near[0] = 0.01f; // close to query
+
+    (void)idx.insert("far_key", target);
+    for (int i = 0; i < 5; ++i)
+        (void)idx.insert("near_" + std::to_string(i), near);
+
+    // Remove the far vector.
+    (void)idx.remove("far_key");
+
+    // Search should return only near vectors (never far_key's ID).
+    std::vector<float> query(dim, 0.f);
+    auto results = idx.search(query, 6);
+
+    // far_key's ID was in shard 0; after remove, none of the results' IDs
+    // should correspond to the ghost entry.  We verify indirectly: since
+    // near vectors have distance ~0.01 and far_key had distance ~100, any
+    // result with distance >= 50 is the ghost.
+    for (const auto& r : results) {
+        EXPECT_LT(r.distance, 50.f) << "Ghost (removed) vector appeared in results";
+    }
+}
+
+// Regression for audit finding #3: re-inserting the same key should not
+// create duplicate search results.
+TEST(DistributedVectorIndexLifecycle, ReInsertDoesNotProduceDuplicateIds) {
+    DistributedVectorIndexConfig cfg;
+    cfg.num_shards = 1;
+    DistributedVectorIndex idx(cfg);
+
+    std::vector<float> v(4, 1.f);
+    (void)idx.insert("k1", v);
+    (void)idx.insert("k1", v); // update with same data
+
+    // Should still count as one logical vector.
+    EXPECT_EQ(idx.size(), 1u);
+
+    // Search should return at most 1 result for k1.
+    auto results = idx.search(v, 10);
+    // All returned IDs should be unique.
+    std::set<int64_t> seen_ids;
+    for (const auto& r : results) {
+        EXPECT_EQ(seen_ids.count(r.id), 0u) << "Duplicate ID in search results";
+        seen_ids.insert(r.id);
+    }
 }
 
 TEST(DistributedVectorIndexLifecycle, ReInsertSameKey) {
@@ -322,8 +391,7 @@ TEST(DistributedVectorIndexCustomShards, InjectScaNNShards) {
 
     const std::vector<float> v{1.f, 0.f, 0.f, 0.f};
     EXPECT_TRUE(idx.insert("k1", v));
-    EXPECT_EQ(idx.size(), 1u);
-}
+    EXPECT_EQ(idx.size(), 1u);}
 
 TEST(DistributedVectorIndexCustomShards, WrongShardCountThrows) {
     DistributedVectorIndexConfig cfg;
@@ -350,7 +418,7 @@ TEST(DistributedVectorIndexEdge, SearchEmptyIndexReturnsEmpty) {
 TEST(DistributedVectorIndexEdge, SearchKLargerThanSize) {
     DistributedVectorIndex idx;
     for (int i = 0; i < 3; ++i) {
-        idx.insert("k" + std::to_string(i), std::vector<float>(8, static_cast<float>(i)));
+        (void)idx.insert("k" + std::to_string(i), std::vector<float>(8, static_cast<float>(i)));
     }
     auto results = idx.search(std::vector<float>(8, 0.f), 100);
     // Should return at most 3 results (number of inserted vectors)
@@ -359,7 +427,7 @@ TEST(DistributedVectorIndexEdge, SearchKLargerThanSize) {
 
 TEST(DistributedVectorIndexEdge, MoveConstruct) {
     DistributedVectorIndex idx1;
-    idx1.insert("k1", std::vector<float>(8, 1.f));
+    (void)idx1.insert("k1", std::vector<float>(8, 1.f));
     DistributedVectorIndex idx2(std::move(idx1));
     EXPECT_EQ(idx2.size(), 1u);
 }

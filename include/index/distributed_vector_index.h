@@ -20,13 +20,12 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <string>
-#include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace themis {
@@ -100,14 +99,14 @@ public:
     /// @param vector       Pointer to @p dim floats.
     /// @param dim          Dimensionality of the vector.
     /// @return true on success.
-    bool insert(const std::string& primary_key, const float* vector, size_t dim);
+    [[nodiscard]] bool insert(const std::string& primary_key, const float* vector, size_t dim);
 
     /// Convenience overload accepting std::vector<float>.
-    bool insert(const std::string& primary_key, const std::vector<float>& vector);
+    [[nodiscard]] bool insert(const std::string& primary_key, const std::vector<float>& vector);
 
     /// Remove the vector identified by @p primary_key from its shard.
     /// No-op (returns false) when the key is unknown.
-    bool remove(const std::string& primary_key);
+    [[nodiscard]] bool remove(const std::string& primary_key);
 
     // -------------------------------------------------------------------------
     // Query – scatter-gather KNN
@@ -158,12 +157,18 @@ private:
     // Shard index instances
     std::vector<std::unique_ptr<IAnnIndex>> shards_;
 
-    // Maps primary_key → (shard_index, internal_id) for remove support
+    // Maps primary_key → (shard_index, internal_id) for routing
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::pair<size_t, int64_t>> pk_to_shard_;
 
-    // Per-shard next-ID counters
+    // Per-shard next-ID counters (monotonically increasing; IDs are never reused)
     std::vector<int64_t> next_id_;
+
+    // Per-shard sets of currently-alive vector IDs.
+    // Maintained in sync with pk_to_shard_: an ID is alive iff it maps to a
+    // live pk entry.  Used in search() to filter out ghost entries left in
+    // ScaNN after remove() (ScaNN has no removal primitive).
+    std::vector<std::unordered_set<int64_t>> alive_ids_;
 
     // Consistent-hash ring state (used when strategy == CONSISTENT_HASH)
     std::map<uint64_t, size_t> ring_; ///< token → shard_index

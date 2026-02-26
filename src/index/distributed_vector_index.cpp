@@ -6,10 +6,7 @@
 #include "index/ann_index.h" // ScaNN
 
 #include <algorithm>
-#include <cmath>
-#include <functional>
 #include <limits>
-#include <numeric>
 #include <stdexcept>
 
 namespace themis {
@@ -50,6 +47,7 @@ uint64_t hashString(const std::string& s) noexcept {
 DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfig& cfg)
     : config_(cfg)
     , next_id_(cfg.num_shards, 0)
+    , alive_ids_(cfg.num_shards)
 {
     if (cfg.num_shards == 0) {
         throw std::invalid_argument("DistributedVectorIndex: num_shards must be > 0");
@@ -66,6 +64,7 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
     : config_(cfg)
     , shards_(std::move(shards))
     , next_id_(cfg.num_shards, 0)
+    , alive_ids_(cfg.num_shards)
 {
     if (config_.num_shards == 0) {
         throw std::invalid_argument("DistributedVectorIndex: num_shards must be > 0");
@@ -82,6 +81,7 @@ DistributedVectorIndex::DistributedVectorIndex(DistributedVectorIndex&& other) n
     , shards_(std::move(other.shards_))
     , pk_to_shard_(std::move(other.pk_to_shard_))
     , next_id_(std::move(other.next_id_))
+    , alive_ids_(std::move(other.alive_ids_))
     , ring_(std::move(other.ring_))
 {}
 
@@ -91,6 +91,7 @@ DistributedVectorIndex& DistributedVectorIndex::operator=(DistributedVectorIndex
         shards_      = std::move(other.shards_);
         pk_to_shard_ = std::move(other.pk_to_shard_);
         next_id_     = std::move(other.next_id_);
+        alive_ids_   = std::move(other.alive_ids_);
         ring_        = std::move(other.ring_);
     }
     return *this;
@@ -160,32 +161,28 @@ bool DistributedVectorIndex::insert(const std::string& pk,
 
     const size_t target_shard = shardFor_(pk);
 
-    // If key already exists, update it on the correct shard.
+    // Retire the old entry (if any) from its alive set.
     auto existing = pk_to_shard_.find(pk);
     if (existing != pk_to_shard_.end()) {
         const size_t old_shard = existing->second.first;
         const int64_t old_id   = existing->second.second;
-
-        if (old_shard == target_shard) {
-            // Same shard: overwrite in-place by re-adding with the same id.
-            shards_[old_shard]->add(old_id, vec, dim);
-        } else {
-            // Shard migration (e.g. config changed): add to new shard,
-            // old entry remains in old shard data but is no longer reachable
-            // via the routing table.
-            const int64_t new_id = next_id_[target_shard]++;
-            bool ok = shards_[target_shard]->add(new_id, vec, dim);
-            if (ok) {
-                existing->second = {target_shard, new_id};
-            }
-        }
-        return true;
+        alive_ids_[old_shard].erase(old_id);
+        // The old vector data remains in ScaNN but will be filtered out in
+        // search() because old_id is no longer in alive_ids_[old_shard].
     }
 
-    const int64_t id = next_id_[target_shard]++;
-    bool ok = shards_[target_shard]->add(id, vec, dim);
+    // Always allocate a new ID so ScaNN never gets two live entries for
+    // the same logical key (re-adding the same old_id would merely append
+    // a duplicate without replacing).
+    const int64_t new_id = next_id_[target_shard]++;
+    bool ok = shards_[target_shard]->add(new_id, vec, dim);
     if (ok) {
-        pk_to_shard_[pk] = {target_shard, id};
+        pk_to_shard_[pk] = {target_shard, new_id};
+        alive_ids_[target_shard].insert(new_id);
+    } else if (existing != pk_to_shard_.end()) {
+        // Rollback: remove the stale routing entry so the key is not
+        // half-visible after a failed add.
+        pk_to_shard_.erase(existing);
     }
     return ok;
 }
@@ -201,9 +198,12 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
     auto it = pk_to_shard_.find(pk);
     if (it == pk_to_shard_.end()) return false;
 
-    // IAnnIndex does not have a dedicated remove; mark the pk as gone by
-    // erasing it from the routing table.  The underlying shard retains the
-    // vector data but it will never appear in pk_to_shard_ lookups again.
+    const size_t shard_idx = it->second.first;
+    const int64_t id       = it->second.second;
+
+    // Remove from alive set so search() filters it out.
+    alive_ids_[shard_idx].erase(id);
+    // Erase from routing table.
     pk_to_shard_.erase(it);
     return true;
 }
@@ -216,19 +216,22 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
                                                              size_t dim, int k) const {
     if (!query || dim == 0 || k <= 0) return {};
 
-    // Scatter: query every shard for up to k candidates
+    // Scatter: query every shard for up to k candidates, then filter to alive IDs.
     std::vector<AnnSearchResult> merged;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        for (const auto& shard : shards_) {
-            auto partial = shard->search(query, dim, k);
+        for (size_t s = 0; s < shards_.size(); ++s) {
+            auto partial = shards_[s]->search(query, dim, k);
             for (auto& r : partial) {
-                merged.push_back(r);
+                // Only include results whose ID is still alive in this shard.
+                if (alive_ids_[s].count(r.id)) {
+                    merged.push_back(r);
+                }
             }
         }
     }
 
-    // Merge: sort by distance (ascending) and keep top-k
+    // Merge: sort by distance (ascending) and keep top-k.
     std::sort(merged.begin(), merged.end(),
               [](const AnnSearchResult& a, const AnnSearchResult& b) {
                   return a.distance < b.distance;
@@ -251,9 +254,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(
 
 size_t DistributedVectorIndex::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    size_t total = 0;
-    for (const auto& s : shards_) total += s->size();
-    return total;
+    return pk_to_shard_.size();
 }
 
 size_t DistributedVectorIndex::numShards() const {
@@ -265,7 +266,7 @@ std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const
     std::vector<DistributedShardStats> stats;
     stats.reserve(shards_.size());
     for (size_t i = 0; i < shards_.size(); ++i) {
-        stats.push_back({i, shards_[i]->size()});
+        stats.push_back({i, alive_ids_[i].size()});
     }
     return stats;
 }
@@ -277,8 +278,8 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
     stats.min_shard_size = std::numeric_limits<size_t>::max();
     stats.max_shard_size = 0;
 
-    for (const auto& s : shards_) {
-        const size_t n = s->size();
+    for (size_t i = 0; i < shards_.size(); ++i) {
+        const size_t n = alive_ids_[i].size();
         stats.total_vectors += n;
         stats.max_shard_size = std::max(stats.max_shard_size, n);
         stats.min_shard_size = std::min(stats.min_shard_size, n);
