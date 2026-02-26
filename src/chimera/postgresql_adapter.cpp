@@ -36,11 +36,29 @@
 #include "chimera/postgresql_adapter.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <sstream>
 
 namespace chimera {
+
+// ---------------------------------------------------------------------------
+// Auto-registration
+// ---------------------------------------------------------------------------
+
+namespace {
+// Register PostgreSQLAdapter with the factory when this translation unit is linked.
+// NOLINTNEXTLINE(cert-err58-cpp)
+const bool postgresql_registered = []() noexcept {
+    const bool ok = AdapterFactory::register_adapter(
+        "PostgreSQL",
+        []() { return std::make_unique<PostgreSQLAdapter>(); }
+    );
+    assert(ok && "PostgreSQLAdapter: 'PostgreSQL' adapter name already registered");
+    return ok;
+}();
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction / Destruction

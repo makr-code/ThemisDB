@@ -110,7 +110,6 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_claim_extractor\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
-        ".*test_adapter_factory\\.cpp$"
         ".*test_cross_functional_voice_observability\\.cpp$"
         ".*test_process_mining_e2e\\.cpp$"
         ".*test_extended_context\\.cpp$"
@@ -229,7 +228,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
-    ".*test_adapter_factory\\.cpp$"
     ".*test_cross_functional_voice_observability\\.cpp$"
     ".*test_adaptive_query_cache\\.cpp$"
     ".*test_byzantine_detector\\.cpp$"
@@ -487,6 +485,14 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_authenticator.cpp
     )
 endif()
+
+# CHIMERA adapter sources (no external library dependencies – run in simulation mode)
+target_sources(themis_tests PRIVATE
+    ../src/chimera/adapter_factory.cpp
+    ../src/chimera/mongodb_adapter.cpp
+    ../src/chimera/postgresql_adapter.cpp
+    ../src/chimera/themisdb_adapter.cpp
+)
 
 set(_themis_test_core_libs)
 if(THEMIS_BUILD_MODULAR)
