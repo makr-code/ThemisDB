@@ -72,6 +72,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 - ✅ Parallel Δ-Stepping Dijkstra (bucket-based parallelism, no global locks)
 - ✅ Configurable thread pool size (`num_threads`, 0 = auto-detect)
 - ✅ Thread-safe adjacency access via `GraphIndexManager::outAdjacency`
+- ✅ Intra-frontier fan-out parallelism for BFS (`fan_out_threshold`: when frontier ≥ threshold, neighbor lookups are dispatched to multiple threads; 0 = disabled)
 
 **Planned (not yet implemented):**
 - Work-stealing queue for load balancing
@@ -196,11 +197,39 @@ auto result = dist_graph.shortestPath(
 
 ---
 
-### GPU-Accelerated Graph Processing
+### GPU-Accelerated Graph Processing ✅ IMPLEMENTED (BFS/DFS)
 **Priority:** Medium  
 **Target Version:** v1.9.0
 
 Offload graph computations to GPU for massive parallelism.
+
+**Implemented Features (Issue #1829):**
+- ✅ `GPUGraphTraversal` class — CSR-based BFS/DFS with CPU fallback (`include/graph/gpu_traversal.h`, `src/graph/gpu_traversal.cpp`)
+- ✅ Level-synchronous BFS (mirrors GPU parallel frontier expansion)
+- ✅ Iterative DFS with depth tracking
+- ✅ CSR (Compressed Sparse Row) graph representation for cache-efficient traversal
+- ✅ Integer node ID mapping (string ↔ `uint32_t`) for performance
+- ✅ `use_gpu` / `gpu_device` fields added to `GraphQueryOptimizer::QueryConstraints`
+- ✅ GPU dispatch in `executeBFS()` / `executeDFS()` of `GraphQueryOptimizer`
+- ✅ Automatic CPU fallback when no GPU hardware is present
+- ✅ `GraphIndexManager::allVertices()` — enumerate all vertices (with RocksDB fallback)
+
+**API (Implemented):**
+```cpp
+// Via GPUGraphTraversal directly:
+GPUGraphTraversal gpu_trav(graph_manager);
+gpu_trav.load();
+auto result = gpu_trav.bfs("start_vertex", cfg);
+// result->visited_vertices, result->distances, result->used_cpu_fallback
+
+// Via GraphQueryOptimizer (recommended):
+GraphQueryOptimizer::QueryConstraints constraints;
+constraints.use_gpu    = true;
+constraints.gpu_device = 0;  // GPU index; ignored on CPU fallback
+
+auto result = optimizer.executeBFS("start", 10, constraints);
+// Automatically uses GPUGraphTraversal; falls back to CPU when no GPU present
+```
 
 **Features:**
 - CUDA/OpenCL graph kernels
@@ -797,6 +826,41 @@ optimizer.setMaxQueriesPerSecond(0);    // disable
 
 Applies to all five execute methods.  Uses atomic CAS sliding-window for
 thread-safe operation without mutexes.
+
+---
+
+### Subgraph Isomorphism (Pattern Matching) ✅ DONE
+
+`GraphQueryOptimizer::executeSubgraphIsomorphism` – finds all injective mappings
+from a pattern graph onto subgraphs of the data graph (VF2-style backtracking).
+
+```cpp
+// Pattern: u -> v -> w (chain of three vertices)
+std::vector<std::string> pattern_verts = {"u", "v", "w"};
+std::vector<std::pair<std::string,std::string>> pattern_edges = {{"u","v"},{"v","w"}};
+
+auto result = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges);
+// result.value().matches[i] is an unordered_map<string,string>
+// mapping pattern vertex labels to data vertex IDs
+
+// With constraints
+GraphQueryOptimizer::QueryConstraints c;
+c.max_results = 10;          // stop after first 10 matches
+c.timeout_ms = 500;          // abort after 500ms
+c.forbidden_vertices = {"X"}; // X must not appear in any match
+
+auto limited = optimizer.executeSubgraphIsomorphism(pattern_verts, pattern_edges, c);
+```
+
+Key properties:
+- Injective: each data vertex appears at most once per match
+- Directed edge consistency: every pattern edge (u,v) must be present as a
+  directed edge in the data graph for the matched vertices
+- Pattern vertices are user-defined labels (not data vertex IDs)
+- Supports `max_results`, `timeout_ms`, and `forbidden_vertices` constraints
+- Execution statistics available via optional `ExecutionStats*` output parameter
+- Rate-limited by `setMaxQueriesPerSecond()` like all other execute methods
+- Integrates with `optimizePatternMatch()` for cost estimation and plan caching
 
 ---
 

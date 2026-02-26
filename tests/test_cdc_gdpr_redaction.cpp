@@ -6,6 +6,7 @@
 #include "cdc/changefeed.h"
 #include "cdc/cdc_admin.h"
 #include "storage/rocksdb_wrapper.h"
+#include "cdc/cdc_error.h"
 #include <filesystem>
 #include <thread>
 

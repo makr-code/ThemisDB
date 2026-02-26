@@ -17,6 +17,7 @@
 #include <filesystem>
 
 using namespace themis::cdc;
+using themis::RocksDBWrapper;
 using json = nlohmann::json;
 
 // ============================================================================

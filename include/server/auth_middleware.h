@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "auth/mtls_authenticator.h"
+
 #include <string>
 #include <string_view>
 #include <vector>
@@ -35,8 +37,6 @@ namespace auth {
     class JWTValidator;
     class GSSAPIAuthenticator;
     struct KerberosConfig;
-    class MTLSAuthenticator;
-    struct MTLSConfig;
     class ApiKeyAuthenticator;
     struct ApiKeyCredential;
 }
@@ -109,7 +109,7 @@ public:
     /// When enabled, PEM-encoded X.509 client certificates may be passed as
     /// tokens and will be validated against the configured CA.
     /// @param config mTLS configuration (CA certificate, subject mappings, etc.)
-    void enableMTLS(const auth::MTLSConfig& config);
+    void enableMTLS(const auth::MTLSAuthenticator::Config& config);
 
     /// Enable API key (static key + secret) authentication.
     /// Tokens should be presented in the format "<key_id>.<secret>".

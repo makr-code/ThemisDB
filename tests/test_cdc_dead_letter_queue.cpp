@@ -5,6 +5,7 @@
 #include "cdc/dead_letter_queue.h"
 #include "cdc/changefeed.h"
 #include "cdc/changefeed_buffer.h"
+#include "cdc/cdc_error.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <stdexcept>
