@@ -41,7 +41,7 @@ Replace the current dlopen-based loading with a WASM runtime (Wasmtime or WasmEd
 
 ---
 
-### [ ] Manifest Schema v2 with Capability Declarations
+### [x] Manifest Schema v2 with Capability Declarations
 **Priority:** High
 **Target Version:** v0.8.0
 
