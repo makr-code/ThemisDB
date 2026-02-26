@@ -1409,6 +1409,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    ../src/index/distributed_vector_index.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -3582,6 +3583,23 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ann_index
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Distributed vector index across shards (Issue #1879)
+    add_executable(test_distributed_vector_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_distributed_vector_index.cpp
+    )
+    target_link_libraries(test_distributed_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_vector_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
