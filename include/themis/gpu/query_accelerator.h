@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 00:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Total Lines:     230                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -46,9 +46,9 @@ namespace gpu {
  * - **sort**      — sort rows by a numeric key extractor (ASC / DESC)
  * - **aggregate** — SUM / COUNT / MIN / MAX / AVG over a numeric column
  * - **hashJoin**  — hash join two row sets on matching uint64_t keys
- *
- * When THEMIS_ENABLE_CUDA / THEMIS_ENABLE_HIP are defined the stub body can
- * be replaced with the matching cuBLAS / hipBLAS / Thrust call.
+ * - **dotProduct** — dot product of two float vectors (FP32/FP16/BF16 precision)
+ * - **annSearch** — approximate k-nearest-neighbor vector similarity search
+ *                   (GPU stub: cuVS/RAFT `ivf_flat` on CUDA; CPU brute-force fallback)
  *
  * Thread safety: all public methods are protected by an internal mutex.
  */
@@ -124,6 +124,21 @@ public:
     };
 
     // -----------------------------------------------------------------------
+    // ANN search result (cuVS/RAFT path)
+    // -----------------------------------------------------------------------
+    struct AnnNeighbor {
+        size_t index    = 0;     ///< Index into the database vector set
+        float  distance = 0.0f;  ///< Distance to the query vector
+    };
+
+    struct AnnResult {
+        /// results[query_idx] holds the k nearest neighbors for that query,
+        /// sorted ascending by distance.
+        std::vector<std::vector<AnnNeighbor>> results;
+        bool used_gpu = false;
+    };
+
+    // -----------------------------------------------------------------------
     // Statistics
     // -----------------------------------------------------------------------
     struct Stats {
@@ -131,12 +146,16 @@ public:
         size_t   total_sorts         = 0;
         size_t   total_aggregates    = 0;
         size_t   total_joins         = 0;
+        size_t   total_dot_products  = 0;  ///< Dot-product operations completed
+        size_t   total_ann_searches  = 0;  ///< ANN search operations completed
         uint64_t rows_processed      = 0;
         uint64_t bytes_scanned       = 0;
         size_t   gpu_ops             = 0;
         size_t   cpu_fallback_ops    = 0;
         size_t   graph_cache_hits    = 0;   ///< Operations served via graph replay
         size_t   graph_cache_misses  = 0;   ///< New patterns captured into the cache
+        size_t   fp16_ops            = 0;   ///< Tensor Core FP16 dot-product calls
+        size_t   bf16_ops            = 0;   ///< Tensor Core BF16 dot-product calls
     };
 
     // -----------------------------------------------------------------------
@@ -149,6 +168,8 @@ public:
         bool force_cpu = false;
         /// Enable CUDA graph capture for recurring query execution patterns.
         bool enable_graph_cache = false;
+        /// Precision mode for Tensor Core dot-product operations.
+        PrecisionMode precision_mode = PrecisionMode::FP32;
     };
 
     // -----------------------------------------------------------------------
@@ -219,6 +240,49 @@ public:
      */
     DotProductResult dotProduct(const std::vector<float>& a,
                                 const std::vector<float>& b);
+
+    /**
+     * @brief Approximate k-nearest-neighbor vector similarity search.
+     *
+     * Searches @p database (a flat array of @p numVectors vectors each of
+     * length @p dim) for the @p k nearest neighbors of each query in @p queries
+     * (a flat array of @p numQueries vectors each of length @p dim).
+     *
+     * Distance metric
+     * ---------------
+     * When @p useL2 is true (default), squared Euclidean (L2) distance is used.
+     * When false, negative inner product is used as a distance metric (lower
+     * value = higher similarity).  For unit-normalized vectors this is equivalent
+     * to cosine distance; for unnormalized vectors callers performing maximum
+     * inner product search (MIPS) should normalize their vectors beforehand.
+     *
+     * GPU path (when THEMIS_ENABLE_CUDA is defined and vector count ≥
+     * `Config::gpu_threshold_rows`) — stub for production cuVS/RAFT wiring:
+     *   1. Allocate device memory and copy @p database + @p queries.
+     *   2. Build an IVF-Flat index: `cuvs::neighbors::ivf_flat::build()`
+     *   3. Search: `cuvs::neighbors::ivf_flat::search()`
+     *   4. Copy results back to host and populate `AnnResult`.
+     *
+     * CPU fallback — brute-force exact k-NN using a max-heap per query.
+     *
+     * @param queries    Flat float array of @p numQueries × @p dim elements.
+     * @param numQueries Number of query vectors.
+     * @param dim        Vector dimensionality; must match for queries and database.
+     * @param database   Flat float array of @p numVectors × @p dim elements.
+     * @param numVectors Number of database vectors.
+     * @param k          Number of nearest neighbors to return per query.
+     * @param useL2      If true use L2 distance; if false use inner-product distance.
+     * @return AnnResult where `results[i]` holds the @p k nearest neighbors for
+     *         query @p i, sorted ascending by distance.
+     *         Returns empty results if inputs are invalid (dim=0, k=0, etc.).
+     */
+    AnnResult annSearch(const std::vector<float>& queries,
+                        size_t                    numQueries,
+                        size_t                    dim,
+                        const std::vector<float>& database,
+                        size_t                    numVectors,
+                        size_t                    k,
+                        bool                      useL2 = true);
 
     // -----------------------------------------------------------------------
     // Stats

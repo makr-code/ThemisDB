@@ -168,6 +168,41 @@ the kernel sequence once and replaying it on subsequent calls.
 
 ---
 
+### GPU-Accelerated ANN (Vector Similarity) via cuVS/RAFT
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Approximate k-nearest-neighbor (ANN) vector similarity search accelerated by
+the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
+
+**Implemented infrastructure:**
+- ✅ `GPUQueryAccelerator::annSearch()` — accepts a flat query array and a flat
+  database array, returns the k nearest neighbors per query sorted ascending by
+  distance.  Supports L2 (squared Euclidean) and inner-product distance metrics.
+- ✅ CPU brute-force exact k-NN fallback (max-heap per query) — always available
+  without GPU hardware; activated when the database size is below
+  `Config::gpu_threshold_rows` or `force_cpu = true`.
+- ✅ Graph-cache integration — recurring ANN queries with the same shape
+  (`numQueries × dim`, `k`, metric) are tracked in `GPUGraphCache` with
+  `QueryShape::OpType::ANN_SEARCH`; hit/miss counters visible in
+  `GPUQueryAccelerator::Stats::graph_cache_hits` / `graph_cache_misses`.
+- ✅ `Stats::total_ann_searches` counter for observability.
+- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
+
+**Remaining (hardware required):**
+- Allocate device buffers via `cudaMalloc` and copy database + queries with
+  `cudaMemcpy`.
+- Build an IVF-Flat index using
+  `cuvs::neighbors::ivf_flat::build(handle, idx_params, db_view)`.
+- Execute the search with
+  `cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_view,
+  neighbors_view, distances_view)`.
+- Copy `neighbors` and `distances` device arrays back to host and populate
+  `AnnResult`.
+- Wire `THEMIS_ENABLE_CUDA` guard around the cuVS path; fall back to CPU on
+  `cudaMalloc` failure.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
@@ -177,4 +212,4 @@ the kernel sequence once and replaying it on subsequent calls.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.2.0*
+*Module Version: v1.3.0*

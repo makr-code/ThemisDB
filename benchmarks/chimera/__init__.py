@@ -56,10 +56,17 @@ from .reporter import ChimeraReporter
 from .statistics import StatisticalAnalyzer
 from .colors import ColorBlindPalette
 from .citations import CitationManager
+from .scoring import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod, NormalizedScore, CompositeScore
 
 __all__ = [
     "ChimeraReporter",
-    "StatisticalAnalyzer", 
+    "StatisticalAnalyzer",
     "ColorBlindPalette",
-    "CitationManager"
+    "CitationManager",
+    "BenchmarkScorer",
+    "MetricConfig",
+    "MetricDirection",
+    "NormalizationMethod",
+    "NormalizedScore",
+    "CompositeScore",
 ]

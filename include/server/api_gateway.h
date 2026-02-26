@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     442                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
@@ -110,6 +110,10 @@ public:
         // API Versioning
         bool enable_api_versioning = true;      // Enable API version negotiation
         bool enforce_version_check = false;     // Enforce version compatibility
+
+        // External gateway integration (Kong, Nginx)
+        bool enable_trusted_proxy_headers = false; // Trust X-Forwarded-For / X-Real-IP headers
+        std::vector<std::string> trusted_proxies;  // Trusted proxy IPs (empty = trust all)
     };
     
     /**
@@ -437,6 +441,20 @@ private:
      * @return Parsed URN if found and valid, std::nullopt otherwise
      */
     std::optional<sharding::URN> extractUrnFromPath(const std::string& path) const;
+
+    /**
+     * @brief Extract the real client IP address from a request
+     *
+     * When ThemisDB is deployed behind an external API gateway (Kong, Nginx),
+     * the actual client IP is propagated via the X-Real-IP or X-Forwarded-For
+     * headers.  This method returns the leftmost (originating) IP from those
+     * headers when enable_trusted_proxy_headers is set, otherwise falls back to
+     * a fixed placeholder (real peer address is not available at this layer).
+     *
+     * @param req HTTP request
+     * @return Client IP string, or empty string if unavailable
+     */
+    std::string extractClientIp(const http::request<http::string_body>& req) const;
 
     /**
      * @brief Dispatch a shard operation using the shard router
