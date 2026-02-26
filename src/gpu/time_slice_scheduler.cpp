@@ -24,7 +24,6 @@
 #include "themis/gpu/time_slice_scheduler.h"
 #include <algorithm>
 #include <chrono>
-#include <stdexcept>
 
 namespace themis {
 namespace gpu {
@@ -58,9 +57,6 @@ bool GPUTimeSliceScheduler::unregisterTenant(const std::string& tenant_id) {
     if (it == tenants_.end()) {
         return false;
     }
-
-    // Accumulate aggregate stats before removing.
-    total_preempted_ += it->second.stats.preempted;
 
     tenants_.erase(it);
     round_robin_order_.erase(
@@ -121,9 +117,14 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
         ? std::move(backend)
         : [](const GPULauncher::WorkItem&) -> bool { return true; };
 
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::mutex> lock(mutex_);
 
-    for (const auto& tenant_id : round_robin_order_) {
+    // Snapshot the round-robin order so that unregisterTenant() calls made
+    // while the mutex is unlocked during item execution do not invalidate the
+    // iteration.
+    const std::vector<std::string> order = round_robin_order_;
+
+    for (const auto& tenant_id : order) {
         auto it = tenants_.find(tenant_id);
         if (it == tenants_.end()) continue;
 
@@ -133,21 +134,33 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
         const auto slice = std::chrono::milliseconds(state.config.slice_ms);
         const auto slice_start = std::chrono::steady_clock::now();
 
-        while (!state.queue.empty()) {
+        while (true) {
+            // Re-find the tenant: it may have been removed during a previous
+            // unlock window.
+            it = tenants_.find(tenant_id);
+            if (it == tenants_.end()) break;
+
+            TenantState& st = it->second;
+            if (st.queue.empty()) break;
+
             // Check if the time quantum has been exhausted.
             const auto elapsed =
                 std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - slice_start);
             if (elapsed >= slice) {
                 // Time slice expired — record preemption and move to next tenant.
-                ++state.stats.preempted;
+                ++st.stats.preempted;
                 ++total_preempted_;
                 break;
             }
 
-            // Execute the next work item from this tenant's queue.
-            GPULauncher::WorkItem item = std::move(state.queue.front());
-            state.queue.pop_front();
+            // Pop the next work item from this tenant's queue.
+            GPULauncher::WorkItem item = std::move(st.queue.front());
+            st.queue.pop_front();
+
+            // Release the lock while executing the item so that other threads
+            // can call submit(), queueDepth(), getStats(), etc. concurrently.
+            lock.unlock();
 
             const auto item_start = std::chrono::steady_clock::now();
             fn(item);
@@ -155,13 +168,24 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
                 std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - item_start);
 
-            ++state.stats.completed;
+            lock.lock();
+
+            // Re-find after re-acquiring: the tenant may have been removed
+            // while the lock was released.
+            it = tenants_.find(tenant_id);
+            if (it == tenants_.end()) break;
+
+            ++it->second.stats.completed;
             ++total_completed_;
-            state.stats.total_elapsed_ms +=
+            it->second.stats.total_elapsed_ms +=
                 static_cast<uint64_t>(item_elapsed.count());
         }
 
-        state.stats.queue_depth = state.queue.size();
+        // Refresh the queue_depth snapshot for any still-registered tenant.
+        it = tenants_.find(tenant_id);
+        if (it != tenants_.end()) {
+            it->second.stats.queue_depth = it->second.queue.size();
+        }
     }
 
     ++dispatch_rounds_;

@@ -395,3 +395,83 @@ TEST(GPUTimeSliceSchedulerSingletonTest, GetInstance_ReturnsSameObject) {
     auto& b = GPUTimeSliceScheduler::GetInstance();
     EXPECT_EQ(&a, &b);
 }
+
+// ===========================================================================
+// Regression: double-counting of total_preempted_ after unregisterTenant
+// ===========================================================================
+
+TEST_F(GPUTimeSliceSchedulerTest, Regression_TotalPreemptedNotDoubleCountedOnUnregister) {
+    // Bug: unregisterTenant() previously added tenant.stats.preempted to
+    // total_preempted_ even though dispatch() already incremented it.
+    // After the fix, total_preempted must equal the per-tenant preempted count,
+    // not double that value.
+    sched.registerTenant(makeCfg("t1", 1));
+
+    for (int i = 0; i < 5; ++i) {
+        sched.submit("t1", makeItem("k" + std::to_string(i)));
+    }
+
+    // Use a slow backend so the 1ms slice expires with items remaining.
+    sched.dispatch([](const GPULauncher::WorkItem&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        return true;
+    });
+
+    // Record aggregate total_preempted_ before unregistering.
+    const size_t preempted_before_unreg = sched.getStats().total_preempted;
+    ASSERT_GT(preempted_before_unreg, 0u) << "preemption must have occurred";
+
+    sched.unregisterTenant("t1");
+
+    // After unregistering, total_preempted must be unchanged.
+    EXPECT_EQ(sched.getStats().total_preempted, preempted_before_unreg)
+        << "unregisterTenant must not add tenant preemptions to total_preempted again";
+}
+
+// ===========================================================================
+// Thread safety: concurrent submit during dispatch (no deadlock / data race)
+// ===========================================================================
+
+TEST_F(GPUTimeSliceSchedulerTest, ConcurrentSubmit_DuringDispatch_NoDeadlock) {
+    // Verifies that the mutex is NOT held during fn(item) execution:
+    // a separate thread must be able to call submit() while dispatch() runs.
+    sched.registerTenant(makeCfg("t1", 5000));
+
+    // Submit one initial item so dispatch() has something to work on.
+    sched.submit("t1", makeItem("initial"));
+
+    std::atomic<bool> submit_succeeded{false};
+    std::atomic<bool> dispatch_entered{false};
+
+    // Backend: signal that dispatch has started, then sleep briefly so the
+    // concurrent thread has time to call submit().
+    auto backend = [&](const GPULauncher::WorkItem&) -> bool {
+        dispatch_entered.store(true);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        return true;
+    };
+
+    // Concurrent thread: wait until dispatch enters the backend, then submit.
+    std::thread submitter([&]() {
+        // Spin until dispatch is inside fn(item).
+        while (!dispatch_entered.load()) {
+            std::this_thread::yield();
+        }
+        // dispatch() unlocks the mutex before calling fn(item), which sets
+        // dispatch_entered.  A brief sleep ensures the unlock has propagated
+        // before we attempt submit().
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
+        // This call must not deadlock (mutex must not be held during fn()).
+        submit_succeeded.store(sched.submit("t1", makeItem("concurrent")));
+    });
+
+    sched.dispatch(backend);
+    submitter.join();
+
+    EXPECT_TRUE(submit_succeeded.load())
+        << "submit() must succeed while dispatch() is executing a work item";
+    // The concurrently submitted item is still in the queue (dispatch() already
+    // completed its round), so drain it.
+    sched.drainAll(nullptr);
+    EXPECT_TRUE(sched.allQueuesEmpty());
+}

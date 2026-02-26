@@ -83,7 +83,7 @@ public:
         std::string tenant_id;
         size_t   submitted       = 0;  ///< Items submitted via submit()
         size_t   completed       = 0;  ///< Items executed to completion
-        size_t   preempted       = 0;  ///< Items deferred because slice expired
+        size_t   preempted       = 0;  ///< Number of times this tenant's slice expired with items remaining in the queue
         uint64_t total_elapsed_ms = 0; ///< Cumulative wall-clock time in dispatch
         uint32_t slice_ms        = 0;  ///< Configured time quantum
         size_t   queue_depth     = 0;  ///< Items currently waiting in the queue
@@ -95,7 +95,7 @@ public:
     struct Stats {
         size_t   total_submitted  = 0;  ///< Sum across all tenants
         size_t   total_completed  = 0;  ///< Sum across all tenants
-        size_t   total_preempted  = 0;  ///< Rounds where slice expired with items remaining
+        size_t   total_preempted  = 0;  ///< Sum of preemption events across all tenants (slice expired with items remaining)
         size_t   dispatch_rounds  = 0;  ///< dispatch() calls completed
         size_t   registered_tenants = 0;
     };
