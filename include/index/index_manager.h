@@ -124,6 +124,69 @@ public:
     
     Result<IndexType> getIndexType(std::string_view name) const override;
 
+    // -------------------------------------------------------------------------
+    // Multi-tenancy index isolation (RocksDB key-prefix based)
+    //
+    // Each tenant's indexes are stored under the prefix "tenant:<id>:<name>" so
+    // that data from different tenants is never accessible across boundaries.
+    // -------------------------------------------------------------------------
+
+    /// @brief Build the tenant-scoped RocksDB key prefix for an index.
+    ///
+    /// Format: "tenant:<tenant_id>:<index_name>"
+    ///
+    /// @param tenant_id  Non-empty tenant identifier
+    /// @param index_name Logical index name within the tenant namespace
+    /// @return Prefixed index key used internally by all underlying managers
+    static std::string makeTenantIndexName(std::string_view tenant_id,
+                                           std::string_view index_name);
+
+    /// @brief Create a secondary index scoped to a specific tenant.
+    Result<ISecondaryIndex*> createSecondaryIndex(std::string_view tenant_id,
+                                                   std::string_view name,
+                                                   std::string_view field_name,
+                                                   const std::string& config = "");
+
+    /// @brief Create a vector index scoped to a specific tenant.
+    Result<IVectorIndex*> createVectorIndex(std::string_view tenant_id,
+                                             std::string_view name,
+                                             uint32_t dimension,
+                                             const std::string& config = "");
+
+    /// @brief Create a graph index scoped to a specific tenant.
+    Result<IGraphIndex*> createGraphIndex(std::string_view tenant_id,
+                                           std::string_view name,
+                                           const std::string& config = "");
+
+    /// @brief Look up a secondary index scoped to a specific tenant.
+    Result<ISecondaryIndex*> getSecondaryIndex(std::string_view tenant_id,
+                                                std::string_view name) const;
+
+    /// @brief Look up a vector index scoped to a specific tenant.
+    Result<IVectorIndex*> getVectorIndex(std::string_view tenant_id,
+                                          std::string_view name) const;
+
+    /// @brief Look up a graph index scoped to a specific tenant.
+    Result<IGraphIndex*> getGraphIndex(std::string_view tenant_id,
+                                        std::string_view name) const;
+
+    /// @brief Drop an index scoped to a specific tenant.
+    Result<void> dropIndex(std::string_view tenant_id, std::string_view name);
+
+    /// @brief Drop all indexes belonging to a given tenant.
+    ///
+    /// Safe to call even when the tenant has no indexes (returns Ok).
+    Result<void> dropTenantIndexes(std::string_view tenant_id);
+
+    /// @brief List all index names registered for a specific tenant.
+    ///
+    /// Returns logical names (without the "tenant:<id>:" prefix).
+    std::vector<std::string> listIndexes(std::string_view tenant_id) const;
+
+    /// @brief Return the type of an index scoped to a specific tenant.
+    Result<IndexType> getIndexType(std::string_view tenant_id,
+                                    std::string_view name) const;
+
 private:
     IExpressionEvaluatorPtr evaluator_;
     IStorageEnginePtr storage_;
