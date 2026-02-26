@@ -47,14 +47,10 @@
 #include "analytics/jit_aggregation.h"
 
 #include <algorithm>
-#include <cassert>
-#include <cmath>
 #include <functional>
 #include <limits>
-#include <numeric>
 #include <optional>
 #include <sstream>
-#include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
