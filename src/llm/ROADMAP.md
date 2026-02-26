@@ -37,7 +37,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 
 ### Long-term (6-12 months)
 - [I] Speculative decoding for latency reduction (Issue: #1934)
-- [I] Multi-modal input support (image + text) (Issue: #1927)
+- [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
 - [!] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
