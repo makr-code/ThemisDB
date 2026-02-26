@@ -69,6 +69,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [ ] Distributed vector index across shards
 - [ ] Partial / filtered indexes on secondary index manager
 - [ ] Cold/warm tier index migration
+- [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1882)
@@ -82,6 +83,11 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - GPU acceleration requires Vulkan/CUDA drivers; falls back to CPU automatically.
 - HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
 - Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
+- Multi-tenancy index isolation uses RocksDB key-prefix format `tenant:<id>:<index_name>`;
+  index registry isolation is enforced at the `IndexManager` layer.  Adapter classes that
+  bridge `ISecondaryIndex` / `IVectorIndex` interface pointers to the concrete managers are
+  not yet implemented (known stub); tenant-scoped create/get calls that succeed return nullptr
+  for those pointer types until the adapters are added.
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.

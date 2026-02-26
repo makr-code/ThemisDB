@@ -164,3 +164,51 @@ TEST(MultiTenantIndexIsolation, TenantKeyPrefix_NotExposedInGlobalList_WhenEmpty
     auto all = mgr->listIndexes();
     EXPECT_TRUE(all.empty());
 }
+
+// ===========================================================================
+// Additional edge-case coverage
+// ===========================================================================
+
+TEST(MultiTenantIndexEdgeCases, ListIndexes_EmptyTenantId_ReturnsEmptyList) {
+    // listIndexes("") is NOT an error – it simply returns no matches because no
+    // key starts with "tenant:<empty>:" (i.e. "tenant::").  This is intentionally
+    // different from the other tenant-scoped methods which reject empty tenant_id.
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->listIndexes("");
+    EXPECT_TRUE(result.empty());
+}
+
+TEST(MultiTenantIndexEdgeCases, GetIndexType_UnknownTenantScopedIndex_ReturnsNotFound) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getIndexType("acme", "nonexistent_index");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
+
+TEST(MultiTenantIndexEdgeCases, DropIndex_UnknownTenantScopedIndex_ReturnsNotFound) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->dropIndex("acme", "nonexistent_index");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
+
+TEST(MultiTenantIndexEdgeCases, GetSecondaryIndex_UnknownTenantScopedIndex_ReturnsNotFound) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getSecondaryIndex("acme", "nonexistent");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
+
+TEST(MultiTenantIndexEdgeCases, GetVectorIndex_UnknownTenantScopedIndex_ReturnsNotFound) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getVectorIndex("acme", "nonexistent");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
+
+TEST(MultiTenantIndexEdgeCases, GetGraphIndex_UnknownTenantScopedIndex_ReturnsNotFound) {
+    auto mgr = makeTestIndexManager();
+    auto result = mgr->getGraphIndex("acme", "nonexistent");
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_INDEX_NOT_FOUND);
+}
