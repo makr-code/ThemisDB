@@ -1756,6 +1756,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
+    ../src/governance/cross_tenant_policy_inheritance.cpp
     ../src/governance/policy_template.cpp
     ../src/governance/policy_coordinator.cpp
     ../src/governance/compliance_reporting.cpp
