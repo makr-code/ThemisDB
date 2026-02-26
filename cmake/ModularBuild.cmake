@@ -409,6 +409,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
+    ../src/governance/cross_tenant_policy_inheritance.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp
