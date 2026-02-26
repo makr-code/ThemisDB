@@ -33,6 +33,10 @@ object ::= "{" ws "}" | "{" ws string ws ":" ws value (ws "," ws string ws ":" w
 array ::= "[" ws "]" | "[" ws value (ws "," ws value)* ws "]"
 )";
 
+// Rule names that map directly to a base rule and require no new rule definition.
+static const std::unordered_set<std::string> kPrimitiveRuleNames =
+    {"string", "integer", "number", "boolean", "null", "value", "object", "array"};
+
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
@@ -125,9 +129,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
             std::string item_body = schemaNodeToRuleBody(schema["items"], item_rule_name, new_rules);
             // If item_body is a primitive reference, no new rule needed
             std::string item_ref;
-            static const std::unordered_set<std::string> kPrimitives =
-                {"string","integer","number","boolean","null","value","object","array"};
-            if (kPrimitives.count(item_body)) {
+            if (kPrimitiveRuleNames.count(item_body)) {
                 item_ref = item_body;
             } else {
                 new_rules.emplace_back(item_rule_name, item_body);
@@ -181,10 +183,8 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
             std::string val_rule_name = rule_prefix + "-" + sanitizeRuleName(key);
             std::string val_body = schemaNodeToRuleBody(prop_schema, val_rule_name, new_rules);
 
-            static const std::unordered_set<std::string> kPrimitives2 =
-                {"string","integer","number","boolean","null","value","object","array"};
             std::string val_ref;
-            if (kPrimitives2.count(val_body)) {
+            if (kPrimitiveRuleNames.count(val_body)) {
                 val_ref = val_body;
             } else {
                 new_rules.emplace_back(val_rule_name, val_body);
@@ -208,12 +208,12 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
             body += required_part;
             body += optional_part;
         } else if (!optional_part.empty()) {
-            // All fields optional — at least emit the outer braces
-            // Trim leading " (ws..." to make first optional field look like:
-            //   "{" ws ("\"key\"" ws ":" ws val)? ... "}"
-            // optional_part starts with " (ws \",\" ws ..." which isn't correct for
-            // the first field. Replace the first separator with nothing.
-            // Simplification: treat them all as "object" for now when no required fields.
+            // All properties are optional and there are no required fields.
+            // Generating all 2^N orderings for N optional fields would make the grammar
+            // exponentially large.  We conservatively fall back to the generic "object"
+            // rule, which accepts any JSON object.  Schemas with only optional properties
+            // are uncommon in tool-calling scenarios; callers that need strict optional
+            // handling should provide at least one required field or use grammar_ebnf directly.
             return "object";
         }
         body += " ws \"}\"";
@@ -230,7 +230,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
 
 std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     if (schema.is_null() || !schema.is_object()) {
-        spdlog::debug("JsonSchemaConverter::schemaToEbnf: empty/null schema, returning json grammar");
+        spdlog::debug("JsonSchemaConverter::schemaToEbnf: empty/null schema, returning empty string");
         return "";
     }
 
@@ -280,10 +280,8 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
             args_body = "object";
         }
 
-        static const std::unordered_set<std::string> kPrimitives =
-            {"string","integer","number","boolean","null","value","object","array"};
         std::string args_ref;
-        if (kPrimitives.count(args_body)) {
+        if (kPrimitiveRuleNames.count(args_body)) {
             args_ref = args_body;
         } else {
             new_rules.emplace_back(args_rule_name, args_body);

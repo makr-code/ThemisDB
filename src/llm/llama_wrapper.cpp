@@ -1039,7 +1039,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             if (tool_call.has_value()) {
                 response.tool_calls.push_back(std::move(tool_call.value()));
             } else {
-                spdlog::debug("Tool calling: model output could not be parsed as tool call");
+                spdlog::debug("Tool calling: model output could not be parsed as a tool call "
+                              "(expected one of {} tool(s), output snippet: '{}')",
+                              request.tools.size(),
+                              response.text.substr(0, std::min<std::size_t>(80, response.text.size())));
             }
         }
         
