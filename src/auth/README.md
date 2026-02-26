@@ -8,7 +8,7 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 
 ## Subsystem Scope
 
-**In scope:** JWT validation with JWKS, Kerberos/GSSAPI SSO, TOTP MFA with recovery codes, RBAC principal-to-role mapping, brute force rate limiting.
+**In scope:** JWT validation with JWKS, Kerberos/GSSAPI SSO, TOTP MFA with recovery codes, RBAC principal-to-role mapping, brute force rate limiting, session management and revocation.
 
 **Out of scope:** User management (external IdP), secrets storage (handled by security module), audit logging (handled by utils module).
 
@@ -21,10 +21,11 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 - `oauth_device_flow.cpp` — OAuth 2.0 device authorization flow (RFC 8628)
 - `oauth_pkce_flow.cpp` — OAuth 2.0 Authorization Code Grant with PKCE for public clients (RFC 7636)
 - `oidc_provider.cpp` — OIDC Provider Discovery and federated identity integration
+- `session_manager.cpp` — session lifecycle (create / validate / revoke / list) with idle and absolute timeouts
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — JWT, Kerberos, TOTP, and RBAC operational; OAuth 2.0 PKCE flow production-ready; OAuth 2.0 device flow and SAML 2.0 in progress.
+**Maturity:** 🟢 Production-Ready — JWT, Kerberos, TOTP, RBAC, OAuth 2.0 PKCE, and session management (including revocation) are all production-ready; OAuth 2.0 device flow and SAML 2.0 in progress.
 
 ## Table of Contents
 
@@ -53,6 +54,7 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
 - **Principal-to-Role Mapping**: Flexible authorization system
 - **Clock Skew Tolerance**: Distributed system friendly
 - **Rate Limiting**: Brute force and replay attack prevention
+- **Session Management**: Cryptographically random session IDs, idle/absolute timeouts, per-user limits, revocation endpoint
 
 ### Architecture
 
@@ -236,6 +238,63 @@ OAuth 2.0 Authorization Code Grant with Proof Key for Code Exchange (RFC 7636) f
 3. User authenticates; authorization server redirects back with `authorization_code`
 4. Client calls `exchangeCode(authorization_code, code_verifier)` to obtain tokens
 5. Optionally, call `validateIdToken(token_response)` to extract and verify identity claims
+
+### Session Manager (`session_manager.cpp`)
+
+Manages the full lifecycle of user authentication sessions.  All REST operations are
+exposed via `server/session_api_handler.cpp` at `/auth/sessions`.
+
+**Features:**
+- Cryptographically random 128-bit session IDs (OpenSSL `RAND_bytes`), encoded as 32 lowercase hex characters, prefixed `sess_` (total length: 37 characters, e.g. `sess_a1b2c3d4…`)
+- Configurable idle timeout (default: 8 h) and absolute lifetime (default: 30 days)
+- Per-user concurrent session limit with LRU eviction of the oldest session (default: 10)
+- Thread-safe: single `std::mutex` guards the session map
+- Automatic pruning of expired entries on `createSession()` and `validateSession()`
+
+**REST Endpoints (require `auth:sessions` scope):**
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/auth/sessions` | Create a new session; returns session ID and metadata |
+| `GET` | `/auth/sessions` | List all active sessions for the authenticated user |
+| `DELETE` | `/auth/sessions/{session_id}` | Revoke a specific session (owner or `admin:all` scope) |
+| `DELETE` | `/auth/sessions` | Revoke all sessions except the one identified by `current_session_id` in the JSON body ("logout everywhere") |
+
+**Configuration (`SessionManager::SessionLimits`):**
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `max_sessions_per_user` | `10` | Max concurrent sessions; `0` = unlimited |
+| `idle_timeout` | `8 h` | Session invalidated if unused for this duration |
+| `absolute_timeout` | `30 days` | Hard session lifetime regardless of activity |
+
+**Usage:**
+```cpp
+#include "auth/session_manager.h"
+
+SessionManager::SessionLimits lim;
+lim.max_sessions_per_user = 5;
+lim.idle_timeout          = std::chrono::hours(1);
+lim.absolute_timeout      = std::chrono::hours(24);
+
+SessionManager mgr(lim);
+
+// Create
+std::string sid = mgr.createSession("alice", "fp-xyz", "10.0.0.1", "MyApp/1.0");
+
+// Validate (updates last_accessed_at)
+auto result = mgr.validateSession(sid);
+if (result.valid) { /* use result.session->user_id */ }
+
+// Revoke single session
+mgr.terminateSession(sid);
+
+// Revoke all other sessions (e.g. "logout everywhere except this device")
+int removed = mgr.terminateAllOtherSessions("alice", sid);
+
+// List active sessions for user
+auto sessions = mgr.listSessions("alice");
+```
 
 ## Authentication Flows
 
@@ -1184,6 +1243,11 @@ cmake --build build --target test_auth
 ./build/tests/test_gssapi_authenticator
 ./build/tests/test_oauth_device_flow
 ./build/tests/test_oauth_pkce_flow
+
+# Run session management tests only (32 test cases)
+ctest --test-dir build -R SessionManagerTests
+# or via gtest filter:
+./build/tests/themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*
 ```
 
 ### Integration Tests
