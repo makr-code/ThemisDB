@@ -25,6 +25,15 @@ Describe your preferred solution or API design, if you have one.
 
 List any alternative approaches you have considered and why they were rejected.
 
+## Acceptance Criteria
+
+<!-- Add task-list items below. The Copilot dispatcher extracts these as the
+     implementation checklist when delegating this issue to the Coding Agent. -->
+
+- [ ] [Describe the first specific acceptance criterion]
+- [ ] [Describe the second specific acceptance criterion]
+- [ ] Ensure all existing tests pass and new tests are added where appropriate.
+
 ## Additional Context
 
 Add any other context, mockups, or references here.

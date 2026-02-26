@@ -24,6 +24,15 @@ What you expected to happen.
 
 What actually happened.
 
+## Acceptance Criteria
+
+<!-- Add task-list items below. The Copilot dispatcher extracts these as the
+     fix checklist when delegating this issue to the Coding Agent. -->
+
+- [ ] Root cause identified and fixed.
+- [ ] Regression test added to prevent recurrence.
+- [ ] 
+
 ## Environment
 
 - OS:
