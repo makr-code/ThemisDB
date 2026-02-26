@@ -108,15 +108,25 @@ if(BUILD_MONGODB_ADAPTER)
 endif()
 
 # ==============================================================================
-# Weaviate Adapter (Optional - requires HTTP client)
+# Weaviate Adapter (Optional - requires HTTP client for production use)
 # ==============================================================================
 
 option(BUILD_WEAVIATE_ADAPTER "Build Weaviate adapter" OFF)
 
 if(BUILD_WEAVIATE_ADAPTER)
-    # Note: Would require an HTTP client library like cpp-httplib or cpr
-    message(STATUS "Weaviate adapter: header-only template provided")
-    message(STATUS "  Implementation requires HTTP client library")
+    # Production deployments should link against an HTTP client library
+    # (e.g. cpp-httplib or cpr) for live Weaviate REST/GraphQL API access.
+    # The adapter also works in simulation mode without any external driver.
+    message(STATUS "Weaviate adapter: enabled (simulation mode; production requires HTTP client)")
+    add_library(chimera_weaviate_adapter
+        ${CMAKE_SOURCE_DIR}/src/chimera/weaviate_adapter.cpp
+    )
+    target_include_directories(chimera_weaviate_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(chimera_weaviate_adapter
+        PUBLIC chimera_interface
+    )
 endif()
 
 # ==============================================================================
@@ -156,6 +166,7 @@ install(
         ${CMAKE_SOURCE_DIR}/include/chimera/themisdb_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/mongodb_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/postgresql_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/weaviate_adapter.hpp
     DESTINATION include/chimera
 )
 
