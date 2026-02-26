@@ -18,6 +18,10 @@ on:
 permissions:
   contents: read
 
+env:
+  GENERATOR_VERSION: "7.10.0"
+  JAR_PATH: /tmp/openapi-generator-cli.jar
+
 jobs:
   validate-spec:
     name: Validate OpenAPI Spec
@@ -27,10 +31,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate OpenAPI specification
-        uses: docker://openapitools/openapi-generator-cli:v7.10.0
+      - name: Cache openapi-generator-cli JAR
+        uses: actions/cache@v4
         with:
-          args: validate -i /github/workspace/openapi/openapi.yaml
+          path: ${{ env.JAR_PATH }}
+          key: openapi-generator-cli-${{ env.GENERATOR_VERSION }}
+
+      - name: Download openapi-generator-cli
+        run: |
+          if [ ! -f "$JAR_PATH" ]; then
+            curl -fsSL -o "$JAR_PATH" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${GENERATOR_VERSION}/openapi-generator-cli-${GENERATOR_VERSION}.jar"
+          fi
+
+      - name: Validate OpenAPI specification
+        run: java -jar "$JAR_PATH" validate -i openapi/openapi.yaml
 
   generate-python-sdk:
     name: Generate Python SDK
@@ -41,17 +56,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Python SDK
-        uses: docker://openapitools/openapi-generator-cli:v7.10.0
+      - name: Cache openapi-generator-cli JAR
+        uses: actions/cache@v4
         with:
-          args: >-
-            generate
-            -i /github/workspace/openapi/openapi.yaml
-            -g python
-            -o /github/workspace/openapi/generated/python
-            --package-name themisdb_client
-            --additional-properties=packageName=themisdb_client,projectName=themisdb-client,packageVersion=0.1.0,library=urllib3
-            --git-repo-id=ThemisDB
+          path: ${{ env.JAR_PATH }}
+          key: openapi-generator-cli-${{ env.GENERATOR_VERSION }}
+
+      - name: Download openapi-generator-cli
+        run: |
+          if [ ! -f "$JAR_PATH" ]; then
+            curl -fsSL -o "$JAR_PATH" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${GENERATOR_VERSION}/openapi-generator-cli-${GENERATOR_VERSION}.jar"
+          fi
+
+      - name: Generate Python SDK
+        run: |
+          java -jar "$JAR_PATH" generate \
+            -i openapi/openapi.yaml \
+            -g python \
+            -o openapi/generated/python \
+            --package-name themisdb_client \
+            --additional-properties=packageName=themisdb_client,projectName=themisdb-client,packageVersion=0.1.0,library=urllib3 \
+            --git-repo-id=ThemisDB \
             --git-user-id=makr-code
 
       - uses: actions/setup-python@v5
@@ -79,16 +105,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate JavaScript/TypeScript SDK
-        uses: docker://openapitools/openapi-generator-cli:v7.10.0
+      - name: Cache openapi-generator-cli JAR
+        uses: actions/cache@v4
         with:
-          args: >-
-            generate
-            -i /github/workspace/openapi/openapi.yaml
-            -g typescript-fetch
-            -o /github/workspace/openapi/generated/javascript
-            --additional-properties=npmName=@themisdb/openapi-client,npmVersion=0.1.0,supportsES6=true,withInterfaces=true
-            --git-repo-id=ThemisDB
+          path: ${{ env.JAR_PATH }}
+          key: openapi-generator-cli-${{ env.GENERATOR_VERSION }}
+
+      - name: Download openapi-generator-cli
+        run: |
+          if [ ! -f "$JAR_PATH" ]; then
+            curl -fsSL -o "$JAR_PATH" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${GENERATOR_VERSION}/openapi-generator-cli-${GENERATOR_VERSION}.jar"
+          fi
+
+      - name: Generate JavaScript/TypeScript SDK
+        run: |
+          java -jar "$JAR_PATH" generate \
+            -i openapi/openapi.yaml \
+            -g typescript-fetch \
+            -o openapi/generated/javascript \
+            --additional-properties=npmName=@themisdb/openapi-client,npmVersion=0.1.0,supportsES6=true,withInterfaces=true \
+            --git-repo-id=ThemisDB \
             --git-user-id=makr-code
 
       - uses: actions/setup-node@v4
@@ -117,16 +154,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Go SDK
-        uses: docker://openapitools/openapi-generator-cli:v7.10.0
+      - name: Cache openapi-generator-cli JAR
+        uses: actions/cache@v4
         with:
-          args: >-
-            generate
-            -i /github/workspace/openapi/openapi.yaml
-            -g go
-            -o /github/workspace/openapi/generated/go
-            --additional-properties=packageName=themisdbclient,moduleName=github.com/makr-code/ThemisDB/openapi/generated/go,packageVersion=0.1.0,withGoMod=true
-            --git-repo-id=ThemisDB
+          path: ${{ env.JAR_PATH }}
+          key: openapi-generator-cli-${{ env.GENERATOR_VERSION }}
+
+      - name: Download openapi-generator-cli
+        run: |
+          if [ ! -f "$JAR_PATH" ]; then
+            curl -fsSL -o "$JAR_PATH" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${GENERATOR_VERSION}/openapi-generator-cli-${GENERATOR_VERSION}.jar"
+          fi
+
+      - name: Generate Go SDK
+        run: |
+          java -jar "$JAR_PATH" generate \
+            -i openapi/openapi.yaml \
+            -g go \
+            -o openapi/generated/go \
+            --additional-properties=packageName=themisdbclient,moduleName=github.com/makr-code/ThemisDB/openapi/generated/go,packageVersion=0.1.0,withGoMod=true \
+            --git-repo-id=ThemisDB \
             --git-user-id=makr-code
 
       - uses: actions/setup-go@v5
