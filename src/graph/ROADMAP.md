@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse, result streaming) is functional. Distributed graph queries are planned.
+**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph query execution across shards is now implemented.
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection
@@ -21,6 +21,7 @@
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
+- [x] Distributed graph query execution across shards (Issue: #1826)
 - [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Plan cache eviction with size and TTL controls (Issue: #1827)
   - LRU eviction via `setPlanCacheMaxSize()` (0 = unlimited), TTL expiry via `setPlanCacheTTL(ms)` (0 = no expiry)
@@ -42,7 +43,7 @@
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
-- [I] Distributed graph query execution across shards (Issue: #1826)
+- [x] Distributed graph query execution across shards (Issue: #1826)
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
@@ -71,7 +72,7 @@
 ### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
 - [x] Subgraph isomorphism queries (pattern matching)
 - [x] Incremental graph query execution on live updates (Issue: #1825)
-- [ ] Distributed graph query execution across shards
+- [x] Distributed graph query execution across shards
 - [x] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
@@ -89,6 +90,7 @@
 - Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
 - Incremental query execution is not thread-safe (same as the optimizer itself)
 - Subgraph isomorphism (pattern matching) is not yet available
+- Cross-shard edge following (edges whose endpoints reside on different shards) requires caller-side coordination; the current distributed query model executes intra-shard queries in parallel and returns the globally cheapest result
 - Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
 - Distributed graph queries across shards are not yet supported
 

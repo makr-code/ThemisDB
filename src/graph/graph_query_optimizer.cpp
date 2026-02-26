@@ -1510,6 +1510,20 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
     explanation += "Early Termination: " + std::string(plan.enable_early_termination ? "Yes" : "No") + "\n";
     explanation += "Parallel Execution: " + std::string(plan.enable_parallel ? "Yes" : "No") + "\n";
     
+    // Shard-aware plan info (v1.8.0)
+    if (plan.is_distributed) {
+        explanation += "Distributed: Yes (" + std::to_string(plan.shard_ids.size()) + " shards)\n";
+        explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
+        if (!plan.shard_ids.empty()) {
+            explanation += "Shards: ";
+            for (size_t i = 0; i < plan.shard_ids.size(); ++i) {
+                if (i > 0) explanation += ", ";
+                explanation += plan.shard_ids[i];
+            }
+            explanation += "\n";
+        }
+    }
+
     if (!plan.alternatives.empty()) {
         explanation += "\nAlternatives Considered:\n";
         for (const auto& [alt_algo, alt_cost] : plan.alternatives) {

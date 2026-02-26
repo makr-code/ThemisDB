@@ -290,6 +290,12 @@ public:
         
         // Alternative plans considered
         std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
+
+        // Shard-aware plan fields (v1.8.0) – backward-compatible:
+        // empty / false for single-node execution.
+        bool is_distributed = false;               ///< True when query spans >1 shard
+        std::vector<std::string> shard_ids;        ///< Participating shard IDs (empty = single-node)
+        size_t recommended_parallelism = 1;        ///< Fan-out parallelism across shards
     };
 
     /**

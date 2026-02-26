@@ -137,63 +137,49 @@ blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 
 ---
 
-### Distributed Graph Queries
+### Distributed Graph Queries ✅ DONE
 **Priority:** Medium  
 **Target Version:** v1.8.0
 
 Enable graph queries across distributed ThemisDB instances.
 
-**Features:**
-- Partition-aware graph traversal
-- Cross-partition edge following
-- Distributed shortest path algorithms
-- Result aggregation across nodes
-- Fault-tolerant execution
-
-**Benefits:**
-- Scale to billion-edge graphs
-- Handle graphs larger than single-node memory
-- Geographic distribution for latency optimization
-- High availability and fault tolerance
+**Implemented Features:**
+- ✅ `DistributedGraphManager` — coordinator that fans out graph traversals to registered `ShardGraphExecutor` instances in parallel, merges results
+- ✅ `LocalShardGraphExecutor` — thin wrapper around `GraphQueryOptimizer` for in-process / single-node shards (tests + embedded mode)
+- ✅ `ShardGraphExecutor` — pluggable interface for per-shard execution (supports remote implementation via RPC transport)
+- ✅ `DistributedGraphConfig` — configurable partition strategy (HASH, RANGE, GEO, CUSTOM), consistency level (EVENTUAL, STRONG), replication factor, timeout, parallelism cap
+- ✅ Partition-aware vertex routing via `resolveShardForVertex` (FNV-1a hash → uniform bucket assignment)
+- ✅ Shard qualifier syntax: `"<vertex_id>@<shard_id>"` for explicit routing
+- ✅ Distributed shortest path (`shortestPath`): Dijkstra on each healthy shard in parallel; globally cheapest path returned
+- ✅ Distributed k-hop neighbors (`kHopNeighbors`): BFS on all healthy shards in parallel; de-duplicated merged result
+- ✅ Shard-aware plan generation (`optimizePlan`): returns `OptimizationPlan` with `is_distributed=true`, `shard_ids`, `recommended_parallelism` fields
+- ✅ Fault tolerance: unhealthy shards (`isHealthy() == false`) skipped automatically
+- ✅ `OptimizationPlan` extended with shard-aware fields (`is_distributed`, `shard_ids`, `recommended_parallelism`) — backward-compatible with single-node (defaults to `false`/empty/`1`)
+- ✅ `explainPlan()` updated to print distributed shard info when `is_distributed=true`
 
 **API:**
 ```cpp
 // Define graph partitioning strategy
 DistributedGraphConfig config;
-config.partitioning = PartitionStrategy::HASH;  // or RANGE, GEO
+config.partitioning = PartitionStrategy::HASH;  // or RANGE, GEO, CUSTOM
 config.replication_factor = 3;
 config.consistency = ConsistencyLevel::EVENTUAL;
 
-DistributedGraphManager dist_graph(cluster, config);
+DistributedGraphManager dist_graph(config);
+dist_graph.addShard("shard1", std::make_shared<LocalShardGraphExecutor>("shard1", db1));
+dist_graph.addShard("shard2", std::make_shared<LocalShardGraphExecutor>("shard2", db2));
 
-// Execute distributed traversal
-auto result = dist_graph.shortestPath(
-    "node_A@shard1",
-    "node_B@shard5",
-    constraints
-);
+// Vertex IDs may carry explicit shard qualifiers:
+auto result = dist_graph.shortestPath("node_A@shard1", "node_B@shard2", constraints);
 
-// Query spans multiple shards transparently
+// K-hop neighbors across all shards:
+auto neighbors = dist_graph.kHopNeighbors("node_A", 3, constraints);
+
+// Shard-aware plan:
+auto plan = dist_graph.optimizePlan("A", "D",
+    GraphQueryOptimizer::QueryPattern::SHORTEST_PATH);
+// plan->is_distributed == true, plan->shard_ids == {"shard1","shard2"}
 ```
-
-**Partitioning Strategies:**
-- **Hash Partitioning**: Uniform distribution by node ID hash
-- **Range Partitioning**: Partition by node ID ranges
-- **Geographic Partitioning**: Partition by geographic region
-- **Community-Based**: Partition by detected communities
-- **Hybrid**: Combine multiple strategies
-
-**Distributed Algorithms:**
-- **Distributed BFS**: Level-synchronous parallel BFS
-- **Distributed Dijkstra**: Delta-stepping algorithm
-- **Distributed PageRank**: Bulk synchronous parallel
-- **Cross-Shard Joins**: Hash join with data shuffling
-
-**Challenges:**
-- Cross-partition communication overhead
-- Partition skew and load balancing
-- Consistency guarantees
-- Fault tolerance and recovery
 
 ---
 
@@ -601,7 +587,7 @@ Process graphs as streams of edge insertions/deletions.
 5. ✅ Query Rate Limiter (per-second budget, ERR_GRAPH_RATE_LIMIT_EXCEEDED)
 
 **v1.8.0 (Q1 2027):**
-1. Distributed Graph Queries
+1. ✅ Distributed Graph Queries
 2. Query Rewriting
 
 **v1.9.0 (Q3 2027):**
