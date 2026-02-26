@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1976                                           ║
+    • Total Lines:     1595                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -1169,6 +1169,101 @@ TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_CostModelInfluencesEstimate) {
     // Just verify the optimizer produced a valid plan; cost change depends on
     // actual timing so we don't assert exact equality or direction.
     EXPECT_NE(plan_after.value().algorithm, static_cast<decltype(plan_after.value().algorithm)>(-1));
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_ReachabilityHasAlternatives) {
+    // optimizeReachability should now produce an alternatives list, mirroring
+    // the behaviour of optimizeShortestPath for cost-based selection.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    // At least the primary algorithm should appear in alternatives
+    EXPECT_FALSE(plan.value().alternatives.empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_DisabledUsesStaticHeuristic) {
+    // With adaptive learning disabled, selectAlgorithm falls back to the
+    // depth-based static heuristic.  For a shallow graph (depth <= 3) it should
+    // still pick BFS for a reachability query.
+    optimizer_->enableAdaptiveLearning(false);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // Test graph is small; estimated depth <= 3, so static heuristic picks BFS.
+    EXPECT_EQ(plan.value().algorithm, Algo::BFS);
+    optimizer_->enableAdaptiveLearning(true);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_HighConfidenceDFSShiftsKHopChoice) {
+    // Import a synthetic cost model where DFS is dramatically faster than BFS.
+    // With adaptive learning active and high confidence, the K-HOP plan should
+    // switch from the default BFS to DFS.
+    const std::string synthetic_model = R"({
+        "BFS": {"ema_cost_ms": 500.0, "exec_count": 100, "confidence": 1.0},
+        "DFS": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic_model));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto plan = opt2.optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // DFS has ema_cost_ms=1 vs BFS ema_cost_ms=500, both confidence=1.0.
+    // The blended cost for DFS (=10) is much lower than BFS (=5000), so DFS wins.
+    EXPECT_EQ(plan.value().algorithm, Algo::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_ImportedModelInfluencesReachability) {
+    // Import a model where BIDIRECTIONAL is dramatically cheaper than BFS.
+    // We force depth > 3 via max_depth constraint so that BIDIRECTIONAL becomes
+    // a candidate; the adaptive model should then select it over BFS.
+    const std::string synthetic_model = R"({
+        "BFS":           {"ema_cost_ms": 900.0, "exec_count": 100, "confidence": 1.0},
+        "BIDIRECTIONAL": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic_model));
+
+    // max_depth = 5 forces estimateDepth > 3, which makes BIDIRECTIONAL a candidate.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 5;
+    auto plan = opt2.optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(plan.value().algorithm, Algo::BIDIRECTIONAL);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_HasAlternatives) {
+    // optimizePatternMatch now generates a DFS/BFS alternatives list.
+    std::vector<std::string> verts = {"A", "B"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_FALSE(plan.value().alternatives.empty());
+    // Default (no adaptive model) must still prefer DFS
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(plan.value().algorithm, Algo::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_BFSWinsWhenFaster) {
+    // Import a model where BFS is dramatically faster than DFS.
+    const std::string synthetic = R"({
+        "DFS": {"ema_cost_ms": 800.0, "exec_count": 100, "confidence": 1.0},
+        "BFS": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic));
+
+    std::vector<std::string> verts = {"A", "B", "C"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}, {"B", "C"}};
+    auto plan = opt2.optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // BFS has ema_cost_ms=1 (blended cost ≈10) vs DFS ema_cost_ms=800 (≈8000)
+    EXPECT_EQ(plan.value().algorithm, Algo::BFS);
 }
 
 

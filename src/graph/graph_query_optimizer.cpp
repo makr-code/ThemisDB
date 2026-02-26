@@ -9,8 +9,8 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1816                                           ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     1664                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -234,12 +234,23 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
 
     OptimizationPlan plan;
     plan.pattern = QueryPattern::K_HOP_NEIGHBORS;
-    
-    // For k-hop queries, BFS is typically optimal
-    plan.algorithm = TraversalAlgorithm::BFS;
-    
+
     size_t estimated_depth = static_cast<size_t>(k);
-    plan.estimated_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
+
+    // Generate alternative plans; selectAlgorithm() picks the lowest-cost one
+    // using the adaptive cost model when learned data is available.
+    double bfs_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
+    double dfs_cost = estimateCost(TraversalAlgorithm::DFS, estimated_depth, constraints);
+    std::vector<std::pair<TraversalAlgorithm, double>> alternatives = {
+        {TraversalAlgorithm::BFS, bfs_cost},
+        {TraversalAlgorithm::DFS, dfs_cost},
+    };
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    plan.algorithm = selectAlgorithm(QueryPattern::K_HOP_NEIGHBORS, estimated_depth, constraints);
+    plan.estimated_cost = estimateCost(plan.algorithm, estimated_depth, constraints);
+    plan.alternatives = std::move(alternatives);
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, k));
     plan.estimated_time_ms = plan.estimated_cost * 0.1;
@@ -294,12 +305,21 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
 
     OptimizationPlan plan;
     plan.pattern = QueryPattern::PATTERN_MATCH;
-    
-    // Pattern matching uses DFS for better memory efficiency
-    plan.algorithm = TraversalAlgorithm::DFS;
-    
-    // Estimate depth based on pattern size
-    plan.estimated_cost = estimateCost(TraversalAlgorithm::DFS, pattern_depth, constraints);
+
+    // Generate alternative plans; selectAlgorithm() picks the lowest-cost one
+    // using the adaptive cost model when learned data is available.
+    double dfs_cost = estimateCost(TraversalAlgorithm::DFS, pattern_depth, constraints);
+    double bfs_cost = estimateCost(TraversalAlgorithm::BFS, pattern_depth, constraints);
+    std::vector<std::pair<TraversalAlgorithm, double>> alternatives = {
+        {TraversalAlgorithm::DFS, dfs_cost},
+        {TraversalAlgorithm::BFS, bfs_cost},
+    };
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    plan.algorithm = selectAlgorithm(QueryPattern::PATTERN_MATCH, pattern_depth, constraints);
+    plan.estimated_cost = estimateCost(plan.algorithm, pattern_depth, constraints);
+    plan.alternatives = std::move(alternatives);
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, pattern_depth) * 0.5); // Pruning helps
     plan.estimated_time_ms = plan.estimated_cost * 0.15; // Pattern matching is more expensive
@@ -355,17 +375,28 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
 
     OptimizationPlan plan;
     plan.pattern = QueryPattern::REACHABILITY;
-    
-    // For reachability, bidirectional BFS is often optimal
+
+    // Estimate depth based on graph statistics
     size_t estimated_depth = estimateDepth(QueryPattern::REACHABILITY, constraints);
-    
+
+    // Generate alternative plans and select the lowest-cost algorithm.
+    // selectAlgorithm() uses the adaptive cost model when learned data is
+    // available, falling back to depth-based heuristics otherwise.
+    std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
+    double bfs_cost = estimateCost(TraversalAlgorithm::BFS, estimated_depth, constraints);
+    alternatives.push_back({TraversalAlgorithm::BFS, bfs_cost});
     if (estimated_depth > 3) {
-        plan.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
-    } else {
-        plan.algorithm = TraversalAlgorithm::BFS;
+        double bidirectional_cost = estimateCost(TraversalAlgorithm::BIDIRECTIONAL, estimated_depth, constraints);
+        alternatives.push_back({TraversalAlgorithm::BIDIRECTIONAL, bidirectional_cost});
     }
-    
+    std::sort(alternatives.begin(), alternatives.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    // Use selectAlgorithm for the final choice so that the adaptive model can
+    // override the cost-sorted result when sufficient confidence exists.
+    plan.algorithm = selectAlgorithm(QueryPattern::REACHABILITY, estimated_depth, constraints);
     plan.estimated_cost = estimateCost(plan.algorithm, estimated_depth, constraints);
+    plan.alternatives = std::move(alternatives);
     plan.estimated_nodes_explored = static_cast<size_t>(
         std::pow(statistics_.avg_branching_factor, estimated_depth * 0.5)); // Bidirectional advantage
     plan.estimated_time_ms = plan.estimated_cost * 0.05; // Reachability is faster
@@ -1798,33 +1829,83 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
     QueryPattern pattern,
     size_t estimated_depth,
     const QueryConstraints& constraints) const {
-    
+
+    // Adaptive plan selection: when learning is enabled, compare estimated costs
+    // for all feasible algorithms and return the one with the lowest cost.
+    // estimateCost() blends the learned EMA cost proportional to confidence, so
+    // this automatically favours algorithms that have proven faster on real workloads.
+    // We only activate adaptive selection when at least one algorithm has non-zero
+    // confidence so that the static cost formulas (which use different scales) do
+    // not interfere before any execution feedback has been collected.
+    if (adaptive_learning_enabled_ && !algo_cost_models_.empty()) {
+        bool has_any_confidence = false;
+        for (const auto& entry : algo_cost_models_) {
+            if (entry.second.confidence > 0.0) { has_any_confidence = true; break; }
+        }
+
+        if (has_any_confidence) {
+            std::vector<TraversalAlgorithm> candidates;
+            switch (pattern) {
+                case QueryPattern::SHORTEST_PATH:
+                    candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DIJKSTRA};
+                    if (estimated_depth > 3)
+                        candidates.push_back(TraversalAlgorithm::BIDIRECTIONAL);
+                    break;
+                case QueryPattern::REACHABILITY:
+                    candidates = {TraversalAlgorithm::BFS};
+                    if (estimated_depth > 3)
+                        candidates.push_back(TraversalAlgorithm::BIDIRECTIONAL);
+                    break;
+                case QueryPattern::K_HOP_NEIGHBORS:
+                    candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
+                    break;
+                case QueryPattern::PATTERN_MATCH:
+                case QueryPattern::ALL_PATHS:
+                    candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
+                    break;
+                case QueryPattern::CONNECTED_COMPONENT:
+                    candidates = {TraversalAlgorithm::BFS};
+                    break;
+            }
+
+            TraversalAlgorithm best = candidates[0];
+            double best_cost = estimateCost(candidates[0], estimated_depth, constraints);
+            for (size_t i = 1; i < candidates.size(); ++i) {
+                double c = estimateCost(candidates[i], estimated_depth, constraints);
+                if (c < best_cost) { best_cost = c; best = candidates[i]; }
+            }
+            return best;
+        }
+    }
+
+    // Static fallback: heuristic-based selection when no learned data is available
+    // or when adaptive learning is disabled.
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
             if (estimated_depth > 5) {
                 return TraversalAlgorithm::BIDIRECTIONAL;
             }
             return TraversalAlgorithm::BFS;
-            
+
         case QueryPattern::K_HOP_NEIGHBORS:
             return TraversalAlgorithm::BFS;
-            
+
         case QueryPattern::PATTERN_MATCH:
             return TraversalAlgorithm::DFS;
-            
+
         case QueryPattern::REACHABILITY:
             if (estimated_depth > 3) {
                 return TraversalAlgorithm::BIDIRECTIONAL;
             }
             return TraversalAlgorithm::BFS;
-            
+
         case QueryPattern::ALL_PATHS:
             return TraversalAlgorithm::DFS;
-            
+
         case QueryPattern::CONNECTED_COMPONENT:
             return TraversalAlgorithm::BFS;
     }
-    
+
     return TraversalAlgorithm::BFS; // Default
 }
 

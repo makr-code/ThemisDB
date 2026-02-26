@@ -19,6 +19,9 @@
 - [x] Query plan reuse across structurally similar queries
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
+- [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
+
+## In Progress 🚧
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
 - [x] Property graph schema-aware optimizer hints (Issue: #1819)
@@ -38,7 +41,7 @@
 
 ### Short-term (Next 3-6 months)
 - [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
-- [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
+- [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
 - [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
@@ -87,6 +90,7 @@
 - [x] API stability guaranteed for graph query optimizer and path finder
 
 ## Known Issues & Limitations
+- Adaptive plan selection using execution feedback is now active; `selectAlgorithm` uses learned EMA costs when confidence > 0, falling back to static depth heuristics otherwise
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
 - Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
 - Incremental query execution is not thread-safe (same as the optimizer itself)
