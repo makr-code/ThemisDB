@@ -137,9 +137,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 - `[x]` `PATH_MAPPING` keys are unchanged; only the filesystem search order gains the overlay prefix.
 - `[x]` Cache key must incorporate `env` to prevent cross-environment cache poisoning: `cache_key = env + ":" + legacy_path`.
 - `[x]` `setEnvironment()` clears the cache atomically to prevent stale overlay entries.
-- `[?]` Decision needed: should `getMetadata()` return environment-specific `PathMappingMetadata` or only the global metadata?
-
-**Resolution:** `getMetadata()` returns global metadata only; the overlay affects filesystem resolution only, not path mapping metadata.
+- `[x]` Decision: `getMetadata()` returns global metadata only; the overlay affects filesystem resolution only, not path mapping metadata.
 
 **Performance Targets:**
 - One additional filesystem `exists()` check per cache miss (overlay root probed first); negligible impact when cache hit rate > 95%.

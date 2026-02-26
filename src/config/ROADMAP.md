@@ -75,7 +75,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
 - Secrets management and credential injection are explicitly out of scope
 - Migration tooling is not yet implemented; teams must manually rename config files (use `config_migration_scanner --fix`)
-- Multi-environment config overlay is planned (Issue: #1673)
+- Multi-environment config overlay is implemented (Issue: #1673 resolved); activate via `THEMIS_CONFIG_ENV=dev|staging|prod` or `ConfigPathResolver::setEnvironment()`
 
 ## Breaking Changes
 - Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires
