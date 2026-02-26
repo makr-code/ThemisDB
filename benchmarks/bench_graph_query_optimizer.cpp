@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_graph_query_optimizer.cpp                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     414                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     502                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b147c2c63  2026-02-26  feat(graph): add incremental execution benchmarks ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -410,6 +411,92 @@ BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, MultiSourceBFS_ThreadS
     ->Args({500, 4})
     ->Args({500, 8})
     ->Unit(benchmark::kMillisecond);
+
+// ============================================================================
+// Incremental Graph Query Execution Benchmarks
+// ============================================================================
+
+// Benchmark: registering and calling onGraphChange with a single incremental query.
+// state.range(0) = graph size
+// state.range(1) = BFS depth
+BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, IncrementalBFS_OnGraphChange)(benchmark::State& state) {
+    const int depth = static_cast<int>(state.range(1));
+
+    GraphQueryOptimizer::QueryConstraints constraints;
+    constraints.max_depth = depth;
+
+    // Register a single incremental query; seed the initial snapshot.
+    size_t delta_total = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "node_0", depth, constraints,
+        [&delta_total](const GraphQueryOptimizer::IncrementalQueryResult& r) {
+            delta_total += r.added.size() + r.removed.size();
+        });
+
+    // Build a change set that touches node_1 (always in BFS result for depth>=1).
+    GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("bench_edge_new", "node_1", "node_2");
+
+    for (auto _ : state) {
+        auto count = optimizer_->onGraphChange(changes);
+        benchmark::DoNotOptimize(count);
+    }
+
+    optimizer_->unregisterIncrementalQuery(handle);
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"]  = graph_size_;
+    state.counters["depth"]       = depth;
+    state.counters["delta_total"] = static_cast<double>(delta_total);
+}
+
+// Benchmark: onGraphChange with multiple registered queries - measures fan-out cost.
+// state.range(0) = graph size, state.range(1) = number of registered queries
+BENCHMARK_DEFINE_F(GraphQueryOptimizerBenchmarkFixture, IncrementalBFS_MultiQuery_FanOut)(benchmark::State& state) {
+    const int num_queries = static_cast<int>(state.range(1));
+
+    GraphQueryOptimizer::QueryConstraints constraints;
+    constraints.max_depth = 2;
+
+    std::vector<GraphQueryOptimizer::IncrementalQueryHandle> handles;
+    handles.reserve(num_queries);
+    for (int i = 0; i < num_queries; ++i) {
+        handles.push_back(optimizer_->registerIncrementalBFS(
+            "node_0", 2, constraints,
+            [](const GraphQueryOptimizer::IncrementalQueryResult&) {}));
+    }
+
+    GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("bench_edge_fanout", "node_1", "node_2");
+
+    for (auto _ : state) {
+        auto count = optimizer_->onGraphChange(changes);
+        benchmark::DoNotOptimize(count);
+    }
+
+    for (auto h : handles) {
+        optimizer_->unregisterIncrementalQuery(h);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["graph_size"]  = graph_size_;
+    state.counters["num_queries"] = num_queries;
+}
+
+BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, IncrementalBFS_OnGraphChange)
+    ->Args({100, 2})
+    ->Args({100, 3})
+    ->Args({500, 2})
+    ->Args({500, 3})
+    ->Unit(benchmark::kMicrosecond);
+
+BENCHMARK_REGISTER_F(GraphQueryOptimizerBenchmarkFixture, IncrementalBFS_MultiQuery_FanOut)
+    ->Args({100, 1})
+    ->Args({100, 4})
+    ->Args({100, 8})
+    ->Args({500, 1})
+    ->Args({500, 4})
+    ->Unit(benchmark::kMicrosecond);
 
 // Run the benchmarks
 BENCHMARK_MAIN();

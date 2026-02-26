@@ -19,8 +19,16 @@
 - [x] Query plan reuse across structurally similar queries
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
+- [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
 - [x] Distributed graph query execution across shards (Issue: #1826)
+- [x] Incremental graph query execution on live updates (Issue: #1825)
+- [x] Plan cache eviction with size and TTL controls (Issue: #1827)
+  - LRU eviction via `setPlanCacheMaxSize()` (0 = unlimited), TTL expiry via `setPlanCacheTTL(ms)` (0 = no expiry)
+  - `planCacheInsert` / `planCacheLookup` helpers in `graph_query_optimizer.cpp`; `plan_cache_evictions` counter in `GraphQueryMetrics`; exposed in JSON and Prometheus endpoints
+  - Unit tests: 8 new tests covering LRU eviction, eviction counter, TTL expiry, TTL non-expiry, cache size introspection, metrics endpoints
+- [x] Graph query result streaming for large path sets (Issue: #1822)
+- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 
 ## In Progress 🚧
 (none)
@@ -28,10 +36,9 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
+- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
 - [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-- [!] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
-- [I] Incremental graph query execution on live updates (Issue: #1825)
+- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
@@ -40,8 +47,8 @@
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
-- [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
-- [I] Graph query result streaming for large path sets (Issue: #1822)
+- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
+- [x] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases
 
@@ -63,12 +70,12 @@
 - [x] Advanced cost model calibration from real execution feedback (Target: Q3 2026)
 
 ### Phase 3: Pattern Matching & Distribution (Status: In Progress 🚧)
-- [ ] Subgraph isomorphism queries (pattern matching)
-- [ ] Incremental graph query execution on live updates
+- [x] Subgraph isomorphism queries (pattern matching)
+- [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Distributed graph query execution across shards
-- [ ] Plan cache eviction with size and TTL controls
+- [x] Plan cache eviction with size and TTL controls
 - [ ] Temporal graph query optimization (time-ranged traversals)
-- [ ] GPU-accelerated BFS/DFS for massive graphs
+- [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)
@@ -80,8 +87,12 @@
 
 ## Known Issues & Limitations
 - Basic adaptive learning (EMA per algorithm) is implemented and active by default; more advanced cost model calibration from real workload feedback is planned for Q3 2026
+- Incremental query execution is BFS-only; DFS/Dijkstra/A* incremental modes are planned
+- Incremental query execution is not thread-safe (same as the optimizer itself)
 - Subgraph isomorphism (pattern matching) is not yet available
 - Cross-shard edge following (edges whose endpoints reside on different shards) requires caller-side coordination; the current distributed query model executes intra-shard queries in parallel and returns the globally cheapest result
+- Subgraph isomorphism (pattern matching) is implemented via `executeSubgraphIsomorphism` (VF2-style backtracking)
+- Distributed graph queries across shards are not yet supported
 
 ## Breaking Changes
 - Distributed graph query introduces shard-aware plan nodes (new plan format, backward-compatible with single-node)

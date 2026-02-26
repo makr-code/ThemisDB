@@ -23,6 +23,12 @@ function(add_perf_benchmark name)
             benchmark::benchmark_main
             themis_core  # Link against themis_core to get compile definitions
     )
+    if(TARGET themis_storage)
+        target_link_libraries(${name} PRIVATE themis_storage)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(${name} PRIVATE themis_llm)
+    endif()
     target_include_directories(${name} 
         PRIVATE 
             ${CMAKE_SOURCE_DIR}/include

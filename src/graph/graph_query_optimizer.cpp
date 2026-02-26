@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:06                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:17:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1576                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1779                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b147c2c63  2026-02-26  feat(graph): implement incremental graph query execu... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,7 +27,9 @@
 // Graph Query Optimizer implementation
 
 #include "graph/graph_query_optimizer.h"
+#include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
+#include "query/result_stream.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -70,19 +72,20 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     // structurally similar queries (same pattern/constraints, different vertices)
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
-        auto it = plan_cache_.find(cache_key);
-        if (it != plan_cache_.end()) {
+        if (const auto* cached = planCacheLookup(cache_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second);
+            return Ok(*cached);
         }
         // Structural key lookup: reuse plan from a previous query with same
         // constraints but different vertex IDs
         auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
-        auto it2 = plan_cache_.find(struct_key);
-        if (it2 != plan_cache_.end()) {
+        if (const auto* cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            plan_cache_[cache_key] = it2->second; // promote to exact key for faster future lookup
-            return Ok(it2->second);
+            // Copy plan by value before calling planCacheInsert: emplace may rehash
+            // the map and invalidate the raw pointer returned by planCacheLookup.
+            OptimizationPlan promoted = *cached2;
+            planCacheInsert(cache_key, promoted); // promote to exact key for faster future lookup
+            return Ok(promoted);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -138,9 +141,12 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     // from structural plan reuse.
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
-        plan_cache_[cache_key] = plan;
+        planCacheInsert(cache_key, plan);
         auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
-        plan_cache_.emplace(struct_key, plan); // only insert if not already present
+        // only insert structural key if not already present
+        if (!planCacheLookup(struct_key)) {
+            planCacheInsert(struct_key, plan);
+        }
     }
     
     return Ok(plan);
@@ -161,10 +167,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     if (plan_caching_enabled_) {
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::K_HOP_NEIGHBORS, constraints, static_cast<size_t>(k));
-        auto it = plan_cache_.find(struct_key);
-        if (it != plan_cache_.end()) {
+        if (const auto* cached = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second);
+            return Ok(*cached);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -194,7 +199,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     if (plan_caching_enabled_) {
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::K_HOP_NEIGHBORS, constraints, static_cast<size_t>(k));
-        plan_cache_.emplace(struct_key, plan);
+        if (!planCacheLookup(struct_key)) {
+            planCacheInsert(struct_key, plan);
+        }
     }
     
     return Ok(plan);
@@ -219,10 +226,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
             QueryPattern::PATTERN_MATCH, constraints, pattern_depth);
         // Append edge count to distinguish patterns with the same vertex count
         struct_key += ":pe=" + std::to_string(pattern_edges.size());
-        auto it = plan_cache_.find(struct_key);
-        if (it != plan_cache_.end()) {
+        if (const auto* cached = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second);
+            return Ok(*cached);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -250,7 +256,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::PATTERN_MATCH, constraints, pattern_depth);
         struct_key += ":pe=" + std::to_string(pattern_edges.size());
-        plan_cache_.emplace(struct_key, plan);
+        if (!planCacheLookup(struct_key)) {
+            planCacheInsert(struct_key, plan);
+        }
     }
     
     return Ok(plan);
@@ -270,17 +278,17 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     // Two-level cache lookup: exact key first, then structural key
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::REACHABILITY, start_vertex, target_vertex, constraints);
-        auto it = plan_cache_.find(cache_key);
-        if (it != plan_cache_.end()) {
+        if (const auto* cached = planCacheLookup(cache_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second);
+            return Ok(*cached);
         }
         auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
-        auto it2 = plan_cache_.find(struct_key);
-        if (it2 != plan_cache_.end()) {
+        if (const auto* cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            plan_cache_[cache_key] = it2->second;
-            return Ok(it2->second);
+            // Copy before planCacheInsert: emplace may rehash and invalidate cached2.
+            OptimizationPlan promoted = *cached2;
+            planCacheInsert(cache_key, promoted);
+            return Ok(promoted);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -313,9 +321,11 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     // Cache under both exact and structural keys
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::REACHABILITY, start_vertex, target_vertex, constraints);
-        plan_cache_[cache_key] = plan;
+        planCacheInsert(cache_key, plan);
         auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
-        plan_cache_.emplace(struct_key, plan);
+        if (!planCacheLookup(struct_key)) {
+            planCacheInsert(struct_key, plan);
+        }
     }
     
     return Ok(plan);
@@ -438,6 +448,40 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BFS;
+
+    // GPU-accelerated path: dispatch to GPUGraphTraversal when requested.
+    if (constraints.use_gpu) {
+        GPUGraphTraversal gpu_trav(graph_manager_);
+        auto load_res = gpu_trav.load();
+        if (load_res) {
+            GPUGraphTraversal::Config gpu_cfg;
+            gpu_cfg.gpu_device     = constraints.gpu_device;
+            gpu_cfg.max_depth      = max_depth;
+            if (constraints.max_results.has_value())
+                gpu_cfg.max_results = constraints.max_results.value();
+            gpu_cfg.forbidden_vertices = constraints.forbidden_vertices;
+
+            auto gpu_result = gpu_trav.bfs(std::string(start_vertex), gpu_cfg);
+            if (gpu_result) {
+                local_stats.nodes_explored    = gpu_result->nodes_explored;
+                local_stats.edges_traversed   = gpu_result->edges_traversed;
+                local_stats.execution_time_ms = gpu_result->execution_time_ms;
+                local_stats.early_terminated  = gpu_result->truncated;
+                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                if (stats) *stats = local_stats;
+                recordExecution(local_stats);
+                return Ok(std::move(gpu_result->visited_vertices));
+            }
+            // Fall through to CPU path on GPU error (vertex-not-found is re-raised).
+            if (gpu_result.error().code() ==
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX) {
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                    std::string(start_vertex));
+            }
+        }
+        // If load() failed, fall through to the standard CPU BFS.
+    }
 
     // Helper: determine effective thread count for parallel BFS
     const bool use_parallel = constraints.enable_parallel;
@@ -618,6 +662,38 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DFS;
+
+    // GPU-accelerated path.
+    if (constraints.use_gpu) {
+        GPUGraphTraversal gpu_trav(graph_manager_);
+        auto load_res = gpu_trav.load();
+        if (load_res) {
+            GPUGraphTraversal::Config gpu_cfg;
+            gpu_cfg.gpu_device     = constraints.gpu_device;
+            gpu_cfg.max_depth      = max_depth;
+            if (constraints.max_results.has_value())
+                gpu_cfg.max_results = constraints.max_results.value();
+            gpu_cfg.forbidden_vertices = constraints.forbidden_vertices;
+
+            auto gpu_result = gpu_trav.dfs(std::string(start_vertex), gpu_cfg);
+            if (gpu_result) {
+                local_stats.nodes_explored    = gpu_result->nodes_explored;
+                local_stats.edges_traversed   = gpu_result->edges_traversed;
+                local_stats.execution_time_ms = gpu_result->execution_time_ms;
+                local_stats.early_terminated  = gpu_result->truncated;
+                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                if (stats) *stats = local_stats;
+                recordExecution(local_stats);
+                return Ok(std::move(gpu_result->visited_vertices));
+            }
+            if (gpu_result.error().code() ==
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX) {
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                    std::string(start_vertex));
+            }
+        }
+    }
     
     std::vector<std::string> result;
     std::vector<std::pair<std::string, int>> stack;
@@ -692,6 +768,38 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     recordExecution(local_stats);
     
     return Ok(result);
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamBFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    query::StreamConfig stream_config) {
+
+    auto bfs_result = executeBFS(start_vertex, max_depth, constraints);
+    if (!bfs_result) {
+        return Err<std::shared_ptr<query::ResultStream<std::string>>>(
+            bfs_result.error().code(), bfs_result.error().context());
+    }
+
+    return Ok(std::make_shared<query::ResultStream<std::string>>(
+        std::move(*bfs_result), stream_config));
+}
+
+Result<std::shared_ptr<query::ResultStream<std::string>>> GraphQueryOptimizer::streamDFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    query::StreamConfig stream_config) {
+
+    auto dfs_result = executeDFS(start_vertex, max_depth, constraints);
+    if (!dfs_result) {
+        return Err<std::shared_ptr<query::ResultStream<std::string>>>(
+            dfs_result.error().code(), dfs_result.error().context());
+    }
+
+    return Ok(std::make_shared<query::ResultStream<std::string>>(
+        std::move(*dfs_result), stream_config));
 }
 
 Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
@@ -1154,6 +1262,183 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     return Ok(result);
 }
 
+// ---------------------------------------------------------------------------
+// Subgraph Isomorphism (VF2-style backtracking)
+// ---------------------------------------------------------------------------
+
+Result<GraphQueryOptimizer::SubgraphIsomorphismResult>
+GraphQueryOptimizer::executeSubgraphIsomorphism(
+    const std::vector<std::string>& pattern_vertices,
+    const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+    const QueryConstraints& constraints,
+    ExecutionStats* stats) {
+
+    if (!rate_limiter_.allowQuery()) {
+        return Err<SubgraphIsomorphismResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "SubgraphIsomorphism query rejected: rate limit exceeded"
+        );
+    }
+
+    auto start_time = std::chrono::steady_clock::now();
+
+    SubgraphIsomorphismResult result;
+    ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DFS;
+
+    if (pattern_vertices.empty()) {
+        // Empty pattern matches trivially with an empty mapping
+        result.matches.push_back({});
+        result.execution_time_ms = 0.0;
+        local_stats.paths_found = 1;
+        if (stats) *stats = local_stats;
+        recordExecution(local_stats);
+        return Ok(result);
+    }
+
+    // Timeout helper
+    auto timedOut = [&]() -> bool {
+        if (constraints.timeout_ms == 0) return false;
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time).count();
+        return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+    };
+
+    // Build adjacency sets for the pattern graph so feasibility checks are O(1)
+    // pattern_adj[u] = set of pattern vertices that u points to
+    std::unordered_map<std::string, std::unordered_set<std::string>> pattern_adj;
+    for (const auto& e : pattern_edges) {
+        pattern_adj[e.first].insert(e.second);
+    }
+
+    // Enumerate all vertices in the data graph using getAllVertices().
+    // Pattern vertex labels ("u", "v", ...) are abstract names used only for
+    // result mapping; they are NOT data vertex IDs.
+    std::vector<std::string> data_vertices = graph_manager_.getAllVertices();
+
+    // Build out-adjacency cache for data graph vertices to speed up feasibility checks
+    std::unordered_map<std::string, std::unordered_set<std::string>> data_adj_cache;
+    for (const auto& v : data_vertices) {
+        auto [st, nbrs] = graph_manager_.outNeighbors(v);
+        if (st.ok) {
+            data_adj_cache[v] = {nbrs.begin(), nbrs.end()};
+            local_stats.edges_traversed += nbrs.size();
+        }
+    }
+
+    // VF2-style recursive backtracking
+    // mapping: pattern_vertex_label -> data_vertex_id (partial)
+    std::unordered_map<std::string, std::string> mapping;
+    std::unordered_set<std::string> used_data_vertices;
+
+    // Ordered list of pattern vertices to assign (simple ordering by index)
+    const size_t n_pattern = pattern_vertices.size();
+
+    // Feasibility check: given current mapping extended by (pattern_vertices[depth] -> dv),
+    // is it consistent with all pattern edges involving already-mapped vertices?
+    auto isFeasible = [&](size_t depth, const std::string& dv) -> bool {
+        const std::string& pu = pattern_vertices[depth];
+        // Check edges from pu to already-mapped pattern vertices (and self-loops)
+        auto pit = pattern_adj.find(pu);
+        if (pit != pattern_adj.end()) {
+            for (const auto& pv_target : pit->second) {
+                if (pv_target == pu) {
+                    // Self-loop in pattern: dv must have a self-loop in the data graph
+                    auto ait = data_adj_cache.find(dv);
+                    if (ait == data_adj_cache.end() ||
+                        ait->second.find(dv) == ait->second.end()) {
+                        return false;
+                    }
+                    continue;
+                }
+                auto mit = mapping.find(pv_target);
+                if (mit != mapping.end()) {
+                    // Pattern edge pu -> pv_target must exist as dv -> mit->second
+                    const auto& dv_target = mit->second;
+                    auto ait = data_adj_cache.find(dv);
+                    if (ait == data_adj_cache.end() ||
+                        ait->second.find(dv_target) == ait->second.end()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        // Check edges from already-mapped pattern vertices to pu
+        for (const auto& [prev_pu, prev_dv] : mapping) {
+            auto pit2 = pattern_adj.find(prev_pu);
+            if (pit2 != pattern_adj.end() &&
+                pit2->second.count(pu)) {
+                // Pattern edge prev_pu -> pu must exist as prev_dv -> dv
+                auto ait = data_adj_cache.find(prev_dv);
+                if (ait == data_adj_cache.end() ||
+                    ait->second.find(dv) == ait->second.end()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    // Recursive backtracking
+    std::function<void(size_t)> backtrack = [&](size_t depth) {
+        if (timedOut()) { local_stats.early_terminated = true; return; }
+        if (depth == n_pattern) {
+            result.matches.push_back(mapping);
+            local_stats.paths_found++;
+            return;
+        }
+        const std::string& pu = pattern_vertices[depth];
+        for (const auto& dv : data_vertices) {
+            if (local_stats.early_terminated) return;
+            // Injective: data vertex must not already be used
+            if (used_data_vertices.count(dv)) continue;
+            // Forbidden vertex check
+            if (std::find(constraints.forbidden_vertices.begin(),
+                          constraints.forbidden_vertices.end(), dv) !=
+                constraints.forbidden_vertices.end()) continue;
+            result.candidate_pairs_checked++;
+            local_stats.nodes_explored++;
+            if (!isFeasible(depth, dv)) continue;
+            // Extend mapping
+            mapping[pu] = dv;
+            used_data_vertices.insert(dv);
+            backtrack(depth + 1);
+            // Backtrack
+            mapping.erase(pu);
+            used_data_vertices.erase(dv);
+            // Early termination on max_results
+            if (constraints.max_results.has_value() &&
+                result.matches.size() >= constraints.max_results.value()) {
+                local_stats.early_terminated = true;
+                return;
+            }
+        }
+    };
+
+    backtrack(0);
+
+    auto end_time = std::chrono::steady_clock::now();
+    result.execution_time_ms = std::chrono::duration<double, std::milli>(
+        end_time - start_time).count();
+    local_stats.execution_time_ms = result.execution_time_ms;
+
+    if (stats) *stats = local_stats;
+    recordExecution(local_stats);
+
+    // Return a timeout error only if we timed out and found no matches at all
+    if (local_stats.early_terminated && result.matches.empty() &&
+        constraints.timeout_ms > 0) {
+        metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+        return Err<SubgraphIsomorphismResult>(
+            errors::ErrorCode::ERR_QUERY_TIMEOUT,
+            "SubgraphIsomorphism query exceeded timeout of " +
+                std::to_string(constraints.timeout_ms) + "ms"
+        );
+    }
+
+    return Ok(result);
+}
+
 Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatistics(
     std::optional<std::string_view> graph_id) {
     
@@ -1259,6 +1544,62 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
 
 void GraphQueryOptimizer::clearPlanCache() {
     plan_cache_.clear();
+    plan_cache_lru_.clear();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Plan cache helpers: LRU eviction + TTL expiry
+// ─────────────────────────────────────────────────────────────────────────────
+
+void GraphQueryOptimizer::planCacheInsert(const std::string& key,
+                                          const OptimizationPlan& plan) {
+    auto it = plan_cache_.find(key);
+    if (it != plan_cache_.end()) {
+        // Key already present: update plan and move to front (MRU)
+        it->second.first.plan = plan;
+        it->second.first.inserted_at = std::chrono::steady_clock::now();
+        plan_cache_lru_.splice(plan_cache_lru_.begin(), plan_cache_lru_,
+                               it->second.second);
+        return;
+    }
+
+    // Enforce size limit: evict LRU entry when at capacity
+    if (plan_cache_max_size_ > 0 && plan_cache_.size() >= plan_cache_max_size_) {
+        const std::string& lru_key = plan_cache_lru_.back();
+        plan_cache_.erase(lru_key);
+        plan_cache_lru_.pop_back();
+        metrics_.plan_cache_evictions.fetch_add(1, std::memory_order_relaxed);
+    }
+
+    // Insert new entry at the front (MRU position)
+    plan_cache_lru_.push_front(key);
+    PlanCacheEntry entry{plan, std::chrono::steady_clock::now()};
+    plan_cache_.emplace(key, std::make_pair(std::move(entry), plan_cache_lru_.begin()));
+}
+
+const GraphQueryOptimizer::OptimizationPlan*
+GraphQueryOptimizer::planCacheLookup(const std::string& key) {
+    auto it = plan_cache_.find(key);
+    if (it == plan_cache_.end()) {
+        return nullptr;
+    }
+
+    // TTL check: evict expired entry
+    if (plan_cache_ttl_.count() > 0) {
+        auto age = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - it->second.first.inserted_at);
+        if (age > plan_cache_ttl_) {
+            plan_cache_lru_.erase(it->second.second);
+            plan_cache_.erase(it);
+            metrics_.plan_cache_evictions.fetch_add(1, std::memory_order_relaxed);
+            return nullptr;
+        }
+    }
+
+    // Move to front (MRU position)
+    plan_cache_lru_.splice(plan_cache_lru_.begin(), plan_cache_lru_,
+                           it->second.second);
+    return &it->second.first.plan;
 }
 
 double GraphQueryOptimizer::estimateCost(
@@ -1659,6 +2000,218 @@ GraphQueryOptimizer::calibrateFromHistory() {
     }
 
     return report;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Incremental graph query execution on live updates (v1.9.0)
+// ─────────────────────────────────────────────────────────────────────────────
+
+GraphQueryOptimizer::IncrementalQueryHandle
+GraphQueryOptimizer::registerIncrementalBFS(
+    std::string_view start_vertex,
+    int max_depth,
+    const QueryConstraints& constraints,
+    IncrementalQueryCallback callback) {
+
+    const IncrementalQueryHandle handle =
+        next_incremental_handle_.fetch_add(1, std::memory_order_relaxed);
+
+    IncrementalQueryEntry entry;
+    entry.handle       = handle;
+    entry.start_vertex = std::string(start_vertex);
+    entry.max_depth    = max_depth;
+    entry.constraints  = constraints;
+    entry.callback     = std::move(callback);
+
+    // Execute initial BFS to seed the last_result snapshot.
+    auto result = executeBFS(start_vertex, max_depth, constraints);
+    if (result) {
+        entry.last_result.insert(result.value().begin(), result.value().end());
+    }
+
+    incremental_queries_[handle] = std::move(entry);
+    return handle;
+}
+
+void GraphQueryOptimizer::unregisterIncrementalQuery(IncrementalQueryHandle handle) {
+    incremental_queries_.erase(handle);
+}
+
+size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
+    if (changes.empty() || incremental_queries_.empty()) {
+        return 0;
+    }
+
+    // Collect all vertex IDs touched by the change set (edge endpoints + vertex IDs).
+    std::unordered_set<std::string> changed_vertices;
+    for (const auto& change : changes.changes) {
+        if (!change.from.empty()) changed_vertices.insert(change.from);
+        if (!change.to.empty())   changed_vertices.insert(change.to);
+        if (change.type == GraphChangeSet::ChangeType::VERTEX_ADDED ||
+            change.type == GraphChangeSet::ChangeType::VERTEX_REMOVED) {
+            if (!change.id.empty()) changed_vertices.insert(change.id);
+        }
+    }
+
+    // First pass: determine affected queries, re-execute them, build deltas,
+    // and update last_result. Callbacks are collected for deferred invocation
+    // so that a callback calling unregisterIncrementalQuery() cannot invalidate
+    // the ongoing iteration of incremental_queries_.
+    // PendingCallback: holds the callback and its delta snapshot for deferred
+    // invocation after the map iteration is complete.
+    struct PendingCallback {
+        IncrementalQueryCallback callback;
+        IncrementalQueryResult delta;
+    };
+    std::vector<PendingCallback> pending;
+
+    for (auto& [handle, entry] : incremental_queries_) {
+        // A query is affected when:
+        //   1. Its start_vertex is directly changed, or
+        //   2. Any changed vertex appears in the previous result set.
+        bool affected = changed_vertices.count(entry.start_vertex) > 0;
+        if (!affected) {
+            for (const auto& v : changed_vertices) {
+                if (entry.last_result.count(v)) {
+                    affected = true;
+                    break;
+                }
+            }
+        }
+        if (!affected) {
+            continue;
+        }
+
+        // Re-execute the BFS.
+        ExecutionStats stats;
+        auto result = executeBFS(entry.start_vertex, entry.max_depth,
+                                 entry.constraints, &stats);
+
+        IncrementalQueryResult delta;
+        delta.reexecuted = true;
+        delta.stats      = stats;
+
+        if (result) {
+            const std::unordered_set<std::string> new_result(result.value().begin(),
+                                                              result.value().end());
+            delta.current.assign(result.value().begin(), result.value().end());
+
+            // Added: in new result but not in previous result.
+            for (const auto& v : new_result) {
+                if (!entry.last_result.count(v)) {
+                    delta.added.push_back(v);
+                }
+            }
+            // Removed: in previous result but not in new result.
+            for (const auto& v : entry.last_result) {
+                if (!new_result.count(v)) {
+                    delta.removed.push_back(v);
+                }
+            }
+
+            entry.last_result = new_result;
+        } else {
+            // On error, report all previous vertices as removed.
+            delta.removed.assign(entry.last_result.begin(), entry.last_result.end());
+            delta.current.clear();
+            entry.last_result.clear();
+        }
+
+        pending.push_back({entry.callback, std::move(delta)});
+    }
+
+    // Second pass: invoke callbacks outside the map iteration.
+    // This ensures that any unregisterIncrementalQuery() call inside a callback
+    // does not invalidate iterators used in the first pass above.
+    for (auto& p : pending) {
+        p.callback(p.delta);
+    }
+
+    return pending.size();
+// Analytics Module Integration (Issue #1821)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void GraphQueryOptimizer::attachAnalytics(GraphAnalytics& analytics) {
+    analytics_ = &analytics;
+}
+
+void GraphQueryOptimizer::detachAnalytics() {
+    analytics_ = nullptr;
+}
+
+Result<std::vector<GraphAnalytics::PathInfo>> GraphQueryOptimizer::executeKShortestPaths(
+    std::string_view source,
+    std::string_view target,
+    int k,
+    const QueryConstraints& constraints,
+    std::string_view weight_attr,
+    ExecutionStats* stats)
+{
+    using ReturnType = std::vector<GraphAnalytics::PathInfo>;
+
+    // Precondition checks – do not touch any counters for caller errors
+    if (!analytics_) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            "No analytics instance attached; call attachAnalytics() first");
+    }
+
+    if (k <= 0) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
+            "k must be positive");
+    }
+
+    // Apply rate limiting before executing (no counter updates on rejection)
+    if (!rate_limiter_.allowQuery()) {
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "k-shortest-paths query rejected: rate limit exceeded");
+    }
+
+    const auto t_start = std::chrono::steady_clock::now();
+    ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DIJKSTRA; // Yen's uses Dijkstra internally
+
+    // Delegate to the analytics module (Yen's algorithm)
+    auto [status, paths] = analytics_->kShortestPaths(
+        std::string(source), std::string(target), k, std::string(weight_attr));
+
+    const auto t_end = std::chrono::steady_clock::now();
+    local_stats.execution_time_ms =
+        std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+    // Check timeout – consistent with BFS/DFS/Dijkstra pattern
+    if (constraints.timeout_ms > 0 &&
+        local_stats.execution_time_ms > static_cast<double>(constraints.timeout_ms)) {
+        local_stats.early_terminated = true;
+        metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+        if (stats) { *stats = local_stats; }
+        recordExecution(local_stats);
+        return Err<ReturnType>(errors::ErrorCode::ERR_QUERY_TIMEOUT,
+            "k-shortest-paths query exceeded timeout of " +
+                std::to_string(constraints.timeout_ms) + "ms");
+    }
+
+    if (!status.ok) {
+        // Record the failed attempt so total_queries and failed_queries stay accurate
+        // (paths_found stays 0, so recordExecution will increment failed_queries)
+        recordExecution(local_stats);
+        return Err<ReturnType>(errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND, status.message);
+    }
+
+    // Populate output stats
+    local_stats.paths_found = paths.size();
+    if (!paths.empty()) {
+        local_stats.nodes_explored = paths[0].vertices.size();
+        // hop_count is int; guard against any unexpected negative value
+        const int hc = paths[0].hop_count;
+        local_stats.max_depth_reached = (hc > 0) ? static_cast<size_t>(hc) : 0u;
+    }
+
+    if (stats) { *stats = local_stats; }
+    // recordExecution is the single source that increments total_queries,
+    // failed_queries, total_execution_time_ms, latency_histogram, etc.
+    recordExecution(local_stats);
+
+    return Ok(std::move(paths));
 }
 
 } // namespace graph

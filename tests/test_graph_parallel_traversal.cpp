@@ -407,3 +407,88 @@ TEST_F(ParallelTraversalTest, MultiSourceBFS_ManySourcesAllInGraph) {
                   result->visited_vertices.end());
     }
 }
+
+// ============================================================================
+// Fan-out threshold: parallel frontier expansion within a single source BFS
+// ============================================================================
+
+TEST_F(ParallelTraversalTest, MultiSourceBFS_FanOutThreshold_SameResultAsSequential) {
+    // With fan_out_threshold=1 every level triggers parallel expansion;
+    // the result must still be the same as with sequential expansion.
+    themis::graph::ParallelTraversal::Config cfg_parallel;
+    cfg_parallel.fan_out_threshold = 1; // always use parallel expansion
+    cfg_parallel.num_threads = 2;
+
+    themis::graph::ParallelTraversal::Config cfg_sequential;
+    // fan_out_threshold = 0 (default) → sequential expansion
+
+    auto r_par = traversal_->multiSourceBFS({"A"}, cfg_parallel);
+    auto r_seq = traversal_->multiSourceBFS({"A"}, cfg_sequential);
+
+    ASSERT_TRUE(r_par.has_value());
+    ASSERT_TRUE(r_seq.has_value());
+
+    auto v_par = r_par->visited_vertices;
+    auto v_seq = r_seq->visited_vertices;
+    std::sort(v_par.begin(), v_par.end());
+    std::sort(v_seq.begin(), v_seq.end());
+
+    EXPECT_EQ(v_par, v_seq)
+        << "Parallel fan-out BFS must visit the same vertices as sequential BFS";
+}
+
+TEST_F(ParallelTraversalTest, MultiSourceBFS_FanOutThreshold_NoDuplicates) {
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.fan_out_threshold = 1; // always use parallel expansion
+    cfg.num_threads = 2;
+
+    auto result = traversal_->multiSourceBFS({"A", "B"}, cfg);
+    ASSERT_TRUE(result.has_value());
+
+    const auto& visited = result->visited_vertices;
+    std::unordered_set<std::string> seen;
+    for (const auto& v : visited) {
+        EXPECT_TRUE(seen.insert(v).second) << "Duplicate vertex with fan-out expansion: " << v;
+    }
+}
+
+TEST_F(ParallelTraversalTest, MultiSourceBFS_FanOutThreshold_ForbiddenRespected) {
+    themis::graph::ParallelTraversal::Config cfg;
+    cfg.fan_out_threshold = 1;
+    cfg.num_threads = 2;
+    cfg.forbidden_vertices = {"B"};
+
+    auto result = traversal_->multiSourceBFS({"A"}, cfg);
+    ASSERT_TRUE(result.has_value());
+
+    const auto& visited = result->visited_vertices;
+    EXPECT_EQ(std::find(visited.begin(), visited.end(), "B"), visited.end())
+        << "B must be excluded even with parallel fan-out expansion";
+}
+
+TEST_F(ParallelTraversalTest, MultiSourceBFS_FanOutThreshold_LargeThresholdBehavesSequential) {
+    // A very large threshold means sequential path is always taken.
+    themis::graph::ParallelTraversal::Config cfg_large;
+    cfg_large.fan_out_threshold = 10000;
+
+    themis::graph::ParallelTraversal::Config cfg_seq;
+    // default: fan_out_threshold = 0 → sequential
+
+    auto r_large = traversal_->multiSourceBFS({"A"}, cfg_large);
+    auto r_seq   = traversal_->multiSourceBFS({"A"}, cfg_seq);
+
+    ASSERT_TRUE(r_large.has_value());
+    ASSERT_TRUE(r_seq.has_value());
+
+    auto v_large = r_large->visited_vertices;
+    auto v_seq   = r_seq->visited_vertices;
+    std::sort(v_large.begin(), v_large.end());
+    std::sort(v_seq.begin(), v_seq.end());
+
+    EXPECT_EQ(v_large, v_seq);
+}
+
+TEST_F(ParallelTraversalTest, Config_FanOutThreshold_DefaultZero) {
+    themis::graph::ParallelTraversal::Config cfg;
+    EXPECT_EQ(cfg.fan_out_threshold, 0u);
+}
