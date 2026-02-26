@@ -1089,6 +1089,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
 
     add_executable(test_themisdb_grpc_service
         test_themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/api/themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_themisdb_grpc_service PRIVATE
@@ -1299,6 +1301,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
 
     add_executable(test_cache_replication
         test_cache_replication.cpp
+        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_cache_replication PRIVATE

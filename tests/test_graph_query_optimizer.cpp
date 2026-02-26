@@ -1847,4 +1847,147 @@ TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne)
     auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
     ASSERT_TRUE(result);
     EXPECT_EQ(stats.paths_found, 1u);
+// Analytics Module Integration Tests (Issue #1821)
+// ============================================================================
+
+class GraphAnalyticsIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = "./data/themis_graph_analytics_integration_test";
+        fs::remove_all(test_db_path_);
+
+        themis::RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        config.memtable_size_mb = 64;
+        config.block_cache_size_mb = 256;
+        config.max_background_jobs = 2;
+        config.compression_default = "lz4";
+        config.compression_bottommost = "zstd";
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        graph_mgr_  = std::make_unique<themis::GraphIndexManager>(*db_);
+        optimizer_  = std::make_unique<themis::graph::GraphQueryOptimizer>(*graph_mgr_);
+        analytics_  = std::make_unique<themis::GraphAnalytics>(*graph_mgr_);
+
+        // Graph: A -> B -> C -> D, also A -> C
+        auto addEdge = [&](const std::string& id,
+                           const std::string& from,
+                           const std::string& to,
+                           double weight = 1.0) {
+            themis::BaseEntity e(id);
+            e.setField("id", id);
+            e.setField("_from", from);
+            e.setField("_to", to);
+            e.setField("_weight", std::to_string(weight));
+            graph_mgr_->addEdge(e);
+        };
+        addEdge("e1", "A", "B", 1.0);
+        addEdge("e2", "B", "C", 1.0);
+        addEdge("e3", "C", "D", 1.0);
+        addEdge("e4", "A", "C", 2.0);
+    }
+
+    void TearDown() override {
+        analytics_.reset();
+        optimizer_.reset();
+        graph_mgr_.reset();
+        db_.reset();
+        fs::remove_all(test_db_path_);
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::GraphIndexManager> graph_mgr_;
+    std::unique_ptr<themis::graph::GraphQueryOptimizer> optimizer_;
+    std::unique_ptr<themis::GraphAnalytics> analytics_;
+};
+
+TEST_F(GraphAnalyticsIntegrationTest, AttachDetach_HasAnalyticsReflectsState) {
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+
+    optimizer_->attachAnalytics(*analytics_);
+    EXPECT_TRUE(optimizer_->hasAnalytics());
+
+    optimizer_->detachAnalytics();
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_WithoutAnalytics_ReturnsError) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_InvalidK_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 0, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_FindsPathsViaAnalytics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_TRUE(result.has_value()) << (result ? "" : result.error().message());
+
+    const auto& paths = result.value();
+    EXPECT_GE(paths.size(), 1u);
+
+    // All returned paths must start at A and end at D
+    for (const auto& path : paths) {
+        ASSERT_FALSE(path.vertices.empty());
+        EXPECT_EQ(path.vertices.front(), "A");
+        EXPECT_EQ(path.vertices.back(),  "D");
+        EXPECT_GT(path.hop_count, 0);
+    }
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_ReturnsAtMostKPaths) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 3, c);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_LE(result.value().size(), 3u);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_PopulatesExecutionStats) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c, "", &stats);
+    ASSERT_TRUE(result.has_value());
+
+    EXPECT_GE(stats.paths_found, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_UpdatesQueryMetrics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    const auto queries_before =
+        optimizer_->getQueryMetrics().total_queries.load();
+
+    optimizer_->executeKShortestPaths("A", "D", 1, c);
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().total_queries.load(),
+              queries_before + 1);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_AfterDetach_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    optimizer_->detachAnalytics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 1, c);
+    EXPECT_FALSE(result.has_value());
 }

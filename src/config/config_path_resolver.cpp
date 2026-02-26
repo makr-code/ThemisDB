@@ -79,9 +79,9 @@ public:
 
             auto metadata = ConfigPathResolver::getMetadata(path);
             if (metadata) {
-                entry.new_path           = metadata->new_path;
-                entry.category           = metadata->category;
-                entry.removal_date       = metadata->removal_date;
+                entry.new_path = metadata->new_path;
+                entry.category = metadata->category;
+                entry.removal_date = metadata->removal_date;
                 entry.migration_guide_url = metadata->migration_guide_url;
             } else {
                 entry.new_path = ConfigPathResolver::mapLegacyToNew(path);
@@ -300,73 +300,17 @@ int readCacheTtlFromEnv() noexcept {
     return kDefault;
 }
 
-} // namespace
-// Cache Configuration: read env vars once at startup
-// ═══════════════════════════════════════════════════════════
-
-static ConfigPathResolver::CacheConfig readCacheEnvConfig() {
-    size_t capacity = static_cast<size_t>(ConfigPathResolver::kCacheCapacity);
-    int ttl_seconds = ConfigPathResolver::kCacheTtlSeconds;
-
-    if (const char* env = std::getenv("THEMIS_CONFIG_CACHE_CAPACITY")) {
-        try {
-            int val = std::stoi(env);
-            if (val >= 10 && val <= 100000) {
-                capacity = static_cast<size_t>(val);
-            } else {
-                // Warn at startup; use fprintf because spdlog may not be initialized yet
-                fprintf(stderr,
-                    "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY=%d is out of range [10, 100000];"
-                    " using default %d\n",
-                    val, ConfigPathResolver::kCacheCapacity);
-            }
-        } catch (...) {
-            fprintf(stderr,
-                "[CONFIG] THEMIS_CONFIG_CACHE_CAPACITY='%s' is not a valid integer;"
-                " using default %d\n",
-                env, ConfigPathResolver::kCacheCapacity);
-        }
-    }
-
-    if (const char* env = std::getenv("THEMIS_CONFIG_CACHE_TTL_SECONDS")) {
-        try {
-            int val = std::stoi(env);
-            if (val >= 1 && val <= 86400) {
-                ttl_seconds = val;
-            } else {
-                fprintf(stderr,
-                    "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS=%d is out of range [1, 86400];"
-                    " using default %d\n",
-                    val, ConfigPathResolver::kCacheTtlSeconds);
-            }
-        } catch (...) {
-            fprintf(stderr,
-                "[CONFIG] THEMIS_CONFIG_CACHE_TTL_SECONDS='%s' is not a valid integer;"
-                " using default %d\n",
-                env, ConfigPathResolver::kCacheTtlSeconds);
-        }
-    }
-
-    return {capacity, ttl_seconds};
-}
-
 // ═══════════════════════════════════════════════════════════
 // Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
-// kCacheTtlSeconds must be defined before cache_ so the cache constructor
-// receives the correct TTL at program startup.
-const int ConfigPathResolver::kCacheTtlSeconds = initCacheTtl();
-
-ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
-LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(initCacheSize(), ConfigPathResolver::kCacheTtlSeconds); // env-configurable size and TTL
 const size_t ConfigPathResolver::kCacheSize        = readCacheSizeFromEnv();
 const int    ConfigPathResolver::kCacheTtlSeconds  = readCacheTtlFromEnv();
-
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
-LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
-    ConfigPathResolver::kCacheSize, ConfigPathResolver::kCacheTtlSeconds);
-ConfigPathResolver::CacheConfig ConfigPathResolver::cache_config_ = readCacheEnvConfig();
+ConfigPathResolver::CacheConfig ConfigPathResolver::cache_config_{
+    ConfigPathResolver::kCacheSize,
+    ConfigPathResolver::kCacheTtlSeconds
+};
 LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(
     ConfigPathResolver::cache_config_.capacity,
     ConfigPathResolver::cache_config_.ttl_seconds);
@@ -375,6 +319,7 @@ ConfigPathResolver::DeprecationAggregator ConfigPathResolver::aggregator_;
 std::atomic<bool> ConfigPathResolver::aggregation_enabled_{false};
 std::atomic<ConfigEnvironment> ConfigPathResolver::current_env_{
     ConfigPathResolver::envFromEnvironmentVariable()};
+volatile sig_atomic_t ConfigPathResolver::sighup_pending_ = 0;
 ConfigAuditLog ConfigPathResolver::audit_log_;
 std::atomic<double> ConfigPathResolver::legacy_fallback_threshold_{0.0};
 std::atomic<uint64_t> ConfigPathResolver::last_threshold_warn_count_{0};
@@ -1091,22 +1036,17 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     // Build env-prefixed cache key to prevent cross-environment cache poisoning
     std::string cache_key = envToString(env) + ":" + normalized;
 
-    // Hot-reload: if SIGHUP was received, flush the cache before the lookup.
     if (sighup_pending_) {
         sighup_pending_ = 0;
         cache_.clear();
-        spdlog::info("ConfigPathResolver: SIGHUP received – resolved path cache cleared");
+        spdlog::info("ConfigPathResolver: SIGHUP received - resolved path cache cleared");
     }
 
-    // Check cache first if enabled
     if (caching_enabled_.load()) {
         auto cached = cache_.get(cache_key);
         if (cached) {
             metrics_.cache_hits++;
             if (audit_log_.isEnabled()) {
-                // is_legacy: the path is a known legacy key AND the cached
-                // resolved path is the legacy path itself (meaning the new path
-                // was absent when first resolved, so legacy fallback was used).
                 bool is_legacy = isLegacyPath(normalized) && (*cached == normalized);
                 audit_log_.record({legacy_path, *cached,
                     std::chrono::system_clock::now(), is_legacy, true});
@@ -1117,61 +1057,46 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         }
         metrics_.cache_misses++;
     }
-    
-    // Validate path to prevent security issues
+
     try {
         validatePath(normalized);
     } catch (const InvalidPathException&) {
         return std::nullopt;
     }
-    
-    // Determine the mapped new path (same for all environments)
+
     std::string new_path = mapLegacyToNew(normalized);
     std::string resolved_path;
+    bool was_legacy_fallback = false;
 
-    // For non-production environments, probe the overlay root first:
-    // config/<env>/<relative-new-path-without-leading-"config/">
     if (env != ConfigEnvironment::PROD && !new_path.empty() && new_path != normalized) {
-        std::string env_str = envToString(env);
-        // Derive the relative portion after "config/" prefix
         std::string relative_part = new_path;
         const std::string config_prefix = "config/";
         if (relative_part.starts_with(config_prefix)) {
             relative_part = relative_part.substr(config_prefix.size());
         }
-        std::string overlay_path = "config/" + env_str + "/" + relative_part;
+        std::string overlay_path = "config/" + envToString(env) + "/" + relative_part;
         if (std::filesystem::exists(overlay_path)) {
             spdlog::debug("ConfigPathResolver: Using env overlay path [{}]: {} -> {}",
-                          env_str, normalized, overlay_path);
+                          envToString(env), normalized, overlay_path);
             resolved_path = overlay_path;
-    bool was_legacy_fallback = false;
-    
-    if (!new_path.empty() && std::filesystem::exists(new_path)) {
-        if (normalized != new_path) {
-            spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}", 
-                         normalized, new_path);
             metrics_.new_path_hits++;
         }
     }
 
     if (resolved_path.empty()) {
-        // Try new path first
         if (!new_path.empty() && std::filesystem::exists(new_path)) {
             if (normalized != new_path) {
-                spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}", 
-                             normalized, new_path);
+                spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}",
+                              normalized, new_path);
                 metrics_.new_path_hits++;
             }
             resolved_path = new_path;
-        }
-        // Fall back to legacy path with warning
-        else if (std::filesystem::exists(normalized)) {
+        } else if (std::filesystem::exists(normalized)) {
             if (!new_path.empty() && new_path != normalized) {
-                // Track usage for aggregation report
                 aggregator_.incrementUsage(normalized);
+                was_legacy_fallback = true;
 
                 if (!aggregation_enabled_.load()) {
-                    // Per-call warning (only when aggregation is disabled)
                     auto metadata = getMetadata(normalized);
                     if (metadata && metadata->isDeprecated()) {
                         if (metadata->isRemovalDue()) {
@@ -1179,46 +1104,27 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
                         } else {
                             spdlog::warn("ConfigPathResolver: {}", metadata->getDeprecationMessage());
                         }
-    // Fall back to legacy path with warning
-    else if (std::filesystem::exists(normalized)) {
-        if (!new_path.empty() && new_path != normalized) {
-            // Track usage for aggregation report
-            aggregator_.incrementUsage(normalized);
-            was_legacy_fallback = true;
-
-            if (!aggregation_enabled_.load()) {
-                // Per-call warning (only when aggregation is disabled)
-                auto metadata = getMetadata(normalized);
-                if (metadata && metadata->isDeprecated()) {
-                    if (metadata->isRemovalDue()) {
-                        spdlog::error("ConfigPathResolver: {}", metadata->getDeprecationMessage());
                     } else {
-                        spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
-                                    "Please migrate to: {}", normalized, new_path);
+                        spdlog::warn("ConfigPathResolver: Using legacy config path: {}. Please migrate to: {}",
+                                     normalized, new_path);
                     }
                 }
+
                 metrics_.legacy_fallbacks++;
-            }
-            resolved_path = normalized;
-            metrics_.legacy_fallbacks++;
-            checkFallbackRateThreshold();
-        }
-        else {
-            // Track unmapped requests
-            if (new_path.empty() || new_path == normalized) {
+                checkFallbackRateThreshold();
+            } else {
                 metrics_.unmapped_requests++;
             }
-            // Neither path exists
+            resolved_path = normalized;
+        } else {
             return std::nullopt;
         }
     }
-    
-    // Cache the resolved path if caching is enabled
+
     if (caching_enabled_.load()) {
         cache_.put(cache_key, resolved_path);
     }
 
-    // Record audit entry for this successful resolution
     if (audit_log_.isEnabled()) {
         audit_log_.record({legacy_path, resolved_path,
             std::chrono::system_clock::now(), was_legacy_fallback, false});
@@ -1271,6 +1177,30 @@ std::optional<PathMappingMetadata> ConfigPathResolver::getMetadata(const std::st
     }
     
     return std::nullopt;
+}
+
+std::vector<ConfigPathResolver::DeprecationEntry> ConfigPathResolver::deprecationReport() {
+    return aggregator_.getReport();
+}
+
+std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
+    std::string normalized = normalizePath(new_path);
+
+    const std::string prefix = "config/";
+    if (normalized.starts_with(prefix)) {
+        normalized = normalized.substr(prefix.size());
+    }
+
+    std::size_t first_slash = normalized.find('/');
+    if (first_slash == std::string::npos) {
+        return "root";
+    }
+
+    std::string category = normalized.substr(0, first_slash);
+    if (category.empty()) {
+        return "root";
+    }
+    return category;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1391,8 +1321,8 @@ void ConfigPathResolver::checkFallbackRateThreshold() {
     }
 
     const uint64_t fallbacks = metrics_.legacy_fallbacks.load(std::memory_order_relaxed);
-    const uint64_t new_hits  = metrics_.new_path_hits.load(std::memory_order_relaxed);
-    const uint64_t total     = fallbacks + new_hits;
+    const uint64_t new_hits = metrics_.new_path_hits.load(std::memory_order_relaxed);
+    const uint64_t total = fallbacks + new_hits;
     if (total == 0) {
         return;
     }
@@ -1402,53 +1332,26 @@ void ConfigPathResolver::checkFallbackRateThreshold() {
         return;
     }
 
-    // Rate has met or exceeded the threshold.  Use a doubling strategy to
-    // prevent log flooding: warn at 1, then again when fallbacks >= 2×
-    // last_warn_count, then 4×, etc.
     uint64_t last_warn = last_threshold_warn_count_.load(std::memory_order_relaxed);
     const bool should_warn = (last_warn == 0) || (fallbacks >= last_warn * 2);
-    if (should_warn) {
-        // CAS ensures at most one thread emits the warning for this window
-        if (last_threshold_warn_count_.compare_exchange_strong(
-                last_warn, fallbacks, std::memory_order_relaxed)) {
-            spdlog::warn(
-                "[CONFIG] Legacy fallback rate {:.1f}% meets or exceeds threshold {:.1f}%"
-                " (fallbacks: {}, total resolutions: {}). "
-                "Migrate config paths to avoid this warning.",
-                rate * 100.0, threshold * 100.0, fallbacks, total);
-        }
+    if (should_warn &&
+        last_threshold_warn_count_.compare_exchange_strong(last_warn, fallbacks, std::memory_order_relaxed)) {
+        spdlog::warn(
+            "[CONFIG] Legacy fallback rate {:.1f}% meets or exceeds threshold {:.1f}% "
+            "(fallbacks: {}, total resolutions: {}). Migrate config paths to avoid this warning.",
+            rate * 100.0, threshold * 100.0, fallbacks, total);
     }
 }
-
-std::vector<ConfigPathResolver::DeprecationEntry> ConfigPathResolver::deprecationReport() {
-    return aggregator_.getReport();
-}
-
-std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
-    // Extract category from path (e.g., "config/ai_ml/..." -> "ai_ml")
-    size_t first_slash = new_path.find('/');
-    if (first_slash == std::string::npos) {
-        return "unknown";
-    }
-    
-    size_t second_slash = new_path.find('/', first_slash + 1);
-    if (second_slash == std::string::npos) {
-        return "unknown";
-    }
-    
-    return new_path.substr(first_slash + 1, second_slash - first_slash - 1);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Multi-Environment Config Overlay Helpers
-// ═══════════════════════════════════════════════════════════
 
 std::string ConfigPathResolver::envToString(ConfigEnvironment env) {
     switch (env) {
-        case ConfigEnvironment::DEV:     return "dev";
-        case ConfigEnvironment::STAGING: return "staging";
-        case ConfigEnvironment::PROD:    return "prod";
-        default:                         return "prod";
+        case ConfigEnvironment::DEV:
+            return "dev";
+        case ConfigEnvironment::STAGING:
+            return "staging";
+        case ConfigEnvironment::PROD:
+        default:
+            return "prod";
     }
 }
 
@@ -1457,36 +1360,43 @@ ConfigEnvironment ConfigPathResolver::envFromEnvironmentVariable() {
     if (!raw) {
         return ConfigEnvironment::PROD;
     }
+
     std::string val(raw);
-    // Sanitize: reject values containing path separators or shell metacharacters
     for (char c : val) {
         if (c == '/' || c == '\\' || c == '$' || c == '`' || c == ';' ||
             c == '&' || c == '|' || c == '>' || c == '<' || c == '\0') {
-            spdlog::warn("ConfigPathResolver: THEMIS_CONFIG_ENV contains invalid characters; "
-                         "defaulting to 'prod'");
+            spdlog::warn("ConfigPathResolver: THEMIS_CONFIG_ENV contains invalid characters; defaulting to 'prod'");
             return ConfigEnvironment::PROD;
         }
     }
-    // Convert to lowercase for comparison
+
     std::transform(val.begin(), val.end(), val.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    if (val == "dev")     return ConfigEnvironment::DEV;
-    if (val == "staging") return ConfigEnvironment::STAGING;
-    if (val == "prod")    return ConfigEnvironment::PROD;
-    spdlog::warn("ConfigPathResolver: Unknown THEMIS_CONFIG_ENV value '{}'; "
-                 "defaulting to 'prod'", val);
+
+    if (val == "dev") {
+        return ConfigEnvironment::DEV;
+    }
+    if (val == "staging") {
+        return ConfigEnvironment::STAGING;
+    }
+    if (val == "prod") {
+        return ConfigEnvironment::PROD;
+    }
+
+    spdlog::warn("ConfigPathResolver: Unknown THEMIS_CONFIG_ENV value '{}'; defaulting to 'prod'", val);
     return ConfigEnvironment::PROD;
 }
 
 void ConfigPathResolver::setEnvironment(ConfigEnvironment env) {
     current_env_.store(env);
-    // Clear cache to prevent stale overlay entries from a previous environment
     cache_.clear();
     spdlog::info("ConfigPathResolver: Active environment set to '{}'", envToString(env));
 }
 
 ConfigEnvironment ConfigPathResolver::getEnvironment() {
     return current_env_.load();
+}
+
 void ConfigPathResolver::setAuditLogEnabled(bool enabled) {
     if (enabled) {
         audit_log_.enable();
@@ -1505,6 +1415,7 @@ void ConfigPathResolver::clearAuditLog() {
 
 void ConfigPathResolver::setAuditLogMaxEntries(std::size_t max) {
     audit_log_.setMaxEntries(max);
+}
 // ═══════════════════════════════════════════════════════════
 // SIGHUP Hot-Reload
 // ═══════════════════════════════════════════════════════════

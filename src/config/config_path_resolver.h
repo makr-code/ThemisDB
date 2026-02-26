@@ -189,16 +189,8 @@ public:
      * @return Current ConfigEnvironment value
      */
     static ConfigEnvironment getEnvironment();
-     * Effective LRU cache TTL in seconds.
-     * Initialized at startup from the THEMIS_CONFIG_CACHE_TTL environment
-     * variable; falls back to the default of 300 seconds (5 minutes) when the
-     * variable is absent or invalid.
-     *
-     * LRU cache TTL in seconds.
-     * Initialized from the THEMIS_CONFIG_CACHE_TTL environment variable at
-     * program startup; falls back to 300 (5 minutes) when the variable is
-     * absent or invalid.  Exposed so the metrics exporter and other consumers
-     * can reference the single source of truth.
+
+    /**
      * Register a SIGHUP signal handler that hot-reloads the resolved path cache.
      *
      * When the process receives SIGHUP, the LRU cache is cleared on the next
@@ -232,31 +224,6 @@ public:
     static const size_t kCacheSize;
 
     /**
-     * Snapshot of the effective cache configuration.
-     * Useful for observability endpoints and tests that need to confirm which
-     * values are actually in use.
-     */
-    struct CacheConfig {
-        size_t capacity;
-        int    ttl_seconds;
-    };
-
-    /**
-     * Return the effective LRU cache configuration (capacity and TTL).
-     * Values reflect what was read from the environment at startup (or the
-     * hardcoded defaults when the variables were absent/invalid).
-     */
-    static CacheConfig currentCacheConfig() noexcept {
-        return {kCacheSize, kCacheTtlSeconds};
-    }
-
-    /**
-     * Default LRU cache capacity.
-     * The actual runtime value may be overridden by THEMIS_CONFIG_CACHE_CAPACITY.
-     */
-    static const int kCacheTtlSeconds;
-
-    /**
      * Default LRU cache TTL in seconds (compile-time constant).
      * Used as the fallback when THEMIS_CONFIG_CACHE_TTL is not set.
      */
@@ -269,12 +236,13 @@ public:
     static constexpr size_t kDefaultCacheSize = 1000;
 
     /**
-     * Snapshot of the effective cache configuration as determined at startup
-     * from environment variables (or compile-time defaults).
+     * Snapshot of the effective cache configuration.
+     * Useful for observability endpoints and tests that need to confirm which
+     * values are actually in use.
      */
     struct CacheConfig {
-        size_t capacity;   ///< Maximum number of cached entries
-        int ttl_seconds;   ///< Entry time-to-live in seconds
+        size_t capacity;
+        int    ttl_seconds;
     };
 
     /**
@@ -282,33 +250,8 @@ public:
      *
      * Values reflect what was read from the environment at program startup,
      * or the compile-time defaults when the variables were absent or invalid.
-     * This is a pure read with no locking overhead — suitable for observability
-     * endpoints that need to confirm which values are actually in use.
      *
      * @return CacheConfig{capacity, ttl_seconds}
-     */
-    static CacheConfig currentCacheConfig() noexcept {
-        return {cacheStats().capacity, kCacheTtlSeconds};
-    }
-    static constexpr int kCacheCapacity = 1000;
-
-    /**
-     * Runtime cache configuration (may differ from defaults when env vars are set).
-     */
-    struct CacheConfig {
-        size_t capacity;    ///< Maximum number of cached entries
-        int ttl_seconds;    ///< Entry TTL in seconds
-    };
-
-    /**
-     * Returns the active cache configuration (capacity and TTL) as determined
-     * at startup from environment variables or defaults.
-     *
-     * Environment variables:
-     *   THEMIS_CONFIG_CACHE_CAPACITY  – integer in [10, 100000], default 1000
-     *   THEMIS_CONFIG_CACHE_TTL_SECONDS – integer in [1, 86400], default 300
-     *
-     * @return Current CacheConfig used by the path resolver cache.
      */
     static CacheConfig currentCacheConfig();
 
@@ -438,6 +381,10 @@ private:
 
     // Active deployment environment (used for overlay path probing)
     static std::atomic<ConfigEnvironment> current_env_;
+
+    // SIGHUP hot-reload flag and handler (POSIX only; no-op on Windows)
+    static volatile sig_atomic_t sighup_pending_;
+    static void handleSighup(int sig);
 
     // Converts a ConfigEnvironment to its lowercase string name
     static std::string envToString(ConfigEnvironment env);

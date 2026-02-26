@@ -624,14 +624,72 @@ nlohmann::json ComplianceReporter::generateCcpaReport(
     int64_t window_start_ms,
     int64_t window_end_ms
 ) const {
-    CcpaReport ccpa = rule_set.generateReport(window_start_ms, window_end_ms);
+    nlohmann::json j = nlohmann::json::object();
 
-    nlohmann::json j = ccpa.toJson();
+    auto rules = policy_manager_->listRules();
+
+    std::unordered_set<std::string> categories_seen;
+    std::vector<std::string> third_party_disclosure_rule_ids;
+    nlohmann::json missing_by_check = nlohmann::json::object();
+
+    int compliant_rules = 0;
+    int non_compliant_rules = 0;
+
+    for (const auto& rule : rules) {
+        if (!rule.enabled) {
+            continue;
+        }
+
+        if (!rule.classification_level.empty()) {
+            categories_seen.insert(rule.classification_level);
+        }
+
+        if (rule.allow_export) {
+            third_party_disclosure_rule_ids.push_back(rule.id);
+        }
+
+        const auto evals = rule_set.evaluateRule(rule);
+        bool rule_compliant = true;
+        for (const auto& eval : evals) {
+            if (!eval.compliant) {
+                rule_compliant = false;
+                if (!missing_by_check.contains(eval.ccpa_check_id)) {
+                    missing_by_check[eval.ccpa_check_id] = nlohmann::json::array();
+                }
+                missing_by_check[eval.ccpa_check_id].push_back(eval.rule_id);
+            }
+        }
+
+        if (rule_compliant) {
+            ++compliant_rules;
+        } else {
+            ++non_compliant_rules;
+        }
+    }
+
+    std::vector<std::string> data_categories(categories_seen.begin(), categories_seen.end());
+    std::sort(data_categories.begin(), data_categories.end());
+
+    std::sort(third_party_disclosure_rule_ids.begin(), third_party_disclosure_rule_ids.end());
+    third_party_disclosure_rule_ids.erase(
+        std::unique(third_party_disclosure_rule_ids.begin(), third_party_disclosure_rule_ids.end()),
+        third_party_disclosure_rule_ids.end());
+
+    j["framework"] = "CCPA/CPRA";
+    j["window_start_ms"] = window_start_ms;
+    j["window_end_ms"] = window_end_ms;
+    j["generated_at"] = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    j["total_subjects"] = static_cast<int64_t>(rule_set.optOutCount());
+    j["opted_out_of_sale"] = rule_set.countOptOutRequests(window_start_ms, window_end_ms);
+    j["ccpa_compliant_rules"] = compliant_rules;
+    j["ccpa_non_compliant_rules"] = non_compliant_rules;
+    j["data_categories"] = data_categories;
+    j["third_party_disclosure_rule_ids"] = third_party_disclosure_rule_ids;
+    j["missing_by_check"] = missing_by_check;
 
     // Enrich with policy-level gap information specific to CCPA
     std::vector<nlohmann::json> gaps;
-
-    auto rules = policy_manager_->listRules();
 
     // Check whether any active policy rule covers CCPA-required resources
     const std::vector<std::string> ccpa_resources = {
@@ -668,7 +726,7 @@ nlohmann::json ComplianceReporter::generateCcpaReport(
     j["framework"]   = "CCPA/CPRA";
 
     THEMIS_INFO("CCPA compliance report generated: {} subjects, {} opt-outs",
-        ccpa.total_subjects, ccpa.opted_out_of_sale);
+        j["total_subjects"].get<int64_t>(), j["opted_out_of_sale"].get<int>());
 
     return j;
 }
