@@ -666,6 +666,15 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         for (const auto& member : members) {
             geom.geometries.push_back(parseGeoJSONGeomImpl(member, depth - 1));
         }
+        // Promote to GeometryCollectionZ if any member carries Z coordinates,
+        // matching the Z-detection behaviour of MultiPoint/MultiPolygon.
+        for (const auto& sub : geom.geometries) {
+            if (sub.has_z) {
+                geom.has_z = true;
+                geom.type = GeometryType::GeometryCollectionZ;
+                break;
+            }
+        }
     } else {
         throw std::runtime_error("GeoJSON: unsupported geometry type: " + type);
     }
