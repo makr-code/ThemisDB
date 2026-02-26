@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_tenant_policy_inheritance.h                  ║
-  Version:         0.0.1                                              ║
+  Version:         0.0.2                                              ║
   Last Modified:   2026-02-26                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -16,12 +16,13 @@
 
 #include <memory>
 #include <mutex>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 namespace themis {
+namespace utils { class AuditLogger; }
+
 namespace governance {
 
 /**
@@ -51,6 +52,19 @@ public:
     CrossTenantPolicyInheritance& operator=(const CrossTenantPolicyInheritance&) = delete;
     CrossTenantPolicyInheritance(CrossTenantPolicyInheritance&&) = default;
     CrossTenantPolicyInheritance& operator=(CrossTenantPolicyInheritance&&) = default;
+
+    // -------------------------------------------------------------------------
+    // Audit trail
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach an audit logger.
+     *
+     * When set, `evaluateEffectivePolicy()` writes a governance event for every
+     * policy decision, following the same pattern as `PolicyEngine::evaluate()`.
+     * Thread-safe; atomically replaces the previous logger.
+     */
+    void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
 
     // -------------------------------------------------------------------------
     // Hierarchy registration
@@ -125,6 +139,9 @@ public:
      * rules.  When rules overlap, the most-restrictive constraints prevail (see
      * class-level documentation for the merge semantics per field).
      *
+     * If an audit logger has been attached via setAuditLogger(), a
+     * `cross_tenant_policy_evaluation` event is written for every call.
+     *
      * @param tenant_id   Tenant whose effective policy is requested.
      * @param resource    Resource being accessed (e.g. "data/users").
      * @param action      Action being performed (e.g. "read").
@@ -142,9 +159,8 @@ public:
      *        ancestor-inherited rules with tenant-local rules.
      *
      * Rules are ordered from most-distant ancestor to tenant-local (top-down).
-     * Each rule carries the tenant_id of the tenant it originated from in its
-     * `created_by` field only when that field is empty; otherwise the original
-     * value is preserved.
+     * Each rule's `created_by` field is set to the source tenant_id when it
+     * is empty in the original rule; otherwise the original value is preserved.
      */
     std::vector<PolicyRule> resolveEffectiveRules(
         const std::string& tenant_id) const;
@@ -158,6 +174,7 @@ private:
     };
 
     std::unordered_map<std::string, TenantEntry> tenants_;
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger_;
 
     // -------------------------------------------------------------------------
     // Internal helpers (called with mutex_ held)

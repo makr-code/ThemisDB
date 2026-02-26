@@ -9,10 +9,13 @@
  * - Ancestor-chain resolution (root-first ordering)
  * - Effective policy merging (most-restrictive wins for all fields)
  * - resolveEffectiveRules returns rules from entire ancestor chain
+ * - resolveEffectiveRules annotates rules with source tenant_id in created_by
  * - evaluateEffectivePolicy merges decisions across the hierarchy
+ * - evaluateEffectivePolicy emits audit event when logger is attached
  * - Tenants with no PolicyManager attached are skipped gracefully
  * - Unregistering a tenant promotes its children to root
  * - setTenantPolicyManager / getTenantPolicyManager round-trip
+ * - setAuditLogger round-trip (does not crash)
  * - getParentTenantId for root and non-root tenants
  * - listTenants returns all registered tenants
  */
@@ -20,6 +23,7 @@
 #include <gtest/gtest.h>
 #include "governance/cross_tenant_policy_inheritance.h"
 #include "governance/policy_manager.h"
+#include "utils/audit_logger.h"
 
 #include <memory>
 #include <string>
@@ -437,4 +441,86 @@ TEST_F(CrossTenantInheritanceTest, ThreeLevelHierarchyMergesAllLevels)
     EXPECT_FALSE(decision.allow_cache);          // from leaf
     EXPECT_EQ(decision.retention_days, 180);     // min(365, 180, 365)
     EXPECT_EQ(decision.redaction_level, "standard"); // strictest
+}
+
+// ============================================================================
+// created_by annotation in resolveEffectiveRules
+// ============================================================================
+
+TEST_F(CrossTenantInheritanceTest, ResolveEffectiveRulesAnnotatesCreatedByWhenEmpty)
+{
+    ASSERT_TRUE(inh.registerTenant("org"));
+    ASSERT_TRUE(inh.registerTenant("team", "org"));
+
+    // Rule with empty created_by – should be annotated with source tenant.
+    PolicyRule org_rule = makeRule("org-rule", "data/*", "read");
+    org_rule.created_by = "";  // explicitly empty
+
+    // Rule with an existing created_by – must NOT be overwritten.
+    PolicyRule team_rule = makeRule("team-rule", "data/*", "write");
+    team_rule.created_by = "original-author";
+
+    inh.setTenantPolicyManager("org",  makeManager(org_rule));
+    inh.setTenantPolicyManager("team", makeManager(team_rule));
+
+    auto rules = inh.resolveEffectiveRules("team");
+    ASSERT_EQ(rules.size(), 2u);
+
+    // Ancestor rule should be annotated with the org tenant id.
+    auto it_org = std::find_if(rules.begin(), rules.end(),
+        [](const PolicyRule& r){ return r.id == "org-rule"; });
+    ASSERT_NE(it_org, rules.end());
+    EXPECT_EQ(it_org->created_by, "org");
+
+    // Tenant-local rule: original author preserved.
+    auto it_team = std::find_if(rules.begin(), rules.end(),
+        [](const PolicyRule& r){ return r.id == "team-rule"; });
+    ASSERT_NE(it_team, rules.end());
+    EXPECT_EQ(it_team->created_by, "original-author");
+}
+
+TEST_F(CrossTenantInheritanceTest, ResolveEffectiveRulesCreatedByPreservedWhenNonEmpty)
+{
+    // Root rule has created_by already set – must not be clobbered.
+    PolicyRule rule = makeRule("r1", "data/*", "read");
+    rule.created_by = "admin-user";
+
+    inh.setTenantPolicyManager("root", makeManager(rule));
+
+    auto rules = inh.resolveEffectiveRules("root");
+    ASSERT_EQ(rules.size(), 1u);
+    EXPECT_EQ(rules[0].created_by, "admin-user");
+}
+
+// ============================================================================
+// setAuditLogger
+// ============================================================================
+
+TEST_F(CrossTenantInheritanceTest, SetAuditLoggerDoesNotCrash)
+{
+    themis::utils::AuditLoggerConfig cfg;
+    cfg.enabled = false;
+    auto logger = std::make_shared<themis::utils::AuditLogger>(nullptr, nullptr, cfg);
+
+    // Must not throw or crash; calling evaluateEffectivePolicy with a logger
+    // attached must also be safe.
+    inh.setAuditLogger(logger);
+
+    ASSERT_TRUE(inh.registerTenant("root"));
+    inh.setTenantPolicyManager("root", makeManager(makeRule("r", "data/*", "read")));
+
+    auto decision = inh.evaluateEffectivePolicy("root", "data/x", "read", {});
+    EXPECT_TRUE(decision.allowed);
+}
+
+TEST_F(CrossTenantInheritanceTest, SetAuditLoggerNullIsNoop)
+{
+    // Setting null audit logger and then evaluating should not crash.
+    inh.setAuditLogger(nullptr);
+
+    ASSERT_TRUE(inh.registerTenant("root"));
+    inh.setTenantPolicyManager("root", makeManager(makeRule("r", "data/*", "read")));
+
+    auto decision = inh.evaluateEffectivePolicy("root", "data/x", "read", {});
+    EXPECT_TRUE(decision.allowed);
 }

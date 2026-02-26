@@ -11,13 +11,26 @@
  */
 
 #include "governance/cross_tenant_policy_inheritance.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
-#include <stdexcept>
+#include <chrono>
 
 namespace themis {
 namespace governance {
+
+// ---------------------------------------------------------------------------
+// Audit trail
+// ---------------------------------------------------------------------------
+
+void CrossTenantPolicyInheritance::setAuditLogger(
+    std::shared_ptr<themis::utils::AuditLogger> logger)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    audit_logger_ = std::move(logger);
+}
 
 // ---------------------------------------------------------------------------
 // Hierarchy registration
@@ -151,6 +164,7 @@ PolicyManager::PolicyDecision CrossTenantPolicyInheritance::evaluateEffectivePol
     // PolicyManager (which carries its own mutex).
     std::vector<std::string> chain;
     std::vector<std::shared_ptr<PolicyManager>> managers;
+    std::shared_ptr<themis::utils::AuditLogger> audit_logger;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -163,6 +177,7 @@ PolicyManager::PolicyDecision CrossTenantPolicyInheritance::evaluateEffectivePol
             managers.push_back(
                 (it != tenants_.end()) ? it->second.policy_manager : nullptr);
         }
+        audit_logger = audit_logger_;
     }
 
     // Evaluate each level and merge, keeping the most-restrictive result.
@@ -182,6 +197,33 @@ PolicyManager::PolicyDecision CrossTenantPolicyInheritance::evaluateEffectivePol
         } else {
             effective = mergeDecisions(effective, level_decision);
         }
+    }
+
+    // Emit Prometheus counter for observability.
+    observability::MetricsCollector::getInstance().addCounter(
+        "governance_cross_tenant_policy_eval_total", 1,
+        {{"tenant_id", tenant_id},
+         {"allowed", effective.allowed ? "true" : "false"}});
+
+    // Write audit trail entry if a logger is attached.
+    if (audit_logger) {
+        nlohmann::json audit_event = {
+            {"event_type",          "cross_tenant_policy_evaluation"},
+            {"tenant_id",           tenant_id},
+            {"resource",            resource},
+            {"action",              action},
+            {"ancestor_chain",      chain},
+            {"allowed",             effective.allowed},
+            {"require_encryption",  effective.require_encryption},
+            {"allow_export",        effective.allow_export},
+            {"allow_cache",         effective.allow_cache},
+            {"retention_days",      effective.retention_days},
+            {"redaction_level",     effective.redaction_level},
+            {"classification",      effective.classification_level},
+            {"timestamp",           std::chrono::duration_cast<std::chrono::milliseconds>(
+                                        std::chrono::system_clock::now().time_since_epoch()).count()}
+        };
+        audit_logger->logEvent(audit_event);
     }
 
     return effective;
@@ -212,6 +254,12 @@ std::vector<PolicyRule> CrossTenantPolicyInheritance::resolveEffectiveRules(
             continue;
         }
         auto rules = managers[i]->listRules();
+        // Annotate each rule with its source tenant when created_by is unset.
+        for (auto& rule : rules) {
+            if (rule.created_by.empty()) {
+                rule.created_by = chain[i];
+            }
+        }
         all_rules.insert(all_rules.end(),
                          std::make_move_iterator(rules.begin()),
                          std::make_move_iterator(rules.end()));
