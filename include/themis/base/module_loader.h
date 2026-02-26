@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     661                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +24,7 @@
 #pragma once
 
 #include "themis/module_hash_verifier.h"
+#include "acceleration/plugin_security.h"
 
 #include <string>
 #include <vector>
@@ -489,6 +490,19 @@ public:
      * @return true if successful, false otherwise
      */
     bool exportAuditLog(const std::string& outputPath) const;
+    
+    /**
+     * @brief Get the per-plugin audit trail (load, unload, errors)
+     * 
+     * Returns all recorded security and lifecycle events for the given
+     * module path in chronological order.  Events include PLUGIN_LOADED,
+     * PLUGIN_UNLOADED, PLUGIN_LOAD_FAILED, and related security events.
+     *
+     * @param modulePath Full path to the module (as supplied to loadModule)
+     * @return Vector of audit events for that specific plugin
+     */
+    std::vector<themis::acceleration::PluginSecurityEvent>
+    getPluginAuditTrail(const std::string& modulePath) const;
     
 #ifdef _WIN32
     /**

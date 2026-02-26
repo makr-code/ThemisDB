@@ -396,6 +396,7 @@ openssl dgst -sha256 -verify themisdb_public.pem \
 |------------|----------|--------------|
 | PLUGIN_LOADED | INFO | Plugin erfolgreich geladen |
 | PLUGIN_LOAD_FAILED | ERROR | Plugin-Laden fehlgeschlagen |
+| PLUGIN_UNLOADED | INFO | Plugin erfolgreich entladen |
 | SIGNATURE_VERIFIED | INFO | Signatur erfolgreich verifiziert |
 | SIGNATURE_VERIFICATION_FAILED | ERROR | Signatur-Verifikation fehlgeschlagen |
 | HASH_MISMATCH | CRITICAL | File-Hash stimmt nicht überein |

@@ -7,6 +7,31 @@ dispatcher never creates branches or PRs directly.
 
 ---
 
+## Fully Automated Pipeline
+
+The system supports a **zero-touch pipeline** from issue creation to Copilot PR:
+
+```
+Issue created / label added
+  → auto-queue-issues.yml adds `queue/copilot`   (event-driven, instant)
+    → copilot-dispatcher.yml delegates to Copilot (≤ 30 min or on label event)
+      → Copilot Coding Agent opens a draft PR
+        → pr-copilot-trigger.yml sends context to the agent
+          → Agent finishes implementation and marks PR ready
+            → copilot-readiness-gate.yml promotes PR to `copilot/status-ready`
+```
+
+### Workflows in the pipeline
+
+| Workflow | Trigger | Role |
+|---|---|---|
+| `auto-queue-issues.yml` | `issues: opened` + `workflow_dispatch` | Adds `queue/copilot` to new issues automatically; back-fill mode queues all existing open issues on demand |
+| `copilot-dispatcher.yml` | Schedule (30 min) + `issues: labeled` | Delegates queued issues to the Copilot Coding Agent |
+| `pr-copilot-trigger.yml` | `pull_request: opened/synchronize/reopened` | Posts CI context to the agent on draft Copilot PRs |
+| `copilot-readiness-gate.yml` | `pull_request: labeled` + `check_suite: completed` | Promotes Copilot PRs that pass all gates to `copilot/status-ready` |
+
+---
+
 ## Prerequisites
 
 - **GitHub Copilot Coding Agent** must be enabled for the repository or
@@ -34,9 +59,12 @@ dispatcher never creates branches or PRs directly.
         or a generated default criterion.
       - Task notes: target branch, coding standards, test requirements,
         `Closes #<N>` instruction.
-   d. Applies the label **`copilot/delegated`** to the issue.
-   e. Removes the label **`queue/copilot`** from the issue.
-4. Copilot picks up the mention, implements the changes, and opens a PR that
+   d. **Assigns the `copilot` user** to the issue to start the Copilot Coding
+      Agent.  The assignment is the authoritative trigger; a `@copilot` mention
+      posted by a bot account alone is not sufficient to start the agent.
+   e. Applies the label **`copilot/delegated`** to the issue.
+   f. Removes the label **`queue/copilot`** from the issue.
+4. Copilot picks up the assignment, implements the changes, and opens a PR that
    closes the issue.
 
 ---
@@ -95,16 +123,34 @@ Within the same priority tier issues are processed oldest-first (by creation dat
 
 | Label | Purpose |
 |---|---|
-| `queue/copilot` | Mark an issue as eligible for Copilot delegation. Removed by the dispatcher after posting the delegation comment. |
+| `queue/copilot` | Mark an issue as eligible for Copilot delegation. Added automatically by `auto-queue-issues.yml` when a new issue is opened, or manually. Removed by the dispatcher after posting the delegation comment. |
 | `copilot/delegated` | Set by the dispatcher after the delegation comment is posted. Prevents re-delegation on subsequent runs. |
-| `blocked` | Issues with this label are skipped by the dispatcher. |
+| `blocked` / `status:blocked` | Issues with this label are skipped by both the auto-queue workflow and the dispatcher. |
 
 ---
 
 ## How to queue an issue
 
+### Automatic queuing (fully automated pipeline)
+
+The **Auto-Queue Issues** workflow (`auto-queue-issues.yml`) makes the entire
+pipeline hands-free:
+
+- **New issues**: Every issue that is opened automatically receives the
+  `queue/copilot` label (unless it is already `blocked`, `status:blocked`, or
+  `copilot/delegated`).  No manual step is required.
+- **Existing/back-fill**: Trigger the workflow manually via
+  **Actions → Auto-Queue Issues for Copilot → Run workflow** to add
+  `queue/copilot` to all currently open issues that are not yet queued.  A
+  **dry-run** option lets you preview which issues would be queued before
+  writing any labels.  A **max_issues** cap prevents accidental bulk-queuing.
+
+The dispatcher then picks up every queued issue within ≤ 30 minutes.
+
+### Manual queuing
+
 1. Open or find an existing issue.
-2. Add the label **`queue/copilot`**.
+2. Add the label **`queue/copilot`** manually.
 3. The dispatcher will pick it up within ≤ 30 minutes (or immediately on the
    next manual trigger).
 
@@ -150,6 +196,7 @@ The dispatcher is safe to re-run at any time:
 | Fetch queued issues | **Abort** the run |
 | Read comments (idempotency check) | Warning + skip the issue |
 | Post delegation comment | Warning + skip the issue |
+| Assign `copilot` to the issue | Warning only (comment already posted) |
 | Apply `copilot/delegated` label | Warning only (comment already posted) |
 | Remove `queue/copilot` label | Warning only (404 = already absent, ignored) |
 
@@ -181,11 +228,130 @@ Or create the required labels manually:
 
 - The dispatcher does **not** create branches, push commits, or open PRs.
   All of that is handled by the GitHub Copilot Coding Agent after receiving
-  the delegation comment.
+  the issue assignment.
 - GitHub Copilot Coding Agent must be **enabled** on the repository or
-  organisation for the `@copilot` mention to trigger automated work.
+  organisation.  The dispatcher triggers the agent by **assigning the `copilot`
+  user** to the issue; a `@copilot` mention in a bot-posted comment alone is
+  not sufficient.
 - Auto-merge is **not** implemented.  Human review and merge are fully
   independent of the dispatcher.
+
+---
+
+## Best practices for issue authoring
+
+Writing issues that the dispatcher handles well improves the quality of
+Copilot-generated pull requests.
+
+### Use task-list checkboxes as acceptance criteria
+
+The dispatcher extracts acceptance criteria from the issue body by scanning
+for Markdown task-list items (`- [ ] …`).  When found, each item becomes a
+checkbox in the delegation comment that Copilot uses as its work checklist.
+
+**Good issue body excerpt:**
+
+```markdown
+## Acceptance Criteria
+
+- [ ] Add unit tests for the new function covering edge cases.
+- [ ] Update the public API documentation in `docs/api.md`.
+- [ ] Ensure no regressions in the existing test suite.
+```
+
+When no task-list items are found the dispatcher falls back to a generic
+`- [ ] Resolve issue #<N>: <title>` line.  Issues with explicit checkboxes
+consistently produce more focused, correct pull requests.
+
+### Include a concise description in the first paragraph
+
+The dispatcher extracts the first non-heading, non-empty line of the issue
+body (up to 300 characters) as a context excerpt for Copilot.  Front-load the
+most important context:
+
+```markdown
+## Summary
+
+Implement a connection-pool timeout so idle connections are evicted after
+30 s (configurable) to prevent resource exhaustion under low-traffic loads.
+```
+
+### Label your issues accurately
+
+| Label | Why it matters |
+|---|---|
+| `queue/copilot` | Queues the issue for dispatcher pick-up. |
+| `priority:critical` / `priority:high` | Processed first; use for blockers. |
+| `blocked` / `status:blocked` | Excludes the issue from dispatcher runs. |
+
+### Keep issue scope tight
+
+Copilot works best on issues that map to a single, bounded code change.
+Split large epics into child issues before adding `queue/copilot`.
+
+---
+
+## Troubleshooting
+
+### No PR appears after adding `queue/copilot`
+
+1. **Copilot Coding Agent not enabled** – Visit *Repository Settings →
+   Copilot → Coding agent* and confirm it is enabled.  Without this, no
+   assignment will start an agent session.
+2. **Dispatcher did not run** – Go to *Actions → Copilot Issue Dispatcher*
+   and check for recent runs.  The schedule fires every 30 minutes; you can
+   also trigger a run manually via *Run workflow*.
+3. **Issue not picked up** – Open the run's job summary and look at the
+   *"Queued issues available"* log line.  If the count is 0, verify the issue
+   actually has the `queue/copilot` label and is open (GitHub's search index
+   can lag by up to 60 seconds after a label is added; the next scheduled run
+   will catch it).
+4. **Delegation limit reached** – The `max_delegations_per_run` config cap
+   (default 2) may have been exhausted by other issues in the same run.  Wait
+   for the next run, increase the cap, or trigger a manual run.
+5. **`copilot` was not assigned** – The dispatcher logs a warning if the
+   `addAssignees` call fails.  Check the run log for lines like *"Could not
+   assign 'copilot'"*.  The most common cause is that `issues: write`
+   permission was removed or the token was revoked.
+6. **Branch protection blocking Copilot** – If the `develop` branch requires
+   status checks or reviews that the agent cannot satisfy, the agent's PR
+   creation may fail silently.  Review branch protection rules at
+   *Repository Settings → Branches* and consider adding a bypass for the
+   Copilot app.
+
+### Delegation comment posted but no PR
+
+The delegation comment is informational; the **assignment** of the `copilot`
+user is what starts the agent session.  Confirm both are present on the issue:
+- A comment beginning with `<!-- copilot-delegated -->`.
+- The `copilot` user listed under *Assignees*.
+
+If the comment exists but the assignee is missing, trigger a manual dispatcher
+run; the idempotency path will re-try the `addAssignees` call.
+
+### Duplicate delegation comments
+
+This should not happen under normal operation (the idempotency marker prevents
+it), but if it does the extra comments are harmless – only the first assignment
+triggers the agent.  Remove duplicate comments manually and consider opening a
+bug report.
+
+### Checking agent session status
+
+Navigate to the issue page and look for the Copilot activity section, or visit:
+*Repository → Pull requests* and filter by the branch Copilot creates
+(format: `copilot/<issue-number>-<slug>`).
+
+See also: [Tracking Copilot sessions](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions)
+
+---
+
+## References
+
+- [GitHub Copilot coding agent overview](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent)
+- [Troubleshooting the Copilot coding agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/troubleshoot-coding-agent)
+- [Tracking Copilot sessions](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions)
+- [GitHub Actions permissions for `GITHUB_TOKEN`](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token)
 
 ---
 

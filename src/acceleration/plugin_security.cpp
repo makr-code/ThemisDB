@@ -764,13 +764,31 @@ bool PluginSecurityAuditor::exportEvents(const std::string& outputPath) const {
         snapshot = events_;
     }
     
+    // Helper: convert enum to human-readable string (robust against future values)
+    auto typeToString = [](PluginSecurityEvent::EventType t) -> std::string {
+        switch (t) {
+            case PluginSecurityEvent::EventType::PLUGIN_LOADED:                   return "PLUGIN_LOADED";
+            case PluginSecurityEvent::EventType::PLUGIN_LOAD_FAILED:              return "PLUGIN_LOAD_FAILED";
+            case PluginSecurityEvent::EventType::PLUGIN_UNLOADED:                 return "PLUGIN_UNLOADED";
+            case PluginSecurityEvent::EventType::SIGNATURE_VERIFIED:              return "SIGNATURE_VERIFIED";
+            case PluginSecurityEvent::EventType::SIGNATURE_VERIFICATION_FAILED:   return "SIGNATURE_VERIFICATION_FAILED";
+            case PluginSecurityEvent::EventType::HASH_MISMATCH:                   return "HASH_MISMATCH";
+            case PluginSecurityEvent::EventType::BLACKLISTED:                     return "BLACKLISTED";
+            case PluginSecurityEvent::EventType::UNTRUSTED_ISSUER:                return "UNTRUSTED_ISSUER";
+            case PluginSecurityEvent::EventType::CERTIFICATE_EXPIRED:             return "CERTIFICATE_EXPIRED";
+            case PluginSecurityEvent::EventType::CERTIFICATE_REVOKED:             return "CERTIFICATE_REVOKED";
+            case PluginSecurityEvent::EventType::POLICY_VIOLATION:                return "POLICY_VIOLATION";
+            default:                                                               return "UNKNOWN";
+        }
+    };
+
     try {
         json j;
         j["events"] = json::array();
         
         for (const auto& event : snapshot) {
             json eventJson;
-            eventJson["type"] = static_cast<int>(event.type);
+            eventJson["type"] = typeToString(event.type);
             eventJson["pluginPath"] = event.pluginPath;
             eventJson["pluginHash"] = event.pluginHash;
             eventJson["message"] = event.message;

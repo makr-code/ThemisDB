@@ -120,6 +120,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_adaptive_query_cache\\.cpp$"
         ".*test_streaming_handler\\.cpp$"
         ".*test_shared_worker_pool\\.cpp$"
+        ".*test_json_schema_binding\\.cpp$"
     )
 endif()
 
@@ -552,6 +553,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
+            ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
@@ -686,6 +688,7 @@ endif()
 
 target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
+    THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
 
 target_include_directories(themis_tests PRIVATE
@@ -736,6 +739,14 @@ add_test(NAME AllTests COMMAND themis_tests)
 set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
     TIMEOUT 600
+)
+
+# Session management and revocation endpoint tests (subset of AllTests)
+add_test(NAME SessionManagerTests
+    COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+set_tests_properties(SessionManagerTests PROPERTIES
+    LABELS "auth;session;revocation;unit"
+    TIMEOUT 60
 )
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")

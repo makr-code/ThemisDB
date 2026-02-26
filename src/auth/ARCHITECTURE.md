@@ -160,7 +160,7 @@ mfa_authenticator.cpp: TOTP validation (RFC 6238)
 - `token_blacklist.cpp` uses a concurrent hash map with read-write lock.
 - `totp_replay_cache.cpp` uses a lock-free ring buffer with TTL expiry.
 - `jwks_validator.cpp` key cache is protected by a shared mutex (many readers, one writer).
-- `session_manager.cpp` uses sharded locks per session bucket.
+- `session_manager.cpp` uses a single `std::mutex` protecting the session map.
 
 ---
 
@@ -171,7 +171,7 @@ mfa_authenticator.cpp: TOTP validation (RFC 6238)
 | JWKS key caching | Public keys cached with configurable TTL (default: 5 min) |
 | Token blacklist | In-memory hash set with periodic persistence to RocksDB |
 | TOTP replay cache | Lock-free ring buffer (O(1) insert/lookup) |
-| Session pooling | Session objects reused from a pool to reduce allocation |
+| Session map | `std::unordered_map` under `std::mutex`; expired entries pruned on access |
 
 ---
 
@@ -197,7 +197,9 @@ mfa_authenticator.cpp: TOTP validation (RFC 6238)
 | `auth.totp.window` | 1 | TOTP time windows checked (±N × 30 s) |
 | `auth.rate_limit.max_attempts` | 5 | Login attempts before lockout |
 | `auth.rate_limit.lockout_s` | 300 | Lockout duration in seconds |
-| `auth.session.ttl_s` | 3600 | Session TTL in seconds |
+| `auth.session.idle_timeout_s` | 28800 | Session idle timeout in seconds (8 hours) |
+| `auth.session.absolute_timeout_s` | 2592000 | Session absolute lifetime in seconds (30 days) |
+| `auth.session.max_per_user` | 10 | Maximum concurrent sessions per user |
 | `auth.zero_trust.enabled` | false | Enable continuous trust verification |
 
 ---

@@ -213,6 +213,46 @@ txn.addVector(user, "embedding");          // Vector index
 auto status = txn.commit();  // All or nothing
 ```
 
+**Named Savepoints (Partial Rollback):**
+
+Savepoints allow a transaction to be rolled back to an intermediate point without aborting the entire transaction.  This is equivalent to SQL `SAVEPOINT` / `ROLLBACK TO SAVEPOINT` / `RELEASE SAVEPOINT`.
+
+```cpp
+// Named savepoint API
+Status createSavepoint(std::string_view name);      // set a savepoint
+Status rollbackToSavepoint(std::string_view name);  // partial rollback
+Status releaseSavepoint(std::string_view name);     // discard without rollback
+
+// Query active savepoints
+std::vector<std::string> getSavepoints() const;
+bool hasSavepoint(std::string_view name) const;
+```
+
+```cpp
+// Example: partial rollback on validation failure
+auto txn = txn_mgr.begin();
+
+txn.putEntity("users", user1);
+txn.createSavepoint("after_user1");
+
+txn.putEntity("users", user2);
+txn.createSavepoint("after_user2");
+
+txn.putEntity("users", user3);       // user3 turns out to be invalid
+
+// Discard only user3 — user1 and user2 remain in the transaction
+txn.rollbackToSavepoint("after_user2");
+
+txn.commit();  // commits user1 and user2 only
+```
+
+**Savepoint rules:**
+- Savepoint names must be unique within the transaction and non-empty.
+- `rollbackToSavepoint(name)` removes the named savepoint **and** all savepoints created after it.
+- `releaseSavepoint(name)` removes the named savepoint and all newer ones **without** undoing any writes.
+- SAGA compensating actions registered after a savepoint are trimmed when `rollbackToSavepoint` is called.
+- Do **not** mix the anonymous stack API (`setSavePoint` / `rollbackToSavePoint` / `popSavePoint`) with the named savepoint API on the same transaction.  Both APIs manipulate the same underlying RocksDB savepoint stack.  Interleaving them causes mismatched name-to-stack-index mappings in the `savepoints_` bookkeeping vector, which results in incorrect rollback targets, failed savepoint operations, or silent data corruption.
+
 ---
 
 ### SAGA Pattern
@@ -1033,6 +1073,7 @@ ctest -R transaction_test -V
 ./tests/snapshot_manager_test
 ./tests/branch_manager_test
 ./tests/merge_engine_test
+./tests/test_savepoints        # named and anonymous savepoint tests (20 cases)
 ```
 
 ### Integration Tests
@@ -1049,8 +1090,13 @@ ctest -R transaction_test -V
 
 ### Performance Benchmarks
 ```bash
-# Transaction throughput benchmark
-./benchmarks/transaction_benchmark
+# Transaction throughput benchmark (includes savepoint benchmarks)
+./benchmarks/bench_transaction_throughput
+
+# Savepoint-specific benchmarks:
+#   SavepointCreateAndRollback  – partial rollback overhead
+#   SavepointNested             – nesting depth overhead
+#   SavepointRelease            – release (no rollback) cost
 
 # Deadlock detection overhead
 ./benchmarks/deadlock_overhead_benchmark

@@ -691,6 +691,81 @@ The detector runs a two-stage pipeline on every audio chunk:
 
 ---
 
+### Voice Biometric Authentication
+
+Enable speaker verification so the voice pipeline only processes commands from enrolled users.
+
+**C++ API:**
+
+```cpp
+#include "voice/voice_assistant.h"
+
+themis::voice::VoiceAssistant::Config cfg;
+cfg.enable_voice_auth = true;
+cfg.voice_auth_config.verification_threshold   = 0.72f; // min cosine similarity
+cfg.voice_auth_config.liveness_threshold       = 0.55f; // anti-replay gate
+cfg.voice_auth_config.identification_threshold = 0.68f; // 1:N search threshold
+
+themis::voice::VoiceAssistant va(cfg);
+// (va.initialize() as usual)
+
+// Enroll a speaker – supply ≥ 3 raw PCM samples (16-bit LE, 16 kHz, ≥ 3 seconds each)
+themis::voice::VoiceProfileID profile_id;
+themis::voice::EnrollmentConfig ecfg;
+ecfg.min_samples       = 3;
+ecfg.quality_threshold = 0.60f;
+ecfg.require_liveness  = true; // reject replayed/synthetic audio at enrollment
+
+bool enrolled = va.enrollSpeaker("alice", samples, profile_id, ecfg);
+
+// Explicit authentication check
+auto auth_result = va.authenticateSpeaker("alice", probe_audio);
+if (auth_result.authenticated) {
+    // auth_result.confidence_score  – cosine similarity [0, 1]
+    // auth_result.timestamp_ms      – wall-clock time of check
+} else {
+    // auth_result.decision_reason:
+    //   "empty_audio" | "liveness_failed: …" |
+    //   "profile_not_found" | "verification_failed: score_below_threshold"
+}
+
+// When enable_voice_auth = true AND session.user_id is set, processVoiceCommand
+// and streamProcessVoiceCommand automatically gate on authentication before STT.
+// Failed auth returns a spoken rejection: "Voice authentication failed. Please try again."
+```
+
+**YAML configuration:**
+
+```yaml
+voice_commands:
+  voice_auth_enabled: true
+  voice_auth_verification_threshold: 0.72   # [0, 1] – min cosine similarity for 1:1 match
+  voice_auth_liveness_threshold:     0.55   # [0, 1] – anti-replay/anti-synthesis gate
+```
+
+**Statistics returned by `/api/v1/voice/stats`:**
+
+```json
+{
+  "voice_auth": {
+    "enrolled_profiles":          1,
+    "total_enrollments":          1,
+    "total_verifications":        8,
+    "total_identifications":      2,
+    "successful_authentications": 6
+  }
+}
+```
+
+> **Note:** Liveness detection is heuristic-based (crest factor, spectral flatness, ZCR
+> variability) and does not require an external model file.  A neural anti-spoofing model
+> is recommended for production deployments requiring high security.  The feature extractor
+> is model-free (32-dimensional sub-band + spectral features); a neural i-vector/x-vector
+> backend can be plugged in via `VoiceBiometricAuthenticator::extractFeatures()` without
+> any API changes.
+
+---
+
 ## Storage and Revision Control
 
 All recordings and transcriptions are stored in ThemisDB with:

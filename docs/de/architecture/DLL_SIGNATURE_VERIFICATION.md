@@ -151,6 +151,7 @@ loader.exportAuditLog("/var/log/themis/module_audit.json");
 **Logged Events**:
 - `PLUGIN_LOADED` - Module loaded successfully
 - `PLUGIN_LOAD_FAILED` - Module load failed
+- `PLUGIN_UNLOADED` - Module unloaded
 - `SIGNATURE_VERIFIED` - Signature verification passed
 - `SIGNATURE_VERIFICATION_FAILED` - Signature invalid
 - `HASH_MISMATCH` - File hash doesn't match metadata

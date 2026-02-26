@@ -23,6 +23,7 @@
 #pragma once
 
 #include "plugins/plugin_interface.h"
+#include "llm/json_schema_converter.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -78,6 +79,9 @@ struct LLMCapabilities {
     bool supports_model_sharding = false;  // Model parallelism
     bool supports_pipeline_parallel = false;
     bool supports_tensor_parallel = false;
+
+    // Multi-modal capabilities
+    bool supports_multimodal = false;      // Image + text input (vision-language models)
 };
 
 /**
@@ -156,12 +160,29 @@ struct InferenceRequest {
     // Grammar-constrained generation (Phase 3.2)
     std::optional<std::string> grammar_type;      // Built-in grammar: "json", "xml", "csv", "react_agent"
     std::optional<std::string> grammar_ebnf;      // Custom EBNF grammar text
-    
+
+    // JSON schema binding for structured output (Issue #1922)
+    // When set, the output is constrained to produce valid JSON matching this schema.
+    // Converted to grammar_ebnf via JsonSchemaConverter::schemaToEbnf() before inference.
+    std::optional<json> json_schema;
+
+    // Tool / function calling (Issue #1922)
+    // When non-empty, the model is constrained to produce a tool call JSON:
+    //   {"name": "<tool>", "arguments": {<args>}}
+    // The tool call is parsed from response.text and stored in response.tool_calls.
+    std::vector<ToolDefinition> tools;
+
     // Streaming callback
     std::function<void(const std::string& token)> stream_callback;
     
     // Stop sequences
     std::vector<std::string> stop_sequences;
+
+    // Multi-modal image inputs (vision-language models).
+    // When non-empty the inference engine encodes each image and injects the
+    // resulting embeddings into the LLM context alongside the text prompt.
+    // Requires the loaded model to have vision support (LLMCapabilities::supports_multimodal).
+    std::vector<std::string> image_paths;   ///< Paths to image files (JPEG, PNG, …)
     
     // Metadata for tracking
     json metadata;
@@ -193,6 +214,11 @@ struct InferenceResponse {
     // Model information
     std::string model_used;
     std::optional<std::string> lora_used;
+
+    // Tool calls parsed from model output (Issue #1922).
+    // Populated when InferenceRequest::tools is non-empty and the model
+    // produces a valid tool call JSON object.
+    std::vector<ToolCall> tool_calls;
     
     // Quality metrics (if available)
     std::optional<float> perplexity;

@@ -894,6 +894,11 @@ std::string InferenceEngineEnhanced::generateCacheKey(const InferenceRequest& re
     oss << "|" << request.max_tokens;
     oss << "|" << request.temperature;
     oss << "|" << request.top_p;
+    // Include image paths so multi-modal requests with different images but the
+    // same text prompt never share a cached response.
+    for (const auto& p : request.image_paths) {
+        oss << "|img:" << p;
+    }
     
     std::string input = oss.str();
     

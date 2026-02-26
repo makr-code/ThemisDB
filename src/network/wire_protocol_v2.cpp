@@ -182,7 +182,7 @@ public:
         auto hdr_bytes = serializeHeader(hdr);
         auto frame = std::make_shared<std::vector<uint8_t>>();
         frame->insert(frame->end(), hdr_bytes.begin(), hdr_bytes.end());
-        frame->insert(frame->end(), data.begin(), data.end());
+        frame->insert(frame->end(), payload->begin(), payload->end());
 
         std::lock_guard<std::mutex> lock(write_mutex_);
         net::async_write(socket_,
@@ -356,13 +356,23 @@ private:
             ensureStreamOpen(hdr.stream_id);
             bool eos = hdr.has_flag(V2FrameFlags::END_STREAM);
 
-            // LZ4 decompression is tracked in issue #2416; until it is
-            // implemented, reject compressed frames with a RST_STREAM so
-            // the sender knows not to expect meaningful processing rather
-            // than silently delivering corrupted raw bytes to the handler.
-            if (hdr.has_flag(V2FrameFlags::COMPRESSED)) {
-                reset_stream(hdr.stream_id, 2 /* INTERNAL_ERROR */);
-                break;
+            const std::vector<uint8_t>* effective_payload = &payload;
+            std::vector<uint8_t> decompressed_buf;
+
+            if (hdr.has_flag(V2FrameFlags::ZSTD_COMPRESSED)) {
+                decompressed_buf = decompressZstd(payload);
+                if (decompressed_buf.empty()) {
+                    reset_stream(hdr.stream_id, 2 /* INTERNAL_ERROR */);
+                    break;
+                }
+                effective_payload = &decompressed_buf;
+            } else if (hdr.has_flag(V2FrameFlags::COMPRESSED)) {
+                decompressed_buf = decompressLZ4(payload);
+                if (decompressed_buf.empty()) {
+                    reset_stream(hdr.stream_id, 2 /* INTERNAL_ERROR */);
+                    break;
+                }
+                effective_payload = &decompressed_buf;
             }
 
             if (data_handler_)

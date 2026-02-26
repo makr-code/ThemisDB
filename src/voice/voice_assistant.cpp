@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:32                                ║
+  Last Modified:   2026-02-26                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     554                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     619                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 313664710  2026-02-22  fix(voice): audit gaps – wake-word stats, config, docs, c... ║
@@ -40,7 +40,7 @@ namespace themis {
 namespace voice {
 
 VoiceAssistant::VoiceAssistant(const Config& config)
-    : config_(config) {
+    : config_(config), voice_authenticator_(config.voice_auth_config) {
     // Initialise wake-word detector regardless of the enable flag so that
     // detectWakeWord() is always safe to call; the caller can gate on the flag.
     wake_word_detector_ = std::make_unique<WakeWordDetector>(config_.wake_word_config);
@@ -143,7 +143,25 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     if (!initialized_) {
         return {};
     }
-    
+
+    // Voice biometric authentication gate
+    if (config_.enable_voice_auth) {
+        auto auth_session = getSession(session_id);
+        const std::string& uid = auth_session.user_id;
+        if (!uid.empty()) {
+            auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            if (!auth_result.authenticated) {
+                content::TTSOptions tts_opts;
+                tts_opts.voice_id = config_.tts_voice;
+                tts_opts.format   = "wav";
+                auto tts_result   = tts_processor_->synthesize(
+                    "Voice authentication failed. Please try again.",
+                    tts_opts);
+                return tts_result.audio_data;
+            }
+        }
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -226,6 +244,24 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
 ) {
     if (!initialized_) {
         return {};
+    }
+
+    // Voice biometric authentication gate (mirrors processVoiceCommand)
+    if (config_.enable_voice_auth) {
+        auto auth_session = getSession(session_id);
+        const std::string& uid = auth_session.user_id;
+        if (!uid.empty()) {
+            auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
+            if (!auth_result.authenticated) {
+                content::TTSOptions tts_opts;
+                tts_opts.voice_id = config_.tts_voice;
+                tts_opts.format   = "wav";
+                auto tts_result   = tts_processor_->synthesize(
+                    "Voice authentication failed. Please try again.",
+                    tts_opts);
+                return tts_result.audio_data;
+            }
+        }
     }
 
     auto session = getSession(session_id);
@@ -517,6 +553,8 @@ json VoiceAssistant::getStatistics() const {
         stats["wake_word"] = wake_word_detector_->getStatistics();
     }
 
+    stats["voice_auth"] = voice_authenticator_.get_statistics();
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();
@@ -545,6 +583,27 @@ std::string VoiceAssistant::createRevisionEntry(
     ss << "revision:" << std::hex << now;
     return ss.str();
 }
+
+// ---------------------------------------------------------------------------
+// Voice biometric authentication
+// ---------------------------------------------------------------------------
+
+bool VoiceAssistant::enrollSpeaker(
+    const std::string&                        user_id,
+    const std::vector<std::vector<uint8_t>>& audio_samples,
+    VoiceProfileID&                           out_profile_id,
+    const EnrollmentConfig&                   config)
+{
+    return voice_authenticator_.enroll_voice(user_id, audio_samples, out_profile_id, config);
+}
+
+VoiceAuthResult VoiceAssistant::authenticateSpeaker(
+    const std::string&          user_id,
+    const std::vector<uint8_t>& audio_sample)
+{
+    return voice_authenticator_.authenticate(user_id, audio_sample);
+}
+
 
 WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     const std::vector<uint8_t>& audio_chunk
