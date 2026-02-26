@@ -24,8 +24,7 @@
 ### Short-term (Next 3-6 months)
 - [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
 - [x] Change log TTL and size-based retention policies (Issue: #1608)
-- [I] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
-- [I] Change event enrichment (before/after document snapshots) (Issue: #1611)
+- [x] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
 - [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
 - [P] Outbox pattern support for transactional change publishing (Issue: #1612)
@@ -54,7 +53,7 @@
 - [x] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
-- [I] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
+- [x] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
 - [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [x] Add Debezium-compatible change event envelope format (Issue: #1621)
 - [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
