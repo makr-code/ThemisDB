@@ -49,7 +49,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [x] Model serving and online inference pipeline (Issue: #1477)
 - [x] Multi-language NLP support (beyond English) (Issue: #1478)
-- [I] Full morphological lemmatization (Issue: #1479)
+- [x] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 
@@ -96,7 +96,6 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
 - LLM analyzer requires external API keys; responses are non-deterministic
 - Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
-- Basic lemmatization only; full morphological analysis not yet supported
 - Graph analytics advanced algorithms (betweenness centrality, Louvain community detection) are now implemented as AQL functions in `include/query/functions/graph_extensions.h`
 
 ## Breaking Changes

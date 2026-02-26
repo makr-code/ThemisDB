@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nlp_text_analyzer.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:58                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 12:33:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1181                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     1415                                           ║
+    • Open Issues:     TODOs: 2, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -59,6 +59,7 @@ NlpTextAnalyzer::NlpTextAnalyzer(const Config& config)
         
         initializeSentimentLexicon();
         initializeEntityPatterns();
+        initializeLemmatizationData();
     } catch (const std::exception& e) {
         // Catch any exception during initialization to prevent crash
         std::cerr << "ERROR: NlpTextAnalyzer initialization failed: " << e.what() << std::endl;
@@ -67,6 +68,7 @@ NlpTextAnalyzer::NlpTextAnalyzer(const Config& config)
             initializeStopWords();
             initializeSentimentLexicon();
             initializeEntityPatterns();
+            initializeLemmatizationData();
         } catch (...) {
             std::cerr << "CRITICAL: NlpTextAnalyzer minimal initialization also failed!" << std::endl;
         }
@@ -240,6 +242,7 @@ std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
     
     std::string current_word;
     size_t position = 0;
+    Language lang = detectLanguage(text);
     
     for (size_t i = 0; i < text.size(); ++i) {
         char c = text[i];
@@ -250,7 +253,7 @@ std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
             if (!current_word.empty()) {
                 if (current_word.length() >= config_.min_word_length) {
                     Token token(current_word, position);
-                    token.lemma = toLowerCase(current_word);
+                    token.lemma = lemmatizeWord(current_word, lang);
                     
                     // Simple POS tagging based on patterns
                     if (isCapitalized(current_word)) {
@@ -272,7 +275,7 @@ std::vector<Token> NlpTextAnalyzer::tokenize(std::string_view text) const {
     // Don't forget last word
     if (!current_word.empty() && current_word.length() >= config_.min_word_length) {
         Token token(current_word, position);
-        token.lemma = toLowerCase(current_word);
+        token.lemma = lemmatizeWord(current_word, lang);
         tokens.push_back(std::move(token));
     }
     
@@ -568,31 +571,522 @@ bool NlpTextAnalyzer::isStopWord(std::string_view word, Language lang) const {
 }
 
 std::string NlpTextAnalyzer::stemWord(std::string_view word, Language lang) const {
-    // Simple suffix-based stemming (Porter-like, very simplified)
-    std::string stem = toLowerCase(word);
-    
-    if (stem.length() <= 3) {
-        return stem;
+    // Delegate to morphological lemmatization which produces better base forms
+    return lemmatizeWord(word, lang);
+}
+
+// ========== Full Morphological Lemmatization ==========
+
+void NlpTextAnalyzer::initializeLemmatizationData() {
+    // ---- English irregular forms ----
+    auto& en = irregular_lemmas_[Language::ENGLISH];
+    // Irregular verbs (conjugated -> base)
+    en["am"]      = "be";  en["is"]      = "be";  en["are"]     = "be";
+    en["was"]     = "be";  en["were"]    = "be";  en["been"]    = "be";
+    en["being"]   = "be";
+    en["has"]     = "have"; en["had"]    = "have"; en["having"]  = "have";
+    en["does"]    = "do";  en["did"]     = "do";  en["done"]    = "do";
+    en["doing"]   = "do";
+    en["went"]    = "go";  en["gone"]    = "go";  en["goes"]    = "go";
+    en["going"]   = "go";
+    en["said"]    = "say"; en["says"]    = "say"; en["saying"]  = "say";
+    en["got"]     = "get"; en["gotten"]  = "get"; en["gets"]    = "get";
+    en["getting"] = "get";
+    en["made"]    = "make"; en["makes"]  = "make"; en["making"] = "make";
+    en["knew"]    = "know"; en["known"]  = "know"; en["knows"]  = "know";
+    en["took"]    = "take"; en["taken"]  = "take"; en["takes"]  = "take";
+    en["saw"]     = "see";  en["seen"]   = "see";  en["sees"]   = "see";
+    en["came"]    = "come"; en["comes"]  = "come"; en["coming"] = "come";
+    en["thought"] = "think"; en["thinks"] = "think";
+    en["ran"]     = "run";  en["runs"]   = "run";  en["running"] = "run";
+    en["fell"]    = "fall"; en["fallen"] = "fall"; en["falls"]  = "fall";
+    en["gave"]    = "give"; en["given"]  = "give"; en["gives"]  = "give";
+    en["found"]   = "find"; en["finds"]  = "find";
+    en["told"]    = "tell"; en["tells"]  = "tell";
+    en["wrote"]   = "write"; en["written"] = "write"; en["writes"] = "write";
+    en["bought"]  = "buy";  en["buys"]   = "buy";
+    en["brought"] = "bring"; en["brings"] = "bring";
+    en["built"]   = "build"; en["builds"] = "build";
+    en["kept"]    = "keep"; en["keeps"]  = "keep";
+    en["left"]    = "leave"; en["leaves"] = "leave"; en["leaving"] = "leave";
+    en["lost"]    = "lose"; en["loses"]  = "lose"; en["losing"]  = "lose";
+    en["met"]     = "meet"; en["meets"]  = "meet";
+    en["paid"]    = "pay";  en["pays"]   = "pay";
+    en["put"]     = "put";
+    en["read"]    = "read";
+    en["sent"]    = "send"; en["sends"]  = "send";
+    en["set"]     = "set";
+    en["stood"]   = "stand"; en["stands"] = "stand";
+    en["won"]     = "win";  en["wins"]   = "win";
+    en["sat"]     = "sit";  en["sits"]   = "sit";
+    en["cut"]     = "cut";  en["cuts"]   = "cut";
+    // Irregular nouns (plural -> singular)
+    en["men"]       = "man";    en["women"]    = "woman";
+    en["children"]  = "child";  en["people"]   = "person";
+    en["feet"]      = "foot";   en["teeth"]    = "tooth";
+    en["mice"]      = "mouse";  en["geese"]    = "goose";
+    en["oxen"]      = "ox";     en["criteria"] = "criterion";
+    en["phenomena"] = "phenomenon"; en["data"]  = "datum";
+    en["media"]     = "medium"; en["indices"]  = "index";
+    en["matrices"]  = "matrix"; en["vertices"] = "vertex";
+    en["analyses"]  = "analysis"; en["crises"] = "crisis";
+    en["theses"]    = "thesis";
+
+    // ---- German irregular forms ----
+    auto& de = irregular_lemmas_[Language::GERMAN];
+    // Auxiliary verbs
+    de["bin"]   = "sein"; de["bist"]  = "sein"; de["ist"]  = "sein";
+    de["sind"]  = "sein"; de["seid"]  = "sein"; de["war"]  = "sein";
+    de["waren"] = "sein"; de["wart"]  = "sein"; de["wars"] = "sein";
+    de["sei"]   = "sein"; de["gewesen"] = "sein";
+    de["habe"]  = "haben"; de["hast"] = "haben"; de["hat"] = "haben";
+    de["haben"] = "haben"; de["habt"] = "haben"; de["hatte"] = "haben";
+    de["hatten"] = "haben"; de["gehabt"] = "haben";
+    de["werde"] = "werden"; de["wirst"] = "werden"; de["wird"] = "werden";
+    de["werden"] = "werden"; de["werdet"] = "werden";
+    de["wurde"] = "werden"; de["wurden"] = "werden"; de["geworden"] = "werden";
+    // Modal verbs
+    de["kann"]   = "können"; de["kannst"] = "können"; de["können"] = "können";
+    de["konnte"] = "können"; de["konnten"] = "können";
+    de["muss"]   = "müssen"; de["musst"] = "müssen"; de["müssen"] = "müssen";
+    de["musste"] = "müssen"; de["mussten"] = "müssen";
+    de["soll"]   = "sollen"; de["sollst"] = "sollen"; de["sollen"] = "sollen";
+    de["sollte"] = "sollen"; de["sollten"] = "sollen";
+    de["will"]   = "wollen"; de["willst"] = "wollen"; de["wollen"] = "wollen";
+    de["wollte"] = "wollen"; de["wollten"] = "wollen";
+    de["darf"]   = "dürfen"; de["darfst"] = "dürfen"; de["dürfen"] = "dürfen";
+    de["durfte"] = "dürfen"; de["durften"] = "dürfen";
+    de["mag"]    = "mögen";  de["magst"]  = "mögen";  de["mögen"] = "mögen";
+    // Common irregular strong verbs
+    de["geht"]  = "gehen"; de["ging"]  = "gehen"; de["gingen"] = "gehen";
+    de["gegangen"] = "gehen";
+    de["kommt"] = "kommen"; de["kam"]  = "kommen"; de["kamen"] = "kommen";
+    de["gekommen"] = "kommen";
+    de["gibt"]  = "geben";  de["gab"]  = "geben"; de["gaben"] = "geben";
+    de["gegeben"] = "geben";
+    de["nimmt"] = "nehmen"; de["nahm"] = "nehmen"; de["nahmen"] = "nehmen";
+    de["genommen"] = "nehmen";
+    de["sieht"] = "sehen";  de["sah"]  = "sehen"; de["sahen"] = "sehen";
+    de["gesehen"] = "sehen";
+    de["steht"] = "stehen"; de["stand"] = "stehen"; de["standen"] = "stehen";
+    de["gestanden"] = "stehen";
+    de["weiss"] = "wissen"; de["weiß"] = "wissen"; de["wusste"] = "wissen";
+    de["wussten"] = "wissen"; de["gewusst"] = "wissen";
+    de["lässt"] = "lassen"; de["ließ"] = "lassen"; de["ließen"] = "lassen";
+    de["gelassen"] = "lassen";
+    de["trägt"] = "tragen"; de["trug"] = "tragen"; de["trugen"] = "tragen";
+    de["getragen"] = "tragen";
+    // Common umlaut-plural nouns (ä/ö/ü → a/o/u in singular)
+    de["häuser"]  = "haus";   de["mäuse"]   = "maus";   de["väter"]   = "vater";
+    de["mütter"]  = "mutter"; de["töchter"] = "tochter"; de["brüder"]  = "bruder";
+    de["söhne"]   = "sohn";   de["städte"]  = "stadt";  de["hände"]   = "hand";
+    de["wände"]   = "wand";   de["bäume"]   = "baum";   de["länder"]  = "land";
+
+    // ---- French irregular forms ----
+    auto& fr = irregular_lemmas_[Language::FRENCH];
+    // être (to be)
+    fr["suis"]   = "être"; fr["es"]     = "être"; fr["est"]    = "être";
+    fr["sommes"] = "être"; fr["êtes"]   = "être"; fr["sont"]   = "être";
+    fr["étais"]  = "être"; fr["était"]  = "être"; fr["étions"] = "être";
+    fr["étiez"]  = "être"; fr["étaient"] = "être";
+    fr["fus"]    = "être"; fr["fut"]    = "être"; fr["fûmes"]  = "être";
+    fr["fûtes"]  = "être"; fr["furent"] = "être"; fr["été"]    = "être";
+    fr["étant"]  = "être";
+    // avoir (to have)
+    fr["ai"]     = "avoir"; fr["avons"]  = "avoir"; fr["avez"]   = "avoir";
+    fr["ont"]    = "avoir"; fr["avais"]  = "avoir"; fr["avait"]  = "avoir";
+    fr["avions"] = "avoir"; fr["aviez"]  = "avoir"; fr["avaient"] = "avoir";
+    fr["eus"]    = "avoir"; fr["eut"]    = "avoir"; fr["eûmes"]  = "avoir";
+    fr["eurent"] = "avoir"; fr["eu"]     = "avoir"; fr["ayant"]  = "avoir";
+    // aller (to go)
+    fr["vais"]   = "aller"; fr["vas"]    = "aller"; fr["allons"] = "aller";
+    fr["allez"]  = "aller"; fr["vont"]   = "aller"; fr["allais"] = "aller";
+    fr["allait"] = "aller"; fr["irai"]   = "aller"; fr["iras"]   = "aller";
+    fr["ira"]    = "aller"; fr["allé"]   = "aller"; fr["allée"]  = "aller";
+    // faire (to do/make)
+    fr["fais"]   = "faire"; fr["fait"]   = "faire"; fr["faisons"] = "faire";
+    fr["faites"] = "faire"; fr["font"]   = "faire"; fr["faisais"] = "faire";
+    fr["faisait"] = "faire"; fr["ferai"] = "faire"; fr["fera"]   = "faire";
+    fr["feras"]  = "faire"; fr["faisant"] = "faire";
+    // pouvoir (can/to be able)
+    fr["peux"]   = "pouvoir"; fr["peut"]   = "pouvoir"; fr["pouvons"] = "pouvoir";
+    fr["pouvez"] = "pouvoir"; fr["peuvent"] = "pouvoir"; fr["pouvais"] = "pouvoir";
+    fr["pouvait"] = "pouvoir"; fr["pourrai"] = "pouvoir"; fr["pu"] = "pouvoir";
+    // vouloir (to want)
+    fr["veux"]   = "vouloir"; fr["veut"]   = "vouloir"; fr["voulons"] = "vouloir";
+    fr["voulez"] = "vouloir"; fr["veulent"] = "vouloir"; fr["voulais"] = "vouloir";
+    fr["voudrai"] = "vouloir"; fr["voulu"]  = "vouloir";
+    // Irregular adjective/noun forms
+    fr["aux"]    = "au";
+
+    // ---- Spanish irregular forms ----
+    auto& es = irregular_lemmas_[Language::SPANISH];
+    // ser (to be - permanent)
+    es["soy"]    = "ser"; es["eres"]   = "ser"; es["es"]     = "ser";
+    es["somos"]  = "ser"; es["sois"]   = "ser"; es["son"]    = "ser";
+    es["era"]    = "ser"; es["eras"]   = "ser"; es["éramos"] = "ser"; es["erais"]  = "ser";
+    es["eran"]   = "ser"; es["fui"]    = "ser"; es["fuiste"] = "ser";
+    es["fue"]    = "ser"; es["fuimos"] = "ser"; es["fueron"] = "ser";
+    es["sido"]   = "ser"; es["siendo"] = "ser";
+    // estar (to be - temporary)
+    es["estoy"]  = "estar"; es["estás"]  = "estar"; es["está"]   = "estar";
+    es["estamos"] = "estar"; es["estáis"] = "estar"; es["están"]  = "estar";
+    es["estaba"] = "estar"; es["estuvo"] = "estar"; es["estado"] = "estar";
+    // haber / tener
+    es["he"]     = "haber"; es["has"]    = "haber"; es["ha"]     = "haber";
+    es["hemos"]  = "haber"; es["habéis"] = "haber"; es["han"]    = "haber";
+    es["había"]  = "haber"; es["hubo"]   = "haber"; es["habido"] = "haber";
+    es["tengo"]  = "tener"; es["tienes"] = "tener"; es["tiene"]  = "tener";
+    es["tenemos"] = "tener"; es["tenéis"] = "tener"; es["tienen"] = "tener";
+    es["tenía"]  = "tener"; es["tuvo"]   = "tener"; es["tenido"] = "tener";
+    // ir (to go)
+    es["voy"]    = "ir"; es["vas"]    = "ir"; es["va"]     = "ir";
+    es["vamos"]  = "ir"; es["vais"]   = "ir"; es["van"]    = "ir";
+    es["iba"]    = "ir"; es["fui"]    = "ir"; es["ido"]    = "ir";
+    // hacer (to do/make)
+    es["hago"]   = "hacer"; es["haces"]  = "hacer"; es["hace"]   = "hacer";
+    es["hacemos"] = "hacer"; es["hacéis"] = "hacer"; es["hacen"]  = "hacer";
+    es["hacía"]  = "hacer"; es["hizo"]   = "hacer"; es["hecho"]  = "hacer";
+    // poder (can/to be able)
+    es["puedo"]  = "poder"; es["puedes"] = "poder"; es["puede"]  = "poder";
+    es["podemos"] = "poder"; es["podéis"] = "poder"; es["pueden"] = "poder";
+    es["podía"]  = "poder"; es["pudo"]   = "poder"; es["podido"] = "poder";
+    // Irregular noun plurals
+    es["hombres"] = "hombre"; es["mujeres"] = "mujer";
+    es["niños"]   = "niño";   es["niñas"]   = "niña";
+
+    // ---- Italian irregular forms ----
+    auto& it = irregular_lemmas_[Language::ITALIAN];
+    // essere (to be)
+    it["sono"]    = "essere"; it["sei"]     = "essere"; it["è"]      = "essere";
+    it["siamo"]   = "essere"; it["siete"]   = "essere"; it["ero"]    = "essere";
+    it["eri"]     = "essere"; it["eravamo"] = "essere"; it["eravate"] = "essere";
+    it["erano"]   = "essere"; it["fui"]     = "essere"; it["fu"]     = "essere";
+    it["fummo"]   = "essere"; it["foste"]   = "essere"; it["furono"] = "essere";
+    it["stato"]   = "essere"; it["stata"]   = "essere"; it["essendo"] = "essere";
+    // avere (to have)
+    it["ho"]      = "avere"; it["hai"]     = "avere"; it["abbiamo"] = "avere";
+    it["avete"]   = "avere"; it["hanno"]   = "avere"; it["avevo"]   = "avere";
+    it["avevi"]   = "avere"; it["aveva"]   = "avere"; it["avevamo"] = "avere";
+    it["ebbi"]    = "avere"; it["ebbe"]    = "avere"; it["avuto"]   = "avere";
+    it["avendo"]  = "avere";
+    // andare (to go)
+    it["vado"]    = "andare"; it["vai"]    = "andare"; it["va"]     = "andare";
+    it["andiamo"] = "andare"; it["andate"] = "andare"; it["vanno"]  = "andare";
+    it["andavo"]  = "andare"; it["andato"] = "andare"; it["andando"] = "andare";
+    // fare (to do/make)
+    it["faccio"]  = "fare"; it["fai"]     = "fare"; it["facciamo"] = "fare";
+    it["fate"]    = "fare"; it["fanno"]   = "fare"; it["facevo"]   = "fare";
+    it["feci"]    = "fare"; it["fece"]    = "fare"; it["fatto"]    = "fare";
+    it["facendo"] = "fare";
+    // potere (can/to be able)
+    it["posso"]   = "potere"; it["puoi"]   = "potere"; it["può"]    = "potere";
+    it["possiamo"] = "potere"; it["potete"] = "potere"; it["possono"] = "potere";
+    it["potevo"]  = "potere"; it["potuto"] = "potere";
+    // volere (to want)
+    it["voglio"]  = "volere"; it["vuoi"]   = "volere"; it["vuole"]  = "volere";
+    it["vogliamo"] = "volere"; it["volete"] = "volere"; it["vogliono"] = "volere";
+    it["volevo"]  = "volere"; it["voluto"] = "volere";
+
+    // ---- Dutch irregular forms ----
+    auto& nl = irregular_lemmas_[Language::DUTCH];
+    // zijn (to be)
+    nl["ben"]    = "zijn"; nl["bent"]   = "zijn"; nl["is"]     = "zijn";
+    nl["zijn"]   = "zijn"; nl["was"]    = "zijn"; nl["waren"]  = "zijn";
+    nl["geweest"] = "zijn"; nl["zijnde"] = "zijn";
+    // hebben (to have)
+    nl["heb"]    = "hebben"; nl["hebt"]   = "hebben"; nl["heeft"]  = "hebben";
+    nl["hebben"] = "hebben"; nl["had"]    = "hebben"; nl["hadden"] = "hebben";
+    nl["gehad"]  = "hebben"; nl["hebbende"] = "hebben";
+    // gaan (to go)
+    nl["ga"]     = "gaan"; nl["gaat"]   = "gaan"; nl["gaan"]   = "gaan";
+    nl["ging"]   = "gaan"; nl["gingen"] = "gaan"; nl["gegaan"] = "gaan";
+    // doen (to do)
+    nl["doe"]    = "doen"; nl["doet"]   = "doen"; nl["doen"]   = "doen";
+    nl["deed"]   = "doen"; nl["deden"]  = "doen"; nl["gedaan"] = "doen";
+    // kunnen (can/to be able)
+    nl["kan"]    = "kunnen"; nl["kunt"]   = "kunnen"; nl["kunnen"] = "kunnen";
+    nl["kon"]    = "kunnen"; nl["konden"] = "kunnen"; nl["gekund"] = "kunnen";
+    // willen (to want)
+    nl["wil"]    = "willen"; nl["wilt"]   = "willen"; nl["willen"] = "willen";
+    nl["wilde"]  = "willen"; nl["wilden"] = "willen"; nl["gewild"] = "willen";
+    // zullen (shall/will)
+    nl["zal"]    = "zullen"; nl["zult"]   = "zullen"; nl["zullen"] = "zullen";
+    nl["zou"]    = "zullen"; nl["zouden"] = "zullen";
+    // moeten (must)
+    nl["moet"]   = "moeten"; nl["moeten"] = "moeten"; nl["moest"]  = "moeten";
+    nl["moesten"] = "moeten"; nl["gemoeten"] = "moeten";
+}
+
+std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string& lower,
+                                                      Language lang) const {
+    const size_t len = lower.length();
+    if (len <= 2) {
+        return lower;
     }
-    
-    // Remove common English suffixes
+
+    auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
+        return len > suffix.size() + min_stem &&
+               lower.compare(len - suffix.size(), suffix.size(), suffix) == 0;
+    };
+    auto strip = [&](size_t n, std::string_view add = "") -> std::string {
+        return lower.substr(0, len - n) + std::string(add);
+    };
+
     if (lang == Language::ENGLISH) {
-        if (stem.ends_with("ing")) {
-            stem = stem.substr(0, stem.length() - 3);
-        } else if (stem.ends_with("ed")) {
-            stem = stem.substr(0, stem.length() - 2);
-        } else if (stem.ends_with("s") && stem.length() > 3) {
-            stem = stem.substr(0, stem.length() - 1);
+        // Verb inflections (order: longest suffix first)
+        if (ends_with("izations", 4)) return strip(8, "ize");
+        if (ends_with("isation",  4)) return strip(7, "ize");
+        if (ends_with("nesses",   3)) return strip(4);
+        if (ends_with("ations",   3)) return strip(6, "e");
+        if (ends_with("ments",    3)) return strip(5);
+        if (ends_with("ities",    3)) return strip(5, "y");
+        if (ends_with("ness",     3)) return strip(4);
+        if (ends_with("tion",     3)) return strip(4, "te");
+        if (ends_with("ment",     3)) return strip(4);
+        if (ends_with("ings",     3)) return strip(4);
+        if (ends_with("ation",    3)) return strip(5, "e");
+        if (ends_with("ies",      3)) return strip(3, "y");
+        if (ends_with("ied",      3)) return strip(3, "y");
+        if (ends_with("ing",      3)) {
+            // Handle doubling: running -> run
+            std::string stem = strip(3);
+            if (stem.length() >= 2 && stem.back() == stem[stem.length()-2]) {
+                stem.pop_back();
+            }
+            return stem;
+        }
+        if (ends_with("ed",       3)) {
+            // Handle doubling: stopped -> stop; loved -> love
+            std::string stem = strip(2);
+            if (stem.length() >= 2 && stem.back() == stem[stem.length()-2]) {
+                stem.pop_back();
+            }
+            return stem;
+        }
+        if (ends_with("es",       3)) return strip(2);
+        if (ends_with("s",        3)) return strip(1);
+        if (ends_with("ly",       3)) return strip(2);
+        if (ends_with("er",       3)) return strip(2);
+        if (ends_with("est",      3)) return strip(3);
+        return lower;
+    }
+
+    if (lang == Language::GERMAN) {
+        // Separating prefix participles: ge- prefix for perfect participle
+        bool ge_prefix = (len > 4 && lower.substr(0, 2) == "ge");
+        std::string base = ge_prefix ? lower.substr(2) : lower;
+        size_t blen = base.length();
+
+        auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
+            return blen > suffix.size() + min_stem &&
+                   base.compare(blen - suffix.size(), suffix.size(), suffix) == 0;
+        };
+        auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
+            return base.substr(0, blen - n) + std::string(add);
+        };
+
+        // Verb suffixes (prioritise longer matches)
+        if (bends("etest",    3)) return bstrip(5, "en");
+        if (bends("esten",    3)) return bstrip(5, "en");
+        if (bends("test",     3)) return bstrip(4, "en");
+        if (bends("etet",     3)) return bstrip(4, "en");
+        if (bends("eten",     3)) return bstrip(4, "en");
+        if (bends("tet",      3)) return bstrip(3, "en");
+        if (bends("ten",      3)) return bstrip(3, "en");
+        if (bends("end",      3)) return bstrip(3, "en");
+        if (bends("est",      3)) return bstrip(3, "en");
+        if (bends("ung",      3)) return bstrip(3);
+        if (bends("ungen",    3)) return bstrip(5);
+        if (bends("heit",     3)) return bstrip(4);
+        if (bends("keit",     3)) return bstrip(4);
+        if (bends("lich",     3)) return bstrip(4);
+        if (bends("isch",     3)) return bstrip(4);
+        // Nominal inflection
+        if (bends("ens",      3)) return bstrip(2);
+        if (bends("em",       3)) return bstrip(2);
+        if (bends("es",       3)) return bstrip(2);
+        if (bends("er",       3)) return bstrip(2);
+        if (bends("en",       3)) return bstrip(2);
+        if (bends("e",        3)) return bstrip(1);
+        if (bends("s",        3)) return bstrip(1);
+        return base;
+    }
+
+    if (lang == Language::FRENCH) {
+        // Verb suffixes (ordered longest first)
+        if (ends_with("eraient",  3)) return strip(7, "er");
+        if (ends_with("iraient",  3)) return strip(7, "ir");
+        if (ends_with("assions",  3)) return strip(7, "er");
+        if (ends_with("issaient", 3)) return strip(8, "ir");
+        if (ends_with("issions",  3)) return strip(7, "ir");
+        if (ends_with("eront",    3)) return strip(5, "er");
+        if (ends_with("iront",    3)) return strip(5, "ir");
+        if (ends_with("aient",    3)) return strip(5, "er");
+        if (ends_with("issons",   3)) return strip(6, "ir");
+        if (ends_with("issez",    3)) return strip(5, "ir");
+        if (ends_with("issent",   3)) return strip(6, "ir");
+        if (ends_with("iriez",    3)) return strip(5, "ir");
+        if (ends_with("eriez",    3)) return strip(5, "er");
+        if (ends_with("ions",     3)) return strip(4, "er");
+        if (ends_with("ants",     3)) return strip(4, "er");
+        if (ends_with("ées",      3)) return strip(4, "er");
+        if (ends_with("és",       3)) return strip(3, "er");
+        if (ends_with("ée",       3)) return strip(3, "er");
+        // Past participle masculine singular: parlé -> parler (é = 2 UTF-8 bytes)
+        if (ends_with("\xC3\xA9", 3)) return strip(2, "er");
+        if (ends_with("ant",      3)) return strip(3, "er");
+        if (ends_with("ait",      3)) return strip(3, "er");
+        if (ends_with("ais",      3)) return strip(3, "er");
+        if (ends_with("ont",      3)) return strip(3, "er");
+        if (ends_with("ons",      3)) return strip(3, "er");
+        if (ends_with("iez",      3)) return strip(3, "er");
+        if (ends_with("issant",   3)) return strip(6, "ir");
+        if (ends_with("ira",      3)) return strip(3, "ir");
+        if (ends_with("ez",       3)) return strip(2, "er");
+        if (ends_with("er",       3)) return lower;     // already infinitive
+        if (ends_with("ir",       3)) return lower;
+        if (ends_with("re",       3)) return lower;
+        // Adjective agreement
+        if (ends_with("euse",     3)) return strip(4, "eux");
+        if (ends_with("euses",    3)) return strip(5, "eux");
+        if (ends_with("elles",    3)) return strip(5, "el");
+        if (ends_with("elle",     3)) return strip(4, "el");
+        if (ends_with("ives",     2)) return strip(4, "if");
+        if (ends_with("ive",      2)) return strip(3, "if");
+        if (ends_with("aux",      3)) return strip(3, "al");
+        if (ends_with("ales",     3)) return strip(4, "al");
+        if (ends_with("ale",      3)) return strip(3, "al");
+        if (ends_with("es",       3)) return strip(2);
+        if (ends_with("s",        3)) return strip(1);
+        return lower;
+    }
+
+    if (lang == Language::SPANISH) {
+        // Verb suffixes (longest first)
+        if (ends_with("aremos",   3)) return strip(6, "ar");
+        if (ends_with("areis",    3)) return strip(5, "ar");
+        if (ends_with("eremos",   3)) return strip(6, "er");
+        if (ends_with("iremos",   3)) return strip(6, "ir");
+        if (ends_with("ábamos",   3)) return strip(6, "ar");
+        if (ends_with("ábais",    3)) return strip(5, "ar");
+        if (ends_with("ando",     3)) return strip(4, "ar");
+        if (ends_with("iendo",    3)) return strip(5, "er");
+        if (ends_with("amos",     3)) return strip(4, "ar");
+        if (ends_with("áis",      3)) return strip(3, "ar");
+        if (ends_with("aste",     3)) return strip(4, "ar");
+        if (ends_with("aron",     3)) return strip(4, "ar");
+        if (ends_with("emos",     3)) return strip(4, "er");
+        if (ends_with("éis",      3)) return strip(3, "er");
+        if (ends_with("iste",     3)) return strip(4, "ir");
+        if (ends_with("ieron",    3)) return strip(5, "ir");
+        if (ends_with("imos",     3)) return strip(4, "ir");
+        if (ends_with("ís",       3)) return strip(2, "ir");
+        if (ends_with("aba",      3)) return strip(3, "ar");
+        if (ends_with("ado",      3)) return strip(3, "ar");
+        if (ends_with("ada",      3)) return strip(3, "ar");
+        if (ends_with("idos",     3)) return strip(4, "ir");
+        if (ends_with("ido",      3)) return strip(3, "ir");
+        if (ends_with("idas",     3)) return strip(4, "ir");
+        if (ends_with("ida",      3)) return strip(3, "ir");
+        if (ends_with("ando",     3)) return strip(4, "ar");
+        if (ends_with("as",       3)) return strip(1);
+        if (ends_with("es",       3)) return strip(1);
+        if (ends_with("os",       3)) return strip(1);
+        if (ends_with("an",       3)) return strip(2, "ar");
+        if (ends_with("en",       3)) return strip(2, "er");
+        if (ends_with("ar",       3)) return lower;
+        if (ends_with("er",       3)) return lower;
+        if (ends_with("ir",       3)) return lower;
+        return lower;
+    }
+
+    if (lang == Language::ITALIAN) {
+        // Verb suffixes (longest first)
+        if (ends_with("avamo",    3)) return strip(5, "are");
+        if (ends_with("avate",    3)) return strip(5, "are");
+        if (ends_with("avano",    3)) return strip(5, "are");
+        if (ends_with("eremo",    3)) return strip(5, "ere");
+        if (ends_with("iremmo",   3)) return strip(6, "ire");
+        if (ends_with("irete",    3)) return strip(5, "ire");
+        if (ends_with("iranno",   3)) return strip(6, "ire");
+        if (ends_with("ando",     3)) return strip(4, "are");
+        if (ends_with("endo",     3)) return strip(4, "ere");
+        if (ends_with("ati",      3)) return strip(3, "are");
+        if (ends_with("ata",      3)) return strip(3, "are");
+        if (ends_with("ate",      3)) return strip(3, "are");
+        if (ends_with("ato",      2)) return strip(3, "are");
+        if (ends_with("uto",      2)) return strip(3, "ere");
+        if (ends_with("uta",      2)) return strip(3, "ere");
+        if (ends_with("iti",      2)) return strip(3, "ire");
+        if (ends_with("ita",      2)) return strip(3, "ire");
+        if (ends_with("ito",      2)) return strip(3, "ire");
+        if (ends_with("ite",      2)) return strip(3, "ire");
+        if (ends_with("ami",      3)) return strip(3, "are");
+        if (ends_with("ano",      3)) return strip(3, "are");
+        if (ends_with("ono",      3)) return strip(3, "ere");
+        if (ends_with("isce",     3)) return strip(4, "ire");
+        if (ends_with("isci",     3)) return strip(4, "ire");
+        if (ends_with("iscono",   3)) return strip(6, "ire");
+        if (ends_with("are",      3)) return lower;
+        if (ends_with("ere",      3)) return lower;
+        if (ends_with("ire",      3)) return lower;
+        // Noun/adjective
+        if (ends_with("zioni",    3)) return strip(5, "zione");
+        if (ends_with("zione",    3)) return lower;
+        if (ends_with("mente",    3)) return strip(5);
+        if (ends_with("tà",       3)) return lower;
+        if (ends_with("i",        3)) return strip(1, "o");
+        if (ends_with("e",        3)) return lower;
+        return lower;
+    }
+
+    if (lang == Language::DUTCH) {
+        // Verb participles and inflections (longest first)
+        if (ends_with("enden",    3)) return strip(3);
+        if (ends_with("ende",     3)) return strip(2);
+        if (ends_with("erden",    3)) return strip(3, "en");
+        if (ends_with("erde",     3)) return strip(2, "en");
+        if (ends_with("eden",     3)) return strip(3, "en");
+        if (ends_with("eten",     3)) return strip(3, "en");
+        if (ends_with("den",      3)) return strip(3, "en");
+        if (ends_with("ten",      3)) return strip(3, "en");
+        if (ends_with("ing",      3)) return strip(3);
+        if (ends_with("ings",     3)) return strip(4);
+        if (ends_with("heid",     3)) return strip(4);
+        if (ends_with("lijk",     3)) return strip(4);
+        if (ends_with("isch",     3)) return strip(4);
+        if (ends_with("ste",      3)) return strip(3);
+        if (ends_with("ere",      3)) return strip(3);
+        if (ends_with("ers",      3)) return strip(3);
+        if (ends_with("en",       3)) return strip(2);
+        if (ends_with("es",       3)) return strip(2);
+        if (ends_with("s",        3)) return strip(1);
+        if (ends_with("e",        3)) return strip(1);
+        return lower;
+    }
+
+    return lower;
+}
+
+std::string NlpTextAnalyzer::lemmatizeWord(std::string_view word, Language lang) const {
+    if (word.empty()) {
+        return std::string(word);
+    }
+
+    std::string lower = toLowerCase(word);
+
+    // 1. Check irregular forms lookup table first
+    auto lang_it = irregular_lemmas_.find(lang);
+    if (lang_it != irregular_lemmas_.end()) {
+        auto form_it = lang_it->second.find(lower);
+        if (form_it != lang_it->second.end()) {
+            return form_it->second;
         }
     }
-    // Remove common German suffixes
-    else if (lang == Language::GERMAN) {
-        if (stem.ends_with("en")) {
-            stem = stem.substr(0, stem.length() - 2);
-        } else if (stem.ends_with("er")) {
-            stem = stem.substr(0, stem.length() - 2);
-        }
-    }
+
+    // 2. Apply language-specific morphological suffix rules
+    return applyMorphologicalRules(lower, lang);
     // Remove common French suffixes
     else if (lang == Language::FRENCH) {
         if (stem.ends_with("ement")) {
