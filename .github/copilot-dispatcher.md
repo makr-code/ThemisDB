@@ -25,7 +25,7 @@ Issue created / label added
 
 | Workflow | Trigger | Role |
 |---|---|---|
-| `auto-queue-issues.yml` | `issues: labeled` | Adds `queue/copilot` when a qualifying label is applied |
+| `auto-queue-issues.yml` | `issues: opened` + `workflow_dispatch` | Adds `queue/copilot` to new issues automatically; back-fill mode queues all existing open issues on demand |
 | `copilot-dispatcher.yml` | Schedule (30 min) + `issues: labeled` | Delegates queued issues to the Copilot Coding Agent |
 | `pr-copilot-trigger.yml` | `pull_request: opened/synchronize/reopened` | Posts CI context to the agent on draft Copilot PRs |
 | `copilot-readiness-gate.yml` | `pull_request: labeled` + `check_suite: completed` | Promotes Copilot PRs that pass all gates to `copilot/status-ready` |
@@ -123,7 +123,7 @@ Within the same priority tier issues are processed oldest-first (by creation dat
 
 | Label | Purpose |
 |---|---|
-| `queue/copilot` | Mark an issue as eligible for Copilot delegation. Added automatically by `auto-queue-issues.yml` or manually. Removed by the dispatcher after posting the delegation comment. |
+| `queue/copilot` | Mark an issue as eligible for Copilot delegation. Added automatically by `auto-queue-issues.yml` when a new issue is opened, or manually. Removed by the dispatcher after posting the delegation comment. |
 | `copilot/delegated` | Set by the dispatcher after the delegation comment is posted. Prevents re-delegation on subsequent runs. |
 | `blocked` / `status:blocked` | Issues with this label are skipped by both the auto-queue workflow and the dispatcher. |
 
@@ -131,27 +131,27 @@ Within the same priority tier issues are processed oldest-first (by creation dat
 
 ## How to queue an issue
 
+### Automatic queueing (zero-touch)
+
+The **`auto-queue-issues.yml`** workflow automatically adds `queue/copilot`
+to every newly opened issue, with no manual action required:
+
+1. A new issue is opened.
+2. The workflow fires immediately and adds `queue/copilot` (unless the issue
+   already has `copilot/delegated`, `queue/copilot`, `blocked`, or `status:blocked`).
+3. The dispatcher picks it up within ≤ 30 minutes.
+
+**Back-fill existing issues** — run the workflow manually via
+*Actions → Auto-Queue Issues for Copilot → Run workflow*.  Use the
+`dry_run=true` option to preview what would be queued without making changes.
+The `max_issues` input limits how many issues are queued in a single run.
+
 ### Manual queueing
 
 1. Open or find an existing issue.
 2. Add the label **`queue/copilot`**.
 3. The dispatcher will pick it up within ≤ 30 minutes (or immediately on the
    next manual trigger).
-
-### Automatic queueing (zero-touch)
-
-The **`auto-queue-issues.yml`** workflow watches for `issues: labeled` events
-and automatically adds `queue/copilot` when an issue receives any label listed
-in `auto_queue_labels` (see [Configuration](#configuration)).
-
-Default `auto_queue_labels`: `enhancement`, `type:feature`, `type:bug`.
-
-Issues are skipped if they carry any label from `auto_queue_exclude_labels`
-(defaults: `blocked`, `status:blocked`, `wontfix`, `duplicate`, `invalid`,
-`question`, `copilot/delegated`, `queue/copilot`).
-
-**Disable automatic queueing** by setting `auto_queue_labels: []` in
-`.github/copilot-dispatcher.yml`.
 
 ---
 
@@ -165,25 +165,6 @@ max_delegations_per_run: 5
 
 # Base branch Copilot should target when opening PRs.
 base_branch: develop
-
-# Labels that trigger automatic queueing (auto-queue-issues.yml).
-# When any of these labels is added to an open issue, queue/copilot is applied
-# automatically.  Set to [] to disable automatic queueing.
-auto_queue_labels:
-  - enhancement
-  - type:feature
-  - type:bug
-
-# Labels that BLOCK automatic queueing even when an auto_queue_label is present.
-auto_queue_exclude_labels:
-  - blocked
-  - status:blocked
-  - wontfix
-  - duplicate
-  - invalid
-  - question
-  - copilot/delegated
-  - queue/copilot
 ```
 
 ### Manual override

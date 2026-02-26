@@ -1,137 +1,168 @@
 name: Auto-Queue Issues for Copilot
 
-# Automatically adds the `queue/copilot` label to open issues when they
-# receive a label listed in `auto_queue_labels` in `.github/copilot-dispatcher.yml`.
-# This closes the manual labelling gap and makes the pipeline fully automatic:
+# Automatically adds the `queue/copilot` label to issues so the Copilot Issue
+# Dispatcher picks them up without any manual label step.
 #
-#   Issue created + qualifying label added
-#     → auto-queue-issues adds queue/copilot
-#       → copilot-dispatcher picks it up (≤ 30 min or on next labeled event)
-#         → Copilot Coding Agent opens a PR
+# Two modes of operation:
 #
-# The workflow skips issues that already carry `queue/copilot`,
-# `copilot/delegated`, or any label from `auto_queue_exclude_labels`.
+#   1. Event-driven (issues: opened)
+#      When a new issue is opened the workflow immediately adds `queue/copilot`
+#      unless the issue is already blocked or delegated.
+#
+#   2. Back-fill (workflow_dispatch)
+#      Scan ALL open issues and add `queue/copilot` to those that are not yet
+#      queued, delegated, or blocked.  Use this once to enqueue existing issues,
+#      or whenever a batch of issues needs to be (re-)queued.
+#
+# Skip conditions (applied in both modes):
+#   - Issue already has  copilot/delegated  → already handled, skip.
+#   - Issue already has  queue/copilot      → already queued, skip.
+#   - Issue already has  blocked  OR  status:blocked  → skip.
+#   - (Back-fill only) Issue is closed → skip.
 
 on:
   issues:
-    types: [labeled]
+    types: [opened]
 
-# One run per issue at a time; new label events queue, never cancel.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run – log what would change, no writes'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      max_issues:
+        description: 'Maximum issues to queue in this back-fill run (0 = unlimited)'
+        required: false
+        default: '0'
+
+# Prevent concurrent back-fill runs from racing over the same issue list.
 concurrency:
-  group: auto-queue-issues-${{ github.event.issue.number }}
+  group: auto-queue-issues
   cancel-in-progress: false
 
 permissions:
-  issues: write   # add queue/copilot label
+  issues: write   # add labels to issues
 
 jobs:
-  auto-queue:
-    name: Add queue/copilot if qualifying label applied
+  queue:
+    name: Queue issues for the Copilot Dispatcher
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository (needed to read config)
-        uses: actions/checkout@v4
-        with:
-          # Always check out 'develop' – the branch where Copilot automation
-          # config is maintained, consistent with copilot-dispatcher.yml and
-          # copilot-readiness-gate.yml.
-          ref: develop
-
-      - name: Install js-yaml
-        run: npm install js-yaml
-
-      - name: Evaluate and queue issue
+      - name: Add queue/copilot label (event-driven)
+        if: github.event_name == 'issues'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs   = require('fs');
-            const yaml = require(`${process.env.GITHUB_WORKSPACE}/node_modules/js-yaml`);
+            const OWNER        = context.repo.owner;
+            const REPO         = context.repo.repo;
+            const issueNumber  = context.issue.number;
+            const SKIP_LABELS  = new Set(['copilot/delegated', 'queue/copilot', 'blocked', 'status:blocked']);
+            const QUEUE_LABEL  = 'queue/copilot';
 
-            // ── Load configuration ──────────────────────────────────────────
-            // Fallback defaults are used only when the config file is missing
-            // or does not define the key.  The canonical values live in
-            // .github/copilot-dispatcher.yml; keep them in sync there.
-            let config = {
-              auto_queue_labels: [],
-              // Fallback exclude list – should match the defaults in copilot-dispatcher.yml.
-              auto_queue_exclude_labels: ['blocked', 'status:blocked', 'wontfix', 'duplicate', 'invalid', 'question', 'copilot/delegated', 'queue/copilot'],
-            };
-            try {
-              const raw = fs.readFileSync('.github/copilot-dispatcher.yml', 'utf8');
-              config = { ...config, ...yaml.load(raw) };
-            } catch (e) {
-              core.warning(`Could not read .github/copilot-dispatcher.yml: ${e.message}. Using defaults.`);
-            }
+            const issue = context.payload.issue;
+            const labels = (issue.labels ?? []).map(l => l.name);
 
-            const AUTO_QUEUE_LABELS   = new Set((config.auto_queue_labels   ?? []).map(l => String(l).toLowerCase()));
-            const EXCLUDE_LABELS      = new Set((config.auto_queue_exclude_labels ?? []).map(l => String(l).toLowerCase()));
-            const QUEUE_LABEL         = 'queue/copilot';
-            const OWNER               = context.repo.owner;
-            const REPO                = context.repo.repo;
-
-            if (AUTO_QUEUE_LABELS.size === 0) {
-              core.info('auto_queue_labels is empty – automatic queueing is disabled. Exiting.');
+            if (labels.some(l => SKIP_LABELS.has(l))) {
+              core.info(`Issue #${issueNumber} skipped – has one of: ${labels.filter(l => SKIP_LABELS.has(l)).join(', ')}`);
               return;
             }
 
-            // ── Inspect the label that was just applied ─────────────────────
-            const appliedLabel = (context.payload.label?.name ?? '').toLowerCase();
-            core.info(`Label applied to issue #${context.payload.issue.number}: "${appliedLabel}"`);
-
-            if (!AUTO_QUEUE_LABELS.has(appliedLabel)) {
-              core.info(`"${appliedLabel}" is not in auto_queue_labels – nothing to do.`);
-              return;
-            }
-
-            // ── Fetch current issue labels (fresh from API, not payload) ────
-            const { data: issue } = await github.rest.issues.get({
+            await github.rest.issues.addLabels({
               owner: OWNER,
-              repo: REPO,
-              issue_number: context.payload.issue.number,
+              repo:  REPO,
+              issue_number: issueNumber,
+              labels: [QUEUE_LABEL],
             });
+            core.info(`Added '${QUEUE_LABEL}' to issue #${issueNumber}: "${issue.title}"`);
 
-            if (issue.state !== 'open') {
-              core.info(`Issue #${issue.number} is ${issue.state} – skipping.`);
-              return;
+      - name: Back-fill existing open issues (manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const OWNER       = context.repo.owner;
+            const REPO        = context.repo.repo;
+            const DRY_RUN     = '${{ github.event.inputs.dry_run }}' === 'true';
+            const MAX_ISSUES  = parseInt('${{ github.event.inputs.max_issues }}' || '0', 10);
+            const QUEUE_LABEL = 'queue/copilot';
+            const SKIP_LABELS = new Set(['copilot/delegated', 'queue/copilot', 'blocked', 'status:blocked']);
+
+            core.info(`Back-fill mode  dry_run=${DRY_RUN}  max_issues=${MAX_ISSUES || 'unlimited'}`);
+
+            // Fetch all open issues (excludes PRs via the GitHub Issues list endpoint).
+            const allIssues = await github.paginate(
+              github.rest.issues.listForRepo,
+              { owner: OWNER, repo: REPO, state: 'open', per_page: 100 }
+            );
+            // The issues list endpoint includes PRs; filter them out.
+            const openIssues = allIssues.filter(i => !i.pull_request);
+            core.info(`Open issues found: ${openIssues.length}`);
+
+            let queued = 0;
+            let skipped = 0;
+
+            for (const issue of openIssues) {
+              if (MAX_ISSUES > 0 && queued >= MAX_ISSUES) {
+                core.info(`Reached max_issues limit of ${MAX_ISSUES} – stopping.`);
+                break;
+              }
+
+              const labels = (issue.labels ?? []).map(l => l.name);
+              if (labels.some(l => SKIP_LABELS.has(l))) {
+                core.info(`Skip #${issue.number}: has label(s) ${labels.filter(l => SKIP_LABELS.has(l)).join(', ')}`);
+                skipped++;
+                continue;
+              }
+
+              if (DRY_RUN) {
+                core.info(`[dry-run] Would add '${QUEUE_LABEL}' to #${issue.number}: "${issue.title}"`);
+                queued++;
+                continue;
+              }
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner: OWNER,
+                  repo:  REPO,
+                  issue_number: issue.number,
+                  labels: [QUEUE_LABEL],
+                });
+                core.info(`Queued #${issue.number}: "${issue.title}"`);
+                queued++;
+              } catch (e) {
+                core.warning(`Could not add '${QUEUE_LABEL}' to #${issue.number}: ${e.message}`);
+              }
             }
 
-            const currentLabels = (issue.labels ?? []).map(l => (l.name ?? '').toLowerCase());
-            core.info(`Current labels on #${issue.number}: ${currentLabels.join(', ') || '(none)'}`);
-
-            // ── Skip if any exclude label is present ────────────────────────
-            const blockedBy = currentLabels.filter(l => EXCLUDE_LABELS.has(l));
-            if (blockedBy.length > 0) {
-              core.info(`Issue #${issue.number} has excluded label(s) [${blockedBy.join(', ')}] – skipping auto-queue.`);
-              return;
-            }
-
-            // ── Add queue/copilot ───────────────────────────────────────────
-            core.info(`Adding "${QUEUE_LABEL}" to issue #${issue.number} ("${issue.title}").`);
-            try {
-              await github.rest.issues.addLabels({
-                owner: OWNER,
-                repo: REPO,
-                issue_number: issue.number,
-                labels: [QUEUE_LABEL],
-              });
-              core.info(`"${QUEUE_LABEL}" added to issue #${issue.number}.`);
-            } catch (e) {
-              core.setFailed(`Failed to add "${QUEUE_LABEL}" to issue #${issue.number}: ${e.message}`);
-            }
+            core.info(`Back-fill complete. Queued: ${queued}  Skipped: ${skipped}`);
+            core.setOutput('queued_count',  String(queued));
+            core.setOutput('skipped_count', String(skipped));
 
       - name: Write job summary
         if: always()
         run: |
-          echo "## 🏷️ Auto-Queue Issues for Copilot" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 🤖 Auto-Queue Issues for Copilot" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Issue** | #${{ github.event.issue.number }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Label applied** | \`${{ github.event.label.name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Repository** | ${{ github.repository }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Issues receiving a label from \`auto_queue_labels\` get \`queue/copilot\` added automatically." >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            echo "| **Issue** | #${{ github.event.issue.number }} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "New issue received \`queue/copilot\` label – the Copilot Dispatcher will pick it up within ≤ 30 minutes." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "| **Dry-run** | ${{ github.event.inputs.dry_run }} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| **Max issues** | ${{ github.event.inputs.max_issues || '0 (unlimited)' }} |" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Back-filled open issues with \`queue/copilot\` label. The Copilot Dispatcher will process them on its next run." >> "$GITHUB_STEP_SUMMARY"
+          fi
