@@ -165,11 +165,26 @@ ContentExtractionResult VideoProcessor::extract(
         return result;
     }
     
+    // Minimum size check: any valid container needs at least 8 bytes for a box header
+    if (blob.size() < 8) {
+        result.success = false;
+        result.error_message = "Input blob too small to be a valid video file";
+        errors_++;
+        return result;
+    }
+    
+    // Validate MIME type
+    if (!canProcess(mime_type)) {
+        result.success = false;
+        result.error_message = "Unsupported MIME type: " + mime_type;
+        errors_++;
+        return result;
+    }
+    
     try {
         // Extract metadata using FFmpeg
         // This is a simulation - real implementation would use libavformat
         MediaExtractionData media = extractMetadata(blob);
-        result.media = media;
         
         // Build metadata JSON
         json metadata;
@@ -208,18 +223,31 @@ ContentExtractionResult VideoProcessor::extract(
             result.thumbnail_mime_type = "image/jpeg";
         }
         
-        // Extract subtitles if available
-        if (extract_subtitles_) {
+        // Extract keyframe timestamps if requested
+        if (options.extract_keyframes) {
+            auto keyframes = extractKeyframes(blob);
+            media.keyframe_timestamps = keyframes;
+            json kf_times = json::array();
+            for (const auto& time : keyframes) {
+                kf_times.push_back(time);
+            }
+            result.metadata["keyframe_timestamps_ms"] = kf_times;
+        }
+        
+        // Extract subtitles if requested (via options or plugin config)
+        if (options.extract_subtitles || extract_subtitles_) {
             std::string subtitles = extractSubtitles(blob);
             if (!subtitles.empty()) {
                 result.text = subtitles;
                 result.metadata["has_subtitles"] = true;
+                media.subtitles = subtitles;
             }
         }
         
-        // Scene detection
-        if (enable_scene_detection_) {
+        // Scene detection if requested
+        if (options.extract_scenes || enable_scene_detection_) {
             auto scenes = detectScenes(blob);
+            media.scene_boundaries = scenes;
             json scene_times = json::array();
             for (auto time : scenes) {
                 scene_times.push_back(time);
@@ -227,6 +255,7 @@ ContentExtractionResult VideoProcessor::extract(
             result.metadata["scene_changes_ms"] = scene_times;
         }
         
+        result.media = media;
         result.success = true;
         videos_processed_++;
         total_duration_ms_ += media.duration_ms;
@@ -390,6 +419,15 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
     // 1. Decode video frames
     // 2. Calculate frame differences/histograms
     // 3. Detect scene changes based on threshold
+    
+    return std::vector<int64_t>();
+}
+
+std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>& blob) {
+    // Real implementation would:
+    // 1. Iterate through video packets
+    // 2. Collect timestamps of keyframe (I-frame) packets
+    // 3. Limit to max_keyframes_ count
     
     return std::vector<int64_t>();
 }

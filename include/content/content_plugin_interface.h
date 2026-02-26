@@ -109,6 +109,11 @@ struct MediaExtractionData {
     int sample_rate = 0;
     int channels = 0;
     std::string container_format;
+    
+    // Extended fields for video processing
+    std::vector<int64_t> keyframe_timestamps;  // Keyframe positions in ms
+    std::vector<int64_t> scene_boundaries;     // Scene change positions in ms
+    std::string subtitles;                     // Extracted subtitle text
 };
 
 /**
@@ -208,6 +213,19 @@ public:
      */
     const json& raw() const { return settings_; }
     
+    /**
+     * @brief Set configuration value
+     */
+    template<typename T>
+    void set(const std::string& path, T value) {
+        try {
+            std::string fixed_path = path;
+            std::replace(fixed_path.begin(), fixed_path.end(), '.', '/');
+            json::json_pointer ptr("/" + fixed_path);
+            settings_[ptr] = value;
+        } catch (...) {}
+    }
+    
 private:
     json settings_;
 };
@@ -220,6 +238,9 @@ struct ExtractionOptions {
     bool extract_metadata = true;
     bool generate_thumbnail = false;
     bool generate_embedding = false;
+    bool extract_keyframes = false;   // Extract keyframe timestamps
+    bool extract_scenes = false;      // Detect scene boundaries
+    bool extract_subtitles = true;    // Extract embedded subtitles
     
     // Chunking options
     int chunk_max_tokens = 512;

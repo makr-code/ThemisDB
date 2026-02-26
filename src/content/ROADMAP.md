@@ -17,7 +17,7 @@
 ## In Progress 🚧
 - [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
-- [I] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
+- [P] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 
 ## Planned Features 📋
 
@@ -70,7 +70,7 @@
 
 ## Known Issues & Limitations
 - PDF and Office document extraction not yet implemented
-- Video processing not yet available
+- Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
 - OCR is not yet integrated
 - Large file streaming ingestion may buffer entire file in memory
 
