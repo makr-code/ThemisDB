@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:57                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:15:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1493                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1976                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
-    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1841,6 +1841,72 @@ TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_FiltersNodesByLabel) {
         << "B (Person) should be included";
     EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
         << "C (no labels) should be excluded by the hint";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_OR_Semantics_MatchesAnyLabel) {
+    // "B" has label "Employee", "C" has label "Manager".
+    // With node_labels={"Employee","Manager"}, both B and C should be included.
+    storeNodeWithLabels(*db_, "B", "Employee");
+    storeNodeWithLabels(*db_, "C", "Manager");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Employee", "Manager"};  // OR: either label matches
+    auto result = optimizer_->executeBFS("A", 4, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // The start node "A" is always present regardless of labels (never filtered)
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end())
+        << "Start node A should always be present regardless of label filter";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+        << "B (Employee) should be included";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (Manager) should be included via OR semantics";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_LabelOrderIndependent) {
+    // {"Person","Employee"} and {"Employee","Person"} must produce the same key
+    // and therefore share a cached plan.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.node_labels = {"Person", "Employee"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.node_labels = {"Employee", "Person"};  // same labels, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit exact cache (same sorted key) → no new miss
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed label order should reuse cached plan via same sorted key";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_ExcludedEdgeTypeOrderIndependent) {
+    // {"FOLLOWS","LIKES"} and {"LIKES","FOLLOWS"} must produce the same key.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.excluded_edge_types = {"FOLLOWS", "LIKES"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.excluded_edge_types = {"LIKES", "FOLLOWS"};  // same types, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit the cached plan (same sorted key)
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed excluded_edge_types order should reuse cached plan";
 }
 
 TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_NoFilter_AllNodesTraversed) {

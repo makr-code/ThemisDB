@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:06                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:15:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1576                                           ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     1816                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1534,18 +1534,22 @@ std::string GraphQueryOptimizer::generatePlanCacheKey(
         key += ":par";
     }
 
-    // Schema hints: include each node label so different label sets yield
-    // distinct cache entries (labels influence estimated cost and explanation).
+    // Schema hints: sort labels so that {"A","B"} and {"B","A"} produce the
+    // same key; different label sets produce distinct exact cache entries.
     if (!constraints.node_labels.empty()) {
+        std::vector<std::string> sorted_labels = constraints.node_labels;
+        std::sort(sorted_labels.begin(), sorted_labels.end());
         key += ":nl=";
-        for (const auto& lbl : constraints.node_labels) {
+        for (const auto& lbl : sorted_labels) {
             key += lbl + "|";
         }
     }
 
     if (!constraints.excluded_edge_types.empty()) {
+        std::vector<std::string> sorted_types = constraints.excluded_edge_types;
+        std::sort(sorted_types.begin(), sorted_types.end());
         key += ":xet=";
-        for (const auto& et : constraints.excluded_edge_types) {
+        for (const auto& et : sorted_types) {
             key += et + "|";
         }
     }
@@ -1593,14 +1597,25 @@ std::string GraphQueryOptimizer::generateStructuralCacheKey(
         key += ":rv=" + std::to_string(constraints.required_vertices.size());
     }
 
-    // Schema hints: encode the count of node labels and excluded edge types so
-    // that queries with different schema hints get different structural keys.
+    // Schema hints: encode actual sorted label values so that queries with the
+    // same number of labels but different names get distinct structural keys.
+    // Sorting ensures {"A","B"} and {"B","A"} map to the same structural key.
     if (!constraints.node_labels.empty()) {
-        key += ":nl=" + std::to_string(constraints.node_labels.size());
+        std::vector<std::string> sorted_labels = constraints.node_labels;
+        std::sort(sorted_labels.begin(), sorted_labels.end());
+        key += ":nl=";
+        for (const auto& lbl : sorted_labels) {
+            key += lbl + "|";
+        }
     }
 
     if (!constraints.excluded_edge_types.empty()) {
-        key += ":xet=" + std::to_string(constraints.excluded_edge_types.size());
+        std::vector<std::string> sorted_types = constraints.excluded_edge_types;
+        std::sort(sorted_types.begin(), sorted_types.end());
+        key += ":xet=";
+        for (const auto& et : sorted_types) {
+            key += et + "|";
+        }
     }
 
     return key;
