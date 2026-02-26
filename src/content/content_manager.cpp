@@ -21,6 +21,7 @@
 #include "content/content_type.h"
 #include "content/content_processor.h"
 #include "content/archive_processor.h"
+#include "content/html_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -1930,11 +1931,49 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
-    
+
+    // HTML: extract plain text (boilerplate removal) and create text chunks
+    json chunks_json = json::array();
+    if (detected_mime == "text/html" || detected_mime == "application/xhtml+xml") {
+        HtmlProcessor html_proc;
+        ContentType ct;
+        ct.mime_type = detected_mime;
+        ct.category  = category;
+        auto extraction = html_proc.extract(blob, ct);
+        if (extraction.ok) {
+            meta.text_extracted      = true;
+            meta.extracted_metadata  = extraction.metadata;
+            int chunk_size = config.value("chunk_size", 512);
+            int overlap    = config.value("chunk_overlap", 50);
+            auto raw_chunks = html_proc.chunk(extraction, chunk_size, overlap);
+            int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+            for (const auto& rc : raw_chunks) {
+                ChunkMeta cm;
+                cm.id         = generateUuid();
+                cm.content_id = content_id;
+                cm.seq_num    = rc.value("seq_num", 0);
+                cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                cm.text       = rc.value("text", std::string{});
+                cm.created_at = now;
+                chunks_json.push_back(cm.toJson());
+            }
+            meta.chunk_count = static_cast<int>(chunks_json.size());
+            meta.chunked     = !chunks_json.empty();
+            THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
+                        extraction.metadata.value("token_count", 0),
+                        chunks_json.size(), filename);
+        } else {
+            THEMIS_WARN("HTML processor extraction failed for '{}': {}", filename, extraction.error_message);
+        }
+    }
+
     json spec = {
         {"content", meta.toJson()}
     };
-    
+    if (!chunks_json.empty()) {
+        spec["chunks"] = chunks_json;
+    }
+
     auto status = importContent(spec, blob, user_context);
     if (!status.ok) {
         result.error_message = status.message;
@@ -1948,6 +1987,9 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         {"mime_type", detected_mime},
         {"category", static_cast<int>(category)}
     };
+    if (!chunks_json.empty()) {
+        result.metadata["chunk_count"] = static_cast<int>(chunks_json.size());
+    }
     
     return result;
 }

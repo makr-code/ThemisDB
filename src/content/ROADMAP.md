@@ -23,7 +23,7 @@
 
 ### Short-term (Next 3-6 months)
 - [I] PDF and Office document text extraction (pdfmium / LibreOffice headless) (Issue: #1681)
-- [I] HTML content extraction with boilerplate removal (Issue: #1682)
+- [P] HTML content extraction with boilerplate removal (Issue: #1682)
 - [I] Markdown processing and frontmatter parsing (Issue: #1683)
 - [I] Streaming ingestion for large files (chunked processing) (Issue: #1684)
 - [I] Content deduplication via perceptual hashing (Issue: #1685)
