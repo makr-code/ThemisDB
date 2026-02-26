@@ -642,6 +642,59 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 	return nodes.size();
 }
 
+std::pair<GraphIndexManager::Status, std::vector<std::string>>
+GraphIndexManager::allVertices() const {
+	{
+		std::lock_guard<std::mutex> lock(topology_mutex_);
+		if (topologyLoaded_) {
+			// Fast path: in-memory topology is populated.
+			std::unordered_set<std::string> seen;
+			for (const auto& [v, _] : outEdges_) seen.insert(v);
+			for (const auto& [v, _] : inEdges_)  seen.insert(v);
+			return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
+		}
+	}
+	// Slow path: topology not yet in memory – enumerate vertices directly from
+	// RocksDB by scanning the outdex and index key prefixes.
+	std::unordered_set<std::string> seen;
+	constexpr std::string_view kOutPrefix = "graph:out:";
+	constexpr std::string_view kInPrefix  = "graph:in:";
+	db_.scanPrefix(std::string(kOutPrefix), [&seen, kOutPrefix](std::string_view key, std::string_view /*val*/) {
+		// key format: "graph:out:<fromPk>:<edgeId>"
+		//          or "graph:out:<graphId>:<fromPk>:<edgeId>"
+		// We want fromPk. Use the same logic as parseOutKey_:
+		//   strip "graph:out:" prefix, then split on ':'
+		const std::string_view tail = key.substr(kOutPrefix.size());
+		const size_t first = tail.find(':');
+		if (first == std::string_view::npos) return true;
+		const size_t last  = tail.rfind(':');
+		std::string fromPk;
+		if (last == first) {
+			// legacy: no graphId
+			fromPk = std::string(tail.substr(0, first));
+		} else {
+			fromPk = std::string(tail.substr(first + 1, last - first - 1));
+		}
+		if (!fromPk.empty()) seen.insert(std::move(fromPk));
+		return true;
+	});
+	db_.scanPrefix(std::string(kInPrefix), [&seen, kInPrefix](std::string_view key, std::string_view /*val*/) {
+		const std::string_view tail = key.substr(kInPrefix.size());
+		const size_t first = tail.find(':');
+		if (first == std::string_view::npos) return true;
+		const size_t last  = tail.rfind(':');
+		std::string toPk;
+		if (last == first) {
+			toPk = std::string(tail.substr(0, first));
+		} else {
+			toPk = std::string(tail.substr(first + 1, last - first - 1));
+		}
+		if (!toPk.empty()) seen.insert(std::move(toPk));
+		return true;
+	});
+	return {Status::OK(), std::vector<std::string>(seen.begin(), seen.end())};
+}
+
 size_t GraphIndexManager::getTopologyEdgeCount() const {
 	std::lock_guard<std::mutex> lock(topology_mutex_);
 	size_t total = 0;

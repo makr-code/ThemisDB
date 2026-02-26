@@ -27,6 +27,7 @@
 // Graph Query Optimizer implementation
 
 #include "graph/graph_query_optimizer.h"
+#include "graph/gpu_traversal.h"
 #include "graph/path_constraints.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
@@ -439,6 +440,40 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BFS;
 
+    // GPU-accelerated path: dispatch to GPUGraphTraversal when requested.
+    if (constraints.use_gpu) {
+        GPUGraphTraversal gpu_trav(graph_manager_);
+        auto load_res = gpu_trav.load();
+        if (load_res) {
+            GPUGraphTraversal::Config gpu_cfg;
+            gpu_cfg.gpu_device     = constraints.gpu_device;
+            gpu_cfg.max_depth      = max_depth;
+            if (constraints.max_results.has_value())
+                gpu_cfg.max_results = constraints.max_results.value();
+            gpu_cfg.forbidden_vertices = constraints.forbidden_vertices;
+
+            auto gpu_result = gpu_trav.bfs(std::string(start_vertex), gpu_cfg);
+            if (gpu_result) {
+                local_stats.nodes_explored    = gpu_result->nodes_explored;
+                local_stats.edges_traversed   = gpu_result->edges_traversed;
+                local_stats.execution_time_ms = gpu_result->execution_time_ms;
+                local_stats.early_terminated  = gpu_result->truncated;
+                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                if (stats) *stats = local_stats;
+                recordExecution(local_stats);
+                return Ok(std::move(gpu_result->visited_vertices));
+            }
+            // Fall through to CPU path on GPU error (vertex-not-found is re-raised).
+            if (gpu_result.error().code() ==
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX) {
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                    std::string(start_vertex));
+            }
+        }
+        // If load() failed, fall through to the standard CPU BFS.
+    }
+
     // Helper: determine effective thread count for parallel BFS
     const bool use_parallel = constraints.enable_parallel;
     const size_t effective_threads = [&]() -> size_t {
@@ -618,6 +653,38 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DFS;
+
+    // GPU-accelerated path.
+    if (constraints.use_gpu) {
+        GPUGraphTraversal gpu_trav(graph_manager_);
+        auto load_res = gpu_trav.load();
+        if (load_res) {
+            GPUGraphTraversal::Config gpu_cfg;
+            gpu_cfg.gpu_device     = constraints.gpu_device;
+            gpu_cfg.max_depth      = max_depth;
+            if (constraints.max_results.has_value())
+                gpu_cfg.max_results = constraints.max_results.value();
+            gpu_cfg.forbidden_vertices = constraints.forbidden_vertices;
+
+            auto gpu_result = gpu_trav.dfs(std::string(start_vertex), gpu_cfg);
+            if (gpu_result) {
+                local_stats.nodes_explored    = gpu_result->nodes_explored;
+                local_stats.edges_traversed   = gpu_result->edges_traversed;
+                local_stats.execution_time_ms = gpu_result->execution_time_ms;
+                local_stats.early_terminated  = gpu_result->truncated;
+                local_stats.paths_found       = gpu_result->visited_vertices.size();
+                if (stats) *stats = local_stats;
+                recordExecution(local_stats);
+                return Ok(std::move(gpu_result->visited_vertices));
+            }
+            if (gpu_result.error().code() ==
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX) {
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                    std::string(start_vertex));
+            }
+        }
+    }
     
     std::vector<std::string> result;
     std::vector<std::pair<std::string, int>> stack;
