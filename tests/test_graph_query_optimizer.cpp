@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:57                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:15:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1493                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1595                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
     • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
     • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
     • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
-    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,12 +27,15 @@
 #include <gtest/gtest.h>
 #include "graph/graph_query_optimizer.h"
 #include "graph/path_constraints.h"
+#include "query/result_stream.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include <algorithm>
 #include <filesystem>
 #include <chrono>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
@@ -1168,6 +1171,101 @@ TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_CostModelInfluencesEstimate) {
     EXPECT_NE(plan_after.value().algorithm, static_cast<decltype(plan_after.value().algorithm)>(-1));
 }
 
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_ReachabilityHasAlternatives) {
+    // optimizeReachability should now produce an alternatives list, mirroring
+    // the behaviour of optimizeShortestPath for cost-based selection.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    // At least the primary algorithm should appear in alternatives
+    EXPECT_FALSE(plan.value().alternatives.empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_DisabledUsesStaticHeuristic) {
+    // With adaptive learning disabled, selectAlgorithm falls back to the
+    // depth-based static heuristic.  For a shallow graph (depth <= 3) it should
+    // still pick BFS for a reachability query.
+    optimizer_->enableAdaptiveLearning(false);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // Test graph is small; estimated depth <= 3, so static heuristic picks BFS.
+    EXPECT_EQ(plan.value().algorithm, Algo::BFS);
+    optimizer_->enableAdaptiveLearning(true);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_HighConfidenceDFSShiftsKHopChoice) {
+    // Import a synthetic cost model where DFS is dramatically faster than BFS.
+    // With adaptive learning active and high confidence, the K-HOP plan should
+    // switch from the default BFS to DFS.
+    const std::string synthetic_model = R"({
+        "BFS": {"ema_cost_ms": 500.0, "exec_count": 100, "confidence": 1.0},
+        "DFS": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic_model));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto plan = opt2.optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // DFS has ema_cost_ms=1 vs BFS ema_cost_ms=500, both confidence=1.0.
+    // The blended cost for DFS (=10) is much lower than BFS (=5000), so DFS wins.
+    EXPECT_EQ(plan.value().algorithm, Algo::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_ImportedModelInfluencesReachability) {
+    // Import a model where BIDIRECTIONAL is dramatically cheaper than BFS.
+    // We force depth > 3 via max_depth constraint so that BIDIRECTIONAL becomes
+    // a candidate; the adaptive model should then select it over BFS.
+    const std::string synthetic_model = R"({
+        "BFS":           {"ema_cost_ms": 900.0, "exec_count": 100, "confidence": 1.0},
+        "BIDIRECTIONAL": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic_model));
+
+    // max_depth = 5 forces estimateDepth > 3, which makes BIDIRECTIONAL a candidate.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 5;
+    auto plan = opt2.optimizeReachability("A", "D", c);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(plan.value().algorithm, Algo::BIDIRECTIONAL);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_HasAlternatives) {
+    // optimizePatternMatch now generates a DFS/BFS alternatives list.
+    std::vector<std::string> verts = {"A", "B"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_FALSE(plan.value().alternatives.empty());
+    // Default (no adaptive model) must still prefer DFS
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(plan.value().algorithm, Algo::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptivePlanSelection_PatternMatch_BFSWinsWhenFaster) {
+    // Import a model where BFS is dramatically faster than DFS.
+    const std::string synthetic = R"({
+        "DFS": {"ema_cost_ms": 800.0, "exec_count": 100, "confidence": 1.0},
+        "BFS": {"ema_cost_ms":   1.0, "exec_count": 100, "confidence": 1.0}
+    })";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    ASSERT_TRUE(opt2.importCostModel(synthetic));
+
+    std::vector<std::string> verts = {"A", "B", "C"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"A", "B"}, {"B", "C"}};
+    auto plan = opt2.optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    // BFS has ema_cost_ms=1 (blended cost ≈10) vs DFS ema_cost_ms=800 (≈8000)
+    EXPECT_EQ(plan.value().algorithm, Algo::BFS);
+}
+
 
 // ============================================================================
 // Phase 5.2: NODE_PROPERTY constraint tests
@@ -1906,4 +2004,1245 @@ TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_TrueWhenBothSe
     c.time_range_start_ms = kT2020;
     c.time_range_end_ms   = kT2025;
     EXPECT_TRUE(c.hasTemporalRange());
+// Property graph schema-aware optimizer hints (Issue #1819)
+// ============================================================================
+
+// Helper: store a node with _labels field (comma-separated).
+static void storeNodeWithLabels(themis::RocksDBWrapper& db,
+                                 const std::string& pk,
+                                 const std::string& labels_csv) {
+    themis::BaseEntity v(pk);
+    v.setField("id", pk);
+    v.setField("_labels", labels_csv);
+    db.put(themis::KeySchema::makeGraphNodeKey(pk), v.serialize());
+}
+
+// ── Cost estimation ───────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_NodeLabels_ReducesCostEstimate) {
+    // Provide label stats: "Person" covers 3 of the 4 nodes in the test graph.
+    // selectivity = 3/4 = 0.75 → cost estimate should be reduced proportionally.
+    optimizer_->collectStatistics();
+    optimizer_->setNodeLabelStats({{"Person", 3}});
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.node_labels = {"Person"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // With a 0.75 selectivity, estimated cost should be strictly lower than without hint
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExcludedEdgeTypes_ReducesCostEstimate) {
+    // Excluding an unknown edge type applies a 10% conservative reduction.
+    // This verifies the fallback path (no selectivity stats registered).
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    optimizer_->clearPlanCache();
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.excluded_edge_types = {"UNKNOWN_TYPE"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // 10% reduction for one unknown type → estimated cost should be lower
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_UnknownLabel_UsesDefaultSelectivity) {
+    // No label stats registered → fallback selectivity (0.5) is applied.
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints without_hint;
+    optimizer_->clearPlanCache();
+    auto plan_no_hint = optimizer_->optimizeShortestPath("A", "D", without_hint);
+    ASSERT_TRUE(plan_no_hint);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints with_hint;
+    with_hint.node_labels = {"UnknownLabel"};
+    optimizer_->clearPlanCache();
+    auto plan_with_hint = optimizer_->optimizeShortestPath("A", "D", with_hint);
+    ASSERT_TRUE(plan_with_hint);
+
+    // Fallback selectivity = 0.5 → cost should be lower
+    EXPECT_LT(plan_with_hint->estimated_cost, plan_no_hint->estimated_cost);
+}
+
+// ── Plan explanation ──────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExplanationContainsNodeLabels) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person", "Employee"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    EXPECT_NE(plan->explanation.find("Person"), std::string::npos);
+    EXPECT_NE(plan->explanation.find("Employee"), std::string::npos);
+    EXPECT_NE(plan->explanation.find("Schema Hints Active"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ExplanationContainsExcludedEdgeTypes) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.excluded_edge_types = {"BLOCKED"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeKHopNeighborhood("A", 2, c);
+    ASSERT_TRUE(plan);
+    EXPECT_NE(plan->explanation.find("BLOCKED"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_NoHints_ExplanationUnchanged) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;  // no schema hints
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    // "Schema Hints Active" should NOT appear when no hints are set
+    EXPECT_EQ(plan->explanation.find("Schema Hints Active"), std::string::npos);
+    EXPECT_TRUE(plan->active_schema_hints.empty());
+}
+
+// ── Active schema hints field ─────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_ActiveSchemaHintsPopulated) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    c.excluded_edge_types = {"DEPRECATED"};
+    optimizer_->clearPlanCache();
+    auto plan = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan);
+    ASSERT_EQ(plan->active_schema_hints.size(), 2u);
+    // First hint describes node labels
+    EXPECT_NE(plan->active_schema_hints[0].find("Person"), std::string::npos);
+    // Second hint describes excluded edge types
+    EXPECT_NE(plan->active_schema_hints[1].find("DEPRECATED"), std::string::npos);
+}
+
+// ── Plan cache keys ───────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_DifferentLabelsDifferentCacheEntries) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.node_labels = {"Person"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t hits_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.node_labels = {"Organization"};
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t hits_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // c2 has a different node label → different cache key → one more miss
+    EXPECT_GT(hits_after2, hits_after1);
+}
+
+// ── BFS label filtering ───────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_FiltersNodesByLabel) {
+    // Store node "B" with label "Person"; "C" has no labels.
+    // Graph: A -> B -> C (B labeled Person, C unlabeled)
+    storeNodeWithLabels(*db_, "B", "Person");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    auto result = optimizer_->executeBFS("A", 3, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // "A" is the start node (not filtered), "B" has label "Person" (included),
+    // "C" has no labels (excluded by hint).
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end())
+        << "Start node should always be present";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+        << "B (Person) should be included";
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (no labels) should be excluded by the hint";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_OR_Semantics_MatchesAnyLabel) {
+    // "B" has label "Employee", "C" has label "Manager".
+    // With node_labels={"Employee","Manager"}, both B and C should be included.
+    storeNodeWithLabels(*db_, "B", "Employee");
+    storeNodeWithLabels(*db_, "C", "Manager");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Employee", "Manager"};  // OR: either label matches
+    auto result = optimizer_->executeBFS("A", 4, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // The start node "A" is always present regardless of labels (never filtered)
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end())
+        << "Start node A should always be present regardless of label filter";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+        << "B (Employee) should be included";
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (Manager) should be included via OR semantics";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_LabelOrderIndependent) {
+    // {"Person","Employee"} and {"Employee","Person"} must produce the same key
+    // and therefore share a cached plan.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.node_labels = {"Person", "Employee"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.node_labels = {"Employee", "Person"};  // same labels, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit exact cache (same sorted key) → no new miss
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed label order should reuse cached plan via same sorted key";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_CacheKey_ExcludedEdgeTypeOrderIndependent) {
+    // {"FOLLOWS","LIKES"} and {"LIKES","FOLLOWS"} must produce the same key.
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.excluded_edge_types = {"FOLLOWS", "LIKES"};
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c1);
+    ASSERT_TRUE(plan1);
+    const size_t misses_after1 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.excluded_edge_types = {"LIKES", "FOLLOWS"};  // same types, different order
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c2);
+    ASSERT_TRUE(plan2);
+    const size_t misses_after2 = optimizer_->getQueryMetrics().plan_cache_misses.load();
+
+    // Reversed order should hit the cached plan (same sorted key)
+    EXPECT_EQ(misses_after2, misses_after1)
+        << "Reversed excluded_edge_types order should reuse cached plan";
+}
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_BFS_NoFilter_AllNodesTraversed) {
+    // Without node_labels, all reachable nodes should appear.
+    themis::graph::GraphQueryOptimizer::QueryConstraints c; // no hint
+    auto result = optimizer_->executeBFS("A", 4, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "D"), nodes.end());
+}
+
+// ── DFS label filtering ───────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SchemaHint_DFS_FiltersNodesByLabel) {
+    storeNodeWithLabels(*db_, "B", "Person");
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.node_labels = {"Person"};
+    auto result = optimizer_->executeDFS("A", 3, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "C"), nodes.end())
+        << "C (no labels) should be excluded";
+}
+
+// ── setNodeLabelStats ─────────────────────────────────────────────────────────
+
+TEST_F(GraphQueryOptimizerTest, SetNodeLabelStats_PopulatesSelectivity) {
+    // The test graph has 4 vertices (A, B, C, D); collectStatistics discovers them.
+    auto stats_result = optimizer_->collectStatistics();
+    ASSERT_TRUE(stats_result);
+    const size_t vertex_count = optimizer_->getStatistics().vertex_count;
+    ASSERT_GT(vertex_count, 0u);
+
+    // Supply counts that are always ≤ vertex_count
+    const size_t person_count = vertex_count;   // 100% → selectivity = 1.0
+    const size_t company_count = 0;             // 0%   → selectivity = 0.0
+
+    optimizer_->setNodeLabelStats({{"Person", person_count}, {"Company", company_count}});
+
+    const auto& stats = optimizer_->getStatistics();
+    ASSERT_NE(stats.node_label_counts.find("Person"), stats.node_label_counts.end());
+    EXPECT_EQ(stats.node_label_counts.at("Person"), person_count);
+    ASSERT_NE(stats.node_label_selectivity.find("Person"), stats.node_label_selectivity.end());
+    EXPECT_DOUBLE_EQ(stats.node_label_selectivity.at("Person"), 1.0);
+    ASSERT_NE(stats.node_label_selectivity.find("Company"), stats.node_label_selectivity.end());
+    EXPECT_DOUBLE_EQ(stats.node_label_selectivity.at("Company"), 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, SetNodeLabelStats_ClearsOldEntries) {
+    optimizer_->collectStatistics();
+
+    optimizer_->setNodeLabelStats({{"Person", 1}});
+    optimizer_->setNodeLabelStats({{"Company", 1}});  // replaces previous
+
+    const auto& stats = optimizer_->getStatistics();
+    // Old "Person" entry should be gone after the second call
+    EXPECT_EQ(stats.node_label_counts.find("Person"), stats.node_label_counts.end());
+    ASSERT_NE(stats.node_label_counts.find("Company"), stats.node_label_counts.end());
+    EXPECT_EQ(stats.node_label_counts.at("Company"), 1u);
+// Incremental Graph Query Execution Tests (v1.9.0)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_RegisterReturnsNonZeroHandle) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    EXPECT_GT(handle, 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_TwoRegistrationsHaveDifferentHandles) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto h1 = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "A", 3, c, [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    EXPECT_NE(h1, h2);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_CallsCallbackForAffectedQuery) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            ++callback_count;
+            EXPECT_TRUE(result.reexecuted);
+        });
+
+    // Add an edge touching vertex B (which is in A's BFS result)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_new", "B", "E");
+
+    const size_t reexecuted = optimizer_->onGraphChange(changes);
+    EXPECT_EQ(reexecuted, 1u);
+    EXPECT_EQ(callback_count, 1);
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_NoCallbackForUnaffectedQuery) {
+    // Register a BFS starting from vertex A (reaches B, C, D within depth 3)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++callback_count;
+        });
+
+    // Change only touches vertex Z (not reachable from A)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_z", "Z", "W");
+
+    optimizer_->onGraphChange(changes);
+    EXPECT_EQ(callback_count, 0);
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_UnregisterStopsCallbacks) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int callback_count = 0;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++callback_count;
+        });
+
+    optimizer_->unregisterIncrementalQuery(handle);
+
+    // Change touches A directly – would have fired callback if still registered
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addVertexAdded("A");
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_EQ(callback_count, 0);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_DeltaContainsAddedVertex) {
+    // Initial graph: A->B->C->D, A->C
+    // After change: add edge A->E (E was not reachable before)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 2;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 2, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    // Add edge A->E and vertex E
+    themis::BaseEntity eNew("edgeE");
+    eNew.setField("id", "edgeE");
+    eNew.setField("_from", "A");
+    eNew.setField("_to", "E");
+    eNew.setField("_weight", "1.0");
+    graph_mgr_->addEdge(eNew);
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeE", "A", "E");
+
+    optimizer_->onGraphChange(changes);
+
+    // E should appear in the added set (it is within depth 1 of A)
+    EXPECT_TRUE(captured.reexecuted);
+    const bool e_added = std::find(captured.added.begin(), captured.added.end(), "E")
+                         != captured.added.end();
+    EXPECT_TRUE(e_added) << "Expected 'E' in added vertices";
+    EXPECT_FALSE(captured.current.empty());
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_DeltaContainsRemovedVertex) {
+    // Add an extra edge A->F so F is reachable, then remove it
+    themis::BaseEntity eF("edgeF");
+    eF.setField("id", "edgeF");
+    eF.setField("_from", "A");
+    eF.setField("_to", "F");
+    eF.setField("_weight", "1.0");
+    graph_mgr_->addEdge(eF);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 2;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 2, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    // Now delete edge A->F so F is no longer reachable
+    graph_mgr_->deleteEdge("edgeF");
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeRemoved("edgeF", "A", "F");
+
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_TRUE(captured.reexecuted);
+    const bool f_removed = std::find(captured.removed.begin(), captured.removed.end(), "F")
+                           != captured.removed.end();
+    EXPECT_TRUE(f_removed) << "Expected 'F' in removed vertices";
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_CurrentResultIsComplete) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryResult captured;
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+            captured = result;
+        });
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeX", "B", "X");
+
+    optimizer_->onGraphChange(changes);
+
+    // current should be non-empty (A reachable, etc.)
+    EXPECT_FALSE(captured.current.empty());
+
+    optimizer_->unregisterIncrementalQuery(handle);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_MultipleQueriesTrackedIndependently) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    int cb_a = 0, cb_z = 0;
+    auto ha = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb_a; });
+    auto hz = optimizer_->registerIncrementalBFS(
+        "Z", 3, c,  // Z has no edges, won't be affected by changes to A's neighbourhood
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb_z; });
+
+    // Change affects B (in A's neighbourhood only)
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeB2", "B", "Y");
+
+    optimizer_->onGraphChange(changes);
+
+    EXPECT_EQ(cb_a, 1);  // A's query re-executed
+    EXPECT_EQ(cb_z, 0);  // Z's query unaffected
+
+    optimizer_->unregisterIncrementalQuery(ha);
+    optimizer_->unregisterIncrementalQuery(hz);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_EmptyChangeSet_NoCalls) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    int cb = 0;
+    auto h = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) { ++cb; });
+
+    themis::graph::GraphQueryOptimizer::GraphChangeSet empty;
+    const size_t count = optimizer_->onGraphChange(empty);
+    EXPECT_EQ(count, 0u);
+    EXPECT_EQ(cb, 0);
+
+    optimizer_->unregisterIncrementalQuery(h);
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_OnGraphChange_ReturnsReexecutedCount) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    auto h1 = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+
+    // Change affects B (in A's result) — both queries should fire
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edgeN", "B", "N");
+    const size_t count = optimizer_->onGraphChange(changes);
+    EXPECT_EQ(count, 2u);
+
+    optimizer_->unregisterIncrementalQuery(h1);
+    optimizer_->unregisterIncrementalQuery(h2);
+}
+
+TEST_F(GraphQueryOptimizerTest, GraphChangeSet_Helpers_WorkCorrectly) {
+    themis::graph::GraphQueryOptimizer::GraphChangeSet cs;
+    EXPECT_TRUE(cs.empty());
+    EXPECT_EQ(cs.size(), 0u);
+
+    cs.addEdgeAdded("e1", "A", "B");
+    cs.addEdgeRemoved("e2", "C", "D");
+    cs.addVertexAdded("V1");
+    cs.addVertexRemoved("V2");
+
+    EXPECT_FALSE(cs.empty());
+    EXPECT_EQ(cs.size(), 4u);
+
+    using CT = themis::graph::GraphQueryOptimizer::GraphChangeSet::ChangeType;
+    EXPECT_EQ(cs.changes[0].type, CT::EDGE_ADDED);
+    EXPECT_EQ(cs.changes[0].from, "A");
+    EXPECT_EQ(cs.changes[0].to, "B");
+    EXPECT_EQ(cs.changes[1].type, CT::EDGE_REMOVED);
+    EXPECT_EQ(cs.changes[2].type, CT::VERTEX_ADDED);
+    EXPECT_EQ(cs.changes[2].id, "V1");
+    EXPECT_EQ(cs.changes[3].type, CT::VERTEX_REMOVED);
+    EXPECT_EQ(cs.changes[3].id, "V2");
+}
+
+TEST_F(GraphQueryOptimizerTest, IncrementalBFS_CallbackCanSafelyUnregisterItselfDuringOnGraphChange) {
+    // This test validates the iterator-safety fix: a callback that calls
+    // unregisterIncrementalQuery() on its own handle must not cause
+    // undefined behaviour (e.g. use-after-free or iterator invalidation).
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryHandle captured_handle = 0;
+    int cb_count = 0;
+
+    auto handle = optimizer_->registerIncrementalBFS(
+        "A", 3, c,
+        [&](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {
+            ++cb_count;
+            // Unregister self from within the callback – must be safe.
+            optimizer_->unregisterIncrementalQuery(captured_handle);
+        });
+    captured_handle = handle;
+
+    // Second query (different start vertex so its callback is not triggered).
+    auto h2 = optimizer_->registerIncrementalBFS(
+        "Z", 3, c,
+        [](const themis::graph::GraphQueryOptimizer::IncrementalQueryResult&) {});
+
+    // Trigger re-execution by touching B (in A's result).
+    themis::graph::GraphQueryOptimizer::GraphChangeSet changes;
+    changes.addEdgeAdded("edge_selfunreg", "B", "Q");
+
+    // Must not crash or exhibit UB.
+    EXPECT_NO_FATAL_FAILURE(optimizer_->onGraphChange(changes));
+    EXPECT_EQ(cb_count, 1);
+
+    optimizer_->unregisterIncrementalQuery(h2);
+// Plan Cache Eviction: Size (LRU) and TTL Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_DefaultNoBoundsApplied) {
+    // By default max size = 0 (unlimited) and TTL = 0 (no expiry)
+    EXPECT_EQ(optimizer_->getPlanCacheMaxSize(), 0u);
+    EXPECT_EQ(optimizer_->getPlanCacheTTL().count(), 0);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_GetPlanCacheSizeReflectsInsertions) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Each unique constraint combination produces a different structural key
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 1;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 2;
+
+    optimizer_->optimizeShortestPath("A", "D", c1);
+    optimizer_->optimizeShortestPath("A", "D", c2);
+
+    // Expect at least 2 entries (exact key + structural key per query,
+    // though structural dedup may share between queries with same depth).
+    EXPECT_GE(optimizer_->getPlanCacheSize(), 2u);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_LRU_EvictsLeastRecentlyUsed) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Allow only 2 entries in the cache
+    optimizer_->setPlanCacheMaxSize(2);
+
+    // Insert two distinct plans (different structural keys via different depths)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 10;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 20;
+
+    optimizer_->optimizeKHopNeighborhood("A", 10, c1); // key1
+    optimizer_->optimizeKHopNeighborhood("A", 20, c2); // key2
+
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 2u);
+
+    // Inserting a third distinct entry must evict the LRU (key1, inserted first)
+    themis::graph::GraphQueryOptimizer::QueryConstraints c3;
+    c3.max_depth = 30;
+    optimizer_->optimizeKHopNeighborhood("A", 30, c3); // key3
+
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 2u)
+        << "Cache size should stay at max_size after eviction";
+
+    // Eviction counter must have incremented
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_LRU_EvictionCounterIncrementsPerEviction) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+    optimizer_->setPlanCacheMaxSize(1);
+
+    const uint64_t evictions_before =
+        optimizer_->getQueryMetrics().plan_cache_evictions.load();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c1;
+    c1.max_depth = 5;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c2;
+    c2.max_depth = 6;
+
+    optimizer_->optimizeKHopNeighborhood("A", 5, c1);
+    optimizer_->optimizeKHopNeighborhood("A", 6, c2); // triggers 1 eviction
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(),
+              evictions_before);
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_TTL_ExpiredEntryNotReturned) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Set a very short TTL (1 ms)
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(1));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 3;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan1.has_value());
+
+    // Wait for TTL to expire
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    const uint64_t hits_before =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Second query: TTL expired, so it must be a miss (entry evicted on lookup)
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Expired TTL entry must not be served as a cache hit";
+
+    // The eviction counter should have incremented for the expired entry
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_evictions.load(), 0u);
+
+    // Restore unlimited TTL for other tests
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(0));
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_TTL_NonExpiredEntryIsServed) {
+    optimizer_->setPlanCachingEnabled(true);
+    optimizer_->clearPlanCache();
+
+    // Set a generous TTL (10 seconds)
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(10000));
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_depth = 4;
+    auto plan1 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan1.has_value());
+
+    const uint64_t hits_before =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+
+    // Immediate second query: entry is within TTL, should be a cache hit
+    auto plan2 = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan2.has_value());
+
+    EXPECT_GT(optimizer_->getQueryMetrics().plan_cache_hits.load(), hits_before)
+        << "Non-expired entry must be served from cache";
+
+    // Plans must match
+    EXPECT_EQ(plan1->algorithm, plan2->algorithm);
+    EXPECT_DOUBLE_EQ(plan1->estimated_cost, plan2->estimated_cost);
+
+    optimizer_->setPlanCacheTTL(std::chrono::milliseconds(0));
+}
+
+TEST_F(GraphQueryOptimizerTest, PlanCache_ClearResetsSize) {
+    optimizer_->setPlanCachingEnabled(true);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->optimizeShortestPath("A", "D", c);
+
+    EXPECT_GT(optimizer_->getPlanCacheSize(), 0u);
+
+    optimizer_->clearPlanCache();
+    EXPECT_EQ(optimizer_->getPlanCacheSize(), 0u);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_ContainsPlanCacheEvictions) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+
+    auto j = nlohmann::json::parse(res.body());
+    EXPECT_TRUE(j.contains("plan_cache_evictions"));
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsPlanCacheEvictions) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    EXPECT_NE(res.body().find("themis_graph_plan_cache_evictions_total"),
+              std::string::npos);
+// Graph Query Result Streaming Tests (Issue #1822)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_ReturnsValidStream) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE(*result, nullptr);
+    EXPECT_TRUE((*result)->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_IteratesAllNodes) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> nodes;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        nodes.push_back(*item);
+    }
+
+    // Graph: A->B->C->D, A->C. BFS from A depth 3: A, B, C, D
+    EXPECT_FALSE(nodes.empty());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "A"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end());
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "C"), nodes.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_BatchedConsumption) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::query::StreamConfig cfg;
+    cfg.batch_size = 2;
+    auto stream_result = optimizer_->streamBFS("A", 3, c, cfg);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    size_t total = 0;
+    while (stream->hasNext()) {
+        auto batch = stream->nextBatch(2);
+        ASSERT_TRUE(batch.has_value());
+        total += batch->items.size();
+    }
+    EXPECT_GT(total, 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_DepthZeroReturnsStart) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 0, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    ASSERT_TRUE(stream->hasNext());
+    auto item = stream->next();
+    ASSERT_TRUE(item.has_value());
+    EXPECT_EQ(*item, "A");
+    EXPECT_FALSE(stream->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_MatchesExecuteBFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto batch_result = optimizer_->executeBFS("A", 3, c);
+    ASSERT_TRUE(batch_result.has_value());
+
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> streamed;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        streamed.push_back(*item);
+    }
+
+    EXPECT_EQ(streamed, *batch_result);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_ReturnsValidStream) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->streamDFS("A", 3, c);
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    ASSERT_NE(*result, nullptr);
+    EXPECT_TRUE((*result)->hasNext());
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_MatchesExecuteDFS) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto batch_result = optimizer_->executeDFS("A", 3, c);
+    ASSERT_TRUE(batch_result.has_value());
+
+    auto stream_result = optimizer_->streamDFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> streamed;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        streamed.push_back(*item);
+    }
+
+    EXPECT_EQ(streamed, *batch_result);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_PropagatesRateLimitError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Consume the budget
+    optimizer_->executeBFS("A", 1, c);
+
+    // Streaming call should be rejected
+    auto stream_result = optimizer_->streamBFS("A", 1, c);
+    EXPECT_FALSE(stream_result.has_value());
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamDFS_PropagatesRateLimitError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    // Consume the budget
+    optimizer_->executeDFS("A", 1, c);
+
+    // Streaming call should be rejected
+    auto stream_result = optimizer_->streamDFS("A", 1, c);
+    EXPECT_FALSE(stream_result.has_value());
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_WithConstraints_MaxResults) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_results = 2;
+    auto stream_result = optimizer_->streamBFS("A", 3, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    std::vector<std::string> nodes;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        nodes.push_back(*item);
+    }
+    EXPECT_LE(nodes.size(), 2u);
+}
+
+TEST_F(GraphQueryOptimizerTest, StreamBFS_LargeGraph_AllNodesReachable) {
+    // Add extra edges for a slightly larger graph
+    for (int i = 0; i < 5; ++i) {
+        themis::BaseEntity edge("stream_edge_" + std::to_string(i));
+        edge.setField("id", "stream_edge_" + std::to_string(i));
+        edge.setField("_from", "D");
+        edge.setField("_to", "N_" + std::to_string(i));
+        edge.setField("_weight", "1.0");
+        graph_mgr_->addEdge(edge);
+    }
+    optimizer_->collectStatistics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto stream_result = optimizer_->streamBFS("A", 4, c);
+    ASSERT_TRUE(stream_result.has_value());
+    auto& stream = *stream_result;
+
+    size_t count = 0;
+    while (stream->hasNext()) {
+        auto item = stream->next();
+        ASSERT_TRUE(item.has_value());
+        ++count;
+    }
+    // A, B, C, D, plus 5 new nodes = 9 total
+    EXPECT_GE(count, 9u);
+}
+
+// Subgraph Isomorphism Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternReturnsEmptyMatch) {
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 1u);
+    EXPECT_TRUE(result.value().matches[0].empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SingleVertexFindsAllDataVertices) {
+    // Pattern: single vertex "u" - should match every data vertex reachable from A
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // The test graph has vertices A,B,C,D - all should be matched
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        EXPECT_EQ(m.size(), 1u);
+        EXPECT_TRUE(m.count("u"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EdgePatternFindsDirectEdges) {
+    // Pattern: u -> v; should match A->B, A->C, B->C, C->D
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u") && m.count("v"));
+        const std::string& mu = m.at("u");
+        const std::string& mv = m.at("v");
+        // Verify injective: both mapped to different data vertices
+        EXPECT_NE(mu, mv);
+        // Verify edge exists in test graph
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mu);
+        ASSERT_TRUE(st.ok);
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ChainPatternMatchesPath) {
+    // Pattern: p -> q -> r; must match A->B->C and A->C->D and B->C->D
+    std::vector<std::string> verts = {"p", "q", "r"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"p", "q"}, {"q", "r"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_GE(result.value().matches.size(), 1u);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 3u);
+        // Verify chain structure in data graph
+        auto [st1, n1] = graph_mgr_->outNeighbors(m.at("p"));
+        ASSERT_TRUE(st1.ok);
+        EXPECT_NE(std::find(n1.begin(), n1.end(), m.at("q")), n1.end());
+        auto [st2, n2] = graph_mgr_->outNeighbors(m.at("q"));
+        ASSERT_TRUE(st2.ok);
+        EXPECT_NE(std::find(n2.begin(), n2.end(), m.at("r")), n2.end());
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_MaxResultsLimitsMatches) {
+    // Pattern with many matches; limit results
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.max_results = 1;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    EXPECT_LE(result.value().matches.size(), 1u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ForbiddenVertexExcludesIt) {
+    // Pattern: single vertex "u"; B is forbidden -> B must not appear in matches
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.forbidden_vertices = {"B"};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, c);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        EXPECT_NE(m.at("u"), "B");
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_InjectiveNoReusedDataVertex) {
+    // Pattern: two disconnected vertices; each data vertex used at most once
+    std::vector<std::string> verts = {"x", "y"};
+    std::vector<std::pair<std::string, std::string>> edges;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    for (const auto& m : result.value().matches) {
+        ASSERT_EQ(m.size(), 2u);
+        EXPECT_NE(m.at("x"), m.at("y"));
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_OptimizePlanSelectsDFS) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    auto plan = optimizer_->optimizePatternMatch(verts, edges);
+    ASSERT_TRUE(plan);
+    EXPECT_EQ(plan.value().pattern,
+              themis::graph::GraphQueryOptimizer::QueryPattern::PATTERN_MATCH);
+    EXPECT_EQ(plan.value().algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_ExecutionStatsPopulated) {
+    std::vector<std::string> verts = {"u", "v"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "v"}};
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_GE(stats.nodes_explored, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternRejectedWhenDataEdgeMissing) {
+    // Pattern: single vertex "u" with a self-loop u -> u.
+    // The test graph (A->B->C->D, A->C) has no self-loop edges, so no match.
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().matches.size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_SelfLoopPatternMatchesWhenEdgeExists) {
+    // Add a self-loop on vertex "S" to the graph, then verify the pattern matches.
+    themis::BaseEntity self_edge("sel1");
+    self_edge.setField("id", "sel1");
+    self_edge.setField("_from", "S");
+    self_edge.setField("_to", "S");
+    graph_mgr_->addEdge(self_edge);
+
+    // Pattern: single vertex with self-loop
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges = {{"u", "u"}};
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges);
+    ASSERT_TRUE(result);
+    // At least "S" must appear as a match
+    bool found_S = false;
+    for (const auto& m : result.value().matches) {
+        if (m.count("u") && m.at("u") == "S") { found_S = true; break; }
+    }
+    EXPECT_TRUE(found_S);
+    // Verify every match vertex actually has a self-loop
+    for (const auto& m : result.value().matches) {
+        ASSERT_TRUE(m.count("u"));
+        const std::string& mv = m.at("u");
+        auto [st, nbrs] = graph_mgr_->outNeighbors(mv);
+        ASSERT_TRUE(st.ok) << "outNeighbors failed for vertex " << mv << ": " << st.message;
+        EXPECT_NE(std::find(nbrs.begin(), nbrs.end(), mv), nbrs.end())
+            << "Match vertex " << mv << " has no self-loop";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne) {
+    // Verify metrics: empty pattern should count as 1 path found (not 0 / failure)
+    std::vector<std::string> verts;
+    std::vector<std::pair<std::string, std::string>> edges;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+    auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(stats.paths_found, 1u);
+// Analytics Module Integration Tests (Issue #1821)
+// ============================================================================
+
+class GraphAnalyticsIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        test_db_path_ = "./data/themis_graph_analytics_integration_test";
+        fs::remove_all(test_db_path_);
+
+        themis::RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        config.memtable_size_mb = 64;
+        config.block_cache_size_mb = 256;
+        config.max_background_jobs = 2;
+        config.compression_default = "lz4";
+        config.compression_bottommost = "zstd";
+
+        db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
+        graph_mgr_  = std::make_unique<themis::GraphIndexManager>(*db_);
+        optimizer_  = std::make_unique<themis::graph::GraphQueryOptimizer>(*graph_mgr_);
+        analytics_  = std::make_unique<themis::GraphAnalytics>(*graph_mgr_);
+
+        // Graph: A -> B -> C -> D, also A -> C
+        auto addEdge = [&](const std::string& id,
+                           const std::string& from,
+                           const std::string& to,
+                           double weight = 1.0) {
+            themis::BaseEntity e(id);
+            e.setField("id", id);
+            e.setField("_from", from);
+            e.setField("_to", to);
+            e.setField("_weight", std::to_string(weight));
+            graph_mgr_->addEdge(e);
+        };
+        addEdge("e1", "A", "B", 1.0);
+        addEdge("e2", "B", "C", 1.0);
+        addEdge("e3", "C", "D", 1.0);
+        addEdge("e4", "A", "C", 2.0);
+    }
+
+    void TearDown() override {
+        analytics_.reset();
+        optimizer_.reset();
+        graph_mgr_.reset();
+        db_.reset();
+        fs::remove_all(test_db_path_);
+    }
+
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::GraphIndexManager> graph_mgr_;
+    std::unique_ptr<themis::graph::GraphQueryOptimizer> optimizer_;
+    std::unique_ptr<themis::GraphAnalytics> analytics_;
+};
+
+TEST_F(GraphAnalyticsIntegrationTest, AttachDetach_HasAnalyticsReflectsState) {
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+
+    optimizer_->attachAnalytics(*analytics_);
+    EXPECT_TRUE(optimizer_->hasAnalytics());
+
+    optimizer_->detachAnalytics();
+    EXPECT_FALSE(optimizer_->hasAnalytics());
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_WithoutAnalytics_ReturnsError) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_InvalidK_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 0, c);
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(),
+              themis::errors::ErrorCode::ERR_QUERY_INVALID_INPUT);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_FindsPathsViaAnalytics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c);
+    ASSERT_TRUE(result.has_value()) << (result ? "" : result.error().message());
+
+    const auto& paths = result.value();
+    EXPECT_GE(paths.size(), 1u);
+
+    // All returned paths must start at A and end at D
+    for (const auto& path : paths) {
+        ASSERT_FALSE(path.vertices.empty());
+        EXPECT_EQ(path.vertices.front(), "A");
+        EXPECT_EQ(path.vertices.back(),  "D");
+        EXPECT_GT(path.hop_count, 0);
+    }
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_ReturnsAtMostKPaths) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 3, c);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_LE(result.value().size(), 3u);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_PopulatesExecutionStats) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::ExecutionStats stats;
+
+    auto result = optimizer_->executeKShortestPaths("A", "D", 2, c, "", &stats);
+    ASSERT_TRUE(result.has_value());
+
+    EXPECT_GE(stats.paths_found, 1u);
+    EXPECT_GE(stats.execution_time_ms, 0.0);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_UpdatesQueryMetrics) {
+    optimizer_->attachAnalytics(*analytics_);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+
+    const auto queries_before =
+        optimizer_->getQueryMetrics().total_queries.load();
+
+    optimizer_->executeKShortestPaths("A", "D", 1, c);
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().total_queries.load(),
+              queries_before + 1);
+}
+
+TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_AfterDetach_ReturnsError) {
+    optimizer_->attachAnalytics(*analytics_);
+    optimizer_->detachAnalytics();
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeKShortestPaths("A", "D", 1, c);
+    EXPECT_FALSE(result.has_value());
 }

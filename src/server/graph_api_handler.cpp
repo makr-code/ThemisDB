@@ -266,6 +266,7 @@ http::response<http::string_body> GraphApiHandler::handleMetrics(
         {"total_edges_traversed",   m.total_edges_traversed.load(std::memory_order_relaxed)},
         {"plan_cache_hits",         m.plan_cache_hits.load(std::memory_order_relaxed)},
         {"plan_cache_misses",       m.plan_cache_misses.load(std::memory_order_relaxed)},
+        {"plan_cache_evictions",    m.plan_cache_evictions.load(std::memory_order_relaxed)},
         {"error_rate",              m.errorRate()}
     };
 
@@ -332,6 +333,9 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     counter("themis_graph_plan_cache_misses_total",
             "Plan-cache miss count",
             m.plan_cache_misses.load(std::memory_order_relaxed));
+    counter("themis_graph_plan_cache_evictions_total",
+            "Plan-cache entries evicted by LRU or TTL policy",
+            m.plan_cache_evictions.load(std::memory_order_relaxed));
     gauge("themis_graph_query_error_rate",
           "Fraction of graph queries that failed (0.0–1.0)",
           m.errorRate());

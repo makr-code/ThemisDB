@@ -241,6 +241,7 @@ TEST_F(STFunctionsTest, ST_AsGeoJSON_GeometryCollection) {
     EXPECT_EQ(parsed["geometries"].size(), 2);
 }
 
+TEST_F(STFunctionsTest, ST_AsText_Point2D) {
 
     json point = {
         {"type", "Point"},
@@ -300,7 +301,6 @@ TEST_F(STFunctionsTest, ST_AsText_InvalidGeometry) {
     
     EXPECT_TRUE(result.is_null());
 }
-
 // ============================================================================
 // PREDICATES (3/3)
 // ============================================================================
