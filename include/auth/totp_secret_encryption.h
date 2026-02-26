@@ -26,6 +26,7 @@
 #include <vector>
 #include <optional>
 #include <memory>
+#include <map>
 #include <chrono>
 
 namespace themis {

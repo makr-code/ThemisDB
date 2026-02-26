@@ -412,7 +412,7 @@ TEST_F(RegressionTest, R2AboveThreshold) {
 // Progress callback
 // ============================================================================
 
-TEST(ProgressCallbackTest, CallbackInvoked) {
+TEST(AutoMLProgressCallbackTest, CallbackInvoked) {
     auto data = makeBinaryData(60);
     AutoML automl;
     AutoMLConfig cfg = fastConfig("label");

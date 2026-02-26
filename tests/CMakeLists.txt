@@ -372,6 +372,24 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU profiler test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUProfiler (NVTX/rocTX range markers, Chrome trace
+# JSON export for ROCm profiler) and GPUMetrics::rocm_profiler_export().
+# It exercises only the CPU-side fallback path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_profiler.cpp
+    )
+endif()
+
+# Re-include the GPU cluster topology test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUClusterTopology
+# (NVLink / InfiniBand topology detection) and GPUClusterCoordinator
+# (multi-node cluster coordination).  It uses only the CPU-side bookkeeping
+# simulation path and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_cluster_topology.cpp
 # Re-include the GPU stream manager test excluded by the two overlapping patterns
 # ".*test_gpu_stream_manager\.cpp$" and ".*test_gpu_.*\.cpp$".
 # This test validates GPUStreamManager stream lifecycle, work submission,
@@ -513,6 +531,8 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/server/merge_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/security/query_masking_policy.cpp
             ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
@@ -911,6 +931,47 @@ else()
 endif()
 
 # ============================================================================
+# Graph Query Optimizer Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+    message(STATUS "Adding Graph Query Optimizer tests")
+
+    add_executable(test_graph_query_optimizer
+        test_graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_query_optimizer PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_query_optimizer PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphQueryOptimizerTests COMMAND test_graph_query_optimizer)
+
+    set_tests_properties(GraphQueryOptimizerTests PROPERTIES
+        LABELS "graph;optimizer;query;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
+else()
+    message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
@@ -1030,6 +1091,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
 
     add_executable(test_themisdb_grpc_service
         test_themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/api/themisdb_grpc_service.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_themisdb_grpc_service PRIVATE
@@ -1240,6 +1303,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
 
     add_executable(test_cache_replication
         test_cache_replication.cpp
+        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_cache_replication PRIVATE

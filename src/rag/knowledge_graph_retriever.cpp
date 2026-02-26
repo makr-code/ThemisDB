@@ -118,6 +118,8 @@ struct KnowledgeGraph::Impl {
 
 KnowledgeGraph::KnowledgeGraph()  : impl_(std::make_unique<Impl>()) {}
 KnowledgeGraph::~KnowledgeGraph() = default;
+KnowledgeGraph::KnowledgeGraph(KnowledgeGraph&&) = default;
+KnowledgeGraph& KnowledgeGraph::operator=(KnowledgeGraph&&) = default;
 
 void KnowledgeGraph::addNode(KGNode node) {
     std::lock_guard<std::mutex> lk(impl_->mtx);

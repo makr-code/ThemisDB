@@ -21,6 +21,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <cstring>
 #include <spdlog/spdlog.h>
 
 // Apache Arrow integration (optional)
@@ -37,18 +38,58 @@ namespace analytics {
 
 #ifdef THEMIS_HAS_ARROW
 /**
- * @brief Convert ArrowRecordBatch to Apache Arrow RecordBatch
+ * @brief Build an Arrow validity bitmap from the column's null_bitmap.
+ *
+ * Arrow convention: bit i = 1 means valid (non-null), bit i = 0 means null.
+ * Our null_bitmap stores the opposite (true = null).
+ *
+ * Returns nullptr when there are no nulls, which is the common case and
+ * allows Arrow to skip allocating a validity buffer entirely.
+ */
+static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(
+    const ArrowRecordBatch::Column& col, int64_t length) {
+
+    bool has_nulls = false;
+    for (bool is_null : col.null_bitmap) {
+        if (is_null) { has_nulls = true; break; }
+    }
+    if (!has_nulls) {
+        return nullptr;  // All values valid; Arrow treats nullptr as all-valid
+    }
+
+    ARROW_ASSIGN_OR_RAISE(auto bitmap, arrow::AllocateBitmap(length));
+    uint8_t* raw = bitmap->mutable_data();
+    // Initialise to all-valid (all bits = 1)
+    std::memset(raw, 0xFF, static_cast<size_t>(bitmap->size()));
+    // Clear bits for null positions
+    for (int64_t i = 0; i < length; ++i) {
+        if (col.null_bitmap[static_cast<size_t>(i)]) {
+            raw[i / 8] &= static_cast<uint8_t>(~(uint8_t(1) << (i % 8)));
+        }
+    }
+    return bitmap;
+}
+
+/**
+ * @brief Convert ArrowRecordBatch to Apache Arrow RecordBatch using
+ *        zero-copy optimizations for numeric column types.
+ *
+ * INT64, DOUBLE, and TIMESTAMP columns are transferred without copying the
+ * underlying data by wrapping the contiguous typed buffers maintained by
+ * ArrowRecordBatch with arrow::Buffer::Wrap().  STRING and BOOLEAN columns
+ * still use Arrow builders because their data is not stored contiguously.
  */
 static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBatch(
     const ArrowRecordBatch& batch) {
-    
+
     // Build schema
     std::vector<std::shared_ptr<arrow::Field>> fields;
     const auto& columns = batch.getColumns();
-    
+    const int64_t num_rows = static_cast<int64_t>(batch.rowCount());
+
     for (const auto& col : columns) {
         std::shared_ptr<arrow::DataType> arrow_type;
-        
+
         switch (col.schema.type) {
             case ArrowRecordBatch::DataType::INT64:
                 arrow_type = arrow::int64();
@@ -68,44 +109,50 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
             default:
                 return arrow::Status::TypeError("Unsupported data type");
         }
-        
+
         fields.push_back(arrow::field(col.schema.name, arrow_type, col.schema.nullable));
     }
-    
+
     auto schema = arrow::schema(fields);
-    
-    // Build arrays
+
+    // Build arrays – zero-copy for numeric types, builder-based for others
     std::vector<std::shared_ptr<arrow::Array>> arrays;
-    
-    for (const auto& col : columns) {
+
+    for (size_t col_idx = 0; col_idx < columns.size(); ++col_idx) {
+        const auto& col = columns[col_idx];
         std::shared_ptr<arrow::Array> array;
-        
+
         switch (col.schema.type) {
             case ArrowRecordBatch::DataType::INT64: {
-                arrow::Int64Builder builder;
-                for (size_t i = 0; i < col.data.size(); ++i) {
-                    if (col.null_bitmap[i]) {
-                        ARROW_RETURN_NOT_OK(builder.AppendNull());
-                    } else {
-                        ARROW_RETURN_NOT_OK(builder.Append(std::get<int64_t>(col.data[i])));
-                    }
-                }
-                ARROW_RETURN_NOT_OK(builder.Finish(&array));
+                // Zero-copy: wrap the contiguous int64 buffer
+                ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
+                auto data_buf = arrow::Buffer::Wrap(
+                    batch.getInt64Data(col_idx), num_rows);
+                array = std::make_shared<arrow::Int64Array>(
+                    num_rows, data_buf, validity);
                 break;
             }
             case ArrowRecordBatch::DataType::DOUBLE: {
-                arrow::DoubleBuilder builder;
-                for (size_t i = 0; i < col.data.size(); ++i) {
-                    if (col.null_bitmap[i]) {
-                        ARROW_RETURN_NOT_OK(builder.AppendNull());
-                    } else {
-                        ARROW_RETURN_NOT_OK(builder.Append(std::get<double>(col.data[i])));
-                    }
-                }
-                ARROW_RETURN_NOT_OK(builder.Finish(&array));
+                // Zero-copy: wrap the contiguous double buffer
+                ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
+                auto data_buf = arrow::Buffer::Wrap(
+                    batch.getDoubleData(col_idx), num_rows);
+                array = std::make_shared<arrow::DoubleArray>(
+                    num_rows, data_buf, validity);
+                break;
+            }
+            case ArrowRecordBatch::DataType::TIMESTAMP: {
+                // Zero-copy: wrap the contiguous int64 buffer
+                ARROW_ASSIGN_OR_RAISE(auto validity, buildValidityBitmap(col, num_rows));
+                auto data_buf = arrow::Buffer::Wrap(
+                    batch.getInt64Data(col_idx), num_rows);
+                array = std::make_shared<arrow::TimestampArray>(
+                    arrow::timestamp(arrow::TimeUnit::MILLI),
+                    num_rows, data_buf, validity);
                 break;
             }
             case ArrowRecordBatch::DataType::STRING: {
+                // Strings are stored as variants; use builder (no contiguous buffer)
                 arrow::StringBuilder builder;
                 for (size_t i = 0; i < col.data.size(); ++i) {
                     if (col.null_bitmap[i]) {
@@ -118,6 +165,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 break;
             }
             case ArrowRecordBatch::DataType::BOOLEAN: {
+                // Booleans are stored as variants; use builder (no contiguous buffer)
                 arrow::BooleanBuilder builder;
                 for (size_t i = 0; i < col.data.size(); ++i) {
                     if (col.null_bitmap[i]) {
@@ -129,24 +177,12 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 ARROW_RETURN_NOT_OK(builder.Finish(&array));
                 break;
             }
-            case ArrowRecordBatch::DataType::TIMESTAMP: {
-                arrow::TimestampBuilder builder(arrow::timestamp(arrow::TimeUnit::MILLI), arrow::default_memory_pool());
-                for (size_t i = 0; i < col.data.size(); ++i) {
-                    if (col.null_bitmap[i]) {
-                        ARROW_RETURN_NOT_OK(builder.AppendNull());
-                    } else {
-                        ARROW_RETURN_NOT_OK(builder.Append(std::get<int64_t>(col.data[i])));
-                    }
-                }
-                ARROW_RETURN_NOT_OK(builder.Finish(&array));
-                break;
-            }
         }
-        
+
         arrays.push_back(array);
     }
-    
-    return arrow::RecordBatch::Make(schema, batch.rowCount(), arrays);
+
+    return arrow::RecordBatch::Make(schema, num_rows, arrays);
 }
 #endif // THEMIS_HAS_ARROW
 

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:20                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-26 05:15:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
     • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
     • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 63a6e0d65  2026-02-21  Update ROADMAPs across multiple components with issue tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,12 +27,16 @@
 #pragma once
 
 #include "index/graph_index.h"
+#include "query/result_stream.h"
+#include "index/graph_analytics.h"
 #include "utils/expected.h"
 #include <string>
 #include <vector>
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <unordered_set>
+#include <list>
 #include <functional>
 #include <atomic>
 #include <chrono>
@@ -94,6 +98,12 @@ public:
         // Edge type statistics
         std::unordered_map<std::string, size_t> edge_type_counts;
         std::unordered_map<std::string, double> edge_type_selectivity;
+
+        // Node label statistics for schema-aware cost estimation.
+        // node_label_counts["Person"] = number of nodes with label "Person".
+        // node_label_selectivity["Person"] = fraction of all nodes with that label [0,1].
+        std::unordered_map<std::string, size_t> node_label_counts;
+        std::unordered_map<std::string, double> node_label_selectivity;
     };
 
     /**
@@ -118,6 +128,30 @@ public:
         /// Maximum worker threads for parallel BFS (0 = use hardware_concurrency/2,
         /// clamped to [2, 16]).  Ignored when enable_parallel = false.
         uint32_t num_threads = 0;
+
+        // -----------------------------------------------------------------------
+        // Property-graph schema-aware optimizer hints
+        // -----------------------------------------------------------------------
+
+        /// Node label hints: only traverse (and include in results) nodes that
+        /// carry at least one of these labels.  Labels are matched against the
+        /// comma-separated "_labels" field stored on each node entity by
+        /// PropertyGraphManager.  OR semantics – a node is kept when it has ANY
+        /// of the listed labels.  Empty = no label filtering (default).
+        std::vector<std::string> node_labels;
+
+        /// Edge type exclusions: during cost estimation these type strings are
+        /// subtracted from the effective edge fanout, reducing the estimated
+        /// search space.  Types are matched against the "_type" field of edge
+        /// entities.  Empty = no type exclusions (default).
+        std::vector<std::string> excluded_edge_types;
+        /// When true, route BFS/DFS through the GPU-accelerated traversal path
+        /// (GPUGraphTraversal) for large graphs.  Automatically falls back to
+        /// the CPU path when no GPU hardware is available or when the graph is
+        /// smaller than GPUGraphTraversal::Config::min_vertices_for_gpu.
+        bool use_gpu = false;
+        /// GPU device index (0-based) used when use_gpu = true.
+        int gpu_device = 0;
         
         QueryConstraints() = default;
     };
@@ -138,6 +172,7 @@ public:
         std::atomic<uint64_t> total_edges_traversed{0};
         std::atomic<uint64_t> plan_cache_hits{0};
         std::atomic<uint64_t> plan_cache_misses{0};
+        std::atomic<uint64_t> plan_cache_evictions{0};
 
         /**
          * @brief Fixed-bucket latency histogram for percentile computation.
@@ -278,6 +313,17 @@ public:
         
         // Alternative plans considered
         std::vector<std::pair<TraversalAlgorithm, double>> alternatives;
+
+        /// Human-readable descriptions of active schema hints (node labels,
+        /// excluded edge types, etc.) that influenced cost estimation and
+        /// algorithm selection.  Populated during plan construction; empty when
+        /// no schema hints are provided.
+        std::vector<std::string> active_schema_hints;
+        // Shard-aware plan fields (v1.8.0) – backward-compatible:
+        // empty / false for single-node execution.
+        bool is_distributed = false;               ///< True when query spans >1 shard
+        std::vector<std::string> shard_ids;        ///< Participating shard IDs (empty = single-node)
+        size_t recommended_parallelism = 1;        ///< Fan-out parallelism across shards
     };
 
     /**
@@ -295,6 +341,139 @@ public:
         size_t cache_misses = 0;
         /// Algorithm that produced this execution; used by the adaptive cost model.
         TraversalAlgorithm algorithm = TraversalAlgorithm::BFS;
+    };
+
+    // -----------------------------------------------------------------------
+    // Incremental Graph Query Execution (v1.9.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Represents an atomic set of graph changes (edge/vertex additions
+     *        and removals) that can be applied to trigger incremental query
+     *        re-execution.
+     */
+    struct GraphChangeSet {
+        enum class ChangeType {
+            EDGE_ADDED,
+            EDGE_REMOVED,
+            VERTEX_ADDED,
+            VERTEX_REMOVED
+        };
+
+        struct Change {
+            ChangeType type;
+            std::string id;    ///< Edge ID or vertex ID
+            std::string from;  ///< Source vertex (EDGE_ADDED / EDGE_REMOVED only)
+            std::string to;    ///< Target vertex (EDGE_ADDED / EDGE_REMOVED only)
+        };
+
+        std::vector<Change> changes;
+
+        void addEdgeAdded(std::string id, std::string from, std::string to) {
+            changes.push_back({ChangeType::EDGE_ADDED, std::move(id),
+                               std::move(from), std::move(to)});
+        }
+        void addEdgeRemoved(std::string id, std::string from, std::string to) {
+            changes.push_back({ChangeType::EDGE_REMOVED, std::move(id),
+                               std::move(from), std::move(to)});
+        }
+        void addVertexAdded(std::string id) {
+            changes.push_back({ChangeType::VERTEX_ADDED, std::move(id), {}, {}});
+        }
+        void addVertexRemoved(std::string id) {
+            changes.push_back({ChangeType::VERTEX_REMOVED, std::move(id), {}, {}});
+        }
+        bool empty() const { return changes.empty(); }
+        size_t size() const { return changes.size(); }
+    };
+
+    /**
+     * @brief Result of an incremental query re-execution: the delta between
+     *        the previous result set and the newly computed result set.
+     */
+    struct IncrementalQueryResult {
+        std::vector<std::string> added;    ///< Vertices newly reachable after the change
+        std::vector<std::string> removed;  ///< Vertices no longer reachable after the change
+        std::vector<std::string> current;  ///< Complete current result set
+        bool reexecuted = false;           ///< True if the query was actually re-executed
+        ExecutionStats stats;              ///< Execution statistics of the re-execution
+    };
+
+    /// Opaque handle returned by registerIncrementalBFS(); use it to unregister.
+    using IncrementalQueryHandle = uint64_t;
+
+    /// Callback invoked for each registered query whenever the graph changes
+    /// and the query result is affected.
+    using IncrementalQueryCallback = std::function<void(const IncrementalQueryResult&)>;
+
+    /**
+     * @brief Register a BFS query for incremental re-execution on graph changes.
+     *
+     * Executes the BFS query immediately to capture the initial result set,
+     * then stores the query so that subsequent calls to `onGraphChange()` can
+     * re-execute it when the affected portion of the graph changes.
+     *
+     * The registered callback receives an `IncrementalQueryResult` that contains:
+     * - `added`: vertices newly reachable after the change
+     * - `removed`: vertices no longer reachable after the change
+     * - `current`: the complete updated result set
+     *
+     * @param start_vertex Starting vertex for BFS traversal
+     * @param max_depth    Maximum BFS depth
+     * @param constraints  Query constraints (edge type, forbidden vertices, etc.)
+     * @param callback     Called each time the query result changes
+     * @return Handle that can be passed to `unregisterIncrementalQuery()`
+     */
+    IncrementalQueryHandle registerIncrementalBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints,
+        IncrementalQueryCallback callback);
+
+    /**
+     * @brief Unregister a previously registered incremental query.
+     *
+     * After this call the callback will never be invoked again, even if
+     * `onGraphChange()` is called with relevant changes.
+     *
+     * @param handle Handle returned by `registerIncrementalBFS()`
+     */
+    void unregisterIncrementalQuery(IncrementalQueryHandle handle);
+
+    /**
+     * @brief Notify the optimizer that the graph has changed.
+     *
+     * For each registered incremental query whose result might be affected by
+     * the supplied changes, the query is re-executed and its callback is invoked
+     * with the delta (`added` / `removed` vertices and the complete `current`
+     * result set).
+     *
+     * A query is considered affected when:
+     * - Any changed vertex (or edge endpoint) appears in its previous result set, or
+     * - The query's start vertex is directly affected by a vertex change.
+     *
+     * Queries whose previous result set is completely disjoint from the changed
+     * vertices are skipped to avoid unnecessary re-execution.
+     *
+     * @param changes Set of graph changes (edge/vertex additions and removals)
+     * @return Number of registered queries that were re-executed
+     */
+    size_t onGraphChange(const GraphChangeSet& changes);
+    /**
+     * @brief Result of a subgraph isomorphism (pattern matching) query.
+     *
+     * Each element of `matches` is a mapping from pattern vertex label to the
+     * actual vertex ID that was matched in the data graph.  For example, if the
+     * pattern has vertices {"u", "v"} and the match maps u→"A", v→"B", the
+     * corresponding entry is {{"u","A"}, {"v","B"}}.
+     */
+    struct SubgraphIsomorphismResult {
+        /// All mappings pattern_vertex → data_vertex found in the graph.
+        std::vector<std::unordered_map<std::string, std::string>> matches;
+        /// Number of (pattern_vertex, data_vertex) candidate pairs evaluated.
+        size_t candidate_pairs_checked = 0;
+        /// Total execution time in milliseconds.
+        double execution_time_ms = 0.0;
     };
 
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
@@ -386,6 +565,48 @@ public:
     );
 
     /**
+     * @brief Stream BFS traversal results for large path sets.
+     *
+     * Executes BFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum BFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamBFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints = {},
+        query::StreamConfig stream_config = {}
+    );
+
+    /**
+     * @brief Stream DFS traversal results for large path sets.
+     *
+     * Executes DFS from `start_vertex` up to `max_depth` hops and returns
+     * the discovered vertices as a lazy `ResultStream`.  Consumers can page
+     * through the result set in configurable batches without loading all
+     * vertices into memory at once.
+     *
+     * @param start_vertex  Starting vertex for the traversal
+     * @param max_depth     Maximum DFS depth (inclusive)
+     * @param constraints   Query constraints (timeout, forbidden vertices, …)
+     * @param stream_config Stream batch / buffer configuration
+     * @return Streaming iterator over discovered vertex IDs, or an error
+     */
+    Result<std::shared_ptr<query::ResultStream<std::string>>> streamDFS(
+        std::string_view start_vertex,
+        int max_depth,
+        const QueryConstraints& constraints = {},
+        query::StreamConfig stream_config = {}
+    );
+
+    /**
      * Execute optimized A* search
      */
     Result<GraphIndexManager::PathResult> executeAStar(
@@ -407,6 +628,38 @@ public:
     );
 
     /**
+     * @brief Execute a subgraph isomorphism (pattern matching) query.
+     *
+     * Finds all injective mappings from the pattern graph onto subgraphs of the
+     * data graph.  The algorithm is a VF2-style recursive backtracking search:
+     *
+     *  1. The pattern is described by a list of vertex labels and directed edges
+     *     (pairs of labels).
+     *  2. For each candidate extension (pattern_vertex → data_vertex), the method
+     *     checks structural feasibility: every edge in the pattern that connects
+     *     already-mapped vertices must be present in the data graph.
+     *  3. The mapping is injective: each data vertex may appear at most once.
+     *
+     * Constraints supported via `QueryConstraints`:
+     *  - `timeout_ms`: abort and return partial results after the given deadline.
+     *  - `max_results`: stop after the first N matches are found.
+     *  - `forbidden_vertices`: data vertices that must not appear in any match.
+     *
+     * @param pattern_vertices  Ordered list of vertex labels in the pattern graph.
+     * @param pattern_edges     Directed edges as (source_label, target_label) pairs.
+     * @param constraints       Optional execution constraints.
+     * @param stats             Optional output execution statistics.
+     * @return SubgraphIsomorphismResult containing all matches, or an error if the
+     *         query timed out before the first result could be produced.
+     */
+    Result<SubgraphIsomorphismResult> executeSubgraphIsomorphism(
+        const std::vector<std::string>& pattern_vertices,
+        const std::vector<std::pair<std::string, std::string>>& pattern_edges,
+        const QueryConstraints& constraints = QueryConstraints{},
+        ExecutionStats* stats = nullptr
+    );
+
+    /**
      * Collect and update graph statistics
      */
     Result<GraphStatistics> collectStatistics(
@@ -417,6 +670,19 @@ public:
      * Get current graph statistics
      */
     const GraphStatistics& getStatistics() const { return statistics_; }
+
+    /**
+     * @brief Provide per-label node counts for schema-aware cost estimation.
+     *
+     * Callers may supply label statistics obtained from PropertyGraphManager
+     * (e.g. via `getNodesByLabel`) so that the optimizer can apply label
+     * selectivity when `QueryConstraints::node_labels` is set.
+     *
+     * @param label_counts Map from label string to absolute node count with that label.
+     *                     The optimizer derives selectivity automatically using the
+     *                     current `statistics_.vertex_count`.
+     */
+    void setNodeLabelStats(const std::unordered_map<std::string, size_t>& label_counts);
 
     /**
      * Estimate selectivity for edge type
@@ -432,6 +698,31 @@ public:
      * Enable/disable plan caching
      */
     void setPlanCachingEnabled(bool enabled) { plan_caching_enabled_ = enabled; }
+
+    /**
+     * Set the maximum number of entries in the plan cache (LRU eviction).
+     * When the cache reaches this limit, the least recently used entry is
+     * evicted before a new one is inserted.  Set to 0 for unlimited size.
+     * Default: 0 (unlimited).
+     */
+    void setPlanCacheMaxSize(size_t max_size) { plan_cache_max_size_ = max_size; }
+
+    /// Returns the configured maximum cache size (0 = unlimited).
+    size_t getPlanCacheMaxSize() const { return plan_cache_max_size_; }
+
+    /**
+     * Set the time-to-live for plan cache entries.
+     * Cached entries older than `ttl` are treated as expired on the next lookup
+     * and will be evicted lazily.  Set to zero duration to disable TTL.
+     * Default: 0 (no TTL).
+     */
+    void setPlanCacheTTL(std::chrono::milliseconds ttl) { plan_cache_ttl_ = ttl; }
+
+    /// Returns the configured TTL (zero = no TTL expiry).
+    std::chrono::milliseconds getPlanCacheTTL() const { return plan_cache_ttl_; }
+
+    /// Returns the current number of entries in the plan cache.
+    size_t getPlanCacheSize() const { return plan_cache_.size(); }
 
     /**
      * Clear plan cache
@@ -530,6 +821,68 @@ public:
         getAlgorithmCostModels() const { return algo_cost_models_; }
 
     // -----------------------------------------------------------------------
+    // Cost Model Calibration from Execution History (v1.8.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Per-algorithm statistics derived from execution history.
+     */
+    struct AlgorithmCalibrationStats {
+        double mean_execution_ms  = 0.0;  ///< Mean actual execution time (ms)
+        double stddev_execution_ms = 0.0; ///< Standard deviation of execution times (ms)
+        double min_execution_ms   = 0.0;  ///< Minimum observed execution time (ms)
+        double max_execution_ms   = 0.0;  ///< Maximum observed execution time (ms)
+        size_t sample_count       = 0;    ///< Number of observations used
+    };
+
+    /**
+     * @brief Report produced by calibrateFromHistory().
+     *
+     * Contains per-algorithm statistics derived from the full execution
+     * history, and summary counts of how many algorithm models were updated.
+     */
+    struct CostModelCalibrationReport {
+        /// Per-algorithm statistics from the execution history.
+        std::unordered_map<TraversalAlgorithm,
+                           AlgorithmCalibrationStats,
+                           std::hash<TraversalAlgorithm>> algorithm_stats;
+
+        size_t total_samples         = 0;  ///< Total execution records analysed
+        size_t algorithms_calibrated = 0;  ///< Number of algorithm models re-seeded
+    };
+
+    /**
+     * @brief Recalibrate per-algorithm cost models from the full execution history.
+     *
+     * Unlike the incremental EMA update performed by `recordExecution()`, this
+     * method performs a **batch recalibration**: it groups all entries in the
+     * execution history by algorithm, computes the statistical mean, standard
+     * deviation, min and max of actual execution times, and re-seeds the EMA
+     * cost model for each algorithm that has at least
+     * `MIN_CALIBRATION_SAMPLES` observations.
+     *
+     * Re-seeding replaces `ema_cost_ms` with the historical mean and resets
+     * the confidence to `min(1.0, sample_count / MAX_CONF_OBS)` so the model
+     * immediately reflects the measured behaviour rather than waiting for the
+     * EMA to converge.
+     *
+     * Algorithms with fewer than `MIN_CALIBRATION_SAMPLES` observations are
+     * left unchanged (they appear in the report with `sample_count < threshold`
+     * but `algorithms_calibrated` is not incremented for them).
+     *
+     * @note Has no effect when `adaptive_learning_enabled_` is false; in that
+     *       case the report still contains statistics but no models are updated.
+     *
+     * @return CostModelCalibrationReport with per-algorithm statistics and
+     *         summary counts.
+     */
+    CostModelCalibrationReport calibrateFromHistory();
+
+    /// Minimum number of history samples required before an algorithm's
+    /// cost model is recalibrated by `calibrateFromHistory()`.
+    static constexpr size_t MIN_CALIBRATION_SAMPLES = 5;
+
+    // -----------------------------------------------------------------------
     // Query Rate Limiter (v1.7.0)
     // -----------------------------------------------------------------------
 
@@ -588,13 +941,101 @@ public:
         const class PathConstraints& constraints
     );
 
+    // -----------------------------------------------------------------------
+    // Analytics Module Integration (Issue #1821)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Attach a GraphAnalytics instance to enable algorithm reuse.
+     *
+     * When an analytics instance is attached, the optimizer can delegate
+     * complex analytics operations (e.g., k-shortest paths via Yen's
+     * algorithm) to the analytics module instead of re-implementing them.
+     * The caller retains ownership; the pointer must remain valid for the
+     * lifetime of this optimizer or until `detachAnalytics()` is called.
+     *
+     * @param analytics Reference to a GraphAnalytics instance.
+     */
+    void attachAnalytics(GraphAnalytics& analytics);
+
+    /**
+     * @brief Detach the previously attached analytics instance.
+     *
+     * After calling this, `executeKShortestPaths` will return an error
+     * until a new analytics instance is attached.
+     */
+    void detachAnalytics();
+
+    /**
+     * @brief Returns true if an analytics instance is currently attached.
+     */
+    bool hasAnalytics() const { return analytics_ != nullptr; }
+
+    /**
+     * @brief Execute K-Shortest Paths using the attached analytics module.
+     *
+     * Delegates to `GraphAnalytics::kShortestPaths` (Yen's algorithm) to
+     * find the `k` shortest loopless paths from `source` to `target`.
+     * This avoids duplicating the Yen's algorithm implementation inside the
+     * query optimizer and reuses the production-tested analytics code.
+     *
+     * Execution statistics are recorded so the adaptive cost model learns
+     * from k-shortest-paths workloads.
+     *
+     * @param source      Source vertex primary key.
+     * @param target      Target vertex primary key.
+     * @param k           Number of shortest paths to return (must be > 0).
+     * @param constraints Query constraints; `timeout_ms` and rate limiting apply.
+     * @param weight_attr Optional edge weight attribute name (empty = default `_weight`).
+     * @param stats       Optional output parameter for execution statistics.
+     * @return Vector of PathInfo results (at most k paths), or an error.
+     *         Returns ERR_GRAPH_PATH_NOT_FOUND if no path exists.
+     */
+    Result<std::vector<GraphAnalytics::PathInfo>> executeKShortestPaths(
+        std::string_view source,
+        std::string_view target,
+        int k,
+        const QueryConstraints& constraints,
+        std::string_view weight_attr = "",
+        ExecutionStats* stats = nullptr
+    );
+
 private:
+    // Pointer to an optional analytics instance for algorithm reuse (not owned).
+    GraphAnalytics* analytics_ = nullptr;
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;
     bool plan_caching_enabled_ = true;
-    
-    // Plan cache: query signature -> plan
-    std::unordered_map<std::string, OptimizationPlan> plan_cache_;
+
+    // -----------------------------------------------------------------------
+    // Plan cache with LRU eviction and TTL expiry
+    // -----------------------------------------------------------------------
+
+    /// A single cache entry: the cached plan plus its insertion timestamp.
+    struct PlanCacheEntry {
+        OptimizationPlan plan;
+        std::chrono::steady_clock::time_point inserted_at;
+    };
+
+    /// Maximum number of cache entries (0 = unlimited).
+    size_t plan_cache_max_size_ = 0;
+
+    /// Per-entry TTL; entries older than this are expired (zero = no expiry).
+    std::chrono::milliseconds plan_cache_ttl_{0};
+
+    /// LRU access-order list: front = most recently used, back = LRU victim.
+    std::list<std::string> plan_cache_lru_;
+
+    /// Plan cache: key → (entry, iterator into lru list).
+    std::unordered_map<std::string,
+                       std::pair<PlanCacheEntry, std::list<std::string>::iterator>>
+        plan_cache_;
+
+    /// Insert or update a plan in the cache, enforcing LRU size limit.
+    void planCacheInsert(const std::string& key, const OptimizationPlan& plan);
+
+    /// Look up a plan in the cache.  Returns nullptr when not found or expired.
+    const OptimizationPlan* planCacheLookup(const std::string& key);
     
     // Execution history for adaptive optimization
     std::vector<ExecutionStats> execution_history_;
@@ -609,6 +1050,23 @@ private:
 
     // Query rate limiter
     QueryRateLimiter rate_limiter_;
+
+    // -----------------------------------------------------------------------
+    // Incremental query execution state
+    // -----------------------------------------------------------------------
+
+    struct IncrementalQueryEntry {
+        IncrementalQueryHandle handle;
+        std::string start_vertex;
+        int max_depth = 0;
+        QueryConstraints constraints;
+        IncrementalQueryCallback callback;
+        /// Previous result set; used to compute added/removed deltas.
+        std::unordered_set<std::string> last_result;
+    };
+
+    std::unordered_map<IncrementalQueryHandle, IncrementalQueryEntry> incremental_queries_;
+    std::atomic<uint64_t> next_incremental_handle_{1};
 
     /**
      * Estimate cost for traversal algorithm

@@ -24,6 +24,7 @@
 
 #include "index/vector_index.h"
 #include "index/advanced_vector_index.h"
+#include "index/ann_index.h"
 #include "index/rotary_embeddings.h"
 #include "index/product_quantizer.h"
 #include "index/secondary_index.h"
@@ -107,12 +108,18 @@ VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const Adva
 		           static_cast<int>(config.index_type), config.nlist, config.nprobe, 
 		           config.use_pq, config.use_gpu);
 		
+		// SCANN and DISKANN are pure-C++ backends that do not require FAISS/GPU
+		bool needs_faiss = (config.index_type != AdvancedIndexConfig::Type::SCANN &&
+		                    config.index_type != AdvancedIndexConfig::Type::DISKANN);
 		#ifndef THEMIS_GPU_ENABLED
-		THEMIS_WARN("Advanced vector indexing requires THEMIS_GPU_ENABLED (FAISS support). "
-		            "Falling back to standard HNSW indexing.");
-		advanced_config_.enabled = false;
-		return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
+		if (needs_faiss) {
+			THEMIS_WARN("Advanced vector indexing requires THEMIS_GPU_ENABLED (FAISS support). "
+			            "Falling back to standard HNSW indexing.");
+			advanced_config_.enabled = false;
+			return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
+		}
 		#endif
+		(void)needs_faiss;
 	}
 	
 	return Status::OK();
@@ -249,6 +256,21 @@ VectorIndexManager::Status VectorIndexManager::shutdown() {
 			return status;
 		}
 		THEMIS_INFO("VectorIndexManager::shutdown - Index saved successfully");
+	}
+	// Persist ScaNN / DiskANN backend if a save path is configured
+	if (ann_backend_ && !savePath_.empty()) {
+		try {
+			namespace fs = std::filesystem;
+			fs::create_directories(savePath_);
+			std::string ann_path = savePath_ + "/ann_backend.bin";
+			if (ann_backend_->save(ann_path)) {
+				THEMIS_INFO("ANN backend saved to '{}'", ann_path);
+			} else {
+				THEMIS_WARN("ANN backend save returned false for '{}'", ann_path);
+			}
+		} catch (const std::exception& ex) {
+			THEMIS_WARN("Exception while saving ANN backend: {}", ex.what());
+		}
 	}
 	return Status::OK();
 }
@@ -491,6 +513,63 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	}
 
 	// Initialize Advanced Vector Index if enabled
+	// ScaNN and DiskANN are pure-C++ backends that don't require THEMIS_GPU_ENABLED
+	if (advanced_config_.enabled &&
+	    (advanced_config_.index_type == AdvancedIndexConfig::Type::SCANN ||
+	     advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN)) {
+		try {
+			if (advanced_config_.index_type == AdvancedIndexConfig::Type::SCANN) {
+				index::ScaннConfig scann_cfg;
+				scann_cfg.num_leaves           = advanced_config_.scann_num_leaves;
+				scann_cfg.num_leaves_to_search = advanced_config_.scann_leaves_to_search;
+				scann_cfg.reorder_num_neighbors = advanced_config_.scann_reorder_num_neighbors;
+				scann_cfg.pq_num_subspaces     = advanced_config_.pq_m;
+				scann_cfg.pq_bits_per_subspace = advanced_config_.pq_nbits;
+				ann_backend_ = std::make_unique<index::ScaNN>(scann_cfg);
+				THEMIS_INFO("ScaNN index backend initialized for '{}'", objectName_);
+				// Load persisted index if available
+				if (!savePath_.empty()) {
+					std::string ann_path = savePath_ + "/ann_backend.bin";
+					if (std::filesystem::exists(ann_path)) {
+						if (ann_backend_->load(ann_path)) {
+							THEMIS_INFO("ANN backend loaded from '{}'", ann_path);
+						} else {
+							THEMIS_WARN("ANN backend load failed for '{}', starting fresh", ann_path);
+						}
+					}
+				}
+			}
+#ifdef THEMIS_ENABLE_DISKANN
+			else if (advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN) {
+				if (advanced_config_.diskann_index_path.empty()) {
+					THEMIS_ERROR("DiskANN index_path must be set in AdvancedIndexConfig");
+					advanced_config_.enabled = false;
+					// Fall through to HNSW
+				} else {
+					ann_backend_ = std::make_unique<index::DiskAnnAdapter>(
+					    advanced_config_.diskann_index_path,
+					    advanced_config_.diskann_cache_mb);
+					THEMIS_INFO("DiskANN index backend initialized for '{}' at '{}'",
+					            objectName_, advanced_config_.diskann_index_path);
+				}
+			}
+#else
+			else if (advanced_config_.index_type == AdvancedIndexConfig::Type::DISKANN) {
+				THEMIS_WARN("DiskANN requires THEMIS_ENABLE_DISKANN. Falling back to HNSW.");
+				advanced_config_.enabled = false;
+			}
+#endif
+			if (ann_backend_) {
+				useHnsw_ = false;
+				return Status::OK();
+			}
+		} catch (const std::exception& e) {
+			THEMIS_ERROR("Failed to initialize ANN backend: {}", e.what());
+			ann_backend_.reset();
+			advanced_config_.enabled = false;
+		}
+	}
+
 	#ifdef THEMIS_GPU_ENABLED
 	if (advanced_config_.enabled) {
 		try {
@@ -517,6 +596,10 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 					break;
 				case AdvancedIndexConfig::Type::IVF_HNSW_PQ:
 					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_HNSW_PQ;
+					break;
+				default:
+					// SCANN/DISKANN handled above; should not reach here
+					faiss_config.index_type = AdvancedVectorIndex::Config::Type::IVF_PQ;
 					break;
 			}
 			
@@ -987,6 +1070,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -1054,6 +1150,19 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 		try { appr->addPoint(cache_[pk].data(), id); } catch (...) { /* evtl. schon vorhanden */ }
 	}
 #endif
+	// ScaNN / DiskANN alternative ANN backend
+	if (ann_backend_) {
+		auto it = pkToId_.find(pk);
+		int64_t ann_id;
+		if (it == pkToId_.end()) {
+			ann_id = static_cast<int64_t>(idToPk_.size());
+			pkToId_[pk] = static_cast<size_t>(ann_id);
+			idToPk_.push_back(pk);
+		} else {
+			ann_id = static_cast<int64_t>(it->second);
+		}
+		ann_backend_->add(ann_id, cache_[pk].data(), static_cast<size_t>(dim_));
+	}
 	return Status::OK();
 }
 
@@ -1461,6 +1570,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		}
 	}
 #endif
+	// Alternative ANN backend (ScaNN / DiskANN)
+	if (ann_backend_ && (!whitelist || whitelist->empty())) {
+		std::vector<float> q = query;
+		if (metric_ == Metric::COSINE) normalizeL2(q);
+		auto raw = ann_backend_->search(q.data(), static_cast<size_t>(dim_), static_cast<int>(k));
+		std::vector<Result> out;
+		out.reserve(raw.size());
+		for (const auto& r : raw) {
+			size_t idx = static_cast<size_t>(r.id);
+			if (idx < idToPk_.size()) {
+				out.push_back({idToPk_[idx], r.distance});
+			}
+		}
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann", out.size());
+		return {Status::OK(), std::move(out)};
+	}
+
 	// Fallback oder Whitelist-Fall: Brute-Force
 	auto results = bruteForceSearch_(query, k, whitelist);
 	

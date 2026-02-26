@@ -20,12 +20,12 @@ public:
     std::vector<Alert> sent_alerts;
     std::vector<std::string> resolved_ids;
 
-    Result<void> sendAlert(const Alert& alert) override {
+    themis::Result<void> sendAlert(const Alert& alert) override {
         sent_alerts.push_back(alert);
         return {};
     }
 
-    Result<void> resolveAlert(const std::string& alert_id) override {
+    themis::Result<void> resolveAlert(const std::string& alert_id) override {
         resolved_ids.push_back(alert_id);
         return {};
     }

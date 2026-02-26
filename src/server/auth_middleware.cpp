@@ -66,21 +66,14 @@ void AuthMiddleware::enableKerberos(const auth::KerberosConfig& config) {
                 config.service_principal, config.fallback_to_basic);
 }
 
-void AuthMiddleware::enableMTLS(const auth::MTLSConfig& config) {
+void AuthMiddleware::enableMTLS(const auth::MTLSAuthenticator::Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    mtls_auth_ = std::make_unique<auth::MTLSAuthenticator>();
-
-    if (!mtls_auth_->initialize(config)) {
-        THEMIS_ERROR("Failed to initialize mTLS authentication");
-        mtls_auth_.reset();
-        return;
-    }
+    mtls_auth_ = std::make_unique<auth::MTLSAuthenticator>(config);
 
     mtls_enabled_ = true;
 
-    THEMIS_INFO("mTLS certificate authentication enabled: {} subject mappings",
-                config.subject_mappings.size());
+    THEMIS_INFO("mTLS certificate authentication enabled");
 }
 
 void AuthMiddleware::enableApiKeyAuth(const ApiKeyConfig& config) {
@@ -430,11 +423,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     try {
         auto claims = mtls_auth_->authenticate(std::string(cert_pem));
 
-        THEMIS_INFO("mTLS authentication successful for principal '{}' tenant='{}' roles={}",
-                    claims.principal, claims.tenant_id, claims.roles.size());
+        THEMIS_INFO("mTLS authentication successful for principal '{}' roles={}",
+                claims.principal, claims.roles.size());
 
         metrics_.authz_success_total++;
-        return AuthResult::OK(claims.principal, claims.tenant_id, claims.roles);
+        return AuthResult::OK(claims.principal, "", claims.roles);
 
     } catch (const auth::AuthException& e) {
         THEMIS_WARN("mTLS authentication failed: {}", e.what());

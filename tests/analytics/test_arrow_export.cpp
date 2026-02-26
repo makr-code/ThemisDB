@@ -691,3 +691,166 @@ TEST_F(ArrowExportTest, LargeDatasetExport) {
 #endif
 }
 
+// ===== Zero-Copy Buffer Tests =====
+
+TEST_F(ArrowExportTest, ZeroCopyInt64BufferPopulated) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+
+    batch.appendRow({int64_t(10)});
+    batch.appendRow({int64_t(20)});
+    batch.appendRow({int64_t(30)});
+
+    // int64_buffer should be populated for INT64 columns
+    const auto& col = batch.getColumn(0);
+    ASSERT_EQ(col.int64_buffer.size(), 3u);
+    EXPECT_EQ(col.int64_buffer[0], 10);
+    EXPECT_EQ(col.int64_buffer[1], 20);
+    EXPECT_EQ(col.int64_buffer[2], 30);
+}
+
+TEST_F(ArrowExportTest, ZeroCopyDoubleBufferPopulated) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"value", ArrowRecordBatch::DataType::DOUBLE, false});
+
+    batch.appendRow({1.1});
+    batch.appendRow({2.2});
+
+    const auto& col = batch.getColumn(0);
+    ASSERT_EQ(col.double_buffer.size(), 2u);
+    EXPECT_DOUBLE_EQ(col.double_buffer[0], 1.1);
+    EXPECT_DOUBLE_EQ(col.double_buffer[1], 2.2);
+}
+
+TEST_F(ArrowExportTest, ZeroCopyTimestampBufferPopulated) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"ts", ArrowRecordBatch::DataType::TIMESTAMP, false});
+
+    batch.appendRow({int64_t(1706745600000LL)});
+    batch.appendRow({int64_t(1706745660000LL)});
+
+    const auto& col = batch.getColumn(0);
+    ASSERT_EQ(col.int64_buffer.size(), 2u);
+    EXPECT_EQ(col.int64_buffer[0], 1706745600000LL);
+    EXPECT_EQ(col.int64_buffer[1], 1706745660000LL);
+}
+
+TEST_F(ArrowExportTest, ZeroCopyStringColumnHasNoTypedBuffer) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, false});
+
+    batch.appendRow({std::string("Alice")});
+
+    // String columns must not populate typed numeric buffers
+    const auto& col = batch.getColumn(0);
+    EXPECT_TRUE(col.int64_buffer.empty());
+    EXPECT_TRUE(col.double_buffer.empty());
+}
+
+TEST_F(ArrowExportTest, ZeroCopyBoolColumnHasNoTypedBuffer) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"active", ArrowRecordBatch::DataType::BOOLEAN, false});
+
+    batch.appendRow({true});
+
+    const auto& col = batch.getColumn(0);
+    EXPECT_TRUE(col.int64_buffer.empty());
+    EXPECT_TRUE(col.double_buffer.empty());
+}
+
+TEST_F(ArrowExportTest, GetInt64DataReturnsRawPointer) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+
+    batch.appendRow({int64_t(100)});
+    batch.appendRow({int64_t(200)});
+    batch.appendRow({int64_t(300)});
+
+    const int64_t* ptr = batch.getInt64Data(0);
+    ASSERT_NE(ptr, nullptr);
+    // The pointer should match the vector's internal buffer
+    EXPECT_EQ(ptr[0], 100);
+    EXPECT_EQ(ptr[1], 200);
+    EXPECT_EQ(ptr[2], 300);
+}
+
+TEST_F(ArrowExportTest, GetDoubleDataReturnsRawPointer) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"value", ArrowRecordBatch::DataType::DOUBLE, false});
+
+    batch.appendRow({9.5});
+    batch.appendRow({19.5});
+
+    const double* ptr = batch.getDoubleData(0);
+    ASSERT_NE(ptr, nullptr);
+    EXPECT_DOUBLE_EQ(ptr[0], 9.5);
+    EXPECT_DOUBLE_EQ(ptr[1], 19.5);
+}
+
+TEST_F(ArrowExportTest, GetInt64DataReturnsNullptrForStringColumn) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("x")});
+
+    EXPECT_EQ(batch.getInt64Data(0), nullptr);
+}
+
+TEST_F(ArrowExportTest, GetDoubleDataReturnsNullptrForStringColumn) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("x")});
+
+    EXPECT_EQ(batch.getDoubleData(0), nullptr);
+}
+
+TEST_F(ArrowExportTest, ZeroCopyNullRowStorePlaceholderZero) {
+    // Null rows store 0 as placeholder in typed buffers;
+    // the null_bitmap correctly marks them as null.
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, true});
+    batch.addColumn({"val", ArrowRecordBatch::DataType::DOUBLE, true});
+
+    batch.appendRow({int64_t(42), 3.14});
+    batch.appendRow({nullptr, nullptr});  // null row
+    batch.appendRow({int64_t(99), 2.72});
+
+    const auto& id_col  = batch.getColumn(0);
+    const auto& val_col = batch.getColumn(1);
+
+    ASSERT_EQ(id_col.int64_buffer.size(), 3u);
+    EXPECT_EQ(id_col.int64_buffer[0], 42);
+    EXPECT_EQ(id_col.int64_buffer[1], 0);   // placeholder for null
+    EXPECT_EQ(id_col.int64_buffer[2], 99);
+
+    ASSERT_EQ(val_col.double_buffer.size(), 3u);
+    EXPECT_DOUBLE_EQ(val_col.double_buffer[0], 3.14);
+    EXPECT_DOUBLE_EQ(val_col.double_buffer[1], 0.0);  // placeholder for null
+    EXPECT_DOUBLE_EQ(val_col.double_buffer[2], 2.72);
+
+    // null_bitmap should mark the middle row as null
+    EXPECT_FALSE(id_col.null_bitmap[0]);
+    EXPECT_TRUE(id_col.null_bitmap[1]);
+    EXPECT_FALSE(id_col.null_bitmap[2]);
+}
+
+TEST_F(ArrowExportTest, ZeroCopyDataMatchesVariantData) {
+    // The typed buffer and the variant data must be consistent.
+    ArrowRecordBatch batch;
+    batch.addColumn({"x", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"y", ArrowRecordBatch::DataType::DOUBLE, false});
+
+    const size_t num_rows = 50;
+    for (size_t i = 0; i < num_rows; ++i) {
+        batch.appendRow({int64_t(i * 3), double(i) * 0.5});
+    }
+
+    const auto& x_col = batch.getColumn(0);
+    const auto& y_col = batch.getColumn(1);
+
+    for (size_t i = 0; i < num_rows; ++i) {
+        EXPECT_EQ(x_col.int64_buffer[i], std::get<int64_t>(x_col.data[i]));
+        EXPECT_DOUBLE_EQ(y_col.double_buffer[i], std::get<double>(y_col.data[i]));
+    }
+}
+
+

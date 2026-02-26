@@ -581,6 +581,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_ethics.cpp")
     add_executable(bench_rag_ethics
         bench_rag_ethics.cpp
         ${CMAKE_SOURCE_DIR}/src/rag/rag_judge.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/relevance_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/faithfulness_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/coherence_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/completeness_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/prompt_templates.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/response_parser.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/llm_judge_integration.cpp
     )
     
     target_link_libraries(bench_rag_ethics PRIVATE
@@ -1148,6 +1155,9 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vram_allo
         RocksDB::rocksdb
         Threads::Threads
     )
+    if(TARGET themis_llm)
+        target_link_libraries(bench_gpu_vram_allocation PRIVATE themis_llm)
+    endif()
     
     target_compile_definitions(bench_gpu_vram_allocation PRIVATE
         THEMIS_BENCHMARK_BUILD=1

@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include "themis/gpu/cluster_config.h"
 
 namespace themis {
 namespace gpu {
@@ -79,6 +80,16 @@ struct GPUConfig {
     // -----------------------------------------------------------------------
     size_t      audit_log_capacity  = 4096;
     bool        enable_metrics      = true;
+
+    // -----------------------------------------------------------------------
+    // Multi-node cluster coordination (optional)
+    //
+    // Leave cluster.enabled == false (the default) for single-node deployments.
+    // When cluster.enabled == true, GPUModule::initialize() will pass this
+    // config to GPUClusterCoordinator::initialize() enabling topology-aware
+    // scheduling and InfiniBand-backed inter-node transfers.
+    // -----------------------------------------------------------------------
+    ClusterConfig cluster;  ///< Default (enabled=false) = single-node mode
 
     // -----------------------------------------------------------------------
     // Validation result

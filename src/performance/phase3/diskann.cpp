@@ -125,6 +125,9 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
                   node.neighbors.size() * sizeof(VectorID) + 16;
     }
     
+    // Step 4: Build VP-tree for fast entry point selection
+    vp_tree_ = std::make_unique<VantagePointTree>(vectors);
+    
     flush();
 }
 
@@ -174,8 +177,10 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
         return {};
     }
     
-    // Select entry point (first vector for simplicity, could use VP-tree)
-    VectorID entry_point = vector_offsets_.begin()->first;
+    // Select entry point using VP-tree if available, otherwise fall back to first vector
+    VectorID entry_point = vp_tree_
+        ? vp_tree_->find_entry_point(query)
+        : vector_offsets_.begin()->first;
     
     // Greedy search from entry point
     auto candidates = greedy_search_internal(query, entry_point, beam_width, k * 2);

@@ -653,6 +653,81 @@ public:
 
 ---
 
+### Predictive Analytics & Time-Series Forecasting Optimization
+**Priority:** Medium  
+**Target Version:** v1.9.0
+
+Optimize the existing `analytics/forecasting.cpp` implementation for throughput and latency.
+
+**Current State:**
+- Pure C++17, no external ML dependencies
+- Five algorithms: LINEAR_REGRESSION, EXP_SMOOTHING, HOLT_WINTERS, ARIMA, ENSEMBLE
+- Single-threaded training and prediction
+- ~1 100 lines in `analytics/forecasting.cpp`
+
+**Planned Enhancements:**
+
+1. **SIMD-accelerated inner loops** – Yule–Walker autocovariance computation and residual
+   accumulation are tight dot-product loops that map directly to AVX2/NEON instructions:
+
+```cpp
+// AVX2-accelerated autocovariance for Yule-Walker (k=0 term)
+double acov0_avx2(const double* yc, size_t n, double mean) {
+#ifdef __AVX2__
+    __m256d vsum = _mm256_setzero_pd();
+    __m256d vmean = _mm256_set1_pd(mean);
+    size_t i = 0;
+    for (; i + 3 < n; i += 4) {
+        __m256d v = _mm256_loadu_pd(yc + i);
+        v = _mm256_sub_pd(v, vmean);
+        vsum = _mm256_fmadd_pd(v, v, vsum);
+    }
+    double buf[4]; _mm256_storeu_pd(buf, vsum);
+    double acc = buf[0] + buf[1] + buf[2] + buf[3];
+    for (; i < n; ++i) { double d = yc[i] - mean; acc += d * d; }
+    return acc / static_cast<double>(n);
+#else
+    return acov0_scalar(yc, n, mean);
+#endif
+}
+```
+
+2. **Batch prediction** – expose `predictBatch(const std::vector<TimeSeries>& batch)` to
+   amortise model-state copies across multiple independent series:
+
+```cpp
+// Predict over a batch of independent time series sharing the same model
+std::vector<std::vector<ForecastPoint>>
+ForecastModel::predictBatch(const std::vector<TimeSeries>& series_batch,
+                             int steps) const;
+```
+
+3. **Auto-tune grid parallelism** – parallelize the alpha/beta/gamma grid search with
+   OpenMP or `std::async` to reduce `fit()` latency when `auto_tune == true`.
+
+4. **Fit result caching** – cache the last fitted parameters indexed by (hash of training
+   data, config) so repeated fits on unchanged data are O(1) lookups.
+
+5. **Streaming one-step updates** – add `update(double new_value)` to incrementally
+   absorb a new observation without a full `fit()` rerun:
+
+```cpp
+// Incremental update: O(1) per new observation (no full refit needed)
+void ForecastModel::update(double new_value);
+void ForecastModel::update(int64_t timestamp_ms, double new_value);
+```
+
+**Performance Targets:**
+- Yule–Walker (n=1 000, p=10): ≥ 3× speedup vs scalar baseline on AVX2 hardware
+- `predictBatch` (1 000 series × 30 steps each): ≤ 50 ms total on a single core
+- Auto-tune grid (9 α values, n=500): ≤ 5 ms with parallel search
+
+**Compatibility:**
+- All changes are additive; existing `fit()` / `predict()` / `evaluate()` signatures remain stable
+- SIMD paths gated behind `#ifdef __AVX2__` / `#ifdef __ARM_NEON` with scalar fallback
+
+---
+
 ## Platform-Specific Optimizations
 
 ### Windows Build Improvements
@@ -752,6 +827,9 @@ private:
 2. Multi-GPU support
 3. Distributed aggregation
 4. Query result compression
+5. Forecasting SIMD acceleration (AVX2 Yule–Walker inner loops)
+6. Forecasting batch prediction API
+7. Forecasting streaming one-step update API
 
 ## See Also
 

@@ -210,6 +210,49 @@ std::string GPUMetrics::nsight_export() const {
 }
 
 // ============================================================================
+// ROCm profiler-compatible export (Chrome trace JSON)
+// ============================================================================
+
+std::string GPUMetrics::rocm_profiler_export() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Chrome trace format — compatible with:
+    //   - AMD ROCm profiler's --sys-trace JSON output
+    //   - Perfetto / chrome://tracing
+    //
+    // Each kernel is emitted as a complete event ("ph": "X").
+    // Timestamps follow the Chrome trace convention (microseconds).
+    std::ostringstream oss;
+
+    if (kernels_.empty()) {
+        oss << "{\n  \"traceEvents\": []\n}\n";
+        return oss.str();
+    }
+
+    oss << "{\n  \"traceEvents\": [\n";
+
+    for (std::size_t i = 0; i < kernels_.size(); ++i) {
+        const KernelRecord& k   = kernels_[i];
+        const uint64_t      ts  = static_cast<uint64_t>(k.duration_ns) / 1000;
+        const uint64_t      dur = ts; // treat duration_ns as elapsed time
+
+        oss << "    {\"name\": \"" << k.name << "\", \"ph\": \"X\", "
+            << "\"ts\": " << ts << ", "
+            << "\"dur\": " << dur << ", "
+            << "\"pid\": 0, \"tid\": " << k.device_id << ", "
+            << "\"args\": {"
+            << "\"grid\": [" << k.grid_x << "," << k.grid_y << "," << k.grid_z << "], "
+            << "\"block\": [" << k.block_x << "," << k.block_y << "," << k.block_z << "]"
+            << "}}";
+        if (i + 1 < kernels_.size()) oss << ',';
+        oss << '\n';
+    }
+
+    oss << "  ]\n}\n";
+    return oss.str();
+}
+
+// ============================================================================
 // Snapshot
 // ============================================================================
 

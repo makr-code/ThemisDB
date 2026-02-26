@@ -88,6 +88,9 @@ private:
     mutable std::mutex mutex_;
 };
 
+// Forward declaration required because DiskANNIndex holds a unique_ptr<VantagePointTree>
+class VantagePointTree;
+
 /// DiskANN Index for billion-scale vector search
 class DiskANNIndex {
 public:
@@ -126,6 +129,9 @@ private:
     
     // In-memory components
     std::unique_ptr<LRUCache<VectorID, DiskANNNode>> cache_;
+
+    // VP-tree for fast entry point selection (built during build())
+    std::unique_ptr<VantagePointTree> vp_tree_;
     
     // Metadata (kept in memory)
     std::unordered_map<VectorID, uint64_t> vector_offsets_;  // VectorID -> file offset
