@@ -34,6 +34,7 @@ downstream jobs use to decide whether to run.
 |--------|-------------|
 | `has_code_changes` | C++, CUDA, or Python source files changed |
 | `has_security_changes` | `src/security/**` or `src/auth/**` changed |
+| `has_acceleration_changes` | Acceleration module or benchmark files changed |
 | `has_gpu_changes` | GPU module or geo-GPU backend files changed |
 | `has_llm_changes` | LLM / RAG / CUDA kernel files changed |
 | `has_doc_only_changes` | **Only** documentation changed (no code) |
@@ -90,6 +91,14 @@ When a finer check is needed (e.g. a job that only cares about CUDA files):
   security-tests:
     needs: ci-scope-classifier
     if: needs.ci-scope-classifier.outputs.has_security_changes == 'true'
+```
+
+### Acceleration / benchmark workflows
+
+```yaml
+  acceleration-benchmarks:
+    needs: ci-scope-classifier
+    if: needs.ci-scope-classifier.outputs.has_acceleration_changes == 'true'
 ```
 
 ### GPU workflows

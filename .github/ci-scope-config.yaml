@@ -129,10 +129,10 @@ scopes:
 # Used as reference; enforcement is done via `if:` conditions in each workflow.
 workflow_scope_map:
   validate-ai-guardrails:     [has_doc_only_changes, has_config_changes]
-  validate-roadmap:           [has_doc_only_changes]
-  research-validation:        [has_doc_only_changes]
+  validate-roadmap:           []   # gated by paths: in trigger; no ci-scope-classifier if: condition
+  research-validation:        []   # gated by paths: in trigger; no ci-scope-classifier if: condition
   validate-grafana-dashboards: [has_grafana_changes]
-  acceleration-benchmark-ci:  [has_acceleration_changes, has_code_changes]
+  acceleration-benchmark-ci:  [has_acceleration_changes]
   gpu-ci:                     [has_gpu_changes]
   llm-cuda-gpu-ci:            [has_llm_changes, has_gpu_changes]
   llm-cpu-fallback-ci:        [has_llm_changes]

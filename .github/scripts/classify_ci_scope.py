@@ -87,6 +87,7 @@ def matches_any(file_path: str, patterns: list[str]) -> bool:
 _NON_DOC_SCOPES = {
     "has_code_changes",
     "has_security_changes",
+    "has_acceleration_changes",
     "has_gpu_changes",
     "has_llm_changes",
     "has_config_changes",
