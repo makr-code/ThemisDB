@@ -26,7 +26,7 @@
 - [P] HTML content extraction with boilerplate removal (Issue: #1682)
 - [P] Markdown processing and frontmatter parsing (Issue: #1683)
 - [I] Streaming ingestion for large files (chunked processing) (Issue: #1684)
-- [I] Content deduplication via perceptual hashing (Issue: #1685)
+- [x] Content deduplication via perceptual hashing (Issue: #1685)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)

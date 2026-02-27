@@ -4,13 +4,13 @@
  *        MinHash + band-LSH for text).
  *
  * pHash index: persisted in RocksDB under keys "phash_idx:<hex16>".
- * MinHash index: in-memory band map with simple LRU-style eviction.
+ * MinHash band-LSH index: backed by BoundedLRUCache for O(1) lookup and
+ *   automatic LRU eviction.  Keys: "b<band>:<hash_hex16>"; values: content_id.
  */
 
 #include "content/deduplication_checker.h"
 #include <algorithm>
 #include <cstdint>
-#include <cstring>
 #include <sstream>
 #include <iomanip>
 
@@ -26,8 +26,13 @@ DeduplicationChecker::DeduplicationChecker(
     size_t max_band_entries
 )
     : storage_(std::move(storage))
-    , max_band_entries_(max_band_entries)
-{}
+{
+    cache::BoundedLRUCache::Config cfg;
+    cfg.max_entries        = max_band_entries;
+    cfg.ttl                = std::chrono::seconds{30 * 24 * 3600}; // 30-day TTL
+    cfg.enable_statistics  = false;  // Avoid overhead for an internal index
+    band_cache_ = std::make_unique<cache::BoundedLRUCache>(cfg);
+}
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -80,6 +85,12 @@ static uint64_t hexToU64(const std::string& hex) {
     return hash;
 }
 
+/*static*/ std::string DeduplicationChecker::makeBandKey(size_t band, uint64_t hash_val) {
+    std::ostringstream oss;
+    oss << 'b' << band << ':' << std::hex << std::setw(16) << std::setfill('0') << hash_val;
+    return oss.str();
+}
+
 // ---------------------------------------------------------------------------
 // pHash — image deduplication
 // ---------------------------------------------------------------------------
@@ -124,7 +135,7 @@ void DeduplicationChecker::registerImage(
 }
 
 // ---------------------------------------------------------------------------
-// MinHash band-LSH — text deduplication
+// MinHash band-LSH — text deduplication (backed by BoundedLRUCache)
 // ---------------------------------------------------------------------------
 
 std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
@@ -132,14 +143,13 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
 ) const {
     if (minhash.size() < kNumHashFunctions) return std::nullopt;
 
-    std::lock_guard<std::mutex> lock(band_mutex_);
     for (size_t b = 0; b < kNumBands; ++b) {
-        uint64_t bh = bandHash(minhash, b);
-        auto it = band_index_[b].find(bh);
-        if (it != band_index_[b].end()) {
+        uint64_t bh  = bandHash(minhash, b);
+        auto val = band_cache_->get(makeBandKey(b, bh));
+        if (val) {
             // A band collision implies estimated Jaccard ≥ kJaccardThreshold
             // under the 16-band × 8-row configuration.
-            return DuplicateOf{it->second, kJaccardThreshold};
+            return DuplicateOf{val->get<std::string>(), kJaccardThreshold};
         }
     }
     return std::nullopt;
@@ -151,24 +161,14 @@ void DeduplicationChecker::registerText(
 ) {
     if (minhash.size() < kNumHashFunctions || content_id.empty()) return;
 
-    std::lock_guard<std::mutex> lock(band_mutex_);
     for (size_t b = 0; b < kNumBands; ++b) {
-        // Approximate eviction: when the total band-entry count reaches the cap,
-        // remove the first entry of the first non-empty band.  This is not true
-        // LRU (unordered_map iteration order is unspecified) but provides bounded
-        // memory use in a simple and inexpensive way.
-        if (band_entry_count_ >= max_band_entries_) {
-            for (auto& idx : band_index_) {
-                if (!idx.empty()) {
-                    idx.erase(idx.begin());
-                    --band_entry_count_;
-                    break;
-                }
-            }
-        }
         uint64_t bh = bandHash(minhash, b);
-        auto [it, inserted] = band_index_[b].emplace(bh, content_id);
-        if (inserted) ++band_entry_count_;
+        // BoundedLRUCache handles capacity eviction (LRU) automatically.
+        // Only store the first registrant per band slot (don't overwrite).
+        std::string key = makeBandKey(b, bh);
+        if (!band_cache_->get(key)) {
+            band_cache_->put(key, nlohmann::json(content_id));
+        }
     }
 }
 

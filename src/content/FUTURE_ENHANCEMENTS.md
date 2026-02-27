@@ -82,11 +82,11 @@ Currently `ContentManager::ingest()` buffers the entire content in memory before
 Exact duplicate detection (SHA-256 of raw bytes) is already performed in `content_manager.cpp`. Add near-duplicate detection using perceptual hashing (pHash for images, MinHash for text documents) to reject semantically identical content before storage.
 
 **Implementation Notes:**
-- `[ ]` Images: compute pHash (DCT-based 64-bit hash) in `image_processor.cpp` using a pure C++ implementation (no OpenCV dependency); store hash in content metadata as `phash_hex`.
-- `[ ]` Text documents: compute MinHash signature (128 hash functions, Jaccard threshold 0.85) in `text_processor.cpp`; use a band LSH index stored in `cache::BoundedLRUCache` for fast lookup.
-- `[ ]` `ContentManager::ingest()` calls `DeduplicationChecker::isDuplicate(content_id, phash_or_minhash)` before committing; returns `DuplicateOf{existing_id}` if a near-duplicate is found.
-- `[ ]` Deduplication is opt-in per collection via `ContentPolicy` in `content_policy.cpp`; default off.
-- `[ ]` Expose `content_dedup_hits_total` and `content_dedup_checks_total` Prometheus counters.
+- `[x]` Images: compute pHash (DCT-based 64-bit hash) in `image_processor.cpp` using a pure C++ implementation (no OpenCV dependency); store hash in content metadata as `phash_hex`.
+- `[x]` Text documents: compute MinHash signature (128 hash functions, Jaccard threshold 0.85) in `text_processor.cpp`; use a band LSH index stored in `cache::BoundedLRUCache` for fast lookup.
+- `[x]` `ContentManager::ingest()` calls `DeduplicationChecker::isDuplicate(content_id, phash_or_minhash)` before committing; returns `DuplicateOf{existing_id}` if a near-duplicate is found.
+- `[x]` Deduplication is opt-in per collection via `ContentPolicy` in `content_policy.cpp`; default off.
+- `[x]` Expose `content_dedup_hits_total` and `content_dedup_checks_total` Prometheus counters.
 
 **Performance Targets:**
 - pHash computation for a 4 MP JPEG in < 5 ms.

@@ -4,9 +4,8 @@
 #include <vector>
 #include <optional>
 #include <memory>
-#include <mutex>
-#include <unordered_map>
 #include <cstdint>
+#include "cache/bounded_lru_cache.h"
 #include "storage/rocksdb_wrapper.h"
 
 namespace themis {
@@ -28,8 +27,10 @@ struct DuplicateOf {
  *    Near-duplicates are detected when the Hamming distance between hashes
  *    is ≤ kPHashThreshold (default: 10 bits out of 64).
  *  - **MinHash + band-LSH** (text): 128-permutation MinHash with 16 bands × 8
- *    rows stored in an in-memory map.  Near-duplicates are flagged when the
- *    estimated Jaccard similarity is ≥ kJaccardThreshold (default: 0.85).
+ *    rows.  The band index is backed by a `cache::BoundedLRUCache` for O(1)
+ *    lookup and automatic LRU eviction when the capacity is reached.
+ *    Near-duplicates are flagged when the estimated Jaccard similarity is
+ *    ≥ kJaccardThreshold (default: 0.85).
  *
  * Deduplication must be enabled per-collection via `ContentPolicy::enable_deduplication`
  * before `ContentManager::ingestRawBlob()` consults this checker.
@@ -51,8 +52,8 @@ public:
 
     /**
      * @param storage          RocksDB wrapper used to persist pHash → content_id mappings.
-     * @param max_band_entries Maximum number of MinHash band-index entries kept
-     *                         in memory before LRU-style eviction kicks in.
+     * @param max_band_entries Maximum number of MinHash band-index entries kept in the
+     *                         `BoundedLRUCache` before LRU eviction kicks in.
      *                         With 16 bands per document, `max_band_entries / 16`
      *                         gives the approximate number of unique text documents
      *                         that can be held in the index simultaneously
@@ -107,15 +108,18 @@ public:
 private:
     std::shared_ptr<storage::RocksDBWrapper> storage_;
 
-    // In-memory MinHash band index: band_index_[band][band_hash] = content_id
-    mutable std::mutex band_mutex_;
-    std::unordered_map<uint64_t, std::string> band_index_[kNumBands];
-    size_t band_entry_count_ = 0;
-    size_t max_band_entries_;
+    // MinHash band-LSH index backed by BoundedLRUCache:
+    //   key  = "b<band>:<hash_hex16>"
+    //   value = JSON string holding the content_id of the first registered document
+    //           that hashed to this band slot.
+    // BoundedLRUCache provides O(1) lookup, thread safety, and automatic LRU
+    // eviction when max_band_entries is reached.
+    std::unique_ptr<cache::BoundedLRUCache> band_cache_;
 
     // Helpers
     static uint32_t hammingDistance(const std::string& a, const std::string& b);
     static uint64_t bandHash(const std::vector<uint32_t>& sig, size_t band);
+    static std::string makeBandKey(size_t band, uint64_t hash_val);
 };
 
 } // namespace content
