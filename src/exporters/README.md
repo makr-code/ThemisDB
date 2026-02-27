@@ -4,36 +4,64 @@ Data export functionality for ThemisDB.
 
 ## Module Purpose
 
-Provides data export functionality for ThemisDB, primarily JSONL export optimized for LLM training with LoRA adapter metadata generation and vLLM multi-LoRA integration.
+Provides data export functionality for ThemisDB. Supported formats:
+
+- **JSONL** — optimized for LLM training data (instruction/input/output, Alpaca/ShareGPT/ChatML)
+- **Apache Parquet** — columnar export for analytics workloads
+- **Apache Arrow IPC** — zero-copy pipelines (file and stream formats)
+- **Hugging Face Datasets** — dataset card + Parquet shards for Hub upload
+- **Streaming** — large-collection export without full in-memory buffering
 
 ## Subsystem Scope
 
-**In scope:** JSONL export for LLM training, configurable field selection, batch export, LoRA adapter metadata, vLLM multi-LoRA integration.
+**In scope:**
+
+- Export formats: JSONL, Apache Parquet, Apache Arrow IPC, Hugging Face Datasets
+- Configurable field selection (include/exclude per export)
+- Batch and streaming export
+- LoRA adapter metadata generation; vLLM multi-LoRA integration
+- PII detection and redaction; multi-tenant isolation with scope-based authorization
 
 **Out of scope:** Data transformation (handled by content module), import functionality (handled by importers module), data compression (delegated to utils/zstd).
 
 ## Relevant Interfaces
 
 - `jsonl_llm_exporter.cpp` — primary JSONL export with LLM training format
-- `export_pipeline.cpp` — export orchestration
-- `lora_metadata_writer.cpp` — LoRA adapter metadata generation
+- `parquet_exporter.cpp` — Apache Parquet columnar export
+- `arrow_ipc_exporter.cpp` — Apache Arrow IPC file and stream export (zero-copy pipelines)
+- `huggingface_exporter.cpp` — Hugging Face Datasets-compatible export
+- `streaming_exporter.cpp` — streaming export for large collections
+- `stream_writer.cpp` — low-level streaming output writer
+- `pii_detector.cpp` — PII detection and redaction before export
+- `exporter_metrics.cpp` — export throughput and quality metrics
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — JSONL/LoRA export operational; Parquet export and streaming export in progress.
+**Maturity:** 🟢 Production-Ready — JSONL, Parquet, Arrow IPC, Hugging Face, and streaming export all operational.
 
 ## Components
 
 - JSONL exporter for LLM training data
-- Custom export format handlers
-- Export pipeline
+- Parquet columnar exporter
+- Arrow IPC exporter (file and stream format)
+- Hugging Face dataset exporter
+- Streaming exporter for large collections
+- PII detection and redaction
+- Export metrics and telemetry
 
 ## Features
 
 - Export documents in JSONL format optimized for LLM training
-- Configurable field selection
+- Export to Apache Parquet columnar format
+- Export to Apache Arrow IPC file (`.arrow`) or stream (`.arrows`) format for zero-copy pipelines
+- Hugging Face Datasets-compatible export
+- Configurable field selection (include/exclude)
 - Batch export operations
+- Streaming export without full in-memory load
 - LoRA adapter metadata generation
+- PII detection and redaction (mask, hash, remove, partial)
+- Multi-tenant isolation with scope-based authorization
+- Progress callbacks with records exported, bytes written, and estimated ETA
 
 ## Documentation
 
