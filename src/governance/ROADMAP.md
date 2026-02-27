@@ -92,5 +92,5 @@
 
 ## Breaking Changes
 
-- OPA integration will introduce a new policy language alongside existing rule format (additive)
-- Policy simulation API will be a new endpoint (non-breaking)
+- OPA integration introduces a new policy language alongside the existing native rule format (additive, non-breaking)
+- Policy simulation API is a new endpoint (non-breaking)

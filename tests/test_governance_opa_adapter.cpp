@@ -322,3 +322,84 @@ TEST(GovernanceOpaEngineTest, CheckQueryPermission_UsesOpaDecision) {
     auto qr = engine.checkQueryPermission(headers, "/public");
     EXPECT_FALSE(qr.decision.export_allowed) << "checkQueryPermission should use OPA deny";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// simulateDecision() routes through OPA when evaluator is set (dry-run)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(GovernanceOpaEngineTest, SimulateDecision_UsesOpaWhenAvailable) {
+    PolicyEngine engine;
+
+    StubEvaluator stub{makeDenyDecision()};
+    engine.setOpaEvaluator(&stub);
+
+    SimulationRequest req;
+    req.headers = {{"X-Classification", "offen"}};
+    req.route   = "/public";
+
+    auto sim = engine.simulateDecision(req);
+    EXPECT_TRUE(sim.dry_run) << "Simulation must always be dry_run=true";
+    EXPECT_EQ(sim.matched_profile, "opa") << "OPA source should be reflected in matched_profile";
+    EXPECT_FALSE(sim.decision.export_allowed)
+        << "simulateDecision should return OPA decision when evaluator is set";
+    EXPECT_EQ(sim.decision.classification, "streng-geheim");
+}
+
+TEST(GovernanceOpaEngineTest, SimulateDecision_FallsBackToNativeWhenOpaUnavailable) {
+    PolicyEngine engine;
+
+    StubEvaluator unavail_stub;  // nullopt → OPA unavailable
+    engine.setOpaEvaluator(&unavail_stub);
+
+    SimulationRequest req;
+    req.headers = {{"X-Classification", "offen"}};
+    req.route   = "/public";
+
+    // Should fall back to native evaluation silently (no counter in simulation)
+    auto sim = engine.simulateDecision(req);
+    EXPECT_TRUE(sim.dry_run);
+    EXPECT_EQ(sim.decision.classification, "offen");
+    EXPECT_TRUE(sim.decision.export_allowed)
+        << "Native fallback for simulation should apply offen permissive decision";
+    // No YAML loaded → heuristic path → matched_profile stays empty
+    EXPECT_TRUE(sim.matched_profile.empty())
+        << "matched_profile should be empty when OPA is unavailable and no profile is loaded";
+}
+
+TEST(GovernanceOpaEngineTest, SimulateDecision_NoEvaluator_UsesNativeEvaluation) {
+    PolicyEngine engine;
+    // No OPA evaluator attached
+
+    SimulationRequest req;
+    req.headers = {{"X-Classification", "geheim"}};
+    req.route   = "/secret";
+
+    auto sim = engine.simulateDecision(req);
+    EXPECT_TRUE(sim.dry_run);
+    EXPECT_EQ(sim.decision.classification, "geheim");
+    EXPECT_FALSE(sim.decision.export_allowed) << "Native strict class should deny export";
+    // No YAML loaded → heuristic path → matched_profile stays empty
+    EXPECT_TRUE(sim.matched_profile.empty())
+        << "matched_profile should be empty when no OPA evaluator and no profile loaded";
+}
+
+TEST(GovernanceOpaEngineTest, SimulateDecision_ConsistentWithEvaluate_WhenOpaSet) {
+    PolicyEngine engine;
+
+    StubEvaluator allow_stub{makeAllowDecision("offen")};
+    engine.setOpaEvaluator(&allow_stub);
+
+    std::unordered_map<std::string, std::string> headers{{"X-Classification", "geheim"}};
+    const std::string route = "/secret";
+
+    // Both evaluate() and simulateDecision() should return the same OPA decision
+    auto real  = engine.evaluate(headers, route);
+    SimulationRequest req{headers, route};
+    auto sim   = engine.simulateDecision(req);
+
+    EXPECT_EQ(real.classification, sim.decision.classification)
+        << "simulate must match evaluate when OPA is set";
+    EXPECT_EQ(real.export_allowed, sim.decision.export_allowed);
+    EXPECT_EQ(real.ann_allowed, sim.decision.ann_allowed);
+    EXPECT_TRUE(sim.dry_run);
+}

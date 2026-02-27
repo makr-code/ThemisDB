@@ -473,16 +473,35 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
     std::unordered_map<std::string, ClassificationProfile> profiles;
     std::unordered_map<std::string, std::string> resource_map;
     std::string mode;
+    IPolicyEvaluator* evaluator = nullptr;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         profiles     = classification_profiles_;
         resource_map = resource_mapping_;
         mode         = default_mode_;
+        evaluator    = opa_evaluator_;
         // audit_logger_ is intentionally NOT captured – dry-run must not log
     }
 
     SimulationResult result;
     result.dry_run    = true;
+
+    // ---- OPA evaluation in dry-run mode ------------------------------------
+    // If an OPA evaluator is configured, use it so that the simulation
+    // accurately reflects what evaluate() would return.  Audit logging is
+    // intentionally suppressed (side-effect-free requirement).
+    if (evaluator) {
+        auto opa_result = evaluator->evaluate(headers, route);
+        if (opa_result.has_value()) {
+            result.decision        = *opa_result;
+            result.matched_profile = "opa";
+            // NOTE: No audit log – dry-run must not write audit entries.
+            return result;
+        }
+        // OPA unavailable – fall through to native simulation.
+        // No fallback counter emitted here (side-effect-free requirement).
+    }
+
     PolicyDecision &d = result.decision;
 
     // Classification
