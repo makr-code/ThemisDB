@@ -120,12 +120,6 @@ public:
     }
 
     // -----------------------------------------------------------------------
-    // Construction / destruction
-    // -----------------------------------------------------------------------
-    GPUStreamManager() = default;
-    ~GPUStreamManager();
-
-    // -----------------------------------------------------------------------
     // Stream lifecycle
     // -----------------------------------------------------------------------
 
@@ -212,9 +206,6 @@ private:
         StreamStats                stats;
         uintptr_t                  cuda_stream      = 0;     ///< cudaStream_t handle; 0 when not created.
         bool                       uses_rocm_stream = false; ///< true when a HIP stream was registered via ROCmBackend.
-        bool                       uses_rocm_backend = false;
-        /** @brief True when a HIP stream was created via ROCmBackend for this stream. */
-        bool                       uses_rocm_stream = false;
     };
 
     mutable std::mutex                          mutex_;

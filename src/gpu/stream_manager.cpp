@@ -68,8 +68,6 @@ GPUStreamManager::~GPUStreamManager() {
                 reinterpret_cast<cudaStream_t>(kv.second.cuda_stream));
         }
 #endif
-    // Clean up any HIP streams that were created via ROCmBackend.
-    for (const auto& kv : streams_) {
         if (kv.second.uses_rocm_stream) {
             ROCmBackend::GetInstance().destroyStream(kv.first);
         }
@@ -90,38 +88,12 @@ bool GPUStreamManager::createStream(const StreamConfig&    cfg,
     if (streams_.count(cfg.name)) return false;   // already exists
 
     Stream s;
-    // When no backend is supplied, use the ROCm backend (which transparently
-    // falls back to CPU execution when THEMIS_ENABLE_HIP is not defined) and
-    // also register the stream in the ROCm backend so that HIP stream
-    // lifecycle (hipStreamCreate / hipStreamDestroy) is correctly managed.
-    bool rocm = (backend == nullptr);
-    GPULauncher::BackendFn fn = backend
-        ? std::move(backend)
-        : ROCmBackend::GetInstance().createBackendFn();
-
-    if (rocm) {
-        // Create the hardware stream in the ROCm backend.  When HIP is absent
-        // this is a no-op that records a virtual entry; the result is ignored
-        // because the CPU-fallback path is always available.
-        ROCmBackend::GetInstance().createStream(cfg.name);
-    }
-
-    Stream s;
-    s.config              = cfg;
-    s.launcher            = std::make_unique<GPULauncher>(std::move(fn));
-    s.stats.name          = cfg.name;
-    s.uses_rocm_backend   = rocm;
-    Stream s;
     s.config     = cfg;
     s.stats.name = cfg.name;
 
     if (backend) {
         s.launcher = std::make_unique<GPULauncher>(std::move(backend));
     } else {
-        // When no backend is supplied, register a named HIP stream via the
-        // ROCm backend (which transparently falls back to CPU execution when
-        // THEMIS_ENABLE_HIP is not defined).  Registering the stream enables
-        // ROCmBackend::synchronizeStream() to be called on it later.
         // When no backend is supplied, create a real HIP stream via the ROCm
         // backend (which transparently falls back to CPU execution when
         // THEMIS_ENABLE_HIP is not defined) and use it as the execution backend.
@@ -220,44 +192,38 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
 }
 
 bool GPUStreamManager::destroyStream(const std::string& name) {
+    uintptr_t cuda_handle      = 0;
+    bool      uses_rocm_stream = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (!streams_.erase(name)) return false;
+        auto it = streams_.find(name);
+        if (it == streams_.end()) return false;
+        cuda_handle      = it->second.cuda_stream;
+        uses_rocm_stream = it->second.uses_rocm_stream;
+        streams_.erase(it);
     }
 
 #ifdef THEMIS_ENABLE_CUDA
-    // Destroy the associated CUDA stream if one was created via createCudaStream().
+    // Destroy CUDA stream from the cuda_stream field (createStream path).
+    if (cuda_handle != 0) {
+        cudaStreamDestroy(reinterpret_cast<cudaStream_t>(cuda_handle));
+    }
+    // Destroy CUDA stream registered in the global registry (createCudaStream path).
     {
         std::lock_guard<std::mutex> clk(cudaStreamMutex());
         auto& reg = cudaStreamRegistry();
         auto it   = reg.find(name);
         if (it != reg.end()) {
-            cudaStream_t s = reinterpret_cast<cudaStream_t>(it->second);
-            cudaStreamDestroy(s);
+            cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second));
             reg.erase(it);
         }
     }
 #endif
 
-    auto it = streams_.find(name);
-    if (it == streams_.end()) return false;
-
-#ifdef THEMIS_ENABLE_CUDA
-    if (it->second.cuda_stream != 0) {
-        cudaStreamDestroy(reinterpret_cast<cudaStream_t>(it->second.cuda_stream));
-        it->second.cuda_stream = 0;
-    }
-#endif
-    if (it->second.uses_rocm_backend) {
-        // Release the underlying HIP stream (no-op when HIP is absent).
+    if (uses_rocm_stream) {
         ROCmBackend::GetInstance().destroyStream(name);
     }
 
-    if (it->second.uses_rocm_stream) {
-        ROCmBackend::GetInstance().destroyStream(name);
-    }
-
-    streams_.erase(it);
     return true;
 }
 
