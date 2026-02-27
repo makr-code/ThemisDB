@@ -104,16 +104,21 @@ WASMKernelSandbox::execute(const std::string&          kernel_id,
     }
 
     // Step 3: Memory limit — reject blobs that exceed the configured ceiling.
+    // Read the limit under the lock, then release before calling recordResult()
+    // (which also acquires the mutex) to avoid self-deadlock.
     {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (config_.memory_limit_bytes > 0 &&
-            blob.size() > config_.memory_limit_bytes) {
+        uint64_t limit;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            limit = config_.memory_limit_bytes;
+        }
+        if (limit > 0 && blob.size() > limit) {
             ExecutionResult r;
             r.status    = Status::REJECTED_MEMORY_LIMIT;
             r.kernel_id = kernel_id;
             r.message   = "blob size " + std::to_string(blob.size()) +
                           " bytes exceeds memory limit " +
-                          std::to_string(config_.memory_limit_bytes) + " bytes";
+                          std::to_string(limit) + " bytes";
             recordResult(r);
             return r;
         }
