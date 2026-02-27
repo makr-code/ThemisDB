@@ -544,3 +544,36 @@ TEST_F(IncrementalExporterTest, CorruptWatermarkFallsBackToFullExport) {
     EXPECT_EQ(stats.exported_entities, test_entities_.size());
     EXPECT_EQ(stats.skipped_entities, 0u);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ExportStats::toJson includes skipped_entities
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(IncrementalExporterTest, ExportStatsToJsonContainsSkippedEntities) {
+    // Pre-write watermark at 5 → 5 entities will be skipped
+    {
+        std::ofstream wf(watermarkPath());
+        json wj;
+        wj["last_sequence"]    = 5;
+        wj["last_export_time"] = "2026-01-01T00:00:00Z";
+        wj["exported_count"]   = 5;
+        wf << wj.dump(2) << '\n';
+    }
+
+    IncrementalExportConfig cfg;
+    cfg.sequence_field = "_seq";
+    cfg.watermark_path = watermarkPath();
+    IncrementalExporter exporter(cfg);
+
+    ExportOptions opts;
+    opts.output_path = outputPath();
+
+    auto stats = exporter.exportEntities(test_entities_, opts);
+    EXPECT_EQ(stats.skipped_entities, 5u);
+
+    // toJson() must include the skipped_entities field
+    auto j = json::parse(stats.toJson());
+    EXPECT_TRUE(j.contains("skipped_entities"));
+    EXPECT_EQ(j["skipped_entities"].get<size_t>(), 5u);
+    EXPECT_EQ(j["exported_entities"].get<size_t>(), 5u);
+}
