@@ -7,7 +7,7 @@
  * operations: batchIntersects, exactIntersects, and geodesicDistance.
  *
  * Production Readiness Checklist item:
- *   [I] Performance benchmarks (CPU vs GPU throughput) — geo/ROADMAP.md
+ *   [x] Performance benchmarks (CPU vs GPU throughput) — geo/ROADMAP.md
  */
 
 #include <benchmark/benchmark.h>
@@ -17,7 +17,6 @@
 
 #include <cmath>
 #include <random>
-#include <string>
 #include <vector>
 
 using namespace themis::geo;
