@@ -3582,14 +3582,27 @@ TEST_F(WitnessNodeTest, AddReplicaWithWitnessRoleSkipsStream) {
 }
 
 // 3. A 2-node cluster (1 data follower + 1 witness) achieves quorum.
-//    hasQuorum() counts: self (leader, always healthy) + follower (HEALTHY) +
-//    witness (UNKNOWN) = 3 total voting members; healthy = 2 > 3/2 = 1 → quorum.
+//    We poll until this node becomes the leader (background election loop fires
+//    within election_timeout_max_ms = 300 ms), then assert quorum.
+//    hasQuorum() counts: self(leader) + follower(HEALTHY) = 2 healthy out of
+//    3 total voting members; 2 > 3/2 = 1 → quorum.
 TEST_F(WitnessNodeTest, TwoNodeClusterWithWitnessHasQuorum) {
     TempWALDir wd("/tmp/themis_witness_quorum_test");
     auto cfg = makeWitnessConfig(wd.path);
 
     ReplicationManager mgr(cfg);
     ASSERT_TRUE(mgr.initialize());
+
+    // Poll until this node wins election.  At initialization cluster_size = 1,
+    // so quorum = 1 and the first election cycle immediately promotes this node
+    // to leader.  Timeout of 2 s is well above election_timeout_max_ms (300 ms).
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (mgr.getRole() != ReplicationRole::LEADER &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+    ASSERT_EQ(mgr.getRole(), ReplicationRole::LEADER)
+        << "Node should have won election within 2 seconds";
 
     // One regular follower (healthy, voting)
     ReplicaInfo follower;
