@@ -22,6 +22,7 @@
 #include "content/content_processor.h"
 #include "content/archive_processor.h"
 #include "content/html_processor.h"
+#include "content/content_validator.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -457,6 +458,15 @@ static ContentCategory detectCategory(const std::string& mime, const std::string
         if (t) ct = *t;
     }
     return ct.mime_type.empty() ? ContentCategory::UNKNOWN : ct.category;
+}
+
+/// Returns true for MIME types that are text-based and have no binary magic bytes.
+/// Used by ingestStream() to skip the format/magic-bytes check for streaming
+/// text types while still running it for binary formats.
+static bool isTextBasedMime(const std::string& mime) {
+    return mime.find("text/") == 0 ||
+           mime.find("ndjson") != std::string::npos ||
+           mime.find("jsonlines") != std::string::npos;
 }
 
 Status ContentManager::importContent(const json& spec, const std::optional<std::string>& blob, const std::string& user_context) {
@@ -2047,6 +2057,30 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
     if (detected_mime.empty()) {
         detected_mime = "application/octet-stream";
+    }
+
+    // --- Validate MIME type and header format (security gate) ---
+    // Uses content_validator.cpp to enforce MIME type validity and magic-bytes
+    // consistency before any data is stored. Streaming-capable text types skip
+    // the magic-bytes check (they have no binary header signature).
+    {
+        ContentValidator hdr_validator;
+        auto mime_err = hdr_validator.validateMimeType(detected_mime);
+        if (mime_err.failed()) {
+            result.error_message = "MIME type validation failed: " + mime_err.message;
+            return result;
+        }
+        // Format / magic-bytes check on the header for non-text MIME types.
+        // Text/*, NDJSON and jsonlines have no binary magic bytes – skip.
+        if (!isTextBasedMime(detected_mime)) {
+            auto fmt_err = hdr_validator.validateFormat(header_buf, detected_mime);
+            if (fmt_err.failed()) {
+                THEMIS_WARN("ingestStream: format validation failed for '{}' ({}): {}",
+                            filename, detected_mime, fmt_err.message);
+                result.error_message = "Content format validation failed: " + fmt_err.message;
+                return result;
+            }
+        }
     }
 
     // --- Small file: stream already exhausted after header read ---

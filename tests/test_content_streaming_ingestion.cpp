@@ -15,10 +15,13 @@
  *  5. Empty stream handling.
  *  6. ContentChunker: overlap parameter validation (ensures overlap < chunk_size).
  *  7. ContentChunker: exact-size boundary (data.size() == chunk_size).
+ *  8. ContentValidator integration: MIME type and format validation in the
+ *     streaming security gate (content_validator.cpp requirement).
  */
 
 #include <gtest/gtest.h>
 #include "content/pipeline/content_chunker.h"
+#include "content/content_validator.h"
 #include <sstream>
 #include <string>
 #include <vector>
@@ -314,3 +317,100 @@ TEST(StreamingIngestionTest, BufferOverflow_NotTriggeredWhenWithinLimit) {
     EXPECT_FALSE(overflow_detected);
     EXPECT_EQ(buffer.size(), content.size());
 }
+
+// ---------------------------------------------------------------------------
+// ContentValidator security gate – validates MIME type and format (magic bytes)
+// before streaming ingestion proceeds (content_validator.cpp integration)
+// ---------------------------------------------------------------------------
+
+using namespace themis::content;
+
+TEST(StreamingIngestionTest, Validator_ValidMimeType_Accepted) {
+    ContentValidator validator;
+    auto err = validator.validateMimeType("text/plain");
+    EXPECT_FALSE(err.failed()) << err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_ValidMimeType_NDJSON_Accepted) {
+    ContentValidator validator;
+    auto err = validator.validateMimeType("application/x-ndjson");
+    EXPECT_FALSE(err.failed()) << err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_ValidMimeType_CSV_Accepted) {
+    ContentValidator validator;
+    auto err = validator.validateMimeType("text/csv");
+    EXPECT_FALSE(err.failed()) << err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_EmptyMime_Rejected) {
+    ContentValidator validator;
+    auto err = validator.validateMimeType("");
+    EXPECT_TRUE(err.failed());
+    EXPECT_EQ(err.code, ContentErrorCode::CONTENT_MIME_TYPE_INVALID);
+}
+
+TEST(StreamingIngestionTest, Validator_OctetStream_Rejected) {
+    // application/octet-stream is the generic fallback MIME type;
+    // the security gate rejects it to prevent unclassified binary ingestion
+    // through the streaming path.
+    ContentValidator validator;
+    auto err = validator.validateMimeType("application/octet-stream");
+    EXPECT_TRUE(err.failed());
+    EXPECT_EQ(err.code, ContentErrorCode::CONTENT_MIME_TYPE_INVALID);
+}
+
+TEST(StreamingIngestionTest, Validator_MalformedMime_NoSlash_Rejected) {
+    ContentValidator validator;
+    auto err = validator.validateMimeType("textplain");  // missing slash
+    EXPECT_TRUE(err.failed());
+    EXPECT_EQ(err.code, ContentErrorCode::CONTENT_MIME_TYPE_INVALID);
+}
+
+TEST(StreamingIngestionTest, Validator_FormatCheck_TextData_Passes) {
+    // Text/plain content has no magic bytes; validateFormat always passes for
+    // plain text (the format check does nothing for text/* types).
+    ContentValidator validator;
+    std::string text_data = "Hello streaming world\nLine 2\nLine 3\n";
+    auto err = validator.validateFormat(text_data, "text/plain");
+    EXPECT_FALSE(err.failed()) << err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_FormatCheck_TooSmall_Passes) {
+    // Data < 4 bytes is always accepted by validateFormat (can't check magic)
+    ContentValidator validator;
+    std::string tiny = "Hi";
+    auto err = validator.validateFormat(tiny, "image/jpeg");
+    EXPECT_FALSE(err.failed()) << err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_SecurityGate_StreamingTextSkipsMagicCheck) {
+    // The streaming path skips magic-bytes check for text/* and ndjson types.
+    // Verify that text/plain content passes both MIME validation AND format check
+    // (format check always passes for text types since they have no binary magic bytes).
+    ContentValidator validator;
+    const std::string mime = "text/plain";
+    const std::string content = "Line 1\nLine 2\nLine 3 – no magic bytes needed.\n";
+
+    // MIME validation must pass
+    auto mime_err = validator.validateMimeType(mime);
+    EXPECT_FALSE(mime_err.failed()) << mime_err.message;
+
+    // Format/magic-bytes check must also pass for plain text content
+    auto fmt_err = validator.validateFormat(content, mime);
+    EXPECT_FALSE(fmt_err.failed()) << fmt_err.message;
+}
+
+TEST(StreamingIngestionTest, Validator_SecurityGate_NdjsonSkipsMagicCheck) {
+    // NDJSON is a streaming-capable text format; verifying both MIME and format pass.
+    ContentValidator validator;
+    const std::string mime = "application/x-ndjson";
+    const std::string content = "{\"id\":1}\n{\"id\":2}\n";
+
+    auto mime_err = validator.validateMimeType(mime);
+    EXPECT_FALSE(mime_err.failed()) << mime_err.message;
+
+    auto fmt_err = validator.validateFormat(content, mime);
+    EXPECT_FALSE(fmt_err.failed()) << fmt_err.message;
+}
+
