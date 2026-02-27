@@ -451,6 +451,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the WASM kernel sandbox test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates WASMKernelSandbox
+# (feature-gate enforcement, whitelist/checksum integration, memory-limit
+# rejection, timeout enforcement, statistics, and concurrent safety).
+# It uses only CPU-side bookkeeping and requires no GPU or WASM hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_wasm_kernel_sandbox.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
