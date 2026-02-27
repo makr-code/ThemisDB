@@ -20,6 +20,7 @@
 #pragma once
 
 #include "importers/importer_interface.h"
+#include "importers/schema_validator.h"
 #include "plugins/plugin_interface.h"
 #include <atomic>
 
@@ -144,6 +145,29 @@ private:
                        const ImportOptions& options,
                        ImportStats& stats,
                        ProgressCallback& cb);
+
+    /**
+     * @brief Sample up to @p sample_limit rows from @p file to build a
+     *        DetectedSchema, then seek back to @p data_start_pos.
+     *
+     * Called by importCsvFile() when ImportOptions::validate_schema is true.
+     *
+     * @param file            Open file stream positioned at the first data row.
+     * @param data_start_pos  Stream position to seek back to after sampling.
+     * @param columns         Column names (header row, already mapped).
+     * @param delim           Field delimiter.
+     * @param line_limit      Per-line size cap (0 = unlimited).
+     * @param sample_limit    Maximum rows to read for sampling.
+     * @param table           Logical table name embedded in the result.
+     * @return                Detected schema.
+     */
+    DetectedSchema detectCsvSchema(std::ifstream& file,
+                                   std::streampos data_start_pos,
+                                   const std::vector<std::string>& columns,
+                                   char delim,
+                                   size_t line_limit,
+                                   size_t sample_limit,
+                                   const std::string& table);
 
     // ---- JSONL parsing -------------------------------------------------------
 

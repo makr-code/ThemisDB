@@ -90,10 +90,11 @@ enum class ImportErrorCode : uint32_t {
     VALUE_OUT_OF_RANGE   = 402,
 
     // Validation / policy errors (500-599)
-    DRY_RUN_ONLY         = 500,
-    TABLE_EXCLUDED       = 501,
-    INVALID_UTF8         = 502,
-    PERMISSION_DENIED    = 503,  ///< Caller's permission_check callback returned false
+    DRY_RUN_ONLY             = 500,
+    TABLE_EXCLUDED           = 501,
+    INVALID_UTF8             = 502,
+    PERMISSION_DENIED        = 503,  ///< Caller's permission_check callback returned false
+    SCHEMA_VALIDATION_FAILED = 504,  ///< Row value does not match the auto-detected schema type
 
     // SQL parsing errors – extended range (206)
     BINARY_COPY_FORMAT   = 206,  ///< Binary (non-text) COPY data detected; unsupported
@@ -421,7 +422,23 @@ struct ImportOptions {
     /// -1 = deep recursive merge for all nested JSON objects.
     /// N  = merge up to N levels deep.
     int merge_depth = 1;
-    
+
+    // -------------------------------------------------------------------------
+    // Schema auto-detection and validation
+    // -------------------------------------------------------------------------
+
+    /// When true, the importer samples the first schema_sample_rows data rows
+    /// to auto-detect column types, then validates every row against the
+    /// detected schema during import.  Type mismatches are recorded as
+    /// SCHEMA_VALIDATION_FAILED (code 504) WARNING-severity structured errors.
+    /// Rows with type mismatches are still imported; validation failures are
+    /// non-fatal by design and do not count as failed_records.
+    bool validate_schema = false;
+
+    /// Number of data rows to sample for schema type inference.
+    /// Only used when validate_schema is true.  Defaults to 100.
+    size_t schema_sample_rows = 100;
+
     json toJson() const {
         return json{
             {"dry_run", dry_run},
@@ -445,7 +462,9 @@ struct ImportOptions {
             {"conflict_strategy", static_cast<int>(conflict_strategy)},
             {"conflict_key_columns", conflict_key_columns},
             {"protected_fields", protected_fields},
-            {"merge_depth", merge_depth}
+            {"merge_depth", merge_depth},
+            {"validate_schema", validate_schema},
+            {"schema_sample_rows", schema_sample_rows}
         };
     }
 };
