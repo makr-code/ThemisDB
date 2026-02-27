@@ -109,6 +109,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_docs_assistant_aql\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_claim_extractor\\.cpp$"
+        ".*test_learning_metrics\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
         ".*test_cross_functional_voice_observability\\.cpp$"
         ".*test_process_mining_e2e\\.cpp$"
