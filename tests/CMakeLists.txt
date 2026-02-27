@@ -120,6 +120,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_streaming_handler\\.cpp$"
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
+        ".*test_openai_compat_adapter\\.cpp$"
     )
 endif()
 
