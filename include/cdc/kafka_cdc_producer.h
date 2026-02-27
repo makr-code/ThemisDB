@@ -27,6 +27,7 @@
 
 #include "cdc/changefeed.h"
 #include "cdc/cdc_metrics.h"
+#include "cdc/debezium_format.h"
 #include "cdc/icdc_transport.h"
 
 #include <atomic>
@@ -98,6 +99,14 @@ struct KafkaProducerConfig {
 
     /// Flush timeout when stopping the producer (milliseconds).
     uint32_t flush_timeout_ms{10000};
+
+    /// When true, events are serialized as Debezium-compatible envelopes
+    /// instead of the native ThemisDB JSON format.  Set this when publishing
+    /// to topics consumed by Kafka Connect transforms or Debezium Server sinks.
+    bool use_debezium_format{false};
+
+    /// Debezium formatter configuration (used only when use_debezium_format is true).
+    DebeziumFormatter::Config debezium_config{};
 };
 
 // ── Statistics ────────────────────────────────────────────────────────────────
