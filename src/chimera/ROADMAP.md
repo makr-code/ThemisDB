@@ -27,7 +27,7 @@
 - [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
 - [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
 - [!] Weaviate adapter (native vector database) (Issue: #2374)
-- [I] Qdrant adapter (native vector database) (Issue: #1646)
+- [x] Qdrant adapter (native vector database) (Issue: #1646)
 - [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
 - [I] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
@@ -59,7 +59,7 @@
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
 - [P] Weaviate adapter (native vector database)
-- [ ] Qdrant adapter (native vector database)
+- [x] Qdrant adapter (native vector database)
 - [ ] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [ ] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
@@ -67,7 +67,7 @@
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1651)
-- [x] Integration tests (adapter factory, ThemisDB adapter, MongoDB adapter, PostgreSQL adapter, Weaviate adapter)
+- [x] Integration tests (adapter factory, ThemisDB adapter, MongoDB adapter, PostgreSQL adapter, Weaviate adapter, Qdrant adapter)
 - [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
 - [P] Security audit (connection credential handling) (Issue: #1653)
 - [I] Documentation complete (Issue: #1654)
@@ -76,8 +76,9 @@
 ## Known Issues & Limitations
 - PostgreSQL and MongoDB vendor adapters are implemented in simulation mode (no live server required for tests); production use requires linking libpqxx / mongocxx
 - Weaviate adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
+- Qdrant adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
 - Benchmark harness test suites are in a separate module and not yet integrated
-- Qdrant, Neo4j adapters are not yet implemented
+- Neo4j adapter is not yet implemented
 
 ## Breaking Changes
 - Adapter interface is stable; new capability methods will be added with default no-op implementations (backward-compatible)
