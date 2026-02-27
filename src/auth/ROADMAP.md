@@ -80,10 +80,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
 
 ## Known Issues & Limitations
-- ABAC (attribute-based) access control is limited to role-based rules currently
-- WebAuthn support is planned but not started
-- LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default)
+- Fine-grained ABAC with OPA/Rego policy expressions is not yet implemented; the current `PolicyEngine` evaluates structured JSON-based policies but does not integrate an OPA runtime (Issue: #1538, Target: Q3 2026).
+- LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default).
 
 ## Breaking Changes
-- ABAC engine introduces new policy evaluation APIs (additive to existing RBAC, backward-compatible)
-- mTLS support will require configuration changes at the TLS layer
+- ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
+- mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.

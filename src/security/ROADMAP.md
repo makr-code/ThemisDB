@@ -22,27 +22,40 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [x] Zero-trust network policy enforcement (per-request identity verification)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
+- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`)
+- [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
+- [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
+- [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
 
 ## In Progress 🚧
-- [P] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026) (Issue: #2464)
-- [P] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026) (Issue: #2465)
 - [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
+  - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
+- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Target: Q3 2026) (Issue: #2462)
+  - Subsystems: `security/confidential_computing.h`, attestation service integration
+  - Expected behavior: memory-encrypted execution context; attestation failure throws `std::runtime_error`
+  - Tests: CPU/enclave parity tests + attestation mock suite
+  - Performance target: ≤ 20 % overhead vs non-enclave baseline
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2458)
-- [I] Session token revocation list with real-time invalidation (Issue: #2286)
-- [!] Anomaly detection on authentication patterns (brute-force, credential stuffing) (Issue: #2459)
-- [P] Row-level security policies in AQL execution (Issue: #2460)
 - [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
+  - Scope: scan staged files for high-entropy strings and known secret patterns (regex + Shannon entropy ≥ 4.5 bits/char — threshold consistent with truffleHog and detect-secrets defaults)
+  - Errors: false-positive allow-list, scan failure exits non-zero
+  - Tests: unit tests for scanner rules; integration test against CI pipeline
+  - Target: Q2 2026
 
 ### Long-term (6-12 months)
-- [x] Zero-trust network policy enforcement (per-request identity verification) (Issue: #2461)
-- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
-- [x] Dynamic data masking for PII fields in query results (Issue: #2463) (PR: #3050, v1.5.0)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
+  - Scope: audit-log export, metrics snapshot, key-rotation records, access-control reports
+  - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
+  - Tests: evidence completeness check, retention enforcement
+  - Target: Q4 2026
 - [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
+  - Scope: replace RSA-OAEP DEK wrapping (HSM) with Kyber-1024; replace ECDSA with Dilithium-5 for CMS signing
+  - Backward compat: hybrid mode (classical + PQ) during migration; PQ-only in final phase
+  - Tests: classical/PQ parity tests; Kyber decapsulation round-trip; performance baseline ≥ 2000 ops/s
+  - Target: Q4 2026
 
 ## Implementation Phases
 
@@ -61,32 +74,32 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Audit log with tamper-evident chaining
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
-### Phase 2: ABAC & HSM Direct Integration (Status: In Progress 🚧)
+### Phase 2: ABAC & HSM Direct Integration (Status: Completed ✅)
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [x] Hardware Security Module (HSM) direct PKCS#11 integration
 - [~] FIPS 140-2 / 140-3 validated cryptography mode
 
-### Phase 3: Federated Auth & Anomaly Detection (Status: Planned 📋)
-- [~] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
-- [ ] Session token revocation list with real-time invalidation
-- [ ] Anomaly detection on authentication patterns (brute-force, credential stuffing)
-- [P] Row-level security policies in AQL execution
-- [ ] Secret scanning pre-commit hook for CI pipelines
+### Phase 3: Federated Auth & Anomaly Detection (Status: Completed ✅)
+- [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
+- [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
+- [x] Anomaly detection on authentication patterns (brute-force, credential stuffing) (`AuthRateLimiter`)
+- [x] Row-level security policies in AQL execution (`RLSManager`)
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
 - [x] Zero-trust network policy enforcement (per-request identity verification)
 - [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
+- [ ] Secret scanning pre-commit hook for CI pipelines
 - [ ] SOC 2 Type II compliance evidence collection
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (TLS handshake, key rotation, RBAC enforcement)
-- [?] Performance benchmarks (encryption overhead, auth latency)
-- [?] Security audit (penetration testing, CVE dependency scan)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider)
+- [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
+- [~] Performance benchmarks (encryption overhead, auth latency) (Target: Q2 2026)
+- [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
+- [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
+- [x] API stability guaranteed (SecurityManager v1.x, RLSManager v1.5.0, QueryMaskingPolicy v1.5.0)
 
 ## Known Issues & Limitations
 - HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
