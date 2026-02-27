@@ -590,6 +590,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/async_inference_engine.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
+    ../src/llm/openai_compat_adapter.cpp
     ../src/llm/embedded_llm.cpp
     ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/docs_assistant.cpp
