@@ -32,7 +32,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [P] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
-- [I] WASM-based plugin isolation for untrusted code (Issue: #1572)
+- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 - [I] Remote plugin loading from authenticated registry (Issue: #1562)
 - [I] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
@@ -62,7 +62,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU)
 - [x] Plugin health monitoring and automatic restart
 - [x] Signed plugin repository with key pinning
-- [ ] WASM-based plugin isolation for untrusted code
+- [x] WASM-based plugin isolation for untrusted code
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1573)
@@ -74,7 +74,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ## Known Issues & Limitations
 - Hot-reload is supported via `HotReloadManager` (`include/themis/base/hot_reload_manager.h`); see Phase 2 above
-- WASM plugin isolation is not yet implemented
+- WASM plugin isolation is implemented via `WasmPluginSandbox` (`wasm_plugin_sandbox.cpp`); see `include/themis/base/wasm_plugin_sandbox.h`
 - Remote plugin loading from a registry is not yet available
 - Plugin dependency resolution is manual (loading order not enforced)
 
