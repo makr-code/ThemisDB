@@ -1383,6 +1383,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/index_recommender.cpp
     ../src/metadata/column_lineage.cpp
     ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/distributed_catalog.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
