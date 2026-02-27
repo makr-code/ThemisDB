@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from chimera import ChimeraReporter, StatisticalAnalyzer, ColorBlindPalette, CitationManager
 from chimera import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod, NormalizedScore, CompositeScore
+from chimera import BenchmarkHarness, WorkloadDefinition, HarnessConfig, WorkloadResult
 from chimera.statistics import DescriptiveStats, StatisticalResult
 
 
@@ -814,6 +815,248 @@ class TestBenchmarkScorerIntegration:
         json_str = json.dumps(summary)
         assert "Alpha" in json_str
         assert "Beta" in json_str
+
+
+# ---------------------------------------------------------------------------
+# BenchmarkHarness tests
+# ---------------------------------------------------------------------------
+
+class TestWorkloadDefinition:
+    """Tests for WorkloadDefinition construction."""
+
+    def test_minimal_creation(self):
+        wd = WorkloadDefinition(workload_id="wl_1", operation=lambda: None)
+        assert wd.workload_id == "wl_1"
+        assert callable(wd.operation)
+        assert wd.workload_family == "custom"
+        assert wd.parameters == {}
+
+    def test_full_creation(self):
+        wd = WorkloadDefinition(
+            workload_id="ycsb_a",
+            operation=lambda: None,
+            description="Update heavy",
+            workload_family="YCSB",
+            standard_reference="Cooper et al., 2010",
+            parameters={"record_count": 1_000_000},
+        )
+        assert wd.workload_family == "YCSB"
+        assert wd.parameters["record_count"] == 1_000_000
+
+
+class TestHarnessConfig:
+    """Tests for HarnessConfig validation."""
+
+    def test_defaults(self):
+        cfg = HarnessConfig()
+        assert cfg.warmup_iterations == 100
+        assert cfg.run_iterations == 1000
+        assert 50.0 in cfg.percentiles
+        assert 95.0 in cfg.percentiles
+        assert 99.0 in cfg.percentiles
+
+    def test_custom_values(self):
+        cfg = HarnessConfig(warmup_iterations=5, run_iterations=50, percentiles=[90.0])
+        assert cfg.warmup_iterations == 5
+        assert cfg.run_iterations == 50
+        assert cfg.percentiles == [90.0]
+
+    def test_negative_warmup_raises(self):
+        with pytest.raises(ValueError, match="warmup_iterations"):
+            HarnessConfig(warmup_iterations=-1)
+
+    def test_zero_run_iterations_raises(self):
+        with pytest.raises(ValueError, match="run_iterations"):
+            HarnessConfig(run_iterations=0)
+
+    def test_invalid_percentile_raises(self):
+        with pytest.raises(ValueError, match="percentile"):
+            HarnessConfig(percentiles=[101.0])
+
+
+class TestBenchmarkHarness:
+    """Unit tests for BenchmarkHarness."""
+
+    _cfg = HarnessConfig(warmup_iterations=5, run_iterations=20)
+
+    def _make_harness(self) -> BenchmarkHarness:
+        return BenchmarkHarness("TestSystem", self._cfg)
+
+    def test_add_workload_registers_id(self):
+        harness = self._make_harness()
+        wd = WorkloadDefinition("op1", lambda: None)
+        harness.add_workload(wd)
+        assert "op1" in harness.get_workload_ids()
+
+    def test_add_workload_replaces_existing(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("op1", lambda: 1))
+        harness.add_workload(WorkloadDefinition("op1", lambda: 2))
+        assert len(harness.get_workload_ids()) == 1
+
+    def test_warm_up_returns_success_count(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        successful = harness.warm_up("noop")
+        assert successful == self._cfg.warmup_iterations
+
+    def test_warm_up_with_errors_does_not_raise(self):
+        harness = self._make_harness()
+
+        def boom():
+            raise RuntimeError("simulated failure")
+
+        harness.add_workload(WorkloadDefinition("failing", boom))
+        # Must not raise; errors are silently swallowed during warm-up
+        result = harness.warm_up("failing")
+        assert result == 0
+
+    def test_warm_up_unknown_workload_raises(self):
+        harness = self._make_harness()
+        with pytest.raises(KeyError):
+            harness.warm_up("nonexistent")
+
+    def test_run_returns_workload_result(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert isinstance(result, WorkloadResult)
+        assert result.workload_id == "noop"
+        assert result.system_name == "TestSystem"
+
+    def test_run_latency_count_matches_iterations(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert len(result.latencies_ms) == self._cfg.run_iterations
+
+    def test_run_latencies_are_non_negative(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert all(lat >= 0.0 for lat in result.latencies_ms)
+
+    def test_run_throughput_positive(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert result.throughput_ops_per_sec > 0.0
+
+    def test_run_error_count(self):
+        harness = self._make_harness()
+        call_count = [0]
+
+        def sometimes_fails():
+            call_count[0] += 1
+            if call_count[0] % 2 == 0:
+                raise ValueError("even call")
+
+        harness.add_workload(WorkloadDefinition("flaky", sometimes_fails))
+        result = harness.run("flaky")
+        assert result.error_count == self._cfg.run_iterations // 2
+        assert result.error_count + (self._cfg.run_iterations - result.error_count) == self._cfg.run_iterations
+
+    def test_failed_operations_still_contribute_latency_samples(self):
+        """Every iteration — including those that raise — records a latency sample."""
+        harness = self._make_harness()
+
+        def always_fails():
+            raise RuntimeError("always fails")
+
+        harness.add_workload(WorkloadDefinition("fail_all", always_fails))
+        result = harness.run("fail_all")
+
+        # All iterations recorded an error
+        assert result.error_count == self._cfg.run_iterations
+        # Each iteration still contributed a latency sample
+        assert len(result.latencies_ms) == self._cfg.run_iterations
+        assert all(lat >= 0.0 for lat in result.latencies_ms)
+
+    def test_run_statistics_computed(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert result.mean_latency_ms >= 0.0
+        assert result.p50_latency_ms >= 0.0
+        assert result.p95_latency_ms >= result.p50_latency_ms
+        assert result.p99_latency_ms >= result.p95_latency_ms
+
+    def test_run_percentile_latencies_populated(self):
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=10, percentiles=[90.0])
+        harness = BenchmarkHarness("S", cfg)
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        result = harness.run("noop")
+        assert 90.0 in result.percentile_latencies_ms
+
+    def test_get_result_none_before_run(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        assert harness.get_result("noop") is None
+
+    def test_get_result_after_run(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("noop", lambda: None))
+        harness.run("noop")
+        assert harness.get_result("noop") is not None
+
+    def test_run_all_runs_every_workload(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("a", lambda: None))
+        harness.add_workload(WorkloadDefinition("b", lambda: None))
+        results = harness.run_all(warmup=False)
+        assert set(results.keys()) == {"a", "b"}
+
+    def test_run_all_with_warmup(self):
+        harness = self._make_harness()
+        harness.add_workload(WorkloadDefinition("a", lambda: None))
+        results = harness.run_all(warmup=True)
+        assert "a" in results
+
+
+class TestBenchmarkHarnessReport:
+    """Tests for BenchmarkHarness.report()."""
+
+    def test_report_structure(self):
+        import json
+
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=10)
+        harness = BenchmarkHarness("ReportSystem", cfg)
+        harness.add_workload(WorkloadDefinition("load", lambda: None))
+        harness.run("load")
+
+        summary = harness.report()
+        assert summary["system_name"] == "ReportSystem"
+        assert "load" in summary["workloads"]
+
+        workload_data = summary["workloads"]["load"]
+        assert "throughput_ops_per_sec" in workload_data
+        assert "mean_latency_ms" in workload_data
+        assert "p50_latency_ms" in workload_data
+        assert "p95_latency_ms" in workload_data
+        assert "p99_latency_ms" in workload_data
+        assert "error_count" in workload_data
+
+        # Must be JSON-serialisable
+        json.dumps(summary)
+
+    def test_report_no_workloads_run(self):
+        harness = BenchmarkHarness("Empty", HarnessConfig(run_iterations=5))
+        summary = harness.report()
+        assert summary["workloads"] == {}
+
+    def test_report_html_output(self, tmp_path):
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=5)
+        harness = BenchmarkHarness("SysHTML", cfg)
+        harness.add_workload(WorkloadDefinition("q", lambda: None))
+        harness.run("q")
+
+        html_path = str(tmp_path / "report.html")
+        harness.report(output_path=html_path)
+
+        import os
+        assert os.path.exists(html_path)
+        content = open(html_path).read()
+        assert "<html" in content.lower()
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
     • Total Lines:     65                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -57,6 +57,7 @@ from .statistics import StatisticalAnalyzer
 from .colors import ColorBlindPalette
 from .citations import CitationManager
 from .scoring import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod, NormalizedScore, CompositeScore
+from .benchmark_harness import BenchmarkHarness, WorkloadDefinition, HarnessConfig, WorkloadResult
 
 __all__ = [
     "ChimeraReporter",
@@ -69,4 +70,8 @@ __all__ = [
     "NormalizationMethod",
     "NormalizedScore",
     "CompositeScore",
+    "BenchmarkHarness",
+    "WorkloadDefinition",
+    "HarnessConfig",
+    "WorkloadResult",
 ]

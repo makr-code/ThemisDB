@@ -28,7 +28,7 @@
 - [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
 - [!] Weaviate adapter (native vector database) (Issue: #2374)
 - [x] Qdrant adapter (native vector database) (Issue: #1646)
-- [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
+- [x] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
 - [I] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
 ### Long-term (6-12 months)
@@ -60,7 +60,7 @@
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
 - [P] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
-- [ ] Unified benchmark harness (workload definitions, warm-up, run, report)
+- [x] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [ ] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
 - [ ] Neo4j adapter (native graph database)
