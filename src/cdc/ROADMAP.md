@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Real-time change notifications, SSE-based event streaming, filtered subscriptions, and historical change replay are functional. WebSocket transport and Kafka/Kinesis integration are planned.
+**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented.
 
 ## Completed ✅
 - [x] Changefeed implementation for real-time change tracking
@@ -30,7 +30,7 @@
 - [P] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)
-- [I] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
+- [x] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [x] Debezium-compatible change event format (Issue: #1614)
 - [x] Cross-collection change aggregation streams (Issue: #1615)
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
@@ -54,7 +54,7 @@
 
 ### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
 - [x] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
-- [I] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
+- [x] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [x] Add Debezium-compatible change event envelope format (Issue: #1621)
 - [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622)
 
