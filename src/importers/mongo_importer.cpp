@@ -564,6 +564,11 @@ bool MongoDBImporter::importDocument(const json& doc,
     entity["_type"] = collection;
 
     THEMIS_DEBUG("MongoDB document entity: {}", entity.dump());
+    if (options.streaming_row_callback) {
+        if (!options.streaming_row_callback(collection, entity)) {
+            cancelled_ = true;
+        }
+    }
     stats.imported_records++;
     emitMetric(options, "themisdb_import_rows_total",
                {{"collection", collection}, {"status", "imported"}}, 1.0);
