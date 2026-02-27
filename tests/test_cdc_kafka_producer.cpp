@@ -14,6 +14,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include <type_traits>
+#include "cdc/debezium_format.h"
 #include "cdc/icdc_transport.h"
 #include "cdc/kafka_cdc_producer.h"
 
@@ -38,6 +39,7 @@ TEST(KafkaCDCProducerTest, DefaultConfigValues) {
     EXPECT_TRUE(cfg.sasl_password.empty());
     EXPECT_TRUE(cfg.ssl_ca_location.empty());
     EXPECT_EQ(cfg.flush_timeout_ms,  10000u);
+    EXPECT_FALSE(cfg.use_debezium_format);
 }
 
 // ── KafkaProducerStats defaults ───────────────────────────────────────────────
@@ -170,4 +172,56 @@ TEST(KafkaCDCProducerTest, PolymorphicOwnershipViaUniquePtr) {
     ASSERT_NE(transport, nullptr);
     EXPECT_FALSE(transport->start());
     transport->stop();
+}
+
+// ── Debezium format configuration ─────────────────────────────────────────────
+
+TEST(KafkaCDCProducerTest, DebeziumFormatFlagCanBeEnabled) {
+    KafkaProducerConfig cfg;
+    cfg.use_debezium_format = true;
+    EXPECT_TRUE(cfg.use_debezium_format);
+}
+
+TEST(KafkaCDCProducerTest, DebeziumConfigDefaultServerName) {
+    KafkaProducerConfig cfg;
+    // Default debezium_config should reflect DebeziumFormatter::Config defaults.
+    EXPECT_EQ(cfg.debezium_config.server_name, "themis");
+    EXPECT_EQ(cfg.debezium_config.db_name,     "themisdb");
+    EXPECT_EQ(cfg.debezium_config.version,     "1.5.0-dev");
+}
+
+TEST(KafkaCDCProducerTest, DebeziumConfigCanBeCustomized) {
+    KafkaProducerConfig cfg;
+    cfg.use_debezium_format        = true;
+    cfg.debezium_config.server_name = "prod-cluster";
+    cfg.debezium_config.db_name     = "myapp";
+    EXPECT_EQ(cfg.debezium_config.server_name, "prod-cluster");
+    EXPECT_EQ(cfg.debezium_config.db_name,     "myapp");
+}
+
+// Verify that DebeziumFormatter (used by the producer when use_debezium_format
+// is true) produces a valid Debezium envelope for a sample PUT event.  This
+// acts as a smoke test for the integration path without requiring a live broker.
+TEST(KafkaCDCProducerTest, DebeziumFormatterProducesValidEnvelope) {
+    DebeziumFormatter::Config dcfg;
+    dcfg.server_name = "test-cluster";
+    dcfg.db_name     = "testdb";
+    DebeziumFormatter fmt(dcfg);
+
+    Changefeed::ChangeEvent ev;
+    ev.sequence     = 7;
+    ev.type         = Changefeed::ChangeEventType::EVENT_PUT;
+    ev.key          = "orders:42";
+    ev.value        = R"({"qty":5})";
+    ev.timestamp_ms = 1740000000000LL;
+
+    nlohmann::json j = fmt.toJson(ev, "orders");
+
+    ASSERT_TRUE(j.contains("payload"));
+    EXPECT_EQ(j["payload"]["op"].get<std::string>(), "c");
+    EXPECT_EQ(j["payload"]["source"]["table"].get<std::string>(), "orders");
+    EXPECT_EQ(j["payload"]["source"]["connector"].get<std::string>(), "themisdb");
+    EXPECT_EQ(j["payload"]["source"]["name"].get<std::string>(), "test-cluster");
+    EXPECT_EQ(j["payload"]["source"]["db"].get<std::string>(), "testdb");
+    EXPECT_EQ(j["payload"]["source"]["sequence"].get<uint64_t>(), 7ULL);
 }
