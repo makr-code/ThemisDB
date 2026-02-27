@@ -460,6 +460,9 @@ if(NOT THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_reranker.cpp
+        # LLMProcessAnalyzer has no actual LLM library dependency (uses a
+        # simulated callLLM stub) — include in every build variant.
+        ${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp
     )
 endif()
 
