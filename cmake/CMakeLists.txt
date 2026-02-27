@@ -1926,6 +1926,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
     ../src/exporters/streaming_exporter.cpp
+    ../src/exporters/aql_predicate_filter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp

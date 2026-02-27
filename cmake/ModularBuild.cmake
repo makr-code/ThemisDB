@@ -344,6 +344,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/stream_writer.cpp
     ../src/exporters/parquet_exporter.cpp
     ../src/exporters/streaming_exporter.cpp
+    ../src/exporters/aql_predicate_filter.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 

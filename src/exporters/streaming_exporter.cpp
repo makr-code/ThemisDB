@@ -12,6 +12,7 @@
  */
 
 #include "exporters/streaming_exporter.h"
+#include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
@@ -114,6 +115,12 @@ ExportStats StreamingExporter::exportFromCursor(
     try {
         StreamWriter writer(writer_config);
 
+        // AQL predicate filter (compiled once, reused per entity)
+        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        if (!options.filter_expression.empty()) {
+            aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+        }
+
         bool limit_reached = false;
 
         // Process pages until the cursor is exhausted or a size limit is hit
@@ -137,6 +144,11 @@ ExportStats StreamingExporter::exportFromCursor(
                 stats.total_entities++;
 
                 try {
+                    // AQL predicate filter
+                    if (aql_filter && !aql_filter->evaluate(entity)) {
+                        continue;
+                    }
+
                     std::string line = formatEntity(entity, options);
                     if (line.empty()) {
                         continue;
