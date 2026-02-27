@@ -33,7 +33,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ### Long-term (6-12 months)
 - [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
-- [I] Remote plugin loading from authenticated registry (Issue: #1562)
+- [x] Remote plugin loading from authenticated registry (Issue: #1562) → implemented `RemoteRegistryClient` (`base/remote_registry_client.cpp`)
 - [I] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
 - [I] A/B testing framework using module swapping (Issue: #1565)
@@ -75,7 +75,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Known Issues & Limitations
 - Hot-reload is supported via `HotReloadManager` (`include/themis/base/hot_reload_manager.h`); see Phase 2 above
 - WASM plugin isolation is implemented via `WasmPluginSandbox` (`wasm_plugin_sandbox.cpp`); see `include/themis/base/wasm_plugin_sandbox.h`
-- Remote plugin loading from a registry is not yet available
+- Remote plugin loading from a registry is available via `RemoteRegistryClient` (`include/themis/base/remote_registry_client.h`)
 - Plugin dependency resolution is manual (loading order not enforced)
 
 ## Breaking Changes
