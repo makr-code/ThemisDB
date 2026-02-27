@@ -418,6 +418,7 @@ set(THEMIS_SECURITY_SOURCES
     
     # Governance
     ../src/governance/policy_engine.cpp
+    ../src/governance/opa_adapter.cpp
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
