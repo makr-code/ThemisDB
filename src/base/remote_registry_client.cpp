@@ -28,16 +28,25 @@
 #include <spdlog/spdlog.h>
 
 #include <array>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 
 namespace themis {
 namespace modules {
 
 namespace {
+
+// Maximum number of retries permitted regardless of what the config says.
+// Prevents integer overflow in the exponential-backoff shift calculation.
+constexpr int kMaxAllowedRetries = 10;
+
+// Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
+constexpr int kMaxBackoffShift = 5;
 
 // CURL write callback: accumulates response body into a std::string.
 size_t writeStringCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -277,112 +286,173 @@ std::string RemoteRegistryClient::buildAuthorizationHeader() const {
 }
 
 std::string RemoteRegistryClient::httpGet(const std::string& url) {
-    CURL* curl = curl_easy_init();
-    if (!curl) {
-        throw std::runtime_error("curl_easy_init() failed");
-    }
-
-    std::string body;
-    struct curl_slist* headers = nullptr;
-
     const std::string auth_header = buildAuthorizationHeader();
-    if (!auth_header.empty()) {
-        headers = curl_slist_append(headers, auth_header.c_str());
-    }
-    headers = curl_slist_append(headers, "Accept: application/json");
 
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &body);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
-    if (!config_.ca_bundle_path.empty()) {
-        curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+    // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
+    const int max_retries = std::max(0, std::min(config_.max_retries, kMaxAllowedRetries));
+    const int attempts    = max_retries + 1;
+
+    std::string last_error;
+
+    for (int attempt = 0; attempt < attempts; ++attempt) {
+        if (attempt > 0) {
+            // Exponential backoff: 500 ms, 1000 ms, 2000 ms, … capped at 16 s.
+            const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
+            const int backoff_ms   = 500 * (1 << shift_amount);
+            spdlog::warn("RemoteRegistryClient::httpGet: retry {}/{} after {}ms for {}",
+                         attempt, max_retries, backoff_ms, url);
+            std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
+        }
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            throw std::runtime_error("curl_easy_init() failed");
+        }
+
+        std::string body;
+        struct curl_slist* headers = nullptr;
+
+        if (!auth_header.empty()) {
+            headers = curl_slist_append(headers, auth_header.c_str());
+        }
+        headers = curl_slist_append(headers, "Accept: application/json");
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &body);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
+        if (!config_.ca_bundle_path.empty()) {
+            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+        }
+
+        const CURLcode res = curl_easy_perform(curl);
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (res != CURLE_OK) {
+            last_error = std::string("CURL error: ") + curl_easy_strerror(res);
+            // Transient network error – retry
+            continue;
+        }
+
+        // Authentication / authorisation failures are permanent; do not retry.
+        if (http_code == 401 || http_code == 403) {
+            throw std::runtime_error("Registry authentication failed (HTTP " +
+                                     std::to_string(http_code) + ")");
+        }
+        if (http_code == 404) {
+            throw std::runtime_error("Resource not found (HTTP 404): " + url);
+        }
+        if (http_code >= 500) {
+            // Server error – transient, retry
+            last_error = "Unexpected HTTP status " + std::to_string(http_code) +
+                         " for " + url;
+            continue;
+        }
+        if (http_code < 200 || http_code >= 300) {
+            throw std::runtime_error("Unexpected HTTP status " +
+                                     std::to_string(http_code) + " for " + url);
+        }
+
+        return body;
     }
 
-    const CURLcode res = curl_easy_perform(curl);
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(curl);
-
-    if (res != CURLE_OK) {
-        throw std::runtime_error(std::string("CURL error: ") + curl_easy_strerror(res));
-    }
-
-    if (http_code == 401 || http_code == 403) {
-        throw std::runtime_error("Registry authentication failed (HTTP " +
-                                 std::to_string(http_code) + ")");
-    }
-    if (http_code == 404) {
-        throw std::runtime_error("Resource not found (HTTP 404): " + url);
-    }
-    if (http_code < 200 || http_code >= 300) {
-        throw std::runtime_error("Unexpected HTTP status " +
-                                 std::to_string(http_code) + " for " + url);
-    }
-
-    return body;
+    throw std::runtime_error(last_error.empty()
+                                 ? "httpGet failed after retries"
+                                 : last_error);
 }
 
 bool RemoteRegistryClient::httpGetBinary(const std::string& url,
                                          const std::string& out_path) {
-    CURL* curl = curl_easy_init();
-    if (!curl) {
-        spdlog::error("RemoteRegistryClient::httpGetBinary: curl_easy_init() failed");
-        return false;
-    }
-
-    std::ofstream out(out_path, std::ios::binary | std::ios::trunc);
-    if (!out.is_open()) {
-        curl_easy_cleanup(curl);
-        spdlog::error("RemoteRegistryClient::httpGetBinary: cannot open '{}' for writing",
-                      out_path);
-        return false;
-    }
-
-    struct curl_slist* headers = nullptr;
     const std::string auth_header = buildAuthorizationHeader();
-    if (!auth_header.empty()) {
-        headers = curl_slist_append(headers, auth_header.c_str());
+
+    // Clamp max_retries to [0, kMaxAllowedRetries] to prevent overflow in the backoff shift.
+    const int max_retries = std::max(0, std::min(config_.max_retries, kMaxAllowedRetries));
+    const int attempts    = max_retries + 1;
+
+    for (int attempt = 0; attempt < attempts; ++attempt) {
+        if (attempt > 0) {
+            const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
+            const int backoff_ms   = 500 * (1 << shift_amount);
+            spdlog::warn("RemoteRegistryClient::httpGetBinary: retry {}/{} after {}ms",
+                         attempt, max_retries, backoff_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
+        }
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            spdlog::error("RemoteRegistryClient::httpGetBinary: curl_easy_init() failed");
+            return false;
+        }
+
+        std::ofstream out(out_path, std::ios::binary | std::ios::trunc);
+        if (!out.is_open()) {
+            curl_easy_cleanup(curl);
+            spdlog::error("RemoteRegistryClient::httpGetBinary: cannot open '{}' for writing",
+                          out_path);
+            return false;
+        }
+
+        struct curl_slist* headers = nullptr;
+        if (!auth_header.empty()) {
+            headers = curl_slist_append(headers, auth_header.c_str());
+        }
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFileCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
+        if (!config_.ca_bundle_path.empty()) {
+            curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+        }
+
+        const CURLcode res = curl_easy_perform(curl);
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+        out.close();
+
+        if (res != CURLE_OK) {
+            spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}",
+                          curl_easy_strerror(res));
+            // Remove the incomplete file before retrying.
+            std::error_code ec;
+            std::filesystem::remove(out_path, ec);
+            continue;
+        }
+
+        if (http_code < 200 || http_code >= 300) {
+            spdlog::error("RemoteRegistryClient::httpGetBinary: HTTP {} for {}",
+                          http_code, url);
+            // Remove the incomplete file.
+            std::error_code ec;
+            std::filesystem::remove(out_path, ec);
+            if (http_code >= 500) {
+                // Server error – transient, retry
+                continue;
+            }
+            return false;
+        }
+
+        return true;
     }
 
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFileCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
-    if (!config_.ca_bundle_path.empty()) {
-        curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
-    }
-
-    const CURLcode res = curl_easy_perform(curl);
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(curl);
-    out.close();
-
-    if (res != CURLE_OK) {
-        spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}",
-                      curl_easy_strerror(res));
-        return false;
-    }
-
-    if (http_code < 200 || http_code >= 300) {
-        spdlog::error("RemoteRegistryClient::httpGetBinary: HTTP {} for {}",
-                      http_code, url);
-        return false;
-    }
-    return true;
+    spdlog::error("RemoteRegistryClient::httpGetBinary: all {} attempt(s) failed for {}",
+                  attempts, url);
+    return false;
 }
 
 /*static*/ bool RemoteRegistryClient::verifyIntegrity(

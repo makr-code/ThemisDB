@@ -154,6 +154,7 @@ TEST(RemoteRegistryClient, ListPluginsUnreachableServer) {
     RegistryConfig cfg;
     cfg.registry_url = "http://127.0.0.1:1";  // Nothing listening here
     cfg.timeout_ms   = 500;
+    cfg.max_retries  = 0;
     cfg.verify_ssl   = false;
 
     RemoteRegistryClient client(cfg);
@@ -165,6 +166,7 @@ TEST(RemoteRegistryClient, FetchPluginUnreachableServer) {
     RegistryConfig cfg;
     cfg.registry_url = "http://127.0.0.1:1";
     cfg.timeout_ms   = 500;
+    cfg.max_retries  = 0;
     cfg.verify_ssl   = false;
 
     RemoteRegistryClient client(cfg);
@@ -202,6 +204,7 @@ TEST(RemoteRegistryClient, DownloadAndLoadFailsGracefully) {
     RegistryConfig cfg;
     cfg.registry_url = "http://127.0.0.1:1";
     cfg.timeout_ms   = 500;
+    cfg.max_retries  = 0;  // no retries to keep the test fast
     cfg.verify_ssl   = false;
     cfg.download_dir = "/tmp";
 
@@ -216,6 +219,62 @@ TEST(RemoteRegistryClient, DownloadAndLoadFailsGracefully) {
     auto result = client.downloadAndLoad(entry, loader);
     EXPECT_FALSE(result.success);
     EXPECT_FALSE(result.errorMessage.empty());
+}
+
+// =============================================================================
+// Retry configuration – max_retries=0 means a single attempt (no retries)
+// =============================================================================
+
+TEST(RemoteRegistryClient, MaxRetriesZeroMeansSingleAttempt) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+
+    RemoteRegistryClient client(cfg);
+    // With max_retries=0 there is exactly one attempt and no sleep between
+    // retries.  Timing is not asserted because the connection timeout
+    // (300 ms) already bounds the test duration adequately.
+    auto plugins = client.listPlugins();
+    EXPECT_TRUE(plugins.empty());
+}
+
+// =============================================================================
+// httpGetBinary cleanup – partial file must not remain after failed download
+// =============================================================================
+
+TEST(RemoteRegistryClient, PartialFileCleanedUpOnFailure) {
+    RegistryConfig cfg;
+    cfg.registry_url = "http://127.0.0.1:1";
+    cfg.timeout_ms   = 300;
+    cfg.max_retries  = 0;
+    cfg.verify_ssl   = false;
+    cfg.download_dir = "/tmp/themis_test_cleanup";
+
+    std::error_code dir_ec;
+    std::filesystem::create_directories(cfg.download_dir, dir_ec);
+    EXPECT_FALSE(dir_ec) << "Failed to create test dir: " << dir_ec.message();
+    if (dir_ec) {
+        // Directory creation failed; nothing to clean up.
+        return;
+    }
+
+    RemoteRegistryClient client(cfg);
+
+    RegistryPluginEntry entry;
+    entry.name         = "cleanup_test_plugin";
+    entry.version      = "1.0.0";
+    entry.download_url = "http://127.0.0.1:1/cleanup_test_plugin-1.0.0.so";
+
+    auto result = client.downloadPlugin(entry);
+    EXPECT_FALSE(result.success);
+
+    // No partial file should remain.
+    const std::string expected_path = cfg.download_dir + "/cleanup_test_plugin-1.0.0.so";
+    EXPECT_FALSE(std::filesystem::exists(expected_path));
+
+    std::filesystem::remove_all(cfg.download_dir);
 }
 
 // =============================================================================
