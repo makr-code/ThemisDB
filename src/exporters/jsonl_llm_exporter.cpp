@@ -40,6 +40,7 @@ std::string ExportStats::toJson() const {
     j["total_entities"] = total_entities;
     j["exported_entities"] = exported_entities;
     j["failed_entities"] = failed_entities;
+    j["skipped_entities"] = skipped_entities;
     j["bytes_written"] = bytes_written;
     j["duration_ms"] = duration.count();
     j["estimated_eta_seconds"] = estimated_eta_seconds;

@@ -26,7 +26,7 @@
 - [x] Parquet export with configurable schema (Issue: #1713)
 - [x] Arrow IPC export for zero-copy pipelines (Issue: #1714)
 - [I] Export filtering with AQL predicates (Issue: #1715)
-- [I] Incremental/delta export (only changed documents since last export) (Issue: #1716)
+- [x] Incremental/delta export (only changed documents since last export) (Issue: #1716)
 - [I] Export progress tracking and resumability (Issue: #1717)
 - [I] Configurable output compression (zstd, gzip) (Issue: #1718)
 
@@ -53,7 +53,7 @@
 
 ### Phase 3: Parquet, Incremental Export, and Security (Status: In Progress)
 - [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
-- [I] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
+- [x] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
 - [I] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
 - [I] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
 
@@ -66,7 +66,6 @@
 - [x] API stability guaranteed for JSONL exporter
 
 ## Known Issues & Limitations
-- No delta/incremental export; each run exports the full selection
 - JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
 
 ## Breaking Changes
