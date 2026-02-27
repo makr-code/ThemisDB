@@ -248,6 +248,89 @@ explicit `cudaMemcpy` transfers for workloads that share data between CPU and GP
 
 ---
 
+### Dynamic GPU Time-Slicing for Multi-Tenant Isolation
+**Priority:** High | **Target Version:** v1.5.0 | **Status:** ✅ Infrastructure implemented
+
+Prevents any single tenant from monopolizing the GPU by assigning each
+tenant a configurable time quantum and dispatching work in round-robin order.
+
+**Implemented infrastructure:**
+- ✅ `GPUTimeSliceScheduler` (`include/themis/gpu/time_slice_scheduler.h`,
+  `src/gpu/time_slice_scheduler.cpp`) — round-robin time-sliced dispatcher.
+  - `registerTenant(TenantConfig)` / `unregisterTenant(tenant_id)` — tenant lifecycle.
+  - `submit(tenant_id, WorkItem)` — enqueue work for a tenant's FIFO queue.
+  - `dispatch(backend)` — one scheduling round: visit each tenant in
+    registration order; execute items until the slice (`slice_ms`) expires,
+    then move to the next tenant.  Remaining items are deferred to the next
+    `dispatch()` call; `preempted` counter incremented when the slice expires
+    with items still in the queue.
+  - `drainAll(backend)` — calls `dispatch()` until all queues are empty;
+    safe for batch workflows and tests.
+  - `allQueuesEmpty()` — predicate for scheduler idle detection.
+  - `getTenantStats(tenant_id)` / `getAllTenantStats()` / `getStats()` —
+    per-tenant and aggregate observability (`submitted`, `completed`,
+    `preempted`, `total_elapsed_ms`, `queue_depth`, `slice_ms`).
+  - `resetStats()` — clear counters and queues, keeps tenant registrations.
+- ✅ CPU no-op backend used automatically when `dispatch(nullptr)` is called.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_time_slice_scheduler.cpp`).
+
+**Remaining (hardware required):**
+- Wire a real CUDA/ROCm stream into the `dispatch()` `BackendFn` so items
+  are submitted to `cudaStream_t` / `hipStream_t` rather than a CPU callback.
+- Implement hardware-level preemption (CUDA MPS context switching) for
+  true sub-kernel preemption within a running CUDA kernel.
+
+---
+
+### WASM-based GPU Kernel Sandbox for Untrusted Third-Party Kernels
+**Priority:** High | **Target Version:** v1.6.0 | **Status:** ✅ Infrastructure implemented
+
+Provides an isolated execution environment for GPU kernel blobs submitted by
+untrusted third parties.  Two enforcement layers prevent unauthorized or
+tampered code from reaching the GPU:
+
+1. **Whitelist + checksum gate** — delegated to `GPUKernelValidator`; only
+   registered kernel IDs with matching FNV-1a checksums are admitted.
+2. **Sandbox execution** — memory ceiling and wall-clock timeout enforced
+   before the kernel blob reaches the GPU backend.
+
+**Implemented infrastructure:**
+- ✅ `WASMKernelSandbox` (`include/themis/gpu/wasm_kernel_sandbox.h`,
+  `src/gpu/wasm_kernel_sandbox.cpp`) — feature-gated sandbox with
+  `SandboxConfig` (memory limit, timeout, host-call toggle), `ExecutionResult`,
+  `Status` enum (8 values), and `Stats`.
+- ✅ `execute(kernel_id, blob, backend)` — full validation pipeline:
+  feature-gate → empty-blob check → memory-limit check →
+  `GPUKernelValidator` whitelist/checksum → sandboxed CPU execution with
+  optional timeout via `std::async` + `wait_for`.
+- ✅ `isWASMSupported()` — returns `true` when `THEMIS_ENABLE_WASM` is
+  defined; always `false` in the current CPU simulation build.
+- ✅ `WASM_SANDBOX` feature flag added to `GPUFeatureFlags::Feature` and
+  `GPUFeatureFlags::getAll()`; enabled by default for ENTERPRISE and
+  HYPERSCALER editions only.
+- ✅ `sandboxStatusName()` free function for human-readable status strings.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_wasm_kernel_sandbox.cpp`):
+  feature-gate, empty blob, whitelist, checksum mismatch, memory limit,
+  timeout, custom backend, stats, concurrent safety.
+
+**Remaining (WASM runtime required):**
+- Add `wasm_plugin_loader.cpp` alongside `wasm_kernel_sandbox.cpp`; select
+  loader via `SandboxConfig::runtime` field (`"cpu"` | `"wasmtime"` | `"wasmedge"`).
+- Replace the `runInSandbox` CPU-simulation path with Wasmtime / WasmEdge
+  WASM module instantiation gated on `THEMIS_ENABLE_WASM`.
+- Enforce linear-memory hard ceiling at the WASM runtime level
+  (`wasmtime_store_limiter` / `WasmEdge_ConfigureCompilerSetMemoryImportExportPolicy`).
+- Wire `SandboxConfig::allow_host_calls` to the WASM import resolution
+  callback so that only explicitly allowlisted host functions are importable.
+- Add SHA-256 or BLAKE3 hash verification in addition to FNV-1a for
+  cryptographic-strength blob integrity assurance.
+- Benchmark WASM sandbox overhead vs. native dispatch for 1 M lightweight
+  kernel invocations: target < 2× overhead vs. unsandboxed CPU path.
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation

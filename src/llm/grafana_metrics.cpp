@@ -487,6 +487,51 @@ void LLMMetricsCollector::initializeMetrics() {
         {}
     });
 
+    // Unified dashboard / engine-typed metrics (Phase 2 — Q3 2026)
+    // engine_type label: "async" = AsyncInferenceEngine,
+    //                    "enhanced" = InferenceEngineEnhanced
+    exporter_->registerMetric({
+        "llm_engine_inference_requests_total",
+        "Total inference requests per engine type",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "engine_type"}
+    });
+
+    exporter_->registerMetric({
+        "llm_engine_inference_success_total",
+        "Total successful inference requests per engine type",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "engine_type"}
+    });
+
+    exporter_->registerMetric({
+        "llm_engine_inference_failures_total",
+        "Total failed inference requests per engine type",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "engine_type", "error"}
+    });
+
+    exporter_->registerMetric({
+        "llm_engine_inference_duration_ms",
+        "Inference duration histogram per engine type",
+        PrometheusExporter::MetricType::HISTOGRAM,
+        {"model_id", "engine_type"}
+    });
+
+    exporter_->registerMetric({
+        "llm_engine_tokens_generated_total",
+        "Total tokens generated per engine type",
+        PrometheusExporter::MetricType::COUNTER,
+        {"model_id", "engine_type"}
+    });
+
+    exporter_->registerMetric({
+        "llm_engine_queue_depth",
+        "Current request queue depth per engine type",
+        PrometheusExporter::MetricType::GAUGE,
+        {"engine_type"}
+    });
+
     // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
     initializeExtendedContextMetrics();
 }
@@ -748,6 +793,45 @@ void LLMMetricsCollector::recordWorkerPoolTasksCompleted(uint64_t total_complete
         }
         // prev was refreshed by compare_exchange_weak — retry
     }
+}
+
+// ─── Unified dashboard / engine-typed metrics (Phase 2 — Q3 2026) ────────────
+
+void LLMMetricsCollector::recordEngineInferenceRequest(const std::string& model_id,
+                                                        const std::string& engine_type) {
+    exporter_->incrementCounter("llm_engine_inference_requests_total",
+                                {{"model_id", model_id}, {"engine_type", engine_type}});
+}
+
+void LLMMetricsCollector::recordEngineInferenceSuccess(const std::string& model_id,
+                                                        const std::string& engine_type,
+                                                        double duration_ms) {
+    exporter_->incrementCounter("llm_engine_inference_success_total",
+                                {{"model_id", model_id}, {"engine_type", engine_type}});
+    exporter_->observeHistogram("llm_engine_inference_duration_ms", duration_ms,
+                                {{"model_id", model_id}, {"engine_type", engine_type}});
+}
+
+void LLMMetricsCollector::recordEngineInferenceFailure(const std::string& model_id,
+                                                        const std::string& engine_type,
+                                                        const std::string& error) {
+    exporter_->incrementCounter("llm_engine_inference_failures_total",
+                                {{"model_id", model_id}, {"engine_type", engine_type},
+                                 {"error", error}});
+}
+
+void LLMMetricsCollector::recordEngineTokensGenerated(const std::string& model_id,
+                                                       const std::string& engine_type,
+                                                       size_t count) {
+    exporter_->incrementCounter("llm_engine_tokens_generated_total",
+                                {{"model_id", model_id}, {"engine_type", engine_type}},
+                                static_cast<double>(count));
+}
+
+void LLMMetricsCollector::recordEngineQueueDepth(const std::string& engine_type,
+                                                  size_t depth) {
+    exporter_->setGauge("llm_engine_queue_depth", static_cast<double>(depth),
+                        {{"engine_type", engine_type}});
 }
 
 // Initialize extended context metrics (v1.4.0+)
@@ -1098,6 +1182,90 @@ std::string GrafanaDashboardGenerator::generateErrorPanel() const {
                        "graph", 0, 36, 12, 6);
 }
 
+std::string GrafanaDashboardGenerator::generateUnifiedDashboard() const {
+    std::ostringstream oss;
+
+    oss << "{\n";
+    oss << "  \"dashboard\": {\n";
+    oss << "    \"title\": \"" << config_.title << " — Unified Engine View\",\n";
+    oss << "    \"tags\": [\"llm\", \"themisdb\", \"unified\"],\n";
+    oss << "    \"timezone\": \"browser\",\n";
+    oss << "    \"schemaVersion\": 16,\n";
+    oss << "    \"version\": 1,\n";
+    oss << "    \"refresh\": \"" << config_.refresh_interval_sec << "s\",\n";
+    oss << "    \"panels\": [\n";
+
+    int y = 0;
+
+    // Row 1: Request rate per engine type (async vs enhanced)
+    oss << createPanel("Requests/sec — AsyncInferenceEngine",
+                       "rate(llm_engine_inference_requests_total{engine_type=\"async\"}[5m])",
+                       "graph", 0, y, 12, 8);
+    oss << ",\n";
+    oss << createPanel("Requests/sec — InferenceEngineEnhanced",
+                       "rate(llm_engine_inference_requests_total{engine_type=\"enhanced\"}[5m])",
+                       "graph", 12, y, 12, 8);
+    oss << ",\n";
+    y += 8;
+
+    // Row 2: Latency p95 per engine type
+    oss << createPanel("Latency p95 (ms) — AsyncInferenceEngine",
+                       "histogram_quantile(0.95, rate(llm_engine_inference_duration_ms_bucket{engine_type=\"async\"}[5m]))",
+                       "graph", 0, y, 12, 8);
+    oss << ",\n";
+    oss << createPanel("Latency p95 (ms) — InferenceEngineEnhanced",
+                       "histogram_quantile(0.95, rate(llm_engine_inference_duration_ms_bucket{engine_type=\"enhanced\"}[5m]))",
+                       "graph", 12, y, 12, 8);
+    oss << ",\n";
+    y += 8;
+
+    // Row 3: Tokens/sec per engine type
+    oss << createPanel("Tokens/sec — AsyncInferenceEngine",
+                       "rate(llm_engine_tokens_generated_total{engine_type=\"async\"}[5m])",
+                       "graph", 0, y, 12, 8);
+    oss << ",\n";
+    oss << createPanel("Tokens/sec — InferenceEngineEnhanced",
+                       "rate(llm_engine_tokens_generated_total{engine_type=\"enhanced\"}[5m])",
+                       "graph", 12, y, 12, 8);
+    oss << ",\n";
+    y += 8;
+
+    // Row 4: Queue depth per engine type + worker pool
+    oss << createPanel("Queue Depth — AsyncInferenceEngine",
+                       "llm_engine_queue_depth{engine_type=\"async\"}",
+                       "graph", 0, y, 8, 6);
+    oss << ",\n";
+    oss << createPanel("Queue Depth — InferenceEngineEnhanced",
+                       "llm_engine_queue_depth{engine_type=\"enhanced\"}",
+                       "graph", 8, y, 8, 6);
+    oss << ",\n";
+    oss << createPanel("Shared Worker Pool Queue Depth",
+                       "llm_worker_pool_queue_depth",
+                       "graph", 16, y, 8, 6);
+    oss << ",\n";
+    y += 6;
+
+    // Row 5: Error rates + cache hit rate (enhanced engine)
+    oss << createPanel("Error Rate — AsyncInferenceEngine",
+                       "rate(llm_engine_inference_failures_total{engine_type=\"async\"}[5m])",
+                       "graph", 0, y, 8, 6);
+    oss << ",\n";
+    oss << createPanel("Error Rate — InferenceEngineEnhanced",
+                       "rate(llm_engine_inference_failures_total{engine_type=\"enhanced\"}[5m])",
+                       "graph", 8, y, 8, 6);
+    oss << ",\n";
+    oss << createPanel("Cache Hit Rate (Enhanced Engine)",
+                       "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m]))",
+                       "gauge", 16, y, 8, 6);
+    oss << "\n";
+
+    oss << "    ]\n";
+    oss << "  }\n";
+    oss << "}\n";
+
+    return oss.str();
+}
+
 bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const {
     try {
         std::ofstream file(filepath);
@@ -1175,10 +1343,12 @@ bool MetricsServer::start() {
             res.set_content(body, "application/json");
         });
 
-    // /dashboard
+    // /dashboard — serve the unified Grafana dashboard JSON
     impl_->svr.Get(config_.dashboard_path.c_str(),
-        [](const httplib::Request& /*req*/, httplib::Response& res) {
-            res.set_content("{\"message\":\"Dashboard endpoint\"}", "application/json");
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.dashboard_path, body);
+            res.set_content(body, "application/json");
         });
 
     // Register POST routes -----------------------------------------------
@@ -1309,7 +1479,15 @@ void MetricsServer::handleRequest(const std::string& path, std::string& response
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
     } else if (path == config_.dashboard_path) {
-        response = "{\"message\": \"Dashboard endpoint\"}";
+        // Unified dashboard: delegate to callback if set; otherwise generate
+        // a default unified dashboard using GrafanaDashboardGenerator.
+        if (dashboard_cb_) {
+            response = dashboard_cb_();
+        } else {
+            GrafanaDashboardGenerator::DashboardConfig dcfg;
+            dcfg.title = "ThemisDB LLM Monitoring";
+            response = GrafanaDashboardGenerator(dcfg).generateUnifiedDashboard();
+        }
     } else if (path == config_.health_path) {
         // Liveness: server is alive as long as the MetricsServer object exists.
         if (running_) {

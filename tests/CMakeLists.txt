@@ -189,6 +189,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_pdf_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
         ".*test_content_html_processor\\.cpp$"
+        ".*test_content_markdown_processor\\.cpp$"
     )
 endif()
 
@@ -438,6 +439,28 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU time-slice scheduler test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUTimeSliceScheduler
+# (tenant lifecycle, work submission, round-robin dispatch, time-slice
+# preemption, drainAll, and statistics).  It uses only CPU-side bookkeeping
+# and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_time_slice_scheduler.cpp
+    )
+endif()
+
+# Re-include the WASM kernel sandbox test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates WASMKernelSandbox
+# (feature-gate enforcement, whitelist/checksum integration, memory-limit
+# rejection, timeout enforcement, statistics, and concurrent safety).
+# It uses only CPU-side bookkeeping and requires no GPU or WASM hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_wasm_kernel_sandbox.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -450,6 +473,11 @@ if(NOT THEMIS_ENABLE_LLM)
     )
 endif()
 
+# Ensure VisionConfig implementation is linked for vision API tests.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/llm/vision_config.cpp
+)
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
@@ -457,6 +485,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/huggingface_connector.cpp
         ../src/ingestion/filesystem_ingester.cpp
         ../src/ingestion/api_connector.cpp
+        ../src/ingestion/kafka_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -693,6 +722,11 @@ if(WIN32)
     set(_themis_vcpkg_tbb_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/tbb12.lib")
     if(EXISTS "${_themis_vcpkg_tbb_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")
+    endif()
+
+    set(_themis_vcpkg_pugixml_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/pugixml.lib")
+    if(EXISTS "${_themis_vcpkg_pugixml_lib}")
+        target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_pugixml_lib}")
     endif()
 endif()
 
@@ -2194,6 +2228,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
         TIMEOUT 60
     )
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
+endif()
+
+# Phase 2 – Jaeger tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jaeger_tracer_adapter.cpp")
+    message(STATUS "Adding JaegerTracerAdapter unit tests (Phase 2)")
+    add_executable(test_jaeger_tracer_adapter test_jaeger_tracer_adapter.cpp)
+    target_link_libraries(test_jaeger_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_jaeger_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME JaegerTracerAdapterTests COMMAND test_jaeger_tracer_adapter)
+    set_tests_properties(JaegerTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;jaeger;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  JaegerTracerAdapter: adapter construction, span lifecycle, uber-trace-id propagation, circuit-breaker, health")
+endif()
+
+# Phase 2 – Zipkin tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zipkin_tracer_adapter.cpp")
+    message(STATUS "Adding ZipkinTracerAdapter unit tests (Phase 2)")
+    add_executable(test_zipkin_tracer_adapter test_zipkin_tracer_adapter.cpp)
+    target_link_libraries(test_zipkin_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_zipkin_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ZipkinTracerAdapterTests COMMAND test_zipkin_tracer_adapter)
+    set_tests_properties(ZipkinTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;zipkin;b3;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ZipkinTracerAdapter: adapter construction, span lifecycle, B3 propagation, circuit-breaker, health")
 endif()
 
 # Phase 2 – OpenTelemetry trace and span propagation tests

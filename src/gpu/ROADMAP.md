@@ -53,8 +53,15 @@
   - Implementation: `include/themis/gpu/unified_memory.h`, `src/gpu/unified_memory.cpp`
   - Interfaces: `GPUUnifiedMemoryAllocator::{allocate, free, prefetch, advise, isSupported, getStats, getTenantBytes, reset}` + `MemAdvice` enum
   - Tests: `tests/test_gpu_unified_memory.cpp` (24 tests, 100% public-API coverage)
-- [I] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
-- [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+  - Implementation: `include/themis/gpu/time_slice_scheduler.h`, `src/gpu/time_slice_scheduler.cpp`
+  - Interfaces: `GPUTimeSliceScheduler::{registerTenant, unregisterTenant, hasTenant, submit, dispatch, drainAll, allQueuesEmpty, getTenantStats, getAllTenantStats, getStats, resetStats}` + `TenantConfig`, `TenantStats`, `Stats`
+  - Tests: `tests/test_gpu_time_slice_scheduler.cpp`
+- [x] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
+  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
+  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
+  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
 ## Implementation Phases

@@ -51,5 +51,7 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/cluster_coordinator.cpp
         ../src/gpu/profiler.cpp
         ../src/gpu/unified_memory.cpp
+        ../src/gpu/time_slice_scheduler.cpp
+        ../src/gpu/wasm_kernel_sandbox.cpp
     )
 endif()

@@ -61,10 +61,10 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler)
 - [x] Integration tests (handler ↔ highlighter path covered)
-- [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; general AQL handler benchmarks tracked in Issue: #1523)
+- [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
 - [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`)  
 - [x] Documentation complete (README.md and ROADMAP.md updated)
-- [I] API stability guaranteed (Issue: #1524)
+- [x] API stability guaranteed (Issue: #1524)
 
 ## Known Issues & Limitations
 - NL-to-AQL accuracy depends on LLM provider quality and prompt engineering

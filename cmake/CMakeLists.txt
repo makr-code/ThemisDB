@@ -1409,6 +1409,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    ../src/index/distributed_vector_index.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -1562,6 +1563,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
@@ -1614,7 +1616,6 @@ set(THEMIS_CORE_SOURCES
     
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
-    ../src/cdc/consumer_group.cpp
     ../src/replication/replication_manager.cpp
     
     # Temporal versioning and query engine
@@ -1776,6 +1777,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/soc2_controls.cpp
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
+    ../src/governance/data_masker.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1883,6 +1885,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     
     # Multi-tenancy support
@@ -1947,6 +1950,9 @@ set(THEMIS_CORE_SOURCES
 
     # Columnar Execution Engine with Vectorized Operator Pipeline (Phase 3)
     ../src/analytics/columnar_execution.cpp
+
+    # LLVM-JIT compilation for hot aggregation paths (Phase 3, Issue #1482)
+    ../src/analytics/jit_aggregation.cpp
 
     # Predictive Analytics & Time-Series Forecasting (Phase 3)
     ../src/analytics/forecasting.cpp
@@ -3261,6 +3267,10 @@ if(THEMIS_ENABLE_LLM)
     endif()
 
     # Add CLIP vision encoder only when explicitly enabled
+    target_sources(themis_core PRIVATE
+        ../src/llm/vision_config.cpp
+    )
+
     if(THEMIS_ENABLE_VISION)
         target_sources(themis_core PRIVATE
             ../src/llm/vision_encoder.cpp
@@ -3578,6 +3588,23 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ann_index
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Distributed vector index across shards (Issue #1879)
+    add_executable(test_distributed_vector_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_distributed_vector_index.cpp
+    )
+    target_link_libraries(test_distributed_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_vector_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
@@ -4511,10 +4538,28 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     endif()
 endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
 
+# Config Migration Scanner CLI Tool
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
+    add_executable(config_migration_scanner
+        ${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp
+    )
+    target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
+    target_include_directories(config_migration_scanner PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
+    install(TARGETS config_migration_scanner
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+endif()
+
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
-    add_subdirectory(tools)
+    add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
 endif()
 
 # LLM Model Management CLI Tool (themis-model)
@@ -4589,8 +4634,3 @@ if(MSVC)
         endforeach()
     endforeach()
 endif()
-
-
-
-
-

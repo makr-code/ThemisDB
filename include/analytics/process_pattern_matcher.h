@@ -318,9 +318,9 @@ public:
      * - Average similarity scores
      */
     struct PatternStatistics {
-        int total_patterns_cached;
-        int total_comparisons_performed;
-        double avg_computation_time_ms;
+        int total_patterns_cached = 0;
+        int total_comparisons_performed = 0;
+        double avg_computation_time_ms = 0.0;
         std::map<std::string, int> pattern_frequency;  ///< pattern_id -> usage count
         std::map<std::string, double> avg_similarity;  ///< pattern_id -> average score
     };

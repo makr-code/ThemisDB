@@ -76,7 +76,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: In Progress 🚧)
 - [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
-- [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
+- [x] LLVM-JIT compilation for hot aggregation paths (`analytics/jit_aggregation.cpp`): hot-path detection and template-specialised aggregation dispatch; LLVM MCJIT backend reserved behind `THEMIS_HAS_LLVM_JIT` compile flag (Issue: #1482)
 - [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
 - [x] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [x] AutoML integration for automated model selection

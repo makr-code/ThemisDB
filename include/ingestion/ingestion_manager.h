@@ -46,7 +46,8 @@ enum class SourceType {
     HUGGINGFACE,    ///< HuggingFace datasets
     FILESYSTEM,     ///< Local file system (PDF, DOCX, etc.)
     API,            ///< REST/SOAP API (future)
-    DATABASE        ///< Legacy database exports (future)
+    DATABASE,       ///< Legacy database exports (future)
+    KAFKA           ///< Apache Kafka consumer (librdkafka)
 };
 
 /**
@@ -888,6 +889,38 @@ public:
     IngestionBuilder& withApiSource(
         const std::string& source_id,
         const std::string& endpoint,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a Kafka consumer source
+     *
+     * Registers a `KafkaConnector` source.  Behaviour is controlled through
+     * the `options` map:
+     *
+     * | Key                   | Description                                    | Default            |
+     * |-----------------------|------------------------------------------------|--------------------|
+     * | `consumer_group`      | Consumer group ID                              | `themis-ingestion` |
+     * | `message_format`      | `"json"` (default) or `"avro"`                 | `json`             |
+     * | `text_field`          | JSON key whose value is the document text      | `text`             |
+     * | `schema_registry_url` | Avro Schema Registry URL (avro format only)    | (none)             |
+     * | `poll_timeout_ms`     | Per-poll timeout in milliseconds               | `1000`             |
+     * | `max_messages`        | Maximum messages per run (0 = unlimited)       | `0`                |
+     * | `session_timeout_ms`  | Consumer session timeout in milliseconds       | `10000`            |
+     * | `security_protocol`   | Security protocol                              | `plaintext`        |
+     * | `auto_offset_reset`   | Start offset when no committed offset: `"earliest"`, `"latest"`, `"none"` | `earliest` |
+     *
+     * @param source_id Unique source identifier
+     * @param brokers   Comma-separated broker list (e.g. `"host:9092"`)
+     * @param topic     Kafka topic name to subscribe to
+     * @param options   Optional key/value options (see table above)
+     * @param priority  Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withKafkaSource(
+        const std::string& source_id,
+        const std::string& brokers,
+        const std::string& topic,
         std::unordered_map<std::string, std::string> options = {},
         int priority = 5);
 

@@ -58,7 +58,7 @@ Extend the plugin manifest format to include fine-grained capability declaration
 
 ---
 
-### [~] Ed25519 Plugin Signing and Verification Pipeline
+### [x] Ed25519 Plugin Signing and Verification Pipeline
 **Priority:** High
 **Target Version:** v0.8.0
 

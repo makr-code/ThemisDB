@@ -37,7 +37,8 @@ full plugin lifecycle (init → execute → shutdown). All other plugin-capable 
 |---|---|
 | `module_loader.cpp` | Cross-platform shared library load/unload, capability query |
 | `hot_reload_manager.cpp` | Hot-reload of modules without server restart (in progress) |
-| `module_sandbox.cpp` | Sandbox constraints for loaded modules (planned) |
+| `module_sandbox.cpp` | OS-level resource-limit sandbox for loaded modules |
+| `wasm_plugin_sandbox.cpp` | WASM-based memory-safe isolation for untrusted plugin code |
 
 ### 3.2 Component Diagram
 
@@ -171,7 +172,7 @@ Performance targets:
 ## 11. Known Limitations & Future Work
 
 - Hot-reload (`hot_reload_manager.cpp`) is in progress; currently unsafe for in-flight requests.
-- Module sandboxing (`module_sandbox.cpp`) is planned (WASM-based isolation for untrusted plugins).
+- WASM-based plugin isolation is implemented in `wasm_plugin_sandbox.cpp`; a concrete WasmRuntime (Wasmtime, WasmEdge, etc.) must be injected for full execution support.
 - Plugin dependency management and version conflict resolution are planned.
 
 ---

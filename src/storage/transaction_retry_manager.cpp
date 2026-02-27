@@ -22,6 +22,7 @@
 
 #include "storage/transaction_retry_manager.h"
 #include <algorithm>
+#include <cmath>
 #include <sstream>
 #include <thread>
 #include <cctype>
@@ -29,10 +30,15 @@
 namespace themisdb {
 namespace storage {
 
+// Maximum allowed jitter_factor value: keeps the uniform_real_distribution
+// lower bound strictly positive (1.0 - MAX_JITTER_FACTOR > 0).
+static constexpr double MAX_JITTER_FACTOR = 0.999;
+
 TransactionRetryManager::TransactionRetryManager(const TransactionRetryConfig& config)
     : config_(config),
       rng_(std::random_device{}()),
-      jitter_dist_(1.0 - config.jitter_factor, 1.0 + config.jitter_factor) {
+      jitter_dist_(1.0 - std::min(config.jitter_factor, MAX_JITTER_FACTOR),
+                   1.0 + std::min(config.jitter_factor, MAX_JITTER_FACTOR)) {
 }
 
 TransactionRetryManager::~TransactionRetryManager() = default;
@@ -48,12 +54,13 @@ CircuitState TransactionRetryManager::getCircuitState() const {
     // Check if circuit should auto-reset
     if (circuit_state_ == CircuitState::CIRCUIT_OPEN) {
         auto now = std::chrono::steady_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - circuit_opened_time_).count();
+        auto elapsed = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - circuit_opened_time_).count());
         
         if (elapsed >= config_.reset_timeout_ms) {
             // Time to try again
-            const_cast<TransactionRetryManager*>(this)->transitionCircuitState(CircuitState::DEGRADED);
+            transitionCircuitState(CircuitState::DEGRADED);
         }
     }
     
@@ -180,11 +187,21 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
     uint32_t delay = 0;
     
     switch (strategy) {
-        case BackoffStrategy::EXPONENTIAL:
-            // delay = base * (multiplier ^ attempt)
-            delay = static_cast<uint32_t>(
-                base_delay * std::pow(config_.backoff_multiplier, attempt));
+        case BackoffStrategy::EXPONENTIAL: {
+            // delay = base * (multiplier ^ attempt), clamped to avoid overflow.
+            // Guard against non-finite or negative results from pow() (e.g. when
+            // backoff_multiplier is negative or NaN).
+            double raw = static_cast<double>(base_delay) *
+                         std::pow(config_.backoff_multiplier, attempt);
+            if (!std::isfinite(raw) || raw < 0.0) {
+                delay = max_delay;
+            } else if (raw >= static_cast<double>(max_delay)) {
+                delay = max_delay;
+            } else {
+                delay = static_cast<uint32_t>(raw);
+            }
             break;
+        }
         
         case BackoffStrategy::LINEAR:
             // delay = base * (attempt + 1)
@@ -210,7 +227,7 @@ uint32_t TransactionRetryManager::calculateDelay(size_t attempt, const RetryPoli
     return delay;
 }
 
-void TransactionRetryManager::recordSuccess(const std::string& operation_name) {
+void TransactionRetryManager::recordSuccess() {
     if (!config_.enable_circuit_breaker) {
         return;
     }
@@ -226,7 +243,7 @@ void TransactionRetryManager::recordSuccess(const std::string& operation_name) {
     }
 }
 
-void TransactionRetryManager::recordFailure(const std::string& operation_name) {
+void TransactionRetryManager::recordFailure() {
     if (!config_.enable_circuit_breaker) {
         return;
     }
@@ -254,12 +271,13 @@ bool TransactionRetryManager::isCircuitOpen() const {
     // Check if circuit should auto-reset
     if (circuit_state_ == CircuitState::CIRCUIT_OPEN) {
         auto now = std::chrono::steady_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-            now - circuit_opened_time_).count();
+        auto elapsed = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - circuit_opened_time_).count());
         
         if (elapsed >= config_.reset_timeout_ms) {
             // Time to try again
-            const_cast<TransactionRetryManager*>(this)->transitionCircuitState(CircuitState::DEGRADED);
+            transitionCircuitState(CircuitState::DEGRADED);
             return false;
         }
         return true;
@@ -268,7 +286,7 @@ bool TransactionRetryManager::isCircuitOpen() const {
     return false;
 }
 
-void TransactionRetryManager::transitionCircuitState(CircuitState new_state) {
+void TransactionRetryManager::transitionCircuitState(CircuitState new_state) const {
     if (circuit_state_ == new_state) {
         return;
     }

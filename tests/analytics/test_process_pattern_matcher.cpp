@@ -88,6 +88,9 @@ protected:
         RocksDBWrapper::Config cfg;
         cfg.db_path = DB_PATH;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            GTEST_SKIP() << "Could not open test RocksDB at " << DB_PATH;
+        }
         matcher_ = std::make_unique<ProcessPatternMatcher>(*db_);
     }
 
@@ -114,6 +117,9 @@ protected:
         RocksDBWrapper::Config cfg;
         cfg.db_path = DB_PATH;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            GTEST_SKIP() << "Could not open test RocksDB at " << DB_PATH;
+        }
         matcher_ = std::make_unique<ProcessPatternMatcher>(*db_);
 
         // Insert sample event log

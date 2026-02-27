@@ -63,11 +63,11 @@ public:
 Currently `ContentManager::ingest()` buffers the entire content in memory before processing. Files larger than `config_.max_content_size_bytes` are rejected. Implement chunked streaming ingestion in `async_ingestion_worker.cpp` that processes content in configurable chunks, enabling ingestion of files up to several GB.
 
 **Implementation Notes:**
-- `[ ]` Add `ContentManager::ingestStream(std::istream& stream, const ContentMetadata& meta)` overload.
-- `[ ]` `async_ingestion_worker.cpp` reads chunks of `chunk_size_bytes` (default: 4 MB, configurable) from the stream; each chunk is processed by the appropriate `IIngestionPlugin::processChunk()` method.
-- `[ ]` Processors that support streaming (text, CSV, NDJSON) implement `processChunk()`; processors that require full data (PDF, image) buffer up to a configurable `max_buffered_bytes` limit (default: 256 MB) before falling back to error.
+- `[x]` Add `ContentManager::ingestStream(std::istream& stream, const ContentMetadata& meta)` overload.
+- `[x]` `async_ingestion_worker.cpp` reads chunks of `chunk_size_bytes` (default: 4 MB, configurable) from the stream; each chunk is processed by the appropriate `IIngestionPlugin::processChunk()` method.
+- `[x]` Processors that support streaming (text, CSV, NDJSON) implement `processChunk()`; processors that require full data (PDF, image) buffer up to a configurable `max_buffered_bytes` limit (default: 256 MB) before falling back to error.
 - `[ ]` Back-pressure: `ingestStream()` blocks the caller when the worker queue depth exceeds `config_.max_queue_depth`; returns a `std::future<ContentId>` for async callers.
-- `[ ]` Partial failure: if a chunk fails validation in `content_validator.cpp`, the entire ingestion transaction is rolled back and the partial content is purged from storage.
+- `[x]` Partial failure: if a chunk fails validation in `content_validator.cpp`, the entire ingestion transaction is rolled back and the partial content is purged from storage.
 
 **Performance Targets:**
 - 1 GB NDJSON file ingested at ≥ 100 MB/s sustained throughput on NVMe storage.
