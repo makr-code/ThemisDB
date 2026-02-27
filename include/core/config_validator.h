@@ -213,7 +213,7 @@ public:
         ValidationResult result;
 
         const std::vector<std::string> valid_logger_adapters          = {"spdlog", "noop"};
-        const std::vector<std::string> valid_tracer_adapters          = {"otel",   "noop", ""};
+        const std::vector<std::string> valid_tracer_adapters          = {"otel", "jaeger", "zipkin", "noop", ""};
         const std::vector<std::string> valid_metrics_adapters         = {"prometheus", "noop", ""};
         const std::vector<std::string> valid_cache_adapters           = {"inmemory", "noop"};
         const std::vector<std::string> valid_circuit_breaker_adapters = {"default", "noop"};

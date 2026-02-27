@@ -446,6 +446,59 @@ TEST_F(ConcernsContextTest, ConfigAdapterKnownValuesAreValid) {
     EXPECT_TRUE(result.errors.empty());
 }
 
+TEST_F(ConcernsContextTest, ConfigAdapterJaegerTracerIsValid) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "jaeger", "prometheus", "inmemory");
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterZipkinTracerIsValid) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "zipkin", "prometheus", "inmemory");
+    EXPECT_TRUE(result.valid);
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenJaegerTracerSelection) {
+    // Setting tracerAdapter="jaeger" must construct a JaegerTracerAdapter
+    // without throwing (no real collector needed in unit tests).
+    ConcernsContext::Config cfg;
+    cfg.tracerAdapter   = "jaeger";
+    cfg.tracingEnabled  = true;
+    cfg.tracingEndpoint = "http://127.0.0.1:14268/api/traces";
+    cfg.metricsEnabled  = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    // Span creation must not crash regardless of whether the collector is reachable.
+    EXPECT_NO_THROW({
+        auto span = ctx->tracer().startSpan("jaeger_test_span");
+        ASSERT_NE(nullptr, span);
+        span->end();
+    });
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenZipkinTracerSelection) {
+    // Setting tracerAdapter="zipkin" must construct a ZipkinTracerAdapter
+    // without throwing (no real collector needed in unit tests).
+    ConcernsContext::Config cfg;
+    cfg.tracerAdapter   = "zipkin";
+    cfg.tracingEnabled  = true;
+    cfg.tracingEndpoint = "http://127.0.0.1:9411/api/v2/spans";
+    cfg.metricsEnabled  = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_NO_THROW({
+        auto span = ctx->tracer().startSpan("zipkin_test_span");
+        ASSERT_NE(nullptr, span);
+        span->end();
+    });
+}
+
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownLoggerAdapterIsInvalid) {
     auto result = themis::core::ConfigValidator::validateAdapterConfig(
         "log4cpp", "", "", "inmemory");
@@ -457,11 +510,11 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownLoggerAdapterIsInvalid) {
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownTracerAdapterIsInvalid) {
     auto result = themis::core::ConfigValidator::validateAdapterConfig(
-        "spdlog", "jaeger", "", "inmemory");
+        "spdlog", "datadog-apm", "", "inmemory");
     EXPECT_FALSE(result.valid);
     ASSERT_EQ(1u, result.errors.size());
     EXPECT_NE(std::string::npos, result.errors[0].find("tracerAdapter"));
-    EXPECT_NE(std::string::npos, result.errors[0].find("jaeger"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("datadog-apm"));
 }
 
 TEST_F(ConcernsContextTest, ConfigAdapterUnknownMetricsAdapterIsInvalid) {
@@ -493,7 +546,7 @@ TEST_F(ConcernsContextTest, ConfigAdapterUnknownCircuitBreakerAdapterIsInvalid) 
 
 TEST_F(ConcernsContextTest, ConfigAdapterMultipleInvalidAdaptersReportAllErrors) {
     auto result = themis::core::ConfigValidator::validateAdapterConfig(
-        "log4cpp", "jaeger", "datadog", "redis", "hystrix");
+        "log4cpp", "datadog-apm", "datadog", "redis", "hystrix");
     EXPECT_FALSE(result.valid);
     EXPECT_EQ(5u, result.errors.size());
 }
