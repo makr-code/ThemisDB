@@ -38,25 +38,18 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] NLIFaithfulnessVerifier integrated into RAGJudge for entailment-based claim verification (Issue: #1296, Target: Q1 2026) — Member of RAGJudge::Impl; threshold: 0.7; graceful degradation when model not loaded
 - [x] FaithfulnessEvaluator::extractClaims() – LLM-first + sentence-boundary fallback (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of Claim structs; Errors: JSON parse failure falls back to regex; LLM confidence: 0.9, heuristic confidence: 0.6
 - [x] LearningMetrics – sliding-window metrics with mean/std-dev/trend export (Issue: #1296, Target: Q1 2026) — Tracks accuracy, faithfulness, relevance, completeness, coherence; CSV export; thread-safe with std::mutex
+- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
 
 ## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
-- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
-- [I] Configurable chunk size and overlap for document splitting (Issue: #2238)
-- [x] Multi-document summarization before context injection (Issue: #2239)
-- [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights (Issue: #1968)
-- [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436)
-- [x] Configurable chunk size and overlap for document splitting (Issue: #2238)
-- [I] Multi-document summarization before context injection (Issue: #2239)
 - [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Long-term (6-12 months)
 - [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [x] Knowledge graph-augmented retrieval (entity linking) (Issue: #2242)
 - [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
 - [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
@@ -96,6 +89,8 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
+- [x] Unit tests for LearningMetrics (test_learning_metrics.cpp: recordEvaluation, computeMetrics, exportMetrics, printReport, window enforcement)
+- [x] Unit tests for ClaimExtractor (test_claim_extractor.cpp: extract, verify, calculateFaithfulness, SelfConsistencyEvaluator)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)

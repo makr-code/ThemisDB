@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.0  
-**Last Updated:** 2026-02-25  
+**Last Updated:** 2026-02-27  
 **Scope:** Aggregated roadmap across all 44 modules in `src/`
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -72,6 +72,23 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ---
 
+## Milestone: v1.5.0
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.5.0.md`](docs/de/releases/RELEASE_NOTES_v1.5.0.md)
+
+Key PRs included in v1.5.0:
+
+| PR | Module | Feature |
+|----|--------|---------|
+| [#3049](https://github.com/makr-code/ThemisDB/pull/3049) | geo | Geo CPU/GPU throughput benchmarks |
+| [#3050](https://github.com/makr-code/ThemisDB/pull/3050) | security | QueryMaskingPolicy (PII field masking) |
+| [#3051](https://github.com/makr-code/ThemisDB/pull/3051) | gpu | WASMKernelSandbox (GPU kernel isolation) |
+| [#1383](https://github.com/makr-code/ThemisDB/issues/1383) | acceleration | CUDA ANN + geospatial kernels |
+| [#1384](https://github.com/makr-code/ThemisDB/issues/1384) | acceleration | Vulkan compute shader pipeline |
+| [#1390](https://github.com/makr-code/ThemisDB/issues/1390) | acceleration | Cross-backend L2 distance validation |
+
+---
+
 ## Implementation Phases
 
 ### Phase 1: Foundation Hardening (Q1–Q2 2026) — 🚧 In Progress
@@ -109,6 +126,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Production readiness checklist completion (Target: Q2 2026)
 
 #### 1.7 Geo — GPU Kernel Completion
+- [P] Geo CPU/GPU throughput benchmarks (`bench_geo_cpu_gpu.cpp`) (PR: #3049) (Target: v1.5.0) ✅
 - [I] ST_BUFFER/ST_UNION/ST_DIFFERENCE CUDA kernels (Target: Q2 2026)
 - [I] Full PostGIS ST_* function parity (Target: Q3 2026)
 
@@ -217,6 +235,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 
 #### 5.1 Security
+- [P] `QueryMaskingPolicy` — dynamic PII field masking of query results (PR: #3050) (Target: v1.5.0) ✅
 - [I] Zero-trust continuous verification framework (Issue: #1541) (Target: Q1 2027)
 - [I] HSM integration for production key management (Target: Q1 2027)
 - [I] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
@@ -251,6 +270,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
+- [P] `WASMKernelSandbox` — isolated execution environment for untrusted GPU kernel blobs (PR: #3051) (Target: v1.5.0) ✅
 - [I] Plugin marketplace manifest standard (Issue: #1556) (Target: Q2 2027)
 - [I] WASM-based plugin isolation for untrusted code (Issue: #1572) (Target: Q3 2027)
 - [I] Remote plugin loading from authenticated registry (Issue: #1562) (Target: Q4 2027)

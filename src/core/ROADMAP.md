@@ -30,15 +30,19 @@
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [x] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
+- [x] OpenTelemetry trace and span propagation (Issue: #1407)
+- [x] Prometheus-compatible metrics adapter (Issue: #1408)
+- [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
+- [x] Configuration-driven adapter selection (Issue: #1411)
+- [x] Circuit breaker interface as a first-class concern (Issue: #1415)
+- [x] Feature flag interface for runtime enable/disable (Issue: #1416)
+
+## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] OpenTelemetry trace and span propagation (Issue: #1407)
-- [x] Prometheus-compatible metrics adapter (Issue: #1408)
-- [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
-- [I] Health check interface in ConcernsContext (Issue: #1410)
-- [x] Configuration-driven adapter selection (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)

@@ -20,23 +20,24 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
   - Stage 3: Daily aggregates (>1 year)
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
 - [x] Full cron expression parsing (v1.5.0): wildcards, ranges, lists (with embedded ranges/steps), start/step syntax, month and weekday name aliases (JAN–DEC, MON–SUN), 6-field year constraint, timezone-aware scheduling, @-specials
-
-## In Progress 🚧
 - [x] Distributed task coordination across nodes (Target: Q2 2026) (Issue: #2272)
 - [x] Task dependency DAG execution (Target: Q3 2026) (Issue: #2453)
+- [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
+- [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
+- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+
+## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
-- [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
-- [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
 - [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
-- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
 - [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
 - [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)

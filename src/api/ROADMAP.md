@@ -13,29 +13,29 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] TLS/SSL support
 - [x] Request/response handling pipeline
 - [x] API middleware infrastructure
+- [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
+- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
+- [x] GraphQL schema for multi-model queries (Issue: #1493)
+- [x] WebSocket support for real-time change subscriptions (Issue: #1494)
+- [x] Rate limiting middleware (Issue: #1495)
+- [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
+- [x] API gateway integration (Kong, Nginx) (Issue: #1500)
+- [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
+- [x] Multi-tenant namespace routing (Issue: #1503)
+- [x] Async job API for long-running queries (Issue: #1504)
 
 ## In Progress 🚧
-- [x] GraphQL API layer (Target: Q2 2026) (Issue: #1447)
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
-- [x] Streaming query result endpoints (SSE/WebSocket) (Target: Q3 2026) (Issue: #1492)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] GraphQL schema for multi-model queries (Issue: #1493)
-- [x] WebSocket support for real-time change subscriptions (Issue: #1494)
-- [x] Rate limiting middleware (Issue: #1495)
 - [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
-- [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
 
 ### Long-term (6-12 months)
 - [I] gRPC API surface alongside REST (Issue: #1499)
-- [x] API gateway integration (Kong, Nginx) (Issue: #1500)
-- [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [I] API key management endpoint (Issue: #1502)
-- [x] Multi-tenant namespace routing (Issue: #1503)
-- [x] Async job API for long-running queries (Issue: #1504)
 
 ## Implementation Phases
 
@@ -63,7 +63,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1509)
 - [P] Integration tests (Issue: #1510)
-- [I] Performance benchmarks (Issue: #1511)
+- [P] Performance benchmarks (Issue: #1511)
 - [I] Security audit (Issue: #1512)
 - [I] Documentation complete (Issue: #1513)
 - [I] API stability guaranteed (Issue: #1514)

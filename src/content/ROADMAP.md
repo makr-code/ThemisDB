@@ -13,9 +13,9 @@
 - [x] JSON ingestion
 - [x] Content compression using zstd
 - [x] Content type detection for routing to specialized processors
+- [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 
 ## In Progress 🚧
-- [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
 - [P] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 
@@ -34,7 +34,6 @@
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
 - [I] Multi-language text detection and routing (Issue: #1690)
-- [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 - [I] Content versioning and delta storage (Issue: #1692)
 
 ## Implementation Phases

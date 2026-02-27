@@ -21,6 +21,8 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update scheduling and notification system
 - [x] Delta (binary diff) updates to reduce download size (PR: #2488)
 - [x] Canary rollout mode (update a fraction of nodes first) (PR: #2587)
+- [x] In-place schema migration without data copy for additive changes (Issue: #2480)
+- [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 
 ## In Progress 🚧
 - [!] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026) (Issue: #2490)
@@ -28,7 +30,6 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] In-place schema migration without data copy for additive changes (Issue: #2480)
 - [!] Migration dry-run with detailed change preview (Issue: #2481)
 - [!] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
 - [I] Automatic rollback on post-update health check failure (Issue: #2335)
@@ -39,7 +40,6 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [I] Blue/green deployment support (run two versions simultaneously) (Issue: #2484)
 - [!] Multi-node coordinated update with replication-safe sequencing (Issue: #2485)
 - [I] Update bundle signing with hardware-backed keys (HSM) (Issue: #2486)
-- [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 
 ## Implementation Phases
 

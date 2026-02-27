@@ -30,10 +30,10 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] **Threshold alerting** – `AlertConfig` / `AlertCallback` hooks firing on failure rate and hallucination count breaches
 - [x] Integration facade combining all subsystems
 - [x] **Prompt injection attack detection** – `PromptInjectionDetector` with 10 built-in patterns, keyword/syntax scoring, `detect()`, `detectInResponse()`, `sanitize()`, pluggable custom patterns (Issue: #2428, PR: #2534)
+- [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
 
 ## In Progress 🚧
 - [?] Token counting and context-window budget enforcement (Target: Q2 2026)
-- [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
 
 ## Planned Features 📋
 
