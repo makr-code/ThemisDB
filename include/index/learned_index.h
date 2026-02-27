@@ -530,6 +530,12 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
     std::memcpy(&me_u,    p, 8); p += 8;
     std::memcpy(&mean_err, p, 8); p += 8;
 
+    // Guard against integer overflow in size calculation (ne * 16 + 2)
+    // and against excessive memory allocation (DoS).
+    // 1M experts is far beyond any practical use.
+    static constexpr uint64_t kMaxExperts = 1u << 20;
+    if (ne > kMaxExperts) return false;
+
     if (!need(16)) return false;
     double rs, ri;
     std::memcpy(&rs, p, 8); p += 8;

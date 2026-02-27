@@ -6,6 +6,7 @@
 //   - Point lookup correctness (int64, uint64, double, float)
 //   - Range query correctness
 //   - Serialisation / deserialisation round-trip
+//   - Security: malformed / overflowed buffer rejection
 //   - Edge cases: tiny arrays, duplicate keys, uniform distributions
 //   - Stale / untrained guard paths
 
@@ -14,6 +15,8 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+#include <limits>
 #include <numeric>
 #include <random>
 #include <set>
@@ -325,6 +328,45 @@ TEST(LearnedIndexI64, DeserialiseInvalidMagic) {
 TEST(LearnedIndexI64, DeserialiseEmptyBuffer) {
     LearnedIndexI64 idx;
     EXPECT_FALSE(idx.deserialize({}));
+}
+
+TEST(LearnedIndexI64, DeserialiseTruncatedBuffer) {
+    // Truncating a valid serialised buffer must be rejected
+    auto keys = makeSorted<int64_t>(100, 0LL, 1LL);
+    LearnedIndexI64 original;
+    ASSERT_TRUE(original.train(keys).ok);
+    auto buf = original.serialize();
+
+    // Try every truncation length
+    for (size_t len = 0; len < buf.size(); ++len) {
+        std::vector<uint8_t> truncated(buf.begin(), buf.begin() + len);
+        LearnedIndexI64 idx;
+        EXPECT_FALSE(idx.deserialize(truncated))
+            << "Should reject truncated buffer of length " << len;
+    }
+}
+
+TEST(LearnedIndexI64, DeserialiseOverflowNe) {
+    // Craft a buffer with a valid magic but ne value that would cause
+    // ne * 16 + 2 to integer-overflow — must be rejected without crashing.
+    auto keys = makeSorted<int64_t>(5, 0LL, 1LL);
+    LearnedIndexI64 original;
+    ASSERT_TRUE(original.train(keys).ok);
+    auto buf = original.serialize();
+
+    // Patch ne (bytes 4..11) to a value causing overflow: (SIZE_MAX/16)+2
+    const uint64_t evil_ne =
+        (static_cast<uint64_t>(std::numeric_limits<size_t>::max()) / 16u) + 2u;
+    std::memcpy(buf.data() + 4, &evil_ne, 8);
+    // Ensure the buffer is large enough so that the overflowed size check would
+    // pass if the guard were absent.
+    // Serialisation header: 4 (magic) + 8*4 (fields) + 16 (root) = 52 bytes.
+    // Overflowed ne*16+2 = 34 bytes → attacker needs ≥ 52+34 = 86 bytes.
+    if (buf.size() < 86u) buf.resize(86u, 0u);
+
+    LearnedIndexI64 victim;
+    EXPECT_FALSE(victim.deserialize(buf))
+        << "Must reject buffer with ne causing size_t overflow";
 }
 
 // ---------------------------------------------------------------------------
