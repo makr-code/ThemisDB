@@ -31,7 +31,6 @@
 - [x] Prometheus-compatible metrics adapter (Issue: #1408)
 - [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [x] Configuration-driven adapter selection (Issue: #1411)
-- [x] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
 - [x] Circuit breaker interface as a first-class concern (Issue: #1415)
 - [x] Feature flag interface for runtime enable/disable (Issue: #1416)
 
@@ -41,7 +40,6 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Health check interface in ConcernsContext (Issue: #1410)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)

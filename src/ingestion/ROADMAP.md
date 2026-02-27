@@ -19,10 +19,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Admin API (list, pause, resume, quarantine)
 - [x] Fluent IngestionBuilder API
 - [x] Cursor-based pagination support alongside offset/limit (Issue: #2409)
-- [x] Per-document quarantine retry with exponential back-off (Issue: #1916)
-- [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Issue: #1917)
 - [x] PDF and DOCX binary format ingestion via external converters (Issue: #1889)
-- [x] OAuth 2.0 token refresh handling within connectors (Issue: #2408)
 
 ## In Progress 🚧
 *(none currently in progress)*

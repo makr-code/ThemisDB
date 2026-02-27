@@ -21,7 +21,6 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Automatic legacy path migration script with dry-run mode — `config_migration_scanner` CLI (`--root`, `--output text|json|csv`, `--dry-run`, `--fix`); unit-tested via `tests/test_config_migration_scanner.cpp` (Issue: #1661)
 - [x] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
 - [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
-- [x] Config audit trail: log which paths were accessed and when (Issue: #1668)
 - [x] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## In Progress 🚧
@@ -75,7 +74,6 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
 - Secrets management and credential injection are explicitly out of scope
 - Migration scanner available: `config_migration_scanner --fix` rewrites legacy path strings in config files in-place (creates `.bak` backups).
-- Renaming the actual config files on disk is tracked separately (Issue: #1658).
 
 ## Breaking Changes
 - Removal of deprecated legacy path mappings is planned once migration tooling is released and a deprecation window expires

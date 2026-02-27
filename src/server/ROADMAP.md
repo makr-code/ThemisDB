@@ -82,7 +82,6 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 
 ### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Planned 📋)
 - [ ] gRPC-web proxy for browser clients
-- [~] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [ ] Edge caching integration (CDN cache-control header management)
 - [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
 - [ ] HTTP/3 datagram support for real-time low-latency streams

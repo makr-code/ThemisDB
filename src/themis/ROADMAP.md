@@ -50,7 +50,6 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
-- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [x] `isModuleCompiledIn()` – runtime module availability check

@@ -32,9 +32,7 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] `MultiModalSearch` – TEXT/IMAGE/AUDIO/CUSTOM modalities; weighted RRF fusion (v1.5.0)
 - [x] Faceted search with dynamic facet counting (`FacetedSearch`, v1.5.0) (Issue: #2283)
 - [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
-- [x] Search analytics (top queries, zero-result queries) (Issue: #2275) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions (Issue: #2455)
-- [x] Autocomplete / type-ahead query suggestions (Issue: #2281) (`AutocompleteEngine`, v1.5.0)
 
 ## In Progress 🚧
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)

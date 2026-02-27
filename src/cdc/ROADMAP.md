@@ -33,7 +33,6 @@
 
 ### Short-term (Next 3-6 months)
 - [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
-- [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [P] Outbox pattern support for transactional change publishing (Issue: #1612)
 
 ### Long-term (6-12 months)

@@ -16,7 +16,6 @@
 - [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 
 ## In Progress 🚧
-- [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
 - [P] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 

@@ -47,16 +47,9 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
 
 ### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
-- [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
-- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
-- [x] AQL syntax highlighting and error annotation in LLM responses (Issue: #1353)
-- [x] Confidence scoring for generated AQL queries (`LLMAQLHandler::translateNLToAQLWithConfidence`) (Issue: #1357)
-- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
-- [x] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler)
