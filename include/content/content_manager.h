@@ -34,6 +34,7 @@
 #include "content/content_processor.h"
 #include "content/deduplication_checker.h"
 #include "content/embedding_pipeline.h"
+#include "content/processor_chain_config.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/vector_index.h"
@@ -541,6 +542,24 @@ public:
      */
     std::shared_ptr<DeduplicationChecker> getDeduplicationChecker() const;
 
+    /**
+     * @brief Set the processor chain configuration.
+     *
+     * Controls which processing stages (extraction, chunking, embedding,
+     * deduplication) run for each content type during `ingestRawBlob()`.
+     * Stages are matched by MIME type first, then by category, then by the
+     * global default.  All stages are enabled by default, preserving
+     * backward-compatible behaviour when no configuration is set.
+     *
+     * @param config  ProcessorChainConfig to apply.
+     */
+    void setProcessorChainConfig(const ProcessorChainConfig& config);
+
+    /**
+     * @brief Get the current processor chain configuration.
+     */
+    const ProcessorChainConfig& getProcessorChainConfig() const;
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
@@ -550,6 +569,7 @@ private:
     std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_;
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
     std::shared_ptr<DeduplicationChecker> dedup_checker_;
+    ProcessorChainConfig processor_chain_config_;  ///< Configurable stage chain.
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;

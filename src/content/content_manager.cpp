@@ -404,6 +404,14 @@ std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() 
     return dedup_checker_;
 }
 
+void ContentManager::setProcessorChainConfig(const ProcessorChainConfig& config) {
+    processor_chain_config_ = config;
+}
+
+const ProcessorChainConfig& ContentManager::getProcessorChainConfig() const {
+    return processor_chain_config_;
+}
+
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
     if (!processor) return;
     auto cats = processor->getSupportedCategories();
@@ -733,7 +741,10 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 // Failures are tracked by EmbeddingPipeline::getFailureCount()
                 // and, when EmbeddingPipelineConfig::metrics is set, also
                 // propagated to ContentMetrics::recordEmbeddingFailure().
-                if (embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
+                // Respect the "__embedding_enabled" hint set by ingestRawBlob
+                // when the ProcessorChainConfig has embedding disabled.
+                const bool embedding_stage_enabled = spec.value("__embedding_enabled", true);
+                if (embedding_stage_enabled && embedding_pipeline_ && embedding_pipeline_->isEnabled() &&
                     c.embedding.empty() && !c.text.empty()) {
                     auto emb = embedding_pipeline_->generateEmbedding(c.text);
                     if (!emb.empty()) {
@@ -1952,6 +1963,10 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
 
+    // Determine the effective processing stage configuration for this content type.
+    const ContentTypePipelineConfig stage_cfg =
+        processor_chain_config_.getEffectiveConfig(detected_mime, category);
+
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
     // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
     // check and the post-storage registration to avoid redundant computation.
@@ -1960,7 +1975,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     std::string cached_phash;
     std::vector<uint32_t> cached_minhash;
 
-    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         metrics_.dedup_checks_total.fetch_add(1);
 
         std::optional<DuplicateOf> dup;
@@ -1996,7 +2011,8 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         }
     }
     json chunks_json = json::array();
-    if (detected_mime == "text/html" || detected_mime == "application/xhtml+xml") {
+    if (stage_cfg.extraction.enabled &&
+        (detected_mime == "text/html" || detected_mime == "application/xhtml+xml")) {
         HtmlProcessor html_proc;
         ContentType ct;
         ct.mime_type = detected_mime;
@@ -2030,7 +2046,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     }
 
     // Markdown: parse frontmatter and extract plain text
-    if (detected_mime == "text/markdown") {
+    if (stage_cfg.extraction.enabled && detected_mime == "text/markdown") {
         MarkdownProcessor md_proc;
         ContentType ct;
         ct.mime_type = detected_mime;
@@ -2069,6 +2085,10 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     if (!chunks_json.empty()) {
         spec["chunks"] = chunks_json;
     }
+    // Pass the embedding stage flag to importContent via the spec.
+    // The "__embedding_enabled" key is an internal hint consumed by importContent;
+    // it is never persisted to storage.
+    spec["__embedding_enabled"] = stage_cfg.embedding.enabled;
 
     auto status = importContent(spec, blob, user_context);
     if (!status.ok) {
@@ -2078,7 +2098,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if (stage_cfg.deduplication.enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
         if (dedup_is_image && !cached_phash.empty()) {
             dedup_checker_->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;
@@ -2225,6 +2245,15 @@ ContentManager::IngestResult ContentManager::ingestStream(
     int64_t total_bytes = static_cast<int64_t>(header_read);
     int seq_num = 0;
     std::vector<std::string> chunk_ids;
+
+    // Determine the effective processing stage configuration for this content type.
+    const ContentCategory streaming_category = [&]() {
+        auto& reg = ContentTypeRegistry::instance();
+        auto t = reg.getByMimeType(detected_mime);
+        return t ? t->category : ContentCategory::UNKNOWN;
+    }();
+    const ContentTypePipelineConfig stream_stage_cfg =
+        processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
     // Incremental hash: XOR-combine per-chunk hashes (consistent with the
     // placeholder computeSHA256 approach; upgraded together when real SHA-256
     // is introduced for the non-streaming path).
@@ -2274,7 +2303,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         cm.text       = text;
         cm.created_at = now;
 
-        if (embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
+        if (stream_stage_cfg.embedding.enabled && embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
             auto emb = embedding_pipeline_->generateEmbedding(text);
             if (!emb.empty()) cm.embedding = std::move(emb);
         }
