@@ -89,6 +89,22 @@ void ModuleDependencyResolver::clear()
     modules_.clear();
 }
 
+std::vector<ModuleDependencyResolver::RegisteredModuleInfo>
+ModuleDependencyResolver::getRegisteredModules() const
+{
+    std::vector<RegisteredModuleInfo> result;
+    result.reserve(modules_.size());
+    for (const auto& kv : modules_) {
+        RegisteredModuleInfo info;
+        info.name    = kv.first;
+        info.version = kv.second.version;
+        info.deps    = kv.second.deps;
+        result.push_back(std::move(info));
+    }
+    // Already sorted because modules_ is a std::map (sorted by key).
+    return result;
+}
+
 DependencyResolutionResult ModuleDependencyResolver::resolve() const
 {
     std::vector<std::string> all;
