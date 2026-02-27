@@ -331,6 +331,62 @@ tampered code from reaching the GPU:
 
 ---
 
+### MIG (Multi-Instance GPU) Partitioning for NVIDIA A/H Series
+**Priority:** High | **Target Version:** v1.7.0 | **Status:** ✅ Infrastructure implemented
+
+Partitions a single NVIDIA Ampere (A100) or Hopper (H100) GPU into up to 7
+independent GPU Instances (GIs), each with isolated VRAM and compute slices
+and hardware-level fault isolation.
+
+**Implemented infrastructure:**
+- ✅ `MIGManager` (`include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`)
+  — full MIG partition lifecycle: `createPartition`, `destroyPartition`,
+  `assignToTenant`, `unassignFromTenant`, `getInstances`,
+  `getInstancesForDevice`, `getInstancesForTenant`, `getInstance`, `reset`.
+- ✅ 8 well-known MIG profiles with VRAM sizes:
+  `1g.5gb`, `2g.10gb`, `3g.20gb`, `4g.20gb`, `7g.40gb`,
+  `1g.10gb`, `1g.12gb`, `7g.80gb`.
+- ✅ `deviceSupportsMIG(DeviceInfo)` — returns `true` for CUDA devices with
+  compute major ≥ 8 (Ampere / Hopper).
+- ✅ `isKnownProfile(profile)` / `profileMemoryBytes(profile)` — profile
+  validation and VRAM-size lookup.
+- ✅ Per-device instance limit enforcement (max 7 per device).
+- ✅ `MIGInstance` struct: `instance_id`, `device_index`, `gi_id`, `profile`,
+  `memory_bytes`, `is_active`, `tenant_id`.
+- ✅ `Status` enum (9 values) + `migStatusName()` free function.
+- ✅ `Stats` struct: `total_created`, `total_destroyed`, `total_assigned`,
+  `total_unassigned`, `active_instances`.
+- ✅ `MIG_MANAGER` feature flag added to `GPUFeatureFlags::Feature` and
+  `GPUFeatureFlags::getAll()`; enabled by default for ENTERPRISE and
+  HYPERSCALER editions only.
+- ✅ MIG fields added to `DeviceInfo`: `mig_enabled`, `mig_max_instances`.
+- ✅ NVML stub (`THEMIS_ENABLE_CUDA` + `THEMIS_ENABLE_NVML` guards) ready for
+  real `nvmlDeviceCreateGpuInstance` / `nvmlGpuInstanceDestroy` wiring.
+- ✅ CPU simulation path (in-memory registry) always active; all tests pass
+  without GPU hardware.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_mig_manager.cpp`):
+  deviceSupportsMIG, profile validation, feature-gate enforcement, partition
+  lifecycle, tenant assignment, stats, concurrent safety.
+
+**Remaining (hardware required):**
+- Enable MIG mode on the physical device via
+  `nvmlDeviceSetMIGMode(dev, NVML_DEVICE_MIG_ENABLE, &activationStatus)` and
+  call `nvmlDeviceGetMIGMode` to verify.
+- Create a real GPU Instance via `nvmlDeviceCreateGpuInstance(dev, profileId,
+  &gpu_inst)` and a Compute Instance via
+  `nvmlGpuInstanceCreateComputeInstance(gpu_inst, ciProfileId, &ci)`.
+- Persist `nvmlGpuInstance_t` / `nvmlComputeInstance_t` handles in
+  `MIGInstance` and call `nvmlGpuInstanceDestroy` / `nvmlComputeInstanceDestroy`
+  in `destroyPartition`.
+- Update `DeviceDiscovery::Enumerate()` to set `mig_enabled = true` and
+  `mig_max_instances` for Ampere/Hopper devices detected via NVML.
+- Benchmark MIG isolation: verify that two concurrent 1g.5gb instances on an
+  A100 achieve ≥ 0.9× of the theoretical throughput of a single 2g.10gb
+  instance (measured with `nvmlDeviceGetUtilizationRates`).
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation

@@ -39,6 +39,7 @@ const char* GPUFeatureFlags::featureName(Feature feature) noexcept {
         case Feature::KERNEL_VALIDATOR:  return "KERNEL_VALIDATOR";
         case Feature::ALERTS:            return "ALERTS";
         case Feature::WASM_SANDBOX:      return "WASM_SANDBOX";
+        case Feature::MIG_MANAGER:       return "MIG_MANAGER";
     }
     return "UNKNOWN";
 }
@@ -67,6 +68,7 @@ std::string GPUFeatureFlags::editionName() {
  * | KERNEL_VALIDATOR |    yes    |    yes     |    yes      |
  * | ALERTS           |    yes    |    yes     |    yes      |
  * | WASM_SANDBOX     |    no     |    yes     |    yes      |
+ * | MIG_MANAGER      |    no     |    yes     |    yes      |
  */
 bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     const auto ed = edition::GetEditionType();
@@ -89,6 +91,12 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
                ed == edition::EditionType::HYPERSCALER;
     }
 
+    // MIG partitioning requires Enterprise or above (hardware partitioning).
+    if (f == Feature::MIG_MANAGER) {
+        return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::HYPERSCALER;
+    }
+
     // All other features are available in Community and above
     // (i.e. always true for any known edition).
     return ed != edition::EditionType::UNKNOWN;
@@ -99,7 +107,7 @@ void GPUFeatureFlags::initDefaults() {
         Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,
         Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
         Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
-        Feature::ALERTS,      Feature::WASM_SANDBOX,
+        Feature::ALERTS,      Feature::WASM_SANDBOX,   Feature::MIG_MANAGER,
     };
     for (auto f : all) {
         defaults_[key(f)] = editionDefaultFor(f);
@@ -163,10 +171,10 @@ std::vector<GPUFeatureFlags::FeatureStatus> GPUFeatureFlags::getAll() const {
         Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,
         Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
         Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
-        Feature::ALERTS,      Feature::WASM_SANDBOX,
+        Feature::ALERTS,      Feature::WASM_SANDBOX,   Feature::MIG_MANAGER,
     };
     std::vector<FeatureStatus> result;
-    result.reserve(11);
+    result.reserve(12);
     for (auto f : all) {
         FeatureStatus s;
         s.feature = f;
