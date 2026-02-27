@@ -272,9 +272,9 @@ public:
 
     const ClusterConfig& config() const noexcept { return config_; }
 
-private:
     GPUClusterCoordinator() = default;
 
+private:
     mutable std::mutex      mutex_;
     bool                    initialized_    = false;
     bool                    is_coordinator_ = false;
