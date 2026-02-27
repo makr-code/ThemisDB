@@ -13,29 +13,29 @@
 - [x] Historical change replay from stored change log
 - [x] Integration with analytics diff engine
 - [x] Dead-letter queue for failed event deliveries (Issue: #1610)
-
-## In Progress 🚧
 - [x] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604)
 - [x] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605)
 - [x] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
-- [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
 - [x] Change log TTL and size-based retention policies (Issue: #1608)
 - [x] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609)
-- [I] Dead-letter queue for failed event deliveries (Issue: #1610)
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611)
-- [P] Outbox pattern support for transactional change publishing (Issue: #1612)
-
-### Long-term (6-12 months)
 - [x] Kafka-compatible producer interface for enterprise integration (Issue: #1613)
 - [x] Debezium-compatible change event format (Issue: #1614)
 - [x] Cross-collection change aggregation streams (Issue: #1615)
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
 - [x] CDC-based materialized view maintenance (Issue: #1617)
 - [x] Change stream compression for high-volume feeds (Issue: #1618)
+
+## In Progress 🚧
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+- [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
+- [P] Outbox pattern support for transactional change publishing (Issue: #1612)
+
+### Long-term (6-12 months)
 
 ## Implementation Phases
 

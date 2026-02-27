@@ -19,12 +19,12 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Chain-of-thought storage
 - [x] Conversation history management
 - [x] Grammar-constrained generation with runtime API detection
-- [x] Per-request timeout and cancellation propagation (Issue: #2411)
-
-## In Progress 🚧
 - [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
+
+## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 

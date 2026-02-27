@@ -26,6 +26,9 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `Config::enable_websocket_upgrade`
   - `getActiveConnections()` includes both binary and WebSocket sessions
   - Connection-count accounting preserved across protocol upgrade
+- [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
+- [x] Per-tenant network bandwidth quotas (Issue: #2205)
+- [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 
 ## In Progress 🚧
 - [I] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962)
@@ -34,10 +37,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [?] Adaptive I/O thread scaling based on connection load
-- [x] Per-tenant network bandwidth quotas (Issue: #2205)
-- [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)

@@ -19,19 +19,21 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Tenant isolation and namespace enforcement
 - [x] Per-tenant size quotas
 - [x] GDPR-aware cache invalidation – PII purge propagation via `invalidatePII()` (GDPR Art. 17)
-
-## In Progress 🚧
 - [x] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
 - [x] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
-- [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
 - [x] Health checks and cache diagnostics endpoint (Target: Q3 2026) (Issue: #1580)
 - [x] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
+- [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
+- [x] Bulk warmup from query logs or snapshot (Issue: #1583)
+- [x] Predictive pre-fetching based on query history (Issue: #1589)
+- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
+
+## In Progress 🚧
+- [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
-- [x] Bulk warmup from query logs or snapshot (Issue: #1583)
 - [I] Tenant-level cache statistics dashboard (Issue: #1584)
 - [I] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
 - [P] Cache hit rate SLO alerting (Issue: #1586)
@@ -39,9 +41,7 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 ### Long-term (6-12 months)
 - [P] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
 - [I] Write-through cache mode for read-heavy workloads (Issue: #1588)
-- [x] Predictive pre-fetching based on query history (Issue: #1589)
 - [I] Cache replication for high-availability deployments (Issue: #1590)
-- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
 
 ## Implementation Phases
 

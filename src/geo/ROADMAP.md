@@ -21,6 +21,16 @@
 - [x] CUDA kernel dispatch for distance and containment (`src/acceleration/cuda/geo_kernels.cu` + `src/geo/gpu_backend_cuda.cu`)
 - [x] Raster data queries (elevation sampling, bbox extraction, Gaussian KDE heatmaps) (`include/geo/raster.h` + `src/geo/raster.cpp`)
 - [x] Temporal-spatial queries (location at time T) (`include/geo/temporal_spatial_query.h` + `src/geo/temporal_spatial_query.cpp`)
+- [x] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
+- [x] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
+- [x] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
+- [x] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
+- [x] R-tree index integration for CPU backend (Issue: #1741)
+- [x] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
+- [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
+- [x] Temporal-spatial queries (location at time T) (Issue: #1746)
+- [x] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
+- [x] Tile server integration for map visualization (Issue: #1748)
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -28,20 +38,10 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
-- [x] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
-- [x] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
-- [x] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
-- [x] R-tree index integration for CPU backend (Issue: #1741)
 - [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
-- [x] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
-- [x] Raster data query support (elevation, heatmaps) (Issue: #1745)
-- [x] Temporal-spatial queries (location at time T) (Issue: #1746)
-- [x] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
-- [x] Tile server integration for map visualization (Issue: #1748)
 
 ## Implementation Phases
 
@@ -67,7 +67,7 @@
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
 - [x] Integration tests (CPU backend, GPU fallback, S2/H3 indexing)
-- [x] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755)
+- [x] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755) (PR: #3049, v1.5.0)
 - [x] Security audit (no code execution from geometry inputs)
 - [x] Documentation complete (GPU runbook, roadmap, future enhancements)
 - [x] API stability guaranteed for spatial query API

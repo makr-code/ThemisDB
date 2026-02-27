@@ -21,6 +21,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] LLM integration (LLM INFER, LLM RAG, LLM EMBED)
 - [x] Process mining and ethics functions
 - [x] JSON query support (`aql_parser_json.cpp`)
+- [x] Parallel scan for large collection full-table queries (Issue: #2432)
 
 ## In Progress 🚧
 - [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
@@ -33,9 +34,6 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
 - [P] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
 - [!] Query cancellation via request ID (Issue: #2431)
-- [x] Parallel scan for large collection full-table queries (Issue: #2432)
-  - Implemented in `include/query/parallel_scan.h` + `src/query/query_engine.cpp` (morsel-driven TBB path in `fullScanAndFilter_`)
-  - Tests: `tests/test_parallel_scan.cpp` (sequential path, parallel path, range predicates, empty table)
 - [I] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)

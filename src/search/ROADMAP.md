@@ -3,7 +3,7 @@
 # Search Module Roadmap
 
 ## Current Status
-v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic search, and Reciprocal Rank Fusion (RRF) result merging are all implemented with fuzzy matching and phonetic search.
+v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`.
 
 ## Completed ✅
 - [x] HybridSearch – RRF-based fusion of BM25 and vector results
@@ -23,9 +23,18 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] QueryParser – natural language query parsing
 - [x] ResultRanker – configurable score aggregation
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
+- [x] `QueryExpander` – synonym expansion, Levenshtein spelling correction, zero-result relaxation (v1.5.0)
+- [x] `FuzzyMatcher` – Levenshtein, Soundex, Metaphone, N-gram (Dice) similarity (v1.5.0)
+- [x] `FacetedSearch` – per-field value-count facets, numeric range buckets, drill-down filtering (v1.5.0)
+- [x] `SearchAnalytics` – thread-safe query log; avg/p95/p99 latency, zero-result rate, top-20 queries (v1.5.0) (Issue: #2275)
+- [x] `AutocompleteEngine` – prefix-index + popular-query suggestions, score-ranked output (v1.5.0) (Issue: #2281)
+- [x] `LearningToRank` – linear re-ranker over 6-dimensional feature vector; online pairwise gradient-descent training (v1.5.0)
+- [x] `MultiModalSearch` – TEXT/IMAGE/AUDIO/CUSTOM modalities; weighted RRF fusion (v1.5.0)
+- [x] Faceted search with dynamic facet counting (`FacetedSearch`, v1.5.0) (Issue: #2283)
+- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
+- [x] Spelling correction suggestions (Issue: #2455)
 
 ## In Progress 🚧
-- [x] Faceted search with dynamic facet counting (Target: Q2 2026) (Issue: #2283)
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
 ## Planned Features 📋
@@ -33,16 +42,12 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
-- [I] Search analytics (top queries, zero-result queries) (Issue: #2275)
-- [x] Spelling correction suggestions (Issue: #2455)
 
 ### Long-term (6-12 months)
 - [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
 - [I] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
 - [I] Personalized ranking based on user interaction history (Issue: #2279)
 - [I] Distributed search across shards with result merging (Issue: #2280)
-- [I] Autocomplete / type-ahead query suggestions (Issue: #2281)
 
 ## Implementation Phases
 
@@ -67,7 +72,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Multi-field boosting (title > body > tags)
 - [ ] Negative keyword filtering (`NOT` operator)
 - [x] Configurable re-ranking with LLM feedback loop
-- [ ] Search analytics (top queries, zero-result queries)
+- [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions
 
 ### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
@@ -75,10 +80,10 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Cross-lingual semantic search (multilingual embeddings)
 - [ ] Personalized ranking based on user interaction history
 - [ ] Distributed search across shards with result merging
-- [ ] Autocomplete / type-ahead query suggestions
+- [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (LlmReranker: 29 tests; LearningToRank: 20 tests; HybridSearch: 30+ tests)
+- [x] Unit tests coverage > 80% (LlmReranker: 29 tests; LearningToRank: 20 tests; HybridSearch: 30+ tests; v1.5.0 components: 162+ tests)
 - [x] Integration tests (BM25 correctness, hybrid recall@10, LlmReranker with real indices)
 - [?] Performance benchmarks (QPS, index build time, latency p99)
 - [?] Security audit (query injection, resource exhaustion on large datasets)
@@ -91,4 +96,4 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 
 ## Breaking Changes
 - HybridSearch API (RRF weights, mode selection) is stable from v1.2.0.
-- BM25 default parameters (k1=1.2, b=0.75) may be tuned in v1.5.0 but remain configurable.
+- BM25 default parameters (k1=1.2, b=0.75) remain unchanged in v1.5.0 and are configurable.
