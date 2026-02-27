@@ -479,3 +479,32 @@ TEST(DatabaseConnectorTest, MinimalJdbcUrlWithTable) {
     auto cfg = makeDbConfig("jdbc:postgresql://localhost/mydb", "tbl");
     EXPECT_TRUE(conn.initialize(cfg));
 }
+
+// ---------------------------------------------------------------------------
+// Security: credentials must not appear in error messages
+// ---------------------------------------------------------------------------
+
+TEST(DatabaseConnectorTest, CredentialsAbsentFromErrors) {
+    // When ingest() fails (no ODBC, no mock) the error message must not
+    // contain the password that was passed in the source config.
+#ifndef THEMIS_ENABLE_ODBC
+    static const std::string kPassword = "supersecret123";
+    DatabaseConnector conn;
+    SourceConfig cfg;
+    cfg.source_id          = "sec_test";
+    cfg.type               = SourceType::DATABASE;
+    cfg.location           = "jdbc:postgresql://localhost:5432/db";
+    cfg.options["table"]   = "data";
+    cfg.options["username"] = "reader";
+    cfg.options["password"] = kPassword;
+    conn.initialize(cfg);
+
+    auto stats = conn.ingest("col", nullptr);
+    for (const auto& err : stats.errors) {
+        EXPECT_EQ(err.message.find(kPassword), std::string::npos)
+            << "Password leaked in error message: " << err.message;
+        EXPECT_EQ(err.details.find(kPassword), std::string::npos)
+            << "Password leaked in error details: " << err.details;
+    }
+#endif
+}

@@ -180,6 +180,30 @@ static std::string buildOdbcConnectionString(
     return cs.str();
 }
 
+/// Return a copy of an ODBC connection string with the PWD value masked.
+/// This is used in log/error messages to avoid credential leakage.
+static std::string sanitisedConnectionString(const std::string& cs) {
+    // Case-insensitive search for "PWD=" without copying the whole string.
+    static const std::string target = "pwd=";
+    auto it = std::search(cs.begin(), cs.end(),
+                          target.begin(), target.end(),
+                          [](char a, char b) {
+                              return std::tolower(static_cast<unsigned char>(a))
+                                  == std::tolower(static_cast<unsigned char>(b));
+                          });
+    if (it == cs.end()) return cs;
+
+    std::string result = cs;
+    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
+    auto end = result.find(';', pos);
+    if (end == std::string::npos) {
+        result.replace(pos, result.size() - pos, "***");
+    } else {
+        result.replace(pos, end - pos, "***");
+    }
+    return result;
+}
+
 /// Serialize a DbRow to a minimal JSON object (no external dependencies).
 static std::string rowToJson(const DatabaseConnector::DbRow& row) {
     std::ostringstream js;
@@ -527,7 +551,8 @@ private:
         if (!openConnection(henv, hdbc)) {
             stats.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
                            IngestionErrorSeverity::FATAL,
-                           "Failed to open ODBC connection: " + odbc_conn_str_,
+                           "Failed to open ODBC connection: " +
+                           sanitisedConnectionString(odbc_conn_str_),
                            config_.source_id);
             return;
         }
