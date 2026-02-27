@@ -522,6 +522,8 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/mongodb_adapter.cpp
     ../src/chimera/postgresql_adapter.cpp
     ../src/chimera/themisdb_adapter.cpp
+    ../src/chimera/weaviate_adapter.cpp
+    ../src/chimera/qdrant_adapter.cpp
 )
 
 set(_themis_test_core_libs)
