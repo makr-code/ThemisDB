@@ -808,6 +808,7 @@ HttpServer::HttpServer(
         config_.feature_llm_query_enhancement,
         config_.feature_llm_store
     );
+    query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
