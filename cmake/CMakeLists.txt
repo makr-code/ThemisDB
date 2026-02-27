@@ -1901,6 +1901,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
+    ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
