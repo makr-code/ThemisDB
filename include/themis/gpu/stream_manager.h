@@ -132,9 +132,6 @@ public:
      *                 falls back to CPU execution when `THEMIS_ENABLE_HIP` is absent).
      *                 When `THEMIS_ENABLE_CUDA` is also active a `cudaStream_t` is
      *                 created alongside and stored for future kernel dispatch.
-     *                 backend (which transparently falls back to CPU execution
-     *                 when HIP is unavailable).  A HIP stream is created via
-     *                 `ROCmBackend::createStream()` for the stream's lifetime.
      * @return false if a stream with that name already exists.
      */
     bool createStream(const StreamConfig&     cfg,

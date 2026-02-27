@@ -48,10 +48,6 @@ static std::mutex& cudaStreamMutex() {
 } // anonymous namespace
 #endif
 
-#ifdef THEMIS_ENABLE_CUDA
-#  include <cuda_runtime.h>
-#endif
-
 namespace themis {
 namespace gpu {
 
