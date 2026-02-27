@@ -46,6 +46,10 @@ struct DeviceInfo {
     int         compute_minor     = 0;   ///< Compute capability minor
     bool        is_healthy        = true;///< false if the device reported an error
     std::string error_message;           ///< Non-empty when is_healthy == false
+
+    // MIG (Multi-Instance GPU) fields — populated for NVIDIA A/H series devices.
+    bool        mig_enabled          = false; ///< true when MIG mode is active on this device
+    int         mig_max_instances    = 0;     ///< Maximum MIG instances supported (0 = MIG not supported)
 };
 
 /**

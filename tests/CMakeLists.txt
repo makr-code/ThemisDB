@@ -460,6 +460,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the MIG manager test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates MIGManager (feature-gate enforcement, device
+# capability detection, profile validation, partition lifecycle, tenant
+# assignment, statistics, and concurrent safety).  It uses only CPU-side
+# bookkeeping and requires no GPU or NVML hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_mig_manager.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
