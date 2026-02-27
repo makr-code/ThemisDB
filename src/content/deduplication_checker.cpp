@@ -27,9 +27,12 @@ DeduplicationChecker::DeduplicationChecker(
 )
     : storage_(std::move(storage))
 {
+    // 30-day TTL: band entries should outlive normal ingestion sessions to avoid
+    // false negatives from TTL expiry.
+    static constexpr int kBandCacheTTLDays = 30;
     cache::BoundedLRUCache::Config cfg;
     cfg.max_entries        = max_band_entries;
-    cfg.ttl                = std::chrono::seconds{30 * 24 * 3600}; // 30-day TTL
+    cfg.ttl                = std::chrono::seconds{kBandCacheTTLDays * 24 * 3600};
     cfg.enable_statistics  = false;  // Avoid overhead for an internal index
     band_cache_ = std::make_unique<cache::BoundedLRUCache>(cfg);
 }
@@ -149,6 +152,7 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
         if (val) {
             // A band collision implies estimated Jaccard ≥ kJaccardThreshold
             // under the 16-band × 8-row configuration.
+            if (!val->is_string()) return std::nullopt; // guard against corrupt cache entry
             return DuplicateOf{val->get<std::string>(), kJaccardThreshold};
         }
     }
