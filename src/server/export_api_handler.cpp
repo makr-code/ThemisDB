@@ -21,6 +21,7 @@
  */
 
 #include "server/export_api_handler.h"
+#include "exporters/aql_predicate_filter.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -89,6 +90,22 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // Configure export options
         exporters::ExportOptions export_options;
         export_options.output_path = output_path;
+
+        // Support AQL predicate filtering via the "filter" request parameter.
+        // Example: {"filter": "doc.category == \"active\" AND doc.score >= 0.5"}
+        if (request_json.contains("filter") && request_json["filter"].is_string()) {
+            const std::string filter_expr = request_json["filter"].get<std::string>();
+            // Validate the AQL predicate early to return a 400 instead of a 500.
+            // AqlPredicateFilter construction parses the expression; any syntax error throws.
+            try {
+                exporters::AqlPredicateFilter syntax_check(filter_expr);
+                (void)syntax_check;
+            } catch (const exporters::AqlPredicateFilterException& e) {
+                return errorResponse(http::status::bad_request,
+                    std::string("Invalid AQL filter expression: ") + e.what());
+            }
+            export_options.filter_expression = filter_expr;
+        }
         
         // Query database: scan all entities and apply filter conditions
         // derived from the same parameters used to build the AQL query

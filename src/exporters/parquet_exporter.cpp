@@ -12,6 +12,7 @@
  */
 
 #include "exporters/parquet_exporter.h"
+#include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
 #include "exporters/pii_detector.h"
@@ -664,6 +665,12 @@ ExportStats ParquetExporter::exportWithArrow(
         return true;
     };
 
+    // AQL predicate filter (compiled once, reused per entity)
+    std::unique_ptr<AqlPredicateFilter> aql_filter;
+    if (!options.filter_expression.empty()) {
+        aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+    }
+
     for (const auto& entity : entities) {
         // Tenant isolation
         if (options.tenant_context && options.tenant_context->enforce_isolation) {
@@ -672,6 +679,11 @@ ExportStats ParquetExporter::exportWithArrow(
                 stats.failed_entities++;
                 continue;
             }
+        }
+
+        // AQL predicate filter
+        if (aql_filter && !aql_filter->evaluate(entity)) {
+            continue;
         }
 
         // Duplicate detection (by primary key)
@@ -774,6 +786,12 @@ ExportStats ParquetExporter::exportFallback(
     std::set<std::string> seen_keys;
     size_t row_count = 0;
 
+    // AQL predicate filter (compiled once, reused per entity)
+    std::unique_ptr<AqlPredicateFilter> aql_filter_fb;
+    if (!options.filter_expression.empty()) {
+        aql_filter_fb = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+    }
+
     for (const auto& entity : entities) {
         // Tenant isolation
         if (options.tenant_context && options.tenant_context->enforce_isolation) {
@@ -782,6 +800,11 @@ ExportStats ParquetExporter::exportFallback(
                 stats.failed_entities++;
                 continue;
             }
+        }
+
+        // AQL predicate filter
+        if (aql_filter_fb && !aql_filter_fb->evaluate(entity)) {
+            continue;
         }
 
         // Deduplication by primary key

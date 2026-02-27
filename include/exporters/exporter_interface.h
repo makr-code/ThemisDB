@@ -78,7 +78,10 @@ struct ExportOptions {
     // Filtering
     std::vector<std::string> include_fields;  // If empty, export all fields
     std::vector<std::string> exclude_fields;
-    std::string filter_expression;            // Optional filter (e.g., "category=active")
+    std::string filter_expression;            // Optional AQL FILTER predicate using 'doc' variable
+                                              // — provide only the predicate, not the FILTER keyword
+                                              // (e.g., "doc.category == \"active\"" or
+                                              //  "doc.age > 18 AND doc.score >= 0.5")
     
     // Format options
     bool pretty_print = false;
