@@ -274,6 +274,11 @@ void PolicyEngine::setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> lo
     audit_logger_ = std::move(logger);
 }
 
+void PolicyEngine::setOpaEvaluator(IPolicyEvaluator* evaluator) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    opa_evaluator_ = evaluator;
+}
+
 void PolicyEngine::setCcpaOptOutSubjects(std::shared_ptr<std::unordered_set<std::string>> opt_out_registry) {
     std::lock_guard<std::mutex> lock(mutex_);
     ccpa_opt_out_subjects_ = std::move(opt_out_registry);
@@ -305,6 +310,7 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
     std::string mode;
     std::shared_ptr<themis::utils::AuditLogger> audit_log;
     std::shared_ptr<std::unordered_set<std::string>> ccpa_registry;
+    IPolicyEvaluator* evaluator = nullptr;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         profiles      = classification_profiles_;
@@ -312,6 +318,47 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         mode          = default_mode_;
         audit_log     = audit_logger_;
         ccpa_registry = ccpa_opt_out_subjects_;
+        evaluator     = opa_evaluator_;
+    }
+
+    // ---- OPA evaluation (alternative policy engine) -----------------------
+    // If an OPA evaluator is configured, try it first.  Fall back to native
+    // evaluation when OPA is unavailable (returns nullopt) and emit counter.
+    if (evaluator) {
+        auto opa_result = evaluator->evaluate(headers, route);
+        if (opa_result.has_value()) {
+            PolicyDecision d = *opa_result;
+            // Always enforce CCPA opt-out on top of OPA decision
+            const std::string subject_id = get("X-User-Id");
+            if (!subject_id.empty() && ccpa_registry && ccpa_registry->count(subject_id) > 0) {
+                d.ccpa_opted_out = true;
+                d.export_allowed = false;
+            }
+            // Audit log if in enforce mode and logger is configured
+            if (audit_log && d.mode == "enforce") {
+                nlohmann::json audit_event = {{"event_type", "policy_evaluation"},
+                                              {"route", route},
+                                              {"classification", d.classification},
+                                              {"mode", d.mode},
+                                              {"require_content_encryption", d.require_content_encryption},
+                                              {"encrypt_logs", d.encrypt_logs},
+                                              {"redaction", d.redaction},
+                                              {"retention_days", d.retention_days},
+                                              {"ccpa_opted_out", d.ccpa_opted_out},
+                                              {"evaluator", "opa"},
+                                              {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                                std::chrono::system_clock::now().time_since_epoch())
+                                                                .count()}};
+                if (!subject_id.empty()) {
+                    audit_event["user_id"] = subject_id;
+                }
+                audit_log->logEvent(audit_event);
+            }
+            return d;
+        }
+        // OPA unavailable – fall through to native evaluation and emit counter.
+        observability::MetricsCollector::getInstance().addCounter(
+            "governance_opa_fallback_total", 1, {{"source", "policy_engine"}});
     }
 
     PolicyDecision d;

@@ -3,7 +3,7 @@
 
 ## Current Status
 
-**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, data classification, and CCPA/CPRA data subject rights are functional. OPA integration is planned.
+**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, data classification, CCPA/CPRA data subject rights, and OPA integration are functional.
 
 ## Completed ✅
 
@@ -57,12 +57,12 @@
 - [x] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
 - [x] Implement policy conflict detection for overlapping access control rules (Issue: #1782)
 
-### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: In Progress)
+### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: Completed)
 
 - [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
 - [x] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [x] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
-- [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
+- [x] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
 
 ### Phase 4: Cross-Tenant Policy Inheritance (Status: Completed)
 
@@ -85,7 +85,7 @@
 ## Known Issues & Limitations
 
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
-- OPA integration implemented: `OpaAdapter` in `src/server/opa_adapter.cpp`; configure via `THEMIS_OPA_ENDPOINT_URL`, `THEMIS_OPA_POLICY_PATH`, and `THEMIS_OPA_TIMEOUT_MS` environment variables
+- OPA integration implemented: `governance::OpaAdapter` in `src/governance/opa_adapter.cpp`; attach via `PolicyEngine::setOpaEvaluator()`; falls back to native evaluation when OPA is unavailable and emits `governance_opa_fallback_total` counter
 - Automated data masking in query results is implemented (`governance/data_masker.cpp`; `DataMasker`)
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
 - AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)

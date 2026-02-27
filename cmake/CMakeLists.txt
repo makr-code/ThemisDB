@@ -1757,6 +1757,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/cross_tenant_policy_inheritance.cpp
     ../src/governance/policy_template.cpp

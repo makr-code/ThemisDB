@@ -118,6 +118,21 @@ struct QueryPermissionResult {
 /// @brief Policy engine for data governance, classification, and field-level masking.
 class PolicyEngine {
   public:
+    /**
+     * @brief Pluggable policy evaluator interface for external engines (e.g. OPA).
+     *
+     * Implement this interface and pass it to setOpaEvaluator() to route
+     * governance decisions through an external policy agent.
+     * evaluate() returns std::nullopt when the external evaluator is
+     * unavailable so PolicyEngine can fall back to native evaluation.
+     */
+    struct IPolicyEvaluator {
+        virtual ~IPolicyEvaluator() = default;
+        virtual std::optional<PolicyDecision> evaluate(
+            const std::unordered_map<std::string, std::string>& headers,
+            const std::string& route) const = 0;
+    };
+
     PolicyEngine() = default;
 
     // Load policies from YAML file (returns false on error)
@@ -143,6 +158,19 @@ class PolicyEngine {
 
     // Set audit logger for automatic logging of policy evaluations
     void setAuditLogger(std::shared_ptr<themis::utils::AuditLogger> logger);
+
+    /**
+     * @brief Attach an external policy evaluator (e.g. OPA) for governance decisions.
+     *
+     * When set, evaluate() calls evaluator->evaluate() first.  If the
+     * evaluator returns std::nullopt (OPA unreachable / timeout), native
+     * PolicyEngine evaluation is used as a fallback and a
+     * governance_opa_fallback_total Prometheus counter is incremented.
+     *
+     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
+     * caller must ensure the evaluator outlives the engine.
+     */
+    void setOpaEvaluator(IPolicyEvaluator* evaluator);
 
     // ---- CCPA/CPRA opt-out registry ----------------------------------------
 
@@ -236,6 +264,9 @@ class PolicyEngine {
 
     // Data masking rules loaded from the YAML `data_masking` section.
     FieldMaskingPolicy masking_rules_;
+
+    // External OPA evaluator (optional; raw non-owning pointer).
+    IPolicyEvaluator* opa_evaluator_ = nullptr;
 
     static std::string normalize(const std::string &s);
 };
