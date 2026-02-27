@@ -39,7 +39,9 @@ Parquet and HuggingFace dataset formats are also supported.
 | `jsonl_llm_exporter.cpp` | JSONL export: instruction/input/output format, batching |
 | `huggingface_exporter.cpp` | HuggingFace dataset format export (Dataset card + Parquet shards) |
 | `parquet_exporter.cpp` | Apache Parquet columnar export |
-| `stream_writer.cpp` | Streaming output writer (avoids full in-memory buffering) |
+| `arrow_ipc_exporter.cpp` | Apache Arrow IPC file (`.arrow`) and stream (`.arrows`) export for zero-copy pipelines |
+| `streaming_exporter.cpp` | Streaming export for large collections (avoids full in-memory load) |
+| `stream_writer.cpp` | Low-level streaming output writer (avoids full in-memory buffering) |
 | `pii_detector.cpp` | PII detection and masking before export |
 | `exporter_metrics.cpp` | Export throughput, record count, PII hit rate metrics |
 
@@ -56,10 +58,10 @@ Parquet and HuggingFace dataset formats are also supported.
 │                                                                  │
 │  Query storage → batch records → PII scan → format → write      │
 │                                                                  │
-│  ┌──────────────────┐  ┌─────────────────────────────────────┐  │
-│  │  PII Detector    │  │           Format Writers            │  │
-│  │  (mask/exclude)  │  │  JSONL │ Parquet │ HuggingFace     │  │
-│  └──────────────────┘  └─────────────────────────────────────┘  │
+│  ┌──────────────────┐  ┌────────────────────────────────────┐  │
+│  │  PII Detector    │  │          Format Writers            │  │
+│  │  (mask/exclude)  │  │  JSONL│Parquet│Arrow IPC│HuggingFace│  │
+│  └──────────────────┘  └────────────────────────────────────┘  │
 │                                                                  │
 │  StreamWriter (chunked I/O, configurable buffer size)           │
 └──────────────────────────────────────────────────────────────────┘
