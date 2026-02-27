@@ -3,7 +3,6 @@
 #include "core/concerns/i_context.h"
 
 #include <algorithm>
-#include <array>
 #include <map>
 #include <string>
 #include <string_view>
