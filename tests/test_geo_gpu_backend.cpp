@@ -1310,3 +1310,98 @@ TEST(GpuBackendFallback, CpuFallback_BatchIntersects_CircuitBreakerNotOpenAtStar
     EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
         << "Circuit must remain closed after CPU-path processing. JSON: " << json;
 }
+
+// ============================================================
+// Circuit-breaker fallback: no CUDA device present
+// (Phase 2: circuit-breaker fallback when no GPU is available)
+// ============================================================
+
+// When no GPU device is present at startup, the circuit-breaker must be
+// immediately set to a non-GPU-attempt state so that:
+//   - No spurious GPU-op failures accumulate on each batchIntersects() call.
+//   - The circuit never opens due to missing hardware (circuit_open:false).
+//   - All geometry predicates still return correct results via the CPU path.
+
+TEST(GpuBackendCircuitBreaker, NoGpu_RepeatedBatchCalls_NoSpuriousCircuitOpen) {
+    // This test only asserts the no-spurious-failure property on machines
+    // without a GPU device (the typical CI environment).
+    if (themis::gpu::DeviceDiscovery::HasGPU()) {
+        GTEST_SKIP() << "Skipped: real GPU device detected; no-GPU path not exercised";
+    }
+
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    GeometryInfo poly(GeometryType::Polygon);
+    poly.rings.push_back({{0,0},{1,0},{1,1},{0,1},{0,0}});
+    GeometryInfo pt(GeometryType::Point);
+    pt.coords.push_back({0.5, 0.5});
+
+    // Call batchIntersects more than the default failure_threshold (3) times.
+    // Without the fix, each call would record a spurious GPU failure and the
+    // circuit would open after the 3rd call; subsequent calls would then skip
+    // the CPU fallback path and return all-zero masks.
+    constexpr int kCalls = 6;
+    for (int i = 0; i < kCalls; ++i) {
+        SpatialBatchInputs in;
+        in.count = 1;
+        in.geoms_a = {pt};
+        in.geoms_b = {poly};
+        auto result = backend->batchIntersects(in);
+        ASSERT_EQ(result.mask.size(), 1u) << "call " << i;
+        EXPECT_EQ(result.mask[0], 1u)
+            << "CPU fallback must return correct result on call " << i;
+    }
+
+    // The circuit-breaker must never open because of missing hardware.
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+    EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
+        << "circuit_open must remain false when no GPU is present. JSON: " << json;
+}
+
+TEST(GpuBackendCircuitBreaker, NoGpu_IsAvailable_False) {
+    // When no GPU hardware is present, isAvailable() must return false.
+    if (themis::gpu::DeviceDiscovery::HasGPU()) {
+        GTEST_SKIP() << "Skipped: real GPU device detected";
+    }
+
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_FALSE(backend->isAvailable())
+        << "isAvailable() must be false when no CUDA-capable device is present";
+}
+
+TEST(GpuBackendCircuitBreaker, NoGpu_ExactIntersects_CorrectResultsViaFallback) {
+    // Even when no GPU is present (circuit immediately in FAILED state),
+    // exactIntersects must produce correct geometry results via the CPU path.
+    if (themis::gpu::DeviceDiscovery::HasGPU()) {
+        GTEST_SKIP() << "Skipped: real GPU device detected";
+    }
+
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    GeometryInfo poly(GeometryType::Polygon);
+    poly.rings.push_back({{0,0},{2,0},{2,2},{0,2},{0,0}});
+
+    EXPECT_TRUE(backend->exactIntersects(makePoint(1.0, 1.0), poly))
+        << "Point inside polygon must intersect";
+    EXPECT_FALSE(backend->exactIntersects(makePoint(9.0, 9.0), poly))
+        << "Point outside polygon must not intersect";
+}
+
+TEST(GpuBackendCircuitBreaker, NoGpu_StatsJson_GpuPresentFalse) {
+    // When no GPU device is present the stats JSON must report gpu_present:false
+    // and circuit_open:false (FAILED state is not circuit-open).
+    if (themis::gpu::DeviceDiscovery::HasGPU()) {
+        GTEST_SKIP() << "Skipped: real GPU device detected";
+    }
+
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+    ASSERT_FALSE(json.empty());
+
+    EXPECT_NE(json.find("\"gpu_present\":false"), std::string::npos)
+        << "gpu_present must be false when no GPU is discovered. JSON: " << json;
+    EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
+        << "circuit_open must be false (FAILED != CIRCUIT_OPEN). JSON: " << json;
+}
