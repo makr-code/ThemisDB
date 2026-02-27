@@ -220,7 +220,6 @@ TEST(PluginDependencyGraph, BuildFromResolver_ReplacesExistingGraph) {
     r2.registerModule("x", {});
     g.buildFromResolver(r2);
     EXPECT_EQ(g.nodeCount(), 1u);
-    EXPECT_EQ(g.nodeCount(), 1u);
 }
 
 // ============================================================================
@@ -404,7 +403,7 @@ TEST(PluginDependencyGraph, ExportJson_Edge) {
     EXPECT_NE(json.find("\"to\""),      std::string::npos);
     EXPECT_NE(json.find("\"storage\""), std::string::npos);
     EXPECT_NE(json.find("\"base\""),    std::string::npos);
-    EXPECT_NE(json.find("\"required\""),std::string::npos);
+    EXPECT_NE(json.find("\"required\""), std::string::npos);
     EXPECT_NE(json.find("true"),        std::string::npos);
 }
 
