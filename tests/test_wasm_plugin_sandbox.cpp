@@ -116,6 +116,29 @@ static std::vector<uint8_t> wasmWithExport(const std::string& name) {
     return out;
 }
 
+/**
+ * @brief Build a WASM binary with a non-function (memory) import.
+ *
+ * Memory import descriptor: kind=0x02, then limits (flags=0x00, min=1 page).
+ * This exercises the parser's conservative handling of non-function imports.
+ */
+static std::vector<uint8_t> wasmWithMemoryImport(const std::string& mod,
+                                                   const std::string& name) {
+    std::vector<uint8_t> body;
+    append(body, leb128(1));           // count = 1
+    append(body, wasmName(mod));
+    append(body, wasmName(name));
+    body.push_back(0x02);              // kind = memory
+    body.push_back(0x00);              // limits flags: no maximum
+    append(body, leb128(1));           // limits min = 1 page
+
+    std::vector<uint8_t> out = minimalWasm();
+    out.push_back(0x02); // section id = import
+    append(out, leb128(static_cast<uint32_t>(body.size())));
+    append(out, body);
+    return out;
+}
+
 // =============================================================================
 // WasmModuleValidator tests
 // =============================================================================
@@ -157,6 +180,17 @@ TEST(WasmModuleValidator, WasmWithImportSection) {
     EXPECT_TRUE(info.valid);
     ASSERT_EQ(info.imports.size(), 1u);
     EXPECT_EQ(info.imports[0], "themis.log");
+}
+
+TEST(WasmModuleValidator, WasmWithMemoryImportDoesNotCrash) {
+    // A memory import has a non-function descriptor.
+    // The parser should handle it without crashing or reading out-of-bounds.
+    auto bytes = wasmWithMemoryImport("env", "memory");
+    auto info  = WasmModuleValidator::validate(bytes);
+    EXPECT_TRUE(info.valid);
+    // The memory import name must be captured even though it is non-function.
+    ASSERT_FALSE(info.imports.empty());
+    EXPECT_EQ(info.imports[0], "env.memory");
 }
 
 TEST(WasmModuleValidator, WasmWithExportSection) {
@@ -338,6 +372,18 @@ TEST(WasmPluginSandbox, AllowUnregisteredImportsFlag) {
     WasmPluginSandbox sb(cfg);
     bool ok = sb.loadFromBytes(bytes, "permissive_plugin");
     EXPECT_TRUE(ok) << sb.lastError();
+}
+
+TEST(WasmPluginSandbox, NonFunctionImportDoesNotCrash) {
+    // A binary with a memory (non-function) import must not crash the parser.
+    auto bytes = wasmWithMemoryImport("env", "memory");
+    WasmPluginSandbox::Config cfg;
+    cfg.allow_unregistered_imports = true;
+    WasmPluginSandbox sb(cfg);
+    bool ok = sb.loadFromBytes(bytes, "memory_plugin");
+    EXPECT_TRUE(ok) << sb.lastError();
+    // The memory import name should be recorded.
+    EXPECT_FALSE(sb.moduleInfo().imports.empty());
 }
 
 // =============================================================================

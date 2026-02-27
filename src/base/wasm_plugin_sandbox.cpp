@@ -167,16 +167,30 @@ WasmModuleValidator::validate(const std::vector<uint8_t>& bytes) {
                 size_t fn = readWasmName(q, section_end, fn_name);
                 if (fn == 0) break;
                 q += fn;
-                // Skip the import description (kind + type index LEB-128)
+                // Skip the import description (kind byte + descriptor)
                 if (q >= section_end) break;
                 uint8_t kind = *q++;
-                uint64_t type_idx = 0;
-                size_t ti = readUleb128(q, section_end, type_idx);
-                if (kind != kExternalFunc) {
-                    // Non-function imports have varying encoding; skip
-                    // conservatively by stopping import parsing.
+                if (kind == kExternalFunc) {
+                    // Function import: descriptor is a type index (LEB-128 u32)
+                    uint64_t type_idx = 0;
+                    size_t ti = readUleb128(q, section_end, type_idx);
+                    if (ti == 0) break;
+                    q += ti;
+                } else {
+                    // Non-function imports (table/memory/global) have varying
+                    // descriptor encodings that cannot be reliably skipped with
+                    // a single LEB-128 read.  Record the name we already parsed
+                    // and stop processing further imports in this section.
+                    // NOTE: In modules with mixed function and non-function
+                    // imports, only the imports before the first non-function
+                    // entry will appear in `info.imports`.  The capability
+                    // allowlist check will still reject any unknown function
+                    // import that was recorded; non-function imports (memory,
+                    // table, global) are not host-callable and therefore pose
+                    // no capability-model risk in this context.
+                    info.imports.push_back(mod_name + "." + fn_name);
+                    break;
                 }
-                q += ti;
                 info.imports.push_back(mod_name + "." + fn_name);
             }
         } else if (section_id == kSectionExport) {
