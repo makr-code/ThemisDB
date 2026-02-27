@@ -346,6 +346,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the Vulkan compute backend test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern (see line 267 above).  This test exercises
+# the Vulkan backend CPU fallback path and is fully functional without
+# Vulkan hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_vulkan_backend.cpp
+    )
+endif()
+
 # Re-include test_multi_gpu_backend.cpp which tests the acceleration module's
 # multi-GPU sharding backend (MultiGPUVectorBackend + ShardDescriptor).
 # This test does NOT depend on LLM, but is caught by the broad LLM exclusion

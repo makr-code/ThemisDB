@@ -93,7 +93,12 @@
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`, Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
-- [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
+- [x] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
+  - Implementation: `include/themis/gpu/vulkan_backend.h`, `src/gpu/vulkan_backend.cpp`
+  - Interfaces: `VulkanComputeBackend::{deviceCount, isAvailable, vendorName, createBackendFn, createStream, destroyStream, synchronizeStream, getStream, hasStream, streamNames, getStats, resetStats}` + `StreamHandle`, `Result`, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::VULKAN_BACKEND` (all editions)
+  - CPU simulation path (in-memory registry) always active; tests pass without Vulkan hardware.
+  - Tests: `tests/test_gpu_vulkan_backend.cpp`
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
