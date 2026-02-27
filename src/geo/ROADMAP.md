@@ -67,7 +67,7 @@
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
 - [x] Integration tests (CPU backend, GPU fallback, S2/H3 indexing)
-- [I] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755)
+- [x] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755)
 - [x] Security audit (no code execution from geometry inputs)
 - [x] Documentation complete (GPU runbook, roadmap, future enhancements)
 - [x] API stability guaranteed for spatial query API

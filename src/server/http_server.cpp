@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
     • Total Lines:     8361                                           ║
-    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+    • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
@@ -808,6 +808,7 @@ HttpServer::HttpServer(
         config_.feature_llm_query_enhancement,
         config_.feature_llm_store
     );
+    query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");

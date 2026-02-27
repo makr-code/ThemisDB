@@ -57,7 +57,11 @@
   - Implementation: `include/themis/gpu/time_slice_scheduler.h`, `src/gpu/time_slice_scheduler.cpp`
   - Interfaces: `GPUTimeSliceScheduler::{registerTenant, unregisterTenant, hasTenant, submit, dispatch, drainAll, allQueuesEmpty, getTenantStats, getAllTenantStats, getStats, resetStats}` + `TenantConfig`, `TenantStats`, `Stats`
   - Tests: `tests/test_gpu_time_slice_scheduler.cpp`
-- [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+- [x] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
+  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
+  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
+  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
 ## Implementation Phases

@@ -72,8 +72,12 @@ public:
         bool tracingEnabled = false;
         std::string tracingServiceName = "themisdb";
         std::string tracingEndpoint = "http://localhost:4318";
-        /// Which tracer adapter to use: "otel", "noop", or "" (auto-select
-        /// based on tracingEnabled — "otel" when true, "noop" when false).
+        /// Which tracer adapter to use: "otel", "jaeger", "zipkin", "noop", or ""
+        /// (auto-select based on tracingEnabled — "otel" when true, "noop" when false).
+        /// For Jaeger set tracingEndpoint to the Jaeger HTTP collector
+        /// (default: http://localhost:14268/api/traces).
+        /// For Zipkin set tracingEndpoint to the Zipkin spans endpoint
+        /// (default: http://localhost:9411/api/v2/spans).
         std::string tracerAdapter = "";
         
         // Metrics config

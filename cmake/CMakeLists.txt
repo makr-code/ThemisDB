@@ -1409,6 +1409,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    ../src/index/distributed_vector_index.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -1562,6 +1563,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
@@ -1927,6 +1929,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/stream_writer.cpp
     ../src/exporters/streaming_exporter.cpp
     ../src/exporters/aql_predicate_filter.cpp
+    ../src/exporters/arrow_ipc_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
@@ -3266,6 +3269,10 @@ if(THEMIS_ENABLE_LLM)
     endif()
 
     # Add CLIP vision encoder only when explicitly enabled
+    target_sources(themis_core PRIVATE
+        ../src/llm/vision_config.cpp
+    )
+
     if(THEMIS_ENABLE_VISION)
         target_sources(themis_core PRIVATE
             ../src/llm/vision_encoder.cpp
@@ -3583,6 +3590,23 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ann_index
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Distributed vector index across shards (Issue #1879)
+    add_executable(test_distributed_vector_index
+        ${THEMIS_ROOT_DIR}/tests/index/test_distributed_vector_index.cpp
+    )
+    target_link_libraries(test_distributed_vector_index
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_vector_index
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_vector_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
@@ -4388,6 +4412,12 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Geo CPU vs GPU Throughput Benchmark
+    add_executable(bench_geo_cpu_gpu
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_geo_cpu_gpu.cpp
+    )
+    target_link_libraries(bench_geo_cpu_gpu PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # V1.3.0 Features Benchmark (Critical for Release Testing)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp")

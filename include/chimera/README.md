@@ -562,6 +562,76 @@ for (const auto& name : systems) {
 }
 ```
 
+### mongodb_adapter.hpp
+**Location:** `/include/chimera/mongodb_adapter.hpp`
+
+Header for the MongoDB adapter targeting MongoDB 4.4+ and Atlas Vector Search.
+
+**Key Components:**
+
+**MongoDBAdapter Class:**
+```cpp
+class MongoDBAdapter : public IDatabaseAdapter {
+public:
+    MongoDBAdapter();
+    ~MongoDBAdapter() override;
+
+    // Connection Management
+    Result<bool> connect(const std::string& connection_string, ...) override;
+    Result<bool> disconnect() override;
+    bool is_connected() const override;
+
+    // IVectorAdapter – Atlas Vector Search
+    Result<std::string> insert_vector(const std::string& collection, const Vector& v) override;
+    Result<std::vector<std::pair<Vector,double>>> search_vectors(...) override;
+
+    // IDocumentAdapter
+    Result<std::string> insert_document(const std::string& collection, const Document& doc) override;
+    Result<std::vector<Document>> find_documents(...) override;
+    Result<size_t> update_documents(...) override;
+
+    // ITransactionAdapter, ISystemInfoAdapter, …
+};
+```
+
+**Private helpers:**
+- `mask_credentials()` – strips `user:pass@` before storing connection string
+- `parse_database_name()` – extracts database from MongoDB URI
+- `cosine_similarity()` – BLAS-free dot-product / magnitude calculation
+- `document_matches()` – field-by-field filter evaluation, `"id"` key maps to `doc.id`
+
+---
+
+### postgresql_adapter.hpp
+**Location:** `/include/chimera/postgresql_adapter.hpp`
+
+Header for the PostgreSQL + pgvector adapter targeting PostgreSQL 14+.
+
+**Key Components:**
+
+**PostgreSQLAdapter Class:**
+```cpp
+class PostgreSQLAdapter : public IDatabaseAdapter {
+public:
+    PostgreSQLAdapter();
+    ~PostgreSQLAdapter() override;
+
+    // Connection Management
+    Result<bool> connect(const std::string& connection_string, ...) override;
+
+    // IRelationalAdapter – SQL operations
+    Result<RelationalTable> execute_query(const std::string& query, ...) override;
+    Result<size_t> insert_row(const std::string& table_name, const RelationalRow& row) override;
+
+    // IVectorAdapter – pgvector similarity search
+    Result<std::vector<std::pair<Vector,double>>> search_vectors(...) override;
+
+    // IDocumentAdapter, ITransactionAdapter, ISystemInfoAdapter, …
+};
+```
+
+---
+
 ### themisdb_adapter.hpp
 **Location:** `/include/chimera/themisdb_adapter.hpp`
 

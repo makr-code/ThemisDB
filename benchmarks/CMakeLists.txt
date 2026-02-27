@@ -62,11 +62,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
     
     # Optimization flags for benchmarks
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_compile_options(bench_lora_framework PRIVATE
-            -O3
-            -march=native
-            -DNDEBUG
-        )
+        if(MSVC)
+            target_compile_options(bench_lora_framework PRIVATE
+                /O2
+                /DNDEBUG
+            )
+        else()
+            target_compile_options(bench_lora_framework PRIVATE
+                -O3
+                -march=native
+                -DNDEBUG
+            )
+        endif()
     endif()
     
     # Install benchmark
