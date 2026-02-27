@@ -4412,6 +4412,12 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
+    # Geo CPU vs GPU Throughput Benchmark
+    add_executable(bench_geo_cpu_gpu
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_geo_cpu_gpu.cpp
+    )
+    target_link_libraries(bench_geo_cpu_gpu PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
     # V1.3.0 Features Benchmark (Critical for Release Testing)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp")
         add_executable(bench_v1_3_0_features
