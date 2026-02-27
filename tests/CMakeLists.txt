@@ -190,6 +190,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_pdf_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
         ".*test_content_html_processor\\.cpp$"
+        ".*test_content_markdown_processor\\.cpp$"
     )
 endif()
 
