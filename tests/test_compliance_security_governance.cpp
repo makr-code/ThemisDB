@@ -93,7 +93,7 @@ static PolicyRule makeHipaaRule(const std::string& id) {
     r.allow_export         = false;
     r.allow_cache          = false;
     r.redaction_level      = "strict";
-    r.retention_days       = 2555; // 7 years HIPAA requirement
+    r.retention_days       = 2555; // 2555 days (7 years, exceeds 6-year HIPAA federal minimum)
     return r;
 }
 
@@ -203,8 +203,12 @@ TEST_F(ComplianceGovernanceTest, GDPR_EvaluatePolicyReflectsEncryptionWhenRoleMa
 }
 
 TEST_F(ComplianceGovernanceTest, GDPR_EvaluatePolicyDefaultsPermissiveWithoutMatchingRole) {
-    // GDPR: when no rules apply (no matching role), the default permissive
-    // decision is returned with no extra restrictions.
+    // GDPR: when no rules apply (no matching role), the PolicyManager returns
+    // the default permissive decision (allowed=true, no extra restrictions).
+    // Note: PolicyManager uses a default-allow model – rules without a matching
+    // role are simply skipped rather than resulting in an explicit deny. In a
+    // production deployment, per-request authentication and authorization layers
+    // upstream of the PolicyManager enforce deny-by-default behaviour.
     PolicyRule rule = makeGdprRule("gdpr-7");
     manager_->addRule(rule);
 
@@ -267,14 +271,16 @@ TEST_F(ComplianceGovernanceTest, HIPAA_PhiRuleRequiresStrictRedaction) {
 
 TEST_F(ComplianceGovernanceTest, HIPAA_PhiRetentionMeetsRequirement) {
     // HIPAA: medical records must be retained for at least 6 years (2190 days).
+    // Actual requirements may vary by jurisdiction and record type; this test
+    // uses the federal HIPAA minimum as the lower bound.
     PolicyRule rule = makeHipaaRule("hipaa-5");
     manager_->addRule(rule);
 
     auto stored = manager_->getRule("hipaa-5");
     ASSERT_TRUE(stored.has_value());
-    // Our test fixture uses 2555 days (7 years), exceeding the 6-year minimum.
+    // Our test fixture uses 2555 days (7 years), exceeding the 6-year federal minimum.
     EXPECT_GE(stored->retention_days, 2190)
-        << "HIPAA: retention must be at least 6 years";
+        << "HIPAA: retention must be at least 6 years (federal minimum)";
 }
 
 TEST_F(ComplianceGovernanceTest, HIPAA_PhiClassificationIsGeheimOrHigher) {
@@ -677,9 +683,11 @@ TEST(CrossComplianceTest, GdprAndHipaaRulesCoexistInManager) {
 
 TEST(CrossComplianceTest, AllFrameworksRulesPassIndividualValidation) {
     // Each framework's rule must satisfy its own validation when added alone.
-    for (auto& rule : {makeGdprRule("v-gdpr"),
-                       makeHipaaRule("v-hipaa"),
-                       makeSoc2CompliantRule("v-soc2")}) {
+    const std::vector<PolicyRule> framework_rules = {
+        makeGdprRule("v-gdpr"),
+        makeHipaaRule("v-hipaa"),
+        makeSoc2CompliantRule("v-soc2")};
+    for (const auto& rule : framework_rules) {
         PolicyManager pm;
         pm.addRule(rule);
         auto res = pm.validateRules();
