@@ -118,6 +118,7 @@
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
 - MIG partitioning infrastructure is implemented (`MIGManager`); real `nvmlDeviceCreateGpuInstance` calls require CUDA + NVML hardware
+- Vulkan compute backend infrastructure is implemented (`VulkanComputeBackend`); real `VkQueue` submission and `synchronizeStream` (`vkQueueWaitIdle`) require Vulkan SDK + hardware
 
 ## Breaking Changes
 - Multi-node coordination will introduce cluster configuration block (new optional config)

@@ -38,7 +38,7 @@ void VulkanComputeBackend::probeDevices() const {
     if (vulkan_initialized_) return;
 
 #ifdef THEMIS_ENABLE_VULKAN
-    // Minimal instance creation to count physical devices.
+    // Minimal instance creation to count physical devices and capture vendor.
     VkApplicationInfo appInfo{};
     appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.apiVersion = VK_API_VERSION_1_1;
@@ -50,6 +50,7 @@ void VulkanComputeBackend::probeDevices() const {
     VkInstance inst = VK_NULL_HANDLE;
     if (vkCreateInstance(&ci, nullptr, &inst) != VK_SUCCESS) {
         cached_device_count_ = 0;
+        cached_vendor_name_  = "Unknown";
         vulkan_initialized_  = true;
         return;
     }
@@ -57,8 +58,9 @@ void VulkanComputeBackend::probeDevices() const {
     uint32_t count = 0;
     vkEnumeratePhysicalDevices(inst, &count, nullptr);
 
-    // Filter for compute-capable devices.
+    // Filter for compute-capable devices and capture vendor of the first one.
     int compute_count = 0;
+    cached_vendor_name_ = "Unknown";
     if (count > 0) {
         std::vector<VkPhysicalDevice> devs(count);
         vkEnumeratePhysicalDevices(inst, &count, devs.data());
@@ -70,6 +72,20 @@ void VulkanComputeBackend::probeDevices() const {
             for (const auto& qf : qfs) {
                 if (qf.queueFlags & VK_QUEUE_COMPUTE_BIT) {
                     ++compute_count;
+                    // Capture vendor name from the first compute device.
+                    if (compute_count == 1) {
+                        VkPhysicalDeviceProperties props{};
+                        vkGetPhysicalDeviceProperties(dev, &props);
+                        switch (props.vendorID) {
+                            case 0x10DE: cached_vendor_name_ = "NVIDIA";   break;
+                            case 0x1002: cached_vendor_name_ = "AMD";      break;
+                            case 0x8086: cached_vendor_name_ = "Intel";    break;
+                            case 0x13B5: cached_vendor_name_ = "ARM";      break;
+                            case 0x5143: cached_vendor_name_ = "Qualcomm"; break;
+                            case 0x1010: cached_vendor_name_ = "ImgTec";   break;
+                            default:     cached_vendor_name_ = "Unknown";  break;
+                        }
+                    }
                     break;
                 }
             }
@@ -80,6 +96,7 @@ void VulkanComputeBackend::probeDevices() const {
     cached_device_count_ = compute_count;
 #else
     cached_device_count_ = 0;
+    cached_vendor_name_  = "Unknown";
 #endif
 
     vulkan_initialized_ = true;
@@ -100,45 +117,9 @@ bool VulkanComputeBackend::isAvailable() const {
 }
 
 std::string VulkanComputeBackend::vendorName() const {
-#ifdef THEMIS_ENABLE_VULKAN
     std::lock_guard<std::mutex> lock(mutex_);
     probeDevices();
-    if (cached_device_count_ == 0) return "Unknown";
-
-    VkApplicationInfo appInfo{};
-    appInfo.sType      = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    appInfo.apiVersion = VK_API_VERSION_1_1;
-
-    VkInstanceCreateInfo ci{};
-    ci.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    ci.pApplicationInfo = &appInfo;
-
-    VkInstance inst = VK_NULL_HANDLE;
-    if (vkCreateInstance(&ci, nullptr, &inst) != VK_SUCCESS) return "Unknown";
-
-    uint32_t count = 0;
-    vkEnumeratePhysicalDevices(inst, &count, nullptr);
-    std::string result = "Unknown";
-    if (count > 0) {
-        std::vector<VkPhysicalDevice> devs(count);
-        vkEnumeratePhysicalDevices(inst, &count, devs.data());
-        VkPhysicalDeviceProperties props{};
-        vkGetPhysicalDeviceProperties(devs[0], &props);
-        switch (props.vendorID) {
-            case 0x10DE: result = "NVIDIA";   break;
-            case 0x1002: result = "AMD";      break;
-            case 0x8086: result = "Intel";    break;
-            case 0x13B5: result = "ARM";      break;
-            case 0x5143: result = "Qualcomm"; break;
-            case 0x1010: result = "ImgTec";   break;
-            default:     result = "Unknown";  break;
-        }
-    }
-    vkDestroyInstance(inst, nullptr);
-    return result;
-#else
-    return "Unknown";
-#endif
+    return cached_vendor_name_;
 }
 
 // ============================================================================
@@ -149,12 +130,12 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
     (void)device_index;
 
     // Return a BackendFn that dispatches via Vulkan when available, or falls
-    // back to CPU execution.  The dispatch is always successful in the CPU
-    // path so that GPULauncher and GPUModule work without GPU hardware.
+    // back to CPU execution.  A single lock covers the entire lambda body to
+    // avoid re-entrancy issues with std::mutex (which is not recursive).
     return [this](const GPULauncher::WorkItem& /*item*/) -> bool {
-#ifdef THEMIS_ENABLE_VULKAN
         std::lock_guard<std::mutex> lock(mutex_);
         probeDevices();
+#ifdef THEMIS_ENABLE_VULKAN
         if (cached_device_count_ > 0) {
             // Vulkan device available: record dispatch.
             // Production path: replace with real Vulkan command buffer
@@ -163,8 +144,7 @@ GPULauncher::BackendFn VulkanComputeBackend::createBackendFn(int device_index) {
             return true;
         }
 #endif
-        // CPU fallback path.
-        std::lock_guard<std::mutex> lock(mutex_);
+        // CPU fallback path (no Vulkan, or Vulkan present but no compute device).
         ++stats_.cpu_fallbacks;
         return true;
     };

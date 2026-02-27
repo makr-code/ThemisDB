@@ -191,8 +191,9 @@ private:
     Stats stats_;
 
     // Cached device count (populated lazily on first call to isAvailable()).
-    mutable int  cached_device_count_ = -1;  // -1 = not yet probed
-    mutable bool vulkan_initialized_  = false;
+    mutable int         cached_device_count_ = -1;  // -1 = not yet probed
+    mutable bool        vulkan_initialized_  = false;
+    mutable std::string cached_vendor_name_;         // populated by probeDevices()
 
     // Internal: probe the Vulkan loader and count compute-capable devices.
     // Called under mutex_ the first time isAvailable() / deviceCount() is used.
