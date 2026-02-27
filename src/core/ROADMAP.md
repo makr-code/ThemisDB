@@ -24,27 +24,28 @@
 - [x] Health check interface in ConcernsContext — `ProbeResult`/`HealthStatus` in `lifecycle.h`; `isHealthy()` on all four concern interfaces; `ConcernsContext::healthCheck()` and `readinessCheck()` aggregate per-concern results; `MonitoringApiHandler` exposes per-concern health in `/health/live` and `/health/ready` JSON responses (Issue: #1410)
 - [x] Jaeger tracing backend adapter — `JaegerTracerAdapter` with `uber-trace-id` propagation and W3C `traceparent` fallback; circuit-breaker guarded; selectable via `tracerAdapter="jaeger"` in `ConcernsContext::Config` (Issue: #1413)
 - [x] Zipkin tracing backend adapter — `ZipkinTracerAdapter` with B3 single/multi-header and W3C `traceparent` propagation; injects all three header formats on outbound; circuit-breaker guarded; selectable via `tracerAdapter="zipkin"` (Issue: #1413)
-
-## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [x] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
+- [x] OpenTelemetry trace and span propagation (Issue: #1407)
+- [x] Prometheus-compatible metrics adapter (Issue: #1408)
+- [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
+- [x] Configuration-driven adapter selection (Issue: #1411)
+- [x] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
+- [x] Circuit breaker interface as a first-class concern (Issue: #1415)
+- [x] Feature flag interface for runtime enable/disable (Issue: #1416)
+
+## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] OpenTelemetry trace and span propagation (Issue: #1407)
-- [x] Prometheus-compatible metrics adapter (Issue: #1408)
-- [x] Structured log correlation (trace ID injection into log records) (Issue: #2377)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
-- [x] Configuration-driven adapter selection (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
-- [x] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
 - [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
-- [x] Circuit breaker interface as a first-class concern (Issue: #1415)
-- [x] Feature flag interface for runtime enable/disable (Issue: #1416)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
 - [I] Audit event interface for compliance logging (Issue: #1418)
 

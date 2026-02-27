@@ -14,6 +14,15 @@
 - [x] Audit trail integration for governance events
 - [x] Policy-based governance enforcement at query time
 - [x] CCPA/CPRA data subject rights enforcement (right-to-know, right-to-delete, opt-out-of-sale, data portability)
+- [x] Policy hot-reload on configuration change (Issue: #1762)
+- [x] Conflict detection for overlapping access control policies (Issue: #1763)
+- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
+- [x] Data lineage tracking for governed datasets (Issue: #1765)
+- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
+- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
+- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
+- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
+- [x] Automated data masking for sensitive fields in query results (Issue: #1773)
 
 ## In Progress 🚧
 
@@ -25,21 +34,12 @@
 
 ### Short-term (Next 3-6 months)
 
-- [x] Policy hot-reload on configuration change (Issue: #1762)
-- [x] Conflict detection for overlapping access control policies (Issue: #1763)
-- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
-- [x] Data lineage tracking for governed datasets (Issue: #1765)
 - [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
-- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
 
 - [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
-- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [I] PCI-DSS data isolation rules (Issue: #1770)
-- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
-- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
-- [x] Automated data masking for sensitive fields in query results (Issue: #1773)
 
 ## Implementation Phases
 

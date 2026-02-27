@@ -19,6 +19,10 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Deprecation warning aggregation report: `deprecationReport()` API, `setAggregationEnabled()`, background reporter thread (Issue: #1659)
 - [x] Config audit trail: log which paths were accessed and when — `ConfigAuditLog` with bounded in-memory ring-buffer, `setAuditLogEnabled()` / `auditLog()` / `clearAuditLog()` API (Issue: #1668)
 - [x] Automatic legacy path migration script with dry-run mode — `config_migration_scanner` CLI (`--root`, `--output text|json|csv`, `--dry-run`, `--fix`); unit-tested via `tests/test_config_migration_scanner.cpp` (Issue: #1661)
+- [x] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
+- [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
+- [x] Config audit trail: log which paths were accessed and when (Issue: #1668)
+- [x] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## In Progress 🚧
 - [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
@@ -26,16 +30,12 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
 - [P] Metrics export to Prometheus endpoint (Issue: #1663)
 - [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
 
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
-- [x] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
-- [x] Config audit trail: log which paths were accessed and when (Issue: #1668)
-- [x] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## Implementation Phases
 

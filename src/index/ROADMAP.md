@@ -19,10 +19,10 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] IndexManager with dependency injection (breaks circular deps)
 - [x] RocksDB persistence for vector indexes with WriteBatch atomicity
 - [x] Audit logging for vector operations
-
-## In Progress 🚧
 - [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
 - [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
+
+## In Progress 🚧
 - [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋

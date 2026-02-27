@@ -30,9 +30,13 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] `AutocompleteEngine` – prefix-index + popular-query suggestions, score-ranked output (v1.5.0) (Issue: #2281)
 - [x] `LearningToRank` – linear re-ranker over 6-dimensional feature vector; online pairwise gradient-descent training (v1.5.0)
 - [x] `MultiModalSearch` – TEXT/IMAGE/AUDIO/CUSTOM modalities; weighted RRF fusion (v1.5.0)
+- [x] Faceted search with dynamic facet counting (`FacetedSearch`, v1.5.0) (Issue: #2283)
+- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
+- [x] Search analytics (top queries, zero-result queries) (Issue: #2275) (`SearchAnalytics`, v1.5.0)
+- [x] Spelling correction suggestions (Issue: #2455)
+- [x] Autocomplete / type-ahead query suggestions (Issue: #2281) (`AutocompleteEngine`, v1.5.0)
 
 ## In Progress 🚧
-- [x] Faceted search with dynamic facet counting (`FacetedSearch`, v1.5.0) (Issue: #2283)
 - [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
 
 ## Planned Features 📋
@@ -40,16 +44,12 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [x] Configurable re-ranking with LLM feedback loop (Issue: #2454)
-- [x] Search analytics (top queries, zero-result queries) (Issue: #2275) (`SearchAnalytics`, v1.5.0)
-- [x] Spelling correction suggestions (Issue: #2455)
 
 ### Long-term (6-12 months)
 - [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
 - [I] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
 - [I] Personalized ranking based on user interaction history (Issue: #2279)
 - [I] Distributed search across shards with result merging (Issue: #2280)
-- [x] Autocomplete / type-ahead query suggestions (Issue: #2281) (`AutocompleteEngine`, v1.5.0)
 
 ## Implementation Phases
 

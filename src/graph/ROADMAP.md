@@ -20,39 +20,29 @@
 - [x] Parallel multi-source BFS/DFS for large graphs (Issue: #1808)
 - [x] Adaptive cost model: EMA-based per-algorithm learning, enabled by default
 - [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-
-## In Progress 🚧
 - [x] Parallel multi-source traversal for large fan-out queries (fan_out_threshold, intra-frontier parallelism in BFS) (Issue: #1811)
 - [x] Cost model calibration from real execution feedback (Issue: #2386)
 - [x] Property graph schema-aware optimizer hints (Issue: #1819)
 - [x] Distributed graph query execution across shards (Issue: #1826)
 - [x] Incremental graph query execution on live updates (Issue: #1825)
 - [x] Plan cache eviction with size and TTL controls (Issue: #1827)
-  - LRU eviction via `setPlanCacheMaxSize()` (0 = unlimited), TTL expiry via `setPlanCacheTTL(ms)` (0 = no expiry)
-  - `planCacheInsert` / `planCacheLookup` helpers in `graph_query_optimizer.cpp`; `plan_cache_evictions` counter in `GraphQueryMetrics`; exposed in JSON and Prometheus endpoints
-  - Unit tests: 8 new tests covering LRU eviction, eviction counter, TTL expiry, TTL non-expiry, cache size introspection, metrics endpoints
 - [x] Graph query result streaming for large path sets (Issue: #1822)
 - [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
+- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
+- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 
 ## In Progress 🚧
-(none)
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
-- [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
-- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
 - [I] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
-- [x] Distributed graph query execution across shards (Issue: #1826)
 - [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
-- [x] Property graph schema-aware optimizer hints (Issue: #1819)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
-- [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
-- [x] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases
 

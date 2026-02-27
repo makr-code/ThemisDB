@@ -11,6 +11,11 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Parallel graph algorithm stubs
 - [x] Matrix operations for embeddings (scaffolding)
 - [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
+- [x] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
+- [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
+- [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 
 ## In Progress 🚧
 - [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
@@ -21,15 +26,10 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Short-term (Next 3-6 months)
 - [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
-- [x] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
-- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
 - [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
-- [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
-- [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
-- [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
 ## Implementation Phases
 

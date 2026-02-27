@@ -32,36 +32,27 @@
 - [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
 - [x] GPU profiling integration with NVIDIA Nsight (NVTX markers) and ROCm Profiler (rocTX markers) (`gpu/profiler.cpp`)
 - [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT — infrastructure with CPU brute-force fallback and cuVS/RAFT stub (`gpu/query_accelerator.cpp`, Issue: #2381)
-
-## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
 - [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [x] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
+- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
+- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+- [x] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+
+## In Progress 🚧
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
-- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
-  - Implementation: `include/themis/gpu/unified_memory.h`, `src/gpu/unified_memory.cpp`
-  - Interfaces: `GPUUnifiedMemoryAllocator::{allocate, free, prefetch, advise, isSupported, getStats, getTenantBytes, reset}` + `MemAdvice` enum
-  - Tests: `tests/test_gpu_unified_memory.cpp` (24 tests, 100% public-API coverage)
-- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
-  - Implementation: `include/themis/gpu/time_slice_scheduler.h`, `src/gpu/time_slice_scheduler.cpp`
-  - Interfaces: `GPUTimeSliceScheduler::{registerTenant, unregisterTenant, hasTenant, submit, dispatch, drainAll, allQueuesEmpty, getTenantStats, getAllTenantStats, getStats, resetStats}` + `TenantConfig`, `TenantStats`, `Stats`
-  - Tests: `tests/test_gpu_time_slice_scheduler.cpp`
-- [x] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
-  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
-  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
-  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
-  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
 ## Implementation Phases

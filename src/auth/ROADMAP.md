@@ -20,29 +20,30 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
 - [x] WebAuthn/FIDO2 hardware token support (`auth/webauthn_authenticator.cpp`)
 - [x] Configurable password policy enforcement (`auth/password_policy.cpp`)
-
-## In Progress 🚧
 - [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (Target: Q2 2026)
 - [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
 - [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
 - [x] Session management and revocation endpoint (Issue: #1983)
 - [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
 - [x] Audit logging for all authentication events (Issue: #1534)
 - [x] Configurable password policy enforcement (Issue: #2013)
-
-### Long-term (6-12 months)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [x] LDAP/Active Directory direct bind authentication (Issue: #1537)
-- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 - [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
+
+## In Progress 🚧
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+
+### Long-term (6-12 months)
+- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 
 ## Implementation Phases
 

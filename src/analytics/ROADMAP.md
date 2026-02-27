@@ -32,6 +32,13 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Integration with external ML tools: ONNX Runtime (local inference) and TensorFlow Serving (REST API) via unified `MLServingClient` abstraction with `DataPoint` integration and graceful degradation when backends are absent (`analytics/ml_serving.cpp`)
 - [x] Model serving and online inference pipeline: thread-safe named+versioned model registry, online/batch inference, class-probability output, per-model health metrics, serialization round-trip (`analytics/model_serving.cpp`)
 - [x] Predictive analytics and time-series forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters triple exponential smoothing, ARIMA (AR+I+MA via Yule–Walker), ENSEMBLE with weighted combination; confidence intervals, seasonal decomposition, accuracy metrics (MAE, RMSE, MAPE, sMAPE), model serialization round-trip (`analytics/forecasting.cpp`)
+- [x] Predictive analytics and time-series forecasting (Issue: #1473)
+- [x] AutoML integration for automated model selection (Issue: #1485) ✅
+- [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
+- [x] Model serving and online inference pipeline (Issue: #1477)
+- [x] Multi-language NLP support (beyond English) (Issue: #1478)
+- [x] Full morphological lemmatization (Issue: #1479)
 
 ## In Progress 🚧
 *(none — all Phase 2 items completed)*
@@ -44,13 +51,6 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [P] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
-- [x] Predictive analytics and time-series forecasting (Issue: #1473)
-- [x] AutoML integration for automated model selection (Issue: #1485) ✅
-- [x] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
-- [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
-- [x] Model serving and online inference pipeline (Issue: #1477)
-- [x] Multi-language NLP support (beyond English) (Issue: #1478)
-- [x] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 

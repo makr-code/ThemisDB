@@ -17,6 +17,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Automatic resource cleanup on unload
 - [x] Cross-platform export/import macros
 - [x] Version compatibility checking
+- [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
+- [x] Plugin health monitoring and automatic restart (Issue: #2373)
+- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 
 ## In Progress 🚧
 - [P] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554, PR: #2396)
@@ -27,12 +30,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ### Short-term (Next 3-6 months)
 - [P] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
 - [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
-- [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
-- [x] Plugin health monitoring and automatic restart (Issue: #2373)
 - [P] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
-- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 - [I] Remote plugin loading from authenticated registry (Issue: #1562)
 - [I] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)

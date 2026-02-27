@@ -15,17 +15,17 @@
 - [x] System information and metrics collection
 - [x] Alphabetic vendor-neutral ordering of registered systems
 - [x] Result type conversions and error handling
+- [x] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
+- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
+- [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
 
 ## In Progress 🚧
 - [P] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
-- [x] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
-- [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
-- [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
 - [!] Weaviate adapter (native vector database) (Issue: #2374)
 - [I] Qdrant adapter (native vector database) (Issue: #1646)
 - [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)

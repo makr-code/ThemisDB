@@ -22,11 +22,11 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] AQL function documentation auto-generation from C++ headers (Issue: #1362)
 - [x] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
 - [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
+- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## In Progress 🚧
 - [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
 - [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## Planned Features 📋
 ### Short-term (Next 3-6 months)

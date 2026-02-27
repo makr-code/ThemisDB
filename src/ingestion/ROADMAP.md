@@ -25,6 +25,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] OAuth 2.0 token refresh handling within connectors (Issue: #2408)
 
 ## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 

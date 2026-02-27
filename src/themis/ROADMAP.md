@@ -12,6 +12,10 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 - [x] License validation headers
 - [x] Module loader headers
 - [x] Wire protocol server headers
+- [x] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
+- [x] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
+- [x] SHA-256 hash verification for loaded modules (Issue: #2471)
+- [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## In Progress 🚧
 - [~] `build_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
@@ -23,16 +27,12 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 ### Short-term (Next 3-6 months)
 - [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
-- [x] `getBuildConfiguration()` – aggregate build metadata at runtime (Issue: #2311)
-- [x] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
-- [x] SHA-256 hash verification for loaded modules (Issue: #2471)
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
 - [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
 - [I] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
-- [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## Implementation Phases
 
