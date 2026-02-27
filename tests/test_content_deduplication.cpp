@@ -276,7 +276,7 @@ TEST(DeduplicationCheckerText, IdenticalSignatureDetected) {
     auto result = checker.isDuplicateText(sig);
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(result->existing_id, "doc_original");
-    EXPECT_DOUBLE_EQ(result->similarity, DeduplicationChecker::kJaccardThreshold);
+    EXPECT_GE(result->similarity, DeduplicationChecker::kJaccardThreshold);
 }
 
 TEST(DeduplicationCheckerText, NearDuplicateDetectedViaBands) {

@@ -362,7 +362,7 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string& te
         shingles = words;
     } else {
         shingles.reserve(words.size() - 2);
-        for (size_t i = 0; i + 2 < words.size(); ++i) {
+        for (size_t i = 0; i + 3 <= words.size(); ++i) {
             shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
         }
     }

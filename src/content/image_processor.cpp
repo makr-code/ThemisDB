@@ -505,7 +505,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
 
 /// Apply a separable 2-D DCT-II to a 32×32 matrix stored in row-major order.
 std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
-    static const double PI = 3.14159265358979323846;
+    static constexpr double kPi = 3.14159265358979323846;
     std::array<double, 1024> dct{};
 
     for (int u = 0; u < 32; ++u) {
@@ -514,11 +514,11 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
             double cv = (v == 0) ? 1.0 / std::sqrt(2.0) : 1.0;
             double sum = 0.0;
             for (int x = 0; x < 32; ++x) {
-                double cx = std::cos(PI * (2 * x + 1) * u / 64.0);
+                double cx = std::cos(kPi * (2 * x + 1) * u / 64.0);
                 for (int y = 0; y < 32; ++y) {
                     sum += pixels[x * 32 + y]
                          * cx
-                         * std::cos(PI * (2 * y + 1) * v / 64.0);
+                         * std::cos(kPi * (2 * y + 1) * v / 64.0);
                 }
             }
             dct[u * 32 + v] = (cu * cv / 16.0) * sum;
@@ -539,7 +539,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     // 2. Apply 2-D DCT
     auto dct = apply2DDCT(pixels);
 
-    // 3. Collect the 8×8 top-left DCT coefficients (skip DC component at [0,0])
+    // 3. Collect the 8×8 top-left DCT coefficients
     std::array<double, 64> low_freq{};
     for (int u = 0; u < 8; ++u) {
         for (int v = 0; v < 8; ++v) {

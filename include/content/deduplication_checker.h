@@ -52,7 +52,11 @@ public:
     /**
      * @param storage          RocksDB wrapper used to persist pHash → content_id mappings.
      * @param max_band_entries Maximum number of MinHash band-index entries kept
-     *                         in memory before LRU eviction kicks in.
+     *                         in memory before LRU-style eviction kicks in.
+     *                         With 16 bands per document, `max_band_entries / 16`
+     *                         gives the approximate number of unique text documents
+     *                         that can be held in the index simultaneously
+     *                         (e.g. the default 200,000 ≈ 12,500 documents).
      */
     explicit DeduplicationChecker(
         std::shared_ptr<storage::RocksDBWrapper> storage,

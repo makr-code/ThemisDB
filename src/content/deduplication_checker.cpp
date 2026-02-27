@@ -153,8 +153,10 @@ void DeduplicationChecker::registerText(
 
     std::lock_guard<std::mutex> lock(band_mutex_);
     for (size_t b = 0; b < kNumBands; ++b) {
-        // Simple eviction: when the total band-entry count reaches the cap,
-        // remove the first entry of the first non-empty band.
+        // Approximate eviction: when the total band-entry count reaches the cap,
+        // remove the first entry of the first non-empty band.  This is not true
+        // LRU (unordered_map iteration order is unspecified) but provides bounded
+        // memory use in a simple and inexpensive way.
         if (band_entry_count_ >= max_band_entries_) {
             for (auto& idx : band_index_) {
                 if (!idx.empty()) {

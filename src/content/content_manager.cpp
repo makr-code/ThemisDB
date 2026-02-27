@@ -1953,44 +1953,46 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.hash_sha256 = computeSHA256(blob);
 
     // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
-    // Check for near-duplicate images (pHash) and text (MinHash) before committing.
-    if (dedup_checker_) {
-        bool is_image = (category == ContentCategory::IMAGE);
-        bool is_text  = (category == ContentCategory::TEXT);
+    // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
+    // check and the post-storage registration to avoid redundant computation.
+    const bool dedup_is_image = (category == ContentCategory::IMAGE);
+    const bool dedup_is_text  = (category == ContentCategory::TEXT);
+    std::string cached_phash;
+    std::vector<uint32_t> cached_minhash;
 
-        if (is_image || is_text) {
-            metrics_.dedup_checks_total.fetch_add(1);
+    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        metrics_.dedup_checks_total.fetch_add(1);
 
-            std::optional<DuplicateOf> dup;
-            if (is_image) {
-                // Compute DCT-based 64-bit perceptual hash for the image blob
-                std::vector<uint8_t> img_bytes(blob.begin(), blob.end());
-                std::string phash = ImageProcessor::computePHash(img_bytes);
-                if (!phash.empty()) {
-                    dup = dedup_checker_->isDuplicateImage(phash);
-                }
-            } else {
-                // Compute 128-permutation MinHash over 3-word shingles
-                auto minhash = TextProcessor::computeMinHash(blob);
-                if (!minhash.empty()) {
-                    dup = dedup_checker_->isDuplicateText(minhash);
-                }
+        std::optional<DuplicateOf> dup;
+        if (dedup_is_image) {
+            // computePHash accepts const std::vector<uint8_t>&; reinterpret the
+            // std::string as a byte span to avoid an extra heap allocation.
+            const auto* bytes = reinterpret_cast<const uint8_t*>(blob.data());
+            cached_phash = ImageProcessor::computePHash(
+                std::vector<uint8_t>(bytes, bytes + blob.size()));
+            if (!cached_phash.empty()) {
+                dup = dedup_checker_->isDuplicateImage(cached_phash);
             }
-
-            if (dup) {
-                metrics_.dedup_hits_total.fetch_add(1);
-                THEMIS_INFO("Dedup: near-duplicate of '{}' detected for '{}' (similarity={:.3f})",
-                            dup->existing_id, filename, dup->similarity);
-                result.success = true;
-                result.primary_content_id = dup->existing_id;
-                result.metadata = json{
-                    {"content_id",   dup->existing_id},
-                    {"duplicate_of", dup->existing_id},
-                    {"similarity",   dup->similarity},
-                    {"mime_type",    detected_mime}
-                };
-                return result;
+        } else {
+            cached_minhash = TextProcessor::computeMinHash(blob);
+            if (!cached_minhash.empty()) {
+                dup = dedup_checker_->isDuplicateText(cached_minhash);
             }
+        }
+
+        if (dup) {
+            metrics_.dedup_hits_total.fetch_add(1);
+            THEMIS_INFO("Dedup: near-duplicate of '{}' detected for '{}' (similarity={:.3f})",
+                        dup->existing_id, filename, dup->similarity);
+            result.success = true;
+            result.primary_content_id = dup->existing_id;
+            result.metadata = json{
+                {"content_id",   dup->existing_id},
+                {"duplicate_of", dup->existing_id},
+                {"similarity",   dup->similarity},
+                {"mime_type",    detected_mime}
+            };
+            return result;
         }
     }
     json chunks_json = json::array();
@@ -2074,22 +2076,14 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         return result;
     }
 
-    // Register with the deduplication index after successful storage
-    if (dedup_checker_) {
-        bool is_image = (category == ContentCategory::IMAGE);
-        bool is_text  = (category == ContentCategory::TEXT);
-        if (is_image) {
-            std::vector<uint8_t> img_bytes(blob.begin(), blob.end());
-            std::string phash = ImageProcessor::computePHash(img_bytes);
-            if (!phash.empty()) {
-                dedup_checker_->registerImage(content_id, phash);
-                meta.extracted_metadata["phash_hex"] = phash;
-            }
-        } else if (is_text) {
-            auto minhash = TextProcessor::computeMinHash(blob);
-            if (!minhash.empty()) {
-                dedup_checker_->registerText(content_id, minhash);
-            }
+    // Register with the deduplication index after successful storage.
+    // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
+    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        if (dedup_is_image && !cached_phash.empty()) {
+            dedup_checker_->registerImage(content_id, cached_phash);
+            meta.extracted_metadata["phash_hex"] = cached_phash;
+        } else if (dedup_is_text && !cached_minhash.empty()) {
+            dedup_checker_->registerText(content_id, cached_minhash);
         }
     }
 
