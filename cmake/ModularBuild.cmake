@@ -196,6 +196,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery
     ../src/storage/wal_storage.cpp
+    ../src/storage/transaction_retry_manager.cpp
     # Compaction and GC management
     ../src/storage/compaction_manager.cpp
     # Storage Audit Logger
@@ -221,6 +222,7 @@ set(THEMIS_STORAGE_SOURCES
     
     # Indexes
     ../src/index/secondary_index.cpp
+    ../src/index/ann_index.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/hnsw_layer_optimizer.cpp
@@ -232,6 +234,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/distributed_vector_index.cpp
     ../src/index/workload_replay.cpp
     ../src/index/spatial_index.cpp
     ../src/geo/geo_rtree.cpp
@@ -262,6 +265,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/cross_collection_stream.cpp
     ../src/cdc/cdc_materialized_view.cpp
+    ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
 
@@ -286,8 +290,10 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/performance/cycle_metrics.cpp
+    ../src/performance/workload_predictor.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
+    ../src/cache/distributed_cache_coordinator.cpp
     ../src/cache/adaptive_query_cache.cpp
     ../src/cache/cache_hit_rate_slo_monitor.cpp
     ../src/cache/predictive_prefetcher.cpp
@@ -321,6 +327,7 @@ set(THEMIS_QUERY_SOURCES
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_fewshot_example_library.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/aql_query_builder.cpp
@@ -414,6 +421,8 @@ set(THEMIS_SECURITY_SOURCES
     
     # Governance
     ../src/governance/policy_engine.cpp
+    ../src/governance/policy_manager.cpp
+    ../src/governance/policy_version_history.cpp
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
@@ -431,10 +440,9 @@ set(THEMIS_SECURITY_SOURCES
     # Security initialization
     ../src/core/security_initialization.cpp
     
-    # Storage-backed PII and vector index (require both storage and security)
+    # Storage-backed PII and vector index helpers
     ../src/utils/pii_pseudonymizer.cpp
     ../src/index/vector_index.cpp
-    ../src/index/ann_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
     ../src/search/llm_reranker.cpp
@@ -699,6 +707,7 @@ set(THEMIS_CONTENT_SOURCES
     # Content processing (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>

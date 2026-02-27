@@ -1373,6 +1373,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/columnar_format.cpp
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
+    ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     
     ../src/metadata/schema_manager.cpp
