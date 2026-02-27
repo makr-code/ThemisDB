@@ -235,6 +235,10 @@ private:
     // Monotonic counters for ID generation
     std::atomic<uint64_t> next_obj_id_{1};
 
+    // API key extracted from connect() options (stored but never exposed via
+    // get_system_info() to prevent credential leakage in logs or core dumps).
+    bool has_api_key_ = false;
+
     // -----------------------------------------------------------------------
     // Private helpers
     // -----------------------------------------------------------------------

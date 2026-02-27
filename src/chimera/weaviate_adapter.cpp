@@ -61,7 +61,7 @@ WeaviateAdapter::~WeaviateAdapter() {
 
 Result<bool> WeaviateAdapter::connect(
     const std::string& connection_string,
-    const std::map<std::string, std::string>& /*options*/
+    const std::map<std::string, std::string>& options
 ) {
     if (connection_string.empty()) {
         return Result<bool>::err(
@@ -79,6 +79,16 @@ Result<bool> WeaviateAdapter::connect(
     }
 
     connection_string_ = connection_string;
+
+    // Extract API key from options if provided.
+    // The key is stored only as a presence flag – it is intentionally NOT
+    // copied into connection_string_ or any field surfaced by get_system_info()
+    // so that it cannot be leaked through logs or memory inspection.
+    // Note: the key exists in the caller's `options` map for the duration of
+    // this call; callers should avoid logging the options map directly.
+    auto it = options.find("api_key");
+    has_api_key_ = (it != options.end() && !it->second.empty());
+
     connected_ = true;
     return Result<bool>::ok(true);
 }
@@ -86,6 +96,7 @@ Result<bool> WeaviateAdapter::connect(
 Result<bool> WeaviateAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
+    has_api_key_ = false;
     return Result<bool>::ok(true);
 }
 
