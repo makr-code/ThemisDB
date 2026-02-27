@@ -673,4 +673,31 @@ Result<nlohmann::json> executeAqlWithLimits(
     return result;
 }
 
+// ── SQL dialect compatibility layer ──────────────────────────────────────────
+
+Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine) {
+    // Parse the SQL statement into an AST.
+    query::SQLParser parser;
+    auto parse_result = parser.parse(sql);
+    if (!parse_result) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            parse_result.error().message()
+        );
+    }
+
+    // Transpile the SQL AST to an AQL query string.
+    query::SQLToAQLTranspiler transpiler;
+    auto transpile_result = transpiler.transpile(parse_result.value());
+    if (!transpile_result) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            transpile_result.error().message()
+        );
+    }
+
+    // Execute the generated AQL query through the standard pipeline.
+    return executeAql(transpile_result.value(), engine);
+}
+
 } // namespace themis
