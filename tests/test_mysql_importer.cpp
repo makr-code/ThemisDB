@@ -1001,11 +1001,10 @@ static ImportStats mysqlStreamingImportContent(const std::string& content,
                     if (options.streaming_row_callback) {
                         if (!options.streaming_row_callback(table_name, entity)) {
                             cancelled = true;
-                            stats.imported_records++;
-                            break;
                         }
                     }
                     stats.imported_records++;
+                    if (cancelled) break;
                 }
             }
         }

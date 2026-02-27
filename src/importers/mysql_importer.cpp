@@ -767,17 +767,13 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
             if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
-                    stats.imported_records++;
-                    rows_imported++;
-                    emitMetric(options, "themisdb_import_rows_total",
-                               {{"table", table_name}, {"status", "imported"}}, 1.0);
-                    return true;  // outer loop checks cancelled_ and stops
                 }
             }
             stats.imported_records++;
             rows_imported++;
             emitMetric(options, "themisdb_import_rows_total",
                        {{"table", table_name}, {"status", "imported"}}, 1.0);
+            if (cancelled_) return true;  // outer loop checks cancelled_ and stops
         }
 
         pos = k;

@@ -567,13 +567,6 @@ bool MongoDBImporter::importDocument(const json& doc,
     if (options.streaming_row_callback) {
         if (!options.streaming_row_callback(collection, entity)) {
             cancelled_ = true;
-            stats.imported_records++;
-            emitMetric(options, "themisdb_import_rows_total",
-                       {{"collection", collection}, {"status", "imported"}}, 1.0);
-            double dur = std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - t0).count();
-            emitSpan(options, "insert_batch", {{"collection", collection}}, dur);
-            return true;  // outer loop checks cancelled_ and stops
         }
     }
     stats.imported_records++;

@@ -329,7 +329,8 @@ static ImportStats importJsonLines(const std::string& content,
         if (options.streaming_row_callback) {
             if (!options.streaming_row_callback(collection, entity)) {
                 stats.imported_records++;
-                return stats;  // early abort
+                doc_index++;
+                return stats;  // early abort – set cancelled equivalent
             }
         }
         stats.imported_records++;
