@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     261                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -37,8 +37,10 @@ using namespace importers;
 
 ImportApiHandler::ImportApiHandler(
     std::shared_ptr<ImportJobRegistry> registry,
-    std::shared_ptr<IImporter>         importer
-) : registry_(std::move(registry)), importer_(std::move(importer)) {}
+    std::shared_ptr<IImporter>         importer,
+    std::shared_ptr<IImporter>         s3_importer
+) : registry_(std::move(registry)), importer_(std::move(importer)),
+    s3_importer_(std::move(s3_importer)) {}
 
 // ============================================================================
 // Route registration
@@ -49,6 +51,12 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
     server.Post("/api/v1/import/postgresql",
         [this](const httplib::Request& req, httplib::Response& res) {
             handleStartImport(req, res);
+        });
+
+    // POST /api/v1/import/s3 – start async S3 object-storage import
+    server.Post("/api/v1/import/s3",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleStartS3Import(req, res);
         });
 
     // GET /api/v1/import/jobs – list all jobs
@@ -104,6 +112,59 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
     THEMIS_INFO("ImportApiHandler: async import requested for '{}'", source_path);
 
     auto handle = importer_->importDataAsync(source_path, opts);
+    registry_->add(handle);
+
+    jsonOk(res, handle->toJson());
+}
+
+void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
+                                            httplib::Response& res) {
+    if (!s3_importer_) {
+        jsonError(res, 501,
+                  "S3 importer is not configured on this server instance");
+        return;
+    }
+
+    json body;
+    try {
+        body = parseRequestBody(req.body);
+    } catch (const std::exception& e) {
+        jsonError(res, 400, std::string("Invalid JSON body: ") + e.what());
+        return;
+    }
+
+    if (!body.contains("source_path") || !body["source_path"].is_string()) {
+        jsonError(res, 400, "Missing required field: source_path");
+        return;
+    }
+    const std::string source_path = body["source_path"].get<std::string>();
+
+    // Validate that the source_path is a valid s3:// URL.
+    {
+        std::string bucket, key;
+        if (!importers::S3Importer::parseS3Url(source_path, bucket, key)) {
+            jsonError(res, 400,
+                      "source_path must be a valid S3 URL "
+                      "(e.g. s3://bucket/key or s3://bucket/prefix/)");
+            return;
+        }
+    }
+
+    ImportOptions opts;
+    if (body.contains("options") && body["options"].is_object()) {
+        opts = optionsFromJson(body["options"]);
+    }
+
+    THEMIS_INFO("ImportApiHandler: async S3 import requested for '{}'",
+                // Log only the URL scheme+bucket, not any embedded credentials.
+                [&source_path]() {
+                    auto pos = source_path.find('/', 5);
+                    return source_path.substr(
+                        0, pos != std::string::npos ? pos + 1
+                                                    : source_path.size());
+                }());
+
+    auto handle = s3_importer_->importDataAsync(source_path, opts);
     registry_->add(handle);
 
     jsonOk(res, handle->toJson());
