@@ -2370,6 +2370,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
     message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
 endif()
 
+# Phase 3 – Governance policy hot-reload tests (Issue: #1774)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
+    message(STATUS "Adding Governance Policy Hot-Reload tests (Phase 3 - Issue #1774)")
+    add_executable(test_governance_policy_hot_reload test_governance_policy_hot_reload.cpp)
+    target_link_libraries(test_governance_policy_hot_reload PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_policy_hot_reload PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernancePolicyHotReloadTests COMMAND test_governance_policy_hot_reload)
+    set_tests_properties(GovernancePolicyHotReloadTests PROPERTIES
+        LABELS "governance;policy;hot-reload;file-watcher;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
+endif()
+
 # Phase 5 – LEK Manager lifecycle tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")

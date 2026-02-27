@@ -14,10 +14,10 @@
 - [x] Audit trail integration for governance events
 - [x] Policy-based governance enforcement at query time
 - [x] CCPA/CPRA data subject rights enforcement (right-to-know, right-to-delete, opt-out-of-sale, data portability)
+- [x] Policy hot-reload on config file change without service restart (Issue: #1774) — `PolicyFileWatcher` + `PolicyEngine::reloadIfChanged()` with Prometheus counter and audit entry
 
 ## In Progress 🚧
 
-- [I] Dynamic policy hot-reload without restart (Target: Q2 2026) (Issue: #1759)
 - [I] Policy conflict detection and resolution reporting (Target: Q2 2026) (Issue: #1760)
 - [~] CCPA compliance rule set (Target: Q3 2026) (Issue: #1761)
 
