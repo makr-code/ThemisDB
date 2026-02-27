@@ -295,8 +295,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
-    ".*test_arrow_export\\.cpp$"
-    ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
@@ -516,8 +514,6 @@ if(THEMIS_BUILD_MODULAR)
         endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/http_server\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]http_server\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/analytics/analytics_export\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]analytics[\\\\/]analytics_export\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")
