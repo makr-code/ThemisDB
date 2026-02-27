@@ -36,6 +36,10 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+- [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
+- [x] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
+- [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
+- [x] Plan cache eviction with size and TTL controls (Issue: #1827)
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)

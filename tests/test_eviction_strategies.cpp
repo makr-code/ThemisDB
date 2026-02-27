@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     278                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -203,10 +203,36 @@ TEST_F(TTLEvictionStrategyTest, Name) {
     EXPECT_EQ(strategy->getName(), "TTL");
 }
 
+TEST_F(TTLEvictionStrategyTest, SelectVictimPrefersExpiredEntry) {
+    auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()
+    ).count();
+
+    // key1 was inserted well past the 100ms TTL (expired)
+    strategy->onInsert("key1", now - 200);
+    // key2 was inserted recently (not expired)
+    strategy->onInsert("key2", now - 10);
+
+    // selectVictim must return the expired entry, not the recent one
+    auto victim = strategy->selectVictim();
+    ASSERT_TRUE(victim.has_value());
+    EXPECT_EQ(*victim, "key1");
+}
+
 TEST_F(TTLEvictionStrategyTest, SetDefaultTTL) {
-    strategy->setDefaultTTL(500);
-    // No direct way to test this without implementation details
-    // This just ensures the method doesn't crash
+    // After lowering TTL to 50ms, an entry inserted 100ms ago becomes expired.
+    strategy->setDefaultTTL(50);
+
+    auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()
+    ).count();
+
+    strategy->onInsert("key1", now - 100);  // expired under 50ms TTL
+    strategy->onInsert("key2", now - 10);   // not expired
+
+    auto victim = strategy->selectVictim();
+    ASSERT_TRUE(victim.has_value());
+    EXPECT_EQ(*victim, "key1");
 }
 
 // ============================================================================
