@@ -122,27 +122,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config_migration_scanner.cpp" AND NOT TAR
     add_executable(config_migration_scanner
         config_migration_scanner.cpp
         ../src/config/config_path_resolver.cpp
-        ../src/config/config_metrics_exporter.cpp
         ../src/config/config_audit_log.cpp
     )
 
     target_compile_features(config_migration_scanner PRIVATE cxx_std_20)
 
+    # Use CMAKE_CURRENT_SOURCE_DIR (the tools/ directory) so that relative
+    # paths resolve correctly in both standalone and integrated builds.
     target_include_directories(config_migration_scanner PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
 
     # spdlog is required by config_path_resolver
     find_package(spdlog QUIET)
     if(spdlog_FOUND)
         target_link_libraries(config_migration_scanner PRIVATE spdlog::spdlog)
-    endif()
-
-    # observability::MetricsCollector is referenced by config_metrics_exporter;
-    # link against themis_core if available so the symbol is resolved.
-    if(TARGET themis_core)
-        target_link_libraries(config_migration_scanner PRIVATE themis_core)
     endif()
 
     install(TARGETS config_migration_scanner
