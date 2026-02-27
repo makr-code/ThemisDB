@@ -26,40 +26,7 @@ static std::string tmpSQLRunnerPath(const std::string& suffix) {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// executeSQL – unit tests (parse/transpile errors, no DB required)
-// ════════════════════════════════════════════════════════════════════════════
-
-TEST(ExecuteSQLUnitTest, InvalidSQL_ReturnsParseError) {
-    // A QueryEngine is required by the signature but we never reach execution
-    // because the parse step fails first.
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = tmpSQLRunnerPath("parse_err_");
-    cfg.enable_blobdb = false;
-    RocksDBWrapper db(cfg);
-    ASSERT_TRUE(db.open());
-    SecondaryIndexManager idx(db);
-    QueryEngine engine(db, idx);
-
-    auto result = executeSQL("UPSERT INTO users VALUES (1)", engine);
-    EXPECT_FALSE(result.has_value());
-    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_PARSE_FAILED);
-}
-
-TEST(ExecuteSQLUnitTest, EmptyString_ReturnsParseError) {
-    RocksDBWrapper::Config cfg;
-    cfg.db_path = tmpSQLRunnerPath("empty_");
-    cfg.enable_blobdb = false;
-    RocksDBWrapper db(cfg);
-    ASSERT_TRUE(db.open());
-    SecondaryIndexManager idx(db);
-    QueryEngine engine(db, idx);
-
-    auto result = executeSQL("", engine);
-    EXPECT_FALSE(result.has_value());
-}
-
-// ════════════════════════════════════════════════════════════════════════════
-// executeSQL – integration tests (with RocksDB)
+// executeSQL – parse-error tests (use the fixture so cleanup is handled)
 // ════════════════════════════════════════════════════════════════════════════
 
 class ExecuteSQLTest : public ::testing::Test {
@@ -98,6 +65,21 @@ protected:
     std::unique_ptr<SecondaryIndexManager> idx_;
     std::unique_ptr<QueryEngine> engine_;
 };
+
+// ════════════════════════════════════════════════════════════════════════════
+// executeSQL – parse-error edge cases (no DB access; parse fails first)
+// ════════════════════════════════════════════════════════════════════════════
+
+TEST_F(ExecuteSQLTest, InvalidSQL_ReturnsParseError) {
+    auto result = executeSQL("UPSERT INTO users VALUES (1)", *engine_);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), errors::ErrorCode::ERR_QUERY_PARSE_FAILED);
+}
+
+TEST_F(ExecuteSQLTest, EmptyString_ReturnsParseError) {
+    auto result = executeSQL("", *engine_);
+    EXPECT_FALSE(result.has_value());
+}
 
 // SELECT * with a WHERE clause
 TEST_F(ExecuteSQLTest, SelectWithWhere_Succeeds) {
