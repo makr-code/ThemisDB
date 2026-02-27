@@ -172,6 +172,8 @@ namespace context_keys {
 
 /// OpenTelemetry trace ID (hex string, e.g. "a3b2c1...").
 inline constexpr std::string_view kTraceId   = "trace_id";
+/// Active span ID (16-character hex string, e.g. "00f067aa0ba902b7").
+inline constexpr std::string_view kSpanId    = "span_id";
 /// Per-request / per-RPC correlation identifier.
 inline constexpr std::string_view kRequestId = "request_id";
 /// Authenticated user identifier.
@@ -285,6 +287,7 @@ public:
     TraceContext toTraceContext() const override {
         TraceContext tc;
         if (auto v = get(context_keys::kTraceId))   tc.trace_id   = *v;
+        if (auto v = get(context_keys::kSpanId))    tc.span_id    = *v;
         if (auto v = get(context_keys::kRequestId)) tc.request_id = *v;
         return tc;
     }
