@@ -15,7 +15,7 @@ This document covers implementation-specific future enhancements for the CDC (Ch
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `Changefeed::subscribe(filter, callback)` | SSE handler, planned WebSocket handler, planned Kafka producer | Filter by collection, key prefix, and event type |
+| `Changefeed::subscribe(filter, callback)` | SSE handler, WebSocket handler (`WsTransport`), Kafka producer (`KafkaCDCProducer`) | Filter by collection, key prefix, and event type |
 | `Changefeed::ChangeEvent::toJson()` | All transports (SSE, WebSocket, Kafka) | Serialization format is the external contract |
 | `CDCAdmin::purgeAll()` / `purgeByTenant()` | Admin REST API, planned admin CLI | Must be safe to call while subscriptions are active |
 | `TenantBufferManager` | Multi-tenant CDC paths | Per-tenant buffer size quota must be enforced |
