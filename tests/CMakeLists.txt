@@ -287,6 +287,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_acceleration_dispatch\\.cpp$"
     ".*test_context_propagation\\.cpp$"
     ".*test_graph_query_optimizer\\.cpp$"
+    ".*test_graph_distributed\\.cpp$"
     ".*test_llm_timeout_cancellation\\.cpp$"
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
@@ -1058,6 +1059,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
     message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
 else()
     message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+endif()
+
+# ============================================================================
+# Distributed Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
+    message(STATUS "Adding Distributed Graph tests")
+
+    add_executable(test_graph_distributed
+        test_graph_distributed.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_distributed PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_distributed PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME DistributedGraphTests COMMAND test_graph_distributed)
+
+    set_tests_properties(DistributedGraphTests PROPERTIES
+        LABELS "graph;distributed;shards;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
+else()
+    message(STATUS "Distributed Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 endif()
 
 # ============================================================================
