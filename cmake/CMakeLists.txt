@@ -1947,6 +1947,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/analytics_export.cpp
     ../src/analytics/incremental_view.cpp
 
+    # CEP Engine – NFA pattern matching, EPL parser, window+aggregation pipeline (Phase 2)
+    ../src/analytics/cep_engine.cpp
+
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
 
