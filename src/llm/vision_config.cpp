@@ -78,7 +78,7 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
     try {
         YAML::Node config = YAML::LoadFile(config_path);
         
-        auto vision_config = std::make_shared<VisionConfig>();
+        auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
         
         // Load API configuration
         if (config["vision"]["api"]) {
@@ -375,12 +375,12 @@ std::shared_ptr<VisionConfig> VisionConfig::loadFromFile(const std::string& conf
 
 std::shared_ptr<VisionConfig> VisionConfig::loadFromJson(const nlohmann::json& config) {
     // TODO: Implement JSON loading if needed
-    auto vision_config = std::make_shared<VisionConfig>();
+    auto vision_config = std::shared_ptr<VisionConfig>(new VisionConfig());
     return vision_config;
 }
 
 std::shared_ptr<VisionConfig> VisionConfig::getDefault() {
-    auto config = std::make_shared<VisionConfig>();
+    auto config = std::shared_ptr<VisionConfig>(new VisionConfig());
     
     // Set reasonable defaults
     config->api_stability_ = VisionAPIStability::STABLE;

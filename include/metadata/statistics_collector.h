@@ -30,6 +30,8 @@
 #include <memory>
 #include <atomic>
 #include <chrono>
+#include <algorithm>
+#include <cmath>
 #include <condition_variable>
 #include <mutex>
 #include <shared_mutex>
@@ -52,6 +54,12 @@ struct HistogramBucket {
     json toJSON() const;
 };
 
+/// Upper-bound epsilon added to histogram's last bucket to make it right-closed
+inline constexpr double kHistogramUpperBoundEpsilon = 1e-9;
+
+/// Tolerance for floating-point comparisons (e.g., "all values identical")
+inline constexpr double kFloatingPointTolerance = 1e-12;
+
 /// Per-column statistics for query optimization
 struct ColumnStats {
     std::string column_name;                        ///< Column/property name
@@ -66,6 +74,45 @@ struct ColumnStats {
     std::optional<double> max_value;                ///< Maximum numeric value (if numeric)
 
     json toJSON() const;
+
+    /// Estimate selectivity for a range predicate [low, high] using the histogram.
+    /// Returns fraction of rows in [low, high]; falls back to uniform distribution
+    /// when no histogram is available.
+    double estimateRangeSelectivity(double low, double high) const {
+        if (!histogram.has_value() || histogram->empty()) {
+            // Fallback: uniform distribution over [min_value, max_value]
+            if (!min_value.has_value() || !max_value.has_value() ||
+                std::abs(*max_value - *min_value) < kFloatingPointTolerance) {
+                return selectivity;
+            }
+            double range       = *max_value - *min_value;
+            double query_range = std::max(0.0,
+                std::min(high, *max_value) - std::max(low, *min_value));
+            return query_range / range;
+        }
+
+        double total_freq    = 0.0;
+        double matching_freq = 0.0;
+        for (const auto& b : *histogram) {
+            total_freq += static_cast<double>(b.frequency);
+            double b_lo = b.lower_bound;
+            double b_hi = b.upper_bound;
+            if (b_hi <= low || b_lo >= high) {
+                continue; // No overlap
+            }
+            double overlap_lo   = std::max(b_lo, low);
+            double overlap_hi   = std::min(b_hi, high);
+            double bucket_width = b_hi - b_lo;
+            if (bucket_width < kFloatingPointTolerance) {
+                matching_freq += static_cast<double>(b.frequency);
+            } else {
+                double overlap_frac = (overlap_hi - overlap_lo) / bucket_width;
+                matching_freq += static_cast<double>(b.frequency) * overlap_frac;
+            }
+        }
+        if (total_freq <= 0.0) return selectivity;
+        return std::max(0.0, std::min(1.0, matching_freq / total_freq));
+    }
 };
 
 /// Per-index statistics exported from the index module to the metadata module

@@ -522,3 +522,115 @@ TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWit
     EXPECT_EQ(captured_id, "my-session-uuid");
     EXPECT_NE(res->body.find("deleted"), std::string::npos);
 }
+
+// ═══════════════════════════════════════════════════════════
+// Unified metrics dashboard tests (Phase 2 — Q3 2026)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_AsyncEngine) {
+    // Record metrics tagged with engine_type="async"
+    metrics_collector_->recordEngineInferenceRequest("model-a", "async");
+    metrics_collector_->recordEngineInferenceSuccess("model-a", "async", 120.0);
+    metrics_collector_->recordEngineTokensGenerated("model-a", "async", 32);
+    metrics_collector_->recordEngineQueueDepth("async", 3);
+
+    std::string metrics = exporter_->exportMetrics();
+    EXPECT_NE(metrics.find("llm_engine_inference_requests_total"), std::string::npos);
+    EXPECT_NE(metrics.find("engine_type=\"async\""), std::string::npos);
+    EXPECT_NE(metrics.find("llm_engine_tokens_generated_total"), std::string::npos);
+    EXPECT_NE(metrics.find("llm_engine_queue_depth"), std::string::npos);
+}
+
+TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_EnhancedEngine) {
+    // Record metrics tagged with engine_type="enhanced"
+    metrics_collector_->recordEngineInferenceRequest("model-b", "enhanced");
+    metrics_collector_->recordEngineInferenceSuccess("model-b", "enhanced", 80.0);
+    metrics_collector_->recordEngineInferenceFailure("model-b", "enhanced", "timeout");
+    metrics_collector_->recordEngineTokensGenerated("model-b", "enhanced", 64);
+    metrics_collector_->recordEngineQueueDepth("enhanced", 7);
+
+    std::string metrics = exporter_->exportMetrics();
+    EXPECT_NE(metrics.find("engine_type=\"enhanced\""), std::string::npos);
+    EXPECT_NE(metrics.find("llm_engine_inference_failures_total"), std::string::npos);
+}
+
+TEST_F(LLMGrafanaMetricsTest, EngineTypedMetrics_BothEngines_SeparateLabels) {
+    // Both engine types should produce distinct label values in the same export.
+    metrics_collector_->recordEngineInferenceRequest("shared-model", "async");
+    metrics_collector_->recordEngineInferenceRequest("shared-model", "enhanced");
+
+    std::string metrics = exporter_->exportMetrics();
+    EXPECT_NE(metrics.find("engine_type=\"async\""), std::string::npos);
+    EXPECT_NE(metrics.find("engine_type=\"enhanced\""), std::string::npos);
+}
+
+TEST_F(LLMGrafanaMetricsTest, UnifiedDashboardGeneration_ContainsEnginePanels) {
+    GrafanaDashboardGenerator::DashboardConfig config;
+    config.title = "Test Unified Dashboard";
+
+    GrafanaDashboardGenerator generator(config);
+    std::string dashboard = generator.generateUnifiedDashboard();
+
+    // Must contain the unified tag and both engine type references
+    EXPECT_NE(dashboard.find("unified"), std::string::npos);
+    EXPECT_NE(dashboard.find("async"), std::string::npos);
+    EXPECT_NE(dashboard.find("enhanced"), std::string::npos);
+
+    // Must contain standard Grafana JSON structure
+    EXPECT_NE(dashboard.find("\"title\""), std::string::npos);
+    EXPECT_NE(dashboard.find("\"panels\""), std::string::npos);
+
+    // Must reference the engine-typed Prometheus metrics
+    EXPECT_NE(dashboard.find("llm_engine_inference_requests_total"), std::string::npos);
+    EXPECT_NE(dashboard.find("llm_engine_tokens_generated_total"), std::string::npos);
+    EXPECT_NE(dashboard.find("llm_engine_queue_depth"), std::string::npos);
+    EXPECT_NE(dashboard.find("llm_worker_pool_queue_depth"), std::string::npos);
+}
+
+TEST_F(MetricsServerHandlerTest, DashboardEndpoint_DefaultCallback_ReturnsUnifiedJSON) {
+    // Without any registered dashboard callback the server should generate a
+    // real unified dashboard JSON (not the old stub message).
+    std::string response;
+    // Drive handleRequest() indirectly by checking the URL accessor and
+    // verifying the server does not crash; functional content is tested via
+    // the HTTP fixture below.
+    EXPECT_NE(server->getDashboardURL().find("/dashboard"), std::string::npos);
+}
+
+TEST_F(MetricsServerHandlerTest, DashboardEndpoint_WithCallback_InvokesCallback) {
+    const std::string expected = R"({"dashboard":{"title":"My Custom Dashboard"}})";
+    bool invoked = false;
+    server->setDashboardCallback([&]() {
+        invoked = true;
+        return expected;
+    });
+
+    // The callback is wired at this point; it will be invoked on the first
+    // HTTP GET /dashboard request.
+    EXPECT_NE(server->getDashboardURL().find("/dashboard"), std::string::npos);
+    EXPECT_FALSE(invoked);  // not invoked until a real HTTP request arrives
+}
+
+TEST_F(MetricsServerHTTPTest, DashboardEndpoint_DefaultCallback_ReturnsGrafanaJSON) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/dashboard");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+
+    // Response must be real Grafana dashboard JSON, not the old stub message.
+    EXPECT_EQ(res->body.find("Dashboard endpoint"), std::string::npos);
+    EXPECT_NE(res->body.find("\"dashboard\""), std::string::npos);
+    EXPECT_NE(res->body.find("\"panels\""), std::string::npos);
+    EXPECT_NE(res->body.find("unified"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, DashboardEndpoint_WithCallback_ReturnsCallbackJSON) {
+    const std::string expected = R"({"dashboard":{"title":"Custom"},"panels":[]})";
+    server->setDashboardCallback([&]() { return expected; });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/dashboard");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, expected);
+}

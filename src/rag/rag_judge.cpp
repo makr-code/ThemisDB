@@ -31,7 +31,9 @@
 #include "rag/relevance_evaluator.h"
 #include "rag/completeness_evaluator.h"
 #include "rag/coherence_evaluator.h"
+#include "rag/nli_faithfulness_verifier.h"
 #include "utils/logger.h"
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <numeric>
 #include <chrono>
@@ -53,6 +55,9 @@ struct RAGJudge::Impl {
     
     // Enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
     std::shared_ptr<LLMJudgeClient> llm_judge_client;
+    
+    // NLI verifier for claim verification
+    std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     
     // Phase 2 specialized evaluators
     std::unique_ptr<FaithfulnessEvaluator> faithfulness_eval;
@@ -106,6 +111,9 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     client_config.batch_size = config.batch_size;
     impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
     
+    // Initialize NLI verifier for claim verification
+    impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>();
+
     // Initialize Phase 2 specialized evaluators
     FaithfulnessEvaluator::Config faith_config;
     faith_config.max_claims_to_extract = config.max_claims_to_verify;
@@ -782,11 +790,59 @@ bool RAGJudge::hasEthicalCitations(const std::string& text) {
 static constexpr size_t kMinClaimLength = 10;
 // Phrases that mark an opinion rather than a factual claim
 static const char* const kOpinionPhrases[] = {"I think", "I believe"};
+// Minimum NLI entailment score to consider a claim verified
+static constexpr double kNLIEntailmentThreshold = 0.7;
+// Minimum term overlap ratio to consider a claim semantically verified
+static constexpr double kSemanticOverlapThreshold = 0.6;
 
 std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
     if (answer.empty()) {
         return {};
     }
+    if (impl_->llm_judge_client) {
+        try {
+            return extractClaimsViaLLM(answer);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLM claim extraction failed: {}, falling back to heuristic", e.what());
+        }
+    }
+    return extractClaimsViaHeuristic(answer);
+}
+
+std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer) {
+    THEMIS_DEBUG("Extracting claims via LLM");
+
+    std::string prompt =
+        "You are an expert at identifying factual claims in text.\n"
+        "Extract ONLY standalone factual claims (not opinions, not questions).\n"
+        "Return as JSON array in this format: {\"claims\": [\"claim1\", \"claim2\", ...]}\n\n"
+        "Text to analyze:\n" + answer + "\n\nJSON Response:\n";
+
+    std::string response = impl_->llm_judge_client->evaluate(prompt);
+
+    try {
+        auto json_resp = nlohmann::json::parse(response);
+        if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
+            std::vector<std::string> claims;
+            for (const auto& item : json_resp["claims"]) {
+                if (item.is_string()) {
+                    std::string text = item.get<std::string>();
+                    if (text.length() > kMinClaimLength) {
+                        claims.push_back(std::move(text));
+                    }
+                }
+            }
+            THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+            return claims;
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("LLM claim response parse error: {}", e.what());
+    }
+    return extractClaimsViaHeuristic(answer);
+}
+
+std::vector<std::string> RAGJudge::extractClaimsViaHeuristic(const std::string& answer) {
+    THEMIS_DEBUG("Extracting claims via heuristic");
 
     std::vector<std::string> claims;
     std::string current_sentence;
@@ -794,12 +850,10 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
     for (char c : answer) {
         current_sentence += c;
         if (c == '.' || c == '!' || c == '?') {
-            // Trim leading/trailing whitespace
             size_t start = current_sentence.find_first_not_of(" \t\n\r");
             size_t end = current_sentence.find_last_not_of(" \t\n\r");
             if (start != std::string::npos && end != std::string::npos) {
                 std::string trimmed = current_sentence.substr(start, end - start + 1);
-                // Keep only factual-looking sentences: minimum length, no questions, no opinions
                 bool is_opinion = false;
                 for (const auto* phrase : kOpinionPhrases) {
                     if (trimmed.find(phrase) != std::string::npos) {
@@ -817,7 +871,6 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
         }
     }
 
-    // Include any trailing text without terminal punctuation
     if (!current_sentence.empty()) {
         size_t start = current_sentence.find_first_not_of(" \t\n\r");
         size_t end = current_sentence.find_last_not_of(" \t\n\r");
@@ -871,17 +924,80 @@ bool RAGJudge::verifyClaimAgainstDocuments(
     if (claim.empty() || documents.empty()) {
         return false;
     }
+    if (impl_->nli_verifier && impl_->nli_verifier->isModelLoaded()) {
+        try {
+            return verifyClaimViaNLI(claim, documents);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("NLI verification failed: {}, trying LLM fallback", e.what());
+        }
+    }
+    if (impl_->llm_judge_client) {
+        try {
+            return verifyClaimViaLLM(claim, documents);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLM verification failed: {}, falling back to semantic", e.what());
+        }
+    }
+    return verifyClaimViaSemantic(claim, documents);
+}
 
-    auto claim_terms = tokenizeForMatching(claim);
-
+bool RAGJudge::verifyClaimViaNLI(
+    const std::string& claim,
+    const std::vector<RetrievedDocument>& documents
+) {
+    THEMIS_DEBUG("Verifying claim via NLI");
     for (const auto& doc : documents) {
-        // Fast path: exact substring match
+        NLIResult result = impl_->nli_verifier->checkEntailment(doc.content, claim);
+        if (result.entailment_score >= kNLIEntailmentThreshold) {
+            THEMIS_DEBUG("Claim verified via NLI: score={:.2f}", result.entailment_score);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool RAGJudge::verifyClaimViaLLM(
+    const std::string& claim,
+    const std::vector<RetrievedDocument>& documents
+) {
+    THEMIS_DEBUG("Verifying claim via LLM");
+
+    std::ostringstream context;
+    for (size_t i = 0; i < documents.size(); ++i) {
+        context << "[Doc " << (i + 1) << "]: " << documents[i].content << "\n\n";
+    }
+
+    std::string prompt =
+        "Given the following context and a claim, determine if the claim is "
+        "SUPPORTED or NOT_SUPPORTED by the context.\n"
+        "Return JSON: {\"verdict\": \"SUPPORTED\" or \"NOT_SUPPORTED\"}\n\n"
+        "Context:\n" + context.str() +
+        "Claim:\n" + claim + "\n\nJSON Response:\n";
+
+    std::string response = impl_->llm_judge_client->evaluate(prompt);
+
+    try {
+        auto json_resp = nlohmann::json::parse(response);
+        std::string verdict = json_resp.value("verdict", "NOT_SUPPORTED");
+        return (verdict == "SUPPORTED");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("LLM verification response parse error: {}", e.what());
+    }
+    return false;
+}
+
+bool RAGJudge::verifyClaimViaSemantic(
+    const std::string& claim,
+    const std::vector<RetrievedDocument>& documents
+) {
+    THEMIS_DEBUG("Verifying claim via semantic similarity");
+    auto claim_terms = tokenizeForMatching(claim);
+    for (const auto& doc : documents) {
         if (doc.content.find(claim) != std::string::npos) {
             return true;
         }
-        // Semantic path: term overlap
         auto doc_terms = tokenizeForMatching(doc.content);
-        if (calculateTermOverlap(claim_terms, doc_terms) >= 0.6) {
+        if (calculateTermOverlap(claim_terms, doc_terms) >= kSemanticOverlapThreshold) {
             return true;
         }
     }

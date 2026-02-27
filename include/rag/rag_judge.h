@@ -352,10 +352,26 @@ private:
     bool hasEthicalCitations(const std::string& text);
     
     std::vector<std::string> extractClaims(const std::string& answer);
+    std::vector<std::string> extractClaimsViaLLM(const std::string& answer);
+    std::vector<std::string> extractClaimsViaHeuristic(const std::string& answer);
+
     bool verifyClaimAgainstDocuments(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
+    bool verifyClaimViaNLI(
+        const std::string& claim,
+        const std::vector<RetrievedDocument>& documents
+    );
+    bool verifyClaimViaLLM(
+        const std::string& claim,
+        const std::vector<RetrievedDocument>& documents
+    );
+    bool verifyClaimViaSemantic(
+        const std::string& claim,
+        const std::vector<RetrievedDocument>& documents
+    );
+
     std::vector<std::string> tokenizeForMatching(const std::string& text);
     double calculateTermOverlap(
         const std::vector<std::string>& terms1,

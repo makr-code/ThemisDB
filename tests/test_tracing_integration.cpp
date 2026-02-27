@@ -75,7 +75,7 @@ TEST_F(TracingIntegrationTest, IndexOperationTracing) {
     int64_t initial_spans = Tracer::getTotalSpans();
     
     // Attempt to create indices (spans should be created even if operations fail)
-    auto result1 = index_manager->createSecondaryIndex("test_idx", "test_field", "range");
+    auto result1 = index_manager->createSecondaryIndex("tenant-trace", "test_idx", "test_field", "range");
     auto result2 = index_manager->createVectorIndex("vector_idx", 128, "");
     
     // Verify spans were created regardless of success/failure
@@ -99,7 +99,7 @@ TEST_F(TracingIntegrationTest, CrossComponentSpanHierarchy) {
         
         // Index operation (creates child spans)
         auto index_manager = IndexManager::createDefault();
-        auto result = index_manager->createSecondaryIndex("hierarchy_idx", "field", "");
+        auto result = index_manager->createSecondaryIndex("tenant-trace", "hierarchy_idx", "field", "");
     }
     
     operation_span.end();
@@ -171,7 +171,7 @@ TEST_F(TracingIntegrationTest, ErrorPropagation) {
         auto index_manager = IndexManager::createDefault();
         
         // This should fail but still create spans
-        auto result = index_manager->createSecondaryIndex("error_idx", "field", "invalid_config");
+        auto result = index_manager->createSecondaryIndex("tenant-trace", "error_idx", "field", "invalid_config");
         
         if (!result) {
             operation.recordError(result.error().message());
@@ -282,7 +282,7 @@ TEST_F(TracingIntegrationTest, MultiPhaseOperation) {
     {
         auto phase2 = Tracer::startSpan("integration.phase2_index");
         auto index_manager = IndexManager::createDefault();
-        auto result = index_manager->createSecondaryIndex("phase_idx", "field", "");
+        auto result = index_manager->createSecondaryIndex("tenant-trace", "phase_idx", "field", "");
         phase2.end();
     }
     

@@ -3186,6 +3186,7 @@ TEST_F(GraphQueryOptimizerTest, SubgraphIsomorphism_EmptyPatternPathsFoundIsOne)
     auto result = optimizer_->executeSubgraphIsomorphism(verts, edges, {}, &stats);
     ASSERT_TRUE(result);
     EXPECT_EQ(stats.paths_found, 1u);
+}
 // Analytics Module Integration Tests (Issue #1821)
 // ============================================================================
 

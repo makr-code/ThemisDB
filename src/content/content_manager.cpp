@@ -23,6 +23,7 @@
 #include "content/archive_processor.h"
 #include "content/html_processor.h"
 #include "content/markdown_processor.h"
+#include "content/content_validator.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -458,6 +459,15 @@ static ContentCategory detectCategory(const std::string& mime, const std::string
         if (t) ct = *t;
     }
     return ct.mime_type.empty() ? ContentCategory::UNKNOWN : ct.category;
+}
+
+/// Returns true for MIME types that are text-based and have no binary magic bytes.
+/// Used by ingestStream() to skip the format/magic-bytes check for streaming
+/// text types while still running it for binary formats.
+static bool isTextBasedMime(const std::string& mime) {
+    return mime.find("text/") == 0 ||
+           mime.find("ndjson") != std::string::npos ||
+           mime.find("jsonlines") != std::string::npos;
 }
 
 Status ContentManager::importContent(const json& spec, const std::optional<std::string>& blob, const std::string& user_context) {
@@ -2026,6 +2036,307 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         result.metadata["chunk_count"] = static_cast<int>(chunks_json.size());
     }
     
+    return result;
+}
+
+ContentManager::IngestResult ContentManager::ingestStream(
+    std::istream& stream,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& user_context,
+    const json& config
+) {
+    IngestResult result;
+    result.success = false;
+
+    if (!stream.good()) {
+        result.error_message = "Invalid or unreadable input stream";
+        return result;
+    }
+
+    static constexpr size_t kDefaultChunkSizeBytes  = 4 * 1024 * 1024;    // 4 MB
+    static constexpr size_t kDefaultMaxBufferedBytes = 256 * 1024 * 1024;  // 256 MB
+    static constexpr size_t kHeaderSize              = 8192;               // 8 KB for detection
+
+    const size_t chunk_size_bytes  = config.value("chunk_size_bytes",  kDefaultChunkSizeBytes);
+    const size_t max_buffered_bytes = config.value("max_buffered_bytes", kDefaultMaxBufferedBytes);
+    const int    text_chunk_chars  = config.value("chunk_size", 512);
+
+    // --- Read header for MIME type detection ---
+    std::string header_buf;
+    header_buf.resize(std::min(kHeaderSize, chunk_size_bytes));
+    stream.read(header_buf.data(), static_cast<std::streamsize>(header_buf.size()));
+    size_t header_read = static_cast<size_t>(stream.gcount());
+    header_buf.resize(header_read);
+
+    if (header_read == 0) {
+        result.error_message = "Empty stream";
+        return result;
+    }
+
+    // --- Detect MIME type ---
+    std::string detected_mime = mime_type;
+    if (detected_mime.empty()) {
+        auto& registry = ContentTypeRegistry::instance();
+        auto type = registry.detectFromBlob(header_buf);
+        if (type) {
+            detected_mime = type->mime_type;
+        } else {
+            auto ext_pos = filename.find_last_of('.');
+            if (ext_pos != std::string::npos) {
+                std::string ext = filename.substr(ext_pos);
+                type = registry.getByExtension(ext);
+                if (type) detected_mime = type->mime_type;
+            }
+        }
+    }
+    if (detected_mime.empty()) {
+        detected_mime = "application/octet-stream";
+    }
+
+    // --- Validate MIME type and header format (security gate) ---
+    // Uses content_validator.cpp to enforce MIME type validity and magic-bytes
+    // consistency before any data is stored. Streaming-capable text types skip
+    // the magic-bytes check (they have no binary header signature).
+    {
+        ContentValidator hdr_validator;
+        auto mime_err = hdr_validator.validateMimeType(detected_mime);
+        if (mime_err.failed()) {
+            result.error_message = "MIME type validation failed: " + mime_err.message;
+            return result;
+        }
+        // Format / magic-bytes check on the header for non-text MIME types.
+        // Text/*, NDJSON and jsonlines have no binary magic bytes – skip.
+        if (!isTextBasedMime(detected_mime)) {
+            auto fmt_err = hdr_validator.validateFormat(header_buf, detected_mime);
+            if (fmt_err.failed()) {
+                THEMIS_WARN("ingestStream: format validation failed for '{}' ({}): {}",
+                            filename, detected_mime, fmt_err.message);
+                result.error_message = "Content format validation failed: " + fmt_err.message;
+                return result;
+            }
+        }
+    }
+
+    // --- Small file: stream already exhausted after header read ---
+    if (stream.eof() || !stream.good()) {
+        return ingestRawBlob(header_buf, filename, detected_mime, user_context, config);
+    }
+
+    // --- Determine if MIME type supports line-oriented streaming ---
+    auto isStreamingCapable = [](const std::string& m) -> bool {
+        return m == "text/plain"        ||
+               m == "text/csv"          ||
+               m == "text/markdown"     ||
+               m == "text/x-markdown"   ||
+               m.find("ndjson")     != std::string::npos ||
+               m.find("jsonlines")  != std::string::npos;
+    };
+
+    // --- Non-streaming path: buffer up to max_buffered_bytes ---
+    if (!isStreamingCapable(detected_mime)) {
+        std::string buffer = header_buf;
+        std::vector<char> read_buf(chunk_size_bytes);
+        while (stream.good()) {
+            stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
+            size_t n = static_cast<size_t>(stream.gcount());
+            if (n == 0) break;
+            if (buffer.size() + n > max_buffered_bytes) {
+                result.error_message =
+                    "File exceeds max_buffered_bytes (" + std::to_string(max_buffered_bytes) +
+                    ") for non-streaming content type '" + detected_mime + "'";
+                return result;
+            }
+            buffer.append(read_buf.data(), n);
+        }
+        return ingestRawBlob(buffer, filename, detected_mime, user_context, config);
+    }
+
+    // =========================================================================
+    // Streaming text ingestion path
+    // Chunks are stored directly to RocksDB as they are produced, keeping peak
+    // memory well below the full file size (at most two read-buffer windows).
+    // =========================================================================
+
+    const int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+    const std::string content_id = generateUuid();
+    int64_t total_bytes = static_cast<int64_t>(header_read);
+    int seq_num = 0;
+    std::vector<std::string> chunk_ids;
+    // Incremental hash: XOR-combine per-chunk hashes (consistent with the
+    // placeholder computeSHA256 approach; upgraded together when real SHA-256
+    // is introduced for the non-streaming path).
+    size_t running_hash = std::hash<std::string>{}(filename);
+    auto updateHash = [&](const std::string& data) {
+        size_t h = std::hash<std::string>{}(data);
+        running_hash ^= h + 0x9e3779b9u + (running_hash << 6) + (running_hash >> 2);
+    };
+    updateHash(header_buf);
+
+    // --- Load indexing config (mirrors importContent) ---
+    bool auto_fulltext_index = false;
+    SecondaryIndexManager::FulltextConfig fulltext_config;
+    try {
+        if (auto cfgv = storage_->get("config:content")) {
+            std::string s(cfgv->begin(), cfgv->end());
+            json cj = json::parse(s);
+            auto_fulltext_index = cj.value("auto_fulltext_index", false);
+            if (cj.contains("fulltext_config") && cj["fulltext_config"].is_object()) {
+                auto ftcfg = cj["fulltext_config"];
+                fulltext_config.stemming_enabled   = ftcfg.value("stemming_enabled", false);
+                fulltext_config.language           = ftcfg.value("language", "none");
+                fulltext_config.stopwords_enabled  = ftcfg.value("stopwords_enabled", false);
+                fulltext_config.normalize_umlauts  = ftcfg.value("normalize_umlauts", false);
+                if (ftcfg.contains("stopwords") && ftcfg["stopwords"].is_array()) {
+                    for (const auto& sw : ftcfg["stopwords"])
+                        if (sw.is_string()) fulltext_config.stopwords.push_back(sw.get<std::string>());
+                }
+            }
+        }
+    } catch (...) {}
+
+    if (auto_fulltext_index && secondary_index_) {
+        if (!secondary_index_->hasFulltextIndex("chunk", "text"))
+            secondary_index_->createFulltextIndex("chunk", "text", fulltext_config);
+    }
+
+    // --- Helper: store one text segment as a chunk ---
+    auto storeTextChunk = [&](const std::string& text) {
+        if (text.empty()) return;
+        updateHash(text);
+        ChunkMeta cm;
+        cm.id         = generateUuid();
+        cm.content_id = content_id;
+        cm.seq_num    = seq_num++;
+        cm.chunk_type = "text";
+        cm.text       = text;
+        cm.created_at = now;
+
+        if (embedding_pipeline_ && embedding_pipeline_->isEnabled()) {
+            auto emb = embedding_pipeline_->generateEmbedding(text);
+            if (!emb.empty()) cm.embedding = std::move(emb);
+        }
+
+        std::string ckey = std::string("chunk:") + cm.id;
+        std::string cjson = cm.toJson().dump();
+        storage_->put(ckey, std::vector<uint8_t>(cjson.begin(), cjson.end()));
+
+        if (auto_fulltext_index && secondary_index_) {
+            BaseEntity chunk_entity = BaseEntity::fromFields(
+                cm.id,
+                BaseEntity::FieldMap{
+                    {"content_id", cm.content_id},
+                    {"text",       cm.text},
+                    {"seq_num",    static_cast<int64_t>(cm.seq_num)},
+                    {"chunk_type", cm.chunk_type}
+                }
+            );
+            secondary_index_->put("chunk", chunk_entity);
+        }
+
+        if (!cm.embedding.empty() && vector_index_) {
+            if (vector_index_->getDimension() == 0)
+                vector_index_->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
+            if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {
+                BaseEntity e = BaseEntity::fromFields(
+                    std::string("chunks:") + cm.id,
+                    BaseEntity::FieldMap{
+                        {"content_id", cm.content_id},
+                        {"seq_num",    static_cast<int64_t>(cm.seq_num)},
+                        {"mime_type",  detected_mime},
+                        {"chunk_type", cm.chunk_type},
+                        {"embedding",  cm.embedding}
+                    }
+                );
+                vector_index_->addEntity(e);
+            }
+        }
+
+        chunk_ids.push_back(cm.id);
+    };
+
+    // --- Helper: split carry buffer into text segments ---
+    std::string carry;  // incomplete segment carried over between read iterations
+    auto flushCarry = [&](bool force) {
+        size_t pos = 0;
+        while (pos < carry.size()) {
+            size_t remaining = carry.size() - pos;
+            if (!force && remaining < static_cast<size_t>(text_chunk_chars))
+                break;  // wait for more data
+            size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);
+            // Prefer to split on newline boundary when close
+            if (end < carry.size()) {
+                size_t nl = carry.find('\n', end > 0 ? end - 1 : 0);
+                if (nl != std::string::npos && nl < pos + static_cast<size_t>(text_chunk_chars) * 2)
+                    end = nl + 1;
+            }
+            storeTextChunk(carry.substr(pos, end - pos));
+            pos = end;
+        }
+        carry = carry.substr(pos);
+    };
+
+    // Process header chunk
+    carry = header_buf;
+    flushCarry(false);
+
+    // Read and process remaining stream
+    std::vector<char> read_buf(chunk_size_bytes);
+    while (stream.good()) {
+        stream.read(read_buf.data(), static_cast<std::streamsize>(chunk_size_bytes));
+        size_t n = static_cast<size_t>(stream.gcount());
+        if (n == 0) break;
+        total_bytes += static_cast<int64_t>(n);
+        carry.append(read_buf.data(), n);
+        flushCarry(false);
+    }
+    // Flush remaining carry
+    flushCarry(true);
+
+    // --- Finalize: write content metadata ---
+    ContentMeta meta;
+    meta.id               = content_id;
+    meta.mime_type        = detected_mime;
+    meta.category         = ContentCategory::TEXT;
+    meta.original_filename = filename;
+    meta.size_bytes       = total_bytes;
+    meta.created_at       = now;
+    meta.modified_at      = now;
+    meta.hash_sha256      = toHex(std::string(reinterpret_cast<const char*>(&running_hash), sizeof(running_hash)) +
+                                 std::string(reinterpret_cast<const char*>(&total_bytes), sizeof(total_bytes)));
+    meta.text_extracted   = true;
+    meta.chunk_count      = static_cast<int>(chunk_ids.size());
+    meta.chunked          = meta.chunk_count > 0;
+
+    std::string mkey = std::string("content:") + meta.id;
+    std::string mjson = meta.toJson().dump();
+    if (!storage_->put(mkey, std::vector<uint8_t>(mjson.begin(), mjson.end()))) {
+        // Rollback: remove chunks already written
+        for (const auto& cid : chunk_ids)
+            storage_->del(std::string("chunk:") + cid);
+        result.error_message = "Failed to store content metadata";
+        return result;
+    }
+
+    // Write chunk list
+    std::string lkey = std::string("content_chunks:") + meta.id;
+    json lj = json{{"ids", chunk_ids}};
+    std::string lstr = lj.dump();
+    storage_->put(lkey, std::vector<uint8_t>(lstr.begin(), lstr.end()));
+
+    THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
+                total_bytes, chunk_ids.size(), filename);
+
+    result.success            = true;
+    result.primary_content_id = content_id;
+    result.metadata = json{
+        {"content_id",  content_id},
+        {"mime_type",   detected_mime},
+        {"category",    static_cast<int>(ContentCategory::TEXT)},
+        {"chunk_count", static_cast<int>(chunk_ids.size())},
+        {"total_bytes", total_bytes},
+        {"streaming",   true}
+    };
     return result;
 }
 

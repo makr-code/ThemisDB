@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     405                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -31,6 +31,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -40,6 +41,18 @@
 
 namespace themis {
 namespace aql {
+
+/**
+ * @brief Frozen API contract version for the LLM AQL handler.
+ *
+ * Increment this constant (and bump the major digit) only when a
+ * **breaking** change is made to the public interface of LLMAQLHandler,
+ * AQLConversationSession, or any of their nested types.  Additive changes
+ * (new methods, new optional struct fields) do NOT require a bump.
+ *
+ * Current version: 1.0 → encoded as 100 (major * 100 + minor).
+ */
+inline constexpr uint32_t LLM_AQL_HANDLER_API_VERSION = 100; // v1.0
 
 /**
  * @brief Represents a single turn in a multi-turn AQL conversation

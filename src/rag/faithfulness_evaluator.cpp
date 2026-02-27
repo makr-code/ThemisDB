@@ -43,7 +43,8 @@ struct FaithfulnessEvaluator::Impl {
     std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
     
-    // NLI stub - in production would use actual NLI model
+    // NLI-based entailment check: uses NLIFaithfulnessVerifier when loaded,
+    // falls back to term-overlap heuristic when no model is configured.
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
         // Use NLI verifier if available
         if (nli_verifier) {
@@ -134,7 +135,44 @@ std::vector<Claim> FaithfulnessEvaluator::extractClaims(const std::string& answe
         return claims;
     }
     
-    // Fallback-only extraction (LLM judge integration not wired yet)
+    // Try LLM-based extraction first; fall back to sentence-boundary heuristic
+    if (impl_->llm_integration) {
+        try {
+            std::string prompt =
+                "Extract factual claims from the following text as a JSON array.\n"
+                "Return only standalone factual statements (not opinions or questions).\n"
+                "Format: {\"claims\": [\"claim1\", \"claim2\", ...]}\n\n"
+                "Text:\n" + answer + "\n\nJSON:\n";
+
+            std::string response = impl_->llm_integration->evaluateDimension(
+                prompt, EvaluationDimension::FAITHFULNESS
+            );
+
+            auto json_resp = nlohmann::json::parse(response);
+            if (json_resp.contains("claims") && json_resp["claims"].is_array()) {
+                for (const auto& item : json_resp["claims"]) {
+                    if (item.is_string() && claims.size() < impl_->config.max_claims_to_extract) {
+                        std::string text = item.get<std::string>();
+                        if (!text.empty()) {
+                            Claim claim;
+                            claim.text = std::move(text);
+                            claim.category = "factual";
+                            claim.support_level = SupportLevel::UNSUPPORTED;
+                            claim.confidence = 0.9;
+                            claims.push_back(std::move(claim));
+                        }
+                    }
+                }
+                THEMIS_DEBUG("LLM extracted {} claims", claims.size());
+                return claims;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLM claim extraction failed: {}, falling back to heuristic", e.what());
+            claims.clear();
+        }
+    }
+
+    // Fallback: sentence-boundary heuristic
     std::regex sentence_regex(R"([^.!?]+[.!?])");
     auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
     auto sentences_end = std::sregex_iterator();

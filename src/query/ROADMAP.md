@@ -23,7 +23,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] JSON query support (`aql_parser_json.cpp`)
 
 ## In Progress 🚧
-- [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
+- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
 - [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
 - [P] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
@@ -63,7 +63,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Process mining and ethics functions
 
 ### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
-- [~] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
+- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
 - [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
 - [x] Incremental view maintenance for materialized CTEs
 
@@ -91,7 +91,14 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ## Known Issues & Limitations
 - AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.
-- SQL dialect support is not yet implemented; see `FUTURE_ENHANCEMENTS.md`.
+- SQL dialect support covers SELECT/INSERT/UPDATE/DELETE (basic syntax only); the following
+  SQL features are **not** currently supported by the transpiler and will return a parse error:
+  - JOINs (INNER JOIN, LEFT JOIN, etc.)
+  - Subqueries in SELECT / WHERE
+  - GROUP BY / HAVING
+  - Window functions (OVER, PARTITION BY)
+  - DDL statements (CREATE TABLE, ALTER TABLE, DROP TABLE, TRUNCATE)
+  - MERGE / UPSERT
 - Distributed federation cost estimation is approximate.
 
 ## Breaking Changes

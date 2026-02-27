@@ -22,6 +22,8 @@
 - [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
 - [x] OpenTelemetry trace and span propagation — `ITracer::startSpanFromHeaders()` (W3C TraceContext inbound extraction) and `ITracer::injectContext()` (outbound header injection + W3C Baggage); implemented in `OpenTelemetryTracerAdapter` with circuit-breaker guard; convenience wrappers on `ConcernsContext`
 - [x] Health check interface in ConcernsContext — `ProbeResult`/`HealthStatus` in `lifecycle.h`; `isHealthy()` on all four concern interfaces; `ConcernsContext::healthCheck()` and `readinessCheck()` aggregate per-concern results; `MonitoringApiHandler` exposes per-concern health in `/health/live` and `/health/ready` JSON responses (Issue: #1410)
+- [x] Jaeger tracing backend adapter — `JaegerTracerAdapter` with `uber-trace-id` propagation and W3C `traceparent` fallback; circuit-breaker guarded; selectable via `tracerAdapter="jaeger"` in `ConcernsContext::Config` (Issue: #1413)
+- [x] Zipkin tracing backend adapter — `ZipkinTracerAdapter` with B3 single/multi-header and W3C `traceparent` propagation; injects all three header formats on outbound; circuit-breaker guarded; selectable via `tracerAdapter="zipkin"` (Issue: #1413)
 
 ## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
@@ -39,7 +41,7 @@
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
-- [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
+- [x] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
 - [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
 - [x] Circuit breaker interface as a first-class concern (Issue: #1415)
 - [x] Feature flag interface for runtime enable/disable (Issue: #1416)

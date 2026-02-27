@@ -10,7 +10,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] KnowledgeGapDetector – three-level gap detection system
 - [x] LLM integration bridge to InferenceEngineEnhanced
 - [x] FaithfulnessEvaluator – fact-checking against retrieved sources
-- [x] RelevanceEvaluator – query-answer alignment scoring
+- [x] RelevanceEvaluator – query-answer alignment scoring (TF-cosine semantic similarity)
 - [x] CompletenessEvaluator – query aspect coverage measurement
 - [x] CoherenceEvaluator – structure and readability scoring
 - [x] BiasDetector – ethical compliance checking
@@ -33,6 +33,11 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] KnowledgeGraphRetriever – knowledge graph-augmented retrieval with entity linking (Issue: #2242)
 - [x] DocumentSplitter – configurable chunk size, overlap, and strategy for document splitting (Issue: #2238)
 - [x] HybridRetriever – BM25 + vector fusion with configurable RRF weights (Issue: #1968)
+- [x] RAGJudge::extractClaims() – LLM-first + heuristic fallback dispatch (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of claim strings; Errors: JSON parse failure falls back to heuristic; Tests: unit + LLM mock; Perf: <500ms for 1k-char input
+- [x] RAGJudge::verifyClaimAgainstDocuments() – NLI → LLM → semantic fallback dispatch (Issue: #1296, Target: Q1 2026) — Inputs: claim + documents; Outputs: bool support decision; Errors: NLI/LLM failure cascades to term-overlap; Tests: unit + NLI mock; Perf: <200ms per claim
+- [x] NLIFaithfulnessVerifier integrated into RAGJudge for entailment-based claim verification (Issue: #1296, Target: Q1 2026) — Member of RAGJudge::Impl; threshold: 0.7; graceful degradation when model not loaded
+- [x] FaithfulnessEvaluator::extractClaims() – LLM-first + sentence-boundary fallback (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of Claim structs; Errors: JSON parse failure falls back to regex; LLM confidence: 0.9, heuristic confidence: 0.6
+- [x] LearningMetrics – sliding-window metrics with mean/std-dev/trend export (Issue: #1296, Target: Q1 2026) — Tracks accuracy, faithfulness, relevance, completeness, coherence; CSV export; thread-safe with std::mutex
 
 ## In Progress 🚧
 
