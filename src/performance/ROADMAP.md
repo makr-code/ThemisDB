@@ -29,7 +29,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
+- [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
 - [x] Per-query cost model integration with query optimizer (Issue: #2419)
 - [x] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
@@ -66,7 +66,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] NUMA topology detection and automatic thread pinning
 
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
-- [ ] AVX-512 SIMD path for vector distance computations
+- [x] AVX-512 SIMD path for vector distance computations
 - [ ] Adaptive batch size tuning for LLM inference
 - [x] Per-query cost model integration with query optimizer
 - [x] Memory pressure monitoring with automatic cache eviction
