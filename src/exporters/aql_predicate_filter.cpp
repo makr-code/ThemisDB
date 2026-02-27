@@ -55,7 +55,7 @@ bool AqlPredicateFilter::evaluate(const BaseEntity& entity) const {
         return true;  // No filter → accept all
     }
 
-    // Deserialise entity to JSON once; the variable name "doc" is automatically
+    // Serialize entity to JSON once; the variable name "doc" is automatically
     // resolved by LetEvaluator when it encounters a VariableExpr named "doc".
     nlohmann::json doc;
     try {
