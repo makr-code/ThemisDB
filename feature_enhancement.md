@@ -13138,8 +13138,7 @@
 
 **Issues Found:**
 
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+No issues found.
 
 ---
 
@@ -29816,12 +29815,9 @@
 
 ### `src/server/http_server.cpp` (v0.0.32)
 
-**Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
+**Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
 **Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 4, Stubs: 1                             ║`
 
 **🎭 SIMULATION** (1 occurrences):
   - Line 7216: `//   "1"   -> throw exception (simulate hard init failure)`
@@ -30187,12 +30183,9 @@
 
 ### `src/server/query_api_handler.cpp` (v0.0.32)
 
-**Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🔒 HARDCODED** (1 occurrences):
   - Line 3111: `// Create temporary request for AQL handler`
