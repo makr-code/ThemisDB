@@ -62,6 +62,7 @@ std::string generateRandomJobId() {
 std::string jobTypeToString(IngestionJobType type) {
     switch (type) {
         case IngestionJobType::SINGLE_FILE: return "SINGLE_FILE";
+        case IngestionJobType::STREAM_FILE: return "STREAM_FILE";
         case IngestionJobType::ARCHIVE: return "ARCHIVE";
         case IngestionJobType::BATCH_FILES: return "BATCH_FILES";
         case IngestionJobType::URL_FETCH: return "URL_FETCH";
@@ -222,6 +223,50 @@ std::string AsyncIngestionWorker::submitFile(
         THEMIS_INFO("Job submitted: {} ({})", job.job_id, filename);
     }
     
+    return job.job_id;
+}
+
+std::string AsyncIngestionWorker::submitStream(
+    std::istream& stream,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& user_context,
+    const json& config
+) {
+    if (!running_.load()) {
+        throw std::runtime_error("Worker not running");
+    }
+
+    IngestionJob job;
+    job.job_id       = generateJobId();
+    job.type         = IngestionJobType::STREAM_FILE;
+    job.status       = IngestionJobStatus::QUEUED;
+    job.filename     = filename;
+    job.stream       = &stream;
+    job.config       = config;
+    job.config["mime_type"] = mime_type;
+    job.user_context = user_context;
+    job.created_at   = getCurrentTimeMs();
+    job.started_at   = 0;
+    job.completed_at = 0;
+    job.total_items  = 1;
+    job.processed_items = 0;
+    job.progress     = 0.0f;
+
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex_);
+        if (job_queue_.size() >= config_.max_queue_size)
+            throw std::runtime_error("Job queue full");
+        job_queue_.push(job);
+        std::lock_guard<std::mutex> hist_lock(history_mutex_);
+        job_history_[job.job_id] = job;
+    }
+
+    queue_cv_.notify_one();
+
+    if (config_.verbose_logging)
+        THEMIS_INFO("Stream job submitted: {} ({})", job.job_id, filename);
+
     return job.job_id;
 }
 
@@ -573,6 +618,9 @@ void AsyncIngestionWorker::processJob(IngestionJob& job) {
         case IngestionJobType::SINGLE_FILE:
             processSingleFile(job);
             break;
+        case IngestionJobType::STREAM_FILE:
+            processStreamFile(job);
+            break;
         case IngestionJobType::ARCHIVE:
             processArchive(job);
             break;
@@ -615,6 +663,33 @@ void AsyncIngestionWorker::processSingleFile(IngestionJob& job) {
     job.processed_items = 1;
     job.progress = 1.0f;
     
+    total_items_processed_.fetch_add(1);
+}
+
+void AsyncIngestionWorker::processStreamFile(IngestionJob& job) {
+    if (!job.stream) {
+        throw std::runtime_error("Stream job has no stream pointer");
+    }
+
+    std::string mime_type = job.config.value("mime_type", "");
+
+    auto result = content_manager_->ingestStream(
+        *job.stream,
+        job.filename,
+        mime_type,
+        job.user_context,
+        job.config
+    );
+
+    if (!result.success) {
+        throw std::runtime_error(result.error_message);
+    }
+
+    job.content_ids.push_back(result.primary_content_id);
+    job.result_metadata = result.metadata;
+    job.processed_items = 1;
+    job.progress = 1.0f;
+
     total_items_processed_.fetch_add(1);
 }
 

@@ -28,6 +28,7 @@
 #include <optional>
 #include <unordered_map>
 #include <atomic>
+#include <istream>
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
 #include "content/content_processor.h"
@@ -220,6 +221,35 @@ public:
     
     IngestResult ingestRawBlob(
         const std::string& blob,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
+     * @brief Ingest content from a stream with chunked processing for large files
+     *
+     * Reads the stream in configurable chunks to avoid full in-memory buffering.
+     * Streaming-capable types (text/plain, text/csv, NDJSON, Markdown) are
+     * processed incrementally, storing each chunk directly to RocksDB.
+     * Other types are buffered up to `max_buffered_bytes` before processing.
+     *
+     * Supported config keys:
+     *   - chunk_size_bytes  (size_t): read chunk size in bytes (default: 4 MB)
+     *   - max_buffered_bytes (size_t): max buffer for non-streaming types (default: 256 MB)
+     *   - chunk_size (int): text segment size in characters (default: 512)
+     *   - chunk_overlap (int): not used in streaming path; reserved for future
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename used for MIME type detection
+     * @param mime_type    Optional MIME type override (empty = auto-detect)
+     * @param user_context User context for encryption / authorization
+     * @param config       Optional JSON configuration overrides
+     * @return IngestResult with success flag and content_id on success
+     */
+    IngestResult ingestStream(
+        std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
         const std::string& user_context = "",
