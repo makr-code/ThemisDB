@@ -67,7 +67,8 @@ enum class ReplicationRole {
     LEADER,         // Primary node accepting writes
     FOLLOWER,       // Read replica receiving updates
     CANDIDATE,      // Participating in leader election
-    OBSERVER        // Non-voting member (async replica)
+    OBSERVER,       // Non-voting member (async replica)
+    WITNESS         // Vote-only member: participates in quorum but stores no data
 };
 
 /**
@@ -632,6 +633,19 @@ public:
     // Add/remove replicas
     void addReplica(const ReplicaInfo& replica);
     void removeReplica(const std::string& node_id);
+
+    /**
+     * Add a witness node to the cluster.
+     *
+     * A witness node participates in leader-election voting (and therefore
+     * contributes to quorum) but does NOT receive WAL data.  This allows a
+     * 2-node data cluster to maintain quorum without requiring a third full
+     * data replica.
+     *
+     * @param node_id   Unique identifier for the witness node.
+     * @param endpoint  Network address (hostname:port) of the witness node.
+     */
+    void addWitnessNode(const std::string& node_id, const std::string& endpoint);
     
     // Set custom conflict resolver
     void setConflictResolver(std::shared_ptr<IConflictResolver> resolver);

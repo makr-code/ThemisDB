@@ -32,7 +32,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154)
+- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154)
 - [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 - [I] CDC event filtering by operation type (INSERT/UPDATE/DELETE) (Issue: #2439)
 - [x] Automated lag-based read traffic shifting (Issue: #2251)
@@ -71,7 +71,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
 ### Phase 3: Witness Nodes & Slot Management (Status: Planned 📋)
-- [ ] Witness node support (vote-only, no data) for quorum in 2-node clusters
+- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters
 - [ ] Replication slot management API (pause/resume individual slots)
 - [ ] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
 - [x] Automated lag-based read traffic shifting
