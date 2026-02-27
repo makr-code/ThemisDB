@@ -24,7 +24,7 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 
 ## Planned Features
 
-### [~] gRPC RPC Layer Hardening with mTLS and Retry Policies
+### [x] gRPC RPC Layer Hardening with mTLS and Retry Policies
 **Priority:** High
 **Target Version:** v0.9.0
 
