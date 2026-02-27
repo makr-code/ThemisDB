@@ -17,7 +17,7 @@ This directory contains vendor-neutral database adapter implementations for the 
 
 ✅ **Vendor-Neutral Design** - No branding, no favoritism, fair comparisons  
 ✅ **Unified Interface** - Single API for all database types  
-✅ **Multiple Implementations** - ThemisDB, PostgreSQL, Weaviate, and more  
+✅ **Multiple Implementations** - ThemisDB, PostgreSQL, Weaviate, Qdrant, and more  
 ✅ **Extensible Architecture** - Easy to add new database systems  
 ✅ **Comprehensive Testing** - Independent test framework  
 ✅ **Permissive Licensing** - Apache-2.0 OR MIT for maximum reusability
@@ -34,6 +34,7 @@ This directory contains vendor-neutral database adapter implementations for the 
 | **MongoDB** | Document Store | CRUD, Atlas Vector Search, Transactions | ✅ Complete |
 | **PostgreSQL** | Relational | CRUD, SQL, pgvector, Transactions | ✅ Complete |
 | **Weaviate** | Vector DB | CRUD, Vector Search, REST/GraphQL | ✅ Complete |
+| **Qdrant** | Vector DB | CRUD, Vector Search (HNSW), REST/gRPC | ✅ Complete |
 
 ### Template & Examples
 
@@ -591,6 +592,7 @@ Special thanks to all contributors who have implemented adapters for their datab
 - [x] MongoDB adapter
 - [x] PostgreSQL adapter
 - [x] Weaviate adapter
+- [x] Qdrant adapter
 - [x] Template and documentation
 
 ### Version 2.x (Planned)
@@ -605,7 +607,7 @@ Special thanks to all contributors who have implemented adapters for their datab
 We especially welcome adapters for:
 - Graph databases (Neo4j, Neptune, TigerGraph)
 - Document stores (MongoDB, CouchDB, DynamoDB)
-- Vector databases (Milvus, Pinecone, Qdrant)
+- Vector databases (Milvus, Pinecone)
 - Search engines (Elasticsearch, Solr, MeiliSearch)
 - Time-series databases (InfluxDB, TimescaleDB, Prometheus)
 
