@@ -99,6 +99,7 @@ struct ImportOptions {
     std::vector<std::string>         exclude_tables;
     size_t                           max_row_size_bytes = 0;
     std::function<bool(const std::string&, const std::string&)> permission_check;
+    std::function<bool(const std::string&, const json&)>        streaming_row_callback;
 };
 
 // ---------------------------------------------------------------------------
@@ -325,6 +326,12 @@ static ImportStats importJsonLines(const std::string& content,
 
         json entity = unwrapDocument(doc);
         entity["_type"] = collection;
+        if (options.streaming_row_callback) {
+            if (!options.streaming_row_callback(collection, entity)) {
+                stats.imported_records++;
+                return stats;  // early abort
+            }
+        }
         stats.imported_records++;
         doc_index++;
     }
@@ -369,6 +376,12 @@ static ImportStats importJsonArray(const std::string& content,
         if (options.dry_run) { stats.imported_records++; continue; }
         json entity = unwrapDocument(arr[i]);
         entity["_type"] = collection;
+        if (options.streaming_row_callback) {
+            if (!options.streaming_row_callback(collection, entity)) {
+                stats.imported_records++;
+                return stats;  // early abort
+            }
+        }
         stats.imported_records++;
     }
     return stats;
@@ -1221,4 +1234,140 @@ TEST(MongoFixture, SampleMongoJsonBsonUnwrap) {
     EXPECT_EQ(entity["created_at"].get<std::string>(),    "2024-01-15T08:00:00.000Z");
     EXPECT_TRUE(entity["active"].get<bool>());
     EXPECT_EQ(entity["_type"].get<std::string>(),         "users");
+}
+
+// ===========================================================================
+// Tests: Streaming row callback (NDJSON and JSON array)
+// ===========================================================================
+
+static const std::string kNdjsonDump = R"({"_id":1,"name":"Alice","score":95}
+{"_id":2,"name":"Bob","score":87}
+{"_id":3,"name":"Carol","score":91}
+)";
+
+static const std::string kJsonArrayDump = R"([
+  {"_id":1,"product":"Widget","price":9.99},
+  {"_id":2,"product":"Gadget","price":19.99}
+])";
+
+TEST(MongoStreamingCallback, NdjsonCallbackInvokedForEachDocument) {
+    ImportOptions opts;
+    std::vector<std::string> collections;
+    std::vector<json>        entities;
+    opts.streaming_row_callback = [&](const std::string& c, const json& e) -> bool {
+        collections.push_back(c);
+        entities.push_back(e);
+        return true;
+    };
+
+    auto stats = importJsonLines(kNdjsonDump, "users", opts);
+
+    EXPECT_EQ(collections.size(), 3u);
+    for (auto& c : collections) EXPECT_EQ(c, "users");
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(MongoStreamingCallback, NdjsonCallbackReceivesCorrectFieldValues) {
+    ImportOptions opts;
+    std::vector<json> rows;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        rows.push_back(e);
+        return true;
+    };
+
+    importJsonLines(kNdjsonDump, "users", opts);
+
+    ASSERT_EQ(rows.size(), 3u);
+    EXPECT_EQ(rows[0]["name"].get<std::string>(), "Alice");
+    EXPECT_EQ(rows[1]["name"].get<std::string>(), "Bob");
+    EXPECT_EQ(rows[2]["name"].get<std::string>(), "Carol");
+}
+
+TEST(MongoStreamingCallback, NdjsonAbortOnFalseFromCallback) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return call_count < 2;  // abort after second document
+    };
+
+    auto stats = importJsonLines(kNdjsonDump, "users", opts);
+
+    EXPECT_EQ(call_count, 2u);
+    EXPECT_LE(stats.imported_records, 2u);
+}
+
+TEST(MongoStreamingCallback, NdjsonAbortOnFirstDocumentStopsImmediately) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return false;
+    };
+
+    auto stats = importJsonLines(kNdjsonDump, "users", opts);
+
+    EXPECT_EQ(call_count, 1u);
+    EXPECT_EQ(stats.imported_records, 1u);
+}
+
+TEST(MongoStreamingCallback, NdjsonNullCallbackImportsAll) {
+    ImportOptions opts;
+    auto stats = importJsonLines(kNdjsonDump, "users", opts);
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(MongoStreamingCallback, JsonArrayCallbackInvokedForEachDocument) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return true;
+    };
+
+    auto stats = importJsonArray(kJsonArrayDump, "products", opts);
+
+    EXPECT_EQ(call_count, 2u);
+    EXPECT_EQ(stats.imported_records, 2u);
+}
+
+TEST(MongoStreamingCallback, JsonArrayAbortOnFirstDocumentStopsImmediately) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return false;
+    };
+
+    auto stats = importJsonArray(kJsonArrayDump, "products", opts);
+
+    EXPECT_EQ(call_count, 1u);
+    EXPECT_EQ(stats.imported_records, 1u);
+}
+
+TEST(MongoStreamingCallback, StatsMatchCallbackInvocationCount) {
+    ImportOptions opts;
+    size_t callback_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++callback_count;
+        return true;
+    };
+
+    auto stats = importJsonLines(kNdjsonDump, "users", opts);
+
+    EXPECT_EQ(stats.imported_records, callback_count);
+}
+
+TEST(MongoStreamingCallback, ExcludeCollectionFiltersCallback) {
+    ImportOptions opts;
+    opts.exclude_tables = {"users"};
+    std::vector<std::string> collections;
+    opts.streaming_row_callback = [&](const std::string& c, const json&) -> bool {
+        collections.push_back(c);
+        return true;
+    };
+
+    importJsonLines(kNdjsonDump, "users", opts);
+
+    EXPECT_TRUE(collections.empty());
 }
