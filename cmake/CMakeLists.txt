@@ -1930,6 +1930,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/streaming_exporter.cpp
     ../src/exporters/aql_predicate_filter.cpp
     ../src/exporters/arrow_ipc_exporter.cpp
+    ../src/exporters/incremental_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
