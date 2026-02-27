@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:24                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-27 07:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8361                                           ║
+    • Total Lines:     9406                                           ║
     • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0ba7cfc  2026-02-27  feat(graph): route incremental graph query and /graph/changes endpoints ║
     • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
     • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
     • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
