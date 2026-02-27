@@ -43,11 +43,12 @@ namespace ingestion {
  * @brief Source type enumeration
  */
 enum class SourceType {
-    HUGGINGFACE,    ///< HuggingFace datasets
-    FILESYSTEM,     ///< Local file system (PDF, DOCX, etc.)
-    API,            ///< REST/SOAP API (future)
-    DATABASE,       ///< Legacy database exports (future)
-    KAFKA           ///< Apache Kafka consumer (librdkafka)
+    HUGGINGFACE,     ///< HuggingFace datasets
+    FILESYSTEM,      ///< Local file system (PDF, DOCX, etc.)
+    API,             ///< REST/SOAP API (future)
+    DATABASE,        ///< Legacy database exports (future)
+    KAFKA,           ///< Apache Kafka consumer (librdkafka)
+    OBJECT_STORAGE   ///< S3 / GCS / Azure Blob object storage
 };
 
 /**
@@ -921,6 +922,29 @@ public:
         const std::string& source_id,
         const std::string& brokers,
         const std::string& topic,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register an object-storage source (S3, GCS, or Azure Blob).
+     *
+     * Supported `options` keys — see `ObjectStorageConnector` documentation
+     * for the full table.  Key options:
+     * | Key        | Description                        | Default |
+     * |------------|------------------------------------|---------|
+     * | `provider` | `"s3"`, `"gcs"`, or `"azure"`      | `s3`    |
+     * | `prefix`   | Object key prefix filter           | (none)  |
+     * | `max_keys` | Max objects to process (0=all)     | `0`     |
+     *
+     * @param source_id  Unique source identifier
+     * @param bucket     Bucket or container name
+     * @param options    Optional key/value options
+     * @param priority   Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withObjectStorageSource(
+        const std::string& source_id,
+        const std::string& bucket,
         std::unordered_map<std::string, std::string> options = {},
         int priority = 5);
 
