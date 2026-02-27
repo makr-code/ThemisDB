@@ -18,10 +18,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Grafana dashboard integration
 - [x] PagerDuty/Slack notification routing
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Issue: #2418)
+- [x] Adaptive sampling rate for high-frequency spans (Issue: #1963)
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
-- [I] Adaptive sampling rate for high-frequency spans (Target: Q3 2026) (Issue: #1963)
 
 ## Planned Features 📋
 
@@ -56,7 +56,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 ### Phase 2: Native OTLP Export & Continuous Profiling (Status: In Progress 🚧)
 - [?] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
-- [ ] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
+- [x] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 
 ### Phase 3: ML-Augmented & Distributed Observability (Status: Planned 📋)
 - [ ] Exemplars on Prometheus histograms (link traces to metrics)
@@ -76,7 +76,6 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ## Known Issues & Limitations
 - OTLP export is not yet implemented; traces use internal span propagation only.
-- Adaptive sampling is not configurable at runtime; requires restart.
 - Telemetry aggregation across shards is eventually consistent.
 
 ## Breaking Changes

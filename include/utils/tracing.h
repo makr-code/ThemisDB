@@ -52,6 +52,10 @@ namespace themis {
  *                            configured probability in [0.0, 1.0].
  *  - PARENT_BASED          – follow the sampling decision of the parent span;
  *                            falls back to PROBABILITY for root spans.
+ *  - ADAPTIVE              – automatically scales the sample probability down
+ *                            when the span creation rate exceeds a configured
+ *                            maximum (spans/second), and restores full sampling
+ *                            when the rate drops back below the threshold.
  */
 class SamplingStrategy {
 public:
@@ -60,6 +64,14 @@ public:
         ALWAYS_OFF,
         PROBABILITY,
         PARENT_BASED,
+        ADAPTIVE,
+    };
+
+    /// Configuration for the ADAPTIVE sampling strategy.
+    struct AdaptiveConfig {
+        double max_spans_per_second = 1000.0; ///< Target maximum span creation rate
+        double min_rate             = 0.01;   ///< Minimum sample probability (floor)
+        std::chrono::milliseconds window{1000}; ///< Rate-measurement window duration
     };
 
     /// Construct with the given strategy type.
@@ -75,15 +87,35 @@ public:
         return SamplingStrategy(Type::PARENT_BASED, root_probability);
     }
 
+    /// Adaptive sampler: automatically adjusts the sample probability based on
+    /// the current span creation rate to keep throughput near @p config.max_spans_per_second.
+    /// Copies of this strategy share the same rate-measurement state.
+    static SamplingStrategy adaptive(const AdaptiveConfig& config = {});
+
     /// Returns true if a new span with the given parent-sampled flag should be recorded.
     bool shouldSample(bool parent_sampled = true) const;
 
     Type   type()        const { return type_; }
     double probability() const { return probability_; }
 
+    /// Returns the current effective sample rate.
+    /// For ADAPTIVE strategies this reflects the most recently computed rate;
+    /// for all other strategies it equals probability().
+    double getEffectiveRate() const;
+
 private:
     Type   type_;
     double probability_;
+    AdaptiveConfig adaptive_config_;
+
+    /// Shared mutable state for ADAPTIVE mode (shared across copies).
+    struct AdaptiveState {
+        std::mutex mu;
+        int64_t    window_count{0};
+        std::chrono::steady_clock::time_point window_start{std::chrono::steady_clock::now()};
+        double     effective_rate{1.0};
+    };
+    std::shared_ptr<AdaptiveState> adaptive_state_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
