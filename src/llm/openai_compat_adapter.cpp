@@ -21,7 +21,6 @@
  */
 
 #include "llm/openai_compat_adapter.h"
-#include "llm/json_schema_converter.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <random>
