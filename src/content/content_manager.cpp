@@ -2001,6 +2001,8 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             THEMIS_WARN("Markdown processor extraction failed for '{}': {}", filename, extraction.error_message);
         }
     }
+
+    json spec = {
         {"content", meta.toJson()}
     };
     if (!chunks_json.empty()) {
