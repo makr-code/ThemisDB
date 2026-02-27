@@ -1991,6 +1991,9 @@ namespace {
     GraphEdgeDelete,
     GraphMetricsGet,
     GraphMetricsPrometheusGet,
+    GraphQueryIncrementalPost,
+    GraphQueryIncrementalDelete,
+    GraphChangesPost,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -2340,6 +2343,9 @@ namespace {
     if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
     if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
     if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
+    if (target == "/graph/query/incremental" && method == http::verb::post) return Route::GraphQueryIncrementalPost;
+    if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) return Route::GraphQueryIncrementalDelete;
+    if (target == "/graph/changes" && method == http::verb::post) return Route::GraphChangesPost;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -3181,6 +3187,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::GraphMetricsPrometheusGet:
             if (graph_api_) {
                 response = graph_api_->handleMetricsPrometheus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalPost:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryRegister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalDelete:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryUnregister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphChangesPost:
+            if (graph_api_) {
+                response = graph_api_->handleGraphChanges(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }
