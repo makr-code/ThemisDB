@@ -23,6 +23,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
 
         # Kafka consumer source connector
         ../src/ingestion/kafka_connector.cpp
+
+        # S3 / GCS / Azure Blob object-storage source connector
+        ../src/ingestion/object_storage_connector.cpp
         
         # =====================================================================
         # Training Framework
