@@ -75,7 +75,27 @@ public:
     
     bool healthCheck() const override;
     json getStatistics() const override;
-    
+
+    /**
+     * @brief Compute a DCT-based 64-bit perceptual hash (pHash) for an image blob.
+     *
+     * Implements the standard pHash algorithm:
+     *  1. Extract a 32×32 grayscale sample grid from the image data.
+     *  2. Apply a 2-D DCT and take the top-left 8×8 sub-matrix (64 values).
+     *  3. Compute the median of those 64 DCT coefficients.
+     *  4. Set bit i if dct[i] > median → yields a 64-bit hash.
+     *
+     * BMP images (BI_RGB, 24 bpp) are fully decoded to obtain accurate pixel
+     * values.  For all other formats the raw byte stream is sampled uniformly
+     * as a grayscale proxy, which still captures structural similarity without
+     * requiring an external image-decode library.
+     *
+     * @param blob  Raw image bytes (JPEG, PNG, BMP, etc.).
+     * @return 16-character lowercase hex string representing the 64-bit hash,
+     *         or an empty string if the blob is too small to hash.
+     */
+    static std::string computePHash(const std::vector<uint8_t>& blob);
+
 private:
     // Configuration
     int thumbnail_max_width_ = 256;

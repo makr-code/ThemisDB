@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-27 07:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     435                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     681                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0ba7cfc  2026-02-27  feat(graph): incremental graph query HTTP API (live updates) ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -171,6 +172,16 @@ http::response<http::string_body> GraphApiHandler::handleEdgeCreate(
             {"status", "ok"},
             {"edge_id", edge_id}
         };
+
+        // Notify incremental queries about the new edge.
+        if (optimizer_) {
+            themis::graph::GraphQueryOptimizer::GraphChangeSet cs;
+            const std::string from = body_json.value("_from", std::string{});
+            const std::string to   = body_json.value("_to",   std::string{});
+            cs.addEdgeAdded(edge_id, from, to);
+            optimizer_->onGraphChange(cs);
+        }
+
         return makeResponse(http::status::created, response.dump(), req);
 
     } catch (const json::exception& e) {
@@ -207,6 +218,17 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
 
         span.setAttribute("graph.edge_id", edge_id);
 
+        // Look up the edge endpoints before deletion so we can notify
+        // incremental queries with the correct from/to vertices.
+        std::string edge_from;
+        std::string edge_to;
+        if (optimizer_) {
+            auto from_opt = graph_index_->getEdgeField(edge_id, "_from");
+            auto to_opt   = graph_index_->getEdgeField(edge_id, "_to");
+            if (from_opt) edge_from = std::move(*from_opt);
+            if (to_opt)   edge_to   = std::move(*to_opt);
+        }
+
         // Delete edge from graph index
         auto status = graph_index_->deleteEdge(edge_id);
         
@@ -231,6 +253,14 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
             {"status", "ok"},
             {"edge_id", edge_id}
         };
+
+        // Notify incremental queries about the removed edge.
+        if (optimizer_) {
+            themis::graph::GraphQueryOptimizer::GraphChangeSet cs;
+            cs.addEdgeRemoved(edge_id, edge_from, edge_to);
+            optimizer_->onGraphChange(cs);
+        }
+
         return makeResponse(http::status::ok, response.dump(), req);
 
     } catch (const std::exception& e) {
@@ -408,6 +438,218 @@ std::string GraphApiHandler::extractPathParam(
     }
     
     return param;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Incremental graph query HTTP endpoints (live-update integration)
+// ─────────────────────────────────────────────────────────────────────────────
+
+themis::graph::GraphQueryOptimizer::GraphChangeSet
+GraphApiHandler::parseChangeSet(const json& changes_array) {
+    using CS = themis::graph::GraphQueryOptimizer::GraphChangeSet;
+    CS cs;
+    if (!changes_array.is_array()) return cs;
+
+    for (const auto& item : changes_array) {
+        if (!item.contains("type") || !item.contains("id")) continue;
+        const std::string type = item["type"].get<std::string>();
+        const std::string id   = item["id"].get<std::string>();
+        const std::string from = item.value("from", std::string{});
+        const std::string to   = item.value("to",   std::string{});
+
+        if (type == "edge_added") {
+            cs.addEdgeAdded(id, from, to);
+        } else if (type == "edge_removed") {
+            cs.addEdgeRemoved(id, from, to);
+        } else if (type == "vertex_added") {
+            cs.addVertexAdded(id);
+        } else if (type == "vertex_removed") {
+            cs.addVertexRemoved(id);
+        } else {
+            // Unknown type strings are logged as a warning to aid debugging.
+            THEMIS_WARN("GraphChanges: unknown change type '{}' — skipped", type);
+        }
+    }
+    return cs;
+}
+
+http::response<http::string_body> GraphApiHandler::handleIncrementalQueryRegister(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleIncrementalQueryRegister");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/graph/query/incremental");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    try {
+        json body_json = json::parse(req.body());
+
+        if (!body_json.contains("start_vertex") || !body_json.contains("max_depth")) {
+            span.setStatus(false, "missing required fields");
+            return makeErrorResponse(http::status::bad_request,
+                "Missing 'start_vertex' or 'max_depth'", req);
+        }
+
+        const std::string start_vertex = body_json["start_vertex"].get<std::string>();
+        const int max_depth = body_json["max_depth"].get<int>();
+
+        themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+        if (body_json.contains("edge_type")) {
+            constraints.edge_type = body_json["edge_type"].get<std::string>();
+        }
+        if (body_json.contains("max_results")) {
+            constraints.max_results = static_cast<size_t>(body_json["max_results"].get<int>());
+        }
+
+        // The callback stores the latest IncrementalQueryResult by handle so
+        // that clients can observe the updated result after posting /graph/changes.
+        // Use a shared_ptr so the handle value outlives this stack frame.
+        auto handle_ptr =
+            std::make_shared<themis::graph::GraphQueryOptimizer::IncrementalQueryHandle>(0);
+
+        auto handle = optimizer_->registerIncrementalBFS(
+            start_vertex, max_depth, constraints,
+            [this, handle_ptr](
+                const themis::graph::GraphQueryOptimizer::IncrementalQueryResult& result) {
+                incremental_results_[*handle_ptr] = result;
+            }
+        );
+
+        // Back-fill the captured handle so subsequent callbacks can index correctly.
+        *handle_ptr = handle;
+
+        // Seed the result cache with the initial result (empty delta, full current).
+        themis::graph::GraphQueryOptimizer::ExecutionStats init_stats;
+        auto init_bfs = optimizer_->executeBFS(start_vertex, max_depth, constraints, &init_stats);
+        std::vector<std::string> initial;
+        if (init_bfs) initial = init_bfs.value();
+
+        themis::graph::GraphQueryOptimizer::IncrementalQueryResult seed;
+        seed.reexecuted = false;
+        seed.current    = initial;
+        incremental_results_[handle] = seed;
+
+        span.setAttribute("graph.incremental_handle", static_cast<int64_t>(handle));
+        span.setStatus(true);
+
+        json response = {
+            {"handle",          handle},
+            {"initial_results", initial}
+        };
+        return makeResponse(http::status::created, response.dump(), req);
+
+    } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Incremental register error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregister(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleIncrementalQueryUnregister");
+    span.setAttribute("http.method", "DELETE");
+    span.setAttribute("http.path", "/graph/query/incremental/:handle");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    const std::string target = std::string(req.target());
+    const std::string handle_str =
+        extractPathParam(target, "/graph/query/incremental/");
+
+    if (handle_str.empty()) {
+        span.setStatus(false, "missing handle");
+        return makeErrorResponse(http::status::bad_request,
+            "Missing incremental query handle in path", req);
+    }
+
+    themis::graph::GraphQueryOptimizer::IncrementalQueryHandle handle = 0;
+    try {
+        handle = std::stoull(handle_str);
+    } catch (...) {
+        span.setStatus(false, "invalid handle");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid handle: not a valid integer", req);
+    }
+
+    if (incremental_results_.find(handle) == incremental_results_.end()) {
+        span.setStatus(false, "handle not found");
+        return makeErrorResponse(http::status::not_found,
+            "Incremental query handle not found: " + handle_str, req);
+    }
+
+    optimizer_->unregisterIncrementalQuery(handle);
+    incremental_results_.erase(handle);
+
+    span.setAttribute("graph.incremental_handle", static_cast<int64_t>(handle));
+    span.setStatus(true);
+
+    json response = {{"status", "ok"}, {"handle", handle}};
+    return makeResponse(http::status::ok, response.dump(), req);
+}
+
+http::response<http::string_body> GraphApiHandler::handleGraphChanges(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleGraphChanges");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/graph/changes");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    try {
+        json body_json = json::parse(req.body());
+
+        if (!body_json.contains("changes") || !body_json["changes"].is_array()) {
+            span.setStatus(false, "missing changes array");
+            return makeErrorResponse(http::status::bad_request,
+                "Missing or invalid 'changes' array", req);
+        }
+
+        auto cs = parseChangeSet(body_json["changes"]);
+        const size_t reexecuted = optimizer_->onGraphChange(cs);
+
+        span.setAttribute("graph.changes_count",    static_cast<int64_t>(cs.size()));
+        span.setAttribute("graph.queries_reexecuted", static_cast<int64_t>(reexecuted));
+        span.setStatus(true);
+
+        json response = {
+            {"queries_reexecuted", reexecuted},
+            {"changes_applied",    cs.size()}
+        };
+        return makeResponse(http::status::ok, response.dump(), req);
+
+    } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Graph changes notify error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> GraphApiHandler::makeErrorResponse(

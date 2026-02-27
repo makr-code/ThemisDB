@@ -29,7 +29,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921)
+- [P] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
 - [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [P] Model hot-swap without engine restart (Issue: #1923)
 - [P] Request deduplication cache (same prompt → cached response) (Issue: #1924)
@@ -61,7 +61,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026)
 
 ### Phase 3: Ecosystem & Performance (Status: Planned 📋)
-- [I] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933)
+- [P] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
 - [ ] Speculative decoding for latency reduction
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
 - [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)

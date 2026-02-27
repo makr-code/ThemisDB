@@ -32,6 +32,7 @@
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
 #include "content/content_processor.h"
+#include "content/deduplication_checker.h"
 #include "content/embedding_pipeline.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -462,6 +463,10 @@ public:
         // Sum/count for average compression ratio (sum stored as milli * 1000)
         std::atomic<uint64_t> comp_ratio_sum_milli{0};
         std::atomic<uint64_t> comp_ratio_count{0};
+
+        // Deduplication counters (content_dedup_checks_total / content_dedup_hits_total)
+        std::atomic<uint64_t> dedup_checks_total{0};  ///< Number of dedup checks performed
+        std::atomic<uint64_t> dedup_hits_total{0};    ///< Number of near-duplicates detected
     };
 
     const Metrics& getMetrics() const;
@@ -517,6 +522,25 @@ public:
     std::vector<float> generateEmbedding(const std::string& text,
                                           const std::string& model_name = "");
 
+    /**
+     * @brief Attach a deduplication checker for near-duplicate detection.
+     *
+     * When set and `ContentPolicy::enable_deduplication` is true for a given
+     * ingestion call, `ingestRawBlob()` will:
+     *  - Compute a pHash for IMAGE content and call `isDuplicateImage()`.
+     *  - Compute a MinHash for TEXT content and call `isDuplicateText()`.
+     * Detected near-duplicates are rejected before storage and the existing
+     * content ID is returned in `IngestResult::primary_content_id`.
+     *
+     * @param checker  DeduplicationChecker instance (nullptr disables dedup).
+     */
+    void setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker);
+
+    /**
+     * @brief Get the attached deduplication checker (may be nullptr).
+     */
+    std::shared_ptr<DeduplicationChecker> getDeduplicationChecker() const;
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
@@ -525,6 +549,7 @@ private:
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_;
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
+    std::shared_ptr<DeduplicationChecker> dedup_checker_;
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;

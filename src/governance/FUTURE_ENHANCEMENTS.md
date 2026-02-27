@@ -84,24 +84,22 @@ Implements `DataMasker` which post-processes query result documents to redact or
 
 ---
 
-### OPA (Open Policy Agent) Integration
+### OPA (Open Policy Agent) Integration ✅ **Implemented in v1.8.0**
 
 **Priority:** Medium
 **Target Version:** v1.8.0
 
-Add an OPA adapter so that operators can write policies in Rego and evaluate them via OPA's REST API or an embedded Wasm bundle. This enables GitOps policy-as-code workflows where policies are versioned in a repository and deployed via CI/CD without touching ThemisDB configuration files.
+~~Add an OPA adapter so that operators can write policies in Rego and evaluate them via OPA's REST API or an embedded Wasm bundle.~~
 
-**Implementation Notes:**
+**Status:** Implemented. See `include/governance/opa_adapter.h`, `src/governance/opa_adapter.cpp`.
 
-- Add `opa_adapter.cpp` implementing `IPolicyEvaluator`; evaluates policy decisions by posting JSON input to `POST /v1/data/{policy_path}` of a local OPA sidecar.
-- Add a fallback chain: if OPA returns a non-2xx response or times out (configurable, default 50 ms), fall back to the native `PolicyEngine` rule evaluation and emit `governance_opa_fallback_total` counter.
-- Policy bundles are loaded into OPA out-of-band (standard OPA bundle API); `PolicyManager` only needs the OPA endpoint URL and the decision path.
-- The existing `policy_manager_versioned.cpp` version history is preserved; OPA bundle version is recorded alongside the native policy version in the audit trail.
-
-**Performance Targets:**
-
-- OPA evaluation round-trip ≤ 5 ms p99 when OPA sidecar is co-located on the same host.
-- Fallback to native evaluation must complete within the same 5 ms budget.
+- `governance::OpaAdapter` implements `PolicyEngine::IPolicyEvaluator`; evaluates policy decisions by posting JSON input to `POST /v1/data/{policy_path}` of a local OPA sidecar.
+- Fallback chain: if OPA returns a non-2xx response or times out (configurable, default 50 ms), native `PolicyEngine` rule evaluation is used and `governance_opa_fallback_total` Prometheus counter is emitted.
+- OPA input contains the full request headers and route: `{"input": {"headers": {...}, "route": "/path"}}`.
+- OPA response supports both a simple boolean result (`{"result": false}` = strict deny) and a full structured `PolicyDecision` (`{"result": {"allow": true, "classification": "offen", ...}}`).
+- CCPA opt-out enforcement is always applied on top of the OPA decision (opt-out takes precedence).
+- Policy bundles are loaded into OPA out-of-band (standard OPA bundle API); `PolicyEngine` only needs the OPA endpoint URL and the decision path via `OpaAdapter::Config`.
+- Attach via `PolicyEngine::setOpaEvaluator(adapter.get())`; detach by passing `nullptr`.
 
 ---
 

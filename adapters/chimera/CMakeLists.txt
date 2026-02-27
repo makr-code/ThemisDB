@@ -130,6 +130,28 @@ if(BUILD_WEAVIATE_ADAPTER)
 endif()
 
 # ==============================================================================
+# Qdrant Adapter (Optional - requires HTTP client for production use)
+# ==============================================================================
+
+option(BUILD_QDRANT_ADAPTER "Build Qdrant adapter" OFF)
+
+if(BUILD_QDRANT_ADAPTER)
+    # Production deployments should link against an HTTP client library
+    # (e.g. cpp-httplib or cpr) for live Qdrant REST/gRPC API access.
+    # The adapter also works in simulation mode without any external driver.
+    message(STATUS "Qdrant adapter: enabled (simulation mode; production requires HTTP client)")
+    add_library(chimera_qdrant_adapter
+        ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
+    )
+    target_include_directories(chimera_qdrant_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(chimera_qdrant_adapter
+        PUBLIC chimera_interface
+    )
+endif()
+
+# ==============================================================================
 # Template Adapter (Header-only)
 # ==============================================================================
 
@@ -167,6 +189,7 @@ install(
         ${CMAKE_SOURCE_DIR}/include/chimera/mongodb_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/postgresql_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/weaviate_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/qdrant_adapter.hpp
     DESTINATION include/chimera
 )
 
@@ -185,6 +208,7 @@ message(STATUS "  ThemisDB adapter: ${BUILD_THEMISDB_ADAPTER}")
 message(STATUS "  PostgreSQL adapter: ${BUILD_POSTGRESQL_ADAPTER}")
 message(STATUS "  MongoDB adapter: ${BUILD_MONGODB_ADAPTER}")
 message(STATUS "  Weaviate adapter: ${BUILD_WEAVIATE_ADAPTER}")
+message(STATUS "  Qdrant adapter: ${BUILD_QDRANT_ADAPTER}")
 message(STATUS "  Template adapter: provided")
 message(STATUS "  Tests: ${BUILD_CHIMERA_TESTS}")
 message(STATUS "")

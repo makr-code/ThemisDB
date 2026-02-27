@@ -20,6 +20,7 @@
 #include "content/content_processor.h"
 #include <algorithm>
 #include <cctype>
+#include <climits>
 #include <regex>
 #include <sstream>
 #include <cmath>
@@ -329,6 +330,65 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string& te
     }
     
     return sentences;
+}
+
+// ---------------------------------------------------------------------------
+// computeMinHash — 128-permutation MinHash over 3-word shingles
+// ---------------------------------------------------------------------------
+
+/*static*/ std::vector<uint32_t> TextProcessor::computeMinHash(
+    const std::string& text,
+    size_t num_hashes
+) {
+    std::vector<uint32_t> signature(num_hashes, UINT32_MAX);
+    if (text.empty() || num_hashes == 0) return signature;
+
+    // Tokenise into words (lowercase)
+    std::vector<std::string> words;
+    {
+        std::istringstream iss(text);
+        std::string w;
+        while (iss >> w) {
+            std::transform(w.begin(), w.end(), w.begin(),
+                           [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
+            words.push_back(std::move(w));
+        }
+    }
+    if (words.empty()) return signature;
+
+    // Build 3-word shingles (fall back to unigrams for very short texts)
+    std::vector<std::string> shingles;
+    if (words.size() < 3) {
+        shingles = words;
+    } else {
+        shingles.reserve(words.size() - 2);
+        for (size_t i = 0; i + 3 <= words.size(); ++i) {
+            shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
+        }
+    }
+
+    // For each shingle, update each MinHash slot.
+    // Hash function h_k(s) = FNV-1a(s) XOR-mixed with seed k.
+    static constexpr uint32_t kFnvPrime  = 16777619u;
+    static constexpr uint32_t kFnvOffset = 2166136261u;
+    static constexpr uint32_t kSeedMix   = 2246822519u;
+
+    for (const auto& shingle : shingles) {
+        for (size_t k = 0; k < num_hashes; ++k) {
+            // FNV-1a over the shingle bytes, seeded by k
+            uint32_t h = kFnvOffset ^ (static_cast<uint32_t>(k) * 2654435761u);
+            for (unsigned char c : shingle) {
+                h ^= c;
+                h *= kFnvPrime;
+            }
+            h ^= static_cast<uint32_t>(k) * kSeedMix;
+            if (h < signature[k]) {
+                signature[k] = h;
+            }
+        }
+    }
+
+    return signature;
 }
 
 } // namespace content

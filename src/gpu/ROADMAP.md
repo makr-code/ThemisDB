@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), and GPU-accelerated ANN (vector similarity) via cuVS/RAFT are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, and MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -55,6 +55,16 @@
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
+  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
+  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
+  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
+  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
+- [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
+  - Implementation: `include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`
+  - Interfaces: `MIGManager::{createPartition, destroyPartition, assignToTenant, unassignFromTenant, getInstances, getInstancesForDevice, getInstancesForTenant, getInstance, deviceSupportsMIG, isKnownProfile, profileMemoryBytes, getStats, reset}` + `MIGInstance`, `Status` enum, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::MIG_MANAGER` (Enterprise/Hyperscaler editions)
+  - MIG fields added to `DeviceInfo`: `mig_enabled`, `mig_max_instances`
+  - Tests: `tests/test_gpu_mig_manager.cpp`
 ## Implementation Phases
 
 ### Phase 1: GPU Resource Management & Acceleration (Status: Completed ✅)
@@ -84,7 +94,7 @@
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
-- [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
+- [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
 - [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
 
 ## Production Readiness Checklist
@@ -99,7 +109,7 @@
 - CUDA graph capture is not yet implemented
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
-- MIG partitioning is not yet supported
+- MIG partitioning infrastructure is implemented (`MIGManager`); real `nvmlDeviceCreateGpuInstance` calls require CUDA + NVML hardware
 
 ## Breaking Changes
 - Multi-node coordination will introduce cluster configuration block (new optional config)

@@ -121,6 +121,13 @@ public:
 
     /// Streaming: Get total checkpoint events
     size_t getCheckpointCount() const;
+
+    /// Delta: Record documents skipped because they are at or below the watermark
+    /// (exporter_delta_docs_skipped_total)
+    void recordDeltaDocSkipped(size_t count = 1);
+
+    /// Delta: Get total documents skipped by incremental export
+    size_t getDeltaDocsSkipped() const;
     
     /// Export metrics as JSON
     nlohmann::json toJson() const;
@@ -174,6 +181,9 @@ private:
 
     // Streaming: checkpoint events
     std::atomic<size_t> checkpoint_count_{0};
+
+    // Delta: documents skipped by incremental filter (exporter_delta_docs_skipped_total)
+    std::atomic<size_t> delta_docs_skipped_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

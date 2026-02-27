@@ -238,7 +238,8 @@ public:
         std::string version     = "1.5.0-dev"; ///< Connector version string
     };
 
-    explicit DebeziumFormatter(Config cfg = {}) : cfg_(std::move(cfg)) {}
+    explicit DebeziumFormatter() = default;
+    explicit DebeziumFormatter(Config cfg) : cfg_(std::move(cfg)) {}
 
     /**
      * @brief Convert a ChangeEvent to a DebeziumEnvelope.

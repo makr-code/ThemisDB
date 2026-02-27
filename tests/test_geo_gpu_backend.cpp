@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     869                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1312                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +30,7 @@
 #include <string_view>
 #include <thread>
 #include <vector>
+#include "themis/gpu/device_discovery.h"
 
 using namespace themis::geo;
 
@@ -1203,4 +1204,109 @@ TEST(GeoAccelerationBridge, PopulateGeoDispatch_PointInPolygon) {
     EXPECT_EQ(rc, 0);
     EXPECT_NE(results[0], 0u) << "(1,1) must be inside the square";
     EXPECT_EQ(results[1], 0u) << "(3,3) must be outside the square";
+}
+
+// ============================================================
+// CPU fallback and circuit-breaker observability
+// (Phase 2: GPU Backend Stub and Device Detection)
+// ============================================================
+
+// When no GPU hardware is present (the CI case) the backend must:
+//   1. Report isAvailable() == false
+//   2. Still process all geometry predicates via the CPU path
+//   3. Report gpu_present:false in the stats JSON
+
+TEST(GpuBackendFallback, IsAvailable_ConsistentWithDeviceDiscovery) {
+    // isAvailable() must return false when no GPU is present.
+    // On CI machines HasGPU() always returns false, so this assertion holds.
+    // On machines with a GPU the backend should be available (circuit not open).
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    bool device_present = themis::gpu::DeviceDiscovery::HasGPU();
+    bool backend_available = backend->isAvailable();
+
+    // When no GPU device is present the backend must not claim to be available.
+    if (!device_present) {
+        EXPECT_FALSE(backend_available)
+            << "isAvailable() must return false when DeviceDiscovery::HasGPU() is false";
+    }
+    // When a GPU is present availability depends on circuit-breaker state; no
+    // strict assertion, but it must not crash.
+}
+
+TEST(GpuBackendFallback, StatsJson_GpuPresent_MatchesDeviceDiscovery) {
+    // The gpu_present field in the stats JSON must be consistent with
+    // whether a real GPU device was discovered at startup.
+    bool device_present = themis::gpu::DeviceDiscovery::HasGPU();
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+
+    ASSERT_FALSE(json.empty());
+
+    if (!device_present) {
+        // On CI: gpu_present must be false
+        EXPECT_NE(json.find("\"gpu_present\":false"), std::string::npos)
+            << "Stats JSON must report gpu_present:false when no GPU is discovered. "
+            << "JSON: " << json;
+    }
+    // The circuit must not be open at startup (no failures have occurred yet
+    // in a fresh process).
+    EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
+        << "circuit_open must be false at startup. JSON: " << json;
+}
+
+TEST(GpuBackendFallback, CpuFallback_ExactIntersects_ProducesCorrectResults) {
+    // Even when no GPU is present, exactIntersects must return correct results
+    // via the CPU fallback path (verifies the automatic fallback contract).
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    // Point inside polygon → must return true regardless of GPU availability
+    GeometryInfo pt_inside(GeometryType::Point);
+    pt_inside.coords.push_back({0.5, 0.5});
+
+    GeometryInfo poly(GeometryType::Polygon);
+    poly.rings.push_back({{0,0},{1,0},{1,1},{0,1},{0,0}});
+
+    EXPECT_TRUE(backend->exactIntersects(pt_inside, poly))
+        << "CPU fallback must return true for point inside polygon";
+
+    // Point outside polygon → must return false
+    GeometryInfo pt_outside(GeometryType::Point);
+    pt_outside.coords.push_back({9.0, 9.0});
+
+    EXPECT_FALSE(backend->exactIntersects(pt_outside, poly))
+        << "CPU fallback must return false for point outside polygon";
+}
+
+TEST(GpuBackendFallback, CpuFallback_BatchIntersects_CircuitBreakerNotOpenAtStartup) {
+    // On a fresh startup the circuit-breaker must be closed (circuit_open:false).
+    // batchIntersects must process all pairs via the CPU path.
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    in.count = 3;
+
+    GeometryInfo poly(GeometryType::Polygon);
+    poly.rings.push_back({{0,0},{1,0},{1,1},{0,1},{0,0}});
+
+    // Two inside, one outside
+    GeometryInfo p_in1(GeometryType::Point);  p_in1.coords.push_back({0.2, 0.2});
+    GeometryInfo p_in2(GeometryType::Point);  p_in2.coords.push_back({0.8, 0.8});
+    GeometryInfo p_out(GeometryType::Point);  p_out.coords.push_back({5.0, 5.0});
+
+    in.geoms_a = {p_in1, p_in2, p_out};
+    in.geoms_b = {poly,  poly,  poly};
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 3u);
+    EXPECT_EQ(result.mask[0], 1u) << "p_in1 must be inside polygon";
+    EXPECT_EQ(result.mask[1], 1u) << "p_in2 must be inside polygon";
+    EXPECT_EQ(result.mask[2], 0u) << "p_out must be outside polygon";
+
+    // Verify circuit is still closed after successful CPU-path execution
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+    EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
+        << "Circuit must remain closed after CPU-path processing. JSON: " << json;
 }

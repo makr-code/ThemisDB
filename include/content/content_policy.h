@@ -60,6 +60,12 @@ struct ContentPolicy {
     /// for ingested text content.  An empty string disables embedding generation.
     /// Matches FUTURE_ENHANCEMENTS.md: "activated when ContentPolicy::embeddingModel is set".
     std::string embedding_model;
+
+    /// Enable near-duplicate detection for this collection.
+    /// When true, `ContentManager::ingestRawBlob()` computes a perceptual hash
+    /// (pHash for images, MinHash for text) and rejects near-duplicates before
+    /// committing to storage.  Default: false (opt-in per collection).
+    bool enable_deduplication = false;
     
     /// Check if a MIME type is explicitly allowed
     bool isAllowed(const std::string& mime_type) const;

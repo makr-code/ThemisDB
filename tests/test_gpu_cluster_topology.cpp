@@ -21,6 +21,7 @@
 #include "themis/gpu/cluster_topology.h"
 #include "themis/gpu/cluster_coordinator.h"
 #include "themis/gpu/device_discovery.h"
+#include "themis/gpu/stream_manager.h"
 
 using namespace themis::gpu;
 
@@ -314,7 +315,7 @@ TEST(GPUClusterTopologyTest, InterconnectTypeName_ReturnsExpectedStrings) {
 // GPUClusterCoordinator tests
 // ===========================================================================
 
-class GPUClusterCoordinatorTest : public ::testing::Test {
+class GPUClusterCoordinatorTopologyTest : public ::testing::Test {
 protected:
     void SetUp() override {
         devices_ = {
@@ -329,7 +330,7 @@ protected:
 // Single-node mode (empty ClusterConfig)
 // ---------------------------------------------------------------------------
 
-TEST_F(GPUClusterCoordinatorTest, Initialize_SingleNodeMode) {
+TEST_F(GPUClusterCoordinatorTopologyTest, Initialize_SingleNodeMode) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;  // default: world_size == 1
     coord.initialize(cfg, devices_);
@@ -337,14 +338,14 @@ TEST_F(GPUClusterCoordinatorTest, Initialize_SingleNodeMode) {
     EXPECT_EQ(coord.clusterConfig().world_size, 1);
 }
 
-TEST_F(GPUClusterCoordinatorTest, SelectDevice_SingleNode_ReturnsValidIndex) {
+TEST_F(GPUClusterCoordinatorTopologyTest, SelectDevice_SingleNode_ReturnsValidIndex) {
     GPUClusterCoordinator coord;
     coord.initialize(ClusterConfig{}, devices_);
     auto p = coord.selectDevice();
     EXPECT_GE(p.device_index, -1);
 }
 
-TEST_F(GPUClusterCoordinatorTest, SelectDevice_NVLink_NoEligibleDevice_ReturnsCPUFallback) {
+TEST_F(GPUClusterCoordinatorTopologyTest, SelectDevice_NVLink_NoEligibleDevice_ReturnsCPUFallback) {
     // Build two unhealthy devices so no device qualifies during NVLink selection.
     DeviceInfo d0 = makeCudaDevice(0, "A100-0");
     d0.is_healthy = false;
@@ -368,7 +369,7 @@ TEST_F(GPUClusterCoordinatorTest, SelectDevice_NVLink_NoEligibleDevice_ReturnsCP
     EXPECT_EQ(p.route, InterconnectType::CPU);
 }
 
-TEST_F(GPUClusterCoordinatorTest, ClusterHealth_SingleNode) {
+TEST_F(GPUClusterCoordinatorTopologyTest, ClusterHealth_SingleNode) {
     GPUClusterCoordinator coord;
     coord.initialize(ClusterConfig{}, devices_);
     auto h = coord.clusterHealth();
@@ -379,7 +380,7 @@ TEST_F(GPUClusterCoordinatorTest, ClusterHealth_SingleNode) {
 // Multi-node mode
 // ---------------------------------------------------------------------------
 
-TEST_F(GPUClusterCoordinatorTest, Initialize_MultiNodeMode) {
+TEST_F(GPUClusterCoordinatorTopologyTest, Initialize_MultiNodeMode) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.enabled    = true;
@@ -393,7 +394,7 @@ TEST_F(GPUClusterCoordinatorTest, Initialize_MultiNodeMode) {
     EXPECT_TRUE(coord.clusterConfig().is_multi_node());
 }
 
-TEST_F(GPUClusterCoordinatorTest, RegisterNode_AddsNodeToTopology) {
+TEST_F(GPUClusterCoordinatorTopologyTest, RegisterNode_AddsNodeToTopology) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.enabled    = true;
@@ -415,7 +416,7 @@ TEST_F(GPUClusterCoordinatorTest, RegisterNode_AddsNodeToTopology) {
     EXPECT_TRUE(found);
 }
 
-TEST_F(GPUClusterCoordinatorTest, RegisterNode_WithIB_CreatesInfiniBandLinks) {
+TEST_F(GPUClusterCoordinatorTopologyTest, RegisterNode_WithIB_CreatesInfiniBandLinks) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.enabled       = true;
@@ -433,7 +434,7 @@ TEST_F(GPUClusterCoordinatorTest, RegisterNode_WithIB_CreatesInfiniBandLinks) {
     EXPECT_TRUE(coord.topology().has_infiniband);
 }
 
-TEST_F(GPUClusterCoordinatorTest, RegisterNode_DefaultIBBandwidth_Is25GBps) {
+TEST_F(GPUClusterCoordinatorTopologyTest, RegisterNode_DefaultIBBandwidth_Is25GBps) {
     // Validate the default IB bandwidth is 25 GB/s (HDR IB 200 Gb/s ÷ 8).
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
@@ -460,7 +461,7 @@ TEST_F(GPUClusterCoordinatorTest, RegisterNode_DefaultIBBandwidth_Is25GBps) {
     EXPECT_FLOAT_EQ(max_bw, 25.0f);
 }
 
-TEST_F(GPUClusterCoordinatorTest, SelectNodeForTransfer_WithIB_ReturnsPeer) {
+TEST_F(GPUClusterCoordinatorTopologyTest, SelectNodeForTransfer_WithIB_ReturnsPeer) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.enabled       = true;
@@ -479,7 +480,7 @@ TEST_F(GPUClusterCoordinatorTest, SelectNodeForTransfer_WithIB_ReturnsPeer) {
     EXPECT_EQ(p.route, InterconnectType::INFINIBAND);
 }
 
-TEST_F(GPUClusterCoordinatorTest, RemoveNode_RemovesFromTopology) {
+TEST_F(GPUClusterCoordinatorTopologyTest, RemoveNode_RemovesFromTopology) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.enabled    = true;
@@ -499,7 +500,7 @@ TEST_F(GPUClusterCoordinatorTest, RemoveNode_RemovesFromTopology) {
     EXPECT_FALSE(found);
 }
 
-TEST_F(GPUClusterCoordinatorTest, UpdateTopology_DoesNotCrash) {
+TEST_F(GPUClusterCoordinatorTopologyTest, UpdateTopology_DoesNotCrash) {
     GPUClusterCoordinator coord;
     ClusterConfig cfg;
     cfg.node_id    = "n0";

@@ -24,6 +24,9 @@
 - [x] Health check interface in ConcernsContext — `ProbeResult`/`HealthStatus` in `lifecycle.h`; `isHealthy()` on all four concern interfaces; `ConcernsContext::healthCheck()` and `readinessCheck()` aggregate per-concern results; `MonitoringApiHandler` exposes per-concern health in `/health/live` and `/health/ready` JSON responses (Issue: #1410)
 - [x] Jaeger tracing backend adapter — `JaegerTracerAdapter` with `uber-trace-id` propagation and W3C `traceparent` fallback; circuit-breaker guarded; selectable via `tracerAdapter="jaeger"` in `ConcernsContext::Config` (Issue: #1413)
 - [x] Zipkin tracing backend adapter — `ZipkinTracerAdapter` with B3 single/multi-header and W3C `traceparent` propagation; injects all three header formats on outbound; circuit-breaker guarded; selectable via `tracerAdapter="zipkin"` (Issue: #1413)
+- [x] Distributed context propagation (W3C TraceContext standard) — `W3CTraceContextPropagator` extracts `traceparent`/`tracestate` headers into `IContext` (populates `kTraceId`, `kSpanId`) and injects them for outbound calls; `kSpanId` added to `context_keys`; `SimpleContext::toTraceContext()` now includes span_id (Issue: #1414)
+
+## In Progress 🚧
 - [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [x] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [x] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
@@ -43,7 +46,10 @@
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
-- [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
+- [x] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
+- [x] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
+- [x] Circuit breaker interface as a first-class concern (Issue: #1415)
+- [x] Feature flag interface for runtime enable/disable (Issue: #1416)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
 - [I] Audit event interface for compliance logging (Issue: #1418)
 

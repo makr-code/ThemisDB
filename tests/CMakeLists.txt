@@ -120,6 +120,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_streaming_handler\\.cpp$"
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
+        ".*test_openai_compat_adapter\\.cpp$"
     )
 endif()
 
@@ -286,6 +287,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_acceleration_dispatch\\.cpp$"
     ".*test_context_propagation\\.cpp$"
     ".*test_graph_query_optimizer\\.cpp$"
+    ".*test_graph_distributed\\.cpp$"
     ".*test_llm_timeout_cancellation\\.cpp$"
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
@@ -459,6 +461,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the MIG manager test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates MIGManager (feature-gate enforcement, device
+# capability detection, profile validation, partition lifecycle, tenant
+# assignment, statistics, and concurrent safety).  It uses only CPU-side
+# bookkeeping and requires no GPU or NVML hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_mig_manager.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -487,6 +500,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/filesystem_ingester.cpp
         ../src/ingestion/api_connector.cpp
         ../src/ingestion/kafka_connector.cpp
+        ../src/ingestion/object_storage_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -522,6 +536,8 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/mongodb_adapter.cpp
     ../src/chimera/postgresql_adapter.cpp
     ../src/chimera/themisdb_adapter.cpp
+    ../src/chimera/weaviate_adapter.cpp
+    ../src/chimera/qdrant_adapter.cpp
 )
 
 set(_themis_test_core_libs)
@@ -1043,6 +1059,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
     message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
 else()
     message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+endif()
+
+# ============================================================================
+# Distributed Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
+    message(STATUS "Adding Distributed Graph tests")
+
+    add_executable(test_graph_distributed
+        test_graph_distributed.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_distributed PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_distributed PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME DistributedGraphTests COMMAND test_graph_distributed)
+
+    set_tests_properties(DistributedGraphTests PROPERTIES
+        LABELS "graph;distributed;shards;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
+else()
+    message(STATUS "Distributed Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 endif()
 
 # ============================================================================
@@ -2354,6 +2412,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
         TIMEOUT 60
     )
     message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
+endif()
+
+# Phase 3 – Governance policy hot-reload tests (Issue: #1774)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
+    message(STATUS "Adding Governance Policy Hot-Reload tests (Phase 3 - Issue #1774)")
+    add_executable(test_governance_policy_hot_reload test_governance_policy_hot_reload.cpp)
+    target_link_libraries(test_governance_policy_hot_reload PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_policy_hot_reload PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernancePolicyHotReloadTests COMMAND test_governance_policy_hot_reload)
+    set_tests_properties(GovernancePolicyHotReloadTests PROPERTIES
+        LABELS "governance;policy;hot-reload;file-watcher;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
 endif()
 
 # Phase 5 – LEK Manager lifecycle tests

@@ -1446,6 +1446,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
     ../src/graph/distributed_graph.cpp
@@ -1757,6 +1758,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/cross_tenant_policy_inheritance.cpp
     ../src/governance/policy_template.cpp
@@ -1930,10 +1932,12 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/streaming_exporter.cpp
     ../src/exporters/aql_predicate_filter.cpp
     ../src/exporters/arrow_ipc_exporter.cpp
+    ../src/exporters/incremental_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
     ../src/importers/sqlite_importer.cpp
+    ../src/importers/flatfile_importer.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
@@ -1946,6 +1950,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/arrow_export.cpp
     ../src/analytics/analytics_export.cpp
     ../src/analytics/incremental_view.cpp
+
+    # CEP Engine – NFA pattern matching, EPL parser, window+aggregation pipeline (Phase 2)
+    ../src/analytics/cep_engine.cpp
 
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
@@ -3214,6 +3221,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
+        ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing

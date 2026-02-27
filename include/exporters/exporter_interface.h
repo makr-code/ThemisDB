@@ -41,6 +41,7 @@ struct ExportStats {
     size_t total_entities = 0;
     size_t exported_entities = 0;
     size_t failed_entities = 0;
+    size_t skipped_entities = 0;  // Entities skipped by incremental/delta filter
     size_t bytes_written = 0;
     std::chrono::milliseconds duration{0};
     std::vector<std::string> errors;

@@ -7,6 +7,7 @@
 #include "chimera/themisdb_adapter.hpp"         // ThemisDB
 #include "chimera/postgresql_adapter.hpp"       // PostgreSQL
 #include "chimera/weaviate_adapter.hpp"         // Weaviate
+#include "chimera/qdrant_adapter.hpp"           // Qdrant
 ```
 
 ## Create Adapter
@@ -23,6 +24,9 @@ auto adapter = create_postgresql_adapter();
 
 // Weaviate
 auto adapter = create_weaviate_adapter();
+
+// Qdrant
+auto adapter = create_qdrant_adapter();
 ```
 
 ## Connection
