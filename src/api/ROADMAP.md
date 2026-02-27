@@ -61,7 +61,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1509)
+- [P] Unit tests coverage > 80% (Issue: #1509)
 - [I] Integration tests (Issue: #1510)
 - [I] Performance benchmarks (Issue: #1511)
 - [I] Security audit (Issue: #1512)
