@@ -24,6 +24,7 @@
 #include "content/html_processor.h"
 #include "content/markdown_processor.h"
 #include "content/content_validator.h"
+#include "content/image_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -393,6 +394,14 @@ void ContentManager::setMalwareFilter(std::shared_ptr<themis::security::MalwareF
 
 std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwareFilter() const {
     return malware_filter_;
+}
+
+void ContentManager::setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker) {
+    dedup_checker_ = std::move(checker);
+}
+
+std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() const {
+    return dedup_checker_;
 }
 
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
@@ -1943,7 +1952,47 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
 
-    // HTML: extract plain text (boilerplate removal) and create text chunks
+    // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
+    // Check for near-duplicate images (pHash) and text (MinHash) before committing.
+    if (dedup_checker_) {
+        bool is_image = (category == ContentCategory::IMAGE);
+        bool is_text  = (category == ContentCategory::TEXT);
+
+        if (is_image || is_text) {
+            metrics_.dedup_checks_total.fetch_add(1);
+
+            std::optional<DuplicateOf> dup;
+            if (is_image) {
+                // Compute DCT-based 64-bit perceptual hash for the image blob
+                std::vector<uint8_t> img_bytes(blob.begin(), blob.end());
+                std::string phash = ImageProcessor::computePHash(img_bytes);
+                if (!phash.empty()) {
+                    dup = dedup_checker_->isDuplicateImage(phash);
+                }
+            } else {
+                // Compute 128-permutation MinHash over 3-word shingles
+                auto minhash = TextProcessor::computeMinHash(blob);
+                if (!minhash.empty()) {
+                    dup = dedup_checker_->isDuplicateText(minhash);
+                }
+            }
+
+            if (dup) {
+                metrics_.dedup_hits_total.fetch_add(1);
+                THEMIS_INFO("Dedup: near-duplicate of '{}' detected for '{}' (similarity={:.3f})",
+                            dup->existing_id, filename, dup->similarity);
+                result.success = true;
+                result.primary_content_id = dup->existing_id;
+                result.metadata = json{
+                    {"content_id",   dup->existing_id},
+                    {"duplicate_of", dup->existing_id},
+                    {"similarity",   dup->similarity},
+                    {"mime_type",    detected_mime}
+                };
+                return result;
+            }
+        }
+    }
     json chunks_json = json::array();
     if (detected_mime == "text/html" || detected_mime == "application/xhtml+xml") {
         HtmlProcessor html_proc;
@@ -2024,7 +2073,26 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         result.error_message = status.message;
         return result;
     }
-    
+
+    // Register with the deduplication index after successful storage
+    if (dedup_checker_) {
+        bool is_image = (category == ContentCategory::IMAGE);
+        bool is_text  = (category == ContentCategory::TEXT);
+        if (is_image) {
+            std::vector<uint8_t> img_bytes(blob.begin(), blob.end());
+            std::string phash = ImageProcessor::computePHash(img_bytes);
+            if (!phash.empty()) {
+                dedup_checker_->registerImage(content_id, phash);
+                meta.extracted_metadata["phash_hex"] = phash;
+            }
+        } else if (is_text) {
+            auto minhash = TextProcessor::computeMinHash(blob);
+            if (!minhash.empty()) {
+                dedup_checker_->registerText(content_id, minhash);
+            }
+        }
+    }
+
     result.success = true;
     result.primary_content_id = content_id;
     result.metadata = json{

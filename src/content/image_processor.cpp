@@ -30,8 +30,10 @@
 
 #include "content/image_processor.h"
 #include <algorithm>
+#include <array>
 #include <cstring>
 #include <sstream>
+#include <iomanip>
 #include <chrono>
 #include <cmath>
 
@@ -425,6 +427,144 @@ json ImageProcessor::detectObjects(const std::vector<uint8_t>& blob) {
 
 // Plugin entry point
 THEMIS_CONTENT_PLUGIN(ImageProcessor)
+
+// ---------------------------------------------------------------------------
+// computePHash — DCT-based 64-bit perceptual hash (pure C++, no OpenCV)
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Extract a 32×32 grid of grayscale intensity values from an image blob.
+/// BMP (BI_RGB, 24 bpp, uncompressed) is fully decoded; all other formats
+/// fall back to uniform raw-byte sampling.
+std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blob) {
+    std::array<double, 1024> samples{};
+
+    // Try to decode as uncompressed 24-bpp BMP
+    if (blob.size() > 54 &&
+        blob[0] == 'B' && blob[1] == 'M')
+    {
+        uint32_t pixel_offset =
+            static_cast<uint32_t>(blob[10])
+            | (static_cast<uint32_t>(blob[11]) << 8)
+            | (static_cast<uint32_t>(blob[12]) << 16)
+            | (static_cast<uint32_t>(blob[13]) << 24);
+
+        int bmp_width  = static_cast<int32_t>(
+            blob[18] | (blob[19] << 8) | (blob[20] << 16) | (blob[21] << 24));
+        int bmp_height = static_cast<int32_t>(
+            blob[22] | (blob[23] << 8) | (blob[24] << 16) | (blob[25] << 24));
+        uint16_t bits_per_pixel = static_cast<uint16_t>(blob[28] | (blob[29] << 8));
+        uint32_t compression    =
+            blob[30] | (blob[31] << 8) | (blob[32] << 16) | (blob[33] << 24);
+
+        if (bits_per_pixel == 24 && compression == 0
+            && bmp_width > 0 && bmp_height != 0)
+        {
+            int abs_height = std::abs(bmp_height);
+            // Row stride padded to 4 bytes
+            int row_stride = ((bmp_width * 3 + 3) / 4) * 4;
+            size_t needed  = pixel_offset
+                + static_cast<size_t>(abs_height) * static_cast<size_t>(row_stride);
+
+            if (needed <= blob.size()) {
+                for (int sy = 0; sy < 32; ++sy) {
+                    for (int sx = 0; sx < 32; ++sx) {
+                        int px = (sx * (bmp_width - 1)) / 31;
+                        int py = (sy * (abs_height  - 1)) / 31;
+                        // BMP rows are stored bottom-up unless height is negative
+                        int actual_row = (bmp_height > 0) ? (abs_height - 1 - py) : py;
+                        size_t off = pixel_offset
+                            + static_cast<size_t>(actual_row) * static_cast<size_t>(row_stride)
+                            + static_cast<size_t>(px) * 3;
+                        if (off + 2 < blob.size()) {
+                            uint8_t b = blob[off];
+                            uint8_t g = blob[off + 1];
+                            uint8_t r = blob[off + 2];
+                            samples[sy * 32 + sx] =
+                                0.299 * r + 0.587 * g + 0.114 * b;
+                        }
+                    }
+                }
+                return samples;
+            }
+        }
+    }
+
+    // Fallback: sample raw bytes uniformly, skipping the first 20 bytes of
+    // header data so we focus on pixel-representative content.
+    size_t start     = std::min(static_cast<size_t>(20), blob.size());
+    size_t data_size = blob.size() - start;
+    for (int i = 0; i < 1024; ++i) {
+        if (data_size == 0) break;
+        size_t idx = start + (static_cast<size_t>(i) * data_size) / 1024;
+        samples[i] = static_cast<double>(blob[idx]);
+    }
+    return samples;
+}
+
+/// Apply a separable 2-D DCT-II to a 32×32 matrix stored in row-major order.
+std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
+    static const double PI = 3.14159265358979323846;
+    std::array<double, 1024> dct{};
+
+    for (int u = 0; u < 32; ++u) {
+        double cu = (u == 0) ? 1.0 / std::sqrt(2.0) : 1.0;
+        for (int v = 0; v < 32; ++v) {
+            double cv = (v == 0) ? 1.0 / std::sqrt(2.0) : 1.0;
+            double sum = 0.0;
+            for (int x = 0; x < 32; ++x) {
+                double cx = std::cos(PI * (2 * x + 1) * u / 64.0);
+                for (int y = 0; y < 32; ++y) {
+                    sum += pixels[x * 32 + y]
+                         * cx
+                         * std::cos(PI * (2 * y + 1) * v / 64.0);
+                }
+            }
+            dct[u * 32 + v] = (cu * cv / 16.0) * sum;
+        }
+    }
+    return dct;
+}
+
+} // anonymous namespace
+
+/*static*/ std::string ImageProcessor::computePHash(const std::vector<uint8_t>& blob) {
+    // Minimum viable image blob
+    if (blob.size() < 16) return {};
+
+    // 1. Extract 32×32 grayscale samples
+    auto pixels = extractGrayscaleSamples(blob);
+
+    // 2. Apply 2-D DCT
+    auto dct = apply2DDCT(pixels);
+
+    // 3. Collect the 8×8 top-left DCT coefficients (skip DC component at [0,0])
+    std::array<double, 64> low_freq{};
+    for (int u = 0; u < 8; ++u) {
+        for (int v = 0; v < 8; ++v) {
+            low_freq[u * 8 + v] = dct[u * 32 + v];
+        }
+    }
+
+    // 4. Compute median of the 64 values
+    std::array<double, 64> sorted_freq = low_freq;
+    std::sort(sorted_freq.begin(), sorted_freq.end());
+    double median = (sorted_freq[31] + sorted_freq[32]) / 2.0;
+
+    // 5. Build 64-bit hash: bit i = 1 if low_freq[i] > median
+    uint64_t hash = 0;
+    for (int i = 0; i < 64; ++i) {
+        if (low_freq[i] > median) {
+            hash |= (uint64_t{1} << i);
+        }
+    }
+
+    // 6. Return as 16-character lowercase hex string
+    std::ostringstream oss;
+    oss << std::hex << std::setw(16) << std::setfill('0') << hash;
+    return oss.str();
+}
 
 } // namespace content
 } // namespace themis
