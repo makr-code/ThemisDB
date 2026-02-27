@@ -24,6 +24,7 @@
 #include "content/html_processor.h"
 #include "content/markdown_processor.h"
 #include "content/content_validator.h"
+#include "content/image_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -393,6 +394,14 @@ void ContentManager::setMalwareFilter(std::shared_ptr<themis::security::MalwareF
 
 std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwareFilter() const {
     return malware_filter_;
+}
+
+void ContentManager::setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker) {
+    dedup_checker_ = std::move(checker);
+}
+
+std::shared_ptr<DeduplicationChecker> ContentManager::getDeduplicationChecker() const {
+    return dedup_checker_;
 }
 
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
@@ -1943,7 +1952,49 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
 
-    // HTML: extract plain text (boilerplate removal) and create text chunks
+    // ---- Perceptual deduplication (opt-in via ContentPolicy::enable_deduplication) ----
+    // Compute pHash (image) or MinHash (text) once; reuse for both the duplicate
+    // check and the post-storage registration to avoid redundant computation.
+    const bool dedup_is_image = (category == ContentCategory::IMAGE);
+    const bool dedup_is_text  = (category == ContentCategory::TEXT);
+    std::string cached_phash;
+    std::vector<uint32_t> cached_minhash;
+
+    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        metrics_.dedup_checks_total.fetch_add(1);
+
+        std::optional<DuplicateOf> dup;
+        if (dedup_is_image) {
+            // computePHash accepts const std::vector<uint8_t>&; reinterpret the
+            // std::string as a byte span to avoid an extra heap allocation.
+            const auto* bytes = reinterpret_cast<const uint8_t*>(blob.data());
+            cached_phash = ImageProcessor::computePHash(
+                std::vector<uint8_t>(bytes, bytes + blob.size()));
+            if (!cached_phash.empty()) {
+                dup = dedup_checker_->isDuplicateImage(cached_phash);
+            }
+        } else {
+            cached_minhash = TextProcessor::computeMinHash(blob);
+            if (!cached_minhash.empty()) {
+                dup = dedup_checker_->isDuplicateText(cached_minhash);
+            }
+        }
+
+        if (dup) {
+            metrics_.dedup_hits_total.fetch_add(1);
+            THEMIS_INFO("Dedup: near-duplicate of '{}' detected for '{}' (similarity={:.3f})",
+                        dup->existing_id, filename, dup->similarity);
+            result.success = true;
+            result.primary_content_id = dup->existing_id;
+            result.metadata = json{
+                {"content_id",   dup->existing_id},
+                {"duplicate_of", dup->existing_id},
+                {"similarity",   dup->similarity},
+                {"mime_type",    detected_mime}
+            };
+            return result;
+        }
+    }
     json chunks_json = json::array();
     if (detected_mime == "text/html" || detected_mime == "application/xhtml+xml") {
         HtmlProcessor html_proc;
@@ -2024,7 +2075,18 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         result.error_message = status.message;
         return result;
     }
-    
+
+    // Register with the deduplication index after successful storage.
+    // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
+    if (dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+        if (dedup_is_image && !cached_phash.empty()) {
+            dedup_checker_->registerImage(content_id, cached_phash);
+            meta.extracted_metadata["phash_hex"] = cached_phash;
+        } else if (dedup_is_text && !cached_minhash.empty()) {
+            dedup_checker_->registerText(content_id, cached_minhash);
+        }
+    }
+
     result.success = true;
     result.primary_content_id = content_id;
     result.metadata = json{

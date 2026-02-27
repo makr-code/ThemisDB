@@ -96,6 +96,22 @@ public:
      */
     void recordEmbeddingFailure();
 
+    /**
+     * @brief Record a perceptual deduplication check (content_dedup_checks_total).
+     *
+     * Called once per `ingestRawBlob()` invocation on IMAGE or TEXT content
+     * when a `DeduplicationChecker` is attached.
+     */
+    void recordDedupCheck();
+
+    /**
+     * @brief Record a near-duplicate detection hit (content_dedup_hits_total).
+     *
+     * Called when `DeduplicationChecker` identifies the ingested item as a
+     * near-duplicate of an already-stored item.
+     */
+    void recordDedupHit();
+
     // ========================================================================
     // Format-specific Metrics (content_pdf_extracted_total, etc.)
     // ========================================================================
@@ -287,6 +303,16 @@ public:
      * @brief Get total embedding failures (content_embedding_failures_total)
      */
     uint64_t getEmbeddingFailuresTotal() const { return embedding_failures_.load(); }
+
+    /**
+     * @brief Get total deduplication checks (content_dedup_checks_total)
+     */
+    uint64_t getDedupChecksTotal() const { return dedup_checks_.load(); }
+
+    /**
+     * @brief Get total deduplication hits (content_dedup_hits_total)
+     */
+    uint64_t getDedupHitsTotal() const { return dedup_hits_.load(); }
     
     // ========================================================================
     // Export & Reset
@@ -323,6 +349,8 @@ private:
     std::atomic<uint64_t> total_chunks_{0};
     std::atomic<uint64_t> total_embeddings_{0};
     std::atomic<uint64_t> embedding_failures_{0};
+    std::atomic<uint64_t> dedup_checks_{0};
+    std::atomic<uint64_t> dedup_hits_{0};
     
     // Error counters
     std::atomic<uint64_t> total_errors_{0};

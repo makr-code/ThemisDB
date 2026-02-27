@@ -145,6 +145,24 @@ public:
         return {ContentCategory::TEXT};
     }
 
+    /**
+     * @brief Compute a MinHash signature for near-duplicate text detection.
+     *
+     * Uses `num_hashes` independent hash functions over 3-word shingles
+     * (trigrams) of the input text.  The resulting signature can be used with
+     * band-LSH (16 bands × 8 rows) to find documents whose estimated Jaccard
+     * similarity exceeds 0.85.
+     *
+     * @param text       Input text (UTF-8).
+     * @param num_hashes Number of MinHash permutations (default: 128).
+     * @return Vector of `num_hashes` uint32_t values; all UINT32_MAX if text
+     *         is empty.
+     */
+    static std::vector<uint32_t> computeMinHash(
+        const std::string& text,
+        size_t num_hashes = 128
+    );
+
 private:
     std::string normalizeText(const std::string& text);
     int countTokens(const std::string& text); // Simple whitespace-based tokenizer
