@@ -25,7 +25,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [P] CSV / TSV / Parquet flat-file importer (Issue: #1839)
 - [P] S3-compatible object-storage source (Issue: #1840)
 - [P] Schema auto-detection and validation on import (Issue: #1856)
-- [I] Dry-run mode to preview import without writing data (Issue: #2406)
+- [x] Dry-run mode to preview import without writing data (Issue: #2406)
 
 ### Long-term (6-12 months)
 - [I] Kafka consumer importer for real-time streaming ingestion (Issue: #1843)
@@ -49,7 +49,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [x] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
 - [x] Import progress reporting with streaming callbacks (Target: Q2 2026)
 - [P] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
-- [ ] Dry-run mode to preview import without writing data (Target: Q3 2026)
+- [x] Dry-run mode to preview import without writing data (Target: Q3 2026)
 
 ### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
