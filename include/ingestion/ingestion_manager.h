@@ -50,7 +50,8 @@ enum class SourceType {
     KAFKA,           ///< Apache Kafka consumer (librdkafka)
     OBJECT_STORAGE,  ///< S3 / GCS / Azure Blob object storage
     WEB_CRAWLER,     ///< HTTP web crawler and XML sitemap source
-    CDC              ///< Change-Data-Capture source for live database streams
+    CDC,             ///< Change-Data-Capture source for live database streams
+    PLUGIN           ///< Third-party plugin-supplied source connector
 };
 
 /**
@@ -566,6 +567,22 @@ private:
 class ISourceConnector;
 
 /**
+ * @brief Factory function type for plugin-based source connectors.
+ *
+ * A `ConnectorFactory` is a zero-argument callable that constructs and
+ * returns a new heap-allocated `ISourceConnector` instance.  It is
+ * registered with an `IngestionManager` via `registerConnectorPlugin()`.
+ *
+ * Example:
+ * @code
+ * mgr.registerConnectorPlugin("my_source", []() {
+ *     return std::make_unique<MyCustomConnector>();
+ * });
+ * @endcode
+ */
+using ConnectorFactory = std::function<std::unique_ptr<ISourceConnector>()>;
+
+/**
  * @brief Unified multi-source ingestion manager
  * 
  * Coordinates ingestion from multiple data sources (HuggingFace, filesystem, APIs, etc.)
@@ -852,6 +869,39 @@ public:
      */
     void setApiHttpGetForTesting(ApiHttpGetFn fn);
 
+    // ── Plugin connector registry ───────────────────────────────────────────
+
+    /**
+     * @brief Register a third-party connector factory under a plugin name.
+     *
+     * The factory is stored in this manager's plugin registry.  Once
+     * registered, a source with `type == SourceType::PLUGIN` and
+     * `options["plugin_name"] == plugin_name` will be backed by a connector
+     * created by invoking `factory()`.
+     *
+     * Re-registering an existing name overwrites the previous factory.
+     *
+     * @param plugin_name Unique name identifying the plugin (e.g. "my_plugin")
+     * @param factory     Zero-argument callable returning a new connector
+     */
+    void registerConnectorPlugin(const std::string& plugin_name,
+                                  ConnectorFactory factory);
+
+    /**
+     * @brief Remove a previously registered plugin factory.
+     *
+     * @param plugin_name Name of the plugin to remove
+     * @return true if the plugin existed and was removed
+     */
+    bool unregisterConnectorPlugin(const std::string& plugin_name);
+
+    /**
+     * @brief List the names of all registered plugin connectors.
+     *
+     * @return Sorted vector of plugin names
+     */
+    std::vector<std::string> listConnectorPlugins() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -911,6 +961,77 @@ public:
     virtual void setDocumentValidator(DocumentValidatorFn validator) {
         (void)validator; // default: no-op
     }
+};
+
+// ============================================================================
+// ConnectorPluginRegistry
+// ============================================================================
+
+/**
+ * @brief Thread-safe registry for third-party source connector factories.
+ *
+ * `ConnectorPluginRegistry` maps string plugin names to `ConnectorFactory`
+ * callables.  An `IngestionManager` holds one instance; sources registered
+ * with `SourceType::PLUGIN` look up their factory here at ingestion time.
+ *
+ * Example – register a custom connector and ingest:
+ * @code
+ * mgr.registerConnectorPlugin("csv_reader", []() {
+ *     return std::make_unique<CsvSourceConnector>();
+ * });
+ *
+ * mgr.registerSource({
+ *     .source_id = "sales_data",
+ *     .type      = SourceType::PLUGIN,
+ *     .location  = "/data/sales.csv",
+ *     .options   = {{"plugin_name", "csv_reader"}}
+ * });
+ *
+ * auto report = mgr.ingestAll();
+ * @endcode
+ */
+class ConnectorPluginRegistry {
+public:
+    ConnectorPluginRegistry() = default;
+
+    /**
+     * @brief Register a factory under the given plugin name.
+     *
+     * Re-registering an existing name silently replaces the previous factory.
+     *
+     * @param plugin_name Non-empty identifier for the plugin
+     * @param factory     Zero-argument callable returning a new connector
+     */
+    void registerFactory(const std::string& plugin_name, ConnectorFactory factory);
+
+    /**
+     * @brief Remove the factory registered under @p plugin_name.
+     *
+     * @return true if the name was registered and has been removed
+     */
+    bool unregisterFactory(const std::string& plugin_name);
+
+    /**
+     * @brief Check whether a factory is registered for @p plugin_name.
+     */
+    bool isRegistered(const std::string& plugin_name) const;
+
+    /**
+     * @brief Invoke the factory for @p plugin_name and return a new connector.
+     *
+     * @return New connector instance, or nullptr if the name is not registered
+     *         or the factory returns nullptr.
+     */
+    std::unique_ptr<ISourceConnector> create(const std::string& plugin_name) const;
+
+    /**
+     * @brief Return a sorted list of all registered plugin names.
+     */
+    std::vector<std::string> listPlugins() const;
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, ConnectorFactory> factories_;
 };
 
 // ============================================================================
@@ -1209,6 +1330,41 @@ public:
         int priority = 5);
 
     /**
+     * @brief Register a plugin-backed source connector.
+     *
+     * The source will be driven by a connector instance produced by the
+     * factory previously registered under @p plugin_name (via
+     * `withConnectorPlugin()` or `IngestionManager::registerConnectorPlugin()`).
+     *
+     * @param source_id   Unique source identifier
+     * @param plugin_name Name of the registered plugin factory
+     * @param location    Optional location string passed to the connector
+     *                    via `SourceConfig::location`
+     * @param options     Optional key/value options forwarded to the connector
+     * @param priority    Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withPluginSource(
+        const std::string& source_id,
+        const std::string& plugin_name,
+        const std::string& location = "",
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a connector factory with the builder.
+     *
+     * The factory is transferred to the `IngestionManager` produced by
+     * `build()`.  Call this method once per plugin before `withPluginSource()`.
+     *
+     * @param plugin_name Non-empty identifier for the plugin
+     * @param factory     Zero-argument callable returning a new connector
+     * @return *this for chaining
+     */
+    IngestionBuilder& withConnectorPlugin(const std::string& plugin_name,
+                                           ConnectorFactory factory);
+
+    /**
      * @brief Set retry configuration
      * @return *this for chaining
      */
@@ -1272,6 +1428,7 @@ private:
         std::string target_collection = "legal_documents";
         bool dry_run = false;
         std::unordered_map<std::string, SchemaConfig> schema_configs;
+        std::unordered_map<std::string, ConnectorFactory> plugin_factories;
     };
     std::unique_ptr<Opts> opts_;
 };

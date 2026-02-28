@@ -77,6 +77,7 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::OBJECT_STORAGE: return "OBJECT_STORAGE";
         case SourceType::WEB_CRAWLER:    return "WEB_CRAWLER";
         case SourceType::CDC:            return "CDC";
+        case SourceType::PLUGIN:         return "PLUGIN";
         default:                         return "UNKNOWN";
     }
 }
@@ -638,6 +639,34 @@ public:
                     break;
                 }
 
+                case SourceType::PLUGIN: {
+                    auto pit = config.options.find("plugin_name");
+                    if (pit == config.options.end() || pit->second.empty()) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Plugin source requires options[\"plugin_name\"] to be set",
+                                       source_id);
+                        return stats;
+                    }
+                    auto plug = plugin_registry_.create(pit->second);
+                    if (!plug) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "No connector plugin registered for name: " + pit->second,
+                                       source_id);
+                        return stats;
+                    }
+                    if (!plug->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize plugin connector: " + pit->second,
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(plug);
+                    break;
+                }
+
                 default:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
                                    IngestionErrorSeverity::ERROR,
@@ -1054,6 +1083,19 @@ public:
         api_http_get_fn_ = std::move(fn);
     }
 
+    void registerConnectorPlugin(const std::string& plugin_name,
+                                  ConnectorFactory factory) {
+        plugin_registry_.registerFactory(plugin_name, std::move(factory));
+    }
+
+    bool unregisterConnectorPlugin(const std::string& plugin_name) {
+        return plugin_registry_.unregisterFactory(plugin_name);
+    }
+
+    std::vector<std::string> listConnectorPlugins() const {
+        return plugin_registry_.listPlugins();
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -1150,8 +1192,48 @@ private:
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
     ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
+    ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
     mutable std::mutex mutex_;
 };
+
+// ============================================================================
+// ConnectorPluginRegistry implementation
+// ============================================================================
+
+void ConnectorPluginRegistry::registerFactory(const std::string& plugin_name,
+                                               ConnectorFactory factory) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    factories_[plugin_name] = std::move(factory);
+}
+
+bool ConnectorPluginRegistry::unregisterFactory(const std::string& plugin_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return factories_.erase(plugin_name) > 0;
+}
+
+bool ConnectorPluginRegistry::isRegistered(const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return factories_.count(plugin_name) > 0;
+}
+
+std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
+        const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = factories_.find(plugin_name);
+    if (it == factories_.end()) return nullptr;
+    return it->second();
+}
+
+std::vector<std::string> ConnectorPluginRegistry::listPlugins() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> names;
+    names.reserve(factories_.size());
+    for (const auto& kv : factories_) {
+        names.push_back(kv.first);
+    }
+    std::sort(names.begin(), names.end());
+    return names;
+}
 
 // ============================================================================
 // Public API implementation
@@ -1272,6 +1354,19 @@ bool IngestionManager::clearCheckpoint(const std::string& source_id) {
 
 void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setApiHttpGetForTesting(std::move(fn));
+}
+
+void IngestionManager::registerConnectorPlugin(const std::string& plugin_name,
+                                                ConnectorFactory factory) {
+    impl_->registerConnectorPlugin(plugin_name, std::move(factory));
+}
+
+bool IngestionManager::unregisterConnectorPlugin(const std::string& plugin_name) {
+    return impl_->unregisterConnectorPlugin(plugin_name);
+}
+
+std::vector<std::string> IngestionManager::listConnectorPlugins() const {
+    return impl_->listConnectorPlugins();
 }
 
 // ============================================================================
@@ -1594,6 +1689,30 @@ IngestionBuilder& IngestionBuilder::withCdcSource(
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withPluginSource(
+        const std::string& source_id,
+        const std::string& plugin_name,
+        const std::string& location,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id                  = source_id;
+    cfg.type                       = SourceType::PLUGIN;
+    cfg.location                   = location;
+    cfg.options                    = std::move(options);
+    cfg.options["plugin_name"]     = plugin_name;
+    cfg.priority                   = priority;
+    cfg.enabled                    = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withConnectorPlugin(
+        const std::string& plugin_name, ConnectorFactory factory) {
+    opts_->plugin_factories[plugin_name] = std::move(factory);
+    return *this;
+}
+
 IngestionBuilder& IngestionBuilder::withRetryConfig(const RetryConfig& config) {
     opts_->retry_config = config;
     return *this;
@@ -1643,6 +1762,10 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
 
     for (const auto& kv : opts_->schema_configs) {
         mgr->setSchemaConfig(kv.first, kv.second);
+    }
+
+    for (auto& kv : opts_->plugin_factories) {
+        mgr->registerConnectorPlugin(kv.first, std::move(kv.second));
     }
 
     return mgr;
