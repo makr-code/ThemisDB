@@ -18,6 +18,7 @@
  */
 
 #include "content/content_processor.h"
+#include "content/language_detector.h"
 #include <algorithm>
 #include <cctype>
 #include <climits>
@@ -79,7 +80,17 @@ ExtractionResult TextProcessor::extract(
     // Sentence count (approximate)
     auto sentences = splitIntoSentences(result.text);
     result.metadata["sentence_count"] = sentences.size();
-    
+
+    // Multi-language detection and routing
+    {
+        LanguageDetector lang_detector;
+        DetectedLanguage lang = lang_detector.detect(result.text);
+        result.metadata["detected_language"]     = lang.code;
+        result.metadata["language_name"]         = lang.name;
+        result.metadata["language_confidence"]   = lang.confidence;
+        result.metadata["language_routing_hint"] = LanguageDetector::routingHint(lang.code);
+    }
+
     return result;
 }
 
