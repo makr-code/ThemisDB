@@ -31,21 +31,25 @@ namespace importers {
  * @brief Flat-file source format
  */
 enum class FlatFileFormat {
-    AUTO,   ///< Detect from file extension
-    CSV,    ///< Comma-separated values (configurable delimiter)
-    TSV,    ///< Tab-separated values
-    JSONL   ///< JSON Lines (one JSON object per line)
+    AUTO,    ///< Detect from file extension
+    CSV,     ///< Comma-separated values (configurable delimiter)
+    TSV,     ///< Tab-separated values
+    JSONL,   ///< JSON Lines (one JSON object per line)
+    PARQUET  ///< Apache Parquet columnar format (requires ARROW_ENABLED)
 };
 
 /**
  * @brief Flat-File Importer
  *
- * Imports data from CSV, TSV, and JSON Lines (JSONL) files into ThemisDB.
+ * Imports data from CSV, TSV, JSON Lines (JSONL), and Apache Parquet files
+ * into ThemisDB.
  *
  * Supports:
  * - CSV / TSV with configurable delimiter, quote character, and header row
  * - JSONL (one JSON object per line)
+ * - Apache Parquet (columnar format; requires ARROW_ENABLED build flag)
  * - Format auto-detection from file extension
+ * - Schema auto-detection from file contents
  * - Schema mapping to ThemisDB BaseEntity via column/table mappings
  * - Dry-run mode (validate without writing)
  * - Include / exclude table filtering
@@ -59,7 +63,7 @@ enum class FlatFileFormat {
  * Configuration (passed as JSON string to initialize()):
  * @code
  *   {
- *     "format":     "csv",     // "auto" (default), "csv", "tsv", "jsonl"
+ *     "format":     "csv",     // "auto" (default), "csv", "tsv", "jsonl", "parquet"
  *     "delimiter":  ",",       // single character; overrides format default
  *     "quote_char": "\"",      // single character (default: double-quote)
  *     "has_header": true,      // first row contains column names (CSV/TSV)
@@ -186,6 +190,29 @@ private:
                          const ImportOptions& options,
                          ImportStats& stats,
                          ProgressCallback& cb);
+
+    /**
+     * @brief Import an Apache Parquet file.
+     *
+     * When the library is built with ARROW_ENABLED this uses the Apache Arrow
+     * Parquet reader.  Without Arrow the method records a CRITICAL error and
+     * returns false.
+     *
+     * Column types are inferred from the Parquet / Arrow schema and exposed
+     * via schema auto-detection (DetectedSchema).
+     *
+     * @param path      File path.
+     * @param table     Logical table name.
+     * @param options   Import options.
+     * @param stats     Output statistics (updated in-place).
+     * @param cb        Progress callback (may be null).
+     * @return false on fatal I/O error or missing Arrow support; true otherwise.
+     */
+    bool importParquetFile(const std::string& path,
+                           const std::string& table,
+                           const ImportOptions& options,
+                           ImportStats& stats,
+                           ProgressCallback& cb);
 
     // ---- Utility helpers -----------------------------------------------------
 

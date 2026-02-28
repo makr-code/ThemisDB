@@ -131,7 +131,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Full PostGIS ST_* function parity (Target: Q3 2026)
 
 #### 1.8 Ingestion — Distributed & Cloud Sources
-- [I] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
+- [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
 - [I] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
 - [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 

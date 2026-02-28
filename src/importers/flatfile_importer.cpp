@@ -22,6 +22,12 @@
 #include <future>
 #include <cctype>
 
+#ifdef ARROW_ENABLED
+#include <arrow/api.h>
+#include <arrow/io/api.h>
+#include <parquet/arrow/reader.h>
+#endif
+
 namespace themis {
 namespace importers {
 
@@ -84,7 +90,7 @@ FlatFileImporter::~FlatFileImporter() {
 // ============================================================================
 
 std::vector<std::string> FlatFileImporter::getSupportedTypes() const {
-    return {"csv", "tsv", "jsonl", "ndjson"};
+    return {"csv", "tsv", "jsonl", "ndjson", "parquet"};
 }
 
 bool FlatFileImporter::initialize(const std::string& config) {
@@ -105,6 +111,7 @@ bool FlatFileImporter::initialize(const std::string& config) {
                 else if (fmt == "tsv")   format_ = FlatFileFormat::TSV;
                 else if (fmt == "jsonl" ||
                          fmt == "ndjson") format_ = FlatFileFormat::JSONL;
+                else if (fmt == "parquet") format_ = FlatFileFormat::PARQUET;
             }
 
             if (cfg.contains("delimiter")) {
@@ -145,8 +152,8 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
     FlatFileFormat fmt = effectiveFormat(source_path);
     if (fmt == FlatFileFormat::AUTO) {
         errors.push_back(
-            "Unknown file format; use .csv, .tsv, .jsonl, or .ndjson extension "
-            "or set format in config");
+            "Unknown file format; use .csv, .tsv, .jsonl, .ndjson, or .parquet "
+            "extension or set format in config");
         return false;
     }
 
@@ -169,6 +176,48 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
             }
             break;
         }
+    }
+
+    // For Parquet, verify magic bytes and (when Arrow is available) open schema.
+    if (fmt == FlatFileFormat::PARQUET) {
+        // Parquet files start and end with the 4-byte magic "PAR1".
+        // Check the header magic bytes without requiring Arrow.
+        char magic[4] = {0, 0, 0, 0};
+        file.read(magic, 4);
+        if (file.gcount() < 4 ||
+            magic[0] != 'P' || magic[1] != 'A' ||
+            magic[2] != 'R' || magic[3] != '1') {
+            errors.push_back(
+                "Not a valid Parquet file (missing PAR1 magic bytes): " +
+                source_path);
+            return false;
+        }
+#ifdef ARROW_ENABLED
+        // Open with Arrow Parquet reader to validate the full file footer.
+        std::shared_ptr<arrow::io::ReadableFile> infile;
+        auto open_status = arrow::io::ReadableFile::Open(source_path, &infile);
+        if (!open_status.ok()) {
+            errors.push_back("Cannot open Parquet file via Arrow: " +
+                             open_status.ToString());
+            return false;
+        }
+        std::unique_ptr<parquet::arrow::FileReader> reader;
+        auto reader_status = parquet::arrow::OpenFile(
+            infile, arrow::default_memory_pool(), &reader);
+        if (!reader_status.ok()) {
+            errors.push_back("Invalid Parquet file (Arrow): " +
+                             reader_status.ToString());
+            return false;
+        }
+        std::shared_ptr<arrow::Schema> schema;
+        auto schema_status = reader->GetSchema(&schema);
+        if (!schema_status.ok() || !schema) {
+            errors.push_back("Cannot read Parquet schema: " +
+                             (schema_status.ok() ? "null schema"
+                                                 : schema_status.ToString()));
+            return false;
+        }
+#endif // ARROW_ENABLED
     }
 
     THEMIS_INFO("FlatFile source validation successful: {}", source_path);
@@ -222,6 +271,9 @@ ImportStats FlatFileImporter::importData(
     if (fmt == FlatFileFormat::JSONL) {
         ok = importJsonlFile(source_path, table, options, stats,
                              progress_callback);
+    } else if (fmt == FlatFileFormat::PARQUET) {
+        ok = importParquetFile(source_path, table, options, stats,
+                               progress_callback);
     } else {
         ok = importCsvFile(source_path, fmt, table, options, stats,
                            progress_callback);
@@ -443,6 +495,46 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
             if (!first_cols.empty()) schema.columns = first_cols;
             result.push_back(SchemaAutoDetector::schemaToJson(schema));
         }
+    } else if (fmt == FlatFileFormat::PARQUET) {
+#ifdef ARROW_ENABLED
+        std::shared_ptr<arrow::io::ReadableFile> infile;
+        if (!arrow::io::ReadableFile::Open(source_path, &infile).ok())
+            return result;
+
+        std::unique_ptr<parquet::arrow::FileReader> reader;
+        if (!parquet::arrow::OpenFile(
+                infile, arrow::default_memory_pool(), &reader).ok())
+            return result;
+
+        std::shared_ptr<arrow::Schema> schema;
+        if (!reader->GetSchema(&schema).ok() || !schema) return result;
+
+        DetectedSchema detected;
+        detected.table_name = table;
+        for (int i = 0; i < schema->num_fields(); ++i) {
+            const auto& field = schema->field(i);
+            detected.columns.push_back(field->name());
+            auto type_id = field->type()->id();
+            DetectedFieldType ft = DetectedFieldType::STRING;
+            if (type_id == arrow::Type::BOOL) {
+                ft = DetectedFieldType::BOOLEAN;
+            } else if (type_id == arrow::Type::INT8   ||
+                       type_id == arrow::Type::INT16  ||
+                       type_id == arrow::Type::INT32  ||
+                       type_id == arrow::Type::INT64  ||
+                       type_id == arrow::Type::UINT8  ||
+                       type_id == arrow::Type::UINT16 ||
+                       type_id == arrow::Type::UINT32 ||
+                       type_id == arrow::Type::UINT64) {
+                ft = DetectedFieldType::INTEGER;
+            } else if (type_id == arrow::Type::FLOAT ||
+                       type_id == arrow::Type::DOUBLE) {
+                ft = DetectedFieldType::DOUBLE;
+            }
+            detected.column_types[field->name()] = ft;
+        }
+        result.push_back(SchemaAutoDetector::schemaToJson(detected));
+#endif // ARROW_ENABLED
     }
 
     return result;
@@ -464,6 +556,7 @@ FlatFileFormat FlatFileImporter::detectFormat(const std::string& path) {
     if (ext == "csv")                    return FlatFileFormat::CSV;
     if (ext == "tsv")                    return FlatFileFormat::TSV;
     if (ext == "jsonl" || ext == "ndjson") return FlatFileFormat::JSONL;
+    if (ext == "parquet")                return FlatFileFormat::PARQUET;
     return FlatFileFormat::AUTO;
 }
 
@@ -990,6 +1083,254 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     }
 
     return true;
+}
+
+// ============================================================================
+// Parquet import
+// ============================================================================
+
+bool FlatFileImporter::importParquetFile(const std::string& path,
+                                          const std::string& table,
+                                          const ImportOptions& options,
+                                          ImportStats& stats,
+                                          ProgressCallback& cb) {
+#ifdef ARROW_ENABLED
+    // ---- Check table filter ----
+    if (!shouldImportTable(table, options)) {
+        addError(stats, ImportErrorCode::TABLE_EXCLUDED,
+                 ImportErrorSeverity::INFO,
+                 "Table excluded by filter: " + table);
+        stats.skipped_records++;
+        return true;
+    }
+
+    // ---- Open file ----
+    std::shared_ptr<arrow::io::ReadableFile> infile;
+    auto open_status = arrow::io::ReadableFile::Open(path, &infile);
+    if (!open_status.ok()) {
+        addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
+                 ImportErrorSeverity::CRITICAL,
+                 "Cannot open Parquet file: " + open_status.ToString());
+        return false;
+    }
+
+    // ---- Open Parquet reader ----
+    std::unique_ptr<parquet::arrow::FileReader> reader;
+    auto reader_status = parquet::arrow::OpenFile(
+        infile, arrow::default_memory_pool(), &reader);
+    if (!reader_status.ok()) {
+        addError(stats, ImportErrorCode::FILE_READ_FAILED,
+                 ImportErrorSeverity::CRITICAL,
+                 "Failed to open Parquet reader: " + reader_status.ToString());
+        return false;
+    }
+
+    // ---- Read full table ----
+    std::shared_ptr<arrow::Table> arrow_table;
+    auto read_status = reader->ReadTable(&arrow_table);
+    if (!read_status.ok() || !arrow_table) {
+        addError(stats, ImportErrorCode::FILE_READ_FAILED,
+                 ImportErrorSeverity::CRITICAL,
+                 "Failed to read Parquet table: " +
+                     (read_status.ok() ? "null table" : read_status.ToString()));
+        return false;
+    }
+
+    // ---- Build column list (with optional remapping) ----
+    auto schema = arrow_table->schema();
+    std::vector<std::string> columns;
+    columns.reserve(static_cast<size_t>(schema->num_fields()));
+    for (int i = 0; i < schema->num_fields(); ++i) {
+        std::string col = schema->field(i)->name();
+        auto it = options.column_mappings.find(col);
+        if (it != options.column_mappings.end()) col = it->second;
+        columns.push_back(std::move(col));
+    }
+
+    // ---- Build schema from Arrow types (for validation) ----
+    DetectedSchema detected_schema;
+    detected_schema.table_name = table;
+    detected_schema.columns    = columns;
+    for (int i = 0; i < schema->num_fields(); ++i) {
+        auto type_id = schema->field(i)->type()->id();
+        DetectedFieldType ft = DetectedFieldType::STRING;
+        if (type_id == arrow::Type::BOOL) {
+            ft = DetectedFieldType::BOOLEAN;
+        } else if (type_id == arrow::Type::INT8   ||
+                   type_id == arrow::Type::INT16  ||
+                   type_id == arrow::Type::INT32  ||
+                   type_id == arrow::Type::INT64  ||
+                   type_id == arrow::Type::UINT8  ||
+                   type_id == arrow::Type::UINT16 ||
+                   type_id == arrow::Type::UINT32 ||
+                   type_id == arrow::Type::UINT64) {
+            ft = DetectedFieldType::INTEGER;
+        } else if (type_id == arrow::Type::FLOAT ||
+                   type_id == arrow::Type::DOUBLE) {
+            ft = DetectedFieldType::DOUBLE;
+        }
+        detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
+    }
+    bool schema_validation_active =
+        options.validate_schema && options.schema_sample_rows > 0;
+
+    stats.tables_processed++;
+    int64_t total_rows = arrow_table->num_rows();
+    reportProgress(cb, "importing table " + table, 0,
+                   static_cast<size_t>(total_rows));
+    emitSpan(options, "parse_table", {{"table", table}}, 0.0);
+
+    THEMIS_INFO("Parquet schema auto-detected for '{}': {} columns, {} rows",
+                table, columns.size(), total_rows);
+
+    // ---- Iterate batches ----
+    arrow::TableBatchReader batch_reader(*arrow_table);
+    std::shared_ptr<arrow::RecordBatch> batch;
+    size_t row_index = 0;
+
+    while (batch_reader.ReadNext(&batch).ok() && batch && !cancelled_) {
+        int64_t batch_rows = batch->num_rows();
+        int     num_cols   = batch->num_columns();
+
+        for (int64_t r = 0; r < batch_rows && !cancelled_; ++r) {
+            ++row_index;
+            stats.total_records++;
+
+            json entity = json::object();
+            std::vector<std::string> row_values;
+            row_values.reserve(static_cast<size_t>(num_cols));
+
+            for (int c = 0; c < num_cols; ++c) {
+                const auto& col_arr  = batch->column(c);
+                const std::string& col_name =
+                    columns[static_cast<size_t>(c)];
+
+                if (col_arr->IsNull(r)) {
+                    entity[col_name] = nullptr;
+                    row_values.emplace_back();
+                    continue;
+                }
+
+                auto type_id = col_arr->type_id();
+                std::string sv;
+
+                if (type_id == arrow::Type::BOOL) {
+                    auto arr = std::static_pointer_cast<arrow::BooleanArray>(
+                        col_arr);
+                    bool bval = arr->Value(r);
+                    sv        = bval ? "true" : "false";
+                    entity[col_name] = bval;
+                } else if (type_id == arrow::Type::INT8) {
+                    auto arr = std::static_pointer_cast<arrow::Int8Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::INT16) {
+                    auto arr = std::static_pointer_cast<arrow::Int16Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::INT32) {
+                    auto arr = std::static_pointer_cast<arrow::Int32Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::INT64) {
+                    auto arr = std::static_pointer_cast<arrow::Int64Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::UINT8) {
+                    auto arr = std::static_pointer_cast<arrow::UInt8Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::UINT16) {
+                    auto arr = std::static_pointer_cast<arrow::UInt16Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::UINT32) {
+                    auto arr = std::static_pointer_cast<arrow::UInt32Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::UINT64) {
+                    auto arr = std::static_pointer_cast<arrow::UInt64Array>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::FLOAT) {
+                    auto arr = std::static_pointer_cast<arrow::FloatArray>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else if (type_id == arrow::Type::DOUBLE) {
+                    auto arr = std::static_pointer_cast<arrow::DoubleArray>(col_arr);
+                    sv = std::to_string(arr->Value(r));
+                    entity[col_name] = sv;
+                } else {
+                    // STRING, LARGE_STRING, BINARY, DATE, TIMESTAMP, etc.
+                    // Use GetScalar().ToString() as the universal fallback.
+                    auto scalar_result = col_arr->GetScalar(r);
+                    if (scalar_result.ok()) {
+                        sv = (*scalar_result)->ToString();
+                    }
+                    entity[col_name] = sv;
+                }
+                row_values.push_back(sv);
+            }
+
+            // ---- Schema validation (type-mismatch warnings) ----
+            if (schema_validation_active) {
+                auto val_errors = SchemaAutoDetector::validateRow(
+                    columns, row_values, detected_schema);
+                for (const auto& ve : val_errors) {
+                    addError(stats, ImportErrorCode::SCHEMA_VALIDATION_FAILED,
+                             ImportErrorSeverity::WARNING, ve.message,
+                             "row " + std::to_string(row_index));
+                    stats.warnings.push_back(ve.message);
+                    emitMetric(
+                        options, "themisdb_import_errors_total",
+                        {{"code", std::to_string(static_cast<uint32_t>(
+                              ImportErrorCode::SCHEMA_VALIDATION_FAILED))}},
+                        1.0);
+                }
+            }
+
+            // ---- Dry-run ----
+            if (options.dry_run) {
+                addError(stats, ImportErrorCode::DRY_RUN_ONLY,
+                         ImportErrorSeverity::INFO,
+                         "dry-run: row not written",
+                         "row " + std::to_string(row_index));
+                stats.imported_records++;
+                continue;
+            }
+
+            // ---- Streaming callback ----
+            if (options.streaming_row_callback) {
+                if (!options.streaming_row_callback(table, entity)) {
+                    THEMIS_INFO(
+                        "Streaming callback aborted Parquet import at row {}",
+                        row_index);
+                    return true;
+                }
+            }
+
+            stats.imported_records++;
+
+            if (row_index % options.batch_size == 0) {
+                reportProgress(cb, "importing table " + table,
+                               stats.imported_records,
+                               static_cast<size_t>(total_rows));
+                emitMetric(options, "themisdb_import_rows_total",
+                           {{"table", table}, {"status", "imported"}},
+                           static_cast<double>(options.batch_size));
+            }
+        }
+    }
+
+    return true;
+#else
+    (void)path; (void)table; (void)options; (void)cb;
+    addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
+             ImportErrorSeverity::CRITICAL,
+             "Parquet import requires Apache Arrow "
+             "(rebuild ThemisDB with -DARROW_ENABLED=1 / vcpkg arrow feature)");
+    return false;
+#endif // ARROW_ENABLED
 }
 
 // ============================================================================
