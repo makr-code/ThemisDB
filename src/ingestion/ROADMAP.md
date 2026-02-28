@@ -64,7 +64,12 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
 - [P] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
 - [P] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
-- [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
+- [x] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
+  - Files: `ingestion/ingestion_coordinator.h`, `ingestion/ingestion_coordinator.cpp`
+  - `WorkStealingPool`: per-worker `std::deque<SourceConfig>` with atomic remaining counter; idle workers steal from back of other workers' deques
+  - `IngestionCoordinator::ingestAll()`: leader election → consistent-hash initial placement → per-source `WorkStealingPool` dispatch → aggregated `IngestionReport`
+  - Error handling: leader-election failure → `SOURCE_UNAVAILABLE` in report; worker exceptions → `INTERNAL_ERROR` entry keyed on `source_id`
+  - Tests: `tests/test_ingestion_coordinator.cpp` — 7 `WorkStealingPool` unit tests + 1 coordinator integration test (idle-worker steal, unbalanced load, all-sources-processed)
 - [P] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
 
