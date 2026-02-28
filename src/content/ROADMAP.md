@@ -56,7 +56,7 @@
 - [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
 - [~] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
-- [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
+- [P] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 
 ## Production Readiness Checklist

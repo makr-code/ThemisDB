@@ -189,6 +189,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
         ".*test_pdf_processor\\.cpp$"
+        ".*test_ocr_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
         ".*test_content_html_processor\\.cpp$"
         ".*test_content_markdown_processor\\.cpp$"
