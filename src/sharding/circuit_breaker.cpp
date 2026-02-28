@@ -157,7 +157,7 @@ bool CircuitBreaker::isTimeoutElapsed() const {
     }
     
     auto now = std::chrono::steady_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         now - open_timestamp_
     );
     

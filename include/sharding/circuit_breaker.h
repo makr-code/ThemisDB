@@ -65,7 +65,7 @@ public:
         size_t failure_threshold = 5;
         
         // Timeout before attempting recovery (OPEN → HALF_OPEN)
-        std::chrono::seconds timeout = std::chrono::seconds(30);
+        std::chrono::milliseconds timeout = std::chrono::seconds(30);
         
         // Success threshold in HALF_OPEN before closing circuit
         size_t success_threshold = 2;
