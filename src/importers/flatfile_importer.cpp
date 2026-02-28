@@ -12,6 +12,7 @@
  */
 
 #include "importers/flatfile_importer.h"
+#include "importers/schema_validator.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -360,59 +361,87 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         if (!header_line.empty() && header_line.back() == '\r')
             header_line.pop_back();
 
+        std::vector<std::string> cols_vec;
         if (!has_header_) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
-            json cols   = json::array();
-            json types  = json::object();
-            for (size_t i = 0; i < fields.size(); ++i) {
-                std::string cname = "col_" + std::to_string(i);
-                cols.push_back(cname);
-                types[cname] = "string";
-            }
-            result.push_back({{"name", table},
-                              {"columns", cols},
-                              {"column_types", types},
-                              {"primary_keys", json::array()}});
+            for (size_t i = 0; i < fields.size(); ++i)
+                cols_vec.push_back("col_" + std::to_string(i));
+            // Re-wind: treat the first "header" line as a data row too
+            file.clear();
+            file.seekg(0);
         } else {
-            auto cols_vec = parseCsvRow(header_line, delim, quote_char_);
-            json cols     = json::array();
-            json types    = json::object();
-            for (const auto& c : cols_vec) {
-                cols.push_back(c);
-                types[c] = "string";
-            }
-            result.push_back({{"name", table},
-                              {"columns", cols},
-                              {"column_types", types},
-                              {"primary_keys", json::array()}});
+            cols_vec = parseCsvRow(header_line, delim, quote_char_);
         }
+
+        // Sample up to 100 data rows to auto-detect column types
+        SchemaAutoDetector detector;
+        static constexpr size_t kSampleLimit = 100;
+        size_t sampled = 0;
+        std::string data_line;
+        while (sampled < kSampleLimit && std::getline(file, data_line)) {
+            if (!data_line.empty() && data_line.back() == '\r')
+                data_line.pop_back();
+            if (data_line.empty()) continue;
+            auto fields = parseCsvRow(data_line, delim, quote_char_);
+            while (fields.size() < cols_vec.size()) fields.emplace_back();
+            if (fields.size() > cols_vec.size()) fields.resize(cols_vec.size());
+            detector.feedRow(cols_vec, fields);
+            ++sampled;
+        }
+
+        DetectedSchema schema = detector.getSchema(table);
+        // Ensure all columns are represented (e.g. when no data rows exist)
+        for (const auto& col : cols_vec) {
+            if (schema.column_types.find(col) == schema.column_types.end())
+                schema.column_types[col] = DetectedFieldType::STRING;
+        }
+        schema.columns = cols_vec;
+
+        result.push_back(SchemaAutoDetector::schemaToJson(schema));
+
     } else if (fmt == FlatFileFormat::JSONL) {
         std::ifstream file(source_path);
         if (!file) return result;
 
+        // Use SchemaAutoDetector to aggregate types across sample rows
+        SchemaAutoDetector detector;
+        static constexpr size_t kSampleLimit = 100;
+        size_t sampled = 0;
+        std::vector<std::string> first_cols;
+
         std::string line;
-        while (std::getline(file, line)) {
+        while (sampled < kSampleLimit && std::getline(file, line)) {
             if (line.empty() || line == "\r") continue;
             if (!line.empty() && line.back() == '\r') line.pop_back();
+            if (line.empty()) continue;
             try {
                 auto obj = json::parse(line);
                 if (!obj.is_object()) continue;
-                json cols  = json::array();
-                json types = json::object();
+
+                std::vector<std::string> cols;
+                std::vector<std::string> vals;
                 for (auto& [key, val] : obj.items()) {
                     cols.push_back(key);
-                    if (val.is_number_integer())     types[key] = "integer";
-                    else if (val.is_number_float())  types[key] = "double";
-                    else if (val.is_boolean())       types[key] = "boolean";
-                    else                             types[key] = "string";
+                    if (val.is_null())               vals.emplace_back();
+                    else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
+                    else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
+                    else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
+                    else if (val.is_string())         vals.push_back(val.get<std::string>());
+                    else                              vals.push_back(val.dump());
                 }
-                result.push_back({{"name", table},
-                                  {"columns", cols},
-                                  {"column_types", types},
-                                  {"primary_keys", json::array()}});
-                break;
+
+                if (sampled == 0) first_cols = cols;
+                detector.feedRow(cols, vals);
+                ++sampled;
             } catch (...) {}
+        }
+
+        if (sampled > 0) {
+            DetectedSchema schema = detector.getSchema(table);
+            // Preserve column order from first row
+            if (!first_cols.empty()) schema.columns = first_cols;
+            result.push_back(SchemaAutoDetector::schemaToJson(schema));
         }
     }
 
@@ -501,6 +530,47 @@ std::vector<std::string> FlatFileImporter::parseCsvRow(const std::string& line,
 }
 
 // ============================================================================
+// CSV / TSV schema detection
+// ============================================================================
+
+DetectedSchema FlatFileImporter::detectCsvSchema(
+    std::ifstream& file,
+    std::streampos data_start_pos,
+    const std::vector<std::string>& columns,
+    char delim,
+    size_t line_limit,
+    size_t sample_limit,
+    const std::string& table)
+{
+    SchemaAutoDetector detector;
+
+    size_t sampled = 0;
+    std::string sample_line;
+    bool sample_truncated = false;
+
+    while (sampled < sample_limit &&
+           streamReadLine(file, sample_line, line_limit, sample_truncated)) {
+        if (sample_truncated || sample_line.empty()) continue;
+        if (!sample_line.empty() && sample_line.back() == '\r')
+            sample_line.pop_back();
+        if (sample_line.empty()) continue;
+
+        auto fields = parseCsvRow(sample_line, delim, quote_char_);
+        while (fields.size() < columns.size()) fields.emplace_back();
+        if (fields.size() > columns.size()) fields.resize(columns.size());
+
+        detector.feedRow(columns, fields);
+        ++sampled;
+    }
+
+    // Seek back so the main import loop starts from the first data row
+    file.clear();
+    file.seekg(data_start_pos);
+
+    return detector.getSchema(table);
+}
+
+// ============================================================================
 // CSV / TSV import
 // ============================================================================
 
@@ -563,6 +633,25 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     emitSpan(options, "parse_table",
              {{"table", table}}, 0.0);
 
+    // ---- Schema auto-detection (optional pre-pass) ----
+    // When validate_schema is enabled and we already know the column names,
+    // sample the first N data rows to detect types, then seek back.
+    // schema_sample_rows == 0 disables detection (nothing to sample).
+    bool schema_validation_active = options.validate_schema &&
+                                    !columns.empty() &&
+                                    options.schema_sample_rows > 0;
+    DetectedSchema detected_schema;
+    if (schema_validation_active) {
+        auto data_start = file.tellg();
+        detected_schema = detectCsvSchema(
+            file, data_start, columns, delim,
+            line_limit,
+            options.schema_sample_rows,
+            table);
+        THEMIS_INFO("Schema auto-detected for '{}': {} columns", table,
+                    detected_schema.columns.size());
+    }
+
     // ---- Read data rows ----
     std::string line;
     bool line_truncated = false;
@@ -622,6 +711,23 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         // Column count mismatch – pad with empty or truncate
         while (fields.size() < columns.size()) fields.emplace_back();
         if (fields.size() > columns.size()) fields.resize(columns.size());
+
+        // Schema validation (type-mismatch warnings)
+        if (schema_validation_active) {
+            auto val_errors = SchemaAutoDetector::validateRow(
+                columns, fields, detected_schema);
+            for (const auto& ve : val_errors) {
+                addError(stats, ImportErrorCode::SCHEMA_VALIDATION_FAILED,
+                         ImportErrorSeverity::WARNING,
+                         ve.message,
+                         "line " + std::to_string(line_number));
+                stats.warnings.push_back(ve.message);
+                emitMetric(options, "themisdb_import_errors_total",
+                           {{"code", std::to_string(static_cast<uint32_t>(
+                                 ImportErrorCode::SCHEMA_VALIDATION_FAILED))}},
+                           1.0);
+            }
+        }
 
         // Build entity JSON
         json entity = json::object();
@@ -694,6 +800,59 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     stats.tables_processed++;
     reportProgress(cb, "importing table " + table, 0, 0);
     emitSpan(options, "parse_table", {{"table", table}}, 0.0);
+
+    // ---- Schema auto-detection pre-pass (optional) ----
+    // Sample up to schema_sample_rows to detect types; then seek back to start.
+    // schema_sample_rows == 0 disables detection (nothing to sample).
+    bool schema_validation_active = options.validate_schema &&
+                                    options.schema_sample_rows > 0;
+    DetectedSchema jsonl_schema;
+    if (schema_validation_active) {
+        SchemaAutoDetector detector;
+        auto data_start = file.tellg();
+        size_t sampled  = 0;
+        std::vector<std::string> first_cols;
+
+        std::string sline;
+        bool strunc = false;
+        while (sampled < options.schema_sample_rows &&
+               streamReadLine(file, sline, line_limit, strunc)) {
+            if (strunc || sline.empty()) continue;
+            if (!sline.empty() && sline.back() == '\r') sline.pop_back();
+            if (sline.empty()) continue;
+            try {
+                auto obj = json::parse(sline);
+                if (!obj.is_object()) continue;
+                std::vector<std::string> cols, vals;
+                for (auto& [key, val] : obj.items()) {
+                    cols.push_back(key);
+                    if (val.is_null())               vals.emplace_back();
+                    else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
+                    else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
+                    else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
+                    else if (val.is_string())         vals.push_back(val.get<std::string>());
+                    else                              vals.push_back(val.dump());
+                }
+                // Apply column_mappings so the detected schema matches the
+                // names that will be used during the actual import pass.
+                if (!options.column_mappings.empty()) {
+                    for (auto& col : cols) {
+                        auto it = options.column_mappings.find(col);
+                        if (it != options.column_mappings.end()) col = it->second;
+                    }
+                }
+                if (sampled == 0) first_cols = cols;
+                detector.feedRow(cols, vals);
+                ++sampled;
+            } catch (...) {}
+        }
+        file.clear();
+        file.seekg(data_start);
+        jsonl_schema = detector.getSchema(table);
+        if (!first_cols.empty()) jsonl_schema.columns = first_cols;
+        THEMIS_INFO("Schema auto-detected for JSONL '{}': {} columns",
+                    table, jsonl_schema.columns.size());
+    }
 
     std::string line;
     bool line_truncated = false;
@@ -772,6 +931,32 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                     = val;
             }
             entity = std::move(remapped);
+        }
+
+        // Schema validation (type-mismatch warnings for JSONL)
+        if (schema_validation_active && !jsonl_schema.columns.empty()) {
+            std::vector<std::string> cols, vals;
+            for (auto& [key, val] : entity.items()) {
+                cols.push_back(key);
+                if (val.is_null())               vals.emplace_back();
+                else if (val.is_boolean())        vals.push_back(val.get<bool>() ? "true" : "false");
+                else if (val.is_number_integer()) vals.push_back(std::to_string(val.get<int64_t>()));
+                else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
+                else if (val.is_string())         vals.push_back(val.get<std::string>());
+                else                              vals.push_back(val.dump());
+            }
+            auto val_errors = SchemaAutoDetector::validateRow(cols, vals, jsonl_schema);
+            for (const auto& ve : val_errors) {
+                addError(stats, ImportErrorCode::SCHEMA_VALIDATION_FAILED,
+                         ImportErrorSeverity::WARNING,
+                         ve.message,
+                         "line " + std::to_string(line_number));
+                stats.warnings.push_back(ve.message);
+                emitMetric(options, "themisdb_import_errors_total",
+                           {{"code", std::to_string(static_cast<uint32_t>(
+                                 ImportErrorCode::SCHEMA_VALIDATION_FAILED))}},
+                           1.0);
+            }
         }
 
         // Dry-run
