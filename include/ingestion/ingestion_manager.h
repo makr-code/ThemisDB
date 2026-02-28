@@ -48,7 +48,8 @@ enum class SourceType {
     API,             ///< REST/SOAP API (future)
     DATABASE,        ///< Legacy database exports (future)
     KAFKA,           ///< Apache Kafka consumer (librdkafka)
-    OBJECT_STORAGE   ///< S3 / GCS / Azure Blob object storage
+    OBJECT_STORAGE,  ///< S3 / GCS / Azure Blob object storage
+    WEB_CRAWLER      ///< HTTP web crawler and XML sitemap source
 };
 
 /**
@@ -975,6 +976,33 @@ public:
     IngestionBuilder& withDatabaseSource(
         const std::string& source_id,
         const std::string& jdbc_url,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a web crawler and sitemap source
+     *
+     * Registers a `WebCrawlerConnector` source.  Behaviour is controlled
+     * through the `options` map:
+     *
+     * | Key                | Description                                          | Default   |
+     * |--------------------|------------------------------------------------------|-----------|
+     * | `max_depth`        | Maximum crawl depth (0 = seed URL only)              | `3`       |
+     * | `max_pages`        | Maximum pages to crawl (0 = unlimited)               | `0`       |
+     * | `user_agent`       | HTTP User-Agent header value                         | `ThemisDB-Crawler/1.0` |
+     * | `follow_sitemaps`  | Parse XML sitemap at /sitemap.xml automatically      | `true`    |
+     * | `respect_robots`   | Honour robots.txt disallow rules                     | `true`    |
+     * | `same_domain_only` | Follow only URLs on the same domain as the seed      | `true`    |
+     *
+     * @param source_id  Unique source identifier
+     * @param seed_url   Starting URL (or sitemap URL when `follow_sitemaps=true`)
+     * @param options    Optional key/value options (see table above)
+     * @param priority   Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withWebCrawlerSource(
+        const std::string& source_id,
+        const std::string& seed_url,
         std::unordered_map<std::string, std::string> options = {},
         int priority = 5);
 
