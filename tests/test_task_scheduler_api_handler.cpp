@@ -257,9 +257,13 @@ TEST(TaskSchedulerApiHandlerNullTest, NullScheduler_AllMethodsReturnError) {
     EXPECT_EQ(h.enableTask("x").value("status", ""), "error");
     EXPECT_EQ(h.disableTask("x").value("status", ""), "error");
     EXPECT_EQ(h.unregisterTask("x").value("status", ""), "error");
+    EXPECT_EQ(h.executeTask("x").value("status", ""), "error");
 
     nlohmann::json req{{"name", "t"}, {"type", "aql_query"}, {"aql_query", "RETURN 1"}};
     EXPECT_EQ(h.registerTask(req).value("status", ""), "error");
+
+    nlohmann::json upd{{"name", "t2"}, {"type", "aql_query"}, {"aql_query", "RETURN 2"}};
+    EXPECT_EQ(h.updateTask("x", upd).value("status", ""), "error");
 
     // getWebUi() should still return valid HTML
     EXPECT_FALSE(h.getWebUi().empty());

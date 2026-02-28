@@ -198,7 +198,7 @@ json TaskSchedulerApiHandler::getStats() {
 
 std::string TaskSchedulerApiHandler::getWebUi() {
     std::string html;
-    html.reserve(16384);
+    html.reserve(65536);
 
     html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
     html += "<meta charset=\"UTF-8\">\n";

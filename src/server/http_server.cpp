@@ -1115,7 +1115,10 @@ HttpServer::HttpServer(
         sched_cfg.enable_audit_logging     = false;
         sched_cfg.enable_anomaly_detection = false;
         // Build a QueryEngine for the scheduler using the server's storage.
-        // task_scheduler_engine_ must outlive task_scheduler_.
+        // task_scheduler_engine_ must outlive task_scheduler_.  The member
+        // declaration order in http_server.h guarantees this: unique_ptr members
+        // are destroyed in reverse declaration order, so task_scheduler_ is
+        // destroyed before task_scheduler_engine_.
         task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
         task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
         task_scheduler_->start();
