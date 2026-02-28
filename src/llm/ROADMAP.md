@@ -33,7 +33,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [P] Model hot-swap without engine restart (Issue: #1923)
 - [P] Request deduplication cache (same prompt → cached response) (Issue: #1924)
-- [I] Per-model resource quotas (memory, concurrency) (Issue: #1925)
+- [P] Per-model resource quotas (memory, concurrency) (Issue: #1925)
 
 ### Long-term (6-12 months)
 - [I] Speculative decoding for latency reduction (Issue: #1934)
