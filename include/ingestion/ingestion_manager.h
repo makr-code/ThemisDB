@@ -238,6 +238,39 @@ using ProgressCallback = std::function<void(const std::string& source_id,
                                             size_t total,
                                             const std::string& status)>;
 
+/**
+ * @brief Return a copy of an options map with sensitive values redacted
+ *
+ * Keys whose names suggest they contain authentication credentials
+ * (`api_key`, `token`, `oauth_client_secret`, `oauth_access_token`,
+ * `oauth_refresh_token`, `password`, `secret`, `client_secret`,
+ * `credentials`, `auth_token`) have their values replaced with `"***"`.
+ * All other key-value pairs are copied unchanged.
+ *
+ * Use this helper whenever an options map is included in log messages or
+ * error details to prevent accidental credential exposure in log output.
+ *
+ * @param options  Source options map (as stored in `SourceConfig::options`)
+ * @return Copy of the map with sensitive values masked
+ */
+inline std::unordered_map<std::string, std::string> sanitizeOptions(
+    const std::unordered_map<std::string, std::string>& options)
+{
+    static const char* const kSensitiveKeys[] = {
+        "api_key", "token", "oauth_client_secret", "oauth_access_token",
+        "oauth_refresh_token", "password", "secret", "client_secret",
+        "credentials", "auth_token"
+    };
+    auto result = options;
+    for (const char* key : kSensitiveKeys) {
+        auto it = result.find(key);
+        if (it != result.end() && !it->second.empty()) {
+            it->second = "***";
+        }
+    }
+    return result;
+}
+
 // ============================================================================
 // Per-source schema validation
 // ============================================================================

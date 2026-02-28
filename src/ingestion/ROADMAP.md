@@ -77,7 +77,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [I] Unit tests coverage > 80% (Issue: #1909)
 - [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
 - [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
-- [I] Security audit (path traversal, API key storage) (Issue: #1912)
+- [x] Security audit (path traversal, API key storage) (Issue: #1912)
 - [I] Documentation complete (Issue: #1913)
 - [I] API stability guaranteed (Issue: #1914)
 
