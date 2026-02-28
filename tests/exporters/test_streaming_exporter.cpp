@@ -383,6 +383,23 @@ TEST_F(StreamingExporterTest, GzipCompression) {
     EXPECT_GT(file_size, 0u);
 }
 
+TEST_F(StreamingExporterTest, ZstdCompression) {
+    StreamingExporter exporter;
+    ExportOptions options;
+    options.output_path = test_dir_ + "/compressed.jsonl.zst";
+    options.compress = true;
+    options.compression_type = "zstd";
+    options.compression_level = 3;
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_EQ(stats.exported_entities, test_entities_.size());
+    EXPECT_GT(stats.bytes_written, 0u);
+    EXPECT_TRUE(std::filesystem::exists(options.output_path));
+    auto file_size = std::filesystem::file_size(options.output_path);
+    EXPECT_GT(file_size, 0u);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Exporter metadata
 // ─────────────────────────────────────────────────────────────────────────────
