@@ -69,14 +69,12 @@
 
 #include "importers/importer_interface.h"
 #include "plugins/plugin_interface.h"
-#include "plugins/plugin_registry.h"
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <map>
 #include <mutex>
-#include <stdexcept>
 #include <functional>
 
 #if defined(__unix__) || defined(__APPLE__)
@@ -192,8 +190,9 @@ public:
 /**
  * @brief Lightweight descriptor for a registered importer plugin.
  *
- * Returned by `ImporterPluginRegistry::list()` and used to discover which
- * importer plugins are currently registered without instantiating them.
+ * Can be populated from any `ImporterPluginBase`-derived instance and used to
+ * discover which importer plugins are currently registered without
+ * instantiating a fresh instance.  See `ImporterPluginRegistry::listPlugins()`.
  */
 struct ImporterPluginDescriptor {
     std::string name;              ///< Plugin identifier (matches getName())
@@ -209,12 +208,11 @@ struct ImporterPluginDescriptor {
 /**
  * @brief Singleton registry for importer plugins.
  *
- * Wraps `plugins::PluginRegistry` with importer-specific conveniences:
+ * Provides importer-specific factory registration and lookup:
  *   - Register a factory by name.
  *   - Create an `IImporter` instance directly without a void* cast.
  *   - List all registered importer plugin names.
- *   - Look up a plugin by one of its supported source-type tokens
- *     (e.g., find all plugins supporting "csv").
+ *   - Query whether a plugin name is registered.
  *
  * Thread-safety: all public methods are thread-safe.
  *
@@ -453,6 +451,7 @@ public:
 
         if (!create_fn || !destroy_fn_) {
             last_error_ = "Missing entry points createPlugin/destroyPlugin in: " + path;
+            destroy_fn_ = nullptr;
             closeHandle();
             return false;
         }
@@ -460,6 +459,7 @@ public:
         raw_plugin_ = create_fn();
         if (!raw_plugin_) {
             last_error_ = "createPlugin() returned nullptr for: " + path;
+            destroy_fn_ = nullptr;
             closeHandle();
             return false;
         }
@@ -469,7 +469,8 @@ public:
                         + "' is not an IMPORTER plugin (type="
                         + std::to_string(static_cast<int>(raw_plugin_->getType())) + ")";
             destroy_fn_(raw_plugin_);
-            raw_plugin_ = nullptr;
+            raw_plugin_  = nullptr;
+            destroy_fn_  = nullptr;
             closeHandle();
             return false;
         }

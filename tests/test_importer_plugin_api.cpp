@@ -35,6 +35,7 @@
 #include <future>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 #include <nlohmann/json.hpp>
 
@@ -398,14 +399,17 @@ public:
     json getSourceSchema(const std::string&) override { return json::object(); }
 };
 
-// Apply the macro in an anonymous namespace to avoid clashing with other
-// translation units that might also use THEMIS_IMPORTER_PLUGIN_IMPL.
-namespace {
+// Apply the macro to generate the C-linkage entry points used by
+// ImporterPluginLoader.  Note: THEMIS_IMPORTER_PLUGIN_IMPL expands to
+// `extern "C" { ... }`, so `createPlugin` / `destroyPlugin` receive
+// C (external) linkage regardless of any enclosing namespace.  The test
+// binary must not link any other translation unit that also defines these
+// two symbols with C linkage (e.g. postgres_importer.cpp's own plugin
+// entry points must not be linked into the same executable).
 THEMIS_IMPORTER_PLUGIN_IMPL(MacroTestImporter)
-}  // namespace
 
 TEST_F(ImporterPluginApiTest, MacroCreatesCorrectPlugin) {
-    // createPlugin / destroyPlugin are now in-scope (anonymous namespace)
+    // createPlugin / destroyPlugin are defined at file scope by THEMIS_IMPORTER_PLUGIN_IMPL
     auto* plugin_raw = createPlugin();
     ASSERT_NE(nullptr, plugin_raw);
     EXPECT_STREQ("macro_test_importer", plugin_raw->getName());
