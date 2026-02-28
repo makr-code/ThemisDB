@@ -93,13 +93,27 @@ TEST(LlmRerankerConfig, ThresholdAboveOneThrows) {
     EXPECT_THROW(LlmReranker{cfg}, std::invalid_argument);
 }
 
+TEST(LlmRerankerConfig, NegativeTemperatureThrows) {
+    LlmReranker::Config cfg;
+    cfg.temperature = -0.1f;
+    EXPECT_THROW(LlmReranker{cfg}, std::invalid_argument);
+}
+
+TEST(LlmRerankerConfig, TemperatureAboveTwoThrows) {
+    LlmReranker::Config cfg;
+    cfg.temperature = 2.1f;
+    EXPECT_THROW(LlmReranker{cfg}, std::invalid_argument);
+}
+
 TEST(LlmRerankerConfig, ConfigRoundtrip) {
     LlmReranker::Config cfg;
     cfg.batch_size   = 3;
     cfg.llm_weight   = 0.8;
+    cfg.temperature  = 0.7f;
     LlmReranker rr{cfg};
     EXPECT_EQ(rr.getConfig().batch_size, 3u);
     EXPECT_DOUBLE_EQ(rr.getConfig().llm_weight, 0.8);
+    EXPECT_FLOAT_EQ(rr.getConfig().temperature, 0.7f);
 }
 
 // ============================================================================
@@ -319,6 +333,23 @@ TEST(LlmRerankerPrompt, PromptContainsScoreInstructions) {
     rr.rerank("q", {makeCandidate("d1", "text")});
     EXPECT_NE(captured.find("0"), std::string::npos);
     EXPECT_NE(captured.find("10"), std::string::npos);
+}
+
+TEST(LlmRerankerPrompt, TemperatureHintIncludedWhenNonZero) {
+    std::string captured;
+    LlmReranker::Config cfg;
+    cfg.temperature = 0.5f;
+    LlmReranker rr{cfg, [&](const std::string& p) { captured = p; return "5\n"; }};
+    rr.rerank("q", {makeCandidate("d1", "text")});
+    EXPECT_NE(captured.find("temperature"), std::string::npos);
+}
+
+TEST(LlmRerankerPrompt, TemperatureHintOmittedWhenZero) {
+    std::string captured;
+    LlmReranker rr{{}, [&](const std::string& p) { captured = p; return "5\n"; }};
+    // Default temperature is 0.0 — hint should not appear
+    rr.rerank("q", {makeCandidate("d1", "text")});
+    EXPECT_EQ(captured.find("temperature"), std::string::npos);
 }
 
 // ============================================================================

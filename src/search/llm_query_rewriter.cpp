@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     211                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • aebcdeacb  2026-02-22  Improve LLM query rewriting for better recall: diversifie... ║
@@ -39,6 +39,9 @@ LlmQueryRewriter::LlmQueryRewriter(const Config& config, LlmBackend backend)
     : config_(config), backend_(std::move(backend)) {
     if (config_.num_rewrites == 0) {
         throw std::invalid_argument("LlmQueryRewriter: num_rewrites must be > 0");
+    }
+    if (config_.temperature < 0.0f || config_.temperature > 2.0f) {
+        throw std::invalid_argument("LlmQueryRewriter: temperature must be in [0, 2]");
     }
     THEMIS_DEBUG("LlmQueryRewriter initialized (num_rewrites={}, has_backend={})",
                  config_.num_rewrites, backend_ != nullptr);
@@ -127,7 +130,8 @@ std::string LlmQueryRewriter::buildPrompt(const std::string& query) const {
            "Output exactly one rewrite per line, numbered starting from 1 "
            "(e.g. \"1. rewrite here\"). "
            "Do not include any other text. "
-           "Keep each rewrite concise (recommended max " << config_.max_tokens << " tokens)."
+           "Keep each rewrite concise (recommended max " << config_.max_tokens << " tokens, "
+           "temperature " << config_.temperature << ")."
            "\n\n"
            "Query: "
         << query
