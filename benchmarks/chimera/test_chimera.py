@@ -663,6 +663,76 @@ class TestBenchmarkScorer:
         assert ns.raw_mean == pytest.approx(np.mean(data))
         assert ns.raw_std == pytest.approx(np.std(data, ddof=1))
 
+    # ------------------------------------------------------------------
+    # Confidence interval integration (StatisticalAnalyzer)
+    # ------------------------------------------------------------------
+
+    def test_confidence_interval_populated_for_multi_sample(self):
+        """NormalizedScore.confidence_interval_95 is set when sample size >= 2."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("A", "thr", [100.0, 110.0, 90.0])
+        scorer.add_results("B", "thr", [50.0, 55.0, 45.0])
+
+        scores = scorer.normalize()
+        ns_a = scores["thr"]["A"]
+
+        assert ns_a.confidence_interval_95 is not None
+        lower, upper = ns_a.confidence_interval_95
+        assert lower < ns_a.raw_mean < upper
+
+    def test_confidence_interval_none_for_single_sample(self):
+        """NormalizedScore.confidence_interval_95 is None when sample size < 2."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Solo", "thr", [100.0])
+        scorer.add_results("Other", "thr", [50.0])
+
+        scores = scorer.normalize()
+        assert scores["thr"]["Solo"].confidence_interval_95 is None
+
+    def test_generate_summary_includes_confidence_interval(self):
+        """generate_summary includes confidence_interval_95 in per_metric output."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("A", "thr", [100.0, 110.0, 90.0])
+        scorer.add_results("B", "thr", [50.0, 55.0, 45.0])
+
+        summary = scorer.generate_summary()
+        per_metric = summary["rankings"][0]["per_metric"]["thr"]
+
+        assert "confidence_interval_95" in per_metric
+        assert per_metric["confidence_interval_95"] is not None
+        assert len(per_metric["confidence_interval_95"]) == 2
+
+    def test_generate_summary_ci_null_for_single_sample(self):
+        """generate_summary sets confidence_interval_95 to null for single-sample systems."""
+        scorer = BenchmarkScorer(
+            [MetricConfig("thr", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Solo", "thr", [100.0])
+        scorer.add_results("Other", "thr", [80.0])
+
+        summary = scorer.generate_summary()
+        by_system = {r["system"]: r for r in summary["rankings"]}
+        assert by_system["Solo"]["per_metric"]["thr"]["confidence_interval_95"] is None
+
+    def test_summary_json_serializable_with_ci(self):
+        """generate_summary with CI is still JSON-serializable."""
+        import json
+
+        scorer = BenchmarkScorer(
+            [MetricConfig("ops", MetricDirection.HIGHER_IS_BETTER)]
+        )
+        scorer.add_results("Alpha", "ops", [500.0, 510.0, 490.0])
+        scorer.add_results("Beta", "ops", [300.0, 310.0, 290.0])
+
+        summary = scorer.generate_summary()
+        json_str = json.dumps(summary)
+        assert "confidence_interval_95" in json_str
 
     # ------------------------------------------------------------------
     # Edge cases for branch coverage
