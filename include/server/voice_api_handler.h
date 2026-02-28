@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:37                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-28                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     184                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     228                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7bdfe2d  2026-02-28  feat(voice): voice command macros for user-defined AQL queries  ║
     • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -78,6 +79,11 @@ using json = nlohmann::json;
  * - GET  /api/v1/voice/health - Health check
  * - GET  /api/v1/voice/voices - List available TTS voices
  * - GET  /api/v1/voice/languages - List supported languages
+ * - POST /api/v1/voice/macros - Create voice command macro
+ * - GET  /api/v1/voice/macros - List voice command macros
+ * - GET  /api/v1/voice/macros/{id} - Get a specific macro
+ * - PUT  /api/v1/voice/macros/{id} - Update a macro
+ * - DELETE /api/v1/voice/macros/{id} - Delete a macro
  * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
@@ -149,6 +155,25 @@ private:
     http::response<http::string_body> handleGetLanguages(
         const http::request<http::string_body>& req);
     
+    // Voice macro CRUD endpoints
+    http::response<http::string_body> handleCreateMacro(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleListMacros(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleGetMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleUpdateMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleDeleteMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+
     // Statistics and health
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);
@@ -183,7 +208,19 @@ private:
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
     std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
-    
+
+    /**
+     * @brief Parse the value of a single query parameter from a request target.
+     *
+     * @param target    Full request target (path + optional "?key=value&...").
+     * @param key       Parameter name to look up.
+     * @return Parameter value, or empty string if not found.
+     *
+     * @note Percent-encoded characters are not decoded; tag values should
+     *       use plain ASCII identifiers to avoid encoding issues.
+     */
+    static std::string parseQueryParam(const std::string& target, const std::string& key);
+
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
 };

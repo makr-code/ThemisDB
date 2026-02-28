@@ -770,7 +770,7 @@ TEST_F(JSONLLLMExporterTest, CompressionZstd) {
     EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
 }
 
-
+TEST_F(JSONLLLMExporterTest, NoCompressionMetrics) {
     JSONLLLMConfig config;
     JSONLLLMExporter exporter(config);
     
@@ -814,5 +814,113 @@ TEST_F(JSONLLLMExporterTest, BufferSizeConfiguration) {
     auto stats = exporter.exportEntities(test_entities_, options);
     
     EXPECT_GT(stats.exported_entities, 0);
+}
+
+// ===== Toxicity Filter Tests =====
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterDisabledByDefault) {
+    JSONLLLMConfig config;
+    // toxicity filter is off by default; all entities should export
+    JSONLLLMExporter exporter(config);
+
+    // Add an entity with clearly toxic content in the answer field
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("toxic_entity");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer",
+        "hate hate hate hate hate insult violence discrimination");
+    toxic_entity.setField("context", "ctx");
+
+    std::vector<BaseEntity> entities = {toxic_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_disabled.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Should export the toxic entity because the filter is disabled
+    EXPECT_EQ(stats.exported_entities, 1u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterRejectsToxicSamples) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.5;
+    JSONLLLMExporter exporter(config);
+
+    // Toxic entity: 5+ marker hits saturates score to 1.0 → rejected
+    // Note: repetitive toxic markers are intentional test data for scoring
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("toxic_entity");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer",
+        "hate hate hate hate hate insult violence discrimination");
+    toxic_entity.setField("context", "ctx");
+
+    // Clean entity: no toxic markers → score 0.0 → passes
+    BaseEntity clean_entity;
+    clean_entity.setPrimaryKey("clean_entity");
+    clean_entity.setField("question", "What is the capital of France?");
+    clean_entity.setField("answer", "The capital of France is Paris.");
+    clean_entity.setField("context", "geography");
+
+    std::vector<BaseEntity> entities = {toxic_entity, clean_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_enabled.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Only the clean entity should be exported
+    EXPECT_EQ(stats.exported_entities, 1u);
+    EXPECT_EQ(stats.total_entities, 2u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterPassesBenignSamples) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.5;
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_benign.jsonl";
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // All standard test entities have benign content and should export
+    EXPECT_GT(stats.exported_entities, 0u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterMetricsRecorded) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.3;
+    JSONLLLMExporter exporter(config);
+
+    // Toxic entity with moderate toxicity (2 hits → score 0.4, above 0.3)
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("mod_toxic");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer", "hate hate something else here");
+    toxic_entity.setField("context", "ctx");
+
+    std::vector<BaseEntity> entities = {toxic_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_metrics.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Entity should be rejected
+    EXPECT_EQ(stats.exported_entities, 0u);
+
+    // Quality filter rejections should be recorded
+    auto metrics = exporter.getMetrics();
+    auto rejections = metrics->getQualityFilterRejections();
+    size_t total_rejections = 0;
+    for (const auto& kv : rejections) {
+        total_rejections += kv.second;
+    }
+    EXPECT_GT(total_rejections, 0u);
 }
 

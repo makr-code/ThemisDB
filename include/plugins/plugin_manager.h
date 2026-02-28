@@ -44,6 +44,7 @@ using json = nlohmann::json;
 // Forward declarations
 class PluginHotPlugMonitor;
 struct HotPlugConfig;
+class PluginHealthMonitor;
 
 /**
  * @brief Plugin Reload Phase
@@ -102,6 +103,7 @@ private:
     PluginMetrics metrics_;  // Plugin metrics tracker
     std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
     std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
+    PluginHealthMonitor* health_monitor_ = nullptr;  // Optional health monitor (non-owning)
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -300,6 +302,18 @@ public:
      * @note Thread-safe: Can be called from any thread
      */
     void clearReloadListeners();
+    
+    /**
+     * @brief Attach a health monitor to observe loaded self-healing plugins.
+     *
+     * When set, every plugin that implements ISelfHealingPlugin is automatically
+     * registered with the monitor on load and unregistered on unload.
+     *
+     * @param monitor Pointer to an existing PluginHealthMonitor (non-owning).
+     *                Pass nullptr to detach the current monitor.
+     * @note Thread-safe: Can be called from any thread
+     */
+    void attachHealthMonitor(PluginHealthMonitor* monitor);
     
     /**
      * @brief Singleton instance

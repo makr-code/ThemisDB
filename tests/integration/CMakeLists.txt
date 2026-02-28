@@ -46,6 +46,26 @@ function(add_integration_test TEST_NAME TEST_SOURCE)
 endfunction()
 
 # ============================================================================
+# Base Module Integration Tests
+# ============================================================================
+
+# HotReloadManager integration tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hot_reload_manager_integration_test.cpp")
+    add_integration_test(
+        hot_reload_manager_integration_test
+        hot_reload_manager_integration_test.cpp
+    )
+    target_link_libraries(hot_reload_manager_integration_test PRIVATE
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    set_tests_properties(hot_reload_manager_integration_test PROPERTIES
+        LABELS "integration;base;hot_reload"
+    )
+endif()
+
+# ============================================================================
 # Storage Integration Tests
 # ============================================================================
 

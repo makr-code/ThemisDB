@@ -32,7 +32,7 @@
 
 ### Long-term (6-12 months)
 - [I] Hugging Face Hub direct upload integration (Issue: #1719)
-- [I] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
+- [x] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
 - [I] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
 - [I] Synthetic data augmentation pipeline (Issue: #1723)
@@ -67,6 +67,7 @@
 
 ## Known Issues & Limitations
 - JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
+- JSONL exporter toxicity filtering is opt-in (`quality.enable_toxicity_filter`); heuristic word-list approach, not ML-based
 
 ## Breaking Changes
 - Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)

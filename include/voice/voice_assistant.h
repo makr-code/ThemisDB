@@ -40,6 +40,7 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_macro.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -250,6 +251,15 @@ public:
         const std::vector<uint8_t>& audio_sample);
 
     /**
+     * @brief Access the embedded VoiceMacroManager for macro CRUD operations.
+     *
+     * The manager is always available (it is constructed alongside
+     * VoiceAssistant and does not require initialize()).
+     */
+    VoiceMacroManager& macroManager();
+    const VoiceMacroManager& macroManager() const;
+
+    /**
      * @brief Record and transcribe phone call
      * 
      * @param audio_data Phone call recording
@@ -327,6 +337,9 @@ private:
 
     // Voice biometric authenticator
     VoiceBiometricAuthenticator voice_authenticator_;
+
+    // Voice command macro manager
+    VoiceMacroManager macro_manager_;
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;

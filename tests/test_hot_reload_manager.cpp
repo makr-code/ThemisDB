@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     383                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
@@ -380,4 +380,62 @@ TEST(HotReloadManagerPhase, EnumValuesDistinct) {
               static_cast<int>(HotReloadManager::ReloadPhase::AFTER_LOAD));
     EXPECT_NE(static_cast<int>(HotReloadManager::ReloadPhase::AFTER_LOAD),
               static_cast<int>(HotReloadManager::ReloadPhase::ROLLBACK));
+}
+
+// =============================================================================
+// Sandbox configuration Tests
+// =============================================================================
+
+TEST_F(HotReloadManagerTest, DefaultConfigHasNoSandbox) {
+    HotReloadManager::Config cfg;
+    EXPECT_FALSE(cfg.sandboxConfig.has_value());
+}
+
+TEST_F(HotReloadManagerTest, SandboxConfigCanBeSet) {
+    HotReloadManager::Config cfg;
+    ModuleSandbox::Config sc;
+    sc.max_memory_mb   = 128;
+    sc.max_cpu_percent = 25;
+    cfg.sandboxConfig  = sc;
+    EXPECT_TRUE(cfg.sandboxConfig.has_value());
+    EXPECT_EQ(cfg.sandboxConfig->max_memory_mb,   128u);
+    EXPECT_EQ(cfg.sandboxConfig->max_cpu_percent,  25);
+}
+
+TEST_F(HotReloadManagerTest, ConstructWithSandboxConfig) {
+    HotReloadManager::Config cfg;
+    ModuleSandbox::Config sc;
+    sc.max_memory_mb   = 64;
+    sc.max_cpu_percent = 10;
+    cfg.sandboxConfig  = sc;
+    EXPECT_NO_THROW({ HotReloadManager m(cfg); });
+}
+
+TEST_F(HotReloadManagerTest, GetSandboxStatsUnregisteredModule) {
+    // Module not registered – must return nullopt.
+    auto stats = mgr.getSandboxStats("not_registered");
+    EXPECT_FALSE(stats.has_value());
+}
+
+TEST_F(HotReloadManagerTest, GetSandboxStatsRegisteredNoSandboxConfig) {
+    // Module registered but manager has no sandboxConfig → nullopt.
+    mgr.registerModule("mod_no_sandbox", loader);
+    auto stats = mgr.getSandboxStats("mod_no_sandbox");
+    EXPECT_FALSE(stats.has_value());
+}
+
+TEST_F(HotReloadManagerTest, GetSandboxStatsWithSandboxConfigButNotLoaded) {
+    // Manager has sandboxConfig, but no reload has been performed yet
+    // (sandbox is not launched) → nullopt.
+    HotReloadManager::Config cfg;
+    ModuleSandbox::Config sc;
+    sc.max_memory_mb = 64;
+    cfg.sandboxConfig = sc;
+    HotReloadManager mgr_sb(cfg);
+
+    ModuleLoader ldr;
+    mgr_sb.registerModule("sandboxed_mod", ldr);
+    // No reload performed; sandbox never launched.
+    auto stats = mgr_sb.getSandboxStats("sandboxed_mod");
+    EXPECT_FALSE(stats.has_value());
 }

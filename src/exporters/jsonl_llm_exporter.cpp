@@ -26,6 +26,7 @@
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <set>
@@ -553,6 +554,33 @@ double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
     return std::clamp(calculated_weight, 0.0, 2.0);
 }
 
+// Heuristic toxicity score: counts hostile/offensive term occurrences and maps
+// to [0.0, 1.0]. Returns 0.0 for benign text. 5+ hits saturates to 1.0.
+// Markers cover both English and German to support multilingual training corpora.
+static double computeToxicityScore(const std::string& text) {
+    static const std::vector<std::string> toxic_markers = {
+        // German markers
+        "hass", "beleidigung", "gewalt", "diskriminierung",
+        // English markers
+        "hate", "insult", "violence", "discrimination"
+    };
+    // Saturation: reaching this many hits maps to a score of 1.0
+    constexpr int kToxicitySaturationHits = 5;
+
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    int hits = 0;
+    for (const auto& marker : toxic_markers) {
+        size_t pos = 0;
+        while ((pos = lower.find(marker, pos)) != std::string::npos) {
+            ++hits;
+            pos += marker.size();
+        }
+    }
+    return std::min(1.0, static_cast<double>(hits) / kToxicitySaturationHits);
+}
+
 bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
     auto& quality = config_.quality;
     
@@ -583,6 +611,14 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
     if (output) {
         size_t length = output->size();
         if (length < quality.min_text_length || length > quality.max_text_length) {
+            return false;
+        }
+    }
+    
+    // Toxicity filtering: reject samples whose toxicity score exceeds threshold
+    if (quality.enable_toxicity_filter && output) {
+        double toxicity = computeToxicityScore(*output);
+        if (toxicity > quality.max_toxicity_score) {
             return false;
         }
     }

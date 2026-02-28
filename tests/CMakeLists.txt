@@ -493,6 +493,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU load balancer test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPULoadBalancer (ROUND_ROBIN, LEAST_LOADED,
+# FIRST_HEALTHY, and TOPOLOGY_AWARE strategies), NVLink topology-aware scheduling
+# via setTopology() / selectTopologyAware(), device failure handling, and
+# concurrent safety.  It uses only CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_load_balancer.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -523,6 +534,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/kafka_connector.cpp
         ../src/ingestion/object_storage_connector.cpp
         ../src/ingestion/database_connector.cpp
+        ../src/ingestion/web_crawler_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -549,6 +561,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_model_cache.cpp
         ../src/voice/voice_batch_processor.cpp
         ../src/voice/voice_authenticator.cpp
+        ../src/voice/voice_macro_manager.cpp
     )
 endif()
 
@@ -561,6 +574,7 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/weaviate_adapter.cpp
     ../src/chimera/qdrant_adapter.cpp
     ../src/chimera/pinecone_adapter.cpp
+    ../src/chimera/elasticsearch_adapter.cpp
 )
 
 set(_themis_test_core_libs)

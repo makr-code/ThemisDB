@@ -216,6 +216,16 @@ std::string VoiceAssistant::processTextCommand(
         return "Voice assistant not initialized";
     }
     
+    // Check if the text matches a registered voice macro trigger.
+    const MacroID matched_id = macro_manager_.matchTrigger(text);
+    if (!matched_id.empty()) {
+        MacroResult result = macro_manager_.executeMacro(matched_id);
+        if (result.success) {
+            return result.output;
+        }
+        // Fall through to LLM on macro failure.
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -555,6 +565,8 @@ json VoiceAssistant::getStatistics() const {
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
 
+    stats["macros"] = macro_manager_.getStatistics();
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();
@@ -613,6 +625,14 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
 
 void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
     wake_word_detector_->setDetectionCallback(std::move(callback));
+}
+
+VoiceMacroManager& VoiceAssistant::macroManager() {
+    return macro_manager_;
+}
+
+const VoiceMacroManager& VoiceAssistant::macroManager() const {
+    return macro_manager_;
 }
 
 } // namespace voice

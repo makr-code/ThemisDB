@@ -979,5 +979,137 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
     return report;
 }
 
+// ============================================================================
+// RuleEvaluationEntry
+// ============================================================================
+
+RuleEvaluationEntry RuleEvaluationEntry::fromJson(const nlohmann::json& j) {
+    RuleEvaluationEntry e;
+    if (j.contains("timestamp") && j["timestamp"].is_number())
+        e.timestamp_ms = j["timestamp"].get<int64_t>();
+    if (j.contains("route") && j["route"].is_string())
+        e.route = j["route"].get<std::string>();
+    if (j.contains("classification") && j["classification"].is_string())
+        e.classification = j["classification"].get<std::string>();
+    if (j.contains("mode") && j["mode"].is_string())
+        e.mode = j["mode"].get<std::string>();
+    if (j.contains("require_content_encryption") && j["require_content_encryption"].is_boolean())
+        e.require_content_encryption = j["require_content_encryption"].get<bool>();
+    if (j.contains("ccpa_opted_out") && j["ccpa_opted_out"].is_boolean())
+        e.ccpa_opted_out = j["ccpa_opted_out"].get<bool>();
+    if (j.contains("export_allowed") && j["export_allowed"].is_boolean())
+        e.export_allowed = j["export_allowed"].get<bool>();
+    if (j.contains("user_id") && j["user_id"].is_string())
+        e.user_id = j["user_id"].get<std::string>();
+    return e;
+}
+
+// ============================================================================
+// TimeWindowReport serialization
+// ============================================================================
+
+nlohmann::json TimeWindowReport::toJson() const {
+    nlohmann::json j;
+    j["window_start_ms"]              = window_start_ms;
+    j["window_end_ms"]                = window_end_ms;
+    j["generated_at"]                 = generated_at;
+    j["framework"]                    = framework;
+    j["total_evaluations"]            = total_evaluations;
+    j["enforce_mode_evaluations"]     = enforce_mode_evaluations;
+    j["observe_mode_evaluations"]     = observe_mode_evaluations;
+    j["ccpa_opted_out_count"]         = ccpa_opted_out_count;
+    j["encryption_required_count"]    = encryption_required_count;
+    j["export_blocked_count"]         = export_blocked_count;
+    j["compliance_score"]             = compliance_score;
+
+    nlohmann::json by_cls = nlohmann::json::object();
+    for (const auto& kv : evaluations_by_classification)
+        by_cls[kv.first] = kv.second;
+    j["evaluations_by_classification"] = by_cls;
+
+    nlohmann::json by_route = nlohmann::json::object();
+    for (const auto& kv : evaluations_by_route)
+        by_route[kv.first] = kv.second;
+    j["evaluations_by_route"] = by_route;
+
+    nlohmann::json gaps_arr = nlohmann::json::array();
+    for (const auto& g : gaps)
+        gaps_arr.push_back(g.toJson());
+    j["gaps"] = gaps_arr;
+
+    return j;
+}
+
+std::string TimeWindowReport::toCSV() const {
+    std::ostringstream csv;
+    csv << "window_start_ms,window_end_ms,generated_at,framework,"
+        << "total_evaluations,enforce_mode_evaluations,observe_mode_evaluations,"
+        << "ccpa_opted_out_count,encryption_required_count,export_blocked_count,"
+        << "compliance_score\n";
+    csv << window_start_ms << "," << window_end_ms << "," << generated_at << ","
+        << framework << ","
+        << total_evaluations << "," << enforce_mode_evaluations << ","
+        << observe_mode_evaluations << "," << ccpa_opted_out_count << ","
+        << encryption_required_count << "," << export_blocked_count << ","
+        << std::fixed << std::setprecision(1) << compliance_score << "\n";
+    return csv.str();
+}
+
+// ============================================================================
+// generateTimeWindowReport
+// ============================================================================
+
+TimeWindowReport ComplianceReporter::generateTimeWindowReport(
+    const std::vector<RuleEvaluationEntry>& entries,
+    int64_t window_start_ms,
+    int64_t window_end_ms,
+    const std::string& framework) const
+{
+    TimeWindowReport report;
+    report.window_start_ms = window_start_ms;
+    report.window_end_ms   = window_end_ms;
+    report.generated_at    = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    report.framework       = framework;
+
+    for (const auto& e : entries) {
+        if (e.timestamp_ms < window_start_ms || e.timestamp_ms > window_end_ms)
+            continue;
+
+        ++report.total_evaluations;
+
+        if (e.mode == "enforce")
+            ++report.enforce_mode_evaluations;
+        else
+            ++report.observe_mode_evaluations;
+
+        if (e.ccpa_opted_out)
+            ++report.ccpa_opted_out_count;
+
+        if (e.require_content_encryption)
+            ++report.encryption_required_count;
+
+        if (!e.export_allowed)
+            ++report.export_blocked_count;
+
+        if (!e.classification.empty())
+            ++report.evaluations_by_classification[e.classification];
+
+        if (!e.route.empty())
+            ++report.evaluations_by_route[e.route];
+    }
+
+    // Attach policy-level compliance gaps and score from the current rule set
+    report.gaps             = detectGaps();
+    report.compliance_score = calculateComplianceScore(report.gaps);
+
+    THEMIS_INFO("TimeWindowReport generated: window=[{}, {}] total_evaluations={} "
+        "score={:.1f} framework='{}'",
+        window_start_ms, window_end_ms, report.total_evaluations,
+        report.compliance_score, framework);
+
+    return report;
+}
+
 } // namespace governance
 } // namespace themis

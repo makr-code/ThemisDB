@@ -27,6 +27,8 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
+#include "plugins/plugin_health_monitor.h"
+#include "plugins/self_healing_plugin.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -643,6 +645,14 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
     
+    // Auto-register self-healing plugins with the health monitor
+    if (health_monitor_) {
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(plugin);
+        if (self_healing) {
+            health_monitor_->registerPlugin(name, self_healing);
+        }
+    }
+
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     metrics_.recordLoad(name, duration);
@@ -724,6 +734,14 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     plugins_[entry.name] = std::move(entry);
     type_index_[plugin->getType()].push_back(plugin_name);
     
+    // Auto-register self-healing plugins with the health monitor
+    if (health_monitor_) {
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(plugin);
+        if (self_healing) {
+            health_monitor_->registerPlugin(plugin_name, self_healing);
+        }
+    }
+
     // Record load metrics
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -766,6 +784,11 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
 
     auto& entry = it->second;
     
+    // Unregister from health monitor before shutting down the instance
+    if (health_monitor_) {
+        health_monitor_->unregisterPlugin(name);
+    }
+
     // Shutdown plugin
     if (entry.instance) {
         entry.instance->shutdown();
@@ -1106,6 +1129,21 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         unloadLibrary(old_handle);
     }
 
+    // Update health monitor: unregister old instance, register new one
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (health_monitor_) {
+            health_monitor_->unregisterPlugin(name);
+            auto it2 = plugins_.find(name);
+            if (it2 != plugins_.end() && it2->second.instance) {
+                auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(it2->second.instance.get());
+                if (self_healing) {
+                    health_monitor_->registerPlugin(name, self_healing);
+                }
+            }
+        }
+    }
+
     // Notify AFTER_LOAD
     notifyPluginReload(name, PluginReloadPhase::AFTER_LOAD);
 
@@ -1364,6 +1402,27 @@ void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhas
             THEMIS_WARN("Reload listener threw exception: {}", e.what());
         }
     }
+}
+
+void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    health_monitor_ = monitor;
+
+    if (!health_monitor_) {
+        THEMIS_INFO("PluginManager: health monitor detached");
+        return;
+    }
+
+    // Register all currently loaded self-healing plugins with the new monitor
+    for (const auto& [name, entry] : plugins_) {
+        if (!entry.loaded || !entry.instance) continue;
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(entry.instance.get());
+        if (self_healing) {
+            health_monitor_->registerPlugin(name, self_healing);
+        }
+    }
+
+    THEMIS_INFO("PluginManager: health monitor attached");
 }
 
 } // namespace plugins

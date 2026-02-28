@@ -112,6 +112,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/rate_limiting_middleware.h"
 #include "server/auth_middleware.h"
 #include "server/request_validation_middleware.h"
+#include "api/tracing_middleware.h"
 #include "server/policy_engine.h"
 #include "server/opa_adapter.h"
 #include "server/ranger_adapter.h"
@@ -918,6 +919,10 @@ private:
 
     // Rate limiting middleware with per-client token bucket (per-endpoint configurable)
     std::unique_ptr<RateLimitingMiddleware> rate_limiting_middleware_;
+
+    // Request correlation ID middleware: extracts/generates X-Correlation-ID and
+    // propagates it through all log lines for the duration of each request.
+    std::unique_ptr<themis::api::TracingMiddleware> tracing_middleware_;
 
     // Request body validation (JSON Schema per endpoint)
     std::unique_ptr<RequestValidationMiddleware> request_validator_;
