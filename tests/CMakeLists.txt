@@ -2402,6 +2402,38 @@ else()
     message(STATUS "Transaction Retry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
 endif()
 
+# Per-tenant Transaction Namespace Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+    message(STATUS "Adding Per-tenant Transaction Namespace tests")
+
+    add_executable(test_tenant_transaction_namespace
+        test_tenant_transaction_namespace.cpp
+    )
+
+    target_link_libraries(test_tenant_transaction_namespace PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_transaction_namespace PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantTransactionNamespaceTests COMMAND test_tenant_transaction_namespace)
+
+    set_tests_properties(TenantTransactionNamespaceTests PROPERTIES
+        LABELS "transaction;tenant;namespace;isolation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Tenant Transaction Namespace: tenant-scoped keys, per-tenant stats, abortTenantTransactions")
+else()
+    message(STATUS "Per-tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")

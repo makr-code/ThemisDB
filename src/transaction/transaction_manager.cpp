@@ -381,6 +381,43 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
     return txn_id;
 }
 
+TransactionManager::TransactionId TransactionManager::beginTransaction(
+    std::string_view tenant_id, IsolationLevel isolation)
+{
+    // Delegate to the no-tenant overload when tenant_id is empty.
+    if (tenant_id.empty()) return beginTransaction(isolation);
+
+    auto txn_id = generateTransactionId();
+    auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_,
+                                              isolation, &lock_manager_,
+                                              std::string(tenant_id));
+    txn->history_mgr_  = history_mgr_;
+    txn->conflict_mgr_ = conflict_mgr_;
+    applyDefaultTimeout(*txn);
+
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        active_transactions_[txn_id] = txn;
+        tenant_stats_[std::string(tenant_id)].total_begun++;
+    }
+
+    updateStatsWithSeqLock([this]() {
+        total_begun_.fetch_add(1, std::memory_order_relaxed);
+    });
+    THEMIS_INFO("Transaction {} begun for tenant '{}' (isolation: {})", txn_id, tenant_id,
+               isolation == IsolationLevel::READ_UNCOMMITTED  ? "READ_UNCOMMITTED"  :
+               isolation == IsolationLevel::READ_COMMITTED    ? "READ_COMMITTED"    :
+               isolation == IsolationLevel::REPEATABLE_READ   ? "REPEATABLE_READ"   :
+               isolation == IsolationLevel::SERIALIZABLE      ? "SERIALIZABLE"      :
+                                                                "UNKNOWN");
+
+    if (crash_recovery_mgr_) {
+        crash_recovery_mgr_->logBegin(txn_id, isolation);
+    }
+
+    return txn_id;
+}
+
 std::shared_ptr<TransactionManager::Transaction> TransactionManager::getTransaction(TransactionId id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
@@ -407,6 +444,11 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         updateStatsWithSeqLock([this]() {
             total_committed_.fetch_add(1, std::memory_order_relaxed);
         });
+        // Update per-tenant stats when the transaction belongs to a tenant.
+        if (!txn->tenant_id_.empty()) {
+            std::lock_guard<std::mutex> lock(sessions_mutex_);
+            tenant_stats_[txn->tenant_id_].total_committed++;
+        }
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
         // Phase 8: WAL – log commit
         if (crash_recovery_mgr_) crash_recovery_mgr_->logCommit(id);
@@ -415,6 +457,11 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
         updateStatsWithSeqLock([this]() {
             total_aborted_.fetch_add(1, std::memory_order_relaxed);
         });
+        // Update per-tenant stats when the transaction belongs to a tenant.
+        if (!txn->tenant_id_.empty()) {
+            std::lock_guard<std::mutex> lock(sessions_mutex_);
+            tenant_stats_[txn->tenant_id_].total_aborted++;
+        }
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
         // Phase 8: WAL – log abort (commit failed → transaction is rolled back)
         if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
@@ -440,6 +487,11 @@ bool TransactionManager::rollbackTransaction(TransactionId id) {
     updateStatsWithSeqLock([this]() {
         total_aborted_.fetch_add(1, std::memory_order_relaxed);
     });
+    // Update per-tenant stats when the transaction belongs to a tenant.
+    if (!txn->tenant_id_.empty()) {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        tenant_stats_[txn->tenant_id_].total_aborted++;
+    }
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
     // Phase 8: WAL – log abort
     if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
@@ -570,6 +622,103 @@ void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
     }
 }
 
+// ── Per-tenant transaction namespace ─────────────────────────────────────────
+
+TransactionManager::TenantTransactionStats
+TransactionManager::getTenantTransactionStats(std::string_view tenant_id) const {
+    TenantTransactionStats result;
+    result.tenant_id = std::string(tenant_id);
+
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+
+    // Cumulative counters from the stats map
+    auto it = tenant_stats_.find(std::string(tenant_id));
+    if (it != tenant_stats_.end()) {
+        result.total_begun     = it->second.total_begun;
+        result.total_committed = it->second.total_committed;
+        result.total_aborted   = it->second.total_aborted;
+    }
+
+    // Count active transactions for this tenant
+    for (const auto& [txn_id, txn] : active_transactions_) {
+        if (txn->tenant_id_ == tenant_id) {
+            result.active_count++;
+        }
+    }
+
+    return result;
+}
+
+std::vector<TransactionManager::TenantTransactionStats>
+TransactionManager::getAllTenantTransactionStats() const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+
+    // Count active transactions per tenant
+    std::unordered_map<std::string, uint64_t> active_counts;
+    for (const auto& [txn_id, txn] : active_transactions_) {
+        if (!txn->tenant_id_.empty()) {
+            active_counts[txn->tenant_id_]++;
+        }
+    }
+
+    std::vector<TenantTransactionStats> result;
+    result.reserve(tenant_stats_.size());
+    for (const auto& [tid, entry] : tenant_stats_) {
+        TenantTransactionStats s;
+        s.tenant_id       = tid;
+        s.total_begun     = entry.total_begun;
+        s.total_committed = entry.total_committed;
+        s.total_aborted   = entry.total_aborted;
+        auto ac = active_counts.find(tid);
+        s.active_count = (ac != active_counts.end()) ? ac->second : 0;
+        result.push_back(std::move(s));
+    }
+    return result;
+}
+
+size_t TransactionManager::getActiveTenantTransactionCount(std::string_view tenant_id) const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    size_t count = 0;
+    for (const auto& [txn_id, txn] : active_transactions_) {
+        if (txn->tenant_id_ == tenant_id) {
+            count++;
+        }
+    }
+    return count;
+}
+
+std::vector<TransactionManager::TransactionId>
+TransactionManager::listTenantTransactionIds(std::string_view tenant_id) const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    std::vector<TransactionId> ids;
+    for (const auto& [txn_id, txn] : active_transactions_) {
+        if (txn->tenant_id_ == tenant_id) {
+            ids.push_back(txn_id);
+        }
+    }
+    return ids;
+}
+
+size_t TransactionManager::abortTenantTransactions(std::string_view tenant_id) {
+    // Collect transaction IDs first to avoid rolling back while holding the lock.
+    std::vector<TransactionId> to_abort;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [txn_id, txn] : active_transactions_) {
+            if (txn->tenant_id_ == tenant_id) {
+                to_abort.push_back(txn_id);
+            }
+        }
+    }
+
+    for (auto txn_id : to_abort) {
+        rollbackTransaction(txn_id);
+    }
+
+    THEMIS_INFO("Aborted {} transaction(s) for tenant '{}'", to_abort.size(), tenant_id);
+    return to_abort.size();
+}
+
 // ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
 
 void TransactionManager::setTransactionTimeout(std::chrono::milliseconds timeout_ms) {
@@ -653,10 +802,12 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              GraphIndexManager& graphIdx,
                                              VectorIndexManager& vecIdx,
                                              IsolationLevel isolation,
-                                             LockManager* lock_manager)
+                                             LockManager* lock_manager,
+                                             std::string tenant_id)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()),
-      lock_manager_(lock_manager) {
+      lock_manager_(lock_manager),
+      tenant_id_(std::move(tenant_id)) {
     // Map ThemisDB IsolationLevel to the appropriate RocksDB isolation level.
     // SERIALIZABLE and REPEATABLE_READ use snapshot isolation at the storage layer;
     // additional write-conflict checks are performed at commit time.
@@ -728,7 +879,8 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       history_mgr_(other.history_mgr_),
       conflict_mgr_(other.conflict_mgr_),
       base_values_(std::move(other.base_values_)),
-      our_values_(std::move(other.our_values_)) {
+      our_values_(std::move(other.our_values_)),
+      tenant_id_(std::move(other.tenant_id_)) {
     other.finished_.store(true, std::memory_order_release);
     other.lock_manager_ = nullptr;
     other.history_mgr_  = nullptr;
@@ -755,6 +907,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         other.conflict_mgr_ = nullptr;
         base_values_ = std::move(other.base_values_);
         our_values_  = std::move(other.our_values_);
+        tenant_id_   = std::move(other.tenant_id_);
         timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
@@ -769,7 +922,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     
     // Serialize entity
     auto serialized = entity.serialize();
-    std::string key = std::string("entity:") + std::string(table) + ":" + entity.getPrimaryKey();
+    std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + entity.getPrimaryKey());
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(key);
@@ -798,7 +951,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
     }
     
     // Update secondary indexes using MVCC transaction for atomicity
-    auto st = secIdx_.put(table, entity, *mvcc_txn_);
+    auto st = secIdx_.put(makeNamespacedTable(table), entity, *mvcc_txn_);
     if (!st.ok) {
         return Status::Error(st.message);
     }
@@ -811,7 +964,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("eraseEntity: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
     
-    std::string key = std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + std::string(pk));
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(key);
@@ -840,7 +993,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
     }
     
     // Update secondary indexes using MVCC transaction
-    auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+    auto st = secIdx_.erase(makeNamespacedTable(table), pk, *mvcc_txn_);
     if (!st.ok) {
         return Status::Error(st.message);
     }
@@ -854,7 +1007,7 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
     if (isTimedOut()) return Status::Error("addEdge: transaction timed out");
     
     // Graph edges stored with MVCC
-    std::string edge_key = "graph:edge:" + edgeEntity.getPrimaryKey();
+    std::string edge_key = makeNamespacedKey("graph:edge:" + edgeEntity.getPrimaryKey());
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(edge_key);
@@ -880,7 +1033,7 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
-    std::string edge_key = "graph:edge:" + std::string(edgeId);
+    std::string edge_key = makeNamespacedKey("graph:edge:" + std::string(edgeId));
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(edge_key);
@@ -907,7 +1060,7 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
     std::string pk = entity.getPrimaryKey();
 
     // Store vector entity in MVCC transaction
-    std::string vector_key = "vector:" + pk;
+    std::string vector_key = makeNamespacedKey("vector:" + pk);
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
@@ -945,7 +1098,7 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
     // Capture old vector BEFORE the write.  If we read after the put(), the MVCC
     // read-your-own-writes buffer would return the new value instead of the original.
     std::string pk = entity.getPrimaryKey();
-    std::string vector_key = "vector:" + pk;
+    std::string vector_key = makeNamespacedKey("vector:" + pk);
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
@@ -997,7 +1150,7 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
     // Capture old vector BEFORE the delete.  If we read after del(), the MVCC
     // read-your-own-writes buffer would return nothing instead of the original value.
     std::string pk_str(pk);
-    std::string vector_key = "vector:" + pk_str;
+    std::string vector_key = makeNamespacedKey("vector:" + pk_str);
 
     // SSI: check for predicate conflict before writing
     auto conflict_msg = checkSerializableWriteConflict(vector_key);
@@ -1084,7 +1237,7 @@ std::optional<uint64_t> TransactionManager::Transaction::getEntityVersion(
     std::string_view table, std::string_view pk)
 {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return std::nullopt;
-    auto raw = mvcc_txn_->get(versionKey(table, pk));
+    auto raw = mvcc_txn_->get(makeNamespacedKey(versionKey(table, pk)));
     if (!raw) return 0; // entity does not exist → version 0
     return decodeVersion(*raw);
 }
@@ -1098,7 +1251,7 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
         return Status::Error("optimisticPut: transaction timed out");
 
     const std::string pk    = entity.getPrimaryKey();
-    const std::string verKey = versionKey(table, pk);
+    const std::string verKey = makeNamespacedKey(versionKey(table, pk));
 
     // Read current version
     auto raw = mvcc_txn_->get(verKey);
@@ -1119,7 +1272,7 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
     }
 
     // SSI: check for predicate conflict
-    const std::string entKey = std::string("entity:") + std::string(table) + ":" + pk;
+    const std::string entKey = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + pk);
     auto conflict = checkSerializableWriteConflict(entKey);
     if (!conflict.empty()) return Status::Error(conflict);
 
@@ -1136,7 +1289,7 @@ TransactionManager::Status TransactionManager::Transaction::optimisticPut(
     }
 
     // Update secondary indexes
-    auto st = secIdx_.put(table, entity, *mvcc_txn_);
+    auto st = secIdx_.put(makeNamespacedTable(table), entity, *mvcc_txn_);
     if (!st.ok) return Status::Error(st.message);
 
     THEMIS_DEBUG("OCC optimisticPut: table={} pk={} version {} → {}",
@@ -1152,7 +1305,7 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     if (isTimedOut())
         return Status::Error("optimisticErase: transaction timed out");
 
-    const std::string verKey = versionKey(table, pk);
+    const std::string verKey = makeNamespacedKey(versionKey(table, pk));
 
     // Read current version
     auto raw = mvcc_txn_->get(verKey);
@@ -1172,8 +1325,8 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     }
 
     // SSI: check for predicate conflict
-    const std::string entKey =
-        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    const std::string entKey = makeNamespacedKey(
+        std::string("entity:") + std::string(table) + ":" + std::string(pk));
     auto conflict = checkSerializableWriteConflict(entKey);
     if (!conflict.empty()) return Status::Error(conflict);
 
@@ -1188,7 +1341,7 @@ TransactionManager::Status TransactionManager::Transaction::optimisticErase(
     }
 
     // Update secondary indexes
-    auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+    auto st = secIdx_.erase(makeNamespacedTable(table), pk, *mvcc_txn_);
     if (!st.ok) return Status::Error(st.message);
 
     THEMIS_DEBUG("OCC optimisticErase: table={} pk={} version={}", table, pk, expected_version);
@@ -1216,7 +1369,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
             return Status::Error("bulkPutEntities: entity[" + std::to_string(i) +
                                  "] has empty primary key");
         }
-        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+        const std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + pk);
 
         // SSI: check for predicate conflict before writing
         auto conflict = checkSerializableWriteConflict(key);
@@ -1231,7 +1384,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
         }
 
         // Update secondary indexes within the same MVCC transaction
-        auto st = secIdx_.put(table, entity, *mvcc_txn_);
+        auto st = secIdx_.put(makeNamespacedTable(table), entity, *mvcc_txn_);
         if (!st.ok) {
             return Status::Error("bulkPutEntities[" + std::to_string(i) + "]: " + st.message);
         }
@@ -1256,7 +1409,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
         if (pk.empty()) {
             return Status::Error("bulkEraseEntities: pk[" + std::to_string(i) + "] is empty");
         }
-        const std::string key = std::string("entity:") + std::string(table) + ":" + pk;
+        const std::string key = makeNamespacedKey(std::string("entity:") + std::string(table) + ":" + pk);
 
         // SSI: check for predicate conflict before writing
         auto conflict = checkSerializableWriteConflict(key);
@@ -1271,7 +1424,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
         }
 
         // Update secondary indexes within the same MVCC transaction
-        auto st = secIdx_.erase(table, pk, *mvcc_txn_);
+        auto st = secIdx_.erase(makeNamespacedTable(table), pk, *mvcc_txn_);
         if (!st.ok) {
             return Status::Error("bulkEraseEntities[" + std::to_string(i) + "]: " + st.message);
         }
