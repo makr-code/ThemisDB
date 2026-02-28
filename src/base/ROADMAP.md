@@ -29,7 +29,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ### Short-term (Next 3-6 months)
 - [x] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
-- [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
+- [x] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
 - [x] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
