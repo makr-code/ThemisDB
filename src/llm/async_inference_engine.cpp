@@ -424,6 +424,27 @@ json AsyncInferenceEngine::getWorkerStats() const {
 
     stats["total_dedup_cache_hits"] = stats_.total_dedup_cache_hits.load();
     stats["total_dedup_cache_misses"] = stats_.total_dedup_cache_misses.load();
+
+    // tokens/sec: total tokens generated divided by elapsed wall-clock time.
+    stats["total_tokens_generated"] = stats_.total_tokens_generated.load();
+    double elapsed_s = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - engine_start_time_).count();
+    if (elapsed_s > 0.0) {
+        stats["tokens_per_second"] =
+            static_cast<double>(stats_.total_tokens_generated.load()) / elapsed_s;
+    }
+
+    // p99 latency from per-request samples.
+    {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        if (!latency_samples_.empty()) {
+            std::vector<double> sorted(latency_samples_.begin(), latency_samples_.end());
+            std::sort(sorted.begin(), sorted.end());
+            size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
+            stats["p99_latency_ms"] =
+                sorted[std::min(p99_idx, sorted.size() - 1)];
+        }
+    }
     
     return stats;
 }
@@ -674,6 +695,17 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     
     // Update stats
     stats_.total_inference_time_ms.fetch_add(response.inference_time_ms);
+    stats_.total_tokens_generated.fetch_add(
+        static_cast<size_t>(response.tokens_generated), std::memory_order_relaxed);
+
+    // Record per-request latency sample for p99 computation.
+    if (response.inference_time_ms > 0.0) {
+        std::lock_guard<std::mutex> lock(latency_mutex_);
+        latency_samples_.push_back(response.inference_time_ms);
+        if (latency_samples_.size() > 10000) {
+            latency_samples_.pop_front();  // O(1) removal via deque
+        }
+    }
     
     return response;
 }

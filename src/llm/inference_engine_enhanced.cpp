@@ -551,6 +551,14 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
         stats.p95_latency_ms = sorted[std::min(p95_idx, sorted.size() - 1)];
         stats.p99_latency_ms = sorted[std::min(p99_idx, sorted.size() - 1)];
     }
+
+    // Compute tokens/sec based on wall-clock elapsed time.
+    double elapsed_s = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - engine_start_time_).count();
+    if (elapsed_s > 0.0) {
+        stats.tokens_per_second =
+            static_cast<double>(stats_.total_tokens_generated) / elapsed_s;
+    }
     
     return stats;
 }
@@ -1029,7 +1037,8 @@ void InferenceEngineEnhanced::processBatch(
             double latency = std::chrono::duration<double, std::milli>(
                 req_end - req_start).count();
             
-            recordRequestCompletion(latency, model_id);
+            recordRequestCompletion(latency, model_id,
+                                    static_cast<size_t>(response.tokens_generated));
             updateModelStats(model_id, latency, !response.text.empty());
             
         } catch (const std::exception& e) {
@@ -1361,11 +1370,13 @@ void InferenceEngineEnhanced::recordBatchCompletion(size_t batch_size) {
 
 void InferenceEngineEnhanced::recordRequestCompletion(
     double latency_ms,
-    const std::string& model_id
+    const std::string& model_id,
+    size_t tokens_generated
 ) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     
     stats_.completed_requests++;
+    stats_.total_tokens_generated += tokens_generated;
     
     // Update latency stats
     latency_samples_.push_back(latency_ms);
