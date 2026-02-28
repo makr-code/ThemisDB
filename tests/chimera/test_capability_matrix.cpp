@@ -43,6 +43,7 @@
 #include "chimera/postgresql_adapter.hpp"
 #include "chimera/weaviate_adapter.hpp"
 #include "chimera/qdrant_adapter.hpp"
+#include "chimera/pinecone_adapter.hpp"
 
 using namespace chimera;
 
@@ -286,13 +287,29 @@ TEST(CapabilityMatrixAddAdapterTest, QdrantAdapterCapabilities) {
     EXPECT_FALSE(matrix.supports("Qdrant", Capability::FULL_TEXT_SEARCH));
 }
 
+TEST(CapabilityMatrixAddAdapterTest, PineconeAdapterCapabilities) {
+    PineconeAdapter adapter;
+    AdapterCapabilityMatrix matrix;
+    matrix.add_adapter("Pinecone", adapter);
+
+    EXPECT_TRUE(matrix.supports("Pinecone", Capability::VECTOR_SEARCH));
+    EXPECT_TRUE(matrix.supports("Pinecone", Capability::BATCH_OPERATIONS));
+    EXPECT_TRUE(matrix.supports("Pinecone", Capability::SECONDARY_INDEXES));
+    // Pinecone does not support relational, graph, transactions, or document store.
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::GRAPH_TRAVERSAL));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::TRANSACTIONS));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::DOCUMENT_STORE));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::FULL_TEXT_SEARCH));
+}
+
 // ---------------------------------------------------------------------------
 // build_from_factory()
 // ---------------------------------------------------------------------------
 
 TEST(CapabilityMatrixFactoryTest, BuildFromFactoryPopulatesKnownAdapters) {
     // The auto-registration lambdas in each adapter's .cpp file ensure that
-    // ThemisDB, MongoDB, PostgreSQL, Weaviate, and Qdrant are present.
+    // ThemisDB, MongoDB, PostgreSQL, Weaviate, Qdrant, and Pinecone are present.
     auto matrix = AdapterCapabilityMatrix::build_from_factory();
 
     const auto names = matrix.system_names();
@@ -316,4 +333,12 @@ TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesThemisDB) {
     auto matrix = AdapterCapabilityMatrix::build_from_factory();
     EXPECT_TRUE(matrix.supports("ThemisDB", Capability::RELATIONAL_QUERIES));
     EXPECT_TRUE(matrix.supports("ThemisDB", Capability::VECTOR_SEARCH));
+}
+
+TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesPinecone) {
+    auto matrix = AdapterCapabilityMatrix::build_from_factory();
+    EXPECT_TRUE(matrix.data().count("Pinecone") > 0);
+    EXPECT_TRUE(matrix.supports("Pinecone", Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Pinecone", Capability::TRANSACTIONS));
 }

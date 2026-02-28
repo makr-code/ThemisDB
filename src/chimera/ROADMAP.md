@@ -33,7 +33,7 @@
 
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)
-- [I] Pinecone adapter (managed vector search) (Issue: #1639)
+- [P] Pinecone adapter (managed vector search) (Issue: #1639)
 - [I] Elasticsearch adapter (full-text + vector) (Issue: #1640)
 - [I] Cassandra adapter (wide-column) (Issue: #1641)
 - [I] Cross-system query federation for hybrid benchmarks (Issue: #1642)

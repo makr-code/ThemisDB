@@ -2,15 +2,15 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            qdrant_adapter.cpp                                 ║
+  File:            pinecone_adapter.cpp                               ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-27                                         ║
+  Last Modified:   2026-02-28                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     470                                            ║
+    • Total Lines:     490                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -18,23 +18,23 @@
  */
 
 /**
- * @file qdrant_adapter.cpp
- * @brief Qdrant native vector database adapter for CHIMERA Suite
+ * @file pinecone_adapter.cpp
+ * @brief Pinecone managed vector search adapter for CHIMERA Suite
  *
  * @details
- * Implements the IDatabaseAdapter interface for Qdrant v1.x. When the
- * HTTP client driver is not available the adapter operates in an in-process
- * simulation mode backed by std::unordered_map, which is sufficient for
- * unit testing without a live Qdrant server.
+ * Implements the IDatabaseAdapter interface for Pinecone (v3 serverless).
+ * When the HTTP client driver is not available the adapter operates in an
+ * in-process simulation mode backed by std::unordered_map, which is
+ * sufficient for unit testing without a live Pinecone index.
  *
  * Production deployments should link against an HTTP client library
  * (e.g. cpp-httplib or cpr) and replace the in-process simulation blocks
- * with real Qdrant REST API calls.
+ * with real Pinecone REST API calls.
  *
  * @copyright MIT License
  */
 
-#include "chimera/qdrant_adapter.hpp"
+#include "chimera/pinecone_adapter.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -49,14 +49,14 @@ namespace chimera {
 // ---------------------------------------------------------------------------
 
 namespace {
-// Register QdrantAdapter with the factory when this translation unit is linked.
+// Register PineconeAdapter with the factory when this translation unit is linked.
 // NOLINTNEXTLINE(cert-err58-cpp)
-const bool qdrant_registered = []() noexcept {
+const bool pinecone_registered = []() noexcept {
     const bool ok = AdapterFactory::register_adapter(
-        "Qdrant",
-        []() { return std::make_unique<QdrantAdapter>(); }
+        "Pinecone",
+        []() { return std::make_unique<PineconeAdapter>(); }
     );
-    assert(ok && "QdrantAdapter: 'Qdrant' adapter name already registered");
+    assert(ok && "PineconeAdapter: 'Pinecone' adapter name already registered");
     return ok;
 }();
 } // namespace
@@ -65,9 +65,9 @@ const bool qdrant_registered = []() noexcept {
 // Construction / Destruction
 // ---------------------------------------------------------------------------
 
-QdrantAdapter::QdrantAdapter() = default;
+PineconeAdapter::PineconeAdapter() = default;
 
-QdrantAdapter::~QdrantAdapter() {
+PineconeAdapter::~PineconeAdapter() {
     if (connected_) {
         disconnect();
     }
@@ -77,22 +77,21 @@ QdrantAdapter::~QdrantAdapter() {
 // Connection Management
 // ---------------------------------------------------------------------------
 
-Result<bool> QdrantAdapter::connect(
+Result<bool> PineconeAdapter::connect(
     const std::string& connection_string,
     const std::map<std::string, std::string>& options
 ) {
     if (connection_string.empty()) {
         return Result<bool>::err(
             ErrorCode::INVALID_ARGUMENT,
-            "Qdrant connection string must not be empty"
+            "Pinecone connection string must not be empty"
         );
     }
 
     if (!is_valid_connection_string(connection_string)) {
         return Result<bool>::err(
             ErrorCode::INVALID_ARGUMENT,
-            "Invalid Qdrant connection string: must start with "
-            "http:// or https://"
+            "Invalid Pinecone connection string: must start with https://"
         );
     }
 
@@ -111,52 +110,52 @@ Result<bool> QdrantAdapter::connect(
     return Result<bool>::ok(true);
 }
 
-Result<bool> QdrantAdapter::disconnect() {
+Result<bool> PineconeAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
     has_api_key_ = false;
     return Result<bool>::ok(true);
 }
 
-bool QdrantAdapter::is_connected() const {
+bool PineconeAdapter::is_connected() const {
     return connected_;
 }
 
 // ---------------------------------------------------------------------------
-// IRelationalAdapter – not supported by Qdrant
+// IRelationalAdapter – not supported by Pinecone
 // ---------------------------------------------------------------------------
 
-Result<RelationalTable> QdrantAdapter::execute_query(
+Result<RelationalTable> PineconeAdapter::execute_query(
     const std::string& /*query*/,
     const std::vector<Scalar>& /*params*/
 ) {
     return Result<RelationalTable>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support relational/SQL queries"
+        "Pinecone does not support relational/SQL queries"
     );
 }
 
-Result<size_t> QdrantAdapter::insert_row(
+Result<size_t> PineconeAdapter::insert_row(
     const std::string& /*table_name*/,
     const RelationalRow& /*row*/
 ) {
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support relational row insertion"
+        "Pinecone does not support relational row insertion"
     );
 }
 
-Result<size_t> QdrantAdapter::batch_insert(
+Result<size_t> PineconeAdapter::batch_insert(
     const std::string& /*table_name*/,
     const std::vector<RelationalRow>& /*rows*/
 ) {
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support relational batch insertion"
+        "Pinecone does not support relational batch insertion"
     );
 }
 
-Result<QueryStatistics> QdrantAdapter::get_query_statistics() const {
+Result<QueryStatistics> PineconeAdapter::get_query_statistics() const {
     QueryStatistics stats;
     stats.execution_time = std::chrono::microseconds(0);
     stats.rows_read = 0;
@@ -169,14 +168,14 @@ Result<QueryStatistics> QdrantAdapter::get_query_statistics() const {
 // IVectorAdapter – primary capability
 // ---------------------------------------------------------------------------
 
-Result<std::string> QdrantAdapter::insert_vector(
+Result<std::string> PineconeAdapter::insert_vector(
     const std::string& collection,
     const Vector& vector
 ) {
     if (!connected_) {
         return Result<std::string>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
     if (vector.data.empty()) {
@@ -186,11 +185,10 @@ Result<std::string> QdrantAdapter::insert_vector(
         );
     }
 
-    // Store the vector as a document with internal component fields.
-    // The dimension count and each component are encoded as fields so that
+    // Store the vector as a document with internal component fields so that
     // search_vectors can reconstruct the vector for similarity scoring.
     Document doc;
-    doc.id = generate_point_id();
+    doc.id = generate_vector_id();
     doc.fields["__vector_dim__"] = Scalar{int64_t(vector.data.size())};
     for (size_t i = 0; i < vector.data.size(); ++i) {
         doc.fields["__v" + std::to_string(i) + "__"] =
@@ -205,14 +203,14 @@ Result<std::string> QdrantAdapter::insert_vector(
     return Result<std::string>::ok(vector_store_[collection].back().id);
 }
 
-Result<size_t> QdrantAdapter::batch_insert_vectors(
+Result<size_t> PineconeAdapter::batch_insert_vectors(
     const std::string& collection,
     const std::vector<Vector>& vectors
 ) {
     if (!connected_) {
         return Result<size_t>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
 
@@ -226,7 +224,7 @@ Result<size_t> QdrantAdapter::batch_insert_vectors(
     return Result<size_t>::ok(inserted);
 }
 
-Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
+Result<std::vector<std::pair<Vector, double>>> PineconeAdapter::search_vectors(
     const std::string& collection,
     const Vector& query_vector,
     size_t k,
@@ -235,7 +233,7 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
     if (!connected_) {
         return Result<std::vector<std::pair<Vector, double>>>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
     if (query_vector.data.empty()) {
@@ -282,7 +280,7 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
             }
         }
 
-        double score = dot_product_similarity(query_vector.data, stored_vec.data);
+        double score = cosine_similarity(query_vector.data, stored_vec.data);
         candidates.emplace_back(std::move(stored_vec), score);
     }
 
@@ -299,7 +297,7 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
         std::move(candidates));
 }
 
-Result<bool> QdrantAdapter::create_index(
+Result<bool> PineconeAdapter::create_index(
     const std::string& /*collection*/,
     size_t /*dimensions*/,
     const std::map<std::string, Scalar>& /*index_params*/
@@ -307,76 +305,77 @@ Result<bool> QdrantAdapter::create_index(
     if (!connected_) {
         return Result<bool>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
-    // In simulation mode, Qdrant collection creation is a no-op.
-    // Production code would PUT to /collections/{name} with an HNSW config.
+    // In simulation mode, Pinecone index/namespace creation is a no-op.
+    // Production code would POST to the Pinecone control-plane API to create
+    // the index with the specified dimensions and metric.
     return Result<bool>::ok(true);
 }
 
 // ---------------------------------------------------------------------------
-// IGraphAdapter – not supported by Qdrant natively
+// IGraphAdapter – not supported by Pinecone natively
 // ---------------------------------------------------------------------------
 
-Result<std::string> QdrantAdapter::insert_node(const GraphNode& /*node*/) {
+Result<std::string> PineconeAdapter::insert_node(const GraphNode& /*node*/) {
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support native graph node insertion"
+        "Pinecone does not support native graph node insertion"
     );
 }
 
-Result<std::string> QdrantAdapter::insert_edge(const GraphEdge& /*edge*/) {
+Result<std::string> PineconeAdapter::insert_edge(const GraphEdge& /*edge*/) {
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support native graph edge insertion"
+        "Pinecone does not support native graph edge insertion"
     );
 }
 
-Result<GraphPath> QdrantAdapter::shortest_path(
+Result<GraphPath> PineconeAdapter::shortest_path(
     const std::string& /*source_id*/,
     const std::string& /*target_id*/,
     size_t /*max_depth*/
 ) {
     return Result<GraphPath>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support native graph shortest-path queries"
+        "Pinecone does not support native graph shortest-path queries"
     );
 }
 
-Result<std::vector<GraphNode>> QdrantAdapter::traverse(
+Result<std::vector<GraphNode>> PineconeAdapter::traverse(
     const std::string& /*start_id*/,
     size_t /*max_depth*/,
     const std::vector<std::string>& /*edge_labels*/
 ) {
     return Result<std::vector<GraphNode>>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support native graph traversal"
+        "Pinecone does not support native graph traversal"
     );
 }
 
-Result<std::vector<GraphPath>> QdrantAdapter::execute_graph_query(
+Result<std::vector<GraphPath>> PineconeAdapter::execute_graph_query(
     const std::string& /*query*/,
     const std::map<std::string, Scalar>& /*params*/
 ) {
     return Result<std::vector<GraphPath>>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support native graph queries"
+        "Pinecone does not support native graph queries"
     );
 }
 
 // ---------------------------------------------------------------------------
-// IDocumentAdapter – Qdrant payload store
+// IDocumentAdapter – Pinecone metadata store
 // ---------------------------------------------------------------------------
 
-Result<std::string> QdrantAdapter::insert_document(
+Result<std::string> PineconeAdapter::insert_document(
     const std::string& collection,
     const Document& doc
 ) {
     if (!connected_) {
         return Result<std::string>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
 
@@ -398,21 +397,21 @@ Result<std::string> QdrantAdapter::insert_document(
 
     Document stored = doc;
     if (stored.id.empty()) {
-        stored.id = generate_point_id();
+        stored.id = generate_vector_id();
     }
     const std::string inserted_id = stored.id;
     store.push_back(std::move(stored));
     return Result<std::string>::ok(inserted_id);
 }
 
-Result<size_t> QdrantAdapter::batch_insert_documents(
+Result<size_t> PineconeAdapter::batch_insert_documents(
     const std::string& collection,
     const std::vector<Document>& docs
 ) {
     if (!connected_) {
         return Result<size_t>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
 
@@ -426,7 +425,7 @@ Result<size_t> QdrantAdapter::batch_insert_documents(
     return Result<size_t>::ok(inserted);
 }
 
-Result<std::vector<Document>> QdrantAdapter::find_documents(
+Result<std::vector<Document>> PineconeAdapter::find_documents(
     const std::string& collection,
     const std::map<std::string, Scalar>& filter,
     size_t limit
@@ -434,7 +433,7 @@ Result<std::vector<Document>> QdrantAdapter::find_documents(
     if (!connected_) {
         return Result<std::vector<Document>>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
 
@@ -454,7 +453,7 @@ Result<std::vector<Document>> QdrantAdapter::find_documents(
     return Result<std::vector<Document>>::ok(std::move(results));
 }
 
-Result<size_t> QdrantAdapter::update_documents(
+Result<size_t> PineconeAdapter::update_documents(
     const std::string& collection,
     const std::map<std::string, Scalar>& filter,
     const std::map<std::string, Scalar>& updates
@@ -462,7 +461,7 @@ Result<size_t> QdrantAdapter::update_documents(
     if (!connected_) {
         return Result<size_t>::err(
             ErrorCode::CONNECTION_ERROR,
-            "Not connected to Qdrant"
+            "Not connected to Pinecone"
         );
     }
     if (updates.empty()) {
@@ -491,33 +490,33 @@ Result<size_t> QdrantAdapter::update_documents(
 }
 
 // ---------------------------------------------------------------------------
-// ITransactionAdapter – not supported by Qdrant
+// ITransactionAdapter – not supported by Pinecone
 // ---------------------------------------------------------------------------
 
-Result<std::string> QdrantAdapter::begin_transaction(
+Result<std::string> PineconeAdapter::begin_transaction(
     const TransactionOptions& /*options*/
 ) {
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support ACID transactions"
+        "Pinecone does not support ACID transactions"
     );
 }
 
-Result<bool> QdrantAdapter::commit_transaction(
+Result<bool> PineconeAdapter::commit_transaction(
     const std::string& /*transaction_id*/
 ) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support ACID transactions"
+        "Pinecone does not support ACID transactions"
     );
 }
 
-Result<bool> QdrantAdapter::rollback_transaction(
+Result<bool> PineconeAdapter::rollback_transaction(
     const std::string& /*transaction_id*/
 ) {
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "Qdrant does not support ACID transactions"
+        "Pinecone does not support ACID transactions"
     );
 }
 
@@ -525,20 +524,20 @@ Result<bool> QdrantAdapter::rollback_transaction(
 // ISystemInfoAdapter
 // ---------------------------------------------------------------------------
 
-Result<SystemInfo> QdrantAdapter::get_system_info() const {
+Result<SystemInfo> PineconeAdapter::get_system_info() const {
     SystemInfo info;
-    info.system_name = "Qdrant";
-    // Simulation mode reports 1.7; production implementations should query
-    // the /healthz or /collections endpoint to obtain the actual version.
-    info.version = "1.7";
-    info.build_info["index_type"] = "HNSW";
-    info.build_info["platform"] = "Linux/Windows/macOS";
-    info.build_info["api"] = "REST/gRPC";
+    info.system_name = "Pinecone";
+    // Simulation mode reports v3; production implementations should query
+    // the Pinecone describe-index endpoint to obtain the actual version.
+    info.version = "3";
+    info.build_info["index_type"] = "Managed ANN";
+    info.build_info["platform"] = "Managed Cloud (AWS/GCP/Azure)";
+    info.build_info["api"] = "REST";
     info.configuration["endpoint"] = Scalar{connection_string_};
     return Result<SystemInfo>::ok(std::move(info));
 }
 
-Result<SystemMetrics> QdrantAdapter::get_metrics() const {
+Result<SystemMetrics> PineconeAdapter::get_metrics() const {
     SystemMetrics metrics;
     metrics.memory.total_bytes = 0;
     metrics.memory.used_bytes = 0;
@@ -551,10 +550,9 @@ Result<SystemMetrics> QdrantAdapter::get_metrics() const {
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 
-bool QdrantAdapter::has_capability(Capability cap) const {
+bool PineconeAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::VECTOR_SEARCH:
-        case Capability::DOCUMENT_STORE:
         case Capability::BATCH_OPERATIONS:
         case Capability::SECONDARY_INDEXES:
             return true;
@@ -563,10 +561,9 @@ bool QdrantAdapter::has_capability(Capability cap) const {
     }
 }
 
-std::vector<Capability> QdrantAdapter::get_capabilities() const {
+std::vector<Capability> PineconeAdapter::get_capabilities() const {
     return {
         Capability::VECTOR_SEARCH,
-        Capability::DOCUMENT_STORE,
         Capability::BATCH_OPERATIONS,
         Capability::SECONDARY_INDEXES
     };
@@ -576,34 +573,44 @@ std::vector<Capability> QdrantAdapter::get_capabilities() const {
 // Private helpers
 // ---------------------------------------------------------------------------
 
-bool QdrantAdapter::is_valid_connection_string(
+bool PineconeAdapter::is_valid_connection_string(
     const std::string& connection_string
 ) {
-    return connection_string.rfind("http://", 0) == 0 ||
-           connection_string.rfind("https://", 0) == 0;
+    // Pinecone is a managed cloud service; only https:// is accepted to
+    // enforce secure-by-default usage.
+    return connection_string.rfind("https://", 0) == 0;
 }
 
-std::string QdrantAdapter::generate_point_id() {
+std::string PineconeAdapter::generate_vector_id() {
     // Simple deterministic ID generation for the simulation layer.
-    // Production code would use a UUID v4 or numeric uint64 as required
-    // by the Qdrant REST API point IDs.
+    // Production code would use a UUID v4 or a caller-supplied string as
+    // required by the Pinecone upsert API.
     std::ostringstream oss;
-    oss << "qdrant_point_" << next_point_id_.fetch_add(1, std::memory_order_relaxed);
+    oss << "pinecone_vec_" << next_vector_id_.fetch_add(1, std::memory_order_relaxed);
     return oss.str();
 }
 
-double QdrantAdapter::dot_product_similarity(const std::vector<float>& a,
-                                              const std::vector<float>& b) {
+double PineconeAdapter::cosine_similarity(const std::vector<float>& a,
+                                          const std::vector<float>& b) {
     if (a.size() != b.size() || a.empty()) return 0.0;
 
     double dot = 0.0;
+    double norm_a = 0.0;
+    double norm_b = 0.0;
     for (size_t i = 0; i < a.size(); ++i) {
-        dot += static_cast<double>(a[i]) * static_cast<double>(b[i]);
+        const double ai = static_cast<double>(a[i]);
+        const double bi = static_cast<double>(b[i]);
+        dot    += ai * bi;
+        norm_a += ai * ai;
+        norm_b += bi * bi;
     }
-    return dot;
+
+    const double denom = std::sqrt(norm_a) * std::sqrt(norm_b);
+    if (denom < 1e-12) return 0.0;
+    return dot / denom;
 }
 
-bool QdrantAdapter::document_matches(
+bool PineconeAdapter::document_matches(
     const Document& doc,
     const std::map<std::string, Scalar>& filter
 ) {
