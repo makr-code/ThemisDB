@@ -639,3 +639,216 @@ TEST_F(QdrantSystemInfoTest, GetCapabilitiesContainsExpectedSet) {
     EXPECT_TRUE(has(Capability::BATCH_OPERATIONS));
     EXPECT_TRUE(has(Capability::SECONDARY_INDEXES));
 }
+
+// ---------------------------------------------------------------------------
+// Factory integration tests
+// ---------------------------------------------------------------------------
+
+class QdrantFactoryTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // The QdrantAdapter auto-registers itself when the translation unit is
+        // linked.  Calling register_adapter() again returns false (indicating
+        // the name was already taken) without overwriting the existing entry,
+        // so this call is safe and ensures the factory is populated regardless
+        // of static-init ordering.
+        AdapterFactory::register_adapter(
+            "Qdrant",
+            []() { return std::make_unique<QdrantAdapter>(); });
+    }
+
+    static constexpr const char* kConnString = "http://localhost:6333";
+};
+
+TEST_F(QdrantFactoryTest, RegisterAndCreate) {
+    EXPECT_TRUE(AdapterFactory::is_supported("Qdrant"));
+
+    auto adapter = AdapterFactory::create("Qdrant");
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_FALSE(adapter->is_connected());
+}
+
+TEST_F(QdrantFactoryTest, ConnectViaFactory) {
+    auto adapter = AdapterFactory::create("Qdrant");
+    ASSERT_NE(adapter, nullptr);
+
+    auto result = adapter->connect(kConnString);
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter->is_connected());
+}
+
+TEST_F(QdrantFactoryTest, CapabilitiesViaFactory) {
+    auto adapter = AdapterFactory::create("Qdrant");
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_TRUE(adapter->has_capability(Capability::VECTOR_SEARCH));
+    EXPECT_TRUE(adapter->has_capability(Capability::DOCUMENT_STORE));
+    EXPECT_FALSE(adapter->has_capability(Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(adapter->has_capability(Capability::GRAPH_TRAVERSAL));
+    EXPECT_FALSE(adapter->has_capability(Capability::TRANSACTIONS));
+}
+
+// ---------------------------------------------------------------------------
+// Security audit: API key / credential handling
+// ---------------------------------------------------------------------------
+
+class QdrantSecurityTest : public ::testing::Test {
+protected:
+    QdrantAdapter adapter;
+};
+
+TEST_F(QdrantSecurityTest, ApiKeyNotExposedInSystemInfo) {
+    // Connect with an API key passed via the options map.
+    adapter.connect("https://my-cluster.qdrant.io",
+                    {{"api_key", "s3cr3t-api-key-12345"}});
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+    const auto& info = result.value.value();
+
+    // The raw API key must not appear in any build_info or configuration field.
+    for (const auto& kv : info.build_info) {
+        EXPECT_EQ(kv.second.find("s3cr3t"), std::string::npos)
+            << "API key leaked in build_info[" << kv.first << "]";
+    }
+    for (const auto& kv : info.configuration) {
+        if (std::holds_alternative<std::string>(kv.second)) {
+            EXPECT_EQ(std::get<std::string>(kv.second).find("s3cr3t"),
+                      std::string::npos)
+                << "API key leaked in configuration[" << kv.first << "]";
+        }
+    }
+}
+
+TEST_F(QdrantSecurityTest, ConnectWithoutApiKeySucceeds) {
+    // No credentials in URL or options – typical local-instance usage.
+    auto result = adapter.connect("http://localhost:6333");
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter.is_connected());
+}
+
+TEST_F(QdrantSecurityTest, ConnectWithApiKeyInOptionsSucceeds) {
+    auto result = adapter.connect("https://my-cluster.qdrant.io",
+                                  {{"api_key", "my-secret-key"}});
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter.is_connected());
+}
+
+TEST_F(QdrantSecurityTest, SystemInfoEndpointDoesNotLeakKey) {
+    adapter.connect("https://cluster.qdrant.io",
+                    {{"api_key", "super-secret-qdrant-key"}});
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+
+    // Endpoint field should contain the base URL but not the key.
+    auto ep_it = result.value.value().configuration.find("endpoint");
+    if (ep_it != result.value.value().configuration.end() &&
+        std::holds_alternative<std::string>(ep_it->second)) {
+        const auto& ep = std::get<std::string>(ep_it->second);
+        EXPECT_EQ(ep.find("super-secret"), std::string::npos)
+            << "API key leaked via 'endpoint' configuration field";
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Performance / overhead benchmarks
+//
+// All tests run against the in-process simulation mode (no live Qdrant
+// server required). The limits are intentionally generous to accommodate
+// slow debug/CI builds while still guarding against major regressions.
+// ---------------------------------------------------------------------------
+
+class QdrantPerformanceTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        adapter.connect("http://localhost:6333");
+    }
+
+    QdrantAdapter adapter;
+    static constexpr const char* kVecCol = "perf_vecs";
+    static constexpr const char* kDocCol = "perf_docs";
+
+    static constexpr size_t kDocCount   = 1000;
+    static constexpr size_t kVecDim     = 32;
+    static constexpr size_t kVecCount   = 200;
+    static constexpr size_t kSearchK    = 10;
+    static constexpr size_t kSearchRuns = 20;
+
+    // Generous wall-clock limits for the in-process simulation layer.
+    static constexpr int64_t kBulkDocMs = 2000;
+    static constexpr int64_t kBulkVecMs = 2000;
+    static constexpr int64_t kSearchMs  = 2000;
+};
+
+TEST_F(QdrantPerformanceTest, BulkDocumentInsertOverhead) {
+    std::vector<Document> docs;
+    docs.reserve(kDocCount);
+    for (size_t i = 0; i < kDocCount; ++i) {
+        Document doc;
+        doc.id = "pdoc_" + std::to_string(i);
+        doc.fields["idx"]  = Scalar{int64_t(i)};
+        doc.fields["data"] = Scalar{std::string(32, 'x')};
+        docs.push_back(std::move(doc));
+    }
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = adapter.batch_insert_documents(kDocCol, docs);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.value(), kDocCount);
+
+    auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kBulkDocMs)
+        << "Bulk insert of " << kDocCount << " documents took "
+        << elapsed_ms << "ms (limit: " << kBulkDocMs << "ms)";
+}
+
+TEST_F(QdrantPerformanceTest, BulkVectorInsertOverhead) {
+    std::vector<Vector> vecs;
+    vecs.reserve(kVecCount);
+    for (size_t i = 0; i < kVecCount; ++i) {
+        Vector v;
+        v.data.resize(kVecDim, static_cast<float>(i) / kVecCount);
+        vecs.push_back(std::move(v));
+    }
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = adapter.batch_insert_vectors(kVecCol, vecs);
+    auto t1 = std::chrono::steady_clock::now();
+
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.value(), kVecCount);
+
+    auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kBulkVecMs)
+        << "Bulk insert of " << kVecCount << " vectors (" << kVecDim
+        << "D) took " << elapsed_ms << "ms (limit: " << kBulkVecMs << "ms)";
+}
+
+TEST_F(QdrantPerformanceTest, VectorSearchOverhead) {
+    for (size_t i = 0; i < kVecCount; ++i) {
+        Vector v;
+        v.data.resize(kVecDim, static_cast<float>(i) / kVecCount);
+        adapter.insert_vector(kVecCol, v);
+    }
+
+    Vector query;
+    query.data.resize(kVecDim, 0.5f);
+
+    auto t0 = std::chrono::steady_clock::now();
+    for (size_t i = 0; i < kSearchRuns; ++i) {
+        auto result = adapter.search_vectors(kVecCol, query, kSearchK);
+        ASSERT_TRUE(result.is_ok());
+    }
+    auto t1 = std::chrono::steady_clock::now();
+
+    auto elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(elapsed_ms, kSearchMs)
+        << kSearchRuns << " vector searches (k=" << kSearchK << ") over "
+        << kVecCount << " vectors took " << elapsed_ms
+        << "ms (limit: " << kSearchMs << "ms)";
+}
