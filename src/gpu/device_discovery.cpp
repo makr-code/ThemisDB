@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     222                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +33,10 @@
 
 #ifdef THEMIS_ENABLE_CUDA
 #  include <cuda_runtime.h>
+#endif
+
+#ifdef THEMIS_ENABLE_NVML
+#  include <nvml.h>
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
@@ -96,6 +100,36 @@ std::vector<DeviceInfo> EnumerateCUDA() {
             d.free_vram_bytes = d.total_vram_bytes;  // best-effort fallback
         }
         d.is_healthy = true;
+
+        // MIG is supported on Ampere (major=8) and Hopper (major=9+).
+        // Set mig_max_instances based on compute capability; the standard
+        // NVIDIA A100 / H100 support up to 7 GPU Instances.
+        // When NVML is available, the actual limit is queried from the driver
+        // to handle variants such as the A30 (max 4) or A10 (max 4).
+        if (props.major >= 8) {
+            d.mig_max_instances = 7;  // conservative default for A/H series
+
+#ifdef THEMIS_ENABLE_NVML
+            // Query whether MIG mode is currently enabled via NVML, and
+            // retrieve the hardware-accurate maximum instance count.
+            nvmlDevice_t nvml_dev;
+            if (nvmlDeviceGetHandleByIndex(static_cast<unsigned int>(i),
+                                            &nvml_dev) == NVML_SUCCESS) {
+                unsigned int current_mode = 0, pending_mode = 0;
+                if (nvmlDeviceGetMIGMode(nvml_dev, &current_mode,
+                                          &pending_mode) == NVML_SUCCESS) {
+                    d.mig_enabled = (current_mode == NVML_DEVICE_MIG_ENABLE);
+                }
+                unsigned int max_instances = 0;
+                if (nvmlDeviceGetMaxMIGDeviceCount(nvml_dev,
+                                                    &max_instances) == NVML_SUCCESS
+                    && max_instances > 0) {
+                    d.mig_max_instances = static_cast<int>(max_instances);
+                }
+            }
+#endif  // THEMIS_ENABLE_NVML
+        }
+
         result.push_back(d);
     }
     return result;

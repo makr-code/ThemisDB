@@ -508,6 +508,62 @@ TEST(MIGManagerFeatureFlagTest, MIGManagerAppearsInGetAll) {
 }
 
 // ===========================================================================
+// DeviceInfo MIG field validation
+// ===========================================================================
+
+TEST(MIGManagerDeviceInfoTest, AmpereFakeDevice_HasMIGMaxInstances) {
+    // A synthetic Ampere device should indicate 7 MIG instances max.
+    DeviceInfo a100 = makeFakeA100(0);
+    EXPECT_EQ(a100.mig_max_instances, 7);
+    EXPECT_EQ(a100.compute_major, 8);
+    EXPECT_EQ(a100.backend, std::string("CUDA"));
+}
+
+TEST(MIGManagerDeviceInfoTest, HopperFakeDevice_SupportsMIG) {
+    DeviceInfo h100;
+    h100.index          = 0;
+    h100.device_index   = 0;
+    h100.name           = "NVIDIA H100 SXM5 80GB";
+    h100.backend        = "CUDA";
+    h100.compute_major  = 9;
+    h100.compute_minor  = 0;
+    h100.total_vram_bytes = 80ULL * 1024 * 1024 * 1024;
+    h100.free_vram_bytes  = h100.total_vram_bytes;
+    h100.is_healthy     = true;
+    h100.mig_max_instances = 7;
+    EXPECT_TRUE(MIGManager::deviceSupportsMIG(h100));
+    EXPECT_EQ(h100.mig_max_instances, 7);
+}
+
+TEST(MIGManagerDeviceInfoTest, VoltaDevice_NoMIGMaxInstances) {
+    // Volta (major=7) does not support MIG — mig_max_instances should be 0.
+    DeviceInfo volta;
+    volta.index         = 0;
+    volta.device_index  = 0;
+    volta.name          = "NVIDIA V100";
+    volta.backend       = "CUDA";
+    volta.compute_major = 7;
+    volta.compute_minor = 0;
+    volta.is_healthy    = true;
+    volta.mig_max_instances = 0;  // Not Ampere/Hopper — no MIG support.
+    EXPECT_FALSE(MIGManager::deviceSupportsMIG(volta));
+    EXPECT_EQ(volta.mig_max_instances, 0);
+}
+
+TEST(MIGManagerDeviceInfoTest, CPUFallback_NoMIGMaxInstances) {
+    // CPU_FALLBACK sentinel should report no MIG support.
+    DeviceInfo cpu;
+    cpu.index         = -1;
+    cpu.device_index  = -1;
+    cpu.name          = "CPU Fallback";
+    cpu.backend       = "CPU_FALLBACK";
+    cpu.compute_major = 0;
+    cpu.mig_max_instances = 0;
+    EXPECT_FALSE(MIGManager::deviceSupportsMIG(cpu));
+    EXPECT_EQ(cpu.mig_max_instances, 0);
+}
+
+// ===========================================================================
 // Thread safety
 // ===========================================================================
 
