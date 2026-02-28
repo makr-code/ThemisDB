@@ -30,7 +30,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ### Short-term (Next 3-6 months)
 - [x] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
 - [I] Index statistics export to metadata module (Issue: #1866)
-- [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
+- [x] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
 - [P] Configurable GPU memory budget per index (Issue: #1869)
 
@@ -67,7 +67,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [x] Distributed vector index across shards
-- [ ] Partial / filtered indexes on secondary index manager
+- [x] Partial / filtered indexes on secondary index manager
 - [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
 
@@ -84,10 +84,11 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
 - Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
 - Multi-tenancy index isolation uses RocksDB key-prefix format `tenant:<id>:<index_name>`;
-  index registry isolation is enforced at the `IndexManager` layer.  `IVectorIndex` adapter
-  (`VectorIndexAdapter`) is implemented and returned by `IndexManager::createVectorIndex()`.
-  `ISecondaryIndex` adapter is not yet implemented; secondary-index create/get calls via
-  `IIndexManager` return `nullptr` for that pointer type until the adapter is added.
+  index registry isolation is enforced at the `IndexManager` layer.  Both `IVectorIndex`
+  (`VectorIndexAdapter`) and `ISecondaryIndex` (`SecondaryIndexAdapter`) adapters are fully
+  implemented and returned by `IndexManager::createVectorIndex()` / `createSecondaryIndex()`.
+  Partial (filtered) indexes are created by passing `config = "partial:<predicate>"` to
+  `createSecondaryIndex()`.
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.
