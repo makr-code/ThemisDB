@@ -20,6 +20,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Conversation history management
 - [x] Grammar-constrained generation with runtime API detection
 - [x] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
+- [x] Shared worker pool (work-stealing) between AsyncInferenceEngine and InferenceEngineEnhanced (Issue: #1945)
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
@@ -54,9 +55,9 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Multi-model load balancing with backpressure handling
 - [x] Grammar-constrained generation with runtime API detection
 
-### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
+### Phase 2: Streaming & Shared Worker Pool (Status: Completed ✅)
 - [x] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
-- [I] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
+- [x] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026)
 
@@ -76,9 +77,9 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [I] API stability guaranteed (Issue: #1943)
 
 ## Known Issues & Limitations
-- Both engines maintain independent worker threads; no shared thread pool yet.
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.
 - Grammar-constrained generation depends on runtime API availability.
+- Speculative decoding uses synthetic logit arrays (placeholder) until per-token logits are exposed through the plugin interface.
 
 ## Breaking Changes
 - `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).
