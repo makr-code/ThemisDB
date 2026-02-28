@@ -36,7 +36,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Per-model resource quotas (memory, concurrency) (Issue: #1925)
 
 ### Long-term (6-12 months)
-- [I] Speculative decoding for latency reduction (Issue: #1934)
+- [P] Speculative decoding for latency reduction (Issue: #1934)
 - [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
@@ -62,7 +62,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 
 ### Phase 3: Ecosystem & Performance (Status: Planned 📋)
 - [P] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
-- [ ] Speculative decoding for latency reduction
+- [P] Speculative decoding for latency reduction (Issue: #1934)
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
 - [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
 - [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
